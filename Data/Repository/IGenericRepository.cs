@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -11,8 +12,6 @@ namespace Cats.Data.Repository
         bool Add(T entity);
         bool Delete(T entity);
         bool Edit(T entity);
-        bool Save();
-        bool SaveChanges(T entity);
         T FindById(int id);
 
 
