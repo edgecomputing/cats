@@ -44,6 +44,7 @@ namespace Cats.Services.EarlyWarning
             if(reliefRequistion ==null) return false;
             _unitOfWork.ReliefRequistionRepository.Delete(reliefRequistion);
             _unitOfWork.Save();
+            return true;
         }
 
         public bool DeleteReliefRequistion(int id)
