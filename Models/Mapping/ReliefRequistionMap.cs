@@ -1,5 +1,4 @@
-﻿
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Mapping
 {
@@ -7,7 +6,28 @@ namespace Cats.Models.Mapping
     {
         public ReliefRequistionMap()
         {
-            
+            // Primary Key
+            this.HasKey(t => t.ReliefRequistionID);
+
+            // Properties
+            this.Property(t => t.RequistionDate)
+                .IsRequired();
+            this.Property(t => t.Remark)
+                .HasMaxLength(400);
+
+            // Table & Column Mappings
+            this.ToTable("Commodity");
+            this.Property(t => t.ReliefRequistionID).HasColumnName("ReliefRequistionID");
+            this.Property(t => t.RequistionDate).HasColumnName("RequisitionDate");
+            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
+            this.Property(t => t.RoundID).HasColumnName("RoundID");
+            this.Property(t => t.RequestedByUserID).HasColumnName("RequestedByUserID");
+            this.Property(t => t.CertifiedByUserID).HasColumnName("CertifiedByUserID");
+            this.Property(t => t.AuthorisedByUserId).HasColumnName("AuthorisedByUserId");
+
+            // Relationships
+           
+           
         }
     }
 }
