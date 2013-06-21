@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IReliefRequistion.cs" />
+    <Compile Include="IReliefRequistionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReliefRequistionService.cs" />
   </ItemGroup>
