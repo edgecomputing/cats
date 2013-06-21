@@ -15,6 +15,7 @@ namespace Cats.Migration
                   .WithColumn("RequestedByUserID").AsInt32().NotNullable()
                   .WithColumn("CertifiedByUserID").AsInt32().NotNullable()
                   .WithColumn("AuthorisedByUserID").AsInt32().NotNullable();
+
             Create.ForeignKey("FK_ReliefRequistion_Round")
                   .FromTable("ReliefRequistion").ForeignColumn("RoundID")
                   .ToTable("Round").PrimaryColumn("RoundID");
@@ -27,6 +28,7 @@ namespace Cats.Migration
                   .WithColumn("NoOfBeneficiaries").AsInt32().NotNullable()
                   .WithColumn("Amount").AsDecimal().NotNullable()
                   .WithColumn("FDPID").AsInt32().NotNullable();
+
             Create.ForeignKey("FK_ReliefRequisitionDetail_ReliefRequistion")
                   .FromTable("ReliefRequisitionDetail").ForeignColumn("ReliefRequistionID")
                   .ToTable("ReliefRequistion").PrimaryColumn("ReliefRequistionID");
@@ -35,8 +37,7 @@ namespace Cats.Migration
 
         public override void Down()
         {
-            Delete.Table("ReliefRequistion");
-            Delete.Table("ReliefRequisitionDetail");
+            
         }
     }
 }

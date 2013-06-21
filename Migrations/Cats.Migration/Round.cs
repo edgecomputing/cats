@@ -17,7 +17,7 @@ namespace Cats.Migration
 
         public override void Down()
         {
-            Delete.Table("EarlyWarning.Round");
+           
         }
     }
 }
