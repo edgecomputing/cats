@@ -10,8 +10,7 @@ namespace Cats.Data.UnitWork
         private readonly CatsContext _context;
 
         // TODO: Add private properties to for each repository
-        private IGenericRepository<ReliefRequistion> _reliefRequistionRepository;
-        private IGenericRepository<ReliefRequisitionDetail> _reliefRequisitionDetailRepository; 
+        private IGenericRepository<ReliefRequistion> reliefRequistionRepository;
 
         public UnitOfWork()
         {
@@ -25,20 +24,10 @@ namespace Cats.Data.UnitWork
         /// </summary>
         public IGenericRepository<ReliefRequistion> ReliefRequistionRepository
         {
-            get { return this._reliefRequistionRepository ?? (this._reliefRequistionRepository = new GenericRepository<ReliefRequistion>(_context)); }
+            get { return this.reliefRequistionRepository ?? (this.reliefRequistionRepository = new GenericRepository<ReliefRequistion>(_context)); }
         }
        
-       /// <summary>
-       /// ReliefRequisitionDetailRepository
-       /// </summary>
-        public IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository
-       {
-           get
-           {
-               return this._reliefRequisitionDetailRepository ??
-                      (this._reliefRequisitionDetailRepository = new GenericRepository<ReliefRequisitionDetail>(_context));
-           }
-       }
+
 
 
         public void Save()
