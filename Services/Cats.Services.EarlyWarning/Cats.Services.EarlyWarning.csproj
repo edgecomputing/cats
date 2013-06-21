@@ -11,6 +11,7 @@
     <AssemblyName>Cats.Services.EarlyWarning</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,8 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IReliefRequistionService.cs" />
+    <Compile Include="IRequisitionDetailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReliefRequistionService.cs" />
+    <Compile Include="ReliefRequisitionDetailService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Cats.Data.csproj">
@@ -52,6 +57,9 @@
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,6 +8,7 @@ namespace Cats.Data.UnitWork
     {
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
         IGenericRepository<ReliefRequistion> ReliefRequistionRepository { get; }
+        IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository { get; }
 
         void Save();
 
