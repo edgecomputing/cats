@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -135,6 +136,38 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.nuget.readme.txt" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\bootstrap\js\bootstrap-alert.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-button.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-carousel.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-collapse.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-dropdown.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-modal.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-popover.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-scrollspy.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-tab.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-tooltip.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-transition.js" />
+    <Content Include="Content\bootstrap\js\bootstrap-typeahead.js" />
+    <Content Include="Content\bootstrap\js\tests\index.html" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-alert.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-button.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-collapse.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-dropdown.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-modal.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-popover.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-scrollspy.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-tab.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-tooltip.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-transition.js" />
+    <Content Include="Content\bootstrap\js\tests\unit\bootstrap-typeahead.js" />
+    <Content Include="Content\bootstrap\js\tests\vendor\jquery.js" />
+    <Content Include="Content\bootstrap\js\tests\vendor\qunit.css" />
+    <Content Include="Content\bootstrap\js\tests\vendor\qunit.js" />
+    <Content Include="Content\google-code-prettify\prettify.css" />
+    <Content Include="Content\google-code-prettify\prettify.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -192,6 +225,43 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
+    <Content Include="Content\bootstrap\less\wells.less" />
+    <Content Include="Content\bootstrap\less\variables.less" />
+    <Content Include="Content\bootstrap\less\utilities.less" />
+    <Content Include="Content\bootstrap\less\type.less" />
+    <Content Include="Content\bootstrap\less\tooltip.less" />
+    <Content Include="Content\bootstrap\less\thumbnails.less" />
+    <Content Include="Content\bootstrap\less\tables.less" />
+    <Content Include="Content\bootstrap\less\sprites.less" />
+    <Content Include="Content\bootstrap\less\scaffolding.less" />
+    <Content Include="Content\bootstrap\less\responsive.less" />
+    <Content Include="Content\bootstrap\less\reset.less" />
+    <Content Include="Content\bootstrap\less\progress-bars.less" />
+    <Content Include="Content\bootstrap\less\popovers.less" />
+    <Content Include="Content\bootstrap\less\pagination.less" />
+    <Content Include="Content\bootstrap\less\pager.less" />
+    <Content Include="Content\bootstrap\less\navs.less" />
+    <Content Include="Content\bootstrap\less\navbar.less" />
+    <Content Include="Content\bootstrap\less\modals.less" />
+    <Content Include="Content\bootstrap\less\mixins.less" />
+    <Content Include="Content\bootstrap\less\layouts.less" />
+    <Content Include="Content\bootstrap\less\labels.less" />
+    <Content Include="Content\bootstrap\less\hero-unit.less" />
+    <Content Include="Content\bootstrap\less\grid.less" />
+    <Content Include="Content\bootstrap\less\forms.less" />
+    <Content Include="Content\bootstrap\less\dropdowns.less" />
+    <Content Include="Content\bootstrap\less\component-animations.less" />
+    <Content Include="Content\bootstrap\less\code.less" />
+    <Content Include="Content\bootstrap\less\close.less" />
+    <Content Include="Content\bootstrap\less\carousel.less" />
+    <Content Include="Content\bootstrap\less\buttons.less" />
+    <Content Include="Content\bootstrap\less\button-groups.less" />
+    <Content Include="Content\bootstrap\less\breadcrumbs.less" />
+    <Content Include="Content\bootstrap\less\bootstrap.less" />
+    <Content Include="Content\bootstrap\less\badges.less" />
+    <Content Include="Content\bootstrap\less\alerts.less" />
+    <Content Include="Content\bootstrap\less\accordion.less" />
+    <Content Include="Content\bootstrap\js\README.md" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -219,13 +289,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Controllers\" />
     <Folder Include="Areas\EarlyWarning\Models\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
