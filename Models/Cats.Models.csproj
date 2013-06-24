@@ -46,12 +46,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminUnit.cs" />
+    <Compile Include="AdminUnitType.cs" />
+    <Compile Include="AllocationDetailLine.cs" />
+    <Compile Include="Commodity.cs" />
+    <Compile Include="CommodityType.cs" />
+    <Compile Include="FDP.cs" />
+    <Compile Include="Mapping\AdminUnitMap.cs" />
+    <Compile Include="Mapping\AdminUnitTypeMap.cs" />
+    <Compile Include="Mapping\AllocationDetailLineMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mapping\CommodityMap.cs" />
+    <Compile Include="Mapping\CommodityTypeMap.cs" />
+    <Compile Include="Mapping\FDPMap.cs" />
+    <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
     <Compile Include="Mapping\ReliefRequistionMap.cs" />
+    <Compile Include="Mapping\RequisitionDetailLineMap.cs" />
     <Compile Include="Mapping\RoundMap.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReliefRequisitionDetail.cs" />
     <Compile Include="ReliefRequistion.cs" />
+    <Compile Include="RequisitionDetailLine.cs" />
     <Compile Include="Round.cs" />
   </ItemGroup>
   <ItemGroup>

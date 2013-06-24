@@ -10,19 +10,19 @@ namespace Cats.Models
     {
         public ReliefRequisitionDetail()
         {
-            
+            this.RequisitionDetailLines = new List<RequisitionDetailLine>();
+            this.AllocationDetailLines = new List<AllocationDetailLine>();
         }
 
-        public int ReliefRequisitionDetailID { get; set; }
-        public int ReliefRequistionID { get; set; }
-        public int CommodityID { get; set; }
-        public int DonorID { get; set; }
-        public int NoOfBeneficiaries { get; set; }
-        public decimal Amount { get; set; }
-        public int FDPID { get; set; }
+        public int ReliefRequisitionDetailId { get; set; }
+        public int ReliefRequistionId { get; set; }
+        public int Fdpid { get; set; }
+        public int Beneficiaries { get; set; }
 
         #region Navigation Properties
         public virtual ReliefRequistion ReliefRequistion { get; set; }
+        public virtual ICollection<RequisitionDetailLine> RequisitionDetailLines { get; set; }
+        public virtual ICollection<AllocationDetailLine> AllocationDetailLines { get; set; }
         #endregion
     }
 }
