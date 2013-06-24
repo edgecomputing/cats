@@ -7,30 +7,26 @@ namespace Cats.Models.Mapping
         public ReliefRequisitionDetailMap()
         {
             // Primary Key
-            this.HasKey(t => t.ReliefRequisitionDetailID);
+            this.HasKey(t => t.ReliefRequisitionDetailId);
 
             // Properties
-            this.Property(t => t.NoOfBeneficiaries)
+            this.Property(t => t.Beneficiaries)
                 .IsRequired();
 
-            this.Property(t => t.Amount)
-                .IsRequired();
 
 
             // Table & Column Mappings
-            this.ToTable("ReliefRequisitionDetail");
-            this.Property(t => t.ReliefRequisitionDetailID).HasColumnName("ReliefRequisitionDetailID");
-            this.Property(t => t.ReliefRequistionID).HasColumnName("ReliefRequistionID");
-            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
-            this.Property(t => t.DonorID).HasColumnName("DonorID");
-            this.Property(t => t.NoOfBeneficiaries).HasColumnName("NoOfBeneficiaries");
-            this.Property(t => t.Amount).HasColumnName("Amount");
-            this.Property(t => t.FDPID).HasColumnName("FDPID");
+            this.ToTable("EarlyWarning.ReliefRequisitionDetail");
+            this.Property(t => t.ReliefRequisitionDetailId).HasColumnName("ReliefRequisitionDetailID");
+            this.Property(t => t.ReliefRequistionId).HasColumnName("ReliefRequistionID");
+            this.Property(t => t.Fdpid).HasColumnName("FDPID");
+            this.Property(t => t.Beneficiaries).HasColumnName("Beneficiaries");
+            
 
             // Relationships
             this.HasRequired(t => t.ReliefRequistion)
                 .WithMany(t => t.ReliefRequisitionDetails)
-                .HasForeignKey(d => d.ReliefRequistionID);
+                .HasForeignKey(d => d.ReliefRequistionId);
             
         }
     }

@@ -11,6 +11,9 @@ namespace Cats.Data.UnitWork
 
         // TODO: Add private properties to for each repository
         private IGenericRepository<ReliefRequistion> reliefRequistionRepository;
+        private IGenericRepository<AllocationDetailLine> allocationDetailLineRepository;
+        private IGenericRepository<ReliefRequisitionDetail> reliefRequisitionDetailRepository;
+        private IGenericRepository<RequisitionDetailLine> requisitionDetailLineRepository;
 
         public UnitOfWork()
         {
@@ -25,6 +28,21 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<ReliefRequistion> ReliefRequistionRepository
         {
             get { return this.reliefRequistionRepository ?? (this.reliefRequistionRepository = new GenericRepository<ReliefRequistion>(_context)); }
+        }
+
+        public IGenericRepository<AllocationDetailLine> AllocationDetailLineRepository
+        {
+            get { return this.allocationDetailLineRepository ?? (this.allocationDetailLineRepository = new GenericRepository<AllocationDetailLine>(_context)); }
+        }
+
+        public IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository
+        {
+            get { return this.reliefRequisitionDetailRepository ?? (this.reliefRequisitionDetailRepository = new GenericRepository<ReliefRequisitionDetail>(_context)); }
+        }
+
+        public IGenericRepository<RequisitionDetailLine> RequisitionDetailLineRepository
+        {
+            get { return this.requisitionDetailLineRepository ?? (this.requisitionDetailLineRepository = new GenericRepository<RequisitionDetailLine>(_context)); }
         }
        
 

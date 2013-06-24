@@ -10,13 +10,15 @@ namespace Cats.Models
     {
         public Round()
         {
-            
+           this.ReliefRequistions=new List<ReliefRequistion>();
         }
 
         public int RoundID { get; set; }
         public int RoundNumber { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
+        public virtual ICollection<ReliefRequistion> ReliefRequistions { get; set; }
 
 
     }

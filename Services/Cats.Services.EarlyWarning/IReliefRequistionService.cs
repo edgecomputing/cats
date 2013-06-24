@@ -1,21 +1,26 @@
 ﻿
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 using Cats.Models;
 
-namespace Cats.Services.EarlyWarning
+namespace DRMFSS.BLL.Services
 {
     public interface IReliefRequistionService
     {
-        bool AddReliefRequistion(ReliefRequistion reliefRequistion);
-        bool UpdateReliefRequistion(ReliefRequistion reliefRequistion);
-        bool DeleteReliefRequistion(ReliefRequistion reliefRequistion);
-        bool DeleteReliefRequistion(int id);
+
+        bool AddReliefRequistion(ReliefRequistion Entity);
+        bool DeleteReliefRequistion(ReliefRequistion Entity);
+        bool DeleteById(int id);
+        bool EditReliefRequistion(ReliefRequistion Entity);
+        ReliefRequistion FindById(int id);
         List<ReliefRequistion> GetAllReliefRequistion();
-        ReliefRequistion GetReliefRequistion(int reliefRequistionId);
+        List<ReliefRequistion> FindBy(Expression<Func<ReliefRequistion, bool>> predicate);
+
+
     }
 }
+
+

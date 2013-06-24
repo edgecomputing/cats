@@ -7,7 +7,7 @@ namespace Cats.Models.Mapping
         public ReliefRequistionMap()
         {
             // Primary Key
-            this.HasKey(t => t.ReliefRequistionID);
+            this.HasKey(t => t.ReliefRequistionId);
 
             // Properties
             this.Property(t => t.RequistionDate)
@@ -17,15 +17,19 @@ namespace Cats.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("Commodity");
-            this.Property(t => t.ReliefRequistionID).HasColumnName("ReliefRequistionID");
+            this.Property(t => t.ReliefRequistionId).HasColumnName("ReliefRequistionID");
+            this.Property(t => t.RegionID).HasColumnName("RegionID");
             this.Property(t => t.RequistionDate).HasColumnName("RequisitionDate");
-            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
-            this.Property(t => t.RoundID).HasColumnName("RoundID");
-            this.Property(t => t.RequestedByUserID).HasColumnName("RequestedByUserID");
-            this.Property(t => t.CertifiedByUserID).HasColumnName("CertifiedByUserID");
-            this.Property(t => t.AuthorisedByUserId).HasColumnName("AuthorisedByUserId");
+            this.Property(t => t.ProgramId).HasColumnName("ProgramID");
+            this.Property(t => t.RoundId).HasColumnName("RoundID");
+            this.Property(t => t.Year).HasColumnName("Year");
+            this.Property(t => t.ReferenceNumber).HasColumnName("ReferenceNumber");
+            this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships
+            this.HasRequired(t => t.Round)
+                .WithMany(t => t.ReliefRequistions)
+                .HasForeignKey(d => d.RoundId);
            
            
         }

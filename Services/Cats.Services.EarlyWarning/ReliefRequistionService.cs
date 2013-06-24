@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using DRMFSS.BLL.Services;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -64,6 +65,27 @@ namespace Cats.Services.EarlyWarning
         public ReliefRequistion GetReliefRequistion(int reliefRequistionId)
         {
             return _unitOfWork.ReliefRequistionRepository.FindById(reliefRequistionId);
+        }
+
+
+        public bool DeleteById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EditReliefRequistion(ReliefRequistion Entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReliefRequistion FindById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ReliefRequistion> FindBy(System.Linq.Expressions.Expression<Func<ReliefRequistion, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }
