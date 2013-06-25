@@ -128,10 +128,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ReliefRequisitionInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -225,8 +227,7 @@
     <Folder Include="Areas\EarlyWarning\Controllers\" />
     <Folder Include="Areas\EarlyWarning\Models\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\ReliefRequisition\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

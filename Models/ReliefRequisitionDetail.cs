@@ -17,6 +17,7 @@ namespace Cats.Models
         public int ReliefRequisitionDetailId { get; set; }
         public int ReliefRequistionId { get; set; }
         public int Fdpid { get; set; }
+        public int CommodityId { get; set; }
         public int Beneficiaries { get; set; }
 
         #region Navigation Properties
