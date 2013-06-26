@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="fde053e0-9083-49e7-93ae-95b5e68ffd30" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>true</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies>
+      <ReferencedAssembly AssemblyName="System.ServiceModel" />
+    </ReferencedAssemblies>
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:56576/Service/EWDispatchService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="EWDispatchService.xsd" MetadataType="Schema" ID="ff071807-c454-47ad-bed2-c2bef79e5e93" SourceId="1" SourceUrl="http://localhost:56576/Service/EWDispatchService.svc?xsd=xsd0" />
+    <MetadataFile FileName="EWDispatchService.wsdl" MetadataType="Wsdl" ID="fb7aa1e9-d447-4bc1-be5c-50219acb60e5" SourceId="1" SourceUrl="http://localhost:56576/Service/EWDispatchService.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="EWDispatchService.disco" MetadataType="Disco" ID="d9957ada-4993-48ae-b9fa-bf063e236703" SourceId="1" SourceUrl="http://localhost:56576/Service/EWDispatchService.svc?disco" />
+    <MetadataFile FileName="EWDispatchService1.xsd" MetadataType="Schema" ID="2e3bb912-dee0-4e0c-8728-1f811f174967" SourceId="1" SourceUrl="http://localhost:56576/Service/EWDispatchService.svc?xsd=xsd1" />
+    <MetadataFile FileName="EWDispatchService1.wsdl" MetadataType="Wsdl" ID="0c3e9843-7081-4a14-8445-c0ac4ba75902" SourceId="1" SourceUrl="http://localhost:56576/Service/EWDispatchService.svc?wsdl" />
+    <MetadataFile FileName="EWDispatchService2.xsd" MetadataType="Schema" ID="29a044b6-7ac8-4af9-bcb5-eadb79289762" SourceId="1" SourceUrl="http://localhost:56576/Service/EWDispatchService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

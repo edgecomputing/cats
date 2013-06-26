@@ -18,7 +18,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<CommodityType> CommodityTypeRepository { get; }
         IGenericRepository<FDP> FDPRepository { get; }
         IGenericRepository<Program> ProgramRepository { get; }
-
+        IGenericRepository<AllocationModelDetail> AllocationModelDetailRepository { get; }
+        
 
         void Save();
 
