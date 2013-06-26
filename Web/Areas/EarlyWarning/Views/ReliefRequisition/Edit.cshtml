@@ -54,19 +54,19 @@
             
           
             <td>
-                @Html.TextBox("input[" + index + "].Beneficiaries",item.Input.Beneficiaries,new {@style="width:80% border:none"})
+                @Html.TextBox("input[" + index + "].Beneficiaries",item.Input.Beneficiaries,new {@style="width:80%; border:none; !important;"})
             </td>
             <td>
-                @Html.TextBox("input[" + index + "].Grain",item.Input.Grain,new {@style="width:80%"})
+                @Html.TextBox("input[" + index + "].Grain",item.Input.Grain,new {@style="width:80%; border:none; !important;"})
             </td>
             <td>
-                 @Html.TextBox("input[" + index + "].Pulse",item.Input.Pulse,new {@style="width:80%"})
+                 @Html.TextBox("input[" + index + "].Pulse",item.Input.Pulse,new {@style="width:80%; border:none; !important;"})
             </td>
             <td>
-                 @Html.TextBox("input[" + index + "].Oil",item.Input.Oil,new {@style="width:80%"})
+                 @Html.TextBox("input[" + index + "].Oil",item.Input.Oil ,new {@style="width:80%; border:none; !important;"})
             </td>
             <td>
-                @Html.TextBox("input[" + index + "].CSB",item.Input.CSB,new {@style="width:80%"})
+                @Html.TextBox("input[" + index + "].CSB",item.Input.CSB,new {@style="width:80%; border:none; !important;"})
             </td>
               <td>
                 <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
