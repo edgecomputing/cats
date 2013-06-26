@@ -14,6 +14,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<AllocationDetailLine> allocationDetailLineRepository;
         private IGenericRepository<ReliefRequisitionDetail> reliefRequisitionDetailRepository;
         private IGenericRepository<RequisitionDetailLine> requisitionDetailLineRepository;
+        private IGenericRepository<AllocationModelDetail> allocatipnModelDetailRepository;
 
         public UnitOfWork()
         {
@@ -25,6 +26,12 @@ namespace Cats.Data.UnitWork
         /// <summary>
         /// ReliefRequistionRepository
         /// </summary>
+        /// 
+        public IGenericRepository<AllocationModelDetail> AllocationModelDetailRepository
+        {
+            get { return this.allocatipnModelDetailRepository ?? (this.allocatipnModelDetailRepository = new GenericRepository<AllocationModelDetail>(_context)); }
+
+        }
         public IGenericRepository<ReliefRequistion> ReliefRequistionRepository
         {
             get { return this.reliefRequistionRepository ?? (this.reliefRequistionRepository = new GenericRepository<ReliefRequistion>(_context)); }

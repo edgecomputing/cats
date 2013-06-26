@@ -1,0 +1,65 @@
+﻿<local:GridDemoModule x:Class="EWdispatchAllocationList.RRDView" mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="800" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" xmlns:local="clr-namespace:GridDemo" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:dxdb="http://schemas.devexpress.com/winfx/2008/xaml/demobase" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+
+    <dxdb:DemoModuleControl>
+        <dxg:GridControl x:Name="grid">
+            <dxg:GridControl.View>
+                <dxg:TableView AllowPerPixelScrolling="True">
+                    <i:Interaction.Behaviors>
+                        <dxg:BandedViewBehavior>
+                            <dxg:BandedViewBehavior.ColumnDefinitions>
+                                <dxg:ColumnDefinition Width="0.15*" />
+                                <dxg:ColumnDefinition Width="0.20*" />
+                                <dxg:ColumnDefinition Width="0.15*" />
+                                <dxg:ColumnDefinition Width="0.25*" />
+                                <dxg:ColumnDefinition Width="0.25*" />
+                                <dxg:ColumnDefinition Width="110" MinWidth="100" />
+                            </dxg:BandedViewBehavior.ColumnDefinitions>
+                            <dxg:BandedViewBehavior.RowDefinitions>
+                                <dxg:RowDefinition Height="Auto" />
+                                <dxg:RowDefinition Height="Auto" />
+                                <dxg:RowDefinition Height="Auto" />
+                                <dxg:RowDefinition Height="Auto" />
+                            </dxg:BandedViewBehavior.RowDefinitions>
+                            <dxg:BandedViewBehavior.TemplatesContainer>
+                                <dxg:TemplatesContainer />
+                            </dxg:BandedViewBehavior.TemplatesContainer>
+                        </dxg:BandedViewBehavior>
+                    </i:Interaction.Behaviors>
+                </dxg:TableView>
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Main" dxg:BandedViewBehavior.ColumnSpan="3" dxg:BandedViewBehavior.IsBand="True" />
+                <dxg:GridColumn FieldName="Trademark" dxg:BandedViewBehavior.ColumnSpan="3" dxg:BandedViewBehavior.Row="1" />
+                <dxg:GridColumn FieldName="Category" dxg:BandedViewBehavior.Row="2" />
+                <dxg:GridColumn FieldName="Model" dxg:BandedViewBehavior.Column="1" dxg:BandedViewBehavior.ColumnSpan="2" dxg:BandedViewBehavior.Row="2">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Price" dxg:BandedViewBehavior.Row="3">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings MaskType="Numeric" MaskUseAsDisplayFormat="True" Mask="c" MaskCulture="en-US" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="DeliveryDate" Header="Delivery Date" dxg:BandedViewBehavior.Column="1" dxg:BandedViewBehavior.Row="3" />
+                <dxg:GridColumn FieldName="IsInStock" Header="In Stock?" dxg:BandedViewBehavior.Column="2" dxg:BandedViewBehavior.Row="3" />
+                <dxg:GridColumn FieldName="Performance Attributes" dxg:BandedViewBehavior.Column="3" dxg:BandedViewBehavior.ColumnSpan="2" dxg:BandedViewBehavior.IsBand="True" />
+                <dxg:GridColumn FieldName="HP" dxg:BandedViewBehavior.Column="3" dxg:BandedViewBehavior.Row="1" />
+                <dxg:GridColumn FieldName="Cyl" dxg:BandedViewBehavior.Column="4" dxg:BandedViewBehavior.Row="1" />
+                <dxg:GridColumn FieldName="Liter" Header="Capacity" dxg:BandedViewBehavior.Column="3" dxg:BandedViewBehavior.Row="2" />
+                <dxg:GridColumn FieldName="TransmissSpeedCount" Header="# of Gears" dxg:BandedViewBehavior.Column="4" dxg:BandedViewBehavior.Row="2" />
+                <dxg:GridColumn FieldName="TransmissAutomatic" Header="Automatic Transmission" dxg:BandedViewBehavior.Column="3" dxg:BandedViewBehavior.ColumnSpan="2" dxg:BandedViewBehavior.Row="3" />
+
+                <dxg:GridColumn Header="Picture" dxg:BandedViewBehavior.Column="5" dxg:BandedViewBehavior.IsBand="True" />
+                <dxg:GridColumn FieldName="ImageSource" Header="Icon" dxg:BandedViewBehavior.Column="5" dxg:BandedViewBehavior.Row="1" dxg:BandedViewBehavior.RowSpan="3">
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <dxe:ImageEdit Height="55" Stretch="Uniform" Source="{Binding Path=Value}" HorizontalAlignment="Center" Margin="0,3,0,3" ShowMenu="False" />
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+    </dxdb:DemoModuleControl>
+</local:GridDemoModule>
+
