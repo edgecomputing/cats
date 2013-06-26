@@ -20,6 +20,10 @@ namespace Cats.Migration
                .WithColumn("ReliefRequisitionDetailID").AsInt32().PrimaryKey().Identity()
                .WithColumn("ReliefRequistionID").AsInt32().NotNullable()
                .WithColumn("FDPID").AsInt32().NotNullable()
+               .WithColumn("Grain").AsDecimal()
+               .WithColumn("Pulse").AsDecimal()
+               .WithColumn("Oil").AsDecimal()
+               .WithColumn("CSB").AsDecimal()
                .WithColumn("Beneficiaries").AsString().NotNullable();
 
             Create.Table("RequsitionDetailLine").InSchema("EarlyWarning")
@@ -58,7 +62,7 @@ namespace Cats.Migration
                   .FromTable("ReliefRequisitionDetail").InSchema("EarlyWarning").ForeignColumn("ReliefRequistionID")
                   .ToTable("ReliefRequistion").InSchema("EarlyWarning").PrimaryColumn("ReliefRequistionID");
             Create.ForeignKey("FK_ReliefRequisitionDetail_FDP")
-                  .FromTable("ReliefRequisitionDetail").InSchema("EarlyWarning").ForeignColumn("ReliefRequistionID")
+                  .FromTable("ReliefRequisitionDetail").InSchema("EarlyWarning").ForeignColumn("FDPID")
                   .ToTable("FDP").PrimaryColumn("FDPID");
 
 
