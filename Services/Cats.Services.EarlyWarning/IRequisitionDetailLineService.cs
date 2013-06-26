@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Cats.Models;
 
-namespace DRMFSS.BLL.Services
+namespace Cats.Services.EarlyWarning
 {
     public interface IRequisitionDetailLineService
     {

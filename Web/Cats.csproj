@@ -127,13 +127,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
-    <Compile Include="Controllers\ReliefRequisitionController.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDetailEdit.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Models\ReliefRequisitionInput.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +262,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
     <Content Include="Content\assets\js\README.md" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -292,10 +298,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\EarlyWarning\Controllers\" />
-    <Folder Include="Areas\EarlyWarning\Models\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
-    <Folder Include="Views\ReliefRequisition\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -304,6 +308,14 @@
     <ProjectReference Include="..\Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models.csproj">
+      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
+      <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
+      <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
+      <Name>Cats.Services.EarlyWarning</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -322,7 +334,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>1786</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:56576/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

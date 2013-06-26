@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
 
-namespace DRMFSS.BLL.Services
+namespace Cats.Services.EarlyWarning
 {
 
     public class AllocationDetailLineService : IAllocationDetailLineService

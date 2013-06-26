@@ -42,18 +42,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">CATS</a>
+                <a class="brand" href="~/">CATS</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li class="active"><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li><a href="#">HRD</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Request <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Regional Request<b class="caret"></b></a>
                             <ul class="dropdown-menu">                                
                                 <li><a href="#">Manage Requests</a></li>
                                 <li><a href="#">Monthly Regional Request</a></li>
-                                <li class="divider"></li>
-                                <li class="nav-header">Allocation</li>
-                                <li><a href="#">Submit Request</a></li>
+                                <li class="divider"></li>                          
+                                <li><a href="@Url.Action("Index","ReliefRequisition",new{Area="EarlyWarning"})">Submit Request</a></li>
                                 <li><a href="#">Followup Request</a></li>
                             </ul>
                         </li>

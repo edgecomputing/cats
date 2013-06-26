@@ -8,16 +8,13 @@ namespace Cats.Migration
     {
         public override void Up()
         {
-            Create.Table("EarlyWarning.Round")
-                  .WithColumn("RoundId").AsInt32().PrimaryKey().Identity()
-                  .WithColumn("RoundNumber").AsInt32().NotNullable()
-                  .WithColumn("StartDate").AsDateTime().NotNullable()
-                  .WithColumn("EndDate").AsDateTime().NotNullable();
+
+
         }
 
         public override void Down()
         {
-           
+          
         }
     }
 }

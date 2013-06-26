@@ -18,7 +18,7 @@ namespace Cats.Models.Mapping
                 .IsRequired();
 
             //Table and Column Mapping
-            this.ToTable("Round");
+            this.ToTable("EarlyWarning.Round");
             this.Property(t => t.RoundID).HasColumnName("RoundID");
             this.Property(t => t.RoundNumber).HasColumnName("RoundNumber");
             this.Property(t => t.StartDate).HasColumnName("StartDate");

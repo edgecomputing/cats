@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Cats.Data.Repository
 {
@@ -62,6 +63,29 @@ namespace Cats.Data.Repository
         public virtual T FindById(int id)
         {
             return _context.Set<T>().Find(id);
+        }
+
+        public virtual IEnumerable<T> Get(
+          Expression<Func<T, bool>> filter = null,
+          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+          string includeProperties = "")
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+
+            return query.ToList();
+
         }
 
 

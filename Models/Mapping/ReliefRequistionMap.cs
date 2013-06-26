@@ -16,7 +16,7 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(400);
 
             // Table & Column Mappings
-            this.ToTable("Commodity");
+            this.ToTable("EarlyWarning.ReliefRequistion");
             this.Property(t => t.ReliefRequistionId).HasColumnName("ReliefRequistionID");
             this.Property(t => t.RegionID).HasColumnName("RegionID");
             this.Property(t => t.RequistionDate).HasColumnName("RequisitionDate");
@@ -30,8 +30,16 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Round)
                 .WithMany(t => t.ReliefRequistions)
                 .HasForeignKey(d => d.RoundId);
-           
-           
+
+            this.HasRequired(t => t.Program)
+                .WithMany(t => t.ReliefRequistions)
+                .HasForeignKey(d => d.ProgramId);
+
+            this.HasRequired(t => t.AdminUnit)
+                .WithMany(t => t.ReliefRequistions)
+                .HasForeignKey(d => d.RegionID);
+
+
         }
     }
 }

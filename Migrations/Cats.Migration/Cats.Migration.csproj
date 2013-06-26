@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllocationDetailLineMigration.cs" />
+    <Compile Include="EarlyWarningSchemaMigration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReliefRequistion.cs" />
+    <Compile Include="ReliefRequistionMigration.cs" />
     <Compile Include="Round.cs" />
   </ItemGroup>
   <ItemGroup>

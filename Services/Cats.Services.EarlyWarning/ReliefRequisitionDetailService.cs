@@ -7,7 +7,7 @@ using Cats.Data.UnitWork;
 using Cats.Models;
 
 
-namespace DRMFSS.BLL.Services
+namespace Cats.Services.EarlyWarning
 {
 
     public class ReliefRequisitionDetailService : IReliefRequisitionDetailService
@@ -46,6 +46,11 @@ namespace DRMFSS.BLL.Services
             var entity = _unitOfWork.ReliefRequisitionDetailRepository.FindById(id);
             if (entity == null) return false;
             _unitOfWork.ReliefRequisitionDetailRepository.Delete(entity);
+            _unitOfWork.Save();
+            return true;
+        }
+        public bool Save()
+        {
             _unitOfWork.Save();
             return true;
         }

@@ -1,0 +1,149 @@
+﻿@model  Cats.Models.ReliefRequistion
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Relief Requistion</legend>
+        
+          
+
+        <div >
+            @Html.LabelFor(model => model.ProgramId, "Program")
+
+            @Html.DropDownList("ProgramID", String.Empty)
+            @Html.ValidationMessageFor(model => model.ProgramId)
+          
+        </div>
+         <div >
+                @Html.LabelFor(model => model.RequistionDate)
+
+                @Html.EditorFor(model => model.RequistionDate)
+                @Html.ValidationMessageFor(model => model.RequistionDate)
+            
+        </div>
+        <div >
+            @Html.LabelFor(model => model.RoundId, "Round")
+        </div>
+        <div >
+            @Html.DropDownList("RoundID", String.Empty)
+            @Html.ValidationMessageFor(model => model.RoundId)
+        </div>
+
+        <div >
+            @Html.LabelFor(model => model.RegionID, "AdminUnit")
+        </div>
+        <div >
+            @Html.DropDownList("RegionID", String.Empty)
+            @Html.ValidationMessageFor(model => model.RegionID)
+        </div>
+
+        <div >
+            @Html.LabelFor(model => model.ReferenceNumber)
+        </div>
+        <div >
+            @Html.EditorFor(model => model.ReferenceNumber)
+            @Html.ValidationMessageFor(model => model.ReferenceNumber)
+        </div>
+
+        <div >
+            @Html.LabelFor(model => model.Year)
+        </div>
+        <div >
+            @Html.EditorFor(model => model.Year)
+            @Html.ValidationMessageFor(model => model.Year)
+        </div>
+
+        <div >
+            @Html.LabelFor(model => model.Remark)
+        </div>
+        <div >
+            @Html.EditorFor(model => model.Remark)
+            @Html.ValidationMessageFor(model => model.Remark)
+        </div>
+ @*  <table>
+    <tr>
+        <th>
+           Zone
+        </th>
+        <th>
+            Woreda
+        </th>
+        <th>
+            FDP
+        </th>
+        <th>
+           Beneficieries
+        </th>
+        <th>
+            Grain
+        </th>
+        <th>
+            CSB
+        </th>
+        <th>
+            Oil
+        </th>
+        <th>
+            Commoidty4
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.ReliefRequisitionDetails) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Zone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Woreda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fdpid)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Beneficiaries)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Commodity1)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Commodity2)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Commodity3)
+        </td>
+         <td>
+            @Html.EditorFor(modelItem => item.Commodity3)
+        </td>
+        <td>
+           
+        </td>
+    </tr>
+}
+
+</table>
+*@
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+
+    
+    
+    
+    
+   
+}
+@section LeftBar
+{
+    @Html.DropDownList("RegionID")
+
+}

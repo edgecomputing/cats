@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Cats.Models;
 
-namespace DRMFSS.BLL.Services
+namespace Cats.Services.EarlyWarning
 {
     public interface IReliefRequisitionDetailService
     {
@@ -19,7 +19,7 @@ namespace DRMFSS.BLL.Services
         List<ReliefRequisitionDetail> GetAllReliefRequisitionDetail();
         List<ReliefRequisitionDetail> FindBy(Expression<Func<ReliefRequisitionDetail, bool>> predicate);
 
-
+        bool Save();
     }
 }
 

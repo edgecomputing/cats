@@ -17,6 +17,13 @@ namespace Cats.Data
         public DbSet<ReliefRequistion> ReliefRequistions { get; set; }
         public DbSet<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public DbSet<Round> Rounds { get; set; }
+        public DbSet<AdminUnit> AdminUnits { get; set; }
+        public DbSet<Commodity> Commodities { get; set; }
+        public DbSet<CommodityType> CommodityTypes { get; set; }
+        public DbSet<FDP> Fdps { get; set; }
+        public DbSet<Program> Programs { get; set; }
+        public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
+
         //public DbSet<OrderDeatil> OrderDeatils { get; set; }
         //public DbSet<Product> Products { get; set; }
 
@@ -26,6 +33,12 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new ReliefRequistionMap());
             modelBuilder.Configurations.Add(new ReliefRequisitionDetailMap());
             modelBuilder.Configurations.Add(new RoundMap());
+            modelBuilder.Configurations.Add(new AdminUnitMap());
+            modelBuilder.Configurations.Add(new CommodityMap());
+            modelBuilder.Configurations.Add(new CommodityTypeMap());
+            modelBuilder.Configurations.Add(new FDPMap());
+            modelBuilder.Configurations.Add(new ProgramMap());
+            modelBuilder.Configurations.Add(new AdminUnitTypeMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             //modelBuilder.Configurations.Add(new ProductMap());
 

@@ -11,6 +11,7 @@ namespace Cats.Models
             //this.Contacts = new List<Contact>();
             //this.Dispatches = new List<Dispatch>();
             //this.DispatchAllocations = new List<DispatchAllocation>();
+            this.ReliefRequisitionDetails=new List<ReliefRequisitionDetail>();
         }
         [Key]
         public int FDPID { get; set; }
@@ -18,6 +19,7 @@ namespace Cats.Models
         public string NameAM { get; set; }
         public int AdminUnitID { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
+        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         //public virtual ICollection<Contact> Contacts { get; set; }
         //public virtual ICollection<Dispatch> Dispatches { get; set; }
         //public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }

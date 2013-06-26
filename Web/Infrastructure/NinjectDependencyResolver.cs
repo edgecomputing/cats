@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Ninject;
+using Cats.Services.EarlyWarning;
 
 namespace Cats.Infrastructure
 {
@@ -33,6 +34,13 @@ namespace Cats.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            kernel.Bind<IReliefRequistionService>().To<ReliefRequistionService>();
+            kernel.Bind<IFDPService>().To<FDPService>();
+            kernel.Bind<IRoundService>().To<RoundService>();
+            kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
+            kernel.Bind<IProgramService>().To<ProgramService>();
+            kernel.Bind<ICommodityService>().To<CommodityService>();
+            kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
         }
     }
 }

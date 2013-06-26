@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Models;
 
-namespace DRMFSS.BLL.Services
+namespace Cats.Services.EarlyWarning
 {
     public interface IAllocationDetailLineService
     {

@@ -24,5 +24,7 @@ namespace Cats.Models
 
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual Round Round { get; set; }
+        public virtual AdminUnit AdminUnit { get; set; }
+        public virtual Program Program { get; set; }
     }
 }

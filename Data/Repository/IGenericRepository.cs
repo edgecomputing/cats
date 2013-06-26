@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Cats.Data.Repository
@@ -14,6 +15,9 @@ namespace Cats.Data.Repository
         bool Edit(T entity);
         T FindById(int id);
 
-
+        IEnumerable<T> Get(
+        Expression<Func<T, bool>> filter = null,
+      Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+        string includeProperties = "");
     }
 }
