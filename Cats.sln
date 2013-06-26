@@ -32,6 +32,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CE3246
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EWdispatchAllocationList", "EWdispatchAllocationList\EWdispatchAllocationList.csproj", "{F30F2166-8A7A-4466-96AC-45806D955E42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8991E39-B399-4BAF-8515-F62B28A604BE} = {F8991E39-B399-4BAF-8515-F62B28A604BE}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +71,10 @@ Global
 		{3181270A-8BF3-4640-988E-2AA1DCBE83FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3181270A-8BF3-4640-988E-2AA1DCBE83FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3181270A-8BF3-4640-988E-2AA1DCBE83FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F30F2166-8A7A-4466-96AC-45806D955E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F30F2166-8A7A-4466-96AC-45806D955E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F30F2166-8A7A-4466-96AC-45806D955E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F30F2166-8A7A-4466-96AC-45806D955E42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

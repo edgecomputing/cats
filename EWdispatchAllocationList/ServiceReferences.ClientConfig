@@ -1,0 +1,24 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <customBinding>
+                <binding name="CustomBinding_EWDispatchService">
+                    <binaryMessageEncoding />
+                    <httpTransport maxReceivedMessageSize="2147483647" maxBufferSize="2147483647" />
+                </binding>
+                <binding name="CustomBinding_EWDispatchService1">
+                    <binaryMessageEncoding />
+                    <httpTransport maxReceivedMessageSize="2147483647" maxBufferSize="2147483647" />
+                </binding>
+            </customBinding>
+        </bindings>
+        <client>
+            <endpoint address="../Service/EWDispatchService.svc" binding="customBinding"
+                bindingConfiguration="CustomBinding_EWDispatchService" contract="EwServiceReference.EWDispatchService"
+                name="CustomBinding_EWDispatchService" />
+            <endpoint address="../Service/EWDispatchService.svc" binding="customBinding"
+                bindingConfiguration="CustomBinding_EWDispatchService1" contract="ServiceReference.EWDispatchService"
+                name="CustomBinding_EWDispatchService1" />
+        </client>
+    </system.serviceModel>
+</configuration>

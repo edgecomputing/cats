@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Cats.EWDispatchService" CodeBehind="EWDispatchService.svc.cs" %>
