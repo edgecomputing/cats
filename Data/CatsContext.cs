@@ -14,8 +14,10 @@ namespace Cats.Data
         public CatsContext() : base("Name=CatsContext") { }
 
         // TODO: Add properties to access set of Poco classes
-        public DbSet<RegionalRequest> ReliefRequistions { get; set; }
-        public DbSet<RegionalRequestDetail> ReliefRequisitionDetails { get; set; }
+        public DbSet<RegionalRequest> RegionalRequests { get; set; }
+        public DbSet<RegionalRequestDetail> RegionalRequestDetails { get; set; }
+        public DbSet<ReliefRequisition> ReliefRequisitions { get; set; }
+        public DbSet<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public DbSet<AdminUnit> AdminUnits { get; set; }
         public DbSet<Commodity> Commodities { get; set; }
         public DbSet<CommodityType> CommodityTypes { get; set; }
@@ -31,6 +33,8 @@ namespace Cats.Data
             //TODO: Add mapping information for each Poco model.
             modelBuilder.Configurations.Add(new RegionalRequestMap());
             modelBuilder.Configurations.Add(new RegionalRequestDetailMap());
+            modelBuilder.Configurations.Add(new ReliefRequisitionMap());
+            modelBuilder.Configurations.Add(new ReliefRequisitionDetailMap());
             modelBuilder.Configurations.Add(new AdminUnitMap());
             modelBuilder.Configurations.Add(new CommodityMap());
             modelBuilder.Configurations.Add(new CommodityTypeMap());

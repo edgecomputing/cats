@@ -11,7 +11,7 @@ namespace Cats.Models
         
         public ReliefRequisition()
         {
-            this.ReliefRequisitionDetials=new List<ReliefRequisitionDetial>();
+            this.ReliefRequisitionDetials=new List<ReliefRequisitionDetail>();
         }
         
         public int ReliefRequisitionID { get; set; }
@@ -33,7 +33,7 @@ namespace Cats.Models
         public virtual Program Program { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
-        public virtual ICollection<ReliefRequisitionDetial> ReliefRequisitionDetials { get; set; }
+        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetials { get; set; }
         
     }
 }

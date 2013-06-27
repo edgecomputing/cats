@@ -23,14 +23,14 @@ namespace Cats.Services.EarlyWarning
        #region Default Service Implementation
        public bool AddReliefRequistion(RegionalRequest reliefRequistion)
        {
-           _unitOfWork.ReliefRequistionRepository.Add(reliefRequistion);
+           _unitOfWork.RegionalRequestRepository.Add(reliefRequistion);
            _unitOfWork.Save();
            return true;
            
        }
        public bool EditReliefRequistion(RegionalRequest reliefRequistion)
        {
-           _unitOfWork.ReliefRequistionRepository.Edit(reliefRequistion);
+           _unitOfWork.RegionalRequestRepository.Edit(reliefRequistion);
            _unitOfWork.Save();
            return true;
 
@@ -38,36 +38,36 @@ namespace Cats.Services.EarlyWarning
          public bool DeleteReliefRequistion(RegionalRequest reliefRequistion)
         {
              if(reliefRequistion==null) return false;
-           _unitOfWork.ReliefRequistionRepository.Delete(reliefRequistion);
+           _unitOfWork.RegionalRequestRepository.Delete(reliefRequistion);
            _unitOfWork.Save();
            return true;
         }
        public  bool DeleteById(int id)
        {
-           var entity = _unitOfWork.ReliefRequistionRepository.FindById(id);
+           var entity = _unitOfWork.RegionalRequestRepository.FindById(id);
            if(entity==null) return false;
-           _unitOfWork.ReliefRequistionRepository.Delete(entity);
+           _unitOfWork.RegionalRequestRepository.Delete(entity);
            _unitOfWork.Save();
            return true;
        }
        public List<RegionalRequest> GetAllReliefRequistion()
        {
-           return _unitOfWork.ReliefRequistionRepository.GetAll();
+           return _unitOfWork.RegionalRequestRepository.GetAll();
        } 
        public RegionalRequest FindById(int id)
        {
-           return _unitOfWork.ReliefRequistionRepository.FindById(id);
+           return _unitOfWork.RegionalRequestRepository.FindById(id);
        }
        public List<RegionalRequest> FindBy(Expression<Func<RegionalRequest, bool>> predicate)
        {
-           return _unitOfWork.ReliefRequistionRepository.FindBy(predicate);
+           return _unitOfWork.RegionalRequestRepository.FindBy(predicate);
        }
         public IEnumerable<RegionalRequest> Get(
           Expression<Func<RegionalRequest, bool>> filter = null,
           Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
           string includeProperties = "")
         {
-            return _unitOfWork.ReliefRequistionRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.RegionalRequestRepository.Get(filter, orderBy, includeProperties);
         }
        #endregion
        

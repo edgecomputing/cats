@@ -10,9 +10,8 @@ namespace Cats.Data.UnitWork
         private readonly CatsContext _context;
 
         // TODO: Add private properties to for each repository
-        private IGenericRepository<RegionalRequest> reliefRequistionRepository;
-        private IGenericRepository<RegionalRequestDetail> reliefRequisitionDetailRepository;
-        //private IGenericRepository<RequisitionDetailLine> requisitionDetailLineRepository;
+      
+      
         private IGenericRepository<AllocationModelDetail> allocatipnModelDetailRepository;
         
 
@@ -27,25 +26,46 @@ namespace Cats.Data.UnitWork
         /// ReliefRequistionRepository
         /// </summary>
         /// 
+
+
+        private IGenericRepository<RegionalRequest> regionalRequestRepository;
+
+        public IGenericRepository<RegionalRequest> RegionalRequestRepository
+        {
+
+            get { return this.regionalRequestRepository ?? (this.regionalRequestRepository = new GenericRepository<RegionalRequest>(_context)); }
+
+        }
+
+
+
+        private IGenericRepository<RegionalRequestDetail> regionalRequestDetailRepository;
+
+        public IGenericRepository<RegionalRequestDetail> RegionalRequestDetailRepository
+        {
+
+            get { return this.regionalRequestDetailRepository ?? (this.regionalRequestDetailRepository = new GenericRepository<RegionalRequestDetail>(_context)); }
+
+        }
+
+
+
+      
+        
+      
         public IGenericRepository<AllocationModelDetail> AllocationModelDetailRepository
         {
             get { return this.allocatipnModelDetailRepository ?? (this.allocatipnModelDetailRepository = new GenericRepository<AllocationModelDetail>(_context)); }
 
         }
-        public IGenericRepository<RegionalRequest> ReliefRequistionRepository
-        {
-            get { return this.reliefRequistionRepository ?? (this.reliefRequistionRepository = new GenericRepository<RegionalRequest>(_context)); }
-        }
+       
 
         //public IGenericRepository<AllocationDetailLine> AllocationDetailLineRepository
         //{
         //    get { return this.allocationDetailLineRepository ?? (this.allocationDetailLineRepository = new GenericRepository<AllocationDetailLine>(_context)); }
         //}
 
-        public IGenericRepository<RegionalRequestDetail> ReliefRequisitionDetailRepository
-        {
-            get { return this.reliefRequisitionDetailRepository ?? (this.reliefRequisitionDetailRepository = new GenericRepository<RegionalRequestDetail>(_context)); }
-        }
+      
 
         //public IGenericRepository<RequisitionDetailLine> RequisitionDetailLineRepository
         //{
@@ -142,8 +162,34 @@ namespace Cats.Data.UnitWork
         {
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
-      
-      
+
+
+
+
+
+        private IGenericRepository<ReliefRequisition> reliefRequistionRepository;
+
+        public IGenericRepository<ReliefRequisition> ReliefRequisitionRepository
+        {
+
+            get { return this.reliefRequistionRepository ?? (this.reliefRequistionRepository = new GenericRepository<ReliefRequisition>(_context)); }
+
+        }
+
+
+
+
+        private IGenericRepository<ReliefRequisitionDetail> reliefRequisitionRepository;
+
+        public IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository
+        {
+
+            get { return this.reliefRequisitionRepository ?? (this.reliefRequisitionRepository = new GenericRepository<ReliefRequisitionDetail>(_context)); }
+
+        }
+
+
+
       
       
       
@@ -176,6 +222,8 @@ namespace Cats.Data.UnitWork
 
 
 
-  
+
+
+      
     }
 }

@@ -20,7 +20,7 @@ namespace Cats.Models
         public int AdminUnitID { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
-        public virtual ICollection<ReliefRequisitionDetial> ReliefRequisitionDetials { get; set; }
+        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetials { get; set; }
         //public virtual ICollection<Contact> Contacts { get; set; }
         //public virtual ICollection<Dispatch> Dispatches { get; set; }
         //public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }

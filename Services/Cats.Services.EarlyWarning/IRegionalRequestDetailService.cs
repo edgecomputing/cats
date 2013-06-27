@@ -11,18 +11,16 @@ namespace Cats.Services.EarlyWarning
     public interface IRegionalRequestDetailService
     {
 
-        bool AddReliefRequisitionDetail(RegionalRequestDetail Entity);
-        bool DeleteReliefRequisitionDetail(RegionalRequestDetail Entity);
+        bool AddRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail);
+        bool DeleteRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail);
         bool DeleteById(int id);
-        bool EditReliefRequisitionDetail(RegionalRequestDetail Entity);
+        bool EditRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail);
         RegionalRequestDetail FindById(int id);
-        List<RegionalRequestDetail> GetAllReliefRequisitionDetail();
+        List<RegionalRequestDetail> GetAllRegionalRequestDetail();
         List<RegionalRequestDetail> FindBy(Expression<Func<RegionalRequestDetail, bool>> predicate);
-
         bool Save();
+
     }
 }
 
-
-      
 
