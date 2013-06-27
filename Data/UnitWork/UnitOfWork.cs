@@ -15,6 +15,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<ReliefRequisitionDetail> reliefRequisitionDetailRepository;
         private IGenericRepository<RequisitionDetailLine> requisitionDetailLineRepository;
         private IGenericRepository<AllocationModelDetail> allocatipnModelDetailRepository;
+        
 
         public UnitOfWork()
         {
@@ -137,8 +138,11 @@ namespace Cats.Data.UnitWork
 
         }
 
-
-
+        private IGenericRepository<Hub> hubRepository;
+        public IGenericRepository<Hub> HubRepository
+        {
+            get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
+        }
       
       
       

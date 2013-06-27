@@ -53,6 +53,7 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="FDP.cs" />
+    <Compile Include="Hub.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\AllocationDetailLineMap.cs">
@@ -74,6 +75,7 @@
     <Compile Include="Round.cs" />
     <Compile Include="ViewModels\AllocationViewModel.cs" />
     <Compile Include="ViewModels\AllocationModelDetail.cs" />
+    <Compile Include="ViewModels\RequisitionHub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

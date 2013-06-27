@@ -5,14 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Cats.Models
+namespace Cats.Models.ViewModels
 {
-    public partial class ReliefRequistion
+    public class RequisitionHub
     {
-        public ReliefRequistion()
-        {
-            this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
-        }
+        
 
         public int ReliefRequistionId { get; set; }
         public int RegionID { get; set; }
@@ -22,13 +19,13 @@ namespace Cats.Models
         public int Year { get; set; }
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
+        public bool Status { get; set; }
 
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual Round Round { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
-        public virtual Hub hub {get;set;}
-        public bool Status { get; set; }
-        
+        public List<string> Hubs { get; set; }
+
     }
 }
