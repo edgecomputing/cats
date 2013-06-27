@@ -160,6 +160,8 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Models\Month.cs" />
     <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
     <Compile Include="Service\EWDispatchService.svc.cs">
       <DependentUpon>EWDispatchService.svc</DependentUpon>

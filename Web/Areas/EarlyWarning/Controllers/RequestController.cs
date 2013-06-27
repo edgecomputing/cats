@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
+using Cats.Helpers;
 
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -38,10 +39,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult Index()
         {
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
 
             var reliefrequistions = _reliefRequistionService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());
         }
+
+        [HttpPost]
+        public ActionResult Index(int year, int month)
+        {
+            // TODO: Filter the collection using incoming parameters
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+
+            var reliefrequistions = _reliefRequistionService.Get(r=>r.RequistionDate.Year==year && r.RequistionDate.Month==month, null, "AdminUnit,Program");
+
+            return View(reliefrequistions.ToList());
+        }
+
         [HttpGet]
         public ActionResult New()
         {
