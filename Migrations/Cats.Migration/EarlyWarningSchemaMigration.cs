@@ -13,12 +13,14 @@ namespace Cats.Migration
         public override void Up()
         {
             Create.Schema("EarlyWarning");
+           
 
         }
 
         public override void Down()
         {
             Delete.Schema("EarlyWarning");
+            
         }
     }
 }

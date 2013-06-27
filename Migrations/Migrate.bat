@@ -1,1 +1,1 @@
-..\packages\FluentMigrator.Tools.1.1.0.0\tools\x86\40\Migrate.exe --conn "Server=.;Initial Catalog=CATS;Integrated Security=SSPI" --provider sqlserver2008 --assembly "Cats.Migration\bin\Debug\Cats.Migration.dll"
+..\packages\FluentMigrator.Tools.1.1.0.0\tools\x86\40\Migrate.exe --conn "Server=TEDY-PC\SQLTEDY2012;Initial Catalog=CTS_master;Integrated Security=SSPI" --provider sqlserver2008 --assembly "Cats.Migration\bin\Debug\Cats.Migration.dll"
