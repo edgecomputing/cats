@@ -34,13 +34,12 @@ namespace Cats.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
-            kernel.Bind<IReliefRequistionService>().To<ReliefRequistionService>();
+            kernel.Bind<IRegionalRequestService>().To<RegionalRequestService>();
             kernel.Bind<IFDPService>().To<FDPService>();
-            kernel.Bind<IRoundService>().To<RoundService>();
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
             kernel.Bind<IProgramService>().To<ProgramService>();
             kernel.Bind<ICommodityService>().To<CommodityService>();
-            kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
+            kernel.Bind<IRegionalRequestDetailService>().To<RegionalRequestDetailService>();
         }
     }
 }

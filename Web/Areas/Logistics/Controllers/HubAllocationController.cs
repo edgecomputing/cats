@@ -13,14 +13,14 @@ namespace Cats.Areas.Logistics.Controllers
     {
         //
         // GET: /Logistics/HubAllocation/
-        private IReliefRequistionService _reliefRequistionService;
+        //private IReliefRequistionService _reliefRequistionService;
 
         public ActionResult Index()
         {
-            var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
-            return View(reliefrequistions.ToList());
-            
-            
+            //var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
+            //return View(reliefrequistions.ToList());
+
+            return (null);
         }
 
     }

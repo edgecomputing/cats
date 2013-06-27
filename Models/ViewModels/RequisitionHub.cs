@@ -21,8 +21,8 @@ namespace Cats.Models.ViewModels
         public string Remark { get; set; }
         public bool Status { get; set; }
 
-        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
-        public virtual Round Round { get; set; }
+        //public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+        //public virtual Round Round { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
         public List<string> Hubs { get; set; }

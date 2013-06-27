@@ -10,61 +10,59 @@ using Cats.Services.EarlyWarning;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
-    public class ReliefRequisitionController : Controller
+    public class RequestController : Controller
     {
         //
-        // GET: /EarlyWarning/ReliefRequisition/
+        // GET: /EarlyWarning/RegionalRequest/
 
-        private IReliefRequistionService _reliefRequistionService;
+        private IRegionalRequestService _reliefRequistionService;
         private IFDPService _fdpService;
-        private IRoundService _roundService;
+        //private IRoundService _roundService;
         private IAdminUnitService _adminUnitService;
         private IProgramService _programService;
         private ICommodityService _commodityService;
-        private IReliefRequisitionDetailService _reliefRequisitionDetailService;
-        public ReliefRequisitionController(IReliefRequistionService reliefRequistionService
+        private IRegionalRequestDetailService _reliefRequisitionDetailService;
+        public RequestController(IRegionalRequestService reliefRequistionService
            , IFDPService fdpService
-            , IRoundService roundService
             , IAdminUnitService adminUnitService,
             IProgramService programService,
             ICommodityService commodityService,
-            IReliefRequisitionDetailService reliefRequisitionDetailService)
+            IRegionalRequestDetailService reliefRequisitionDetailService)
         {
             this._reliefRequistionService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
             this._commodityService = commodityService;
             this._fdpService = fdpService;
-            this._roundService = roundService;
             this._programService = programService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
         }
         public ActionResult Index()
         {
 
-            var reliefrequistions = _reliefRequistionService.Get(null, null, "AdminUnit,Program,Round");
+            var reliefrequistions = _reliefRequistionService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());
         }
         [HttpGet]
         public ActionResult New()
         {
-            var relifRequisition = new ReliefRequistion();
+            var relifRequisition = new RegionalRequest();
 
 
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
-            ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
+            //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
             ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
             ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
 
             var fdpList = _fdpService.GetAllFDP();
             var releifDetails = (from fdp in fdpList
-                                 select new ReliefRequisitionDetail()
+                                 select new RegionalRequestDetail()
                                  {
                                      Beneficiaries = 0,
                                      Fdpid = fdp.FDPID,
 
                                  }).ToList();
-            relifRequisition.ReliefRequisitionDetails = releifDetails;
+            relifRequisition.RegionalRequestDetails = releifDetails;
             // PrepareFdpList(fdpList);
 
 
@@ -76,7 +74,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            ReliefRequistion reliefrequistion = _reliefRequistionService.Get(t => t.ReliefRequistionId == id, null, "AdminUnit,Program,Round").FirstOrDefault();
+            RegionalRequest reliefrequistion = _reliefRequistionService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
             if (reliefrequistion == null)
             {
                 return HttpNotFound();
@@ -87,24 +85,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Edit(int id)
         {
             var reliefRequistion =
-                _reliefRequistionService.Get(t => t.ReliefRequistionId == id, null, "ReliefRequisitionDetails,ReliefRequisitionDetails.Fdp," +
-                                                                                    "ReliefRequisitionDetails.Fdp.AdminUnit,ReliefRequisitionDetails.Fdp.AdminUnit.AdminUnit2").
+                _reliefRequistionService.Get(t => t.RegionalRequestID == id, null, "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
+                                                                                    "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2").
                     FirstOrDefault();
             
-            var reliefRequistionDetail = reliefRequistion.ReliefRequisitionDetails;
+            var reliefRequistionDetail = reliefRequistion.RegionalRequestDetails;
             var input = (from itm in reliefRequistionDetail
-                         select new ReliefRequisitionDetailEdit
+                         select new RequestDetailEdit
                            {
-                               ReliefRequisitionDetailId = itm.ReliefRequisitionDetailId,
-                               ReliefRequistionId = itm.ReliefRequistionId,
+                               RegionalRequestDetailId = itm.RegionalRequestDetailID,
+                               RegionalRequestId = itm.RegionalRequestID,
                                Fdp = itm.Fdp.Name,
                                Wereda= itm.Fdp.AdminUnit.Name,
                                Zone= itm.Fdp.AdminUnit.AdminUnit2.Name ,
 
                                Beneficiaries = itm.Beneficiaries,
-                               Input = new ReliefRequisitionDetailEdit.ReliefRequisitionDetailEditInput()
+                               Input = new RequestDetailEdit.RequestDetailEditInput()
                                {
-                                   Number = itm.ReliefRequisitionDetailId,
+                                   Number = itm.RegionalRequestDetailID,
                                    Grain = itm.Grain,
                                    Pulse = itm.Pulse,
                                    Oil = itm.Oil,
@@ -115,7 +113,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(input);
         }
         [HttpPost]
-        public ActionResult Edit(List<ReliefRequisitionDetailEdit.ReliefRequisitionDetailEditInput> input)
+        public ActionResult Edit(List<RequestDetailEdit.RequestDetailEditInput> input)
         {
             var requId = 0;
             foreach (var reliefRequisitionDetailEditInput in input)
@@ -123,7 +121,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
               
                 var tempReliefRequistionDetail =
                     _reliefRequisitionDetailService.FindById(reliefRequisitionDetailEditInput.Number);
-                requId = tempReliefRequistionDetail.ReliefRequistionId;
+                requId = tempReliefRequistionDetail.RegionalRequestID;
                 tempReliefRequistionDetail.Beneficiaries = reliefRequisitionDetailEditInput.Beneficiaries;
                 tempReliefRequistionDetail.CSB = reliefRequisitionDetailEditInput.CSB;
                 tempReliefRequistionDetail.Oil = reliefRequisitionDetailEditInput.Oil;
@@ -135,7 +133,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
          
 
 
-            return RedirectToAction("Edit","ReliefRequisition",new {id=requId});
+            return RedirectToAction("Edit","Request",new {id=requId});
         }
 
 
@@ -143,13 +141,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
        
        
         [HttpPost]
-        public ActionResult New(ReliefRequistion reliefRequistion)
+        public ActionResult New(RegionalRequest reliefRequistion)
         {
             if (reliefRequistion != null)
             {
+                //TODO:Filter with selected region
                 var fdpList = _fdpService.GetAllFDP();
                 var releifDetails = (from fdp in fdpList
-                                     select new ReliefRequisitionDetail()
+                                     select new RegionalRequestDetail()
                                      {
                                          Beneficiaries = 0,
                                          Fdpid = fdp.FDPID,
@@ -159,11 +158,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                          CSB=0
 
                                      }).ToList();
-                reliefRequistion.ReliefRequisitionDetails = releifDetails;
+                reliefRequistion.RegionalRequestDetails = releifDetails;
                 _reliefRequistionService.AddReliefRequistion(reliefRequistion);
-                return RedirectToAction("Edit", "ReliefRequisition", new { id = reliefRequistion.ReliefRequistionId });
+                return RedirectToAction("Edit", "Request", new { id = reliefRequistion.RegionalRequestID });
             }
-            return View(new ReliefRequistion());
+            return View(new RegionalRequest());
         }
     }
 }

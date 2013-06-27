@@ -21,6 +21,7 @@ namespace Cats.Models
         public virtual AdminUnit AdminUnit2 { get; set; }
         public virtual AdminUnitType AdminUnitType { get; set; }
         public virtual ICollection<FDP> FDPs { get; set; }
-        public ICollection<ReliefRequistion> ReliefRequistions { get; set; }
+        public ICollection<RegionalRequest> RegionalRequests { get; set; }
+        public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
     }
 }
