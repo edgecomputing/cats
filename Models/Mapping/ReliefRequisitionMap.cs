@@ -30,22 +30,22 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Status).HasColumnName("Status");
             this.Property(t=>t.ZoneID).HasColumnName("ZoneID");
             // Relationships
-            this.HasRequired(t => t.AdminUnit)
-                .WithMany(t => t.ReliefRequisitions)
-                .HasForeignKey(d => d.RegionID);
+            //this.HasRequired(t => t.AdminUnit)
+            //    .WithMany(t => t.ReliefRequisitions)
+            //    .HasForeignKey(d => d.RegionID);
 
-            this.HasRequired(t => t.AdminUnit1)
-                .WithMany(t => t.ReliefRequisitions)
-                .HasForeignKey(d => d.ZoneID);
-            this.HasRequired(t => t.Program)
-               .WithMany(t => t.ReliefRequisitions)
-               .HasForeignKey(d => d.ProgramID);
-            this.HasRequired(t => t.UserProfile)
-               .WithMany(t => t.ReliefRequisitions)
-               .HasForeignKey(d => d.RequestedBy);
-            this.HasRequired(t => t.UserProfile1)
-               .WithMany(t => t.ReliefRequisitions)
-               .HasForeignKey(d => d.ApprovedBy);
+            //this.HasRequired(t => t.AdminUnit1)
+            //    .WithMany(t => t.ReliefRequisitions)
+            //    .HasForeignKey(d => d.ZoneID);
+            //this.HasRequired(t => t.Program)
+            //   .WithMany(t => t.ReliefRequisitions)
+            //   .HasForeignKey(d => d.ProgramID);
+            //this.HasRequired(t => t.UserProfile)
+            //   .WithMany(t => t.ReliefRequisitions)
+            //   .HasForeignKey(d => d.RequestedBy);
+            //this.HasRequired(t => t.UserProfile1)
+            //   .WithMany(t => t.ReliefRequisitions)
+            //   .HasForeignKey(d => d.ApprovedBy);
 
 
         }

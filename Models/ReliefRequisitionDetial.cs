@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public class ReliefRequisitionDetial
+    public class ReliefRequisitionDetail
     {
         
         

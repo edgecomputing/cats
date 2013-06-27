@@ -8,16 +8,16 @@
 @section LeftBar
 {
     <li class="nav-header">Request Summary</li>
-    <li>Region: REGION</li>
-    <li>Year: YEAR</li>
-    <li>Month: MONTH</li>
-    <li>Round: ROUND</li>
+    <li>Region: @ViewBag.CurrentRegion</li>
+    <li>Year: @ViewBag.CurrentYear</li>
+    <li>Month: @ViewBag.CurrentMonth</li>
+    <li>Round: @ViewBag.Round</li>
     <li class="nav-header">Tasks</li>
     <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back to requests</a></li>
 }
 
 <div class="well">
-    <h4 class="page-header">Monthly request for {{REGION}} for the month of {{MONTH}} {{YEAR}}</h4>
+    <h4 class="page-header">Monthly request for @ViewBag.CurrentRegion for the month of @ViewBag.CurrentMonth  @ViewBag.CurrentYear</h4>
 </div>
 
 

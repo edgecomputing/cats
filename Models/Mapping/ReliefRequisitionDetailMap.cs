@@ -2,7 +2,7 @@
 
 namespace Cats.Models.Mapping
 {
-    public class ReliefRequisitionDetailMap:EntityTypeConfiguration<ReliefRequisitionDetial>
+    public class ReliefRequisitionDetailMap:EntityTypeConfiguration<ReliefRequisitionDetail>
     {
         public ReliefRequisitionDetailMap()
         {
@@ -16,7 +16,7 @@ namespace Cats.Models.Mapping
 
 
             // Table & Column Mappings
-            this.ToTable("EarlyWarning.ReliefRequisitionDetial");
+            this.ToTable("EarlyWarning.ReliefRequisitionDetail");
             this.Property(t => t.ReliefRequisitionDetialID).HasColumnName("ReliefRequisitionDetialID");
             this.Property(t => t.RequisitionID).HasColumnName("RequisitionID");
             this.Property(t => t.FDPID).HasColumnName("FDPID");

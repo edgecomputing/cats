@@ -7,6 +7,7 @@ using Cats.Data.UnitWork;
 using Cats.Models;
 
 
+
 namespace Cats.Services.EarlyWarning
 {
 
@@ -20,51 +21,46 @@ namespace Cats.Services.EarlyWarning
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddReliefRequisitionDetail(RegionalRequestDetail reliefRequisitionDetail)
+        public bool AddRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail)
         {
-            _unitOfWork.ReliefRequisitionDetailRepository.Add(reliefRequisitionDetail);
+            _unitOfWork.RegionalRequestDetailRepository.Add(regionalRequestDetail);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditReliefRequisitionDetail(RegionalRequestDetail reliefRequisitionDetail)
+        public bool EditRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail)
         {
-            _unitOfWork.ReliefRequisitionDetailRepository.Edit(reliefRequisitionDetail);
+            _unitOfWork.RegionalRequestDetailRepository.Edit(regionalRequestDetail);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteReliefRequisitionDetail(RegionalRequestDetail reliefRequisitionDetail)
+        public bool DeleteRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail)
         {
-            if (reliefRequisitionDetail == null) return false;
-            _unitOfWork.ReliefRequisitionDetailRepository.Delete(reliefRequisitionDetail);
+            if (regionalRequestDetail == null) return false;
+            _unitOfWork.RegionalRequestDetailRepository.Delete(regionalRequestDetail);
             _unitOfWork.Save();
             return true;
         }
         public bool DeleteById(int id)
         {
-            var entity = _unitOfWork.ReliefRequisitionDetailRepository.FindById(id);
+            var entity = _unitOfWork.RegionalRequestDetailRepository.FindById(id);
             if (entity == null) return false;
-            _unitOfWork.ReliefRequisitionDetailRepository.Delete(entity);
+            _unitOfWork.RegionalRequestDetailRepository.Delete(entity);
             _unitOfWork.Save();
             return true;
         }
-        public bool Save()
+        public List<RegionalRequestDetail> GetAllRegionalRequestDetail()
         {
-            _unitOfWork.Save();
-            return true;
-        }
-        public List<RegionalRequestDetail> GetAllReliefRequisitionDetail()
-        {
-            return _unitOfWork.ReliefRequisitionDetailRepository.GetAll();
+            return _unitOfWork.RegionalRequestDetailRepository.GetAll();
         }
         public RegionalRequestDetail FindById(int id)
         {
-            return _unitOfWork.ReliefRequisitionDetailRepository.FindById(id);
+            return _unitOfWork.RegionalRequestDetailRepository.FindById(id);
         }
         public List<RegionalRequestDetail> FindBy(Expression<Func<RegionalRequestDetail, bool>> predicate)
         {
-            return _unitOfWork.ReliefRequisitionDetailRepository.FindBy(predicate);
+            return _unitOfWork.RegionalRequestDetailRepository.FindBy(predicate);
         }
         #endregion
 
@@ -74,6 +70,13 @@ namespace Cats.Services.EarlyWarning
 
         }
 
+
+
+        public bool Save()
+        {
+           _unitOfWork.Save();
+            return true;
+        }
     }
 }
 
