@@ -7,28 +7,27 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public partial class ReliefRequistion
+    public partial class RegionalRequest
     {
-        public ReliefRequistion()
+        public RegionalRequest()
         {
-            this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            this.RegionalRequestDetails = new List<RegionalRequestDetail>();
         }
 
-        public int ReliefRequistionId { get; set; }
+        public int RegionalRequestID { get; set; }
         public int RegionID { get; set; }
         public int ProgramId { get; set; }
-        public int RoundId { get; set; }
+        public int Round { get; set; }
         public DateTime RequistionDate { get; set; }
         public int Year { get; set; }
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
 
-        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
-        public virtual Round Round { get; set; }
+        public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
-        public virtual Hub hub {get;set;}
-        public bool Status { get; set; }
+       
+  
         
     }
 }

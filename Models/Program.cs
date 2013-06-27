@@ -15,6 +15,7 @@ namespace Cats.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string LongName { get; set; }
-        public virtual ICollection<ReliefRequistion> ReliefRequistions { get; set; }
+        public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
+        public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
     }
 }

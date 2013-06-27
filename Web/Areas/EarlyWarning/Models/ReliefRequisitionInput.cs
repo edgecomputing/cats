@@ -7,11 +7,11 @@ namespace Cats.EarlyWarning.Models
 {
     public class ReliefRequisitionInput
     {
-        public ReliefRequisitionInput(ReliefRequistion reliefRequistion)
+        public ReliefRequisitionInput(RegionalRequest reliefRequistion)
         {
             this.RegionId = reliefRequistion.RegionID;
             this.ProgramId = reliefRequistion.ProgramId;
-            this.RoundId = reliefRequistion.RoundId;
+            this.RoundId = reliefRequistion.Round;
             this.RequisitionNo = reliefRequistion.ReferenceNumber;
             this.RequisitionDate = reliefRequistion.RequistionDate;
            

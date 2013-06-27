@@ -25,6 +25,8 @@ namespace Cats.Models
         public virtual Commodity Commodity2 { get; set; }
 
         public virtual CommodityType CommodityType { get; set; }
+        public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+        public ICollection<ReliefRequisitionDetial> ReliefRequisitionDetials { get; set; } 
       
     }
 }

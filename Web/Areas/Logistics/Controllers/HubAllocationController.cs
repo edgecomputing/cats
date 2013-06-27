@@ -15,11 +15,12 @@ namespace Cats.Areas.Logistics.Controllers
     {
         //
         // GET: /Logistics/HubAllocation/
-        private IReliefRequistionService _reliefRequistionService;
+
+       /* private IReliefRequistionService _reliefRequistionService;
         public HubAllocationController(IReliefRequistionService reliefRequistionService)
         {
             _reliefRequistionService = reliefRequistionService;
-        }
+        }*/
         public List<RequisitionHub> GetAllReliefRequistion()
         {
             //var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
@@ -55,6 +56,8 @@ namespace Cats.Areas.Logistics.Controllers
 
                 };
 
+
+
             IHubService _hubservices = new HubService();
             ViewBag.AllHubs = _hubservices.GetAllHub();
             rr1.Input.ReliefRequistionID = rr1.ReliefRequistionId; 
@@ -64,8 +67,9 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public ActionResult Index()
         {
-            var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
-           // List<RequisitionHub> reliefrequistions = GetAllReliefRequistion();
+
+           //var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
+            List<RequisitionHub> reliefrequistions = GetAllReliefRequistion();
             return View(reliefrequistions.ToList());//reliefrequistions.ToList());
         }
         [HttpPost]
@@ -73,6 +77,12 @@ namespace Cats.Areas.Logistics.Controllers
         {
            
             return View(input);
+
+            //var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
+            //return View(reliefrequistions.ToList());
+
+            
+
         }
 
         // public ActionResult

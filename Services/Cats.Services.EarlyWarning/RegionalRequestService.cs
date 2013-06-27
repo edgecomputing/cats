@@ -11,31 +11,31 @@ using Cats.Models;
 namespace Cats.Services.EarlyWarning
 {
 
-    public class ReliefRequistionService:IReliefRequistionService
+    public class RegionalRequestService : IRegionalRequestService
    {
        private readonly  IUnitOfWork _unitOfWork;
       
 
-       public ReliefRequistionService(IUnitOfWork unitOfWork)
+       public RegionalRequestService(IUnitOfWork unitOfWork)
        {
            this._unitOfWork = unitOfWork;
        }
        #region Default Service Implementation
-       public bool AddReliefRequistion(ReliefRequistion reliefRequistion)
+       public bool AddReliefRequistion(RegionalRequest reliefRequistion)
        {
            _unitOfWork.ReliefRequistionRepository.Add(reliefRequistion);
            _unitOfWork.Save();
            return true;
            
        }
-       public bool EditReliefRequistion(ReliefRequistion reliefRequistion)
+       public bool EditReliefRequistion(RegionalRequest reliefRequistion)
        {
            _unitOfWork.ReliefRequistionRepository.Edit(reliefRequistion);
            _unitOfWork.Save();
            return true;
 
        }
-         public bool DeleteReliefRequistion(ReliefRequistion reliefRequistion)
+         public bool DeleteReliefRequistion(RegionalRequest reliefRequistion)
         {
              if(reliefRequistion==null) return false;
            _unitOfWork.ReliefRequistionRepository.Delete(reliefRequistion);
@@ -50,21 +50,21 @@ namespace Cats.Services.EarlyWarning
            _unitOfWork.Save();
            return true;
        }
-       public List<ReliefRequistion> GetAllReliefRequistion()
+       public List<RegionalRequest> GetAllReliefRequistion()
        {
            return _unitOfWork.ReliefRequistionRepository.GetAll();
        } 
-       public ReliefRequistion FindById(int id)
+       public RegionalRequest FindById(int id)
        {
            return _unitOfWork.ReliefRequistionRepository.FindById(id);
        }
-       public List<ReliefRequistion> FindBy(Expression<Func<ReliefRequistion, bool>> predicate)
+       public List<RegionalRequest> FindBy(Expression<Func<RegionalRequest, bool>> predicate)
        {
            return _unitOfWork.ReliefRequistionRepository.FindBy(predicate);
        }
-        public IEnumerable<ReliefRequistion> Get(
-          Expression<Func<ReliefRequistion, bool>> filter = null,
-          Func<IQueryable<ReliefRequistion>, IOrderedQueryable<ReliefRequistion>> orderBy = null,
+        public IEnumerable<RegionalRequest> Get(
+          Expression<Func<RegionalRequest, bool>> filter = null,
+          Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
           string includeProperties = "")
         {
             return _unitOfWork.ReliefRequistionRepository.Get(filter, orderBy, includeProperties);

@@ -10,10 +10,9 @@ namespace Cats.Data.UnitWork
         private readonly CatsContext _context;
 
         // TODO: Add private properties to for each repository
-        private IGenericRepository<ReliefRequistion> reliefRequistionRepository;
-        private IGenericRepository<AllocationDetailLine> allocationDetailLineRepository;
-        private IGenericRepository<ReliefRequisitionDetail> reliefRequisitionDetailRepository;
-        private IGenericRepository<RequisitionDetailLine> requisitionDetailLineRepository;
+        private IGenericRepository<RegionalRequest> reliefRequistionRepository;
+        private IGenericRepository<RegionalRequestDetail> reliefRequisitionDetailRepository;
+        //private IGenericRepository<RequisitionDetailLine> requisitionDetailLineRepository;
         private IGenericRepository<AllocationModelDetail> allocatipnModelDetailRepository;
         
 
@@ -33,25 +32,25 @@ namespace Cats.Data.UnitWork
             get { return this.allocatipnModelDetailRepository ?? (this.allocatipnModelDetailRepository = new GenericRepository<AllocationModelDetail>(_context)); }
 
         }
-        public IGenericRepository<ReliefRequistion> ReliefRequistionRepository
+        public IGenericRepository<RegionalRequest> ReliefRequistionRepository
         {
-            get { return this.reliefRequistionRepository ?? (this.reliefRequistionRepository = new GenericRepository<ReliefRequistion>(_context)); }
+            get { return this.reliefRequistionRepository ?? (this.reliefRequistionRepository = new GenericRepository<RegionalRequest>(_context)); }
         }
 
-        public IGenericRepository<AllocationDetailLine> AllocationDetailLineRepository
+        //public IGenericRepository<AllocationDetailLine> AllocationDetailLineRepository
+        //{
+        //    get { return this.allocationDetailLineRepository ?? (this.allocationDetailLineRepository = new GenericRepository<AllocationDetailLine>(_context)); }
+        //}
+
+        public IGenericRepository<RegionalRequestDetail> ReliefRequisitionDetailRepository
         {
-            get { return this.allocationDetailLineRepository ?? (this.allocationDetailLineRepository = new GenericRepository<AllocationDetailLine>(_context)); }
+            get { return this.reliefRequisitionDetailRepository ?? (this.reliefRequisitionDetailRepository = new GenericRepository<RegionalRequestDetail>(_context)); }
         }
 
-        public IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository
-        {
-            get { return this.reliefRequisitionDetailRepository ?? (this.reliefRequisitionDetailRepository = new GenericRepository<ReliefRequisitionDetail>(_context)); }
-        }
-
-        public IGenericRepository<RequisitionDetailLine> RequisitionDetailLineRepository
-        {
-            get { return this.requisitionDetailLineRepository ?? (this.requisitionDetailLineRepository = new GenericRepository<RequisitionDetailLine>(_context)); }
-        }
+        //public IGenericRepository<RequisitionDetailLine> RequisitionDetailLineRepository
+        //{
+        //    get { return this.requisitionDetailLineRepository ?? (this.requisitionDetailLineRepository = new GenericRepository<RequisitionDetailLine>(_context)); }
+        //}
 
 
 
@@ -129,14 +128,14 @@ namespace Cats.Data.UnitWork
 
 
 
-        private IGenericRepository<Round> roundRepository;
+        //private IGenericRepository<Round> roundRepository;
 
-        public IGenericRepository<Round> RoundRepository
-        {
+        //public IGenericRepository<Round> RoundRepository
+        //{
 
-            get { return this.roundRepository ?? (this.roundRepository = new GenericRepository<Round>(_context)); }
+        //    get { return this.roundRepository ?? (this.roundRepository = new GenericRepository<Round>(_context)); }
 
-        }
+        //}
 
         private IGenericRepository<Hub> hubRepository;
         public IGenericRepository<Hub> HubRepository

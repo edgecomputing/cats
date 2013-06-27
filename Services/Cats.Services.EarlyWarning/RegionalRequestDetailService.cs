@@ -10,31 +10,31 @@ using Cats.Models;
 namespace Cats.Services.EarlyWarning
 {
 
-    public class ReliefRequisitionDetailService : IReliefRequisitionDetailService
+    public class RegionalRequestDetailService : IRegionalRequestDetailService
     {
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public ReliefRequisitionDetailService(IUnitOfWork unitOfWork)
+        public RegionalRequestDetailService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddReliefRequisitionDetail(ReliefRequisitionDetail reliefRequisitionDetail)
+        public bool AddReliefRequisitionDetail(RegionalRequestDetail reliefRequisitionDetail)
         {
             _unitOfWork.ReliefRequisitionDetailRepository.Add(reliefRequisitionDetail);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditReliefRequisitionDetail(ReliefRequisitionDetail reliefRequisitionDetail)
+        public bool EditReliefRequisitionDetail(RegionalRequestDetail reliefRequisitionDetail)
         {
             _unitOfWork.ReliefRequisitionDetailRepository.Edit(reliefRequisitionDetail);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteReliefRequisitionDetail(ReliefRequisitionDetail reliefRequisitionDetail)
+        public bool DeleteReliefRequisitionDetail(RegionalRequestDetail reliefRequisitionDetail)
         {
             if (reliefRequisitionDetail == null) return false;
             _unitOfWork.ReliefRequisitionDetailRepository.Delete(reliefRequisitionDetail);
@@ -54,15 +54,15 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Save();
             return true;
         }
-        public List<ReliefRequisitionDetail> GetAllReliefRequisitionDetail()
+        public List<RegionalRequestDetail> GetAllReliefRequisitionDetail()
         {
             return _unitOfWork.ReliefRequisitionDetailRepository.GetAll();
         }
-        public ReliefRequisitionDetail FindById(int id)
+        public RegionalRequestDetail FindById(int id)
         {
             return _unitOfWork.ReliefRequisitionDetailRepository.FindById(id);
         }
-        public List<ReliefRequisitionDetail> FindBy(Expression<Func<ReliefRequisitionDetail, bool>> predicate)
+        public List<RegionalRequestDetail> FindBy(Expression<Func<RegionalRequestDetail, bool>> predicate)
         {
             return _unitOfWork.ReliefRequisitionDetailRepository.FindBy(predicate);
         }
