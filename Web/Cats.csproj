@@ -159,6 +159,7 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
+    <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
     <Compile Include="Service\EWDispatchService.svc.cs">
@@ -307,6 +308,7 @@
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

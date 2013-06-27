@@ -1,12 +1,16 @@
-﻿@model  IEnumerable<Cats.Models.ReliefRequistion>
+﻿@model  IEnumerable<Cats.Models.ViewModels.RequisitionHub>
 
 @{
     ViewBag.Title = "Regional Hub Allocation";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+
 <div class="well">
     <h4 class="page-header">Regional Monthly Relief Requests</h4>
+    <p>            @Html.DisplayNameFor(model => model.RequistionDate)
+</p>
+
 </div>
 @section LeftBar
 {
@@ -42,68 +46,61 @@
     </div>
 
 }
+@using (Html.BeginForm("Edit", "HubAllocation", FormMethod.Post))
+{
 <table class="table table-striped table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ReferenceNumber)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequistionDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Program.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Round.RoundNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdminUnit.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Year)
-        </th>
-        <th>
-            @Html.DropDownListFor(model => model.Hub,new SelectList(model.Hub,"",""))
-        </th>
-        <th></th>
-    </tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedItem.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedAmount)
+            </th>
 
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+                <th>
+                    @Html.Label("WareHouse")
+            </th>     
+    </tr>
+    @{int index = 0;}
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                <a href="@Url.Action("Edit","ReliefRequisition",new {Area="EarlyWarning",id=item.ReliefRequistionId})">@Html.DisplayFor(modelItem => item.ReferenceNumber)</a>                
+                @Html.DisplayFor(modelItem => item.ReferenceNumber)      
+            </td> 
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedItem.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RequistionDate)
+                @Html.DisplayFor(modelItem => item.RequestedAmount)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Program.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Round.RoundNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdminUnit.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
 
-                <div class="btn-group">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i>
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.ReliefRequistionId })">Edit</a></li>
-                        <li><a href="#">Approve</a></li>
-                        <li><a href="#">View Status</a></li>
-                    </ul>
-                </div>
+            <td>
+                                    @Html.DisplayFor(modelItem => item.Region)
+
+            </td>
+            <td>
+                <div style="display:none">@Html.TextBox("input[" + index + "].ReliefRequistionId", item.Input.ReliefRequistionID)</div>
+                <select name="input[@index].HubID">
+                    @foreach (var hub in ViewBag.AllHubs)
+                    {
+                        <option value="@hub.HubId">@hub.Name
+
+                        </option>
+                    }
+                </select>
             </td>
         </tr>
+       index++;
     }
 
 </table>
+<input type="submit" class="btn btn-success"/>
+}
 
