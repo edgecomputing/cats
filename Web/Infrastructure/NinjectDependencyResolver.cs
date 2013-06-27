@@ -40,6 +40,8 @@ namespace Cats.Infrastructure
             kernel.Bind<IProgramService>().To<ProgramService>();
             kernel.Bind<ICommodityService>().To<CommodityService>();
             kernel.Bind<IRegionalRequestDetailService>().To<RegionalRequestDetailService>();
+            kernel.Bind<IReliefRequisitionService>().To<ReliefRequisitionService>();
+            kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
         }
     }
 }
