@@ -111,8 +111,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    CSB = itm.CSB,
                                    Beneficiaries = itm.Beneficiaries
                                }
-                           });
-
+                           });            
             return View(input);
         }
         [HttpPost]

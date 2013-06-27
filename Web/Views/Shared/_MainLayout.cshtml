@@ -45,40 +45,45 @@
                 <a class="brand" href="~/">CATS</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li><a href="~/">Home</a></li>
                         <li><a href="#">HRD</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Regional Request<b class="caret"></b></a>
-                            <ul class="dropdown-menu">                                
-                                <li><a href="#">Manage Requests</a></li>
-                                <li><a href="#">Monthly Regional Request</a></li>
-                                <li class="divider"></li>                          
-                                <li><a href="@Url.Action("Index","ReliefRequisition",new{Area="EarlyWarning"})">Submit Request</a></li>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requests</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })">Submit Request</a></li>
                                 <li><a href="#">Followup Request</a></li>
                             </ul>
+                        </li>                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Hub Allocation</a></li>
+                                <li><a href="#">Project Allocation</a></li>                                
+                            </ul>
                         </li>
-                        <li><a href="#contact">Allocation</a></li>
                         <li><a href="#">Stock</a></li>
                         <li><a href="#">Tender</a></li>
                         <li><a href="#">Reports</a></li>
                     </ul>
                     <ul class="nav pull-right">
                         <li class="divider-vertical"></li>
-                       
-                         <li class="dropdown">
-                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope"></i><b class="caret"></b></a>
-                             <ul class="dropdown-menu">
-                                 <li>No new messages</li>
-                             </ul>
-                        </li> 
-                                             
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>No new messages</li>
+                            </ul>
+                        </li>
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Preference</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">Change Password</a></li>
-                                <li><a href="#">Logout</a></li>                                                                
+                                <li><a href="#">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
