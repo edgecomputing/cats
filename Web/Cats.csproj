@@ -147,6 +147,7 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
@@ -334,7 +335,6 @@
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
     <Folder Include="Areas\Procurement\Controllers\" />
-    <Folder Include="Areas\Procurement\Models\" />
     <Folder Include="Areas\Procurement\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

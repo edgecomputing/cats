@@ -188,7 +188,14 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<Transporter> transporterRepository;
 
+        public IGenericRepository<Transporter> TransporterRepository
+        {
+
+            get { return this.transporterRepository ?? (this.transporterRepository = new GenericRepository<Transporter>(_context)); }
+
+        }
 
       
       
