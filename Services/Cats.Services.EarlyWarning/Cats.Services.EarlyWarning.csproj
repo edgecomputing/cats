@@ -46,12 +46,14 @@
     <Compile Include="AdminUnitTypeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="DispatchAllocationDetailService.cs" />
     <Compile Include="FDPService.cs" />
     <Compile Include="HubService.cs" />
     <Compile Include="IAdminUnitService.cs" />
     <Compile Include="IAdminUnitTypeService.cs" />
     <Compile Include="ICommodityService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
+    <Compile Include="IDispatchAllocationDetailService.cs" />
     <Compile Include="IFDPService.cs" />
     <Compile Include="IHubService.cs" />
     <Compile Include="IProgramService.cs" />

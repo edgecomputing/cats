@@ -51,6 +51,8 @@
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
+    <Compile Include="DispatchAllocation.cs" />
+    <Compile Include="DispatchAllocationDetail.cs" />
     <Compile Include="Donor.cs" />
     <Compile Include="FDP.cs" />
     <Compile Include="Hub.cs" />
