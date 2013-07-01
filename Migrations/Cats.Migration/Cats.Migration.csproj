@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="201307011512_procurment_transporter.cs" />
     <Compile Include="EarlyWarningSchemaMigration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReliefRequistionMigration.cs" />
