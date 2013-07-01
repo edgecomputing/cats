@@ -140,16 +140,20 @@
     <Compile Include="App_Start\WebApiConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionNew.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Models\Month.cs" />
@@ -158,7 +162,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -297,9 +300,13 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
+
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
+
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
+
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

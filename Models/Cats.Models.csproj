@@ -66,6 +66,7 @@
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionMap.cs" />
+    <Compile Include="Partials\RegionalRequestDetail.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionalRequest.cs" />

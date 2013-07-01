@@ -12,8 +12,10 @@ namespace Cats.Services.EarlyWarning
 
     public class ReliefRequisitionService : IReliefRequisitionService
     {
+
         private readonly IUnitOfWork _unitOfWork;
 
+       
 
         public ReliefRequisitionService(IUnitOfWork unitOfWork)
         {
@@ -69,6 +71,8 @@ namespace Cats.Services.EarlyWarning
 
         }
 
+
+      
     }
 }
 
