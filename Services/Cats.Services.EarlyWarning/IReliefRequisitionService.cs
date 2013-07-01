@@ -18,6 +18,10 @@ namespace Cats.Services.EarlyWarning
         ReliefRequisition FindById(int id);
         List<ReliefRequisition> GetAllReliefRequisition();
         List<ReliefRequisition> FindBy(Expression<Func<ReliefRequisition, bool>> predicate);
+        IEnumerable<ReliefRequisition> Get(
+           Expression<Func<ReliefRequisition, bool>> filter = null,
+           Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
+           string includeProperties = "");
 
 
     }

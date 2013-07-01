@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -60,6 +61,13 @@ namespace Cats.Services.EarlyWarning
         public List<ReliefRequisitionDetail> FindBy(Expression<Func<ReliefRequisitionDetail, bool>> predicate)
         {
             return _unitOfWork.ReliefRequisitionDetailRepository.FindBy(predicate);
+        }
+        public IEnumerable<ReliefRequisitionDetail> Get(
+          Expression<Func<ReliefRequisitionDetail, bool>> filter = null,
+          Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>> orderBy = null,
+          string includeProperties = "")
+        {
+            return _unitOfWork.ReliefRequisitionDetailRepository.Get(filter, orderBy, includeProperties);
         }
         #endregion
 

@@ -1,4 +1,4 @@
-﻿@model  Cats.Models.ReliefRequistion
+﻿@model  Cats.Models.ReliefRequisition
 
 
 @{
@@ -13,60 +13,49 @@
         <legend>Relief Requistion</legend>
         
           
+         <div >
+            @Html.LabelFor(model => model.RegionID, "Region")
 
+            @Html.DropDownList("RegionID", String.Empty)
+            @Html.ValidationMessageFor(model => model.RegionID)
+          
+         </div> 
         <div >
-            @Html.LabelFor(model => model.ProgramId, "Program")
+            @Html.LabelFor(model => model.Round, "Round")
+        </div>
+        <div >
+            @Html.DropDownList("Round", String.Empty)
+            @Html.ValidationMessageFor(model => model.Round)
+        </div>
+        <div >
+            @Html.LabelFor(model => model.ProgramID, "Program")
 
             @Html.DropDownList("ProgramID", String.Empty)
-            @Html.ValidationMessageFor(model => model.ProgramId)
+            @Html.ValidationMessageFor(model => model.ProgramID)
           
         </div>
          <div >
-                @Html.LabelFor(model => model.RequistionDate)
+                @Html.LabelFor(model => model.RequisitionDate)
 
-                @Html.EditorFor(model => model.RequistionDate)
-                @Html.ValidationMessageFor(model => model.RequistionDate)
+                @Html.EditorFor(model => model.RequisitionDate)
+                @Html.ValidationMessageFor(model => model.RequisitionDate)
             
         </div>
         <div >
-            @Html.LabelFor(model => model.RoundId, "Round")
-        </div>
-        <div >
-            @Html.DropDownList("RoundID", String.Empty)
-            @Html.ValidationMessageFor(model => model.RoundId)
-        </div>
-
-        <div >
-            @Html.LabelFor(model => model.RegionID, "AdminUnit")
-        </div>
-        <div >
-            @Html.DropDownList("RegionID", String.Empty)
-            @Html.ValidationMessageFor(model => model.RegionID)
+            @Html.LabelFor(model => model.RequisitionNo, "Requisition Number")
+   
+            @Html.EditorFor(model=>model.RequisitionNo)
+            @Html.ValidationMessageFor(model => model.RequisitionNo)
         </div>
 
         <div >
-            @Html.LabelFor(model => model.ReferenceNumber)
+            @Html.LabelFor(model => model.ApprovedDate)
         </div>
         <div >
-            @Html.EditorFor(model => model.ReferenceNumber)
-            @Html.ValidationMessageFor(model => model.ReferenceNumber)
+            @Html.EditorFor(model => model.ApprovedDate)
+            @Html.ValidationMessageFor(model => model.ApprovedDate)
         </div>
 
-        <div >
-            @Html.LabelFor(model => model.Year)
-        </div>
-        <div >
-            @Html.EditorFor(model => model.Year)
-            @Html.ValidationMessageFor(model => model.Year)
-        </div>
-
-        <div >
-            @Html.LabelFor(model => model.Remark)
-        </div>
-        <div >
-            @Html.EditorFor(model => model.Remark)
-            @Html.ValidationMessageFor(model => model.Remark)
-        </div>
  @*  <table>
     <tr>
         <th>
