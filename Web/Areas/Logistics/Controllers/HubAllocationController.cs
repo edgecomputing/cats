@@ -26,8 +26,8 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult ApprovedRequesitions()
         {
 
-            var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition");
-            return View("View1", reliefRequisitions.ToList());
+            var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
+            return View(reliefRequisitions.ToList());
             //RequisitionViewModel vm = new RequisitionViewModel();
             //vm._reliefRequisition = header().ToList();
             //ViewBag.Detail = d().ToList();
@@ -55,10 +55,10 @@ namespace Cats.Areas.Logistics.Controllers
         {
             List<ReliefRequisition> r = new List<ReliefRequisition>();
 
-            r.Add(new ReliefRequisition() { RequisitionNo = "002", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
-               r.Add(new ReliefRequisition() { RequisitionNo = "003", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
-               r.Add(new ReliefRequisition() { RequisitionNo = "004", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
-               r.Add(new ReliefRequisition() { RequisitionNo = "005", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
+            r.Add(new ReliefRequisition() { RequisitionNo = "002", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
+            r.Add(new ReliefRequisition() { RequisitionNo = "003", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
+            r.Add(new ReliefRequisition() { RequisitionNo = "004", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
+            r.Add(new ReliefRequisition() { RequisitionNo = "005", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
                     
                
             return r;
@@ -67,10 +67,10 @@ namespace Cats.Areas.Logistics.Controllers
         private List<ReliefRequisitionDetail> d()
         {
             List<ReliefRequisitionDetail> detail = new List<ReliefRequisitionDetail>();
-            detail.Add(new ReliefRequisitionDetail()  {Amount = 2000, Beneficiaries=5678});
-            detail.Add(new ReliefRequisitionDetail() {Amount = 2000,Beneficiaries=567});
-            detail.Add( new ReliefRequisitionDetail() {Amount = 2000,Beneficiaries=56});
-            detail.Add( new ReliefRequisitionDetail() {Amount = 2000,Beneficiaries=5});
+            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 5678 });
+            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 567 });
+            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 56 });
+            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 5 });
          
             return detail;
         }

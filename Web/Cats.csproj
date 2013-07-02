@@ -314,11 +314,15 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
+
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
+
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
 
 
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
@@ -376,6 +380,10 @@
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
+      <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
+      <Name>Cats.Services.Procurement</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

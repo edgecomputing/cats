@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.RequisitionViewModel>
+﻿@model IEnumerable<Cats.Models.ReliefRequisitionDetail>
 
 @{
     ViewBag.Title = "ApprovedRequesitions";
@@ -14,35 +14,28 @@
             @Html.Label("Commodity")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RegionID)
+            @Html.Display("Region")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ZoneID)
+            @Html.Display("Zone")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Round)
+            @Html.Display("Round")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RequisitionNo)
+            @Html.Display("Req. No")
+        </th>
+       
+        <th>
+            @Html.Display("Req. Date")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RequestedBy)
+            @Html.Display("Amount")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RequestedDate)
+            @Html.Display("Beneficiaries")
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApprovedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApprovedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProgramID)
-        </th>
+       
         <th></th>
     </tr>
 
@@ -52,38 +45,31 @@
             @Html.CheckBox("test")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CommodityID)
+            @Html.DisplayFor(modelItem => item.Commodity.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RegionID)
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.ZoneID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ZoneID)
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.ZoneID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Round)
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.Round)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RequisitionNo)
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequestedDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RequestedBy)
+            @Html.DisplayFor(modelItem => item.Amount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RequestedDate)
+            @Html.DisplayFor(modelItem => item.BenficiaryNo)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApprovedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApprovedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProgramID)
-        </td>
+  
         
     </tr>
 }

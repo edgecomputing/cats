@@ -20,13 +20,23 @@ namespace Cats.Services.EarlyWarning
         List<ReliefRequisition> GetAllReliefRequisition();
         List<ReliefRequisition> FindBy(Expression<Func<ReliefRequisition, bool>> predicate);
 
+
         List<ReliefRequisition> GetApprovedRequistion();
 
-        IEnumerable<ReliefRequisition> Get(
-           Expression<Func<ReliefRequisition, bool>> filter = null,
-           Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
-           string includeProperties = "");
+        //IEnumerable<ReliefRequisition> Get(
+        //   Expression<Func<ReliefRequisition, bool>> filter = null,
+        //   Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
+        //   string includeProperties = "");
 
+
+        IEnumerable<RegionalRequest> Get(
+          Expression<Func<RegionalRequest, bool>> filter = null,
+          Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
+          string includeProperties = "");
+
+
+        bool Save();
+      
 
 
     }

@@ -64,13 +64,16 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.ReliefRequisitionRepository.FindBy(predicate);
         }
-        public IEnumerable<ReliefRequisition> Get(
-          Expression<Func<ReliefRequisition, bool>> filter = null,
-          Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
+
+        public IEnumerable<RegionalRequest> Get(
+          Expression<Func<RegionalRequest, bool>> filter = null,
+          Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
           string includeProperties = "")
         {
-            return _unitOfWork.ReliefRequisitionRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.RegionalRequestRepository.Get(filter, orderBy, includeProperties);
         }
+
+
         #endregion
 
         public List<ReliefRequisition> GetApprovedRequistion()
@@ -80,12 +83,12 @@ namespace Cats.Services.EarlyWarning
                 ProgramID=1,
                 RegionID=1,
                 RequestedBy=1,
-                RequisitionDate=DateTime.Today,
+                 RequestedDate=DateTime.Today,
                 RequisitionNo="XYZ123",
-                 Round=1,
-                 Status=1,
-                 ZoneID=1,
-                 CommodityID=1
+                Round=1,
+                Status=1,
+                ZoneID=1,
+                CommodityID=1
              
 
                 }
@@ -95,6 +98,16 @@ namespace Cats.Services.EarlyWarning
         {
             _unitOfWork.Dispose();
 
+        }
+
+
+
+
+
+        public bool Save()
+        {
+          _unitOfWork.Save();
+            return true;
         }
 
 

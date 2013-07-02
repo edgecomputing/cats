@@ -8,7 +8,15 @@ namespace Cats.Models
 {
     public class UserProfile
     {
-     
+
+        public UserProfile()
+        {
+        
+            this.ReliefRequisitions = new List<ReliefRequisition>();
+            this.ReliefRequisitions1 = new List<ReliefRequisition>();
+           
+        }
+
         public int UserProfileID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -27,6 +35,8 @@ namespace Cats.Models
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
-        public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+     
+        public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+        public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
     }
 }

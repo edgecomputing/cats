@@ -7,11 +7,12 @@
 
 <h2>Requistions</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table>
     <tr>
+        <th>
+            
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.CommodityID)
         </th>
@@ -50,6 +51,9 @@
 
 @foreach (var item in Model) {
     <tr>
+         <td>
+                <a href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.ReliefRequisitionID })">@Html.DisplayFor(modelItem => item.RequisitionNo)</a>
+            </td>
         <td>
             @Html.DisplayFor(modelItem => item.CommodityID)
         </td>

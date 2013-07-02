@@ -43,7 +43,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RegionID = 1
                                                  ,
-                                                 ReliefRequisitionID = 1
+                                                 RequisitionID = 1
                                                  ,
                                                  Status = 1
                                                  ,
@@ -53,7 +53,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RequestedBy = 1
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                          new ReliefRequisition()
@@ -70,7 +70,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RegionID = 2
                                                  ,
-                                                 ReliefRequisitionID = 2
+                                                 RequisitionID = 2
                                                  ,
                                                  Status = 1
                                                  ,
@@ -80,7 +80,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RequestedBy = 2
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                      };
@@ -306,8 +306,8 @@ namespace Cats.Tests.ControllersTests
             var requisiton = _reliefRequisitionController.CreateRequisition(regionalRequest, commodityId);
 
             Assert.AreEqual(commodityId, requisiton.CommodityID);
-            Assert.AreEqual(2, requisiton.ReliefRequisitionDetials.Count);
-            Assert.AreEqual(commodityId,requisiton.ReliefRequisitionDetials.First().CommodityID);
+            Assert.AreEqual(2, requisiton.ReliefRequisitionDetails.Count);
+            Assert.AreEqual(commodityId,requisiton.ReliefRequisitionDetails.First().CommodityID);
 
         }
 
@@ -327,9 +327,9 @@ namespace Cats.Tests.ControllersTests
            
 
             Assert.AreEqual(4, reliefRequisitions.Count);
-            Assert.IsTrue(reliefRequisitions.All(t=>commdities.Contains(t.CommodityID)));
+            Assert.IsTrue(reliefRequisitions.All(t => commdities.Contains(t.CommodityID.Value)));
            
-            Assert.IsTrue(reliefRequisitions.All(t=>t.ReliefRequisitionDetials.Count == 2));
+            Assert.IsTrue(reliefRequisitions.All(t=>t.ReliefRequisitionDetails.Count == 2));
         }
 
         [Test]

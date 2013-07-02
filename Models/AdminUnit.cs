@@ -9,9 +9,14 @@ namespace Cats.Models
         public AdminUnit()
         {
             this.AdminUnit1 = new List<AdminUnit>();
+            this.BidDetails = new List<BidDetail>();
             this.FDPs = new List<FDP>();
+            this.RegionalRequests = new List<RegionalRequest>();
+            this.ReliefRequisitions = new List<ReliefRequisition>();
+            this.ReliefRequisitions1 = new List<ReliefRequisition>();
+           
         }
-        [Key]
+
         public int AdminUnitID { get; set; }
         public string Name { get; set; }
         public string NameAM { get; set; }
@@ -20,8 +25,11 @@ namespace Cats.Models
         public virtual ICollection<AdminUnit> AdminUnit1 { get; set; }
         public virtual AdminUnit AdminUnit2 { get; set; }
         public virtual AdminUnitType AdminUnitType { get; set; }
+        public virtual ICollection<BidDetail> BidDetails { get; set; }
         public virtual ICollection<FDP> FDPs { get; set; }
-        public ICollection<RegionalRequest> RegionalRequests { get; set; }
-        public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+        public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
+        public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+        public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
+       
     }
 }
