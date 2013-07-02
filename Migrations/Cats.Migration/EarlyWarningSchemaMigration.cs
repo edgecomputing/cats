@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentMigrator;
+﻿using FluentMigrator;
 
-namespace Cats.Migration
+namespace Cats.DatabaseMigrations
 {
     [Migration(201306201648)]
-    public class EarlyWarningSchemaMigration : FluentMigrator.Migration
+    public class EarlyWarningSchemaMigration : Migration
     {
         public override void Up()
         {

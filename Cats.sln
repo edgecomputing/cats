@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Models", "Models\Cats.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{0809144E-2611-4126-A5A0-1FB24F7EFC23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Migration", "Migrations\Cats.Migration\Cats.Migration.csproj", "{3181270A-8BF3-4640-988E-2AA1DCBE83FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.DatabaseMigrations", "Migrations\Cats.Migration\Cats.DatabaseMigrations.csproj", "{3181270A-8BF3-4640-988E-2AA1DCBE83FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CE32461E-5478-4B6E-B80B-0160001FC77E}"
 	ProjectSection(SolutionItems) = preProject
