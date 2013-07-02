@@ -9,12 +9,14 @@ namespace Cats.DatabaseMigrations
         {
             Create.Schema("EarlyWarning");           
             Create.Schema("Logistics");
+           
         }
 
         public override void Down()
         {
             Delete.Schema("EarlyWarning");
             Delete.Schema("Logistics");
+           
         }
     }
 }
