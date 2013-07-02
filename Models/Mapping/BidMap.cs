@@ -15,7 +15,7 @@ namespace Cats.Models.Mapping
                 .IsRequired();
           
             // Table & Column Mappings
-            this.ToTable("Procurement.Bid");
+            this.ToTable("dbo.Bid");
             this.Property(t => t.BidID).HasColumnName("BidID");
             this.Property(t => t.StartDate).HasColumnName("StartDate");
             this.Property(t => t.EndDate).HasColumnName("EndDate");

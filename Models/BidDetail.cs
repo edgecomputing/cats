@@ -11,8 +11,8 @@ namespace Cats.Models
         public int BidDetailID { get; set; }
         public int BidID { get; set; }
         public int RegionID { get; set; }
-        public Decimal AmountForReliefProgram { get; set; }
-        public Decimal AmountForPSNPProgram { get; set; }
+        public decimal AmountForReliefProgram { get; set; }
+        public decimal AmountForPSNPProgram { get; set; }
         public float BidDocumentPrice { get; set; }
         public float CBO { get; set; }
 

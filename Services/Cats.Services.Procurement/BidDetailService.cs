@@ -4,7 +4,7 @@ using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
 
-namespace Cats.Services.EarlyWarning
+namespace Cats.Services.Procurement
 {
     public class BidDetailService : IBidDetailService
     {

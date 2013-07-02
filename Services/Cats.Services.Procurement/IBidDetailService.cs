@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Models;
 
-namespace Cats.Services.EarlyWarning
+namespace Cats.Services.Procurement
 {
     public interface IBidDetailService
     {

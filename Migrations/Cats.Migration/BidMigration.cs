@@ -27,7 +27,7 @@ namespace Cats.DatabaseMigrations
             //Relationship
             Create.ForeignKey("FK_BidDetail_Bid")
               .FromTable("BidDetail").InSchema("Procurement").ForeignColumn("BidID")
-              .ToTable("Bid").InSchema("Procurement").PrimaryColumn("BidID");
+              .ToTable("Bid").InSchema("dbo").PrimaryColumn("BidID");
 
             Create.ForeignKey("FK_BidDetail_AdminUnit")
              .FromTable("BidDetail").InSchema("Procurement").ForeignColumn("RegionID")
@@ -39,7 +39,7 @@ namespace Cats.DatabaseMigrations
         public override void Down()
         {
 
-            Delete.Table("Bid").InSchema("Procurement");
+            Delete.Table("Bid").InSchema("dbo");
             Delete.Table("BidDetail").InSchema("Procurement");
         }
     }
