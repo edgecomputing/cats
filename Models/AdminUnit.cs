@@ -10,6 +10,7 @@ namespace Cats.Models
         {
             this.AdminUnit1 = new List<AdminUnit>();
             this.FDPs = new List<FDP>();
+            this.BidDetails=new List<BidDetail>();
         }
         [Key]
         public int AdminUnitID { get; set; }
@@ -23,5 +24,6 @@ namespace Cats.Models
         public virtual ICollection<FDP> FDPs { get; set; }
         public ICollection<RegionalRequest> RegionalRequests { get; set; }
         public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+        public ICollection<BidDetail> BidDetails { get; set; } 
     }
 }
