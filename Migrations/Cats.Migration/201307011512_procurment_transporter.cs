@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentMigrator;
+﻿using FluentMigrator;
 
-namespace Cats.Migration
+namespace Cats.DatabaseMigrations
 {
     [Migration(201307011512)]
-    public class ProcurementSchemaMigration : FluentMigrator.Migration
+    public class ProcurementSchemaMigration : Migration
     {
         public override void Up()
         {

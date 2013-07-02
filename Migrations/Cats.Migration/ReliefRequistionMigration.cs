@@ -1,9 +1,9 @@
 ﻿using FluentMigrator;
 
-namespace Cats.Migration
+namespace Cats.DatabaseMigrations
 {
     [Migration(201306211026)]
-    public class ReliefRequistionMigration : FluentMigrator.Migration
+    public class ReliefRequistionMigration : Migration
     {
         public override void Up()
         {
