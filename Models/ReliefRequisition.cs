@@ -13,15 +13,15 @@ namespace Cats.Models
         {
             this.ReliefRequisitionDetials=new List<ReliefRequisitionDetail>();
         }
-        
-        public int ReliefRequisitionID { get; set; }
+
+        public int RequisitionID { get; set; }
         public int CommodityID { get; set; }
         public int RegionID { get; set; }
         public int ZoneID { get; set; }
         public int Round { get; set; }
         public string RequisitionNo { get; set; }
         public int RequestedBy { get; set; }
-        public DateTime RequisitionDate { get; set; }
+        public DateTime RequestedDate { get; set; }
         public int ApprovedBy { get; set; }
         public DateTime ApprovedDate { get; set; }
         public int Status { get; set; }

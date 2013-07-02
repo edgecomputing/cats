@@ -190,8 +190,16 @@ namespace Cats.Data.UnitWork
 
 
 
-      
-      
+
+        private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+
+        public IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository
+        {
+
+            get { return this.requisitionViewModelRepository ?? (this.requisitionViewModelRepository = new GenericRepository<RequisitionViewModel>(_context)); }
+
+        }
+
       
 
 

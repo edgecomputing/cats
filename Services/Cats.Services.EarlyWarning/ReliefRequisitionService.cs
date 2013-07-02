@@ -63,6 +63,24 @@ namespace Cats.Services.EarlyWarning
         }
         #endregion
 
+        public List<ReliefRequisition> GetApprovedRequistion()
+        {
+            return new List<ReliefRequisition>(){
+                new ReliefRequisition(){
+                ProgramID=1,
+                RegionID=1,
+                RequestedBy=1,
+                RequestedDate=DateTime.Today,
+                RequisitionNo="XYZ123",
+                 Round=1,
+                 Status=1,
+                 ZoneID=1,
+                 CommodityID=1
+             
+
+                }
+            };
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

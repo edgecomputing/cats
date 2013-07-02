@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models.ViewModels;
@@ -16,76 +15,61 @@ namespace Cats.Areas.Logistics.Controllers
         //
         // GET: /Logistics/HubAllocation/
 
-       /* private IReliefRequistionService _reliefRequistionService;
-        public HubAllocationController(IReliefRequistionService reliefRequistionService)
+        private IReliefRequisitionService _reliefRequistionService;
+        public HubAllocationController(IReliefRequisitionService reliefRequistionService)
         {
             _reliefRequistionService = reliefRequistionService;
-        }*/
-        public List<RequisitionHub> GetAllReliefRequistion()
-        {
-            //var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
-            List<RequisitionHub> reliefrequistions = new List<RequisitionHub>();
-            RequisitionHub rr1 = 
-                new RequisitionHub 
-                {  
-                    ReliefRequistionId=1, 
-                    Region = "Oromia", 
-                    RequestedAmount=123455.0,
-                    RequestedItem=new Commodity{CommodityID=1,Name="Grain"}, 
-                    ReferenceNumber = "123", Remark = "Fake on the fly rr",
-                    Input = new RequisitionHub.RequestHubAssignment()
-                        {
-                            HubID = 0,
-                            ReliefRequistionID=1
-                        }
-
-                };
-            RequisitionHub rr2 = 
-                new RequisitionHub 
-                {  
-                    ReliefRequistionId=2, 
-                    Region = "Afar", 
-                    RequestedAmount=123455.0,
-                    RequestedItem=new Commodity{CommodityID=1,Name="Grain"}, 
-                    ReferenceNumber = "123", Remark = "Fake on the fly rr",
-                    Input = new RequisitionHub.RequestHubAssignment()
-                        {
-                            HubID = 0,
-                            ReliefRequistionID=2
-                        }
-
-                };
-
-
-
-            IHubService _hubservices = new HubService();
-            ViewBag.AllHubs = _hubservices.GetAllHub();
-            rr1.Input.ReliefRequistionID = rr1.ReliefRequistionId; 
-            reliefrequistions.Add(rr1);
-            reliefrequistions.Add(rr2);
-            return reliefrequistions;
         }
-        public ActionResult Index()
+
+
+        public ActionResult ApprovedRequesitions()
         {
 
-           //var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
-            List<RequisitionHub> reliefrequistions = GetAllReliefRequistion();
-            return View(reliefrequistions.ToList());//reliefrequistions.ToList());
+            RequisitionViewModel vm = new RequisitionViewModel();
+            vm._reliefRequisition = header().ToList();
+            ViewBag.Detail = d().ToList();
+            return View("View1", vm);
+           
+
         }
+
+        [HttpPost]
+        public ActionResult SelectHub(RequisitionViewModel requisition)
+        {
+            return View("hubAllocation",requisition);
+        }
+
+
         [HttpPost]
         public ActionResult Edit(List<RequisitionHub.RequestHubAssignment> input)
         {
-           
+
             return View(input);
-
-            //var reliefrequistions = _reliefRequistionService.GetAllReliefRequistion();
-            //return View(reliefrequistions.ToList());
-
-            
 
         }
 
-        // public ActionResult
+        private List<ReliefRequisition> header()
+        {
+            List<ReliefRequisition> r = new List<ReliefRequisition>();
+           
+               r.Add(new ReliefRequisition() { RequisitionNo="002",RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now });
+               r.Add(new ReliefRequisition() { RequisitionNo="003",RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now});
+               r.Add(new ReliefRequisition() { RequisitionNo="004", RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now});
+               r.Add(new  ReliefRequisition(){ RequisitionNo="005", RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now});
+                    
+               
+            return r;
+        }
 
+        private List<ReliefRequisitionDetail> d()
+        {
+            List<ReliefRequisitionDetail> detail = new List<ReliefRequisitionDetail>();
+            detail.Add(new ReliefRequisitionDetail()  {Amount = 2000, Beneficiaries=5678});
+            detail.Add(new ReliefRequisitionDetail() {Amount = 2000,Beneficiaries=567});
+            detail.Add( new ReliefRequisitionDetail() {Amount = 2000,Beneficiaries=56});
+            detail.Add( new ReliefRequisitionDetail() {Amount = 2000,Beneficiaries=5});
+         
+            return detail;
+        }
     }
 }

@@ -18,8 +18,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<AllocationModelDetail> AllocationModelDetailRepository { get; }
         IGenericRepository<Hub> HubRepository { get; }
         IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository { get; }
-        IGenericRepository<ReliefRequisition> ReliefRequisitionRepository { get; } 
-
+        IGenericRepository<ReliefRequisition> ReliefRequisitionRepository { get; }
+        IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository { get; }
         void Save();
 
     }

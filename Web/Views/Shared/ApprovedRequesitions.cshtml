@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Cats.Models.RequisitionViewModel>
+
+@{
+    ViewBag.Title = "ApprovedRequesitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>ApprovedRequesitions</h2>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.Label("Commodity")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZoneID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Round)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequisitionNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApprovedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApprovedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProgramID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.CheckBox("test")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommodityID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZoneID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Round)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequisitionNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApprovedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApprovedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProgramID)
+        </td>
+        
+    </tr>
+}
+
+</table>

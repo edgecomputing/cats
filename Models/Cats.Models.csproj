@@ -74,6 +74,7 @@
     <Compile Include="ViewModels\AllocationViewModel.cs" />
     <Compile Include="ViewModels\AllocationModelDetail.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />
+    <Compile Include="ViewModels\RequisitionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

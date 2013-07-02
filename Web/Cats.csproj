@@ -145,11 +145,8 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
-
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
-
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Models\Month.cs" />
@@ -213,6 +210,7 @@
     <Content Include="Content\assets\js\bootstrap-button.js" />
     <Content Include="Content\assets\js\bootstrap-carousel.js" />
     <Content Include="Content\assets\js\bootstrap-collapse.js" />
+    <Content Include="Content\assets\js\bootstrap-datepicker.js" />
     <Content Include="Content\assets\js\bootstrap-dropdown.js" />
     <Content Include="Content\assets\js\bootstrap-modal.js" />
     <Content Include="Content\assets\js\bootstrap-popover.js" />
@@ -291,15 +289,13 @@
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
-
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
-
+    <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
+    <Content Include="Views\Shared\hubAllocation.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -332,6 +328,7 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\View1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
