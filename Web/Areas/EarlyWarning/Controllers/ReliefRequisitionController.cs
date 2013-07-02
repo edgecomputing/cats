@@ -152,8 +152,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                            RequestedDate = DateTime.Today
                                                //TODO:Please find another way how to specify Requistion No
                                            ,
-                                           RequisitionNo = Guid.NewGuid().ToString()
-
+                                           RequisitionNo = Guid.NewGuid().ToString(),
+                             RegionID = regionalRequest.RegionID,
+                             //ZoneID = regionalRequest.zoneId,
+                             Status=1,
+                             //RequestedBy =itm.RequestedBy,
+                             //ApprovedBy=itm.ApprovedBy,
+                             //ApprovedDate=itm.ApprovedDate,
 
                                        };
             var relifRequistionDetail = (from requestDetail in regionalRequest.RegionalRequestDetails
