@@ -69,6 +69,12 @@ namespace Cats.Services.EarlyWarning
 
         }
 
+
+
+        public int GetCommoidtyId(string commodityName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

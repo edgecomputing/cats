@@ -51,6 +51,8 @@
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
+    <Compile Include="DispatchAllocation.cs" />
+    <Compile Include="DispatchAllocationDetail.cs" />
     <Compile Include="Donor.cs" />
     <Compile Include="FDP.cs" />
     <Compile Include="Hub.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
+    <Compile Include="Transporter.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\AllocationViewModel.cs" />
     <Compile Include="ViewModels\AllocationModelDetail.cs" />
