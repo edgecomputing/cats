@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 
@@ -37,12 +38,64 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
-            var reliefRequistion = CreateRequistionFromRequest(id);
+            //Check if Requisition is created from this request
+
+            var regionalRequest = _regionalRequestService.FindById(id);
+            if(regionalRequest ==null ) return null;
+
+            var reliefRequistions = CreateRequistionFromRequest(id);
+            foreach (var reliefRequisition in reliefRequistions)
+            {
+                _reliefRequisitionService.AddReliefRequisition(reliefRequisition);
+            }
+            _reliefRequisitionService.Save();
+
+
+            var input = (from itm in reliefRequistions
+                         select new ReliefRequisitionNew()
+                         {
+                             CommodityID  = itm.CommodityID,
+                             ProgramID = itm.ProgramID,
+                             RegionID = itm.RegionID,
+                             Round = itm.Round,
+                             ZoneID = itm.ZoneID,
+                             Status=itm.Status,
+                             ReliefRequisitionID =itm.ReliefRequisitionID,
+                             RequestedBy =itm.RequestedBy,
+                             ApprovedBy=itm.ApprovedBy,
+                             RequisitionDate = itm.RequisitionDate,
+                             ApprovedDate=itm.ApprovedDate,
+                             Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
+                             {
+                                 Number = itm.ReliefRequisitionID,
+                                RequisitionNo=itm.RequisitionNo
+                             }
+                         });
+            return View(input);
             
-            var reliefView = View(reliefRequistion);
-            return reliefView;
+          
         }
 
+        [HttpPost]
+        public ActionResult NewRequisiton(List<ReliefRequisitionNew.ReliefRequisitionNewInput> inputs )
+        {
+            var requId = 0;
+            foreach (var reliefRequisitionNewInput in inputs)
+            {
+
+                var tempReliefRequisiton =
+                    _reliefRequisitionService.FindById(reliefRequisitionNewInput.Number);
+             //   requId = tempReliefRequistionDetail.RegionalRequestID;
+                tempReliefRequisiton.RequisitionNo = reliefRequisitionNewInput.RequisitionNo;
+              
+
+            }
+            _reliefRequisitionService.Save();
+
+
+
+            return RedirectToAction("Requistions", "ReliefRequisition");
+        }
         public  List<ReliefRequisition> CreateRequistionFromRequest(int requestId)
         {
             //Note Here we are going to create 4 requistion from one request
