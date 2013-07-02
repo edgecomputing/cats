@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -12,8 +13,10 @@ namespace Cats.Services.EarlyWarning
 
     public class ReliefRequisitionService : IReliefRequisitionService
     {
+
         private readonly IUnitOfWork _unitOfWork;
 
+       
 
         public ReliefRequisitionService(IUnitOfWork unitOfWork)
         {
@@ -61,6 +64,13 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.ReliefRequisitionRepository.FindBy(predicate);
         }
+        public IEnumerable<ReliefRequisition> Get(
+          Expression<Func<ReliefRequisition, bool>> filter = null,
+          Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
+          string includeProperties = "")
+        {
+            return _unitOfWork.ReliefRequisitionRepository.Get(filter, orderBy, includeProperties);
+        }
         #endregion
 
         public List<ReliefRequisition> GetApprovedRequistion()
@@ -70,7 +80,7 @@ namespace Cats.Services.EarlyWarning
                 ProgramID=1,
                 RegionID=1,
                 RequestedBy=1,
-                RequestedDate=DateTime.Today,
+                RequisitionDate=DateTime.Today,
                 RequisitionNo="XYZ123",
                  Round=1,
                  Status=1,
@@ -87,6 +97,8 @@ namespace Cats.Services.EarlyWarning
 
         }
 
+
+      
     }
 }
 

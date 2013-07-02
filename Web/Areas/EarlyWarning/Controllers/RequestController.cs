@@ -61,7 +61,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var relifRequisition = new RegionalRequest();
 
-
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
             //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
@@ -155,13 +154,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-
-       
-       
         [HttpPost]
         public ActionResult New(RegionalRequest reliefRequistion)
         {
-            if (reliefRequistion != null)
+            
+            
+            if (ModelState.IsValid)
             {
                 //TODO:Filter with selected region
                 var fdpList = _fdpService.FindBy(t=>t.AdminUnit.AdminUnit2.ParentID==reliefRequistion.RegionID);

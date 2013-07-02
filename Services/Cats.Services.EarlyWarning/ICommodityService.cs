@@ -19,7 +19,7 @@ namespace Cats.Services.EarlyWarning
         List<Commodity> GetAllCommodity();
         List<Commodity> FindBy(Expression<Func<Commodity, bool>> predicate);
 
-
+        int GetCommoidtyId(string commodityName);
     }
 }
 

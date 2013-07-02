@@ -38,7 +38,7 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ReferenceNumber)
-        </th>
+        </th>        
         <th>
             @Html.DisplayNameFor(model => model.RequistionDate)
         </th>
@@ -54,6 +54,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Year)
         </th>
+        <th>Status</th>
         <th></th>
     </tr>
 
@@ -73,11 +74,12 @@
                 @Html.DisplayFor(modelItem => item.Round)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdminUnit.Name)
+                @Html.DisplayFor(modelItem=> item.AdminUnit.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Year)
             </td>
+            <th></th>
             <td>
 
                 <div class="btn-group">

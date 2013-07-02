@@ -1,4 +1,4 @@
-﻿@model Cats.Models.RequisitionViewModel
+﻿@model IEnumerable<Cats.Models.ReliefRequisitionDetail>
 
 @{
     ViewBag.Title = "hubAllocation";
@@ -74,31 +74,36 @@
 
        
   @{int index = 0;}
-@foreach (var item in Model._reliefRequisition)
+@foreach (var item in Model)
 {
 
     <tr>
         <td>
             @Html.CheckBox("requests")
         </td>
-        <td>
+       <td>
             @item.Commodity
+            
+        <td>
+            @item.ReliefRequisition.RequisitionNo
+            
         </td>
         <td>
-            @item.RequisitionNo
+            @item.ReliefRequisition.RequisitionDate
+           
         </td>
         <td>
-            @item.RequestedDate
-        </td>
-        <td>
-            @item.ApprovedDate
+            @item.ReliefRequisition.ApprovedDate
+           
         </td>
    
         <td>
-          @ViewBag.Detail[index].Amount
+          @item.Amount
+             
         </td>
          <td>
-            @ViewBag.Detail[index].Beneficiaries
+            @item.Beneficiaries
+            
         </td>
     
         </tr>

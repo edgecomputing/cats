@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
+using Cats.Models;
 
 namespace Cats.Data.UnitWork
 {
@@ -26,7 +27,12 @@ namespace Cats.Data.UnitWork
         /// ReliefRequistionRepository
         /// </summary>
         /// 
+        private IGenericRepository<DispatchAllocation> dispatchAllocationRepository;
+        public IGenericRepository<DispatchAllocation> DispatchAllocationRepository
+        {
+            get { return this.dispatchAllocationRepository ?? (this.dispatchAllocationRepository = new GenericRepository<DispatchAllocation>(_context)); }
 
+        }
 
         private IGenericRepository<RegionalRequest> regionalRequestRepository;
 
@@ -188,7 +194,14 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<Transporter> transporterRepository;
 
+        public IGenericRepository<Transporter> TransporterRepository
+        {
+
+            get { return this.transporterRepository ?? (this.transporterRepository = new GenericRepository<Transporter>(_context)); }
+
+        }
 
 
         private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;

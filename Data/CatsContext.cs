@@ -1,6 +1,8 @@
 ﻿using System.Data.Entity;
 using Cats.Models;
 using Cats.Models.Mapping;
+using System.Data.Entity.ModelConfiguration.Conventions;
+
 
 namespace Cats.Data
 {
@@ -25,8 +27,8 @@ namespace Cats.Data
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
         public DbSet<Hub> Hubs { get; set; }
-
-        //public DbSet<OrderDeatil> OrderDeatils { get; set; }
+        public DbSet<DispatchAllocation> DispatchAllocations { get; set; }
+        public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         //public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -44,7 +46,10 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new AdminUnitTypeMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             //modelBuilder.Configurations.Add(new ProductMap());
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
         }
+
+        public DbSet<Transporter> Transporters { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Cats.Models.RequisitionViewModel
+﻿@model IEnumerable<Cats.Models.ReliefRequisitionDetail>
 
 @{
     ViewBag.Title = "";
@@ -38,7 +38,7 @@
     </tr>
 
     @{int index = 0;}
-@foreach (var item in Model._reliefRequisition)
+@foreach (var item in Model)
 {
 
     <tr>
@@ -48,27 +48,27 @@
         </td>
         <td>
             @item.Commodity
-             @Html.HiddenFor(i=>i._reliefRequisition[index].Commodity)
+             @Html.HiddenFor(modelitem=>item.Commodity)
         </td>
         <td>
-            @item.RequisitionNo
-            @Html.HiddenFor(i=>i._reliefRequisition[index].RequisitionNo)
+            @item.ReliefRequisition.RequisitionNo
+            @Html.HiddenFor(modelitem=>item.ReliefRequisition.RequisitionNo)
         </td>
         <td>
-            @item.RequestedDate
-            @Html.HiddenFor(i=>i._reliefRequisition[index].RequestedDate)
+            @item.ReliefRequisition.RequisitionDate
+            @Html.HiddenFor(modelitem=>item.ReliefRequisition.RequisitionDate)
         </td>
         <td>
-            @item.ApprovedDate
-            @Html.HiddenFor(i=>i._reliefRequisition[index].ApprovedDate)
+            @item.ReliefRequisition.ApprovedDate
+            @Html.HiddenFor(modelitem=>item.ReliefRequisition.ApprovedDate)
         </td>
    
         <td>
-          @ViewBag.Detail[index].Amount
-             @Html.Hidden("Sku", @ViewBag.SkuCategory);
+          @item.Amount
+             
         </td>
          <td>
-            @ViewBag.Detail[index].Beneficiaries
+            @item.Beneficiaries
             
         </td>
     

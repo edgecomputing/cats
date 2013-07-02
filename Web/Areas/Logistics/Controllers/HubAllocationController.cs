@@ -15,28 +15,31 @@ namespace Cats.Areas.Logistics.Controllers
         //
         // GET: /Logistics/HubAllocation/
 
-        private IReliefRequisitionService _reliefRequistionService;
-        public HubAllocationController(IReliefRequisitionService reliefRequistionService)
+        //private IReliefRequisitionService _reliefRequistionService;
+        private IReliefRequisitionDetailService _reliefRequisitionDetailService;
+        public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService)
         {
-            _reliefRequistionService = reliefRequistionService;
+            _reliefRequisitionDetailService = reliefRequisitionDetailService;
         }
 
 
         public ActionResult ApprovedRequesitions()
         {
 
-            RequisitionViewModel vm = new RequisitionViewModel();
-            vm._reliefRequisition = header().ToList();
-            ViewBag.Detail = d().ToList();
-            return View("View1", vm);
+            var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition");
+            return View("View1", reliefRequisitions.ToList());
+            //RequisitionViewModel vm = new RequisitionViewModel();
+            //vm._reliefRequisition = header().ToList();
+            //ViewBag.Detail = d().ToList();
+            
            
 
         }
 
         [HttpPost]
-        public ActionResult SelectHub(RequisitionViewModel requisition)
+        public ActionResult SelectHub(ReliefRequisitionDetail requisitionDetail)
         {
-            return View("hubAllocation",requisition);
+            return View("hubAllocation", requisitionDetail);
         }
 
 
@@ -51,11 +54,11 @@ namespace Cats.Areas.Logistics.Controllers
         private List<ReliefRequisition> header()
         {
             List<ReliefRequisition> r = new List<ReliefRequisition>();
-           
-               r.Add(new ReliefRequisition() { RequisitionNo="002",RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now });
-               r.Add(new ReliefRequisition() { RequisitionNo="003",RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now});
-               r.Add(new ReliefRequisition() { RequisitionNo="004", RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now});
-               r.Add(new  ReliefRequisition(){ RequisitionNo="005", RequestedDate=DateTime.Now,ApprovedDate=DateTime.Now});
+
+            r.Add(new ReliefRequisition() { RequisitionNo = "002", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
+               r.Add(new ReliefRequisition() { RequisitionNo = "003", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
+               r.Add(new ReliefRequisition() { RequisitionNo = "004", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
+               r.Add(new ReliefRequisition() { RequisitionNo = "005", RequisitionDate = DateTime.Now, ApprovedDate = DateTime.Now });
                     
                
             return r;

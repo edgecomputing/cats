@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Cats.Models.Transporter>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelephoneNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MobileNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiftCapacityTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Capital)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeCountMale)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelephoneNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MobileNo)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.LiftCapacityTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Capital)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeCountMale)
+        </td>
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransporterID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TransporterID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TransporterID })
+        </td>
+    </tr>
+}
+
+</table>

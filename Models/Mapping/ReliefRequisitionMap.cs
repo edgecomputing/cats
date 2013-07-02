@@ -7,7 +7,7 @@ namespace Cats.Models.Mapping
         public ReliefRequisitionMap()
         {
             // Primary Key
-            this.HasKey(t => t.RequisitionID);
+            this.HasKey(t => t.ReliefRequisitionID);
 
             //// Properties
             //this.Property(t => t.RequistionDate)
@@ -17,16 +17,16 @@ namespace Cats.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("EarlyWarning.ReliefRequisition");
-            this.Property(t => t.RequisitionID).HasColumnName("RequisitionID");
+            this.Property(t => t.ReliefRequisitionID).HasColumnName("ReliefRequisitionID");
             this.Property(t => t.RegionID).HasColumnName("RegionID");
-            this.Property(t => t.RequestedDate).HasColumnName("RequestedDate");
+            this.Property(t => t.RequisitionDate).HasColumnName("RequisitionDate");
             this.Property(t => t.ProgramID).HasColumnName("ProgramID");
             this.Property(t => t.Round).HasColumnName("Round");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.RequestedBy).HasColumnName("RequestedBy");
             this.Property(t => t.ApprovedBy).HasColumnName("ApprovedBy");
             this.Property(t => t.ApprovedDate).HasColumnName("ApprovedDate");
-            this.Property(t => t.RequestedDate).HasColumnName("RequestedDate");
+            this.Property(t => t.RequisitionDate).HasColumnName("RequisitionDate");
             this.Property(t => t.Status).HasColumnName("Status");
             this.Property(t=>t.ZoneID).HasColumnName("ZoneID");
             // Relationships
