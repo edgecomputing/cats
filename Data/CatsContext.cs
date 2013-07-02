@@ -3,6 +3,7 @@ using Cats.Models;
 using Cats.Models.Mapping;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
+
 namespace Cats.Data
 {
     public partial class CatsContext : DbContext
@@ -48,5 +49,7 @@ namespace Cats.Data
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
         }
+
+        public DbSet<Transporter> Transporters { get; set; }
     }
 }

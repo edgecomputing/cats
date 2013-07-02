@@ -150,10 +150,13 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
+
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Models\CatsContext2.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
     <Compile Include="Global.asax.cs">
@@ -302,6 +305,12 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
+
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -339,7 +348,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Procurement\Controllers\" />
     <Folder Include="Areas\Procurement\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
