@@ -66,6 +66,7 @@
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionMap.cs" />
+    <Compile Include="Mapping\TransporterMap.cs" />
     <Compile Include="MetaData\RegionalRequestDetailMeta.cs" />
     <Compile Include="MetaData\RegionalRequestMeta.cs" />
     <Compile Include="Partials\RegionalRequestDetail.cs" />
@@ -84,7 +85,9 @@
     <Compile Include="ViewModels\RequisitionHub.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

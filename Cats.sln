@@ -12,6 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{3AE65677-72B6-4B81-B374-9CC70B68A9BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats", "Web\Cats.csproj", "{F8991E39-B399-4BAF-8515-F62B28A604BE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B0410B11-91E0-40EC-9F16-55FC5E2C4090} = {B0410B11-91E0-40EC-9F16-55FC5E2C4090}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Data", "Data\Cats.Data.csproj", "{7CF78855-5A90-441F-9ACC-FAFBD1CAD68A}"
 EndProject
