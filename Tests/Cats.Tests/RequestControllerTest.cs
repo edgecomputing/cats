@@ -37,9 +37,9 @@ namespace Cats.Tests
             ;
             List<Commodity> commodityTest = new List<Commodity>
                 {
-                    new Commodity { CommodityID = 5, Name = "Yellow Wheat",LongName = "",CommodityTypeID = 1, ParentID = 1 },
-                    new Commodity { CommodityID = 6, Name = "Green Wheat",LongName = "",CommodityTypeID = 1, ParentID = 1 },
-                    new Commodity { CommodityID = 8, Name = "Beans",LongName = "",CommodityTypeID = 1, ParentID = 3 },
+                    new Commodity { CommodityID = 5, Name = "Grain",LongName = "",CommodityTypeID = 1, ParentID = 1 },
+                    new Commodity { CommodityID = 6, Name = "Oil",LongName = "",CommodityTypeID = 1, ParentID = 1 },
+                    new Commodity { CommodityID = 8, Name = "CSB",LongName = "",CommodityTypeID = 1, ParentID = 3 },
                };
 
             //Mock the Regional Request Service Using Moq 
