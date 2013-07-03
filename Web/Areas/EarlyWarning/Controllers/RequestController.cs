@@ -56,6 +56,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(reliefrequistions.ToList());
         }
 
+        public ActionResult SubmittedRequest()
+        {
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
+
+            var reliefrequistions = _reliefRequistionService.Get(null, null, "AdminUnit,Program");
+            return View(reliefrequistions.ToList());
+        }
+
+        [HttpPost]
+         public ActionResult SubmittedRequest(int year, int month)
+        {
+            // TODO: Filter the collection using incoming parameters
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+
+            var reliefrequistions = _reliefRequistionService.Get(r=>r.RequistionDate.Year==year && r.RequistionDate.Month==month, null, "AdminUnit,Program");
+
+            return View(reliefrequistions.ToList());
+        }
+        
+
+
         [HttpGet]
         public ActionResult New()
         {

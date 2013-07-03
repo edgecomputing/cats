@@ -151,7 +151,10 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
+    <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -217,6 +220,7 @@
     <Content Include="Content\assets\js\bootstrap-button.js" />
     <Content Include="Content\assets\js\bootstrap-carousel.js" />
     <Content Include="Content\assets\js\bootstrap-collapse.js" />
+    <Content Include="Content\assets\js\bootstrap-datepicker.js" />
     <Content Include="Content\assets\js\bootstrap-dropdown.js" />
     <Content Include="Content\assets\js\bootstrap-modal.js" />
     <Content Include="Content\assets\js\bootstrap-popover.js" />
@@ -301,6 +305,8 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
+    <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
+    <Content Include="Views\Shared\hubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
@@ -311,6 +317,12 @@
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -343,6 +355,7 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\View1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -365,6 +378,10 @@
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
+      <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
+      <Name>Cats.Services.Procurement</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

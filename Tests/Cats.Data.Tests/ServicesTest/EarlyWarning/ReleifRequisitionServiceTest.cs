@@ -55,7 +55,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RegionID = 1
                                                  ,
-                                                 ReliefRequisitionID = 1
+                                                 RequisitionID = 1
                                                  ,
                                                  Status = 1
                                                  ,
@@ -65,7 +65,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RequestedBy = 1
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                          new ReliefRequisition()
@@ -82,7 +82,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RegionID = 2
                                                  ,
-                                                 ReliefRequisitionID = 2
+                                                 RequisitionID = 2
                                                  ,
                                                  Status = 1
                                                  ,
@@ -92,7 +92,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RequestedBy = 2
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                      };
@@ -144,7 +144,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RegionID = 1
                                                  ,
-                                                 ReliefRequisitionID = 1
+                                                 RequisitionID = 1
                                                  ,
                                                  Status = 1
                                                  ,
@@ -154,7 +154,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RequestedBy = 1
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                          new ReliefRequisition()
@@ -171,7 +171,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RegionID = 2
                                                  ,
-                                                 ReliefRequisitionID = 2
+                                                 RequisitionID = 2
                                                  ,
                                                  Status = 1
                                                  ,
@@ -181,7 +181,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                  ,
                                                  RequestedBy = 2
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                      };
@@ -191,7 +191,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                                  FirstOrDefault(
                                                                                                      t =>
                                                                                                      t.
-                                                                                                         ReliefRequisitionID ==
+                                                                                                          RequisitionID ==
                                                                                                      id));
 
             //Here we are going to mock our IUnitOfWork
@@ -209,12 +209,12 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
 
             //Act
             var expectedRequistion = relifRequistionService.FindById(1);
-            var actualRequistion = requisitonList.Find(t => t.ReliefRequisitionID == 1);
+            var actualRequistion = requisitonList.Find(t => t.RequisitionID == 1);
 
 
             //Assert
 
-            Assert.AreEqual(expectedRequistion.ReliefRequisitionID, actualRequistion.ReliefRequisitionID);
+            Assert.AreEqual(expectedRequistion.RequisitionID, actualRequistion.RequisitionID);
             Assert.AreSame(expectedRequistion,actualRequistion);
 
 
