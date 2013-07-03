@@ -37,6 +37,7 @@
 	            <label class="control-label">Hubs</label>
 	            <div class="controls">
 	                <div class="input-prepend">
+                     @Html.DropDownList("Country", ViewData["Hubs"] as SelectList)
 	               <select class="selectpicker">
 
 	               </select>
@@ -47,6 +48,11 @@
     </form>
     </div>
  </div>
+@using (Html.BeginForm("hubAllocation", "HubAllocation", FormMethod.Post, Model))
+{
+<fieldset>
+    <legend>Approved Requisitions</legend>
+</fieldset>
 <div class="container">
     <table  class="table table-striped table-bordered">
     <tr>
@@ -83,27 +89,27 @@
         </td>
        <td>
             @item.Commodity
-            
+            @Html.HiddenFor(modelitem=>item.Commodity)
         <td>
             @item.ReliefRequisition.RequisitionNo
-            
+             @Html.HiddenFor(modelitem=>item.ReliefRequisition.RequisitionNo)
         </td>
         <td>
-            @item.ReliefRequisition.RequisitionDate
-           
+            @item.ReliefRequisition.RequestedDate
+           @Html.HiddenFor(modelitem=>item.ReliefRequisition.RequestedDate)
         </td>
         <td>
             @item.ReliefRequisition.ApprovedDate
-           
+            @Html.HiddenFor(modelitem=>item.ReliefRequisition.ApprovedDate)
         </td>
    
         <td>
           @item.Amount
-             
+              @Html.HiddenFor(modelitem=>item.Amount)
         </td>
          <td>
-            @item.Beneficiaries
-            
+            @item.BenficiaryNo
+            @Html.HiddenFor(modelitem=>item.Amount)
         </td>
     
         </tr>
@@ -112,6 +118,11 @@
         
     </table>
      </div>
+    <input class="button" id="submit" type="submit" value="Submit" />
+    <button type="submit" class="btn btn-success">
+  <i class="icon-user icon-white"></i> submit
+</button>
+        }
 <p>
     @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
     @Html.ActionLink("Back to List", "")

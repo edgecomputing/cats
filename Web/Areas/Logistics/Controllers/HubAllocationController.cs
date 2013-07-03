@@ -6,8 +6,8 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models.ViewModels;
-using DRMFSS.BLL.Services;
-
+using Cats.Services.EarlyWarning;
+using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
     public class HubAllocationController : Controller
@@ -15,64 +15,39 @@ namespace Cats.Areas.Logistics.Controllers
         //
         // GET: /Logistics/HubAllocation/
 
-        //private IReliefRequisitionService _reliefRequistionService;
+        
         private IReliefRequisitionDetailService _reliefRequisitionDetailService;
-        public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService)
+        private IHubService _hubService;
+        public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService,
+            IHubService hubService)
         {
-            _reliefRequisitionDetailService = reliefRequisitionDetailService;
+            this._hubService = hubService;
+            this._reliefRequisitionDetailService = reliefRequisitionDetailService;
+            
         }
 
 
-        public ActionResult ApprovedRequesitions()
-        {
 
+        public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
+        {
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
             return View(reliefRequisitions.ToList());
-            //RequisitionViewModel vm = new RequisitionViewModel();
-            //vm._reliefRequisition = header().ToList();
-            //ViewBag.Detail = d().ToList();
-            
-           
-
+        
         }
 
         [HttpPost]
-        public ActionResult SelectHub(ReliefRequisitionDetail requisitionDetail)
+        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail)
         {
-            return View("hubAllocation", requisitionDetail);
+            ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID","Name");
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            List<ReliefRequisitionDetail> myList = new List<ReliefRequisitionDetail>();
+            return View(requisitionDetail);
         }
 
 
-        [HttpPost]
-        public ActionResult Edit(List<RequisitionHub.RequestHubAssignment> input)
-        {
 
-            return View(input);
-
-        }
-
-        private List<ReliefRequisition> header()
-        {
-            List<ReliefRequisition> r = new List<ReliefRequisition>();
-
-            r.Add(new ReliefRequisition() { RequisitionNo = "002", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
-            r.Add(new ReliefRequisition() { RequisitionNo = "003", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
-            r.Add(new ReliefRequisition() { RequisitionNo = "004", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
-            r.Add(new ReliefRequisition() { RequisitionNo = "005", RequestedDate = DateTime.Now, ApprovedDate = DateTime.Now });
-                    
-               
-            return r;
-        }
-
-        private List<ReliefRequisitionDetail> d()
-        {
-            List<ReliefRequisitionDetail> detail = new List<ReliefRequisitionDetail>();
-            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 5678 });
-            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 567 });
-            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 56 });
-            detail.Add(new ReliefRequisitionDetail() { Amount = 2000, BenficiaryNo = 5 });
-         
-            return detail;
-        }
+        
+       
     }
 }

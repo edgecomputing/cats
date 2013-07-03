@@ -1,0 +1,155 @@
+﻿@model IList<Cats.Models.ReliefRequisitionDetail>
+
+@{
+    ViewBag.Title = "Allocate Hub";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>hubAllocation</h2>
+
+@section LeftBar
+{
+    @using (Html.BeginForm())
+    {
+        <div class="control-group">
+            <label class="control-label">Year</label>
+            <div class="controls">
+                @Html.Label("Year")
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Month</label>
+            <div class="controls">
+                @Html.Label("month")
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                
+            </div>
+        </div> 
+    }
+
+}
+@using (Html.BeginForm(FormMethod.Post))
+    {
+    @Html.ValidationSummary(true)
+<div class="container">
+        <fieldset>
+	        <legend>Hub Allocation</legend>
+        </fieldset>
+	    <div class="well">
+	      <form id="hubAllocate" class="form-horizontal" method="post" action="SelectHub">
+        
+	        
+            <div class="control-group">
+	            <label class="control-label">Date</label>
+	            <div class="controls">
+	                <div class="input-prepend">
+	               <span class="add-on"><i class="icon-th"></i></span>
+	                    <input type="text" class="small" id="datepicker" name="datepicker"  >
+                        @Html.ValidationMessage("datepicker")
+	                </div>
+	            </div>
+	        </div>
+	        <div class="control-group ">
+	            <label class="control-label">Allocation reference No</label>
+	            <div class="controls">
+                <div class="input-prepend">
+	                 <span class="add-on"><i class="icon-th"></i></span>
+	                    <input type="text" class="small" id="rNumber" name="rNumber" placeholder="Reference Number">
+                      @Html.ValidationMessage("rNumber")
+	                </div>
+	            </div>
+	        </div>
+	        <div class="control-group">
+	            <label class="control-label">Hubs</label>
+	            <div class="controls">
+	                <div class="input-prepend">
+                    @Html.DropDownList("Name",(SelectList)ViewBag.Hubs)
+	              
+               </div>
+            </div>
+        </div>
+    </form>
+    </div>
+ </div>
+
+
+<table class="table table-striped table-bordered">
+    <tr>
+        
+        <td>
+            @Html.Label("Commodity")
+        </td>
+        <td>
+            @Html.Label("Region")
+        </td>
+        <td>
+            @Html.Label("Zone")
+        </td>
+        <td>
+            @Html.Label("Round")
+        </td>
+        <td>
+            @Html.Label("Req.No")
+        </td>
+       
+        <td>
+            @Html.Label("Req. Date")
+        </td>
+        <td>
+            @Html.Label("Amount")
+        </td>
+        <td>
+            @Html.Label("Beneficiaries")
+        </td>
+       
+        
+    </tr>
+    
+  
+
+@foreach (var item in Model) {
+    <tr>
+       
+         <td>
+            @Html.DisplayFor(modelItem => item.Commodity.Name)
+           
+        </td>
+        
+         <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.RegionID)
+        </td>
+        
+           <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.ZoneID)
+        </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.Round)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)
+        </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequestedDate)
+        </td>
+         <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.BenficiaryNo)
+        </td>
+    </tr>
+}
+
+</table>
+    
+    <div>
+                    <span class="label">&nbsp;</span>
+                    <span><input type="submit" value="Submit" /></span>
+                </div>
+}

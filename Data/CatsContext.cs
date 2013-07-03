@@ -26,7 +26,7 @@ namespace Cats.Data
         public DbSet<FDP> Fdps { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
-        public DbSet<Hub> Hubs { get; set; }
+        public DbSet<Hub> Hub { get; set; }
         public DbSet<DispatchAllocation> DispatchAllocations { get; set; }
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
 

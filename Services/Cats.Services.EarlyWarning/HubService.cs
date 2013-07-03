@@ -7,7 +7,7 @@ using Cats.Models;
 using Cats.Data.UnitWork;
 
 
-namespace DRMFSS.BLL.Services
+namespace Cats.Services.EarlyWarning
 {
 
     public class HubService : IHubService
@@ -15,9 +15,9 @@ namespace DRMFSS.BLL.Services
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public HubService()
+        public HubService(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = new UnitOfWork();
+            this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
         public bool AddHub(Hub hub)

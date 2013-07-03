@@ -150,12 +150,9 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
-
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
-
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
-
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Models\CatsContext2.cs" />
@@ -298,33 +295,24 @@
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
-
     <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
-
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
-
-    <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
-    <Content Include="Views\Shared\hubAllocation.cshtml" />
-
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
-
-
+    <Content Include="Areas\Logistics\Views\HubAllocation\hubAllocation.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -341,6 +329,9 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequesitions.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -357,7 +348,6 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Shared\View1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
