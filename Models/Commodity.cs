@@ -8,11 +8,13 @@ namespace Cats.Models
     {
         public Commodity()
         {
-            
+            this.DispatchAllocations = new List<DispatchAllocation>();
             this.Commodity1 = new List<Commodity>();
            
+            this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+          
         }
-        [Key]
+
         public int CommodityID { get; set; }
         public string Name { get; set; }
         public string LongName { get; set; }
@@ -20,13 +22,14 @@ namespace Cats.Models
         public string CommodityCode { get; set; }
         public int CommodityTypeID { get; set; }
         public Nullable<int> ParentID { get; set; }
-  
+        public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         public virtual ICollection<Commodity> Commodity1 { get; set; }
         public virtual Commodity Commodity2 { get; set; }
-
+      
         public virtual CommodityType CommodityType { get; set; }
-        public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
-        public ICollection<ReliefRequisitionDetail> ReliefRequisitionDetials { get; set; } 
+     
+        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+       
       
     }
 }

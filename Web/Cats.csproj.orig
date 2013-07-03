@@ -150,7 +150,11 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+<<<<<<< HEAD
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
+=======
+
+>>>>>>> def27a09695eddba2d62dfa17665a4cf626d946f
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
@@ -321,11 +325,18 @@
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\Procurement\Views\Bid\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
+=======
+
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
 
 
+>>>>>>> def27a09695eddba2d62dfa17665a4cf626d946f
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

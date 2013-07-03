@@ -6,7 +6,7 @@ namespace Cats.Models
 {
     public class Transporter
     {
-
+        [Key]
         public int TransporterID { get; set; }
 
         //Transporter Address
@@ -18,6 +18,7 @@ namespace Cats.Models
         public string HouseNo { get; set; }
         public string TelephoneNo { get; set; }
         public string MobileNo { get; set; }
+        public string Email { get; set; }
 
         public string Ownership { get; set; }
         public int VehicleCount { get; set; }

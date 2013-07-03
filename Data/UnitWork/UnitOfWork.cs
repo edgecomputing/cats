@@ -205,8 +205,24 @@ namespace Cats.Data.UnitWork
 
         }
 
+<<<<<<< HEAD
       
      
+=======
+
+        private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+
+        public IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository
+        {
+
+            get { return this.requisitionViewModelRepository ?? (this.requisitionViewModelRepository = new GenericRepository<RequisitionViewModel>(_context)); }
+
+        }
+
+      
+
+
+>>>>>>> def27a09695eddba2d62dfa17665a4cf626d946f
         public void Save()
         {            
             _context.SaveChanges();

@@ -29,8 +29,11 @@ namespace Cats.Data
         public DbSet<Hub> Hubs { get; set; }
         public DbSet<DispatchAllocation> DispatchAllocations { get; set; }
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
+<<<<<<< HEAD
         public DbSet<Bid> Bids { get; set; } 
         public DbSet<BidDetail> BidDetails { get; set; }
+=======
+>>>>>>> def27a09695eddba2d62dfa17665a4cf626d946f
 
         //public DbSet<Product> Products { get; set; }
 
