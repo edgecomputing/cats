@@ -70,6 +70,12 @@ namespace Cats.Services.Procurement
         {
             return _unitOfWork.BidDetailRepository.Get(filter, orderBy, includeProperties);
         }
+
+        public bool Save()
+        {
+            _unitOfWork.Save();
+            return true;
+        }
     }
 }
 

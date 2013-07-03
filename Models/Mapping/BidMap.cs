@@ -2,7 +2,7 @@
 
 namespace Cats.Models.Mapping
 {
-    class BidMap:EntityTypeConfiguration<Bid>
+    public class BidMap:EntityTypeConfiguration<Bid>
     {
 
         public BidMap()
@@ -15,7 +15,8 @@ namespace Cats.Models.Mapping
                 .IsRequired();
           
             // Table & Column Mappings
-            this.ToTable("dbo.Bid");
+            this.ToTable("Bid","dbo");
+            this.Property(t => t.BidNumber).HasColumnName("BidNumber");
             this.Property(t => t.BidID).HasColumnName("BidID");
             this.Property(t => t.StartDate).HasColumnName("StartDate");
             this.Property(t => t.EndDate).HasColumnName("EndDate");

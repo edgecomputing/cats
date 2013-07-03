@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cats.Models
 {
+
    public class BidDetail
     {
+      
         public int BidDetailID { get; set; }
         public int BidID { get; set; }
         public int RegionID { get; set; }

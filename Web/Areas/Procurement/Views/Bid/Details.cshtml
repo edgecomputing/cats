@@ -6,22 +6,22 @@
 }
 @section LeftBar
 {
-   @Html.ActionLink("Create New Bid", "Create")
+    @Html.ActionLink("Create New Bid", "Create")
 }
 <div class="well">
     <p><b>Details</b></p>
     <table>
         <tr>
             <td>@Html.LabelFor(m => m.StartDate,"Start Date:")</td>
-            <td>@Html.TextBoxFor(m => m.StartDate)</td> 
+            <td>@Html.TextBoxFor(m => m.StartDate,null,new { disabled = "true"} )</td> 
             
             <td>@Html.LabelFor(m => m.EndDate,"End Date :")</td>
-            <td>@Html.TextBoxFor(m => m.EndDate)</td>
+            <td>@Html.TextBoxFor(m => m.EndDate,null,new { disabled = "true"} )</td>
             
         </tr>
         <tr>
             <td>@Html.LabelFor(m => m.BidNumber,"Bid Number: ")</td>
-            <td>@Html.TextBoxFor(m => m.BidNumber)</td>
+            <td>@Html.TextBoxFor(m => m.BidNumber,null,new { disabled = "true"} )</td>
         </tr>
     </table>
 </div>

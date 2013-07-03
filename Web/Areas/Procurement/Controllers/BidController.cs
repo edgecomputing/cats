@@ -27,35 +27,67 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Index()
         {
-            //var bids = _bidService.Get(null,null,"BidNumber");
+            //var bids = _bidService.Get(null, null,null);
             var bids = _bidService.GetAllBid();
             return View(bids.ToList());
         }
         [HttpPost]
         public ActionResult Index(DateTime startDate, DateTime endDate)
         {
-           // var bid = _bidService.Get(b => b.StartDate >= startDate && b.EndDate <= endDate, null, "StartDate");
+           //var bid = _bidService.Get(b => b.StartDate >= startDate && b.EndDate <= endDate, null, " ");
             return View("Index");
         }
         
         public ActionResult Create()
         {
+           // var bid = new Bid();
+            // return View(bid);
             var bid = new Bid();
+            var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+            var bidDetails = (from detail in regions
+                              select new BidDetail()
+                              {
+                                  RegionID=detail.AdminUnitID
+                              }).ToList();
+            bid.BidDetails = bidDetails;
             return View(bid);
         }
 
         [HttpPost]
         public ActionResult Create(Bid bid)
         {
-            _bidService.AddBid(bid);
-            return Redirect(string.Format("Edit/{0}", bid.BidID));
+            if (bid != null)
+            {
+                var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+                var bidDetails = (from detail in regions
+                                  select new BidDetail()
+                                      {
+                                          RegionID = detail.AdminUnitID,
+                                          AmountForReliefProgram = 0,
+                                          AmountForPSNPProgram = 0,
+                                          BidDocumentPrice = 0,
+                                          CBO = 0
+
+                                      }).ToList();
+                bid.BidDetails = bidDetails;
+                _bidService.AddBid(bid);
+                return RedirectToAction("Edit", "Bid", new {id = bid.BidID});
+            }
+            return View(new Bid());
+            // _bidService.AddBid(bid);
+            //return Redirect(string.Format("Edit/{0}", bid.BidID));
         }
 
         public ActionResult Edit(int id)
         {
             //var viewModel = new BidViewModel();
+            
             var bid = _bidService.Get(m => m.BidID == id, null, "BidDetails").FirstOrDefault();
-             //var bid = _bidService.FindById(id);
+            ViewBag.BidNumber = bid.BidNumber;
+            ViewBag.StartDate = bid.StartDate;
+            ViewBag.EndDate = bid.EndDate;
+           
+            //var bid = _bidService.FindById(id);
             //var regions = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 2);
             var bidDetails = bid.BidDetails;
             var input = ( from detail in bidDetails
@@ -82,14 +114,23 @@ namespace Cats.Areas.Procurement.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(int id, BidViewModel bidViewModel)
+        public ActionResult Edit(List<BidDetailsViewModel.BidDetailEdit> detailInput)
         {
-            foreach (var bidDetail in bidViewModel.BidDetails)
+            var bidId = 0;
+            foreach (var bidDetailEdit in detailInput)
             {
-                _bidDetailService.AddBidDetail(bidDetail);
+                var bidDetail = _bidDetailService.FindById(bidDetailEdit.Number);
+                bidId = bidDetail.BidID;
+                bidDetail.AmountForReliefProgram = bidDetailEdit.AmountForReliefProgram;
+                bidDetail.AmountForPSNPProgram = bidDetailEdit.AmountForPSNPProgram;
+                bidDetail.BidDocumentPrice = bidDetailEdit.BidDocumentPrice;
+                bidDetail.CBO = bidDetailEdit.CPO;
             }
-            return Redirect("Index");
+            _bidDetailService.Save();
+           // return Redirect("Index");
+            return RedirectToAction("Edit", "Bid", new {id = bidId});
         }
+
         public ActionResult Details(int id)
         {
             var viewModel = new BidViewModel();

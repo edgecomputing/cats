@@ -20,5 +20,7 @@ namespace Cats.Services.Procurement
              Expression<Func<BidDetail, bool>> filter = null,
              Func<IQueryable<BidDetail>, IOrderedQueryable<BidDetail>> orderBy = null,
              string includeProperties = "");
+
+        bool Save();
     }
 }
