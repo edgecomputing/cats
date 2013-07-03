@@ -9,12 +9,12 @@ namespace Cats.Models
 {
     public class DispatchAllocation
     {
-        [Key]
+       
       public Guid DispatchAllocationID {get; set;}
-        [Required]
-      public Int32? PartitionID {get; set;}
-      public Int32? HubID {get; set;}
-        [Required]
+       
+      public int? PartitionID {get; set;}
+      public int? HubID {get; set;}
+        
       public int? StoreID {get; set;}
       public int? Year {get; set;}
       public int? Month {get; set;}

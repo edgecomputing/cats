@@ -24,6 +24,7 @@ namespace Cats.Models
         public DateTime RequisitionDate { get; set; }
         public int ApprovedBy { get; set; }
         public DateTime ApprovedDate { get; set; }
+        public DateTime RequistionDate { get; set; }
         public int Status { get; set; }
         public int ProgramID { get; set; }
 

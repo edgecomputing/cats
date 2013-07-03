@@ -14,6 +14,7 @@ namespace Cats.Data.Repository
         bool Delete(T entity);
         bool Edit(T entity);
         T FindById(int id);
+        T FindById(Guid id);
 
         IEnumerable<T> Get(
         Expression<Func<T, bool>> filter = null,

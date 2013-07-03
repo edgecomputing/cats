@@ -64,6 +64,10 @@ namespace Cats.Data.Repository
         {
             return _context.Set<T>().Find(id);
         }
+        public virtual T FindById(Guid id)
+        {
+            return _context.Set<T>().Find(id);
+        }
 
         public virtual IEnumerable<T> Get(
           Expression<Func<T, bool>> filter = null,

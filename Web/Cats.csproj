@@ -147,11 +147,11 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
+    <Compile Include="Areas\Logistics\Models\DispatchAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
-
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -296,7 +296,7 @@
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
@@ -310,7 +310,7 @@
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
-
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Index.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
