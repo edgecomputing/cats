@@ -24,6 +24,7 @@ namespace Cats.Models
         public string Remark { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
+        public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
        
