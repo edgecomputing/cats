@@ -19,7 +19,7 @@ namespace Cats.Services.EarlyWarning
         ReliefRequisition FindById(int id);
         List<ReliefRequisition> GetAllReliefRequisition();
         List<ReliefRequisition> FindBy(Expression<Func<ReliefRequisition, bool>> predicate);
-
+        void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions);
 
         List<ReliefRequisition> GetApprovedRequistion();
 

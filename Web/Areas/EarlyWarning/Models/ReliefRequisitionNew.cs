@@ -7,17 +7,18 @@ namespace Cats.Areas.EarlyWarning.Models
 {
     public class ReliefRequisitionNew
     {
-        public int ReliefRequisitionID { get; set; }
-        public int CommodityID { get; set; }
-        public int RegionID { get; set; }
-        public int ZoneID { get; set; }
-        public int Round { get; set; }
-        public int RequestedBy { get; set; }
-        public DateTime RequisitionDate { get; set; }
-        public int ApprovedBy { get; set; }
-        public DateTime ApprovedDate { get; set; }
-        public int Status { get; set; }
-        public int ProgramID { get; set; }
+        public int RequisitionID { get; set; }
+        public Nullable<int> CommodityID { get; set; }
+        public Nullable<int> RegionID { get; set; }
+        public Nullable<int> ZoneID { get; set; }
+        public Nullable<int> Round { get; set; }
+        public string RequisitionNo { get; set; }
+        public Nullable<int> RequestedBy { get; set; }
+        public Nullable<System.DateTime> RequestedDate { get; set; }
+        public Nullable<int> ApprovedBy { get; set; }
+        public Nullable<System.DateTime> ApprovedDate { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<int> ProgramID { get; set; }
         public ReliefRequisitionNewInput Input { get; set; }
         public class ReliefRequisitionNewInput
         {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cats.Models;
 
-namespace Cats.Services.EarlyWarning
+namespace Cats.Services.Procurement
 {
     public interface IBidService
     {

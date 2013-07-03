@@ -9,6 +9,7 @@ namespace Cats.DatabaseMigrations
         {
             Create.Schema("EarlyWarning");           
             Create.Schema("Logistics");
+            Create.Schema("Procurement");
            
         }
 
@@ -16,6 +17,7 @@ namespace Cats.DatabaseMigrations
         {
             Delete.Schema("EarlyWarning");
             Delete.Schema("Logistics");
+            Delete.Schema("Procurement");
            
         }
     }

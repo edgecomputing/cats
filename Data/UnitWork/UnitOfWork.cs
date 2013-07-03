@@ -205,7 +205,6 @@ namespace Cats.Data.UnitWork
 
         }
 
-
         private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
 
         public IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository
@@ -216,7 +215,6 @@ namespace Cats.Data.UnitWork
         }
 
       
-
 
         public void Save()
         {            

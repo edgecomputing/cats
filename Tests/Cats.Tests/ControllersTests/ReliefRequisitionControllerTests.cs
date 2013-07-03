@@ -303,7 +303,7 @@ namespace Cats.Tests.ControllersTests
             //Arange 
             var regionalRequest = _regionalRequests.Find(t=>t.RegionalRequestID==1);
             var commodityId = 1;
-            var requisiton = _reliefRequisitionController.CreateRequisition(regionalRequest, commodityId);
+            var requisiton = _reliefRequisitionController.CreateRequisition(regionalRequest, commodityId,1);
 
             Assert.AreEqual(commodityId, requisiton.CommodityID);
             Assert.AreEqual(2, requisiton.ReliefRequisitionDetails.Count);
@@ -317,7 +317,7 @@ namespace Cats.Tests.ControllersTests
             //Arange 
             List<ReliefRequisition> reliefRequisitions = _reliefRequisitionController.CreateRequistionFromRequest(1);
             var requestCommodity = new RegionalRequestDetail();
-            var commdities = new int[]
+            var commdities = new int?[]
                                  {
                                      _commodityService.GetCommoidtyId(requestCommodity.GrainName),
                                      _commodityService.GetCommoidtyId(requestCommodity.OilName),
@@ -327,7 +327,7 @@ namespace Cats.Tests.ControllersTests
            
 
             Assert.AreEqual(4, reliefRequisitions.Count);
-            Assert.IsTrue(reliefRequisitions.All(t => commdities.Contains(t.CommodityID.Value)));
+            Assert.IsTrue(reliefRequisitions.All(t => commdities.Contains(t.CommodityID)));
            
             Assert.IsTrue(reliefRequisitions.All(t=>t.ReliefRequisitionDetails.Count == 2));
         }

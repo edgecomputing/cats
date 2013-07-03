@@ -4,7 +4,7 @@ using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
 
-namespace Cats.Services.EarlyWarning
+namespace Cats.Services.Procurement
 {
     public class BidDetailService : IBidDetailService
     {
@@ -69,6 +69,12 @@ namespace Cats.Services.EarlyWarning
                                           string includeProperties = "")
         {
             return _unitOfWork.BidDetailRepository.Get(filter, orderBy, includeProperties);
+        }
+
+        public bool Save()
+        {
+            _unitOfWork.Save();
+            return true;
         }
     }
 }

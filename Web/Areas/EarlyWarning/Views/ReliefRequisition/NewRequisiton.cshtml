@@ -32,7 +32,7 @@
                 @Html.DisplayNameFor(model => model.RequestedBy)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RequisitionDate)
+                @Html.DisplayNameFor(model => model.RequestedDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ApprovedBy)
@@ -73,7 +73,7 @@
                     @Html.DisplayFor(modelItem => item.RequestedBy)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RequisitionDate)
+                    @Html.DisplayFor(modelItem => item.RequestedDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ApprovedBy)
@@ -91,12 +91,16 @@
                     <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {id = item.ReliefRequisitionID}) |
+                    @*@Html.ActionLink("Edit", "Edit", new {id = item.RequisitionID}) |*@
            
                 </td>
             </tr>
+            
             index++;
         }
 
     </table>
+     <p>
+        <input class="btn btn-success" type="submit" value="Save Change" />
+    </p>
 }

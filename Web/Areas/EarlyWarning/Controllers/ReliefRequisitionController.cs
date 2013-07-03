@@ -41,43 +41,40 @@ namespace Cats.Areas.EarlyWarning.Controllers
             //Check if Requisition is created from this request
 
             var regionalRequest = _regionalRequestService.FindById(id);
-            if(regionalRequest ==null ) return null;
+            if (regionalRequest == null) return null;
 
             var reliefRequistions = CreateRequistionFromRequest(id);
-            foreach (var reliefRequisition in reliefRequistions)
-            {
-                _reliefRequisitionService.AddReliefRequisition(reliefRequisition);
-            }
+            _reliefRequisitionService.AddReliefRequisions(reliefRequistions);
             _reliefRequisitionService.Save();
 
 
             var input = (from itm in reliefRequistions
                          select new ReliefRequisitionNew()
                          {
-                             CommodityID  = itm.CommodityID.Value,
-                             ProgramID = itm.ProgramID.Value,
-                             RegionID = itm.RegionID.Value,
-                             Round = itm.Round.Value,
-                             ZoneID = itm.ZoneID.Value,
-                             Status = itm.Status.Value,
-                             ReliefRequisitionID =itm.RequisitionID,
-                             RequestedBy = itm.RequestedBy.Value,
-                             ApprovedBy = itm.ApprovedBy.Value,
-                             RequisitionDate = itm.RequestedDate.Value,
-                             ApprovedDate = itm.ApprovedDate.Value,
+                             CommodityID = itm.CommodityID,
+                             ProgramID = itm.ProgramID,
+                             RegionID = itm.RegionID,
+                             Round = itm.Round,
+                             ZoneID = itm.ZoneID,
+                             Status = itm.Status,
+                             RequisitionID = itm.RequisitionID,
+                             RequestedBy = itm.RequestedBy,
+                             ApprovedBy = itm.ApprovedBy,
+                             RequestedDate = itm.RequestedDate,
+                             ApprovedDate = itm.ApprovedDate,
                              Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
                              {
                                  Number = itm.RequisitionID,
-                                RequisitionNo=itm.RequisitionNo
+                                 RequisitionNo = itm.RequisitionNo
                              }
                          });
             return View(input);
-            
-          
+
+
         }
 
         [HttpPost]
-        public ActionResult NewRequisiton(List<ReliefRequisitionNew.ReliefRequisitionNewInput> inputs )
+        public ActionResult NewRequisiton(List<ReliefRequisitionNew.ReliefRequisitionNewInput> inputs)
         {
             var requId = 0;
             foreach (var reliefRequisitionNewInput in inputs)
@@ -85,9 +82,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 var tempReliefRequisiton =
                     _reliefRequisitionService.FindById(reliefRequisitionNewInput.Number);
-             //   requId = tempReliefRequistionDetail.RegionalRequestID;
+                //   requId = tempReliefRequistionDetail.RegionalRequestID;
                 tempReliefRequisiton.RequisitionNo = reliefRequisitionNewInput.RequisitionNo;
-              
+
 
             }
             _reliefRequisitionService.Save();
@@ -96,64 +93,73 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return RedirectToAction("Requistions", "ReliefRequisition");
         }
-        public  List<ReliefRequisition> CreateRequistionFromRequest(int requestId)
+        public List<ReliefRequisition> CreateRequistionFromRequest(int requestId)
         {
             //Note Here we are going to create 4 requistion from one request
             //Assumtions Here is ColumnName of the request detail match with commodity name 
             var regionalRequest = _regionalRequestService.Get(t => t.RegionalRequestID == requestId, null,
                                                               "RegionalRequestDetails").FirstOrDefault();
-              //var regionalRequest = _regionalRequestService.GetAllReliefRequistion().FirstOrDefault();
+            //var regionalRequest = _regionalRequestService.GetAllReliefRequistion().FirstOrDefault();
 
 
             var regionalRequestDetailToGetCommodityId = new RegionalRequestDetail();
             var reliefRequisitions = new List<ReliefRequisition>();
 
-            //Create Requisiton for Grain
+            var zones = _regionalRequestService.GetZonesFoodRequested(requestId);
 
-            var commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.GrainName);
+            foreach (var zone in zones)
+            {
+                var zoneId = zone.HasValue ? zone.Value : -1;
+                if (zoneId == -1) continue;
 
-            reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId));
+                //Create Requisiton for Grain
 
+                var commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.GrainName);
 
-            //Create Requistion for Oil
-
-            commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.OilName);
-
-            reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId));
-
-            //Create Requistion for pulse
-
-            commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.PulseName);
-
-            reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId));
-
-            //Create Requistion for Grain
-
-            commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.GrainName);
-
-            reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId));
+                reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId, zoneId));
 
 
-           return  reliefRequisitions;
+                //Create Requistion for Oil
+
+                commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.OilName);
+
+                reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId, zoneId));
+
+                //Create Requistion for pulse
+
+                commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.PulseName);
+
+                reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId, zoneId));
+
+                //Create Requistion for CSB
+
+                commodityId = _commodityService.GetCommoidtyId(regionalRequestDetailToGetCommodityId.CSBName);
+
+                reliefRequisitions.Add(CreateRequisition(regionalRequest, commodityId, zoneId));
+            }
+
+            return reliefRequisitions;
         }
-        public  ReliefRequisition CreateRequisition(RegionalRequest regionalRequest, int commodityId)
+        public ReliefRequisition CreateRequisition(RegionalRequest regionalRequest, int commodityId, int zoneId)
         {
 
             var relifRequisition = new ReliefRequisition()
                                        {
                                            //TODO:Please Include Regional Request ID in Requisition 
-                                           //RegionalRequestId=regionalRequest.RegionalRequestID
-                                           Round = regionalRequest.Round
-                                           ,
-                                           ProgramID = regionalRequest.ProgramId
-                                           ,
-                                           CommodityID = commodityId
-                                           ,
+                                           RegionalRequestID = regionalRequest.RegionalRequestID,
+                                           Round = regionalRequest.Round,
+                                           ProgramID = regionalRequest.ProgramId,
+                                           CommodityID = commodityId,
                                            RequestedDate = DateTime.Today
                                                //TODO:Please find another way how to specify Requistion No
                                            ,
-                                           RequisitionNo = Guid.NewGuid().ToString()
-
+                                           RequisitionNo = Guid.NewGuid().ToString(),
+                                           RegionID = regionalRequest.RegionID,
+                                           ZoneID = zoneId,
+                                           Status = 1,
+                                           //RequestedBy =itm.RequestedBy,
+                                           //ApprovedBy=itm.ApprovedBy,
+                                           //ApprovedDate=itm.ApprovedDate,
 
                                        };
             var relifRequistionDetail = (from requestDetail in regionalRequest.RegionalRequestDetails

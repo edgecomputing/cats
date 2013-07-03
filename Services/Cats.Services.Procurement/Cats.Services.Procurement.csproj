@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BidDetailService.cs" />
+    <Compile Include="BidService.cs" />
+    <Compile Include="IBidDetailService.cs" />
+    <Compile Include="IBidService.cs" />
     <Compile Include="ITransporterService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransporterService.cs" />
