@@ -94,6 +94,14 @@ namespace Cats.Services.EarlyWarning
                 }
             };
         }
+        public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions )
+        {
+            foreach (var reliefRequisition in reliefRequisitions)
+            {
+                this._unitOfWork.ReliefRequisitionRepository.Add(reliefRequisition);
+            }
+           
+        } 
         public void Dispose()
         {
             _unitOfWork.Dispose();

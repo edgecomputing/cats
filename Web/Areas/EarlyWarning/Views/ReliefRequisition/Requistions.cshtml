@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.RequestedBy)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RequisitionDate)
+            @Html.DisplayNameFor(model => model.RequestedDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ApprovedBy)
@@ -52,7 +52,7 @@
 @foreach (var item in Model) {
     <tr>
          <td>
-                <a href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.ReliefRequisitionID })">@Html.DisplayFor(modelItem => item.RequisitionNo)</a>
+                <a href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">@Html.DisplayFor(modelItem => item.RequisitionNo)</a>
             </td>
         <td>
             @Html.DisplayFor(modelItem => item.CommodityID)
@@ -73,7 +73,7 @@
             @Html.DisplayFor(modelItem => item.RequestedBy)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RequisitionDate)
+            @Html.DisplayFor(modelItem => item.RequestedDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ApprovedBy)
@@ -88,9 +88,9 @@
             @Html.DisplayFor(modelItem => item.ProgramID)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ReliefRequisitionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ReliefRequisitionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ReliefRequisitionID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.RequisitionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RequisitionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RequisitionID })
         </td>
     </tr>
 }
