@@ -82,16 +82,15 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProjectCodeID)
-                    @*@Html.TextBox("input[" + index + "].ProjectCodeID", item.ProjectCodeID, new { @style = "width:80%; border:none; !important;" })*@
                 </td>
                 <td>
                     <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" />
                 </td>
-                <td>
+                @*<td>
                     @Html.ActionLink("Edit", "ReliefRequisition", new { id=item.DispatchAllocationID }) |
-                @*@Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})*@
-                </td>
+                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
+                </td>*@
             </tr>
             index++;
         }
