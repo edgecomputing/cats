@@ -25,6 +25,7 @@ namespace Cats.Services.EarlyWarning
         DispatchAllocation FindById(Guid id);
 
         IEnumerable<DispatchAllocation> FindBy(Expression<Func<DispatchAllocation, bool>> predicate);
-        
+
+        bool SaveProjectAllocation(IEnumerable<DispatchAllocation> dispatchAllocations);
     }
 }
