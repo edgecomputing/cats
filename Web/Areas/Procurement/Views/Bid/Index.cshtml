@@ -54,7 +54,7 @@
     {
         <tr>
             <td>
-                <a href="@Url.Action("Details", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
+                <a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
@@ -69,7 +69,7 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Details", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
+                        <li><a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
                         <li><a href="#">Approve</a></li>
                         <li><a href="#">View Status</a></li>
                     </ul>

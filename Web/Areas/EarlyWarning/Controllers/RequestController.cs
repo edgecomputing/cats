@@ -157,8 +157,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             foreach (var reliefRequisitionDetailEditInput in input)
             {
               
-                var tempReliefRequistionDetail =
-                    _reliefRequisitionDetailService.FindById(reliefRequisitionDetailEditInput.Number);
+                var tempReliefRequistionDetail =_reliefRequisitionDetailService.FindById(reliefRequisitionDetailEditInput.Number);
                 requId = tempReliefRequistionDetail.RegionalRequestID;
                 tempReliefRequistionDetail.Beneficiaries = reliefRequisitionDetailEditInput.Beneficiaries;
                 tempReliefRequistionDetail.CSB = reliefRequisitionDetailEditInput.CSB;
