@@ -30,6 +30,7 @@ namespace Cats.Models
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual AdminUnit AdminUnit1 { get; set; }
         public virtual Program Program { get; set; }
+        public virtual Commodity Commodity { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
         public virtual RegionalRequest RegionalRequest { get; set; }

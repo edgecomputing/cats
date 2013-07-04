@@ -32,31 +32,42 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(releifRequistions);
         }
 
+         [HttpGet]
+        public ActionResult CreateRequisiton(int id)
+        {
+            var input = _reliefRequisitionService.CreateRequisition(id);
+
+            return RedirectToAction("NewRequisiton", "ReliefRequisition",new {id=id});
+
+
+        }
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
-            var input = _reliefRequisitionService.CreateRequisition(id);
+            var input = _reliefRequisitionService.GetRequisitionByRequestId(id);
             return View(input);
 
 
         }
 
         [HttpPost]
-        public ActionResult NewRequisiton(List<ReliefRequisitionNew.ReliefRequisitionNewInput> inputs)
+        public ActionResult NewRequisiton(List<ReliefRequisitionNew.ReliefRequisitionNewInput> input)
         {
             var requId = 0;
-            foreach (var reliefRequisitionNewInput in inputs)
+            if (ModelState.IsValid)
             {
-                _reliefRequisitionService.AssignRequisitonNo(reliefRequisitionNewInput.Number,
-                                                             reliefRequisitionNewInput.RequisitionNo);
+                 requId = input.FirstOrDefault().Number;
+                foreach (var reliefRequisitionNewInput in input)
+                {
 
+                    _reliefRequisitionService.AssignRequisitonNo(reliefRequisitionNewInput.Number,
+                                                                 reliefRequisitionNewInput.RequisitionNo);
+
+                }
+
+                _reliefRequisitionService.Save();
+              
             }
-        
-
-        _reliefRequisitionService.Save();
-
-
-
             return RedirectToAction("Requistions", "ReliefRequisition");
         }
 

@@ -1,6 +1,6 @@
 ﻿@model  IEnumerable<Cats.Models.RegionalRequest>
 @using Cats.Models.ViewModels
-@using EthCal
+
 @{
     ViewBag.Title = "Regional Relief Requests";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -90,7 +90,7 @@
             </td>
             <td>
                 @{
-                   var statusName= item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : REGIONAL_REQUEST_STATUS.Submitted.ToString();
+        var statusName = item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.Closed.ToString();
                    var showme = item.Status == 2 ? "": "hidden";
                 }
                @Html.Label(statusName)
@@ -99,7 +99,7 @@
 
              
                
-                        <a class="btn btn-success @showme" href="@Url.Action("NewRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RegionalRequestID })">Create Requisition</a>
+                        <a class="btn btn-success @showme" href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RegionalRequestID })">Create Requisition</a>
                        
                
             </td>
