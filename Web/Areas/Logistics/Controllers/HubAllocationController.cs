@@ -8,6 +8,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+
 namespace Cats.Areas.Logistics.Controllers
 {
     public class HubAllocationController : Controller
@@ -37,25 +38,35 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         [HttpPost]
-        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, int[] IsChecked)
+        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form)
         {
-            ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID","Name");
+            ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
-            //get the id from each selected checkbox
-            foreach (int item in IsChecked)
+            ICollection<ReliefRequisitionDetail> listOfRequsitions=null;
+            ReliefRequisitionDetail[] _requisitionDetail;
+
+           _requisitionDetail = requisitionDetail.ToArray();
+
+            var _chkValue = _Form["chkApprovedRequests"]; // for this code the _chkValue will return all value of each checkbox that is checked
+
+
+            if (_chkValue != null)
             {
-                             
+
+                string[] _arrChkValue = _Form["chkApprovedRequests"].ToString().Split(',');
+
+                for (int i = 0; i < _arrChkValue.Length; i++)
+                {
+                    var _value = _arrChkValue[i]; // 
+                    listOfRequsitions.Add(_requisitionDetail[int.Parse(_value)]);
+                }
             }
 
-          
             return View(requisitionDetail);
         }
 
-        public void insert()
-        {
-            
-        }
+      
 
         
        
