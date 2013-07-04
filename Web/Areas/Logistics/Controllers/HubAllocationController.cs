@@ -60,7 +60,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                 for (int i = 0; i < _arrChkValue.Length; i++)
                 {
-                    var _value = _arrChkValue[i]; // 
+                    var _value = _arrChkValue[i]; 
                     listOfRequsitions.Add(_requisitionDetail[int.Parse(_value)]);
                 }
             }
@@ -69,7 +69,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form)
+        public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form, string datepicker, string rNumber)
         {
 
             string hub = _Form["hub"].ToString();
@@ -81,7 +81,10 @@ namespace Cats.Areas.Logistics.Controllers
                 tRequisition.CommodityID = appRequisition.CommodityID;
                 tRequisition.RequisitionID = appRequisition.RequisitionID;
                 tRequisition.Amount = appRequisition.Amount;
-                //tRequisition.HubID=
+                tRequisition.HubID = int.Parse(hub);
+                tRequisition.RegionID = int.Parse(appRequisition.ReliefRequisition.RegionID.ToString());
+                tRequisition.ZoneID = int.Parse(appRequisition.ReliefRequisition.ZoneID.ToString());
+                
 
                 _transportRequisitionService.AddTransportRequisition(tRequisition);
                 

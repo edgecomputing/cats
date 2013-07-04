@@ -6,7 +6,7 @@
 }
 
 
-<h2>hubAllocation</h2>
+<h2>Allocate Hub</h2>
 
 @section LeftBar
 {
@@ -34,15 +34,16 @@
     }
 
 }
-@using (Html.BeginForm(FormMethod.Post))
+
+
+   @using (Html.BeginForm("inserRequisition", "HubAllocation", FormMethod.Post, Model))
     {
-    @Html.ValidationSummary(true)
 <div class="container">
         <fieldset>
 	        <legend>Hub Allocation</legend>
         </fieldset>
 	    <div class="well">
-	      <form id="hubAllocate" class="form-horizontal" method="post" action="SelectHub">
+	      
         
 	        
             <div class="control-group">
@@ -75,7 +76,7 @@
                </div>
             </div>
         </div>
-    </form>
+    
     </div>
  </div>
 
@@ -113,48 +114,70 @@
     </tr>
     
   
-
-@foreach (var item in Model) {
+ @{int index = 0;}
+    @for(int i = 0;i < Model.Count;i++)
+ {
     <tr>
        
-         <td>
-            @Html.DisplayFor(modelItem => item.Commodity.Name)
-           
+        <td>
+            @Html.DisplayFor(m=>m[i].Commodity.Name)
+            @Html.HiddenFor(m=>m[i].Commodity.Name)
+            
         </td>
         
          <td>
-            @Html.DisplayFor(modelItem => item.ReliefRequisition.RegionID)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RegionID)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RegionID)
+            
         </td>
         
            <td>
-            @Html.DisplayFor(modelItem => item.ReliefRequisition.ZoneID)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.ZoneID)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.ZoneID)
+            
         </td>
+        
+        
             <td>
-            @Html.DisplayFor(modelItem => item.ReliefRequisition.Round)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.Round)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.Round)
+            
         </td>
         
         <td>
-            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)
+           
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequisitionNo)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequisitionNo)
+            
         </td>
+        
+        
             <td>
-            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequestedDate)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequestedDate)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequestedDate)
+            
         </td>
          <td>
-            @Html.DisplayFor(modelItem => item.Amount)
+            @Html.DisplayFor(m=>m[i].Amount)
+            @Html.HiddenFor(m=>m[i].Amount)
+            
         </td>
           <td>
-            @Html.DisplayFor(modelItem => item.BenficiaryNo)
+            @Html.DisplayFor(m=>m[i].BenficiaryNo)
+            @Html.HiddenFor(m=>m[i].BenficiaryNo)
+            
         </td>
     </tr>
+     index++;
 }
 
 </table>
     
-    <div>
-                    <span class="label">&nbsp;</span>
-                    <span><input type="submit" value="Submit" /></span>
-                </div>
-}
+     <button type="submit" class="btn btn-success">
+        <i class="icon-user icon-white"></i> Save
+    </button>
+    
+    }
 
 <script  type="text/javascript">
     (document).ready(function () {
