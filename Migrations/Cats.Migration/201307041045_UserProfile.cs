@@ -19,16 +19,16 @@ namespace Cats.DatabaseMigrations
         {
             // Create User table
             Create.Table("User").InSchema("dbo")
-                .WithColumn("UserId").AsGuid().NotNullable().PrimaryKey()
-                .WithColumn("UserName").AsString(200).Nullable()
-                .WithColumn("FullName").AsString(200).Nullable()
+                .WithColumn("UserId").AsInt32().Identity().NotNullable().PrimaryKey()
+                .WithColumn("UserName").AsString(200).NotNullable()
+                .WithColumn("FullName").AsString(200).NotNullable()
                 .WithColumn("Email").AsString(50).Nullable()
-                .WithColumn("Password").AsString(-1).Nullable();
+                .WithColumn("Password").AsString(-1).NotNullable()
+                .WithColumn("Disabled").AsBoolean().NotNullable();
 
             // Create Profile table
             Create.Table("Profile").InSchema("dbo")
-                .WithColumn("ProfileId").AsInt32().Identity().NotNullable().PrimaryKey()
-                .WithColumn("UserId").AsGuid().NotNullable()
+                .WithColumn("UserId").AsInt32().NotNullable().PrimaryKey()
                 .WithColumn("UILanguage").AsInt32().Nullable()
                 .WithColumn("KeyboardLanguage").AsInt32().Nullable()
                 .WithColumn("Calendar").AsInt32().Nullable();

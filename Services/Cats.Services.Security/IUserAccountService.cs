@@ -10,6 +10,7 @@ namespace Cats.Services.Security
 {
     public interface IUserAccountService
     {
+        // CRUD Operations
         bool Add(User user);
         bool Delete(User transporter);
         bool DeleteById(int id);
@@ -17,5 +18,22 @@ namespace Cats.Services.Security
         User FindById(int id);
         List<User> GetAll();
         List<User> FindBy(Expression<Func<User, bool>> predicate);
+
+        // User Account Business Logic
+        bool Authenticate(User userInfo);
+        bool Authenticate(string userName, string password);
+        bool ChangePassword(string userName, string password);
+        bool ChangePassword(User userInfo, string password);
+        bool ChangePassword(int userId, string password);
+        string ResetPassword(User userInfo);
+        string ResetPassword(string userName);
+        bool DisableAccount(string userName);
+
+        // Utility methods
+        string HashPassword(string password);
+        User GetUserDetail(int userId);
+        User GetUserDetail(string userName);
+        string[] GetUserPermissions(string userName);
+
     }
 }

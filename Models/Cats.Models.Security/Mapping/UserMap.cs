@@ -11,13 +11,18 @@ namespace Cats.Models.Security.Mapping
 
             // Properties
             this.Property(t => t.UserName)
+                .IsRequired()
                 .HasMaxLength(200);
 
             this.Property(t => t.FullName)
+                .IsRequired()
                 .HasMaxLength(200);
 
             this.Property(t => t.Email)
                 .HasMaxLength(50);
+
+            this.Property(t => t.Password)
+                .IsRequired();
 
             // Table & Column Mappings
             this.ToTable("User");
@@ -26,6 +31,7 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.FullName).HasColumnName("FullName");
             this.Property(t => t.Email).HasColumnName("Email");
             this.Property(t => t.Password).HasColumnName("Password");
+            this.Property(t => t.Disabled).HasColumnName("Disabled");
         }
     }
 }
