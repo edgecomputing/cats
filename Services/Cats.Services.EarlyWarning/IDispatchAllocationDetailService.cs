@@ -10,11 +10,11 @@ namespace Cats.Services.EarlyWarning
 {
     public interface IDispatchAllocationDetailService
     {
-        bool AddReliefRequisitionDetail(DispatchAllocation _dispatchAllocationDetail);
+        bool AddDispatchDetail(DispatchAllocation _dispatchAllocationDetail);
 
-        bool EditReliefRequisitionDetail(DispatchAllocation _dispatchAllocationDetail);
+        bool EditDispatchDetail(DispatchAllocation _dispatchAllocationDetail);
 
-        bool DeleteReliefRequisitionDetail(DispatchAllocation _dispatchAllocationDetail);
+        bool DeleteDispatchDetail(DispatchAllocation _dispatchAllocationDetail);
         
         bool DeleteById(int id);
         
