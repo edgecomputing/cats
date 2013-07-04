@@ -31,7 +31,7 @@ namespace Cats.Data
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
         public DbSet<BidDetail> BidDetails { get; set; }
-
+        public DbSet<TransportRequisition> TransportRequisition { get; set; }
         //public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

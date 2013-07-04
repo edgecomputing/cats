@@ -44,10 +44,10 @@ namespace Cats.Infrastructure
             kernel.Bind<IReliefRequisitionService>().To<ReliefRequisitionService>();
             kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
             kernel.Bind<IBidService>().To<BidService>();
-            kernel.Bind<ITransporterService>().To<TransporterService>();
+            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
 
             kernel.Bind<IHubService>().To<HubService>();
-
+            kernel.Bind<ITransporterService>().To<TransporterService>();
             kernel.Bind<IBidDetailService>().To<BidDetailService>();
             
 

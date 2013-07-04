@@ -19,12 +19,14 @@ namespace Cats.Areas.Logistics.Controllers
         
         private IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private IHubService _hubService;
+        private ITransportRequisitionService _transportRequisitionService;
         public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService,
-            IHubService hubService)
+            IHubService hubService,
+            ITransportRequisitionService transportRequisitionService)
         {
             this._hubService = hubService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
-            
+            this._transportRequisitionService = transportRequisitionService;
         }
 
 
@@ -63,11 +65,29 @@ namespace Cats.Areas.Logistics.Controllers
                 }
             }
 
-            return View(requisitionDetail);
+            return View(listOfRequsitions);
         }
 
-      
 
+        public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form)
+        {
+
+            string hub = _Form["hub"].ToString();
+
+            foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
+            {
+                TransportRequisition tRequisition = new TransportRequisition();
+
+                tRequisition.CommodityID = appRequisition.CommodityID;
+                tRequisition.RequisitionID = appRequisition.RequisitionID;
+                tRequisition.Amount = appRequisition.Amount;
+                //tRequisition.HubID=
+
+                _transportRequisitionService.AddTransportRequisition(tRequisition);
+                
+            }
+           
+        }
         
        
     }

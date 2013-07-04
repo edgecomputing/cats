@@ -77,12 +77,14 @@
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="projectCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
     <Compile Include="Transporter.cs" />
+    <Compile Include="TransportRequisition.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\AllocationViewModel.cs" />
     <Compile Include="ViewModels\AllocationModelDetail.cs" />

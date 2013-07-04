@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
-using Cats.Models;
+
 
 namespace Cats.Data.UnitWork
 {
@@ -156,14 +156,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        //private IGenericRepository<Round> roundRepository;
-
-        //public IGenericRepository<Round> RoundRepository
-        //{
-
-        //    get { return this.roundRepository ?? (this.roundRepository = new GenericRepository<Round>(_context)); }
-
-        //}
+       
 
         private IGenericRepository<Hub> hubRepository;
         public IGenericRepository<Hub> HubRepository
@@ -214,7 +207,13 @@ namespace Cats.Data.UnitWork
 
         }
 
-      
+        private IGenericRepository<TransportRequisition> transportRequisitionRepository;
+
+        public IGenericRepository<TransportRequisition> TransportRequisitionRepository
+        {
+            get { return this.transportRequisitionRepository ?? (this.transportRequisitionRepository = new GenericRepository<TransportRequisition>(_context)); }
+
+        }
 
         public void Save()
         {            

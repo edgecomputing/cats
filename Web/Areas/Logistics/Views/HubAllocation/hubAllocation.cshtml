@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+
 <h2>hubAllocation</h2>
 
 @section LeftBar
@@ -68,7 +69,8 @@
 	            <label class="control-label">Hubs</label>
 	            <div class="controls">
 	                <div class="input-prepend">
-                    @Html.DropDownList("Name",(SelectList)ViewBag.Hubs)
+                    @Html.Hidden("Selected")
+                    @Html.DropDownList("hub",ViewBag.Hubs as SelectList,"Select a hub",new {id="HubId"})
 	              
                </div>
             </div>
@@ -153,3 +155,23 @@
                     <span><input type="submit" value="Submit" /></span>
                 </div>
 }
+
+<script  type="text/javascript">
+    (document).ready(function () {
+        // storing selected value to hidden field
+        $("#Selected").val($("#HubId").val());
+
+        $("#HubId").change(function () {
+            $.ajax({
+                url: "~/HubAllocation/inserRequisition",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# Selected").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+    })
+</script>
+
