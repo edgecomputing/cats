@@ -22,17 +22,8 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Index()
         {
-            List<Cats.Procurement.Models.Transporter> uilist=new List<Cats.Procurement.Models.Transporter>();
             List<Cats.Models.Transporter> list = transportService.GetAllTransporter();
-            foreach (var i in list)
-            {
-                 
-                Cats.Procurement.Models.Transporter uiTransporter = new Cats.Procurement.Models.Transporter();
-                uiTransporter.TransporterID = i.TransporterID;
-                uilist.Add(uiTransporter);
-            }
             return View(list);
-            //return View(GetAllTransporter());
         }
       
         //
@@ -40,14 +31,11 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            
             Transporter transporter = transportService.FindById(id);
-            
             if (transporter == null)
             {
                 return HttpNotFound();
             }
-
             return View(transporter);
         }
 
@@ -57,7 +45,6 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create()
         {
             return RedirectToAction("Edit");
-           // return View();
         }
        
                //

@@ -152,6 +152,7 @@
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
@@ -323,6 +324,11 @@
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Delete.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

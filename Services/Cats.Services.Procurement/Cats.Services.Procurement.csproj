@@ -45,8 +45,10 @@
     <Compile Include="BidService.cs" />
     <Compile Include="IBidDetailService.cs" />
     <Compile Include="IBidService.cs" />
+    <Compile Include="ITransportBidPlanService.cs" />
     <Compile Include="ITransporterService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransportBidPlanService.cs" />
     <Compile Include="TransporterService.cs" />
   </ItemGroup>
   <ItemGroup>

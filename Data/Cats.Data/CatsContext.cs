@@ -51,9 +51,12 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new BidMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             modelBuilder.Configurations.Add(new TransporterMap());
+            modelBuilder.Configurations.Add(new TransportBidPlanMap());
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
         }
+
+        public DbSet<TransportBidPlan> TransportBidPlans { get; set; }
 
         //public DbSet<Transporter> Transporters { get; set; }
     }

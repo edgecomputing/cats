@@ -1,0 +1,62 @@
+﻿@model Cats.Models.TransportBidPlan
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>TransportBidPlan</legend>
+
+        @Html.HiddenFor(model => model.TransportBidPlanID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Year)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Year)
+            @Html.ValidationMessageFor(model => model.Year)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.YearHalf)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.YearHalf)
+            @Html.ValidationMessageFor(model => model.YearHalf)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RegionID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RegionID)
+            @Html.ValidationMessageFor(model => model.RegionID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProgramID, "Program")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ProgramID", String.Empty)
+            @Html.ValidationMessageFor(model => model.ProgramID)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
