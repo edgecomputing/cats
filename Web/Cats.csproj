@@ -157,6 +157,7 @@
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Models\CatsContext2.cs" />
@@ -315,6 +316,7 @@
     <Content Include="Scripts\js\jquery.calendars.picker-am.js" />
     <Content Include="Scripts\js\jquery.calendars.picker.js" />
     <Content Include="Scripts\js\jquery.calendars.plus.js" />
+    <Content Include="Content\site.js" />
     <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
     <Content Include="Views\Shared\hubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
@@ -334,6 +336,7 @@
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
+    <Content Include="Areas\Settings\Views\Web.config" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -367,12 +370,16 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\View1.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
     <Folder Include="Areas\Procurement\Views\Shared\" />
+    <Folder Include="Areas\Settings\Controllers\" />
+    <Folder Include="Areas\Settings\Models\" />
+    <Folder Include="Areas\Settings\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
