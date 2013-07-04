@@ -44,13 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-      </Reference>
-      <Reference Include="EthCal">
-      <HintPath>..\packages\EthCal.1.0.0.0\lib\net45\EthCal.dll</HintPath>
-
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject">
