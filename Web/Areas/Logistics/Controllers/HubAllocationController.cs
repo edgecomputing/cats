@@ -31,7 +31,7 @@ namespace Cats.Areas.Logistics.Controllers
 
 
 
-        public ActionResult ApprovedRequesitions()
+        public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
@@ -45,18 +45,18 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
-            ICollection<ReliefRequisitionDetail> listOfRequsitions=null;
+            ICollection<ReliefRequisitionDetail> listOfRequsitions = new List<ReliefRequisitionDetail>();
             ReliefRequisitionDetail[] _requisitionDetail;
 
            _requisitionDetail = requisitionDetail.ToArray();
 
-            var _chkValue = _Form["chkApprovedRequests"]; // for this code the _chkValue will return all value of each checkbox that is checked
+           var _chkValue = _Form["IsChecked"]; // for this code the _chkValue will return all value of each checkbox that is checked
 
-
+            
             if (_chkValue != null)
             {
 
-                string[] _arrChkValue = _Form["chkApprovedRequests"].ToString().Split(',');
+                string[] _arrChkValue = _Form["IsChecked"].ToString().Split(',');
 
                 for (int i = 0; i < _arrChkValue.Length; i++)
                 {
