@@ -47,15 +47,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requId = 0;
             foreach (var reliefRequisitionNewInput in inputs)
             {
-
-                var tempReliefRequisiton =
-                    _reliefRequisitionService.FindById(reliefRequisitionNewInput.Number);
-                //   requId = tempReliefRequistionDetail.RegionalRequestID;
-                tempReliefRequisiton.RequisitionNo = reliefRequisitionNewInput.RequisitionNo;
-
+                _reliefRequisitionService.AssignRequisitonNo(reliefRequisitionNewInput.Number,
+                                                             reliefRequisitionNewInput.RequisitionNo);
 
             }
-            _reliefRequisitionService.Save();
+        
+
+        _reliefRequisitionService.Save();
 
 
 

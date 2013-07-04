@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
@@ -79,6 +80,14 @@ namespace Cats.Tests.ControllersTests
                                                }
 
                                        };
+            var adminUnit = new List<AdminUnit>()
+                                {
+                                    new AdminUnit
+                                        {
+                                            Name = "Temp Admin uni",
+                                            AdminUnitID = 1
+                                        }
+                                };
             var mockRegionalRequestService = new Mock<IRegionalRequestService>();
             mockRegionalRequestService.Setup(
                 t => t.GetSubmittedRequest(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(
@@ -87,7 +96,12 @@ namespace Cats.Tests.ControllersTests
                          return   regionalRequests.FindAll(
                                 t => t.RegionID == region && t.RequistionDate.Month == month && t.Status == status).ToList();
                         });
-            _requestController=new RequestController(mockRegionalRequestService.Object,null,null,null,null,null);
+            mockRegionalRequestService.Setup(t => t.Get(It.IsAny<Expression<Func<RegionalRequest, bool>>>(), null, It.IsAny<string>())).Returns(regionalRequests.AsQueryable());
+         
+            var mockAdminUnitService = new Mock<IAdminUnitService>();
+            mockAdminUnitService.Setup(t => t.FindBy(It.IsAny<Expression<Func<AdminUnit, bool>>>())).Returns(adminUnit);
+
+            _requestController = new RequestController(mockRegionalRequestService.Object, null, mockAdminUnitService.Object, null, null, null);
 
         }
 
@@ -99,7 +113,13 @@ namespace Cats.Tests.ControllersTests
 
         #region Tests
 
-      
+      [Test]
+        public void Should_List_Submitted_Requests()
+      {
+          var view = _requestController.SubmittedRequest();
+
+          Assert.AreEqual(1, ((IEnumerable<RegionalRequest>)view.Model).Count());
+      }
 
         #endregion
     }

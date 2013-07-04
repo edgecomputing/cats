@@ -338,8 +338,6 @@
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />

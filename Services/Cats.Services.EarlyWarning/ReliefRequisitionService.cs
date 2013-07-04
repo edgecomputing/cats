@@ -17,7 +17,7 @@ namespace Cats.Services.EarlyWarning
 
         private readonly IUnitOfWork _unitOfWork;
 
-       
+
 
         public ReliefRequisitionService(IUnitOfWork unitOfWork)
         {
@@ -95,20 +95,20 @@ namespace Cats.Services.EarlyWarning
                 }
             };
         }
-        public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions )
+        public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions)
         {
             foreach (var reliefRequisition in reliefRequisitions)
             {
                 this._unitOfWork.ReliefRequisitionRepository.Add(reliefRequisition);
             }
-           
+
         }
 
         public IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId)
         {
             //Check if Requisition is created from this request
             //
-            var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t=>t.RegionalRequestID==requestId && t.Status==(int) REGIONAL_REQUEST_STATUS.Submitted,null, "RegionalRequestDetails").FirstOrDefault();
+            var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)REGIONAL_REQUEST_STATUS.Submitted, null, "RegionalRequestDetails").FirstOrDefault();
             if (regionalRequest == null) return null;
 
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
@@ -206,7 +206,7 @@ namespace Cats.Services.EarlyWarning
 
                 //Create Requisiton for Grain
 
-                var commodityId =_unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.GrainName).SingleOrDefault().CommodityID;
+                var commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.GrainName).SingleOrDefault().CommodityID;
 
                 reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
 
@@ -256,12 +256,25 @@ namespace Cats.Services.EarlyWarning
 
         public bool Save()
         {
-          _unitOfWork.Save();
+            _unitOfWork.Save();
             return true;
         }
 
 
-      
+
+
+
+        public bool AssignRequisitonNo(int requisitonId, string requisitonNo)
+        {
+            var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitonId);
+            requisition.RequisitionNo = requisitonNo;
+            if (requisition.RegionalRequestID.HasValue)
+            {
+                var request = _unitOfWork.RegionalRequestRepository.FindById(requisition.RegionalRequestID.Value);
+                request.Status = (int)REGIONAL_REQUEST_STATUS.Closed;
+            }
+            return true;
+        }
     }
 }
 

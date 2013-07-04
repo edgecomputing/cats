@@ -36,6 +36,7 @@ namespace Cats.Services.EarlyWarning
           string includeProperties = "");
 
         IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId);
+       bool AssignRequisitonNo(int requisitonId,string requisitonNo);
         bool Save();
       
 
