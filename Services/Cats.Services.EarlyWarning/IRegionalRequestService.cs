@@ -24,6 +24,8 @@ namespace Cats.Services.EarlyWarning
            Expression<Func<RegionalRequest, bool>> filter = null,
            Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
            string includeProperties = "");
+
+        List<int?> GetZonesFoodRequested(int requestId);
    }
 }
 

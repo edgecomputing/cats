@@ -58,11 +58,11 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.DispatchAllocationRepository.GetAll();
         }
-        public DispatchAllocation FindById(int id)
+        public DispatchAllocation FindById(Guid id)
         {
             return _unitOfWork.DispatchAllocationRepository.FindById(id);
         }
-        public List<DispatchAllocation> FindBy(Expression<Func<DispatchAllocation, bool>> predicate)
+        public IEnumerable<DispatchAllocation> FindBy(Expression<Func<DispatchAllocation, bool>> predicate)
         {
             return _unitOfWork.DispatchAllocationRepository.FindBy(predicate);
         }

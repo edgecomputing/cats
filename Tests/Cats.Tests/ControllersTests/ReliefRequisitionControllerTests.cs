@@ -43,7 +43,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RegionID = 1
                                                  ,
-                                                 ReliefRequisitionID = 1
+                                                 RequisitionID = 1
                                                  ,
                                                  Status = 1
                                                  ,
@@ -53,7 +53,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RequestedBy = 1
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                          new ReliefRequisition()
@@ -70,7 +70,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RegionID = 2
                                                  ,
-                                                 ReliefRequisitionID = 2
+                                                 RequisitionID = 2
                                                  ,
                                                  Status = 1
                                                  ,
@@ -80,7 +80,7 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  RequestedBy = 2
                                                  ,
-                                                 RequisitionDate = DateTime.Today
+                                                 RequestedDate = DateTime.Today
 
                                              },
                                      };
@@ -303,11 +303,11 @@ namespace Cats.Tests.ControllersTests
             //Arange 
             var regionalRequest = _regionalRequests.Find(t=>t.RegionalRequestID==1);
             var commodityId = 1;
-            var requisiton = _reliefRequisitionController.CreateRequisition(regionalRequest, commodityId);
+            var requisiton = _reliefRequisitionController.CreateRequisition(regionalRequest, commodityId,1);
 
             Assert.AreEqual(commodityId, requisiton.CommodityID);
-            Assert.AreEqual(2, requisiton.ReliefRequisitionDetials.Count);
-            Assert.AreEqual(commodityId,requisiton.ReliefRequisitionDetials.First().CommodityID);
+            Assert.AreEqual(2, requisiton.ReliefRequisitionDetails.Count);
+            Assert.AreEqual(commodityId,requisiton.ReliefRequisitionDetails.First().CommodityID);
 
         }
 
@@ -317,7 +317,7 @@ namespace Cats.Tests.ControllersTests
             //Arange 
             List<ReliefRequisition> reliefRequisitions = _reliefRequisitionController.CreateRequistionFromRequest(1);
             var requestCommodity = new RegionalRequestDetail();
-            var commdities = new int[]
+            var commdities = new int?[]
                                  {
                                      _commodityService.GetCommoidtyId(requestCommodity.GrainName),
                                      _commodityService.GetCommoidtyId(requestCommodity.OilName),
@@ -327,17 +327,15 @@ namespace Cats.Tests.ControllersTests
            
 
             Assert.AreEqual(4, reliefRequisitions.Count);
-            Assert.IsTrue(reliefRequisitions.All(t=>commdities.Contains(t.CommodityID)));
+            Assert.IsTrue(reliefRequisitions.All(t => commdities.Contains(t.CommodityID)));
            
-            Assert.IsTrue(reliefRequisitions.All(t=>t.ReliefRequisitionDetials.Count == 2));
+            Assert.IsTrue(reliefRequisitions.All(t=>t.ReliefRequisitionDetails.Count == 2));
         }
 
         [Test]
         public void Can_Create_New_Requistion()
-        {
+        {            
             var view = _reliefRequisitionController.NewRequisiton(1);
-
-
             //Asert
             Assert.IsInstanceOf<ViewResult>(view);
             Assert.AreEqual(((IEnumerable<ReliefRequisition>)view.Model).Count(), 4);

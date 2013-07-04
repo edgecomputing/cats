@@ -22,9 +22,9 @@ namespace Cats.Services.EarlyWarning
 
         List<DispatchAllocation> GetAllDispatchAllocationDetail();
 
-        DispatchAllocation FindById(int id);
+        DispatchAllocation FindById(Guid id);
 
-        List<DispatchAllocation> FindBy(Expression<Func<DispatchAllocation, bool>> predicate);
+        IEnumerable<DispatchAllocation> FindBy(Expression<Func<DispatchAllocation, bool>> predicate);
         
     }
 }

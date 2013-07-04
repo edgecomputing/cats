@@ -147,10 +147,14 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
+    <Compile Include="Areas\Logistics\Models\DispatchAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
+    <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -216,6 +220,7 @@
     <Content Include="Content\assets\js\bootstrap-button.js" />
     <Content Include="Content\assets\js\bootstrap-carousel.js" />
     <Content Include="Content\assets\js\bootstrap-collapse.js" />
+    <Content Include="Content\assets\js\bootstrap-datepicker.js" />
     <Content Include="Content\assets\js\bootstrap-dropdown.js" />
     <Content Include="Content\assets\js\bootstrap-modal.js" />
     <Content Include="Content\assets\js\bootstrap-popover.js" />
@@ -295,11 +300,13 @@
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
+    <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
+    <Content Include="Views\Shared\hubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
@@ -309,6 +316,13 @@
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -341,6 +355,7 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\View1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -352,11 +367,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Cats.Data.csproj">
+    <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models.csproj">
+    <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
     </ProjectReference>

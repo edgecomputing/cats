@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.ReliefRequisitionNew>
+
+@{
+    ViewBag.Title = "NewRequisiton";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>NewRequisiton</h2>
+
+
+@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <th>
+                @Html.Label("Requisiton No")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommodityID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegionID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZoneID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Round)
+            </th>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgramID)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @{ int index = 0; }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new {@style = "width:80%; border:none; !important;"})
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommodityID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZoneID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Round)
+                </td>
+      
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApprovedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApprovedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProgramID)
+                </td>
+                <td>
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new {id = item.RequisitionID}) |*@
+           
+                </td>
+            </tr>
+            
+            index++;
+        }
+
+    </table>
+     <p>
+        <input class="btn btn-success" type="submit" value="Save Change" />
+    </p>
+}

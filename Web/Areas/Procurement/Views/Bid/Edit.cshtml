@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Cats.Areas.Procurement.Models.BidDetailsViewModel>
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+@using (Html.BeginForm("Edit", "Bid", FormMethod.Post))
+{
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountForReliefProgram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountForPSNPProgram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BidDocumentPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CPO)
+            </th>
+            <th></th>
+        </tr>
+        @{ int index = 0; }
+        @foreach (var bidDetail in Model)
+        {
+            <tr>
+                <td>
+                    @bidDetail.Region
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].AmountForReliefProgram", bidDetail.Edit.AmountForReliefProgram, new {@style = "width:80%; border:none; !important;"})
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].AmountForPSNPProgram", bidDetail.Edit.AmountForPSNPProgram, new {@style = "width:80%; border:none; !important;"})
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].BidDocumentPrice", bidDetail.Edit.BidDocumentPrice, new {@style = "width:80%; border:none; !important;"})
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].CPO", bidDetail.Edit.CPO, new {@style = "width:80%; border:none; !important;"})
+                </td>
+                <td>
+                    <input type="hidden" value="@bidDetail.Edit.Number" name="@("input[" + index + "].Number")" />
+                </td>
+            </tr>
+            index++;
+        }
+    </table>
+    <p>
+        <input class="btn btn-success" type="submit" value="Save Bid" />
+    </p>
+}
+
+
+
+
+
+

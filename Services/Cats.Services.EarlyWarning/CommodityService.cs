@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -73,7 +74,9 @@ namespace Cats.Services.EarlyWarning
 
         public int GetCommoidtyId(string commodityName)
         {
-            throw new NotImplementedException();
+            return  _unitOfWork.CommodityRepository.FindBy(t => t.Name == commodityName).SingleOrDefault().CommodityID;
+            
+           
         }
     }
 }

@@ -64,19 +64,58 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.ReliefRequisitionRepository.FindBy(predicate);
         }
-        public IEnumerable<ReliefRequisition> Get(
-          Expression<Func<ReliefRequisition, bool>> filter = null,
-          Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
+
+        public IEnumerable<RegionalRequest> Get(
+          Expression<Func<RegionalRequest, bool>> filter = null,
+          Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
           string includeProperties = "")
         {
-            return _unitOfWork.ReliefRequisitionRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.RegionalRequestRepository.Get(filter, orderBy, includeProperties);
         }
+
+
         #endregion
 
+        public List<ReliefRequisition> GetApprovedRequistion()
+        {
+            return new List<ReliefRequisition>(){
+                new ReliefRequisition(){
+                ProgramID=1,
+                RegionID=1,
+                RequestedBy=1,
+                 RequestedDate=DateTime.Today,
+                RequisitionNo="XYZ123",
+                Round=1,
+                Status=1,
+                ZoneID=1,
+                CommodityID=1
+             
+
+                }
+            };
+        }
+        public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions )
+        {
+            foreach (var reliefRequisition in reliefRequisitions)
+            {
+                this._unitOfWork.ReliefRequisitionRepository.Add(reliefRequisition);
+            }
+           
+        } 
         public void Dispose()
         {
             _unitOfWork.Dispose();
 
+        }
+
+
+
+
+
+        public bool Save()
+        {
+          _unitOfWork.Save();
+            return true;
         }
 
 

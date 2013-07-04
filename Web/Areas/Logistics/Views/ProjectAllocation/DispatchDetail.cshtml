@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.DispatchAllocation>
+﻿@model IEnumerable<Cats.Areas.Logistics.Models.DispatchAllocation>
 
 @{
     ViewBag.Title = "DispatchDetail";
@@ -6,7 +6,7 @@
 }
 
 
-@using (Html.BeginForm("Edit", "ReliefRequisition", FormMethod.Post))
+@using (Html.BeginForm("Edit", "ProjectAllocation", FormMethod.Post))
 {
     <table class="table table-bordered table-condensed table-striped">
         <tr>
@@ -44,30 +44,33 @@
                     @Html.Label("input[" + index + "].RequisitionNo", item.RequisitionNo, new { @style = "width:80%; border:none; !important;" })
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].CommodityID", item.CommodityID, new { @style = "width:80%; border:none; !important;" })
+                    @item.CommodityID
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].HubID", item.HubID, new { @style = "width:80%; border:none; !important;" })
+                    @item.HubID
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].Beneficiery", item.Beneficiery, new { @style = "width:80%; border:none; !important;" })
+                    @item.Beneficiery
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].Amount", item.Amount, new { @style = "width:80%; border:none; !important;" })
+                    @item.Amount
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].Unit", item.Unit, new { @style = "width:80%; border:none; !important;" })
+                    @item.Unit
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].ShippingInstructionID", item.ShippingInstructionID, new { @style = "width:80%; border:none; !important;" })
+                    
+                    @Html.TextBox("input[" + index + "].ShippingInstructionID", item.Input.ShippingInstructionID, new { @style = "width:80%; border:none; !important;" })
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].ProjectCodeID", item.ProjectCodeID, new { @style = "width:80%; border:none; !important;" })
+                    @Html.TextBox("input[" + index + "].ProjectCodeID", item.Input.ProjectCodeID, new { @style = "width:80%; border:none; !important;" })
                 </td>
-                
                 <td>
-                    @*@Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "ReliefRequisition", new { id=item.DispatchAllocationID }) |
+                @*@Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
                 @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})*@
                 </td>
             </tr>

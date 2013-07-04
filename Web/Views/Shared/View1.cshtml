@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Cats.Models.ReliefRequisitionDetail>
+
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("SelectHub", "HubAllocation", FormMethod.Post, Model))
+{
+<fieldset>
+    <legend>Approved Requisitions</legend>
+</fieldset>
+
+<table  class="table table-striped table-bordered">
+    <tr>
+        <td>
+            @Html.Label("select request")
+        </td>
+        <td>
+            @Html.Label("commodity")
+        </td>
+        <td>
+            @Html.Label("Requisition No")
+        </td>
+        <td>
+            @Html.Label("Requisition Date")
+        </td>
+        <td>
+            @Html.Label("Aproved Date")
+        </td>
+        <td>
+            @Html.Label("Amount")
+        </td>
+         <td>
+            @Html.Label("Beneficaiaries")
+        </td>
+    </tr>
+
+    @{int index = 0;}
+@foreach (var item in Model)
+{
+
+    <tr>
+        <td>
+            @Html.CheckBox("requests")
+            
+        </td>
+        <td>
+            @item.Commodity
+             @Html.HiddenFor(modelitem=>item.Commodity)
+        </td>
+        <td>
+            @item.ReliefRequisition.RequisitionNo
+            @Html.HiddenFor(modelitem=>item.ReliefRequisition.RequisitionNo)
+        </td>
+        <td>
+            @item.ReliefRequisition.RequisitionDate
+            @Html.HiddenFor(modelitem=>item.ReliefRequisition.RequisitionDate)
+        </td>
+        <td>
+            @item.ReliefRequisition.ApprovedDate
+            @Html.HiddenFor(modelitem=>item.ReliefRequisition.ApprovedDate)
+        </td>
+   
+        <td>
+          @item.Amount
+             
+        </td>
+         <td>
+            @item.Beneficiaries
+            
+        </td>
+    
+        </tr>
+    index++;
+        }
+        
+    </table>
+    <input class="button" id="submit" type="submit" value="Submit" />
+    <button type="submit" class="btn btn-success">
+  <i class="icon-user icon-white"></i> submit
+</button>
+        }
+<p>
+    @Html.ActionLink("Edit", "SelectHub", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

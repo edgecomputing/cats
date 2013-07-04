@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Cats.Models.ReliefRequisitionDetail>
+
+@{
+    ViewBag.Title = "ApprovedRequesitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>ApprovedRequesitions</h2>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.Label("Commodity")
+        </th>
+        <th>
+            @Html.Display("Region")
+        </th>
+        <th>
+            @Html.Display("Zone")
+        </th>
+        <th>
+            @Html.Display("Round")
+        </th>
+        <th>
+            @Html.Display("Req. No")
+        </th>
+       
+        <th>
+            @Html.Display("Req. Date")
+        </th>
+        <th>
+            @Html.Display("Amount")
+        </th>
+        <th>
+            @Html.Display("Beneficiaries")
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.CheckBox("test")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Commodity.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.ZoneID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.ZoneID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.Round)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.RequestedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BenficiaryNo)
+        </td>
+  
+        
+    </tr>
+}
+
+</table>

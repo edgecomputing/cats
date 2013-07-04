@@ -76,7 +76,19 @@ namespace Cats.Services.EarlyWarning
            _unitOfWork.Dispose();
            
        }
-       
+
+
+
+       public List<int?> GetZonesFoodRequested(int requestId)
+       {
+           var regionalRequestDetails =
+               _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId, null,
+                                                               "FDP,FDP.AdminUnit");
+           var zones =
+               (from requestDetail in regionalRequestDetails where requestDetail.Fdp.AdminUnit.ParentID !=null select requestDetail.Fdp.AdminUnit.ParentID ).Distinct();
+           return zones.ToList();
+
+       }
    }
    }
    

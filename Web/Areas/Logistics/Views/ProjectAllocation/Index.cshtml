@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Cats.Areas.Logistics.Models.DispatchAllocation>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @using (Html.BeginForm())
+    {
+        <div class="control-group">
+           @ViewData["Requisitions"] 
+        </div>
+
+    }
+}
+@using (Html.BeginForm("Edit", "ProjectAllocation", FormMethod.Get))
+{
+    <table class="table table-bordered table-condensed table-striped">
+        
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RequisitionNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommodityID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HubID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Beneficiery)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShippingInstructionID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectCodeID)
+            </th>
+            <th></th>
+        </tr>
+        @{ int index = 0; }
+        <a href="@Url.Action("DispatchDetail", "ProjectAllocation", new { Area = "Logistics", id = Model.FirstOrDefault().RequisitionNo })">Assign Project Code for Requisition Number @Html.DisplayFor(modelItem => Model.FirstOrDefault().RequisitionNo)</a>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequisitionNo)
+                    @*@item.RequisitionNo*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommodityID)
+                    @*@item.CommodityID*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HubID)
+                    @*@item.HubID*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Beneficiery)
+                    @*@item.Beneficiery*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                    @*@item.Amount*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unit)
+                    @*@item.Unit*@
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippingInstructionID)
+                    @*@item.ShippingInstructionID*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectCodeID)
+                    @*@Html.TextBox("input[" + index + "].ProjectCodeID", item.ProjectCodeID, new { @style = "width:80%; border:none; !important;" })*@
+                </td>
+                <td>
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" />
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "ReliefRequisition", new { id=item.DispatchAllocationID }) |
+                @*@Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})*@
+                </td>
+            </tr>
+            index++;
+        }
+
+    </table>
+    <p>
+        <input class="btn btn-success" type="submit" value="Submit Request" />
+    </p>
+}
+
