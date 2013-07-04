@@ -17,15 +17,14 @@ namespace Cats.Areas.Logistics.Controllers
         private IReliefRequisitionService _reliefRequistionService;
         private IDispatchAllocationDetailService _dispatchAllocationDetailService;
 
-        public ProjectAllocationController(IReliefRequisitionService reliefRequistionService,
+        public ProjectAllocationController(
+            IReliefRequisitionService reliefRequistionService,
             IDispatchAllocationDetailService dispatchAllocationService)
         {
             this._reliefRequistionService = reliefRequistionService;
             this._dispatchAllocationDetailService = dispatchAllocationService;
         }
-        public ProjectAllocationController()
-        {
-        }
+       
         public ActionResult getRRD()
         {
 
@@ -47,7 +46,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            IDispatchAllocationDetailService _dispatchAllocationDetailService = new DispatchAllocationDetailService();
+           // IDispatchAllocationDetailService _dispatchAllocationDetailService = new DispatchAllocationDetailService();
 
             var detaail = _dispatchAllocationDetailService.FindBy(t => t.RequisitionNo.Equals("31637"));
             var input = (from item in detaail
@@ -73,7 +72,7 @@ namespace Cats.Areas.Logistics.Controllers
         [HttpGet]
         public ActionResult DispatchDetail(int id)
         {
-            IDispatchAllocationDetailService _dispatchAllocationDetailService = new DispatchAllocationDetailService();
+            //IDispatchAllocationDetailService _dispatchAllocationDetailService = new DispatchAllocationDetailService();
             string reqNumber = id.ToString();
             var detaail = _dispatchAllocationDetailService.FindBy(t => t.RequisitionNo.Equals(reqNumber));
             var input = (from item in detaail
@@ -97,20 +96,18 @@ namespace Cats.Areas.Logistics.Controllers
         [HttpPost]
         public ActionResult Edit(List<DispatchAllocation.DispatchAllocationInput> input)
         {
-            IDispatchAllocationDetailService _dispatchAllocationDetailService = new DispatchAllocationDetailService();
+            //IDispatchAllocationDetailService _dispatchAllocationDetailService = new DispatchAllocationDetailService();
             //Guid requId = 0;
             int requId=0;
+            List<Cats.Models.DispatchAllocation> list = new List<Cats.Models.DispatchAllocation>();
             foreach (var dispatchDetail in input)
             {
 
-                var tempDispatchAllocation =
-                    _dispatchAllocationDetailService.FindById(dispatchDetail.Number);
-                 requId = Convert.ToInt16(tempDispatchAllocation.RequisitionNo);
-                tempDispatchAllocation.ProjectCodeID = dispatchDetail.ProjectCodeID;
-                tempDispatchAllocation.ShippingInstructionID = dispatchDetail.ShippingInstructionID;
               
+                list.Add(new Cats.Models.DispatchAllocation { DispatchAllocationID=dispatchDetail.Number ,ProjectCodeID=dispatchDetail.ProjectCodeID ,ShippingInstructionID=dispatchDetail.ShippingInstructionID});
             }
-            _dispatchAllocationDetailService.Save();
+      //      _dispatchAllocationDetailService.Save();
+            _dispatchAllocationDetailService.SaveProjectAllocation(list);
 
 
             return RedirectToAction("DispatchDetail", "ProjectAllocation", new { id = requId});
