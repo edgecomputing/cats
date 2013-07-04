@@ -6,7 +6,6 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using System;
 using Cats.Models;
-
 namespace Cats.Areas.Procurement.Controllers
 {
     public class BidController : Controller
