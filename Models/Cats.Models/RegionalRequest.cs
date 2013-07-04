@@ -22,8 +22,10 @@ namespace Cats.Models
         public int Year { get; set; }
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
+        public int Status { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
+        public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
        

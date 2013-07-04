@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
+using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
 
@@ -16,7 +17,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //
         // GET: /EarlyWarning/RegionalRequest/
 
-        private IRegionalRequestService _reliefRequistionService;
+        private IRegionalRequestService _regionalRequestService;
         private IFDPService _fdpService;
         //private IRoundService _roundService;
         private IAdminUnitService _adminUnitService;
@@ -30,7 +31,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ICommodityService commodityService,
             IRegionalRequestDetailService reliefRequisitionDetailService)
         {
-            this._reliefRequistionService = reliefRequistionService;
+            this._regionalRequestService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
             this._commodityService = commodityService;
             this._fdpService = fdpService;
@@ -41,7 +42,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
 
-            var reliefrequistions = _reliefRequistionService.Get(null, null, "AdminUnit,Program");
+            var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());
         }
 
@@ -51,28 +52,36 @@ namespace Cats.Areas.EarlyWarning.Controllers
             // TODO: Filter the collection using incoming parameters
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
-            var reliefrequistions = _reliefRequistionService.Get(r=>r.RequistionDate.Year==year && r.RequistionDate.Month==month, null, "AdminUnit,Program");
+
+            var reliefrequistions = _regionalRequestService.Get(r=>r.RequistionDate.Year==year && r.RequistionDate.Month==month, null, "AdminUnit,Program");
 
             return View(reliefrequistions.ToList());
         }
 
-        public ActionResult SubmittedRequest()
+        public ViewResult SubmittedRequest()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Status=new SelectList(RegionalRequestStatuses.GetAllStatus(),"Value","Name");
+            
 
-            var reliefrequistions = _reliefRequistionService.Get(null, null, "AdminUnit,Program");
+            var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());
         }
 
         [HttpPost]
-         public ActionResult SubmittedRequest(int year, int month)
+        public ViewResult SubmittedRequest(int? RegionID, int month, int? Status)
         {
+          
+            
             // TODO: Filter the collection using incoming parameters
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Status = new SelectList(RegionalRequestStatuses.GetAllStatus(), "Value", "Name");
+            var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0, month, Status.HasValue?Status.Value : 1);
+            
 
-            var reliefrequistions = _reliefRequistionService.Get(r=>r.RequistionDate.Year==year && r.RequistionDate.Month==month, null, "AdminUnit,Program");
-
-            return View(reliefrequistions.ToList());
+            return View(reliefrequistions);
         }
         
 
@@ -108,7 +117,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            RegionalRequest reliefrequistion = _reliefRequistionService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
+            RegionalRequest reliefrequistion = _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
             if (reliefrequistion == null)
             {
                 return HttpNotFound();
@@ -119,7 +128,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Edit(int id)
         {
             var reliefRequistion =
-                _reliefRequistionService.Get(t => t.RegionalRequestID == id, null, "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
+                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
                                                                                     "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2").
                     FirstOrDefault();
             ViewBag.CurrentRegion = reliefRequistion.AdminUnit.Name;
@@ -193,7 +202,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                                      }).ToList();
                 reliefRequistion.RegionalRequestDetails = releifDetails;
-                _reliefRequistionService.AddReliefRequistion(reliefRequistion);
+                _regionalRequestService.AddReliefRequistion(reliefRequistion);
                 return RedirectToAction("Edit", "Request", new { id = reliefRequistion.RegionalRequestID });
             }
             return View(new RegionalRequest());

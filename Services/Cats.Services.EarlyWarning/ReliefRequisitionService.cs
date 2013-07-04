@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.ViewModels;
 
 
 namespace Cats.Services.EarlyWarning
@@ -16,7 +17,7 @@ namespace Cats.Services.EarlyWarning
 
         private readonly IUnitOfWork _unitOfWork;
 
-       
+
 
         public ReliefRequisitionService(IUnitOfWork unitOfWork)
         {
@@ -65,12 +66,12 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.ReliefRequisitionRepository.FindBy(predicate);
         }
 
-        public IEnumerable<RegionalRequest> Get(
-          Expression<Func<RegionalRequest, bool>> filter = null,
-          Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
+        public IEnumerable<ReliefRequisition> Get(
+          Expression<Func<ReliefRequisition, bool>> filter = null,
+          Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
           string includeProperties = "")
         {
-            return _unitOfWork.RegionalRequestRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.ReliefRequisitionRepository.Get(filter, orderBy, includeProperties);
         }
 
 
@@ -94,14 +95,155 @@ namespace Cats.Services.EarlyWarning
                 }
             };
         }
-        public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions )
+        public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions)
         {
             foreach (var reliefRequisition in reliefRequisitions)
             {
                 this._unitOfWork.ReliefRequisitionRepository.Add(reliefRequisition);
             }
-           
-        } 
+
+        }
+
+        public IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId)
+        {
+            //Check if Requisition is created from this request
+            //
+            var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)REGIONAL_REQUEST_STATUS.Submitted, null, "RegionalRequestDetails").FirstOrDefault();
+            if (regionalRequest == null) return null;
+
+            var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
+            AddReliefRequisions(reliefRequistions);
+            _unitOfWork.Save();
+
+            var requisitonIds = (from requistion in reliefRequistions select requistion.RequisitionID);
+            reliefRequistions =
+                _unitOfWork.ReliefRequisitionRepository.Get(t => requisitonIds.Contains(t.RequisitionID), null, "Program,AdminUnit1,AdminUnit.AdminUnit2").ToList();
+
+            var input = (from itm in reliefRequistions
+                         select new ReliefRequisitionNew()
+                         {
+                             //TODO:Include navigation property for commodity on relife requistion
+                             Commodity = itm.CommodityID.ToString(),
+                             Program = itm.Program.Name,
+                             Region = itm.AdminUnit1.Name,
+                             Round = itm.Round,
+                             Zone = itm.AdminUnit.AdminUnit2.Name,
+                             Status = itm.Status,
+                             RequisitionID = itm.RequisitionID,
+                             // RequestedBy = itm.UserProfile,
+                             // ApprovedBy = itm.ApprovedBy,
+                             RequestedDate = itm.RequestedDate,
+                             ApprovedDate = itm.ApprovedDate,
+                             Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
+                             {
+                                 Number = itm.RequisitionID,
+                                 RequisitionNo = itm.RequisitionNo
+                             }
+                         });
+            return input;
+
+        }
+        public ReliefRequisition GenerateRequisition(RegionalRequest regionalRequest, int commodityId, int zoneId)
+        {
+
+            var relifRequisition = new ReliefRequisition()
+            {
+                //TODO:Please Include Regional Request ID in Requisition 
+                RegionalRequestID = regionalRequest.RegionalRequestID,
+                Round = regionalRequest.Round,
+                ProgramID = regionalRequest.ProgramId,
+                CommodityID = commodityId,
+                RequestedDate = DateTime.Today
+                    //TODO:Please find another way how to specify Requistion No
+                ,
+                RequisitionNo = Guid.NewGuid().ToString(),
+                RegionID = regionalRequest.RegionID,
+                ZoneID = zoneId,
+                Status = 1,
+                //RequestedBy =itm.RequestedBy,
+                //ApprovedBy=itm.ApprovedBy,
+                //ApprovedDate=itm.ApprovedDate,
+
+            };
+            var relifRequistionDetail = (from requestDetail in regionalRequest.RegionalRequestDetails
+                                         select new ReliefRequisitionDetail()
+                                         {
+                                             CommodityID = commodityId
+
+                                             ,
+                                             Amount = requestDetail.Grain
+                                             ,
+                                             BenficiaryNo = requestDetail.Beneficiaries
+                                             ,
+                                             FDPID = requestDetail.Fdpid
+
+                                         }).ToList();
+            relifRequisition.ReliefRequisitionDetails = relifRequistionDetail;
+
+            return relifRequisition;
+
+        }
+
+
+        public List<ReliefRequisition> CreateRequistionFromRequest(RegionalRequest regionalRequest)
+        {
+            //Note Here we are going to create 4 requistion from one request
+            //Assumtions Here is ColumnName of the request detail match with commodity name 
+            //var regionalRequest = _regionalRequestService.Get(t => t.RegionalRequestID == requestId, null,
+            //                                                  "RegionalRequestDetails").FirstOrDefault();
+            //var regionalRequest = _regionalRequestService.GetAllReliefRequistion().FirstOrDefault();
+
+
+            var regionalRequestDetailToGetCommodityId = new RegionalRequestDetail();
+            var reliefRequisitions = new List<ReliefRequisition>();
+
+            var zones = GetZonesFoodRequested(regionalRequest.RegionalRequestID);
+
+            foreach (var zone in zones)
+            {
+                var zoneId = zone.HasValue ? zone.Value : -1;
+                if (zoneId == -1) continue;
+
+                //Create Requisiton for Grain
+
+                var commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.GrainName).SingleOrDefault().CommodityID;
+
+                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
+
+
+                //Create Requistion for Oil
+
+                commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.OilName).SingleOrDefault().CommodityID;
+
+                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
+
+                //Create Requistion for pulse
+
+                commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.PulseName).SingleOrDefault().CommodityID;
+
+                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
+
+                //Create Requistion for CSB
+
+                commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.CSBName).SingleOrDefault().CommodityID;
+                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
+            }
+
+            return reliefRequisitions;
+        }
+        public List<int?> GetZonesFoodRequested(int requestId)
+        {
+            var regionalRequestDetails =
+                _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId, null,
+                                                                "FDP,FDP.AdminUnit");
+            var zones =
+                (from requestDetail in regionalRequestDetails
+                 where requestDetail.Fdp.AdminUnit.ParentID != null
+                 select requestDetail.Fdp.AdminUnit.ParentID).Distinct();
+            return zones.ToList();
+
+        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
@@ -114,12 +256,25 @@ namespace Cats.Services.EarlyWarning
 
         public bool Save()
         {
-          _unitOfWork.Save();
+            _unitOfWork.Save();
             return true;
         }
 
 
-      
+
+
+
+        public bool AssignRequisitonNo(int requisitonId, string requisitonNo)
+        {
+            var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitonId);
+            requisition.RequisitionNo = requisitonNo;
+            if (requisition.RegionalRequestID.HasValue)
+            {
+                var request = _unitOfWork.RegionalRequestRepository.FindById(requisition.RegionalRequestID.Value);
+                request.Status = (int)REGIONAL_REQUEST_STATUS.Closed;
+            }
+            return true;
+        }
     }
 }
 
