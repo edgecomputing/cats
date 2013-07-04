@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -16,11 +17,13 @@ namespace Cats.Tests
     [TestFixture]
     class ProjectCodeControllerTest : ControllerTestBase
     {
-        public readonly IDispatchAllocationDetailService MockDispatchAllocationService;
+        public IDispatchAllocationDetailService _DispatchAllocationService;
+        private ProjectAllocationController _controller;
 
-        public ProjectCodeControllerTest()
+        [SetUp]
+        public void Init()
         {
-            List<DispatchAllocation> regionalRequestTest = new List<DispatchAllocation>();
+            IEnumerable<DispatchAllocation> regionalRequestTest = new List<DispatchAllocation>();
             {
                 new DispatchAllocation { RequisitionNo = "1", Round = 2, CommodityID = 9, Amount = 1000, Year = 2012, ShippingInstructionID = 1, ProjectCodeID=1 };
                 new DispatchAllocation { RequisitionNo = "2", Round = 2, CommodityID = 10, Amount = 1000, Year = 2012, ShippingInstructionID = 2, ProjectCodeID = 2 };
@@ -40,15 +43,20 @@ namespace Cats.Tests
 
             
             Mock<IDispatchAllocationDetailService> mockDispatchAllocationService = new Mock<IDispatchAllocationDetailService>();
-
-           
             mockDispatchAllocationService.Setup(m => m.FindBy(req => req.RequisitionNo == "2")).Returns(regionalRequestTest);
 
-            this.MockDispatchAllocationService = mockDispatchAllocationService.Object;
+            mockDispatchAllocationService.Setup(
+                t => t.FindBy(It.IsAny<Expression<Func<DispatchAllocation, bool>>>())).Returns(regionalRequestTest.AsQueryable());
+            mockDispatchAllocationService.Setup(
+                t => t.SaveProjectAllocation(regionalRequestTest)).Returns(true);
+
+            this._DispatchAllocationService = mockDispatchAllocationService.Object;
+           
+            _controller = new ProjectAllocationController(null,mockDispatchAllocationService.Object);
         }
 
         private TestContext _testContextInstance;
-        private ProjectAllocationController _controller;
+        
         
 
         /// <summary>
@@ -66,21 +74,21 @@ namespace Cats.Tests
                 _testContextInstance = value;
             }
         }
-        [SetUp]
-        public void Setup()
-        {
-            
-            
-            _controller = new ProjectAllocationController();
+        //[SetUp]
+        //public void Setup()
+        //{
 
-        }
+
+        //    _controller = new ProjectAllocationController();
+
+        //}
 
         [Test]
         public void RequestController_Constructor_Test()
         {
             try
             {
-                _controller = new ProjectAllocationController();
+                //_controller = new ProjectAllocationController();
                
             }
             catch (Exception e)
@@ -93,31 +101,27 @@ namespace Cats.Tests
         public void sould_Return_IndexView()
         {
             var result = _controller.Index();
-            Assert.IsInstanceOf(typeof(ViewResult), result);
+            Assert.IsInstanceOf(typeof(ActionResult), result);
         }
         [Test]
         public void sould_Return_EditView()
         {
             var result = _controller.DispatchDetail(1);
-            Assert.IsInstanceOf(typeof(ViewResult), result);
+            Assert.IsInstanceOf(typeof(ActionResult), result);
         }
         [Test]
         public void Dispatch_Detail_Test()
         {
 
-            List<DispatchAllocation> expected = new List<DispatchAllocation>();
+            IEnumerable<DispatchAllocation> expected = new List<DispatchAllocation>();
             {
                 new DispatchAllocation { RequisitionNo = "1", Round = 2, CommodityID = 9, Amount = 1000, Year = 2012, ShippingInstructionID = 1, ProjectCodeID = 1 };
                 new DispatchAllocation { RequisitionNo = "2", Round = 2, CommodityID = 10, Amount = 1000, Year = 2012, ShippingInstructionID = 2, ProjectCodeID = 2 };
             }
-             
-            List<DispatchAllocation> actual = (List<DispatchAllocation>)MockDispatchAllocationService.FindBy(m => m.RequisitionNo == "1");
+
+            IEnumerable<DispatchAllocation> actual = (IEnumerable<DispatchAllocation>)_DispatchAllocationService.FindBy(m => m.RequisitionNo == "1");
             Assert.AreEqual(actual, expected);
-            foreach (var regionalRequestExpected in expected)
-            {
-                Assert.IsTrue(actual.Contains(actual.Find(r => r.RequisitionNo == regionalRequestExpected.RequisitionNo)));
-            }
-            Assert.AreEqual(expected, actual);
+            
         }
 
         [Test]
@@ -130,14 +134,14 @@ namespace Cats.Tests
                 new DispatchAllocation { RequisitionNo = "2", Round = 2, CommodityID = 10, Amount = 1000, Year = 2012, ShippingInstructionID = 2, ProjectCodeID = 2 };
             }
 
-            bool actual = MockDispatchAllocationService.Save();
-            Assert.AreEqual(actual, true);
-            List<DispatchAllocation> actualList = (List<DispatchAllocation>)MockDispatchAllocationService.FindBy(m => m.RequisitionNo == "1");
+            bool actual = _DispatchAllocationService.SaveProjectAllocation(expected);
+            Assert.AreEqual(true, actual);
+            IEnumerable<DispatchAllocation> actualList = _DispatchAllocationService.FindBy(m => m.RequisitionNo == "1");
             foreach (var regionalRequestExpected in expected)
             {
-                Assert.IsTrue(actualList.Contains(actualList.Find(r => r.RequisitionNo == regionalRequestExpected.RequisitionNo)));
+                Assert.IsTrue(actualList.Contains(actualList.ToList().Find(r => r.RequisitionNo == regionalRequestExpected.RequisitionNo)));
             }
-            Assert.AreEqual(expected, actual);
+            
         }
     }
 }
