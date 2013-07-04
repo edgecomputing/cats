@@ -46,6 +46,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IBidService>().To<BidService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
             kernel.Bind<IBidDetailService>().To<BidDetailService>();
+            kernel.Bind<IDispatchAllocationDetailService>().To<DispatchAllocationDetailService>();
             
         }
     }
