@@ -130,7 +130,7 @@ namespace Cats.Services.Security
         public bool ChangePassword(int userId, string password)
         {
             var user = GetUserDetail(userId);
-            return ChangePassword(user, password);            
+            return ChangePassword(user, password);
         }
 
         public bool ChangePassword(string userName, string password)
@@ -149,7 +149,7 @@ namespace Cats.Services.Security
                     user.Password = HashPassword(password);
                     _unitOfWork.Save();
                     return true;
-                }               
+                }
             }
             catch (Exception e)
             {
@@ -160,12 +160,32 @@ namespace Cats.Services.Security
 
         public string ResetPassword(User userInfo)
         {
-            throw new NotImplementedException();
+            return ResetPassword(userInfo.UserName);
         }
 
         public string ResetPassword(string userName)
         {
-            throw new NotImplementedException();
+            // Generate a random password
+            var random = new Random();
+            var randomPassword = GenerateString(random, 8);
+
+            // Reset the current user's password attribute to the new one            
+            var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+
+            if (user != null)
+            {
+                user.Password = HashPassword(randomPassword);
+                try
+                {
+                    _unitOfWork.Save();
+                    // TODO: Consider sending the new password through email for the user!
+                }
+                catch (Exception e)
+                {
+                    throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", user.FullName, e.Message), e);
+                }
+            }
+            return randomPassword;
         }
 
         /// <summary>
@@ -176,7 +196,7 @@ namespace Cats.Services.Security
         /// <param name="userName">The account to enable/disable</param>
         /// <returns>boolean value informing the status of the operation</returns>
         public bool DisableAccount(string userName)
-        {            
+        {
             try
             {
                 var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
@@ -244,6 +264,22 @@ namespace Cats.Services.Security
         public string[] GetUserPermissions(string userName)
         {
             throw new NotImplementedException();
+        }
+
+
+        public string GenerateString(Random rng, int length)
+        {
+            var letters = new char[length];
+            for (var i = 0; i < length; i++)
+            {
+                letters[i] = GenerateChar(rng);
+            }
+            return new string(letters);
+        }
+
+        private char GenerateChar(Random rng)
+        {
+            return (char)(rng.Next('A', 'Z' + 1));
         }
 
         #endregion
