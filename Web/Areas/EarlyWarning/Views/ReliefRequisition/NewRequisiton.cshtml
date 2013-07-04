@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.ReliefRequisitionNew>
+﻿@model IEnumerable<Cats.Models.ViewModels.ReliefRequisitionNew>
 
 @{
     ViewBag.Title = "NewRequisiton";
@@ -16,13 +16,13 @@
                 @Html.Label("Requisiton No")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CommodityID)
+                @Html.DisplayNameFor(model => model.Commodity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RegionID)
+                @Html.DisplayNameFor(model => model.Region)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ZoneID)
+                @Html.DisplayNameFor(model => model.Zone)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Round)
@@ -44,7 +44,7 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProgramID)
+                @Html.DisplayNameFor(model => model.Program)
             </th>
             <th></th>
             <th></th>
@@ -57,13 +57,13 @@
                     @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new {@style = "width:80%; border:none; !important;"})
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CommodityID)
+                    @Html.DisplayFor(modelItem => item.Commodity)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegionID)
+                    @Html.DisplayFor(modelItem => item.Region)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ZoneID)
+                    @Html.DisplayFor(modelItem => item.Zone)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Round)
@@ -85,7 +85,7 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProgramID)
+                    @Html.DisplayFor(modelItem => item.Program)
                 </td>
                 <td>
                     <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />

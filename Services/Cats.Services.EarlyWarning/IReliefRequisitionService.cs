@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.ViewModels;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -29,12 +30,12 @@ namespace Cats.Services.EarlyWarning
         //   string includeProperties = "");
 
 
-        IEnumerable<RegionalRequest> Get(
-          Expression<Func<RegionalRequest, bool>> filter = null,
-          Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
+        IEnumerable<ReliefRequisition> Get(
+          Expression<Func<ReliefRequisition, bool>> filter = null,
+          Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
           string includeProperties = "");
 
-
+        IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId);
         bool Save();
       
 
