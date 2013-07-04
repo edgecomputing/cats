@@ -160,7 +160,7 @@ namespace Cats.Services.Security
 
         public string ResetPassword(User userInfo)
         {
-
+            return ResetPassword(userInfo.UserName);
         }
 
         public string ResetPassword(string userName)
@@ -182,7 +182,7 @@ namespace Cats.Services.Security
                 }
                 catch (Exception e)
                 {
-                    throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", userInfo.FullName, e.Message), e);
+                    throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", user.FullName, e.Message), e);
                 }
             }
             return randomPassword;

@@ -29,11 +29,6 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
 
         #region Tests
 
-        [Test]
-        public void Test()
-        {
-        }
-
         #endregion
         [Test]
         public void Can_Get_List_Of_Requisition()
