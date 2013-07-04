@@ -7,9 +7,12 @@ namespace Cats.Procurement.Models
 {
     public class Transporter
     {
-        
+        public Transporter()
+        {
+            this.Name = "Transporter1";
+        }
         public int TransporterID { get; set; }
-        
+        public string Name { get; set; }
         //Transporter Address
         public string Region { get; set; }
         public string SubCity { get; set; }

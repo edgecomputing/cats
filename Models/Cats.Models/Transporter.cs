@@ -10,7 +10,12 @@ namespace Cats.Models
         public int TransporterID { get; set; }
 
         //Transporter Address
+         [Required]
+         [Display(Name = "Name")]
+        public string Name { get; set; }
         public string Region { get; set; }
+
+         [Display(Name = "Sub City")]
         public string SubCity { get; set; }
         public string Zone { get; set; }
         public string Woreda { get; set; }

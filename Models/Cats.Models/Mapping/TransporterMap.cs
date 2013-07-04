@@ -18,9 +18,11 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(50);*/
 
             // Table & Column Mappings
+  
             this.ToTable("Procurement.Transporter");
-            this.Property(t => t.Zone).HasColumnName("Region");
-            this.Property(t => t.Zone).HasColumnName("SubCity");
+            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Region).HasColumnName("Region");
+            this.Property(t => t.SubCity).HasColumnName("SubCity");
             this.Property(t => t.Zone).HasColumnName("Zone");
             this.Property(t => t.Woreda).HasColumnName("Woreda");
             this.Property(t => t.Kebele).HasColumnName("Kebele");
