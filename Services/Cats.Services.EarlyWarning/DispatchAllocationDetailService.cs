@@ -20,20 +20,20 @@ namespace Cats.Services.EarlyWarning
       
 
         #region Implementation of Service
-        public bool AddReliefRequisitionDetail(DispatchAllocation _dispatchAllocationDetail)
+        public bool AddDispatchDetail(DispatchAllocation _dispatchAllocationDetail)
         {
             _unitOfWork.DispatchAllocationRepository.Add(_dispatchAllocationDetail);
             _unitOfWork.Save();
             return true;
         }
-        public bool EditReliefRequisitionDetail(DispatchAllocation _dispatchAllocationDetail)
+        public bool EditDispatchDetail(DispatchAllocation _dispatchAllocationDetail)
         {
             _unitOfWork.DispatchAllocationRepository.Edit(_dispatchAllocationDetail);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteReliefRequisitionDetail(DispatchAllocation _dispatchAllocationDetail)
+        public bool DeleteDispatchDetail(DispatchAllocation _dispatchAllocationDetail)
         {
             if (_dispatchAllocationDetail == null) return false;
             _unitOfWork.DispatchAllocationRepository.Delete(_dispatchAllocationDetail);
