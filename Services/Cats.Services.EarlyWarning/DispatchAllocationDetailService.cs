@@ -75,5 +75,25 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Dispose();
 
         }
+
+
+        public bool SaveProjectAllocation(IEnumerable<DispatchAllocation> dispatchAllocations)
+        {
+            try{
+                    foreach (var item in dispatchAllocations)
+                    {
+                        var tempDispatchAllocation=FindById(item.DispatchAllocationID);
+                            tempDispatchAllocation.ProjectCodeID=item.ProjectCodeID;
+                            tempDispatchAllocation.ShippingInstructionID=item.ShippingInstructionID;
+                            this.EditDispatchDetail(tempDispatchAllocation);
+                    }
+                    return true;
+                }
+                catch
+                    {
+                        return false;
+                    }
+            
+        }
     }
 }
