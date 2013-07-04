@@ -8,11 +8,10 @@ namespace Cats.Models
 {
     public class ReliefRequisition
     {
-
+        
         public ReliefRequisition()
         {
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
-           
         }
 
         public int RequisitionID { get; set; }

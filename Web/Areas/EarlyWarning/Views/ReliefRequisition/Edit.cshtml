@@ -82,7 +82,7 @@
                     @Html.TextBox("input[" + index + "].CSB", item.Input.CSB, new { @style = "width:80%; border:none; !important;" })
                 </td>
                 <td>
-                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
                 </td>
                 <td>
                     @*@Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |

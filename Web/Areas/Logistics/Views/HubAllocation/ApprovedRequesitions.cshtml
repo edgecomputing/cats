@@ -74,7 +74,8 @@
  {
      <tr>
         <td>
-           @Html.CheckBox("index" + i)
+          <input type='checkbox' " + ((item.Result == true) ? "checked" : "") + " disabled='disabled' name="IsChecked"  value="@i"/>
+
         </td> 
         <td>
             @Html.DisplayFor(m=>m[i].Commodity.Name)

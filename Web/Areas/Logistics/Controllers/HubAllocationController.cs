@@ -28,7 +28,7 @@ namespace Cats.Areas.Logistics.Controllers
 
 
 
-        public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
+        public ActionResult ApprovedRequesitions()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
@@ -37,15 +37,25 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         [HttpPost]
-        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail)
+        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, int[] IsChecked)
         {
             ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID","Name");
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            List<ReliefRequisitionDetail> myList = new List<ReliefRequisitionDetail>();
+
+            //get the id from each selected checkbox
+            foreach (int item in IsChecked)
+            {
+                             
+            }
+
+          
             return View(requisitionDetail);
         }
 
-
+        public void insert()
+        {
+            
+        }
 
         
        
