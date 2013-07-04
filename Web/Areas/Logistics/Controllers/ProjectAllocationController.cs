@@ -99,12 +99,13 @@ namespace Cats.Areas.Logistics.Controllers
         {
             IDispatchAllocationDetailService _dispatchAllocationDetailService = new DispatchAllocationDetailService();
             //Guid requId = 0;
+            int requId=0;
             foreach (var dispatchDetail in input)
             {
 
                 var tempDispatchAllocation =
                     _dispatchAllocationDetailService.FindById(dispatchDetail.Number);
-                //requId = tempDispatchAllocation.DispatchAllocationID;
+                 requId = Convert.ToInt16(tempDispatchAllocation.RequisitionNo);
                 tempDispatchAllocation.ProjectCodeID = dispatchDetail.ProjectCodeID;
                 tempDispatchAllocation.ShippingInstructionID = dispatchDetail.ShippingInstructionID;
               
@@ -112,7 +113,7 @@ namespace Cats.Areas.Logistics.Controllers
             _dispatchAllocationDetailService.Save();
 
 
-            return RedirectToAction("DispatchDetail", "ProjectAllocation");
+            return RedirectToAction("DispatchDetail", "ProjectAllocation", new { id = requId});
         }
         public ActionResult test()
         {
