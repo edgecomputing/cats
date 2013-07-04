@@ -22,8 +22,16 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Index()
         {
-
-            return View(transportService.GetAllTransporter());
+            List<Cats.Procurement.Models.Transporter> uilist=new List<Cats.Procurement.Models.Transporter>();
+            List<Cats.Models.Transporter> list = transportService.GetAllTransporter();
+            foreach (var i in list)
+            {
+                 
+                Cats.Procurement.Models.Transporter uiTransporter = new Cats.Procurement.Models.Transporter();
+                uiTransporter.TransporterID = i.TransporterID;
+                uilist.Add(uiTransporter);
+            }
+            return View(list);
             //return View(GetAllTransporter());
         }
       
@@ -32,21 +40,24 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Details(int id = 0)
         {
+            
             Transporter transporter = transportService.FindById(id);
-
+            
             if (transporter == null)
             {
                 return HttpNotFound();
             }
+
             return View(transporter);
         }
 
          //
-        // GET: /Procurement/Default1/Create
+        // GET: /Procurement/Transporter/Create
 
         public ActionResult Create()
         {
-            return View();
+            return RedirectToAction("Edit");
+           // return View();
         }
        
                //
@@ -60,8 +71,8 @@ namespace Cats.Areas.Procurement.Controllers
                        transportService.AddTransporter(transporter);
                        return RedirectToAction("Index");
                    }
-
-                   return View(transporter);
+                   return RedirectToAction("Edit");
+                   //return View(transporter);
                }
 
                //
@@ -69,11 +80,20 @@ namespace Cats.Areas.Procurement.Controllers
 
                public ActionResult Edit(int id = 0)
                 {
-                    Transporter transporter = transportService.FindById(id);
+                    Transporter transporter;
+                    if (id == 0)
+                    {
+                        transporter = new Transporter();
+                    }
+                    else
+                    {
+                        transporter = transportService.FindById(id);
+                    }
                     if (transporter == null)
                     {
                         return HttpNotFound();
                     }
+
                     return View(transporter);
                 }
               
@@ -85,8 +105,14 @@ namespace Cats.Areas.Procurement.Controllers
                      {
                          if (ModelState.IsValid)
                          {
-                           
-                             transportService.EditTransporter(transporter);
+                             if (transporter.TransporterID == 0)
+                             {
+                                 transportService.AddTransporter(transporter);
+                             }
+                             else
+                             {
+                                 transportService.EditTransporter(transporter);
+                             }
                              return RedirectToAction("Index");
                          }
                          return View(transporter);
