@@ -334,10 +334,8 @@ namespace Cats.Tests.ControllersTests
 
         [Test]
         public void Can_Create_New_Requistion()
-        {
+        {            
             var view = _reliefRequisitionController.NewRequisiton(1);
-
-
             //Asert
             Assert.IsInstanceOf<ViewResult>(view);
             Assert.AreEqual(((IEnumerable<ReliefRequisition>)view.Model).Count(), 4);

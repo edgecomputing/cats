@@ -1,14 +1,24 @@
 ﻿@model IEnumerable<Cats.Areas.Logistics.Models.DispatchAllocation>
 
 @{
-    ViewBag.Title = "DispatchDetail";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+@section LeftBar
+{
+    @using (Html.BeginForm())
+    {
+        <div class="control-group">
+           @ViewData["Requisitions"] 
+        </div>
 
-@using (Html.BeginForm("Edit", "ProjectAllocation", FormMethod.Post))
+    }
+}
+@using (Html.BeginForm("Edit", "ProjectAllocation", FormMethod.Get))
 {
     <table class="table table-bordered table-condensed table-striped">
+        
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.RequisitionNo)
@@ -37,36 +47,45 @@
             <th></th>
         </tr>
         @{ int index = 0; }
+        <a href="@Url.Action("DispatchDetail", "ProjectAllocation", new { Area = "Logistics", id = Model.FirstOrDefault().RequisitionNo })">Assign Project Code for Requisition Number @Html.DisplayFor(modelItem => Model.FirstOrDefault().RequisitionNo)</a>
         @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Html.Label("input[" + index + "].RequisitionNo", item.RequisitionNo, new { @style = "width:80%; border:none; !important;" })
+                    @Html.DisplayFor(modelItem => item.RequisitionNo)
+                    @*@item.RequisitionNo*@
                 </td>
                 <td>
-                    @item.CommodityID
+                    @Html.DisplayFor(modelItem => item.CommodityID)
+                    @*@item.CommodityID*@
                 </td>
                 <td>
-                    @item.HubID
+                    @Html.DisplayFor(modelItem => item.HubID)
+                    @*@item.HubID*@
                 </td>
                 <td>
-                    @item.Beneficiery
+                    @Html.DisplayFor(modelItem => item.Beneficiery)
+                    @*@item.Beneficiery*@
                 </td>
                 <td>
-                    @item.Amount
+                    @Html.DisplayFor(modelItem => item.Amount)
+                    @*@item.Amount*@
                 </td>
                 <td>
-                    @item.Unit
+                    @Html.DisplayFor(modelItem => item.Unit)
+                    @*@item.Unit*@
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippingInstructionID)
+                    @*@item.ShippingInstructionID*@
                 </td>
                 <td>
-                    
-                    @Html.TextBox("input[" + index + "].ShippingInstructionID", item.Input.ShippingInstructionID, new { @style = "width:80%; border:none; !important;" })
+                    @Html.DisplayFor(modelItem => item.ProjectCodeID)
+                    @*@Html.TextBox("input[" + index + "].ProjectCodeID", item.ProjectCodeID, new { @style = "width:80%; border:none; !important;" })*@
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].ProjectCodeID", item.Input.ProjectCodeID, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" />
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "ReliefRequisition", new { id=item.DispatchAllocationID }) |
@@ -82,3 +101,4 @@
         <input class="btn btn-success" type="submit" value="Submit Request" />
     </p>
 }
+
