@@ -26,6 +26,7 @@ namespace Cats.Models.ViewModels
         public Nullable<System.DateTime> ApprovedDate { get; set; }
         public Nullable<int> Status { get; set; }
         public string Program { get; set; }
+        public int RegionalRequestId { get; set; }
         public ReliefRequisitionNewInput Input { get; set; }
         public class ReliefRequisitionNewInput
         {
