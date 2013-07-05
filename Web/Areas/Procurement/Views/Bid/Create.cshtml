@@ -33,6 +33,12 @@
                 @Html.TextBoxFor(model=>model.EndDate)
                 @Html.ValidationMessageFor(model => model.EndDate)
             </div>
+            <div >
+                @Html.LabelFor(model => model.EndDate, "Opening Date")
+
+                @Html.TextBoxFor(model=>model.OpeningDate)
+                @Html.ValidationMessageFor(model => model.OpeningDate)
+            </div>
              <p>
             <input type="submit" value="Create Bid" class="btn btn-success" />
         </p>

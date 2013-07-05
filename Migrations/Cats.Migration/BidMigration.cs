@@ -12,7 +12,8 @@ namespace Cats.DatabaseMigrations
                   .WithColumn("BidID").AsInt32().PrimaryKey().Identity()
                   .WithColumn("StartDate").AsDateTime().NotNullable()
                   .WithColumn("EndDate").AsDateTime().NotNullable()
-                  .WithColumn("BidNumber").AsString().NotNullable();
+                  .WithColumn("BidNumber").AsString().NotNullable()
+                  .WithColumn("BidOpeningDate").AsDateTime().NotNullable();
 
             //Migration to create Table BidDetail
             Create.Table("BidDetail").InSchema("Procurement")
@@ -22,7 +23,8 @@ namespace Cats.DatabaseMigrations
                   .WithColumn("AmountForReliefProgram").AsDecimal().Nullable()
                   .WithColumn("AmountForPSNPProgram").AsDecimal().Nullable()
                   .WithColumn("BidDocumentPrice").AsFloat().NotNullable()
-                  .WithColumn("CBO").AsFloat().NotNullable();
+                  .WithColumn("CBO").AsFloat().NotNullable()
+                  .WithColumn("Status").AsString().NotNullable();
 
             //Relationship
             Create.ForeignKey("FK_BidDetail_Bid")
