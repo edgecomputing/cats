@@ -9,6 +9,7 @@
 {
     <li class="nav-header">Request Summary</li>
     <li>Region: @ViewBag.CurrentRegion</li>
+    <li>Zone:@ViewBag.CurrentZone</li>
     <li>Year: @ViewBag.CurrentYear</li>
     <li>Month: @ViewBag.CurrentMonth</li>
     <li>Round: @ViewBag.CurrentRound</li>
@@ -21,7 +22,7 @@
 </div>
 
 
-@using (Html.BeginForm("Edit", "Request", FormMethod.Post))
+@using (Html.BeginForm("RequistionDetailEdit", "ReliefRequisition", FormMethod.Post))
 {
     <table class="table table-bordered table-condensed table-striped">
         <tr>

@@ -40,6 +40,7 @@ namespace Cats.Services.EarlyWarning
         bool Save();
 
         IEnumerable<ReliefRequisitionNew> GetRequisitionByRequestId(int requestId);
+        bool EditAllocatedAmount(int requsitionDetailId, decimal allocatedAmount);
 
     }
 }

@@ -283,6 +283,15 @@ namespace Cats.Services.EarlyWarning
                          });
             return input;
         }
+
+
+        public bool EditAllocatedAmount(int requsitionDetailId, decimal allocatedAmount)
+        {
+            var requisitionDetail = _unitOfWork.ReliefRequisitionDetailRepository.FindById(requsitionDetailId);
+            if(requisitionDetail ==null ) return false;
+            requisitionDetail.Amount = allocatedAmount;
+            return true;
+        }
     }
 }
 

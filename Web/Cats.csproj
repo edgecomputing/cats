@@ -338,7 +338,7 @@
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequistionDetailEdit.cshtml" />
     <Content Include="Areas\Settings\Views\Web.config" />
     <Content Include="Areas\Settings\Views\AdminDashboard\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AdminLeftBar.cshtml" />
