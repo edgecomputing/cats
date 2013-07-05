@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -69,9 +72,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -143,24 +143,22 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
-    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionNew.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
+    <Compile Include="Areas\Logistics\Models\DispatchAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
-<<<<<<< HEAD
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
-=======
-
->>>>>>> def27a09695eddba2d62dfa17665a4cf626d946f
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
-
+    <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
+    <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Models\CatsContext2.cs" />
@@ -240,6 +238,8 @@
     <Content Include="Content\assets\js\holder\holder.js" />
     <Content Include="Content\assets\js\html5shiv.js" />
     <Content Include="Content\assets\js\jquery.js" />
+    <Content Include="Content\assets\css\font-awesome.css" />
+    <Content Include="Content\assets\font\fontawesome-webfont.svg" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -297,46 +297,56 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\SendToLogistics.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
-
     <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
-
+    <Content Include="Areas\Logistics\Views\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
-
+    <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
+    <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+    <Content Include="Scripts\js\humanity.calendars.picker.css" />
+    <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
+    <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
+    <Content Include="Scripts\js\jquery.calendars.js" />
+    <Content Include="Scripts\js\jquery.calendars.picker-am.js" />
+    <Content Include="Scripts\js\jquery.calendars.picker.js" />
+    <Content Include="Scripts\js\jquery.calendars.plus.js" />
+    <Content Include="Content\site.js" />
     <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
     <Content Include="Views\Shared\hubAllocation.cshtml" />
-
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
-<<<<<<< HEAD
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
-=======
-
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
-
-
->>>>>>> def27a09695eddba2d62dfa17665a4cf626d946f
+    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequistionDetailEdit.cshtml" />
+    <Content Include="Areas\Settings\Views\Web.config" />
+    <Content Include="Areas\Settings\Views\AdminDashboard\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_AdminLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_AdminMenuBar.cshtml" />
+    <Content Include="Content\assets\font\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\font\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\font\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -370,22 +380,25 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\View1.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
     <Folder Include="Areas\Procurement\Views\Shared\" />
+    <Folder Include="Areas\Settings\Models\" />
+    <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Cats.Data.csproj">
+    <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models.csproj">
+    <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
     </ProjectReference>

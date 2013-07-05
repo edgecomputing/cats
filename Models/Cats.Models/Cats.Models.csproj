@@ -90,8 +90,10 @@
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\AllocationViewModel.cs" />
     <Compile Include="ViewModels\AllocationModelDetail.cs" />
+    <Compile Include="ViewModels\RegionalRequestStatus.cs" />
+    <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />
-    <Compile Include="ViewModels\RequisitionViewModel.cs" />
+    <Compile Include="MetaData\RequisitionMeta.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

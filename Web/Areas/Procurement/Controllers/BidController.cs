@@ -68,9 +68,7 @@ namespace Cats.Areas.Procurement.Controllers
                                           AmountForPSNPProgram = 0,
                                           BidDocumentPrice = 0,
                                           CBO = 0,
-                                          Status="Open",
                                           
-
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 _bidService.AddBid(bid);

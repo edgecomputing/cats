@@ -64,10 +64,11 @@
                     @Html.TextBox("input[" + index +"].Status",bidDetail.Edit.status, new {@style = "width:80%; border:none; !important;"})
                 </td>*@
                 <td>
-                    @Html.DropDownList(bidDetail.Edit.Status,new []
+                    
+                    @Html.DropDownList("input[" + index + "].Status",new []
                         {
                             new SelectListItem(){Text="Open",Value="Open"},
-                            new SelectListItem(){Text="Close",Value = "Closed"},
+                            new SelectListItem(){Text="Closed",Value = "Closed"},
                             new SelectListItem() {Text="Canceled",Value="Canceled"}
                             
                         })
