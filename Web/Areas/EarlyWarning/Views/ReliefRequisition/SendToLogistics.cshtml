@@ -57,7 +57,7 @@
     <p>
         @Html.HiddenFor(model=>model.RequisitionID)
         @{
-    var showme = Model.Status == 2 ? "" : "hidden";
+    var showme = Model.Status == 1 ? "" : "hidden";
         }
         <input type="submit" class="@showme" value="Send" /> 
       
