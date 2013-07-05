@@ -297,9 +297,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\SendToLogistics.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />

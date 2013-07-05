@@ -87,13 +87,15 @@
         <td>
            @{
         var statusName = item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.Closed.ToString();
-                   var showme = item.Status == 2 ? "": "hidden";
+        var showme = item.Status == 1 ? "" : "hidden";
                 }
                @Html.Label(statusName)
         </td>
         
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RequisitionID }) 
+           
+             <a class="btn btn-warning @showme" href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">Edit</a>
+            <a class="btn btn-success @showme" href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">Send</a>
         </td>
     </tr>
 }

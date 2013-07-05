@@ -152,5 +152,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return View(reliefrequisition);
         }
+
+        [HttpGet]
+        public ActionResult SendToLogistics(int id)
+        {
+            var requistion = _reliefRequisitionService.FindById(id);
+            if(requistion==null)
+            {
+                HttpNotFound();
+            }
+            return View(requistion);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmSendToLogistics(int requisitionid)
+        {
+            var requisition = _reliefRequisitionService.FindById(requisitionid);
+            requisition.Status = (int)REGIONAL_REQUEST_STATUS.Submitted;
+            _reliefRequisitionService.Save();
+            return RedirectToAction("Requistions", "ReliefRequisition");
+        }
     }
 }
