@@ -19,14 +19,14 @@ namespace Cats.Areas.Logistics.Controllers
         
         private IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private IHubService _hubService;
-        //private ITransportRequisitionService _transportRequisitionService;
-        //private IHubAllocationService _hubAllocationService;
-        public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService,IHubService hubService)
+        
+        private IHubAllocationService _hubAllocationService;
+        public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService,IHubService hubService,
+           IHubAllocationService hubAllocationService)
         {
             this._hubService = hubService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
-            //this._transportRequisitionService = transportRequisitionService;
-            //this._hubAllocationService = hubAllocationService;
+            this._hubAllocationService = hubAllocationService;
         }
 
 
@@ -77,25 +77,25 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        //public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form, string datepicker, string rNumber)
-        //{
+        public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form, string datepicker, string rNumber)
+        {
 
-        //    string hub = _Form["hub"].ToString();
+            string hub = _Form["hub"].ToString();
 
-        //    foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
-        //    {
-        //        HubAllocation new_hub_allocation = new HubAllocation();
+            foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
+            {
+                HubAllocation new_hub_allocation = new HubAllocation();
 
-        //        new_hub_allocation.AllocatedBy = appRequisition.CommodityID;
-        //        new_hub_allocation.RequisitionID = appRequisition.RequisitionID;
-        //        new_hub_allocation.AllocationDate = DateTime.Now;
-        //        new_hub_allocation.HubID = int.Parse(hub);
-        //        new_hub_allocation.AllocatedBy = 1;
+                new_hub_allocation.AllocatedBy = appRequisition.CommodityID;
+                new_hub_allocation.RequisitionID = appRequisition.RequisitionID;
+                new_hub_allocation.AllocationDate = DateTime.Now;
+                new_hub_allocation.HubID = int.Parse(hub);
+                new_hub_allocation.AllocatedBy = 1;
 
-        //        _hubAllocationService.AddHubAllocation(new_hub_allocation);
-        //        _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionNo);
-        //    }
-        //}
+                _hubAllocationService.AddHubAllocation(new_hub_allocation);
+                _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionNo);
+            }
+        }
         
        
     }

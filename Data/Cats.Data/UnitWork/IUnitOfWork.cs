@@ -22,7 +22,7 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
         IGenericRepository<HubAllocation> HubAllocationRepository { get;}
-      
+        
 
 
 
