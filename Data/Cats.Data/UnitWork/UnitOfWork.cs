@@ -215,6 +215,14 @@ namespace Cats.Data.UnitWork
 
         }
 
+
+
+        private IGenericRepository<HubAllocation> hubAllocationRepository;
+        public IGenericRepository<HubAllocation> HubAllocationRepository
+        {
+            get { return this.hubAllocationRepository ?? (this.hubAllocationRepository = new GenericRepository<HubAllocation>(_context)); }
+            
+        }
         public void Save()
         {            
             _context.SaveChanges();

@@ -63,6 +63,8 @@ namespace Cats.Services.EarlyWarning
         }
         #endregion
 
+
+        
         public void Dispose()
         {
             _unitOfWork.Dispose();

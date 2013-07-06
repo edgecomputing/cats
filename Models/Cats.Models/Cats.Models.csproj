@@ -58,6 +58,7 @@
     <Compile Include="Donor.cs" />
     <Compile Include="FDP.cs" />
     <Compile Include="Hub.cs" />
+    <Compile Include="HubAllocation.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\BidDetailMap.cs" />

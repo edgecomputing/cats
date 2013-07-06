@@ -19,14 +19,14 @@ namespace Cats.Areas.Logistics.Controllers
         
         private IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private IHubService _hubService;
-        private ITransportRequisitionService _transportRequisitionService;
-        public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService,
-            IHubService hubService,
-            ITransportRequisitionService transportRequisitionService)
+        //private ITransportRequisitionService _transportRequisitionService;
+        //private IHubAllocationService _hubAllocationService;
+        public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService,IHubService hubService)
         {
             this._hubService = hubService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
-            this._transportRequisitionService = transportRequisitionService;
+            //this._transportRequisitionService = transportRequisitionService;
+            //this._hubAllocationService = hubAllocationService;
         }
 
 
@@ -34,10 +34,18 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
+            var reliefRequisitions = _reliefRequisitionDetailService.Get(r=>r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
             return View(reliefRequisitions.ToList());
         
         }
+        public ActionResult Request(ICollection<ReliefRequisitionDetail> requisitionDetail)
+        {
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
+            return View(reliefRequisitions.ToList());
+
+        }
+
 
         [HttpPost]
         public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form)
@@ -69,28 +77,25 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form, string datepicker, string rNumber)
-        {
+        //public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form, string datepicker, string rNumber)
+        //{
 
-            string hub = _Form["hub"].ToString();
+        //    string hub = _Form["hub"].ToString();
 
-            foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
-            {
-                TransportRequisition tRequisition = new TransportRequisition();
+        //    foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
+        //    {
+        //        HubAllocation new_hub_allocation = new HubAllocation();
 
-                tRequisition.CommodityID = appRequisition.CommodityID;
-                tRequisition.RequisitionID = appRequisition.RequisitionID;
-                tRequisition.Amount = appRequisition.Amount;
-                tRequisition.HubID = int.Parse(hub);
-                tRequisition.RegionID = int.Parse(appRequisition.ReliefRequisition.RegionID.ToString());
-                tRequisition.ZoneID = int.Parse(appRequisition.ReliefRequisition.ZoneID.ToString());
-                
+        //        new_hub_allocation.AllocatedBy = appRequisition.CommodityID;
+        //        new_hub_allocation.RequisitionID = appRequisition.RequisitionID;
+        //        new_hub_allocation.AllocationDate = DateTime.Now;
+        //        new_hub_allocation.HubID = int.Parse(hub);
+        //        new_hub_allocation.AllocatedBy = 1;
 
-                _transportRequisitionService.AddTransportRequisition(tRequisition);
-                
-            }
-           
-        }
+        //        _hubAllocationService.AddHubAllocation(new_hub_allocation);
+        //        _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionNo);
+        //    }
+        //}
         
        
     }

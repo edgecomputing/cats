@@ -32,6 +32,7 @@ namespace Cats.Data
         public DbSet<Bid> Bids { get; set; } 
         public DbSet<BidDetail> BidDetails { get; set; }
         public DbSet<TransportRequisition> TransportRequisition { get; set; }
+        public DbSet<HubAllocation> HubAllocation { get; set; } 
         //public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
