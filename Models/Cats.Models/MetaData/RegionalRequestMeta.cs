@@ -30,6 +30,7 @@ namespace Cats.Models
         [Required(ErrorMessage = "Please Select Year")]
         public int Year { get; set; }
         [Required (ErrorMessage="Please Enter Reference Number")]
+        [Display(Name="Reference Number")]
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
 

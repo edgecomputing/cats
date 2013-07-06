@@ -12,6 +12,7 @@ namespace Cats.Areas.Procurement.Models
         public string BidNumber { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime OpeningDate { get; set; }
         public List<BidDetail> BidDetails { get; set; }
     }
 }

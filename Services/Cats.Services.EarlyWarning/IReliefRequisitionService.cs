@@ -38,8 +38,9 @@ namespace Cats.Services.EarlyWarning
         IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId);
        bool AssignRequisitonNo(int requisitonId,string requisitonNo);
         bool Save();
-      
 
+        IEnumerable<ReliefRequisitionNew> GetRequisitionByRequestId(int requestId);
+        bool EditAllocatedAmount(int requsitionDetailId, decimal allocatedAmount);
 
     }
 }

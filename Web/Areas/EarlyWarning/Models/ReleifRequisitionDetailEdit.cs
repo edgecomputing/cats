@@ -11,6 +11,7 @@ namespace Cats.Areas.EarlyWarning.Models
 
         public int RequisitionDetailID { get; set; }
         public int RequisitionID { get; set; }
+        public string RequisitionNo { get; set; }
         public string Commodity { get; set; }
         public int BenficiaryNo { get; set; }
         public decimal Amount { get; set; }

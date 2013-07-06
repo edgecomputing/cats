@@ -108,41 +108,22 @@ namespace Cats.Services.EarlyWarning
         {
             //Check if Requisition is created from this request
             //
-            var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)REGIONAL_REQUEST_STATUS.Submitted, null, "RegionalRequestDetails").FirstOrDefault();
+            var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)REGIONAL_REQUEST_STATUS.Submitted  , null, "RegionalRequestDetails").FirstOrDefault();
             if (regionalRequest == null) return null;
 
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
             AddReliefRequisions(reliefRequistions);
+            regionalRequest.Status = (int) REGIONAL_REQUEST_STATUS.Closed;
             _unitOfWork.Save();
-
-            var requisitonIds = (from requistion in reliefRequistions select requistion.RequisitionID);
-            reliefRequistions =
-                _unitOfWork.ReliefRequisitionRepository.Get(t => requisitonIds.Contains(t.RequisitionID), null, "Program,AdminUnit1,AdminUnit.AdminUnit2").ToList();
-
-            var input = (from itm in reliefRequistions
-                         select new ReliefRequisitionNew()
-                         {
-                             //TODO:Include navigation property for commodity on relife requistion
-                             Commodity = itm.CommodityID.ToString(),
-                             Program = itm.Program.Name,
-                             Region = itm.AdminUnit1.Name,
-                             Round = itm.Round,
-                             Zone = itm.AdminUnit.AdminUnit2.Name,
-                             Status = itm.Status,
-                             RequisitionID = itm.RequisitionID,
-                             // RequestedBy = itm.UserProfile,
-                             // ApprovedBy = itm.ApprovedBy,
-                             RequestedDate = itm.RequestedDate,
-                             ApprovedDate = itm.ApprovedDate,
-                             Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
-                             {
-                                 Number = itm.RequisitionID,
-                                 RequisitionNo = itm.RequisitionNo
-                             }
-                         });
-            return input;
+            foreach (var item in reliefRequistions)
+            {
+                item.RequisitionNo = String.Format("REQ-{0}", item.RequisitionID);
+            }
+            _unitOfWork.Save();
+           return  GetRequisitionByRequestId(requestId);
 
         }
+       
         public ReliefRequisition GenerateRequisition(RegionalRequest regionalRequest, int commodityId, int zoneId)
         {
 
@@ -268,11 +249,47 @@ namespace Cats.Services.EarlyWarning
         {
             var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitonId);
             requisition.RequisitionNo = requisitonNo;
-            if (requisition.RegionalRequestID.HasValue)
-            {
-                var request = _unitOfWork.RegionalRequestRepository.FindById(requisition.RegionalRequestID.Value);
-                request.Status = (int)REGIONAL_REQUEST_STATUS.Closed;
-            }
+           
+            return true;
+        }
+
+        public IEnumerable<ReliefRequisitionNew>  GetRequisitionByRequestId(int requestId)
+        {
+            var reliefRequistions =
+               _unitOfWork.ReliefRequisitionRepository.Get(t => t.RegionalRequestID == requestId, null, "Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity").ToList();
+
+            var input = (from itm in reliefRequistions
+                         orderby itm.ZoneID
+                         select new ReliefRequisitionNew()
+                         {
+                             //TODO:Include navigation property for commodity on relife requistion
+                             Commodity = itm.Commodity.Name,
+                             Program = itm.Program.Name,
+                             Region = itm.AdminUnit1.Name,
+                             Round = itm.Round,
+                             Zone = itm.AdminUnit.Name,
+                             Status = (int)REGIONAL_REQUEST_STATUS.Draft,
+                             RequisitionID = itm.RequisitionID,
+                             // RequestedBy = itm.UserProfile,
+                             // ApprovedBy = itm.ApprovedBy,
+                             RequestedDate = itm.RequestedDate,
+                             ApprovedDate = itm.ApprovedDate,
+
+                             Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
+                             {
+                                 Number = itm.RequisitionID,
+                                 RequisitionNo = itm.RequisitionNo
+                             }
+                         });
+            return input;
+        }
+
+
+        public bool EditAllocatedAmount(int requsitionDetailId, decimal allocatedAmount)
+        {
+            var requisitionDetail = _unitOfWork.ReliefRequisitionDetailRepository.FindById(requsitionDetailId);
+            if(requisitionDetail ==null ) return false;
+            requisitionDetail.Amount = allocatedAmount;
             return true;
         }
     }

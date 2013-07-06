@@ -109,6 +109,7 @@ namespace Cats.Tests.ControllersTests
                              // ApprovedBy = itm.ApprovedBy,
                              RequestedDate = itm.RequestedDate,
                              ApprovedDate = itm.ApprovedDate,
+                             RegionalRequestId=itm.RegionalRequestID.Value,
                              Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
                              {
                                  Number = itm.RequisitionID,
@@ -120,6 +121,7 @@ namespace Cats.Tests.ControllersTests
             mockReliefRequistionService.Setup(t => t.GetAllReliefRequisition()).Returns(reliefRequisitions);
             mockReliefRequistionService.Setup(t => t.Get(It.IsAny<Expression<Func<ReliefRequisition, bool>>>(), null, It.IsAny<string>())).Returns(reliefRequisitions.AsQueryable());
             mockReliefRequistionService.Setup(t => t.CreateRequisition(1)).Returns(input);
+            mockReliefRequistionService.Setup(t => t.GetRequisitionByRequestId(It.IsAny<int>())).Returns((int requestId) => input.FindAll(t => t.RegionalRequestId == requestId));
 
             _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object);
 
