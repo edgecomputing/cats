@@ -36,7 +36,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -96,6 +96,7 @@
                             </ul>
                         </li>
                         <li><a href="#">Reports</a></li>
+                        <li><a href="@Url.Action("Index","AdminDashboard",new {Area="Settings"})">Settings</a></li>
                     </ul>
                     <ul class="nav pull-right">
                         <li class="divider-vertical"></li>
@@ -108,7 +109,7 @@
                         </li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">[User Name] <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Preference</a></li>
                                 <li class="divider"></li>
