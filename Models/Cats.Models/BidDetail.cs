@@ -12,8 +12,7 @@ namespace Cats.Models
         public decimal AmountForReliefProgram { get; set; }
         public decimal AmountForPSNPProgram { get; set; }
         public float BidDocumentPrice { get; set; }
-        public float CBO { get; set; }
-        public string Status { get; set; }
+        public float CPO { get; set; }
 
         #region Navigation Properties
 

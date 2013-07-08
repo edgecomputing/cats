@@ -15,7 +15,8 @@ namespace Cats.Data.UnitWork
       
         private IGenericRepository<AllocationModelDetail> allocatipnModelDetailRepository;
         private IGenericRepository<Bid> bidRepository;
-        private IGenericRepository<BidDetail> bidDetailRepository; 
+        private IGenericRepository<BidDetail> bidDetailRepository;
+        private IGenericRepository<Status> statusRepository; 
         
 
         public UnitOfWork()
@@ -78,6 +79,11 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<BidDetail> BidDetailRepository
         {
             get { return this.bidDetailRepository ?? (this.bidDetailRepository = new GenericRepository<BidDetail>(_context)); }
+        }
+
+        public IGenericRepository<Status> StatusRepository
+        {
+            get { return this.statusRepository ?? (this.statusRepository = new GenericRepository<Status>(_context)); }
         }
 
 

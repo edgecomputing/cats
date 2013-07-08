@@ -25,19 +25,16 @@
                 @Html.DisplayNameFor(model => model.Region)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AmountForReliefProgram)
+               Relief
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AmountForPSNPProgram)
+                PSNP
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BidDocumentPrice)
+               Bid Document Price
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CPO)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model=>model.Status)
             </th>
             <th></th>
         </tr>
@@ -63,16 +60,6 @@
                 @*<td>
                     @Html.TextBox("input[" + index +"].Status",bidDetail.Edit.status, new {@style = "width:80%; border:none; !important;"})
                 </td>*@
-                <td>
-                    
-                    @Html.DropDownList("input[" + index + "].Status",new []
-                        {
-                            new SelectListItem(){Text="Open",Value="Open"},
-                            new SelectListItem(){Text="Closed",Value = "Closed"},
-                            new SelectListItem() {Text="Canceled",Value="Canceled"}
-                            
-                        })
-                </td>
                 <td>
                     <input type="hidden" value="@bidDetail.Edit.Number" name="@("input[" + index + "].Number")" />
                 </td>
