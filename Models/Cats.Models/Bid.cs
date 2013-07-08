@@ -18,6 +18,7 @@ namespace Cats.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string BidNumber { get; set; }
+        public DateTime OpeningDate { get; set; }
 
         #region Navigation Properties
 

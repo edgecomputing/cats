@@ -26,6 +26,7 @@ namespace Cats.Services.EarlyWarning
            string includeProperties = "");
 
         List<int?> GetZonesFoodRequested(int requestId);
+        List<RegionalRequest> GetSubmittedRequest(int region, int month,int status);
    }
 }
 

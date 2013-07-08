@@ -31,12 +31,13 @@ namespace Cats.Areas.Procurement.Controllers
             return View(bids.ToList());
         }
         [HttpPost]
-        public ActionResult Index(DateTime startDate, DateTime endDate)
+        public ActionResult Index(string bidNumber,DateTime startDate,DateTime endDate)
         {
-           //var bid = _bidService.Get(b => b.StartDate >= startDate && b.EndDate <= endDate, null, " ");
-            return View("Index");
+            var filteredBid = _bidService.Get(b =>b.BidNumber==bidNumber || (b.StartDate >= startDate && b.EndDate<=endDate), null, "BidDetails");
+            return View(filteredBid.ToList());
+            //return View("Index");
         }
-        
+
         public ActionResult Create()
         {
            // var bid = new Bid();
@@ -66,8 +67,8 @@ namespace Cats.Areas.Procurement.Controllers
                                           AmountForReliefProgram = 0,
                                           AmountForPSNPProgram = 0,
                                           BidDocumentPrice = 0,
-                                          CBO = 0
-
+                                          CBO = 0,
+                                          
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 _bidService.AddBid(bid);
@@ -86,6 +87,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.BidNumber = bid.BidNumber;
             ViewBag.StartDate = bid.StartDate;
             ViewBag.EndDate = bid.EndDate;
+            ViewBag.OpeningDate = bid.OpeningDate;
            
             //var bid = _bidService.FindById(id);
             //var regions = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 2);
@@ -103,7 +105,7 @@ namespace Cats.Areas.Procurement.Controllers
                                           AmountForPSNPProgram=detail.AmountForPSNPProgram,
                                           BidDocumentPrice=detail.BidDocumentPrice,
                                           CPO=detail.CBO,
-
+                                          Status= detail.Status,
                                       }
                                   
                               }
@@ -125,6 +127,7 @@ namespace Cats.Areas.Procurement.Controllers
                 bidDetail.AmountForPSNPProgram = bidDetailEdit.AmountForPSNPProgram;
                 bidDetail.BidDocumentPrice = bidDetailEdit.BidDocumentPrice;
                 bidDetail.CBO = bidDetailEdit.CPO;
+                bidDetail.Status = bidDetailEdit.Status;
             }
             _bidDetailService.Save();
            // return Redirect("Index");
@@ -140,23 +143,6 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return View(bid);
             
-            //var viewModel = new BidViewModel();
-            //var bid = _bidService.FindById(id);
-            //var regions = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 2);
-            //var bidDetails = new List<BidDetail>();
-            //foreach (var region in regions)
-            //{
-            //    var bidDetail = new BidDetail();
-            //    bidDetail.AdminUnit = region;
-            //    bidDetail.Bid = bid;
-            //    bidDetails.Add(bidDetail);
-            //}
-            //viewModel.BidID = bid.BidID;
-            //viewModel.BidNumber = bid.BidNumber;
-            //viewModel.StartDate = bid.StartDate;
-            //viewModel.EndDate = bid.EndDate;
-            //viewModel.BidDetails = bidDetails;
-            //return View(viewModel);
         }
     }
 }

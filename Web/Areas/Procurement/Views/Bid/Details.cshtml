@@ -22,6 +22,9 @@
         <tr>
             <td>@Html.LabelFor(m => m.BidNumber,"Bid Number: ")</td>
             <td>@Html.TextBoxFor(m => m.BidNumber,null,new { disabled = "true"} )</td>
+            
+            <td>@Html.LabelFor(m => m.OpeningDate,"Opening Date: ")</td>
+            <td>@Html.TextBoxFor(m => m.OpeningDate,null,new { disabled = "true"} )</td>
         </tr>
     </table>
 </div>
@@ -35,6 +38,7 @@
             <th>Relief Amount</th>
             <th>Bid Document Price</th>
             <th>CPO</th>
+            <th>Status</th>
         </tr>
         @{ int index = 0; }
         @foreach (var detail in Model.BidDetails)
@@ -45,6 +49,7 @@
                 <td>@detail.AmountForReliefProgram</td>
                 <td>@detail.BidDocumentPrice</td>
                 <td>@detail.CBO</td>
+                <td>@detail.Status</td>
             </tr>
         }
     </table>

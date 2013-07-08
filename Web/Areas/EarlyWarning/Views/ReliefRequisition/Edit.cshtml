@@ -1,100 +1,82 @@
-﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.ReliefRequisitionDetailEdit>
+﻿@model  Cats.Models.ReliefRequisition
+
 
 @{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+    ViewBag.Title = "Edit ";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 @section LeftBar
 {
-    <li class="nav-header">Request Summary</li>
-    <li>Region: REGION</li>
-    <li>Year: YEAR</li>
-    <li>Month: MONTH</li>
-    <li>Round: ROUND</li>
+   
     <li class="nav-header">Tasks</li>
-    <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back to requests</a></li>
+    <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back to requisitions</a></li>
 }
 
-<div class="well">
-    <h4 class="page-header">Monthly request for {{REGION}} for the month of {{MONTH}} {{YEAR}}</h4>
-</div>
+    <h3 class="well">Edit Relief Requisition for Distribution</h3>
 
-
-@using (Html.BeginForm("Edit", "ReliefRequisition", FormMethod.Post))
+@using (Html.BeginForm())
 {
-    <table class="table table-bordered table-condensed table-striped">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Zone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wereda)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fdp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Beneficiaries)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Grain)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pulse)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Oil)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CSB)
-            </th>
-            <th></th>
-        </tr>
-        @{ int index = 0; }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Zone
-                </td>
-                <td>
-                    @item.Wereda
-                </td>
-                <td>
-                    @item.Fdp
-                </td>
+    <fieldset>
+        @Html.HiddenFor(model => model.RequisitionID)
+        @Html.HiddenFor(model=>model.Status)
+        @Html.HiddenFor(model=>model.CommodityID)
+        @Html.HiddenFor(model=>model.RegionalRequestID)
+        @Html.HiddenFor(model=>model.ProgramID )
+        @Html.HiddenFor(model => model.Round)
+        @Html.HiddenFor(model => model.RegionID)
+        @Html.HiddenFor(model=>model.ZoneID)
+        @Html.HiddenFor(model=>model.RequestedDate)
 
+         <div>
+            @Html.LabelFor(model => model.RequisitionNo)
+        </div>
+        <div>
+            @Html.EditorFor(model => model.RequisitionNo)
+            @Html.ValidationMessageFor(model => model.RequisitionNo)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ProgramID)
+             @Html.DisplayFor(model => model.Program.Name)
+          
 
-                <td>
-                    @Html.TextBox("input[" + index + "].Beneficiaries", item.Input.Beneficiaries, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].Grain", item.Input.Grain, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].Pulse", item.Input.Pulse, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].Oil", item.Input.Oil, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].CSB", item.Input.CSB, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
-                </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})*@
-                </td>
-            </tr>
-            index++;
-        }
+        </div>
+         <div>
+            @Html.LabelFor(model => model.Round)
+        </div>
+        <div>
+            @Html.DisplayFor(model => model.Round)
 
-    </table>
-    <p>
-        <input class="btn btn-success" type="submit" value="Submit Request" />
-    </p>
+        </div>
+       <div class="controls-row">
+            @Html.LabelFor(model => model.RegionID)
+
+              @Html.DisplayFor(model => model.AdminUnit1.Name)
+           
+
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ZoneID)
+          @Html.DisplayFor(model => model.AdminUnit.Name)
+
+        </div>
+       
+        <div>
+            @Html.LabelFor(model => model.RequestedDate)
+            @Html.DisplayFor(model => model.RequestedDate)
+            
+
+        </div>
+        
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+
+    
+    
+    
+    
+   
 }

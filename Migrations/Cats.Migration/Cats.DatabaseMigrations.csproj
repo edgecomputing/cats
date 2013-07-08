@@ -45,9 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="201307011512_procurment_transporter.cs" />
+
     <Compile Include="201307032315_Transporter.cs" />
+
     <Compile Include="201307051652_BidPlan.cs" />
     <Compile Include="201307051701_BidPlanDetail.cs" />
+
+
+    <Compile Include="AddStatusToRegionalRequest.cs" />
+    <Compile Include="Add_Request_Id_in_requisiton.cs" />
+
+
     <Compile Include="BidMigration.cs" />
     <Compile Include="EarlyWarningSchemaMigration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

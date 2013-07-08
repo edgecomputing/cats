@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
-using Cats.Models;
+
 
 namespace Cats.Data.UnitWork
 {
@@ -156,14 +156,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        //private IGenericRepository<Round> roundRepository;
-
-        //public IGenericRepository<Round> RoundRepository
-        //{
-
-        //    get { return this.roundRepository ?? (this.roundRepository = new GenericRepository<Round>(_context)); }
-
-        //}
+       
 
         private IGenericRepository<Hub> hubRepository;
         public IGenericRepository<Hub> HubRepository
@@ -205,6 +198,7 @@ namespace Cats.Data.UnitWork
 
         }
 
+
         private IGenericRepository<TransportBidPlan> transportBidPlanRepository;
 
         public IGenericRepository<TransportBidPlan> TransportBidPlanRepository
@@ -223,17 +217,34 @@ namespace Cats.Data.UnitWork
 
         }
 
-        private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+   //     private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
 
-        public IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository
+        //private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+
+
+        //public IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository
+        //{
+
+        //    get { return this.requisitionViewModelRepository ?? (this.requisitionViewModelRepository = new GenericRepository<RequisitionViewModel>(_context)); }
+
+        //}
+
+        private IGenericRepository<TransportRequisition> transportRequisitionRepository;
+
+        public IGenericRepository<TransportRequisition> TransportRequisitionRepository
         {
-
-            get { return this.requisitionViewModelRepository ?? (this.requisitionViewModelRepository = new GenericRepository<RequisitionViewModel>(_context)); }
+            get { return this.transportRequisitionRepository ?? (this.transportRequisitionRepository = new GenericRepository<TransportRequisition>(_context)); }
 
         }
 
-      
 
+
+        private IGenericRepository<HubAllocation> hubAllocationRepository;
+        public IGenericRepository<HubAllocation> HubAllocationRepository
+        {
+            get { return this.hubAllocationRepository ?? (this.hubAllocationRepository = new GenericRepository<HubAllocation>(_context)); }
+            
+        }
         public void Save()
         {            
             _context.SaveChanges();

@@ -6,7 +6,8 @@
 }
 
 <div class="well">
-    <h4 class="page-header">Create Bid For Transporters</h4>
+    <h4 class="page-header"> Bid For Transporters</h4>
+    
 </div>
 
 @section LeftBar
@@ -26,12 +27,21 @@
                 @Html.TextBox("EndDate")
             </div>
         </div>
+          <p class="control-list">OR</p>
+        <div class="control-group">
+            <label class="control-label">Bid Number</label>
+            <div class="controls">
+                @Html.TextBox("BidNumber")
+            </div>
+        </div>
 
         <div class="control-group">
             <div class="controls">
                 <input type="submit" value="Filter" class="btn btn-primary"/>
+                 @Html.ActionLink("Create New Bid", "Create")
             </div>
         </div> 
+        
     }
 
 }
@@ -70,7 +80,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
+<<<<<<< HEAD
                         <li><a href="#">Approve</a></li>
+=======
+                        <li><a href="@Url.Action("Details","Bid",new {Area="Procurement",id=item.BidID})">Detail</a></li>
+>>>>>>> 9e5def76b09e8230c1bbd324d285159dfacdef62
                         <li><a href="#">View Status</a></li>
                     </ul>
                 </div>

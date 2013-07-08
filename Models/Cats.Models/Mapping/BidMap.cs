@@ -20,9 +20,10 @@ namespace Cats.Models.Mapping
             this.Property(t => t.BidID).HasColumnName("BidID");
             this.Property(t => t.StartDate).HasColumnName("StartDate");
             this.Property(t => t.EndDate).HasColumnName("EndDate");
+            this.Property(t => t.OpeningDate).HasColumnName("OpeningDate");
 
             // Relationships
-            
+
         }
     }
 }

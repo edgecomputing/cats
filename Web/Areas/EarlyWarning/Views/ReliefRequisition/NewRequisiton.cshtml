@@ -1,51 +1,53 @@
-﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.ReliefRequisitionNew>
+﻿@using Cats.Models.ViewModels
+@model IEnumerable<Cats.Models.ViewModels.ReliefRequisitionNew>
 
 @{
     ViewBag.Title = "NewRequisiton";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>NewRequisiton</h2>
+<h2 class="well">New Relief Requisiton For Distribution</h2>
 
 
 @using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post))
 {
-    <table>
+    <table class="table table-bordered table-striped table-condensed">
         <tr>
             <th>
-                @Html.Label("Requisiton No")
+                @Html.DisplayNameFor(model=> model.RequisitionNo)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CommodityID)
+                @Html.DisplayNameFor(model => model.Program)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Zone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RegionID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ZoneID)
+                @Html.DisplayNameFor(model => model.Commodity)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Round)
             </th>
-        
-            <th>
-                @Html.DisplayNameFor(model => model.RequestedBy)
-            </th>
-            <th>
+         <th>
                 @Html.DisplayNameFor(model => model.RequestedDate)
             </th>
+           @* <th>
+                @Html.DisplayNameFor(model => model.RequestedBy)
+            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.ApprovedBy)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ApprovedDate)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProgramID)
-            </th>
+           
             <th></th>
             <th></th>
         </tr>
@@ -55,38 +57,46 @@
             <tr>
                 <td>
                     @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new {@style = "width:80%; border:none; !important;"})
+                    @Html.ValidationMessageFor(modelItem => item.RequisitionNo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CommodityID)
+                    @Html.DisplayFor(modelItem => item.Region)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegionID)
+                    @Html.DisplayFor(modelItem => item.Program)
+                </td> 
+                 <td>
+                    @Html.DisplayFor(modelItem => item.Zone)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ZoneID)
+                    @Html.DisplayFor(modelItem => item.Commodity)
                 </td>
+                
+              
                 <td>
                     @Html.DisplayFor(modelItem => item.Round)
                 </td>
-      
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestedBy)
-                </td>
-                <td>
+      <td>
                     @Html.DisplayFor(modelItem => item.RequestedDate)
                 </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.RequestedBy)
+                </td>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.ApprovedBy)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ApprovedDate)
-                </td>
+                </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                     @{
+        var statusName = item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.Closed.ToString();
+                   var showme = item.Status == 2 ? "": "hidden";
+                }
+               @Html.Label(statusName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProgramID)
-                </td>
+                
                 <td>
                     <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
                 </td>

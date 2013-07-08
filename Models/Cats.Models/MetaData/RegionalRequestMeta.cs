@@ -23,11 +23,14 @@ namespace Cats.Models
         public int Round { get; set; }
 
         [Required(ErrorMessage = "Please Enter Requisition Date")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [Display(Name="Request Date")]
         public DateTime RequistionDate { get; set; }
 
         [Required(ErrorMessage = "Please Select Year")]
         public int Year { get; set; }
         [Required (ErrorMessage="Please Enter Reference Number")]
+        [Display(Name="Reference Number")]
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
 
