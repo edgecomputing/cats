@@ -57,6 +57,7 @@ namespace Cats.Infrastructure
             // Security service registration
             kernel.Bind<IUserAccountService>().To<UserAccountService>();
             kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
+            kernel.Bind<ITransportOrderService>().To<TransportOrderService>();
 
 
         }

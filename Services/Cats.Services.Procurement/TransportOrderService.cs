@@ -89,13 +89,13 @@ namespace Cats.Services.Procurement
            var result= (from requisition in requisitions
                    select new RequisitionToDispatch
                               {
-                                  HubID = requisition.HubAllocation.HubID,
+                                  HubID = requisition.HubAllocations.FirstOrDefault().HubID,
                                   RequisitionID = requisition.RequisitionID,
                                  RequisitionNo = requisition.RequisitionNo,
                                 RequisitionStatus = requisition.Status.Value,
                                   ZoneID = requisition.ZoneID.Value,
                                  QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
-                              OrignWarehouse = requisition.HubAllocation.Hub.Name,
+                              OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
                                   CommodityID = requisition.CommodityID.Value,
                                  CommodityName = requisition.Commodity.Name,
                                 Zone=requisition.AdminUnit.Name,
@@ -111,7 +111,7 @@ namespace Cats.Services.Procurement
        public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
        {
          return   _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int) REGIONAL_REQUEST_STATUS.HubAssigned, null,
-                                                       "HubAllocation,HubAllocation.Hub,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity");
+                                                       "HubAllocations,HubAllocations.Hub,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity");
        }
 
        public IEnumerable<ReliefRequisitionDetail> GetProjectCodeAssignedRequisitionDetails()

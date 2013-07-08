@@ -55,7 +55,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                       CommodityCode = "C1",
                                                                       Name = "CSB"
                                                                   },
-                                                  HubAllocation = new HubAllocation()
+                                                  HubAllocations = new List<HubAllocation>(){new HubAllocation()
                                                                       {
                                                                           HubAllocationID = 1,
                                                                           HubID = 1,
@@ -67,7 +67,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
 
                                                                                     }
 
-                                                                      },
+                                                                      }},
 
                                                   ReliefRequisitionDetails = new Collection<ReliefRequisitionDetail>
                                                                                  {
