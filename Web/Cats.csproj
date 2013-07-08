@@ -256,6 +256,16 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
+    <Content Include="Content\kendo\Default\editor.png" />
+    <Content Include="Content\kendo\Default\imagebrowser.png" />
+    <Content Include="Content\kendo\Default\loading-image.gif" />
+    <Content Include="Content\kendo\Default\loading.gif" />
+    <Content Include="Content\kendo\Default\slider-h.gif" />
+    <Content Include="Content\kendo\Default\slider-v.gif" />
+    <Content Include="Content\kendo\Default\sprite%402x.png" />
+    <Content Include="Content\kendo\Default\sprite.png" />
+    <Content Include="Content\kendo\kendo.common.min.css" />
+    <Content Include="Content\kendo\kendo.default.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -345,6 +355,9 @@
     <Content Include="Scripts\js\jquery.calendars.picker.js" />
     <Content Include="Scripts\js\jquery.calendars.plus.js" />
     <Content Include="Content\site.js" />
+    <None Include="Scripts\kendo.web-vsdoc.js" />
+    <None Include="Scripts\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\kendo.web.min.js" />
     <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
     <Content Include="Views\Shared\hubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
@@ -394,9 +407,6 @@
     <Content Include="Content\assets\font\fontawesome-webfont.woff" />
     <Content Include="Content\assets\font\FontAwesome.otf" />
     <Content Include="Areas\Settings\Views\User\New.cshtml" />
-    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
