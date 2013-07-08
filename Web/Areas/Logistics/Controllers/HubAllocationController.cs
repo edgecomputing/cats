@@ -6,8 +6,9 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models.ViewModels;
-using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+using System.Threading;
+
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -30,14 +31,37 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-
-        public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
+        [HttpGet]
+        public JsonResult getApprovedRequisitions()
         {
+            var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
+            var result = new List<ReliefRequisitionsViewModel>();
+
+            foreach (var item in reliefRequisitions.ToList())
+            {
+                var data = new ReliefRequisitionsViewModel();
+                data.CommodityName = item.Commodity.Name;
+                data.Region = item.ReliefRequisition.AdminUnit1.Name;
+                data.Zone = item.ReliefRequisition.AdminUnit1.Name;
+                data.Round = item.ReliefRequisition.Round.Value;
+                data.RequistionNo = item.ReliefRequisition.RequisitionNo;
+                data.Amount = item.Amount;
+                data.Beneficiaries = item.BenficiaryNo;
+                result.Add(data);
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+       
+        public ActionResult ApprovedRequesitions()
+        {
+            
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            var reliefRequisitions = _reliefRequisitionDetailService.Get(r=>r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
-            return View(reliefRequisitions.ToList());
+            return View();
         
         }
+
         public ActionResult Request(ICollection<ReliefRequisitionDetail> requisitionDetail)
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");

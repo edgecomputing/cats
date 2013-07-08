@@ -50,7 +50,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
             kernel.Bind<IBidDetailService>().To<BidDetailService>();
-           
+            kernel.Bind <IHubAllocationService>().To<HubAllocationService>();
             
             
 

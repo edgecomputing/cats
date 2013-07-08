@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -17,6 +16,11 @@
         }
     </style>
     <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -31,7 +35,7 @@
     <meta name="viewport" content="width=device-width" />
 
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -51,24 +55,24 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Regional Request<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                              
+
                                 <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Request</a></li>
                                 <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">Manage Request</a></li>
                             </ul>
-                        </li>      
-                         <li class="dropdown">
+                        </li>
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relief Requisition <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
-                              <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>   
-                               
+                                <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
+
                             </ul>
-                        </li>                        
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                                <li><a href="#">Project Allocation</a></li>                                
+                                <li><a href="#">Project Allocation</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Stock</a></li>
@@ -76,7 +80,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tender<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Create", "Bid", new { Area = "Procurement" })">Create Bid</a></li>
-                                 <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Manage Bid</a></li>                             
+                                <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Manage Bid</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Reports</a></li>
@@ -121,7 +125,6 @@
             <!--/span-->
             <div class="span9">
                 @RenderBody()
-
             </div>
             <!--/span-->
         </div>
@@ -136,7 +139,6 @@
     <!-- Le javascript
 	================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="~/Scripts/jquery-1.7.1.js"></script>
     <script src="~/Content/assets/js/bootstrap-transition.js"></script>
     <script src="~/Content/assets/js/bootstrap-alert.js"></script>
     <script src="~/Content/assets/js/bootstrap-modal.js"></script>
@@ -150,13 +152,30 @@
     <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
     <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
     <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/kendo/kendo.web.min.js"></script>
     <script>
         $(function () {
             $("#datepicker").datepicker();
         });
 
-    
+      
+
     </script>
-   
+
+
+   <script type="text/javascript">
+       $(function (id) {
+           $('#Approved_requets').kendoGrid({
+               scrollable: true,
+               sortable: true,
+               pageable: true,
+               selectable: "row",
+               filterable: true
+    , dataSource: { pageSize: 10 }     //defining page size      
+           });
+       });
+   </script>
+
+
 </body>
 </html>

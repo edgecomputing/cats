@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Models;
 using Cats.Data.UnitWork;
-
+using System.Linq;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -65,6 +65,10 @@ namespace Cats.Services.EarlyWarning
 
         public bool UpdateRequisitionStatus(string requisitionNo)
         {
+          var entity =  _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionNo == requisitionNo).SingleOrDefault();
+            if (entity==null) return false;
+            entity.Status = 4;//hub allocated
+            _unitOfWork.Save();
             return true;
         }
 
