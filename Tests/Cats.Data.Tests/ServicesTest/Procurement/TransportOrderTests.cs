@@ -37,13 +37,13 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                   RegionalRequestID = 1,
                                                   RequisitionID = 1,
                                                   Status = 1,
-                                                  HubAllocation = new HubAllocation()
+                                                  HubAllocations =new List<HubAllocation>{ new HubAllocation()
                                                                       {
                                                                           HubAllocationID = 1,
                                                                           HubID = 1,
                                                                           RequisitionID=1,
                                                                           
-                                                                      },
+                                                                      }},
                                                   ReliefRequisitionDetails = new Collection<ReliefRequisitionDetail>
                                                                                  {
                                                                                      new ReliefRequisitionDetail()

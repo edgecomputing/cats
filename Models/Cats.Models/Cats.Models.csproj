@@ -66,6 +66,7 @@
     <Compile Include="Mapping\CommodityMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />
+    <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
     <Compile Include="Mapping\RegionalRequestMap.cs" />
