@@ -46,10 +46,10 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.BidPlanID = new SelectList(db.TransportBidPlans, "TransportBidPlanID", "TransportBidPlanID");
+          /*  ViewBag.BidPlanID = new SelectList(db.TransportBidPlans, "TransportBidPlanID", "TransportBidPlanID");
             ViewBag.DestinationID = new SelectList(db.AdminUnits, "AdminUnitID", "Name");
             ViewBag.SourceID = new SelectList(db.Hubs, "HubId", "Name");
-            ViewBag.ProgramID = new SelectList(db.Programs, "ProgramID", "Name");
+            ViewBag.ProgramID = new SelectList(db.Programs, "ProgramID", "Name");*/
             return View();
         }
 

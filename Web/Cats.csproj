@@ -155,15 +155,12 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
     </Compile>
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
-
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
-    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
-    <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
-
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
@@ -249,7 +246,6 @@
     <Content Include="Content\assets\js\holder\holder.js" />
     <Content Include="Content\assets\js\html5shiv.js" />
     <Content Include="Content\assets\js\jquery.js" />
-
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -257,10 +253,8 @@
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
-
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -338,6 +332,7 @@
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
+    <Content Include="Areas\Procurement\Views\RFQ\RFQ.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -370,7 +365,6 @@
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
-
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Create.cshtml" />
@@ -384,12 +378,10 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
     <Content Include="Grid.mvc.readme" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequistionDetailEdit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
     <Content Include="Areas\Settings\Views\Web.config" />
@@ -400,11 +392,9 @@
     <Content Include="Content\assets\font\fontawesome-webfont.ttf" />
     <Content Include="Content\assets\font\fontawesome-webfont.woff" />
     <Content Include="Content\assets\font\FontAwesome.otf" />
-
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
-
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
@@ -437,27 +427,18 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
-
     <Content Include="Views\Shared\View1.cshtml" />
-
     <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
-
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
-
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-
-    <Folder Include="Areas\Procurement\Views\Shared\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
-
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

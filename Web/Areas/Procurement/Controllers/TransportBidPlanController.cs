@@ -18,13 +18,13 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IAdminUnitService _adminUnitService;
         private readonly IProgramService _programService;
         private readonly ITransportBidPlanDetailService _transportBidPlanDetailService;
-        private readonly DRMFSS.BLL.Services.IHubService _hubService;
+        private readonly IHubService _hubService;
         
         public TransportBidPlanController(ITransportBidPlanService transportBidPlanServiceParam
                                           , IAdminUnitService adminUnitServiceParam
                                           , IProgramService programServiceParam
                                           , ITransportBidPlanDetailService transportBidPlanDetailServiceParam
-                                            , DRMFSS.BLL.Services.IHubService hubServiceParam)
+                                            ,IHubService hubServiceParam)
                                         
             {
                 this._transportBidPlanService = transportBidPlanServiceParam;
