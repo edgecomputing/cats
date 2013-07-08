@@ -10,5 +10,6 @@ namespace Cats.Models
         public int HubId { get; set; }
         public string Name { get; set; }
         public int HubOwnerId { get; set; }
+        public virtual ICollection<TransportBidPlanDetail> TransportBidPlanSources { get; set; }
     }
 }

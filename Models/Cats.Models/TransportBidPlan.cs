@@ -22,19 +22,22 @@ namespace Cats.Models
         public int YearHalf { get; set; }
 
         //RegionID
-        [Display(Name = "Region")]
-        public int RegionID { get; set; }
+        /*[Display(Name = "Region")]
+        public int RegionID { get; set; }*/
 
         //ProgramID
         [Display(Name = "Program")]
         public int ProgramID { get; set; }
 
         //Region
-        [Display(Name = "Region")]
-        public AdminUnit Region { get; set; }
+      /*  [Display(Name = "Region")]
+       // public AdminUnit Region { get; set; }
+        public virtual AdminUnit Region { get; set; }*/
 
         //Program
         [Display(Name = "Program")]
-        public Program Program { get; set; }
+        public virtual Program Program { get; set; }
+
+        public ICollection<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
     }
 }

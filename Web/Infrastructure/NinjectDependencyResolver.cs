@@ -7,7 +7,7 @@ using Cats.Data.UnitWork;
 using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
-
+using DRMFSS.BLL.Services;
 namespace Cats.Infrastructure
 {
     public class NinjectDependencyResolver : IDependencyResolver
@@ -46,7 +46,9 @@ namespace Cats.Infrastructure
             kernel.Bind<IBidService>().To<BidService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
             kernel.Bind<ITransportBidPlanService>().To<TransportBidPlanService>();
+            kernel.Bind<ITransportBidPlanDetailService>().To<TransportBidPlanDetailService>();
             kernel.Bind<IBidDetailService>().To<BidDetailService>();
+            kernel.Bind<IHubService>().To<HubService>();
             
         }
     }

@@ -8,24 +8,53 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Data;
 using Cats.Services.Procurement;
+using Cats.Services.EarlyWarning;
 
 namespace Cats.Areas.Procurement.Controllers
 {
     public class TransportBidPlanController : Controller
     {
-        private readonly ITransportBidPlanService transportBidPlanService;
-        public TransportBidPlanController(ITransportBidPlanService transportBidPlanServiceParam)
+        private readonly ITransportBidPlanService _transportBidPlanService;
+        private readonly IAdminUnitService _adminUnitService;
+        private readonly IProgramService _programService;
+        private readonly ITransportBidPlanDetailService _transportBidPlanDetailService;
+        private readonly DRMFSS.BLL.Services.IHubService _hubService;
+        
+        public TransportBidPlanController(ITransportBidPlanService transportBidPlanServiceParam
+                                          , IAdminUnitService adminUnitServiceParam
+                                          , IProgramService programServiceParam
+                                          , ITransportBidPlanDetailService transportBidPlanDetailServiceParam
+                                            , DRMFSS.BLL.Services.IHubService hubServiceParam)
+                                        
+            {
+                this._transportBidPlanService = transportBidPlanServiceParam;
+                this._adminUnitService = adminUnitServiceParam;
+                this._programService = programServiceParam;
+                this._transportBidPlanDetailService = transportBidPlanDetailServiceParam;
+                this._hubService = hubServiceParam;
+            }
+        public TransportBidPlan fetchFromDB(int id)
         {
-            this.transportBidPlanService = transportBidPlanServiceParam;
+            TransportBidPlan transportbidplan = _transportBidPlanService.FindById(id);
+            return transportbidplan;
         }
-        private CatsContext db = new CatsContext();
+
+        public bool loadLookups(TransportBidPlan transportbidplan)
+        {
+           ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", transportbidplan.ProgramID);
+           // new SelectList(
+           // ViewBag.RegionID = new SelectList(_adminUnitService.GetAllAdminUnit(), "AdminUnitID", "Name", transportbidplan.RegionID);
+            //ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", transportbidplan.RegionID);
+            return true;
+            
+        }
 
         //
         // GET: /Procurement/TransportBidPlan/
 
         public ActionResult Index()
         {
-            List<Cats.Models.TransportBidPlan> list = transportBidPlanService.GetAllTransportBidPlan();
+            List<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan();
             return View(list);
         }
 
@@ -34,7 +63,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            TransportBidPlan transportbidplan = transportBidPlanService.FindById(id);
+            TransportBidPlan transportbidplan = fetchFromDB(id);
             if (transportbidplan == null)
             {
                 return HttpNotFound();
@@ -47,7 +76,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.ProgramID = new SelectList(db.Programs, "ProgramID", "Name");
+            loadLookups(new TransportBidPlan());
             return View();
         }
 
@@ -59,12 +88,12 @@ namespace Cats.Areas.Procurement.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TransportBidPlans.Add(transportbidplan);
-                db.SaveChanges();
+                ViewBag.Message = "Invalid Model";
+                _transportBidPlanService.AddTransportBidPlan(transportbidplan);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProgramID = new SelectList(db.Programs, "ProgramID", "Name", transportbidplan.ProgramID);
+            loadLookups(transportbidplan);
             return View(transportbidplan);
         }
 
@@ -73,12 +102,13 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            TransportBidPlan transportbidplan = transportBidPlanService.FindById(id);
+            TransportBidPlan transportbidplan = fetchFromDB(id);
             if (transportbidplan == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ProgramID = new SelectList(db.Programs, "ProgramID", "Name", transportbidplan.ProgramID);
+            loadLookups(transportbidplan);
+
             return View(transportbidplan);
         }
 
@@ -90,11 +120,12 @@ namespace Cats.Areas.Procurement.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(transportbidplan).State = EntityState.Modified;
-                db.SaveChanges();
+                _transportBidPlanService.UpdateTransportBidPlan(transportbidplan);
+                /*db.Entry(transportbidplan).State = EntityState.Modified;
+                db.SaveChanges();*/
                 return RedirectToAction("Index");
             }
-            ViewBag.ProgramID = new SelectList(db.Programs, "ProgramID", "Name", transportbidplan.ProgramID);
+            loadLookups(transportbidplan);
             return View(transportbidplan);
         }
 
@@ -103,7 +134,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            TransportBidPlan transportbidplan = db.TransportBidPlans.Find(id);
+            TransportBidPlan transportbidplan = fetchFromDB(id);
             if (transportbidplan == null)
             {
                 return HttpNotFound();
@@ -117,16 +148,82 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            TransportBidPlan transportbidplan = db.TransportBidPlans.Find(id);
-            db.TransportBidPlans.Remove(transportbidplan);
-            db.SaveChanges();
+            //TransportBidPlan transportbidplan = fetchFromDB(id);
+            _transportBidPlanService.DeleteById(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        public Dictionary<string, TransportBidPlanDetail> organizeList(List<TransportBidPlanDetail> bidList)
         {
-            db.Dispose();
-            base.Dispose(disposing);
+            System.Collections.Generic.Dictionary<string, TransportBidPlanDetail> ret = new Dictionary<string, TransportBidPlanDetail>();
+            
+            foreach(var i in bidList)
+            {
+                string hash=i.BidPlanID + "_" + i.ProgramID + "_" + i.SourceID + "_" + i.DestinationID;
+                ret.Add (hash,i);// = i;
+            }
+            return ret;
+        }
+        //
+        // GET: /Procurement/TransportBidPlan/Details/5
+
+        public ActionResult WarehouseSelection(int id = 0)
+        {
+            TransportBidPlan transportbidplan = fetchFromDB(id);
+            List<TransportBidPlanDetail> bidDetails=_transportBidPlanDetailService.GetAllTransportBidPlanDetail();
+            Dictionary<string, TransportBidPlanDetail> matrix = organizeList(bidDetails);
+
+            ViewBag.RegionCollection =_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+            ViewBag.bidPlan = transportbidplan;
+            ViewBag.HubCollection = this._hubService.GetAllHub();
+            ViewBag.ProgramCollection = this._programService.GetAllProgram();
+            
+            if (transportbidplan == null)
+            {
+                return HttpNotFound();
+            }
+            return View(matrix);
+        }
+        [HttpPost]
+        public ActionResult EditAJAX(TransportBidPlanDetail transportbidplan)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                if (transportbidplan.TransportBidPlanDetailID == 0)
+                {
+                    _transportBidPlanDetailService.AddTransportBidPlanDetail(transportbidplan);
+                    ViewBag.status = "itemadded";
+                }
+                else
+                {
+                    if (transportbidplan.Quantity >= 0)
+                    {
+                        _transportBidPlanDetailService.UpdateTransportBidPlanDetail(transportbidplan);
+                        ViewBag.status = "itemupdated";
+                    }
+                    else
+                    {
+                        TransportBidPlanDetail newModel = new TransportBidPlanDetail();
+                        newModel.BidPlanID = transportbidplan.BidPlanID;
+                        newModel.DestinationID = transportbidplan.DestinationID;
+                        newModel.ProgramID = transportbidplan.ProgramID;
+                        newModel.Quantity = 0;
+                        newModel.SourceID = transportbidplan.SourceID;
+
+                        _transportBidPlanDetailService.DeleteById(transportbidplan.TransportBidPlanDetailID);
+                        ViewBag.status = "itemdeleted";
+                        return View(newModel);
+                    }
+
+                }
+                /*db.Entry(transportbidplan).State = EntityState.Modified;
+                db.SaveChanges();*/
+                //return RedirectToAction("Index");
+            }
+            return View(transportbidplan);
+            //loadLookups(transportbidplan);
+           // return View(transportbidplan);
         }
     }
 }

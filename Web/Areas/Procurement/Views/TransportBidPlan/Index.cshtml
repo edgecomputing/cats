@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Transport Bid Planing</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -18,33 +18,24 @@
         <th>
             @Html.DisplayNameFor(model => model.YearHalf)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RegionID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Program.Name)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
+
             @Html.DisplayFor(modelItem => item.Year)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.YearHalf)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegionID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Program.Name)
-        </td>
+        
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TransportBidPlanID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TransportBidPlanID }) |
+ <!--           @Html.ActionLink("Details", "Details", new { id=item.TransportBidPlanID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.TransportBidPlanID })
+           --> @Html.ActionLink("WarehouseSelection", "WarehouseSelection", new { id=item.TransportBidPlanID })
         </td>
     </tr>
 }

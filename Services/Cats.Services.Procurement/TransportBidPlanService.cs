@@ -19,14 +19,14 @@ namespace Cats.Services.Procurement
         public void generate_sample_data()
         {
             sample_data = new List<TransportBidPlan>();
-            sample_data.Add(new TransportBidPlan {TransportBidPlanID=1, Year=2011,YearHalf=1,RegionID=1,ProgramID=1});
-            sample_data.Add(new TransportBidPlan {TransportBidPlanID=2, Year = 2011, YearHalf = 1, RegionID = 1, ProgramID = 2 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 3, Year = 2011, YearHalf = 1, RegionID = 2, ProgramID = 1 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 4, Year = 2011, YearHalf = 1, RegionID = 2, ProgramID = 2 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 5, Year = 2012, YearHalf = 1, RegionID = 1, ProgramID = 1 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 6, Year = 2012, YearHalf = 1, RegionID = 1, ProgramID = 2 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 7, Year = 2012, YearHalf = 1, RegionID = 2, ProgramID = 1 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 8, Year = 2012, YearHalf = 1, RegionID = 2, ProgramID = 2 }); 
+            sample_data.Add(new TransportBidPlan {TransportBidPlanID=1, Year=2011,YearHalf=1,ProgramID=1});
+            sample_data.Add(new TransportBidPlan {TransportBidPlanID=2, Year = 2011, YearHalf = 1,  ProgramID = 2 });
+            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 3, Year = 2011, YearHalf = 1,  ProgramID = 1 });
+            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 4, Year = 2011, YearHalf = 1, ProgramID = 2 });
+            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 5, Year = 2012, YearHalf = 1,  ProgramID = 1 });
+            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 6, Year = 2012, YearHalf = 1, ProgramID = 2 });
+            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 7, Year = 2012, YearHalf = 1,ProgramID = 1 });
+            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 8, Year = 2012, YearHalf = 1, ProgramID = 2 }); 
         }
         public bool AddTransportBidPlan(TransportBidPlan item)
         {
@@ -55,13 +55,14 @@ namespace Cats.Services.Procurement
         }
         public TransportBidPlan FindById(int id)
         {
-            return sample_data[id-1];
-//            return _unitOfWork.TransportBidPlanRepository.FindById(id);
+            var item = _unitOfWork.TransportBidPlanRepository.FindById(id);
+            return item;
         }
+       
         public List<TransportBidPlan> GetAllTransportBidPlan()
         {
-            return sample_data;
-//            return _unitOfWork.TransportBidPlanRepository.GetAll();
+           // return sample_data;
+            return _unitOfWork.TransportBidPlanRepository.GetAll();
 
         }
         public List<TransportBidPlan> FindBy(Expression <Func<TransportBidPlan, bool>> predicate)

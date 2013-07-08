@@ -153,6 +153,7 @@
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
@@ -329,6 +330,14 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Delete.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\editPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\WarehouseSelection.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\EditAJAX.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -362,12 +371,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\View1.cshtml" />
+    <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Procurement\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

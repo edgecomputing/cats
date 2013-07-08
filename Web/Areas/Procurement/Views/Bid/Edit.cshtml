@@ -4,6 +4,18 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";    
 }
+@section LeftBar
+{
+    <li class="nav-header">Bid Informaation</li>
+    <li>Bid Number: @ViewBag.BidNumber</li>
+    <li>Start Date: @ViewBag.StartDate</li>
+    <li>End Date: @ViewBag.EndDate</li>
+    <li class="nav-header">Tasks</li>
+    <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Bit Lists</a></li>
+}
+<div class="well">
+    <h4 class="page-header">Bid Number: @ViewBag.BidNumber  From:@ViewBag.StartDate  To: @ViewBag.EndDate</h4>
+</div>
 
 @using (Html.BeginForm("Edit", "Bid", FormMethod.Post))
 {
@@ -48,8 +60,10 @@
                 <td>
                     <input type="hidden" value="@bidDetail.Edit.Number" name="@("input[" + index + "].Number")" />
                 </td>
+                
             </tr>
             index++;
+            
         }
     </table>
     <p>

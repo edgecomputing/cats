@@ -159,24 +159,24 @@ namespace Cats.Tests
 
         //    List<DispatchAllocation> DispatchList = new List<DispatchAllocation>();
 
-            [Test]
-            public void Can_Test_GetDispatchDetail()
-            {
-                //Arange
+            //[Test]
+            //public void Can_Test_GetDispatchDetail()
+            //{
+            //    //Arange
                              
-                ProjectAllocationController AllocationController = new ProjectAllocationController();
-                Mock<IDispatchAllocationDetailService> DA = new Mock<IDispatchAllocationDetailService>();
-                //AllocationController.Setup(m => m.DispatchDetail());
-                ViewResult result = AllocationController.DispatchDetail() as ViewResult;
-                Assert.IsNotNull(result);
-            }
-            [Test]
-            public void Index_View_Test()
-            {
-                ProjectAllocationController controller = new ProjectAllocationController();
-                ViewResult view = controller.DispatchDetail();
-                Assert.AreEqual("DispatchDetail", view.ViewName);
-            }
+            //    ProjectAllocationController AllocationController = new ProjectAllocationController();
+            //    Mock<IDispatchAllocationDetailService> DA = new Mock<IDispatchAllocationDetailService>();
+            //    //AllocationController.Setup(m => m.DispatchDetail());
+            //   // ViewResult result = AllocationController.DispatchDetail() as ViewResult;
+            //    Assert.IsNotNull(result);
+            //}
+            //[Test]
+            //public void Index_View_Test()
+            //{
+            //    ProjectAllocationController controller = new ProjectAllocationController();
+            //    ViewResult view = controller.DispatchDetail();
+            //    Assert.AreEqual("DispatchDetail", view.ViewName);
+            //}
 
 
         //}

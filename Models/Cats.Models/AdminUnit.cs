@@ -29,6 +29,8 @@ namespace Cats.Models
         public virtual ICollection<FDP> FDPs { get; set; }
         public ICollection<RegionalRequest> RegionalRequests { get; set; }
         public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
-        public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }    
+        public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
+        public virtual ICollection<TransportBidPlanDetail> TransportBidPlanDestinations { get; set; }
+       // public virtual ICollection<TransportBidPlan> TransportBidPlans { get; set; }    
     }
 }

@@ -6,7 +6,6 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using System;
 using Cats.Models;
-
 namespace Cats.Areas.Procurement.Controllers
 {
     public class BidController : Controller
@@ -47,7 +46,8 @@ namespace Cats.Areas.Procurement.Controllers
             var bidDetails = (from detail in regions
                               select new BidDetail()
                               {
-                                  RegionID=detail.AdminUnitID
+                                  RegionID=detail.AdminUnitID,
+                                  AmountForReliefProgram=0,
                               }).ToList();
             bid.BidDetails = bidDetails;
             return View(bid);
@@ -77,7 +77,7 @@ namespace Cats.Areas.Procurement.Controllers
             // _bidService.AddBid(bid);
             //return Redirect(string.Format("Edit/{0}", bid.BidID));
         }
-
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             //var viewModel = new BidViewModel();
@@ -114,10 +114,10 @@ namespace Cats.Areas.Procurement.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(List<BidDetailsViewModel.BidDetailEdit> detailInput)
+        public ActionResult Edit(List<BidDetailsViewModel.BidDetailEdit> input)
         {
             var bidId = 0;
-            foreach (var bidDetailEdit in detailInput)
+            foreach (var bidDetailEdit in input)
             {
                 var bidDetail = _bidDetailService.FindById(bidDetailEdit.Number);
                 bidId = bidDetail.BidID;
@@ -131,25 +131,32 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("Edit", "Bid", new {id = bidId});
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int id=0)
         {
-            var viewModel = new BidViewModel();
-            var bid = _bidService.FindById(id);
-            var regions = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 2);
-            var bidDetails = new List<BidDetail>();
-            foreach (var region in regions)
+            Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
+            if (bid == null)
             {
-                var bidDetail = new BidDetail();
-                bidDetail.AdminUnit = region;
-                bidDetail.Bid = bid;
-                bidDetails.Add(bidDetail);
+                return HttpNotFound();
             }
-            viewModel.BidID = bid.BidID;
-            viewModel.BidNumber = bid.BidNumber;
-            viewModel.StartDate = bid.StartDate;
-            viewModel.EndDate = bid.EndDate;
-            viewModel.BidDetails = bidDetails;
-            return View(viewModel);
+            return View(bid);
+            
+            //var viewModel = new BidViewModel();
+            //var bid = _bidService.FindById(id);
+            //var regions = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 2);
+            //var bidDetails = new List<BidDetail>();
+            //foreach (var region in regions)
+            //{
+            //    var bidDetail = new BidDetail();
+            //    bidDetail.AdminUnit = region;
+            //    bidDetail.Bid = bid;
+            //    bidDetails.Add(bidDetail);
+            //}
+            //viewModel.BidID = bid.BidID;
+            //viewModel.BidNumber = bid.BidNumber;
+            //viewModel.StartDate = bid.StartDate;
+            //viewModel.EndDate = bid.EndDate;
+            //viewModel.BidDetails = bidDetails;
+            //return View(viewModel);
         }
     }
 }

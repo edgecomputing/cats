@@ -214,6 +214,15 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<TransportBidPlanDetail> transportBidPlanDetailRepository;
+
+        public IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository
+        {
+
+            get { return this.transportBidPlanDetailRepository ?? (this.transportBidPlanDetailRepository = new GenericRepository<TransportBidPlanDetail>(_context)); }
+
+        }
+
         private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
 
         public IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository

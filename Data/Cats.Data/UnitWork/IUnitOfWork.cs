@@ -24,8 +24,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository { get; }
 
         IGenericRepository<Transporter> TransporterRepository { get; }
-        IGenericRepository<TransportBidPlan> TransportBidPlanRepository { get; } 
-
+        IGenericRepository<TransportBidPlan> TransportBidPlanRepository { get; }
+        IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository { get; } 
        
         IGenericRepository<Bid> BidRepository { get; }
         IGenericRepository<BidDetail> BidDetailRepository { get; } 
