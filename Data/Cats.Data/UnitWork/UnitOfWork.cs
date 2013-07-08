@@ -279,9 +279,18 @@ namespace Cats.Data.UnitWork
 
 
 
+
+        private IGenericRepository<TransportOrder> transportOrderRepository;
+
         public IGenericRepository<TransportOrder> TransportOrderRepository
         {
-            get { throw new NotImplementedException(); }
+
+            get { return this.transportOrderRepository ?? (this.transportOrderRepository = new GenericRepository<TransportOrder>(_context)); }
+
         }
+
+
+        
+      
     }
 }

@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
@@ -346,6 +347,7 @@
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

@@ -30,9 +30,7 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.UserProfile)
                 .WithMany(t => t.HubAllocations)
                 .HasForeignKey(d => d.AllocatedBy);
-            this.HasRequired(t => t.ReliefRequisition)
-                .WithMany(t => t.HubAllocations)
-                .HasForeignKey(d => d.RequisitionID);
+            this.HasRequired(t => t.ReliefRequisition);
 
         }
     }
