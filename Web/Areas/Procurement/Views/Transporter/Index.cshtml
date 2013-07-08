@@ -10,7 +10,7 @@
 }
 
 <div class="well">
-    <h4 class="page-header">Transporter Registration</h4>
+    <h3>Transporter Registration</h3>
 </div>
 @section LeftBar
 {
@@ -56,19 +56,19 @@
             @Html.DisplayNameFor(model => model.SubCity)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TelephoneNo)
+            Tel
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MobileNo)
+            Mob
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LiftCapacityTotal)
+           Capacity
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Capital)
+            Capital
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmployeeCountMale)
+            Employees
         </th>
        
         <th></th>
@@ -99,7 +99,8 @@
             @Html.DisplayFor(modelItem => item.Capital)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EmployeeCountMale)
+            @{var empcount = item.EmployeeCountMale + item.EmployeeCountFemale;}
+            @empcount
         </td>
        
         <td>

@@ -6,6 +6,10 @@ namespace Cats.Models
 {
     public class Transporter
     {
+        public Transporter()
+        {
+            this.TransportOrders = new List<TransportOrder>();
+        }
         [Key]
         public int TransporterID { get; set; }
 
@@ -44,5 +48,7 @@ namespace Cats.Models
 
         public DateTime ExperienceFrom { get; set; }
         public DateTime ExperienceTo { get; set; }
+        public virtual ICollection<TransportOrder> TransportOrders { get; set; }
+   
     }
 }

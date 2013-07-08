@@ -22,8 +22,8 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.Calendar).HasColumnName("Calendar");
 
             // Relationships
-            this.HasRequired(t => t.User)
-                .WithOptional(t => t.Profile);
+            //this.HasRequired(t => t.User)
+            //    .WithOptional(t => t.Profile);
 
         }
     }

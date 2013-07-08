@@ -17,5 +17,6 @@ namespace Cats.Models
         public string LongName { get; set; }
         public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
         public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+        public ICollection<TransportBidPlan> TransportBidPlans { get; set; }
     }
 }

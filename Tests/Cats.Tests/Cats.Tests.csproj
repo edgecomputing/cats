@@ -112,7 +112,6 @@
     <Compile Include="ControllerTestBase.cs" />
     <Compile Include="ProjectAllocationControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestControllerTest.cs" />
     <Compile Include="ControllersTests\ReliefRequisitionControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>

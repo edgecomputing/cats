@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
-using Cats.Models;
+
 
 namespace Cats.Data.UnitWork
 {
@@ -13,7 +13,7 @@ namespace Cats.Data.UnitWork
         // TODO: Add private properties to for each repository
       
       
-        private IGenericRepository<AllocationModelDetail> allocatipnModelDetailRepository;
+      
         private IGenericRepository<Bid> bidRepository;
         private IGenericRepository<BidDetail> bidDetailRepository;
         private IGenericRepository<Status> statusRepository; 
@@ -62,11 +62,7 @@ namespace Cats.Data.UnitWork
       
         
       
-        public IGenericRepository<AllocationModelDetail> AllocationModelDetailRepository
-        {
-            get { return this.allocatipnModelDetailRepository ?? (this.allocatipnModelDetailRepository = new GenericRepository<AllocationModelDetail>(_context)); }
-
-        }
+       
 
 
         public IGenericRepository<Bid> BidRepository
@@ -162,14 +158,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        //private IGenericRepository<Round> roundRepository;
-
-        //public IGenericRepository<Round> RoundRepository
-        //{
-
-        //    get { return this.roundRepository ?? (this.roundRepository = new GenericRepository<Round>(_context)); }
-
-        //}
+       
 
         private IGenericRepository<Hub> hubRepository;
         public IGenericRepository<Hub> HubRepository
@@ -211,7 +200,29 @@ namespace Cats.Data.UnitWork
 
         }
 
+
+        private IGenericRepository<TransportBidPlan> transportBidPlanRepository;
+
+        public IGenericRepository<TransportBidPlan> TransportBidPlanRepository
+        {
+
+            get { return this.transportBidPlanRepository ?? (this.transportBidPlanRepository = new GenericRepository<TransportBidPlan>(_context)); }
+
+        }
+
+        private IGenericRepository<TransportBidPlanDetail> transportBidPlanDetailRepository;
+
+        public IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository
+        {
+
+            get { return this.transportBidPlanDetailRepository ?? (this.transportBidPlanDetailRepository = new GenericRepository<TransportBidPlanDetail>(_context)); }
+
+        }
+
+   //     private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+
         //private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+
 
         //public IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository
         //{
@@ -220,8 +231,22 @@ namespace Cats.Data.UnitWork
 
         //}
 
-      
+        private IGenericRepository<TransportRequisition> transportRequisitionRepository;
 
+        public IGenericRepository<TransportRequisition> TransportRequisitionRepository
+        {
+            get { return this.transportRequisitionRepository ?? (this.transportRequisitionRepository = new GenericRepository<TransportRequisition>(_context)); }
+
+        }
+
+
+
+        private IGenericRepository<HubAllocation> hubAllocationRepository;
+        public IGenericRepository<HubAllocation> HubAllocationRepository
+        {
+            get { return this.hubAllocationRepository ?? (this.hubAllocationRepository = new GenericRepository<HubAllocation>(_context)); }
+            
+        }
         public void Save()
         {            
             _context.SaveChanges();
@@ -251,6 +276,12 @@ namespace Cats.Data.UnitWork
 
 
 
-      
+
+
+
+        public IGenericRepository<TransportOrder> TransportOrderRepository
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

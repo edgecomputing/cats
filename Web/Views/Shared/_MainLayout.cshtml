@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -10,14 +9,16 @@
 
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
     <style type="text/css">
         body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
     </style>
-    <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
+    <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet" />
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
 		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -31,11 +32,11 @@
     <meta name="viewport" content="width=device-width" />
 
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
+    @*    @Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -51,35 +52,42 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Regional Request<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                              
+                                <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
+                                <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisions</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Request</a></li>
+                                <li><a href="#">Followup Request</a></li>                                
                                 <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Request</a></li>
                                 <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">Manage Request</a></li>
                             </ul>
-                        </li>      
-                         <li class="dropdown">
+                        </li>
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relief Requisition <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
-                              <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>   
-                               
+                                <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
                             </ul>
-                        </li>                        
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                                <li><a href="#">Project Allocation</a></li>                                
+                                <li><a href="#">Project Allocation</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Stock</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tender<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bid<b class="caret"></b></a>
                             <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("", "TransportBidPlan", new { Area = "Procurement" })">Bid Plan</a></li>
+                                <li><a href="@Url.Action("", "Bid", new { Area = "Procurement" })">Bid Management</a></li>
+                                <li><a href="@Url.Action("", "Transporter", new { Area = "Procurement" })">Transporter</a></li>                                
                                 <li><a href="@Url.Action("Create", "Bid", new { Area = "Procurement" })">Create Bid</a></li>
-                                 <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Manage Bid</a></li>                             
+                                <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Manage Bid</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Reports</a></li>
+                        <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">Settings</a></li>
                     </ul>
                     <ul class="nav pull-right">
                         <li class="divider-vertical"></li>
@@ -92,7 +100,7 @@
                         </li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">[User Name] <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Preference</a></li>
                                 <li class="divider"></li>
@@ -113,7 +121,6 @@
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         @RenderSection("LeftBar", required: false)
-
                     </ul>
                 </div>
                 <!--/.well -->
@@ -121,7 +128,6 @@
             <!--/span-->
             <div class="span9">
                 @RenderBody()
-
             </div>
             <!--/span-->
         </div>
@@ -136,7 +142,9 @@
     <!-- Le javascript
 	================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
     <script src="~/Content/assets/js/bootstrap-transition.js"></script>
     <script src="~/Content/assets/js/bootstrap-alert.js"></script>
     <script src="~/Content/assets/js/bootstrap-modal.js"></script>
@@ -154,9 +162,7 @@
         $(function () {
             $("#datepicker").datepicker();
         });
-
-    
     </script>
-   
+
 </body>
 </html>

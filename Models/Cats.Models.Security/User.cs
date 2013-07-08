@@ -14,6 +14,6 @@ namespace Cats.Models.Security
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Disabled { get; set; }
-        public virtual Profile Profile { get; set; }
+        //public virtual Profile Profile { get; set; }
     }
 }

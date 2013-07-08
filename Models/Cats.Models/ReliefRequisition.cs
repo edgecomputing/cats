@@ -14,6 +14,7 @@ namespace Cats.Models
         public ReliefRequisition()
         {
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            this.TransportOrders = new List<TransportOrder>();
         }
 
         public int RequisitionID { get; set; }
@@ -37,6 +38,8 @@ namespace Cats.Models
         public virtual UserProfile UserProfile1 { get; set; }
         public virtual RegionalRequest RegionalRequest { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+        public virtual ICollection<TransportOrder> TransportOrders { get; set; }
+        public virtual HubAllocation HubAllocation { get; set; }
       
         
     }

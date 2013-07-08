@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
+using Cats.Services.Security;
 using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
@@ -20,9 +21,9 @@ namespace Cats.Infrastructure
             AddBindings();
         }
 
-       
 
-    public object GetService(Type serviceType)
+
+        public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
         }
@@ -31,7 +32,7 @@ namespace Cats.Infrastructure
         {
             return kernel.GetAll(serviceType);
         }
-        
+
         private void AddBindings()
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
@@ -44,9 +45,19 @@ namespace Cats.Infrastructure
             kernel.Bind<IReliefRequisitionService>().To<ReliefRequisitionService>();
             kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
             kernel.Bind<IBidService>().To<BidService>();
+            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
+
+            kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
-            kernel.Bind<IBidDetailService>().To<BidDetailService>();
+            kernel.Bind<ITransportBidPlanService>().To<TransportBidPlanService>();
+            kernel.Bind<ITransportBidPlanDetailService>().To<TransportBidPlanDetailService>();
+            kernel.Bind<IBidDetailService>().To<BidDetailService>();  
             kernel.Bind<IStatusService>().To<StatusService>();
+
+            // Security service registration
+            kernel.Bind<IUserAccountService>().To<UserAccountService>();
+            kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
+
 
         }
     }
