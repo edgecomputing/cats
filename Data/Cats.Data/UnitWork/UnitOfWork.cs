@@ -13,7 +13,7 @@ namespace Cats.Data.UnitWork
         // TODO: Add private properties to for each repository
       
       
-        private IGenericRepository<AllocationModelDetail> allocatipnModelDetailRepository;
+      
         private IGenericRepository<Bid> bidRepository;
         private IGenericRepository<BidDetail> bidDetailRepository; 
         
@@ -61,11 +61,7 @@ namespace Cats.Data.UnitWork
       
         
       
-        public IGenericRepository<AllocationModelDetail> AllocationModelDetailRepository
-        {
-            get { return this.allocatipnModelDetailRepository ?? (this.allocatipnModelDetailRepository = new GenericRepository<AllocationModelDetail>(_context)); }
-
-        }
+       
 
 
         public IGenericRepository<Bid> BidRepository
@@ -274,6 +270,12 @@ namespace Cats.Data.UnitWork
 
 
 
-      
+
+
+
+        public IGenericRepository<TransportOrder> TransportOrderRepository
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
