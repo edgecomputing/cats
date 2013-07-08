@@ -157,7 +157,7 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost]
         public ActionResult EditBidStatus(Bid bid)
         {
-            var statusID = _bidService.FindById(bid.StatusID);
+            //var statusID = _bidService.FindById(bid.StatusID);
             _bidService.EditBid(bid);
             return RedirectToAction("Index");
         }
