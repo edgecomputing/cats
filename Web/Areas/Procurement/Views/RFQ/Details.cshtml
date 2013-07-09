@@ -1,0 +1,76 @@
+﻿@{
+  @* @model Cats.Models.TransportBidPlan
+  *@
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @using (Html.BeginForm())
+    {
+        <div class="control-group">
+            <label class="control-label">Bid</label>
+            <div class="controls">
+               @Html.DropDownList("BidPlanID");
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Region</label>
+            <div class="controls">
+               @* @Html.ListBox("myListBox", new SelectList(new[] {""})); @Html.ListBox("RegionID");*@
+                @Html.DropDownList("RegionID");
+                
+            </div>
+        </div>
+        <input type="submit" value="Select" class="btn btn-primary"/>
+    }
+}
+<style>
+     th
+    {
+        text-align:center;
+    }
+</style>
+<h2 style="text-align:center;">Disaster Risk Management and Food Security Sector <br />REQUEST FOR QUOTATION</h2>
+ 
+
+
+<table class="table table-bordered">
+    <tr>
+        <th rowspan="2">S.No</th>
+        <th rowspan="2">Source Warehouse</th>
+        <th colspan="2">Destination</th>
+        <th colspan="2">Tariff/Quintal</th>
+        <th rowspan="2" style="min-width:200px;">Remark</th>
+    </tr>
+    <tr>
+        <th>Zone</th>
+        <th>Woreda</th>
+        <th>Birr</th>
+        <th>Cent</th>
+    </tr>
+
+ @{
+    var count = 0;
+    foreach (var item in ViewBag.regioinPlanDistinct)
+{
+    count++;
+    <tr>
+        <td>@count</td>
+        <td>@item.SourceWarehouse</td>
+        
+        
+        <td> @item.DestinationZone</td>
+        <td>@item.DestinationWoreda</td>
+
+        
+        <td></td>
+        <td></td>
+        <td></td>    
+    </tr>
+}
+}
+</table>
+
+
+

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Cats.Models
         
             this.ReliefRequisitions = new List<ReliefRequisition>();
             this.ReliefRequisitions1 = new List<ReliefRequisition>();
-           
+            this.HubAllocations = new List<HubAllocation>();
         }
 
         public int UserProfileID { get; set; }
@@ -38,5 +39,6 @@ namespace Cats.Models
      
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
+        public virtual ICollection<HubAllocation> HubAllocations { get; set; }
     }
 }

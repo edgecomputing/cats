@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ABFB63D2-89FC-45BC-AA4E-5D9B21094B85}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cats.Models</RootNamespace>
+    <AssemblyName>Cats.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminUnit.cs" />
+    <Compile Include="AdminUnitType.cs" />
+    <Compile Include="Bid.cs" />
+    <Compile Include="BidDetail.cs" />
+    <Compile Include="Commodity.cs" />
+    <Compile Include="CommodityType.cs" />
+    <Compile Include="DispatchAllocation.cs" />
+    <Compile Include="DispatchAllocationDetail.cs" />
+    <Compile Include="Donor.cs" />
+    <Compile Include="FDP.cs" />
+    <Compile Include="Hub.cs" />
+    <Compile Include="HubAllocation.cs" />
+    <Compile Include="Mapping\AdminUnitMap.cs" />
+    <Compile Include="Mapping\AdminUnitTypeMap.cs" />
+    <Compile Include="Mapping\BidDetailMap.cs" />
+    <Compile Include="Mapping\BidMap.cs" />
+    <Compile Include="Mapping\CommodityMap.cs" />
+    <Compile Include="Mapping\CommodityTypeMap.cs" />
+    <Compile Include="Mapping\FDPMap.cs" />
+    <Compile Include="Mapping\ProgramMap.cs" />
+    <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
+    <Compile Include="Mapping\RegionalRequestMap.cs" />
+    <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
+    <Compile Include="Mapping\ReliefRequisitionMap.cs" />
+    <Compile Include="Mapping\StatusMap.cs" />
+    <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
+    <Compile Include="Mapping\TransportBidPlanMap.cs" />
+    <Compile Include="Mapping\TransporterMap.cs" />
+    <Compile Include="Mapping\TransportOrderDetailMap.cs" />
+    <Compile Include="Mapping\TransportOrderMap.cs" />
+    <Compile Include="MetaData\BidDetailMetaData.cs" />
+    <Compile Include="MetaData\BidMetaData.cs" />
+    <Compile Include="MetaData\RegionalRequestDetailMeta.cs" />
+    <Compile Include="MetaData\RegionalRequestMeta.cs" />
+    <Compile Include="Partials\RegionalRequestDetail.cs" />
+    <Compile Include="Partial\Bid.cs" />
+    <Compile Include="Partial\BidDetail.cs" />
+    <Compile Include="Partial\RegionalRequest.cs" />
+    <Compile Include="Partial\RegionalRequestDetail.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="projectCode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionalRequest.cs" />
+    <Compile Include="RegionalRequestDetail.cs" />
+    <Compile Include="ReliefRequisition.cs" />
+    <Compile Include="ReliefRequisitionDetial.cs" />
+    <Compile Include="Status.cs" />
+    <Compile Include="TransportBidPlan.cs" />
+    <Compile Include="TransportBidPlanDetail.cs" />
+    <Compile Include="Transporter.cs" />
+    <Compile Include="TransportOrder.cs" />
+    <Compile Include="TransportOrderDetail.cs" />
+    <Compile Include="TransportRequisition.cs" />
+    <Compile Include="UserProfile.cs" />
+    <Compile Include="ViewModels\RegionalRequestStatus.cs" />
+    <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
+    <Compile Include="ViewModels\RequisitionHub.cs" />
+    <Compile Include="MetaData\RequisitionMeta.cs" />
+    <Compile Include="ViewModels\RequisitionToDispatch.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

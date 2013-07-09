@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
+using Cats.Services.Security;
 using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
@@ -20,9 +21,9 @@ namespace Cats.Infrastructure
             AddBindings();
         }
 
-       
 
-    public object GetService(Type serviceType)
+
+        public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
         }
@@ -31,7 +32,7 @@ namespace Cats.Infrastructure
         {
             return kernel.GetAll(serviceType);
         }
-        
+
         private void AddBindings()
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
@@ -43,13 +44,25 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalRequestDetailService>().To<RegionalRequestDetailService>();
             kernel.Bind<IReliefRequisitionService>().To<ReliefRequisitionService>();
             kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
-<<<<<<< HEAD
             kernel.Bind<IBidService>().To<BidService>();
-            kernel.Bind<IBidDetailService>().To<BidDetailService>();
-            
-=======
+            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
+
+            kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
->>>>>>> def27a09695eddba2d62dfa17665a4cf626d946f
+<<<<<<< HEAD
+            kernel.Bind<IBidDetailService>().To<BidDetailService>();
+            kernel.Bind<IStatusService>().To<StatusService>();
+=======
+            kernel.Bind<ITransportBidPlanService>().To<TransportBidPlanService>();
+            kernel.Bind<ITransportBidPlanDetailService>().To<TransportBidPlanDetailService>();
+            kernel.Bind<IBidDetailService>().To<BidDetailService>();  
+
+            // Security service registration
+            kernel.Bind<IUserAccountService>().To<UserAccountService>();
+            kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
+
+>>>>>>> a696106845a4fdd1e90f43963bcc75eacb3305f7
+
         }
     }
 }

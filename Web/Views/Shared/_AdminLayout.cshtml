@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>CATS Administration Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet">
+    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+
+    <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- BEGIN MAIN MENU -->
+        <div class="navbar">
+            @RenderSection("MainMenu", required: true)
+        </div>
+        <!-- END MAIN MENU -->
+
+        <div class="row">
+
+            <!-- BEGIN LEFTBAR SECTION -->
+            <div class="span3">
+                @RenderSection("Leftbar", required: true)
+            </div>
+            <!-- END LEFTBAR SECTION -->
+
+            <!-- BEGIN MAIN SECTION -->
+            <div class="span9">
+                @RenderBody()
+
+            </div>
+            <!-- END OF MAIN SECTION -->
+        </div>
+    </div>
+
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+    <script src="~/Content/site.js"></script>
+    <script src="~/Scripts/kendo.web.min.js"></script>
+</body>
+</html>

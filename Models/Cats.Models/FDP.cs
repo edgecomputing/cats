@@ -12,6 +12,7 @@ namespace Cats.Models
             this.DispatchAllocations = new List<DispatchAllocation>();
             this.RegionalRequestDetails = new List<RegionalRequestDetail>();
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            this.TransportOrderDetails = new List<TransportOrderDetail>();
         }
 
         public int FDPID { get; set; }
@@ -23,5 +24,8 @@ namespace Cats.Models
         public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
+  
+
     }
 }

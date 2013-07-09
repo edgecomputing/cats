@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Cats.Models
 {
+    [MetadataType(typeof(RequisitionMeta))]
     public class ReliefRequisition
     {
         
         public ReliefRequisition()
         {
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            this.TransportOrders = new List<TransportOrder>();
+            this.HubAllocations = new Collection<HubAllocation>();
+
         }
 
         public int RequisitionID { get; set; }
@@ -30,9 +36,13 @@ namespace Cats.Models
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual AdminUnit AdminUnit1 { get; set; }
         public virtual Program Program { get; set; }
+        public virtual Commodity Commodity { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
+        public virtual RegionalRequest RegionalRequest { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+        public virtual ICollection<TransportOrder> TransportOrders { get; set; }
+        public virtual ICollection<HubAllocation> HubAllocations { get; set; }
       
         
     }

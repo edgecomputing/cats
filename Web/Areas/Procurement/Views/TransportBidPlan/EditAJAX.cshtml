@@ -1,0 +1,10 @@
+﻿@model Cats.Models.TransportBidPlanDetail
+@{
+    
+    var qty = Model.Quantity + "";
+    if (ViewBag.status == "itemdeleted")
+    {
+        qty="";
+    }
+}
+    <input class="@ViewBag.status"  onchange="on_amount_change(this.value,_cellID_,@Model.BidPlanID,@Model.ProgramID,@Model.SourceID,@Model.DestinationID,@Model.TransportBidPlanDetailID)" value="@qty">

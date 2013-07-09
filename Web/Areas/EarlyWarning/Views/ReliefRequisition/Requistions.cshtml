@@ -1,17 +1,19 @@
-﻿@model IEnumerable<Cats.Models.ReliefRequisition>
+﻿@using Cats.Models.ViewModels
+@model IEnumerable<Cats.Models.ReliefRequisition>
 
 @{
     ViewBag.Title = "Requistions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Requistions</h2>
+<h2 class="well">Requistions</h2>
 
 
-<table>
+<table class="table table-bordered table-condensed table-striped">
     <tr>
+        
         <th>
-            
+            @Html.DisplayNameFor(model => model.RequisitionNo)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CommodityID)
@@ -26,71 +28,74 @@
             @Html.DisplayNameFor(model => model.Round)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RequisitionNo)
+            @Html.DisplayNameFor(model => model.ProgramID)
         </th>
-        <th>
+        
+       @* <th>
             @Html.DisplayNameFor(model => model.RequestedBy)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.RequestedDate)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.ApprovedBy)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ApprovedDate)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProgramID)
-        </th>
+        
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
          <td>
-                <a href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">@Html.DisplayFor(modelItem => item.RequisitionNo)</a>
+                <a href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">@Html.DisplayFor(modelItem => item.RequisitionNo)</a>
             </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CommodityID)
+        
+         <td>
+            @Html.DisplayFor(modelItem => item.Commodity.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RegionID)
+            @Html.DisplayFor(modelItem => item.AdminUnit1.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ZoneID)
+            @Html.DisplayFor(modelItem => item.AdminUnit.Name )
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Round)
         </td>
+       
         <td>
-            @Html.DisplayFor(modelItem => item.RequisitionNo)
+            @Html.DisplayFor(modelItem => item.Program.Name)
         </td>
-        <td>
+      @*  <td>
             @Html.DisplayFor(modelItem => item.RequestedBy)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.RequestedDate)
         </td>
-        <td>
+       @* <td>
             @Html.DisplayFor(modelItem => item.ApprovedBy)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ApprovedDate)
-        </td>
+        </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.Status)
+           @{
+        var statusName = item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString();
+        var showme = item.Status == 1 ? "" : "hidden";
+                }
+               @Html.Label(statusName)
         </td>
+        
         <td>
-            @Html.DisplayFor(modelItem => item.ProgramID)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RequisitionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RequisitionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RequisitionID })
+           
+             <a class="btn btn-warning @showme" href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">Edit</a>
+            <a class="btn btn-success @showme" href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">Send</a>
         </td>
     </tr>
 }

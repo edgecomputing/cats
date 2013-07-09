@@ -14,7 +14,6 @@ namespace Cats.Areas.Procurement.Models
         public decimal AmountForPSNPProgram { get; set; }
         public float BidDocumentPrice { get; set; }
         public float CPO { get; set; }
-
         public BidDetailEdit Edit { get; set; }
 
         public class BidDetailEdit

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,6 +9,7 @@ using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Data.Repository;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 
 using Moq;
@@ -21,9 +23,9 @@ namespace Cats.Tests.ControllersTests
         #region SetUp / TearDown
 
         private ReliefRequisitionController _reliefRequisitionController;
-        private ICommodityService _commodityService;
-        private IRegionalRequestService _regionalRequestService;
-        private List<RegionalRequest> _regionalRequests ;
+      //  private ICommodityService _commodityService;
+        private List<ReliefRequisitionNew> _input;
+
         [SetUp]
         public void Init()
         {
@@ -52,8 +54,12 @@ namespace Cats.Tests.ControllersTests
                                                  ZoneID = 1
                                                  ,
                                                  RequestedBy = 1
-                                                 ,
+                                                 ,RegionalRequestID=1,
                                                  RequestedDate = DateTime.Today
+                                                 ,Program=new Program(){ProgramID=1,Name="P1"},
+                                                 AdminUnit1=new AdminUnit(){AdminUnitID=1,Name="R1"}
+                                                 ,AdminUnit=new AdminUnit{AdminUnitID=2,Name="A2",AdminUnit2 = new AdminUnit{AdminUnitID=3,Name="A3"}}
+                                                
 
                                              },
                                          new ReliefRequisition()
@@ -78,143 +84,48 @@ namespace Cats.Tests.ControllersTests
                                                  ,
                                                  ZoneID = 2
                                                  ,
-                                                 RequestedBy = 2
-                                                 ,
+                                                 RequestedBy = 2,
+                                                 RegionalRequestID=1,
                                                  RequestedDate = DateTime.Today
-
+                                                  ,Program=new Program(){ProgramID=1,Name="P1"},
+                                                 AdminUnit1=new AdminUnit(){AdminUnitID=1,Name="R1"}
+                                                 ,AdminUnit=new AdminUnit{AdminUnitID=2,Name="A2",AdminUnit2 = new AdminUnit{AdminUnitID=3,Name="A3"}}
                                              },
                                      };
 
-            var commodityList = new List<Commodity>()
-                                    {
-                                        new Commodity
-                                            {
-                                                CommodityID = 1
-                                                ,
-                                                CommodityCode = "C1"
-                                                ,
-                                                CommodityTypeID = 1
-                                                ,
-                                                Name = "CSB"
-
-                                            },
-                                        new Commodity
-                                            {
-                                                CommodityID = 2
-                                                ,
-                                                CommodityCode = "C2"
-                                                ,
-                                                CommodityTypeID = 2
-                                                ,
-                                                Name = "Grain"
-
-                                            },
-                                        new Commodity
-                                            {
-                                                CommodityID = 3
-                                                ,
-                                                CommodityCode = "C3"
-                                                ,
-                                                CommodityTypeID = 3
-                                                ,
-                                                Name = "Oil"
-
-                                            },
-                                        new Commodity
-                                            {
-                                                CommodityID = 4
-                                                ,
-                                                CommodityCode = "C4"
-                                                ,
-                                                CommodityTypeID = 4
-                                                ,
-                                                Name = "Pulse"
-
-                                            }
-                                    };
-            var regionalRequests = new List<RegionalRequest>()
-                                       {
-                                           new RegionalRequest
-                                               {
-                                                   ProgramId = 1
-                                                   ,
-                                                   Round = 1
-                                                   ,
-                                                   RegionID = 1
-                                                   ,
-                                                   RegionalRequestID = 1
-                                                   ,
-                                                   RequistionDate = DateTime.Today
-                                                   ,
-                                                   Year = DateTime.Today.Year
-                                                   ,
-                                                   RegionalRequestDetails = new List<RegionalRequestDetail>
-                                                                                {
-                                                                                    new RegionalRequestDetail
-                                                                                        {
-                                                                                            Beneficiaries = 100
-                                                                                            ,
-                                                                                            CSB = 10
-                                                                                            ,
-                                                                                            Grain = 20
-                                                                                            ,
-                                                                                            Oil = 30
-                                                                                            ,
-                                                                                            Pulse = 40
-                                                                                            ,
-                                                                                            Fdpid = 1
-                                                                                            ,
-                                                                                            RegionalRequestID = 1
-                                                                                            ,
-                                                                                            RegionalRequestDetailID = 1
-                                                                                        },
-                                                                                    new RegionalRequestDetail
-                                                                                        {
-                                                                                            Beneficiaries = 100
-                                                                                            ,
-                                                                                            CSB = 50
-                                                                                            ,
-                                                                                            Grain = 60
-                                                                                            ,
-                                                                                            Oil = 70
-                                                                                            ,
-                                                                                            Pulse = 80
-                                                                                            ,
-                                                                                            Fdpid = 2
-                                                                                            ,
-                                                                                            RegionalRequestID = 1
-                                                                                            ,
-                                                                                            RegionalRequestDetailID = 2
-                                                                                        }
-                                                                                }
-                                               }
-
-                                       };
+           
+            var input = (from itm in reliefRequisitions
+                         select new ReliefRequisitionNew()
+                         {
+                             //TODO:Include navigation property for commodity on relife requistion
+                             Commodity = itm.CommodityID.ToString(),
+                             Program = itm.Program.Name,
+                             Region = itm.AdminUnit1.Name,
+                             Round = itm.Round,
+                             Zone = itm.AdminUnit.AdminUnit2.Name,
+                             Status = itm.Status,
+                             RequisitionID = itm.RequisitionID,
+                             // RequestedBy = itm.UserProfile,
+                             // ApprovedBy = itm.ApprovedBy,
+                             RequestedDate = itm.RequestedDate,
+                             ApprovedDate = itm.ApprovedDate,
+                             RegionalRequestId=itm.RegionalRequestID.Value,
+                             Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
+                             {
+                                 Number = itm.RequisitionID,
+                                 RequisitionNo = itm.RequisitionNo
+                             }
+                         }).ToList();
+          
             var mockReliefRequistionService = new Mock<IReliefRequisitionService>();
             mockReliefRequistionService.Setup(t => t.GetAllReliefRequisition()).Returns(reliefRequisitions);
+            mockReliefRequistionService.Setup(t => t.Get(It.IsAny<Expression<Func<ReliefRequisition, bool>>>(), null, It.IsAny<string>())).Returns(reliefRequisitions.AsQueryable());
+            mockReliefRequistionService.Setup(t => t.CreateRequisition(1)).Returns(input);
+            mockReliefRequistionService.Setup(t => t.GetRequisitionByRequestId(It.IsAny<int>())).Returns((int requestId) => input.FindAll(t => t.RegionalRequestId == requestId));
 
-            var mockRegionalRequestService = new Mock<IRegionalRequestService>();
-            mockRegionalRequestService.Setup(t => t.GetAllReliefRequistion()).Returns(regionalRequests);
+            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object);
 
-            mockRegionalRequestService.Setup(
-                t => t.Get(It.IsAny<Expression<Func<RegionalRequest, bool>>>(), null, It.IsAny<string>())).Returns(regionalRequests.AsQueryable());
-
-
-            var mockCommodityService = new Mock<ICommodityService>();
-            mockCommodityService.Setup(m => m.GetCommoidtyId(It.IsAny<string>())).Returns((string propertyNameCSB) =>
-            {
-                return commodityList.Find(
-                      t =>
-                      t.Name.ToLower() ==
-                      propertyNameCSB.ToLower()).CommodityID;
-            });
-            _regionalRequests = regionalRequests;
-            _commodityService = mockCommodityService.Object;
-            _regionalRequestService = mockRegionalRequestService.Object;
-
-            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, mockRegionalRequestService.Object, mockCommodityService.Object);
-
-
+            _input = input;
 
 
 
@@ -249,96 +160,37 @@ namespace Cats.Tests.ControllersTests
 
         }
 
-        [Test]
-        public void Request_CSB_Column_Should_Map_To_1_In_Commodity_Id()
-        {
-            //Act
-
-            var commodityId = _commodityService.GetCommoidtyId("CSB");
-
-            //Assert
-            Assert.AreEqual(1, commodityId);
-
-
-        }
-        [Test]
-        public void Request_Grain_Column_Should_Map_To_2_In_Commodity_Id()
-        {
-            //Act
-
-            var commodityId = _commodityService.GetCommoidtyId("Grain");
-
-            //Assert
-            Assert.AreEqual(2, commodityId);
-
-
-        }
-        [Test]
-        public void Request_Oil_Column_Should_Map_To_3_In_Commodity_Id()
-        {
-            //Act
-
-            var commodityId = _commodityService.GetCommoidtyId("oil");
-
-            //Assert
-            Assert.AreEqual(3, commodityId);
-
-
-        }
-        [Test]
-        public void Request_Pulse_Column_Should_Map_To_4_In_Commodity_Id()
-        {
-            //Act
-
-            var commodityId = _commodityService.GetCommoidtyId("Pulse");
-
-            //Assert
-            Assert.AreEqual(4, commodityId);
-
-
-        }
+       
         [Test]
         public void Can_Create_Requistion()
         {
-            //Arange 
-            var regionalRequest = _regionalRequests.Find(t=>t.RegionalRequestID==1);
-            var commodityId = 1;
-            var requisiton = _reliefRequisitionController.CreateRequisition(regionalRequest, commodityId,1);
+           //Arrange
+            var view = _reliefRequisitionController.NewRequisiton(1);
+           
+            Assert.IsInstanceOf<ViewResult>(view);
+            Assert.IsInstanceOf<IEnumerable<ReliefRequisitionNew>>(view.Model);
 
-            Assert.AreEqual(commodityId, requisiton.CommodityID);
-            Assert.AreEqual(2, requisiton.ReliefRequisitionDetails.Count);
-            Assert.AreEqual(commodityId,requisiton.ReliefRequisitionDetails.First().CommodityID);
+        
 
         }
 
         [Test]
-        public void Can_Create_Requistion_From_Request()
+        public void Should_Not_Create_Requistion_From_Unknown_Request()
         {
-            //Arange 
-            List<ReliefRequisition> reliefRequisitions = _reliefRequisitionController.CreateRequistionFromRequest(1);
-            var requestCommodity = new RegionalRequestDetail();
-            var commdities = new int?[]
-                                 {
-                                     _commodityService.GetCommoidtyId(requestCommodity.GrainName),
-                                     _commodityService.GetCommoidtyId(requestCommodity.OilName),
-                                     _commodityService.GetCommoidtyId(requestCommodity.PulseName),
-                                     _commodityService.GetCommoidtyId(requestCommodity.CSBName)
-                                 };
-           
+            //Arrange
+            var view=_reliefRequisitionController.NewRequisiton(4);
 
-            Assert.AreEqual(4, reliefRequisitions.Count);
-            Assert.IsTrue(reliefRequisitions.All(t => commdities.Contains(t.CommodityID)));
-           
-            Assert.IsTrue(reliefRequisitions.All(t=>t.ReliefRequisitionDetails.Count == 2));
+            Assert.IsEmpty((IEnumerable<ReliefRequisitionNew>) view.Model);
+
+          
         }
 
         [Test]
         public void Can_Create_New_Requistion()
         {            
             var view = _reliefRequisitionController.NewRequisiton(1);
-            //Asert
-            Assert.IsInstanceOf<ViewResult>(view);
-            Assert.AreEqual(((IEnumerable<ReliefRequisition>)view.Model).Count(), 4);
+
+            Assert.AreEqual(((IEnumerable<ReliefRequisitionNew>)view.Model).Count(), 2);
         }
 
         #endregion

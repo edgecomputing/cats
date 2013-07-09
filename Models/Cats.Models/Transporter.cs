@@ -6,11 +6,20 @@ namespace Cats.Models
 {
     public class Transporter
     {
+        public Transporter()
+        {
+            this.TransportOrders = new List<TransportOrder>();
+        }
         [Key]
         public int TransporterID { get; set; }
 
         //Transporter Address
+         [Required]
+         [Display(Name = "Name")]
+        public string Name { get; set; }
         public string Region { get; set; }
+
+         [Display(Name = "Sub City")]
         public string SubCity { get; set; }
         public string Zone { get; set; }
         public string Woreda { get; set; }
@@ -39,5 +48,7 @@ namespace Cats.Models
 
         public DateTime ExperienceFrom { get; set; }
         public DateTime ExperienceTo { get; set; }
+        public virtual ICollection<TransportOrder> TransportOrders { get; set; }
+   
     }
 }

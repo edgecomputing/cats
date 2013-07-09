@@ -93,6 +93,7 @@ namespace Cats.Tests
                 _testContextInstance = value;
             }
         }
+
         [SetUp]
         public void Setup()
         {

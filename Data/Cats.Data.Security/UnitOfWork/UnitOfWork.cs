@@ -1,5 +1,6 @@
 ﻿using System;
 using Cats.Models.Security;
+using System.Data.Entity;
 
 namespace Cats.Data.Security
 {
