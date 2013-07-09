@@ -9,9 +9,11 @@ namespace Cats.Models.MetaData
         public DateTime StartDate { get; set; }
         [Required(ErrorMessage ="Please Enter End Date")]
         public DateTime EndDate { get; set; }
-        [Required (ErrorMessage ="Please Enter Bid Number")]
+        [Required (ErrorMessage ="Please Enter Bid Number",AllowEmptyStrings = false)]
         public string BidNumber { get; set; }
         [Required (ErrorMessage = "Please Select Status")]
         public int StatusID { get; set; }
+        [Required (ErrorMessage = "Please Select Bid Plan")]
+        public int TransportBidPlanID { get; set; }
     }
 }

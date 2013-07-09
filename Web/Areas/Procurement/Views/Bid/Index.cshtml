@@ -12,21 +12,29 @@
 
 @section LeftBar
 {
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Index","Bid",FormMethod.Get))
     {
-          <p class="control-list">Search:</p>
+        <p class="control-list">Search:</p>
         <div class="control-group">
             <label class="control-label">Bid Number</label>
             <div class="controls">
                 @Html.TextBox("BidNumber")
-                 @Html.ActionLink("All Bids", "Index")
             </div>
+            <label class="control-label">Status:</label>
+            @foreach (string statusType in ViewBag.BidStatusTypes)
+            {
+            <div class="controls">
+                @Html.CheckBox(statusType)
+                @Html.Label(statusType)
+            </div>
+            }
+            @Html.Hidden("statusTypes","All")
         </div>
 
         <div class="control-group">
             <div class="controls">
                 <input type="submit" value="Filter" class="btn btn-primary"/>
-                 @Html.ActionLink("Create New Bid", "Create")
+                 @Html.ActionLink("List All Bids", "Index")
             </div>
         </div> 
         
@@ -80,9 +88,9 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
+                        <li><a href="@Url.Action("EditBidStatus", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
                         <li><a href="@Url.Action("Details","Bid",new {Area="Procurement",id=item.BidID})">Detail</a></li>
-                        <li><a href="@Url.Action("EditBidStatus","Bid",new {Area="Procurement",id=item.BidID})">Edit Status</a></li>
+                        <li><a href="@Url.Action("ApproveBid","Bid",new {Area="Procurement",id=item.BidID})">Approve</a></li>
                     </ul>
                 </div>
             </td>

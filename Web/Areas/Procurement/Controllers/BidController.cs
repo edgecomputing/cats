@@ -33,15 +33,35 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Index()
         {
             //var bids = _bidService.Get(null, null,null);
-            var bids = _bidService.Get(null, null, "Status");
+            //var bids = _bidService.Get(null, null, "Status");
+            var bids = _bidService.Get(m => m.StatusID== 1);
             return View(bids.ToList());
         }
-        [HttpPost]
-        public ActionResult Index(string bidNumber)
+        //[HttpPost]
+        //public ActionResult Index(string bidNumber)
+        //{
+        //    var filteredBid = _bidService.Get(b =>b.BidNumber.StartsWith(bidNumber), null, "BidDetails");
+        //    return View(filteredBid.ToList());
+        //    //return View("Index");
+        //}
+        
+
+        [HttpGet]
+        public ActionResult Index(string bidNumber="", bool open = true, bool closed = false, bool canceled = false, bool approved = false)
         {
-            var filteredBid = _bidService.Get(b =>b.BidNumber==bidNumber, null, "BidDetails");
-            return View(filteredBid.ToList());
-            //return View("Index");
+            var allStatusTypes = _statusService.GetAllStatus().Select(m => m.Name).ToList();
+            ViewBag.BidStatusTypes = allStatusTypes;
+            
+            var statusTypesList = "";
+            if (open) statusTypesList += "Open;";
+            if (closed) statusTypesList += "Closed;";
+            if (canceled) statusTypesList += "Canceled;";
+            if (approved) statusTypesList += "Approved;";
+
+            var listOfStatusTypes = statusTypesList.Split(';');
+
+            var filteredBids = _bidService.Get(b => b.BidNumber.StartsWith(bidNumber) &&(listOfStatusTypes.Contains(b.Status.Name)));
+            return View(filteredBids.ToList());
         }
 
         public ActionResult Create(int id=0)
@@ -50,7 +70,7 @@ namespace Cats.Areas.Procurement.Controllers
             // return View(bid);
                 var bid = new Bid();
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-                ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
+                ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID=1);
                 var bidDetails = (from detail in regions
                                   select new BidDetail()
                                       {
@@ -85,11 +105,15 @@ namespace Cats.Areas.Procurement.Controllers
                 _bidService.AddBid(bid);
                 return RedirectToAction("Edit", "Bid", new {id = bid.BidID});
             }
-            return View("Create");
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
+            ViewBag.BidPlanID = bid.TransportBidPlanID;
+            ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
+                
+            return View(bid);
             // _bidService.AddBid(bid);
             //return Redirect(string.Format("Edit/{0}", bid.BidID));
         }
-        [HttpGet]
+
         public ActionResult Edit(int id)
         {
             //var viewModel = new BidViewModel();
@@ -168,7 +192,18 @@ namespace Cats.Areas.Procurement.Controllers
                 _bidService.EditBid(bid);
                 return RedirectToAction("Index");
             }
-            return View("EditBidStatus");
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
+            ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
+                                                        "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
+            return View(bid);
+        }
+
+        public ActionResult ApproveBid(int id)
+        {
+             var bid = _bidService.FindById(id);
+            bid.StatusID = 4;
+            _bidService.EditBid(bid);
+            return RedirectToAction("Index");
         }
     }
 }
