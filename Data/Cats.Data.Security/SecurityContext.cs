@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿
+using System.Data.Entity;
 using Cats.Models.Security;
 using Cats.Models.Security.Mapping;
 
@@ -11,7 +12,7 @@ namespace Cats.Data.Security
             Database.SetInitializer<SecurityContext>(null);
         }
 
-        public SecurityContext() : base("Name=SecurityContext") { }
+        public SecurityContext() : base("Name=CatsContext") { }
 
         public DbSet<User> Users { get; set; }
 

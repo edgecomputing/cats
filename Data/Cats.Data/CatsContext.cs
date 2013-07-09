@@ -31,8 +31,14 @@ namespace Cats.Data
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
         public DbSet<BidDetail> BidDetails { get; set; }
+
+        public DbSet<TransportBidPlan> TransportBidPlans { get; set; }
+        public DbSet<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
+
+
         public DbSet<TransportRequisition> TransportRequisition { get; set; }
         public DbSet<HubAllocation> HubAllocation { get; set; } 
+
         //public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -52,10 +58,11 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new BidMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             modelBuilder.Configurations.Add(new TransporterMap());
+            modelBuilder.Configurations.Add(new TransportBidPlanMap());
+            modelBuilder.Configurations.Add(new TransportBidPlanDetailMap());
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
         }
 
-        //public DbSet<Transporter> Transporters { get; set; }
     }
 }

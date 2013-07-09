@@ -151,15 +151,18 @@
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
     </Compile>
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
@@ -173,6 +176,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Settings\Views\Users\Users.js" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap.css" />
@@ -240,6 +244,15 @@
     <Content Include="Content\assets\js\holder\holder.js" />
     <Content Include="Content\assets\js\html5shiv.js" />
     <Content Include="Content\assets\js\jquery.js" />
+
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
+
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
     <Content Include="Content\kendo\Default\editor.png" />
@@ -324,6 +337,15 @@
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
+    <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
+
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -335,6 +357,13 @@
     <Content Include="Scripts\js\jquery.calendars.picker.js" />
     <Content Include="Scripts\js\jquery.calendars.plus.js" />
     <Content Include="Content\site.js" />
+
+    <None Include="Scripts\kendo.web-vsdoc.js" />
+    <None Include="Scripts\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\kendo.web.min.js" />
+    <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
+    <Content Include="Views\Shared\hubAllocation.cshtml" />
+
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
@@ -354,6 +383,21 @@
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
+
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Delete.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\editPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\WarehouseSelection.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\EditAJAX.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
+
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
@@ -367,6 +411,9 @@
     <Content Include="Content\assets\font\fontawesome-webfont.ttf" />
     <Content Include="Content\assets\font\fontawesome-webfont.woff" />
     <Content Include="Content\assets\font\FontAwesome.otf" />
+
+    <Content Include="Areas\Settings\Views\Users\New.cshtml" />
+
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
@@ -400,13 +447,18 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Shared\View1.cshtml" />
+    <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
+
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Procurement\Views\Shared\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>
@@ -414,9 +466,17 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
+      <Project>{065612ec-b087-492f-abee-029598960744}</Project>
+      <Name>Cats.Data.Security</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
+      <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
+      <Name>Cats.Models.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
@@ -429,6 +489,10 @@
     <ProjectReference Include="..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
       <Name>Cats.Services.Procurement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
+      <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
+      <Name>Cats.Services.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

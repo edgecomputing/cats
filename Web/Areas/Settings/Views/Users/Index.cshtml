@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section MainMenu
+{
+    @Html.Partial("_AdminMenuBar")
+}
+
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+
+<div id="grid"></div>
+<script>
+    $(document).ready(function () {
+        $("#grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Settings/Users/GetUsers"
+                },
+                schema: {
+                    model: {
+                        fields: {
+                            UserId: { editable: false },
+                            UserName: { editable: false },
+                            FullName: { editable: true },
+                            Email: { editable: true },
+                            Disabled: { editable: true }
+                        }
+                    }
+                },
+                //pageSize: 20,
+                //serverPaging: true,
+                //serverFiltering: true,
+                //serverSorting: true
+            },
+            sortable: true,
+            columns: [
+                { field: "FullName", title: "Full Name" },
+                { field: "UserName", title: "User Name" },
+                { field: "Email", title: "Email" },
+                { field: "Disabled", editable: true, title: "Account Inactive", template: '<input type="checkbox" #= Disabled ? "checked=checked" : "" # disabled="disabled" ></input>' }
+            ]
+        });
+    });
+</script>

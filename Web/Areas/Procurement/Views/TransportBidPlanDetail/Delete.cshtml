@@ -1,0 +1,53 @@
+﻿@model Cats.Models.TransportBidPlanDetail
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>TransportBidPlanDetail</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BidPlan.TransportBidPlanID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BidPlan.TransportBidPlanID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Destination.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Destination.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Source.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Source.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Program.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Program.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Quantity)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Quantity)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
