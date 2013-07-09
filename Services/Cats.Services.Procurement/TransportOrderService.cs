@@ -136,9 +136,15 @@ namespace Cats.Services.Procurement
 
             foreach (var transporter in transporters)
             {
-
+                //TODO:Check what all number should come from and implement
                 var transportOrder = new TransportOrder();
                 transportOrder.TransporterID = transporter;
+                transportOrder.OrderDate = DateTime.Today;
+                transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
+                transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
+                transportOrder.BidDocumentNo = "BID-DOC-No";
+                transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
+                transportOrder.ContractNumber = Guid.NewGuid().ToString();
                 var transportLocations = transporterAssignedRequisionDetails.FindAll(t => t.TransporterID == transporter).Distinct();
 
                 foreach (var transporterRequisition in transportLocations)
@@ -165,6 +171,13 @@ namespace Cats.Services.Procurement
                 transportOrders.Add(transportOrder);
 
 
+            }
+            _unitOfWork.Save();
+
+            foreach (var transportOrder in transportOrders)
+            {
+                transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrder.TransportOrderID);
+                transportOrder.ContractNumber = string.Format("CON-NUM-{0}", transportOrder.TransportOrderID);
             }
             _unitOfWork.Save();
             return transportOrders;

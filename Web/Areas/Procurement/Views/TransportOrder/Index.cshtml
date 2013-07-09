@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<Cats.Models.TransportOrder>
 
 @{
-    ViewBag.Title = "CreateTransportOrder";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>CreateTransportOrder</h2>
+<h2>Transport Orders</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
+
+<table class="table table-bordered table-striped table-condensed">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.TransportOrderNo)
@@ -90,9 +88,8 @@
             @Html.DisplayFor(modelItem => item.TransporterSignedDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TransportOrderID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TransportOrderID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) 
+           
         </td>
     </tr>
 }
