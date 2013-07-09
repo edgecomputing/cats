@@ -3,13 +3,12 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section LeftBar
 {
-    <li class="nav-header">Bid Informaation</li>
-    <li> Program:  @ViewBag.bidPlan.Program.Name</li>
-    <li> Year:  @ViewBag.bidPlan.Year</li>
+    <li class="nav-header">Bid Information</li>
+    <li> Year:  @ViewBag.bidPlan.ShortName</li>
     <li class="nav-header">Tasks</li>
     <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to List</a></li>
 

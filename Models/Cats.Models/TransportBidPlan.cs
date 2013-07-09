@@ -45,7 +45,7 @@ namespace Cats.Models
         [Display(Name = "Program")]
         public virtual Program Program { get; set; }
 
-        public ICollection<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
+        public virtual ICollection<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
         public ICollection<Bid> Bids { get; set; }
 
         public string ShortName
