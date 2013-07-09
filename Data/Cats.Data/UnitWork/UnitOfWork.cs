@@ -290,7 +290,13 @@ namespace Cats.Data.UnitWork
         }
 
 
-        
-      
+
+
+
+
+        public IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

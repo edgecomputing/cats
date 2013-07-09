@@ -14,19 +14,31 @@ using Cats.Models;
 namespace Cats.Data.Tests.ServicesTest.Procurement
 {
     [TestFixture]
-    public class TransportOrderTests
+    public class TransportOrderServiceTests
     {
         #region SetUp / TearDown
 
         private IList<ReliefRequisition> _reliefRequisitions;
         private IList<TransportOrder> _transportOrders;
         private TransportOrderService _transportOrderService;
-
-        [SetUp]
+        private IList<TransportBidWinnerDetail> _transportBidWinners;
+            [SetUp]
         public void Init()
-        {
+            {
+                _transportBidWinners = new List<TransportBidWinnerDetail>()
+                                       {
+                                           new TransportBidWinnerDetail()
+                                               {
+                                                   HubID=1,
+                                                   WoredaID=1,
+                                                   TariffPerQtl=100,
+                                                   TransporterID = 1
+                                               }
+                                       };
+
             _reliefRequisitions = new List<ReliefRequisition>()
                                       {
+                                          
                                           new ReliefRequisition()
                                               {
                                                   RegionID = 1,
@@ -69,7 +81,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
 
                                                                       }},
 
-                                                  ReliefRequisitionDetails = new Collection<ReliefRequisitionDetail>
+                                                  ReliefRequisitionDetails = new List<ReliefRequisitionDetail>
                                                                                  {
                                                                                      new ReliefRequisitionDetail()
                                                                                          {
@@ -79,7 +91,14 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                              CommodityID = 1,
                                                                                              FDPID = 1,
                                                                                              BenficiaryNo = 10,
-                                                                                             DonorID = 1
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=1,
+                                                                                                         Name="FDP1"
+                                                                                                     }
+                                                                                             
                                                                                          },
                                                                                      new ReliefRequisitionDetail()
                                                                                          {
@@ -89,7 +108,13 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                              CommodityID = 1,
                                                                                              FDPID = 2,
                                                                                              BenficiaryNo = 10,
-                                                                                             DonorID = 1
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=2,
+                                                                                                         Name="FDP2"
+                                                                                                     }
                                                                                          },
                                                                                      new ReliefRequisitionDetail()
                                                                                          {
@@ -97,9 +122,15 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                              RequisitionDetailID = 3,
                                                                                              Amount = 60,
                                                                                              CommodityID = 1,
-                                                                                             FDPID = 1,
+                                                                                             FDPID = 3,
                                                                                              BenficiaryNo = 10,
-                                                                                             DonorID = 1
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=3,
+                                                                                                         Name="FDP3"
+                                                                                                     }
                                                                                          },
                                                                                      new ReliefRequisitionDetail()
                                                                                          {
@@ -109,14 +140,21 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                              CommodityID = 1,
                                                                                              FDPID = 2,
                                                                                              BenficiaryNo = 10,
-                                                                                             DonorID = 1
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=4,
+                                                                                                         Name="FDP4"
+                                                                                                     }
                                                                                          }
                                                                                  }
                                               }
                                       };
             _transportOrders = new List<TransportOrder>();
 
-            //Arrange
+          
+
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockReliefRequisitionRepository = new Mock<IGenericRepository<ReliefRequisition>>();
             mockReliefRequisitionRepository.Setup(
@@ -128,6 +166,23 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                         return result;
                     }
                 );
+
+            var mockReliefRequisionDetailRepository = new Mock<IGenericRepository<ReliefRequisitionDetail>>();
+            mockReliefRequisionDetailRepository.Setup(
+                 t => t.Get(It.IsAny<Expression<Func<ReliefRequisitionDetail, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>>>(), It.IsAny<string>())).Returns(
+
+                         _reliefRequisitions.First().ReliefRequisitionDetails.AsQueryable()
+
+                     );
+
+            mockUnitOfWork.Setup(t => t.ReliefRequisitionDetailRepository).Returns(
+                mockReliefRequisionDetailRepository.Object);
+
+            var mockTransportBidWinnerDetailRepository = new Mock<IGenericRepository<TransportBidWinnerDetail>>();
+            mockTransportBidWinnerDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<TransportBidWinnerDetail, bool>>>(), null, It.IsAny<string>())).Returns(_transportBidWinners.AsQueryable());
+
+            mockUnitOfWork.Setup(t => t.TransportBidWinnerDetailRepository).Returns(
+                mockTransportBidWinnerDetailRepository.Object);
 
             mockUnitOfWork.Setup(t => t.ReliefRequisitionRepository).Returns(mockReliefRequisitionRepository.Object);
             var transportOrderRepository =
@@ -146,8 +201,11 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                         return result;
                     }
                 );
-            _transportOrderService = new TransportOrderService(mockUnitOfWork.Object);
 
+            mockUnitOfWork.Setup(t => t.Save());
+
+
+            _transportOrderService = new TransportOrderService(mockUnitOfWork.Object);
             //Act 
         }
 
@@ -164,7 +222,16 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         [Test]
         public void Can_Get_All_Requisions_With_Project_Code()
         {
-
+            _transportBidWinners = new List<TransportBidWinnerDetail>()
+                                       {
+                                           new TransportBidWinnerDetail()
+                                               {
+                                                   HubID=1,
+                                                   WoredaID=1,
+                                                   TariffPerQtl=100,
+                                                   TransporterID = 1
+                                               }
+                                       };
 
 
             //Act 
@@ -186,6 +253,8 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         public void Can_Generate_Requisiton_Ready_To_Dispatch()
         {
 
+            
+
 
             //Act 
 
@@ -197,6 +266,42 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
             Assert.AreEqual(1, requisitionToDispatch.Count());
         }
 
+        [Test]
+
+        public void Should_Create_Transport_Orders()
+        {
+           
+            //Act 
+             var requisitionToDispatch = _transportOrderService.GetRequisitionToDispatch().ToList();
+            var createdTransportOrders = _transportOrderService.CreateTransportOrder(requisitionToDispatch);
+
+            //Assert
+
+            Assert.IsInstanceOf<List<TransportOrder>>(createdTransportOrders);
+        }
+        //[Test]
+        //public void Should_Raise_Error_If_NoTransporter()
+        //{
+        //  //Arrange
+        //    _transportBidWinners = new List<TransportBidWinnerDetail>()
+        //                               {
+        //                                   new TransportBidWinnerDetail()
+        //                                       {
+        //                                           HubID=2,
+        //                                           WoredaID=2,
+        //                                           TariffPerQtl=100,
+        //                                           TransporterID = 1
+        //                                       }
+        //                               };
+          
+
+        //    Assert.Throws<Exception>(Create_Transport_Orders);
+        //}
+        //private void Create_Transport_Orders()
+        //{
+        //    var requisitionToDispatch = _transportOrderService.GetRequisitionToDispatch().ToList();
+        //   _transportOrderService.CreateTransportOrder(requisitionToDispatch);
+        //}
         #endregion
     }
 }
