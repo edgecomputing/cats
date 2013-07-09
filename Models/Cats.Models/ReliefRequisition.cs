@@ -16,7 +16,8 @@ namespace Cats.Models
         {
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrders = new List<TransportOrder>();
-            this.HubAllocations = new List<HubAllocation>();
+            this.HubAllocations = new Collection<HubAllocation>();
+
         }
 
         public int RequisitionID { get; set; }

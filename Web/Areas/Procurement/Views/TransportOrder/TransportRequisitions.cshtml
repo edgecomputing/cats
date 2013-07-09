@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Cats.Models.ViewModels.RequisitionToDispatch>
+
+@{
+    ViewBag.Title = "TransportRequisitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>TransportRequisitions</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-bordered table-condensed table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model=>model.RequisitionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZoneID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HubID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuanityInQtl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequisitionNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Zone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrignWarehouse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequisitionStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequisitionStatusName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommodityID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommodityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegionName)
+        </th>
+        <th></th>
+    </tr>
+  
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequisitionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZoneID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HubID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuanityInQtl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequisitionNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Zone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrignWarehouse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequisitionStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequisitionStatusName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommodityID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommodityName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegionName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

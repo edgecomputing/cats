@@ -10,7 +10,7 @@ namespace Cats.Models.ViewModels
     {
         Draft=1,
         Submitted=2,
-        Closed=3
+        HubAssigned=3
     }
 
     public static class RegionalRequestStatuses
@@ -26,7 +26,7 @@ namespace Cats.Models.ViewModels
                    {
                        new RegionalRequestStatus{Name=REGIONAL_REQUEST_STATUS.Draft.ToString(),Value=(int)REGIONAL_REQUEST_STATUS.Draft },
                          new RegionalRequestStatus{Name=REGIONAL_REQUEST_STATUS.Submitted.ToString(),Value=(int)REGIONAL_REQUEST_STATUS.Submitted },
-                           new RegionalRequestStatus{Name=REGIONAL_REQUEST_STATUS.Closed.ToString(),Value=(int)REGIONAL_REQUEST_STATUS.Closed }
+                           new RegionalRequestStatus{Name=REGIONAL_REQUEST_STATUS.HubAssigned.ToString(),Value=(int)REGIONAL_REQUEST_STATUS.HubAssigned }
 
                    };
     }  
