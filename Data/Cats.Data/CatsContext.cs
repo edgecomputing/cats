@@ -57,6 +57,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new AdminUnitTypeMap());
             modelBuilder.Configurations.Add(new BidDetailMap());
             modelBuilder.Configurations.Add(new BidMap());
+            modelBuilder.Configurations.Add(new StatusMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             modelBuilder.Configurations.Add(new TransporterMap());
             modelBuilder.Configurations.Add(new TransportBidPlanMap());
