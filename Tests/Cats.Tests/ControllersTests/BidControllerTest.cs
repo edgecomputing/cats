@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
 using Cats.Services.EarlyWarning;
@@ -20,15 +21,17 @@ namespace Cats.Tests.ControllersTests
         private IStatusService MockStatusService;
         private BidController _bidController;
         private List<Bid> _bids;
-        
-        public BidControllerTest()
+
+        #region Setup for Test
+        [SetUp]
+        public void SetUp()
           {
 
             List<Bid> bidTest = new List<Bid>();
               {
-                  new Bid() { BidID=1,BidNumber ="PP452",StartDate=new DateTime(2012/10/10),EndDate=new DateTime(2013/12/11)};
-                  new Bid() { BidID = 2,BidNumber ="AAA123",StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11) };
-                  new Bid() { BidID = 3,BidNumber="QW123",StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11) };
+                  new Bid() { BidID=1,BidNumber ="PP452",StartDate=new DateTime(2012/10/10),EndDate=new DateTime(2013/12/11),OpeningDate = new DateTime(2013/12/12),StatusID =1};
+                  new Bid() { BidID = 2,BidNumber ="AAA123",StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11),OpeningDate = new DateTime(2012/11/13),StatusID =2};
+                  new Bid() { BidID = 3,BidNumber="QW123",StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11),OpeningDate = new DateTime(2012/05/06),StatusID =1};
               }
             ;
              List<AdminUnit> adminUnitTest=new List<AdminUnit>();
@@ -75,16 +78,11 @@ namespace Cats.Tests.ControllersTests
 
             this.MockAdminUnitService = mockAdminUnitService.Object;
             this.MockBidService = mockBidService.Object;
-            
 
+            _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService);
 
           }
-        [SetUp]
-        public void SetUp()
-        {
-            _bidController=new BidController(MockBidService,MockBidDetail,MockAdminUnitService,MockStatusService);
-        }
-
+        #endregion
         [Test]
         public void Bid_Controller_Constructor_Test()
         {
@@ -104,8 +102,8 @@ namespace Cats.Tests.ControllersTests
         {
              List<Bid> expected = new List<Bid>();
               {
-                  new Bid() { BidID=1,BidNumber ="PP452",StartDate=new DateTime(2012/10/10),EndDate=new DateTime(2013/12/11)};
-                  new Bid() { BidID = 2,BidNumber ="AAA123",StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11) };
+                  new Bid() { BidID=1,BidNumber ="PP452",StartDate=new DateTime(2012/10/10),EndDate=new DateTime(2013/12/11),OpeningDate = new DateTime(2013/02/03),StatusID =1};
+                  new Bid() { BidID = 2,BidNumber ="AAA123",StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11),OpeningDate = new DateTime(2012/12/11),StatusID =2};
               }
             ;
             List<Bid> actual = MockBidService.GetAllBid();
@@ -126,8 +124,8 @@ namespace Cats.Tests.ControllersTests
         {
             List<Bid> expected = new List<Bid>();
             {
-                new Bid() { BidID = 1, BidNumber = "PP452", StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11) };
-                new Bid() { BidID = 2, BidNumber = "AAA123", StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11) };
+                new Bid() { BidID = 1, BidNumber = "PP452", StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11), OpeningDate = new DateTime(2013 / 02 / 03), StatusID = 1 };
+                new Bid() { BidID = 2, BidNumber = "AAA123", StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11), OpeningDate = new DateTime(2012 / 12 / 11), StatusID = 2 };
             }
             ;
             List<Bid> actual = (List<Bid>) MockBidService.Get(m => m.BidID == 1);
