@@ -16,8 +16,14 @@
          @Html.ValidationSummary(true,"unsuccessful")
         <div>
         <fieldset>
-            <legend> New Bid Document </legend>
+            <legend> Edit Bid </legend>
             @Html.HiddenFor(model=>model.BidID)
+            <div >
+                @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
+
+                @Html.DropDownList("TransportBidPlanID",String.Empty)
+                @Html.ValidationMessageFor(model => model.TransportBidPlanID)
+            </div>
             <div >
                 @Html.LabelFor(model => model.BidNumber, "Bid Number")
 

@@ -19,6 +19,7 @@ namespace Cats.Tests.ControllersTests
         private IBidDetailService MockBidDetail;
         private IAdminUnitService MockAdminUnitService;
         private IStatusService MockStatusService;
+        private ITransportBidPlanService MockTransportBidPlanService;
         private BidController _bidController;
         private List<Bid> _bids;
 
@@ -70,7 +71,7 @@ namespace Cats.Tests.ControllersTests
             Mock<BidDetailService> mockBidDetailService=new Mock<BidDetailService>();
             Mock<IAdminUnitService> mockAdminUnitService=new Mock<IAdminUnitService>();
             Mock<IStatusService> mockStatusService=new Mock<IStatusService>();
-
+            Mock<ITransportBidPlanService> mockTransportBidPlanService=new Mock<ITransportBidPlanService>();
 
             mockBidService.Setup(m => m.GetAllBid()).Returns(bidTest);
            // mockAdminUnitService.Setup(m => m.FindBy(au => au.AdminUnitTypeID==2)).Returns(adminUnitTest);
@@ -79,7 +80,7 @@ namespace Cats.Tests.ControllersTests
             this.MockAdminUnitService = mockAdminUnitService.Object;
             this.MockBidService = mockBidService.Object;
 
-            _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService);
+            _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService,MockTransportBidPlanService);
 
           }
         #endregion
@@ -88,7 +89,7 @@ namespace Cats.Tests.ControllersTests
         {
             try
             {
-                _bidController=new BidController(MockBidService, MockBidDetail, MockAdminUnitService,MockStatusService);
+                _bidController=new BidController(MockBidService, MockBidDetail, MockAdminUnitService,MockStatusService,MockTransportBidPlanService);
             }
             catch (Exception e)
             {

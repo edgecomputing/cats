@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{23584698-1bd3-4c40-ad56-9bc6dec0ff19}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -64,6 +64,8 @@
     <Folder Include="dbo\Views\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="Security\" />
+    <Folder Include="Procurement\" />
+    <Folder Include="Procurement\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Setting.sql" />
@@ -147,5 +149,33 @@
     <Build Include="dbo\Stored Procedures\RPT_BinCardNonFood.sql" />
     <Build Include="Security\EarlyWarning.sql" />
     <Build Include="Security\Logistics.sql" />
+    <Build Include="Logistics\Tables\ProjectCodeAllocation.sql" />
+    <Build Include="Logistics\Tables\HubAllocation.sql" />
+    <Build Include="dbo\Tables\TransportType.sql" />
+    <Build Include="dbo\Tables\Season.sql" />
+    <Build Include="dbo\Tables\RRDStatus.sql" />
+    <Build Include="dbo\Tables\Round.sql" />
+    <Build Include="dbo\Tables\RationDetail.sql" />
+    <Build Include="dbo\Tables\Ration.sql" />
+    <Build Include="dbo\Tables\OrganisationAddress.sql" />
+    <Build Include="dbo\Tables\Organisation.sql" />
+    <Build Include="dbo\Tables\HRDDetail.sql" />
+    <Build Include="dbo\Tables\HRD.sql" />
+    <Build Include="dbo\Tables\DistributionPlanDetail.sql" />
+    <Build Include="dbo\Tables\DistributionPlan.sql" />
+    <Build Include="dbo\Tables\DistributionBy.sql" />
+    <Build Include="dbo\Tables\CommodityDistributionPlan.sql" />
+    <Build Include="dbo\Tables\BidCandidateTransporter.sql" />
+    <Build Include="dbo\Tables\Bid.sql" />
+    <Build Include="dbo\Tables\AllocationRequestDetail.sql" />
+    <Build Include="dbo\Tables\AllocationRequest.sql" />
+    <Build Include="dbo\Tables\AidDistributionPlanDetail.sql" />
+    <Build Include="dbo\Tables\AidDistributionPlan.sql" />
+    <Build Include="Procurement\Tables\Status.sql" />
+    <Build Include="Procurement\Tables\Bid.sql" />
+    <Build Include="Procurement\Tables\Transporter.sql" />
+    <Build Include="Procurement\Tables\BidDetail.sql" />
+    <Build Include="dbo\Views\RRDInfo.sql" />
+    <Build Include="Security\Procurement.sql" />
   </ItemGroup>
 </Project>
