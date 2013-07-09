@@ -16,15 +16,18 @@ namespace Cats.Areas.Procurement.Controllers
         private IBidDetailService _bidDetailService;
         private IAdminUnitService _adminUnitService;
         private IStatusService _statusService;
+        private ITransportBidPlanService _transportBidPlanService;
 
         public BidController(IBidService bidService, IBidDetailService bidDetailService,
                              IAdminUnitService adminUnitService,
-                             IStatusService statusService)
+                             IStatusService statusService
+                             ,ITransportBidPlanService transportBidPlanServiceParam  )
         {
             this._bidService = bidService;
             this._bidDetailService = bidDetailService;
             this._adminUnitService = adminUnitService;
             this._statusService = statusService;
+            this._transportBidPlanService = transportBidPlanServiceParam;
         }
 
         public ActionResult Index()
@@ -41,7 +44,8 @@ namespace Cats.Areas.Procurement.Controllers
             //return View("Index");
         }
 
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult Create(int id=0)
         {
            // var bid = new Bid();
             // return View(bid);
@@ -55,6 +59,9 @@ namespace Cats.Areas.Procurement.Controllers
                                   AmountForReliefProgram=0,
                               }).ToList();
             bid.BidDetails = bidDetails;
+            ViewBag.TransportBidPlanID = id;
+            ViewBag.BidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
+
             return View(bid);
         }
 

@@ -40,7 +40,8 @@ using Cats.Areas.Procurement.Models;
 
         public ActionResult Index()
         {
-//            ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", transportbidplan.ProgramID);
+            ViewBag.BidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
 
             return View();
         }
@@ -50,6 +51,7 @@ using Cats.Areas.Procurement.Models;
         public ActionResult Details(int BidPlanID = 0, int RegionID = 0)
         {
             //ViewBag.RegionID = new SelectList(_adminUnitService.GetAllAdminUnit(), "AdminUnitID", "Name", RegionID);
+            ViewBag.SelectedRegion = _adminUnitService.FindById(RegionID);
             ViewBag.BidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", BidPlanID);
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", RegionID);
             TransportBidPlan bidPlan = _transportBidPlanService.FindById(BidPlanID);
@@ -64,12 +66,13 @@ using Cats.Areas.Procurement.Models;
                  ).ToList();
            
 
-           var regioinPlanDistinct = (from rg in regionalPlanSorted
+           var regionPlanDistinct = (from rg in regionalPlanSorted
 
                                    select new RfqViewModel
                                        {
                                            SourceWarehouse = rg.Source.Name,
                                            DestinationZone = rg.Destination.AdminUnit2.Name,
+                                           RegionName = rg.Destination.AdminUnit2.AdminUnit2.Name,
                                            DestinationWoreda = rg.Destination.Name
                                        })
 
@@ -78,7 +81,8 @@ using Cats.Areas.Procurement.Models;
             .Select(s => s.FirstOrDefault());
 
             ViewBag.regionalPlanSorted = regionalPlanSorted;
-            ViewBag.regioinPlanDistinct = regioinPlanDistinct;   
+            ViewBag.regionPlanDistinct = regionPlanDistinct; 
+            
             ViewBag.BidPlan = bidPlan;
             ViewBag.region = RegionID;
             return View(bidPlan);

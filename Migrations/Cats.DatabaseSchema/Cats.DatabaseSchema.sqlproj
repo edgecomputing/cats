@@ -64,6 +64,8 @@
     <Folder Include="dbo\Views\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="Security\" />
+    <Folder Include="Procurement\" />
+    <Folder Include="Procurement\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Setting.sql" />
@@ -147,5 +149,21 @@
     <Build Include="dbo\Stored Procedures\RPT_BinCardNonFood.sql" />
     <Build Include="Security\EarlyWarning.sql" />
     <Build Include="Security\Logistics.sql" />
+    <Build Include="dbo\Tables\Status.sql" />
+    <Build Include="dbo\Tables\Bid.sql" />
+    <Build Include="Procurement\Tables\Status.sql" />
+    <Build Include="Procurement\Tables\BidDetail.sql" />
+    <Build Include="Procurement\Tables\TransportBidPlanDetail.sql" />
+    <Build Include="Procurement\Tables\TransportBidPlan.sql" />
+    <Build Include="Procurement\Tables\Transporter.sql" />
+    <Build Include="dbo\Views\VWWoredaHeirachy.sql" />
+    <Build Include="dbo\Views\VWStoreComodityDetail.sql" />
+    <Build Include="dbo\Views\VWStoreCommodity.sql" />
+    <Build Include="dbo\Views\VWRecieving.sql" />
+    <Build Include="dbo\Views\VWGoodsAtHand.sql" />
+    <Build Include="dbo\Views\VWDispatch.sql" />
+    <Build Include="dbo\Views\VWBeneficiary.sql" />
+    <Build Include="dbo\Views\HUBS.sql" />
+    <Build Include="Security\Procurement.sql" />
   </ItemGroup>
 </Project>
