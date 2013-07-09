@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 
@@ -10,6 +11,7 @@ namespace Cats.Models
         public Hub()
         {                                      
             this.TransportOrderDeatils = new List<TransportOrderDetail>();
+            this.HubAllocations = new List<HubAllocation>();
         }
         public int HubId { get; set; }
         public string Name { get; set; }
@@ -18,6 +20,7 @@ namespace Cats.Models
         public virtual ICollection<TransportBidPlanDetail> TransportBidPlanSources { get; set; }
 
         public virtual ICollection<TransportOrderDetail> TransportOrderDeatils { get; set; }
+        public virtual ICollection<HubAllocation> HubAllocations { get; set; }
 
     }
 }

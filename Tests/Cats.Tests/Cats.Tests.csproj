@@ -104,11 +104,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="ControllersTests\BidControllerTest.cs" />
-
     <Compile Include="ControllersTests\RequestControllerTests.cs" />
-
+    <Compile Include="ControllersTests\TransportOrderControllerTests.cs" />
     <Compile Include="ControllerTestBase.cs" />
     <Compile Include="ProjectAllocationControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

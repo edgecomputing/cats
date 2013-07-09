@@ -15,19 +15,22 @@ namespace Cats.Areas.Procurement.Controllers
         private IBidService _bidService;
         private IBidDetailService _bidDetailService;
         private IAdminUnitService _adminUnitService;
+        private IStatusService _statusService;
 
         public BidController(IBidService bidService, IBidDetailService bidDetailService,
-                             IAdminUnitService adminUnitService)
+                             IAdminUnitService adminUnitService,
+                             IStatusService statusService)
         {
             this._bidService = bidService;
             this._bidDetailService = bidDetailService;
             this._adminUnitService = adminUnitService;
+            this._statusService = statusService;
         }
 
         public ActionResult Index()
         {
             //var bids = _bidService.Get(null, null,null);
-            var bids = _bidService.GetAllBid();
+            var bids = _bidService.Get(null, null, "Status");
             return View(bids.ToList());
         }
         [HttpPost]
@@ -44,6 +47,7 @@ namespace Cats.Areas.Procurement.Controllers
             // return View(bid);
             var bid = new Bid();
             var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(),"StatusID","Name");
             var bidDetails = (from detail in regions
                               select new BidDetail()
                               {
@@ -64,10 +68,10 @@ namespace Cats.Areas.Procurement.Controllers
                                   select new BidDetail()
                                       {
                                           RegionID = detail.AdminUnitID,
-                                          AmountForReliefProgram = 0,
+                                          AmountForReliefProgram =0,
                                           AmountForPSNPProgram = 0,
                                           BidDocumentPrice = 0,
-                                          CBO = 0,
+                                          CPO = 0,
                                           
                                       }).ToList();
                 bid.BidDetails = bidDetails;
@@ -104,8 +108,8 @@ namespace Cats.Areas.Procurement.Controllers
                                           AmountForReliefProgram=detail.AmountForReliefProgram,
                                           AmountForPSNPProgram=detail.AmountForPSNPProgram,
                                           BidDocumentPrice=detail.BidDocumentPrice,
-                                          CPO=detail.CBO,
-                                          Status= detail.Status,
+                                          CPO=detail.CPO,
+                                          
                                       }
                                   
                               }
@@ -126,8 +130,7 @@ namespace Cats.Areas.Procurement.Controllers
                 bidDetail.AmountForReliefProgram = bidDetailEdit.AmountForReliefProgram;
                 bidDetail.AmountForPSNPProgram = bidDetailEdit.AmountForPSNPProgram;
                 bidDetail.BidDocumentPrice = bidDetailEdit.BidDocumentPrice;
-                bidDetail.CBO = bidDetailEdit.CPO;
-                bidDetail.Status = bidDetailEdit.Status;
+                bidDetail.CPO = bidDetailEdit.CPO;
             }
             _bidDetailService.Save();
            // return Redirect("Index");
@@ -137,12 +140,26 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Details(int id=0)
         {
             Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
+            ViewBag.BidStatus = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID);
             if (bid == null)
             {
                 return HttpNotFound();
             }
             return View(bid);
             
+        }
+        public ActionResult EditBidStatus(int id)
+        {
+            //Bid bid = _bidService.FindById(id);
+            Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID);
+            return View(bid);
+        }
+        [HttpPost]
+        public ActionResult EditBidStatus(Bid bid)
+        {
+            _bidService.EditBid(bid);
+            return RedirectToAction("Index");
         }
     }
 }

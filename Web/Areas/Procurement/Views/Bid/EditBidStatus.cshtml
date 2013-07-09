@@ -1,7 +1,7 @@
 ﻿@model Cats.Models.Bid
 
 @{
-    ViewBag.Title = "Create Bid Document";
+    ViewBag.Title = "Edit Bid Document";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section LeftBar
@@ -15,7 +15,8 @@
     {
         <fieldset>
           <legend> New Bid Document </legend>
-            <div >
+             @Html.HiddenFor(model=>model.BidID)
+             <div >
                 @Html.LabelFor(model => model.BidNumber, "Bid Number")
 
                 @Html.TextBoxFor(model=>model.BidNumber)
@@ -42,12 +43,12 @@
             <div >
                 @Html.LabelFor(model => model.StatusID, "Status")
 
-                @Html.DropDownList("StatusID",String.Empty)
+                 @Html.DropDownList("StatusID",String.Empty)
                 @Html.ValidationMessageFor(model => model.StatusID)
             </div>
             
              <p>
-            <input type="submit" value="Create Bid" class="btn btn-success" />
+            <input type="submit" value="Save Bid" class="btn btn-success" />
         </p>
         </fieldset>
     }

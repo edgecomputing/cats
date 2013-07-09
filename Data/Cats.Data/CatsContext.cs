@@ -31,6 +31,7 @@ namespace Cats.Data
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
         public DbSet<BidDetail> BidDetails { get; set; }
+        public DbSet<Status> Statuses { get; set; } 
 
         public DbSet<TransportBidPlan> TransportBidPlans { get; set; }
         public DbSet<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
@@ -56,6 +57,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new AdminUnitTypeMap());
             modelBuilder.Configurations.Add(new BidDetailMap());
             modelBuilder.Configurations.Add(new BidMap());
+            modelBuilder.Configurations.Add(new StatusMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             modelBuilder.Configurations.Add(new TransporterMap());
             modelBuilder.Configurations.Add(new TransportBidPlanMap());

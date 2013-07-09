@@ -17,6 +17,7 @@ namespace Cats.Tests.ControllersTests
         private IBidService MockBidService  ;
         private IBidDetailService MockBidDetail;
         private IAdminUnitService MockAdminUnitService;
+        private IStatusService MockStatusService;
         private BidController _bidController;
         private List<Bid> _bids;
         
@@ -46,7 +47,7 @@ namespace Cats.Tests.ControllersTests
                           AmountForPSNPProgram = 200,
                           AmountForReliefProgram = 300,
                           BidDocumentPrice = 10,
-                          CBO = 1000
+                          CPO = 1000
                       };
                   new BidDetail()
                   {
@@ -56,7 +57,7 @@ namespace Cats.Tests.ControllersTests
                       AmountForPSNPProgram = 200,
                       AmountForReliefProgram = 300,
                       BidDocumentPrice = 10,
-                      CBO = 1000
+                      CPO = 1000
                   };
               }
 
@@ -65,6 +66,7 @@ namespace Cats.Tests.ControllersTests
             Mock<IBidService> mockBidService = new Mock<IBidService>();
             Mock<BidDetailService> mockBidDetailService=new Mock<BidDetailService>();
             Mock<IAdminUnitService> mockAdminUnitService=new Mock<IAdminUnitService>();
+            Mock<IStatusService> mockStatusService=new Mock<IStatusService>();
 
 
             mockBidService.Setup(m => m.GetAllBid()).Returns(bidTest);
@@ -80,7 +82,7 @@ namespace Cats.Tests.ControllersTests
         [SetUp]
         public void SetUp()
         {
-            _bidController=new BidController(MockBidService,MockBidDetail,MockAdminUnitService);
+            _bidController=new BidController(MockBidService,MockBidDetail,MockAdminUnitService,MockStatusService);
         }
 
         [Test]
@@ -88,7 +90,7 @@ namespace Cats.Tests.ControllersTests
         {
             try
             {
-                _bidController=new BidController(MockBidService, MockBidDetail, MockAdminUnitService);
+                _bidController=new BidController(MockBidService, MockBidDetail, MockAdminUnitService,MockStatusService);
             }
             catch (Exception e)
             {

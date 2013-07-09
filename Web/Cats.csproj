@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
@@ -346,6 +347,8 @@
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
 
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
+
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -412,6 +415,8 @@
     <Content Include="Content\assets\font\fontawesome-webfont.woff" />
     <Content Include="Content\assets\font\FontAwesome.otf" />
 
+    <Content Include="Areas\Procurement\Views\Bid\EditBidStatus.cshtml" />
+
     <Content Include="Areas\Settings\Views\Users\New.cshtml" />
 
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -459,6 +464,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
+    <Folder Include="Areas\Procurement\Views\Shared\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>

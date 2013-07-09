@@ -19,10 +19,12 @@ namespace Cats.Models
         public DateTime EndDate { get; set; }
         public string BidNumber { get; set; }
         public DateTime OpeningDate { get; set; }
+        public int StatusID { get; set; }
 
         #region Navigation Properties
 
         public ICollection<BidDetail> BidDetails { get; set; }
+       public virtual Status Status { get; set; }
         #endregion
     }
 }
