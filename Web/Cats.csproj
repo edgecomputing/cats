@@ -147,10 +147,12 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
+    <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DispatchAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
@@ -245,7 +247,6 @@
     <Content Include="Content\assets\js\holder\holder.js" />
     <Content Include="Content\assets\js\html5shiv.js" />
     <Content Include="Content\assets\js\jquery.js" />
-
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -253,7 +254,6 @@
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
     <Content Include="Content\kendo\Default\editor.png" />
@@ -338,7 +338,6 @@
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
-
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gridmvc.js" />
@@ -346,9 +345,8 @@
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
-
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
-
+    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -360,13 +358,12 @@
     <Content Include="Scripts\js\jquery.calendars.picker.js" />
     <Content Include="Scripts\js\jquery.calendars.plus.js" />
     <Content Include="Content\site.js" />
-
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
     <Content Include="Scripts\kendo.web.min.js" />
+    <Content Include="Scripts\kendo\kendo.all.min.js" />
     <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
     <Content Include="Views\Shared\hubAllocation.cshtml" />
-
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
@@ -386,7 +383,6 @@
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
-
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\Create.cshtml" />
@@ -400,7 +396,6 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
@@ -414,11 +409,8 @@
     <Content Include="Content\assets\font\fontawesome-webfont.ttf" />
     <Content Include="Content\assets\font\fontawesome-webfont.woff" />
     <Content Include="Content\assets\font\FontAwesome.otf" />
-
     <Content Include="Areas\Procurement\Views\Bid\EditBidStatus.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\New.cshtml" />
-
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
@@ -452,19 +444,16 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Shared\View1.cshtml" />
     <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
-
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Procurement\Views\Shared\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>

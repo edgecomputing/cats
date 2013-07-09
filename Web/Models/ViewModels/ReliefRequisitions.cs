@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Cats.Models.ViewModels
 {
@@ -15,5 +16,6 @@ namespace Cats.Models.ViewModels
         public string RequistionNo { get; set; }
         public decimal Amount { get; set; }
         public int Beneficiaries { get; set; }
+        public int HubId { get; set; }
     }
 }
