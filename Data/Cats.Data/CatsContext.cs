@@ -31,7 +31,8 @@ namespace Cats.Data
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
         public DbSet<BidDetail> BidDetails { get; set; }
-
+        public DbSet<HubAllocation> HubAllocations { get; set; }
+        public DbSet<ProjectCodeAllocation> ProjectCodeAllocations { get; set; }
         //public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -51,7 +52,10 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new BidMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             modelBuilder.Configurations.Add(new TransporterMap());
+            modelBuilder.Configurations.Add(new HubAllocationMap());
+            modelBuilder.Configurations.Add(new ProjectCodeAllocationMap());
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            
 
         }
 
