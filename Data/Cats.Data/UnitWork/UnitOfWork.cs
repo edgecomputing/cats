@@ -29,6 +29,21 @@ namespace Cats.Data.UnitWork
         /// ReliefRequistionRepository
         /// </summary>
         /// 
+        
+        private IGenericRepository<ProjectCodeAllocation> projectCodeAllocationRepository;
+        public IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository
+        {
+            get { return this.projectCodeAllocationRepository ?? (this.projectCodeAllocationRepository = new GenericRepository<ProjectCodeAllocation>(_context)); }
+
+        }
+
+
+        private IGenericRepository<HubAllocation> hubAllocationRepository;
+        public IGenericRepository<HubAllocation> HubAllocationRepository
+        {
+            get { return this.hubAllocationRepository ?? (this.hubAllocationRepository = new GenericRepository<HubAllocation>(_context)); }
+
+        }
         private IGenericRepository<DispatchAllocation> dispatchAllocationRepository;
         public IGenericRepository<DispatchAllocation> DispatchAllocationRepository
         {
