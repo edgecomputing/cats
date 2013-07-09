@@ -176,6 +176,8 @@
     <Build Include="Procurement\Tables\Transporter.sql" />
     <Build Include="Procurement\Tables\BidDetail.sql" />
     <Build Include="dbo\Views\RRDInfo.sql" />
+    <Build Include="Procurement\Tables\TransportOrderDetail.sql" />
+    <Build Include="Procurement\Tables\TransportOrder.sql" />
     <Build Include="Security\Procurement.sql" />
   </ItemGroup>
 </Project>
