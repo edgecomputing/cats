@@ -350,9 +350,10 @@
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
-    <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
-    <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
-    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocationDetail.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Details.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

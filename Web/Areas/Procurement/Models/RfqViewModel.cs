@@ -10,6 +10,7 @@ namespace Cats.Areas.Procurement.Models
         public string SourceWarehouse { get; set; }
         public string DestinationZone { get; set; }
         public string DestinationWoreda { get; set; }
+        public string RegionName { get; set; }
         public int RegionID { get; set; }
     }
 }

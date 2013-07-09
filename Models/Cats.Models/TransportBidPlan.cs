@@ -8,6 +8,13 @@ namespace Cats.Models
     public class TransportBidPlan
     {
 
+        
+        public TransportBidPlan()
+        {
+            this.Bids=new List<Bid>();
+            this.TransportBidPlanDetails=new List<TransportBidPlanDetail>();
+        }
+        
         //TransportBidPlanID
         [Key]
         [Display(Name = "ID")]
@@ -39,6 +46,7 @@ namespace Cats.Models
         public virtual Program Program { get; set; }
 
         public virtual ICollection<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
+        public ICollection<Bid> Bids { get; set; }
 
         public string ShortName
         {

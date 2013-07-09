@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
+using Cats.Models;
 using Cats.Models.ViewModels;
 using Cats.Services.Procurement;
 using Moq;
@@ -66,7 +67,16 @@ namespace Cats.Tests.ControllersTests
             Assert.IsInstanceOf<List<RequisitionToDispatch>>(result.Model);
             Assert.AreEqual(1, ((IEnumerable<RequisitionToDispatch>)result.Model).Count());
         }
-
+        [Test]
+        public void Can_Should_Generate_Transport_Order_For_Selected_Transport_Requisition()
+        {
+            //Act
+            var result1 = _transportOrderController.TransportRequisitions();
+             _transportOrderController.CreateTransportOrder((List<RequisitionToDispatch>)result1.Model);
+            var result = _transportOrderController.Index();
+            //Assert
+            Assert.IsInstanceOf<List<TransportOrder>>(result.Model);
+        }
         #endregion
     }
 }

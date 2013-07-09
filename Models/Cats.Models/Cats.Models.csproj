@@ -99,7 +99,7 @@
     <Compile Include="Status.cs" />
     <Compile Include="TransportBidPlan.cs" />
     <Compile Include="TransportBidPlanDetail.cs" />
-    <Compile Include="ShippingInstruction.cs" />
+    <Compile Include="TransportBidWinnerDetail.cs" />
     <Compile Include="Transporter.cs" />
     <Compile Include="TransportOrder.cs" />
     <Compile Include="TransportOrderDetail.cs" />

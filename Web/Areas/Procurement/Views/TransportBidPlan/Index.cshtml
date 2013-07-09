@@ -35,7 +35,12 @@
             @Html.ActionLink("Edit", "Edit", new { id=item.TransportBidPlanID }) |
  <!--           @Html.ActionLink("Details", "Details", new { id=item.TransportBidPlanID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.TransportBidPlanID })
-           --> @Html.ActionLink("WarehouseSelection", "WarehouseSelection", new { id=item.TransportBidPlanID })
+      @Html.ActionLink("Create Bid", "WarehouseSelection", new { id=item.TransportBidPlanID })
+           --> 
+            
+            @Html.ActionLink("Warehouse Selection", "WarehouseSelection", new { id=item.TransportBidPlanID }) | 
+           
+            <a href="@Url.Action("Create/1", "bid", new { Area = "Procurement" })">Create Bid</a>
         </td>
     </tr>
 }
