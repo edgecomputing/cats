@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Models.ViewModels;
 using Cats.Services.Procurement;
 
 namespace Cats.Areas.Procurement.Controllers
@@ -25,6 +26,12 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var transportRequisitions = _transportOrderService.GetRequisitionToDispatch();
             return View(transportRequisitions.ToList());
+        }
+
+        public ViewResult CreateTransportOrder(IEnumerable<RequisitionToDispatch> requisitionToDispatches)
+        {
+            var transportOrders = _transportOrderService.CreateTransportOrder(requisitionToDispatches);
+            return View(transportOrders.ToList());
         }
 
     }

@@ -29,6 +29,9 @@
         <tr>
             <td>@Html.LabelFor(m=>m.StatusID,"Status:")</td>
             <td>@Html.DropDownList("BidStatus",String.Empty)</td>
+            
+            <td>@Html.LabelFor(m => m.TransportBidPlanID,"Bid Plan ")</td>
+            <td>@Html.TextBoxFor(m => m.TransportBidPlan.ShortName,null,new { disabled = "true"} )</td>
         </tr>
     </table>
 </div>

@@ -12,8 +12,8 @@ namespace Cats.Areas.Procurement.Models
         public string Region { get; set; }
         public decimal AmountForReliefProgram { get; set; }
         public decimal AmountForPSNPProgram { get; set; }
-        public float BidDocumentPrice { get; set; }
-        public float CPO { get; set; }
+        public decimal BidDocumentPrice { get; set; }
+        public decimal CPO { get; set; }
         public BidDetailEdit Edit { get; set; }
 
         public class BidDetailEdit
@@ -21,8 +21,8 @@ namespace Cats.Areas.Procurement.Models
             public int Number { get; set; }
             public decimal AmountForReliefProgram { get; set; }
             public decimal AmountForPSNPProgram { get; set; }
-            public float BidDocumentPrice { get; set; }
-            public float CPO { get; set; }
+            public decimal BidDocumentPrice { get; set; }
+            public decimal CPO { get; set; }
         }
 
         

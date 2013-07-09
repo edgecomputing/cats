@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Cats.Models.TransportOrder>
+
+@{
+    ViewBag.Title = "CreateTransportOrder";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>CreateTransportOrder</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TransportOrderNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContractNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestedDispatchDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderExpiryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BidDocumentNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PerformanceBondReceiptNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransporterID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConsignerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransporterSignedName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConsignerDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransporterSignedDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransportOrderNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContractNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestedDispatchDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderExpiryDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BidDocumentNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PerformanceBondReceiptNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransporterID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConsignerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransporterSignedName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConsignerDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransporterSignedDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TransportOrderID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TransportOrderID })
+        </td>
+    </tr>
+}
+
+</table>

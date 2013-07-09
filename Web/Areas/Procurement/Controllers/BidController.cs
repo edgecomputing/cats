@@ -20,14 +20,14 @@ namespace Cats.Areas.Procurement.Controllers
 
         public BidController(IBidService bidService, IBidDetailService bidDetailService,
                              IAdminUnitService adminUnitService,
-                             IStatusService statusService
-                             ,ITransportBidPlanService transportBidPlanServiceParam  )
+                             IStatusService statusService,
+                             ITransportBidPlanService transportBidPlanService)
         {
             this._bidService = bidService;
             this._bidDetailService = bidDetailService;
             this._adminUnitService = adminUnitService;
             this._statusService = statusService;
-            this._transportBidPlanService = transportBidPlanServiceParam;
+            this._transportBidPlanService = transportBidPlanService;
         }
 
         public ActionResult Index()
@@ -37,38 +37,38 @@ namespace Cats.Areas.Procurement.Controllers
             return View(bids.ToList());
         }
         [HttpPost]
-        public ActionResult Index(string bidNumber,DateTime startDate,DateTime endDate)
+        public ActionResult Index(string bidNumber)
         {
-            var filteredBid = _bidService.Get(b =>b.BidNumber==bidNumber || (b.StartDate >= startDate && b.EndDate<=endDate), null, "BidDetails");
+            var filteredBid = _bidService.Get(b =>b.BidNumber==bidNumber, null, "BidDetails");
             return View(filteredBid.ToList());
             //return View("Index");
         }
 
-        [HttpGet]
         public ActionResult Create(int id=0)
         {
            // var bid = new Bid();
             // return View(bid);
-            var bid = new Bid();
-            var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(),"StatusID","Name");
-            var bidDetails = (from detail in regions
-                              select new BidDetail()
-                              {
-                                  RegionID=detail.AdminUnitID,
-                                  AmountForReliefProgram=0,
-                              }).ToList();
-            bid.BidDetails = bidDetails;
-            ViewBag.TransportBidPlanID = id;
-            ViewBag.BidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
-
-            return View(bid);
+                var bid = new Bid();
+                var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+                ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
+                var bidDetails = (from detail in regions
+                                  select new BidDetail()
+                                      {
+                                          RegionID = detail.AdminUnitID,
+                                          AmountForReliefProgram = 0,
+                                      }).ToList();
+                bid.BidDetails = bidDetails;
+                ViewBag.BidPlanID = id;
+                ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
+                return View(bid);
         }
 
         [HttpPost]
         public ActionResult Create(Bid bid)
         {
-            if (bid != null)
+           
+            //if ( != null)
+            if(ModelState.IsValid)
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
                 var bidDetails = (from detail in regions
@@ -85,7 +85,7 @@ namespace Cats.Areas.Procurement.Controllers
                 _bidService.AddBid(bid);
                 return RedirectToAction("Edit", "Bid", new {id = bid.BidID});
             }
-            return View(new Bid());
+            return View("Create");
             // _bidService.AddBid(bid);
             //return Redirect(string.Format("Edit/{0}", bid.BidID));
         }
@@ -144,14 +144,10 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("Edit", "Bid", new {id = bidId});
         }
 
-        public ActionResult Details(int id=0)
+        public ViewResult Details(int id=0)
         {
             Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
             ViewBag.BidStatus = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID);
-            if (bid == null)
-            {
-                return HttpNotFound();
-            }
             return View(bid);
             
         }
@@ -160,13 +156,19 @@ namespace Cats.Areas.Procurement.Controllers
             //Bid bid = _bidService.FindById(id);
             Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID);
+            ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
+                                                        "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
             return View(bid);
         }
         [HttpPost]
         public ActionResult EditBidStatus(Bid bid)
         {
-            _bidService.EditBid(bid);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _bidService.EditBid(bid);
+                return RedirectToAction("Index");
+            }
+            return View("EditBidStatus");
         }
     }
 }

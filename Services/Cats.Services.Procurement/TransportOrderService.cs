@@ -12,115 +12,201 @@ using Cats.Models.ViewModels;
 namespace Cats.Services.Procurement
 {
 
-    public class TransportOrderService:ITransportOrderService
-   {
-       private readonly  IUnitOfWork _unitOfWork;
-      
+    public class TransportOrderService : ITransportOrderService
+    {
+        private readonly IUnitOfWork _unitOfWork;
 
-       public TransportOrderService(IUnitOfWork unitOfWork)
-       {
-           this._unitOfWork = unitOfWork;
-       }
 
-       #region Default Service Implementation
-       public bool AddTransportOrder(TransportOrder transportOrder)
-       {
-           _unitOfWork.TransportOrderRepository.Add(transportOrder);
-           _unitOfWork.Save();
-           return true;
-           
-       }
-       public bool EditTransportOrder(TransportOrder transportOrder)
-       {
-           _unitOfWork.TransportOrderRepository.Edit(transportOrder);
-           _unitOfWork.Save();
-           return true;
-
-       }
-         public bool DeleteTransportOrder(TransportOrder transportOrder)
+        public TransportOrderService(IUnitOfWork unitOfWork)
         {
-             if(transportOrder==null) return false;
-           _unitOfWork.TransportOrderRepository.Delete(transportOrder);
-           _unitOfWork.Save();
-           return true;
+            this._unitOfWork = unitOfWork;
         }
-       public  bool DeleteById(int id)
-       {
-           var entity = _unitOfWork.TransportOrderRepository.FindById(id);
-           if(entity==null) return false;
-           _unitOfWork.TransportOrderRepository.Delete(entity);
-           _unitOfWork.Save();
-           return true;
-       }
-       public List<TransportOrder> GetAllTransportOrder()
-       {
-           return _unitOfWork.TransportOrderRepository.GetAll();
-       } 
-       public TransportOrder FindById(int id)
-       {
-           return _unitOfWork.TransportOrderRepository.FindById(id);
-       }
-       public List<TransportOrder> FindBy(Expression<Func<TransportOrder, bool>> predicate)
-       {
-           return _unitOfWork.TransportOrderRepository.FindBy(predicate);
-       }
-       
-       public IEnumerable<TransportOrder> Get(
-           Expression<Func<TransportOrder, bool>> filter = null,
-           Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
-           string includeProperties = "")
+
+        #region Default Service Implementation
+        public bool AddTransportOrder(TransportOrder transportOrder)
         {
-           return _unitOfWork.TransportOrderRepository.Get(filter, orderBy, includeProperties);
+            _unitOfWork.TransportOrderRepository.Add(transportOrder);
+            _unitOfWork.Save();
+            return true;
+
         }
-       #endregion
-       
-       public void Dispose()
-       {
-           _unitOfWork.Dispose();
-           
-       }
+        public bool EditTransportOrder(TransportOrder transportOrder)
+        {
+            _unitOfWork.TransportOrderRepository.Edit(transportOrder);
+            _unitOfWork.Save();
+            return true;
+
+        }
+        public bool DeleteTransportOrder(TransportOrder transportOrder)
+        {
+            if (transportOrder == null) return false;
+            _unitOfWork.TransportOrderRepository.Delete(transportOrder);
+            _unitOfWork.Save();
+            return true;
+        }
+        public bool DeleteById(int id)
+        {
+            var entity = _unitOfWork.TransportOrderRepository.FindById(id);
+            if (entity == null) return false;
+            _unitOfWork.TransportOrderRepository.Delete(entity);
+            _unitOfWork.Save();
+            return true;
+        }
+        public List<TransportOrder> GetAllTransportOrder()
+        {
+            return _unitOfWork.TransportOrderRepository.GetAll();
+        }
+        public TransportOrder FindById(int id)
+        {
+            return _unitOfWork.TransportOrderRepository.FindById(id);
+        }
+        public List<TransportOrder> FindBy(Expression<Func<TransportOrder, bool>> predicate)
+        {
+            return _unitOfWork.TransportOrderRepository.FindBy(predicate);
+        }
+
+        public IEnumerable<TransportOrder> Get(
+            Expression<Func<TransportOrder, bool>> filter = null,
+            Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
+            string includeProperties = "")
+        {
+            return _unitOfWork.TransportOrderRepository.Get(filter, orderBy, includeProperties);
+        }
+        #endregion
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+
+        }
 
 
 
-       public IEnumerable<Models.ViewModels.RequisitionToDispatch> GetRequisitionToDispatch()
-       {
-           var requisitions = GetProjectCodeAssignedRequisitions();
+        public IEnumerable<Models.ViewModels.RequisitionToDispatch> GetRequisitionToDispatch()
+        {
+            var requisitions = GetProjectCodeAssignedRequisitions();
 
-           var result= (from requisition in requisitions
-                   select new RequisitionToDispatch
-                              {
-                                  HubID = requisition.HubAllocations.FirstOrDefault().HubID,
-                                  RequisitionID = requisition.RequisitionID,
-                                 RequisitionNo = requisition.RequisitionNo,
-                                RequisitionStatus = requisition.Status.Value,
-                                  ZoneID = requisition.ZoneID.Value,
-                                 QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
-                              OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
-                                  CommodityID = requisition.CommodityID.Value,
-                                 CommodityName = requisition.Commodity.Name,
-                                Zone=requisition.AdminUnit.Name,
-                                  RegionID=requisition.RegionID.Value ,
-                                 RegionName=requisition.AdminUnit1.Name 
+            var result = (from requisition in requisitions
+                          select new RequisitionToDispatch
+                                     {
+                                         HubID = requisition.HubAllocations.FirstOrDefault().HubID,
+                                         RequisitionID = requisition.RequisitionID,
+                                         RequisitionNo = requisition.RequisitionNo,
+                                         RequisitionStatus = requisition.Status.Value,
+                                         ZoneID = requisition.ZoneID.Value,
+                                         QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
+                                         OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
+                                         CommodityID = requisition.CommodityID.Value,
+                                         CommodityName = requisition.Commodity.Name,
+                                         Zone = requisition.AdminUnit.Name,
+                                         RegionID = requisition.RegionID.Value,
+                                         RegionName = requisition.AdminUnit1.Name
 
-                              });
+                                     });
 
 
-           return result;
-       }
+            return result;
+        }
 
-       public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
-       {
-         return   _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int) REGIONAL_REQUEST_STATUS.HubAssigned, null,
-                                                       "HubAllocations,HubAllocations.Hub,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity");
-       }
+        public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
+        {
+            return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
+                                                          "HubAllocations,HubAllocations.Hub,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity");
+        }
 
-       public IEnumerable<ReliefRequisitionDetail> GetProjectCodeAssignedRequisitionDetails()
-       {
-           return _unitOfWork.ReliefRequisitionDetailRepository.Get(t => t.ReliefRequisition.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
-                                                         "ReliefRequisition");
-       }
-   }
-   }
-   
-         
-      
+        public IEnumerable<ReliefRequisitionDetail> GetProjectCodeAssignedRequisitionDetails()
+        {
+            return _unitOfWork.ReliefRequisitionDetailRepository.Get(t => t.ReliefRequisition.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
+                                                          "ReliefRequisition");
+        }
+
+
+
+
+        public IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<RequisitionToDispatch> requisitions)
+        {
+
+            var transporterAssignedRequisionDetails = AssignTransporterForEachWoreda(requisitions);
+
+            var transporters = (from item in transporterAssignedRequisionDetails select item.TransporterID).Distinct().ToList();
+
+
+            //If we reached here all location got transporter 
+            var transportOrders = new List<TransportOrder>();
+
+            foreach (var transporter in transporters)
+            {
+
+                var transportOrder = new TransportOrder();
+                transportOrder.TransporterID = transporter;
+                var transportLocations = transporterAssignedRequisionDetails.FindAll(t => t.TransporterID == transporter).Distinct();
+
+                foreach (var transporterRequisition in transportLocations)
+                {
+                    var requisionsDetails =
+                        _unitOfWork.ReliefRequisitionDetailRepository.Get(
+                            t =>
+                            t.RequisitionID == transporterRequisition.RequisitionID &&
+                            t.FDP.AdminUnitID == transporterRequisition.WoredaID).ToList();
+
+                    foreach (var reliefRequisitionDetail in requisionsDetails)
+                    {
+                        var transportOrderDetail = new TransportOrderDetail();
+                        transportOrderDetail.CommodityId = reliefRequisitionDetail.CommodityID;
+                        transportOrderDetail.FdpID = reliefRequisitionDetail.FDPID;
+                        transportOrderDetail.RequisitionID = reliefRequisitionDetail.RequisitionID;
+                        transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount;
+                        transportOrderDetail.TariffPerQtl = transporterRequisition.TariffPerQtl;
+                        transportOrderDetail.SourceWarehouseID = transporterRequisition.HubID;
+                        transportOrder.TransportOrderDetails.Add(transportOrderDetail);
+                    }
+
+                }
+                transportOrders.Add(transportOrder);
+
+
+            }
+            _unitOfWork.Save();
+            return transportOrders;
+        }
+
+        private  List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<RequisitionToDispatch> requisitions)
+        {
+            var requisionIds = (from req in requisitions select req.RequisitionID).ToList();
+            var reqDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(t => requisionIds.Contains(t.RequisitionID));
+            var transportSourceDestination = new List<TransporterRequisition>();
+            foreach (var reliefRequisitionDetail in reqDetails)
+            {
+                var transportRequisition = new TransporterRequisition();
+                var requi =
+                    _unitOfWork.ReliefRequisitionRepository.Get(
+                        t => t.RequisitionID == reliefRequisitionDetail.RequisitionID, null, "HubAllocations").FirstOrDefault();
+                transportRequisition.RequisitionID = reliefRequisitionDetail.RequisitionID;
+                transportRequisition.HubID = requi.HubAllocations.FirstOrDefault().HubID;
+                transportRequisition.WoredaID = reliefRequisitionDetail.FDP.AdminUnitID;
+                var transportBidWinnerDetail =
+                   _unitOfWork.TransportBidWinnerDetailRepository.Get(
+                       t => t.HubID == transportRequisition.HubID && t.WoredaID == transportRequisition.WoredaID).FirstOrDefault();
+                if (transportBidWinnerDetail == null)
+                {
+                    throw new Exception(string.Format("Transporter Couldn't be found for from {0} to {1}", transportRequisition.HubID, transportRequisition.WoredaID));
+                }
+                transportRequisition.TransporterID = transportBidWinnerDetail.TransporterID;
+                transportRequisition.TariffPerQtl = transportBidWinnerDetail.TariffPerQtl;
+
+                transportSourceDestination.Add(transportRequisition);
+            }
+            return transportSourceDestination;
+        }
+        private class TransporterRequisition
+        {
+            public int HubID { get; set; }
+            public int WoredaID { get; set; }
+            public int RequisitionID { get; set; }
+            public int TransporterID { get; set; }
+            public decimal TariffPerQtl { get; set; }
+        }
+    }
+}
+
+
