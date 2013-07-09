@@ -10,6 +10,8 @@
     <li class="nav-header">Bid Information</li>
     <li> Year:  @ViewBag.bidPlan.ShortName</li>
     <li class="nav-header">Tasks</li>
+
+     <li> <a href="@Url.Action("Create/" + ViewBag.bidPlan.TransportBidPlanID, "bid", new { Area = "Procurement" })">Create Bid</a></li>
     <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to List</a></li>
 
 }

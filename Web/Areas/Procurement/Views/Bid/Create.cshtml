@@ -13,8 +13,15 @@
 
     @using (Html.BeginForm())
     {
+         @Html.ValidationSummary(true)
         <fieldset>
           <legend> New Bid Document </legend>
+            <div >
+                @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
+
+                @Html.DropDownList("TransportBidPlanID",String.Empty)
+                @Html.ValidationMessageFor(model => model.TransportBidPlanID)
+            </div>
             <div >
                 @Html.LabelFor(model => model.BidNumber, "Bid Number")
 

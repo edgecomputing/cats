@@ -42,25 +42,14 @@ namespace Cats.Models.Mapping
             this.Property(t => t.BidDocumentNo).HasColumnName("BidDocumentNo");
             this.Property(t => t.PerformanceBondReceiptNo).HasColumnName("PerformanceBondReceiptNo");
             this.Property(t => t.TransporterID).HasColumnName("TransporterID");
-            this.Property(t => t.ZoneID).HasColumnName("ZoneID");
-            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
-            this.Property(t => t.DonorID).HasColumnName("DonorID");
-            this.Property(t => t.RequisitionID).HasColumnName("RequisitionID");
+           
             this.Property(t => t.ConsignerName).HasColumnName("ConsignerName");
             this.Property(t => t.TransporterSignedName).HasColumnName("TransporterSignedName");
             this.Property(t => t.ConsignerDate).HasColumnName("ConsignerDate");
             this.Property(t => t.TransporterSignedDate).HasColumnName("TransporterSignedDate");
 
             // Relationships
-            this.HasRequired(t => t.AdminUnit)
-                .WithMany(t => t.TransportOrders)
-                .HasForeignKey(d => d.ZoneID);
-            this.HasRequired(t => t.Commodity)
-                .WithMany(t => t.TransportOrders)
-                .HasForeignKey(d => d.CommodityID);
-            this.HasRequired(t => t.ReliefRequisition)
-                .WithMany(t => t.TransportOrders)
-                .HasForeignKey(d => d.RequisitionID);
+           
             this.HasRequired(t => t.Transporter)
                 .WithMany(t => t.TransportOrders)
                 .HasForeignKey(d => d.TransporterID);

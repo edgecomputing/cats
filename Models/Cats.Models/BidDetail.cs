@@ -11,8 +11,8 @@ namespace Cats.Models
         public int RegionID { get; set; }
         public decimal AmountForReliefProgram { get; set; }
         public decimal AmountForPSNPProgram { get; set; }
-        public float BidDocumentPrice { get; set; }
-        public float CPO { get; set; }
+        public decimal BidDocumentPrice { get; set; }
+        public decimal CPO { get; set; }
 
         #region Navigation Properties
 

@@ -17,6 +17,7 @@ namespace Cats.Models.Mapping
             //this.Property(t => t.RegionID).HasColumnName("RegionID");
 
             this.Property(t => t.ProgramID).HasColumnName("ProgramID");
+           
 
             // Relationships
             this.HasRequired(t => t.Program)

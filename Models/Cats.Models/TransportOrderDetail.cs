@@ -10,6 +10,9 @@ namespace Cats.Models
     {
         public int TransportOrderDetailID { get; set; }
         public int TransportOrderID { get; set; }
+        public int RequisitionID { get; set; }
+        public int CommodityId { get; set; }
+        public int Type { get; set; }
         public int FdpID { get; set; }
         public int SourceWarehouseID { get; set; }
         public decimal QuantityQtl { get; set; }
