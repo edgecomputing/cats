@@ -68,6 +68,7 @@
     <Compile Include="Mapping\FDPMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
+    <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
@@ -88,7 +89,8 @@
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="projectCode.cs" />
+    <Compile Include="ProjectCode.cs" />
+    <Compile Include="ProjectCodeAllocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />

@@ -21,9 +21,9 @@ namespace Cats.Infrastructure
             AddBindings();
         }
 
+       
 
-
-        public object GetService(Type serviceType)
+    public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
         }
@@ -32,7 +32,7 @@ namespace Cats.Infrastructure
         {
             return kernel.GetAll(serviceType);
         }
-
+        
         private void AddBindings()
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
@@ -57,7 +57,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<ITransportBidPlanService>().To<TransportBidPlanService>();
             kernel.Bind<ITransportBidPlanDetailService>().To<TransportBidPlanDetailService>();
-            kernel.Bind<IBidDetailService>().To<BidDetailService>();  
+            kernel.Bind<IBidDetailService>().To<BidDetailService>();
             kernel.Bind<IStatusService>().To<StatusService>();
 
             // Security service registration
@@ -66,6 +66,8 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransportOrderService>().To<TransportOrderService>();
 
 
+            kernel.Bind<IProjectCodeAllocationService>().To<ProjectCodeAllocationService>();
+            
 
         }
     }

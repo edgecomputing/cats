@@ -22,7 +22,7 @@ namespace Cats.Models
 
         #region Navigation Properties
 
-       public ICollection<BidDetail> BidDetails { get; set; }
+        public ICollection<BidDetail> BidDetails { get; set; }
        public virtual Status Status { get; set; }
        public virtual TransportBidPlan TransportBidPlan { get; set; }
         #endregion

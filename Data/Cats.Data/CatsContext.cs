@@ -37,6 +37,9 @@ namespace Cats.Data
         public DbSet<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
 
 
+
+        public DbSet<HubAllocation> HubAllocations { get; set; }
+        public DbSet<ProjectCodeAllocation> ProjectCodeAllocations { get; set; }
         public DbSet<TransportRequisition> TransportRequisition { get; set; }
         public DbSet<HubAllocation> HubAllocation { get; set; } 
 
@@ -63,6 +66,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TransportBidPlanMap());
             modelBuilder.Configurations.Add(new TransportBidPlanDetailMap());
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
 
         }
 
