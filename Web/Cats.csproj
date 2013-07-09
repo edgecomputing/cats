@@ -162,6 +162,7 @@
     <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
@@ -347,6 +348,7 @@
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />
+    <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -361,7 +363,6 @@
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
     <Content Include="Scripts\kendo.web.min.js" />
-    <Content Include="Scripts\kendo\kendo.all.min.js" />
     <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
     <Content Include="Views\Shared\hubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />

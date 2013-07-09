@@ -71,7 +71,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                             ZoneName = item.ReliefRequisition.AdminUnit1.Name, 
                                                                             RequisitionNo = item.ReliefRequisition.RequisitionNo, 
                                                                             RequisitionId = item.ReliefRequisition.RequisitionID, 
-                                                                            Hub = string.Empty
+                                                                           Hub = string.Empty
                                                                         }).ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -107,34 +107,34 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form)
-        {
-            ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
-            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+        //[HttpPost]
+        //public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form)
+        //{
+        //    ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
+        //    ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
-            ICollection<ReliefRequisitionDetail> listOfRequsitions = new List<ReliefRequisitionDetail>();
-            ReliefRequisitionDetail[] _requisitionDetail;
+        //    ICollection<ReliefRequisitionDetail> listOfRequsitions = new List<ReliefRequisitionDetail>();
+        //    ReliefRequisitionDetail[] _requisitionDetail;
 
-           _requisitionDetail = requisitionDetail.ToArray();
+        //   _requisitionDetail = requisitionDetail.ToArray();
 
-           var _chkValue = _Form["IsChecked"]; // for this code the _chkValue will return all value of each checkbox that is checked
+        //   var _chkValue = _Form["IsChecked"]; // for this code the _chkValue will return all value of each checkbox that is checked
 
             
-            if (_chkValue != null)
-            {
+        //    if (_chkValue != null)
+        //    {
 
-                string[] _arrChkValue = _Form["IsChecked"].ToString().Split(',');
+        //        string[] _arrChkValue = _Form["IsChecked"].ToString().Split(',');
 
-                for (int i = 0; i < _arrChkValue.Length; i++)
-                {
-                    var _value = _arrChkValue[i]; 
-                    listOfRequsitions.Add(_requisitionDetail[int.Parse(_value)]);
-                }
-            }
+        //        for (int i = 0; i < _arrChkValue.Length; i++)
+        //        {
+        //            var _value = _arrChkValue[i]; 
+        //            listOfRequsitions.Add(_requisitionDetail[int.Parse(_value)]);
+        //        }
+        //    }
 
-            return View(listOfRequsitions);
-        }
+        //    return View(listOfRequsitions);
+        //}
 
 
         //public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form, string datepicker, string rNumber)

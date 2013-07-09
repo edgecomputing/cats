@@ -38,6 +38,11 @@ namespace Cats.Models
         [Display(Name = "Program")]
         public virtual Program Program { get; set; }
 
-        public ICollection<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
+        public virtual ICollection<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
+
+        public string ShortName
+        {
+            get { return this.Year + "-" + this.YearHalf; }
+        }
     }
 }

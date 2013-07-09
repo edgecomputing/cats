@@ -104,7 +104,6 @@
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\RegionalRequestStatus.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
-    <Compile Include="ViewModels\RequestVM.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />

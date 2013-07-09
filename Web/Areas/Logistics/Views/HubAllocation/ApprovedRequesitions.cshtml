@@ -49,36 +49,29 @@
             dataSource: {
                 type: "json",
                 transport: {
-                    read: "@Url.Action("GetApprovedRequisitions","HubAllocation")"
+                    read: "@Url.Action("getApprovedRequisitions","HubAllocation")"
 
                 },
                 pageSize: 10,
 
                 group: {
                     field: "Region", aggregates: [
-                       { field: "Amount", aggregate: "sum" },
-                       { field: "Beneficiaries", aggregate: "sum" }
+                      
                     ]
                 },
 
-                aggregate: [{ field: "Zone", aggregate: "count" },
-                              { field: "Amount", aggregate: "sum" },
-                              { field: "Beneficiaries", aggregate: "sum" }]
-
+              
             },
 
             sortable: true,
             scrollable: false,
             pageable: true,
             columns: [
-                    { field: "check_row", title: " ", width: 30, template: "<input class='check_row'  type='checkbox'/>" },
-                    { field: "RequistionNo" },
-                    { field: "CommodityName", title: "Commodity" },
-                    { field: "Region" },
-                    { field: "Zone" },
-                    { field: "Round" },
-                    { field: "Amount", footerTemplate: "Total Count: #=sum#", groupFooterTemplate: "Sum: #=sum#" },
-                    { field: "Beneficiaries",footerTemplate: "Total Count: #=sum#", groupFooterTemplate: "Sum: #=sum#" }
+                   
+                   
+                    { field: "Commodity", title: "Commodity" },
+                   
+                   
                    
             ]
 

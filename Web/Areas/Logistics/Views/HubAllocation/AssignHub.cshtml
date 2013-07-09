@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>AssignHub</h2>
+<h2>Assign Hub</h2>
 
 
 @section LeftBar
@@ -53,9 +53,10 @@
                 group: {
                     field: "RegionName", aggregates: [
                        
-                       
                     ]
                 },
+
+                
             },
 
            
@@ -82,13 +83,11 @@
             .appendTo(container)
             .kendoDropDownList({
                 autoBind: false,
-                index: 0,
-                optionLabel: "Select An Option",
                 dataSource: {
                     type: "json",
                     transport: {
-                        read: "@Url.Action("GetHubs", controllerName: "HubAllocation")",
-                        dataType: "json"
+                        read: "@Url.Action("GetHubs", "HubAllocation")"
+                       
                     }
                 }
             });
