@@ -50,20 +50,12 @@
                         <li><a href="~/">Home</a></li>
                         <li><a href="#">HRD</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Regional Request<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Request<b class="caret"></b></a>
                             <ul class="dropdown-menu">
+                                <li class="nav-header">Regional Requests</li>
+                                <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Regional Request</a></li>
                                 <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
-                                <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisions</a></li>
-                                <li class="divider"></li>
-                                <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Request</a></li>
-                                <li><a href="#">Followup Request</a></li>                                
-                                <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Request</a></li>
-                                <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">Manage Request</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relief Requisition <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
+                                <li class="nav-header">Requisitions</li>
                                 <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
                                 <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
                             </ul>
@@ -72,16 +64,18 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                                <li><a href="#">Project Allocation</a></li>
+                                <li><a href="#">Project Allocation</a></li>  
+                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>                              
                             </ul>
                         </li>
+                       
                         <li><a href="#">Stock</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bid<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("", "TransportBidPlan", new { Area = "Procurement" })">Bid Plan</a></li>
                                 <li><a href="@Url.Action("", "Bid", new { Area = "Procurement" })">Bid Management</a></li>
-                                <li><a href="@Url.Action("", "Transporter", new { Area = "Procurement" })">Transporter</a></li>                                
+                                <li><a href="@Url.Action("", "Transporter", new { Area = "Procurement" })">Transporter</a></li>
                                 <li><a href="@Url.Action("Create", "Bid", new { Area = "Procurement" })">Create Bid</a></li>
                                 <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Manage Bid</a></li>
                             </ul>

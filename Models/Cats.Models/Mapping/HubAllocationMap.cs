@@ -31,8 +31,8 @@ namespace Cats.Models.Mapping
                 .WithMany(t => t.HubAllocations)
                 .HasForeignKey(d => d.AllocatedBy);
             this.HasRequired(t => t.ReliefRequisition)
-                .WithMany(t => t.HubAllocations)
-                .HasForeignKey(d => d.RequisitionID);
+                 .WithMany(t => t.HubAllocations)
+                 .HasForeignKey(d => d.RequisitionID);
 
         }
     }

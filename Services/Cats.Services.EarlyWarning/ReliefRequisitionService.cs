@@ -113,7 +113,7 @@ namespace Cats.Services.EarlyWarning
 
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
             AddReliefRequisions(reliefRequistions);
-            regionalRequest.Status = (int) REGIONAL_REQUEST_STATUS.Closed;
+            regionalRequest.Status = (int) REGIONAL_REQUEST_STATUS.HubAssigned;
             _unitOfWork.Save();
             foreach (var item in reliefRequistions)
             {

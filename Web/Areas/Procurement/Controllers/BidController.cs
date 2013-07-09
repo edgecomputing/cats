@@ -150,14 +150,14 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult EditBidStatus(int id)
         {
-            Bid bid = _bidService.FindById(id);
-            ViewBag.BidStatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
+            //Bid bid = _bidService.FindById(id);
+            Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID);
             return View(bid);
         }
         [HttpPost]
         public ActionResult EditBidStatus(Bid bid)
         {
-            //var statusID = _bidService.FindById(bid.StatusID);
             _bidService.EditBid(bid);
             return RedirectToAction("Index");
         }
