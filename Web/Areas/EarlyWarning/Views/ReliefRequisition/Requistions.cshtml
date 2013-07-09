@@ -86,7 +86,7 @@
         </td>*@
         <td>
            @{
-        var statusName = item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.Closed.ToString();
+        var statusName = item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString();
         var showme = item.Status == 1 ? "" : "hidden";
                 }
                @Html.Label(statusName)
