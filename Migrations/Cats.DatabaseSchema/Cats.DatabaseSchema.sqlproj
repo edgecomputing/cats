@@ -163,7 +163,6 @@
     <Build Include="dbo\Views\VWGoodsAtHand.sql" />
     <Build Include="dbo\Views\VWDispatch.sql" />
     <Build Include="dbo\Views\VWBeneficiary.sql" />
-    <Build Include="dbo\Views\HUBS.sql" />
     <Build Include="Security\Procurement.sql" />
   </ItemGroup>
 </Project>
