@@ -49,26 +49,18 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
-
-            kernel.Bind<IBidDetailService>().To<BidDetailService>();
-            kernel.Bind <IHubAllocationService>().To<HubAllocationService>();
-            
-            
-
             kernel.Bind<ITransportBidPlanService>().To<TransportBidPlanService>();
             kernel.Bind<ITransportBidPlanDetailService>().To<TransportBidPlanDetailService>();
             kernel.Bind<IBidDetailService>().To<BidDetailService>();
             kernel.Bind<IStatusService>().To<StatusService>();
-
+            kernel.Bind<IHubAllocationService>().To<HubAllocationService>();
             // Security service registration
             kernel.Bind<IUserAccountService>().To<UserAccountService>();
             kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
             kernel.Bind<ITransportOrderService>().To<TransportOrderService>();
 
-
             kernel.Bind<IProjectCodeAllocationService>().To<ProjectCodeAllocationService>();
             
-
         }
     }
 }

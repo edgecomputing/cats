@@ -1,13 +1,16 @@
+
 ﻿@{
     ViewBag.Title = "AssignHub";
   
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    
-    
-   
 }
+<fieldset>
+    <legend>
+        
+        Assign Hub
+    </legend>
+</fieldset>
 
-<h2>Assign Hub</h2>
 
 
 @section LeftBar
@@ -67,11 +70,11 @@
             pageable: true,
             columns: [
                     
-                    { field: "RegionName" },
-                    { field: "ZoneName" },
-                    { field: "RequisitionNo" },
-                    { field: "Commodity", title: "Commodity" },
-                    { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#" }
+                { field: "RegionName" },
+                { field: "ZoneName" },
+                { field: "RequisitionNo" },
+                { field: "Commodity", title: "Commodity" },
+                { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#" }
             
             ],
             editable: true
@@ -96,4 +99,12 @@
                 }
             });
     }
+
+
 </script>
+<br/>
+<div>
+   <button type="submit" class="btn btn-success">
+  <i class="icon-user icon-white"></i> Assign hub
+</button>
+</div>

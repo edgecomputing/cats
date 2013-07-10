@@ -9,7 +9,7 @@
     [RequestedDate]     DATETIME       NULL,
     [ApprovedBy]        INT            NULL,
     [ApprovedDate]      DATETIME       NULL,
-    [Status]            INT            NULL,
+    [Status]            INT            NOT NULL,
     [ProgramID]         INT            NULL,
     [RegionalRequestID] INT            NULL,
     CONSTRAINT [PK_ReliefRequisition] PRIMARY KEY CLUSTERED ([RequisitionID] ASC),
@@ -17,10 +17,11 @@
     CONSTRAINT [FK_ReliefRequisition_AdminUnit1] FOREIGN KEY ([RegionID]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID]),
     CONSTRAINT [FK_ReliefRequisition_Commodity] FOREIGN KEY ([CommodityID]) REFERENCES [dbo].[Commodity] ([CommodityID]),
     CONSTRAINT [FK_ReliefRequisition_Program] FOREIGN KEY ([ProgramID]) REFERENCES [dbo].[Program] ([ProgramID]),
-    CONSTRAINT [FK_ReliefRequisition_RegionalRequest] FOREIGN KEY ([RegionalRequestID]) REFERENCES [EarlyWarning].[RegionalRequest] ([RegionalRequestID]),
     CONSTRAINT [FK_ReliefRequisition_UserProfile] FOREIGN KEY ([RequestedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID]),
     CONSTRAINT [FK_ReliefRequisition_UserProfile1] FOREIGN KEY ([ApprovedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID])
 );
+
+
 
 
 

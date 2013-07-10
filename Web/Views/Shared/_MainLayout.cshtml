@@ -10,28 +10,18 @@
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
     <link href="~/Content/Site.css" rel="stylesheet" />
+     <script src="~/Scripts/jquery-1.9.1.js"></script>
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+    <script src="~/Scripts/kendo.web.min.js"></script>
+
     <style type="text/css">
         body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
     </style>
-
     <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet" />
-
-    <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="~/Content/Site.css" rel="stylesheet" />
-    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
-
-    <script src="~/Scripts/jquery-1.9.1.js"></script>
-     <script src="~/Scripts/kendo.web.min.js"></script>
-
-    <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet" />
-
-
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
 		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -77,12 +67,17 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
                             <ul class="dropdown-menu">
 
+
                                 <li><a href="@Url.Action("AssignHub", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
                                  
                                 <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>                              
 
                                
                                 <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>                                
+
+
+                              
+                                                              
 
                             </ul>
                         </li>
@@ -155,7 +150,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     @RenderSection("Scripts", required: false)
 
-    
+   
     <script src="~/Content/assets/js/bootstrap-transition.js"></script>
     <script src="~/Content/assets/js/bootstrap-alert.js"></script>
     <script src="~/Content/assets/js/bootstrap-modal.js"></script>
@@ -174,5 +169,6 @@
          $("#datepicker").datepicker();
      });
     </script>
+
 </body>
 </html>
