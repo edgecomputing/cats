@@ -56,6 +56,35 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(reliefrequistions.ToList());
         }
 
+        public ActionResult RequestsFromRegion()
+        {
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Status = new SelectList(RegionalRequestStatuses.GetAllStatus(), "Value", "Name");
+            
+           
+            return View();
+        }
+        public JsonResult Submitted()
+        {
+            var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
+            var resutl = reliefrequistions.ToList().Select(item => new ReceivedRequisitionsDto()
+                                                                       {
+                                                                           Program = item.Program.Name,
+                                                                           ReferenceNumber = item.ReferenceNumber,
+                                                                           Region = item.AdminUnit.Name,
+                                                                           RequistionDate = item.RequistionDate.Date,
+                                                                           Remark = item.Remark,
+                                                                           Year = item.Year,
+                                                                           Status =  item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString(),
+                                                                           Round = item.Round,
+                                                                           Create = item.Status==2? null: ""
+                                                                       }).ToList();
+
+
+            return Json(resutl.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         public ViewResult SubmittedRequest()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");

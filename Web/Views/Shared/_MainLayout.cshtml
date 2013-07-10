@@ -57,9 +57,9 @@
                             <ul class="dropdown-menu">
                                 <li class="nav-header">Regional Requests</li>
                                 <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Regional Request</a></li>
-                                <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
+                                <li><a href="@Url.Action("RequestsFromRegion", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
                                 <li class="nav-header">Requisitions</li>
-                                <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
+                                <li><a href="@Url.Action("RequestsFromRegion", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
                                 <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
                             </ul>
                         </li>                        
