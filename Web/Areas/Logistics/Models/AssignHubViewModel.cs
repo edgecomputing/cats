@@ -10,7 +10,7 @@ namespace Cats.Areas.Logistics.Models
         public int RequisitionId { get; set; }
         public string RegionName { get; set; }
         public int RegionId { get; set; }
-        public  string ZoneName { get; set; }
+        public string ZoneName { get; set; }
         public int ZoneId { get; set; }
         public string RequisitionNo { get; set; }
         public string Commodity { get; set; }

@@ -147,6 +147,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
@@ -154,8 +155,10 @@
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
-    <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Logistics\Models\HubAllocation.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
@@ -364,6 +367,7 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -378,8 +382,6 @@
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
     <Content Include="Scripts\kendo.web.min.js" />
-    <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
-    <Content Include="Views\Shared\hubAllocation.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
@@ -460,7 +462,6 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
-    <Content Include="Views\Shared\View1.cshtml" />
     <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
