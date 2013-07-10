@@ -1,14 +1,25 @@
-﻿@model Cats.Models.TransportOrder
+﻿@*@model Cats.Models.TransportOrder*@
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Details</h2>
+<form class="well">  
+  <label>Label name</label>  
+  <input type="text" class="span3 offset4" placeholder="Type something…">  
+  <span class="help-inline">Associated help text!</span>  
+  <label class="checkbox">  
+    <input type="checkbox"> Check me out  
+  </label>  
+  <button type="submit" class="btn">Submit</button>  
+</form> 
+@*
+<h2>DISASTER RISK MANAGEMENT AND FOOD SECURITY SECTOR</h2>
+<h4>Transport Order</h4>
 
 <fieldset>
-    <legend>TransportOrder</legend>
+    <legend>Transport Order</legend>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.TransportOrderNo)
@@ -94,10 +105,7 @@
         @Html.DisplayFor(model => model.TransporterSignedDate)
     </div>
 </fieldset>
-<p>
-   
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
 @{
     var detailModel = Model.TransportOrderDetails;
 }
@@ -144,4 +152,4 @@
         </tr>
     }
 </table>
-@Html.ActionLink("Back To List","Index","TransportOrder")
+@Html.ActionLink("Back To List","Index","TransportOrder")*@

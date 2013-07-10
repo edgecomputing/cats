@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
+using Cats.Areas.Procurement.Models;
 using Cats.Models;
 using Cats.Models.ViewModels;
 using Cats.Services.Procurement;
@@ -42,8 +43,27 @@ namespace Cats.Tests.ControllersTests
 
                                                      }
                                              };
+            var transportOrders=new List<TransportOrder>()
+                                    {
+                                        new TransportOrder()
+                                            {
+                                                TransporterID=1,
+                                                TransportOrderID=1,
+                                                TransportOrderNo="TRN-01",
+                                                PerformanceBondReceiptNo="PER-001",
+                                                BidDocumentNo="BID-001",
+                                                ContractNumber="CON-001",
+                                                TransporterSignedName="MR x",
+                                                TransporterSignedDate=DateTime.Today,
+                                                ConsignerName = "Mr y",
+                                                ConsignerDate=DateTime.Today,
+                                                OrderDate=DateTime.Today,
+                                                OrderExpiryDate=DateTime.Today
+                                            }
+                                    };
             var mockTransportOrderService = new Mock<ITransportOrderService>();
             mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
+            mockTransportOrderService.Setup(t => t.GetAllTransportOrder()).Returns(transportOrders);
             _transportOrderController = new TransportOrderController(mockTransportOrderService.Object);
 
         }
@@ -64,15 +84,19 @@ namespace Cats.Tests.ControllersTests
 
             //Assert
 
-            Assert.IsInstanceOf<List<RequisitionToDispatch>>(result.Model);
-            Assert.AreEqual(1, ((IEnumerable<RequisitionToDispatch>)result.Model).Count());
+            Assert.IsInstanceOf<List<RequisitionToDispatchSelect>>(result.Model);
+            Assert.AreEqual(1, ((IEnumerable<RequisitionToDispatchSelect>)result.Model).Count());
         }
         [Test]
-        public void Can_Should_Generate_Transport_Order_For_Selected_Transport_Requisition()
+        public void Should_Generate_Transport_Order_For_Selected_Transport_Requisition()
         {
             //Act
-            var result1 = _transportOrderController.TransportRequisitions();
-             _transportOrderController.CreateTransportOrder((List<RequisitionToDispatch>)result1.Model);
+             var requisitions = new List<int>()
+                                   {
+                                       1
+                                   };
+          
+            _transportOrderController.CreateTransportOrder(requisitions);
             var result = _transportOrderController.Index();
             //Assert
             Assert.IsInstanceOf<List<TransportOrder>>(result.Model);

@@ -1,62 +1,107 @@
-﻿@model IEnumerable<Cats.Models.ViewModels.RequisitionToDispatch>
+﻿@using Cats.Models.ViewModels
+@model IEnumerable<Cats.Areas.Procurement.Models.RequisitionToDispatchSelect>
 
 @{
     ViewBag.Title = "TransportRequisitions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>TransportRequisitions</h2>
+<h2>Transport Requisitions</h2>
+@using (Html.BeginForm("TransportRequisitions", "TransportOrder", FormMethod.Post))
+{
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table table-bordered table-condensed table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model=>model.RequisitionID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ZoneID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HubID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuanityInQtl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequisitionNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Zone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrignWarehouse)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequisitionStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequisitionStatusName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CommodityID)
+            
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CommodityName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RegionID)
+            @Html.DisplayNameFor(model => model.RequisitionNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuanityInQtl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrignWarehouse)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.RegionName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Zone)
+        </th>
+
+        <th>
+            @Html.Label("Status")
+
+        </th>
+
+
+        @* <th>
+            @Html.DisplayNameFor(model=>model.RequisitionID)
+        </th>*@
+        @* <th>
+            @Html.DisplayNameFor(model => model.ZoneID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HubID)
+        </th>*@
+        @* <th>
+            @Html.DisplayNameFor(model => model.RequisitionStatus)
+        </th>*@
+
+        @*<th>
+            @Html.DisplayNameFor(model => model.CommodityID)
+        </th>*@
+
+        @*  <th>
+            @Html.DisplayNameFor(model => model.RegionID)
+        </th>*@
+
         <th></th>
     </tr>
-  
-@foreach (var item in Model) {
-    <tr>
+    @{int index = 0;}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+               @Html.CheckBox("input[" + index + "].IsSelected", item.Input.IsSelected)
+               
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommodityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequisitionNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuanityInQtl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrignWarehouse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zone)
+            </td>
+
         <td>
+            @{
+        var statusName = item.RequisitionStatus == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.RequisitionStatus == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString();
+       
+                }
+               @Html.Label(statusName)
+        </td>
+             <td>
+             <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
+            </td>
+            @* <td>
             @Html.DisplayFor(modelItem => item.RequisitionID)
         </td>
         <td>
@@ -64,43 +109,29 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.HubID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuanityInQtl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RequisitionNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Zone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrignWarehouse)
-        </td>
-        <td>
+        </td>*@
+
+            @*  <td>
             @Html.DisplayFor(modelItem => item.RequisitionStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RequisitionStatusName)
-        </td>
-        <td>
+        </td>*@
+
+            @*  <td>
             @Html.DisplayFor(modelItem => item.CommodityID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CommodityName)
-        </td>
-        <td>
+        </td>*@
+
+            @* <td>
             @Html.DisplayFor(modelItem => item.RegionID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegionName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+        </td>*@
+
+            <td>
+              
+            </td>
+        </tr>
+        index++;
+    }
 
 </table>
+    <p>
+        <input class="btn btn-success" type="submit" value="Create Transport Order" />
+    </p>
+}
