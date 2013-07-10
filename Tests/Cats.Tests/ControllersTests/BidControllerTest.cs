@@ -20,6 +20,7 @@ namespace Cats.Tests.ControllersTests
         private IAdminUnitService MockAdminUnitService;
         private IStatusService MockStatusService;
         private ITransportBidPlanService MockTransportBidPlanService;
+        private ITransportBidPlanDetailService MockTransportBidPlanDetailService;
         private BidController _bidController;
         private List<Bid> _bids;
 
@@ -72,6 +73,7 @@ namespace Cats.Tests.ControllersTests
             Mock<IAdminUnitService> mockAdminUnitService=new Mock<IAdminUnitService>();
             Mock<IStatusService> mockStatusService=new Mock<IStatusService>();
             Mock<ITransportBidPlanService> mockTransportBidPlanService=new Mock<ITransportBidPlanService>();
+            Mock<ITransportBidPlanDetailService> mockTransportBidPlanDetailService = new Mock<ITransportBidPlanDetailService>();
 
             mockBidService.Setup(m => m.GetAllBid()).Returns(bidTest);
            // mockAdminUnitService.Setup(m => m.FindBy(au => au.AdminUnitTypeID==2)).Returns(adminUnitTest);
@@ -80,7 +82,7 @@ namespace Cats.Tests.ControllersTests
             this.MockAdminUnitService = mockAdminUnitService.Object;
             this.MockBidService = mockBidService.Object;
 
-            _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService,MockTransportBidPlanService);
+            _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService,MockTransportBidPlanService,MockTransportBidPlanDetailService);
 
           }
         #endregion
@@ -89,7 +91,7 @@ namespace Cats.Tests.ControllersTests
         {
             try
             {
-                _bidController=new BidController(MockBidService, MockBidDetail, MockAdminUnitService,MockStatusService,MockTransportBidPlanService);
+                _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService, MockTransportBidPlanService, MockTransportBidPlanDetailService);
             }
             catch (Exception e)
             {

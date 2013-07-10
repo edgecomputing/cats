@@ -4,7 +4,14 @@
     ViewBag.Title = "Create Bid";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+<script>
+     
+    function onApprove(id){
+        var agree=confirm("Are you sure you want to approve this bid?");
+        if (agree)
+            window.location = "bid/ApproveBid/" + id;
+    }
+</script>
 <div class="well">
     <h4 class="page-header"> Bid For Transporters</h4>
     
@@ -91,9 +98,9 @@
                         <li><a href="@Url.Action("EditBidStatus", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
                         <li><a href="@Url.Action("Details","Bid",new {Area="Procurement",id=item.BidID})">Detail</a></li>
                         <li><a href="@Url.Action("ApproveBid","Bid",new {Area="Procurement",id=item.BidID})">Approve</a></li>
-
                     </ul>
                 </div>
+                <input class="btn btn-success" type="button" value="Approve" onclick="onApprove(@item.BidID);"/>
             </td>
         </tr>
     }

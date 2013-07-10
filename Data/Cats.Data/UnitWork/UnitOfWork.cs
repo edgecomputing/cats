@@ -289,27 +289,6 @@ namespace Cats.Data.UnitWork
 
 
 
-
-
-
-
-
-
-        //private IGenericRepository<TransportOrder> transportOrderRepository;
-
-        //public IGenericRepository<TransportOrder> TransportOrderRepository
-        //{
-
-        //    get { return this.transportOrderRepository ?? (this.transportOrderRepository = new GenericRepository<TransportOrder>(_context)); }
-
-        //}
-
-
-
-      
-
-
-
         private IGenericRepository<TransportOrder> transportOrderRepository;
 
         public IGenericRepository<TransportOrder> TransportOrderRepository

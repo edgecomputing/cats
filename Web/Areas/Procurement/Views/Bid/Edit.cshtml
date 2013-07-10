@@ -46,10 +46,10 @@
                     @bidDetail.Region
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].AmountForReliefProgram", bidDetail.Edit.AmountForReliefProgram, new {@placeholder = "Planned Amount",@style = "width:80%; border:none; !important;"})
+                    @Html.TextBox("input[" + index + "].AmountForReliefProgram", bidDetail.Edit.AmountForReliefProgram, new {@placeholder="Planned="+bidDetail.Edit.AmountForReliefProgramPlanned,@style = "width:80%; border:none; !important;"})
                 </td>
                 <td>
-                    @Html.TextBox("input[" + index + "].AmountForPSNPProgram", bidDetail.Edit.AmountForPSNPProgram, new {@placeholder = "Planned Amount",@style = "width:80%; border:none; !important;"})
+                    @Html.TextBox("input[" + index + "].AmountForPSNPProgram", bidDetail.Edit.AmountForPSNPProgram, new {@placeholder="Planned="+bidDetail.Edit.AmountForPSNPProgramPlanned,@style = "width:80%; border:none; !important;"})
                 </td>
                 <td>
                     @Html.TextBox("input[" + index + "].BidDocumentPrice", bidDetail.Edit.BidDocumentPrice, new {@style = "width:80%; border:none; !important;"})
@@ -57,9 +57,6 @@
                 <td>
                     @Html.TextBox("input[" + index + "].CPO", bidDetail.Edit.CPO, new {@style = "width:80%; border:none; !important;"})
                 </td>
-                @*<td>
-                    @Html.TextBox("input[" + index +"].Status",bidDetail.Edit.status, new {@style = "width:80%; border:none; !important;"})
-                </td>*@
                 <td>
                     <input type="hidden" value="@bidDetail.Edit.Number" name="@("input[" + index + "].Number")" />
                 </td>

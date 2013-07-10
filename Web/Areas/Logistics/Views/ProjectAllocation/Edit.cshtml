@@ -1,0 +1,51 @@
+﻿@model Cats.Areas.Logistics.Models.ProjectCodeAllocation
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm("", "ProjectAllocation", FormMethod.Post))
+{
+    <div class="control-group">
+        <label class="control-label">Requisition Number :</label>
+        <div class="controls">
+            
+            @Html.ViewBag.Requisition
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Hub Name : </label>
+        <div class="controls">
+            @Html.ViewBag.HubName
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Project Code :</label>
+        <div class="controls">
+            @Html.DropDownList("ProjectCode", (SelectList) ViewBag.ProjectList)
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Amount :</label>
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Amount_Project)
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">SI Number :</label>
+        <div class="controls">
+            @Html.DropDownList("SICode", (SelectList) ViewBag.SICodeList)
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Amount : </label>
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Amount_SI)
+        </div>
+    </div>
+    <p>
+        @*<input class="btn btn-success" type="submit" value="Submit Request" />*@
+    </p>
+}
