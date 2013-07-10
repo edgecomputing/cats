@@ -1,4 +1,5 @@
-﻿
+﻿@model IList<Cats.Models.ReliefRequisitionDetail>
+
 @{
     ViewBag.Title = "ApprovedRequesitions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -37,44 +38,107 @@
         </div> 
     }
  }
+@using (Html.BeginForm("hubAllocation","HubAllocation",FormMethod.Post,Model))
+{
+<table class="table table-striped table-bordered">
+    <tr>
+        <td>
+            @Html.Label("Select Request")
+        </td>
+        <th>
+            @Html.Label("Commodity")
+        </th>
+        <th>
+            @Html.Label("Region")
+        </th>
+        <th>
+            @Html.Label("Zone")
+        </th>
+        <th>
+            @Html.Label("Round")
+        </th>
+        <th>
+            @Html.Label("Req. No")
+        </th>
+       
+        <th>
+            @Html.Label("Req. Date")
+        </th>
+        <th>
+            @Html.Label("Amount")
+        </th>
+        <th>
+            @Html.Label("Beneficiaries")
+        </th>
+       
+        
+    </tr>
+    @{int index = 0;}
+    @for(int i = 0;i < Model.Count;i++)
 
-<div id="grid">
+ {
+     <tr>
+        <td>
+          <input type='checkbox' " + ((item.Result == true) ? "checked" : "") + "  name="IsChecked" id="chkApprovedRequests" value="@i"/>
 
-</div>
+        </td> 
+        <td>
+            @Html.DisplayFor(m=>m[i].Commodity.Name)
+            @Html.HiddenFor(m=>m[i].Commodity.Name)
+            
+        </td>
+        
+         <td>
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RegionID)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RegionID)
+            
+        </td>
+        
+           <td>
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.ZoneID)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.ZoneID)
+            
+        </td>
+        
+        
+            <td>
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.Round)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.Round)
+            
+        </td>
+        
+        <td>
+           
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequisitionNo)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequisitionNo)
+            
+        </td>
+        
+        
+            <td>
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequestedDate)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequestedDate)
+            
+        </td>
+         <td>
+            @Html.DisplayFor(m=>m[i].Amount)
+            @Html.HiddenFor(m=>m[i].Amount)
+            
+        </td>
+          <td>
+            @Html.DisplayFor(m=>m[i].BenficiaryNo)
+            @Html.HiddenFor(m=>m[i].BenficiaryNo)
+            
+        </td>
+    </tr>
+     index++;
+}
 
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        $("#grid").kendoGrid({
-            dataSource: {
-                type: "json",
-                transport: {
-                    read: "@Url.Action("getApprovedRequisitions","HubAllocation")"
-
-                },
-                pageSize: 10,
-
-                group: {
-                    field: "Region", aggregates: [
-                      
-                    ]
-                },
-
-              
-            },
-
-            sortable: true,
-            scrollable: false,
-            pageable: true,
-            columns: [
-                   
-                   
-                    { field: "Commodity", title: "Commodity" },
-                   
-                   
-                   
-            ]
-
-        });
-    });
-</script>
+</table>
+     
+    <button type="submit" class="btn btn-success">
+  <i class="icon-user icon-white"></i> Assign hub
+</button>
+    
+    
+        }

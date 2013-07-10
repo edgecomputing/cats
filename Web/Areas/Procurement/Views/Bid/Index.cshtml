@@ -88,17 +88,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
-
-
-                        <li><a href="#">Approve</a></li>
-
-                        <li><a href="@Url.Action("Details","Bid",new {Area="Procurement",id=item.BidID})">Detail</a></li>
-
-                        <li><a href="#">View Status</a></li>
-
                         <li><a href="@Url.Action("Details","Bid",new {Area="Procurement",id=item.BidID})">Detail</a></li>
                         <li><a href="@Url.Action("EditBidStatus","Bid",new {Area="Procurement",id=item.BidID})">Edit Status</a></li>
-
                     </ul>
                 </div>
             </td>

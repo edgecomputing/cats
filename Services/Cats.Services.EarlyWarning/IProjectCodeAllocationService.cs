@@ -28,7 +28,7 @@ namespace Cats.Services.EarlyWarning
 
         IEnumerable<ProjectCodeAllocation> FindBy(Expression<Func<ProjectCodeAllocation, bool>> predicate);
 
-        bool SaveProjectCodeAllocation(IEnumerable<ProjectCodeAllocation> dispatchAllocations);
+        bool SaveProjectCodeAllocation(IEnumerable<ProjectCodeAllocation> projectAllocations);
         List<HubAllocation> GetHubAllocation(Expression<Func<HubAllocation, bool>> predicate);
         List<HubAllocation> GetAllRequisitionsInHubAllocation();
     }
