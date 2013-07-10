@@ -171,6 +171,7 @@
     <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />

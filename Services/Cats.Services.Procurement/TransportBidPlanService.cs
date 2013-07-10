@@ -10,23 +10,9 @@ namespace Cats.Services.Procurement
     public class TransportBidPlanService : ITransportBidPlanService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private List<TransportBidPlan> sample_data;
         public TransportBidPlanService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
-            generate_sample_data();
-        }
-        public void generate_sample_data()
-        {
-            sample_data = new List<TransportBidPlan>();
-            sample_data.Add(new TransportBidPlan {TransportBidPlanID=1, Year=2011,YearHalf=1,ProgramID=1});
-            sample_data.Add(new TransportBidPlan {TransportBidPlanID=2, Year = 2011, YearHalf = 1,  ProgramID = 2 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 3, Year = 2011, YearHalf = 1,  ProgramID = 1 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 4, Year = 2011, YearHalf = 1, ProgramID = 2 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 5, Year = 2012, YearHalf = 1,  ProgramID = 1 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 6, Year = 2012, YearHalf = 1, ProgramID = 2 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 7, Year = 2012, YearHalf = 1,ProgramID = 1 });
-            sample_data.Add(new TransportBidPlan { TransportBidPlanID = 8, Year = 2012, YearHalf = 1, ProgramID = 2 }); 
         }
         public bool AddTransportBidPlan(TransportBidPlan item)
         {
