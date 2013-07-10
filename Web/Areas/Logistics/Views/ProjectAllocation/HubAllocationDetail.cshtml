@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Cats.Models.HubAllocation>
+
+@{
+    ViewBag.Title = "HubAllocationDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+   <h3>Select Hub Allocated Requisition</h3>
+  @Html.Partial("~/Areas/Logistics/Views/ProjectAllocation/_HubAllocatedRequisitons.cshtml", ViewData["RequisitionList"])
+
+    
+}
+<h2>HubAllocationDetail</h2>
+@using (Html.BeginForm("Edit", "ProjectAllocation", FormMethod.Get))
+{
+    <table class="table table-bordered table-condensed table-striped">
+        
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReliefRequisition.RequisitionNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hub)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReliefRequisition.Round)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReliefRequisition.CommodityID)
+            </th>
+            <th>
+                
+            </th>
+               
+        </tr>
+        @{ int index = 0; }
+        @*<a href="@Url.Action("DispatchDetail", "ProjectAllocation", new { Area = "Logistics", id = Model.FirstOrDefault().RequisitionNo })">Assign Project Code for Requisition Number @Html.DisplayFor(modelItem => Model.FirstOrDefault().RequisitionNo)</a>*@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)
+                    @*@item.RequisitionNo*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hub.Name)
+                    @*@item.CommodityID*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReliefRequisition.Round)
+                    @*@item.HubID*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReliefRequisition.CommodityID)
+                    @*@item.Beneficiery*@
+                </td>
+                
+                <td>
+                    @Html.ActionLink("Project/SI", "ProjectCodeAllocation" ,"ProjectAllocation", new { id=item.HubAllocationID }, null)
+                @*@Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
+                </td>*@
+            </tr>
+            index++;
+        }
+
+    </table>
+}

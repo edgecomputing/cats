@@ -63,24 +63,24 @@ namespace Cats.Areas.Procurement.Controllers
             var filteredBids = _bidService.Get(b => b.BidNumber.StartsWith(bidNumber) &&(listOfStatusTypes.Contains(b.Status.Name)));
             return View(filteredBids.ToList());
         }
-
+        
         public ActionResult Create(int id=0)
         {
            // var bid = new Bid();
             // return View(bid);
-                var bid = new Bid();
-                var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+            var bid = new Bid();
+            var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
                 ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID=1);
-                var bidDetails = (from detail in regions
-                                  select new BidDetail()
-                                      {
+            var bidDetails = (from detail in regions
+                              select new BidDetail()
+                              {
                                           RegionID = detail.AdminUnitID,
                                           AmountForReliefProgram = 0,
-                                      }).ToList();
-                bid.BidDetails = bidDetails;
+                              }).ToList();
+            bid.BidDetails = bidDetails;
                 ViewBag.BidPlanID = id;
                 ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
-                return View(bid);
+            return View(bid);
         }
 
         [HttpPost]
@@ -99,7 +99,7 @@ namespace Cats.Areas.Procurement.Controllers
                                           AmountForPSNPProgram = 0,
                                           BidDocumentPrice = 0,
                                           CPO = 0,
-                                          
+
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 _bidService.AddBid(bid);
@@ -140,7 +140,7 @@ namespace Cats.Areas.Procurement.Controllers
                                           AmountForPSNPProgram=detail.AmountForPSNPProgram,
                                           BidDocumentPrice=detail.BidDocumentPrice,
                                           CPO=detail.CPO,
-                                          
+
                                       }
                                   
                               }

@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "AssignHub";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Assign Hub</h2>
+
+
+@section LeftBar
+{
+    @using (Html.BeginForm())
+    {
+        <div class="control-group">
+            <label class="control-label">Year</label>
+            <div class="controls">
+                @Html.TextBox("year")
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Month</label>
+            <div class="controls">
+                @Html.DropDownList("month",(SelectList)ViewBag.Months)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Filter" class="btn btn-primary"/>
+            </div>
+        </div> 
+    }
+ }
+
+
+<div id="grid">
+
+</div>
+
+<script type="text/javascript">
+
+   
+        
+    $(document).ready(function () {
+        $("#grid").kendoGrid({
+            
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "@Url.Action("GetRequisitionsForAssignment","HubAllocation")"
+                },
+                pageSize: 10,
+                group: {
+                    field: "RegionName", aggregates: [
+                       
+                    ]
+                },
+
+                
+            },
+
+           
+                
+            sortable: true,
+            scrollable: false,
+            pageable: true,
+            columns: [
+                    
+                    { field: "RegionName" },
+                    { field: "ZoneName" },
+                    { field: "RequisitionNo" },
+                    { field: "Commodity", title: "Commodity" },
+                    { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#" }
+            
+            ],
+            editable: true
+
+        });
+    });
+
+    function hubDropDownEditor(container, options) {
+        $('<input required data-text-field="HubName" data-value-field="HubId" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: false,
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "@Url.Action("GetHubs", "HubAllocation")"
+                       
+                    }
+                }
+            });
+    }
+</script>

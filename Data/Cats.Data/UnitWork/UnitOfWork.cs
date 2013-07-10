@@ -15,7 +15,7 @@ namespace Cats.Data.UnitWork
       
       
         private IGenericRepository<Bid> bidRepository;
-        private IGenericRepository<BidDetail> bidDetailRepository;
+        private IGenericRepository<BidDetail> bidDetailRepository; 
         private IGenericRepository<Status> statusRepository; 
         
 
@@ -30,6 +30,21 @@ namespace Cats.Data.UnitWork
         /// ReliefRequistionRepository
         /// </summary>
         /// 
+        
+        private IGenericRepository<ProjectCodeAllocation> projectCodeAllocationRepository;
+        public IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository
+        {
+            get { return this.projectCodeAllocationRepository ?? (this.projectCodeAllocationRepository = new GenericRepository<ProjectCodeAllocation>(_context)); }
+
+        }
+
+
+        private IGenericRepository<HubAllocation> hubAllocationRepository;
+        public IGenericRepository<HubAllocation> HubAllocationRepository
+        {
+            get { return this.hubAllocationRepository ?? (this.hubAllocationRepository = new GenericRepository<HubAllocation>(_context)); }
+
+        }
         private IGenericRepository<DispatchAllocation> dispatchAllocationRepository;
         public IGenericRepository<DispatchAllocation> DispatchAllocationRepository
         {
@@ -62,7 +77,7 @@ namespace Cats.Data.UnitWork
       
         
       
-       
+
 
 
         public IGenericRepository<Bid> BidRepository
@@ -81,6 +96,7 @@ namespace Cats.Data.UnitWork
         {
             get { return this.statusRepository ?? (this.statusRepository = new GenericRepository<Status>(_context)); }
         }
+
 
 
 
@@ -158,7 +174,12 @@ namespace Cats.Data.UnitWork
 
 
 
-       
+        //private IGenericRepository<Round> roundRepository;
+
+
+        //    get { return this.roundRepository ?? (this.roundRepository = new GenericRepository<Round>(_context)); }
+
+        //}
 
         private IGenericRepository<Hub> hubRepository;
         public IGenericRepository<Hub> HubRepository
@@ -239,14 +260,8 @@ namespace Cats.Data.UnitWork
 
         }
 
+      
 
-
-        private IGenericRepository<HubAllocation> hubAllocationRepository;
-        public IGenericRepository<HubAllocation> HubAllocationRepository
-        {
-            get { return this.hubAllocationRepository ?? (this.hubAllocationRepository = new GenericRepository<HubAllocation>(_context)); }
-            
-        }
         public void Save()
         {            
             _context.SaveChanges();
@@ -280,6 +295,21 @@ namespace Cats.Data.UnitWork
 
 
 
+        //private IGenericRepository<TransportOrder> transportOrderRepository;
+
+        //public IGenericRepository<TransportOrder> TransportOrderRepository
+        //{
+
+        //    get { return this.transportOrderRepository ?? (this.transportOrderRepository = new GenericRepository<TransportOrder>(_context)); }
+
+        //}
+
+
+
+      
+
+
+
         private IGenericRepository<TransportOrder> transportOrderRepository;
 
         public IGenericRepository<TransportOrder> TransportOrderRepository
@@ -290,7 +320,13 @@ namespace Cats.Data.UnitWork
         }
 
 
-        
-      
+
+
+
+
+        public IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
