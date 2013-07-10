@@ -73,7 +73,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                             RequisitionId = item.ReliefRequisition.RequisitionID, 
                                                                            Hub = string.Empty
                                                                         }).ToList();
-            Response.ContentType = "application/json";
+           
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -81,13 +81,11 @@ namespace Cats.Areas.Logistics.Controllers
         {
 
             var result = _hubService.GetAllHub().ToList();
-            var hubs = new List<HubDto>();
-            foreach (var item in result)
-            {
-                hubs.Add(new HubDto(item.HubId,item.Name));   
-            }
+            var hubs = result.Select(item => new HubDto(item.HubId, item.Name)).ToList();
 
-            return Json(hubs, JsonRequestBehavior.AllowGet);
+            Response.Headers.Add("Content-type", "application/json");
+
+            return Json(hubs,JsonRequestBehavior.AllowGet );
         }
 
         public ActionResult ApprovedRequesitions()

@@ -2,6 +2,9 @@
     ViewBag.Title = "AssignHub";
   
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    
+    
+   
 }
 
 <h2>Assign Hub</h2>
@@ -82,10 +85,13 @@
             .kendoDropDownList({
                 autoBind: false,
                 dataSource: {
-                    type: "json",
                     transport: {
-                        read: "@Url.Action("GetHubs", "HubAllocation")"
+                        read: {
+                            url: "@Url.Action("GetHubs", "HubAllocation")",
+                            dataType: "json"
+                        }
                        
+                        
                     }
                 }
             });
