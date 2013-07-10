@@ -73,7 +73,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                             RequisitionId = item.ReliefRequisition.RequisitionID, 
                                                                            Hub = string.Empty
                                                                         }).ToList();
-
+            Response.ContentType = "application/json";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
