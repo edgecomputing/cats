@@ -7,11 +7,12 @@
 }
 @section LeftBar
 {
-    <li class="nav-header">Bid Information</li>
-    <li> Year:  @ViewBag.bidPlan.ShortName</li>
+    <li class="nav-header">Bid Plan @ViewBag.bidPlan.ShortName</li>
+    <li>Year: @ViewBag.bidPlan.Year</li>
+    <li>Period: @ViewBag.bidPlan.YearHalf</li>
     <li class="nav-header">Tasks</li>
 
-     <li> <a href="@Url.Action("Create/" + ViewBag.bidPlan.TransportBidPlanID, "bid", new { Area = "Procurement" })">Create Bid</a></li>
+    <li> <a href="@Url.Action("Create/" + ViewBag.bidPlan.TransportBidPlanID, "bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Create Bid</a></li>
     <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to List</a></li>
 
 }
@@ -61,8 +62,27 @@
         color:#068b77;
     }
 </style>
+<!--<div>
+    @foreach (var region in ViewBag.RegionCollection)
+    {
+        <div class="row">
+            <div class="span2">@region.Name</div>
+            @foreach (var program in ViewBag.ProgramCollection)
+            {
+                        <div class="span2">@program.Name</div>
+            }
+        </div>
+    }
+
+</div>
 
 
+@foreach (var rtotal in ViewBag.RegionTotals)
+{
+    <div>@rtotal.Region.Name  @rtotal.Program.Name @rtotal.Amount  </div>
+}
+
+-->
 @{var cls = "active";}
 
 <div id="navbar" class="tabbable tabs-top">
@@ -166,7 +186,7 @@
         TransportBidPlanDetailID = TransportBidPlanDetailID ? TransportBidPlanDetailID : 0;
         if (amount == "")
         {
-            //alert("delete");
+            //delete
             amount = -1;
         }
         $.post("/Procurement/TransportBidPlan/EditAJAX",
