@@ -122,8 +122,6 @@ namespace Cats.Areas.Procurement.Controllers
             if (ModelState.IsValid)
             {
                 _transportBidPlanService.UpdateTransportBidPlan(transportbidplan);
-                /*db.Entry(transportbidplan).State = EntityState.Modified;
-                db.SaveChanges();*/
                 return RedirectToAction("Index");
             }
             loadLookups(transportbidplan);
