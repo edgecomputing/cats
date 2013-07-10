@@ -57,10 +57,10 @@ namespace Cats.Services.Procurement
         public double GetRegionPlanTotal(int bidplanid, int regionId, int programId)
         {
             List<TransportBidPlanDetail> bidDetails = this.GetAllTransportBidPlanDetail();
-            decimal r =
+            decimal r=
             (from planDetail in bidDetails
-             where planDetail.ProgramID == programId && planDetail.BidPlanID == bidplanid && planDetail.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionId
-             select planDetail.Quantity).Sum();
+             where planDetail.ProgramID == programId && planDetail.BidPlanID==bidplanid && planDetail.Destination.AdminUnit2.AdminUnit2.AdminUnitID==regionId
+                 select planDetail.Quantity).Sum();
 
             return (double)r;
         }

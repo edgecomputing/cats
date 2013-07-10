@@ -1,9 +1,16 @@
+
 ﻿@{
     ViewBag.Title = "AssignHub";
+  
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+<fieldset>
+    <legend>
+        
+        Assign Hub
+    </legend>
+</fieldset>
 
-<h2>Assign Hub</h2>
 
 
 @section LeftBar
@@ -57,20 +64,17 @@
                 },
 
                 
-            },
-
-           
-                
+            }, 
             sortable: true,
             scrollable: false,
             pageable: true,
             columns: [
                     
-                    { field: "RegionName" },
-                    { field: "ZoneName" },
-                    { field: "RequisitionNo" },
-                    { field: "Commodity", title: "Commodity" },
-                    { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#" }
+                { field: "RegionName" },
+                { field: "ZoneName" },
+                { field: "RequisitionNo" },
+                { field: "Commodity", title: "Commodity" },
+                { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#" }
             
             ],
             editable: true
@@ -84,12 +88,23 @@
             .kendoDropDownList({
                 autoBind: false,
                 dataSource: {
-                    type: "json",
                     transport: {
-                        read: "@Url.Action("GetHubs", "HubAllocation")"
+                        read: {
+                            url: "@Url.Action("GetHubs", "HubAllocation")",
+                            dataType: "json"
+                        }
                        
+                        
                     }
                 }
             });
     }
+
+
 </script>
+<br/>
+<div>
+   <button type="submit" class="btn btn-success">
+  <i class="icon-user icon-white"></i> Assign hub
+</button>
+</div>

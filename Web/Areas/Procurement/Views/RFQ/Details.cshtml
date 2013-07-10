@@ -32,6 +32,13 @@
     }
 </style>
 <h2 style="text-align:center;">Disaster Risk Management and Food Security Sector <br />REQUEST FOR QUOTATION</h2>
+
+
+ 
+
+
+
+
 <p>Transport Quotation Delivery Datasheet for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
 <p>Transporter Name:_________________________________</p>
 <div>
@@ -53,6 +60,7 @@
     <div class="span4">Mob No: __________________________</div>
 </div>
 <div class="span12">&nbsp;</div>
+
 <table class="table table-bordered">
     <tr>
         <th rowspan="2">S.No</th>
@@ -70,7 +78,15 @@
 
  @{
     var count = 0;
+
+
+    
+
+    
+
+
     foreach (var item in ViewBag.regionPlanDistinct)
+
 {
     count++;
     <tr>

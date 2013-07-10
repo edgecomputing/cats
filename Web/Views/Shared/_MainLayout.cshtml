@@ -10,8 +10,11 @@
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
     <link href="~/Content/Site.css" rel="stylesheet" />
+     <script src="~/Scripts/jquery-1.9.1.js"></script>
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+    <script src="~/Scripts/kendo.web.min.js"></script>
+
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -62,12 +65,21 @@
                         </li>                        
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
+                            <ul class="dropdown-menu">          
                                 <li><a href="#">Project Allocation</a></li>  
                                 <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>                              
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
+                                <li><a href="@Url.Action("AssignHub", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
+                                 
+                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>                              
+
+                               
                                 <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>                                
+
+
+                              
+                                                              
+
                             </ul>
                         </li>
                        
@@ -139,7 +151,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     @RenderSection("Scripts", required: false)
 
-    <script src="~/Scripts/jquery-1.9.1.js"></script>
+   
     <script src="~/Content/assets/js/bootstrap-transition.js"></script>
     <script src="~/Content/assets/js/bootstrap-alert.js"></script>
     <script src="~/Content/assets/js/bootstrap-modal.js"></script>

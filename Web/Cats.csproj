@@ -147,8 +147,8 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
-    <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
+    <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
@@ -163,6 +163,7 @@
     <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
@@ -350,6 +351,16 @@
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocationDetail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

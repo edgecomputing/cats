@@ -9,6 +9,7 @@ using Cats.Models;
 using Cats.Data;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
+using Cats.Areas.Procurement.Models;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -121,8 +122,6 @@ namespace Cats.Areas.Procurement.Controllers
             if (ModelState.IsValid)
             {
                 _transportBidPlanService.UpdateTransportBidPlan(transportbidplan);
-                /*db.Entry(transportbidplan).State = EntityState.Modified;
-                db.SaveChanges();*/
                 return RedirectToAction("Index");
             }
             loadLookups(transportbidplan);
@@ -177,12 +176,29 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.bidPlan = transportbidplan;
             ViewBag.HubCollection = this._hubService.GetAllHub();
             ViewBag.ProgramCollection = this._programService.GetAllProgram();
-            
+            ViewBag.RegionTotals = getRegionTotals(id);
+
             if (transportbidplan == null)
             {
                 return HttpNotFound();
             }
             return View(matrix);
+        }
+        public List<RegionTotalViewModel> getRegionTotals(int bidplanid)
+        {
+            List<RegionTotalViewModel> ret = new List<RegionTotalViewModel>();
+            List<Program> ProgramCollection = this._programService.GetAllProgram();
+            List<AdminUnit> RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+            foreach(var r in RegionCollection)
+            {
+                foreach (var p in ProgramCollection)
+                {
+                    double amount = this._transportBidPlanDetailService.GetRegionPlanTotal(bidplanid,r.AdminUnitID, p.ProgramID);
+                    RegionTotalViewModel rt = new RegionTotalViewModel { Program = p, Region = r, Amount = amount };
+                    ret.Add(rt);
+                }
+            }
+            return ret;
         }
         [HttpPost]
         public ActionResult EditAJAX(TransportBidPlanDetail transportbidplan)

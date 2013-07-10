@@ -38,10 +38,10 @@ namespace Cats.Data
 
 
 
-        //public DbSet<HubAllocation> HubAllocations { get; set; }
+        public DbSet<HubAllocation> HubAllocations { get; set; }
         public DbSet<ProjectCodeAllocation> ProjectCodeAllocation { get; set; }
         public DbSet<TransportRequisition> TransportRequisition { get; set; }
-        public DbSet<HubAllocation> HubAllocation { get; set; } 
+        //public DbSet<HubAllocation> HubAllocation { get; set; } 
 
         //public DbSet<Product> Products { get; set; }
 

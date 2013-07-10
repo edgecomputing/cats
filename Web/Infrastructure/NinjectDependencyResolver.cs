@@ -53,7 +53,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransportBidPlanDetailService>().To<TransportBidPlanDetailService>();
             kernel.Bind<IBidDetailService>().To<BidDetailService>();
             kernel.Bind<IStatusService>().To<StatusService>();
-
+            kernel.Bind<IHubAllocationService>().To<HubAllocationService>();
             // Security service registration
             kernel.Bind<IUserAccountService>().To<UserAccountService>();
             kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
