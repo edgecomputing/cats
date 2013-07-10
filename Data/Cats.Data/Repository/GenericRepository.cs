@@ -58,8 +58,6 @@ namespace Cats.Data.Repository
         }
 
 
-
-
         public virtual T FindById(int id)
         {
             return _context.Set<T>().Find(id);

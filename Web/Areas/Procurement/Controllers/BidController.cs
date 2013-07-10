@@ -87,7 +87,6 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create(Bid bid)
         {
            
-            //if ( != null)
             if(ModelState.IsValid)
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
@@ -201,9 +200,18 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult ApproveBid(int id)
         {
              var bid = _bidService.FindById(id);
-            bid.StatusID = 4;
-            _bidService.EditBid(bid);
-            return RedirectToAction("Index");
-        }
+             bid.StatusID = 4;
+             _bidService.EditBid(bid);
+             return RedirectToAction("Index");
+            //return View(bid);
+        } 
+        //[HttpPost]
+        //public ActionResult ApproveBid(Bid bid)
+        //{
+        //    bid.StatusID = 4;
+        //    _bidService.EditBid(bid);
+        //    return RedirectToAction("Index");
+
+        //}
     }
 }

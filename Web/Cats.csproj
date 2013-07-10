@@ -350,6 +350,7 @@
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\ApproveBid.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
