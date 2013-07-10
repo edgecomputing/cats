@@ -98,18 +98,18 @@ namespace Cats.Areas.Logistics.Controllers
             }
             ViewData["RequisitionList"] = list;
             var hubAllocatedDetail = new List<Cats.Models.HubAllocation>();
-            //hubAllocatedDetail.Add(new Cats.Models.HubAllocation 
-            //{ 
-            //    RequisitionID = 1, 
-            //    Hub = new Cats.Models.Hub { HubId = 1, Name = "Combolcha" }, 
-            //    ReliefRequisition = new Cats.Models.ReliefRequisition 
-            //    { 
-            //        RequisitionNo = "2564", 
-            //        Round = 1, 
-            //        CommodityID = 2, 
-            //        RequisitionID = 1
-            //    } 
-            //});
+            hubAllocatedDetail.Add(new Cats.Models.HubAllocation
+            {
+                RequisitionID = 1,
+                Hub = new Cats.Models.Hub { HubId = 1, Name = "Combolcha" },
+                ReliefRequisition = new Cats.Models.ReliefRequisition
+                {
+                    RequisitionNo = "2564",
+                    Round = 1,
+                    CommodityID = 2,
+                    RequisitionID = 1
+                }
+            });
             return View(hubAllocatedDetail);
         }
         [HttpPost]
@@ -144,7 +144,7 @@ namespace Cats.Areas.Logistics.Controllers
                     RequisitionNo = "2564",
                     Round = 1,
                     CommodityID = 2,
-                    RequisitionID = 1
+                    RequisitionID = 0
                 }
             });
             return View(hubAllocatedDetail);
