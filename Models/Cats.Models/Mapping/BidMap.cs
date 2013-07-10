@@ -32,7 +32,7 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.TransportBidPlan)
                 .WithMany(t => t.Bids)
                 .HasForeignKey(d => d.TransportBidPlanID);
-
+            
         }
     }
 }

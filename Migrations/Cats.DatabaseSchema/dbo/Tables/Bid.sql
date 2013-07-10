@@ -4,10 +4,12 @@
     [EndDate]            DATETIME       NOT NULL,
     [BidNumber]          NVARCHAR (200) NOT NULL,
     [OpeningDate]        DATETIME       NULL,
-    [StatusID]           INT            NOT NULL,
-    [TransportBidPlanID] INT            NULL,
+    [StatusID]           INT            NULL,
+    [TransportBidPlanID] INT            NOT NULL,
     CONSTRAINT [PK_Bid] PRIMARY KEY CLUSTERED ([BidID] ASC)
 );
+
+
 
 
 

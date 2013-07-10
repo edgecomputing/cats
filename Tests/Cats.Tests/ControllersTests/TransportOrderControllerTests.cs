@@ -72,8 +72,8 @@ namespace Cats.Tests.ControllersTests
         {
             //Act
             var result1 = _transportOrderController.TransportRequisitions();
-            var result = _transportOrderController.CreateTransportOrder((List<RequisitionToDispatch>)result1.Model);
-
+             _transportOrderController.CreateTransportOrder((List<RequisitionToDispatch>)result1.Model);
+            var result = _transportOrderController.Index();
             //Assert
             Assert.IsInstanceOf<List<TransportOrder>>(result.Model);
         }

@@ -1,0 +1,66 @@
+﻿
+
+CREATE PROCEDURE [sp_ins_Dispatch] (
+  @PartitionID int,
+  @HubID int,
+  @GIN nvarchar(6),
+  @FDPID int,
+  @WeighBridgeTicketNumber nvarchar(50),
+  @RequisitionNo nvarchar(50),
+  @BidNumber nvarchar(50),
+  @TransporterID int,
+  @DriverName nvarchar(50),
+  @PlateNo_Prime nvarchar(50),
+  @PlateNo_Trailer nvarchar(50),
+  @PeriodYear int,
+  @PeriodMonth int,
+  @Round int,
+  @UserProfileID int,
+  @DispatchDate datetime,
+  @CreatedDate datetime,
+  @Remark nvarchar(4000),
+  @DispatchedByStoreMan nvarchar(50)
+)
+AS
+  INSERT INTO [dbo].[Dispatch] (
+    [PartitionID],
+    [HubID],
+    [GIN],
+    [FDPID],
+    [WeighBridgeTicketNumber],
+    [RequisitionNo],
+    [BidNumber],
+    [TransporterID],
+    [DriverName],
+    [PlateNo_Prime],
+    [PlateNo_Trailer],
+    [PeriodYear],
+    [PeriodMonth],
+    [Round],
+    [UserProfileID],
+    [DispatchDate],
+    [CreatedDate],
+    [Remark],
+    [DispatchedByStoreMan]
+  )
+  VALUES (
+    @PartitionID,
+    @HubID,
+    @GIN,
+    @FDPID,
+    @WeighBridgeTicketNumber,
+    @RequisitionNo,
+    @BidNumber,
+    @TransporterID,
+    @DriverName,
+    @PlateNo_Prime,
+    @PlateNo_Trailer,
+    @PeriodYear,
+    @PeriodMonth,
+    @Round,
+    @UserProfileID,
+    @DispatchDate,
+    @CreatedDate,
+    @Remark,
+    @DispatchedByStoreMan
+  )

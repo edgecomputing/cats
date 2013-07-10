@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Cats.Areas.Logistics.Models.ProjectCodeAllocation>
+
+@{
+    ViewBag.Title = "ProjectCodeAllocation";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>ProjectCodeAllocation</h2>
+
+@using (Html.BeginForm("Add", "ProjectAllocation", FormMethod.Post))
+{
+    <div class="control-group">
+            <label class="control-label">Requisition Number :</label>
+            <div class="controls">
+                @Html.ViewBag.Requisition
+                </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Hub Name : </label>
+            <div class="controls">
+                @Html.ViewBag.HubName
+                </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Project Code :</label>
+            <div class="controls">
+                @Html.DropDownList("ProjectCode",(SelectList)ViewBag.ProjectList)
+                </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Amount :</label>
+            <div class="controls">
+            @Html.TextBoxFor(model=>model.FirstOrDefault().Amount_Project)
+                </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">SI Number :</label>
+            <div class="controls">
+                @Html.DropDownList("SICode", (SelectList)ViewBag.SICodeList)
+                </div>
+        </div>
+    <div class="control-group">
+            <label class="control-label">Amount : </label>
+            <div class="controls">
+            @Html.TextBoxFor(model=>model.FirstOrDefault().Amount_SI)
+                </div>
+        </div>
+    <p>
+        <input class="btn btn-success" type="submit" value="Submit Request" />
+    </p>
+   
+    <table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model=>model.ProjectCodeID)
+        </th>     
+        <th>
+            @Html.DisplayNameFor(model=>model.Amount_Project)
+        </th>      
+        <th>
+            @Html.DisplayNameFor(model=>model.SINumberID)
+        </th>   
+        <th>
+            @Html.DisplayNameFor(model=>model.Amount_SI)
+        </th>   
+    </tr>
+    @{ int index = 0; }
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Input.ProjectCodeID
+            </td>
+            
+            <td>
+                @item.Input.Amount_FromProject
+            </td>
+            <td>
+                @item.Input.SINumberID
+                    
+            </td>
+            <td>
+                @item.Input.Amount_FromProject
+            </td>
+            <td>
+                <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" />
+                @Html.ActionLink("Edit", "Edit" ,"ProjectAllocation", new { id=item.Input.ProjectCodeAllocationID }, null)
+            </td>
+
+        </tr>
+        index++;
+    }
+    </table>
+    
+}
+        

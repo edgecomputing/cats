@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.Logistics.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+using HubAllocation = Cats.Models.HubAllocation;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -17,10 +19,9 @@ namespace Cats.Areas.Logistics.Controllers
         // GET: /Logistics/HubAllocation/
 
         
-        private IReliefRequisitionDetailService _reliefRequisitionDetailService;
-        private IHubService _hubService;
-        
-        private IHubAllocationService _hubAllocationService;
+        private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
+        private readonly IHubService _hubService;
+        private readonly IHubAllocationService _hubAllocationService;
         public HubAllocationController(IReliefRequisitionDetailService reliefRequisitionDetailService,IHubService hubService,
            IHubAllocationService hubAllocationService)
         {
@@ -31,7 +32,68 @@ namespace Cats.Areas.Logistics.Controllers
 
 
 
+        //[HttpGet]
+        //public JsonResult GetApprovedRequisitions()
+        //{
+        //    var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
+        //    var result = new List<ReliefRequisitionsViewModel>();
+
+        //    foreach (var item in reliefRequisitions.ToList())
+        //    {
+        //        var data = new ReliefRequisitionsViewModel();
+        //        data.CommodityName = item.Commodity.Name;
+        //        data.Region = item.ReliefRequisition.AdminUnit1.Name;
+        //        data.Zone = item.ReliefRequisition.AdminUnit1.Name;
+        //        if (item.ReliefRequisition.Round != null) data.Round = item.ReliefRequisition.Round.Value;
+        //        data.RequistionNo = item.ReliefRequisition.RequisitionNo;
+        //        data.Amount = item.Amount;
+        //        data.Beneficiaries = item.BenficiaryNo;
+
+        //        result.Add(data);
+        //    }
+
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult AssignHub()
+        {
+
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            return View();
+        }
+
+        public JsonResult GetRequisitionsForAssignment()
+        {
+            var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
+            var result = reliefRequisitions.ToList().Select(item => new AssignHubViewModel
+                                                                        {
+                                                                            Commodity = item.Commodity.Name,
+                                                                            RegionName = item.ReliefRequisition.AdminUnit1.Name, 
+                                                                            ZoneName = item.ReliefRequisition.AdminUnit1.Name, 
+                                                                            RequisitionNo = item.ReliefRequisition.RequisitionNo, 
+                                                                            RequisitionId = item.ReliefRequisition.RequisitionID, 
+                                                                           Hub = string.Empty
+                                                                        }).ToList();
+           
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetHubs()
+        {
+
+            var result = _hubService.GetAllHub().ToList();
+            var hubs = result.Select(item => new HubDto(item.HubId, item.Name)).ToList();
+
+            Response.Headers.Add("Content-type", "application/json");
+
+            return Json(hubs,JsonRequestBehavior.AllowGet );
+        }
+
+      
+
+
         public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
+
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var reliefRequisitions = _reliefRequisitionDetailService.Get(r=>r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");

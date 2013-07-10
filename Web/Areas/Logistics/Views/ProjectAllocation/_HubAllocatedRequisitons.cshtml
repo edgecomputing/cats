@@ -1,0 +1,9 @@
+﻿<div class="well">
+    <h4>Hub Allocated Requisitions</h4>
+   @foreach (var category in ViewData["RequisitionList"] as IEnumerable<Cats.Areas.Logistics.Models.ActionLink>)
+   {
+       @Html.ActionLink(category.Text, category.Action, category.Controller, new {id = category.Id}, null)
+       <br>
+       
+   }
+</div>
