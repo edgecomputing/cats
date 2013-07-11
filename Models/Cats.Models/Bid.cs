@@ -10,6 +10,7 @@ namespace Cats.Models
        public Bid()
        {
            this.BidDetails=new List<BidDetail>();
+           this.BidWinners=new List<BidWinner>();
        }
         public int BidID { get; set; }
         public DateTime StartDate { get; set; }
@@ -24,6 +25,7 @@ namespace Cats.Models
         public ICollection<BidDetail> BidDetails { get; set; }
        public virtual Status Status { get; set; }
        public virtual TransportBidPlan TransportBidPlan { get; set; }
+       public ICollection<BidWinner> BidWinners { get; set; }
         #endregion
     }
 }

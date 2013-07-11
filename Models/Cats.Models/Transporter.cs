@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Models
@@ -9,6 +10,7 @@ namespace Cats.Models
         public Transporter()
         {
             this.TransportOrders = new List<TransportOrder>();
+            this.BidWinners=new List<BidWinner>();
         }
         [Key]
         public int TransporterID { get; set; }
@@ -49,6 +51,7 @@ namespace Cats.Models
         public DateTime ExperienceFrom { get; set; }
         public DateTime ExperienceTo { get; set; }
         public virtual ICollection<TransportOrder> TransportOrders { get; set; }
+        public virtual ICollection<BidWinner> BidWinners { get; set; } 
    
     }
 }
