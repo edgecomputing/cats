@@ -49,6 +49,9 @@
    
         
     $(document).ready(function () {
+
+        
+        
         $("#grid").kendoGrid({
             
             dataSource: {
@@ -56,15 +59,22 @@
                 transport: {
                     read: "@Url.Action("GetRequisitionsForAssignment","HubAllocation")"
                 },
-                pageSize: 10,
-                group: {
-                    field: "RegionName", aggregates: [
-                       
-                    ]
-                },
+            },
+            schema: {
+                model: {
+                    fields: {
+                        RegionName: { type: "string", editable: false },
+                        ZoneName: { type: "string" },
+                        RequisitionNo: { type: "string" },
+                        Commodity: { type: "string" }
+                    }
+                }
+            },
 
                 
-            }, 
+           
+
+            
             sortable: true,
             scrollable: false,
             pageable: true,
@@ -74,7 +84,7 @@
                 { field: "ZoneName" },
                 { field: "RequisitionNo" },
                 { field: "Commodity", title: "Commodity" },
-                { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#" }
+                { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#", selectedIndex: 0 }
             
             ],
             editable: true
@@ -85,13 +95,15 @@
     function hubDropDownEditor(container, options) {
         $('<input required data-text-field="HubName" data-value-field="HubId" data-bind="value:' + options.field + '"/>')
             .appendTo(container)
-            .kendoDropDownList({
+            .kendoComboBox({
                 autoBind: false,
+                 HighlightFirst: true,
                 dataSource: {
                     transport: {
                         read: {
                             url: "@Url.Action("GetHubs", "HubAllocation")",
-                            dataType: "json"
+                            dataType: "json",
+                            contentType: "application/json",
                         }
                        
                         

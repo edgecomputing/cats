@@ -36,9 +36,9 @@
 }
 
 
-   @using (Html.BeginForm("inserRequisition", "HubAllocation", FormMethod.Post, Model))
+   @using (Html.BeginForm("InserRequisition", "HubAllocation", FormMethod.Post, Model))
     {
-<div class="container">
+<div>
         <fieldset>
 	        <legend>Hub Allocation</legend>
         </fieldset>
@@ -51,7 +51,7 @@
 	            <div class="controls">
 	                <div class="input-prepend">
 	               <span class="add-on"><i class="icon-th"></i></span>
-	                    <input type="text" class="small" id="datepicker" name="datepicker"  >
+	                    <input type="text" class="datepicker" id="datepicker" name="datepicker"  >
                         @Html.ValidationMessage("datepicker")
 	                </div>
 	            </div>
