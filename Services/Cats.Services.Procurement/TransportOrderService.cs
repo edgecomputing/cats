@@ -85,7 +85,7 @@ namespace Cats.Services.Procurement
         public IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch()
         {
             var requisitions = GetProjectCodeAssignedRequisitions();
-           //TODO:When hub allocation is error free return and change hubid 
+          
             var result = (from requisition in requisitions
                           select new RequisitionToDispatch
                                      {
