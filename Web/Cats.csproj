@@ -148,6 +148,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
@@ -377,6 +378,9 @@
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Requisitions.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -493,6 +497,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
+      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
+      <Name>Cats.Services.Logistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>

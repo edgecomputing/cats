@@ -31,13 +31,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Remark).HasColumnName("Remark");
             this.Property(t => t.Status).HasColumnName("Status");
 
-            // Relationships
-            this.HasRequired(t => t.UserProfile)
-                .WithMany(t => t.TransportRequisitions)
-                .HasForeignKey(d => d.RequestedBy);
-            this.HasRequired(t => t.UserProfile1)
-                .WithMany(t => t.TransportRequisitions1)
-                .HasForeignKey(d => d.CertifiedBy);
+           
 
         }
     }

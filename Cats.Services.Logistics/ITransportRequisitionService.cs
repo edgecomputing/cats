@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Models;
+using Cats.Models.ViewModels;
 
 namespace Cats.Services.Logistics
 {
@@ -24,6 +25,7 @@ namespace Cats.Services.Logistics
                    Func<IQueryable<TransportRequisition>, IOrderedQueryable<TransportRequisition>> orderBy = null,
                    string includeProperties = "");
         TransportRequisition CreateTransportRequisition(List<int> reliefRequisitions);
+        IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
     }
 }
 

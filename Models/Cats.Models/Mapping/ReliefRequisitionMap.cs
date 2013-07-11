@@ -32,26 +32,21 @@ namespace Cats.Models.Mapping
             // Relationships
             this.HasOptional(t => t.AdminUnit)
                 .WithMany(t => t.ReliefRequisitions)
-                .HasForeignKey(d => d.ZoneID);
+                .HasForeignKey(d => d.RegionID);
             this.HasOptional(t => t.AdminUnit1)
                 .WithMany(t => t.ReliefRequisitions1)
-                .HasForeignKey(d => d.RegionID);
+                .HasForeignKey(d => d.ZoneID);
+            this.HasOptional(t => t.Commodity)
+                .WithMany(t => t.ReliefRequisitions)
+                .HasForeignKey(d => d.CommodityID);
             this.HasOptional(t => t.Program)
                 .WithMany(t => t.ReliefRequisitions)
                 .HasForeignKey(d => d.ProgramID);
-            this.HasOptional(t => t.UserProfile)
-                .WithMany(t => t.ReliefRequisitions)
-                .HasForeignKey(d => d.RequestedBy);
-            this.HasOptional(t => t.UserProfile1)
-                .WithMany(t => t.ReliefRequisitions1)
-                .HasForeignKey(d => d.ApprovedBy);
+           
+                
             this.HasOptional(t => t.RegionalRequest)
                 .WithMany(t => t.ReliefRequisitions)
                 .HasForeignKey(d => d.RegionalRequestID);
-            this.HasOptional(t => t.Commodity)
-              .WithMany(t => t.ReliefRequisitions)
-              .HasForeignKey(d => d.CommodityID);
-          
 
         }
     }

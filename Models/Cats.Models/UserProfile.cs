@@ -12,7 +12,7 @@ namespace Cats.Models
 
         public UserProfile()
         {
-        
+
             this.ReliefRequisitions = new List<ReliefRequisition>();
             this.ReliefRequisitions1 = new List<ReliefRequisition>();
             this.HubAllocations = new List<HubAllocation>();
@@ -38,7 +38,7 @@ namespace Cats.Models
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
-     
+
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }

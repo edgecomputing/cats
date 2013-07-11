@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 
 namespace Cats.Services.Logistics
@@ -91,9 +92,10 @@ namespace Cats.Services.Logistics
             {
                 transportRequisition.TransportRequisitionDetails.Add(new TransportRequisitionDetail { RequisitionID = reliefRequisition });
 
+
             }
 
-
+            AddTransportRequisition(transportRequisition);
             return transportRequisition;
 
 
@@ -105,6 +107,40 @@ namespace Cats.Services.Logistics
 
         }
 
+
+        public IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch()
+        {
+            var requisitions = GetProjectCodeAssignedRequisitions();
+
+            var result = (from requisition in requisitions
+                          select new RequisitionToDispatch
+                          {
+                              HubID = requisition.HubAllocations.FirstOrDefault().HubID,
+                              RequisitionID = requisition.RequisitionID,
+                              RequisitionNo = requisition.RequisitionNo,
+                              RequisitionStatus = requisition.Status.Value,
+                              ZoneID = requisition.ZoneID.Value,
+                              QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
+                              OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
+                              CommodityID = requisition.CommodityID.Value,
+                              CommodityName = requisition.Commodity.Name,
+                              Zone = requisition.AdminUnit.Name,
+                              RegionID = requisition.RegionID.Value,
+                              RegionName = requisition.AdminUnit1.Name,
+                              
+
+
+                          });
+
+
+            return result;
+        }
+
+        public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
+        {
+            return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
+                                                          "HubAllocations,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
+        }
     }
 }
 

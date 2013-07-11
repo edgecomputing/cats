@@ -4,7 +4,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Mapping
 {
-    class UserProfileMap : EntityTypeConfiguration<UserProfile>
+   public  class UserProfileMap : EntityTypeConfiguration<UserProfile>
     {
         public UserProfileMap()
         {

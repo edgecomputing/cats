@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 namespace Cats.Models
 {
     [MetadataType(typeof(RequisitionMeta))]
-    public class ReliefRequisition
+    public partial class ReliefRequisition
     {
-        
         public ReliefRequisition()
         {
+            this.HubAllocations = new List<HubAllocation>();
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.HubAllocations = new List<HubAllocation>();
             this.TransportRequisitionDetails = new List<TransportRequisitionDetail>();
-
         }
 
         public int RequisitionID { get; set; }
@@ -38,14 +36,11 @@ namespace Cats.Models
         public virtual AdminUnit AdminUnit1 { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual Program Program { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
-        public virtual UserProfile UserProfile1 { get; set; }
+       
         public virtual RegionalRequest RegionalRequest { get; set; }
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
-      
-        
     }
 }
