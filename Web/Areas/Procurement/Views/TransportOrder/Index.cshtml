@@ -98,7 +98,8 @@
             @Html.DisplayFor(modelItem => item.TransporterSignedDate)
         </td>*@
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) 
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) |
+            @Html.ActionLink("Print", "Print", new { id = item.TransportOrderID })"
            
         </td>
     </tr>

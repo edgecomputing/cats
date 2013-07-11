@@ -45,8 +45,8 @@ namespace Cats.Data
         //public DbSet<HubAllocation> HubAllocation { get; set; } 
 
         public DbSet<TransportOrder> TransportOrders { get; set; }
-        public DbSet<TransportOrderDetail> TransportOrderDetails { get; set; } 
-
+        public DbSet<TransportOrderDetail> TransportOrderDetails { get; set; }
+        public DbSet<vwTransportOrder> vwTransportOrders { get; set; }
 
         //public DbSet<Product> Products { get; set; }
 
@@ -76,7 +76,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new HubAllocationMap());
             modelBuilder.Configurations.Add(new TransportOrderMap());
             modelBuilder.Configurations.Add(new TransportOrderDetailMap());
-
+            modelBuilder.Configurations.Add(new vwTransportOrderMap());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

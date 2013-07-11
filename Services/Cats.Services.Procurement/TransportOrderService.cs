@@ -214,6 +214,10 @@ namespace Cats.Services.Procurement
             }
             return transportSourceDestination;
         }
+        public List<vwTransportOrder> GeTransportOrderRpt(int id)
+        {
+            return _unitOfWork.VwTransportOrderRepository.Get(t=>t.TransportOrderID==id).ToList();
+        } 
         private class TransporterRequisition
         {
             public int HubID { get; set; }

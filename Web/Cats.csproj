@@ -48,6 +48,7 @@
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -166,11 +167,8 @@
     <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
-
     <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
-
     <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
-
     <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
@@ -178,7 +176,13 @@
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CTSDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
     <Compile Include="Global.asax.cs">
@@ -186,6 +190,7 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\ViewModels\ReliefRequisitions.cs" />
+    <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -361,7 +366,6 @@
     <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\Details.cshtml" />
-
     <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocationDetail.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
@@ -370,9 +374,17 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
-
-    <Content Include="Areas\Procurement\Views\TransportOrder\Print.cshtml" />
-
+    <Content Include="CTSDataSet.xsc">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="CTSDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="CTSDataSet.xss">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -509,6 +521,9 @@
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
       <Name>Cats.Services.Security</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

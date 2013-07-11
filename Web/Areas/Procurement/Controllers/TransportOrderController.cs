@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.ViewModels;
 using Cats.Services.Procurement;
@@ -52,9 +53,14 @@ namespace Cats.Areas.Procurement.Controllers
 
             return View(transportReqInput.ToList());
         }
-        public ViewResult Print()
+        public FileResult Print(int id)
         {
-            return View();
+            var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
+            var reportData = _transportOrderService.GeTransportOrderRpt(id);
+            var dataSourceName = "TransportOrders";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+
+            return File(result.RenderBytes ,result.MimeType);
         }
         [HttpPost]
         public ActionResult TransportRequisitions(IList<RequisitionToDispatchSelect.RequisitionToDispatchSelectInput> input )

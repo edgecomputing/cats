@@ -79,6 +79,7 @@
     <Compile Include="Mapping\TransporterMap.cs" />
     <Compile Include="Mapping\TransportOrderDetailMap.cs" />
     <Compile Include="Mapping\TransportOrderMap.cs" />
+    <Compile Include="Mapping\vwTransportOrderMap.cs" />
     <Compile Include="MetaData\BidDetailMetaData.cs" />
     <Compile Include="MetaData\BidMetaData.cs" />
     <Compile Include="MetaData\RegionalRequestDetailMeta.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
+    <Compile Include="vwTransportOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
