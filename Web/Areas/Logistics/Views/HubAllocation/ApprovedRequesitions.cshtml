@@ -79,8 +79,8 @@
  {
      <tr>
         <td>
-          <input type='checkbox' " + ((item.Result == true) ? "checked" : "") + "  name="IsChecked" id="chkApprovedRequests" value="@i"/>
-
+          <input type='checkbox' " +  ((item.Result == true) ? "checked" : "") + "  name="IsChecked" id="chkApprovedRequests" value="@i"/>
+            
         </td> 
         <td>
             @Html.DisplayFor(m=>m[i].Commodity.Name)
@@ -130,8 +130,14 @@
             @Html.HiddenFor(m=>m[i].BenficiaryNo)
             
         </td>
+          <td>
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequisitionID)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequisitionID)
+            
+        </td>
     </tr>
      index++;
+    
 }
 
 </table>

@@ -167,6 +167,12 @@
             @Html.HiddenFor(m=>m[i].BenficiaryNo)
             
         </td>
+        <td>
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequisitionID)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequisitionID)
+            
+        </td>
+       
     </tr>
      index++;
 }

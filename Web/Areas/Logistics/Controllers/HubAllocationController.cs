@@ -73,7 +73,7 @@ namespace Cats.Areas.Logistics.Controllers
       
 
 
-        public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
+        public ActionResult ApprovedRequesitions()
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
@@ -114,11 +114,11 @@ namespace Cats.Areas.Logistics.Controllers
                 }
             }
 
-            return View(listOfRequsitions);
+            return View(listOfRequsitions.ToList());
         }
 
 
-        public void InserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection form, string datepicker, string rNumber)
+        public ActionResult InserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection form, string datepicker, string rNumber)
         {
 
             string hub = form["hub"].ToString(CultureInfo.InvariantCulture);
@@ -136,8 +136,11 @@ namespace Cats.Areas.Logistics.Controllers
                
 
                 _hubAllocationService.AddHubAllocation(newHubAllocation);
-                _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionNo);
+                _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionID);
+                
             }
+            return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+            
         }
         
        
