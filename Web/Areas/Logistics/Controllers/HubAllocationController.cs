@@ -33,28 +33,7 @@ namespace Cats.Areas.Logistics.Controllers
 
 
 
-        //[HttpGet]
-        //public JsonResult GetApprovedRequisitions()
-        //{
-        //    var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
-        //    var result = new List<ReliefRequisitionsViewModel>();
-
-        //    foreach (var item in reliefRequisitions.ToList())
-        //    {
-        //        var data = new ReliefRequisitionsViewModel();
-        //        data.CommodityName = item.Commodity.Name;
-        //        data.Region = item.ReliefRequisition.AdminUnit1.Name;
-        //        data.Zone = item.ReliefRequisition.AdminUnit1.Name;
-        //        if (item.ReliefRequisition.Round != null) data.Round = item.ReliefRequisition.Round.Value;
-        //        data.RequistionNo = item.ReliefRequisition.RequisitionNo;
-        //        data.Amount = item.Amount;
-        //        data.Beneficiaries = item.BenficiaryNo;
-
-        //        result.Add(data);
-        //    }
-
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+       
 
         public ActionResult AssignHub()
         {
@@ -88,12 +67,7 @@ namespace Cats.Areas.Logistics.Controllers
             list.Add(d);
 
             return Json(list, JsonRequestBehavior.AllowGet);
-            //var result = _hubService.GetAllHub().ToList();
-            //var hubs = result.Select(item => new HubDto(item.HubId, item.Name)).ToList();
-
-            //Response.Headers.Add("Content-type", "application/json");
-            //ViewBag.Hubs = hubs;
-            //return Json(hubs,JsonRequestBehavior.AllowGet );
+           
         }
 
       
@@ -153,13 +127,13 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 var newHubAllocation = new HubAllocation
                                            {
-                                               AllocatedBy = appRequisition.CommodityID,
+                                               AllocatedBy = 1,
                                                RequisitionID = appRequisition.RequisitionID,
                                                AllocationDate = DateTime.Now,
                                                HubID = int.Parse(hub)
                                            };
-
-                newHubAllocation.AllocatedBy = 1;
+               
+               
 
                 _hubAllocationService.AddHubAllocation(newHubAllocation);
                 _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionNo);
