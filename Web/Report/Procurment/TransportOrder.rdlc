@@ -6,12 +6,12 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>6.70708in</Width>
+              <Width>6.5925in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>6.00917in</Height>
+              <Height>6.23834in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -736,10 +736,10 @@
                             </TablixMembers>
                           </TablixRowHierarchy>
                           <DataSetName>TransportOrders</DataSetName>
-                          <Top>3.46875in</Top>
-                          <Left>0.2525in</Left>
+                          <Top>3.53818in</Top>
+                          <Left>0.11333in</Left>
                           <Height>0.88542in</Height>
-                          <Width>6.2475in</Width>
+                          <Width>6.24749in</Width>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -755,23 +755,31 @@
                                 <TextRun>
                                   <Value>=First(Fields!TransportOrderNo.Value)</Value>
                                   <Style>
+                                    <FontSize>9pt</FontSize>
                                     <TextDecoration>None</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>TransportOrderNo</rd:DefaultName>
                           <Top>0.79042in</Top>
-                          <Left>4.55778in</Left>
+                          <Left>4.41195in</Left>
                           <Height>0.25in</Height>
-                          <Width>1.94222in</Width>
+                          <Width>2.08805in</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -856,7 +864,10 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Transport Order No.</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -868,7 +879,7 @@
                           <Top>0.79042in</Top>
                           <Left>2.33208in</Left>
                           <Height>0.25in</Height>
-                          <Width>2.15625in</Width>
+                          <Width>1.96875in</Width>
                           <ZIndex>4</ZIndex>
                           <Style>
                             <Border>
@@ -899,8 +910,9 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox24</rd:DefaultName>
                           <Top>1.18625in</Top>
+                          <Left>0.11333in</Left>
                           <Height>0.1875in</Height>
-                          <Width>6.5in</Width>
+                          <Width>6.38667in</Width>
                           <ZIndex>5</ZIndex>
                           <Style>
                             <Border>
@@ -1099,7 +1111,7 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox30</rd:DefaultName>
                           <Top>2.01958in</Top>
-                          <Left>3.62375in</Left>
+                          <Left>3.4779in</Left>
                           <Height>0.17708in</Height>
                           <Width>1.42708in</Width>
                           <ZIndex>11</ZIndex>
@@ -1134,7 +1146,7 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox31</rd:DefaultName>
                           <Top>1.76958in</Top>
-                          <Left>3.62375in</Left>
+                          <Left>3.4779in</Left>
                           <Height>0.18056in</Height>
                           <Width>1.42708in</Width>
                           <ZIndex>12</ZIndex>
@@ -1169,7 +1181,7 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox32</rd:DefaultName>
                           <Top>2.25222in</Top>
-                          <Left>3.2175in</Left>
+                          <Left>3.07165in</Left>
                           <Height>0.23958in</Height>
                           <Width>1.83333in</Width>
                           <ZIndex>13</ZIndex>
@@ -1203,8 +1215,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox33</rd:DefaultName>
-                          <Top>2.56125in</Top>
-                          <Left>3.2175in</Left>
+                          <Top>2.76041in</Top>
+                          <Left>3.07164in</Left>
                           <Height>0.17708in</Height>
                           <Width>1.83333in</Width>
                           <ZIndex>14</ZIndex>
@@ -1238,8 +1250,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox34</rd:DefaultName>
-                          <Top>2.79389in</Top>
-                          <Left>2.91542in</Left>
+                          <Top>2.99305in</Top>
+                          <Left>2.76956in</Left>
                           <Height>0.19792in</Height>
                           <Width>2.13542in</Width>
                           <ZIndex>15</ZIndex>
@@ -1300,12 +1312,14 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>ContractNumber</rd:DefaultName>
                           <Top>1.76958in</Top>
-                          <Left>5.0925in</Left>
+                          <Left>4.94665in</Left>
                           <Height>0.19792in</Height>
                           <Width>1.4075in</Width>
                           <ZIndex>17</ZIndex>
@@ -1329,16 +1343,19 @@
                                   <Value>=First(Fields!OrderDate.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
+                                    <Format>MM/dd/yyyy</Format>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>OrderDate</rd:DefaultName>
                           <Top>2.01958in</Top>
-                          <Left>5.0925in</Left>
+                          <Left>4.94665in</Left>
                           <Height>0.1875in</Height>
                           <Width>1.4075in</Width>
                           <ZIndex>18</ZIndex>
@@ -1362,16 +1379,19 @@
                                   <Value>=First(Fields!RequestedDispatchDate.Value)</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
+                                    <Format>MM/dd/yyyy</Format>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>RequestedDispatchDate</rd:DefaultName>
                           <Top>2.25222in</Top>
-                          <Left>5.0925in</Left>
+                          <Left>4.94665in</Left>
                           <Height>0.23958in</Height>
                           <Width>1.4075in</Width>
                           <ZIndex>19</ZIndex>
@@ -1399,12 +1419,14 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>BidDocumentNo</rd:DefaultName>
-                          <Top>2.56125in</Top>
-                          <Left>5.0925in</Left>
+                          <Top>2.76041in</Top>
+                          <Left>4.94664in</Left>
                           <Height>0.1875in</Height>
                           <Width>1.4075in</Width>
                           <ZIndex>20</ZIndex>
@@ -1432,12 +1454,14 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>PerformanceBondReceiptNo</rd:DefaultName>
-                          <Top>2.79389in</Top>
-                          <Left>5.0925in</Left>
+                          <Top>2.99305in</Top>
+                          <Left>4.94664in</Left>
                           <Height>0.19792in</Height>
                           <Width>1.4075in</Width>
                           <ZIndex>21</ZIndex>
@@ -1469,9 +1493,10 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox50</rd:DefaultName>
-                          <Top>3.04861in</Top>
+                          <Top>3.26041in</Top>
+                          <Left>0.11333in</Left>
                           <Height>0.20833in</Height>
-                          <Width>6.5in</Width>
+                          <Width>6.38667in</Width>
                           <ZIndex>22</ZIndex>
                           <Style>
                             <Border>
@@ -1502,9 +1527,10 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox50</rd:DefaultName>
-                          <Top>4.48438in</Top>
+                          <Top>4.49305in</Top>
+                          <Left>0.11333in</Left>
                           <Height>0.20833in</Height>
-                          <Width>6.5in</Width>
+                          <Width>6.38667in</Width>
                           <ZIndex>23</ZIndex>
                           <Style>
                             <Border>
@@ -1535,10 +1561,10 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox61</rd:DefaultName>
-                          <Top>4.83208in</Top>
-                          <Left>0.25917in</Left>
+                          <Top>4.81471in</Top>
+                          <Left>0.08334in</Left>
                           <Height>0.25in</Height>
-                          <Width>1in</Width>
+                          <Width>2.49999in</Width>
                           <ZIndex>24</ZIndex>
                           <Style>
                             <Border>
@@ -1568,10 +1594,10 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox62</rd:DefaultName>
-                          <Top>4.83208in</Top>
-                          <Left>3.49625in</Left>
+                          <Top>4.81471in</Top>
+                          <Left>3.32042in</Left>
                           <Height>0.25in</Height>
-                          <Width>2.12625in</Width>
+                          <Width>2.74208in</Width>
                           <ZIndex>25</ZIndex>
                           <Style>
                             <Border>
@@ -1600,8 +1626,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox63</rd:DefaultName>
-                          <Top>5.19667in</Top>
-                          <Left>0.28in</Left>
+                          <Top>5.1793in</Top>
+                          <Left>0.10417in</Left>
                           <Height>0.1875in</Height>
                           <Width>0.64583in</Width>
                           <ZIndex>26</ZIndex>
@@ -1632,8 +1658,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox64</rd:DefaultName>
-                          <Top>5.45361in</Top>
-                          <Left>0.28in</Left>
+                          <Top>5.43624in</Top>
+                          <Left>0.10417in</Left>
                           <Height>0.1875in</Height>
                           <Width>0.64583in</Width>
                           <ZIndex>27</ZIndex>
@@ -1664,8 +1690,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox65</rd:DefaultName>
-                          <Top>5.72792in</Top>
-                          <Left>0.28in</Left>
+                          <Top>5.71055in</Top>
+                          <Left>0.10417in</Left>
                           <Height>0.1875in</Height>
                           <Width>0.64583in</Width>
                           <ZIndex>28</ZIndex>
@@ -1696,8 +1722,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox63</rd:DefaultName>
-                          <Top>5.15153in</Top>
-                          <Left>3.47417in</Left>
+                          <Top>5.13416in</Top>
+                          <Left>3.29834in</Left>
                           <Height>0.1875in</Height>
                           <Width>0.64583in</Width>
                           <ZIndex>29</ZIndex>
@@ -1728,8 +1754,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox64</rd:DefaultName>
-                          <Top>5.40847in</Top>
-                          <Left>3.47417in</Left>
+                          <Top>5.3911in</Top>
+                          <Left>3.29834in</Left>
                           <Height>0.1875in</Height>
                           <Width>0.64583in</Width>
                           <ZIndex>30</ZIndex>
@@ -1760,8 +1786,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox65</rd:DefaultName>
-                          <Top>5.68278in</Top>
-                          <Left>3.47417in</Left>
+                          <Top>5.66541in</Top>
+                          <Left>3.29834in</Left>
                           <Height>0.1875in</Height>
                           <Width>0.64583in</Width>
                           <ZIndex>31</ZIndex>
@@ -1792,8 +1818,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>ConsignerName</rd:DefaultName>
-                          <Top>5.19667in</Top>
-                          <Left>1in</Left>
+                          <Top>5.1793in</Top>
+                          <Left>0.82417in</Left>
                           <Height>0.1875in</Height>
                           <Width>2.01042in</Width>
                           <ZIndex>32</ZIndex>
@@ -1811,8 +1837,8 @@
                           </Style>
                         </Textbox>
                         <Line Name="Line1">
-                          <Top>5.66542in</Top>
-                          <Left>1.04042in</Left>
+                          <Top>5.64805in</Top>
+                          <Left>0.86459in</Left>
                           <Height>0in</Height>
                           <Width>1.97in</Width>
                           <ZIndex>33</ZIndex>
@@ -1840,8 +1866,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>ConsignerDate</rd:DefaultName>
-                          <Top>5.72097in</Top>
-                          <Left>1.04042in</Left>
+                          <Top>5.7036in</Top>
+                          <Left>0.86459in</Left>
                           <Height>0.19444in</Height>
                           <Width>1.97in</Width>
                           <ZIndex>34</ZIndex>
@@ -1873,8 +1899,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>TransporterSignedName</rd:DefaultName>
-                          <Top>5.155in</Top>
-                          <Left>4.18625in</Left>
+                          <Top>5.13763in</Top>
+                          <Left>4.01042in</Left>
                           <Height>0.18403in</Height>
                           <Width>2.05208in</Width>
                           <ZIndex>35</ZIndex>
@@ -1892,8 +1918,8 @@
                           </Style>
                         </Textbox>
                         <Line Name="Line2">
-                          <Top>5.64458in</Top>
-                          <Left>4.20708in</Left>
+                          <Top>5.62721in</Top>
+                          <Left>4.03125in</Left>
                           <Height>0in</Height>
                           <Width>2.03125in</Width>
                           <ZIndex>36</ZIndex>
@@ -1921,8 +1947,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>TransporterSignedDate</rd:DefaultName>
-                          <Top>5.70014in</Top>
-                          <Left>4.24875in</Left>
+                          <Top>5.68277in</Top>
+                          <Left>4.07292in</Left>
                           <Height>0.21528in</Height>
                           <Width>1.98958in</Width>
                           <ZIndex>37</ZIndex>
@@ -1954,6 +1980,77 @@
                             </Border>
                           </Style>
                         </Image>
+                        <Textbox Name="Textbox35">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Transport Order Expiry Date:</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox33</rd:DefaultName>
+                          <Top>2.52777in</Top>
+                          <Left>3.07832in</Left>
+                          <Height>0.17708in</Height>
+                          <Width>1.83333in</Width>
+                          <ZIndex>39</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <Textbox Name="BidDocumentNo2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!OrderExpiryDate.Value)</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                    <Format>MM/dd/yyyy</Format>
+                                    <TextDecoration>Underline</TextDecoration>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>BidDocumentNo</rd:DefaultName>
+                          <Top>2.52777in</Top>
+                          <Left>4.95332in</Left>
+                          <Height>0.20486in</Height>
+                          <Width>1.4075in</Width>
+                          <ZIndex>40</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
                       </ReportItems>
                       <KeepTogether>true</KeepTogether>
                       <Style>
@@ -1962,6 +2059,7 @@
                         </Border>
                       </Style>
                     </Rectangle>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -1985,8 +2083,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TransportOrders</DataSetName>
-        <Height>6.00917in</Height>
-        <Width>6.70708in</Width>
+        <Height>6.23834in</Height>
+        <Width>6.5925in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1994,10 +2092,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>6.00917in</Height>
+    <Height>6.23834in</Height>
     <Style />
   </Body>
-  <Width>6.70708in</Width>
+  <Width>6.63416in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>
