@@ -58,11 +58,11 @@
             @Html.Label("Round")
         </th>
         <th>
-            @Html.Label("Req. No")
+            @Html.Label("Requisition No")
         </th>
        
         <th>
-            @Html.Label("Req. Date")
+            @Html.Label("Requisition Date")
         </th>
         <th>
             @Html.Label("Amount")
@@ -89,14 +89,14 @@
         </td>
         
          <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.RegionID)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.RegionID)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.AdminUnit.Name)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.AdminUnit.Name)
             
         </td>
         
            <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.ZoneID)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.ZoneID)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.AdminUnit1.Name)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.AdminUnit1.Name)
             
         </td>
         

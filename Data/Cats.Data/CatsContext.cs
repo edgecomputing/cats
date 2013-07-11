@@ -40,14 +40,15 @@ namespace Cats.Data
 
         public DbSet<HubAllocation> HubAllocations { get; set; }
         public DbSet<ProjectCodeAllocation> ProjectCodeAllocation { get; set; }
-        public DbSet<TransportRequisition> TransportRequisition { get; set; }
+       
 
         //public DbSet<HubAllocation> HubAllocation { get; set; } 
 
         public DbSet<TransportOrder> TransportOrders { get; set; }
         public DbSet<TransportOrderDetail> TransportOrderDetails { get; set; }
         public DbSet<vwTransportOrder> vwTransportOrders { get; set; }
-
+        public DbSet<TransportRequisition> TransportRequisitions { get; set; }
+        public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
         //public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -77,7 +78,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TransportOrderMap());
             modelBuilder.Configurations.Add(new TransportOrderDetailMap());
             modelBuilder.Configurations.Add(new vwTransportOrderMap());
-
+            modelBuilder.Configurations.Add(new TransportRequisitionMap());
+            modelBuilder.Configurations.Add(new TransportRequisitionDetailMap());
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
 

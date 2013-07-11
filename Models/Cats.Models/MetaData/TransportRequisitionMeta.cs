@@ -7,24 +7,26 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    [MetadataType(typeof(TransportRequisitionMeta))]
-    public partial class TransportRequisition
+    public  class TransportRequisitionMeta
     {
-        public TransportRequisition()
-        {
-            this.TransportRequisitionDetails = new List<TransportRequisitionDetail>();
-        }
+        
 
         public int TransportRequisitionID { get; set; }
+        [Display(Name="Transport Requisition No")]
+        [Required(ErrorMessage="Transport Requisition Number can't be emplty.")]
         public string TransportRequisitionNo { get; set; }
+        [Display(Name="Requested By")]
         public int RequestedBy { get; set; }
+        [Display(Name="Requested Date")]
+        [DisplayFormat(DataFormatString="{0:dd-MMM-yyyy}")]
         public System.DateTime RequestedDate { get; set; }
+        [Display(Name="Certified By")]
         public int CertifiedBy { get; set; }
+        [Display(Name = "Certified Date")]
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public System.DateTime CertifiedDate { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
-        public virtual UserProfile UserProfile1 { get; set; }
-        public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
+      
     }
 }

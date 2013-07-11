@@ -127,7 +127,7 @@ namespace Cats.Areas.Logistics.Controllers
 
            _requisitionDetail = requisitionDetail.ToArray();
 
-           var chkValue = form["IsChecked"]; // for this code the _chkValue will return all value of each checkbox that is checked
+           var chkValue = form["IsChecked"]; // for this code the chkValue will return all value of each checkbox that is checked
 
             
             if (chkValue != null)

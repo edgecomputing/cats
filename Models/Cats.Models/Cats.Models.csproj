@@ -79,12 +79,16 @@
     <Compile Include="Mapping\TransporterMap.cs" />
     <Compile Include="Mapping\TransportOrderDetailMap.cs" />
     <Compile Include="Mapping\TransportOrderMap.cs" />
+    <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
+    <Compile Include="Mapping\TransportRequisitionMap.cs" />
     <Compile Include="Mapping\vwTransportOrderMap.cs" />
     <Compile Include="MetaData\BidDetailMetaData.cs" />
     <Compile Include="MetaData\BidMetaData.cs" />
     <Compile Include="MetaData\RegionalRequestDetailMeta.cs" />
     <Compile Include="MetaData\RegionalRequestMeta.cs" />
     <Compile Include="MetaData\TransportOrder.cs" />
+    <Compile Include="MetaData\TransportRequisitionMeta.cs" />
+    <Compile Include="MetaData\TransportRequisitionDetailMeta.cs" />
     <Compile Include="Partials\RegionalRequestDetail.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
@@ -106,6 +110,7 @@
     <Compile Include="TransportOrder.cs" />
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
+    <Compile Include="TransportRequisitionDetail.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\RegionalRequestStatus.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />

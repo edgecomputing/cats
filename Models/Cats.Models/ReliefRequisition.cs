@@ -16,7 +16,8 @@ namespace Cats.Models
         {
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.HubAllocations = new Collection<HubAllocation>();
+            this.HubAllocations = new List<HubAllocation>();
+            this.TransportRequisitionDetails = new List<TransportRequisitionDetail>();
 
         }
 
@@ -43,8 +44,7 @@ namespace Cats.Models
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
-        public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
-   
+        public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
       
         
     }

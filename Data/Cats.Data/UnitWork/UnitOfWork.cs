@@ -252,13 +252,7 @@ namespace Cats.Data.UnitWork
 
         //}
 
-        private IGenericRepository<TransportRequisition> transportRequisitionRepository;
-
-        public IGenericRepository<TransportRequisition> TransportRequisitionRepository
-        {
-            get { return this.transportRequisitionRepository ?? (this.transportRequisitionRepository = new GenericRepository<TransportRequisition>(_context)); }
-
-        }
+       
 
       
 
