@@ -65,6 +65,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
            
             return View();
         }
+
+        
         public JsonResult Submitted()
         {
             var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");

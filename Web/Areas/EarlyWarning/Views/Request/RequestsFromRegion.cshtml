@@ -56,6 +56,10 @@
                 transport: {
                     read: "@Url.Action("Submitted","Request")"
                 },
+                create: {
+                    url: "@Url.Action("CreateRequisiton","ReliefRequisition")",
+                   dataType: "jsonp"
+                },
                 pageSize: 10,
                 group: {
                     field: "Region", aggregates: [
@@ -77,8 +81,8 @@
                 { field: "Remark" },
                 { field: "Year" },
                 { field: "Round" },
-                { field: "Status"},
-                { field:  "", template: "<a href=''>Create Requisition</a>" }
+                { field: "Status" },
+                { command: ["create"]}
                
             
             ],
