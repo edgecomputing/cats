@@ -171,5 +171,6 @@
     <Build Include="Logistics\Tables\HubAllocation_3.sql" />
     <Build Include="Security\NT AUTHORITY_IUSR_2.sql" />
     <Build Include="Security\RoleMemberships_1.sql" />
+    <Build Include="dbo\Views\vwTransportOrder.sql" />
   </ItemGroup>
 </Project>
