@@ -60,7 +60,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var bid = new Bid();
             var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-                ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID=1);
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID=1);
             var bidDetails = (from detail in regions
                               select new BidDetail()
                               {

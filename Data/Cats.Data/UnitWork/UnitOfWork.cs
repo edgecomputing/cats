@@ -16,7 +16,8 @@ namespace Cats.Data.UnitWork
       
         private IGenericRepository<Bid> bidRepository;
         private IGenericRepository<BidDetail> bidDetailRepository; 
-        private IGenericRepository<Status> statusRepository; 
+        private IGenericRepository<Status> statusRepository;
+        private IGenericRepository<BidWinner> bidWinnerRepository; 
         
 
         public UnitOfWork()
@@ -71,13 +72,6 @@ namespace Cats.Data.UnitWork
             get { return this.regionalRequestDetailRepository ?? (this.regionalRequestDetailRepository = new GenericRepository<RegionalRequestDetail>(_context)); }
 
         }
-
-
-
-      
-        
-      
-
 
 
         public IGenericRepository<Bid> BidRepository
@@ -295,6 +289,13 @@ namespace Cats.Data.UnitWork
         {
 
             get { return this.transportOrderRepository ?? (this.transportOrderRepository = new GenericRepository<TransportOrder>(_context)); }
+
+        }
+
+        public IGenericRepository<BidWinner> BidWinnerRepository
+        {
+
+            get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
 
         }
 

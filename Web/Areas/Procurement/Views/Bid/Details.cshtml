@@ -28,14 +28,11 @@
         </tr>
         <tr>
             <td>@Html.LabelFor(m=>m.StatusID,"Status:")</td>
-            <td>@Html.DropDownList("BidStatus",String.Empty)</td>
+            @* <td>@Html.DropDownList("BidStatus",String.Empty)</td>*@
+            <td>@Html.TextBoxFor(m=>m.Status.Name,null,new { disabled = "true"})</td>
             
             <td>@Html.LabelFor(m => m.TransportBidPlanID,"Bid Plan ")</td>
             <td>@Html.TextBoxFor(m => m.TransportBidPlan.ShortName,null,new { disabled = "true"} )</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(m=>m.StatusID,"Status:")</td>
-            <td>@Html.DropDownList("BidStatus",String.Empty)</td>
         </tr>
     </table>
 </div>

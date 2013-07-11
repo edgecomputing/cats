@@ -10,23 +10,22 @@
 }
 
 <div class="well"><h3>Bid Document</h3></div>
-
     @using (Html.BeginForm())
     {
          @Html.ValidationSummary(true)
+       
         <fieldset>
-          <legend> New Bid Document </legend>
+            <legend> New Bid </legend>
             <div class="editor-field">
                 @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
 
                 @Html.DropDownList("TransportBidPlanID",String.Empty)
                 @Html.ValidationMessageFor(model => model.TransportBidPlanID)
             </div>
-            <div class="editor-field">
-                
+            <div class="editor-field" >
                 @Html.LabelFor(model => model.BidNumber, "Bid Number")
 
-                @Html.TextBoxFor(model=>model.BidNumber)
+                @Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number" })
                 @Html.ValidationMessageFor(model => model.BidNumber)
             </div>
             <div class="editor-field">
@@ -35,7 +34,7 @@
                 @Html.TextBoxFor(model=>model.StartDate)
                 @Html.ValidationMessageFor(model => model.StartDate)
             </div>
-            <div class="editor-field">
+            <div class="editor-field" >
                 @Html.LabelFor(model => model.EndDate, "End Date")
 
                 @Html.TextBoxFor(model=>model.EndDate)
@@ -52,10 +51,10 @@
 
                 @Html.DropDownList("StatusID",String.Empty)
                 @Html.ValidationMessageFor(model => model.StatusID)
-            </div>
-            
-             <p>
-            <input type="submit" value="Create Bid" class="btn btn-success" />
-        </p>
+            </div>        
+            <p>
+                <input type="submit" value="Create Bid" class="btn btn-success" />
+            </p>
         </fieldset>
+      
     }

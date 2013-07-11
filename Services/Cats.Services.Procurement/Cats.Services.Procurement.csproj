@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="BidDetailService.cs" />
     <Compile Include="BidService.cs" />
+    <Compile Include="BidWinnerService.cs" />
     <Compile Include="IBidDetailService.cs" />
     <Compile Include="IBidService.cs" />
+    <Compile Include="IBidWinnerService.cs" />
     <Compile Include="IStatusService.cs" />
     <Compile Include="ITransportBidPlanDetailService.cs" />
     <Compile Include="ITransportBidPlanService.cs" />

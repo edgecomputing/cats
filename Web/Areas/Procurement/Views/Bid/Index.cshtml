@@ -41,7 +41,7 @@
         <div class="control-group">
             <div class="controls">
                 <input type="submit" value="Filter" class="btn btn-primary"/>
-                 @Html.ActionLink("List All Bids", "Index")
+                 @Html.ActionLink("Create Bid", "Create")
             </div>
         </div> 
         
@@ -89,18 +89,20 @@
                 @Html.DisplayFor(modelItem=>item.Status.Name)
             </td>
             <td>
-
+                 @{
+                  var status = item.StatusID == 1 ? "" : "hidden";
+                }
                 <div class="btn-group">
                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("EditBidStatus", "Bid", new { Area = "Procurement", id = item.BidID })">Edit</a></li>
-                        <li><a href="@Url.Action("Details","Bid",new {Area="Procurement",id=item.BidID})">Detail</a></li>
-                        <li><a href="@Url.Action("ApproveBid","Bid",new {Area="Procurement",id=item.BidID})">Approve</a></li>
+                        <li><a href="@Url.Action("EditBidStatus", "Bid", new {Area = "Procurement", id = item.BidID})">Edit</a></li>
+                        <li><a href="@Url.Action("Details", "Bid", new {Area = "Procurement", id = item.BidID})">Detail</a></li>
+                        @*<li><a href="@Url.Action("ApproveBid", "Bid", new {Area = "Procurement", id = item.BidID})">Approve</a></li>*@
                     </ul>
                 </div>
-                <input class="btn btn-success" type="button" value="Approve" onclick="onApprove(@item.BidID);"/>
+                <input class="btn btn-success @status" type="button" value="Approve" onclick=" onApprove(@item.BidID); "/>
             </td>
         </tr>
     }
