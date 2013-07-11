@@ -82,14 +82,14 @@ namespace Cats.Services.Procurement
 
 
 
-        public IEnumerable<Models.ViewModels.RequisitionToDispatch> GetRequisitionToDispatch()
+        public IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch()
         {
             var requisitions = GetProjectCodeAssignedRequisitions();
-
+           //TODO:When hub allocation is error free return and change hubid 
             var result = (from requisition in requisitions
                           select new RequisitionToDispatch
                                      {
-                                         HubID = requisition.HubAllocations.FirstOrDefault().HubID,
+                                         HubID =requisition.HubAllocations.FirstOrDefault().HubID,
                                          RequisitionID = requisition.RequisitionID,
                                          RequisitionNo = requisition.RequisitionNo,
                                          RequisitionStatus = requisition.Status.Value,
@@ -100,18 +100,20 @@ namespace Cats.Services.Procurement
                                          CommodityName = requisition.Commodity.Name,
                                          Zone = requisition.AdminUnit.Name,
                                          RegionID = requisition.RegionID.Value,
-                                         RegionName = requisition.AdminUnit1.Name
+                                         RegionName = requisition.AdminUnit1.Name,
+                                       
+
 
                                      });
 
-
+       
             return result;
         }
 
         public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
         {
             return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
-                                                          "HubAllocations,HubAllocations.Hub,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity");
+                                                          "HubAllocations,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
         }
 
         public IEnumerable<ReliefRequisitionDetail> GetProjectCodeAssignedRequisitionDetails()
@@ -123,7 +125,7 @@ namespace Cats.Services.Procurement
 
 
 
-        public IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<RequisitionToDispatch> requisitions)
+        public IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<int> requisitions)
         {
 
             var transporterAssignedRequisionDetails = AssignTransporterForEachWoreda(requisitions);
@@ -158,7 +160,8 @@ namespace Cats.Services.Procurement
                     foreach (var reliefRequisitionDetail in requisionsDetails)
                     {
                         var transportOrderDetail = new TransportOrderDetail();
-                        transportOrderDetail.CommodityId = reliefRequisitionDetail.CommodityID;
+                        //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;
+                        transportOrderDetail.CommodityID = reliefRequisitionDetail.CommodityID;
                         transportOrderDetail.FdpID = reliefRequisitionDetail.FDPID;
                         transportOrderDetail.RequisitionID = reliefRequisitionDetail.RequisitionID;
                         transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount;
@@ -183,9 +186,9 @@ namespace Cats.Services.Procurement
             return transportOrders;
         }
 
-        private  List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<RequisitionToDispatch> requisitions)
+        private  List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<int> requisitions)
         {
-            var requisionIds = (from req in requisitions select req.RequisitionID).ToList();
+            var requisionIds = requisitions.ToList();
             var reqDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(t => requisionIds.Contains(t.RequisitionID));
             var transportSourceDestination = new List<TransporterRequisition>();
             foreach (var reliefRequisitionDetail in reqDetails)
@@ -211,6 +214,10 @@ namespace Cats.Services.Procurement
             }
             return transportSourceDestination;
         }
+        public List<vwTransportOrder> GeTransportOrderRpt(int id)
+        {
+            return _unitOfWork.VwTransportOrderRepository.Get(t=>t.TransportOrderID==id).ToList();
+        } 
         private class TransporterRequisition
         {
             public int HubID { get; set; }

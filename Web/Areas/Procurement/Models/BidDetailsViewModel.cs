@@ -23,6 +23,9 @@ namespace Cats.Areas.Procurement.Models
             public decimal AmountForPSNPProgram { get; set; }
             public decimal BidDocumentPrice { get; set; }
             public decimal CPO { get; set; }
+            public decimal AmountForReliefProgramPlanned { get; set; }
+            public decimal AmountForPSNPProgramPlanned { get; set; }
+
         }
 
         

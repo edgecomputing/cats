@@ -8,7 +8,7 @@
 <h2>Details</h2>
 
 <fieldset>
-    <legend>TransportOrder</legend>
+    <legend>Transport Order</legend>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.TransportOrderNo)
@@ -95,10 +95,11 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TransportOrderID }) |
+   
     @Html.ActionLink("Back to List", "Index")
+     <a href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })">Print (PDF)</a>
 </p>
-@{
+@*@{
     var detailModel = Model.TransportOrderDetails;
 }
 <table>
@@ -144,4 +145,4 @@
         </tr>
     }
 </table>
-@Html.ActionLink("Back To List","Index","TransportOrder")
+@Html.ActionLink("Back To List","Index","TransportOrder")*@

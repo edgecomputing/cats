@@ -38,6 +38,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<DispatchAllocation> DispatchAllocationRepository { get; }
         IGenericRepository<TransportOrder> TransportOrderRepository { get; }
         IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
+        IGenericRepository<vwTransportOrder> VwTransportOrderRepository { get;  } 
         void Save();
 
     }

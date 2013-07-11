@@ -54,7 +54,7 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransportBidPlanDetailRepository.FindBy(predicate);
 
         }
-        public double GetRegionPlanTotal(int bidplanid,int regionId, int programId)
+        public double GetRegionPlanTotal(int bidplanid, int regionId, int programId)
         {
             List<TransportBidPlanDetail> bidDetails = this.GetAllTransportBidPlanDetail();
             decimal r=

@@ -307,5 +307,20 @@ namespace Cats.Data.UnitWork
         {
             get { throw new NotImplementedException(); }
         }
+
+
+
+        private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;
+
+        public IGenericRepository<vwTransportOrder> VwTransportOrderRepository
+        {
+
+            get { return this.vwTransportOrderRepository ?? (this.vwTransportOrderRepository = new GenericRepository<vwTransportOrder>(_context)); }
+
+        }
+
+
+
+      
     }
 }

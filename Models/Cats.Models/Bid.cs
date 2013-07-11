@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Cats.Models
 {
     
-   public class Bid
+   public partial class Bid
     {
        public Bid()
        {
@@ -14,7 +14,6 @@ namespace Cats.Models
         public int BidID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        [Required]
         public string BidNumber { get; set; }
         public DateTime OpeningDate { get; set; }
         public int StatusID { get; set; }

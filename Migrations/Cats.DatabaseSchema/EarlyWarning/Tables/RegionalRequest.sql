@@ -8,8 +8,12 @@
     [Year]              INT            NOT NULL,
     [Remark]            NVARCHAR (255) NULL,
     [Status]            INT            NULL,
-    CONSTRAINT [PK_RegionalRequest] PRIMARY KEY CLUSTERED ([RegionalRequestID] ASC)
+    CONSTRAINT [PK_RegionalRequest] PRIMARY KEY CLUSTERED ([RegionalRequestID] ASC),
+    CONSTRAINT [FK_RegionalRequest_AdminUnit] FOREIGN KEY ([RegionID]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID]),
+    CONSTRAINT [FK_RegionalRequest_Program] FOREIGN KEY ([ProgramID]) REFERENCES [dbo].[Program] ([ProgramID])
 );
+
+
 
 
 

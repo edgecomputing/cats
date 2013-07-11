@@ -151,18 +151,22 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
-    <Compile Include="Areas\Logistics\Models\DispatchAllocation.cs" />
+    <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
     </Compile>
+    <Compile Include="Areas\Logistics\Models\ProjectCodeAllocation.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
@@ -346,6 +350,19 @@
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Areas\Procurement\Views\Bid\ApproveBid.cshtml" />
+=======
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocationDetail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
+>>>>>>> 49b7c8ed4facc19240f79684f8d2770e2db1269d
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -362,8 +379,6 @@
     <Content Include="Scripts\kendo.web.min.js" />
     <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
     <Content Include="Views\Shared\hubAllocation.cshtml" />
-    <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
-    <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
@@ -409,9 +424,6 @@
     <Content Include="Content\assets\font\fontawesome-webfont.woff" />
     <Content Include="Content\assets\font\FontAwesome.otf" />
     <Content Include="Areas\Procurement\Views\Bid\EditBidStatus.cshtml" />
-    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Areas\Settings\Views\Users\New.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />

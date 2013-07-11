@@ -14,7 +14,7 @@ namespace Cats.Models
             this.RegionalRequests = new List<RegionalRequest>();
             this.ReliefRequisitions = new List<ReliefRequisition>();
             this.ReliefRequisitions1 = new List<ReliefRequisition>();
-            this.TransportOrders = new List<TransportOrder>();
+            this.TransportOrderDetails = new List<TransportOrderDetail>();
            
         }
 
@@ -35,7 +35,7 @@ namespace Cats.Models
         public virtual ICollection<TransportBidPlanDetail> TransportBidPlanDestinations { get; set; }
        // public virtual ICollection<TransportBidPlan> TransportBidPlans { get; set; }    
 
-        public virtual ICollection<TransportOrder> TransportOrders { get; set; }
+        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
 
     }
 }
