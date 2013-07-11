@@ -62,7 +62,6 @@
     <Compile Include="IRegionalRequestService.cs" />
     <Compile Include="IReliefRequisitionDetailService.cs" />
     <Compile Include="IReliefRequisitionService.cs" />
-    <Compile Include="ITransportRequisitionService.cs" />
     <Compile Include="ProgramService.cs" />
     <Compile Include="ProjectCodeAllocationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,7 +69,6 @@
     <Compile Include="RegionalRequestService.cs" />
     <Compile Include="ReliefRequisitionDetailService.cs" />
     <Compile Include="ReliefRequisitionService.cs" />
-    <Compile Include="TransportRequisitionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">
