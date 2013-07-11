@@ -4,66 +4,93 @@
     ViewBag.Title = "HubAllocationDetail";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+<div class="well"> 
+    <h2>HubAllocationDetail</h2>
+</div>
+
 @section LeftBar
 {
-   <h3>Select Hub Allocated Requisition</h3>
-  @Html.Partial("~/Areas/Logistics/Views/ProjectAllocation/_HubAllocatedRequisitons.cshtml", ViewData["RequisitionList"])
+    @*@Html.Partial("~/Areas/Logistics/Views/ProjectAllocation/_HubAllocatedRequisitons.cshtml", ViewData["RequisitionList"])*@
+    @using (Html.BeginForm("HubAllocationDetail", "ProjectAllocation", FormMethod.Post))
+    {
+        <div class="control-group">
+            <label class="control-label">Region</label>
+            <div class="controls">
+             
+                     @*@Html.DropDownList("Region", (SelectList)ViewBag.Region)*@
+                   @Html.TextBoxFor(model=>model.FirstOrDefault().ReliefRequisition.RegionID)
+                @*@Html.ValidationMessageFor(model => model.FirstOrDefault().ReliefRequisition.RegionID)*@
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Zone</label>
+            <div class="controls">
+                @*@Html.DropDownList("Zone",(SelectList)ViewBag.Zone)*@
+                @Html.TextBoxFor(model=>model.FirstOrDefault().ReliefRequisition.ZoneID)
+                @*@Html.ValidationMessageFor(model => model.FirstOrDefault().ReliefRequisition.ZoneID)*@
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Filter" class="btn btn-primary"/>
+                
+            </div>
+        </div> 
+    }
 
     
 }
-<h2>HubAllocationDetail</h2>
-@using (Html.BeginForm("Edit", "ProjectAllocation", FormMethod.Get))
-{
+
+
+
     <table class="table table-bordered table-condensed table-striped">
         
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ReliefRequisition.RequisitionNo)
+                Requisition Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Hub)
+                Hub
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReliefRequisition.Round)
+                Commodity
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReliefRequisition.CommodityID)
+                Requested Quantity
             </th>
             <th>
-                
+                Date Hub Allocated 
             </th>
                
         </tr>
         @{ int index = 0; }
-        @*<a href="@Url.Action("DispatchDetail", "ProjectAllocation", new { Area = "Logistics", id = Model.FirstOrDefault().RequisitionNo })">Assign Project Code for Requisition Number @Html.DisplayFor(modelItem => Model.FirstOrDefault().RequisitionNo)</a>*@
+        
         @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)
-                    @*@item.RequisitionNo*@
+                    @Html.DisplayFor(modelItem => item.RequisitionID)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Hub.Name)
-                    @*@item.CommodityID*@
+                    @Html.DisplayFor(modelItem => item.HubID)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReliefRequisition.Round)
-                    @*@item.HubID*@
+                    @Html.DisplayFor(modelItem => item.HubAllocationID)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReliefRequisition.CommodityID)
-                    @*@item.Beneficiery*@
+                    @*@Html.DisplayFor(modelItem => item.)*@
                 </td>
-                
                 <td>
-                    @Html.ActionLink("Project/SI", "ProjectCodeAllocation" ,"ProjectAllocation", new { id=item.HubAllocationID }, null)
-                @*@Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
-                </td>*@
+                    @Html.DisplayFor(modelItem => item.AllocationDate)
+                </td>
+                <td>
+                    <input type="hidden" value="@item.HubAllocationID" name="@("input[" + index + "].Number")" />
+                </td>
+                <td>
+                    @Html.ActionLink("Project/SI", "ProjectCodeAllocation" ,"ProjectAllocation", new { id=item.HubAllocationID, requisition=item.RequisitionID }, null)
             </tr>
             index++;
         }
-
     </table>
-}

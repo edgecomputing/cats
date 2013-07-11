@@ -1,14 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Mapping
 {
-    public class ShippingInstructionMap : EntityTypeConfiguration<ShippingInstruction>
+    public class ProjectCodeMap : EntityTypeConfiguration<ProjectCode>
     {
-        public ShippingInstructionMap()
+        public ProjectCodeMap()
         {
             // Primary Key
-            this.HasKey(t => t.ShippingInstructionID);
+            this.HasKey(t => t.ProjectCodeID);
 
             // Properties
             this.Property(t => t.Value)
@@ -16,8 +18,8 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("ShippingInstruction");
-            this.Property(t => t.ShippingInstructionID).HasColumnName("ShippingInstructionID");
+            this.ToTable("ProjectCode");
+            this.Property(t => t.ProjectCodeID).HasColumnName("ProjectCodeID");
             this.Property(t => t.Value).HasColumnName("Value");
         }
     }

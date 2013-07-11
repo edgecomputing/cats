@@ -61,7 +61,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Status=new SelectList(RegionalRequestStatuses.GetAllStatus(),"Value","Name");
-            
 
             var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());

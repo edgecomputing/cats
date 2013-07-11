@@ -69,10 +69,12 @@
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
+    <Compile Include="Mapping\ProjectCodeMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionMap.cs" />
+    <Compile Include="Mapping\ShippingInstructionMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
+    <Compile Include="ShippingInstruction.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="TransportBidPlan.cs" />
     <Compile Include="TransportBidPlanDetail.cs" />
@@ -110,6 +113,7 @@
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
+    <Compile Include="ViewModels\SINumber.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

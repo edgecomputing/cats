@@ -91,7 +91,7 @@ namespace Cats.Services.EarlyWarning
                     {
                         var tempProjectCodeAllocation=FindById(item.HubAllocationID);
                             tempProjectCodeAllocation.ProjectCodeID=item.ProjectCodeID;
-                            tempProjectCodeAllocation.SINumberID=item.SINumberID;
+                            tempProjectCodeAllocation.ShippingInstructionID = item.ShippingInstructionID;
                             this.EditProjectCodeAllocationDetail(tempProjectCodeAllocation);
                     }
                     return true;

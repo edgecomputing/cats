@@ -20,11 +20,12 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ReliefRequisition> ReliefRequisitionRepository { get; }
         IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
         IGenericRepository<HubAllocation> HubAllocationRepository { get;}
+        IGenericRepository<ProjectCode> ProjectCodeRepository { get; }
 
 
         //IGenericRepository<HubAllocation> HubAllocationRepository { get; }
         IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository { get; }
-
+        IGenericRepository<ShippingInstruction> ShippingInstructionRepository { get; }
         IGenericRepository<Transporter> TransporterRepository { get; } 
         IGenericRepository<TransportBidPlan> TransportBidPlanRepository { get; }
         IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository { get; } 

@@ -20,16 +20,16 @@ namespace Cats.Models.Mapping
             this.Property(t => t.AllocationDate).HasColumnName("AllocationDate");
             this.Property(t => t.AllocatedBy).HasColumnName("AllocatedBy");
 
-            //// Relationships
-            //this.HasRequired(t => t.Hub)
-            //    .WithMany(t => t.HubAllocations)
-            //    .HasForeignKey(d => d.HubID);
-            //this.HasRequired(t => t.UserProfile)
-            //    .WithMany(t => t.HubAllocations)
-            //    .HasForeignKey(d => d.AllocatedBy);
-            //this.HasRequired(t => t.ReliefRequisition)
-            //    .WithMany(t => t.HubAllocations)
-            //    .HasForeignKey(d => d.RequisitionID);
+            // Relationships
+            this.HasRequired(t => t.Hub)
+                .WithMany(t => t.HubAllocations)
+                .HasForeignKey(d => d.HubID);
+            this.HasRequired(t => t.UserProfile)
+                .WithMany(t => t.HubAllocations)
+                .HasForeignKey(d => d.AllocatedBy);
+            this.HasRequired(t => t.ReliefRequisition)
+                .WithMany(t => t.HubAllocations)
+                .HasForeignKey(d => d.RequisitionID);
 
         }
     }
