@@ -15,8 +15,9 @@ namespace Cats.Models
         public ReliefRequisition()
         {
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
-            this.TransportOrders = new List<TransportOrder>();
-            this.HubAllocations = new Collection<HubAllocation>();
+            this.TransportOrderDetails = new List<TransportOrderDetail>();
+            this.HubAllocations = new List<HubAllocation>();
+            this.TransportRequisitionDetails = new List<TransportRequisitionDetail>();
 
         }
 
@@ -35,14 +36,15 @@ namespace Cats.Models
         public Nullable<int> RegionalRequestID { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual AdminUnit AdminUnit1 { get; set; }
-        public virtual Program Program { get; set; }
         public virtual Commodity Commodity { get; set; }
+        public virtual Program Program { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
         public virtual RegionalRequest RegionalRequest { get; set; }
-        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
-        public virtual ICollection<TransportOrder> TransportOrders { get; set; }
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }
+        public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
+        public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
       
         
     }

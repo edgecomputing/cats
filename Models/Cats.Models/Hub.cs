@@ -9,8 +9,8 @@ namespace Cats.Models
     public class Hub
     {
         public Hub()
-        {                                      
-            this.TransportOrderDeatils = new List<TransportOrderDetail>();
+        {
+            this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.HubAllocations = new List<HubAllocation>();
             this.BidWinners=new List<BidWinner>();
         }
@@ -20,7 +20,7 @@ namespace Cats.Models
 
         public virtual ICollection<TransportBidPlanDetail> TransportBidPlanSources { get; set; }
 
-        public virtual ICollection<TransportOrderDetail> TransportOrderDeatils { get; set; }
+        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }
         public virtual ICollection<BidWinner> BidWinners  { get; set; }
 

@@ -32,6 +32,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransporterSignedName)
                 .HasMaxLength(50);
 
+            this.Property(t => t.ContractNumber)
+                .HasMaxLength(50);
+
             // Table & Column Mappings
             this.ToTable("TransportOrder", "Procurement");
             this.Property(t => t.TransportOrderID).HasColumnName("TransportOrderID");
@@ -42,11 +45,11 @@ namespace Cats.Models.Mapping
             this.Property(t => t.BidDocumentNo).HasColumnName("BidDocumentNo");
             this.Property(t => t.PerformanceBondReceiptNo).HasColumnName("PerformanceBondReceiptNo");
             this.Property(t => t.TransporterID).HasColumnName("TransporterID");
-           
             this.Property(t => t.ConsignerName).HasColumnName("ConsignerName");
             this.Property(t => t.TransporterSignedName).HasColumnName("TransporterSignedName");
             this.Property(t => t.ConsignerDate).HasColumnName("ConsignerDate");
             this.Property(t => t.TransporterSignedDate).HasColumnName("TransporterSignedDate");
+            this.Property(t => t.ContractNumber).HasColumnName("ContractNumber");
 
             // Relationships
            

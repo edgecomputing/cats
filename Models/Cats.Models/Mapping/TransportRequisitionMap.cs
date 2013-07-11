@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cats.Models.Mapping
+{
+  
+    public class TransportRequisitionMap : EntityTypeConfiguration<TransportRequisition>
+    {
+        public TransportRequisitionMap()
+        {
+            // Primary Key
+            this.HasKey(t => t.TransportRequisitionID);
+
+            // Properties
+            this.Property(t => t.TransportRequisitionNo)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            // Table & Column Mappings
+            this.ToTable("TransportRequisition", "Logistics");
+            this.Property(t => t.TransportRequisitionID).HasColumnName("TransportRequisitionID");
+            this.Property(t => t.TransportRequisitionNo).HasColumnName("TransportRequisitionNo");
+            this.Property(t => t.RequestedBy).HasColumnName("RequestedBy");
+            this.Property(t => t.RequestedDate).HasColumnName("RequestedDate");
+            this.Property(t => t.CertifiedBy).HasColumnName("CertifiedBy");
+            this.Property(t => t.CertifiedDate).HasColumnName("CertifiedDate");
+            this.Property(t => t.Remark).HasColumnName("Remark");
+            this.Property(t => t.Status).HasColumnName("Status");
+
+            // Relationships
+            this.HasRequired(t => t.UserProfile)
+                .WithMany(t => t.TransportRequisitions)
+                .HasForeignKey(d => d.RequestedBy);
+            this.HasRequired(t => t.UserProfile1)
+                .WithMany(t => t.TransportRequisitions1)
+                .HasForeignKey(d => d.CertifiedBy);
+
+        }
+    }
+}

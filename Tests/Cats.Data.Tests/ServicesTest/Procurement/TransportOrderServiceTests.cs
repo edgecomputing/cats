@@ -272,8 +272,12 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         {
            
             //Act 
-             var requisitionToDispatch = _transportOrderService.GetRequisitionToDispatch().ToList();
-            var createdTransportOrders = _transportOrderService.CreateTransportOrder(requisitionToDispatch);
+
+            var requisitions = new List<int>()
+                                   {
+                                       1
+                                   };
+            var createdTransportOrders = _transportOrderService.CreateTransportOrder(requisitions);
 
             //Assert
 

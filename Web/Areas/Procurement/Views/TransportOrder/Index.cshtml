@@ -11,6 +11,10 @@
 <table class="table table-bordered table-striped table-condensed">
     <tr>
         <th>
+            
+            @Html.DisplayNameFor(model => model.Transporter.Name)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.TransportOrderNo)
         </th>
         <th>
@@ -31,7 +35,7 @@
         <th>
             @Html.DisplayNameFor(model => model.PerformanceBondReceiptNo)
         </th>
-        <th>
+        @*  <th>
             @Html.DisplayNameFor(model => model.TransporterID)
         </th>
         <th>
@@ -45,12 +49,18 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TransporterSignedDate)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            
+                @*<a href="@Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = item.TransporterID })">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>*@
+            
+            @Html.DisplayFor(modelItem=>item.Transporter.Name)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.TransportOrderNo)
         </td>
@@ -72,7 +82,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.PerformanceBondReceiptNo)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.TransporterID)
         </td>
         <td>
@@ -86,9 +96,10 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TransporterSignedDate)
-        </td>
+        </td>*@
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) 
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) |
+            @Html.ActionLink("Print", "Print", new { id = item.TransportOrderID}, new {target="_blank"})
            
         </td>
     </tr>

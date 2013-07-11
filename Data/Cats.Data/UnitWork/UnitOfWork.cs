@@ -246,13 +246,7 @@ namespace Cats.Data.UnitWork
 
         //}
 
-        private IGenericRepository<TransportRequisition> transportRequisitionRepository;
-
-        public IGenericRepository<TransportRequisition> TransportRequisitionRepository
-        {
-            get { return this.transportRequisitionRepository ?? (this.transportRequisitionRepository = new GenericRepository<TransportRequisition>(_context)); }
-
-        }
+       
 
       
 
@@ -308,5 +302,20 @@ namespace Cats.Data.UnitWork
         {
             get { throw new NotImplementedException(); }
         }
+
+
+
+        private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;
+
+        public IGenericRepository<vwTransportOrder> VwTransportOrderRepository
+        {
+
+            get { return this.vwTransportOrderRepository ?? (this.vwTransportOrderRepository = new GenericRepository<vwTransportOrder>(_context)); }
+
+        }
+
+
+
+      
     }
 }
