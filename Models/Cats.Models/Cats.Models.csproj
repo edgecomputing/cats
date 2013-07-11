@@ -113,7 +113,6 @@
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
-    <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\RegionalRequestStatus.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />

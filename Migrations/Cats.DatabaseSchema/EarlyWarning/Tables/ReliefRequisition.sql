@@ -17,8 +17,12 @@
     CONSTRAINT [FK_ReliefRequisition_AdminUnit1] FOREIGN KEY ([RegionID]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID]),
     CONSTRAINT [FK_ReliefRequisition_Commodity] FOREIGN KEY ([CommodityID]) REFERENCES [dbo].[Commodity] ([CommodityID]),
     CONSTRAINT [FK_ReliefRequisition_Program] FOREIGN KEY ([ProgramID]) REFERENCES [dbo].[Program] ([ProgramID]),
+
     CONSTRAINT [FK_ReliefRequisition_UserProfile] FOREIGN KEY ([RequestedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID]),
-    CONSTRAINT [FK_ReliefRequisition_UserProfile1] FOREIGN KEY ([ApprovedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID])
+    CONSTRAINT [FK_ReliefRequisition_UserProfile1] FOREIGN KEY ([ApprovedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID]),
+
+    CONSTRAINT [FK_ReliefRequisition_RegionalRequest] FOREIGN KEY ([RegionalRequestID]) REFERENCES [EarlyWarning].[RegionalRequest] ([RegionalRequestID])
+
 );
 
 

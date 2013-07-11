@@ -50,7 +50,6 @@ namespace Cats.Data
         public DbSet<TransportRequisition> TransportRequisitions { get; set; }
         public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
         //public DbSet<Product> Products { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //TODO: Add mapping information for each Poco model.

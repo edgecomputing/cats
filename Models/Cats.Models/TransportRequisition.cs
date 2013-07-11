@@ -23,8 +23,7 @@ namespace Cats.Models
         public System.DateTime CertifiedDate { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
-        public virtual UserProfile UserProfile1 { get; set; }
+     
         public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
     }
 }
