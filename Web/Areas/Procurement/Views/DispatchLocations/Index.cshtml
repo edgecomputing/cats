@@ -1,0 +1,68 @@
+﻿@model  IEnumerable<Cats.Models.BidWinner>
+
+@{
+    ViewBag.Title = "Create Bid";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="well">
+    <h4 class="page-header"> Bid Winner Transporters</h4>
+    
+</div>
+
+@section LeftBar
+{
+    @using (Html.BeginForm("Index","DispatchLocations",FormMethod.Get))
+    {
+        <p class="control-list">Search:</p>
+        <div class="control-group">
+            <label class="control-label">Bid Number</label>
+        <div class="controls">
+            @Html.TextBox("BidNumber")
+        </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Filter" class="btn btn-primary"/>
+            </div>
+        </div> 
+        
+    }
+
+}
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            Bid Number
+        </th>
+        <th>
+            Transporter
+        </th>        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bid.BidNumber)
+            </td>
+            <td>
+                <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.BidWinnerID })">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("Details", "DispatchLocations", new {Area = "Procurement", id = item.BidWinnerID})">View Dispatch Locations</a></li>
+                        <li><a href="@Url.Action("Index", "DispatchLocations", new {Area = "Procurement", id = item.BidWinnerID})">Transporter Detail</a></li>
+                        @*<li><a href="@Url.Action("ApproveBid", "Bid", new {Area = "Procurement", id = item.BidID})">Approve</a></li>*@
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

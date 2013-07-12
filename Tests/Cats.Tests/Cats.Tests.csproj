@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllersTests\BidControllerTest.cs" />
+    <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />
     <Compile Include="ControllersTests\RequestControllerTests.cs" />
     <Compile Include="ControllersTests\TransportOrderControllerTests.cs" />
     <Compile Include="ProjectAllocationControllerTest.cs" />

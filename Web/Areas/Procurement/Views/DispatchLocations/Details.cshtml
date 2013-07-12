@@ -1,0 +1,101 @@
+﻿@model Cats.Models.BidWinner
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+@section LeftBar
+{
+    <li class="nav-header">Bid Informaation</li>
+    <li>Region: @ViewBag.BidNumber</li>
+    <li>Transporter Name: @ViewBag.Transporter</li>
+    <li>Bid Number: @ViewBag.EndDate</li>
+    <li class="nav-header">Tasks</li>
+    <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Winners List</a></li>
+}
+<div class="well">
+    <h4 class="page-header">Region:@ViewBag.Region  Transporter Name: @ViewBag.Transporter   for bid: @ViewBag.BidNumber</h4>
+</div>
+
+@using (Html.BeginForm("Details", "DispatchLocations", FormMethod.Post))
+{
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                Warehouse
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Bid.TransportBidPlanID)
+            </th>
+            <th>
+                Source
+            </th>
+            <th>
+                Destination
+            </th>
+            <th>
+               Program
+            </th>
+            <th>
+              @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tariff)
+            </th>
+            <th>Total</th>
+        </tr>
+        @{ int index = 0; }
+        @foreach (var bidDetail in Model.Bid.TransportBidPlan.TransportBidPlanDetails)
+        {
+            <tr>
+                <td>
+                    @bidDetail.Source.Name
+                </td>
+                <td>
+                      @bidDetail.BidPlan.ShortName
+                </td>
+                <td>
+                    @bidDetail.Source.Name
+                </td>
+                <td>
+                    @bidDetail.Destination.Name
+                </td>
+                <td>
+                    @bidDetail.Program.Name
+                </td>
+                <td>
+                     @bidDetail.Quantity
+                </td>
+                <td>
+                    @bidDetail.BidPlanID
+                </td>
+                <td>
+                    @{
+                        var total = bidDetail.Quantity*bidDetail.BidPlanID;
+                    }
+                    @total
+                </td>
+
+            </tr>
+            index++;
+           
+        }
+        <tr>
+            <td colspan="4" class="border-box">
+                <p>Summary For  :<b>@ViewBag.Transporter</b></p>
+            </td>
+            <td>
+                Total Quantity @ViewBag.TotalAmount
+            </td>
+            <td>
+                Total Tariff @ViewBag.TotalAmount
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+
+
+

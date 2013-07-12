@@ -157,6 +157,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
@@ -377,6 +378,8 @@
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Details.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

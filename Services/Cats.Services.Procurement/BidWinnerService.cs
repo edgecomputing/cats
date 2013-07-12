@@ -7,7 +7,7 @@ using Cats.Models;
 
 namespace Cats.Services.Procurement
 {
-    class BidWinnerService:IBidWinnerService
+    public class BidWinnerService:IBidWinnerService
     {
          private readonly  IUnitOfWork _unitOfWork;
 

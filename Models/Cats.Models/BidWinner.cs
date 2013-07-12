@@ -12,6 +12,7 @@ namespace Cats.Models
        public int SourceID { get; set; }
        public int DestinationID { get; set; }
        public int TransporterID { get; set; }
+       public int CommodityID { get; set; }
        public decimal Amount { get; set; }
        public decimal Tariff { get; set; }
        public int Position { get; set; }
@@ -25,6 +26,7 @@ namespace Cats.Models
        public virtual Transporter Transporter { get; set; }
        public virtual AdminUnit AdminUnit{ get; set; }
        public virtual Hub Hub { get; set; }
+       public virtual Commodity Commodity { get; set; }
 
         #endregion
 
