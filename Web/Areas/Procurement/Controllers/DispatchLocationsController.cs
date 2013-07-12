@@ -19,12 +19,18 @@ namespace Cats.Areas.Procurement.Controllers
             this._bidWinnerService = bidWinnerService;
             this._adminUnitService = adminUnitService;
         }
-
+       
         public ActionResult Index()
         {
             var bidWinner = _bidWinnerService.Get(m=>m.Position<2);
             return View(bidWinner);
         }
+        // [HttpGet]
+        //public ActionResult Index(string transporter,string bidNumber)
+        //{
+        //    var BidWinner = _bidWinnerService.Get(m => m.Transporter.Name.StartsWith(transporter) && m.Bid.BidNumber.StartsWith(bidNumber));
+        //    return View(BidWinner.ToList());
+        //}
         public ActionResult Details(int id=0)
         {
             var totalAmount=0;

@@ -6,10 +6,10 @@
 }
 @section LeftBar
 {
-    <li class="nav-header">Bid Informaation</li>
-    <li>Region: @ViewBag.BidNumber</li>
+    <li class="nav-header">Bid Winners Informaation</li>
+    <li>Region: @ViewBag.Region</li>
     <li>Transporter Name: @ViewBag.Transporter</li>
-    <li>Bid Number: @ViewBag.EndDate</li>
+    <li>Bid Number: @ViewBag.BidNumber</li>
     <li class="nav-header">Tasks</li>
     <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Winners List</a></li>
 }
@@ -25,10 +25,10 @@
                 Warehouse
             </th>
             <th>
-               @Html.DisplayNameFor(model => model.Bid.TransportBidPlanID)
+             Zone
             </th>
             <th>
-                Source
+                Woreda
             </th>
             <th>
                 Destination
@@ -44,15 +44,18 @@
             </th>
             <th>Total</th>
         </tr>
-        @{ int index = 0; }
+        @{ int index = 0;
+            var grandTotal = 0;
+           }
         @foreach (var bidDetail in Model.Bid.TransportBidPlan.TransportBidPlanDetails)
         {
             <tr>
                 <td>
                     @bidDetail.Source.Name
                 </td>
+ 
                 <td>
-                      @bidDetail.BidPlan.ShortName
+                      @bidDetail.Destination.Name
                 </td>
                 <td>
                     @bidDetail.Source.Name
@@ -67,11 +70,12 @@
                      @bidDetail.Quantity
                 </td>
                 <td>
-                    @bidDetail.BidPlanID
+                    @bidDetail.TransportBidPlanDetailID
                 </td>
                 <td>
                     @{
-                        var total = bidDetail.Quantity*bidDetail.BidPlanID;
+                        var total = bidDetail.Quantity*bidDetail.TransportBidPlanDetailID;
+                        grandTotal = (int) (grandTotal + total);
                     }
                     @total
                 </td>
@@ -81,14 +85,14 @@
            
         }
         <tr>
-            <td colspan="4" class="border-box">
-                <p>Summary For  :<b>@ViewBag.Transporter</b></p>
+            <td colspan="5" class="border-box">
+                <p align="center">Summary For  :<b class="k-info-colored">@ViewBag.Transporter</b></p>
             </td>
             <td>
-                Total Quantity @ViewBag.TotalAmount
+                <b class="k-info-colored">Total Quintal : @ViewBag.TotalAmount</b>
             </td>
-            <td>
-                Total Tariff @ViewBag.TotalAmount
+            <td colspan="2">
+               <p align="center"><b class="k-info-colored"> Total Tariff : Birr @grandTotal</b></p>
             </td>
         </tr>
     </table>
