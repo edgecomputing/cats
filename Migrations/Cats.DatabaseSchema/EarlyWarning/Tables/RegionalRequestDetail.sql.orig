@@ -8,9 +8,10 @@
     [CSB]                     DECIMAL (19, 5) NULL,
     [Beneficiaries]           INT             NOT NULL,
     CONSTRAINT [PK_RegionalRequestDetail] PRIMARY KEY CLUSTERED ([RegionalRequestDetailID] ASC),
-    CONSTRAINT [FK_RegionalRequestDetail_FDP] FOREIGN KEY ([FDPID]) REFERENCES [dbo].[FDP] ([FDPID]),
-    CONSTRAINT [FK_RegionalRequestDetail_RegionalRequest] FOREIGN KEY ([RegionalRequestID]) REFERENCES [EarlyWarning].[RegionalRequest] ([RegionalRequestID])
+    CONSTRAINT [FK_RegionalRequestDetail_FDP] FOREIGN KEY ([FDPID]) REFERENCES [dbo].[FDP] ([FDPID])
 );
+
+
 
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -32,28 +33,7 @@ namespace Cats.Areas.Logistics.Controllers
 
 
 
-        //[HttpGet]
-        //public JsonResult GetApprovedRequisitions()
-        //{
-        //    var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
-        //    var result = new List<ReliefRequisitionsViewModel>();
-
-        //    foreach (var item in reliefRequisitions.ToList())
-        //    {
-        //        var data = new ReliefRequisitionsViewModel();
-        //        data.CommodityName = item.Commodity.Name;
-        //        data.Region = item.ReliefRequisition.AdminUnit1.Name;
-        //        data.Zone = item.ReliefRequisition.AdminUnit1.Name;
-        //        if (item.ReliefRequisition.Round != null) data.Round = item.ReliefRequisition.Round.Value;
-        //        data.RequistionNo = item.ReliefRequisition.RequisitionNo;
-        //        data.Amount = item.Amount;
-        //        data.Beneficiaries = item.BenficiaryNo;
-
-        //        result.Add(data);
-        //    }
-
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+       
 
         public ActionResult AssignHub()
         {
@@ -78,21 +58,22 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetHubs()
+        public ActionResult GetHubs()
         {
 
-            var result = _hubService.GetAllHub().ToList();
-            var hubs = result.Select(item => new HubDto(item.HubId, item.Name)).ToList();
+           
+            List<HubDto> list= new List<HubDto>(1);
+            HubDto d = new HubDto(){HubId = 1,HubName = "hub"};
+            list.Add(d);
 
-            Response.Headers.Add("Content-type", "application/json");
-
-            return Json(hubs,JsonRequestBehavior.AllowGet );
+            return Json(list, JsonRequestBehavior.AllowGet);
+           
         }
 
       
 
 
-        public ActionResult ApprovedRequesitions(ICollection<ReliefRequisitionDetail> requisitionDetail)
+        public ActionResult ApprovedRequesitions()
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
@@ -110,7 +91,7 @@ namespace Cats.Areas.Logistics.Controllers
 
 
         [HttpPost]
-        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form)
+        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection form)
         {
             ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
@@ -120,43 +101,46 @@ namespace Cats.Areas.Logistics.Controllers
 
            _requisitionDetail = requisitionDetail.ToArray();
 
-           var _chkValue = _Form["IsChecked"]; // for this code the _chkValue will return all value of each checkbox that is checked
+           var chkValue = form["IsChecked"]; // for this code the chkValue will return all value of each checkbox that is checked
 
             
-            if (_chkValue != null)
+            if (chkValue != null)
             {
+                string[] arrChkValue = form["IsChecked"].Split(',');
 
-                string[] _arrChkValue = _Form["IsChecked"].ToString().Split(',');
-
-                for (int i = 0; i < _arrChkValue.Length; i++)
+                foreach (var value in arrChkValue)
                 {
-                    var _value = _arrChkValue[i]; 
-                    listOfRequsitions.Add(_requisitionDetail[int.Parse(_value)]);
+                    listOfRequsitions.Add(_requisitionDetail[int.Parse(value)]);
                 }
             }
 
-            return View(listOfRequsitions);
+            return View(listOfRequsitions.ToList());
         }
 
 
-        public void inserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection _Form, string datepicker, string rNumber)
+        public ActionResult InserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection form, string datepicker, string rNumber)
         {
 
-            string hub = _Form["hub"].ToString();
+            string hub = form["hub"].ToString(CultureInfo.InvariantCulture);
 
             foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
             {
-                HubAllocation new_hub_allocation = new HubAllocation();
+                var newHubAllocation = new HubAllocation
+                                           {
+                                               AllocatedBy = 1,
+                                               RequisitionID = appRequisition.RequisitionID,
+                                               AllocationDate = DateTime.Now,
+                                               HubID = int.Parse(hub)
+                                           };
+               
+               
 
-                new_hub_allocation.AllocatedBy = appRequisition.CommodityID;
-                new_hub_allocation.RequisitionID = appRequisition.RequisitionID;
-                new_hub_allocation.AllocationDate = DateTime.Now;
-                new_hub_allocation.HubID = int.Parse(hub);
-                new_hub_allocation.AllocatedBy = 1;
-
-                _hubAllocationService.AddHubAllocation(new_hub_allocation);
-                _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionNo);
+                _hubAllocationService.AddHubAllocation(newHubAllocation);
+                _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionID);
+                
             }
+            return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+            
         }
         
        

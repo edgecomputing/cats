@@ -24,12 +24,6 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<BidWinner> BidWinnerRepository { get; } 
 
-
-       
-
-
-
-        //IGenericRepository<HubAllocation> HubAllocationRepository { get; }
         IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository { get; }
 
         IGenericRepository<ShippingInstruction> ShippingInstructionRepository { get; }
