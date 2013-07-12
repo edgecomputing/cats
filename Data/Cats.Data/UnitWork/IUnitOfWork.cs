@@ -22,23 +22,36 @@ namespace Cats.Data.UnitWork
         IGenericRepository<HubAllocation> HubAllocationRepository { get;}
         IGenericRepository<ProjectCode> ProjectCodeRepository { get; }
 
+        IGenericRepository<BidWinner> BidWinnerRepository { get; } 
+
+
+       
+
+
 
         //IGenericRepository<HubAllocation> HubAllocationRepository { get; }
         IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository { get; }
+
         IGenericRepository<ShippingInstruction> ShippingInstructionRepository { get; }
         IGenericRepository<Transporter> TransporterRepository { get; } 
+
+
+        //IGenericRepository<Transporter> TransporterRepository { get; }
         IGenericRepository<TransportBidPlan> TransportBidPlanRepository { get; }
-        IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository { get; } 
-       
+        IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository { get; }
+
         IGenericRepository<Bid> BidRepository { get; }
-        IGenericRepository<BidDetail> BidDetailRepository { get; } 
+        IGenericRepository<BidDetail> BidDetailRepository { get; }
         IGenericRepository<Status> StatusRepository { get; }
-        
+
 
         //IGenericRepository<DispatchAllocationDetail> DispatchAllocationRepository { get; }
         IGenericRepository<DispatchAllocation> DispatchAllocationRepository { get; }
         IGenericRepository<TransportOrder> TransportOrderRepository { get; }
         IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
+        IGenericRepository<vwTransportOrder> VwTransportOrderRepository { get; }
+        //IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
+        IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository { get; } 
         void Save();
 
     }

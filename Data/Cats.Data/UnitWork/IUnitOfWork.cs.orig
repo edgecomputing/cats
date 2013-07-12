@@ -15,36 +15,44 @@ namespace Cats.Data.UnitWork
         IGenericRepository<CommodityType> CommodityTypeRepository { get; }
         IGenericRepository<FDP> FDPRepository { get; }
         IGenericRepository<Program> ProgramRepository { get; }
-        
         IGenericRepository<Hub> HubRepository { get; }
         IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository { get; }
         IGenericRepository<ReliefRequisition> ReliefRequisitionRepository { get; }
-<<<<<<< HEAD
-        IGenericRepository<Transporter> TransporterRepository { get; } 
-=======
 
         IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
         IGenericRepository<HubAllocation> HubAllocationRepository { get;}
-        
+        IGenericRepository<ProjectCode> ProjectCodeRepository { get; }
+
+        IGenericRepository<BidWinner> BidWinnerRepository { get; } 
 
 
 
-        //IGenericRepository<RequisitionViewModel> RequisitionViewModelRepository { get; }
+
+
+
+        //IGenericRepository<HubAllocation> HubAllocationRepository { get; }
+        IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository { get; }
+
+        IGenericRepository<ShippingInstruction> ShippingInstructionRepository { get; }
+        IGenericRepository<Transporter> TransporterRepository { get; } 
 
 
         IGenericRepository<Transporter> TransporterRepository { get; }
         IGenericRepository<TransportBidPlan> TransportBidPlanRepository { get; }
-        IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository { get; } 
-       
->>>>>>> a696106845a4fdd1e90f43963bcc75eacb3305f7
+        IGenericRepository<TransportBidPlanDetail> TransportBidPlanDetailRepository { get; }
+
         IGenericRepository<Bid> BidRepository { get; }
         IGenericRepository<BidDetail> BidDetailRepository { get; }
         IGenericRepository<Status> StatusRepository { get; }
-        
+
 
         //IGenericRepository<DispatchAllocationDetail> DispatchAllocationRepository { get; }
         IGenericRepository<DispatchAllocation> DispatchAllocationRepository { get; }
-        IGenericRepository<TransportOrder> TransportOrderRepository { get; } 
+        IGenericRepository<TransportOrder> TransportOrderRepository { get; }
+        IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
+        IGenericRepository<vwTransportOrder> VwTransportOrderRepository { get; }
+        IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
+        IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository { get; } 
         void Save();
 
     }

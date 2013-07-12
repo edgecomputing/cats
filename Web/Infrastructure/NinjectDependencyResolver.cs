@@ -8,6 +8,7 @@ using Cats.Services.Security;
 using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
+using Cats.Services.Logistics;
 
 namespace Cats.Infrastructure
 {
@@ -45,7 +46,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IReliefRequisitionService>().To<ReliefRequisitionService>();
             kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
             kernel.Bind<IBidService>().To<BidService>();
-            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
+          
 
             kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
@@ -62,6 +63,11 @@ namespace Cats.Infrastructure
             kernel.Bind<IProjectCodeAllocationService>().To<ProjectCodeAllocationService>();
             kernel.Bind<IShippingInstructionService>().To<ShippingInstructionService>();
             
+
+            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
+            kernel.Bind<IProjectCodeAllocationService>().To<ProjectCodeAllocationService>();
+            kernel.Bind<IBidWinnerService>().To<IBidWinnerService>();
+
         }
     }
 }

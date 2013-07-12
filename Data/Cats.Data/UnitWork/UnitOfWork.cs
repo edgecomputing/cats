@@ -17,6 +17,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Bid> bidRepository;
         private IGenericRepository<BidDetail> bidDetailRepository; 
         private IGenericRepository<Status> statusRepository; 
+        private IGenericRepository<BidWinner> bidWinnerRepository; 
         
 
         public UnitOfWork()
@@ -83,13 +84,6 @@ namespace Cats.Data.UnitWork
             get { return this.regionalRequestDetailRepository ?? (this.regionalRequestDetailRepository = new GenericRepository<RegionalRequestDetail>(_context)); }
 
         }
-
-
-
-      
-        
-      
-
 
 
         public IGenericRepository<Bid> BidRepository
@@ -310,6 +304,13 @@ namespace Cats.Data.UnitWork
 
         }
 
+        public IGenericRepository<BidWinner> BidWinnerRepository
+        {
+
+            get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
+
+        }
+
 
 
 
@@ -319,5 +320,39 @@ namespace Cats.Data.UnitWork
         {
             get { throw new NotImplementedException(); }
         }
+
+
+
+        private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;
+
+        public IGenericRepository<vwTransportOrder> VwTransportOrderRepository
+        {
+
+            get { return this.vwTransportOrderRepository ?? (this.vwTransportOrderRepository = new GenericRepository<vwTransportOrder>(_context)); }
+
+        }
+
+
+
+        
+
+
+
+
+        private IGenericRepository<TransportRequisitionDetail> transportRequisitionDetailRepository;
+
+        public IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository
+        {
+
+            get { return this.transportRequisitionDetailRepository ?? (this.transportRequisitionDetailRepository = new GenericRepository<TransportRequisitionDetail>(_context)); }
+
+        }
+
+
+
+      
+      
+
+      
     }
 }

@@ -24,13 +24,13 @@ namespace Cats.Models
         //public virtual ICollection<Transaction> Transactions { get; set; }
         public List<ShippingInstruction> GetSIList()
         {
-            List<ShippingInstruction> si = new List<ShippingInstruction>();
-             
-                si.Add(new Cats.Models.ShippingInstruction {ShippingInstructionID = 104, Value = "00013753"});
+            List<ShippingInstruction> shippingInstructions = new List<ShippingInstruction>();
 
-                si.Add(new Cats.Models.ShippingInstruction {ShippingInstructionID = 102, Value = "00014110"});
-            
-            return si;
+            shippingInstructions.Add(new Cats.Models.ShippingInstruction { ShippingInstructionID = 104, Value = "00013753" });
+
+            shippingInstructions.Add(new Cats.Models.ShippingInstruction { ShippingInstructionID = 102, Value = "00014110" });
+
+            return shippingInstructions;
 
         }
     }

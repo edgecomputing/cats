@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -82,27 +80,29 @@ namespace Cats.Services.Procurement
 
 
 
-        public IEnumerable<Models.ViewModels.RequisitionToDispatch> GetRequisitionToDispatch()
+        public IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch()
         {
             var requisitions = GetProjectCodeAssignedRequisitions();
 
             var result = (from requisition in requisitions
                           select new RequisitionToDispatch
-                                     {
-                                         HubID = requisition.HubAllocations.FirstOrDefault().HubID,
-                                         RequisitionID = requisition.RequisitionID,
-                                         RequisitionNo = requisition.RequisitionNo,
-                                         RequisitionStatus = requisition.Status.Value,
-                                         ZoneID = requisition.ZoneID.Value,
-                                         QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
-                                         OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
-                                         CommodityID = requisition.CommodityID.Value,
-                                         CommodityName = requisition.Commodity.Name,
-                                         Zone = requisition.AdminUnit.Name,
-                                         RegionID = requisition.RegionID.Value,
-                                         RegionName = requisition.AdminUnit1.Name
+                          {
+                              HubID = requisition.HubAllocations.FirstOrDefault().HubID,
+                              RequisitionID = requisition.RequisitionID,
+                              RequisitionNo = requisition.RequisitionNo,
+                              RequisitionStatus = requisition.Status.Value,
+                              ZoneID = requisition.ZoneID.Value,
+                              QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
+                              OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
+                              CommodityID = requisition.CommodityID.Value,
+                              CommodityName = requisition.Commodity.Name,
+                              Zone = requisition.AdminUnit.Name,
+                              RegionID = requisition.RegionID.Value,
+                              RegionName = requisition.AdminUnit1.Name,
 
-                                     });
+
+
+                          });
 
 
             return result;
@@ -111,7 +111,7 @@ namespace Cats.Services.Procurement
         public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
         {
             return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
-                                                          "HubAllocations,HubAllocations.Hub,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity");
+                                                          "HubAllocations,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
         }
 
         public IEnumerable<ReliefRequisitionDetail> GetProjectCodeAssignedRequisitionDetails()
@@ -123,7 +123,7 @@ namespace Cats.Services.Procurement
 
 
 
-        public IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<RequisitionToDispatch> requisitions)
+        public IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<int> requisitions)
         {
 
             var transporterAssignedRequisionDetails = AssignTransporterForEachWoreda(requisitions);
@@ -158,7 +158,8 @@ namespace Cats.Services.Procurement
                     foreach (var reliefRequisitionDetail in requisionsDetails)
                     {
                         var transportOrderDetail = new TransportOrderDetail();
-                        transportOrderDetail.CommodityId = reliefRequisitionDetail.CommodityID;
+                        //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;
+                        transportOrderDetail.CommodityID = reliefRequisitionDetail.CommodityID;
                         transportOrderDetail.FdpID = reliefRequisitionDetail.FDPID;
                         transportOrderDetail.RequisitionID = reliefRequisitionDetail.RequisitionID;
                         transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount;
@@ -183,9 +184,9 @@ namespace Cats.Services.Procurement
             return transportOrders;
         }
 
-        private  List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<RequisitionToDispatch> requisitions)
+        private List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<int> requisitions)
         {
-            var requisionIds = (from req in requisitions select req.RequisitionID).ToList();
+            var requisionIds = requisitions.ToList();
             var reqDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(t => requisionIds.Contains(t.RequisitionID));
             var transportSourceDestination = new List<TransporterRequisition>();
             foreach (var reliefRequisitionDetail in reqDetails)
@@ -211,6 +212,10 @@ namespace Cats.Services.Procurement
             }
             return transportSourceDestination;
         }
+        public List<vwTransportOrder> GeTransportOrderRpt(int id)
+        {
+            return _unitOfWork.VwTransportOrderRepository.Get(t => t.TransportOrderID == id).ToList();
+        }
         private class TransporterRequisition
         {
             public int HubID { get; set; }
@@ -221,5 +226,7 @@ namespace Cats.Services.Procurement
         }
     }
 }
+
+
 
 

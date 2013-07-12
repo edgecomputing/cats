@@ -47,11 +47,8 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Grid.Mvc.2.3.0\lib\net40\GridMvc.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -147,36 +144,54 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
-    <Compile Include="Areas\Logistics\Models\DispatchAllocation.cs" />
+    <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
+    <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
-    <Compile Include="Areas\Logistics\Models\HubAllocation.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Logistics\Models\HubAllocation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
     </Compile>
+    <Compile Include="Areas\Logistics\Models\ProjectCodeAllocation.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
+    <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CTSDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\RequestHelper.cs" />
-    <Compile Include="Models\CatsContext2.cs" />
+    <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ViewModels\ReliefRequisitions.cs" />
+    <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +361,34 @@
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />
+    <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocationDetail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
+    <Content Include="CTSDataSet.xsc">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Requisitions.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
+    <None Include="CTSDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="CTSDataSet.xss">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -360,10 +403,6 @@
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
     <Content Include="Scripts\kendo.web.min.js" />
-    <Content Include="Views\Shared\ApprovedRequesitions.cshtml" />
-    <Content Include="Views\Shared\hubAllocation.cshtml" />
-    <Content Include="Areas\Logistics\Views\ProjectAllocation\getRRD.cshtml" />
-    <Content Include="Areas\Logistics\Views\ProjectAllocation\DispatchDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
@@ -396,7 +435,6 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
-    <Content Include="Grid.mvc.readme" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequistionDetailEdit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
@@ -409,9 +447,6 @@
     <Content Include="Content\assets\font\fontawesome-webfont.woff" />
     <Content Include="Content\assets\font\FontAwesome.otf" />
     <Content Include="Areas\Procurement\Views\Bid\EditBidStatus.cshtml" />
-    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Areas\Settings\Views\Users\New.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
@@ -422,6 +457,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo\kendo.web.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
@@ -447,7 +483,6 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
-    <Content Include="Views\Shared\View1.cshtml" />
     <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
@@ -462,6 +497,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
+      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
+      <Name>Cats.Services.Logistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
@@ -490,6 +529,9 @@
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
       <Name>Cats.Services.Security</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

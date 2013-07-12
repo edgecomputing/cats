@@ -26,7 +26,7 @@ namespace Cats.Data
         public DbSet<FDP> Fdps { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
-        public DbSet<Hub> Hub { get; set; }
+        public DbSet<Hub> Hubs { get; set; }
         public DbSet<DispatchAllocation> DispatchAllocations { get; set; }
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
@@ -35,13 +35,25 @@ namespace Cats.Data
 
         public DbSet<TransportBidPlan> TransportBidPlans { get; set; }
         public DbSet<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
-
+        //public DbSet<HubAllocation> HubAllocations { get; set; }
+        public DbSet<ProjectCodeAllocation> ProjectCodeAllocation { get; set; }
 
         public DbSet<TransportRequisition> TransportRequisition { get; set; }
-        public DbSet<HubAllocation> HubAllocation { get; set; } 
+        public DbSet<HubAllocation> HubAllocation { get; set; }
+        public DbSet<ProjectCode> ProjectCode { get; set; }
+        public DbSet<ShippingInstruction> ShippingInstruction { get; set; }
+
+       
+        public DbSet<BidWinner> BidWinners { get; set; }
+        //public DbSet<HubAllocation> HubAllocation { get; set; } 
+
+        public DbSet<TransportOrder> TransportOrders { get; set; }
+        public DbSet<TransportOrderDetail> TransportOrderDetails { get; set; }
+        public DbSet<vwTransportOrder> vwTransportOrders { get; set; }
+        public DbSet<TransportRequisition> TransportRequisitions { get; set; }
+        public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
 
         //public DbSet<Product> Products { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //TODO: Add mapping information for each Poco model.
@@ -57,12 +69,29 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new AdminUnitTypeMap());
             modelBuilder.Configurations.Add(new BidDetailMap());
             modelBuilder.Configurations.Add(new BidMap());
+            modelBuilder.Configurations.Add(new StatusMap());
             //modelBuilder.Configurations.Add(new OrderDeatilMap());
             modelBuilder.Configurations.Add(new TransporterMap());
-            modelBuilder.Configurations.Add(new StatusMap());
             modelBuilder.Configurations.Add(new TransportBidPlanMap());
             modelBuilder.Configurations.Add(new TransportBidPlanDetailMap());
+
+            modelBuilder.Configurations.Add(new ProjectCodeAllocationMap());
+
+            modelBuilder.Configurations.Add(new HubAllocationMap());
+            modelBuilder.Configurations.Add(new ProjectCodeMap());
+            modelBuilder.Configurations.Add(new ShippingInstructionMap());
+
+            modelBuilder.Configurations.Add(new BidWinnerMap());
+            modelBuilder.Configurations.Add(new HubAllocationMap());
+            modelBuilder.Configurations.Add(new TransportOrderMap());
+            modelBuilder.Configurations.Add(new TransportOrderDetailMap());
+            modelBuilder.Configurations.Add(new vwTransportOrderMap());
+            modelBuilder.Configurations.Add(new TransportRequisitionMap());
+            modelBuilder.Configurations.Add(new TransportRequisitionDetailMap());
+
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+           
+
 
         }
 
