@@ -1,0 +1,148 @@
+﻿@model Cats.Models.TransportOrder
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Transport Order</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransportOrderNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransportOrderNo)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ContractNumber)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContractNumber)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.OrderDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrderDate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.RequestedDispatchDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RequestedDispatchDate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.OrderExpiryDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrderExpiryDate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.BidDocumentNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BidDocumentNo)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.PerformanceBondReceiptNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PerformanceBondReceiptNo)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransporterID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransporterID)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ConsignerName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConsignerName)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransporterSignedName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransporterSignedName)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ConsignerDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConsignerDate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransporterSignedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransporterSignedDate)
+    </div>
+</fieldset>
+<p>
+   
+    @Html.ActionLink("Back to List", "Index")
+     <a href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })">Print (PDF)</a>
+</p>
+@*@{
+    var detailModel = Model.TransportOrderDetails;
+}
+<table>
+    <tr>
+        <th>Woreda
+        </th>
+        <th>Destination
+        </th>
+        <th>Origin Warhouse
+        </th>
+        <th>Quantity in Qtl
+        </th>
+        <th>Distance From Origin
+        </th>
+        <th>Tariff/Qtl
+        </th>
+        <th>Total Amount in Birr
+        </th>
+    </tr>
+    @foreach (var item in detailModel)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FDP.AdminUnit.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FDP.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hub.Name)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityQtl)
+            </td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TariffPerQtl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TariffPerQtl * item.QuantityQtl)
+            </td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Back To List","Index","TransportOrder")*@

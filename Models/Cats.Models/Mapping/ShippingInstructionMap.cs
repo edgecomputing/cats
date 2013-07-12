@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Mapping
 {
-    class ShippingInstructionMap : EntityTypeConfiguration<ShippingInstruction>
+    public class ShippingInstructionMap : EntityTypeConfiguration<ShippingInstruction>
     {
         public ShippingInstructionMap()
         {

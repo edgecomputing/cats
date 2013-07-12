@@ -10,10 +10,12 @@
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
     <link href="~/Content/Site.css" rel="stylesheet" />
-     <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
-    <script src="~/Scripts/kendo.web.min.js"></script>
+
+    <script src="~/Scripts/kendo/jquery.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
 
     <style type="text/css">
         body {
@@ -62,22 +64,25 @@
                                 <li><a href="@Url.Action("RequestsFromRegion", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
                                 <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
                             </ul>
-                        </li>                        
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
-                            <ul class="dropdown-menu">          
-                                <li><a href="#">Project Allocation</a></li>  
 
-                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>                              
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                                <li><a href="@Url.Action("AssignHub", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                                <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>                                
-                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>  
-                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>                              
+                               
+                               
+                                <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
+                               
+                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
+                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
+                                
+                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
+                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
 
-                            </ul>
-                        </li>
-                       
+                        
+                        </ul></li>
                         <li><a href="#">Stock</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bid<b class="caret"></b></a>
@@ -147,7 +152,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     @RenderSection("Scripts", required: false)
 
-   
+
     <script src="~/Content/assets/js/bootstrap-transition.js"></script>
     <script src="~/Content/assets/js/bootstrap-alert.js"></script>
     <script src="~/Content/assets/js/bootstrap-modal.js"></script>
@@ -161,10 +166,45 @@
     <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
     <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
     <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
-   <script>
-     $(function () {
-         $("#datepicker").datepicker();
-     });
-    </script>
+
+    @{
+        var calendarPerference = 1;
+        if (calendarPerference == 2)
+        {
+            <script>
+                $(function() {
+                    $(".datepicker").datepicker();
+                });
+            </script>
+        }
+        else
+        {
+                                 <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css"/>
+                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.calendar.min.js"></script>
+                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.datepicker.min.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.plus.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker-am.js"> </script>
+                                <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
+                                   
+        <script type='text/javascript'>
+
+             $(function() {
+
+                 $(".datepicker").calendarsPicker({
+                     calendar: $.calendars.instance('ethiopian', 'am')
+                     //disableInput: true
+                 }).attr('style', 'background-color : #fff');
+                 $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
+             });
+         </script>                                                                                                
+                                                                                                                                   
+    
+        }
+    }
+
 </body>
 </html>

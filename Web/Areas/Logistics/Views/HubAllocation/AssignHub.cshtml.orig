@@ -1,0 +1,122 @@
+
+﻿@{
+    ViewBag.Title = "AssignHub";
+  
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<fieldset>
+    <legend>
+        
+        Assign Hub
+    </legend>
+</fieldset>
+
+
+
+@section LeftBar
+{
+    @using (Html.BeginForm())
+    {
+        <div class="control-group">
+            <label class="control-label">Year</label>
+            <div class="controls">
+                @Html.TextBox("year")
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Month</label>
+            <div class="controls">
+                @Html.DropDownList("month",(SelectList)ViewBag.Months)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Filter" class="btn btn-primary"/>
+            </div>
+        </div> 
+    }
+ }
+
+
+<div id="grid">
+
+</div>
+
+<script type="text/javascript">
+
+   
+        
+    $(document).ready(function () {
+
+        
+        
+        $("#grid").kendoGrid({
+            
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "@Url.Action("GetRequisitionsForAssignment","HubAllocation")"
+                },
+            },
+            schema: {
+                model: {
+                    fields: {
+                        RegionName: { type: "string", editable: false },
+                        ZoneName: { type: "string" },
+                        RequisitionNo: { type: "string" },
+                        Commodity: { type: "string" }
+                    }
+                }
+            },
+
+                
+           
+
+            
+            sortable: true,
+            scrollable: false,
+            pageable: true,
+            columns: [
+                    
+                { field: "RegionName" },
+                { field: "ZoneName" },
+                { field: "RequisitionNo" },
+                { field: "Commodity", title: "Commodity" },
+                { field: "Hub", title: "Hub", width: "160px", editor: hubDropDownEditor, template: "#=Hub.HubName#", selectedIndex: 0 }
+            
+            ],
+            editable: true
+
+        });
+    });
+
+    function hubDropDownEditor(container, options) {
+        $('<input required data-text-field="HubName" data-value-field="HubId" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                 HighlightFirst: true,
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@Url.Action("GetHubs", "HubAllocation")",
+                            dataType: "json",
+                            contentType: "application/json",
+                        }
+                       
+                        
+                    }
+                }
+            });
+    }
+
+
+</script>
+<br/>
+<div>
+   <button type="submit" class="btn btn-success">
+  <i class="icon-user icon-white"></i> Assign hub
+</button>
+</div>

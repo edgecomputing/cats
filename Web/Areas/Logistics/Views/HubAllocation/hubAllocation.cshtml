@@ -36,9 +36,9 @@
 }
 
 
-   @using (Html.BeginForm("inserRequisition", "HubAllocation", FormMethod.Post, Model))
+   @using (Html.BeginForm("InserRequisition", "HubAllocation", FormMethod.Post, Model))
     {
-<div class="container">
+<div>
         <fieldset>
 	        <legend>Hub Allocation</legend>
         </fieldset>
@@ -51,7 +51,7 @@
 	            <div class="controls">
 	                <div class="input-prepend">
 	               <span class="add-on"><i class="icon-th"></i></span>
-	                    <input type="text" class="small" id="datepicker" name="datepicker"  >
+	                    <input type="text" class="datepicker" id="datepicker" name="datepicker"  >
                         @Html.ValidationMessage("datepicker")
 	                </div>
 	            </div>
@@ -126,14 +126,14 @@
         </td>
         
          <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.RegionID)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.RegionID)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.AdminUnit.Name)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.AdminUnit.Name)
             
         </td>
         
            <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.ZoneID)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.ZoneID)
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.AdminUnit1.Name)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.AdminUnit1.Name)
             
         </td>
         
@@ -167,6 +167,12 @@
             @Html.HiddenFor(m=>m[i].BenficiaryNo)
             
         </td>
+        <td>
+            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequisitionID)
+            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequisitionID)
+            
+        </td>
+       
     </tr>
      index++;
 }

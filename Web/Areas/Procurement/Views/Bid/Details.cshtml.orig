@@ -1,0 +1,65 @@
+﻿@model Cats.Models.Bid
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @Html.ActionLink("Create New Bid", "Create")
+}
+<div class="well">
+    <p><b>Details</b></p>
+    <table>
+        <tr>
+            <td>@Html.LabelFor(m => m.StartDate,"Start Date:")</td>
+            <td>@Html.TextBoxFor(m => m.StartDate,null,new { disabled = "true"} )</td> 
+            
+            <td>@Html.LabelFor(m => m.EndDate,"End Date :")</td>
+            <td>@Html.TextBoxFor(m => m.EndDate,null,new { disabled = "true"} )</td>
+            
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.BidNumber,"Bid Number: ")</td>
+            <td>@Html.TextBoxFor(m => m.BidNumber,null,new { disabled = "true"} )</td>
+            
+            <td>@Html.LabelFor(m => m.OpeningDate,"Opening Date: ")</td>
+            <td>@Html.TextBoxFor(m => m.OpeningDate,null,new { disabled = "true"} )</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m=>m.StatusID,"Status:")</td>
+            @* <td>@Html.DropDownList("BidStatus",String.Empty)</td>*@
+            <td>@Html.TextBoxFor(m=>m.Status.Name,null,new { disabled = "true"})</td>
+            
+            <td>@Html.LabelFor(m => m.TransportBidPlanID,"Bid Plan ")</td>
+            <td>@Html.TextBoxFor(m => m.TransportBidPlan.ShortName,null,new { disabled = "true"} )</td>
+        </tr>
+    </table>
+</div>
+@using (Html.BeginForm())
+{
+    
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>Region</th>
+            <th>PSNP Amount</th>
+            <th>Relief Amount</th>
+            <th>Bid Document Price</th>
+            <th>CPO</th>
+        </tr>
+        @{ int index = 0; }
+        @foreach (var detail in Model.BidDetails)
+        {
+            <tr>
+                <td>@detail.AdminUnit.Name</td>
+                <td>@detail.AmountForPSNPProgram</td>
+                <td>@detail.AmountForReliefProgram</td>
+                <td>@detail.BidDocumentPrice</td>
+                <td>@detail.CPO</td>
+            </tr>
+        }
+    </table>
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

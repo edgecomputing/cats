@@ -5,26 +5,22 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>ProjectCodeAllocation</h2>
+<h2>Assign Project/SI Code</h2>
 
 @using (Html.BeginForm("Add", "ProjectAllocation", FormMethod.Post))
 {
-    <div class="control-group">
-            <label class="control-label">Requisition Number :</label>
-            <div class="controls">
-                @Html.ViewBag.Requisition
-                </div>
-        </div>
+    
     <div class="control-group">
             <label class="control-label">Hub Name : </label>
             <div class="controls">
-                @Html.ViewBag.HubName
+                @Html.DisplayFor(model=>model.FirstOrDefault().HubAllocationID)
                 </div>
         </div>
     <div class="control-group">
             <label class="control-label">Project Code :</label>
             <div class="controls">
-                @Html.DropDownList("ProjectCode",(SelectList)ViewBag.ProjectList)
+                @Html.DropDownList("ProjectCodeID")
+                @*@Html.TextBoxFor(model=>model.FirstOrDefault().ProjectCodeID)*@
                 </div>
         </div>
     <div class="control-group">
@@ -36,7 +32,8 @@
     <div class="control-group">
             <label class="control-label">SI Number :</label>
             <div class="controls">
-                @Html.DropDownList("SICode", (SelectList)ViewBag.SICodeList)
+                @Html.DropDownList("ShippingInstructionID")
+              @*@Html.TextBoxFor(model=>model.FirstOrDefault().SINumberID)*@
                 </div>
         </div>
     <div class="control-group">
@@ -45,6 +42,7 @@
             @Html.TextBoxFor(model=>model.FirstOrDefault().Amount_SI)
                 </div>
         </div>
+        <input type="hidden" name="HubAllocationID" value="@Html.DisplayFor(model=>model.FirstOrDefault().HubAllocationID)" />
     <p>
         <input class="btn btn-success" type="submit" value="Submit Request" />
     </p>
@@ -58,7 +56,7 @@
             @Html.DisplayNameFor(model=>model.Amount_Project)
         </th>      
         <th>
-            @Html.DisplayNameFor(model=>model.SINumberID)
+            @Html.DisplayNameFor(model=>model.ShippingInstructionID)
         </th>   
         <th>
             @Html.DisplayNameFor(model=>model.Amount_SI)
@@ -80,11 +78,11 @@
                     
             </td>
             <td>
-                @item.Input.Amount_FromProject
+                @item.Input.Amount_FromSI
             </td>
             <td>
                 <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" />
-                @Html.ActionLink("Edit", "Edit" ,"ProjectAllocation", new { id=item.Input.ProjectCodeAllocationID }, null)
+                @*@Html.ActionLink("Edit", "Edit" ,"ProjectAllocation", new { id=item.Input.ProjectCodeAllocationID }, null)*@
             </td>
 
         </tr>

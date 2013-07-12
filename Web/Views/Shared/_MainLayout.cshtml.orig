@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>CATS: Commodity Allocation & Tracking System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/kendo/jquery.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+    <!-- Le fav and touch icons -->
+    @*    <link rel="shortcut icon" href="http://twitter.github.com/bootstrap/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://twitter.github.com/bootstrap/assets/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://twitter.github.com/bootstrap/assets/images/apple-touch-icon-114x114.png">*@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>@ViewBag.Title</title>
+    @*    @Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="~/">CATS</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="~/">Home</a></li>
+                        <li><a href="#">HRD</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Request<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-header">Regional Requests</li>
+                                <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Regional Request</a></li>
+                                <li><a href="@Url.Action("RequestsFromRegion", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
+                                <li class="nav-header">Requisitions</li>
+                                <li><a href="@Url.Action("RequestsFromRegion", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
+                                <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Project Allocation</a></li>
+
+                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>
+                                <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
+                               
+                                <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
+                               
+                            <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
+                                  <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
+                                
+                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
+                                 <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
+
+                        </li>
+                        </ul>
+                        <li><a href="#">Stock</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bid<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("", "TransportBidPlan", new { Area = "Procurement" })">Bid Plan</a></li>
+                                <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Bid Management</a></li>
+                                <li><a href="@Url.Action("#", "Transporter", new { Area = "Procurement" })">Transporter</a></li>
+                                <li><a href="@Url.Action("Create", "Bid", new { Area = "Procurement" })">Create Bid</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Reports</a></li>
+                        <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">Settings</a></li>
+                    </ul>
+                    <ul class="nav pull-right">
+                        <li class="divider-vertical"></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>No new messages</li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">[User Name] <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Preference</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Change Password</a></li>
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="well sidebar-nav">
+                    <ul class="nav nav-list">
+                        @RenderSection("LeftBar", required: false)
+                    </ul>
+                </div>
+                <!--/.well -->
+            </div>
+            <!--/span-->
+            <div class="span9">
+                @RenderBody()
+            </div>
+            <!--/span-->
+        </div>
+        <!--/row-->
+        <hr>
+        <footer>
+            <p>&copy; CATS @DateTime.Now.Year.ToString()</p>
+        </footer>
+    </div>
+    <!--/.fluid-container-->
+
+    <!-- Le javascript
+	================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    @RenderSection("Scripts", required: false)
+
+
+    <script src="~/Content/assets/js/bootstrap-transition.js"></script>
+    <script src="~/Content/assets/js/bootstrap-alert.js"></script>
+    <script src="~/Content/assets/js/bootstrap-modal.js"></script>
+    <script src="~/Content/assets/js/bootstrap-dropdown.js"></script>
+    <script src="~/Content/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="~/Content/assets/js/bootstrap-tab.js"></script>
+    <script src="~/Content/assets/js/bootstrap-tooltip.js"></script>
+    <script src="~/Content/assets/js/bootstrap-popover.js"></script>
+    <script src="~/Content/assets/js/bootstrap-button.js"></script>
+    <script src="~/Content/assets/js/bootstrap-collapse.js"></script>
+    <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
+    <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
+    <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
+
+    @{
+        var calendarPerference = 1;
+        if (calendarPerference == 2)
+        {
+            <script>
+                $(function() {
+                    $(".datepicker").datepicker();
+                });
+            </script>
+        }
+        else
+        {
+                                 <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css"/>
+                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.calendar.min.js"></script>
+                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.datepicker.min.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.plus.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian.js"> </script>
+                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker-am.js"> </script>
+                                <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
+                                   
+        <script type='text/javascript'>
+
+             $(function() {
+
+                 $(".datepicker").calendarsPicker({
+                     calendar: $.calendars.instance('ethiopian', 'am')
+                     //disableInput: true
+                 }).attr('style', 'background-color : #fff');
+                 $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
+             });
+         </script>                                                                                                
+                                                                                                                                   
+    
+        }
+    }
+
+</body>
+</html>
