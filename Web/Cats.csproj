@@ -383,6 +383,7 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
