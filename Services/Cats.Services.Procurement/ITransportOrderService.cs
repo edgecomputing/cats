@@ -25,8 +25,8 @@ namespace Cats.Services.Procurement
                    Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
                    string includeProperties = "");
 
-        IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
-        IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
+        //IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
+        //IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
         IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<int> requisitions);
         List<vwTransportOrder> GeTransportOrderRpt(int id);
     }

@@ -18,7 +18,9 @@ namespace Cats.Services.EarlyWarning
         AdminUnit FindById(int id);
         List<AdminUnit> GetAllAdminUnit();
         List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate);
-
+         List<AdminUnit> GetRegions();
+         List<AdminUnit> GetZones(int regionId);
+         List<AdminUnit> GetWoreda(int zoneId);
 
     }
 }

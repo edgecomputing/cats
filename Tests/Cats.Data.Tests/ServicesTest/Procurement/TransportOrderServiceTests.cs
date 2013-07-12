@@ -36,121 +36,22 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                }
                                        };
 
-            _reliefRequisitions = new List<ReliefRequisition>()
-                                      {
-                                          
-                                          new ReliefRequisition()
-                                              {
-                                                  RegionID = 1,
-                                                  ProgramID = 1,
-                                                  CommodityID = 1,
-                                                  ZoneID = 2,
-                                                  RequisitionNo = "REQ-001",
-                                                  Round = 1,
-                                                  RegionalRequestID = 1,
-                                                  RequisitionID = 1,
-                                                  Status = 1,
+                _reliefRequisitions = new List<ReliefRequisition>()
+                                         {
 
-                                                  AdminUnit = new AdminUnit
-                                                                  {
-                                                                      AdminUnitID = 2,
-                                                                      Name = "Zone1"
-                                                                  },
-                                                  AdminUnit1 = new AdminUnit
-                                                                   {
-                                                                       AdminUnitID = 1,
-                                                                       Name = "Region1"
-                                                                   },
-                                                  Commodity = new Commodity
-                                                                  {
-                                                                      CommodityID = 1,
-                                                                      CommodityCode = "C1",
-                                                                      Name = "CSB"
-                                                                  },
-                                                  HubAllocations = new List<HubAllocation>(){new HubAllocation()
-                                                                      {
-                                                                          HubAllocationID = 1,
-                                                                          HubID = 1,
-                                                                          RequisitionID = 1,
-                                                                          Hub = new Hub
-                                                                                    {
-                                                                                        HubId = 1,
-                                                                                        Name = "Test Hub",
-
-                                                                                    }
-
-                                                                      }},
-
-                                                  ReliefRequisitionDetails = new List<ReliefRequisitionDetail>
-                                                                                 {
-                                                                                     new ReliefRequisitionDetail()
-                                                                                         {
-                                                                                             RequisitionID = 1,
-                                                                                             RequisitionDetailID = 1,
-                                                                                             Amount = 100,
-                                                                                             CommodityID = 1,
-                                                                                             FDPID = 1,
-                                                                                             BenficiaryNo = 10,
-                                                                                             DonorID = 1,
-                                                                                             FDP=new FDP
-                                                                                                     {
-                                                                                                         AdminUnitID=1,
-                                                                                                         FDPID=1,
-                                                                                                         Name="FDP1"
-                                                                                                     }
-                                                                                             
-                                                                                         },
-                                                                                     new ReliefRequisitionDetail()
-                                                                                         {
-                                                                                             RequisitionID = 1,
-                                                                                             RequisitionDetailID = 2,
-                                                                                             Amount = 50,
-                                                                                             CommodityID = 1,
-                                                                                             FDPID = 2,
-                                                                                             BenficiaryNo = 10,
-                                                                                             DonorID = 1,
-                                                                                             FDP=new FDP
-                                                                                                     {
-                                                                                                         AdminUnitID=1,
-                                                                                                         FDPID=2,
-                                                                                                         Name="FDP2"
-                                                                                                     }
-                                                                                         },
-                                                                                     new ReliefRequisitionDetail()
-                                                                                         {
-                                                                                             RequisitionID = 1,
-                                                                                             RequisitionDetailID = 3,
-                                                                                             Amount = 60,
-                                                                                             CommodityID = 1,
-                                                                                             FDPID = 3,
-                                                                                             BenficiaryNo = 10,
-                                                                                             DonorID = 1,
-                                                                                             FDP=new FDP
-                                                                                                     {
-                                                                                                         AdminUnitID=1,
-                                                                                                         FDPID=3,
-                                                                                                         Name="FDP3"
-                                                                                                     }
-                                                                                         },
-                                                                                     new ReliefRequisitionDetail()
-                                                                                         {
-                                                                                             RequisitionID = 1,
-                                                                                             RequisitionDetailID = 4,
-                                                                                             Amount = 70,
-                                                                                             CommodityID = 1,
-                                                                                             FDPID = 2,
-                                                                                             BenficiaryNo = 10,
-                                                                                             DonorID = 1,
-                                                                                             FDP=new FDP
-                                                                                                     {
-                                                                                                         AdminUnitID=1,
-                                                                                                         FDPID=4,
-                                                                                                         Name="FDP4"
-                                                                                                     }
-                                                                                         }
-                                                                                 }
-                                              }
-                                      };
+                                             new ReliefRequisition()
+                                                 {
+                                                     RegionID = 1,
+                                                     ProgramID = 1,
+                                                     CommodityID = 1,
+                                                     ZoneID = 2,
+                                                     RequisitionNo = "REQ-001",
+                                                     Round = 1,
+                                                     RegionalRequestID = 1,
+                                                     RequisitionID = 1,
+                                                     Status = 4,
+                                                 }
+                                         };
             _transportOrders = new List<TransportOrder>();
 
           
@@ -166,14 +67,21 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                         return result;
                     }
                 );
+            mockReliefRequisitionRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) => _reliefRequisitions
+                                                                                                          .ToList().
+                                                                                                          Find
+                                                                                                          (t =>
+                                                                                                           t.
+                                                                                                               RequisitionID ==
+                                                                                                           id));
 
             var mockReliefRequisionDetailRepository = new Mock<IGenericRepository<ReliefRequisitionDetail>>();
-            mockReliefRequisionDetailRepository.Setup(
-                 t => t.Get(It.IsAny<Expression<Func<ReliefRequisitionDetail, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>>>(), It.IsAny<string>())).Returns(
+            //mockReliefRequisionDetailRepository.Setup(
+            //     t => t.Get(It.IsAny<Expression<Func<ReliefRequisitionDetail, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>>>(), It.IsAny<string>())).Returns(
 
-                         _reliefRequisitions.First().ReliefRequisitionDetails.AsQueryable()
+            //             _reliefRequisitions.First().ReliefRequisitionDetails.AsQueryable()
 
-                     );
+            //         );
 
             mockUnitOfWork.Setup(t => t.ReliefRequisitionDetailRepository).Returns(
                 mockReliefRequisionDetailRepository.Object);
@@ -220,28 +128,32 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         #region Tests
 
         [Test]
-        public void Can_Get_All_Requisions_With_Project_Code()
+        public void CanGetAllTransportRequisions()
         {
-            _transportBidWinners = new List<TransportBidWinnerDetail>()
+          var  assignedRequisitons = new List<TransportRequisition>()
                                        {
-                                           new TransportBidWinnerDetail()
+                                           new TransportRequisition()
                                                {
-                                                   HubID=1,
-                                                   WoredaID=1,
-                                                   TariffPerQtl=100,
-                                                   TransporterID = 1
+                                                   CertifiedBy= 1,
+                                                   CertifiedDate= DateTime.Today,
+                                                   Remark= "",
+                                                   RequestedBy = 1,
+                                                   RequestedDate = DateTime.Today,
+                                                   Status = 1,
+                                                   TransportRequisitionNo = "009",
+                                                   TransportRequisitionID = 1
                                                }
                                        };
 
 
             //Act 
 
-            var assignedRequisitons = _transportOrderService.GetProjectCodeAssignedRequisitions().ToList();
+           //TODO:Please mock the transportrequisitionrepository and test here
 
 
             //Assert
 
-            Assert.IsInstanceOf<IList<ReliefRequisition>>(assignedRequisitons);
+          Assert.IsInstanceOf<List<TransportRequisition>>(assignedRequisitons);
             Assert.IsNotEmpty(assignedRequisitons);
 
 
@@ -249,26 +161,11 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
 
 
         }
-        [Test]
-        public void Can_Generate_Requisiton_Ready_To_Dispatch()
-        {
-
-            
-
-
-            //Act 
-
-            var requisitionToDispatch = _transportOrderService.GetRequisitionToDispatch().ToList();
-
-            //Assert
-
-            Assert.IsInstanceOf<IList<RequisitionToDispatch>>(requisitionToDispatch);
-            Assert.AreEqual(1, requisitionToDispatch.Count());
-        }
+       
 
         [Test]
 
-        public void Should_Create_Transport_Orders()
+        public void ShouldCreateTransportOrders()
         {
            
             //Act 

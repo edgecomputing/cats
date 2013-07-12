@@ -7,6 +7,7 @@ using Cats.Areas.Procurement.Models;
 using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.ViewModels;
+using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 
 namespace Cats.Areas.Procurement.Controllers
@@ -16,34 +17,30 @@ namespace Cats.Areas.Procurement.Controllers
         //
         // GET: /Procurement/TransportOrder/
         private readonly ITransportOrderService _transportOrderService;
+        private readonly ITransportRequisitionService _transportRequisitionService;
 
-        public TransportOrderController(ITransportOrderService transportOrderService)
+        public TransportOrderController(ITransportOrderService transportOrderService,ITransportRequisitionService transportRequisitionService)
         {
             this._transportOrderService = transportOrderService;
+            this._transportRequisitionService = transportRequisitionService;
         }
        [HttpGet]
         public ViewResult TransportRequisitions()
         {
-            var transportRequisitions = _transportOrderService.GetRequisitionToDispatch();
+            var transportRequisitions = _transportRequisitionService.GetAllTransportRequisition();
             var transportReqInput = (from item in transportRequisitions
-                                     select new RequisitionToDispatchSelect()
+                                     select new TransportRequisitionSelect
                                                 {
-                                                    CommodityName=item.CommodityName,
-                                                    CommodityID=item.CommodityID,
-                                                    HubID=item.HubID ,
-                                                    OrignWarehouse=item.OrignWarehouse,
-                                                    QuanityInQtl=item.QuanityInQtl ,
-                                                    RegionID=item.RegionID,
-                                                    RegionName=item.RegionName,
-                                                    RequisitionID=item.RequisitionID ,
-                                                    RequisitionNo=item.RequisitionNo,
-                                                    ZoneID=item.ZoneID,
-                                                    Zone=item.Zone,
-                                                    RequisitionStatusName=item.RequisitionStatusName,
-                                                    RequisitionStatus=item.RequisitionStatus,
-                                                    Input=new RequisitionToDispatchSelect.RequisitionToDispatchSelectInput
+                                                    CertifiedBy= item.CertifiedBy,
+                                                    CertifiedDate= item.CertifiedDate,
+                                                    RequestedBy= item.RequestedBy ,
+                                                    RequestedDate= item.RequestedDate,
+                                                    Status= item.Status ,
+                                                    TransportRequisitionID= item.TransportRequisitionID,
+                                                    TransportRequisitionNo= item.TransportRequisitionNo,
+                                                    Input= new TransportRequisitionSelect.TransportRequisitionSelectInput
                                                               {
-                                                                  Number=item.RequisitionID ,
+                                                                  Number=item.TransportRequisitionID ,
                                                                   IsSelected = false
                                                               }
 
@@ -63,7 +60,7 @@ namespace Cats.Areas.Procurement.Controllers
             return File(result.RenderBytes ,result.MimeType);
         }
         [HttpPost]
-        public ActionResult TransportRequisitions(IList<RequisitionToDispatchSelect.RequisitionToDispatchSelectInput> input )
+        public ActionResult TransportRequisitions(IList<TransportRequisitionSelect.TransportRequisitionSelectInput> input)
         {
            
                 var requisionIds = (from item in input where item.IsSelected select item.Number).ToList();

@@ -7,6 +7,7 @@ using Cats.Areas.Procurement.Controllers;
 using Cats.Areas.Procurement.Models;
 using Cats.Models;
 using Cats.Models.ViewModels;
+using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Moq;
 using NUnit.Framework;
@@ -22,23 +23,19 @@ namespace Cats.Tests.ControllersTests
         [SetUp]
         public void Init()
         {
-            var requisitionsToDispatch = new List<RequisitionToDispatch>()
+            var requisitionsToDispatch = new List<TransportRequisition>()
                                              {
-                                                 new RequisitionToDispatch()
+                                                 new TransportRequisition()
                                                      {
-                                                         CommodityID = 1,
-                                                         CommodityName = "CSB",
-                                                         HubID = 1,
-                                                         OrignWarehouse = "Nazreth",
-                                                         QuanityInQtl = 100,
-                                                         RegionID = 1,
-                                                         RegionName = "Amhara",
-                                                         RequisitionID = 1,
-                                                         RequisitionNo = "REQ-001",
-                                                         ZoneID = 1,
-                                                         Zone = "Bahrdar",
-                                                         RequisitionStatus = 3,
-                                                         RequisitionStatusName = "HubAssigned"
+                                                         CertifiedBy = 1,
+                                                         CertifiedDate = DateTime.Today ,
+                                                         RequestedBy = 1,
+                                                         RequestedDate = DateTime.Today,
+                                                         TransportRequisitionID = 1,
+                                                         TransportRequisitionNo = "TRN-001",
+                                                         Status = 1,
+                                                         Remark = "Remark",
+                                                         
 
 
                                                      }
@@ -62,9 +59,12 @@ namespace Cats.Tests.ControllersTests
                                             }
                                     };
             var mockTransportOrderService = new Mock<ITransportOrderService>();
-            mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
+           // mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
             mockTransportOrderService.Setup(t => t.GetAllTransportOrder()).Returns(transportOrders);
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object);
+
+            var mockTransportRequisitionService = new Mock<ITransportRequisitionService>();
+            mockTransportRequisitionService.Setup(t => t.GetAllTransportRequisition()).Returns(requisitionsToDispatch);
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object);
 
         }
 
@@ -84,8 +84,8 @@ namespace Cats.Tests.ControllersTests
 
             //Assert
 
-            Assert.IsInstanceOf<List<RequisitionToDispatchSelect>>(result.Model);
-            Assert.AreEqual(1, ((IEnumerable<RequisitionToDispatchSelect>)result.Model).Count());
+            Assert.IsInstanceOf<List<TransportRequisitionSelect>>(result.Model);
+            Assert.AreEqual(1, ((IEnumerable<TransportRequisitionSelect>)result.Model).Count());
         }
         [Test]
         public void Should_Generate_Transport_Order_For_Selected_Transport_Requisition()

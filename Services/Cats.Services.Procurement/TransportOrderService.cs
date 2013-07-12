@@ -80,45 +80,48 @@ namespace Cats.Services.Procurement
 
 
 
-        public IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch()
-        {
-            var requisitions = GetProjectCodeAssignedRequisitions();
-
-            var result = (from requisition in requisitions
-                          select new RequisitionToDispatch
-                          {
-                              HubID = requisition.HubAllocations.FirstOrDefault().HubID,
-                              RequisitionID = requisition.RequisitionID,
-                              RequisitionNo = requisition.RequisitionNo,
-                              RequisitionStatus = requisition.Status.Value,
-                              ZoneID = requisition.ZoneID.Value,
-                              QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
-                              OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
-                              CommodityID = requisition.CommodityID.Value,
-                              CommodityName = requisition.Commodity.Name,
-                              Zone = requisition.AdminUnit.Name,
-                              RegionID = requisition.RegionID.Value,
-                              RegionName = requisition.AdminUnit1.Name,
 
 
+        //public IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch()
+        //{
+        //    var requisitions = GetProjectCodeAssignedRequisitions();
+          
+        //    var result = (from requisition in requisitions
+        //                  select new RequisitionToDispatch
+        //                             {
+        //                                 HubID =requisition.HubAllocations.FirstOrDefault().HubID,
+        //                                 RequisitionID = requisition.RequisitionID,
+        //                                 RequisitionNo = requisition.RequisitionNo,
+        //                                 RequisitionStatus = requisition.Status.Value,
+        //                                 ZoneID = requisition.ZoneID.Value,
+        //                                 QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
+        //                                 OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,
+        //                                 CommodityID = requisition.CommodityID.Value,
+        //                                 CommodityName = requisition.Commodity.Name,
+        //                                 Zone = requisition.AdminUnit.Name,
+        //                                 RegionID = requisition.RegionID.Value,
+        //                                 RegionName = requisition.AdminUnit1.Name,
+                                       
 
-                          });
+
+        //                             });
+
+       
+        //    return result;
+        //}
 
 
-            return result;
-        }
+        //public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
+        //{
+        //    return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
+        //                                                  "HubAllocations,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
+        //}
 
-        public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
-        {
-            return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
-                                                          "HubAllocations,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
-        }
-
-        public IEnumerable<ReliefRequisitionDetail> GetProjectCodeAssignedRequisitionDetails()
-        {
-            return _unitOfWork.ReliefRequisitionDetailRepository.Get(t => t.ReliefRequisition.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
-                                                          "ReliefRequisition");
-        }
+        //public IEnumerable<ReliefRequisitionDetail> GetProjectCodeAssignedRequisitionDetails()
+        //{
+        //    return _unitOfWork.ReliefRequisitionDetailRepository.Get(t => t.ReliefRequisition.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
+        //                                                  "ReliefRequisition");
+        //}
 
 
 
@@ -173,8 +176,15 @@ namespace Cats.Services.Procurement
 
 
             }
-            _unitOfWork.Save();
 
+            foreach (var item in requisitions)
+            {
+                var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(item);
+                //TODO:When status is implemented make sure to change this status to TRANSPORT_ORDER_CREATED
+                requisition.Status = 6;
+            }
+            _unitOfWork.Save();
+            //TODO:Identity if Transport order number to be auto generated , and where to get contract number.
             foreach (var transportOrder in transportOrders)
             {
                 transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrder.TransportOrderID);

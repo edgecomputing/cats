@@ -133,14 +133,16 @@ namespace Cats.Tests.ControllersTests
 
         [TearDown]
         public void Dispose()
-        { }
+        {
+            _reliefRequisitionController.Dispose();
+        }
 
         #endregion
 
         #region Tests
 
         [Test]
-        public void Count_Of_Requistion_Should_Be_2()
+        public void CountOfRequistionShouldBe2()
         {
             //Arange
 
@@ -162,7 +164,7 @@ namespace Cats.Tests.ControllersTests
 
        
         [Test]
-        public void Can_Create_Requistion()
+        public void CanCreateRequistion()
         {
            //Arrange
             var view = _reliefRequisitionController.NewRequisiton(1);
@@ -175,7 +177,7 @@ namespace Cats.Tests.ControllersTests
         }
 
         [Test]
-        public void Should_Not_Create_Requistion_From_Unknown_Request()
+        public void ShouldNotCreateRequistionFromUnknownRequest()
         {
             //Arrange
             var view=_reliefRequisitionController.NewRequisiton(4);
@@ -186,7 +188,7 @@ namespace Cats.Tests.ControllersTests
         }
 
         [Test]
-        public void Can_Create_New_Requistion()
+        public void CanCreateNewRequistion()
         {            
             var view = _reliefRequisitionController.NewRequisiton(1);
 
