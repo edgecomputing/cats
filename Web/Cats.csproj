@@ -337,6 +337,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\dashboard.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
@@ -381,6 +382,7 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Requisitions.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

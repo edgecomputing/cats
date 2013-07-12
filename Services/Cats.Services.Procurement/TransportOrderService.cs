@@ -122,8 +122,15 @@ namespace Cats.Services.Procurement
                                                           "ReliefRequisition");
         }
 
+        public IEnumerable<TransportOrderDetail> GetTransportOrderDetail(int requisitionId)
+        {
+            return _unitOfWork.TransportOrderDetailRepository.Get(t => t.RequisitionID == requisitionId);
+        }
 
-
+       public IEnumerable<ReliefRequisition> GetTransportOrderReleifRequisition(int status)
+        {
+            return _unitOfWork.ReliefRequisitionRepository.Get(r => r.Status == 6); //This will return reuisitions where thier transport order is made
+        }
 
         public IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<int> requisitions)
         {

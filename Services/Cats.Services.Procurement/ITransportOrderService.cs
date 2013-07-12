@@ -19,7 +19,8 @@ namespace Cats.Services.Procurement
         TransportOrder FindById(int id);
         List<TransportOrder> GetAllTransportOrder();
         List<TransportOrder> FindBy(Expression<Func<TransportOrder, bool>> predicate);
-
+        IEnumerable<TransportOrderDetail> GetTransportOrderDetail(int requisitionId);
+        IEnumerable<ReliefRequisition> GetTransportOrderReleifRequisition(int status);
         IEnumerable<TransportOrder> Get(
                    Expression<Func<TransportOrder, bool>> filter = null,
                    Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,

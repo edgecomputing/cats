@@ -31,9 +31,9 @@ namespace Cats.Areas.Logistics.Controllers
             this._hubAllocationService = hubAllocationService;
         }
 
+    
+      
 
-
-       
 
         public ActionResult AssignHub()
         {
