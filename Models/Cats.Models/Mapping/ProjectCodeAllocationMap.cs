@@ -19,7 +19,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.ProjectCodeAllocationID).HasColumnName("ProjectCodeAllocationID");
             this.Property(t => t.HubAllocationID).HasColumnName("HubAllocationID");
             this.Property(t => t.ProjectCodeID).HasColumnName("ProjectCodeID");
-            this.Property(t => t.SINumberID).HasColumnName("SINumberID");
+            this.Property(t => t.ShippingInstructionID).HasColumnName("SINumberID");
             this.Property(t => t.AllocatedBy).HasColumnName("AllocatedBy");
             this.Property(t => t.AlloccationDate).HasColumnName("AlloccationDate");
             this.Property(t => t.Amount_Project).HasColumnName("Amount_FromProject");

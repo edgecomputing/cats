@@ -59,8 +59,13 @@ namespace Cats.Infrastructure
             kernel.Bind<IUserAccountService>().To<UserAccountService>();
             kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
             kernel.Bind<ITransportOrderService>().To<TransportOrderService>();
-            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
+            kernel.Bind<IProjectCodeService>().To<ProjectCodeService>();
             kernel.Bind<IProjectCodeAllocationService>().To<ProjectCodeAllocationService>();
+            kernel.Bind<IBidWinnerService>().To<BidWinnerService>();
+           
+
+            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
+            
             kernel.Bind<IBidWinnerService>().To<IBidWinnerService>();
 
         }

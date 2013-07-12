@@ -71,10 +71,12 @@
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
+    <Compile Include="Mapping\ProjectCodeMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionMap.cs" />
+    <Compile Include="Mapping\ShippingInstructionMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Mapping\TransportOrderMap.cs" />
     <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
+    <Compile Include="Mapping\UserProfileMap.cs" />
     <Compile Include="Mapping\vwTransportOrderMap.cs" />
     <Compile Include="MetaData\BidDetailMetaData.cs" />
     <Compile Include="MetaData\BidMetaData.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
+    <Compile Include="ShippingInstruction.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="TransportBidPlan.cs" />
     <Compile Include="TransportBidPlanDetail.cs" />
@@ -113,11 +117,13 @@
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
+    <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\RegionalRequestStatus.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
+    <Compile Include="ViewModels\SINumber.cs" />
     <Compile Include="vwTransportOrder.cs" />
   </ItemGroup>
   <ItemGroup>

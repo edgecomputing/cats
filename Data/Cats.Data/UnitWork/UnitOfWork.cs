@@ -16,7 +16,7 @@ namespace Cats.Data.UnitWork
       
         private IGenericRepository<Bid> bidRepository;
         private IGenericRepository<BidDetail> bidDetailRepository; 
-        private IGenericRepository<Status> statusRepository;
+        private IGenericRepository<Status> statusRepository; 
         private IGenericRepository<BidWinner> bidWinnerRepository; 
         
 
@@ -31,7 +31,19 @@ namespace Cats.Data.UnitWork
         /// ReliefRequistionRepository
         /// </summary>
         /// 
-        
+        private IGenericRepository<ShippingInstruction> shippingInstructionReository;
+        public IGenericRepository<ShippingInstruction> ShippingInstructionRepository
+        {
+            get { return this.shippingInstructionReository ?? (this.shippingInstructionReository = new GenericRepository<ShippingInstruction>(_context)); }
+
+        }
+        private IGenericRepository<ProjectCode> projectCodeRepository;
+        public IGenericRepository<ProjectCode> ProjectCodeRepository
+        {
+            get { return this.projectCodeRepository ?? (this.projectCodeRepository = new GenericRepository<ProjectCode>(_context)); }
+
+        }
+
         private IGenericRepository<ProjectCodeAllocation> projectCodeAllocationRepository;
         public IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository
         {
@@ -246,7 +258,13 @@ namespace Cats.Data.UnitWork
 
         //}
 
-       
+        private IGenericRepository<TransportRequisition> transportRequisitionRepository;
+
+        public IGenericRepository<TransportRequisition> TransportRequisitionRepository
+        {
+            get { return this.transportRequisitionRepository ?? (this.transportRequisitionRepository = new GenericRepository<TransportRequisition>(_context)); }
+
+        }
 
       
 
@@ -326,14 +344,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        private IGenericRepository<TransportRequisition> transportRequisitionRepository;
-
-        public IGenericRepository<TransportRequisition> TransportRequisitionRepository
-        {
-
-            get { return this.transportRequisitionRepository ?? (this.transportRequisitionRepository = new GenericRepository<TransportRequisition>(_context)); }
-
-        }
+        
 
 
 

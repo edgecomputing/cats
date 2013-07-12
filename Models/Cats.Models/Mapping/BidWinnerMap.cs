@@ -22,6 +22,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.SourceID).HasColumnName("SourceID");
             this.Property(t => t.DestinationID).HasColumnName("DestinationID");
             this.Property(t => t.TransporterID).HasColumnName("TransporterID");
+            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.Amount).HasColumnName("Amount");
             this.Property(t => t.Tariff).HasColumnName("Tariff");
             this.Property(t => t.Position).HasColumnName("Position");
@@ -44,6 +45,11 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Transporter)
                .WithMany(t => t.BidWinners)
                 .HasForeignKey(d => d.TransporterID);
+
+            this.HasRequired(t => t.Commodity)
+               .WithMany(t => t.BidWinners)
+                .HasForeignKey(d => d.CommodityID);
+
         }
     }
 }

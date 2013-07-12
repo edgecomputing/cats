@@ -158,6 +158,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
@@ -381,6 +382,8 @@
     </Content>
     <Content Include="Areas\Logistics\Views\TransportRequisition\Requisitions.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Details.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
