@@ -146,6 +146,7 @@
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
+    <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
     <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
@@ -183,6 +185,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EthiopianDate.cs" />
+    <Compile Include="Helpers\getGregorianDate.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
@@ -387,6 +391,8 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
+    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -505,10 +511,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
-      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
-      <Name>Cats.Services.Logistics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
@@ -528,6 +530,10 @@
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
+      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
+      <Name>Cats.Services.Logistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>

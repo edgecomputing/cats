@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -63,6 +64,18 @@ namespace Cats.Services.EarlyWarning
         }
         #endregion
 
+        public List<AdminUnit> GetRegions()
+        {
+            return _unitOfWork.AdminUnitRepository.Get(t => t.AdminUnitTypeID == 2).ToList();
+        } 
+        public List<AdminUnit> GetZones(int regionId)
+        {
+            return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID==regionId).ToList();
+        }
+        public List<AdminUnit> GetWoreda(int zoneId)
+        {
+            return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID ==zoneId).ToList();
+        } 
         public void Dispose()
         {
             _unitOfWork.Dispose();

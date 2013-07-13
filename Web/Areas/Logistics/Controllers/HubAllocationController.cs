@@ -99,6 +99,8 @@ namespace Cats.Areas.Logistics.Controllers
             ICollection<ReliefRequisitionDetail> listOfRequsitions = new List<ReliefRequisitionDetail>();
             ReliefRequisitionDetail[] _requisitionDetail;
 
+            if (requisitionDetail == null) return View();
+
            _requisitionDetail = requisitionDetail.ToArray();
 
            var chkValue = form["IsChecked"]; // for this code the chkValue will return all value of each checkbox that is checked
@@ -122,14 +124,28 @@ namespace Cats.Areas.Logistics.Controllers
         {
 
             string hub = form["hub"].ToString(CultureInfo.InvariantCulture);
+            
+            DateTime date;
+          
 
+            try
+            {
+              date =    DateTime.Parse(datepicker);
+            }
+            catch (Exception)
+            {
+
+               var strEth = new getGregorianDate();
+               date = strEth.ReturnGregorianDate(datepicker);
+            }
+           
             foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
             {
                 var newHubAllocation = new HubAllocation
                                            {
                                                AllocatedBy = 1,
                                                RequisitionID = appRequisition.RequisitionID,
-                                               AllocationDate = DateTime.Now,
+                                               AllocationDate = date,
                                                HubID = int.Parse(hub)
                                            };
                

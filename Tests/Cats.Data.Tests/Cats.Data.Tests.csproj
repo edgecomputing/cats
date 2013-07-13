@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicesTest\EarlyWarning\ReleifRequisitionServiceTest.cs" />
+    <Compile Include="ServicesTest\Logistics\BeneficiaryAllocationServiceTests.cs" />
     <Compile Include="ServicesTest\Logistics\TransportRequisitionServiceTests.cs" />
     <Compile Include="ServicesTest\Procurement\TransportOrderServiceTests.cs" />
   </ItemGroup>
@@ -58,10 +59,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
-      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
-      <Name>Cats.Services.Logistics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
@@ -73,6 +70,10 @@
     <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
+      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
+      <Name>Cats.Services.Logistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>

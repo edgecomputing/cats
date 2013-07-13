@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Cats.Models.ViewModels.BeneficiaryAllocation>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Beneficiary Allocation</h2>
+
+
+@section LeftBar
+{
+    @using (Html.BeginForm())
+    {
+        <div class="control-group">
+            <label class="control-label">Region</label>
+            <div class="controls">
+                @Html.DropDownList("RegionID", String.Empty)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Zone</label>
+            <div class="controls">
+                 <select id="FilterZone" name="FilterZone"></select>
+                @*    @Html.DropDownList("ZoneID", String.Empty)*@
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Requisition</label>
+            <div class="controls">
+                @Html.DropDownList("RequisitionID", String.Empty)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Filter" class="btn btn-primary" />
+            </div>
+        </div> 
+    }
+}
+<table class="table table-condensed table-bordered table-striped">
+
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Commodity)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.RequisitionNo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Donor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BeneficiaryNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Zone)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Woreda)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FDP)
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Commodity)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.RequisitionNo)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Donor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BeneficiaryNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Region)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Zone)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Woreda)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FDP)
+            </td>
+
+
+
+        </tr>
+    }
+
+</table>
+@Scripts.Render("~/bundles/jquery")
+<script type="text/jscript">
+    $(function () {
+        $('#RegionID').change(function () {
+            $.getJSON('/Logistics/BeneficiaryAllocation/ZonesList/' + $('#RegionID').val(), function (data) {
+                var items = '<option>Select a Zone</option>';
+                $.each(data, function (i, zone) {
+                    items += "<option value='" + zone.Value + "'>" + zone.Text + "</option>";
+                });
+                $('#FilterZone').html(items);
+            });
+        });
+    });
+</script>

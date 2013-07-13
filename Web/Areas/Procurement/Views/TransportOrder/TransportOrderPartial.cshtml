@@ -4,36 +4,9 @@
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TransportOrderID)
+            @Html.DisplayName("Transporter ID")
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FdpID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SourceWarehouseID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityQtl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DistanceFromOrigin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TariffPerQtl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequisitionID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CommodityID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ZoneID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DonorID)
-        </th>
-        <th></th>
+       
     </tr>
 
 @foreach (var item in Model) {
@@ -41,37 +14,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.TransportOrderID)
         </td>
+        
+        
         <td>
-            @Html.DisplayFor(modelItem => item.FdpID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SourceWarehouseID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityQtl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DistanceFromOrigin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TariffPerQtl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RequisitionID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CommodityID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ZoneID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DonorID)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderDetailID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TransportOrderDetailID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TransportOrderDetailID })
+            @Html.ActionLink("Detail", "TransportOrderDetail", new { id=item.TransportOrderID }) 
+            
         </td>
     </tr>
 }

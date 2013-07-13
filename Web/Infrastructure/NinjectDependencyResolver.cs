@@ -66,7 +66,8 @@ namespace Cats.Infrastructure
 
             kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
             
-            kernel.Bind<IBidWinnerService>().To<IBidWinnerService>();
+           
+            kernel.Bind<IBeneficiaryAllocationService>().To<BeneficiaryAllocationService>();
 
         }
     }
