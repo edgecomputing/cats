@@ -44,7 +44,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<TransportOrder> TransportOrderRepository { get; }
 
         IGenericRepository<TransportOrderDetail> TransportOrderDetailRepository { get; }
-        IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
+       // IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
 
         IGenericRepository<vwTransportOrder> VwTransportOrderRepository { get; }
         //IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
