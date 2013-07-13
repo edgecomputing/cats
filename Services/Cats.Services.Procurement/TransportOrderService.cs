@@ -208,15 +208,15 @@ namespace Cats.Services.Procurement
                 transportRequisition.RequisitionID = reliefRequisitionDetail.RequisitionID;
                 transportRequisition.HubID = requi.HubAllocations.FirstOrDefault().HubID;
                 transportRequisition.WoredaID = reliefRequisitionDetail.FDP.AdminUnitID;
-                var transportBidWinnerDetail =
-                   _unitOfWork.TransportBidWinnerDetailRepository.Get(
-                       t => t.HubID == transportRequisition.HubID && t.WoredaID == transportRequisition.WoredaID).FirstOrDefault();
-                if (transportBidWinnerDetail == null)
+                var transportBidWinner =
+                   _unitOfWork.BidWinnerRepository.Get(
+                       t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
+                if (transportBidWinner == null)
                 {
                     throw new Exception(string.Format("Transporter Couldn't be found for from {0} to {1}", transportRequisition.HubID, transportRequisition.WoredaID));
                 }
-                transportRequisition.TransporterID = transportBidWinnerDetail.TransporterID;
-                transportRequisition.TariffPerQtl = transportBidWinnerDetail.TariffPerQtl;
+                transportRequisition.TransporterID = transportBidWinner.TransporterID;
+                transportRequisition.TariffPerQtl = transportBidWinner.Tariff;
 
                 transportSourceDestination.Add(transportRequisition);
             }

@@ -42,10 +42,11 @@ namespace Cats.Data.UnitWork
         //IGenericRepository<DispatchAllocationDetail> DispatchAllocationRepository { get; }
         IGenericRepository<DispatchAllocation> DispatchAllocationRepository { get; }
         IGenericRepository<TransportOrder> TransportOrderRepository { get; }
-        IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
+        
         IGenericRepository<vwTransportOrder> VwTransportOrderRepository { get; }
         //IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
-        IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository { get; } 
+        IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository { get; }
+        IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
         void Save();
 
     }

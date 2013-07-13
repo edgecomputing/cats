@@ -6,6 +6,7 @@ using Cats.Models;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+using Workflow = Cats.Models.Constant.Workflow;
 
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -22,12 +23,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IProgramService _programService;
         private ICommodityService _commodityService;
         private IRegionalRequestDetailService _reliefRequisitionDetailService;
+        private IWorkflowStatusService _workflowStatusService;
         public RequestController(IRegionalRequestService reliefRequistionService
            , IFDPService fdpService
             , IAdminUnitService adminUnitService,
             IProgramService programService,
             ICommodityService commodityService,
-            IRegionalRequestDetailService reliefRequisitionDetailService)
+            IRegionalRequestDetailService reliefRequisitionDetailService,IWorkflowStatusService workflowStatusService)
         {
             this._regionalRequestService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
@@ -35,6 +37,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             this._fdpService = fdpService;
             this._programService = programService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
+            this._workflowStatusService = workflowStatusService;
         }
         public ActionResult Index()
         {
@@ -60,7 +63,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Status = new SelectList(RegionalRequestStatuses.GetAllStatus(), "Value", "Name");
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
             
            
             return View();
@@ -78,9 +81,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                            RequistionDate = item.RequistionDate.Date,
                                                                            Remark = item.Remark,
                                                                            Year = item.Year,
-                                                                           Status =  item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString(),
+                                                                           Status =_workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, item.Status),
                                                                            Round = item.Round,
-                                                                           Create = item.Status==2? null: ""
+                                                                           Create =_workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST,  item.Status)
                                                                        }).ToList();
 
 
@@ -91,7 +94,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Status=new SelectList(RegionalRequestStatuses.GetAllStatus(),"Value","Name");
+            ViewBag.Status=new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST),"StatusID","Description");
 
             var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());
@@ -105,7 +108,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             // TODO: Filter the collection using incoming parameters
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Status = new SelectList(RegionalRequestStatuses.GetAllStatus(), "Value", "Name");
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
             var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0, month, Status.HasValue?Status.Value : 1);
             
 

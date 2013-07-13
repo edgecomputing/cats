@@ -93,7 +93,7 @@
 
         <td>
             @{
-        var statusName = item.RequisitionStatus == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.RequisitionStatus == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString();
+        var statusName = item.RequisitionStatus.ToString() ;
        
                 }
                @Html.Label(statusName)
@@ -132,6 +132,6 @@
 
 </table>
     <p>
-        <input class="btn btn-success" type="submit" value="Create Transport Order" />
+        <input class="btn btn-success" type="submit" value="Create Transport Requisition" />
     </p>
 }

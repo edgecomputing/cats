@@ -21,17 +21,17 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         private IList<ReliefRequisition> _reliefRequisitions;
         private IList<TransportOrder> _transportOrders;
         private TransportOrderService _transportOrderService;
-        private IList<TransportBidWinnerDetail> _transportBidWinners;
+        private IList<BidWinner> _transportBidWinners;
             [SetUp]
         public void Init()
             {
-                _transportBidWinners = new List<TransportBidWinnerDetail>()
+                _transportBidWinners = new List<BidWinner>()
                                        {
-                                           new TransportBidWinnerDetail()
+                                           new BidWinner()
                                                {
-                                                   HubID=1,
-                                                   WoredaID=1,
-                                                   TariffPerQtl=100,
+                                                   SourceID= 1,
+                                                   DestinationID= 1,
+                                                   Tariff= 100,
                                                    TransporterID = 1
                                                }
                                        };
@@ -86,10 +86,10 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
             mockUnitOfWork.Setup(t => t.ReliefRequisitionDetailRepository).Returns(
                 mockReliefRequisionDetailRepository.Object);
 
-            var mockTransportBidWinnerDetailRepository = new Mock<IGenericRepository<TransportBidWinnerDetail>>();
-            mockTransportBidWinnerDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<TransportBidWinnerDetail, bool>>>(), null, It.IsAny<string>())).Returns(_transportBidWinners.AsQueryable());
+            var mockTransportBidWinnerDetailRepository = new Mock<IGenericRepository<BidWinner>>();
+            mockTransportBidWinnerDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<BidWinner, bool>>>(), null, It.IsAny<string>())).Returns(_transportBidWinners.AsQueryable());
 
-            mockUnitOfWork.Setup(t => t.TransportBidWinnerDetailRepository).Returns(
+            mockUnitOfWork.Setup(t => t.BidWinnerRepository).Returns(
                 mockTransportBidWinnerDetailRepository.Object);
 
             mockUnitOfWork.Setup(t => t.ReliefRequisitionRepository).Returns(mockReliefRequisitionRepository.Object);
