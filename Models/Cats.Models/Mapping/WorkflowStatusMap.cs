@@ -13,10 +13,12 @@ namespace Cats.Models.Mapping
         public WorkflowStatusMap()
         {
             // Primary Key
-            this.HasKey(t => t.StatusID);
+            this.HasKey(t => new { t.StatusID, t.WorkflowID });
 
             // Properties
             this.Property(t => t.StatusID);
+
+            this.Property(t => t.WorkflowID);
 
             this.Property(t => t.Description)
                 .IsRequired()

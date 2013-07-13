@@ -326,11 +326,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        public IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+       
 
 
         private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;
@@ -355,6 +351,19 @@ namespace Cats.Data.UnitWork
         {
 
             get { return this.transportRequisitionDetailRepository ?? (this.transportRequisitionDetailRepository = new GenericRepository<TransportRequisitionDetail>(_context)); }
+
+        }
+
+
+
+
+
+        private IGenericRepository<WorkflowStatus> workflowStatusRepository;
+
+        public IGenericRepository<WorkflowStatus> WorkflowStatusRepository
+        {
+
+            get { return this.workflowStatusRepository ?? (this.workflowStatusRepository = new GenericRepository<WorkflowStatus>(_context)); }
 
         }
 

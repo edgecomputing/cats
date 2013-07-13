@@ -54,6 +54,7 @@
     <Compile Include="BidWinner.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
+    <Compile Include="Constant\Status.cs" />
     <Compile Include="DispatchAllocation.cs" />
     <Compile Include="DispatchAllocationDetail.cs" />
     <Compile Include="Donor.cs" />
@@ -113,18 +114,13 @@
     <Compile Include="Status.cs" />
     <Compile Include="TransportBidPlan.cs" />
     <Compile Include="TransportBidPlanDetail.cs" />
-    <Compile Include="TransportBidWinnerDetail.cs" />
     <Compile Include="Transporter.cs" />
     <Compile Include="TransportOrder.cs" />
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
-
     <Compile Include="UserProfile.cs" />
-
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
-
-    <Compile Include="ViewModels\RegionalRequestStatus.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />

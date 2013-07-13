@@ -19,7 +19,8 @@
     <script src="~/Scripts/kendo/kendo.all.min.js"></script>
 
     <style type="text/css">
-        body {
+        body
+        {
             padding-top: 60px;
             padding-bottom: 40px;
         }
@@ -71,25 +72,18 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
 
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>
+                                <li class="nav-header">Beneficiary Allocation</li>
+                                <li><a href="@Url.Action("Index", "BeneficiaryAllocation", new { Area = "Logistics" })">Beneficiary Allocation</a></li>
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                               
-                               
                                 <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
-                               
+                                <li class="nav-header">Transport Requisitions</li>
+                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>
+                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>
+                                <li class="nav-header">Transport Orders</li>
+                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
                                 <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
-                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
-                                
-                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
- 
-                               
-
-                               <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
-                                  <li><a href="@Url.Action("Index", "BeneficiaryAllocation", new { Area = "Logistics" })">Beneficiary Allocation</a></li>                            
-
-
-                        
-                        </ul></li>
+                            </ul>
+                        </li>
                         <li><a href="#">Stock</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bid<b class="caret"></b></a>
@@ -178,28 +172,31 @@
         var calendarPerference = 1;
         if (calendarPerference == 2)
         {
+
             <script>
                 $(function() {
                     $(".cats-datepicker").datepicker();
                 });
             </script>
+
         }
         else
         {
-                                 <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css"/>
-                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.calendar.min.js"></script>
-                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.datepicker.min.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.plus.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker-am.js"> </script>
-                                <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
+        <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/Scripts/2012.1.419/telerik.calendar.min.js"></script>
+        <script type="text/javascript" src="/Scripts/2012.1.419/telerik.datepicker.min.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.plus.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker-am.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
                                    
         <script type='text/javascript'>
 
-             $(function() {
+            $(function () {
+
 
                  $(".cats-datepicker").calendarsPicker({
                      calendar: $.calendars.instance('ethiopian', 'am')
@@ -208,6 +205,7 @@
                  $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
              });
          </script>                                                                                                
+
                                                                                                                                    
     
         }

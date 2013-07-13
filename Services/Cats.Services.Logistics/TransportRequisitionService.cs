@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 
@@ -138,7 +139,7 @@ namespace Cats.Services.Logistics
 
         public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
         {
-            return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)REGIONAL_REQUEST_STATUS.HubAssigned, null,
+            return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)ReliefRequisitionStatus.HubAssigned, null,
                                                           "HubAllocations,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
         }
     }
