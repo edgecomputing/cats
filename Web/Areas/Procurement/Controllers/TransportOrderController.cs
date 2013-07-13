@@ -132,9 +132,9 @@ namespace Cats.Areas.Procurement.Controllers
 
         }
 
-        public ActionResult TransportOrderDetail(int transportOrderId=0)
+        public ActionResult TransportOrderDetail(int id)
         {
-            var detailTransportOrders = _transportOrderService.GetTransportOrderDetailByTransportId(transportOrderId);
+            var detailTransportOrders = _transportOrderService.GetTransportOrderDetailByTransportId(id);
             if (detailTransportOrders == null)
             {
                  return HttpNotFound();
