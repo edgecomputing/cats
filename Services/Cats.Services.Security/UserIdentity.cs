@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Cats.Models.Security;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
 
 namespace Cats.Services.Security
 {
@@ -45,16 +42,17 @@ namespace Cats.Services.Security
 
         #region Constructor(s)
 
-        public UserIdentity(string userName, UserAccountService service)
+        public UserIdentity(User user)
         {
-            //Assign the incoming user name to the current one and clear the roles collection
-            var user = service.GetUserDetail(userName);
-            this.userName = userName;
+            this.userName = user.UserName;
             this.fullName = user.FullName;
+            this.authenticated = true;
+        }
 
-            this.roles.Clear();
-            authenticated = true;
-            roles.AddRange(service.GetUserPermissions(userName));
+
+        public void SetPermissions(string[] permissions)
+        {
+            roles.AddRange(permissions);
         }
 
         public UserIdentity(int userId, UserAccountService service)

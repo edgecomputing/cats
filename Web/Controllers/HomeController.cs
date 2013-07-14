@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Cats.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         //
@@ -16,10 +17,6 @@ namespace Cats.Controllers
             return View();
         }
 
-        public ActionResult Login()
-        {
-            return View();
-        }
 
     }
 }

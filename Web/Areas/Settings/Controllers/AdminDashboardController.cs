@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Cats.Areas.Settings.Controllers
 {
+    [Authorize]
     public class AdminDashboardController : Controller
     {
         //

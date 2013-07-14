@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Cats.Helpers;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -109,12 +111,12 @@
                         </li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">[User Name] <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> @Html.GetUserName() <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Preference</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">Change Password</a></li>
-                                <li><a href="#">Logout</a></li>
+                                <li><a href="@Url.Action("Logout","Account")">Logout</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -99,6 +99,8 @@ namespace Cats.Services.Security
             try
             {
                 user = GetUserDetail(userName);
+                if(null==user)
+                    throw new ApplicationException("The requested user could not be found.");
             }
             catch (Exception ex)
             {
@@ -114,8 +116,8 @@ namespace Cats.Services.Security
             // Check if the passwords match
             if (user.Password == HashPassword(password))
             {
-                //Add the current Identity and Principal to the current thread.
-                var identity = new UserIdentity(user.UserName, this);
+                //Add the current Identity and Principal to the current thread.               
+                var identity = new UserIdentity(user);
                 var principal = new UserPrincipal(identity);
                 Thread.CurrentPrincipal = principal;
                 return true;
