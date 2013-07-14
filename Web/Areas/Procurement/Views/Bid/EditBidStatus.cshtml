@@ -33,19 +33,19 @@
             <div >
                 @Html.LabelFor(model => model.StartDate, "Start Date")
 
-                @Html.TextBoxFor(model=>model.StartDate)
+                @Html.TextBoxFor(model=>model.StartDate,new {@class="cats-cal"})
                 @Html.ValidationMessageFor(model => model.StartDate)
             </div>
             <div >
                 @Html.LabelFor(model => model.EndDate, "End Date")
 
-                @Html.TextBoxFor(model=>model.EndDate)
+                @Html.TextBoxFor(model=>model.EndDate,new {@class="cats-cal"})
                 @Html.ValidationMessageFor(model => model.EndDate)
             </div>
             <div >
                 @Html.LabelFor(model => model.EndDate, "Opening Date")
 
-                @Html.TextBoxFor(model=>model.OpeningDate)
+                @Html.TextBoxFor(model=>model.OpeningDate,new {@class="cats-cal"})
                 @Html.ValidationMessageFor(model => model.OpeningDate)
             </div>
             <div >

@@ -32,18 +32,18 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Details(int id=0)
         {
 
-            
-            TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,Transporter").FirstOrDefault();
+
+            TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
             var bidWinner = _bidWinnerService.Get(m => m.TransporterID == transportOrder.TransporterID).FirstOrDefault();
             if (transportOrder != null)
             {
                 var totalAmount = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl);
                 var totalTariff = transportOrder.TransportOrderDetails.Sum(m => m.TariffPerQtl);
-                //var region =transportOrder.TransportOrderDetails.Where(m => m.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name);
+                var region = transportOrder.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
                 ViewBag.Transporter = transportOrder.Transporter.Name;
                 ViewBag.TotalAmount = totalAmount;
                 ViewBag.BidNumber = bidWinner.Bid.BidNumber;
-                //ViewBag.Region = region;
+                ViewBag.Region = region;
                 return View(transportOrder);
             }
             return RedirectToAction("Index");
