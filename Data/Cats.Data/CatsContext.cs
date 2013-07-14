@@ -53,6 +53,9 @@ namespace Cats.Data
         //public DbSet<TransportRequisition> TransportRequisitions { get; set; }
         public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
 
+        public DbSet<Workflow> Workflows { get; set; }
+        public DbSet<WorkflowStatus> WorkflowStatuses { get; set; }
+
         //public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -91,7 +94,8 @@ namespace Cats.Data
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
            
-
+             modelBuilder.Configurations.Add(new WorkflowMap());
+            modelBuilder.Configurations.Add(new WorkflowStatusMap());
 
         }
 

@@ -19,14 +19,16 @@ namespace Cats.Services.Procurement
         TransportOrder FindById(int id);
         List<TransportOrder> GetAllTransportOrder();
         List<TransportOrder> FindBy(Expression<Func<TransportOrder, bool>> predicate);
-
+        IEnumerable<TransportOrderDetail> GetTransportOrderDetail(int requisitionId);
+        IEnumerable<ReliefRequisition> GetTransportOrderReleifRequisition(int status);
+        IEnumerable<TransportOrderDetail> GetTransportOrderDetailByTransportId(int transportId);
         IEnumerable<TransportOrder> Get(
                    Expression<Func<TransportOrder, bool>> filter = null,
                    Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
                    string includeProperties = "");
 
-        IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
-        IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
+        //IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
+        //IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
         IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<int> requisitions);
         List<vwTransportOrder> GeTransportOrderRpt(int id);
     }

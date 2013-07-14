@@ -91,8 +91,8 @@
                 </td>*@
                 <td>
                      @{
-        var statusName = item.Status == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.Status == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString();
-                   var showme = item.Status == 2 ? "": "hidden";
+                         var statusName = item.Status.ToString();
+            var showme = item.Status == 2 ? "": "hidden";
                 }
                @Html.Label(statusName)
                 </td>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 
@@ -168,7 +169,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ConfirmSendToLogistics(int requisitionid)
         {
             var requisition = _reliefRequisitionService.FindById(requisitionid);
-            requisition.Status = (int)REGIONAL_REQUEST_STATUS.Submitted;
+            requisition.Status = (int)ReliefRequisitionStatus.Approved;
             _reliefRequisitionService.Save();
             return RedirectToAction("Requistions", "ReliefRequisition");
         }

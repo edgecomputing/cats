@@ -6,7 +6,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 using Cats.Infrastructure;
+using Cats.Services.Security;
+using Cats.Helpers;
 
 namespace Cats
 {
@@ -25,6 +28,23 @@ namespace Cats
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                var identity = new UserIdentity(UserAccountHelper.GetUser(ticket.Name));
+                var principal = new UserPrincipal(identity);
+                HttpContext.Current.User = principal;
+            }
         }
     }
 }

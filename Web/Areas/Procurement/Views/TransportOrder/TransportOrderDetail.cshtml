@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Cats.Models.TransportOrderDetail>
+
+@{
+    ViewBag.Title = "TransportOrderDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<fieldset>
+    <legend>
+        Transport Order Detail view
+    </legend>
+</fieldset>
+
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayName("Transport Order Id")
+        </th>
+       
+        <th>
+            @Html.DisplayName("From Warehouse")
+        </th>
+        <th>
+            @Html.DisplayName("Qty Qtl")
+        </th>
+        <th>
+            @Html.DisplayName("Distance")
+        </th>
+        
+        <th>
+            @Html.DisplayName("RequisitionID")
+        </th>
+        <th>
+            @Html.DisplayName("Commodity")
+        </th>
+        <th>
+            @Html.DisplayName("Zone")
+        </th>
+        
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransportOrderID)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.SourceWarehouseID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityQtl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DistanceFromOrigin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TariffPerQtl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequisitionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.Commodity.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReliefRequisition.AdminUnit.Name)
+        </td>
+       
+        
+    </tr>
+}
+
+</table>

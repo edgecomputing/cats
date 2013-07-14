@@ -15,7 +15,7 @@ namespace Cats.Models
 
             //this.ReliefRequisitions = new List<ReliefRequisition>();
             //this.ReliefRequisitions1 = new List<ReliefRequisition>();
-            this.HubAllocations = new List<HubAllocation>();
+           // this.HubAllocations = new List<HubAllocation>();
             //this.TransportRequisitions = new List<TransportRequisition>();
             //this.TransportRequisitions1=new List<TransportRequisition>();
         }

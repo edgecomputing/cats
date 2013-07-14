@@ -177,5 +177,8 @@
     <Build Include="Logistics\Tables\ProjectCodeAllocation_4.sql" />
     <Build Include="Logistics\Tables\HubAllocation_3.sql" />
     <Build Include="dbo\Views\vwTransportOrder_1.sql" />
+    <Build Include="dbo\Tables\WorkflowStatus.sql" />
+    <Build Include="dbo\Tables\Workflow.sql" />
+    <Build Include="Script.PostDeployment-Users.sql" />
   </ItemGroup>
 </Project>
