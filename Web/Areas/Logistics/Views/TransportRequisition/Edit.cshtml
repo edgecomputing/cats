@@ -35,7 +35,7 @@
             @Html.LabelFor(model => model.RequestedDate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.RequestedDate)
+            @Html.EditorFor(model => model.RequestedDate,new {@class="cats-datepicker"})
             @Html.ValidationMessageFor(model => model.RequestedDate)
         </div>
 
@@ -51,7 +51,7 @@
             @Html.LabelFor(model => model.CertifiedDate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.CertifiedDate)
+            @Html.EditorFor(model => model.CertifiedDate,new {@class="cats-datepicker"})
             @Html.ValidationMessageFor(model => model.CertifiedDate)
         </div>
 
