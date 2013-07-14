@@ -116,7 +116,7 @@
                                 <li><a href="#">Preference</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">Change Password</a></li>
-                                <li><a href="@Url.Action("Logout","Account")">Logout</a></li>
+                                <li><a href="@Url.RouteUrl("Logout")">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -198,7 +198,6 @@
         <script type='text/javascript'>
 
             $(function () {
-
 
                  $(".cats-datepicker").calendarsPicker({
                      calendar: $.calendars.instance('ethiopian', 'am')
