@@ -182,4 +182,7 @@
     <Build Include="Script.PostDeployment-Users.sql" />
     <Build Include="Procurement\Tables\BidWinner.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Default-User.sql" />
+  </ItemGroup>
 </Project>
