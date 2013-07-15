@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
@@ -213,10 +214,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
         [HttpPost]
-        public ActionResult New(RegionalRequest reliefRequistion)
+        public ActionResult New(RegionalRequest reliefRequistion, string RequistionDateET)
         {
-            
-            
+
+            DateTime date;
+
+
+            try
+            {
+                date = DateTime.Parse(RequistionDateET);
+            }
+            catch (Exception)
+            {
+
+                var strEth = new getGregorianDate();
+                date = strEth.ReturnGregorianDate(RequistionDateET);
+            }
+
+            reliefRequistion.RequistionDate = date;
+
             if (ModelState.IsValid)
             {
                 //TODO:Filter with selected region
@@ -236,6 +252,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _regionalRequestService.AddReliefRequistion(reliefRequistion);
                 return RedirectToAction("Edit", "Request", new { id = reliefRequistion.RegionalRequestID });
             }
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
+            //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
+            ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
+            ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
             return View(new RegionalRequest());
         }
     }

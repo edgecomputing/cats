@@ -21,5 +21,6 @@ namespace Cats.Models
         public virtual Donor Donor { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual ReliefRequisition ReliefRequisition { get; set; }
+       
     }
 }
