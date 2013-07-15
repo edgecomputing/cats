@@ -50,6 +50,8 @@ namespace Cats.Data.UnitWork
         //IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
         IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository { get; }
         IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
+        IGenericRepository<TransportBidQuotation> TransportBidQuotationRepository { get; }
+
         void Save();
 
     }

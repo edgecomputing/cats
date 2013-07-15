@@ -1,0 +1,88 @@
+﻿@{
+  @* @model Cats.Models.TransportBidPlan
+  *@
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+     th
+    {
+        text-align:center;
+    }
+    .sidebar-nav
+    {
+        display:none;
+    }
+
+    table input
+        {
+            width:96%;
+            margin:0;
+            font-size:11px;
+            padding:0px;
+            background:none;
+            border:none;
+            padding-right:6px;
+            text-align:right;
+            height:24px;
+        }
+    .matrix td
+    {
+        vertical-align:central;
+         padding:2px;
+    }
+</style>
+<p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
+<p>Transporter : <b>@ViewBag.SelectedTransporter.Name</b> </p>
+
+
+<div class="span12">&nbsp;</div>
+
+<table class="table table-bordered matrix">
+    <tr>
+        <th rowspan="2">S.No</th>
+        <th rowspan="2">Source Warehouse</th>
+        <th colspan="2">Destination</th>
+        <th rowspan="2">Tariff/Quintal</th>
+        <th rowspan="2" style="min-width:200px;">Remark</th>
+        <th rowspan="2">Winner</th>
+    </tr>
+    <tr>
+        <th>Zone</th>
+        <th>Woreda</th>
+        
+    </tr>
+
+ @{
+    var count = 0;
+
+
+    
+
+    
+
+
+    foreach (var item in ViewBag.regionPlanDistinct)
+
+{
+    count++;
+    <tr>
+        <td>@count</td>
+        <td>@item.SourceWarehouse</td>
+        
+        
+        <td> @item.DestinationZone</td>
+        <td> @item.DestinationWoreda</td>
+
+        
+        <td><input /></td>
+        <td><input /></td>
+        <td>&nbsp; <input type="checkbox" /></td>    
+    </tr>
+}
+}
+</table>
+
+
+

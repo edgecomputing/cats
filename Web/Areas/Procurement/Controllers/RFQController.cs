@@ -21,12 +21,18 @@ using Cats.Areas.Procurement.Models;
         private readonly IProgramService _programService;
         private readonly ITransportBidPlanDetailService _transportBidPlanDetailService;
         private readonly IHubService _hubService;
+        private readonly ITransportBidQuotationService _bidQuotationService;
+        private readonly IBidService _bidService;
+        private readonly ITransporterService _transporterService;
 
         public RFQController(ITransportBidPlanService transportBidPlanServiceParam
                                             , IAdminUnitService adminUnitServiceParam
                                             , IProgramService programServiceParam
                                             , ITransportBidPlanDetailService transportBidPlanDetailServiceParam
-                                            ,IHubService hubServiceParam)
+                                            ,IHubService hubServiceParam
+                                            , ITransportBidQuotationService bidQuotationServiceParam
+                                            , ITransporterService transporterServiceParam
+                                            , IBidService bidServiceParam)
                                         
             {
                 this._transportBidPlanService = transportBidPlanServiceParam;
@@ -34,19 +40,22 @@ using Cats.Areas.Procurement.Models;
                 this._programService = programServiceParam;
                 this._transportBidPlanDetailService = transportBidPlanDetailServiceParam;
                 this._hubService = hubServiceParam;
+                this._bidQuotationService = bidQuotationServiceParam;
+                this._bidService = bidServiceParam;
+                this._transporterService = transporterServiceParam;
             }
-        //
-        // GET: /Procurement/RFQ/
-
+       
+        [HttpGet]
         public ActionResult Index()
         {
             ViewBag.BidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
 
-            return View();
+            List<Cats.Models.TransportBidQuotation> list = this._bidQuotationService.GetAllTransportBidQuotation();
+            return View(list);
+            //return View();
         }
-        //
-        // GET: /Procurement/RFQ/Details/1
+ 
 
         public ActionResult Details(int BidPlanID = 0, int RegionID = 0)
         {
@@ -87,5 +96,8 @@ using Cats.Areas.Procurement.Models;
             ViewBag.region = RegionID;
             return View(bidPlan);
         }
+
+
+       
     }
     }
