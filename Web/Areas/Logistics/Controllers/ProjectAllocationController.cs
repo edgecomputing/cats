@@ -159,8 +159,9 @@ namespace Cats.Areas.Logistics.Controllers
         [HttpPost]
         public ActionResult Add(Cats.Models.ProjectCodeAllocation newData)
         {
-            _projectCodeAllocationService.Save(newData);
 
+            _projectCodeAllocationService.Save(newData);
+            
             var hubAllocationInfo = _projectCodeAllocationService.GetHubAllocationByID(newData.HubAllocationID);
             return RedirectToAction("ProjectCodeAllocation", "ProjectAllocation", new { id = newData.HubAllocationID, requisitionId = hubAllocationInfo.RequisitionID});
             

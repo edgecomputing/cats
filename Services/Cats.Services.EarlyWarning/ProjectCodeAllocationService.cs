@@ -58,7 +58,11 @@ namespace Cats.Services.EarlyWarning
         public bool Save(ProjectCodeAllocation _projectAllocation)
         {
             _unitOfWork.ProjectCodeAllocationRepository.Add(_projectAllocation);
+            var hubAllocation = _unitOfWork.HubAllocationRepository.FindById(_projectAllocation.HubAllocationID);
+            var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(hubAllocation.RequisitionID);
+            requisition.Status = 4;
             _unitOfWork.Save();
+            
             return true;
         }
         public IEnumerable<ProjectCodeAllocation> GetAllProjectCodeAllocationDetail()
