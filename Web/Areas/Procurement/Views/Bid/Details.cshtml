@@ -4,6 +4,28 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+<style>
+    .matrix input
+    {
+        width:100%;
+        margin:0;
+        font-size:15px;
+        padding:0px;
+        background:none;
+        border:none;
+        padding-left:4px;
+    }
+    .matrix td
+    {
+       
+        padding:4px;
+    }
+    .matrix th
+    {
+        color:#04b0bb;
+         padding:4px;
+    }
+</style>
 @section LeftBar
 {
     @Html.ActionLink("Create New Bid", "Create")
@@ -28,7 +50,6 @@
         </tr>
         <tr>
             <td>@Html.LabelFor(m=>m.StatusID,"Status:")</td>
-            @* <td>@Html.DropDownList("BidStatus",String.Empty)</td>*@
             <td>@Html.TextBoxFor(m=>m.Status.Name,null,new { disabled = "true"})</td>
             
             <td>@Html.LabelFor(m => m.TransportBidPlanID,"Bid Plan ")</td>
@@ -39,7 +60,7 @@
 @using (Html.BeginForm())
 {
     
-    <table class="table table-bordered table-condensed table-striped">
+    <table class="table table-bordered table-condensed table-striped matrix">
         <tr>
             <th>Region</th>
             <th>PSNP Amount</th>

@@ -31,19 +31,22 @@
             <div class="editor-field">
                 @Html.LabelFor(model => model.StartDate, "Start Date")
 
-                @Html.TextBoxFor(model=>model.StartDate,new {@class="cats-cal"})
+                @*<input class="cats-datepicker" id="startDate" name="startDate" type="text" />*@
+                @Html.TextBoxFor(model=>model.StartDate)
                 @Html.ValidationMessageFor(model => model.StartDate)
             </div>
             <div class="editor-field" >
                 @Html.LabelFor(model => model.EndDate, "End Date")
 
-                @Html.TextBoxFor(model=>model.EndDate,new {@class="cats-cal"})
+                @*<input class="cats-datepicker" id="endDate" name="endDate" type="text" />*@
+                @Html.TextBoxFor(model=>model.EndDate)
                 @Html.ValidationMessageFor(model => model.EndDate)
             </div>
             <div class="editor-field">
                 @Html.LabelFor(model => model.EndDate, "Opening Date")
 
-                @Html.TextBoxFor(model=>model.OpeningDate,new {@class="cats-cal"})
+                @*<input class="cats-datepicker" id="openDate" name="openDate" type="text" />*@
+                @Html.TextBoxFor(model=>model.OpeningDate)
                 @Html.ValidationMessageFor(model => model.OpeningDate)
             </div>
             <div class="editor-field">

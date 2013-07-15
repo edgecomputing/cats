@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
+using Cats.Helpers;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using System;
@@ -58,7 +59,9 @@ namespace Cats.Areas.Procurement.Controllers
         
         public ActionResult Create(int id=0)
         {
+            
             var bid = new Bid();
+           
             var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID=1);
             var bidDetails = (from detail in regions
@@ -76,7 +79,6 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost]
         public ActionResult Create(Bid bid)
         {
-           
             if(ModelState.IsValid)
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);

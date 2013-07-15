@@ -13,20 +13,19 @@ namespace Cats.Areas.Procurement.Controllers
         //
         // GET: /Procurement/DispatchLocations/
         private IBidWinnerService _bidWinnerService;
-        private IAdminUnitService _adminUnitService;
         private ITransportOrderService _transportOrderService;
     
         public DispatchLocationsController(IBidWinnerService bidWinnerService,ITransportOrderService transportOrderService)
         {
             this._bidWinnerService = bidWinnerService;
-            //this._adminUnitService = adminUnitService;
             this._transportOrderService = transportOrderService;
         }
        
         public ActionResult Index(string transporter="")
         {
-            var bidWinner = _bidWinnerService.Get(m => m.Transporter.Name.StartsWith(transporter));
-            return View(bidWinner);
+           // var bidWinner = _bidWinnerService.Get(m => m.Transporter.Name.StartsWith(transporter));
+            var transporterOrder = _transportOrderService.Get(m => m.Transporter.Name.StartsWith(transporter));
+            return View(transporterOrder);
         }
         
         public ActionResult Details(int id=0)
@@ -34,15 +33,14 @@ namespace Cats.Areas.Procurement.Controllers
 
 
             TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
-            var bidWinner = _bidWinnerService.Get(m => m.TransporterID == transportOrder.TransporterID).FirstOrDefault();
+            //var bidWinner = _bidWinnerService.Get(m => m.TransporterID == transportOrder.TransporterID).FirstOrDefault();
             if (transportOrder != null)
             {
                 var totalAmount = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl);
-                var totalTariff = transportOrder.TransportOrderDetails.Sum(m => m.TariffPerQtl);
                 var region = transportOrder.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
                 ViewBag.Transporter = transportOrder.Transporter.Name;
                 ViewBag.TotalAmount = totalAmount;
-                ViewBag.BidNumber = bidWinner.Bid.BidNumber;
+                ViewBag.BidNumber = transportOrder.BidDocumentNo;
                 ViewBag.Region = region;
                 return View(transportOrder);
             }

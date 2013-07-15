@@ -4,6 +4,28 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";    
 }
+<style>
+    .matrix input
+    {
+        width:100%;
+        margin:0;
+        font-size:15px;
+        padding:0px;
+        background:none;
+        border:none;
+        padding-left:4px;
+    }
+    .matrix td
+    {
+       
+        padding:4px;
+    }
+    .matrix th
+    {
+        color:#04b0bb;
+         padding:4px;
+    }
+</style>
 @section LeftBar
 {
     <li class="nav-header">Bid Informaation</li>
@@ -19,7 +41,7 @@
 
 @using (Html.BeginForm("Edit", "Bid", FormMethod.Post))
 {
-    <table class="table table-bordered table-condensed table-striped">
+    <table class="table table-bordered table-condensed table-striped matrix">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Region)

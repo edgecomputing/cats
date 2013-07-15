@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<Cats.Models.BidWinner>
+﻿@model  IEnumerable<Cats.Models.TransportOrder>
 
 @{
     ViewBag.Title = "Create Bid";
@@ -33,7 +33,7 @@
 <table class="table table-striped table-bordered">
     <tr>
         <th>
-            Bid Number
+           Bid Number
         </th>
         <th>
             Transporter
@@ -45,7 +45,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Bid.BidNumber)
+                @Html.DisplayFor(modelItem => item.BidDocumentNo)
             </td>
             <td>
                 <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.TransportOrderID})">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>
