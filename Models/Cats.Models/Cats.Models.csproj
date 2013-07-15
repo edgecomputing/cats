@@ -81,6 +81,7 @@
     <Compile Include="Mapping\StatusMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
+    <Compile Include="Mapping\TransportBidQuotationMap.cs" />
     <Compile Include="Mapping\TransporterMap.cs" />
     <Compile Include="Mapping\TransportOrderDetailMap.cs" />
     <Compile Include="Mapping\TransportOrderMap.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Status.cs" />
     <Compile Include="TransportBidPlan.cs" />
     <Compile Include="TransportBidPlanDetail.cs" />
+    <Compile Include="TransportBidQuotation.cs" />
     <Compile Include="Transporter.cs" />
     <Compile Include="TransportOrder.cs" />
     <Compile Include="TransportOrderDetail.cs" />

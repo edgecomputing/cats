@@ -16,7 +16,7 @@
             @Html.DisplayNameFor(model => model.Year)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.YearHalf)
+            Period
         </th>
         <th></th>
     </tr>
@@ -36,6 +36,7 @@
             @Html.ActionLink("Warehouse Selection", "WarehouseSelection", new { id=item.TransportBidPlanID }) | 
             @*@Html.ActionLink("Create Bid ", "Create", new {Area="Procurement", id=item.TransportBidPlanID })*@
             <a href="@Url.Action("Create", "Bid", new {Area = "Procurement", id = item.TransportBidPlanID})">Create Bid</a>
+            <a href="@Url.Action("Create", "bid", new { Area = "Procurement",id=item.TransportBidPlanID })">Create Bid</a>
         </td>
     </tr>
 }
