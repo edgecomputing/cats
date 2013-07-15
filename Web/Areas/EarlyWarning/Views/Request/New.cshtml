@@ -6,77 +6,90 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<div class="well"><h3>Regional Request</h3></div>
+<div class="well">
+    <h3>Regional Request</h3>
+</div>
 @using (Html.BeginForm())
 {
-    <fieldset>
-        <legend>Relief Requistion</legend>                 
-        <div >
-            @Html.LabelFor(model => model.ProgramId, "Program")
+    <div class="form-horizontal">
+        <fieldset>
+            <legend></legend>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RegionID, "Region")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionID", String.Empty)
+                    @Html.ValidationMessageFor(model => model.RegionID)
+                </div>
+            </div>
 
-            @Html.DropDownList("ProgramID", String.Empty)
-            @Html.ValidationMessageFor(model => model.ProgramId)
-          
-        </div>
-         <div >
-                @Html.LabelFor(model => model.RequistionDate)
-                @Html.EditorFor(model => model.RequistionDate,new {@class="cats-datepicker"})
-                @Html.ValidationMessageFor(model => model.RequistionDate)
-            
-        </div>
-        <div >
-            @Html.LabelFor(model => model.Round, "Round")
-        </div>
-        <div >
-            @Html.EditorFor(model=>model.Round)
-           
-        </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ProgramId, "Program")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("ProgramID", String.Empty)
+                    @Html.ValidationMessageFor(model => model.ProgramId)
+                </div>
+            </div>
 
-        <div >
-            @Html.LabelFor(model => model.RegionID, "AdminUnit")
-        </div>
-        <div >
-            @Html.DropDownList("RegionID", String.Empty)
-            @Html.ValidationMessageFor(model => model.RegionID)
-        </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequistionDate)
+                   
+                </div>
+                <div class="controls">
+                    @Html.HiddenFor(model => model.RequistionDate)
+                     <input class="cats-datepicker" type="text" id="requestDate" name="requestDate"/>
+                    @Html.ValidationMessageFor(model => model.RequistionDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Round, "Round")
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Round)
+                </div>
+            </div>
 
-        <div >
-            @Html.LabelFor(model => model.ReferenceNumber)
-        </div>
-        <div >
-            @Html.EditorFor(model => model.ReferenceNumber)
-            @Html.ValidationMessageFor(model => model.ReferenceNumber)
-        </div>
-       
-        <div >
-            @Html.LabelFor(model => model.Year)
-        </div>
-        <div >
-            @Html.EditorFor(model => model.Year)
-            @Html.ValidationMessageFor(model => model.Year)
-        </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ReferenceNumber)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.ReferenceNumber)
+                    @Html.ValidationMessageFor(model => model.ReferenceNumber)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Year)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Year)
+                    @Html.ValidationMessageFor(model => model.Year)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Remark)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                <input type="submit" value="Create" class="btn btn-success"/></div>
+            </div>
+        </fieldset>
 
-        <div >
-            @Html.LabelFor(model => model.Remark)
-        </div>
-        <div >
-            @Html.EditorFor(model => model.Remark)
-            @Html.ValidationMessageFor(model => model.Remark)
-        </div>
- 
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
 
-    
-    
-    
+
+    </div>
     
    
-}
-@section LeftBar
-{
-    @Html.DropDownList("RegionID")
-
 }

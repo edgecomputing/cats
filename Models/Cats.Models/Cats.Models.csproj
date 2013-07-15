@@ -131,6 +131,7 @@
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
+    <Compile Include="ViewModels\RequestView.cs" />
     <Compile Include="ViewModels\SINumber.cs" />
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="Workflow.cs" />
