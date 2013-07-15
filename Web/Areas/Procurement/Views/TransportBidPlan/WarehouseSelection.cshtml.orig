@@ -19,13 +19,14 @@
 <style>
     table input
         {
-            width:100%;
+            width:96%;
             margin:0;
             font-size:11px;
             padding:0px;
             background:none;
             border:none;
-            padding-left:4px;
+            padding-right:6px;
+            text-align:right;
         }
     .matrix td
     {
@@ -37,12 +38,12 @@
         color:#04b0bb;
          padding:4px;
     }
-    .table_headbeka2
+    .table_head
     {
         color:#04b0bb;
          margin:4px;
     }
-    .table_headbeka3
+    .table_head2
     {
         color:#04b0bb;
          font-size:12px;
@@ -104,7 +105,7 @@
     {
         var tab_id = "tab" + region.AdminUnitID;
         <div class="tab-pane active" id="@tab_id">
-                <h5>@region.Name</h5>
+                <h5>Enter the amount to be transported to respective destinations in [MT]</h5>
             <table class="table table-striped table-bordered table-condensed matrix">
             <tr>
                 <th>Zone</th>
@@ -133,7 +134,7 @@
                             firstWoreda = false;
                             var zon_row = woredas.Count * ViewBag.ProgramCollection.Count;
                             
-                            <td  rowspan="@zon_row"><div class="table_headbeka2">@zone.Name</div></td>
+                            <td  rowspan="@zon_row"><div class="table_head">@zone.Name</div></td>
                          }
                         @if (firstProgram)
                         {
@@ -141,10 +142,10 @@
                             firstProgram = false;
                             var woreda_row = ViewBag.ProgramCollection.Count;
                             
-                            <td rowspan="@woreda_row"><div class="table_headbeka2">@woreda.Name</div></td>
+                            <td rowspan="@woreda_row"><div class="table_head">@woreda.Name</div></td>
                          }
                         
-                        <td ><div class="table_headbeka3">@program.Name</div></td>
+                        <td ><div class="table_head2">@program.Name</div></td>
                         
                         @foreach(var hub in ViewBag.HubCollection)
                         {

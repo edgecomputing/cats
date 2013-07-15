@@ -1,5 +1,4 @@
-﻿   @model  IEnumerable<Cats.Models.TransportBidQuotation>
-
+﻿
 @{
     ViewBag.Title = "rfq";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -7,12 +6,12 @@
 }
 @section LeftBar
 {
-    <form action="rfq/details" method="post">
-
+    <form action="Edit" method="post">
+  
         <div class="control-group">
             <label class="control-label">Bid</label>
             <div class="controls">
-               @Html.DropDownList("BidPlanID");
+               @Html.DropDownList("BidID");
             </div>
         </div>
         <div class="control-group">
@@ -23,11 +22,19 @@
                 
             </div>
         </div>
-        
+        <div class="control-group">
+            <label class="control-label">Transporter</label>
+            <div class="controls">
+             
+                @Html.DropDownList("TransporterID");
+                
+            </div>
+        </div>
         
         <input type="submit" value="Select" class="btn btn-primary"/>
-
+        <input type="button" value="Edit" class="btn btn-primary" onclick="{this.form.action='edit'; this.form.submit();}"/>
+        </form>
 }
 
-<h2>Request for Quote</h2>
-<h4>Please specify the bid no and Region to continue</h4>
+<h2>RFQ</h2>
+

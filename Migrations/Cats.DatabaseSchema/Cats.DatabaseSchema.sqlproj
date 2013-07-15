@@ -183,6 +183,7 @@
     <Build Include="dbo\Tables\Workflow.sql" />
     <Build Include="Script.PostDeployment-Users.sql" />
     <Build Include="Procurement\Tables\BidWinner.sql" />
+    <Build Include="Procurement\Tables\TransportBidQuotation.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Default-User.sql" />

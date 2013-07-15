@@ -1,5 +1,7 @@
 ﻿CREATE SCHEMA [Procurement]
-    AUTHORIZATION [dbo];
+    AUTHORIZATION [db_accessadmin];
+
+
 
 
 

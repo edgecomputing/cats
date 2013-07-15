@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -83,6 +83,7 @@
     <Compile Include="Mapping\TransactionMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
+    <Compile Include="Mapping\TransportBidQuotationMap.cs" />
     <Compile Include="Mapping\TransporterMap.cs" />
     <Compile Include="Mapping\TransportOrderDetailMap.cs" />
     <Compile Include="Mapping\TransportOrderMap.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Transaction.cs" />
     <Compile Include="TransportBidPlan.cs" />
     <Compile Include="TransportBidPlanDetail.cs" />
+    <Compile Include="TransportBidQuotation.cs" />
     <Compile Include="Transporter.cs" />
     <Compile Include="TransportOrder.cs" />
     <Compile Include="TransportOrderDetail.cs" />

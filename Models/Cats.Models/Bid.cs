@@ -26,6 +26,8 @@ namespace Cats.Models
        public virtual Status Status { get; set; }
        public virtual TransportBidPlan TransportBidPlan { get; set; }
        public ICollection<BidWinner> BidWinners { get; set; }
+       public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
+       
         #endregion
     }
 }

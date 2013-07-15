@@ -77,7 +77,6 @@
                                 <li class="nav-header">Beneficiary Allocation</li>
                                 <li><a href="@Url.Action("Index", "BeneficiaryAllocation", new { Area = "Logistics" })">Beneficiary Allocation</a></li>
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-<<<<<<< HEAD
                                
                                
                                 <li><a href="@Url.Action("Allocate", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
@@ -86,13 +85,7 @@
                                 <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
                                 
                                 <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
-=======
-                                <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
-                                <li class="nav-header">Transport Requisitions</li>
-                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>
-                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>
-                                <li class="nav-header">Transport Orders</li>
->>>>>>> 81878530df9d1adc627d2c149547f01d605831f9
+
                                 <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
                                 <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
                             </ul>
@@ -105,6 +98,8 @@
                                 <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Bid Management</a></li>
                                 <li><a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })">Transporter</a></li>
                                 <li><a href="@Url.Action("Create", "Bid", new { Area = "Procurement" })">Create Bid</a></li>
+                                <li><a href="@Url.Action("Index", "RFQ", new { Area = "Procurement" })">RFQ</a></li>
+                                <li><a href="@Url.Action("Index", "PriceQuotation", new { Area = "Procurement" })">Price Quotation</a></li>
                                 <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">Dispatch Locations</a></li>
                             </ul>
                         </li>
