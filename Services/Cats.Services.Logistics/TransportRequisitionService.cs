@@ -117,7 +117,9 @@ namespace Cats.Services.Logistics
             var result = (from requisition in requisitions
                           select new RequisitionToDispatch
                           {
-                              HubID = requisition.HubAllocations.FirstOrDefault().HubID ,//_unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==requisition.RequisitionID).First().HubID,
+
+                              HubID =requisition.HubAllocations.FirstOrDefault().HubID, //_unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==requisition.RequisitionID).First().HubID,
+
                               RequisitionID = requisition.RequisitionID,
                               RequisitionNo = requisition.RequisitionNo,
                               RequisitionStatus = requisition.Status.Value,
@@ -128,8 +130,10 @@ namespace Cats.Services.Logistics
                               CommodityName = requisition.Commodity.Name,
                               Zone = requisition.AdminUnit.Name,
                               RegionID = requisition.RegionID.Value,
+
                               RegionName = requisition.AdminUnit1.Name,
                               //RequisitionStatusName=_unitOfWork.WorkflowStatusRepository.FindBy(t=>t.StatusID==requisition.Status && t.WorkflowID==2).FirstOrDefault().Description 
+
 
 
                           });
