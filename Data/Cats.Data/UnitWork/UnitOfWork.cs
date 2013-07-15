@@ -335,7 +335,7 @@ namespace Cats.Data.UnitWork
         {
 
             get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
-
+        }
         public IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository
         {
             get { throw new NotImplementedException(); }
