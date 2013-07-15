@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 
 
@@ -108,12 +109,12 @@ namespace Cats.Services.EarlyWarning
         {
             //Check if Requisition is created from this request
             //
-            var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)REGIONAL_REQUEST_STATUS.Submitted  , null, "RegionalRequestDetails").FirstOrDefault();
+            var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)RegionalRequestStatus.Approved  , null, "RegionalRequestDetails").FirstOrDefault();
             if (regionalRequest == null) return null;
 
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
             AddReliefRequisions(reliefRequistions);
-            regionalRequest.Status = (int) REGIONAL_REQUEST_STATUS.HubAssigned;
+            regionalRequest.Status = (int)RegionalRequestStatus.Closed;
             _unitOfWork.Save();
             foreach (var item in reliefRequistions)
             {
@@ -140,7 +141,7 @@ namespace Cats.Services.EarlyWarning
                 RequisitionNo = Guid.NewGuid().ToString(),
                 RegionID = regionalRequest.RegionID,
                 ZoneID = zoneId,
-                Status = 1,
+                Status = (int)ReliefRequisitionStatus.Draft,
                 //RequestedBy =itm.RequestedBy,
                 //ApprovedBy=itm.ApprovedBy,
                 //ApprovedDate=itm.ApprovedDate,
@@ -268,7 +269,7 @@ namespace Cats.Services.EarlyWarning
                              Region = itm.AdminUnit1.Name,
                              Round = itm.Round,
                              Zone = itm.AdminUnit.Name,
-                             Status = (int)REGIONAL_REQUEST_STATUS.Draft,
+                             Status = itm.Status,
                              RequisitionID = itm.RequisitionID,
                              // RequestedBy = itm.UserProfile,
                              // ApprovedBy = itm.ApprovedBy,

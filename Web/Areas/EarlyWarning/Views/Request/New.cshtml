@@ -20,7 +20,7 @@
         </div>
          <div >
                 @Html.LabelFor(model => model.RequistionDate)
-                @Html.EditorFor(model => model.RequistionDate)
+                @Html.EditorFor(model => model.RequistionDate,new {@class="cats-datepicker"})
                 @Html.ValidationMessageFor(model => model.RequistionDate)
             
         </div>
@@ -47,7 +47,7 @@
             @Html.EditorFor(model => model.ReferenceNumber)
             @Html.ValidationMessageFor(model => model.ReferenceNumber)
         </div>
-
+       
         <div >
             @Html.LabelFor(model => model.Year)
         </div>

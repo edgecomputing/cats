@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cats.Models;
 using Cats.Data.Repository;
 
@@ -42,12 +42,18 @@ namespace Cats.Data.UnitWork
         //IGenericRepository<DispatchAllocationDetail> DispatchAllocationRepository { get; }
         IGenericRepository<DispatchAllocation> DispatchAllocationRepository { get; }
         IGenericRepository<TransportOrder> TransportOrderRepository { get; }
-        IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
+
+        IGenericRepository<TransportOrderDetail> TransportOrderDetailRepository { get; }
+       // IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository { get; }
+
         IGenericRepository<vwTransportOrder> VwTransportOrderRepository { get; }
         //IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
         IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository { get; }
         IGenericRepository<Transaction> TransactionRepository { get; }
         IGenericRepository<ReceiptAllocation> ReceiptAllocationReository { get; }
+
+        IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
+
         void Save();
 
     }

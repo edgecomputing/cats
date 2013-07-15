@@ -17,7 +17,8 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Bid> bidRepository;
         private IGenericRepository<BidDetail> bidDetailRepository; 
         private IGenericRepository<Status> statusRepository; 
-        private IGenericRepository<BidWinner> bidWinnerRepository; 
+        private IGenericRepository<BidWinner> bidWinnerRepository;
+        private IGenericRepository<TransportOrderDetail> transportOrderDetailRepository;
         
 
         public UnitOfWork()
@@ -322,17 +323,23 @@ namespace Cats.Data.UnitWork
             get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
 
         }
+        public IGenericRepository<TransportOrderDetail> TransportOrderDetailRepository
+        {
+
+            get { return this.transportOrderDetailRepository ?? (this.transportOrderDetailRepository = new GenericRepository<TransportOrderDetail>(_context)); }
+
+        }
 
 
+        public IGenericRepository<BidWinner> BidWinnerRepository
+        {
 
-
-
+            get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
 
         public IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository
         {
             get { throw new NotImplementedException(); }
         }
-
 
 
         private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;
@@ -362,6 +369,16 @@ namespace Cats.Data.UnitWork
 
 
 
+
+
+        private IGenericRepository<WorkflowStatus> workflowStatusRepository;
+
+        public IGenericRepository<WorkflowStatus> WorkflowStatusRepository
+        {
+
+            get { return this.workflowStatusRepository ?? (this.workflowStatusRepository = new GenericRepository<WorkflowStatus>(_context)); }
+
+        }
       
       
 

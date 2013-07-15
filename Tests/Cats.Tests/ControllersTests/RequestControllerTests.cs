@@ -101,7 +101,36 @@ namespace Cats.Tests.ControllersTests
             var mockAdminUnitService = new Mock<IAdminUnitService>();
             mockAdminUnitService.Setup(t => t.FindBy(It.IsAny<Expression<Func<AdminUnit, bool>>>())).Returns(adminUnit);
 
-            _requestController = new RequestController(mockRegionalRequestService.Object, null, mockAdminUnitService.Object, null, null, null);
+            var workflowService = new Mock<IWorkflowStatusService>();
+            var _status = new List<Cats.Models.WorkflowStatus>()
+                              {
+                                  new WorkflowStatus()
+                                      {
+                                          Description = "Draft",
+                                          StatusID = 1,
+                                          WorkflowID = 1
+                                      },
+                                  new WorkflowStatus()
+                                      {
+                                          Description = "Approved",
+                                          StatusID = 2,
+                                          WorkflowID = 1
+                                      },
+                                  new WorkflowStatus()
+                                      {
+                                          Description = "Closed",
+                                          StatusID = 3,
+                                          WorkflowID = 1
+                                      }
+                              };
+            workflowService.Setup(t => t.GetStatus(It.IsAny<Cats.Models.Constant.Workflow>())).Returns(_status);
+            workflowService.Setup(t => t.GetStatusName(It.IsAny<Cats.Models.Constant.Workflow>(), It.IsAny<int>())).
+                Returns((Cats.Models.Constant.Workflow workflow, int statusId) =>
+                            {
+                              return  _status.Find(t => t.StatusID == statusId && t.WorkflowID == (int) workflow).Description;
+                            });
+
+            _requestController = new RequestController(mockRegionalRequestService.Object, null, mockAdminUnitService.Object, null, null, null,workflowService.Object);
 
         }
 

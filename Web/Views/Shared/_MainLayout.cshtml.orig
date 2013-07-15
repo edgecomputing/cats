@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Cats.Helpers;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -10,6 +12,7 @@
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
     <link href="~/Content/Site.css" rel="stylesheet" />
+     <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-1.9.1.js"></script>
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
@@ -18,7 +21,8 @@
     <script src="~/Scripts/kendo/kendo.all.min.js"></script>
 
     <style type="text/css">
-        body {
+        body
+        {
             padding-top: 60px;
             padding-bottom: 40px;
         }
@@ -54,14 +58,15 @@
                     <ul class="nav">
                         <li><a href="~/">Home</a></li>
                         <li><a href="#">HRD</a></li>
+                        <li><a href="@Url.Action("TransportOrder", "TransportOrder", new { Area = "Procurement" })">Dashboard</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Request<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="nav-header">Regional Requests</li>
                                 <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Regional Request</a></li>
-                                <li><a href="@Url.Action("RequestsFromRegion", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
+                                <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
                                 <li class="nav-header">Requisitions</li>
-                                <li><a href="@Url.Action("RequestsFromRegion", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
+                                <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
                                 <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
                             </ul>
                         </li>
@@ -69,29 +74,38 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
 
                             <ul class="dropdown-menu">
-                                <li><a href="#">Project Allocation</a></li>
-
-                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Transport Requisitions</a></li>
+                                <li class="nav-header">Beneficiary Allocation</li>
+                                <li><a href="@Url.Action("Index", "BeneficiaryAllocation", new { Area = "Logistics" })">Beneficiary Allocation</a></li>
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
+<<<<<<< HEAD
                                
-                                <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
                                
-                            <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
-                                  <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
+                                <li><a href="@Url.Action("Allocate", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
+                               
+                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
+                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
                                 
                                 <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
-                                 <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
-
+=======
+                                <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
+                                <li class="nav-header">Transport Requisitions</li>
+                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>
+                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>
+                                <li class="nav-header">Transport Orders</li>
+>>>>>>> 81878530df9d1adc627d2c149547f01d605831f9
+                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
+                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
+                            </ul>
                         </li>
-                        </ul>
                         <li><a href="#">Stock</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bid<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("", "TransportBidPlan", new { Area = "Procurement" })">Bid Plan</a></li>
+                                <li><a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })">Bid Plan</a></li>
                                 <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Bid Management</a></li>
-                                <li><a href="@Url.Action("#", "Transporter", new { Area = "Procurement" })">Transporter</a></li>
+                                <li><a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })">Transporter</a></li>
                                 <li><a href="@Url.Action("Create", "Bid", new { Area = "Procurement" })">Create Bid</a></li>
+                                <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">Dispatch Locations</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Reports</a></li>
@@ -108,12 +122,12 @@
                         </li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">[User Name] <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> @Html.GetUserName() <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Preference</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">Change Password</a></li>
-                                <li><a href="#">Logout</a></li>
+                                <li><a href="@Url.RouteUrl("Logout")">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -171,36 +185,39 @@
         var calendarPerference = 1;
         if (calendarPerference == 2)
         {
+
             <script>
                 $(function() {
-                    $(".datepicker").datepicker();
+                    $(".cats-datepicker").datepicker();
                 });
             </script>
+
         }
         else
         {
-                                 <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css"/>
-                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.calendar.min.js"></script>
-                                 <script type="text/javascript" src="/Scripts/2012.1.419/telerik.datepicker.min.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.plus.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian.js"> </script>
-                                 <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker-am.js"> </script>
-                                <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
+        <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/Scripts/2012.1.419/telerik.calendar.min.js"></script>
+        <script type="text/javascript" src="/Scripts/2012.1.419/telerik.datepicker.min.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.plus.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker-am.js"> </script>
+        <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
                                    
         <script type='text/javascript'>
 
-             $(function() {
+            $(function () {
 
-                 $(".datepicker").calendarsPicker({
+                 $(".cats-datepicker").calendarsPicker({
                      calendar: $.calendars.instance('ethiopian', 'am')
                      //disableInput: true
                  }).attr('style', 'background-color : #fff');
                  $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
              });
          </script>                                                                                                
+
                                                                                                                                    
     
         }

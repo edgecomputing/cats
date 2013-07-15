@@ -13,6 +13,7 @@ namespace Cats.Models
            
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
+            this.BidWinners=new List<BidWinner>();
 
         }
 
@@ -32,6 +33,7 @@ namespace Cats.Models
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
+        public virtual ICollection<BidWinner> BidWinners  { get; set; }
  
     }
 }

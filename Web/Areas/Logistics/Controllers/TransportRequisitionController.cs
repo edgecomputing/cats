@@ -12,7 +12,7 @@ namespace Cats.Areas.Logistics.Controllers
     public class TransportRequisitionController : Controller
     {
         private readonly ITransportRequisitionService _transportRequisitionService;
-
+        
         public TransportRequisitionController(ITransportRequisitionService transportRequisitionService)
         {
             this._transportRequisitionService = transportRequisitionService;
@@ -95,5 +95,8 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return RedirectToAction("Index","TransportRequisition");
         }
+
+
+       
     }
 }

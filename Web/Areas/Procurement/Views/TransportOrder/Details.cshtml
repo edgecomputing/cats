@@ -28,21 +28,27 @@
         @Html.DisplayNameFor(model => model.OrderDate)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.OrderDate)
+        @Html.DisplayFor(model => model.OrderDate,new {@class="cats-datepicker"})
     </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.RequestedDispatchDate)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.RequestedDispatchDate)
+        @Html.DisplayFor(model => model.RequestedDispatchDate,new {@class="cats-datepicker"})
     </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.OrderExpiryDate)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.OrderExpiryDate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.OrderExpiryDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrderExpiryDate,new {@class="cats-datepicker"})
     </div>
 
     <div class="display-label">
@@ -84,14 +90,14 @@
         @Html.DisplayNameFor(model => model.ConsignerDate)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ConsignerDate)
+        @Html.DisplayFor(model => model.ConsignerDate,new {@class="cats-datepicker"})
     </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.TransporterSignedDate)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.TransporterSignedDate)
+        @Html.DisplayFor(model => model.TransporterSignedDate,new {@class="cats-datepicker"})
     </div>
 </fieldset>
 <p>

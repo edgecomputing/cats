@@ -58,18 +58,19 @@ namespace Cats.Infrastructure
             // Security service registration
             kernel.Bind<IUserAccountService>().To<UserAccountService>();
             kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
+
             kernel.Bind<ITransportOrderService>().To<TransportOrderService>();
-<<<<<<< HEAD
             kernel.Bind<IProjectCodeService>().To<ProjectCodeService>();
             kernel.Bind<IProjectCodeAllocationService>().To<ProjectCodeAllocationService>();
+            kernel.Bind<IBidWinnerService>().To<BidWinnerService>();
             kernel.Bind<IShippingInstructionService>().To<ShippingInstructionService>();
-            
-=======
-            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
-            kernel.Bind<IProjectCodeAllocationService>().To<ProjectCodeAllocationService>();
-            kernel.Bind<IBidWinnerService>().To<IBidWinnerService>();
 
->>>>>>> 32b527449776306b10b1617fcc509de0d4635d2c
+            kernel.Bind<ITransactionService>().To<TransactionService>();
+            kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
+
+           
+            kernel.Bind<IBeneficiaryAllocationService>().To<BeneficiaryAllocationService>();
+            kernel.Bind<IWorkflowStatusService>().To<WorkflowStatusService>();
         }
     }
 }

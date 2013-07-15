@@ -65,6 +65,9 @@
     <Compile Include="IReliefRequisitionService.cs" />
     <Compile Include="IShippingInstructionService.cs" />
     <Compile Include="ITransactionService.cs" />
+
+    <Compile Include="IWorkflowStatusService.cs" />
+
     <Compile Include="ProgramService.cs" />
     <Compile Include="ProjectCodeAllocationService.cs" />
     <Compile Include="ProjectCodeService.cs" />
@@ -75,6 +78,9 @@
     <Compile Include="ReliefRequisitionService.cs" />
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="TransactionService.cs" />
+
+    <Compile Include="WorkflowStatusService.cs" />
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">

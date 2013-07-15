@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,9 @@ namespace Cats.Tests.ControllersTests
     {
         private IBidWinnerService MockBidWinnerService;
         private IAdminUnitService MockAdminUnitService;
+
+        private ITransportOrderService MockTransporterOrderService;
+
         private DispatchLocationsController _dispatchLocationsController;
 
         [SetUp]
@@ -54,6 +57,9 @@ namespace Cats.Tests.ControllersTests
             this.MockBidWinnerService = mockBidWinnerService.Object;
 
             _dispatchLocationsController=new DispatchLocationsController(MockBidWinnerService,MockAdminUnitService);
+
+            _dispatchLocationsController=new DispatchLocationsController(MockBidWinnerService,MockTransporterOrderService);
+
         }
 
         [Test]
@@ -66,6 +72,10 @@ namespace Cats.Tests.ControllersTests
             }
             ;
             var result = _dispatchLocationsController.Index();
+
+            var transporter = "transporter";
+            var result = _dispatchLocationsController.Index(transporter);
+
             Assert.IsNotNull(result);
 
             var actual = MockBidWinnerService.GetAllBidWinner();
@@ -85,6 +95,9 @@ namespace Cats.Tests.ControllersTests
             try
             {
                 _dispatchLocationsController = new DispatchLocationsController(MockBidWinnerService, MockAdminUnitService);
+
+                _dispatchLocationsController = new DispatchLocationsController(MockBidWinnerService, MockTransporterOrderService);
+
             }
             catch (Exception e)
             {
