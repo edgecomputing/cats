@@ -96,7 +96,7 @@ namespace Cats.Areas.Logistics.Controllers
                 var reqId = firstOrDefault.RequisitionID;
                 foreach (var allocation in hubAllocation)
                 {
-                    var req = _requisitionService.FindById(reqId);
+                    var req = _requisitionService.FindById(allocation.RequisitionID);
                     hubAllocations.Add(new Cats.Models.HubAllocation 
                                            {
                                                ReliefRequisition = req,

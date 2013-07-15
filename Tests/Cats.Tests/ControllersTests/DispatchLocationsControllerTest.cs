@@ -71,7 +71,7 @@ namespace Cats.Tests.ControllersTests
                                   Amount = 200,Tariff = 55,Position =1,Status =2,ExpiryDate = new DateTime(12/12/2012)};
             }
             ;
-            var result = _dispatchLocationsController.Index();
+            //var result = _dispatchLocationsController.Index();
 
             var transporter = "transporter";
             var result = _dispatchLocationsController.Index(transporter);

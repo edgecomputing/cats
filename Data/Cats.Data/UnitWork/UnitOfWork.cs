@@ -317,12 +317,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-        public IGenericRepository<BidWinner> BidWinnerRepository
-        {
-
-            get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
-
-        }
+       
         public IGenericRepository<TransportOrderDetail> TransportOrderDetailRepository
         {
 
@@ -336,10 +331,7 @@ namespace Cats.Data.UnitWork
 
             get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
         }
-        public IGenericRepository<TransportBidWinnerDetail> TransportBidWinnerDetailRepository
-        {
-            get { throw new NotImplementedException(); }
-        }
+        
 
 
         private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;

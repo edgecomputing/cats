@@ -25,28 +25,7 @@ namespace Cats.Areas.Procurement.Controllers
             var bidWinner = _bidWinnerService.Get(m=>m.Position<2);
             return View(bidWinner);
         }
-        // [HttpGet]
-        //public ActionResult Index(string transporter,string bidNumber)
-        //{
-        //    var BidWinner = _bidWinnerService.Get(m => m.Transporter.Name.StartsWith(transporter) && m.Bid.BidNumber.StartsWith(bidNumber));
-        //    return View(BidWinner.ToList());
-        //}
-        public ActionResult Details(int id=0)
-        {
-            var totalAmount=0;
-            var totalTariff = 0;
-            BidWinner bidWinner = _bidWinnerService.Get(t => t.BidWinnerID == id, null,"").FirstOrDefault();
-            foreach (var winners in bidWinner.Bid.TransportBidPlan.TransportBidPlanDetails)
-            {
-                totalAmount = (int) (totalAmount + winners.Quantity);
-
-            }
-            ViewBag.TotalAmount = totalAmount;
-            ViewBag.Transporter = bidWinner.Transporter.Name;
-            ViewBag.Region = bidWinner.AdminUnit.Name;
-            ViewBag.BidNumber = bidWinner.Bid.BidNumber;
-            return View(bidWinner);
-
+      
         private ITransportOrderService _transportOrderService;
     
         public DispatchLocationsController(IBidWinnerService bidWinnerService,ITransportOrderService transportOrderService)

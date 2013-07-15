@@ -151,10 +151,10 @@ namespace Cats.Services.EarlyWarning
                     ShippingInstructionList.Add(new ReceiptAllocation
                                                     {SINumber = receiv.SINumber, QuantityInMT  = balance});
                 }
-                else
-                {
-                    ShippingInstructionList.Add(new ReceiptAllocation { SINumber = receiv.SINumber, QuantityInMT = 0 });
-                }
+                //else
+                //{
+                //    ShippingInstructionList.Add(new ReceiptAllocation { SINumber = receiv.SINumber, QuantityInMT = 0 });
+                //}
             }
             return ShippingInstructionList;
         }
@@ -182,10 +182,10 @@ namespace Cats.Services.EarlyWarning
                     balance = receiv.QuantityInMT - transactionQuantity;
                     projectCodeList.Add(new ReceiptAllocation { ProjectNumber = receiv.ProjectNumber, QuantityInMT = balance });
                 }
-                else
-                {
-                    projectCodeList.Add(new ReceiptAllocation { ProjectNumber = receiv.ProjectNumber, QuantityInMT = 0 });
-                }
+                //else
+                //{
+                //    projectCodeList.Add(new ReceiptAllocation { ProjectNumber = receiv.ProjectNumber, QuantityInMT = 0 });
+                //}
             }
 
             return projectCodeList;
