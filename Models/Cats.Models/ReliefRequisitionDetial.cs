@@ -8,7 +8,11 @@ namespace Cats.Models
 {
     public class ReliefRequisitionDetail
     {
-
+        public ReliefRequisitionDetail()
+        {
+           
+           
+        }
 
         public int RequisitionDetailID { get; set; }
         public int RequisitionID { get; set; }

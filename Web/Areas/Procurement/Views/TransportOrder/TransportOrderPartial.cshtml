@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Cats.Models.TransportOrderDetail>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayName("Transporter ID")
+        </th>
+       
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransportOrderID)
+        </td>
+        
+        
+        <td>
+            @Html.ActionLink("Detail", "TransportOrderDetail", new { id=item.TransportOrderID }) 
+            
+        </td>
+    </tr>
+}
+
+</table>

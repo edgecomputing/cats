@@ -78,7 +78,7 @@ namespace Cats.Data.Repository
             {
                 query = query.Where(filter);
             }
-
+            if (includeProperties != null)
             foreach (var includeProperty in includeProperties.Split
                 (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {

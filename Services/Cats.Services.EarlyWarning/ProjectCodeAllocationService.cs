@@ -120,9 +120,22 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.HubAllocationRepository.Get(filter, orderBy, includeProperties);
         }
-        //public IEnumerable<RegionalRequest> GetHubAllocatedRequisitions;
+
+        //public IEnumerable<ReliefRequisition> GetReliefRequisition(
+        //  Expression<Func<ReliefRequisition, bool>> filter = null,
+        //  Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
+        //  string includeProperties = "")
         //{
-        //    List<HubAllocation> hubAllocated=this.Get(t=>t.
+        //    return _unitOfWork.ReliefRequisitionRepository.Get(filter, orderBy, includeProperties);
         //}
+
+        public List<HubAllocation> GetHubAllocationByHubID(int hubID)
+        {
+            return _unitOfWork.HubAllocationRepository.FindBy(t => t.HubID == hubID);
+        }
+        public HubAllocation GetHubAllocationByID(int hubID)
+        {
+            return _unitOfWork.HubAllocationRepository.FindById(hubID);
+        } 
     }
 }

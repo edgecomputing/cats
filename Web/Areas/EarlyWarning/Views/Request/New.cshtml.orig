@@ -1,0 +1,82 @@
+﻿@model  Cats.Models.RegionalRequest
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="well"><h3>Regional Request</h3></div>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Relief Requistion</legend>                 
+        <div >
+            @Html.LabelFor(model => model.ProgramId, "Program")
+
+            @Html.DropDownList("ProgramID", String.Empty)
+            @Html.ValidationMessageFor(model => model.ProgramId)
+          
+        </div>
+         <div >
+                @Html.LabelFor(model => model.RequistionDate)
+                @Html.EditorFor(model => model.RequistionDate)
+                @Html.ValidationMessageFor(model => model.RequistionDate)
+            
+        </div>
+        <div >
+            @Html.LabelFor(model => model.Round, "Round")
+        </div>
+        <div >
+            @Html.EditorFor(model=>model.Round)
+           
+        </div>
+
+        <div >
+            @Html.LabelFor(model => model.RegionID, "AdminUnit")
+        </div>
+        <div >
+            @Html.DropDownList("RegionID", String.Empty)
+            @Html.ValidationMessageFor(model => model.RegionID)
+        </div>
+
+        <div >
+            @Html.LabelFor(model => model.ReferenceNumber)
+        </div>
+        <div >
+            @Html.EditorFor(model => model.ReferenceNumber)
+            @Html.ValidationMessageFor(model => model.ReferenceNumber)
+        </div>
+       
+        <div >
+            @Html.LabelFor(model => model.Year)
+        </div>
+        <div >
+            @Html.EditorFor(model => model.Year)
+            @Html.ValidationMessageFor(model => model.Year)
+        </div>
+
+        <div >
+            @Html.LabelFor(model => model.Remark)
+        </div>
+        <div >
+            @Html.EditorFor(model => model.Remark)
+            @Html.ValidationMessageFor(model => model.Remark)
+        </div>
+ 
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+
+    
+    
+    
+    
+   
+}
+@section LeftBar
+{
+    @Html.DropDownList("RegionID")
+
+}
