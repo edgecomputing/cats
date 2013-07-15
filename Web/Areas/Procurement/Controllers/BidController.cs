@@ -93,6 +93,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                                       }).ToList();
                 bid.BidDetails = bidDetails;
+                bid.StatusID = 1;
                 _bidService.AddBid(bid);
                 return RedirectToAction("Edit", "Bid", new {id = bid.BidID});
             }

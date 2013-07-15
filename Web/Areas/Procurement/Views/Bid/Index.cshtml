@@ -51,6 +51,7 @@
 
 <table class="table table-striped table-bordered">
     <tr>
+        <th>SNO</th>
         <th>
             Bid Number
             @*@Html.DisplayNameFor(model => model.BidNumber)*@
@@ -69,10 +70,11 @@
         </th>
         <th></th>
     </tr>
-
+    @{ int sno = 1;}
     @foreach (var item in Model)
     {
         <tr>
+            <td>@sno</td>
             <td>
                 <a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
             </td>
@@ -89,8 +91,8 @@
                 @Html.DisplayFor(modelItem=>item.Status.Name)
             </td>
             <td>
-                 @{
-                  var status = item.StatusID == 1 ? "" : "hidden";
+                @{
+                    var status = item.StatusID == 1 ? "" : "hidden";
                 }
                 <div class="btn-group">
                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i>
@@ -105,6 +107,7 @@
                 <input class="btn btn-success @status" type="button" value="Approve" onclick=" onApprove(@item.BidID); "/>
             </td>
         </tr>
+        sno++;
     }
 
 </table>

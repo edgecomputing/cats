@@ -49,12 +49,12 @@
                 @Html.TextBoxFor(model=>model.OpeningDate)
                 @Html.ValidationMessageFor(model => model.OpeningDate)
             </div>
-            <div class="editor-field">
+           @* <div class="editor-field">
                 @Html.LabelFor(model => model.StatusID, "Status")
 
                 @Html.DropDownList("StatusID",String.Empty)
                 @Html.ValidationMessageFor(model => model.StatusID)
-            </div>        
+            </div>   *@     
             <p>
                 <input type="submit" value="Create Bid" class="btn btn-success" />
             </p>
