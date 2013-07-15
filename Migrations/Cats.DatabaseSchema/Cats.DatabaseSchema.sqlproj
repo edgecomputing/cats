@@ -180,5 +180,6 @@
     <Build Include="dbo\Tables\WorkflowStatus.sql" />
     <Build Include="dbo\Tables\Workflow.sql" />
     <Build Include="Script.PostDeployment-Users.sql" />
+    <Build Include="Procurement\Tables\BidWinner.sql" />
   </ItemGroup>
 </Project>
