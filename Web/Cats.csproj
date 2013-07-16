@@ -17,8 +17,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -178,7 +178,9 @@
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -188,6 +190,7 @@
     <Compile Include="Helpers\EthiopianDate.cs" />
     <Compile Include="Helpers\getGregorianDate.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
@@ -195,6 +198,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReliefRequisitions.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -499,12 +503,12 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>
   <ItemGroup>

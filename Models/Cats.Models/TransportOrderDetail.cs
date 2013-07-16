@@ -8,6 +8,8 @@ namespace Cats.Models
 {
     public class TransportOrderDetail
     {
+        
+        
         public int TransportOrderDetailID { get; set; }
         public int TransportOrderID { get; set; }
         public int FdpID { get; set; }

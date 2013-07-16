@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Cats.Areas.Settings.Models.UserViewModel
+@{
     ViewBag.Title = "New";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -13,53 +14,47 @@
     @Html.Partial("_AdminLeftBar")
 }
 
-<form class="form-horizontal">
-    <fieldset>
-
-        <!-- Form Name -->
-        <legend>Create new user</legend>
-
-        <!-- Text input-->
-        <div class="control-group">
-            <label class="control-label" for="textinput">User name:</label>
-            <div class="controls">
-                <input id="textinput" name="textinput" type="text" placeholder="User name" class="input-xlarge" required="">
-            </div>
+@using (Html.BeginForm("New", "Users", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <!-- Text input-->
+    <div class="control-group">
+        <label class="control-label">User name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.UserName,new{@class="input-xlarge",@required="required"})           
         </div>
+    </div>
 
-        <!-- Text input-->
-        <div class="control-group">
-            <label class="control-label" for="textinput">Full name:</label>
-            <div class="controls">
-                <input id="textinput" name="textinput" type="text" placeholder="Full name" class="input-xlarge" required="">
-            </div>
+    <!-- Text input-->
+    <div class="control-group">
+        <label class="control-label" >Full name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.FullName,new{@class="input-xlarge",@required="required"})            
         </div>
+    </div>
 
-        <!-- Password input-->
-        <div class="control-group">
-            <label class="control-label" for="passwordinput">Password:</label>
-            <div class="controls">
-                <input id="passwordinput" name="passwordinput" type="password" placeholder="Password" class="input-xlarge" required="">
-            </div>
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Password:</label>
+        <div class="controls">
+            @Html.PasswordFor(m=>m.Password,new{@class="input-xlarge",@required="required"})            
         </div>
+    </div>
 
-        <!-- Password input-->
-        <div class="control-group">
-            <label class="control-label" for="passwordinput">Retype Password</label>
-            <div class="controls">
-                <input id="passwordinput" name="passwordinput" type="password" placeholder="Retype password" class="input-xlarge" required="">
-            </div>
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Retype Password</label>
+        <div class="controls">
+            @Html.PasswordFor(m=>m.PasswordConfirm,new{@class="input-xlarge",@required="required"})
         </div>
+    </div>
 
-        <!-- Button (Double) -->
-        <div class="control-group">
-            <label class="control-label" for="button1id"></label>
-            <div class="controls">
-                <button id="button1id" name="button1id" class="btn btn-default">Save</button>
-                <button id="button2id" name="button2id" class="btn btn-default">Cancel</button>
-            </div>
+    <!-- Button (Double) -->
+    <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+            <input type="submit" name="createUser" class="btn btn-primary" value="Create User"/>
+            <a href="@Url.Action("Index","Users")" class="btn">Cancel</a>
         </div>
-
-    </fieldset>
-</form>
+    </div>
+}
 

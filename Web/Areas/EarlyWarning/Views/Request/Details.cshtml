@@ -24,18 +24,13 @@
         @Html.DisplayFor(model => model.Program.Name)
     </div>
 
-    <div >
-         @Html.DisplayNameFor(model => model.RoundId)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.Round.RoundNumber)
-    </div>
+    
 
     <div >
          @Html.DisplayNameFor(model => model.RequistionDate)
     </div>
     <div >
-        @Html.DisplayFor(model => model.RequistionDate)
+        @Html.DisplayFor(model => model.RequistionDate,new {@class="cats-datepicker"})
     </div>
 
     <div >
@@ -61,6 +56,6 @@
 
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ReliefRequistionId }) |
+    @Html.ActionLink("Edit", "Edit", new { id=Model.RegionalRequestID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

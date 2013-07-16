@@ -16,7 +16,7 @@ namespace Cats.Tests.ControllersTests
     public class DispatchLocationsControllerTest
     {
         private IBidWinnerService MockBidWinnerService;
-        private IAdminUnitService MockAdminUnitService;
+        private ITransportOrderService MockTransporterOrderService;
         private DispatchLocationsController _dispatchLocationsController;
 
         [SetUp]
@@ -53,7 +53,7 @@ namespace Cats.Tests.ControllersTests
             mockBidWinnerService.Setup(m => m.GetAllBidWinner()).Returns(bidWinner);
             this.MockBidWinnerService = mockBidWinnerService.Object;
 
-            _dispatchLocationsController=new DispatchLocationsController(MockBidWinnerService,MockAdminUnitService);
+            _dispatchLocationsController=new DispatchLocationsController(MockBidWinnerService,MockTransporterOrderService);
         }
 
         [Test]
@@ -65,7 +65,8 @@ namespace Cats.Tests.ControllersTests
                                   Amount = 200,Tariff = 55,Position =1,Status =2,ExpiryDate = new DateTime(12/12/2012)};
             }
             ;
-            var result = _dispatchLocationsController.Index();
+            var transporter = "transporter";
+            var result = _dispatchLocationsController.Index(transporter);
             Assert.IsNotNull(result);
 
             var actual = MockBidWinnerService.GetAllBidWinner();
@@ -84,7 +85,7 @@ namespace Cats.Tests.ControllersTests
         {
             try
             {
-                _dispatchLocationsController = new DispatchLocationsController(MockBidWinnerService, MockAdminUnitService);
+                _dispatchLocationsController = new DispatchLocationsController(MockBidWinnerService, MockTransporterOrderService);
             }
             catch (Exception e)
             {

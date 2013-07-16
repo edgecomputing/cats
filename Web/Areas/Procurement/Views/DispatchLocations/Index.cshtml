@@ -48,7 +48,7 @@
                 @Html.DisplayFor(modelItem => item.Bid.BidNumber)
             </td>
             <td>
-                <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.BidWinnerID })">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>
+                <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.TransportOrderID})">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>
             </td>
             <td>
                 <div class="btn-group">
@@ -56,8 +56,8 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Details", "DispatchLocations", new {Area = "Procurement", id = item.BidWinnerID})">View Dispatch Locations</a></li>
-                        <li><a href="@Url.Action("Index", "DispatchLocations", new {Area = "Procurement", id = item.BidWinnerID})">Transporter Detail</a></li>
+                        <li><a href="@Url.Action("Details", "DispatchLocations", new {Area = "Procurement", id = item.TransporterID})">View Dispatch Locations</a></li>
+                     @*   <li><a href="@Url.Action("Index", "DispatchLocations", new {Area = "Procurement", id = item.TransporterID})">Transporter Detail</a></li>*@
                         @*<li><a href="@Url.Action("ApproveBid", "Bid", new {Area = "Procurement", id = item.BidID})">Approve</a></li>*@
                     </ul>
                 </div>

@@ -23,8 +23,14 @@ namespace Cats.Services.EarlyWarning
         public bool AddHubAllocation(HubAllocation hubAllocation)
         {
             _unitOfWork.HubAllocationRepository.Add(hubAllocation);
+            var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionID == hubAllocation.RequisitionID).Single();
+            requisition.Status = 3;
+           // _unitOfWork.ReliefRequisitionRepository.Edit(requisition);
+            
             _unitOfWork.Save();
             return true;
+
+           
 
         }
         public bool EditHubAllocation(HubAllocation hubAllocation)
@@ -63,14 +69,33 @@ namespace Cats.Services.EarlyWarning
         }
         #endregion
 
-        public bool UpdateRequisitionStatus(int requisitionId)
+        public List<RequisitionViewModel> ReturnRequisitionGroupByReuisitionNo(int status)
         {
-            var requisition =_unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionID == requisitionId).SingleOrDefault();
-            if (requisition == null) return false;
-            requisition.Status = 3;
-            _unitOfWork.Save();
-            return true;
+            var requisition =_unitOfWork.ReliefRequisitionRepository.FindBy(r => r.Status == status);
+            
+           
 
+
+
+            var result = (from r in requisition
+
+                         select new RequisitionViewModel()
+                                     {
+                                                        RequisitionNo = r.RequisitionNo,
+                                                        RequisitionId = r.RequisitionID,
+                                                        RequisitionDate = DateTime.Parse(r.RequestedDate.ToString()),
+                                                        Commodity = r.Commodity.Name,
+                                                        BenficiaryNo = r.ReliefRequisitionDetails.Sum(a=>a.BenficiaryNo),
+                                                        Amount = r.ReliefRequisitionDetails.Sum(a => a.Amount),
+                                                        Status = int.Parse( r.Status.ToString()),
+                                                        Region = r.AdminUnit.Name,
+                                                        Zone = r.AdminUnit.Name
+                                     });
+                                                   
+
+
+            return Enumerable.Cast<RequisitionViewModel>(result).ToList();
+          
 
 
         }

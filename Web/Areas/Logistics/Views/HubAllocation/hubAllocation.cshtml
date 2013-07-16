@@ -1,4 +1,4 @@
-﻿@model IList<Cats.Models.ReliefRequisitionDetail>
+﻿@model IList<Cats.Models.RequisitionViewModel>
 
 @{
     ViewBag.Title = "Allocate Hub";
@@ -93,15 +93,13 @@
         <td>
             @Html.Label("Zone")
         </td>
+        
         <td>
-            @Html.Label("Round")
-        </td>
-        <td>
-            @Html.Label("Req.No")
+            @Html.Label("ReqNo")
         </td>
        
         <td>
-            @Html.Label("Req. Date")
+            @Html.Label("ReqDate")
         </td>
         <td>
             @Html.Label("Amount")
@@ -120,41 +118,37 @@
     <tr>
        
         <td>
-            @Html.DisplayFor(m=>m[i].Commodity.Name)
-            @Html.HiddenFor(m=>m[i].Commodity.Name)
+            @Html.DisplayFor(m=>m[i].Commodity)
+            @Html.HiddenFor(m=>m[i].Commodity)
             
         </td>
         
          <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.AdminUnit.Name)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.AdminUnit.Name)
+            @Html.DisplayFor(m=>m[i].Region)
+            @Html.HiddenFor(m=>m[i].Region)
             
         </td>
         
            <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.AdminUnit1.Name)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.AdminUnit1.Name)
+            @Html.DisplayFor(m=>m[i].Zone)
+            @Html.HiddenFor(m=>m[i].Zone)
             
         </td>
         
         
-            <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.Round)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.Round)
-            
-        </td>
+         
         
         <td>
            
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequisitionNo)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequisitionNo)
+            @Html.DisplayFor(m=>m[i].RequisitionNo)
+            @Html.HiddenFor(m=>m[i].RequisitionNo)
             
         </td>
         
         
             <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequestedDate)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequestedDate)
+            @Html.DisplayFor(m=>m[i].RequisitionDate)
+            @Html.HiddenFor(m=>m[i].RequisitionDate)
             
         </td>
          <td>
@@ -168,8 +162,8 @@
             
         </td>
         <td>
-            @Html.DisplayFor(m=>m[i].ReliefRequisition.RequisitionID)
-            @Html.HiddenFor(m=>m[i].ReliefRequisition.RequisitionID)
+            @Html.DisplayFor(m=>m[i].RequisitionId)
+            @Html.HiddenFor(m=>m[i].RequisitionId)
             
         </td>
        
