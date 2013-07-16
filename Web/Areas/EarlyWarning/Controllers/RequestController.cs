@@ -212,7 +212,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return RedirectToAction("Edit", "Request", new { id = requId });
         }
-
+        public ActionResult ApproveRequest(int id)
+        {
+            _regionalRequestService.ApproveRequest(id);
+          return  RedirectToAction("Index");
+        }
 
         [HttpPost]
         public ActionResult New(RegionalRequest regionalRequest, string requestDate)

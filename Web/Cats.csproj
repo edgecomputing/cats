@@ -403,21 +403,17 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Allocate.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocatedList.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
-
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
-
     <Content Include="Areas\Procurement\Views\RFQ\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
-=======
 
->>>>>>> d6ef6a9dc7b588d1a7c3e530b08c1ad18df2ad83
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -447,13 +443,11 @@
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\hubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
@@ -530,7 +524,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>
   <ItemGroup>

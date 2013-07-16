@@ -97,6 +97,9 @@ namespace Cats.Services.Logistics
             }
 
             AddTransportRequisition(transportRequisition);
+            transportRequisition.TransportRequisitionNo = string.Format("TRN-{0}",
+                                                                        transportRequisition.TransportRequisitionID);
+            _unitOfWork.Save();
             return transportRequisition;
 
 
@@ -117,22 +120,24 @@ namespace Cats.Services.Logistics
             var result = (from requisition in requisitions
                           select new RequisitionToDispatch
                           {
+                              //HubID = requisition.HubAllocations.FirstOrDefault().HubID, //_unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==requisition.RequisitionID).First().HubID,
 
-                              HubID =requisition.HubAllocations.FirstOrDefault().HubID, //_unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==requisition.RequisitionID).First().HubID,
+                              HubID =_unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==requisition.RequisitionID).First().HubID,
 
                               RequisitionID = requisition.RequisitionID,
                               RequisitionNo = requisition.RequisitionNo,
                               RequisitionStatus = requisition.Status.Value,
                               ZoneID = requisition.ZoneID.Value,
                               QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
-                              OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,//_unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == requisition.RequisitionID).First().Hub.Name,
+                              //OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,//_unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == requisition.RequisitionID).First().Hub.Name,
+                              OrignWarehouse = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == requisition.RequisitionID).First().Hub.Name,
                               CommodityID = requisition.CommodityID.Value,
                               CommodityName = requisition.Commodity.Name,
                               Zone = requisition.AdminUnit.Name,
                               RegionID = requisition.RegionID.Value,
 
                               RegionName = requisition.AdminUnit1.Name,
-                              //RequisitionStatusName=_unitOfWork.WorkflowStatusRepository.FindBy(t=>t.StatusID==requisition.Status && t.WorkflowID==2).FirstOrDefault().Description 
+                              RequisitionStatusName=_unitOfWork.WorkflowStatusRepository.FindBy(t=>t.StatusID==requisition.Status && t.WorkflowID==2).FirstOrDefault().Description 
 
 
 

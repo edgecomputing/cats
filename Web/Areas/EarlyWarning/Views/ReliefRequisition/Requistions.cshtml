@@ -1,4 +1,5 @@
-﻿@using Cats.Models.ViewModels
+﻿@using Cats.Models.Constant
+@using Cats.Models.ViewModels
 @model IEnumerable<Cats.Models.ReliefRequisition>
 
 @{
@@ -86,10 +87,36 @@
         </td>*@
         <td>
            @{
-               var statusName = item.Status.ToString();
+               //var statusName = item.Status.ToString();
         var showme = item.Status == 1 ? "" : "hidden";
                 }
-               @Html.Label(statusName)
+               @{
+            string status=string.Empty;
+
+            switch (item.Status)
+            {
+                case (int)ReliefRequisitionStatus.Draft:
+                    status = "Draft";
+                    break;
+                case (int)ReliefRequisitionStatus.Approved:
+                    status = "Approved";
+                    break;
+                case (int)ReliefRequisitionStatus.HubAssigned:
+                    status = "HubAssigned";
+                    break;
+                case (int)ReliefRequisitionStatus.ProjectCodeAssigned:
+                    status = "ProjectCodeAssigned";
+                    break;
+                case (int)ReliefRequisitionStatus.TransportOrderCreated:
+                    status = "TransportOrderCreated";
+                    break;
+                case (int)ReliefRequisitionStatus.TransportRequisitionCreated:
+                    status = "TransportRequisitionCreated";
+                    break;
+            }
+                
+                    }
+                    @status
         </td>
         
         <td>
