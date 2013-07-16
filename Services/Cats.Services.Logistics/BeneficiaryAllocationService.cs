@@ -28,8 +28,8 @@ namespace Cats.Services.Logistics
                                                       RegionID = itm.ReliefRequisition.RegionID,
                                                       ZoneID = itm.ReliefRequisition.ZoneID,
                                                       WoredaID = itm.FDP.AdminUnit.AdminUnitID,
-                                                      Region = itm.ReliefRequisition.RegionID.HasValue ? itm.ReliefRequisition.AdminUnit1.Name : string.Empty,
-                                                      Zone = itm.ReliefRequisition.RegionID.HasValue ? itm.ReliefRequisition.AdminUnit.Name : string.Empty,
+                                                      Region = itm.ReliefRequisition.RegionID.HasValue ? itm.ReliefRequisition.AdminUnit.Name : string.Empty,
+                                                      Zone = itm.ReliefRequisition.RegionID.HasValue ? itm.ReliefRequisition.AdminUnit1.Name : string.Empty,
                                                       Woreda = itm.FDP.AdminUnit.Name,
                                                       FDPID = itm.FDPID,
                                                       FDP = itm.FDP.Name,
@@ -42,7 +42,10 @@ namespace Cats.Services.Logistics
                                                       Amount = itm.Amount,
                                                       BeneficiaryNo = itm.BenficiaryNo,
                                                       ProgramID = itm.ReliefRequisition.ProgramID,
-                                                      Program = itm.ReliefRequisition.ProgramID.HasValue ? itm.ReliefRequisition.Program.Name : string.Empty
+                                                      Program = itm.ReliefRequisition.ProgramID.HasValue ? itm.ReliefRequisition.Program.Name : string.Empty,
+                                                      Round=itm.ReliefRequisition.Round.HasValue ?itm.ReliefRequisition.Round.Value :0,
+                                                      Year=itm.ReliefRequisition.RequestedDate.Value.Year,
+                                                      Month =itm.ReliefRequisition.RequestedDate.Value.ToString("MMM")
 
                                                   });
 

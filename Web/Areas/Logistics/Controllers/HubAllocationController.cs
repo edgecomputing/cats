@@ -141,6 +141,7 @@ namespace Cats.Areas.Logistics.Controllers
                date = strEth.ReturnGregorianDate(datepicker);
             }
 
+
             foreach (RequisitionViewModel appRequisition in requisitionDetail)
             {
                 var newHubAllocation = new HubAllocation
@@ -154,7 +155,8 @@ namespace Cats.Areas.Logistics.Controllers
 
 
                 _hubAllocationService.AddHubAllocation(newHubAllocation);
-               
+
+                
                 
             }
             return RedirectToAction("ApprovedRequesitions", "HubAllocation");

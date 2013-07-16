@@ -169,11 +169,13 @@
     <Build Include="Logistics\Tables\TransportRequisitionDetail.sql" />
     <Build Include="Procurement\Tables\TransportOrderDetail_1.sql" />
     <Build Include="Procurement\Tables\TransportOrder_1.sql" />
+    <Build Include="Procurement\Tables\Bid_1.sql" />
     <Build Include="Logistics\Tables\ProjectCodeAllocation_4.sql" />
     <Build Include="Logistics\Tables\HubAllocation_3.sql" />
     <Build Include="dbo\Views\vwTransportOrder_1.sql" />
     <Build Include="Procurement\Tables\TransportOrderDetail_1.sql" />
     <Build Include="Procurement\Tables\TransportOrder_1.sql" />
+    <Build Include="Procurement\Tables\Bid_1.sql" />
     <Build Include="Logistics\Tables\ProjectCodeAllocation_4.sql" />
     <Build Include="Logistics\Tables\HubAllocation_3.sql" />
     <Build Include="dbo\Views\vwTransportOrder_1.sql" />
@@ -181,6 +183,7 @@
     <Build Include="dbo\Tables\Workflow.sql" />
     <Build Include="Script.PostDeployment-Users.sql" />
     <Build Include="Procurement\Tables\BidWinner.sql" />
+    <Build Include="Procurement\Tables\TransportBidQuotation.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Default-User.sql" />

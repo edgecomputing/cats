@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+using System.Data.Entity;
 using Cats.Models;
 using Cats.Models.Mapping;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -52,9 +52,14 @@ namespace Cats.Data
         public DbSet<vwTransportOrder> vwTransportOrders { get; set; }
         //public DbSet<TransportRequisition> TransportRequisitions { get; set; }
         public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<ReceiptAllocation> ReceiptAllocation { get; set; } 
+
 
         public DbSet<Workflow> Workflows { get; set; }
         public DbSet<WorkflowStatus> WorkflowStatuses { get; set; }
+        public DbSet<TransportBidQuotation> TransportBidQuotations { get; set; }
+
 
         //public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -91,12 +96,13 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new vwTransportOrderMap());
             modelBuilder.Configurations.Add(new TransportRequisitionMap());
             modelBuilder.Configurations.Add(new TransportRequisitionDetailMap());
-
+            modelBuilder.Configurations.Add(new TransactionMap());
+            modelBuilder.Configurations.Add(new ReceiptAllocationMap());
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
            
              modelBuilder.Configurations.Add(new WorkflowMap());
             modelBuilder.Configurations.Add(new WorkflowStatusMap());
-
+            modelBuilder.Configurations.Add(new TransportBidQuotationMap());
         }
 
     }

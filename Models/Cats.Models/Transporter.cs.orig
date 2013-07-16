@@ -51,7 +51,8 @@ namespace Cats.Models
         public DateTime ExperienceFrom { get; set; }
         public DateTime ExperienceTo { get; set; }
         public virtual ICollection<TransportOrder> TransportOrders { get; set; }
-        public virtual ICollection<BidWinner> BidWinners { get; set; } 
+        public virtual ICollection<BidWinner> BidWinners { get; set; }
+        public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
    
     }
 }

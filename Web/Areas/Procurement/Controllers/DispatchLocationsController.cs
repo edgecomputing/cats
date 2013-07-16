@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
@@ -14,6 +14,18 @@ namespace Cats.Areas.Procurement.Controllers
         // GET: /Procurement/DispatchLocations/
         private IBidWinnerService _bidWinnerService;
         private IAdminUnitService _adminUnitService;
+        public DispatchLocationsController(IBidWinnerService bidWinnerService,IAdminUnitService adminUnitService)
+        {
+            this._bidWinnerService = bidWinnerService;
+            this._adminUnitService = adminUnitService;
+        }
+       
+        public ActionResult Index()
+        {
+            var bidWinner = _bidWinnerService.Get(m=>m.Position<2);
+            return View(bidWinner);
+        }
+      
         private ITransportOrderService _transportOrderService;
     
         public DispatchLocationsController(IBidWinnerService bidWinnerService,ITransportOrderService transportOrderService)
@@ -48,6 +60,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return RedirectToAction("Index");
             
+
         }
 
     }

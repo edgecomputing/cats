@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cats.Models;
 using Cats.Data.Repository;
 
@@ -49,7 +49,14 @@ namespace Cats.Data.UnitWork
         IGenericRepository<vwTransportOrder> VwTransportOrderRepository { get; }
         //IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
         IGenericRepository<TransportRequisitionDetail> TransportRequisitionDetailRepository { get; }
+        IGenericRepository<Transaction> TransactionRepository { get; }
+        IGenericRepository<ReceiptAllocation> ReceiptAllocationReository { get; }
+
         IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
+
+        IGenericRepository<TransportBidQuotation> TransportBidQuotationRepository { get; }
+
+
         void Save();
 
     }

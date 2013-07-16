@@ -8,7 +8,7 @@
     outline-offset: 0;   
 }
 /* ReSharper disable DeclarationIsEmpty */
-.datepicker {
+.cats-datepicker {
     
 }
 /* Akira CSS by Shawn Drew */

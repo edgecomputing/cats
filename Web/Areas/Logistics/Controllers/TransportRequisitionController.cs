@@ -54,8 +54,18 @@ namespace Cats.Areas.Logistics.Controllers
 
                                      });
 
-
-            return View(transportReqInput.ToList());
+            var  result1 = new List<RequisitionToDispatchSelect>();
+            try
+            {
+                result1=transportReqInput.ToList();
+            }
+            catch (Exception)
+            {
+                
+                
+            }
+            
+            return View(result1);
 
 
           

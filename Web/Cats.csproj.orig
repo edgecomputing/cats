@@ -17,8 +17,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -146,6 +146,7 @@
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
+    <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
@@ -158,6 +159,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
       <BrowseToURL>d</BrowseToURL>
@@ -172,17 +174,23 @@
     <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
     <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\Transporter.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EthiopianDate.cs" />
+    <Compile Include="Helpers\getGregorianDate.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
@@ -190,12 +198,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReliefRequisitions.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Settings\Views\Users\Users.js" />
+    <Content Include="bin\Cats.dll" />
+    <Content Include="bin\Cats.pdb" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap.css" />
@@ -337,6 +351,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\dashboard.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
@@ -380,7 +395,19 @@
     </Content>
     <Content Include="Areas\Logistics\Views\TransportRequisition\Requisitions.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Details.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Allocate.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocatedList.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
+=======
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
+    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
+>>>>>>> 81878530df9d1adc627d2c149547f01d605831f9
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -457,6 +484,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo\jquery.min.js" />
+    <Content Include="Scripts\kendo\kendo.all.min.js" />
     <Content Include="Scripts\kendo\kendo.web.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
@@ -485,22 +514,18 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
-      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
-      <Name>Cats.Services.Logistics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
@@ -520,6 +545,10 @@
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
+      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
+      <Name>Cats.Services.Logistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>

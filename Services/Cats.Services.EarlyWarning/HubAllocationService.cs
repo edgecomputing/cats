@@ -23,10 +23,12 @@ namespace Cats.Services.EarlyWarning
         public bool AddHubAllocation(HubAllocation hubAllocation)
         {
             _unitOfWork.HubAllocationRepository.Add(hubAllocation);
+
             var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionID == hubAllocation.RequisitionID).Single();
             requisition.Status = 3;
-           // _unitOfWork.ReliefRequisitionRepository.Edit(requisition);
+         
             
+
             _unitOfWork.Save();
             return true;
 
