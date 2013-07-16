@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.ViewModels;
 
 
 namespace Cats.Services.EarlyWarning
@@ -76,7 +77,14 @@ namespace Cats.Services.EarlyWarning
             Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> orderBy = null,
             string includeProperties = "")
         {
-            return _unitOfWork.RegionalRequestRepository.Get(filter, orderBy, includeProperties);
+            var requisitions=  _unitOfWork.RegionalRequestRepository.Get(filter, orderBy, includeProperties);
+            //var regionalRequests=(from itm in requisitions select new RequestView
+            //                                                          {
+            //                                                              ProgramID=itm.ProgramId ,
+            //                                                              Program=itm.Program.Name,
+            //                                                              S
+            //                                                          })
+            return requisitions;
         }
 
         #endregion

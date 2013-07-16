@@ -20,6 +20,7 @@ namespace Cats.Areas.Logistics.Models
         public ProjectCodeAllocationInput Input { get; set; }
         public class ProjectCodeAllocationInput
         {
+            public string Hub { get; set; }
             public int? ProjectCodeAllocationID { get; set; }
             public int HubAllocationID { get; set; }
             public int Number { get; set; }

@@ -54,6 +54,5 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransportBidQuotationRepository.FindBy(predicate);
 
         }
-        //public 
     }
 }

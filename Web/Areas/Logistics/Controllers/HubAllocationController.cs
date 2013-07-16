@@ -139,12 +139,12 @@ namespace Cats.Areas.Logistics.Controllers
                date = strEth.ReturnGregorianDate(datepicker);
             }
            
-            foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
-            {
+            //foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
+            //{
                 var newHubAllocation = new HubAllocation
                                            {
                                                AllocatedBy = 1,
-                                               RequisitionID = appRequisition.RequisitionID,
+                                               RequisitionID = requisitionDetail.FirstOrDefault().RequisitionID,
                                                AllocationDate = date,
                                                HubID = int.Parse(hub)
                                            };
@@ -152,9 +152,10 @@ namespace Cats.Areas.Logistics.Controllers
                
 
                 _hubAllocationService.AddHubAllocation(newHubAllocation);
-                _hubAllocationService.UpdateRequisitionStatus(appRequisition.ReliefRequisition.RequisitionID);
+              
                 
-            }
+                
+           // }
             return RedirectToAction("ApprovedRequesitions", "HubAllocation");
             
         }

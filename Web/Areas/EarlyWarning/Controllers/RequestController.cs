@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
@@ -25,11 +26,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IRegionalRequestDetailService _reliefRequisitionDetailService;
         private IWorkflowStatusService _workflowStatusService;
         public RequestController(IRegionalRequestService reliefRequistionService
-           ,IFDPService fdpService
-           ,IAdminUnitService adminUnitService,
+           , IFDPService fdpService
+           , IAdminUnitService adminUnitService,
             IProgramService programService,
             ICommodityService commodityService,
-            IRegionalRequestDetailService reliefRequisitionDetailService,IWorkflowStatusService workflowStatusService)
+            IRegionalRequestDetailService reliefRequisitionDetailService, IWorkflowStatusService workflowStatusService)
         {
             this._regionalRequestService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
@@ -41,7 +42,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult Index()
         {
-            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
             var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());
@@ -54,7 +55,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
 
-            var reliefrequistions = _regionalRequestService.Get(r=>r.RequistionDate.Year==year && r.RequistionDate.Month==month, null, "AdminUnit,Program");
+            var reliefrequistions = _regionalRequestService.Get(r => r.RequistionDate.Year == year && r.RequistionDate.Month == month, null, "AdminUnit,Program");
 
             return View(reliefrequistions.ToList());
         }
@@ -64,12 +65,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
-            
-           
+
+
             return View();
         }
 
-        
+
         public JsonResult Submitted()
         {
             var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
@@ -81,9 +82,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                            RequistionDate = item.RequistionDate.Date,
                                                                            Remark = item.Remark,
                                                                            Year = item.Year,
-                                                                           Status =_workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, item.Status),
+                                                                           Status = _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, item.Status),
                                                                            Round = item.Round,
-                                                                           Create =_workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST,  item.Status)
+                                                                           Create = _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, item.Status)
                                                                        }).ToList();
 
 
@@ -92,9 +93,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ViewResult SubmittedRequest()
         {
-            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
+            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Status=new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST),"StatusID","Description");
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
 
             var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
             return View(reliefrequistions.ToList());
@@ -103,31 +104,26 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ViewResult SubmittedRequest(int? RegionID, int month, int? Status)
         {
-          
-            
+
+
             // TODO: Filter the collection using incoming parameters
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
-            var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0, month, Status.HasValue?Status.Value : 1);
-            
+            var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0, month, Status.HasValue ? Status.Value : 1);
+
 
             return View(reliefrequistions);
         }
-        
+
 
 
         [HttpGet]
         public ActionResult New()
         {
+            PopulateLookup();
+
             var relifRequisition = new RegionalRequest();
-
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
-            //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
-            ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
-            ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
-
             var fdpList = _fdpService.GetAllFDP();
             var releifDetails = (from fdp in fdpList
                                  select new RegionalRequestDetail()
@@ -137,12 +133,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                                  }).ToList();
             relifRequisition.RegionalRequestDetails = releifDetails;
-            // PrepareFdpList(fdpList);
-
 
             return View(relifRequisition);
         }
+        private void PopulateLookup()
+        {
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
+            //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
+            ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
+            ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
 
+        }
         //
         // GET: /ReliefRequisitoin/Details/5
 
@@ -166,7 +168,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.CurrentMonth = reliefRequistion.RequistionDate.Month;
             ViewBag.CurrentRound = reliefRequistion.Round;
             ViewBag.CurrentYear = reliefRequistion.RequistionDate.Year;
-            
+
             var reliefRequistionDetail = reliefRequistion.RegionalRequestDetails;
             var input = (from itm in reliefRequistionDetail
                          select new RequestDetailEdit
@@ -174,8 +176,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                RegionalRequestDetailId = itm.RegionalRequestDetailID,
                                RegionalRequestId = itm.RegionalRequestID,
                                Fdp = itm.Fdp.Name,
-                               Wereda= itm.Fdp.AdminUnit.Name,
-                               Zone= itm.Fdp.AdminUnit.AdminUnit2.Name ,
+                               Wereda = itm.Fdp.AdminUnit.Name,
+                               Zone = itm.Fdp.AdminUnit.AdminUnit2.Name,
 
                                Beneficiaries = itm.Beneficiaries,
                                Input = new RequestDetailEdit.RequestDetailEditInput()
@@ -187,7 +189,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    CSB = itm.CSB,
                                    Beneficiaries = itm.Beneficiaries
                                }
-                           });            
+                           });
             return View(input);
         }
         [HttpPost]
@@ -196,8 +198,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requId = 0;
             foreach (var reliefRequisitionDetailEditInput in input)
             {
-              
-                var tempReliefRequistionDetail =_reliefRequisitionDetailService.FindById(reliefRequisitionDetailEditInput.Number);
+
+                var tempReliefRequistionDetail = _reliefRequisitionDetailService.FindById(reliefRequisitionDetailEditInput.Number);
                 requId = tempReliefRequistionDetail.RegionalRequestID;
                 tempReliefRequistionDetail.Beneficiaries = reliefRequisitionDetailEditInput.Beneficiaries;
                 tempReliefRequistionDetail.CSB = reliefRequisitionDetailEditInput.CSB;
@@ -208,35 +210,48 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             _reliefRequisitionDetailService.Save();
 
-            return RedirectToAction("Edit","Request",new {id=requId});
+            return RedirectToAction("Edit", "Request", new { id = requId });
         }
 
 
         [HttpPost]
-        public ActionResult New(RegionalRequest reliefRequistion)
+        public ActionResult New(RegionalRequest regionalRequest, string requestDate)
         {
-            
-            
+            DateTime date;
+            try
+            {
+                date = DateTime.Parse(requestDate);
+            }
+            catch (Exception)
+            {
+                var strEth = new getGregorianDate();
+                date = strEth.ReturnGregorianDate(requestDate);
+                //throw;
+            }
+            regionalRequest.RequistionDate = date;
+
             if (ModelState.IsValid)
             {
                 //TODO:Filter with selected region
-                var fdpList = _fdpService.FindBy(t=>t.AdminUnit.AdminUnit2.ParentID==reliefRequistion.RegionID);
+                var fdpList = _fdpService.FindBy(t => t.AdminUnit.AdminUnit2.ParentID == regionalRequest.RegionID);
                 var releifDetails = (from fdp in fdpList
                                      select new RegionalRequestDetail()
                                      {
                                          Beneficiaries = 0,
                                          Fdpid = fdp.FDPID,
-                                         Grain=0,
-                                         Pulse=0,
-                                         Oil=0,
-                                         CSB=0
+                                         Grain = 0,
+                                         Pulse = 0,
+                                         Oil = 0,
+                                         CSB = 0
 
                                      }).ToList();
-                reliefRequistion.RegionalRequestDetails = releifDetails;
-                _regionalRequestService.AddReliefRequistion(reliefRequistion);
-                return RedirectToAction("Edit", "Request", new { id = reliefRequistion.RegionalRequestID });
+                regionalRequest.RegionalRequestDetails = releifDetails;
+                _regionalRequestService.AddReliefRequistion(regionalRequest);
+                return RedirectToAction("Edit", "Request", new { id = regionalRequest.RegionalRequestID });
             }
-            return View(new RegionalRequest());
+
+            PopulateLookup();
+            return View(regionalRequest);
         }
     }
 }

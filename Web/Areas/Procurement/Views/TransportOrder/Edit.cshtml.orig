@@ -1,0 +1,142 @@
+﻿@model Cats.Models.TransportOrder
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Edit Transport Order</legend>
+
+            @Html.HiddenFor(model => model.TransportOrderID)
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderNo)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.TransportOrderNo)
+                    @Html.ValidationMessageFor(model => model.TransportOrderNo)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ContractNumber)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.ContractNumber)
+                    @Html.ValidationMessageFor(model => model.ContractNumber)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderDate)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.OrderDate, new { @class = "cats-datepicker" })
+                    @Html.ValidationMessageFor(model => model.OrderDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestedDispatchDate)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.RequestedDispatchDate, new { @class = "cats-datepicker" })
+                    @Html.ValidationMessageFor(model => model.RequestedDispatchDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderExpiryDate)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.OrderExpiryDate, new { @class = "cats-datepicker" })
+                    @Html.ValidationMessageFor(model => model.OrderExpiryDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BidDocumentNo)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.BidDocumentNo)
+                    @Html.ValidationMessageFor(model => model.BidDocumentNo)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PerformanceBondReceiptNo)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.PerformanceBondReceiptNo)
+                    @Html.ValidationMessageFor(model => model.PerformanceBondReceiptNo)
+                </div>
+            </div>
+           @* <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransporterID)
+                </div>
+                <div class="controls">
+                    @Html.HiddenFor(model => model.TransporterID)
+
+                </div>
+            </div>*@
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ConsignerName)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.ConsignerName)
+                    @Html.ValidationMessageFor(model => model.ConsignerName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransporterSignedName)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.TransporterSignedName)
+                    @Html.ValidationMessageFor(model => model.TransporterSignedName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ConsignerDate)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.ConsignerDate, new { @class = "cats-datepicker" })
+                    @Html.ValidationMessageFor(model => model.ConsignerDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransporterSignedDate)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.TransporterSignedDate, new { @class = "cats-datepicker" })
+                    @Html.ValidationMessageFor(model => model.TransporterSignedDate)
+                </div>
+            </div>
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

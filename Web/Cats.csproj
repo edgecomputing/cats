@@ -203,10 +203,15 @@
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReliefRequisitions.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Settings\Views\Users\Users.js" />
+    <Content Include="bin\Cats.dll" />
+    <Content Include="bin\Cats.pdb" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap.css" />
@@ -395,15 +400,24 @@
     <Content Include="Areas\Procurement\Views\DispatchLocations\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\Details.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Allocate.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocatedList.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
+
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
+
     <Content Include="Areas\Procurement\Views\RFQ\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
+=======
+
+>>>>>>> d6ef6a9dc7b588d1a7c3e530b08c1ad18df2ad83
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -516,6 +530,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
+    <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +571,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
   </ItemGroup>
   <PropertyGroup>
