@@ -11,7 +11,9 @@ namespace Cats.Models
         public HubAllocation()
         {
             this.ProjectCodeAllocations = new List<ProjectCodeAllocation>();
-          //  this.UserProfile = new UserProfile();
+
+           // this.UserProfile = new UserProfile();
+
             this.ReliefRequisition = new ReliefRequisition();
         }
 

@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<Cats.Models.BidWinner>
+﻿@model  IEnumerable<Cats.Models.TransportOrder>
 
 @{
     ViewBag.Title = "Create Bid";
@@ -32,26 +32,25 @@
 
 <table class="table table-striped table-bordered">
     <tr>
-        <th>
-            Bid Number
+         <th>SNO</th>
+         <th>
+           Bid Number
         </th>
         <th>
             Transporter
         </th>        
         <th></th>
     </tr>
-
+    @{ int sno = 1;}
     @foreach (var item in Model)
     {
         <tr>
+            <td>@sno</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Bid.BidNumber)
+                @Html.DisplayFor(modelItem => item.BidDocumentNo)
             </td>
             <td>
-                <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.BidWinnerID })">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>
-=======
                 <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.TransportOrderID})">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>
->>>>>>> 81878530df9d1adc627d2c149547f01d605831f9
             </td>
             <td>
                 <div class="btn-group">
@@ -59,17 +58,14 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Details", "DispatchLocations", new {Area = "Procurement", id = item.BidWinnerID})">View Dispatch Locations</a></li>
-                        <li><a href="@Url.Action("Index", "DispatchLocations", new {Area = "Procurement", id = item.BidWinnerID})">Transporter Detail</a></li>
-=======
                         <li><a href="@Url.Action("Details", "DispatchLocations", new {Area = "Procurement", id = item.TransporterID})">View Dispatch Locations</a></li>
-                     @*   <li><a href="@Url.Action("Index", "DispatchLocations", new {Area = "Procurement", id = item.TransporterID})">Transporter Detail</a></li>*@
->>>>>>> 81878530df9d1adc627d2c149547f01d605831f9
+                        @*   <li><a href="@Url.Action("Index", "DispatchLocations", new {Area = "Procurement", id = item.TransporterID})">Transporter Detail</a></li>*@
                         @*<li><a href="@Url.Action("ApproveBid", "Bid", new {Area = "Procurement", id = item.BidID})">Approve</a></li>*@
                     </ul>
                 </div>
             </td>
         </tr>
+        sno++;
     }
 
 </table>

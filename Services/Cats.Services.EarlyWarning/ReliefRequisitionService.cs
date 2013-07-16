@@ -78,6 +78,17 @@ namespace Cats.Services.EarlyWarning
 
         #endregion
 
+        //public List<ReliefRequisition> getApp(int Status)
+        //{
+        //     var Request =  _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequest.Status == Status, null,
+        //                                                        "RegionalRequest,AdminUnit");
+        //    var requestList = (from requestDetail in regionalRequestDetails
+        //         where requestDetail.Fdp.AdminUnit.ParentID != null
+        //         select requestDetail.Fdp.AdminUnit.ParentID).Distinct();
+        //    return zones.ToList();
+
+        //}
+         
         public List<ReliefRequisition> GetApprovedRequistion()
         {
             return new List<ReliefRequisition>(){

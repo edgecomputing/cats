@@ -114,6 +114,7 @@
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
+    <Compile Include="RequisitionViewModel.cs" />
     <Compile Include="ShippingInstruction.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Transaction.cs" />

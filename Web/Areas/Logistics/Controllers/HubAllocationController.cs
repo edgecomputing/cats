@@ -41,7 +41,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             return View();
         }
-
+        
         public JsonResult GetRequisitionsForAssignment()
         {
             var reliefRequisitions = _reliefRequisitionDetailService.Get(null, null, "ReliefRequisition,Donor");
@@ -77,7 +77,9 @@ namespace Cats.Areas.Logistics.Controllers
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            var reliefRequisitions = _reliefRequisitionDetailService.Get(r=>r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
+
+
+            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(2);//.re _reliefRequisitionDetailService.Get(r => r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
             return View(reliefRequisitions.ToList());
         
         }
@@ -91,13 +93,13 @@ namespace Cats.Areas.Logistics.Controllers
 
 
         [HttpPost]
-        public ActionResult hubAllocation(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection form)
+        public ActionResult hubAllocation(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
         {
             ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
-            ICollection<ReliefRequisitionDetail> listOfRequsitions = new List<ReliefRequisitionDetail>();
-            ReliefRequisitionDetail[] _requisitionDetail;
+            ICollection<RequisitionViewModel> listOfRequsitions = new List<RequisitionViewModel>();
+            RequisitionViewModel[] _requisitionDetail;
 
             if (requisitionDetail == null) return View();
 
@@ -120,7 +122,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        public ActionResult InserRequisition(ICollection<ReliefRequisitionDetail> requisitionDetail, FormCollection form, string datepicker, string rNumber)
+        public ActionResult InserRequisition(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form, string datepicker, string rNumber)
         {
 
             string hub = form["hub"].ToString(CultureInfo.InvariantCulture);
@@ -138,24 +140,25 @@ namespace Cats.Areas.Logistics.Controllers
                var strEth = new getGregorianDate();
                date = strEth.ReturnGregorianDate(datepicker);
             }
-           
-            //foreach (ReliefRequisitionDetail appRequisition in requisitionDetail)
-            //{
+
+
+            foreach (RequisitionViewModel appRequisition in requisitionDetail)
+            {
                 var newHubAllocation = new HubAllocation
                                            {
                                                AllocatedBy = 1,
-                                               RequisitionID = requisitionDetail.FirstOrDefault().RequisitionID,
+                                               RequisitionID = appRequisition.RequisitionId,
                                                AllocationDate = date,
                                                HubID = int.Parse(hub)
                                            };
-               
-               
+
+
 
                 _hubAllocationService.AddHubAllocation(newHubAllocation);
-              
+
                 
                 
-           // }
+            }
             return RedirectToAction("ApprovedRequesitions", "HubAllocation");
             
         }
