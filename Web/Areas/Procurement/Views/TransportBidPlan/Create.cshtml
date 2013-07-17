@@ -5,13 +5,13 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Create</h2>
+<h3>Transport Bid Plan</h3>
 <!-- @Html.DisplayFor(model => model.TransportBidPlanID)-->
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>TransportBidPlan</legend>
+        <legend>Create New Bid Plan</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Year)
@@ -22,7 +22,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.YearHalf)
+                Period
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.YearHalf)
@@ -30,13 +30,16 @@
         </div>
 
       
+        <div style="display:none;">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ProgramID, "Program")
+            </div>
+            <div class="editor-field">
+                <input name="ProgramID" value="1" />
+               <!-- @Html.DropDownList("ProgramID", "")
+                @Html.ValidationMessageFor(model => model.ProgramID)-->
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ProgramID, "Program")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("ProgramID", String.Empty)
-            @Html.ValidationMessageFor(model => model.ProgramID)
         </div>
 
         <p>
