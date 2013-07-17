@@ -32,6 +32,18 @@ namespace Cats.Data.UnitWork
         /// ReliefRequistionRepository
         /// </summary>
         /// 
+        private IGenericRepository<ReceiptAllocation> receiptAllocationReository;
+        public IGenericRepository<ReceiptAllocation> ReceiptAllocationReository
+        {
+            get { return this.receiptAllocationReository ?? (this.receiptAllocationReository = new GenericRepository<ReceiptAllocation>(_context)); }
+
+        }
+        private IGenericRepository<Transaction> transactionReository;
+        public IGenericRepository<Transaction> TransactionRepository
+        {
+            get { return this.transactionReository ?? (this.transactionReository = new GenericRepository<Transaction>(_context)); }
+
+        }
         private IGenericRepository<ShippingInstruction> shippingInstructionReository;
         public IGenericRepository<ShippingInstruction> ShippingInstructionRepository
         {
@@ -312,7 +324,6 @@ namespace Cats.Data.UnitWork
         }
 
        
-
         public IGenericRepository<TransportOrderDetail> TransportOrderDetailRepository
         {
 
@@ -325,8 +336,8 @@ namespace Cats.Data.UnitWork
         {
 
             get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
-
         }
+        
 
 
         private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;

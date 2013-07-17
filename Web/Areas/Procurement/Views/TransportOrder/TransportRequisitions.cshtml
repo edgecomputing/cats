@@ -60,18 +60,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CertifiedBy)
             </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.CertifiedDate,new {@class="cats-datepicker"})
             </td>
           
 
         <td>
-       @*     @{
-        var statusName = item.RequisitionStatus == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.RequisitionStatus == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString();
+        @{
+        var statusName = item.Status == 1 ? "Draft" : item.Status == 2 ? "Approved" : "Closed";
        
                 }
                @Html.Label(statusName)
-        </td>*@
+        </td>
              <td>
              <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
             </td>

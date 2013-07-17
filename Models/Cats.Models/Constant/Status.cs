@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Constant
 {
-  public enum Workflow
+  public enum WORKFLOW
   {
       REGIONAL_REQUEST=1,
       RELIEF_REQUISITION=2,
       TRANSPORT_REQUISITION=3,
-      TRANSPORT_ORDER=4,
-      Bid=5
+      TRANSPORT_ORDER=4
       
   }
 
@@ -47,12 +46,5 @@ namespace Cats.Models.Constant
         Approved=2,
         Signed=3,
         Closed=4
-    }
-    public enum BidStatus
-    {
-        Open = 1,
-        Closed=2,
-        Canceled=3,
-        Approved=4
     }
 }

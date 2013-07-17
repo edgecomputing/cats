@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Infrastructure;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 
@@ -54,6 +55,15 @@ namespace Cats.Areas.Logistics.Controllers
 
             return Json(new SelectList(zones.ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
+        public FileResult Print(int id)
+        {
+            var reportPath = Server.MapPath("~/Report/EarlyWarning/RRDDetail.rdlc");
+            var reportData = _beneficiaryAllocationService.GetBenficiaryAllocation(t=>t.RegionID==id);
+            var dataSourceName = "RRDDetail";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 
+            return File(result.RenderBytes, result.MimeType);
+        }
+    
     }
 }

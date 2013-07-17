@@ -36,5 +36,8 @@ namespace Cats.Services.EarlyWarning
            Expression<Func<HubAllocation, bool>> filter = null,
            Func<IQueryable<HubAllocation>, IOrderedQueryable<HubAllocation>> orderBy = null,
            string includeProperties = "");
+
+        List<HubAllocation> GetHubAllocationByHubID(int hubId);
+        HubAllocation GetHubAllocationByID(int hubID);
     }
 }

@@ -10,41 +10,23 @@
 
 @section LeftBar
 {
-    @*@Html.Partial("~/Areas/Logistics/Views/ProjectAllocation/_HubAllocatedRequisitons.cshtml", ViewData["RequisitionList"])*@
+   @* @Html.Partial("~/Areas/Logistics/Views/ProjectAllocation/_HubAllocatedRequisitons.cshtml", ViewData["RequisitionList"])*@
+
     @using (Html.BeginForm("HubAllocationDetail", "ProjectAllocation", FormMethod.Post))
     {
         <div class="control-group">
             <label class="control-label">Region</label>
             <div class="controls">
-             
-                     @*@Html.DropDownList("Region", (SelectList)ViewBag.Region)*@
-                   @Html.TextBoxFor(model=>model.FirstOrDefault().ReliefRequisition.RegionID)
-                @*@Html.ValidationMessageFor(model => model.FirstOrDefault().ReliefRequisition.RegionID)*@
+                     @Html.DropDownList("HubId")
             </div>
         </div>
-
-        <div class="control-group">
-            <label class="control-label">Zone</label>
-            <div class="controls">
-                @*@Html.DropDownList("Zone",(SelectList)ViewBag.Zone)*@
-                @Html.TextBoxFor(model=>model.FirstOrDefault().ReliefRequisition.ZoneID)
-                @*@Html.ValidationMessageFor(model => model.FirstOrDefault().ReliefRequisition.ZoneID)*@
-            </div>
-        </div>
-        
         <div class="control-group">
             <div class="controls">
                 <input type="submit" value="Filter" class="btn btn-primary"/>
-                
             </div>
         </div> 
     }
-
-    
 }
-
-
-
     <table class="table table-bordered table-condensed table-striped">
         
         <tr>
@@ -89,7 +71,7 @@
                     <input type="hidden" value="@item.HubAllocationID" name="@("input[" + index + "].Number")" />
                 </td>
                 <td>
-                    @Html.ActionLink("Project/SI", "ProjectCodeAllocation" ,"ProjectAllocation", new { id=item.HubAllocationID, requisition=item.RequisitionID }, null)
+                    @Html.ActionLink("Project/SI", "ProjectCodeAllocation" ,"ProjectAllocation", new { id=item.HubAllocationID }, null)
             </tr>
             index++;
         }

@@ -35,6 +35,7 @@
         <th>
             @Html.DisplayNameFor(model => model.PerformanceBondReceiptNo)
         </th>
+        <th>
         @*  <th>
             @Html.DisplayNameFor(model => model.TransporterID)
         </th>
@@ -71,7 +72,7 @@
             @Html.DisplayFor(modelItem => item.OrderDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RequestedDispatchDate)
+            @Html.DisplayFor(modelItem => item.RequestedDispatchDate,new {@class="cats-datepicker"})
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OrderExpiryDate)

@@ -1,0 +1,82 @@
+﻿@model  Cats.Models.ReliefRequisition
+
+
+@{
+    ViewBag.Title = "Edit ";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+   
+    <li class="nav-header">Tasks</li>
+    <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back to requisitions</a></li>
+}
+
+    <h3 class="well">Edit Relief Requisition for Distribution</h3>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        @Html.HiddenFor(model => model.RequisitionID)
+        @Html.HiddenFor(model=>model.Status)
+        @Html.HiddenFor(model=>model.CommodityID)
+        @Html.HiddenFor(model=>model.RegionalRequestID)
+        @Html.HiddenFor(model=>model.ProgramID )
+        @Html.HiddenFor(model => model.Round)
+        @Html.HiddenFor(model => model.RegionID)
+        @Html.HiddenFor(model=>model.ZoneID)
+        @Html.HiddenFor(model=>model.RequestedDate)
+
+         <div>
+            @Html.LabelFor(model => model.RequisitionNo)
+        </div>
+        <div>
+            @Html.EditorFor(model => model.RequisitionNo)
+            @Html.ValidationMessageFor(model => model.RequisitionNo)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ProgramID)
+             @Html.DisplayFor(model => model.Program.Name)
+          
+
+        </div>
+         <div>
+            @Html.LabelFor(model => model.Round)
+        </div>
+        <div>
+            @Html.DisplayFor(model => model.Round)
+
+        </div>
+       <div class="controls-row">
+            @Html.LabelFor(model => model.RegionID)
+
+              @Html.DisplayFor(model => model.AdminUnit1.Name)
+           
+
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ZoneID)
+          @Html.DisplayFor(model => model.AdminUnit.Name)
+
+        </div>
+       
+        <div>
+            @Html.LabelFor(model => model.RequestedDate)
+            @Html.DisplayFor(model => model.RequestedDate,new {@class="cats-datepicker"})
+            
+
+        </div>
+        
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+
+    
+    
+    
+    
+   
+}

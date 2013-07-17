@@ -42,8 +42,12 @@ namespace Cats.Models.Mapping
             this.HasOptional(t => t.Program)
                 .WithMany(t => t.ReliefRequisitions)
                 .HasForeignKey(d => d.ProgramID);
-           
-                
+
+
+          //  this.HasOptional(t => t.HubAllocations);
+                    
+                    
+
             this.HasOptional(t => t.RegionalRequest)
                 .WithMany(t => t.ReliefRequisitions)
                 .HasForeignKey(d => d.RegionalRequestID);

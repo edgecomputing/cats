@@ -8,7 +8,11 @@ namespace Cats.Models
 {
     public class ReliefRequisitionDetail
     {
-
+        public ReliefRequisitionDetail()
+        {
+           
+           
+        }
 
         public int RequisitionDetailID { get; set; }
         public int RequisitionID { get; set; }
@@ -21,5 +25,6 @@ namespace Cats.Models
         public virtual Donor Donor { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual ReliefRequisition ReliefRequisition { get; set; }
+       
     }
 }

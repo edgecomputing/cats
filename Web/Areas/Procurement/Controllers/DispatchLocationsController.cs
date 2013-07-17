@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
@@ -16,6 +16,7 @@ namespace Cats.Areas.Procurement.Controllers
     
         public DispatchLocationsController(ITransportOrderService transportOrderService)
         {
+            //this._adminUnitService = adminUnitService;
             this._transportOrderService = transportOrderService;
         }
        
@@ -44,6 +45,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return RedirectToAction("Index");
             
+
         }
 
     }

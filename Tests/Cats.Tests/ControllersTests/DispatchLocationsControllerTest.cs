@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,9 @@ namespace Cats.Tests.ControllersTests
     public class DispatchLocationsControllerTest
     {
         private ITransportOrderService MockTransportOrderService;
+        private IAdminUnitService MockAdminUnitService;
+
+
         private DispatchLocationsController _dispatchLocationsController;
 
         [SetUp]
@@ -42,6 +45,12 @@ namespace Cats.Tests.ControllersTests
                     ConsignerDate = new DateTime(02 / 02 / 2013),
                     TransporterSignedDate = new DateTime(03 / 03 / 2012),
                 };
+
+            }
+            ;
+            List<AdminUnit> adminUnit = new List<AdminUnit>();
+            {
+                new AdminUnit() { AdminUnitID = 1, Name = "Afar", NameAM = null, AdminUnitTypeID = 2, ParentID = 1 };
             }
             ;
         
@@ -50,7 +59,7 @@ namespace Cats.Tests.ControllersTests
             mockTransportOrderService.Setup(m => m.GetAllTransportOrder()).Returns(transportOrder);
             this.MockTransportOrderService = mockTransportOrderService.Object;
 
-            _dispatchLocationsController = new DispatchLocationsController(MockTransportOrderService);
+
         }
 
         [Test]
@@ -80,6 +89,7 @@ namespace Cats.Tests.ControllersTests
             var result = _dispatchLocationsController.Index( transporterName);
             Assert.IsNotNull(result);
 
+
             var actual = MockTransportOrderService.GetAllTransportOrder();
             Assert.AreEqual(actual.Count, expected.Count);
         }
@@ -97,6 +107,8 @@ namespace Cats.Tests.ControllersTests
             try
             {
                 _dispatchLocationsController = new DispatchLocationsController(MockTransportOrderService);
+
+
             }
             catch (Exception e)
             {

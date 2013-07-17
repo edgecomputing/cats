@@ -1,0 +1,60 @@
+﻿@model Cats.Areas.Settings.Models.UserViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section MainMenu
+{
+    @Html.Partial("_AdminMenuBar")
+}
+
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+
+@using (Html.BeginForm("New", "Users", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <!-- Text input-->
+    <div class="control-group">
+        <label class="control-label">User name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.UserName,new{@class="input-xlarge",@required="required"})           
+        </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="control-group">
+        <label class="control-label" >Full name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.FullName,new{@class="input-xlarge",@required="required"})            
+        </div>
+    </div>
+
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Password:</label>
+        <div class="controls">
+            @Html.PasswordFor(m=>m.Password,new{@class="input-xlarge",@required="required"})            
+        </div>
+    </div>
+
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Retype Password</label>
+        <div class="controls">
+            @Html.PasswordFor(m=>m.PasswordConfirm,new{@class="input-xlarge",@required="required"})
+        </div>
+    </div>
+
+    <!-- Button (Double) -->
+    <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+            <input type="submit" name="createUser" class="btn btn-primary" value="Create User"/>
+            <a href="@Url.Action("Index","Users")" class="btn">Cancel</a>
+        </div>
+    </div>
+}
+

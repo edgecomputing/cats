@@ -31,30 +31,27 @@
             <div class="editor-field">
                 @Html.LabelFor(model => model.StartDate, "Start Date")
 
-                @*<input class="cats-datepicker" id="startDate" name="startDate" type="text" />*@
-                @Html.TextBoxFor(model=>model.StartDate)
+                @Html.TextBoxFor(model=>model.StartDate,new {@class="cats-cal"})
                 @Html.ValidationMessageFor(model => model.StartDate)
             </div>
             <div class="editor-field" >
                 @Html.LabelFor(model => model.EndDate, "End Date")
 
-                @*<input class="cats-datepicker" id="endDate" name="endDate" type="text" />*@
-                @Html.TextBoxFor(model=>model.EndDate)
+                @Html.TextBoxFor(model=>model.EndDate,new {@class="cats-cal"})
                 @Html.ValidationMessageFor(model => model.EndDate)
             </div>
             <div class="editor-field">
                 @Html.LabelFor(model => model.EndDate, "Opening Date")
 
-                @*<input class="cats-datepicker" id="openDate" name="openDate" type="text" />*@
-                @Html.TextBoxFor(model=>model.OpeningDate)
+                @Html.TextBoxFor(model=>model.OpeningDate,new {@class="cats-cal"})
                 @Html.ValidationMessageFor(model => model.OpeningDate)
             </div>
-           @* <div class="editor-field">
+            <div class="editor-field">
                 @Html.LabelFor(model => model.StatusID, "Status")
 
                 @Html.DropDownList("StatusID",String.Empty)
                 @Html.ValidationMessageFor(model => model.StatusID)
-            </div>   *@     
+            </div>        
             <p>
                 <input type="submit" value="Create Bid" class="btn btn-success" />
             </p>
