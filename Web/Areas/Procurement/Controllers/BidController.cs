@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
+using Cats.Helpers;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using System;
@@ -74,9 +75,30 @@ namespace Cats.Areas.Procurement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Bid bid)
+        public ActionResult Create(Bid bid,string start,string End, string Opening)
         {
-           
+
+            DateTime startingdate=DateTime.Now;
+            DateTime EndDate= DateTime.Now;
+            DateTime OpeningDate=DateTime.Now;
+            try
+            {
+                startingdate = DateTime.Parse(start);
+                EndDate = DateTime.Parse(End);
+                OpeningDate = DateTime.Parse(Opening);
+            }
+            catch (Exception)
+            {
+                var strEth = new getGregorianDate();
+                startingdate = strEth.ReturnGregorianDate(start);
+                EndDate = strEth.ReturnGregorianDate(End);
+                OpeningDate = strEth.ReturnGregorianDate(Opening);
+                //throw;
+            }
+            bid.StartDate = startingdate.Date;
+            bid.EndDate = EndDate.Date;
+            bid.OpeningDate = OpeningDate.Date;
+
             if(ModelState.IsValid)
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
@@ -166,8 +188,29 @@ namespace Cats.Areas.Procurement.Controllers
             return View(bid);
         }
         [HttpPost]
-        public ActionResult EditBidStatus(Bid bid)
+        public ActionResult EditBidStatus(Bid bid,string start,string end,string open)
         {
+
+            DateTime startingdate = DateTime.Now;
+            DateTime EndDate = DateTime.Now;
+            DateTime OpeningDate = DateTime.Now;
+            try
+            {
+                startingdate = DateTime.Parse(start);
+                EndDate = DateTime.Parse(end);
+                OpeningDate = DateTime.Parse(open);
+            }
+            catch (Exception)
+            {
+                var strEth = new getGregorianDate();
+                startingdate = strEth.ReturnGregorianDate(start);
+                EndDate = strEth.ReturnGregorianDate(end);
+                OpeningDate = strEth.ReturnGregorianDate(open);
+                //throw;
+            }
+            bid.StartDate = startingdate.Date;
+            bid.EndDate = EndDate.Date;
+            bid.OpeningDate = OpeningDate.Date;
             if (ModelState.IsValid)
             {
                 _bidService.EditBid(bid);

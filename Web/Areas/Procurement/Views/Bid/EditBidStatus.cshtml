@@ -14,50 +14,80 @@
     @using (Html.BeginForm())
     {
          @Html.ValidationSummary(true,"unsuccessful")
-        <div>
+        <div class="form-horizontal">
         <fieldset>
             <legend> Edit Bid </legend>
             @Html.HiddenFor(model=>model.BidID)
-            <div >
-                @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
-
-                @Html.DropDownList("TransportBidPlanID",String.Empty)
-                @Html.ValidationMessageFor(model => model.TransportBidPlanID)
+            <div class="control-group">
+                <div class="control-label">
+                     @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("TransportBidPlanID",String.Empty)
+                    @Html.ValidationMessageFor(model => model.TransportBidPlanID)
+                </div>
             </div>
-            <div >
-                @Html.LabelFor(model => model.BidNumber, "Bid Number")
-
+            <div class="control-group" >
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BidNumber, "Bid Number")
+                </div>
+                <div class="controls">
                 @Html.TextBoxFor(model=>model.BidNumber)
                 @Html.ValidationMessageFor(model => model.BidNumber)
+                 </div>
             </div>
-            <div >
-                @Html.LabelFor(model => model.StartDate, "Start Date")
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.StartDate, "Start Date")
+                </div>
+                <div class="controls">
+                    <input class="cats-datepicker" type="text" id="start" name="start" value="@Model.StartDate" />
+                    @Html.HiddenFor(model=>model.StartDate)
+                    @Html.ValidationMessageFor(model => model.StartDate)
 
-                @Html.TextBoxFor(model=>model.StartDate,new {@class="cats-cal"})
-                @Html.ValidationMessageFor(model => model.StartDate)
+                </div>
+
             </div>
-            <div >
-                @Html.LabelFor(model => model.EndDate, "End Date")
-
-                @Html.TextBoxFor(model=>model.EndDate,new {@class="cats-cal"})
-                @Html.ValidationMessageFor(model => model.EndDate)
+            <div class="control-group">
+                <div class="control-label">
+                     @Html.LabelFor(model => model.EndDate, "End Date")
+                </div>
+               
+                <div class="controls">
+                     <input class="cats-datepicker" type="text" id="end" name="end" value="@Model.EndDate" />
+                    @Html.HiddenFor(model=>model.EndDate)
+                    @Html.ValidationMessageFor(model => model.EndDate)
+                </div>
+                
             </div>
-            <div >
-                @Html.LabelFor(model => model.EndDate, "Opening Date")
-
-                @Html.TextBoxFor(model=>model.OpeningDate,new {@class="cats-cal"})
-                @Html.ValidationMessageFor(model => model.OpeningDate)
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.EndDate, "Opening Date")
+                </div>
+                
+                <div class="controls">
+                     <input class="cats-datepicker" type="text" id="open" name="open" value="@Model.OpeningDate"/>
+                    @Html.HiddenFor(model=>model.OpeningDate)
+                    @Html.ValidationMessageFor(model => model.OpeningDate)
+                </div>
+               
             </div>
-            <div >
-                @Html.LabelFor(model => model.StatusID, "Status")
-
-                @Html.DropDownList("StatusID",String.Empty)
-                @Html.ValidationMessageFor(model => model.StatusID)
+            <div class="control-group">
+                <div class="control-label">
+                      @Html.LabelFor(model => model.StatusID, "Status")
+                </div>
+              
+                <div class="controls"> @Html.DropDownList("StatusID",String.Empty)
+                @Html.ValidationMessageFor(model => model.StatusID)</div>
+               
             </div>
             
-            <p>
-                <input type="submit" value="Save Bid" class="btn btn-success" />
-            </p>
+            <div class="control-group">
+            <div class="controls">
+                 <input type="submit" value="Save Bid" class="btn btn-success" />
+            </div>
+            </div>
+               
         </fieldset>
             </div>
     }
