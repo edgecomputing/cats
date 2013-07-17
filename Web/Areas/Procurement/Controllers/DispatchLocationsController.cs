@@ -12,12 +12,10 @@ namespace Cats.Areas.Procurement.Controllers
     {
         //
         // GET: /Procurement/DispatchLocations/
-        private IBidWinnerService _bidWinnerService;
         private ITransportOrderService _transportOrderService;
     
-        public DispatchLocationsController(IBidWinnerService bidWinnerService,ITransportOrderService transportOrderService)
+        public DispatchLocationsController(ITransportOrderService transportOrderService)
         {
-            this._bidWinnerService = bidWinnerService;
             this._transportOrderService = transportOrderService;
         }
        
