@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Constant
 {
-  public enum Workflow
+  public enum WORKFLOW
   {
       REGIONAL_REQUEST=1,
       RELIEF_REQUISITION=2,

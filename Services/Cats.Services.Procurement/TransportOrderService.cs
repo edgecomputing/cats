@@ -209,7 +209,11 @@ namespace Cats.Services.Procurement
         private List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<int> requisitions)
         {
             var requisionIds = requisitions.ToList();
-            var transportRequision =(from itm in  _unitOfWork.TransportRequisitionDetailRepository.FindBy(t=>requisionIds.Contains(t.TransportRequisitionID)) select itm.RequisitionID).ToList();
+            var transportRequision =
+                (from itm in
+                     _unitOfWork.TransportRequisitionDetailRepository.Get(
+                         t => requisionIds.Contains(t.TransportRequisitionID))
+                 select itm.RequisitionID).ToList();
             var reqDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(t => transportRequision.Contains(t.RequisitionID));
             var transportSourceDestination = new List<TransporterRequisition>();
             foreach (var reliefRequisitionDetail in reqDetails)

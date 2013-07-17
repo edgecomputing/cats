@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Models;
-using Workflow = Cats.Models.Constant.Workflow;
+using Workflow = Cats.Models.Constant.WORKFLOW;
 
 namespace Cats.Services.EarlyWarning
 {

@@ -8,7 +8,6 @@ using Cats.Areas.Logistics.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models.ViewModels;
-using Cats.Services.EarlyWarning;
 using Cats.Helpers;
 using HubAllocation = Cats.Models.HubAllocation;
 

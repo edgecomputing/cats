@@ -7,7 +7,7 @@ using Cats.Models;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
-using Workflow = Cats.Models.Constant.Workflow;
+using Workflow = Cats.Models.Constant.WORKFLOW;
 
 
 namespace Cats.Areas.EarlyWarning.Controllers

@@ -114,34 +114,34 @@ namespace Cats.Services.Logistics
 
         public IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch()
         {
-            
+
             var requisitions = GetProjectCodeAssignedRequisitions();
+            var result = new List<RequisitionToDispatch>();
+            foreach (var requisition in requisitions)
+            {
+                var requisitionToDispatch = new RequisitionToDispatch();
+                var hubAllocation =
+                    _unitOfWork.HubAllocationRepository.Get(t => t.RequisitionID == requisition.RequisitionID, null,
+                                                            "Hub").FirstOrDefault();
+                var status = _unitOfWork.WorkflowStatusRepository.Get(
+                    t => t.StatusID == requisition.Status && t.WorkflowID == (int)WORKFLOW.TRANSPORT_REQUISITION).FirstOrDefault();
 
-            var result = (from requisition in requisitions
-                          select new RequisitionToDispatch
-                          {
-                              //HubID = requisition.HubAllocations.FirstOrDefault().HubID, //_unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==requisition.RequisitionID).First().HubID,
+                requisitionToDispatch.HubID = hubAllocation.HubID;
+                requisitionToDispatch.RequisitionID = requisition.RequisitionID;
+                requisitionToDispatch.RequisitionNo = requisition.RequisitionNo;
+                requisitionToDispatch.RequisitionStatus = requisition.Status.Value;
+                requisitionToDispatch.ZoneID = requisition.ZoneID.Value;
+                requisitionToDispatch.QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount);
+                requisitionToDispatch.OrignWarehouse = hubAllocation.Hub.Name;
+                requisitionToDispatch.CommodityID = requisition.CommodityID.Value;
+                requisitionToDispatch.CommodityName = requisition.Commodity.Name;
+                requisitionToDispatch.Zone = requisition.AdminUnit.Name;
+                requisitionToDispatch.RegionID = requisition.RegionID.Value;
 
-                              HubID =_unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==requisition.RequisitionID).First().HubID,
-
-                              RequisitionID = requisition.RequisitionID,
-                              RequisitionNo = requisition.RequisitionNo,
-                              RequisitionStatus = requisition.Status.Value,
-                              ZoneID = requisition.ZoneID.Value,
-                              QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount),
-                              //OrignWarehouse = requisition.HubAllocations.FirstOrDefault().Hub.Name,//_unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == requisition.RequisitionID).First().Hub.Name,
-                              OrignWarehouse = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == requisition.RequisitionID).First().Hub.Name,
-                              CommodityID = requisition.CommodityID.Value,
-                              CommodityName = requisition.Commodity.Name,
-                              Zone = requisition.AdminUnit.Name,
-                              RegionID = requisition.RegionID.Value,
-
-                              RegionName = requisition.AdminUnit1.Name,
-                              RequisitionStatusName=_unitOfWork.WorkflowStatusRepository.FindBy(t=>t.StatusID==requisition.Status && t.WorkflowID==2).FirstOrDefault().Description 
-
-
-
-                          });
+                requisitionToDispatch.RegionName = requisition.AdminUnit1.Name;
+                requisitionToDispatch.RequisitionStatusName = status.Description;
+               result.Add(requisitionToDispatch);
+            }
 
 
             return result;
@@ -150,7 +150,7 @@ namespace Cats.Services.Logistics
         public IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions()
         {
             return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned, null,
-                                                          "HubAllocations,HubAllocations.Hub,ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
+                                                          "ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
         }
     }
 }

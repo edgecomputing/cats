@@ -22,10 +22,10 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         private IList<TransportOrder> _transportOrders;
         private TransportOrderService _transportOrderService;
         private IList<BidWinner> _transportBidWinners;
-            [SetUp]
+        [SetUp]
         public void Init()
-            {
-                _transportBidWinners = new List<BidWinner>()
+        {
+            _transportBidWinners = new List<BidWinner>()
                                        {
                                            new BidWinner()
                                                {
@@ -36,7 +36,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                }
                                        };
 
-                _reliefRequisitions = new List<ReliefRequisition>()
+            _reliefRequisitions = new List<ReliefRequisition>()
                                          {
 
                                              new ReliefRequisition()
@@ -52,9 +52,17 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                      Status = 4,
                                                  }
                                          };
+            var _tranportRequisitionDetail = new List<TransportRequisitionDetail>()
+                                                   {
+                                                       new TransportRequisitionDetail
+                                                           {
+                                                               RequisitionID=1,
+                                                               TransportRequisitionID=1
+                                                           }
+                                                   };
             _transportOrders = new List<TransportOrder>();
 
-          
+
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockReliefRequisitionRepository = new Mock<IGenericRepository<ReliefRequisition>>();
@@ -112,6 +120,10 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
 
             mockUnitOfWork.Setup(t => t.Save());
 
+            var transportRequisitionDetailRepository = new Mock<IGenericRepository<TransportRequisitionDetail>>();
+            transportRequisitionDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<TransportRequisitionDetail, bool>>>(), null, It.IsAny<string>())).Returns(_tranportRequisitionDetail);
+            mockUnitOfWork.Setup(t => t.TransportRequisitionDetailRepository).Returns(
+                transportRequisitionDetailRepository.Object);
 
             _transportOrderService = new TransportOrderService(mockUnitOfWork.Object);
             //Act 
@@ -130,7 +142,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         [Test]
         public void CanGetAllTransportRequisions()
         {
-          var  assignedRequisitons = new List<TransportRequisition>()
+            var assignedRequisitons = new List<TransportRequisition>()
                                        {
                                            new TransportRequisition()
                                                {
@@ -148,12 +160,12 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
 
             //Act 
 
-           //TODO:Please mock the transportrequisitionrepository and test here
+            //TODO:Please mock the transportrequisitionrepository and test here
 
 
             //Assert
 
-          Assert.IsInstanceOf<List<TransportRequisition>>(assignedRequisitons);
+            Assert.IsInstanceOf<List<TransportRequisition>>(assignedRequisitons);
             Assert.IsNotEmpty(assignedRequisitons);
 
 
@@ -161,13 +173,13 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
 
 
         }
-       
+
 
         [Test]
 
         public void ShouldCreateTransportOrders()
         {
-           
+
             //Act 
 
             var requisitions = new List<int>()
@@ -194,7 +206,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         //                                           TransporterID = 1
         //                                       }
         //                               };
-          
+
 
         //    Assert.Throws<Exception>(Create_Transport_Orders);
         //}
