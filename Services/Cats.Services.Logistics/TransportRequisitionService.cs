@@ -92,13 +92,15 @@ namespace Cats.Services.Logistics
             foreach (var reliefRequisition in reliefRequisitions)
             {
                 transportRequisition.TransportRequisitionDetails.Add(new TransportRequisitionDetail { RequisitionID = reliefRequisition });
-
-
+                var orignal =
+                    _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionID == reliefRequisition).FirstOrDefault();
+                orignal.Status = (int)ReliefRequisitionStatus.TransportRequisitionCreated;
             }
 
             AddTransportRequisition(transportRequisition);
             transportRequisition.TransportRequisitionNo = string.Format("TRN-{0}",
                                                                         transportRequisition.TransportRequisitionID);
+          
             _unitOfWork.Save();
             return transportRequisition;
 
@@ -124,7 +126,7 @@ namespace Cats.Services.Logistics
                     _unitOfWork.HubAllocationRepository.Get(t => t.RequisitionID == requisition.RequisitionID, null,
                                                             "Hub").FirstOrDefault();
                 var status = _unitOfWork.WorkflowStatusRepository.Get(
-                    t => t.StatusID == requisition.Status && t.WorkflowID == (int)WORKFLOW.TRANSPORT_REQUISITION).FirstOrDefault();
+                    t => t.StatusID == requisition.Status && t.WorkflowID == (int)WORKFLOW.RELIEF_REQUISITION).FirstOrDefault();
 
                 requisitionToDispatch.HubID = hubAllocation.HubID;
                 requisitionToDispatch.RequisitionID = requisition.RequisitionID;
@@ -151,6 +153,18 @@ namespace Cats.Services.Logistics
         {
             return _unitOfWork.ReliefRequisitionRepository.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned, null,
                                                           "ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
+        }
+
+
+        public bool ApproveTransportRequisition(int id)
+        {
+            var transportRequisition =
+                _unitOfWork.TransportRequisitionRepository.FindById(id);
+            if(transportRequisition==null) return false;
+            
+            transportRequisition.Status = (int) TransportRequisitionStatus.Approved;
+            _unitOfWork.Save();
+            return true;
         }
     }
 }

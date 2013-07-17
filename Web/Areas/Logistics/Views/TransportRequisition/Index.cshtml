@@ -54,10 +54,19 @@
             @Html.DisplayFor(modelItem => item.Remark)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Status)
+            @{
+              var status=  item.Status == 1 ? "Draft" : item.Status == 2 ? "Approved" : "Closed";
+              
+            }
+            @status 
+            @*@Html.DisplayFor(modelItem => item.Status)*@
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TransportRequisitionID }) 
+          @if(item.Status==1){
+           @Html.ActionLink("Edit", "Edit", new {id = item.TransportRequisitionID},new {@class="btn btn-info"}) 
+              
+             @Html.ActionLink("Approve", "Approve", new { id=item.TransportRequisitionID },new {@class="btn btn-warning"})
+          } 
           
            
         </td>

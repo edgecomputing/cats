@@ -29,7 +29,7 @@ namespace Cats.Services.Procurement
 
         //IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
         //IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
-        IEnumerable<TransportOrder> CreateTransportOrder(IEnumerable<int> requisitions);
+       bool CreateTransportOrder(IEnumerable<int> requisitions);
         List<vwTransportOrder> GeTransportOrderRpt(int id);
     }
 }

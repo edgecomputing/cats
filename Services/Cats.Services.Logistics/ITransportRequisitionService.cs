@@ -26,6 +26,7 @@ namespace Cats.Services.Logistics
                    string includeProperties = "");
         TransportRequisition CreateTransportRequisition(List<int> reliefRequisitions);
         IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
+        bool ApproveTransportRequisition(int id);
     }
 }
 

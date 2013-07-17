@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using Cats.Data.Repository;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 using Moq;
@@ -191,7 +192,17 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                              }
                                                  }
                                          };
-
+            //_transportRequisition = new TransportRequisition()
+            //                            {
+            //                                Status = 1,
+            //                                RequestedBy = 1,
+            //                                CertifiedBy = 1,
+            //                                CertifiedDate = DateTime.Today,
+            //                                RequestedDate = DateTime.Today,
+            //                                TransportRequisitionID = 1,
+            //                                TransportRequisitionNo = "T-001",
+            //                                Remark = "comment"
+            //                            };
             var mockReliefRequisitionRepository = new Mock<IGenericRepository<ReliefRequisition>>();
             mockReliefRequisitionRepository.Setup(
                 t => t.Get(It.IsAny<Expression<Func<ReliefRequisition, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>>>(), It.IsAny<string>())).Returns(
@@ -218,7 +229,11 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                     _transportRequisitions.Add(transportRequisiton);
                     return true;
                 });
-
+            transportRequisitionReqository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) =>
+                                                                                               {
+                                                                                                   return
+                                                                                                       _transportRequisition;
+                                                                                               });
             unitOfWork.Setup(t => t.TransportRequisitionRepository).Returns(transportRequisitionReqository.Object);
             unitOfWork.Setup(t => t.Save());
 
@@ -239,7 +254,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
             unitOfWork.Setup(t => t.HubAllocationRepository).Returns(hubAllocationRepository.Object);
 
 
-          
+
             _transportRequisitionService = new TransportRequisitionService(unitOfWork.Object);
 
 
@@ -248,7 +263,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         [TearDown]
         public void Dispose()
         {
-
+            _transportRequisitionService.Dispose();
         }
 
         #endregion
@@ -308,10 +323,26 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
             //Act
 
             var requisition = _transportRequisitionService.GetRequisitionToDispatch();
-            var result = requisition.ToList().TrueForAll(t => t.RequisitionStatus == 4);//Project Si Code Assigned,indirectly it means Hub also assigned
+            var result = requisition.ToList().TrueForAll(t => t.RequisitionStatus == (int)ReliefRequisitionStatus.ProjectCodeAssigned);//Project Si Code Assigned,indirectly it means Hub also assigned
             //Assert
 
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void CanApproveTransportRequisition()
+        {
+            //Act
+
+            var result = _transportRequisitionService.ApproveTransportRequisition(1);
+
+            //Assert
+            var status = _transportRequisition.Status;
+            Assert.IsTrue(result);
+            Assert.AreEqual((int)TransportRequisitionStatus.Approved, status);
+
+
+
         }
         #endregion
     }
