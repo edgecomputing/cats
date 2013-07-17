@@ -19,7 +19,7 @@ namespace Cats.Services.EarlyWarning
         List<HubAllocation> GetAllHubAllocation();
         List<HubAllocation> FindBy(Expression<Func<HubAllocation, bool>> predicate);
 
-        bool UpdateRequisitionStatus(int requisitionId);
+        List<RequisitionViewModel> ReturnRequisitionGroupByReuisitionNo(int status);
     }
 }
 

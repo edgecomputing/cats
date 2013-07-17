@@ -26,6 +26,8 @@ namespace Cats.Models.ViewModels
        public string FDP { get; set; }
        public Nullable<int> ProgramID { get; set; }
        public string Program { get; set; }
-
+       public string Month { get; set; }
+       public int Year { get; set; }
+       public int Round { get; set; }
     }
 }

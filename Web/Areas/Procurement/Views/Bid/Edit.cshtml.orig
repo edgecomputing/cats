@@ -11,7 +11,7 @@
     <li>Start Date: @ViewBag.StartDate</li>
     <li>End Date: @ViewBag.EndDate</li>
     <li class="nav-header">Tasks</li>
-    <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Bit Lists</a></li>
+    <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Bid Lists</a></li>
 }
 <div class="well">
     <h4 class="page-header">Bid Number: @ViewBag.BidNumber  From:@ViewBag.StartDate  To: @ViewBag.EndDate</h4>

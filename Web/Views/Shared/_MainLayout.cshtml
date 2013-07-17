@@ -63,8 +63,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Request<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="nav-header">Regional Requests</li>
-                                <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">Submit Regional Request</a></li>
-                                <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>
+                                <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">Submit Regional Request</a></li>
+                              @*  <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>*@
                                 <li class="nav-header">Requisitions</li>
                                 <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
                                 <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
@@ -77,11 +77,15 @@
                                 <li class="nav-header">Beneficiary Allocation</li>
                                 <li><a href="@Url.Action("Index", "BeneficiaryAllocation", new { Area = "Logistics" })">Beneficiary Allocation</a></li>
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                                <li><a href="@Url.Action("HubAllocationDetail", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
-                                <li class="nav-header">Transport Requisitions</li>
-                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>
-                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>
-                                <li class="nav-header">Transport Orders</li>
+                               
+                               
+                                <li><a href="@Url.Action("Allocate", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
+                               
+                               
+                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
+                                
+                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
+
                                 <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
                                 <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
                             </ul>
@@ -171,7 +175,7 @@
     <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
     <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
     <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
-
+     
     @{
         var calendarPerference = 1;
         if (calendarPerference == 2)
@@ -201,7 +205,10 @@
 
             $(function () {
 
+
+
                  $(".cats-datepicker").calendarsPicker({
+
                      calendar: $.calendars.instance('ethiopian', 'am')
                      //disableInput: true
                  }).attr('style', 'background-color : #fff');

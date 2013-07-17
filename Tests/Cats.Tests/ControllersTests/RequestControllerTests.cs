@@ -123,9 +123,9 @@ namespace Cats.Tests.ControllersTests
                                           WorkflowID = 1
                                       }
                               };
-            workflowService.Setup(t => t.GetStatus(It.IsAny<Cats.Models.Constant.Workflow>())).Returns(_status);
-            workflowService.Setup(t => t.GetStatusName(It.IsAny<Cats.Models.Constant.Workflow>(), It.IsAny<int>())).
-                Returns((Cats.Models.Constant.Workflow workflow, int statusId) =>
+            workflowService.Setup(t => t.GetStatus(It.IsAny<Cats.Models.Constant.WORKFLOW>())).Returns(_status);
+            workflowService.Setup(t => t.GetStatusName(It.IsAny<Cats.Models.Constant.WORKFLOW>(), It.IsAny<int>())).
+                Returns((Cats.Models.Constant.WORKFLOW workflow, int statusId) =>
                             {
                               return  _status.Find(t => t.StatusID == statusId && t.WorkflowID == (int) workflow).Description;
                             });

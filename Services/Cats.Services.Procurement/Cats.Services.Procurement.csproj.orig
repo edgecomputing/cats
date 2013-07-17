@@ -50,13 +50,17 @@
     <Compile Include="IStatusService.cs" />
     <Compile Include="ITransportBidPlanDetailService.cs" />
     <Compile Include="ITransportBidPlanService.cs" />
+    <Compile Include="ITransportBidQuotationService.cs" />
+    <Compile Include="ITransporteOrderDetailService.cs" />
     <Compile Include="ITransporterService.cs" />
     <Compile Include="ITransportOrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusService.cs" />
     <Compile Include="TransportBidPlanDetailService.cs" />
     <Compile Include="TransportBidPlanService.cs" />
+    <Compile Include="TransportBidQuotationService.cs" />
     <Compile Include="TransporterService.cs" />
+    <Compile Include="TransportOrderDetailService.cs" />
     <Compile Include="TransportOrderService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿@model  IEnumerable<Cats.Models.RegionalRequest>
+﻿@using Cats.Models.Constant
+@model  IEnumerable<Cats.Models.RegionalRequest>
 @using Cats.Models.ViewModels
 
 @{
@@ -90,10 +91,14 @@
             </td>
             <td>
                 @{
-        var statusName = item.Status.ToString();
+     
         var showme = item.Status == (int)2? "" : "hidden";
                 }
-               @Html.Label(statusName)
+             
+                 @{
+                    var status = item.Status == (int) RegionalRequestStatus.Approved ? "Approved" : item.Status == (int) RegionalRequestStatus.Closed ? "Closed" : "Draft"; 
+                }
+                @status
             </td>
             <td>
 

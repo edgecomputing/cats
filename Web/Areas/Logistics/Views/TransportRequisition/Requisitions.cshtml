@@ -11,97 +11,91 @@
 {
 
 
-<table class="table table-bordered table-condensed table-striped">
-    <tr>
-        <th>
-            
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CommodityName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequisitionNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuanityInQtl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrignWarehouse)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RegionName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Zone)
-        </th>
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommodityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequisitionNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuanityInQtl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrignWarehouse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zone)
+            </th>
 
-        <th>
-            @Html.Label("Status")
+            <th>
+                @Html.Label("Status")
 
-        </th>
+            </th>
 
 
-        @* <th>
+            @* <th>
             @Html.DisplayNameFor(model=>model.RequisitionID)
         </th>*@
-        @* <th>
+            @* <th>
             @Html.DisplayNameFor(model => model.ZoneID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.HubID)
         </th>*@
-        @* <th>
+            @* <th>
             @Html.DisplayNameFor(model => model.RequisitionStatus)
         </th>*@
 
-        @*<th>
+            @*<th>
             @Html.DisplayNameFor(model => model.CommodityID)
         </th>*@
 
-        @*  <th>
+            @*  <th>
             @Html.DisplayNameFor(model => model.RegionID)
         </th>*@
 
-        <th></th>
-    </tr>
-    @{int index = 0;}
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-               @Html.CheckBox("input[" + index + "].IsSelected", item.Input.IsSelected)
-               
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CommodityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequisitionNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuanityInQtl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrignWarehouse)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zone)
-            </td>
+            <th></th>
+        </tr>
+        @{int index = 0;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.CheckBox("input[" + index + "].IsSelected", item.Input.IsSelected)
 
-        <td>
-            @{
-        var statusName = item.RequisitionStatus.ToString() ;
-       
-                }
-               @Html.Label(statusName)
-        </td>
-             <td>
-             <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
-            </td>
-            @* <td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommodityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequisitionNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuanityInQtl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrignWarehouse)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Zone)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modleItem => item.RequisitionStatusName)
+                </td>
+                <td>
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
+                </td>
+                @* <td>
             @Html.DisplayFor(modelItem => item.RequisitionID)
         </td>
         <td>
@@ -111,26 +105,24 @@
             @Html.DisplayFor(modelItem => item.HubID)
         </td>*@
 
-            @*  <td>
+                @*  <td>
             @Html.DisplayFor(modelItem => item.RequisitionStatus)
         </td>*@
 
-            @*  <td>
+                @*  <td>
             @Html.DisplayFor(modelItem => item.CommodityID)
         </td>*@
 
-            @* <td>
+                @* <td>
             @Html.DisplayFor(modelItem => item.RegionID)
         </td>*@
 
-            <td>
-              
-            </td>
-        </tr>
-        index++;
-    }
+                <td></td>
+            </tr>
+            index++;
+        }
 
-</table>
+    </table>
     <p>
         <input class="btn btn-success" type="submit" value="Create Transport Requisition" />
     </p>

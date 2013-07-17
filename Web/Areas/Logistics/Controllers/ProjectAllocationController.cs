@@ -28,7 +28,9 @@ namespace Cats.Areas.Logistics.Controllers
         private IProjectCodeService _projectCodeService;
         private IShippingInstructionService _shippingInstructionService;
         private IHubService _hubService;
-        
+        private IHubAllocationService _hubAllocationService;
+        private IReliefRequisitionService _requisitionService;
+        private ITransactionService _transactionService;
         public ProjectAllocationController(IRegionalRequestService reliefRequistionService
            , IFDPService fdpService
             , IAdminUnitService adminUnitService,
@@ -37,7 +39,10 @@ namespace Cats.Areas.Logistics.Controllers
             IRegionalRequestDetailService reliefRequisitionDetailService,
             IProjectCodeAllocationService projectCodeAllocationService, 
             IProjectCodeService projectCodeService,
-            IShippingInstructionService shippingInstructionService, IHubService hubService)
+            IShippingInstructionService shippingInstructionService, 
+            IHubService hubService, 
+            IHubAllocationService hubAllocationService,
+            IReliefRequisitionService requisitionService, ITransactionService transactionservice)
         {
             this._regionalRequestService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
@@ -49,54 +54,93 @@ namespace Cats.Areas.Logistics.Controllers
             this._projectCodeService = projectCodeService;
             this._shippingInstructionService = shippingInstructionService;
             this._hubService = hubService;
+            this._hubAllocationService = hubAllocationService;
+            this._requisitionService = requisitionService;
+            this._transactionService = transactionservice;
         }
 
-        public ActionResult HubAllocationDetail()
-        {
-            ViewBag.Region = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Zone = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
-            var hubAllocation = _projectCodeAllocationService.GetHubAllocation(t=>t.HubAllocationID==0);
-            return View(hubAllocation);
+        //public ActionResult HubAllocationDetail()
+        //{
+        //    var seleList = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
+        //    ViewBag.HubId = seleList;
+        //    ViewBag.Zone = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+        //    var hubAllocation = _projectCodeAllocationService.GetHubAllocation(t=>t.HubAllocationID==0);
+        //    return View(hubAllocation);
             
-        }
+        //}
         [HttpPost]
         public ActionResult HubAllocationDetail(Cats.Models.HubAllocation hubAllocation)
         {
-
+            var seleList = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
+            ViewBag.HubId = seleList;
             IEnumerable<Cats.Models.HubAllocation> detail =
                _projectCodeAllocationService.Get(
-                   t => t.ReliefRequisition.RegionID == hubAllocation.ReliefRequisition.RegionID && t.ReliefRequisition.ZoneID == hubAllocation.ReliefRequisition.ZoneID);
+                   t => t.HubID == hubAllocation.HubID);
              
             return View(detail);
             
         }
+        public  ActionResult Allocate()
+        {
+            ViewBag.HubId = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
+            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(0);
+            return View(hubAllocation);
+        }
+        public ActionResult HubAllocatedList(int hubId)
+        {
+            var hubAllocations= new List<Cats.Models.HubAllocation>();
+            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(hubId);
+            var firstOrDefault = hubAllocation.FirstOrDefault();
+            if (firstOrDefault != null)
+            {
+                var reqId = firstOrDefault.RequisitionID;
+                foreach (var allocation in hubAllocation)
+                {
+                    var req = _requisitionService.FindById(allocation.RequisitionID);
+                    hubAllocations.Add(new Cats.Models.HubAllocation 
+                                           {
+                                               ReliefRequisition = req,
+                                               HubAllocationID = allocation.HubAllocationID,
+                                           }); 
+                }
+            }
+
+
+            return View(hubAllocations);
+        }
+        
         [HttpGet]
-        public ActionResult ProjectCodeAllocation(int id, int? requisition)
+        public ActionResult ProjectCodeAllocation(int id, int requisitionId)
         {
             
-            var hubInfo = new List<Cats.Models.HubAllocation>();
-            
-            List<Cats.Models.ProjectCode> projects = _projectCodeService.GetAllProjectCode();
-            
-            var selectList = new SelectList(projects,"ProjectCodeID", "value");
-
+            var previousProjectAllocation = _projectCodeAllocationService.FindBy(t => t.HubAllocationID == id);
+            var hubAllocationInfo = _projectCodeAllocationService.GetHubAllocationByID(id);
+            var requisition = _requisitionService.FindById(requisitionId);
+            List<Cats.Models.ProjectCode> projectFromTransaction = _transactionService.getAllProjectByHubCommodity(hubAllocationInfo.HubID, requisition.Commodity.CommodityID);
+            var selectList = new SelectList(projectFromTransaction, "ProjectCodeID", "value");
             ViewBag.ProjectCodeID = selectList;
-            
-            List<ShippingInstruction> siList = _shippingInstructionService.GetAllShippingInstruction();
-            var siSelectList = new SelectList(siList, "ShippingInstructionID", "Value");
-
+            List<ShippingInstruction> siList = _transactionService.getAllSIByHubCommodity(hubAllocationInfo.HubID, requisition.Commodity.CommodityID);
+            var siSelectList = new SelectList(siList, "ShippingInstructionID","Value" );
             ViewBag.ShippingInstructionID = siSelectList;
-            
-            var detail = _projectCodeAllocationService.FindBy(t => t.HubAllocationID == id);
-            
+
+            ViewBag.HubName = hubAllocationInfo.Hub.Name;
+            ViewBag.HubAllocationID = hubAllocationInfo.HubAllocationID;
+            ViewBag.requested = requisition.ReliefRequisitionDetails.FirstOrDefault().Amount;
+            ViewBag.allocated = previousProjectAllocation.Sum(t => t.Amount_Project);
+            ViewBag.projectBalance = _transactionService.getProjectBalance(hubAllocationInfo.HubID,
+                                                                           requisition.Commodity.CommodityID);
+            ViewBag.SIBalance = _transactionService.getSIBalance(hubAllocationInfo.HubID,
+                                                                 requisition.Commodity.CommodityID);
+
             var input = (
-                from item in detail
+                from item in previousProjectAllocation
                 select new ProjectCodeAllocation
                         {
+                            Hub = hubAllocationInfo.Hub.Name,
                             HubAllocationID = item.HubAllocationID,
-                            //HubAllocationID = _hubService.FindById(item.HubAllocationID)
                             Input = new ProjectCodeAllocation.ProjectCodeAllocationInput()
                             {
+                                Hub = hubAllocationInfo.Hub.Name,
                                 HubAllocationID =  item.HubAllocationID,
                                 ProjectCodeAllocationID = item.ProjectCodeAllocationID,  
                                 ProjectCodeID = item.ProjectCodeID,
@@ -106,26 +150,21 @@ namespace Cats.Areas.Logistics.Controllers
                             }
 
                         });
+
             return View(input);
             
         }
 
         
         [HttpPost]
-        public ActionResult Add(Cats.Areas.Logistics.Models.ProjectCodeAllocation newData , int HubAllocationID)
+        public ActionResult Add(Cats.Models.ProjectCodeAllocation newData)
         {
-            IProjectCodeAllocationService _projectcCodeAllocationService = new ProjectCodeAllocationService();
 
-            Cats.Models.ProjectCodeAllocation Allocation = new Cats.Models.ProjectCodeAllocation
-            {
-                ShippingInstructionID = newData.ShippingInstructionID, 
-                Amount_SI = newData.Amount_SI, ProjectCodeID = newData.ProjectCodeID, Amount_Project = newData.Amount_Project, 
-                HubAllocationID = newData.HubAllocationID };
-            _projectCodeAllocationService.Save(Allocation);
-
+            _projectCodeAllocationService.Save(newData);
             
-            return RedirectToAction("ProjectCodeAllocation", "ProjectAllocation", new { id = HubAllocationID});
-            //return View();
+            var hubAllocationInfo = _projectCodeAllocationService.GetHubAllocationByID(newData.HubAllocationID);
+            return RedirectToAction("ProjectCodeAllocation", "ProjectAllocation", new { id = newData.HubAllocationID, requisitionId = hubAllocationInfo.RequisitionID});
+            
         }
         
     }

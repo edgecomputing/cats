@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.RequestDetailEdit>
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+@section LeftBar
+{
+    <li class="nav-header">Request Summary</li>
+    <li>Region: @ViewBag.CurrentRegion</li>
+    <li>Year: @ViewBag.CurrentYear</li>
+    <li>Month: @ViewBag.CurrentMonth</li>
+    <li>Round: @ViewBag.CurrentRound</li>
+    <li class="nav-header">Tasks</li>
+    <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back to requests</a></li>
+}
+
+<div class="well">
+    <h4 class="page-header">Monthly request for @ViewBag.CurrentRegion for the month of @ViewBag.CurrentMonth  @ViewBag.CurrentYear</h4>
+</div>
+
+
+@using (Html.BeginForm("Edit", "Request", FormMethod.Post))
+{
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Zone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wereda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fdp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Beneficiaries)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grain)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pulse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CSB)
+            </th>
+            <th></th>
+        </tr>
+        @{ int index = 0; }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Zone
+                </td>
+                <td>
+                    @item.Wereda
+                </td>
+                <td>
+                    @item.Fdp
+                </td>
+
+
+                <td>
+                    @Html.TextBox("input[" + index + "].Beneficiaries", item.Input.Beneficiaries, new { @style = "width:100%; height:100%;border:none; !important;" })
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].Grain", item.Input.Grain, new { @style = "width:80%; border:none; !important;" })
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].Pulse", item.Input.Pulse, new { @style = "width:80%; border:none; !important;" })
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].Oil", item.Input.Oil, new { @style = "width:80%; border:none; !important;" })
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].CSB", item.Input.CSB, new { @style = "width:80%; border:none; !important;" })
+                </td>
+                <td>
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
+                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
+                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})*@
+                </td>
+            </tr>
+            index++;
+        }
+
+    </table>
+    <p>
+        <input class="btn btn-success" type="submit" value="Submit Request" />
+    </p>
+}

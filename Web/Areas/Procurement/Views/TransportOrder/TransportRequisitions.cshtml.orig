@@ -1,5 +1,5 @@
 ﻿@using Cats.Models.ViewModels
-@model IEnumerable<Cats.Areas.Procurement.Models.RequisitionToDispatchSelect>
+@model IEnumerable<Cats.Areas.Procurement.Models.TransportRequisitionSelect>
 
 @{
     ViewBag.Title = "TransportRequisitions";
@@ -17,50 +17,26 @@
             
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CommodityName)
+            @Html.DisplayNameFor(model => model.TransportRequisitionNo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RequisitionNo)
+            @Html.DisplayNameFor(model => model.RequestedBy)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.QuanityInQtl)
+            @Html.DisplayNameFor(model => model.RequestedDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrignWarehouse)
+            @Html.DisplayNameFor(model => model.CertifiedBy)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RegionName)
+            @Html.DisplayNameFor(model => model.CertifiedDate)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Zone)
-        </th>
+       
 
         <th>
             @Html.Label("Status")
 
         </th>
-
-
-        @* <th>
-            @Html.DisplayNameFor(model=>model.RequisitionID)
-        </th>*@
-        @* <th>
-            @Html.DisplayNameFor(model => model.ZoneID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HubID)
-        </th>*@
-        @* <th>
-            @Html.DisplayNameFor(model => model.RequisitionStatus)
-        </th>*@
-
-        @*<th>
-            @Html.DisplayNameFor(model => model.CommodityID)
-        </th>*@
-
-        @*  <th>
-            @Html.DisplayNameFor(model => model.RegionID)
-        </th>*@
 
         <th></th>
     </tr>
@@ -73,55 +49,33 @@
                
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CommodityName)
+                @Html.DisplayFor(modelItem => item.TransportRequisitionNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RequisitionNo)
+                @Html.DisplayFor(modelItem => item.RequestedBy)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QuanityInQtl)
+                @Html.DisplayFor(modelItem => item.RequestedDate,new {@class="cats-datepicker"})
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrignWarehouse)
+                @Html.DisplayFor(modelItem => item.CertifiedBy)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RegionName)
+                @Html.DisplayFor(modelItem => item.CertifiedDate,new {@class="cats-datepicker"})
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zone)
-            </td>
+          
 
         <td>
-            @{
+       @*     @{
         var statusName = item.RequisitionStatus == 1 ? REGIONAL_REQUEST_STATUS.Draft.ToString() : item.RequisitionStatus == 2 ? REGIONAL_REQUEST_STATUS.Submitted.ToString() : REGIONAL_REQUEST_STATUS.HubAssigned.ToString();
        
                 }
                @Html.Label(statusName)
-        </td>
+        </td>*@
              <td>
              <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
             </td>
-            @* <td>
-            @Html.DisplayFor(modelItem => item.RequisitionID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ZoneID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HubID)
-        </td>*@
 
-            @*  <td>
-            @Html.DisplayFor(modelItem => item.RequisitionStatus)
-        </td>*@
-
-            @*  <td>
-            @Html.DisplayFor(modelItem => item.CommodityID)
-        </td>*@
-
-            @* <td>
-            @Html.DisplayFor(modelItem => item.RegionID)
-        </td>*@
 
             <td>
               

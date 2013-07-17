@@ -65,6 +65,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IBidWinnerService>().To<BidWinnerService>();
             kernel.Bind<IShippingInstructionService>().To<ShippingInstructionService>();
 
+            kernel.Bind<ITransactionService>().To<TransactionService>();
             kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
 
            

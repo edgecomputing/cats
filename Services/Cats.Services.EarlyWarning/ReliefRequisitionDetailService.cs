@@ -69,6 +69,9 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.ReliefRequisitionDetailRepository.Get(filter, orderBy, includeProperties);
         }
+
+      
+
         #endregion
 
         public void Dispose()

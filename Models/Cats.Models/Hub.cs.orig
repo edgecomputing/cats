@@ -23,6 +23,7 @@ namespace Cats.Models
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }
         public virtual ICollection<BidWinner> BidWinners  { get; set; }
+        public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
 
     }
 }
