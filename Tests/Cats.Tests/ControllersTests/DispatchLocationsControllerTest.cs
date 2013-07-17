@@ -17,9 +17,7 @@ namespace Cats.Tests.ControllersTests
     public class DispatchLocationsControllerTest
     {
         private ITransportOrderService MockTransportOrderService;
-        private IAdminUnitService MockAdminUnitService;
-
-
+ 
         private DispatchLocationsController _dispatchLocationsController;
 
         [SetUp]
@@ -48,16 +46,12 @@ namespace Cats.Tests.ControllersTests
 
             }
             ;
-            List<AdminUnit> adminUnit = new List<AdminUnit>();
-            {
-                new AdminUnit() { AdminUnitID = 1, Name = "Afar", NameAM = null, AdminUnitTypeID = 2, ParentID = 1 };
-            }
-            ;
-        
+           
             Mock<ITransportOrderService> mockTransportOrderService=new Mock<ITransportOrderService>();
 
             mockTransportOrderService.Setup(m => m.GetAllTransportOrder()).Returns(transportOrder);
             this.MockTransportOrderService = mockTransportOrderService.Object;
+            _dispatchLocationsController=new DispatchLocationsController(MockTransportOrderService);
 
 
         }
@@ -84,7 +78,6 @@ namespace Cats.Tests.ControllersTests
                     TransporterSignedDate=new DateTime(03/03/2012),
                 };
             }
-            ;
             string transporterName = "";
             var result = _dispatchLocationsController.Index( transporterName);
             Assert.IsNotNull(result);
