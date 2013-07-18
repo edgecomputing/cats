@@ -1,5 +1,30 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@using Kendo.Mvc.UI
+@model Cats.Models.ViewModels.HRD.CreateHumanitarianRequirementViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
-<h2>Index</h2>
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.DetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Region).Groupable(false);
+        columns.Bound(p => p.Zone);
+        columns.Bound(p => p.Woreda);
+        columns.Bound(p => p.NumberOfBeneficiaries);
+        columns.Bound(p => p.DurationOfAssistance);
+        columns.Bound(p => p.Month);
+        columns.Bound(p => p.Cereal);
+        columns.Bound(p => p.Pulse);
+        columns.Bound(p => p.CSB);
+        columns.Bound(p => p.Oil);
+    })
+    .Groupable()
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+   
+    )

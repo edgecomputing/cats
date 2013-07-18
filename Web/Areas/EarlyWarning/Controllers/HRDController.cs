@@ -38,6 +38,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
 
             var viewModel = new CreateHumanitarianRequirementViewModel(humanitarianRequirement);
+            ViewData["HRDDetail"] = viewModel;
             return View(viewModel);
         }
 

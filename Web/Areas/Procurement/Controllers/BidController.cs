@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using System;
 using Cats.Models;
+using Kendo.Mvc.Extensions;
+
 namespace Cats.Areas.Procurement.Controllers
 {
     public class BidController : Controller
@@ -33,12 +36,18 @@ namespace Cats.Areas.Procurement.Controllers
             this._transportBidPlanDetailService = transportBidPlanDetailService;
         }
 
+        public ActionResult ForeignKeyColumn()
+        {
+
+            ViewData["Status"] = _statusService.GetAllStatus();
+            return View();
+        }
         public ActionResult Index()
         {
             var bids = _bidService.Get(m => m.StatusID== 1);
             return View(bids.ToList());
         }
-       
+        
         [HttpGet]
         public ActionResult Index(string bidNumber="", bool open = true, bool closed = false, bool canceled = false, bool approved = false)
         {
@@ -54,6 +63,7 @@ namespace Cats.Areas.Procurement.Controllers
             var listOfStatusTypes = statusTypesList.Split(';');
 
             var filteredBids = _bidService.Get(b => b.BidNumber.StartsWith(bidNumber) &&(listOfStatusTypes.Contains(b.Status.Name)));
+            ViewData["bids"] = filteredBids;
             return View(filteredBids.ToList());
         }
         
@@ -74,30 +84,31 @@ namespace Cats.Areas.Procurement.Controllers
             return View(bid);
         }
 
-        [HttpPost]
-        public ActionResult Create(Bid bid,string start,string End, string Opening)
+        //[HttpPost]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create(Bid bid)
         {
 
-            DateTime startingdate=DateTime.Now;
-            DateTime EndDate= DateTime.Now;
-            DateTime OpeningDate=DateTime.Now;
-            try
-            {
-                startingdate = DateTime.Parse(start);
-                EndDate = DateTime.Parse(End);
-                OpeningDate = DateTime.Parse(Opening);
-            }
-            catch (Exception)
-            {
-                var strEth = new getGregorianDate();
-                startingdate = strEth.ReturnGregorianDate(start);
-                EndDate = strEth.ReturnGregorianDate(End);
-                OpeningDate = strEth.ReturnGregorianDate(Opening);
-                //throw;
-            }
-            bid.StartDate = startingdate.Date;
-            bid.EndDate = EndDate.Date;
-            bid.OpeningDate = OpeningDate.Date;
+            //DateTime startingdate=DateTime.Now;
+            //DateTime EndDate= DateTime.Now;
+            //DateTime OpeningDate=DateTime.Now;
+            //try
+            //{
+            //    startingdate = DateTime.Parse(start);
+            //    EndDate = DateTime.Parse(End);
+            //    OpeningDate = DateTime.Parse(Opening);
+            //}
+            //catch (Exception)
+            //{
+            //    var strEth = new getGregorianDate();
+            //    startingdate = strEth.ReturnGregorianDate(start);
+            //    EndDate = strEth.ReturnGregorianDate(End);
+            //    OpeningDate = strEth.ReturnGregorianDate(Opening);
+            //    //throw;
+            //}
+            //bid.StartDate = startingdate.Date;
+            //bid.EndDate = EndDate.Date;
+            //bid.OpeningDate = OpeningDate.Date;
 
             if(ModelState.IsValid)
             {
@@ -114,13 +125,18 @@ namespace Cats.Areas.Procurement.Controllers
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 _bidService.AddBid(bid);
-                return RedirectToAction("Edit", "Bid", new {id = bid.BidID});
+
+                RouteValueDictionary routeValues = this.GridRouteValues();
+                return RedirectToAction("Edit","Bid", routeValues);
+                //return RedirectToAction("Edit", "Bid", new {id = bid.BidID});
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
                 
-            return View(bid);
+            //return View(bid);
+
+            return View("Index", _bidService.GetAllBid());
         }
 
         public ActionResult Edit(int id)
@@ -187,42 +203,27 @@ namespace Cats.Areas.Procurement.Controllers
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
             return View(bid);
         }
-        [HttpPost]
-        public ActionResult EditBidStatus(Bid bid,string start,string end,string open)
+        //[HttpPost]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditBidStatus(Bid bid)
         {
-            DateTime startingdate = GetGregorianDate(start);
-            DateTime EndDate = GetGregorianDate(end);
-            DateTime OpeningDate = GetGregorianDate(open);
+        //    DateTime startingdate = GetGregorianDate(start);
+        //    DateTime EndDate = GetGregorianDate(end);
+        //    DateTime OpeningDate = GetGregorianDate(open);
 
-            ////DateTime startingdate = DateTime.Now;
-            ////DateTime EndDate = DateTime.Now;
-            ////DateTime OpeningDate = DateTime.Now;
-            //try
-            //{
-            //    startingdate = DateTime.Parse(start);
-            //    EndDate = DateTime.Parse(end);
-            //    OpeningDate = DateTime.Parse(open);
-            //}
-            //catch (Exception)
-            //{
-            //    var strEth = new getGregorianDate();
-            //    startingdate = strEth.ReturnGregorianDate(start);
-            //    EndDate = strEth.ReturnGregorianDate(end);
-            //    OpeningDate = strEth.ReturnGregorianDate(open);
-            //    //throw;
-            //}
-            bid.StartDate = startingdate.Date;
-            bid.EndDate = EndDate.Date;
-            bid.OpeningDate = OpeningDate.Date;
+            //bid.StartDate = startingdate.Date;
+            //bid.EndDate = EndDate.Date;
+            //bid.OpeningDate = OpeningDate.Date;
             if (ModelState.IsValid)
             {
                 _bidService.EditBid(bid);
-                return RedirectToAction("Index");
+                RouteValueDictionary routeValues = this.GridRouteValues();
+                return RedirectToAction("Index",routeValues);
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
-            return View(bid);
+            return View("Index",_bidService.GetAllBid());
         }
 
         private DateTime GetGregorianDate(string ethiopianDate)
