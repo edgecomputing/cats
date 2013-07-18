@@ -33,32 +33,7 @@
 
 <h2>Allocate Hub</h2>
 
-@section LeftBar
-{
-    @using (Html.BeginForm())
-    {
-        <div class="control-group">
-            <label class="control-label">Year</label>
-            <div class="controls">
-                @Html.Label("Year")
-            </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label">Month</label>
-            <div class="controls">
-                @Html.Label("month")
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="controls">
-                
-            </div>
-        </div> 
-    }
-
-}
 
 
    @using (Html.BeginForm("InserRequisition", "HubAllocation", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
@@ -69,29 +44,25 @@
         </fieldset>
 	    
             <div class="control-group">
-	            <label class="control-label">Date</label>
+	            <label class="control-label">Allocation Date</label>
 	            <div class="controls">
-	                    <input type="text" class="cats-datepicker" id="datepicker" name="datepicker"  >
+	                    <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
 	            </div>
 	        </div>
 	        <div class="control-group ">
-	            <label class="control-label">Allocation reference No</label>
+	            <label class="control-label">Allocation Reference No</label>
 	            <div class="controls">
-                <div class="input-prepend">
-	                
 	                    <input type="text" class="input-xlarge" id="rNumber" name="rNumber" placeholder="Reference Number">
-                      @Html.ValidationMessage("rNumber")
-	                </div>
 	            </div>
 	        </div>
 	        <div class="control-group">
 	            <label class="control-label">Hubs</label>
 	            <div class="controls">
-	                <div class="input-prepend">
+	                
                     @Html.Hidden("Selected")
                     @Html.DropDownList("hub",ViewBag.Hubs as SelectList,"Select a hub",new {id="HubId"})
 	              
-               </div>
+               
             </div>
         </div>
     
