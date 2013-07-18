@@ -43,12 +43,38 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Index()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            var requests = _regionalRequestService.Get(null, null, "AdminUnit,Program");
 
-            var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
-            return View(reliefrequistions.ToList());
+            ViewBag.RegionalRequests = BuildRegionalRequestViewModel(requests);
+            return View();
         }
 
-        [HttpPost]
+
+        private IEnumerable<RegionalRequestViewModel> BuildRegionalRequestViewModel(IEnumerable<RegionalRequest> requests )
+        {
+            //TODO:While Displaying date make sure displayed based on user language preference
+            var result = (from request in requests
+                                    select new RegionalRequestViewModel()
+                                    {
+                                        Program = request.Program.Name,
+                                        ProgramId = request.ProgramId,
+                                        ReferenceNumber = request.ReferenceNumber,
+                                        Region = request.AdminUnit.Name,
+                                        RegionID = request.RegionID,
+                                        RegionalRequestID = request.RegionalRequestID,
+                                        Year = request.Year,
+                                        Remark = request.Remark,
+                                        StatusID = request.Status,
+                                        Round = request.Round,
+                                        RequistionDate = request.RequistionDate,
+                                        Status = _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, request.Status),
+                                        RequestDateEt = EthiopianDate.GregorianToEthiopian(request.RequistionDate)
+
+
+                                    });
+           return  result;
+        }
+            [HttpPost]
         public ActionResult Index(int year, int month)
         {
             // TODO: Filter the collection using incoming parameters
