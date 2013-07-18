@@ -8,39 +8,55 @@
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
     <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="~/Content/site.css" rel="stylesheet">
-    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+    @*<link href="~/Content/site.css" rel="stylesheet">*@
+    <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-1.9.1.js"></script>
 
     <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div class="container">
-
-        <!-- BEGIN MAIN MENU -->
-        <div class="navbar">
-            @RenderSection("MainMenu", required: true)
-        </div>
+    <!-- BEGIN MAIN MENU -->
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        @RenderSection("MainMenu", required: true)
+    </div>
+  
         <!-- END MAIN MENU -->
 
-        <div class="row">
+        <div class="container-fluid">
+            <div class="row-fluid">
 
-            <!-- BEGIN LEFTBAR SECTION -->
-            <div class="span3">
-                @RenderSection("Leftbar", required: true)
+                <!-- BEGIN LEFTBAR SECTION -->
+                <div class="span2">
+                    @RenderSection("Leftbar", required: true)
+                    <!--/.well -->
+                </div>
+                <!-- END LEFTBAR SECTION -->
+
+                <!-- BEGIN MAIN SECTION -->
+                <div class="span10">
+                    @RenderBody()
+                </div>
+                <!-- END OF MAIN SECTION -->
+
             </div>
-            <!-- END LEFTBAR SECTION -->
-
-            <!-- BEGIN MAIN SECTION -->
-            <div class="span9">
-                @RenderBody()
-
-            </div>
-            <!-- END OF MAIN SECTION -->
+            <!--/row-->
+            <hr>
+            <footer>
+                <p>&copy; CATS @DateTime.Now.Year.ToString()</p>
+            </footer>
         </div>
-    </div>
+
 
     <script src="~/Content/assets/js/bootstrap.min.js"></script>
     <script src="~/Content/site.js"></script>

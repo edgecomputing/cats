@@ -14,11 +14,11 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
      <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-1.9.1.js"></script>
-    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/Content/kendo/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
 
-    <script src="~/Scripts/kendo/jquery.min.js"></script>
-    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+    @*<script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>*@
+    <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
 
     <style type="text/css">
         body
@@ -45,7 +45,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top navbar-inverse">
         <div class="navbar-inner">
             <div class="container">
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -110,7 +110,7 @@
                         <li class="divider-vertical"></li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope"></i><b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"></i><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>No new messages</li>
                             </ul>
@@ -134,7 +134,7 @@
 
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span3">
+            <div class="span2">
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         @RenderSection("LeftBar", required: false)
@@ -143,7 +143,7 @@
                 <!--/.well -->
             </div>
             <!--/span-->
-            <div class="span9">
+            <div class="span10">
                 @RenderBody()
             </div>
             <!--/span-->
