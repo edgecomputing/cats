@@ -199,9 +199,7 @@
                 ,Quantity:amount}
             ,function (data)
             {
-                //var s = new String;
                 data = data.replace("_cellID_", cellId);
-               // alert(data);
                 $("#cell_" + cellId).html(data);
             }
             );

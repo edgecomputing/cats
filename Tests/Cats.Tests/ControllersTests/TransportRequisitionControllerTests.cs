@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Areas.Logistics.Controllers;
 using Cats.Areas.Procurement.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 using Moq;
@@ -118,6 +119,17 @@ namespace Cats.Tests.ControllersTests
 
             //Assert
             Assert.IsInstanceOf<TransportRequisition>(((ViewResult)result).Model);
+        }
+        [Test]
+        public void ShouldConfirmApproval()
+        {
+            //Act
+            var result = _transportRequisitionController.Approve(1);
+            
+            //Assert
+
+            Assert.IsInstanceOf<TransportRequisition>(((ViewResult)result).Model);
+            Assert.AreEqual((int)TransportRequisitionStatus.Draft,((TransportRequisition)(((ViewResult)result).Model)).Status);
         }
         #endregion
     }

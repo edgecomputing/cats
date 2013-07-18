@@ -1,5 +1,8 @@
-﻿@using Cats.Models.Constant
-@model  IEnumerable<Cats.Models.RegionalRequest>
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Models.Constant
+@using Kendo.Mvc.UI
+
+
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -11,7 +14,10 @@
 </div>
 @section LeftBar
 {
-    @using (Html.BeginForm())
+   
+
+}
+ @using (Html.BeginForm())
     {
         <div class="control-group">
             <label class="control-label">Year</label>
@@ -33,75 +39,17 @@
             </div>
         </div> 
     }
+@Html.ActionLink("New","New","Request")
 
-}
-@Html.ActionLink("Create New Request","New","Request")
-<table class="table table-striped table-bordered">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ReferenceNumber)
-        </th>        
-        <th>
-            @Html.DisplayNameFor(model => model.RequistionDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Program.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Round)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdminUnit.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Year)
-        </th>
-        <th>Status</th>
-        <th></th>
-    </tr>
+@(Html.Kendo().Grid((IEnumerable<RegionalRequestViewModel>)ViewBag.RegionalRequests).Name("requestgrid")
+.Columns(columns =>
+             {
+                 columns.Bound(request => request.ReferenceNumber);
+                 columns.Bound(request => request.RequestDateEt);
+                 columns.Bound(request => request.Program);
+                 columns.Bound(request => request.Round);
+                 columns.Bound(request => request.Region);
+                 columns.Bound(reqquest => reqquest.Year);
+                 columns.Bound(request => request.Status);
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = item.RegionalRequestID })">@Html.DisplayFor(modelItem => item.ReferenceNumber)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequistionDate,new {@class="cats-datepicker"})
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Program.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Round)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem=> item.AdminUnit.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @{
-                    var status = item.Status == (int) RegionalRequestStatus.Approved ? "Approved" : item.Status == (int) RegionalRequestStatus.Closed ? "Closed" : "Draft"; 
-                }
-                @status
-            </td>
-            <td>
-
-                <div class="btn-group">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i>
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = item.RegionalRequestID })">Edit</a></li>
-                        <li><a href="@Url.Action("ApproveRequest", "Request", new { Area = "EarlyWarning", id = item.RegionalRequestID })">Approve</a></li>
-                      @*  <li><a href="#">View Status</a></li>*@
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    }
-
-</table>
-
+             }).Sortable().Pageable())
