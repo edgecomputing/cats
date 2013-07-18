@@ -39,7 +39,7 @@
             </div>
         </div> 
     }
-@Html.ActionLink("Create New Request","New","Request")
+@Html.ActionLink("New","New","Request")
 
 @(Html.Kendo().Grid((IEnumerable<RegionalRequestViewModel>)ViewBag.RegionalRequests).Name("requestgrid")
 .Columns(columns =>
