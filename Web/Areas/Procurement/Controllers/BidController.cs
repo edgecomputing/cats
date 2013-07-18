@@ -190,24 +190,27 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost]
         public ActionResult EditBidStatus(Bid bid,string start,string end,string open)
         {
+            DateTime startingdate = GetGregorianDate(start);
+            DateTime EndDate = GetGregorianDate(end);
+            DateTime OpeningDate = GetGregorianDate(open);
 
-            DateTime startingdate = DateTime.Now;
-            DateTime EndDate = DateTime.Now;
-            DateTime OpeningDate = DateTime.Now;
-            try
-            {
-                startingdate = DateTime.Parse(start);
-                EndDate = DateTime.Parse(end);
-                OpeningDate = DateTime.Parse(open);
-            }
-            catch (Exception)
-            {
-                var strEth = new getGregorianDate();
-                startingdate = strEth.ReturnGregorianDate(start);
-                EndDate = strEth.ReturnGregorianDate(end);
-                OpeningDate = strEth.ReturnGregorianDate(open);
-                //throw;
-            }
+            ////DateTime startingdate = DateTime.Now;
+            ////DateTime EndDate = DateTime.Now;
+            ////DateTime OpeningDate = DateTime.Now;
+            //try
+            //{
+            //    startingdate = DateTime.Parse(start);
+            //    EndDate = DateTime.Parse(end);
+            //    OpeningDate = DateTime.Parse(open);
+            //}
+            //catch (Exception)
+            //{
+            //    var strEth = new getGregorianDate();
+            //    startingdate = strEth.ReturnGregorianDate(start);
+            //    EndDate = strEth.ReturnGregorianDate(end);
+            //    OpeningDate = strEth.ReturnGregorianDate(open);
+            //    //throw;
+            //}
             bid.StartDate = startingdate.Date;
             bid.EndDate = EndDate.Date;
             bid.OpeningDate = OpeningDate.Date;
@@ -220,6 +223,21 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
             return View(bid);
+        }
+
+        private DateTime GetGregorianDate(string ethiopianDate)
+        {
+            DateTime convertedGregorianDate;
+            try
+            {
+                convertedGregorianDate = DateTime.Parse(ethiopianDate);
+            }
+            catch (Exception ex)
+            {
+                var strEth = new getGregorianDate();
+                convertedGregorianDate = strEth.ReturnGregorianDate(ethiopianDate);
+            }
+            return convertedGregorianDate;
         }
 
         public ActionResult ApproveBid(int id)

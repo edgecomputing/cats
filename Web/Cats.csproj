@@ -141,6 +141,7 @@
     <Compile Include="App_Start\WebApiConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
@@ -406,6 +407,8 @@
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
