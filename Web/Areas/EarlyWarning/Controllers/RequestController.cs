@@ -4,9 +4,12 @@ using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Workflow = Cats.Models.Constant.WORKFLOW;
 
 
@@ -43,11 +46,37 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Index()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            var requests = _regionalRequestService.Get(null, null, "AdminUnit,Program");
 
-            var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
-            return View(reliefrequistions.ToList());
+
+            return View(BuildRegionalRequestViewModel(requests));
         }
 
+
+        private IEnumerable<RegionalRequestViewModel> BuildRegionalRequestViewModel(IEnumerable<RegionalRequest> requests)
+        {
+            //TODO:While Displaying date make sure displayed based on user language preference
+            var result = (from request in requests
+                          select new RegionalRequestViewModel()
+                          {
+                              Program = request.Program.Name,
+                              ProgramId = request.ProgramId,
+                              ReferenceNumber = request.ReferenceNumber,
+                              Region = request.AdminUnit.Name,
+                              RegionID = request.RegionID,
+                              RegionalRequestID = request.RegionalRequestID,
+                              Year = request.Year,
+                              Remark = request.Remark,
+                              StatusID = request.Status,
+                              Round = request.Round,
+                              RequistionDate = request.RequistionDate,
+                              Status = _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, request.Status),
+                              RequestDateEt = EthiopianDate.GregorianToEthiopian(request.RequistionDate)
+
+
+                          });
+            return result;
+        }
         [HttpPost]
         public ActionResult Index(int year, int month)
         {
@@ -97,8 +126,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
 
-            var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
-            return View(reliefrequistions.ToList());
+            var requests = _regionalRequestService.Get(null, null, "AdminUnit,Program");
+
+            return View(BuildRegionalRequestViewModel(requests));
         }
 
         [HttpPost]
@@ -157,11 +187,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return View(reliefrequistion);
         }
-        [HttpGet]
-        public ActionResult Edit(int id)
+
+        public ActionResult Edit()
         {
             var reliefRequistion =
-                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
+                _regionalRequestService.Get(t => t.RegionalRequestID == 1, null, "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
                                                                                     "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2").
                     FirstOrDefault();
             ViewBag.CurrentRegion = reliefRequistion.AdminUnit.Name;
@@ -170,44 +200,45 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.CurrentYear = reliefRequistion.RequistionDate.Year;
 
             var reliefRequistionDetail = reliefRequistion.RegionalRequestDetails;
-            var input = (from itm in reliefRequistionDetail
-                         select new RequestDetailEdit
-                           {
-                               RegionalRequestDetailId = itm.RegionalRequestDetailID,
-                               RegionalRequestId = itm.RegionalRequestID,
-                               Fdp = itm.Fdp.Name,
-                               Wereda = itm.Fdp.AdminUnit.Name,
-                               Zone = itm.Fdp.AdminUnit.AdminUnit2.Name,
+            //var input = (from itm in reliefRequistionDetail
+            //             select new RequestDetailEdit
+            //               {
+            //                   RegionalRequestDetailId = itm.RegionalRequestDetailID,
+            //                   RegionalRequestId = itm.RegionalRequestID,
+            //                   Fdp = itm.Fdp.Name,
+            //                   Wereda = itm.Fdp.AdminUnit.Name,
+            //                   Zone = itm.Fdp.AdminUnit.AdminUnit2.Name,
 
-                               Beneficiaries = itm.Beneficiaries,
-                               Input = new RequestDetailEdit.RequestDetailEditInput()
-                               {
-                                   Number = itm.RegionalRequestDetailID,
-                                   Grain = itm.Grain,
-                                   Pulse = itm.Pulse,
-                                   Oil = itm.Oil,
-                                   CSB = itm.CSB,
-                                   Beneficiaries = itm.Beneficiaries
-                               }
-                           });
-            return View(input);
+            //                   Beneficiaries = itm.Beneficiaries,
+            //                   Input = new RequestDetailEdit.RequestDetailEditInput()
+            //                   {
+            //                       Number = itm.RegionalRequestDetailID,
+            //                       Grain = itm.Grain,
+            //                       Pulse = itm.Pulse,
+            //                       Oil = itm.Oil,
+            //                       CSB = itm.CSB,
+            //                       Beneficiaries = itm.Beneficiaries
+            //                   }
+            //               });
+            return View(reliefRequistionDetail);
         }
-        [HttpPost]
-        public ActionResult Edit(List<RequestDetailEdit.RequestDetailEditInput> input)
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit(RegionalRequestDetail regionalRequestDetail)
         {
             var requId = 0;
-            foreach (var reliefRequisitionDetailEditInput in input)
-            {
+            //foreach (var reliefRequisitionDetailEditInput in input)
+            //{
 
-                var tempReliefRequistionDetail = _reliefRequisitionDetailService.FindById(reliefRequisitionDetailEditInput.Number);
-                requId = tempReliefRequistionDetail.RegionalRequestID;
-                tempReliefRequistionDetail.Beneficiaries = reliefRequisitionDetailEditInput.Beneficiaries;
-                tempReliefRequistionDetail.CSB = reliefRequisitionDetailEditInput.CSB;
-                tempReliefRequistionDetail.Oil = reliefRequisitionDetailEditInput.Oil;
-                tempReliefRequistionDetail.Grain = reliefRequisitionDetailEditInput.Grain;
-                tempReliefRequistionDetail.Pulse = reliefRequisitionDetailEditInput.Pulse;
+            //    var tempReliefRequistionDetail = _reliefRequisitionDetailService.FindById(reliefRequisitionDetailEditInput.Number);
+            //    requId = tempReliefRequistionDetail.RegionalRequestID;
+            //    tempReliefRequistionDetail.Beneficiaries = reliefRequisitionDetailEditInput.Beneficiaries;
+            //    tempReliefRequistionDetail.CSB = reliefRequisitionDetailEditInput.CSB;
+            //    tempReliefRequistionDetail.Oil = reliefRequisitionDetailEditInput.Oil;
+            //    tempReliefRequistionDetail.Grain = reliefRequisitionDetailEditInput.Grain;
+            //    tempReliefRequistionDetail.Pulse = reliefRequisitionDetailEditInput.Pulse;
 
-            }
+            //}
             _reliefRequisitionDetailService.Save();
 
             return RedirectToAction("Edit", "Request", new { id = requId });
@@ -215,7 +246,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ApproveRequest(int id)
         {
             _regionalRequestService.ApproveRequest(id);
-          return  RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -250,6 +281,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                                      }).ToList();
                 regionalRequest.RegionalRequestDetails = releifDetails;
+                regionalRequest.Status =(int) RegionalRequestStatus.Draft;
                 _regionalRequestService.AddReliefRequistion(regionalRequest);
                 return RedirectToAction("Edit", "Request", new { id = regionalRequest.RegionalRequestID });
             }
@@ -257,5 +289,53 @@ namespace Cats.Areas.EarlyWarning.Controllers
             PopulateLookup();
             return View(regionalRequest);
         }
+
+
+
+
+
+
+
+        public ActionResult Editing_Read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            return Json(_reliefRequisitionDetailService.GetAllRegionalRequestDetail().ToDataSourceResult(request));
+        }
+
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Editing_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<RegionalRequestDetail> regionalRequestDetails)
+        {
+            if (regionalRequestDetails != null && ModelState.IsValid)
+            {
+                foreach (var requestDetail in regionalRequestDetails)
+                {
+                    var target = _reliefRequisitionDetailService.FindById(requestDetail.RegionalRequestDetailID);
+                    if (target != null)
+                    {
+                        target.Grain = requestDetail.Grain;
+                        target.Oil = requestDetail.Oil;
+                        target.Pulse = requestDetail.Pulse;
+                        target.CSB = requestDetail.CSB;
+                        target.Beneficiaries = requestDetail.Beneficiaries;
+
+                    }
+                }
+                _reliefRequisitionDetailService.Save();
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+
     }
 }
+
+
+
+
+
+
+
+

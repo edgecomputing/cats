@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
@@ -17,11 +18,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         // GET: /EarlyWarning/ReliefRequisition/
 
         private readonly IReliefRequisitionService _reliefRequisitionService;
+        private readonly IWorkflowStatusService _workflowStatusService;
 
 
-        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService)
+        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService,IWorkflowStatusService workflowStatusService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
+            this._workflowStatusService = workflowStatusService;
 
 
         }
@@ -29,11 +32,39 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ViewResult Requistions()
         {
             var releifRequistions = _reliefRequisitionService.GetAllReliefRequisition();
-
-            return View(releifRequistions);
+            var requisitionToRender = BuilReliefRequisitionViewModel(releifRequistions.FindAll(t=>t.Status.HasValue)).ToList();
+            return View(requisitionToRender);
         }
-
-         [HttpGet]
+        private IEnumerable<ReliefRequisitionViewModel> BuilReliefRequisitionViewModel(IEnumerable<ReliefRequisition> reliefRequisitions )
+        {
+            return (from requisition in reliefRequisitions
+                    select new ReliefRequisitionViewModel
+                               {
+                                  // ApprovedBy = requisition.ApprovedBy,
+                                   ApprovedDate = requisition.ApprovedDate,
+                                 //  ApprovedDateEt =requisition.ApprovedDate.HasValue ? EthiopianDate.GregorianToEthiopian(requisition.ApprovedDate.Value):"",
+                                   Commodity = requisition.Commodity.Name,
+                                   CommodityID = requisition.CommodityID,
+                                   Program = requisition.Program.Name,
+                                   ProgramID = requisition.ProgramID,
+                                   Region = requisition.AdminUnit1.Name,
+                                   RegionID = requisition.RegionID,
+                                   RegionalRequestID = requisition.RegionalRequestID,
+                                 //  RequestedBy = requisition.RequestedBy,
+                                   RequestedDate = requisition.RequestedDate,
+                                  RequestedDateEt = requisition.RequestedDate.HasValue? EthiopianDate.GregorianToEthiopian(requisition.RequestedDate.Value):"",
+                                   RequisitionID = requisition.RequisitionID,
+                                   RequisitionNo = requisition.RequisitionNo,
+                                   Round = requisition.Round,
+                                   Status =
+                                       _workflowStatusService.GetStatusName(WORKFLOW.RELIEF_REQUISITION,
+                                                                            requisition.Status.Value),
+                                   ZoneID = requisition.ZoneID,
+                                   Zone = requisition.AdminUnit.Name,
+                                   StatusID = requisition.Status
+                               });
+        }
+        [HttpGet]
         public ActionResult CreateRequisiton(int id)
         {
             var input = _reliefRequisitionService.CreateRequisition(id);

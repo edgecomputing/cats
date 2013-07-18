@@ -1,6 +1,7 @@
 ﻿@using Cats.Models.Constant
 @using Cats.Models.ViewModels
-@model IEnumerable<Cats.Models.ReliefRequisition>
+@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>
 
 @{
     ViewBag.Title = "Requistions";
@@ -8,9 +9,36 @@
 }
 
 <h2 class="well">Requistions</h2>
+@(Html.Kendo().Grid(Model).Name("Grid").Columns(columns =>
+                                       {
+                                           columns.Bound(requisition => requisition.RequisitionNo);
+                                           columns.Bound(requisition => requisition.Commodity);
+                                           columns.Bound(requisition => requisition.Region);
+                                           columns.Bound(requisition => requisition.Zone);
+                                           columns.Bound(requisition => requisition.Round);
+                                           columns.Bound(requisiton => requisiton.Program);
+                                           columns.Bound(requisition => requisition.RequestedDateEt);
+                                           columns.Bound(requisition => requisition.Status).Template(
 
 
-<table class="table table-bordered table-condensed table-striped">
+                     @<text>
+@if (item.StatusID == (int)ReliefRequisitionStatus.Draft)
+{
+    <a  href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-edit"></i></a>
+   <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-ok"></i></a>
+    <a  href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-pencil"></i></a>
+   
+  
+}
+else
+{
+    @item.Status 
+}
+</text>);
+
+                                       }))
+
+@*<table class="table table-bordered table-condensed table-striped">
     <tr>
         
         <th>
@@ -32,18 +60,11 @@
             @Html.DisplayNameFor(model => model.ProgramID)
         </th>
         
-       @* <th>
-            @Html.DisplayNameFor(model => model.RequestedBy)
-        </th>*@
+      
         <th>
             @Html.DisplayNameFor(model => model.RequestedDate)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.ApprovedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApprovedDate)
-        </th>*@
+      
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
@@ -73,18 +94,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Program.Name)
         </td>
-      @*  <td>
-            @Html.DisplayFor(modelItem => item.RequestedBy)
-        </td>*@
+      
         <td>
             @Html.DisplayFor(modelItem => item.RequestedDate,new {@class="cats-datepicker"})
         </td>
-       @* <td>
-            @Html.DisplayFor(modelItem => item.ApprovedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApprovedDate)
-        </td>*@
+      
         <td>
            @{
                //var statusName = item.Status.ToString();
@@ -127,4 +141,4 @@
     </tr>
 }
 
-</table>
+</table>*@

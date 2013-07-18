@@ -149,7 +149,9 @@
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
@@ -484,7 +486,6 @@
     <Content Include="Content\themes\dashboard.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\SendToLogistics.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
@@ -596,7 +597,6 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequisionDetailEdit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequistionDetailEdit.cshtml" />
