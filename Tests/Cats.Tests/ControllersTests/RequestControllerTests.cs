@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Moq;
@@ -38,6 +39,16 @@ namespace Cats.Tests.ControllersTests
                                                    Year = DateTime.Today.Year
                                                    ,
                                                    Status=1,
+                                                   Program = new Program(){
+                                                   Name="Program1",
+                                                   ProgramID = 1
+                                                   
+                                                   },
+                                                   AdminUnit=new AdminUnit
+                                                                 {
+                                                                     Name="Region",
+                                                                     AdminUnitID=1
+                                                                 },
                                                    RegionalRequestDetails = new List<RegionalRequestDetail>
                                                                                 {
                                                                                     new RegionalRequestDetail
@@ -147,7 +158,7 @@ namespace Cats.Tests.ControllersTests
       {
           var view = _requestController.SubmittedRequest();
 
-          Assert.AreEqual(1, ((IEnumerable<RegionalRequest>)view.Model).Count());
+          Assert.AreEqual(1, ((IEnumerable<RegionalRequestViewModel>)view.Model).Count());
       }
 
         #endregion

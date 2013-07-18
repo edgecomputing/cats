@@ -150,6 +150,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
