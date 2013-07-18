@@ -195,7 +195,6 @@
     <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
-    <Compile Include="Models\ViewModels\AllocationModelDetail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -203,18 +202,15 @@
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReliefRequisitions.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Settings\Views\Users\Users.js" />
-    <Content Include="bin\Cats.dll" />
-    <Content Include="bin\Cats.pdb" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
+    <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
     <Content Include="Content\assets\css\bootstrap.css" />
+    <Content Include="Content\assets\css\bootstrap.min.css" />
     <Content Include="Content\assets\css\docs.css" />
     <Content Include="Content\assets\ico\apple-touch-icon-114-precomposed.png" />
     <Content Include="Content\assets\ico\apple-touch-icon-144-precomposed.png" />
@@ -230,6 +226,7 @@
     <Content Include="Content\assets\img\bs-docs-masthead-pattern.png" />
     <Content Include="Content\assets\img\bs-docs-responsive-illustrations.png" />
     <Content Include="Content\assets\img\bs-docs-twitter-github.png" />
+    <Content Include="Content\assets\img\error.png" />
     <Content Include="Content\assets\img\example-sites\8020select.png" />
     <Content Include="Content\assets\img\example-sites\adoptahydrant.png" />
     <Content Include="Content\assets\img\example-sites\breakingnews.png" />
@@ -257,6 +254,7 @@
     <Content Include="Content\assets\img\grid-baseline-20px.png" />
     <Content Include="Content\assets\img\less-logo-large.png" />
     <Content Include="Content\assets\img\responsive-illustrations.png" />
+    <Content Include="Content\assets\img\valid.png" />
     <Content Include="Content\assets\js\application.js" />
     <Content Include="Content\assets\js\bootstrap-affix.js" />
     <Content Include="Content\assets\js\bootstrap-alert.js" />
@@ -278,7 +276,10 @@
     <Content Include="Content\assets\js\google-code-prettify\prettify.js" />
     <Content Include="Content\assets\js\holder\holder.js" />
     <Content Include="Content\assets\js\html5shiv.js" />
+    <Content Include="Content\assets\js\jquery-1.7.1.min.js" />
     <Content Include="Content\assets\js\jquery.js" />
+    <Content Include="Content\assets\js\jquery.validate.js" />
+    <Content Include="Content\assets\js\jquery.validate.min.js" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -403,17 +404,15 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Allocate.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocatedList.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
-
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
-
     <Content Include="Areas\Procurement\Views\RFQ\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
-
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -443,13 +442,11 @@
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\hubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
@@ -526,8 +523,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Logistics\Views\Shared\" />
-    <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
+    <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

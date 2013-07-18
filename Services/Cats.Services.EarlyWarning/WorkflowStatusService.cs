@@ -15,7 +15,7 @@ namespace Cats.Services.EarlyWarning
         {
             this._unitOfWork = unitOfWork;
         }
-        public string GetStatusName(Models.Constant.Workflow workflow, int statusId)
+        public string GetStatusName(Models.Constant.WORKFLOW workflow, int statusId)
         {
             var workflowStatus =
                 _unitOfWork.WorkflowStatusRepository.Get(t => t.WorkflowID == (int)workflow && t.StatusID == statusId).
@@ -31,7 +31,7 @@ namespace Cats.Services.EarlyWarning
         }
 
 
-        public List<Models.WorkflowStatus> GetStatus(Models.Constant.Workflow workflow)
+        public List<Models.WorkflowStatus> GetStatus(Models.Constant.WORKFLOW workflow)
         {
           return   _unitOfWork.WorkflowStatusRepository.Get(t => t.WorkflowID == (int) workflow).ToList();
         }

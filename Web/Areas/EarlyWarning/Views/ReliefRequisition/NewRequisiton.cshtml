@@ -1,4 +1,5 @@
 ﻿@using Cats.Models.ViewModels
+@using Cats.Models.Constant
 @model IEnumerable<Cats.Models.ViewModels.ReliefRequisitionNew>
 
 @{
@@ -14,15 +15,15 @@
     <table class="table table-bordered table-striped table-condensed">
         <tr>
             <th>
-                @Html.DisplayNameFor(model=> model.RequisitionNo)
-            </th> 
+                @Html.DisplayNameFor(model => model.RequisitionNo)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Region)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Program)
             </th>
-             <th>
+            <th>
                 @Html.DisplayNameFor(model => model.Zone)
             </th>
             <th>
@@ -31,10 +32,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Round)
             </th>
-         <th>
+            <th>
                 @Html.DisplayNameFor(model => model.RequestedDate)
             </th>
-           @* <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.RequestedBy)
             </th>
            
@@ -47,7 +48,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-           
+
             <th></th>
             <th></th>
         </tr>
@@ -56,7 +57,7 @@
         {
             <tr>
                 <td>
-                    @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new {@style = "width:80%; border:none; !important;"})
+                    @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new { @style = "width:80%; border:none; !important;" })
                     @Html.ValidationMessageFor(modelItem => item.RequisitionNo)
                 </td>
                 <td>
@@ -64,19 +65,19 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Program)
-                </td> 
-                 <td>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Zone)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Commodity)
                 </td>
-                
-              
+
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Round)
                 </td>
-      <td>
+                <td>
                     @Html.DisplayFor(modelItem => item.RequestedDate)
                 </td>
                 @*<td>
@@ -90,19 +91,45 @@
                     @Html.DisplayFor(modelItem => item.ApprovedDate)
                 </td>*@
                 <td>
-                     @{
-                         var statusName = item.Status.ToString();
-            var showme = item.Status == 2 ? "": "hidden";
-                }
-               @Html.Label(statusName)
-                </td>
+                    @{
+            var statusName = item.Status.ToString();
+            var showme = item.Status == 2 ? "" : "hidden";
+                    }
+                    @{
+            string status=string.Empty;
+
+            switch (item.Status)
+            {
+                case (int)ReliefRequisitionStatus.Draft:
+                    status = "Draft";
+                    break;
+                case (int)ReliefRequisitionStatus.Approved:
+                    status = "Approved";
+                    break;
+                case (int)ReliefRequisitionStatus.HubAssigned:
+                    status = "HubAssigned";
+                    break;
+                case (int)ReliefRequisitionStatus.ProjectCodeAssigned:
+                    status = "ProjectCodeAssigned";
+                    break;
+                case (int)ReliefRequisitionStatus.TransportOrderCreated:
+                    status = "TransportOrderCreated";
+                    break;
+                case (int)ReliefRequisitionStatus.TransportRequisitionCreated:
+                    status = "TransportRequisitionCreated";
+                    break;
+            }
                 
+                    }
+                    @status
+                </td>
+
                 <td>
                     <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
                 </td>
                 <td>
                     @*@Html.ActionLink("Edit", "Edit", new {id = item.RequisitionID}) |*@
-           
+
                 </td>
             </tr>
             
@@ -110,7 +137,7 @@
         }
 
     </table>
-     <p>
+    <p>
         <input class="btn btn-success" type="submit" value="Save Change" />
     </p>
 }

@@ -7,7 +7,7 @@ using Cats.Models;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
-using Workflow = Cats.Models.Constant.Workflow;
+using Workflow = Cats.Models.Constant.WORKFLOW;
 
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -212,7 +212,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return RedirectToAction("Edit", "Request", new { id = requId });
         }
-
+        public ActionResult ApproveRequest(int id)
+        {
+            _regionalRequestService.ApproveRequest(id);
+          return  RedirectToAction("Index");
+        }
 
         [HttpPost]
         public ActionResult New(RegionalRequest regionalRequest, string requestDate)

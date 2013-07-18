@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
@@ -15,99 +16,91 @@ namespace Cats.Tests.ControllersTests
     [TestFixture]
     public class DispatchLocationsControllerTest
     {
-        private IBidWinnerService MockBidWinnerService;
-        private IAdminUnitService MockAdminUnitService;
-
-        private ITransportOrderService MockTransporterOrderService;
-
+        private ITransportOrderService MockTransportOrderService;
+ 
         private DispatchLocationsController _dispatchLocationsController;
 
         [SetUp]
         public void Setup()
         {
-            List<BidWinner> bidWinner = new List<BidWinner>();
+
+
+            List<TransportOrder> transportOrder = new List<TransportOrder>();
             {
-                new BidWinner() { BidWinnerID = 1, BidID = 1, SourceID =1,DestinationID = 2,TransporterID = 2,
-                                  Amount = 200,Tariff = 55,Position =1,Status =2,ExpiryDate = new DateTime(12/12/2012)};
-                new BidWinner()
+                new TransportOrder()
                 {
-                    BidWinnerID = 2,
-                    BidID = 1,
-                    SourceID = 1,
-                    DestinationID = 5,
-                    TransporterID = 1,
-                    Amount = 200,
-                    Tariff = 55,
-                    Position = 1,
-                    Status = 2,
-                    ExpiryDate = new DateTime(12 / 11/ 2012)
+                    TransportOrderID = 1,
+                    TransportOrderNo = "123",
+                    ContractNumber = "123",
+                    OrderDate = new DateTime(12 / 12 / 2012),
+                    RequestedDispatchDate = new DateTime(11 / 11 / 2012),
+                    OrderExpiryDate = new DateTime(10 / 10 / 2012),
+                    BidDocumentNo = "em/200/2006",
+                    PerformanceBondReceiptNo = "123456",
+                    TransporterID = 2,
+                    ConsignerName = "name",
+                    TransporterSignedName = "Signed name",
+                    ConsignerDate = new DateTime(02 / 02 / 2013),
+                    TransporterSignedDate = new DateTime(03 / 03 / 2012),
                 };
 
             }
             ;
-            List<AdminUnit> adminUnit = new List<AdminUnit>();
-            {
-                new AdminUnit() { AdminUnitID = 1, Name = "Afar", NameAM = null, AdminUnitTypeID = 2, ParentID = 1 };
-            }
-            ;
-            Mock<IBidWinnerService> mockBidWinnerService=new Mock<IBidWinnerService>();
-            Mock<IAdminUnitService> mockAdminUnitService=new Mock<IAdminUnitService>();
+           
+            Mock<ITransportOrderService> mockTransportOrderService=new Mock<ITransportOrderService>();
 
-            mockBidWinnerService.Setup(m => m.GetAllBidWinner()).Returns(bidWinner);
-            this.MockBidWinnerService = mockBidWinnerService.Object;
+            mockTransportOrderService.Setup(m => m.GetAllTransportOrder()).Returns(transportOrder);
+            this.MockTransportOrderService = mockTransportOrderService.Object;
+            _dispatchLocationsController=new DispatchLocationsController(MockTransportOrderService);
 
-            _dispatchLocationsController=new DispatchLocationsController(MockBidWinnerService,MockAdminUnitService);
-
-            _dispatchLocationsController=new DispatchLocationsController(MockBidWinnerService,MockTransporterOrderService);
 
         }
 
         [Test]
         public void Can_fetch_all_BidWinner_Lists()
         {
-
-             List<BidWinner> expected = new List<BidWinner>();
+            List<TransportOrder> expected = new List<TransportOrder>();
             {
-                new BidWinner() { BidWinnerID = 1, BidID = 1, SourceID =1,DestinationID = 2,TransporterID = 2,
-                                  Amount = 200,Tariff = 55,Position =1,Status =2,ExpiryDate = new DateTime(12/12/2012)};
+                new TransportOrder()
+                {
+                    TransportOrderID = 1,
+                    TransportOrderNo = "123",
+                    ContractNumber = "123",
+                    OrderDate = new DateTime(12/12/2012),
+                    RequestedDispatchDate = new DateTime(11/11/2012),
+                    OrderExpiryDate=new DateTime(10/10/2012),
+                    BidDocumentNo="em/200/2006",
+                    PerformanceBondReceiptNo="123456",
+                    TransporterID = 1,
+                    ConsignerName="name",
+                    TransporterSignedName="Signed name",
+                    ConsignerDate=new DateTime(02/02/2013),
+                    TransporterSignedDate=new DateTime(03/03/2012),
+                };
             }
-            ;
-            //var result = _dispatchLocationsController.Index();
-
-            var transporter = "transporter";
-            var result = _dispatchLocationsController.Index(transporter);
-
+            string transporterName = "";
+            var result = _dispatchLocationsController.Index( transporterName);
             Assert.IsNotNull(result);
-            // List<BidWinner> expected = new List<BidWinner>();
-            //{
-            //    new BidWinner() { BidWinnerID = 1, BidID = 1, SourceID =1,DestinationID = 2,TransporterID = 2,
-            //                      Amount = 200,Tariff = 55,Position =1,Status =2,ExpiryDate = new DateTime(12/12/2012)};
-            //}
-            //;
-            //var transporter = "transporter";
-            //var result = _dispatchLocationsController.Index(transporter);
-            //Assert.IsNotNull(result);
 
 
-            //var actual = MockBidWinnerService.GetAllBidWinner();
-            //Assert.AreEqual(actual.Count, expected.Count);
-            
+            var actual = MockTransportOrderService.GetAllTransportOrder();
+            Assert.AreEqual(actual.Count, expected.Count);
         }
 
         [Test]
-        public void Can_show_winners_detail()
+        public void Can_show_Dispatch_Location_detail()
         {
-            //var result = _dispatchLocationsController.Details(1);
-            //Assert.AreEqual(1, ((IEnumerable<BidWinner>)result).Count());
+            var result = _dispatchLocationsController.Details(1);
+            Assert.IsNotNull(result);
+            //Assert.AreEqual(1, ((IEnumerable<TransportOrder>)result).Count());
         }
         [Test]
         public void Dispatch_Locations_Controller_Constructor_Test()
         {
             try
             {
-                _dispatchLocationsController = new DispatchLocationsController(MockBidWinnerService, MockAdminUnitService);
+                _dispatchLocationsController = new DispatchLocationsController(MockTransportOrderService);
 
-                _dispatchLocationsController = new DispatchLocationsController(MockBidWinnerService, MockTransporterOrderService);
 
             }
             catch (Exception e)

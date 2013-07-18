@@ -11,6 +11,8 @@
 
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    
+
     <link href="~/Content/Site.css" rel="stylesheet" />
      <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-1.9.1.js"></script>
@@ -81,7 +83,7 @@
                                
                                 <li><a href="@Url.Action("Allocate", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
                                
-                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
+                               
                                 <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
                                 
                                 <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
@@ -175,7 +177,10 @@
     <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
     <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
     <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
-     
+    
+    <script src="~/Content/assets/js/jquery.validate.min.js"></script>
+    <script src="~/Content/assets/js/jquery.validate.js"></script>
+
     @{
         var calendarPerference = 1;
         if (calendarPerference == 2)

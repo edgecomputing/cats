@@ -8,7 +8,6 @@ using Cats.Areas.Logistics.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models.ViewModels;
-using Cats.Services.EarlyWarning;
 using Cats.Helpers;
 using HubAllocation = Cats.Models.HubAllocation;
 
@@ -121,48 +120,53 @@ namespace Cats.Areas.Logistics.Controllers
             return View(listOfRequsitions.ToList());
         }
 
-
-        public ActionResult InserRequisition(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form, string datepicker, string rNumber)
+        [HttpPost]
+        public ActionResult InserRequisition(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form,
+                                             string datepicker, string rNumber)
         {
-
-            string hub = form["hub"].ToString(CultureInfo.InvariantCulture);
-            
-            DateTime date;
-          
-
-            try
+            if (ModelState.IsValid)
             {
-              date =    DateTime.Parse(datepicker);
-            }
-            catch (Exception)
-            {
-
-               var strEth = new getGregorianDate();
-               date = strEth.ReturnGregorianDate(datepicker);
-            }
+                string hub = form["hub"].ToString(CultureInfo.InvariantCulture); //retrives Hub id from the view
+                DateTime date;
 
 
-            foreach (RequisitionViewModel appRequisition in requisitionDetail)
-            {
-                var newHubAllocation = new HubAllocation
-                                           {
-                                               AllocatedBy = 1,
-                                               RequisitionID = appRequisition.RequisitionId,
-                                               AllocationDate = date,
-                                               HubID = int.Parse(hub)
-                                           };
+                try
+                {
+                    date = DateTime.Parse(datepicker);
+                        //checkes if date is ethiopian date. if it is then it will enter to the catch and convert to gragorian to persist.
+                }
+                catch (Exception)
+                {
+
+                    var strEth = new getGregorianDate();
+                    date = strEth.ReturnGregorianDate(datepicker);
+                }
+
+
+                foreach (RequisitionViewModel appRequisition in requisitionDetail)
+                {
+
+                    var newHubAllocation = new HubAllocation
+                                               {
+                                                   AllocatedBy = 1,
+                                                   RequisitionID = appRequisition.RequisitionId,
+                                                   AllocationDate = date,
+                                                   ReferenceNo = rNumber,
+                                                   HubID = int.Parse(hub)
+                                               };
 
 
 
-                _hubAllocationService.AddHubAllocation(newHubAllocation);
+                    _hubAllocationService.AddHubAllocation(newHubAllocation);
 
-                
-                
+
+
+
+                }
+                return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+
             }
             return RedirectToAction("ApprovedRequesitions", "HubAllocation");
-            
         }
-        
-       
     }
 }
