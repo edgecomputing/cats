@@ -1,0 +1,82 @@
+﻿@model Cats.Models.TransportRequisition
+
+@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Are you sure you want to approve selected Transport Requisition?</h2>
+
+<fieldset>
+    <legend></legend>
+    <div class="form-horizontal">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+            </div>
+            <div class="controls">
+                @Html.DisplayFor(model => model.TransportRequisitionNo)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.RequestedBy)
+            </div>
+            <div class="controls">
+                @Html.DisplayFor(model => model.RequestedBy)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.RequestedDate)
+            </div>
+            <div class="controls">
+                @Html.DisplayFor(model => model.RequestedDate)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.CertifiedBy)
+            </div>
+            <div class="controls">
+                @Html.DisplayFor(model => model.CertifiedBy)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.CertifiedDate)
+            </div>
+            <div class="controls">
+                @Html.DisplayFor(model => model.CertifiedDate)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.Remark)
+            </div>
+            <div class="controls">
+                @Html.DisplayFor(model => model.Remark)
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+<p></p>
+@using (Html.BeginForm("ApproveConfirmed", "TransportRequisition", FormMethod.Post))
+{
+   
+        @Html.HiddenFor(model => model.TransportRequisitionID)
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn btn-success" type="submit" value="Approve Transport Requisition" />
+            </div>
+
+        </div>
+   
+}
+

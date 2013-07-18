@@ -407,7 +407,7 @@
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>

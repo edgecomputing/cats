@@ -106,6 +106,22 @@ namespace Cats.Areas.Logistics.Controllers
             return RedirectToAction("Index","TransportRequisition");
         }
 
+        public ActionResult Approve(int id)
+        {
+            var transportRequisition = _transportRequisitionService.FindById(id);
+            if (transportRequisition == null)
+            {
+                return HttpNotFound();
+            }
+            return View(transportRequisition);
+        }
+        [HttpPost]
+        public ActionResult ApproveConfirmed(int TransportRequisitionID)
+        {
+            _transportRequisitionService.ApproveTransportRequisition(TransportRequisitionID);
+           
+            return RedirectToAction("Index", "TransportRequisition");
+        }
 
        
     }

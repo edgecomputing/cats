@@ -50,6 +50,26 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                      RegionalRequestID = 1,
                                                      RequisitionID = 1,
                                                      Status = 4,
+                                                     ReliefRequisitionDetails=new List<ReliefRequisitionDetail>()
+                                                                                  {
+                                                                                     new ReliefRequisitionDetail
+                                                                                         {
+                                                                                             RequisitionID=1,
+                                                                                             RequisitionDetailID=1,
+                                                                                             FDPID=1,
+                                                                                             DonorID=1,
+                                                                                             CommodityID=1,
+                                                                                             Amount=10,
+                                                                                             BenficiaryNo=12,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         Name="XYX",
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=1
+                                                                                                     }
+                                                                                            
+                                                                                         }
+                                                                                  }
                                                  }
                                          };
             var _tranportRequisitionDetail = new List<TransportRequisitionDetail>()
@@ -62,7 +82,24 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                    };
             _transportOrders = new List<TransportOrder>();
 
+            var _transportRequisitons = new List<TransportRequisition>
+                                            {
+                                                new TransportRequisition
+                                                    {
+                                                        TransportRequisitionID = 1,
+                                                        Status = 1,
+                                                        TransportRequisitionNo = "001"
+                                                    }
+                                            };
 
+            var _hubAllocation = new List<HubAllocation>
+                                     {
+                                         new HubAllocation
+                                             {
+                                                 RequisitionID = 1,
+                                                 HubID = 1
+                                             }
+                                     };
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockReliefRequisitionRepository = new Mock<IGenericRepository<ReliefRequisition>>();
@@ -84,23 +121,29 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                                            id));
 
             var mockReliefRequisionDetailRepository = new Mock<IGenericRepository<ReliefRequisitionDetail>>();
-            //mockReliefRequisionDetailRepository.Setup(
-            //     t => t.Get(It.IsAny<Expression<Func<ReliefRequisitionDetail, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>>>(), It.IsAny<string>())).Returns(
+            mockReliefRequisionDetailRepository.Setup(
+                 t => t.Get(It.IsAny<Expression<Func<ReliefRequisitionDetail, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>>>(), It.IsAny<string>())).Returns(
+                 (Expression<Func<ReliefRequisitionDetail, bool>> predicate, Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>> filter, string str) =>
+                 {
+                     return _reliefRequisitions.First().ReliefRequisitionDetails.AsQueryable();
 
-            //             _reliefRequisitions.First().ReliefRequisitionDetails.AsQueryable()
-
-            //         );
+                 }
+        );
 
             mockUnitOfWork.Setup(t => t.ReliefRequisitionDetailRepository).Returns(
                 mockReliefRequisionDetailRepository.Object);
 
             var mockTransportBidWinnerDetailRepository = new Mock<IGenericRepository<BidWinner>>();
-            mockTransportBidWinnerDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<BidWinner, bool>>>(), null, It.IsAny<string>())).Returns(_transportBidWinners.AsQueryable());
+            mockTransportBidWinnerDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<BidWinner, bool>>>(), It.IsAny<Func<IQueryable<BidWinner>, IOrderedQueryable<BidWinner>>>(), It.IsAny<string>())).Returns(_transportBidWinners.AsQueryable());
 
             mockUnitOfWork.Setup(t => t.BidWinnerRepository).Returns(
                 mockTransportBidWinnerDetailRepository.Object);
 
             mockUnitOfWork.Setup(t => t.ReliefRequisitionRepository).Returns(mockReliefRequisitionRepository.Object);
+
+            var hubAllocationRepository = new Mock<IGenericRepository<HubAllocation>>();
+            hubAllocationRepository.Setup(t => t.FindBy(It.IsAny<Expression<Func<HubAllocation, bool>>>())).Returns(_hubAllocation);
+            mockUnitOfWork.Setup(t => t.HubAllocationRepository).Returns(hubAllocationRepository.Object);
             var transportOrderRepository =
                 new Mock<IGenericRepository<TransportOrder>>();
             transportOrderRepository.Setup(
@@ -117,11 +160,25 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                         return result;
                     }
                 );
+            transportOrderRepository.Setup(t => t.Add(It.IsAny<TransportOrder>())).Returns(true);
+            mockUnitOfWork.Setup(t => t.TransportOrderRepository).Returns(transportOrderRepository.Object);
+            var transportRequisition = new Mock<IGenericRepository<TransportRequisition>>();
 
+            transportRequisition.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<TransportRequisition, bool>>>(),
+                      It.IsAny<Func<IQueryable<TransportRequisition>, IOrderedQueryable<TransportRequisition>>>(),
+                      It.IsAny<string>())).Returns(_transportRequisitons);
+            
+            mockUnitOfWork.Setup(t => t.TransportRequisitionRepository).Returns(transportRequisition.Object);
             mockUnitOfWork.Setup(t => t.Save());
 
             var transportRequisitionDetailRepository = new Mock<IGenericRepository<TransportRequisitionDetail>>();
-            transportRequisitionDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<TransportRequisitionDetail, bool>>>(), null, It.IsAny<string>())).Returns(_tranportRequisitionDetail);
+            transportRequisitionDetailRepository.Setup(t => t.Get(It.IsAny<Expression<Func<TransportRequisitionDetail, bool>>>(), It.IsAny<Func<IQueryable<TransportRequisitionDetail>, IOrderedQueryable<TransportRequisitionDetail>>>(), It.IsAny<string>())).Returns(
+                (Expression<Func<TransportRequisitionDetail, bool>> predicate, Func<IQueryable<TransportRequisition>, IOrderedQueryable<TransportRequisition>> filter, string includeProp) =>
+                {
+                    return _tranportRequisitionDetail;
+                });
             mockUnitOfWork.Setup(t => t.TransportRequisitionDetailRepository).Returns(
                 transportRequisitionDetailRepository.Object);
 
@@ -186,11 +243,11 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                    {
                                        1
                                    };
-            var createdTransportOrders = _transportOrderService.CreateTransportOrder(requisitions);
+            var result = _transportOrderService.CreateTransportOrder(requisitions);
 
             //Assert
 
-            Assert.IsInstanceOf<List<TransportOrder>>(createdTransportOrders);
+            Assert.IsTrue(result);
         }
         //[Test]
         //public void Should_Raise_Error_If_NoTransporter()
