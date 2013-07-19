@@ -164,7 +164,7 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult InserRequisition(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form,
                                              string datepicker, string rNumber)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && requisitionDetail !=null )
             {
                 string hub = form["hub"].ToString(CultureInfo.InvariantCulture); //retrives Hub id from the view
                 DateTime date;
