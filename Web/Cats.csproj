@@ -144,12 +144,14 @@
     <Compile Include="App_Start\WebApiConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
@@ -544,8 +546,10 @@
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Approve.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.woff" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
