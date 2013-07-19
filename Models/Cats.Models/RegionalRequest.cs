@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Cats.Models
         }
 
         public int RegionalRequestID { get; set; }
+        
         public int RegionID { get; set; }
         public int ProgramId { get; set; }
         public int Round { get; set; }
