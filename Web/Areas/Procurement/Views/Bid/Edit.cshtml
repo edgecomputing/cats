@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Cats.Areas.Procurement.Models.BidDetailsViewModel>
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Areas.Procurement.Models.BidDetailsViewModel>
 
 @{
     ViewBag.Title = "Edit";
@@ -17,59 +19,52 @@
     <h4 class="page-header">Bid Number: @ViewBag.BidNumber  From:@ViewBag.StartDate  To: @ViewBag.EndDate</h4>
 </div>
 
-@using (Html.BeginForm("Edit", "Bid", FormMethod.Post))
-{
-    <table class="table table-bordered table-condensed table-striped">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Region)
-            </th>
-            <th>
-               Relief
-            </th>
-            <th>
-                PSNP
-            </th>
-            <th>
-               Bid Document Price
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CPO)
-            </th>
-            <th></th>
-        </tr>
-        @{ int index = 0; }
-        @foreach (var bidDetail in Model)
-        {
-            <tr>
-                <td>
-                    @bidDetail.Region
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].AmountForReliefProgram", bidDetail.Edit.AmountForReliefProgram, new {@placeholder="Planned="+bidDetail.Edit.AmountForReliefProgramPlanned,@style = "width:80%; border:none; !important;"})
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].AmountForPSNPProgram", bidDetail.Edit.AmountForPSNPProgram, new {@placeholder="Planned="+bidDetail.Edit.AmountForPSNPProgramPlanned,@style = "width:80%; border:none; !important;"})
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].BidDocumentPrice", bidDetail.Edit.BidDocumentPrice, new {@style = "width:80%; border:none; !important;"})
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].CPO", bidDetail.Edit.CPO, new {@style = "width:80%; border:none; !important;"})
-                </td>
-                <td>
-                    <input type="hidden" value="@bidDetail.Edit.Number" name="@("input[" + index + "].Number")" />
-                </td>
-                
-            </tr>
-            index++;
+@(Html.Kendo().Grid((IEnumerable<Cats.Areas.Procurement.Models.BidDetailsViewModel>)ViewData["BidDetail"])
+.Name("Bid").Columns(columns =>
+         {
+            columns.Bound(p => p.Region);
+            columns.Bound(p => p.AmountForReliefProgram);
+            columns.Bound(p => p.AmountForPSNPProgram);
+            columns.Bound(p => p.BidDocumentPrice);
+            columns.Bound(p => p.CPO);                                                                  
+            columns.Command(command => command.Edit()).Width(200);
+
+          })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .DataSource(datasource=>datasource
+      .Server()
+      .Model(model => model.Id(p => p.BidDetailID))
+      //.Model(model =>
+      //  {
+      //      model.Id(p => p.BidDetailID);
+      //      model.Field(p => p.Region).Editable(false);
             
+      //  })
+      .Read(read => read.Action("Edit", "Bid"))
+      .Update(update=>update.Action("Edit","Bid"))
+      )
+      
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
         }
-    </table>
-    <p>
-        <input class="btn btn-success" type="submit" value="Save Bid" />
-    </p>
-}
+    }
+</script>
+
+
 
 
 

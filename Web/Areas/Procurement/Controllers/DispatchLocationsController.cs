@@ -24,6 +24,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
            // var bidWinner = _bidWinnerService.Get(m => m.Transporter.Name.StartsWith(transporter));
             var transporterOrder = _transportOrderService.Get(m => m.Transporter.Name.StartsWith(transporter));
+            ViewData["Transporters"] = transporterOrder;
             return View(transporterOrder);
         }
         

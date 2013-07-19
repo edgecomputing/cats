@@ -6,51 +6,86 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 <script>
-     
-    function onApprove(id){
-        var agree=confirm("Are you sure you want to approve this bid?");
+
+    function onApprove(id) {
+        var agree = confirm("Are you sure you want to approve this bid?");
         if (agree)
             window.location = "bid/ApproveBid/" + id;
     }
 </script>
 <div class="well">
-    <h4 class="page-header"> Bid For Transporters</h4>
+    <h4 class="page-header">Bid For Transporters</h4>
     <div align="right">
-    <a href="Bid/Create" class="btn btn-success"> Create New Bid</a>
-</div>
+        <a href="Bid/Create" class="btn btn-success">Create New Bid</a>
+    </div>
 </div>
 
+@section LeftBar
+{
+    @using (Html.BeginForm("Index", "Bid", FormMethod.Get))
+    {
+        <p class="control-list">Search:</p>
+        <div class="control-group">
+            <label class="control-label">Bid Number</label>
+            <div class="controls">
+                @Html.TextBox("BidNumber")
+            </div>
+            <label class="control-label">Status:</label>
+            @foreach (string statusType in ViewBag.BidStatusTypes)
+            {
+                <div class="controls">
+                    @Html.CheckBox(statusType)
+                    @Html.Label(statusType)
+                </div>
+            }
+            @Html.Hidden("statusTypes", "All")
+        </div>
 
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Filter" class="btn btn-primary" />
+                @*@Html.ActionLink("Create Bid", "Create")*@
+            </div>
+        </div> 
+        
+    }
+
+}
 
 @(Html.Kendo().Grid((IEnumerable<Cats.Models.Bid>)ViewData["bids"])
     .Name("Bid")
     .Columns(columns =>
-    {
-        columns.Bound(p => p.BidNumber);
-        columns.Bound(p => p.StartDate).Format("{0:MM/dd/yyyy}");
-        columns.Bound(p => p.EndDate).Format("{0:MM/dd/yyyy}");
-        columns.Bound(p => p.OpeningDate).Format("{0:MM/dd/yyyy}");
-        columns.Bound(p => p.Status.Name).Title("Status");
-        //columns.ForeignKey(p => p.StatusID, (System.Collections.IEnumerable)ViewData["Status"], "StatusID", "Name").Title("Status");
-        columns.Command(command => { command.Edit();
-                                       command.Custom("Approve");
-        }).Width(200);
-       
+        {
+            columns.Bound(p => p.BidNumber).Template(
+                @<text>
+                     <a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>                                       
+                 </text> );   
+            columns.Bound(p => p.StartDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.EndDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.OpeningDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.Status.Name).Title("Status");
+            //columns.ForeignKey(p => p.StatusID, (System.Collections.IEnumerable)ViewData["Status"], "StatusID", "Name").Title("Status");
+            columns.Command(command =>
+            {
+                
+                command.Edit();
+                command.Custom("Approve");
 
-    })
+            }).Width(200);
+
+
+        })
     .Pageable()
     .Sortable()
     .Filterable()
-    .ToolBar(toolbar => toolbar.Create())
-        .Editable(editable => editable.Mode(GridEditMode.InLine))
-        .DataSource(dataSource => dataSource
-            .Server()
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .DataSource(dataSource => dataSource
+          .Server()
              .Model(model => model.Id(p => p.BidID))
             .Create(create => create.Action("Create", "Bid"))
             .Read(read => read.Action("Index", "Bid"))
             .Update(update => update.Action("EditBidStatus", "Bid"))
-    
-    )
- )
+     )
+   )
 
 

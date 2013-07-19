@@ -1,4 +1,5 @@
-﻿@model  IEnumerable<Cats.Models.TransportOrder>
+﻿@using Kendo.Mvc.UI
+@model  IEnumerable<Cats.Models.TransportOrder>
 
 @{
     ViewBag.Title = "Create Bid";
@@ -30,42 +31,28 @@
 
 }
 
-<table class="table table-striped table-bordered">
-    <tr>
-         <th>SNO</th>
-         <th>
-           Bid Number
-        </th>
-        <th>
-            Transporter
-        </th>        
-        <th></th>
-    </tr>
-    @{ int sno = 1;}
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@sno</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BidDocumentNo)
-            </td>
-            <td>
-                <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.TransportOrderID})">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>
-            </td>
-            <td>
-                <div class="btn-group">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i>
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Details", "DispatchLocations", new {Area = "Procurement", id = item.TransporterID})">View Dispatch Locations</a></li>
-                        @*   <li><a href="@Url.Action("Index", "DispatchLocations", new {Area = "Procurement", id = item.TransporterID})">Transporter Detail</a></li>*@
-                        @*<li><a href="@Url.Action("ApproveBid", "Bid", new {Area = "Procurement", id = item.BidID})">Approve</a></li>*@
-                    </ul>
-                </div>
-            </td>
-        </tr>
-        sno++;
-    }
+@(Html.Kendo().Grid((IEnumerable<Cats.Models.TransportOrder>)ViewData["Transporters"])
+    .Name("BidWinners")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.BidDocumentNo).Title("Bid Number");
+            columns.Bound(p => p.Transporter.Name).Title("Transporter").Template(
+                @<text>
+                     <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.TransporterID })">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>                                       
+                 </text> );   
 
-</table>
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .DataSource(dataSource => dataSource
+          .Server()
+             .Model(model => model.Id(p => p.TransporterID))
+            .Create(create => create.Action("Create", "Bid"))
+            .Read(read => read.Action("Index", "Bid"))
+            .Update(update => update.Action("EditBidStatus", "Bid"))
+     )
+   )
+
+
