@@ -10,6 +10,8 @@ using Cats.Data;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
 using Cats.Areas.Procurement.Models;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -20,34 +22,45 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IProgramService _programService;
         private readonly ITransportBidPlanDetailService _transportBidPlanDetailService;
         private readonly IHubService _hubService;
-        
+
         public TransportBidPlanController(ITransportBidPlanService transportBidPlanServiceParam
                                           , IAdminUnitService adminUnitServiceParam
                                           , IProgramService programServiceParam
                                           , ITransportBidPlanDetailService transportBidPlanDetailServiceParam
-                                            ,IHubService hubServiceParam)
-                                        
-            {
-                this._transportBidPlanService = transportBidPlanServiceParam;
-                this._adminUnitService = adminUnitServiceParam;
-                this._programService = programServiceParam;
-                this._transportBidPlanDetailService = transportBidPlanDetailServiceParam;
-                this._hubService = hubServiceParam;
-            }
+                                            , IHubService hubServiceParam)
+        {
+            this._transportBidPlanService = transportBidPlanServiceParam;
+            this._adminUnitService = adminUnitServiceParam;
+            this._programService = programServiceParam;
+            this._transportBidPlanDetailService = transportBidPlanDetailServiceParam;
+            this._hubService = hubServiceParam;
+        }
         public TransportBidPlan fetchFromDB(int id)
         {
             TransportBidPlan transportbidplan = _transportBidPlanService.FindById(id);
             return transportbidplan;
         }
-
+        public TransportBidPlanViewModel CopyToView(TransportBidPlan transportbidplan)
+        {
+            return new TransportBidPlanViewModel{TransportBidPlanID=transportbidplan.TransportBidPlanID
+                                                ,Year=transportbidplan.Year
+                                                ,YearHalf=transportbidplan.YearHalf
+                                                };
+        }
+        public IEnumerable<TransportBidPlanViewModel> CopyListToView(IEnumerable<Cats.Models.TransportBidPlan> bidplan)
+        {
+            List<TransportBidPlanViewModel> ret=new List<TransportBidPlanViewModel>();
+            foreach (TransportBidPlan i in bidplan)
+            {
+                ret.Add(CopyToView(i));
+            }
+            return ret.ToList();
+        }
         public bool loadLookups(TransportBidPlan transportbidplan)
         {
-           ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", transportbidplan.ProgramID);
-           // new SelectList(
-           // ViewBag.RegionID = new SelectList(_adminUnitService.GetAllAdminUnit(), "AdminUnitID", "Name", transportbidplan.RegionID);
-            //ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", transportbidplan.RegionID);
+            ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", transportbidplan.ProgramID);
             return true;
-            
+
         }
 
         //
@@ -56,9 +69,14 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Index()
         {
             List<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan();
-            return View(list);
+            return View(CopyListToView(list));
         }
-
+        public ActionResult GetListJson([DataSourceRequest] DataSourceRequest request)
+        {
+            //JsonRequestBehavior.AllowGet ;
+            IEnumerable<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan();
+            return Json(CopyListToView(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
         //
         // GET: /Procurement/TransportBidPlan/Details/5
 
@@ -155,11 +173,11 @@ namespace Cats.Areas.Procurement.Controllers
         public Dictionary<string, TransportBidPlanDetail> organizeList(List<TransportBidPlanDetail> bidList)
         {
             System.Collections.Generic.Dictionary<string, TransportBidPlanDetail> ret = new Dictionary<string, TransportBidPlanDetail>();
-            
-            foreach(var i in bidList)
+
+            foreach (var i in bidList)
             {
-                string hash=i.BidPlanID + "_" + i.ProgramID + "_" + i.SourceID + "_" + i.DestinationID;
-                ret.Add (hash,i);// = i;
+                string hash = i.BidPlanID + "_" + i.ProgramID + "_" + i.SourceID + "_" + i.DestinationID;
+                ret.Add(hash, i);// = i;
             }
             return ret;
         }
@@ -169,10 +187,10 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult WarehouseSelection(int id = 0)
         {
             TransportBidPlan transportbidplan = fetchFromDB(id);
-            List<TransportBidPlanDetail> bidDetails=_transportBidPlanDetailService.GetAllTransportBidPlanDetail();
+            List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.GetAllTransportBidPlanDetail();
             Dictionary<string, TransportBidPlanDetail> matrix = organizeList(bidDetails);
 
-            ViewBag.RegionCollection =_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+            ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             ViewBag.bidPlan = transportbidplan;
             ViewBag.HubCollection = this._hubService.GetAllHub();
             ViewBag.ProgramCollection = this._programService.GetAllProgram();
@@ -189,11 +207,11 @@ namespace Cats.Areas.Procurement.Controllers
             List<RegionTotalViewModel> ret = new List<RegionTotalViewModel>();
             List<Program> ProgramCollection = this._programService.GetAllProgram();
             List<AdminUnit> RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            foreach(var r in RegionCollection)
+            foreach (var r in RegionCollection)
             {
                 foreach (var p in ProgramCollection)
                 {
-                    double amount = this._transportBidPlanDetailService.GetRegionPlanTotal(bidplanid,r.AdminUnitID, p.ProgramID);
+                    double amount = this._transportBidPlanDetailService.GetRegionPlanTotal(bidplanid, r.AdminUnitID, p.ProgramID);
                     RegionTotalViewModel rt = new RegionTotalViewModel { Program = p, Region = r, Amount = amount };
                     ret.Add(rt);
                 }
@@ -203,7 +221,7 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost]
         public ActionResult EditAJAX(TransportBidPlanDetail transportbidplan)
         {
-            
+
             if (ModelState.IsValid)
             {
                 if (transportbidplan.TransportBidPlanDetailID == 0)
@@ -239,7 +257,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return View(transportbidplan);
             //loadLookups(transportbidplan);
-           // return View(transportbidplan);
+            // return View(transportbidplan);
         }
     }
 }

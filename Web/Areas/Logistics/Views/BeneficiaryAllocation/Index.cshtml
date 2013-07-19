@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Cats.Models.ViewModels.BeneficiaryAllocation>
+﻿@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+
 
 @{
     ViewBag.Title = "Index";
@@ -10,7 +12,9 @@
 
 @section LeftBar
 {
-    @using (Html.BeginForm())
+   
+}
+@*@using (Html.BeginForm())
     {
         <div class="control-group">
             <label class="control-label">Region</label>
@@ -23,7 +27,7 @@
             <label class="control-label">Zone</label>
             <div class="controls">
                  <select id="FilterZone" name="FilterZone"></select>
-                @*    @Html.DropDownList("ZoneID", String.Empty)*@
+             
             </div>
         </div>
         <div class="control-group">
@@ -38,10 +42,36 @@
                 <input type="submit" value="Filter" class="btn btn-primary" />
             </div>
         </div> 
-    }
-}
- @Html.ActionLink("Print", "Print", new { id = Model.FirstOrDefault().RegionID}, new {target="_blank"})
-<table class="table table-condensed table-bordered table-striped">
+    }*@
+
+@(Html.Kendo().Grid<BeneficiaryAllocation>()
+      .Name("grid")
+      .DataSource(dataSource => dataSource 
+                                    .Ajax() 
+                                    .Read(read => read.Action("BeneficiaryAllocations_Read", "BeneficiaryAllocation")) 
+      )
+      .Columns(columns =>
+                   {
+                       columns.Bound(allocation => allocation.Commodity);
+                       columns.Bound(allocation => allocation.RequisitionNo);
+                       columns.Bound(allocation => allocation.Donor);
+                       columns.Bound(allocation => allocation.BeneficiaryNo);
+                       columns.Bound(allocation => allocation.Amount);
+                       columns.Bound(allocation => allocation.Region);
+                       columns.Bound(allocation => allocation.Zone);
+                       columns.Bound(allocation => allocation.Woreda);
+                       columns.Bound(allocation => allocation.FDP);
+                       
+                   })
+      .Pageable() 
+      .Sortable()
+      .ToolBar(t=>t.Template(  @<text>
+
+  <a  class="btn-small" target="_blank" href="@Url.Action("Print", "BeneficiaryAllocation", new { Area = "Logistics"})"><i class="icon-print"></i></a>
+</text>)))
+      
+
+@*<table class="table table-condensed table-bordered table-striped">
 
     <tr>
 
@@ -126,8 +156,10 @@
         </tr>
     }
 
-</table>
-@Scripts.Render("~/bundles/jquery")
+</table>*@
+
+
+@*@Scripts.Render("~/bundles/jquery")
 <script type="text/jscript">
     $(function () {
         $('#RegionID').change(function () {
@@ -140,4 +172,4 @@
             });
         });
     });
-</script>
+</script>*@

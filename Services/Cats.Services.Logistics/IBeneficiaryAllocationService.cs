@@ -12,7 +12,7 @@ namespace Cats.Services.Logistics
    public interface IBeneficiaryAllocationService
    {
 
-       List<BeneficiaryAllocation> GetBenficiaryAllocation(Expression<Func<BeneficiaryAllocation,bool>> predicate=null);
+       IEnumerable<BeneficiaryAllocation> GetBenficiaryAllocation(Expression<Func<BeneficiaryAllocation, bool>> predicate = null);
 
    }
 }

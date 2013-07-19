@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Cats.Procurement.Models
 {
-    public class Transporter
+    public class TransporterPOCO
     {
-        public Transporter()
+        public TransporterPOCO()
         {
             this.Name = "Transporter1";
         }
