@@ -1,4 +1,5 @@
-﻿@model Cats.Models.TransportOrder
+﻿@using Kendo.Mvc.UI
+@model Cats.Models.TransportOrder
 
 @{
     ViewBag.Title = "Edit";
@@ -38,6 +39,36 @@
 <div class="well">
     <h2 class="page-header">Transport Requisitions Winner by Transporter</h2>
 </div>
+
+
+@(Html.Kendo().Grid<Cats.Models.TransportOrderDetail>()
+.Name("Bid").Columns(columns =>
+         {
+            columns.Bound(p => p.ReliefRequisition.RequisitionNo).Title("Requisition Number");
+            columns.Bound(p => p.Hub.Name).Title("Warehouse");
+            columns.Bound(p => p.FDP.AdminUnit.AdminUnit2.Name).Title("Zone");
+            columns.Bound(p => p.FDP.AdminUnit.Name).Title("Woreda");
+            columns.Bound(p => p.FDP.AdminUnit.Name).Title("Destinaiton");
+            columns.Bound(p => p.Commodity.Name).Title("Item");
+            columns.Bound(p => p.QuantityQtl).Title("Quantity in MT");
+            columns.Bound(p => p.TariffPerQtl).Title("Tariff");
+                                                                  
+            columns.Command(command => command.Edit()).Width(200);
+
+          })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .DataSource(datasource=>datasource
+      .Server()
+      .Model(model=>model.Id(p=>p.TransportOrderDetailID))
+      .Read(read => read.Action("Edit", "Bid"))
+      .Update(update=>update.Action("Edit","Bid"))
+      )
+      
+)
+
 
 @using (Html.BeginForm("Details", "DispatchLocations", FormMethod.Post))
 {
