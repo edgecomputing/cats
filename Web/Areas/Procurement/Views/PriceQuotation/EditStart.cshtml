@@ -1,41 +1,69 @@
-﻿@{
-  @* @model Cats.Models.TransportBidPlan
-  *@
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
-}
+﻿    @using Kendo.Mvc.UI
+    @using Cats.Areas.Procurement.Models
+    @model IEnumerable<PriceQuotationDetailViewModel>
 
-@section LeftBar
-{
-    @using (Html.BeginForm("EditStart","PriceQuotation",FormMethod.Post))
-    {
-        <div class="control-group">
-            <label class="control-label">Bid</label>
-            <div class="controls">
-               
-                @Html.DropDownList("BidPlanID",String.Empty)
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Region</label>
-            <div class="controls">
-             
-                @Html.DropDownList("RegionID")
-                
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Transporter</label>
-            <div class="controls">
-             
-                @Html.DropDownList("TransporterID")
-                
-            </div>
-        </div>
-        
-        <input type="submit" value="Select" class="btn btn-primary"/>
+    @{
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
     }
-}
+    @section LeftBar
+    {
+       @Html.Partial("_BidSelectionPartial")
+    }
+
+
+
+<p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
+<p>Transporter : <b>@ViewBag.SelectedTransporter.Name <!--@ViewBag.SelectedTransporter.TransporterID--></b> </p>
+<p>Bid : <b>@ViewBag.SelectedBid.BidNumber <!-- @ViewBag.SelectedBid.BidID--></b> </p>
+@(Html.Kendo().Grid<PriceQuotationDetailViewModel>()
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.SourceName) .Width(130);
+        columns.Bound(p => p.DestinationZone).Width(130);
+        columns.Bound(p => p.DestinationName).Width(130);
+        columns.Bound(p => p.Tariff).Width(130);
+       /* columns.Command(command =>
+        {
+            command.Edit();
+            command.Destroy();
+        });*/
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable(scr=>scr.Height(430)) 
+    .Filterable()    
+    .DataSource(dataSource => dataSource     
+        .Ajax()
+        .Model(model => model.Id(p => p.QuotationID))
+        .PageSize(30)
+        .Sort(st => {
+
+            st.Add(m => m.SourceName).Descending();
+            st.Add(m => m.DestinationZone).Descending(); 
+            })
+        .Read(read => read.Action("ReadAjax", "PriceQuotation"))
+        .Destroy(update => update.Action("DeleteAjax", "PriceQuotation"))
+        //.Update(update => update.Action("EditingInline_Update", "Transporter"))
+        //.Create(update => update.Action("EditingInline_Create", "Transporter"))
+        
+        .Update(update => update.Action("EditAjax", "PriceQuotation"))
+        .Create(update => update.Action("CreateAjax", "PriceQuotation")) 
+     )
+)
+ <script type="text/x-kendo-template" id="template">
+    <div id="details-container">
+        <h2>#= Name # #= Region #</h2>
+        <em>#= SubCity #</em>
+        <dl>
+            <dt>Capital: #= Capital #</dt>
+            <dt>Employees: #= EmployeeCountMale #</dt>
+            <dt>Edit: @Html.ActionLink("Edit", "Edit",1) </dt>
+      
+        </dl>
+    </div>
+</script>
+
 
 <style>
      th
@@ -66,72 +94,8 @@
         width:20px;
     }
 </style>
-<p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
-<p>Transporter : <b>@ViewBag.SelectedTransporter.Name <!--@ViewBag.SelectedTransporter.TransporterID--></b> </p
-<p>Bid : <b>@ViewBag.SelectedBid.BidNumber <!-- @ViewBag.SelectedBid.BidID--></b> </p>
 
-@{
-    string filterHash = ViewBag.SelectedBid.BidID + "_" + ViewBag.SelectedTransporter.TransporterID + "_";
 
-    var transporterQuoteDictionary = ViewBag.transporterQuoteHash;
-    foreach (var i in transporterQuoteDictionary.Values)
-    {
-       <!-- <div>@i</div>-->
-    }
-
-}
-<div class="span12">&nbsp;</div>
- <div id="div_form_template" style="display:none;">
- @using (Html.BeginForm("Edit", "PriceQuotation", FormMethod.Post))
- {
-     
-        <div class="controls">
-            
-            
-            
-            
-            
-            <div style="display:none;">
-            <label class="control-label"> Transporter ID </label><input class="input-large field" data-type="input" type="text" name="TransporterID" id="TransporterID_0" value="@ViewBag.SelectedTransporter.TransporterID">
-            <label class="control-label"> Bid ID </label><input class="input-large field" data-type="input" type="text" name="BidID" id="BidID_0" value=" @ViewBag.SelectedBid.BidID">
-
-            </div>
-            
-            <label class="control-label"> Source ID </label><input class="input-large field" data-type="input" type="text" name="SourceID" id="SourceID_0" value="">
-            <label class="control-label"> DestinationID </label><input class="input-large field" data-type="input" type="text" name="DestinationID" id="DestinationID_0" value="">
-            <label class="control-label"> Tariff </label><input class="input-large field" data-type="input" type="text" name="Tariff" id="Tariff_0" value="">
-            <label class="control-label"> Remark </label><input class="input-large field" data-type="input" type="text" name="Remark" id="Remark_0" value="">
-            <label class="control-label"> IsWinner </label><input class="input-large field" data-type="input" type="text" name="IsWinner" id="IsWinner_0" value="">
-            <label class="control-label"> Position </label><input class="input-large field" data-type="input" type="text" name="Position" id="Position_0" value="">
-            
-            <label class="control-label"> Nationality </label>
-                <select class="field" data-type="select" id="inputsize">
-
-                  <option value="input-mini">Mini</option>
-
-                  <option value="input-small">Small</option>
-
-                  <option value="input-medium">Medium</option>
-
-                  <option value="input-large">Large</option>
-
-                  <option value="input-xlarge" selected="">Xlarge</option>
-
-                  <option value="input-xxlarge">Xxlarge</option>
-
-                </select>
-           <label class="checkbox control-group">
-                <input type="checkbox" data-type="checkbox" class="input-inline field" name="required" id="required">
-                 Required
-            </label>
-            <hr>
-            <input type="submit" value="Save" id="button_save" class="btn btn-primary "/>
-            <input type="button" value="Cancel" id="Button_cancel" class="btn"/>
-            
-  </div>
-     
- }
-     </div>
 <table class="table table-bordered matrix table-hover table-striped">
     <tr>
         <th rowspan="2">S.No</th>
@@ -151,40 +115,24 @@
 
  @{
      var count = 0;
-     foreach (var item in ViewBag.regionPlanDistinct)
+     foreach (PriceQuotationDetailViewModel item in Model)
      {
-         string rowHash = filterHash + item.SourceWarehouse.HubId + "_" + item.DestinationWoreda.AdminUnitID;
-         string tarrif = "";
-         string Remark = "";
-         string IsWinnerChk = "";
-         string Position = "";
-
-         if (transporterQuoteDictionary.ContainsKey(rowHash))
-         {
-             var transporterQuote = transporterQuoteDictionary[rowHash];
-             tarrif = "" + transporterQuote.Tariff;
-             Remark = "" + transporterQuote.Remark;
-             IsWinnerChk = transporterQuote.IsWinner ? "checked=\"checked\"" : "";
-             Position = "" + transporterQuote.Position;
-         }
-
-
+        
          count++;
-        
+
+         var save_fn = "save_entry(" + count + ")";
     <tr>
-        <td><!--@rowHash--> @count</td>
-        <td>@item.SourceWarehouse.Name <input type="hidden" id="SourceID_@count" value="@item.SourceWarehouse.HubId"/></td>
-        
-        
-        <td> @item.DestinationZone</td>
-        <td> @item.DestinationWoreda.Name <input type="hidden" id="DestinationID_@count" value="@item.DestinationWoreda.AdminUnitID"/></td>
+        <td>@count</td>
+        <td>@item.SourceName - @item.SourceID <input type="hidden" id="SourceID_@count" value="@item.SourceID"/></td>
+        <td>@item.DestinationZone </td>
+        <td>@item.DestinationName  -@item.DestinationID<input type="hidden" id="DestinationID_@count" value="@item.DestinationID"/></td>
 
         
-        <td><input id="Tariff_@count"  value="@tarrif" /></td>
-        <td><input id="Remark_@count"  value="@Remark" /></td>
-        <td>&nbsp;<input  id="IsWinner_@count" type="checkbox" @IsWinnerChk/></td>    
-        <td><input id="Position_@count"  value="@Position" /></td>
-        <td><input type="button"  value="Save" onclick="save_entry(@count)" class="btn btn-primary " /></td>
+        <td><input id="Tariff_@count"  value="@item.Tariff" /></td>
+        <td><input id="Remark_@count"  value="@item.Remark" /></td>
+        <td>&nbsp;<input  id="IsWinner_@count" type="checkbox" /></td>    
+        <td><input id="Position_@count"  value="" /></td>
+        <td><input type="button"  value="Save" onclick="@save_fn" class="btn btn-primary " /></td>
     </tr>
 }
 }

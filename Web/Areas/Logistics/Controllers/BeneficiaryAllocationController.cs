@@ -4,8 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Infrastructure;
+using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -24,18 +27,28 @@ namespace Cats.Areas.Logistics.Controllers
         }
         //
         // GET: /Logistics/BeneficiaryAllocation/
-        [HttpGet]
         public ActionResult Index()
         {
-          //  var region = _adminUnitService.GetRegions().FirstOrDefault();
 
-            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");//, region != null ? region.AdminUnitID.ToString() : string.Empty);
-
-
-         //   ViewBag.ZoneID = new SelectList(_adminUnitService.GetZones(2), "AdminUnitID", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             ViewBag.RequisitionID = new SelectList(_reliefRequisitionService.Get(t => t.Status == 4).ToList(), "RequisitionID", "RequisitionNo");
-            var beneficiaryAllocation = _beneficiaryAllocationService.GetBenficiaryAllocation();
-            return View(beneficiaryAllocation.ToList());
+            return View();
+        }
+      
+        public JsonResult BeneficiaryAllocations_Read([DataSourceRequest]DataSourceRequest request)
+
+        {
+          
+            IQueryable<BeneficiaryAllocation> beneficiaryAllocation = _beneficiaryAllocationService.GetBenficiaryAllocation().AsQueryable();
+
+
+
+
+            DataSourceResult result = beneficiaryAllocation.ToDataSourceResult(request);
+            return Json(result, JsonRequestBehavior.AllowGet);
+            
+
+           
         }
         [HttpPost]
         public ActionResult Index(int RegionID, int FilterZone, int RequisitionID=0)
@@ -55,10 +68,10 @@ namespace Cats.Areas.Logistics.Controllers
 
             return Json(new SelectList(zones.ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
-        public FileResult Print(int id)
+        public FileResult Print()
         {
             var reportPath = Server.MapPath("~/Report/EarlyWarning/RRDDetail.rdlc");
-            var reportData = _beneficiaryAllocationService.GetBenficiaryAllocation(t=>t.RegionID==id);
+            var reportData = _beneficiaryAllocationService.GetBenficiaryAllocation().ToList();
             var dataSourceName = "RRDDetail";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 

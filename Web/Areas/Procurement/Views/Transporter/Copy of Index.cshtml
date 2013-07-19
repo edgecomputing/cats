@@ -27,7 +27,7 @@
             command.Destroy(); }).Width(172);
     })
     .ToolBar(toolbar => toolbar.Create())
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+  //  .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
     .Sortable()
     .Scrollable()
@@ -89,7 +89,7 @@
 
         wnd.content(detailsTemplate(dataItem));
         wnd.center().open();
-        window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
+        window.location = "/Procurement/Transporter/Edit/" + dataItem.data.TransporterID
     }
 </script>
 <!--

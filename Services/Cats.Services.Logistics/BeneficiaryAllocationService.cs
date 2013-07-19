@@ -17,7 +17,7 @@ namespace Cats.Services.Logistics
         {
             this._unitOfWork = unitOfWork;
         }
-        public List<BeneficiaryAllocation> GetBenficiaryAllocation(Expression<Func<BeneficiaryAllocation, bool>> predicate = null)
+        public IEnumerable<BeneficiaryAllocation> GetBenficiaryAllocation(Expression<Func<BeneficiaryAllocation, bool>> predicate = null)
         {
             //TODO:When status implemented 4 means hub and project code assigned
             var requsitions = _unitOfWork.ReliefRequisitionDetailRepository.Get(t => t.ReliefRequisition.Status == 4).ToList();
@@ -54,7 +54,7 @@ namespace Cats.Services.Logistics
             {
                 query = query.Where(predicate);
             }
-            return query.ToList();
+            return query;
 
         }
     }

@@ -16,17 +16,17 @@ namespace Cats.Models.Mapping
 
             //this.Property(t => t.RegionID).HasColumnName("RegionID");
 
-            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
+           // this.Property(t => t.ProgramID).HasColumnName("ProgramID");
            
 
             // Relationships
-            this.HasRequired(t => t.Program)
-                .WithMany(t => t.TransportBidPlans)
-                .HasForeignKey(d => d.ProgramID);
+            /*   this.HasRequired(t => t.Program)
+                  .WithMany(t => t.TransportBidPlans)
+                  .HasForeignKey(d => d.ProgramID);
 
-          /*  this.HasRequired(t => t.Region)
-                .WithMany(t => t.TransportBidPlans)
-                .HasForeignKey(d => d.RegionID);*/
+             this.HasRequired(t => t.Region)
+                  .WithMany(t => t.TransportBidPlans)
+                  .HasForeignKey(d => d.RegionID);*/
            // this.Property(t => t.Region).HasColumnName("Region");
 
           //  this.Property(t => t.Program).HasColumnName("Program");

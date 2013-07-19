@@ -18,5 +18,12 @@ namespace Cats.Areas.Logistics.Models
         public string Hub { get; set; }
         public int HubId { get; set; }
 
+        public int Beneficiaries { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Fdp { get; set; }
+
+        public bool Selected { get; set; }
+
+
     }
 }
