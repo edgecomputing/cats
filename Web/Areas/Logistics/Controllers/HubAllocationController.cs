@@ -38,7 +38,7 @@ namespace Cats.Areas.Logistics.Controllers
 
     
       
-
+      
 
         public ActionResult AssignHub()
         {
