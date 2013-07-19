@@ -182,12 +182,12 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("Edit", "Bid", new {id = bidId});
         }
 
-        //public ViewResult Details(int id=0)
-        //{
-        //    Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
-        //    ViewBag.BidStatus = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
-        //    ViewData["BidDetails"] = bid;
-        //    return View(bid);
+        public ViewResult Details(int id=0)
+        {
+            Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
+            ViewBag.BidStatus = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
+            ViewData["BidDetails"] = bid;
+            return View(bid);
 
             //var viewModel = new BidViewModel();
             //var bid = _bidService.FindById(id);
@@ -206,8 +206,8 @@ namespace Cats.Areas.Procurement.Controllers
             //viewModel.EndDate = bid.EndDate;
             //viewModel.BidDetails = bidDetails;
             //return View((viewModel);
-            
-        //}
+
+        }
         public ActionResult EditBidStatus(int id)
         {
             Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
