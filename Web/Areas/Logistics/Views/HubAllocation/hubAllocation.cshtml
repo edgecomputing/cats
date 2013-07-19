@@ -109,7 +109,9 @@
                        <th>
                            @Html.Label("Beneficiaries")
                        </th>
-                       <th></th>
+                       <th>
+                             @Html.Label("Requisition ID")
+                       </th>
         
                    </tr>
     
@@ -165,7 +167,7 @@
             
                            </td>
                            <td>
-            
+                               @Html.DisplayFor(m => m[i].RequisitionId)
                                @Html.HiddenFor(m => m[i].RequisitionId)
             
                            </td>
