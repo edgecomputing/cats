@@ -7,6 +7,12 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.Procurement;
+using System.Web.Mvc;
+
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Cats.Procurement.Models;
+
 namespace Cats.Areas.Procurement.Controllers
 {
     public class TransporterController : Controller
@@ -16,14 +22,81 @@ namespace Cats.Areas.Procurement.Controllers
         {
             this.transportService = transportServiceParam;
         }
+
+        public TransporterPOCO ToPOCO(Cats.Models.Transporter tm)
+        {
+            TransporterPOCO tp= new TransporterPOCO{TransporterID=tm.TransporterID,Name=tm.Name,Region=tm.Region,Zone=tm.Zone
+                                                    ,SubCity=tm.SubCity    
+                                                   ,Woreda=tm.Woreda,Kebele=tm.Kebele,HouseNo=tm.HouseNo,TelephoneNo=tm.TelephoneNo
+                                                    ,MobileNo=tm.MobileNo,Ownership=tm.Ownership,VehicleCount=tm.VehicleCount,LiftCapacityFrom=tm.LiftCapacityFrom
+                                                    ,Capital=tm.Capital, EmployeeCountMale=tm.EmployeeCountMale,EmployeeCountFemale=tm.EmployeeCountFemale
+                                                    ,OwnerName=tm.OwnerName, OwnerMobile=tm.OwnerMobile  ,ManagerName=tm.ManagerName
+                                                    ,ManagerMobile=tm.ManagerMobile
+                                                    //, ExperienceFrom=tm.ExperienceFrom  ,ExperienceTo=tm.ExperienceTo
+                                                    };
+            
        
+            return tp;
+            
+        }
+        public IEnumerable<TransporterPOCO> toPOCOList(IEnumerable<Cats.Models.Transporter> list)
+        {
+            List<TransporterPOCO> listpoco = new List<TransporterPOCO>();
+            foreach (Transporter i in list)
+            {
+                listpoco.Add(ToPOCO(i));
+            }
+            return listpoco.ToList();
+        }
+        public ActionResult Distinct_Regions()
+        {
+            return Json(transportService.GetAllTransporter().Select(e => e.Region).Distinct(), JsonRequestBehavior.AllowGet);
+            //return Json(db.Employees.Select(e => e.Title).Distinct(), JsonRequestBehavior.AllowGet);
+        } 
+        public ActionResult Filter_Name([DataSourceRequest] DataSourceRequest request)
+        {
+            //JsonRequestBehavior.AllowGet ;
+            IEnumerable<TransporterPOCO> listpoco = toPOCOList(transportService.GetAllTransporter());
+            return Json(listpoco.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            //JsonRequestBehavior.AllowGet ;
+            IEnumerable<TransporterPOCO> listpoco = toPOCOList(transportService.GetAllTransporter());
+            return Json(listpoco.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+       
+        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, Transporter transporter)
+        {
+            transportService.EditTransporter(transporter);
+            return Json(ModelState.ToDataSourceResult(), JsonRequestBehavior.AllowGet);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Create([DataSourceRequest] DataSourceRequest request, Transporter transporter)
+        {
+            if (transporter != null && ModelState.IsValid)
+            {
+                transportService.AddTransporter(transporter);
+            }
+
+            return Json(new[] { transporter }.ToDataSourceResult(request, ModelState));
+        }
+
+        
         //
         // GET: /Procurement/Transporter/
 
-        public ActionResult Index()
+        public ActionResult Index([DataSourceRequest] DataSourceRequest request)
         {
-            List<Cats.Models.Transporter> list = transportService.GetAllTransporter();
-            return View(list);
+//            IEnumerable<Cats.Models.Transporter> list = (IEnumerable<Cats.Models.Transporter>)transportService.GetAllTransporter().ToDataSourceResult(request);
+            IEnumerable<Cats.Models.Transporter> list = (IEnumerable<Cats.Models.Transporter>)transportService.GetAllTransporter();
+            List<TransporterPOCO> listpoco = new List<TransporterPOCO>();
+            foreach (Transporter i in list)
+            {
+                listpoco.Add(ToPOCO(i));
+            }
+            return View(listpoco);
         }
       
         //
@@ -128,6 +201,19 @@ namespace Cats.Areas.Procurement.Controllers
                          transportService.DeleteTransporter(transporter);
                          return RedirectToAction("Index");
                      }
+
+                    
+                     public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, Transporter transporter)
+                     {
+                         if (transporter != null)
+                         {
+                             transportService.DeleteById(transporter.TransporterID);
+                             transportService.DeleteTransporter(transporter);
+                         }
+
+                         return Json(ModelState.ToDataSourceResult());
+                     }
+
                      /*  */
         protected override void Dispose(bool disposing)
         {

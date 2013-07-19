@@ -163,6 +163,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\Copy of PriceQuotationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\PriceQuotationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
@@ -179,7 +180,8 @@
     <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
     <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
-    <Compile Include="Areas\Procurement\Models\Transporter.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportBidPlanViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransporterPOCO.cs" />
     <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
@@ -542,6 +544,9 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Approve.cshtml" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.woff" />
+    <Content Include="Areas\Procurement\Views\Transporter\Copy of Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
