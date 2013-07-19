@@ -1,7 +1,7 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
-
+@model IEnumerable<RegionalRequestViewModel>
 
 
 @{
@@ -41,7 +41,7 @@
     }
 @Html.ActionLink("New","New","Request")
 
-@(Html.Kendo().Grid((IEnumerable<RegionalRequestViewModel>)ViewBag.RegionalRequests).Name("requestgrid")
+@(Html.Kendo().Grid(Model).Name("requestgrid")
 .Columns(columns =>
              {
                  columns.Bound(request => request.ReferenceNumber);
@@ -50,6 +50,16 @@
                  columns.Bound(request => request.Round);
                  columns.Bound(request => request.Region);
                  columns.Bound(reqquest => reqquest.Year);
-                 columns.Bound(request => request.Status);
+                 columns.Bound(request => request.Status) .Template(
+               
+                     
+                     @<text>
+@if(item.StatusID==(int)RegionalRequestStatus.Draft){
+@Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })}else
+{
+    @item.Status 
+}
+</text>);
 
-             }).Sortable().Pageable())
+
+             }).Pageable())

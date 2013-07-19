@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.RequestDetailEdit>
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+@model IEnumerable<RegionalRequestDetail>
 
 @{
     ViewBag.Title = "Edit";
@@ -21,80 +23,38 @@
 </div>
 
 
-@using (Html.BeginForm("Edit", "Request", FormMethod.Post))
-{
-    <table class="table table-bordered table-condensed table-striped">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Zone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wereda)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fdp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Beneficiaries)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Grain)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pulse)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Oil)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CSB)
-            </th>
-            <th></th>
-        </tr>
-        @{ int index = 0; }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td style="width: 100px">
-                    @item.Zone
-                </td>
-                <td>
-                    @item.Wereda
-                </td>
-                <td>
-                    @item.Fdp
-                </td>
+@(Html.Kendo().Grid<RegionalRequestDetail>().Name("Request").Columns(columns =>
+                                                                             {
+                                                                                 columns.Bound(detail => detail.Fdpid);
+                                                                                 columns.Bound(detail => detail.Beneficiaries);
+                                                                                 columns.Bound(detail => detail.Grain);
+                                                                                 columns.Bound(detail => detail.Pulse);
+                                                                                 columns.Bound(detail => detail.CSB);
+                                                                                 columns.Bound(detail => detail.Oil);
+                                                                                 columns.Command(command => command.Edit()).Width(200);
 
-
-                <td>
-                    @Html.TextBox("input[" + index + "].Beneficiaries", item.Input.Beneficiaries, new { @style = "width:80%;border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].Grain", item.Input.Grain, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].Pulse", item.Input.Pulse, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].Oil", item.Input.Oil, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    @Html.TextBox("input[" + index + "].CSB", item.Input.CSB, new { @style = "width:80%; border:none; !important;" })
-                </td>
-                <td>
-                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
-                </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})*@
-                </td>
-            </tr>
-            index++;
+                                                                             })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .DataSource(datasource=>datasource
+      .Server()
+      .Model(model=>model.Id(r=>r.RegionalRequestDetailID))
+      .Read(read => read.Action("Edit", "Request"))
+      .Update(update=>update.Action("Edit","Request"))
+      )
+      
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
         }
-
-    </table>
-    <p>
-        <input class="btn btn-success" type="submit" value="Submit Request" />
-    </p>
-}
+    }
+</script>

@@ -11,6 +11,8 @@
 
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    
+
     <link href="~/Content/Site.css" rel="stylesheet" />
      <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-1.9.1.js"></script>
@@ -57,7 +59,7 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li><a href="~/">Home</a></li>
-                        <li><a href="#">HRD</a></li>
+                        <li><a href="@Url.Action("Create","HRD",new {Area ="EarlyWarning"})">HRD</a></li>
                         <li><a href="@Url.Action("TransportOrder", "TransportOrder", new { Area = "Procurement" })">Dashboard</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Request<b class="caret"></b></a>
@@ -175,7 +177,10 @@
     <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
     <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
     <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
-     
+    
+    <script src="~/Content/assets/js/jquery.validate.min.js"></script>
+    <script src="~/Content/assets/js/jquery.validate.js"></script>
+
     @{
         var calendarPerference = 1;
         if (calendarPerference == 2)

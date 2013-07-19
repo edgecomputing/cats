@@ -3,183 +3,197 @@
 @{
     ViewBag.Title = "Allocate Hub";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+     
 }
-  
+<script>
+    $(document).ready(function(){
+ 
+        $('#frmHub').validate(
+            {
+                rules: {
+                    datepicker: {
+                        required: true
+                    },
+                    rNumber: {
+                        required: true,
+                       
+                    }  
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function(element) {
+                    element
+                        .text('OK!').addClass('valid')
+                        .closest('.control-group').removeClass('error').addClass('success');
+                }
+            });
+    }); // end document.ready
+      </script>
 
 <h2>Allocate Hub</h2>
 
-@section LeftBar
-{
-    @using (Html.BeginForm())
-    {
-        <div class="control-group">
-            <label class="control-label">Year</label>
-            <div class="controls">
-                @Html.Label("Year")
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Month</label>
-            <div class="controls">
-                @Html.Label("month")
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="controls">
-                
-            </div>
-        </div> 
-    }
-
-}
 
 
-   @using (Html.BeginForm("InserRequisition", "HubAllocation", FormMethod.Post, Model))
-    {
-<div>
-        <fieldset>
-	        <legend>Hub Allocation</legend>
-        </fieldset>
-	    <div class="well">
-	      
-        
-	        
-            <div class="control-group">
-	            <label class="control-label">Date</label>
-	            <div class="controls">
-	                <div class="input-prepend">
-	               <span class="add-on"><i class="icon-th"></i></span>
-	                    <input type="text" class="cats-datepicker" id="datepicker" name="datepicker"  >
-                        @Html.ValidationMessage("datepicker")
-	                </div>
-	            </div>
-	        </div>
-	        <div class="control-group ">
-	            <label class="control-label">Allocation reference No</label>
-	            <div class="controls">
-                <div class="input-prepend">
-	                 <span class="add-on"><i class="icon-th"></i></span>
-	                    <input type="text" class="small" id="rNumber" name="rNumber" placeholder="Reference Number">
-                      @Html.ValidationMessage("rNumber")
-	                </div>
-	            </div>
-	        </div>
-	        <div class="control-group">
-	            <label class="control-label">Hubs</label>
-	            <div class="controls">
-	                <div class="input-prepend">
-                    @Html.Hidden("Selected")
-                    @Html.DropDownList("hub",ViewBag.Hubs as SelectList,"Select a hub",new {id="HubId"})
-	              
+
+   @using (Html.BeginForm("InserRequisition", "HubAllocation", FormMethod.Post, new {name = "frmHub", id = "frmHub"}))
+   {
+       <div>
+           <fieldset>
+               <legend>Hub Allocation</legend>
+           </fieldset>
+	    
+           <div class="control-group">
+               <label class="control-label">Allocation Date</label>
+               <div class="controls">
+                   <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
                </div>
-            </div>
-        </div>
+           </div>
+           <div class="control-group ">
+               <label class="control-label">Allocation Reference No</label>
+               <div class="controls">
+                   <input type="text" class="input-xlarge" id="rNumber" name="rNumber" placeholder="Reference Number">
+               </div>
+           </div>
+           <div class="control-group">
+               <label class="control-label">Hubs</label>
+               <div class="controls">
+	                
+                   @Html.Hidden("Selected")
+                   @Html.DropDownList("hub", ViewBag.Hubs as SelectList, "Select a hub", new {id = "HubId"})
+	              
+               
+               </div>
+           </div>
     
-    </div>
- </div>
+   
+       </div>
 
 
-<table class="table table-striped table-bordered">
-    <tr>
+
+
+       <script>
+           $(document).ready(function() {
+               $("#kGrid").kendoGrid({
+                   pageable: true,
+                   sortable: {
+                       
+                   },
+               });
+           });
+       </script>
+
+       <div  class="k-content">  
+           <table id="kGrid">
+               <thead>
+                   <tr>
         
-        <td>
-            @Html.Label("Commodity")
-        </td>
-        <td>
-            @Html.Label("Region")
-        </td>
-        <td>
-            @Html.Label("Zone")
-        </td>
+                       <th>
+                           @Html.Label("Commodity")
+                       </th>
+                       <th>
+                           @Html.Label("Region")
+                       </th>
+                       <th>
+                           @Html.Label("Zone")
+                       </th>
         
-        <td>
-            @Html.Label("ReqNo")
-        </td>
+                       <th>
+                           @Html.Label("ReqNo")
+                       </th>
        
-        <td>
-            @Html.Label("ReqDate")
-        </td>
-        <td>
-            @Html.Label("Amount")
-        </td>
-        <td>
-            @Html.Label("Beneficiaries")
-        </td>
-       
+                       <th>
+                           @Html.Label("ReqDate")
+                       </th>
+                       <th>
+                           @Html.Label("Amount")
+                       </th>
+                       <th>
+                           @Html.Label("Beneficiaries")
+                       </th>
+                       <th>
+                             @Html.Label("Requisition ID")
+                       </th>
         
-    </tr>
+                   </tr>
     
-  
- @{int index = 0;}
-    @for(int i = 0;i < Model.Count;i++)
- {
-    <tr>
+               </thead>
+
+               @for (var i = 0; i < Model.Count; i++)
+               {
+                   <tbody>
+                       <tr>
        
-        <td>
-            @Html.DisplayFor(m=>m[i].Commodity)
-            @Html.HiddenFor(m=>m[i].Commodity)
+                           <td>
+                               @Html.DisplayFor(m => m[i].Commodity)
+                               @Html.HiddenFor(m => m[i].Commodity)
             
-        </td>
+                           </td>
         
-         <td>
-            @Html.DisplayFor(m=>m[i].Region)
-            @Html.HiddenFor(m=>m[i].Region)
+                           <td>
+                               @Html.DisplayFor(m => m[i].Region)
+                               @Html.HiddenFor(m => m[i].Region)
             
-        </td>
+                           </td>
         
-           <td>
-            @Html.DisplayFor(m=>m[i].Zone)
-            @Html.HiddenFor(m=>m[i].Zone)
+                           <td>
+                               @Html.DisplayFor(m => m[i].Zone)
+                               @Html.HiddenFor(m => m[i].Zone)
             
-        </td>
+                           </td>
         
         
          
         
-        <td>
+                           <td>
            
-            @Html.DisplayFor(m=>m[i].RequisitionNo)
-            @Html.HiddenFor(m=>m[i].RequisitionNo)
+                               @Html.DisplayFor(m => m[i].RequisitionNo)
+                               @Html.HiddenFor(m => m[i].RequisitionNo)
             
-        </td>
+                           </td>
         
         
-            <td>
-            @Html.DisplayFor(m=>m[i].RequisitionDate)
-            @Html.HiddenFor(m=>m[i].RequisitionDate)
+                           <td>
+                               @Html.DisplayFor(m => m[i].RequisitionDate)
+                               @Html.HiddenFor(m => m[i].RequisitionDate)
             
-        </td>
-         <td>
-            @Html.DisplayFor(m=>m[i].Amount)
-            @Html.HiddenFor(m=>m[i].Amount)
+                           </td>
+                           <td>
+                               @Html.DisplayFor(m => m[i].Amount)
+                               @Html.HiddenFor(m => m[i].Amount)
             
-        </td>
-          <td>
-            @Html.DisplayFor(m=>m[i].BenficiaryNo)
-            @Html.HiddenFor(m=>m[i].BenficiaryNo)
+                           </td>
+                           <td>
+                               @Html.DisplayFor(m => m[i].BenficiaryNo)
+                               @Html.HiddenFor(m => m[i].BenficiaryNo)
             
-        </td>
-        <td>
-            @Html.DisplayFor(m=>m[i].RequisitionId)
-            @Html.HiddenFor(m=>m[i].RequisitionId)
+                           </td>
+                           <td>
+                               @Html.DisplayFor(m => m[i].RequisitionId)
+                               @Html.HiddenFor(m => m[i].RequisitionId)
             
-        </td>
+                           </td>
        
-    </tr>
-     index++;
-}
+                       </tr>
+                   </tbody>
+               }
 
-</table>
+           </table>
     
-     <button type="submit" class="btn btn-success">
-        <i class="icon-user icon-white"></i> Save
-    </button>
-    
-    }
+       </div>
+       <br/>
+       <div>
+           <button type="submit" class="btn btn-success">
+               <i class="icon-user icon-white"></i> Assign hub
+           </button>
+       </div>
+   }
 
-<script  type="text/javascript">
+    
+    
+    
+
+<script  >
     (document).ready(function () {
         // storing selected value to hidden field
         $("#Selected").val($("#HubId").val());
@@ -196,5 +210,7 @@
             });
         });
     })
+    
+   
 </script>
 

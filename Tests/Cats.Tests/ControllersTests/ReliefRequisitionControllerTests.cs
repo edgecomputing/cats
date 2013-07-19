@@ -6,9 +6,11 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Data.Repository;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 
@@ -23,7 +25,7 @@ namespace Cats.Tests.ControllersTests
         #region SetUp / TearDown
 
         private ReliefRequisitionController _reliefRequisitionController;
-      //  private ICommodityService _commodityService;
+        //  private ICommodityService _commodityService;
         private List<ReliefRequisitionNew> _input;
 
         [SetUp]
@@ -58,7 +60,12 @@ namespace Cats.Tests.ControllersTests
                                                  RequestedDate = DateTime.Today
                                                  ,Program=new Program(){ProgramID=1,Name="P1"},
                                                  AdminUnit1=new AdminUnit(){AdminUnitID=1,Name="R1"}
-                                                 ,AdminUnit=new AdminUnit{AdminUnitID=2,Name="A2",AdminUnit2 = new AdminUnit{AdminUnitID=3,Name="A3"}}
+                                                 ,AdminUnit=new AdminUnit{AdminUnitID=2,Name="A2",AdminUnit2 = new AdminUnit{AdminUnitID=3,Name="A3"}},
+                                                 Commodity = new Commodity()
+                                                                 {
+                                                                     Name="Grain",
+                                                                     CommodityID=1
+                                                                 }
                                                 
 
                                              },
@@ -90,10 +97,15 @@ namespace Cats.Tests.ControllersTests
                                                   ,Program=new Program(){ProgramID=1,Name="P1"},
                                                  AdminUnit1=new AdminUnit(){AdminUnitID=1,Name="R1"}
                                                  ,AdminUnit=new AdminUnit{AdminUnitID=2,Name="A2",AdminUnit2 = new AdminUnit{AdminUnitID=3,Name="A3"}}
+                                                 ,  Commodity = new Commodity()
+                                                                 {
+                                                                     Name="Grain",
+                                                                     CommodityID=1
+                                                                 }
                                              },
                                      };
 
-           
+
             var input = (from itm in reliefRequisitions
                          select new ReliefRequisitionNew()
                          {
@@ -109,21 +121,22 @@ namespace Cats.Tests.ControllersTests
                              // ApprovedBy = itm.ApprovedBy,
                              RequestedDate = itm.RequestedDate,
                              ApprovedDate = itm.ApprovedDate,
-                             RegionalRequestId=itm.RegionalRequestID.Value,
+                             RegionalRequestId = itm.RegionalRequestID.Value,
                              Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
                              {
                                  Number = itm.RequisitionID,
                                  RequisitionNo = itm.RequisitionNo
                              }
                          }).ToList();
-          
+
             var mockReliefRequistionService = new Mock<IReliefRequisitionService>();
             mockReliefRequistionService.Setup(t => t.GetAllReliefRequisition()).Returns(reliefRequisitions);
             mockReliefRequistionService.Setup(t => t.Get(It.IsAny<Expression<Func<ReliefRequisition, bool>>>(), null, It.IsAny<string>())).Returns(reliefRequisitions.AsQueryable());
             mockReliefRequistionService.Setup(t => t.CreateRequisition(1)).Returns(input);
             mockReliefRequistionService.Setup(t => t.GetRequisitionByRequestId(It.IsAny<int>())).Returns((int requestId) => input.FindAll(t => t.RegionalRequestId == requestId));
-
-            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object);
+            var workflowStatusService = new Mock<IWorkflowStatusService>();
+            workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Draft");
+            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object);
 
             _input = input;
 
@@ -156,23 +169,23 @@ namespace Cats.Tests.ControllersTests
 
             //Asert
             Assert.IsInstanceOf<ViewResult>(view);
-            Assert.AreEqual(((IEnumerable<ReliefRequisition>)view.Model).Count(), 2);
+            Assert.AreEqual(((IEnumerable<ReliefRequisitionViewModel>)view.Model).Count(), 2);
 
 
 
         }
 
-       
+
         [Test]
         public void CanCreateRequistion()
         {
-           //Arrange
+            //Arrange
             var view = _reliefRequisitionController.NewRequisiton(1);
-           
+
             Assert.IsInstanceOf<ViewResult>(view);
             Assert.IsInstanceOf<IEnumerable<ReliefRequisitionNew>>(view.Model);
 
-        
+
 
         }
 
@@ -180,16 +193,16 @@ namespace Cats.Tests.ControllersTests
         public void ShouldNotCreateRequistionFromUnknownRequest()
         {
             //Arrange
-            var view=_reliefRequisitionController.NewRequisiton(4);
+            var view = _reliefRequisitionController.NewRequisiton(4);
 
-            Assert.IsEmpty((IEnumerable<ReliefRequisitionNew>) view.Model);
+            Assert.IsEmpty((IEnumerable<ReliefRequisitionNew>)view.Model);
 
-          
+
         }
 
         [Test]
         public void CanCreateNewRequistion()
-        {            
+        {
             var view = _reliefRequisitionController.NewRequisiton(1);
 
             Assert.AreEqual(((IEnumerable<ReliefRequisitionNew>)view.Model).Count(), 2);
