@@ -498,7 +498,7 @@
                                             <TablixBody>
                                               <TablixColumns>
                                                 <TablixColumn>
-                                                  <Width>0.51736in</Width>
+                                                  <Width>0.40277in</Width>
                                                 </TablixColumn>
                                                 <TablixColumn>
                                                   <Width>0.66319in</Width>
@@ -541,14 +541,16 @@
                                                             <Paragraph>
                                                               <TextRuns>
                                                                 <TextRun>
-                                                                  <Value />
+                                                                  <Value>No.</Value>
                                                                   <Style>
                                                                     <FontSize>8pt</FontSize>
                                                                     <FontWeight>Bold</FontWeight>
                                                                   </Style>
                                                                 </TextRun>
                                                               </TextRuns>
-                                                              <Style />
+                                                              <Style>
+                                                                <TextAlign>Center</TextAlign>
+                                                              </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
                                                           <rd:DefaultName>Textbox92</rd:DefaultName>
@@ -581,7 +583,9 @@
                                                                   </Style>
                                                                 </TextRun>
                                                               </TextRuns>
-                                                              <Style />
+                                                              <Style>
+                                                                <TextAlign>Center</TextAlign>
+                                                              </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
                                                           <rd:DefaultName>Textbox32</rd:DefaultName>
@@ -615,7 +619,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Left</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -650,7 +654,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Left</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -685,7 +689,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Right</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -720,7 +724,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Right</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -755,7 +759,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Left</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -790,7 +794,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Left</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -825,7 +829,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Left</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -860,7 +864,7 @@
                                                                 </TextRun>
                                                               </TextRuns>
                                                               <Style>
-                                                                <TextAlign>Left</TextAlign>
+                                                                <TextAlign>Center</TextAlign>
                                                               </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
@@ -892,13 +896,15 @@
                                                             <Paragraph>
                                                               <TextRuns>
                                                                 <TextRun>
-                                                                  <Value />
+                                                                  <Value>=RowNumber(Nothing)</Value>
                                                                   <Style>
                                                                     <FontSize>8pt</FontSize>
                                                                   </Style>
                                                                 </TextRun>
                                                               </TextRuns>
-                                                              <Style />
+                                                              <Style>
+                                                                <TextAlign>Center</TextAlign>
+                                                              </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
                                                           <rd:DefaultName>Textbox93</rd:DefaultName>
@@ -1241,7 +1247,9 @@
                                                                   </Style>
                                                                 </TextRun>
                                                               </TextRuns>
-                                                              <Style />
+                                                              <Style>
+                                                                <TextAlign>Center</TextAlign>
+                                                              </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
                                                           <rd:DefaultName>Textbox94</rd:DefaultName>
@@ -1587,7 +1595,9 @@
                                                                   </Style>
                                                                 </TextRun>
                                                               </TextRuns>
-                                                              <Style />
+                                                              <Style>
+                                                                <TextAlign>Center</TextAlign>
+                                                              </Style>
                                                             </Paragraph>
                                                           </Paragraphs>
                                                           <rd:DefaultName>Textbox95</rd:DefaultName>
@@ -1944,7 +1954,11 @@
                                                   </Group>
                                                   <TablixMembers>
                                                     <TablixMember />
-                                                    <TablixMember />
+                                                    <TablixMember>
+                                                      <Visibility>
+                                                        <Hidden>=Count(Fields!FDP.Value) &lt;2</Hidden>
+                                                      </Visibility>
+                                                    </TablixMember>
                                                   </TablixMembers>
                                                 </TablixMember>
                                                 <TablixMember>
@@ -1956,7 +1970,7 @@
                                             <Top>1.10417in</Top>
                                             <Left>0.09375in</Left>
                                             <Height>0.94792in</Height>
-                                            <Width>6.40625in</Width>
+                                            <Width>6.29167in</Width>
                                             <ZIndex>13</ZIndex>
                                             <Style>
                                               <Border>

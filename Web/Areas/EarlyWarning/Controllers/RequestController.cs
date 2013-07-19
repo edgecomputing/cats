@@ -28,12 +28,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private ICommodityService _commodityService;
         private IRegionalRequestDetailService _reliefRequisitionDetailService;
         private IWorkflowStatusService _workflowStatusService;
+
         public RequestController(IRegionalRequestService reliefRequistionService
-           , IFDPService fdpService
-           , IAdminUnitService adminUnitService,
-            IProgramService programService,
-            ICommodityService commodityService,
-            IRegionalRequestDetailService reliefRequisitionDetailService, IWorkflowStatusService workflowStatusService)
+                                 , IFDPService fdpService
+                                 , IAdminUnitService adminUnitService,
+                                 IProgramService programService,
+                                 ICommodityService commodityService,
+                                 IRegionalRequestDetailService reliefRequisitionDetailService,
+                                 IWorkflowStatusService workflowStatusService)
         {
             this._regionalRequestService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
@@ -43,6 +45,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             this._workflowStatusService = workflowStatusService;
         }
+
         public ActionResult Index()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
@@ -53,30 +56,34 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-        private IEnumerable<RegionalRequestViewModel> BuildRegionalRequestViewModel(IEnumerable<RegionalRequest> requests)
+        private IEnumerable<RegionalRequestViewModel> BuildRegionalRequestViewModel(
+            IEnumerable<RegionalRequest> requests)
         {
             //TODO:While Displaying date make sure displayed based on user language preference
             var result = (from request in requests
                           select new RegionalRequestViewModel()
-                          {
-                              Program = request.Program.Name,
-                              ProgramId = request.ProgramId,
-                              ReferenceNumber = request.ReferenceNumber,
-                              Region = request.AdminUnit.Name,
-                              RegionID = request.RegionID,
-                              RegionalRequestID = request.RegionalRequestID,
-                              Year = request.Year,
-                              Remark = request.Remark,
-                              StatusID = request.Status,
-                              Round = request.Round,
-                              RequistionDate = request.RequistionDate,
-                              Status = _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, request.Status),
-                              RequestDateEt = EthiopianDate.GregorianToEthiopian(request.RequistionDate)
+                                     {
+                                         Program = request.Program.Name,
+                                         ProgramId = request.ProgramId,
+                                         ReferenceNumber = request.ReferenceNumber,
+                                         Region = request.AdminUnit.Name,
+                                         RegionID = request.RegionID,
+                                         RegionalRequestID = request.RegionalRequestID,
+                                         Year = request.Year,
+                                         Remark = request.Remark,
+                                         StatusID = request.Status,
+                                         Round = request.Round,
+                                         RequistionDate = request.RequistionDate,
+                                         Status =
+                                             _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST,
+                                                                                  request.Status),
+                                         RequestDateEt = EthiopianDate.GregorianToEthiopian(request.RequistionDate)
 
 
-                          });
+                                     });
             return result;
         }
+
         [HttpPost]
         public ActionResult Index(int year, int month)
         {
@@ -84,7 +91,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
 
-            var reliefrequistions = _regionalRequestService.Get(r => r.RequistionDate.Year == year && r.RequistionDate.Month == month, null, "AdminUnit,Program");
+            var reliefrequistions =
+                _regionalRequestService.Get(r => r.RequistionDate.Year == year && r.RequistionDate.Month == month, null,
+                                            "AdminUnit,Program");
 
             return View(reliefrequistions.ToList());
         }
@@ -92,8 +101,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult RequestsFromRegion()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name");
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
+                                            "Description");
 
 
             return View();
@@ -111,9 +122,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                            RequistionDate = item.RequistionDate.Date,
                                                                            Remark = item.Remark,
                                                                            Year = item.Year,
-                                                                           Status = _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, item.Status),
+                                                                           Status =
+                                                                               _workflowStatusService.GetStatusName(
+                                                                                   Workflow.REGIONAL_REQUEST,
+                                                                                   item.Status),
                                                                            Round = item.Round,
-                                                                           Create = _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST, item.Status)
+                                                                           Create =
+                                                                               _workflowStatusService.GetStatusName(
+                                                                                   Workflow.REGIONAL_REQUEST,
+                                                                                   item.Status)
                                                                        }).ToList();
 
 
@@ -123,8 +140,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ViewResult SubmittedRequest()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name");
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
+                                            "Description");
 
             var requests = _regionalRequestService.Get(null, null, "AdminUnit,Program");
 
@@ -138,9 +157,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             // TODO: Filter the collection using incoming parameters
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID", "Description");
-            var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0, month, Status.HasValue ? Status.Value : 1);
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name");
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
+                                            "Description");
+            var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0,
+                                                                                month,
+                                                                                Status.HasValue ? Status.Value : 1);
 
 
             return View(reliefrequistions);
@@ -157,30 +180,34 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var fdpList = _fdpService.GetAllFDP();
             var releifDetails = (from fdp in fdpList
                                  select new RegionalRequestDetail()
-                                 {
-                                     Beneficiaries = 0,
-                                     Fdpid = fdp.FDPID,
+                                            {
+                                                Beneficiaries = 0,
+                                                Fdpid = fdp.FDPID,
 
-                                 }).ToList();
+                                            }).ToList();
             relifRequisition.RegionalRequestDetails = releifDetails;
 
             return View(relifRequisition);
         }
+
         private void PopulateLookup()
         {
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
             //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
             ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
             ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
 
         }
+
         //
         // GET: /ReliefRequisitoin/Details/5
 
         public ActionResult Details(int id = 0)
         {
-            RegionalRequest reliefrequistion = _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
+            RegionalRequest reliefrequistion =
+                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
             if (reliefrequistion == null)
             {
                 return HttpNotFound();
@@ -191,8 +218,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Edit()
         {
             var reliefRequistion =
-                _regionalRequestService.Get(t => t.RegionalRequestID == 1, null, "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
-                                                                                    "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2").
+                _regionalRequestService.Get(t => t.RegionalRequestID == 1, null,
+                                            "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
+                                            "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2")
+                    .
                     FirstOrDefault();
             ViewBag.CurrentRegion = reliefRequistion.AdminUnit.Name;
             ViewBag.CurrentMonth = reliefRequistion.RequistionDate.Month;
@@ -241,8 +270,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             //}
             _reliefRequisitionDetailService.Save();
 
-            return RedirectToAction("Edit", "Request", new { id = requId });
+            return RedirectToAction("Edit", "Request", new {id = requId});
         }
+
         public ActionResult ApproveRequest(int id)
         {
             _regionalRequestService.ApproveRequest(id);
@@ -271,19 +301,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var fdpList = _fdpService.FindBy(t => t.AdminUnit.AdminUnit2.ParentID == regionalRequest.RegionID);
                 var releifDetails = (from fdp in fdpList
                                      select new RegionalRequestDetail()
-                                     {
-                                         Beneficiaries = 0,
-                                         Fdpid = fdp.FDPID,
-                                         Grain = 0,
-                                         Pulse = 0,
-                                         Oil = 0,
-                                         CSB = 0
+                                                {
+                                                    Beneficiaries = 0,
+                                                    Fdpid = fdp.FDPID,
+                                                    Grain = 0,
+                                                    Pulse = 0,
+                                                    Oil = 0,
+                                                    CSB = 0
 
-                                     }).ToList();
+                                                }).ToList();
                 regionalRequest.RegionalRequestDetails = releifDetails;
-                regionalRequest.Status =(int) RegionalRequestStatus.Draft;
+                regionalRequest.Status = (int) RegionalRequestStatus.Draft;
                 _regionalRequestService.AddReliefRequistion(regionalRequest);
-                return RedirectToAction("Edit", "Request", new { id = regionalRequest.RegionalRequestID });
+                return RedirectToAction("Edit", "Request", new {id = regionalRequest.RegionalRequestID});
             }
 
             PopulateLookup();
@@ -294,48 +324,65 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
 
-
-
-        public ActionResult Editing_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Allocation()
         {
+            return View();
+        }
 
+        public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request)
+        {
             return Json(_reliefRequisitionDetailService.GetAllRegionalRequestDetail().ToDataSourceResult(request));
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Allocation_Create([DataSourceRequest] DataSourceRequest request, RegionalRequestDetail regionalRequestDetail)
+        {
+            if (regionalRequestDetail != null && ModelState.IsValid)
+            {
+                _reliefRequisitionDetailService.AddRegionalRequestDetail(regionalRequestDetail);
+            }
 
+            return Json(new[] { regionalRequestDetail }.ToDataSourceResult(request, ModelState));
+        }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Editing_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<RegionalRequestDetail> regionalRequestDetails)
+        public ActionResult Allocation_Update([DataSourceRequest] DataSourceRequest request, RegionalRequestDetail regionalRequestDetail)
         {
-            if (regionalRequestDetails != null && ModelState.IsValid)
+            if (regionalRequestDetail != null && ModelState.IsValid)
             {
-                foreach (var requestDetail in regionalRequestDetails)
+                var target = _reliefRequisitionDetailService.FindById(regionalRequestDetail.RegionalRequestDetailID);
+                if (target != null)
                 {
-                    var target = _reliefRequisitionDetailService.FindById(requestDetail.RegionalRequestDetailID);
-                    if (target != null)
-                    {
-                        target.Grain = requestDetail.Grain;
-                        target.Oil = requestDetail.Oil;
-                        target.Pulse = requestDetail.Pulse;
-                        target.CSB = requestDetail.CSB;
-                        target.Beneficiaries = requestDetail.Beneficiaries;
-
-                    }
+                    target.Grain = regionalRequestDetail.Grain;
+                    target.Pulse = regionalRequestDetail.Pulse;
+                    target.CSB = regionalRequestDetail.CSB;
+                    target.Oil = regionalRequestDetail.Oil;
+                    target.Beneficiaries = regionalRequestDetail.Beneficiaries;
+                    _reliefRequisitionDetailService.EditRegionalRequestDetail(target);
                 }
-                _reliefRequisitionDetailService.Save();
             }
 
             return Json(ModelState.ToDataSourceResult());
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Allocation_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  RegionalRequestDetail regionalRequestDetail)
+        {
+            if (regionalRequestDetail != null)
+            {
+                _reliefRequisitionDetailService.DeleteById(regionalRequestDetail.RegionalRequestDetailID);
+            }
 
+            return Json(ModelState.ToDataSourceResult());
+        }
     }
+
+
+
+
+
+
+
+
 }
-
-
-
-
-
-
-
-

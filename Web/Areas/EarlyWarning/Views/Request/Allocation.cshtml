@@ -1,0 +1,60 @@
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Regional Relief Requests";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="well">
+    <h4 class="page-header">Regional Monthly  Request Resource Allocation</h4>
+</div>
+@section LeftBar
+{
+   
+
+}
+@(Html.Kendo().Grid<RegionalRequestDetail>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Fdpid);
+        columns.Bound(p => p.Beneficiaries).Width(100);
+        columns.Bound(p => p.Grain).Width(100);
+        columns.Bound(p => p.Pulse).Width(100);
+        columns.Bound(p => p.CSB).Width(100);
+        columns.Bound(p => p.Oil).Width(100);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.RegionalRequestDetailID))
+        .Create(update => update.Action("Allocation_Create", "Request"))
+        .Read(read => read.Action("Allocation_Read", "Request"))
+        .Update(update => update.Action("Allocation_Update", "Request"))
+        .Destroy(update => update.Action("Allocation_Destroy", "Request"))
+    )
+)
+@*<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>*@
