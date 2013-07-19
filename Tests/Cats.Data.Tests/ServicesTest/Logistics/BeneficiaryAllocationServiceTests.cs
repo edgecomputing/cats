@@ -224,7 +224,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
 
             //Assert
 
-            Assert.IsInstanceOf<List<BeneficiaryAllocation>>(result);
+            Assert.IsInstanceOf<List<BeneficiaryAllocation>>(result.ToList());
         }
 
         #endregion
