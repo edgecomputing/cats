@@ -522,9 +522,6 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>

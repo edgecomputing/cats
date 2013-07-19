@@ -14,131 +14,119 @@
 
 
 
-@*@section LeftBar
-{
-    @using (Html.BeginForm())
-    {
-        <div class="control-group">
-            <label class="control-label">Year</label>
-            <div class="controls">
-                @Html.TextBox("year")
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Month</label>
-            <div class="controls">
-                @Html.DropDownList("month",(SelectList)ViewBag.Months)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" value="Filter" class="btn btn-primary"/>
-            </div>
-        </div> 
-    }
- }*@
+<script>
+    $(document).ready(function() {
+        $("#kGrid").kendoGrid({
+            pageable: true,
+            sortable: true
+                
+            
+        });
+        
+    });
+</script>
 @using (Html.BeginForm("hubAllocation","HubAllocation",FormMethod.Post,Model))
 {
-<table class="table table-striped table-bordered">
-    <tr>
-        <td>
-            @Html.Label("Select Request")
-        </td>
-        <th>
-            @Html.Label("Commodity")
-        </th>
-        <th>
-            @Html.Label("Region")
-        </th>
-        <th>
-            @Html.Label("Zone")
-        </th>
+    <div  class="k-content">
+        <table  id="kGrid">
+            
+            <thead>
+                <tr>
+                    
+                    <th>
+                        @Html.Label("Select Request")
+                    </th>
+                    <th>
+                        @Html.Label("Commodity")
+                    </th>
+                    <th>
+                        @Html.Label("Region")
+                    </th>
+                    <th>
+                        @Html.Label("Zone")
+                    </th>
        
-        <th>
-            @Html.Label("Requisition No")
-        </th>
-       <th>
-            @Html.Label("Requisaition Date")
-        </th>
+                    <th>
+                        @Html.Label("Requisition No")
+                    </th>
+                   
        
-        <th>
-            @Html.Label("Amount")
-        </th>
-        <th>
-            @Html.Label("Beneficiaries")
-        </th>
-       
+                    <th>
+                        @Html.Label("Amount")
+                    </th>
+                    <th>
+                        @Html.Label("Beneficiaries")
+                    </th>
+                    <th>
+                        
+                    </th>
         
-    </tr>
-    @{int index = 0;}
-    @for(int i = 0;i < Model.Count;i++)
+                </tr>
+            </thead>
+            @for(int i = 0;i < Model.Count;i++)
 
- {
-     <tr>
-        <td>
-          <input type='checkbox' " +  ((item.Result == true) ? "checked" : "") + "  name="IsChecked" id="chkApprovedRequests" value="@i"/>
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type='checkbox' " +  ((item.Result == true) ? "checked" : "") + "  name="IsChecked" id="chkApprovedRequests" value="@i"/>
             
-        </td> 
-        <td>
-            @Html.DisplayFor(m=>m[i].Commodity)
-            @Html.HiddenFor(m=>m[i].Commodity)
+                        </td> 
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Commodity)
+                            @Html.HiddenFor(m=>m[i].Commodity)
             
-        </td>
+                        </td>
         
-         <td>
-            @Html.DisplayFor(m=>m[i].Region)
-            @Html.HiddenFor(m=>m[i].Region)
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Region)
+                            @Html.HiddenFor(m=>m[i].Region)
             
-        </td>
+                        </td>
         
-           <td>
-            @Html.DisplayFor(m=>m[i].Zone)
-            @Html.HiddenFor(m=>m[i].Zone)
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Zone)
+                            @Html.HiddenFor(m=>m[i].Zone)
             
-        </td>
+                        </td>
         
-        
+                        <td >
            
+                            @Html.DisplayFor(m=>m[i].RequisitionNo)
+                            @Html.HiddenFor(m=>m[i].RequisitionNo)
+            
+                        </td>
         
-        <td>
+                       
            
-            @Html.DisplayFor(m=>m[i].RequisitionNo)
-            @Html.HiddenFor(m=>m[i].RequisitionNo)
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Amount)
+                            @Html.HiddenFor(m=>m[i].Amount)
             
-        </td>
-        
-        <td>
-            @Html.DisplayFor(m=>m[i].RequisitionDate)
-            @Html.HiddenFor(m=>m[i].RequisitionDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>m[i].BenficiaryNo)
+                            @Html.HiddenFor(m=>m[i].BenficiaryNo)
             
-        </td>
-           
-         <td>
-            @Html.DisplayFor(m=>m[i].Amount)
-            @Html.HiddenFor(m=>m[i].Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>m[i].RequisitionId)
+                            @Html.HiddenFor(m=>m[i].RequisitionId)
             
-        </td>
-          <td>
-            @Html.DisplayFor(m=>m[i].BenficiaryNo)
-            @Html.HiddenFor(m=>m[i].BenficiaryNo)
-            
-        </td>
-          <td>@Html.DisplayFor(m=>m[i].RequisitionId)
-            @Html.HiddenFor(m=>m[i].RequisitionId)
-            
-        </td>
-    </tr>
-     index++;
+                        </td>
+                    </tr>
+                </tbody>
     
-}
+            }
 
-</table>
-     
+        </table>
+    </div>
+    <br />
     <button type="submit" class="btn btn-success">
   <i class="icon-user icon-white"></i> Assign hub
 </button>
     
     
         }
+
+
