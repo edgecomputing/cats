@@ -4,11 +4,13 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
+using Cats.Models.ViewModels.Bid;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using System;
 using Cats.Models;
 using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -38,43 +40,85 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Index()
         {
-            var bids = _bidService.Get(m => m.StatusID== 1);
-            return View(bids.ToList());
+            var bids = _bidService.Get(m => m.StatusID == 1);
+            var bidsToDisplay = GetBids(bids).ToList();
+            return View(bidsToDisplay);
         }
-        
-        [HttpGet]
-        public ActionResult Index(string bidNumber="", bool open = true, bool closed = false, bool canceled = false, bool approved = false)
+        public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var allStatusTypes = _statusService.GetAllStatus().Select(m => m.Name).ToList();
-            ViewBag.BidStatusTypes = allStatusTypes;
-            
-            var statusTypesList = "";
-            if (open) statusTypesList += "Open;";
-            if (closed) statusTypesList += "Closed;";
-            if (canceled) statusTypesList += "Canceled;";
-            if (approved) statusTypesList += "Approved;";
-
-            var listOfStatusTypes = statusTypesList.Split(';');
-
-            var filteredBids = _bidService.Get(b => b.BidNumber.StartsWith(bidNumber) &&(listOfStatusTypes.Contains(b.Status.Name)));
-            ViewData["bids"] = filteredBids;
-            return View(filteredBids.ToList());
+            var bids = _bidService.Get(m => m.StatusID == 1);
+            var bidsToDisplay = GetBids(bids).ToList();
+            return Json(bidsToDisplay.ToDataSourceResult(request));
         }
-        
-        public ActionResult Create(int id=0)
+        public ActionResult BidDetail_Read(int bidID,[DataSourceRequest] DataSourceRequest request)
+        {
+            var bidDetails = _bidDetailService.GetAllBidDetail();
+            var bidsToDisplay = GetBidDetails(bidDetails).ToList();
+            return Json(bidsToDisplay.Where(p => p.BidID == bidID).ToDataSourceResult(request));
+        }
+
+        private IEnumerable<BidViewModel> GetBids(IEnumerable<Bid> bids)
+        {
+            return (from bid in bids
+                    select new BidViewModel()
+                    {
+                        BidID = bid.BidID,
+                        BidNumber = bid.BidNumber,
+                        StartDate = bid.StartDate,
+                        EndDate = bid.EndDate,
+                        OpeningDate = bid.OpeningDate,
+                        Status = bid.Status.Name,
+                        StatusID = bid.StatusID
+                    });
+        }
+        private IEnumerable<BidDetailViewModel> GetBidDetails(IEnumerable<BidDetail> bidDetails)
+        {
+            return (from bidDetail in bidDetails
+                    select new BidDetailViewModel()
+                    {
+                        BidDetailID =bidDetail.BidDetailID,
+                        BidID = bidDetail.BidID,
+                        Region= bidDetail.AdminUnit.Name,
+                        AmountForReliefProgram = bidDetail.AmountForReliefProgram,
+                        AmountForPSNPProgram = bidDetail.AmountForPSNPProgram,
+                        BidDocumentPrice = bidDetail.BidDocumentPrice,
+                        CPO = bidDetail.CPO
+                        
+                    });
+        }
+        //[HttpGet]
+        //public ActionResult Index(string bidNumber="", bool open = true, bool closed = false, bool canceled = false, bool approved = false)
+        //{
+        //    var allStatusTypes = _statusService.GetAllStatus().Select(m => m.Name).ToList();
+        //    ViewBag.BidStatusTypes = allStatusTypes;
+
+        //    var statusTypesList = "";
+        //    if (open) statusTypesList += "Open;";
+        //    if (closed) statusTypesList += "Closed;";
+        //    if (canceled) statusTypesList += "Canceled;";
+        //    if (approved) statusTypesList += "Approved;";
+
+        //    var listOfStatusTypes = statusTypesList.Split(';');
+
+        //    var filteredBids = _bidService.Get(b => b.BidNumber.StartsWith(bidNumber) &&(listOfStatusTypes.Contains(b.Status.Name)));
+        //    ViewData["bids"] = filteredBids;
+        //    return View(filteredBids.ToList());
+        //}
+
+        public ActionResult Create(int id = 0)
         {
             var bid = new Bid();
             var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID=1);
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
             var bidDetails = (from detail in regions
                               select new BidDetail()
                               {
-                                          RegionID = detail.AdminUnitID,
-                                          AmountForReliefProgram = 0,
+                                  RegionID = detail.AdminUnitID,
+                                  AmountForReliefProgram = 0,
                               }).ToList();
             bid.BidDetails = bidDetails;
-                ViewBag.BidPlanID = id;
-                ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
+            ViewBag.BidPlanID = id;
+            ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
             return View(bid);
         }
 
@@ -104,14 +148,14 @@ namespace Cats.Areas.Procurement.Controllers
             //bid.EndDate = EndDate.Date;
             //bid.OpeningDate = OpeningDate.Date;
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
                 var bidDetails = (from detail in regions
                                   select new BidDetail()
                                       {
                                           RegionID = detail.AdminUnitID,
-                                          AmountForReliefProgram =(decimal) _transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID,detail.AdminUnitID,1),
+                                          AmountForReliefProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 1),
                                           AmountForPSNPProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 2),
                                           BidDocumentPrice = 0,
                                           CPO = 0,
@@ -122,44 +166,44 @@ namespace Cats.Areas.Procurement.Controllers
 
                 RouteValueDictionary routeValues = this.GridRouteValues();
                 //return RedirectToAction("Edit","Bid", routeValues);
-               return RedirectToAction("Edit", "Bid", new { id = bid.BidID });
+                return RedirectToAction("Edit", "Bid", new { id = bid.BidID });
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
-                
-            //return View(bid);
 
-            return View("Index", _bidService.GetAllBid());
+            return View(bid);
+
+            //return View("Index", _bidService.GetAllBid());
         }
 
         public ActionResult Edit(int id)
         {
-            
+
             var bid = _bidService.Get(m => m.BidID == id, null, "BidDetails").FirstOrDefault();
             ViewBag.BidNumber = bid.BidNumber;
             ViewBag.StartDate = bid.StartDate;
             ViewBag.EndDate = bid.EndDate;
             ViewBag.OpeningDate = bid.OpeningDate;
             var bidDetails = bid.BidDetails;
-            var input = ( from detail in bidDetails
-                          select new BidDetailsViewModel
-                              {
-                                  BidDetailID=detail.BidDetailID,
-                                  BidID = detail.BidID,
-                                  Region=detail.AdminUnit.Name,
-                                  Edit=new BidDetailsViewModel.BidDetailEdit()
-                                      {
-                                          Number=detail.BidDetailID,
-                                          AmountForReliefProgram=detail.AmountForReliefProgram,
-                                          AmountForPSNPProgram=detail.AmountForPSNPProgram,
-                                          BidDocumentPrice=detail.BidDocumentPrice,
-                                          CPO=detail.CPO,
-                                          AmountForReliefProgramPlanned = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnit.AdminUnitID, 1),
-                                          AmountForPSNPProgramPlanned = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnit.AdminUnitID, 2)
+            var input = (from detail in bidDetails
+                         select new BidDetailsViewModel
+                             {
+                                 BidDetailID = detail.BidDetailID,
+                                 BidID = detail.BidID,
+                                 Region = detail.AdminUnit.Name,
+                                 Edit = new BidDetailsViewModel.BidDetailEdit()
+                                     {
+                                         Number = detail.BidDetailID,
+                                         AmountForReliefProgram = detail.AmountForReliefProgram,
+                                         AmountForPSNPProgram = detail.AmountForPSNPProgram,
+                                         BidDocumentPrice = detail.BidDocumentPrice,
+                                         CPO = detail.CPO,
+                                         AmountForReliefProgramPlanned = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnit.AdminUnitID, 1),
+                                         AmountForPSNPProgramPlanned = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnit.AdminUnitID, 2)
 
-                                      } 
-                              }
+                                     }
+                             }
                         );
             ViewData["BidDetail"] = input;
             return View(input);
@@ -179,10 +223,10 @@ namespace Cats.Areas.Procurement.Controllers
                 bidDetail.CPO = bidDetailEdit.CPO;
             }
             _bidDetailService.Save();
-            return RedirectToAction("Edit", "Bid", new {id = bidId});
+            return RedirectToAction("Edit", "Bid", new { id = bidId });
         }
 
-        public ViewResult Details(int id=0)
+        public ViewResult Details(int id = 0)
         {
             Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
             ViewBag.BidStatus = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
@@ -211,7 +255,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult EditBidStatus(int id)
         {
             Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
-            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name",bid.StatusID);
+            ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
             return View(bid);
@@ -220,9 +264,9 @@ namespace Cats.Areas.Procurement.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditBidStatus(Bid bid)
         {
-        //    DateTime startingdate = GetGregorianDate(start);
-        //    DateTime EndDate = GetGregorianDate(end);
-        //    DateTime OpeningDate = GetGregorianDate(open);
+            //    DateTime startingdate = GetGregorianDate(start);
+            //    DateTime EndDate = GetGregorianDate(end);
+            //    DateTime OpeningDate = GetGregorianDate(open);
 
             //bid.StartDate = startingdate.Date;
             //bid.EndDate = EndDate.Date;
@@ -231,12 +275,13 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 _bidService.EditBid(bid);
                 RouteValueDictionary routeValues = this.GridRouteValues();
-                return RedirectToAction("Index",routeValues);
+                return RedirectToAction("Index", routeValues);
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
-            return View("Index",_bidService.GetAllBid());
+            //return View("Index", _bidService.GetAllBid());
+            return View(bid);
         }
 
         private DateTime GetGregorianDate(string ethiopianDate)
@@ -256,10 +301,10 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult ApproveBid(int id)
         {
-             var bid = _bidService.FindById(id);
-             bid.StatusID = 4;
-             _bidService.EditBid(bid);
-             return RedirectToAction("Index");
-        } 
+            var bid = _bidService.FindById(id);
+            bid.StatusID = 4;
+            _bidService.EditBid(bid);
+            return RedirectToAction("Index");
+        }
     }
 }
