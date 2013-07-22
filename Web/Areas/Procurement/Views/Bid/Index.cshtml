@@ -5,12 +5,46 @@
     ViewBag.Title = "Create Bid";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
+<div id="modalWindow">
+    <h2>Approve Bid?</h2>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+var wnd;
+$(document).ready(function () {
+    wnd = $("#modalWindow").kendoWindow({
+                        title: "Approve confirmation",
+                        modal: true,
+                        visible: false,
+                        resizable: false,
+                        width: 300
+                    }).data("kendoWindow");
+});
+</script>
 <script>
 
-    function onApprove(id) {
-        var agree = confirm("Are you sure you want to approve this bid?");
-        if (agree)
-            window.location = "bid/ApproveBid/" + id;
+    function onApprove(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+            //wnd.location = "bid/ApproveBid/" + grid.BidID;
+            window.location = "bid/ApproveBid/" + dataItem.BidID;
+            wnd.close();
+        });
+        
+        $("#no").click(function () {
+            wnd.close();
+        });
+        //var agree = confirm("Are you sure you want to approve this bid?");
+        //var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        //if (agree)
+        //    window.location = "bid/ApproveBid/" + dataItem.BidID;
     }
 </script>
 <div class="well">
@@ -42,14 +76,6 @@
             //columns.ForeignKey(p => p.StatusID, (System.Collections.IEnumerable)ViewData["Status"], "StatusID", "Name").Title("Status");
             columns.Command(p => p.Custom("Edit").Click("bidEdit"));
             columns.Command(p => p.Custom("Approve").Click("onApprove"));
-            //columns.Command(command =>
-            //{
-
-            //    command.Custom("Edit").Click("bidEdit");
-            //    command.Custom("Approve").Click("bidEdit");
-
-            //}).Width(200);
-
 
         })
     .Pageable()
@@ -62,7 +88,6 @@
           .Ajax()
           .PageSize(5)
             .Model(model => model.Id(p => p.BidID))
-        //.Create(create => create.Action("Create", "Bid"))
             .Read(read => read.Action("Bid_Read", "Bid"))
         //.Update(update => update.Action("EditBidStatus", "Bid"))
      )
@@ -116,7 +141,6 @@
         this.expandRow(this.tbody.find("tr.k-master-row").first());
     }
 </script>
-
 
 <script>
     function bidEdit(e) {

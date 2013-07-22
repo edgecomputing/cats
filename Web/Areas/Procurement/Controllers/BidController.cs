@@ -90,6 +90,7 @@ namespace Cats.Areas.Procurement.Controllers
                         
                     });
         }
+        //update bid detail information
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult BidDetail_Update([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")]IEnumerable<BidDetail> bidDetails)
