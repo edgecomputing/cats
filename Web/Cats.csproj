@@ -149,6 +149,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RegionalRequestDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
@@ -177,7 +178,8 @@
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
-    <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\BidsViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\DispatchLocationViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PriceQuotationModel.cs" />
     <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
@@ -558,11 +560,20 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.woff" />
-    <Content Include="Areas\Procurement\Views\Transporter\Copy of Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
+=======
+    <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\_TransporterLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
+>>>>>>> 8c8868b02b66c9d3034ab9114a11333b255b4cea
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -758,11 +769,13 @@
     <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
-    <Folder Include="Areas\Logistics\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />
   </ItemGroup>

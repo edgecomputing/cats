@@ -19,29 +19,36 @@
     .Name("Grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.SourceName) .Width(130);
+        columns.Bound(p => p.SourceName).Width(130);
         columns.Bound(p => p.DestinationZone).Width(130);
         columns.Bound(p => p.DestinationName).Width(130);
         columns.Bound(p => p.Tariff).Width(130);
-       /* columns.Command(command =>
-        {
-            command.Edit();
-            command.Destroy();
-        });*/
+        columns.Bound(p => p.Remark).Width(100);
+        columns.Bound(p => p.IsWinner).Width(50);
+        columns.Bound(p => p.Rank).Width(50);
+
+        columns.Command(command => { command.Edit(); command.Custom("Delete").Click("deleteRecord"); }).Width(200);
     })
+    .ToolBar(toolBar =>
+        {
+//            toolBar.Create();
+           // toolBar.Save();
+        })
+    .HtmlAttributes(new { style = "height:430px;" })    
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
     .Pageable()
     .Sortable()
-    .Scrollable(scr=>scr.Height(430)) 
-    .Filterable()    
+    .Scrollable()
     .DataSource(dataSource => dataSource     
         .Ajax()
-        .Model(model => model.Id(p => p.QuotationID))
-        .PageSize(30)
-        .Sort(st => {
-
-            st.Add(m => m.SourceName).Descending();
-            st.Add(m => m.DestinationZone).Descending(); 
-            })
+        .Model(model =>
+        {
+            model.Id(p => p.QuotationID);
+            model.Field(p => p.SourceName).Editable(false);
+            model.Field(p => p.DestinationZone).Editable(false);
+            model.Field(p => p.DestinationName).Editable(false);
+        })
+        .PageSize(20)
         .Read(read => read.Action("ReadAjax", "PriceQuotation"))
         .Destroy(update => update.Action("DeleteAjax", "PriceQuotation"))
         //.Update(update => update.Action("EditingInline_Update", "Transporter"))
@@ -63,7 +70,19 @@
         </dl>
     </div>
 </script>
+<script>
+    function deleteRecord(e) {
+        e.preventDefault();
 
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        alert("Deleting " + dataItem.DestinationName);
+        dataItem.Tariff = "";
+        dataItem.Remark = "";
+        $('#Grid').data('kendoGrid').refresh();
+        //window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
+    }
+</script>
+<!--
 
 <style>
      th
@@ -161,4 +180,4 @@
     }
 </script>
 
-
+    -->

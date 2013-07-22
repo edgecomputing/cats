@@ -1,4 +1,5 @@
-﻿@using Cats.Models
+﻿@using Cats.Areas.EarlyWarning.Models
+
 @using Kendo.Mvc.UI
 
 @{
@@ -7,27 +8,31 @@
 }
 
 <div class="well">
-    <h4 class="page-header">Regional Monthly  Request Resource Allocation</h4>
+    <h4>Region:   @ViewBag.Region</h4>
+    <h5 class="page-header">Regional Monthly @ViewBag.Program Request Resource Allocation
+        <br />For month of @ViewBag.Month/@ViewBag.Year </h5>
 </div>
 @section LeftBar
 {
-   
+    @Html.Partial("_RegionalRequestLeftBar")
 
 }
-@(Html.Kendo().Grid<RegionalRequestDetail>()
+
+@Html.ActionLink("Back To Regional Request","Index","Request")
+@(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.Fdpid);
+        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new {style="background-color:whitesmoke"}); ;
         columns.Bound(p => p.Beneficiaries).Width(100);
         columns.Bound(p => p.Grain).Width(100);
         columns.Bound(p => p.Pulse).Width(100);
         columns.Bound(p => p.CSB).Width(100);
         columns.Bound(p => p.Oil).Width(100);
-        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+
     })
-    .ToolBar(toolbar => toolbar.Create())
-    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .ToolBar(toolbar => toolbar.Save())
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
     .Pageable()
     .Sortable()
     .Scrollable()
@@ -36,9 +41,13 @@
         .Ajax()
         .PageSize(20)
         //.Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.RegionalRequestDetailID))
+            .Model(model =>
+            {
+                model.Id(p => p.RegionalRequestDetailID);
+                model.Field(detail => detail.FDP).Editable(false);
+            })
         .Create(update => update.Action("Allocation_Create", "Request"))
-        .Read(read => read.Action("Allocation_Read", "Request"))
+        .Read(read => read.Action("Allocation_Read", "Request",new {id=ViewBag.RequestID}))
         .Update(update => update.Action("Allocation_Update", "Request"))
         .Destroy(update => update.Action("Allocation_Destroy", "Request"))
     )

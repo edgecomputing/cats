@@ -187,5 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Default-User.sql" />
+    <None Include="BidStatus.sql" />
   </ItemGroup>
 </Project>

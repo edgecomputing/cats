@@ -5,11 +5,14 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 
 }
+
+@section LeftBar
+{
+    @Html.Partial("_TransporterLeftBar")
+}
 <div>
     <h4>Transporter Registration</h4>
 </div>
-
-
 
 @(Html.Kendo().Grid<Cats.Procurement.Models.TransporterPOCO>()
     .Name("grid")
@@ -23,10 +26,12 @@
         
         columns.Command(command => { 
             //command.Edit(); 
+          //  command.Custom("Edit").Click("editRecordAjax");
             command.Custom("Edit").Click("editRecord");
-            command.Destroy(); }).Width(172);
+            command.Destroy(); }).Width(330);
     })
-    .ToolBar(toolbar => toolbar.Create())
+    
+   
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
     .Sortable()
@@ -46,28 +51,26 @@
         .Create(update => update.Action("Create", "Transporter"))
     )
 )
-@(Html.Kendo().Window().Name("Details")
-    .Title("Customer Details")
-    .Visible(false)
-    .Modal(true)
-    .Draggable(true)
-    .Width(300)       
+
+@(Html.Kendo().Window()
+    .Name("transporter_edit_window")
+    .Title("Transporter")
+    .Content("loading user info...")
+   
+    .Iframe(false)
+    .Draggable()
+    .Resizable()
+    .Width(1000)
+    .Height(500)
+    .Modal(true).Visible(false)
+    .Actions(actions => actions.Refresh().Close())
+    
+      
+
 )
 
- <script type="text/x-kendo-template" id="template">
-    <div id="details-container">
-        <h2>#= Name # #= Region #</h2>
-        <em>#= SubCity #</em>
-        <dl>
-            <dt>Capital: #= Capital #</dt>
-            <dt>Employees: #= EmployeeCountMale #</dt>
-            <dt>Edit: @Html.ActionLink("Edit", "Edit",1) </dt>
-      
-        </dl>
-    </div>
-</script>
+<div id="transporter_edit_window2"></div>
 <script type="text/javascript">
-    var detailsTemplate = kendo.template($("#template").html());
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";
@@ -81,15 +84,30 @@
             alert(message);
         }
     }
+    function onClose(e) {
+       // e.preventDefault();
+       // $("#window").data("kendoWindow").hide();
+    }
+    var editorWindow;
+    function editRecordAjax(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        var url = "/Procurement/Transporter/Edit?id=" + dataItem.TransporterID + "&ispartial=1";
+        
+        var wnd = $("#transporter_edit_window").data("kendoWindow");
+        editorWindow = wnd;
+        wnd.content("Loading...");
+        wnd.title(dataItem.Name);
+        wnd.refresh({ url: url });
+        wnd.center().open();
+      //  window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
+    }
     function editRecord(e) {
         e.preventDefault();
-
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var wnd = $("#Details").data("kendoWindow");
-
-        wnd.content(detailsTemplate(dataItem));
-        wnd.center().open();
-        window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
+        var url = "/Procurement/Transporter/Edit/" + dataItem.TransporterID;
+        window.location =url
     }
 </script>
 <!--
