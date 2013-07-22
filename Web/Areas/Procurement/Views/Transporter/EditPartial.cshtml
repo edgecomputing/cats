@@ -2,13 +2,16 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+  
 }
-<div class="form-horizontal">
+
+
+
 @using (Html.BeginForm()) {
+    <div class="form-horizontal">
     @Html.ValidationSummary(true)
-    <p>
-            <input type="submit" value="Save" /> @Html.ActionLink("Back to List", "Index")
+        <p>
+            <input type="button" value="Save" onclick="AjaxSubmit(this.form)" /> @Html.ActionLink("Back to List", "Index")
         </p>
     
     <div style="border:solid 1px #CCC; padding:4px;">
@@ -251,9 +254,30 @@
 </div>
 
       </div>
+        <script>
+            function AjaxSubmit(frm) {
+                var container = $(frm).parent();
+                var attrib = {};
+                var url = frm.action;
+                for (var i in frm.elements) {
+                    var elem = frm.elements[i];
+                    if (elem.name) {
+                        attrib[elem.name] = elem.value;
+                    }
+                }
+                $.post(url, attrib
+                    , function (data) {
+                        if (data == "{}") {
+                            editorWindow.close();
+                        }
+                        container.html(data);
+                    }
+                    );
+
+            }
+</script>
+         </div>
 }
-    </div>
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+   
+
 

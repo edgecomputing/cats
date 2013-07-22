@@ -561,6 +561,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
