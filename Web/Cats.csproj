@@ -558,7 +558,6 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.woff" />
-    <Content Include="Areas\Procurement\Views\Transporter\Copy of Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />

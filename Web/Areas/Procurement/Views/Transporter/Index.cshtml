@@ -10,7 +10,7 @@
 </div>
 
 
-
+@Html.ActionLink("New Transporter", "edit")
 @(Html.Kendo().Grid<Cats.Procurement.Models.TransporterPOCO>()
     .Name("grid")
     .Columns(columns =>
@@ -23,12 +23,12 @@
         
         columns.Command(command => { 
             //command.Edit(); 
-            command.Custom("Edit").Click("editRecordAjax");
-            command.Custom("Edit sub").Click("editRecord");
+          //  command.Custom("Edit").Click("editRecordAjax");
+            command.Custom("Edit").Click("editRecord");
             command.Destroy(); }).Width(330);
     })
     
-    .ToolBar(toolbar => toolbar.Create())
+   
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
     .Sortable()
@@ -51,7 +51,7 @@
 
 @(Html.Kendo().Window()
     .Name("transporter_edit_window")
-    .Title("Rams's Ten Principles of Good Design")
+    .Title("Transporter")
     .Content("loading user info...")
    
     .Iframe(false)

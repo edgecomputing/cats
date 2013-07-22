@@ -11,6 +11,7 @@
 <div>
     <h4>List of Bids</h4>
 </div>
+@Html.ActionLink("New Plan", "Create")
 @(Html.Kendo().Grid<Cats.Models.TransportBidPlan>()
     .Name("grid")
     .Columns(columns =>
@@ -26,11 +27,17 @@
         });
     })
     
-     .ClientRowTemplate(
-        '<tr data-uid="bbe2c8a6-905a-4db3-a0ba-752e9b8654db" role="row"><td role="gridcell">Komet Transport</td><td role="gridcell">Addis Ababa</td><td role="gridcell">Arada</td><td role="gridcell"></td><td role="gridcell"><a class="k-button k-button-icontext k-grid-Edit" href="#"><span class=" "></span>Edit</a><a class="k-button k-button-icontext k-grid-Editsub" href="#"><span class=" "></span>Edit sub</a><a class="k-button k-button-icontext k-grid-delete" href="#"><span class="k-icon k-delete"></span>Delete</a></td></tr>'
+   /*
+    .ClientRowTemplate(
+        "<tr><td role=\"gridcell\">#: data.ShortName # </td>" +
+        "<td role=\"gridcell\">#: data.Year #</td>" + 
+        "<td role=\"gridcell\">#: data.YearHalf #</td>" + 
+        "<td role=\"gridcell\"><a class=\"k-button k-button-icontext k-grid-Edit\" href=\".\">Edit</a></td></tr>" 
+        //<a class="k-button k-button-icontext k-grid-Editsub" href="#"><span class=" ">"
+        //</span>Edit sub</a><a class="k-button k-button-icontext k-grid-delete" href="#"><span class="k-icon k-delete"></span>Delete</a></td></tr>'
      
-    )
-    .ToolBar(toolbar => toolbar.Create())
+    )*/
+   
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
     .Sortable()
