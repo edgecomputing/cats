@@ -12,13 +12,15 @@ namespace Cats.Data.Security
             Database.SetInitializer<SecurityContext>(null);
         }
 
-        public SecurityContext() : base("Name=CatsContext") { }
+        public SecurityContext() : base("Name=CatsSecurityContext") { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<UserInfo> UsersInfo { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
            modelBuilder.Configurations.Add(new UserMap());
+           modelBuilder.Configurations.Add(new UserInfoMap());
         }
     }
 }

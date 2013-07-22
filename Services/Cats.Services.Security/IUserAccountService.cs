@@ -33,7 +33,8 @@ namespace Cats.Services.Security
         string HashPassword(string password);
         User GetUserDetail(int userId);
         User GetUserDetail(string userName);
-        string[] GetUserPermissions(string userName);
+        UserInfo GetUserInfoDetail(string userName);
+        string[] GetUserPermissions(int userId, string store, string application);
 
     }
 }

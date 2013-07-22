@@ -55,7 +55,7 @@ namespace Cats.Services.Security
             roles.AddRange(permissions);
         }
 
-        public UserIdentity(int userId, UserAccountService service)
+        public UserIdentity(int userId, UserAccountService service, UserInfo userInfo, string store, string application)
         {
             //Assign the incoming user name to the current one and clear the roles collection
             var user = service.GetUserDetail(userId);
@@ -66,7 +66,7 @@ namespace Cats.Services.Security
             /* Retrive the list of all authorized Tasks and Operations from NetSqlAzMan database
              * and persist it with the roles arraylist collection
              */
-            roles.AddRange(service.GetUserPermissions(userName));
+            roles.AddRange(service.GetUserPermissions(userInfo.UserId, store, application));
         }
         #endregion
     }
