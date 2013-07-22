@@ -561,11 +561,12 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\_TransporterLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
