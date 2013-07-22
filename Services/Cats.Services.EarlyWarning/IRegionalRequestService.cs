@@ -12,12 +12,12 @@ namespace Cats.Services.EarlyWarning
     public interface IRegionalRequestService
    {
        
-       bool AddReliefRequistion(RegionalRequest reliefRequistion);
-       bool DeleteReliefRequistion(RegionalRequest reliefRequistion);
+       bool AddRegionalRequest(RegionalRequest regionalRequest);
+       bool DeleteRegionalRequest(RegionalRequest regionalRequest);
        bool DeleteById(int id);
-       bool EditReliefRequistion(RegionalRequest reliefRequistion);
+       bool EditRegionalRequest(RegionalRequest regionalRequest);
        RegionalRequest FindById(int id);
-       List<RegionalRequest> GetAllReliefRequistion();
+       List<RegionalRequest> GetAllRegionalRequest();
        List<RegionalRequest> FindBy(Expression<Func<RegionalRequest, bool>> predicate);
 
  IEnumerable<RegionalRequest> Get(
