@@ -15,70 +15,84 @@
 
 
 <script>
-
   
-        $(document).on("click", ".alert", function(e) {
-        bootbox.alert("Hello world!", function() {
-        console.log("Alert Callback");
-    });
-    });
+    @{ var total = ViewData["Total"]; }
 
-
-    $(document).ready(function() {
+    $(document).ready(function () {
+        var selectedIds = {};
         $("#kGrid").kendoGrid({
+            
+            groupable: true,
+            scrollable: true,
+            sortable: true,
             pageable: true,
-            sortable: true
-                
+            autoBind: true,
+            dataSource: {
+                pageSize:10
+            }
+            
+          
+            
             
         });
         
+
+       
+        
+
     });
+    
+
+    
+   
+
 </script>
 @using (Html.BeginForm("hubAllocation","HubAllocation",FormMethod.Post,Model))
 {
     <div  class="k-content">
-        <table  id="kGrid">
+        <table  id="kGrid" >
             
-            <thead>
-                <tr>
+        <thead>
+            <tr>
                     
-                    <th>
-                        @Html.Label("Select Request")
-                    </th>
-                    <th>
-                        @Html.Label("Commodity")
-                    </th>
-                    <th>
-                        @Html.Label("Region")
-                    </th>
-                    <th>
-                        @Html.Label("Zone")
-                    </th>
+                <th>
+                    @Html.Label("Select Request")
+                </th>
+                <th>
+                    @Html.Label("Commodity")
+                </th>
+                <th>
+                    @Html.Label("Region")
+                </th>
+                <th>
+                    @Html.Label("Zone")
+                </th>
        
-                    <th>
-                        @Html.Label("Requisition No")
-                    </th>
+                <th>
+                    @Html.Label("Requisition No")
+                </th>
                    
        
-                    <th>
-                        @Html.Label("Amount")
-                    </th>
-                    <th>
-                        @Html.Label("Beneficiaries")
-                    </th>
-                    <th>
-                         @Html.Label("Requisition ID")
-                    </th>
+                <th>
+                    @Html.Label("Amount")
+                </th>
+                <th>
+                    @Html.Label("Beneficiaries")
+                </th>
+                <th>
+                    @Html.Label("Requisition ID")
+                </th>
         
-                </tr>
-            </thead>
+            </tr>
+        </thead>
+             <tbody>
             @for(int i = 0;i < Model.Count;i++)
 
             {
-                <tbody>
+               
                     <tr>
                         <td>
-                            <input type='checkbox' " +  ((item.Result == true) ? "checked" : "") + "  name="IsChecked" id="chkApprovedRequests" value="@i"/>
+                            <input type='checkbox' name="IsChecked" id="chkApprovedRequests" value="@i"/>
             
                         </td> 
                         <td>
@@ -124,10 +138,10 @@
             
                         </td>
                     </tr>
-                </tbody>
+               
     
             }
-
+ </tbody>
         </table>
     </div>
     <br />

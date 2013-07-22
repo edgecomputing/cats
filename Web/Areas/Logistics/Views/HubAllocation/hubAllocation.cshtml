@@ -86,10 +86,14 @@
        <script>
            $(document).ready(function() {
                $("#kGrid").kendoGrid({
+                   groupable: true,
+                   scrollable: true,
+                   sortable: true,
                    pageable: true,
-                   sortable: {
-                       
-                   },
+                   autoBind: true,
+                   dataSource: {
+                       pageSize: 10
+                   }
                });
            });
        </script>
@@ -129,10 +133,10 @@
                    </tr>
     
                </thead>
-
+               <tbody>
                @for (var i = 0; i < Model.Count; i++)
                {
-                   <tbody>
+                   
                        <tr>
        
                            <td>
@@ -186,9 +190,9 @@
                            </td>
        
                        </tr>
-                   </tbody>
+                   
                }
-
+                </tbody>
            </table>
     
        </div>

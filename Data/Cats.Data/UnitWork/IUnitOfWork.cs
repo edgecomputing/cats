@@ -22,6 +22,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<HubAllocation> HubAllocationRepository { get;}
         IGenericRepository<ProjectCode> ProjectCodeRepository { get; }
 
+        IGenericRepository<UserDashboard> UserDashboardRepository { get; }
         IGenericRepository<BidWinner> BidWinnerRepository { get; } 
 
         IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository { get; }

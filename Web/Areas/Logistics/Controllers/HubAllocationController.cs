@@ -80,15 +80,24 @@ namespace Cats.Areas.Logistics.Controllers
       
 
 
-        public ActionResult ApprovedRequesitions()
+        public ActionResult ApprovedRequesitions([DataSourceRequest]DataSourceRequest request)
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
 
-            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(2);//.re _reliefRequisitionDetailService.Get(r => r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
+            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(2);
+            if (reliefRequisitions != null)
+            {
+                var total = reliefRequisitions.Count();
+                ViewData["total"] = total;
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+                //.re _reliefRequisitionDetailService.Get(r => r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
             return View(reliefRequisitions.ToList());
-        
         }
         public ActionResult Request(ICollection<ReliefRequisitionDetail> requisitionDetail)
         {
