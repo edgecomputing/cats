@@ -58,6 +58,7 @@
             columns.Bound(p => p.Status).Title("Status");
             //columns.ForeignKey(p => p.StatusID, (System.Collections.IEnumerable)ViewData["Status"], "StatusID", "Name").Title("Status");
             columns.Command(p => p.Custom("Edit").Click("bidEdit"));
+            columns.Command(p => p.Custom("Approve").Click("onApprove"));
             //columns.Command(command =>
             //{
 
@@ -111,6 +112,7 @@
                             .Model(model =>
                               {
                                   model.Id(p => p.BidDetailID);
+                                  model.Field(p => p.RegionID);
                                   model.Field(p => p.BidDetailID).Editable(false);
                                   model.Field(p => p.Region).Editable(false);
                               })

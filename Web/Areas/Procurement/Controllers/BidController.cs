@@ -49,6 +49,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {
             var bids = _bidService.Get(m => m.StatusID == 1);
+            //var bids = _bidService.GetAllBid();
             var bidsToDisplay = GetBids(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }
@@ -81,6 +82,7 @@ namespace Cats.Areas.Procurement.Controllers
                         BidDetailID =bidDetail.BidDetailID,
                         BidID = bidDetail.BidID,
                         Region= bidDetail.AdminUnit.Name,
+                        RegionID=bidDetail.AdminUnit.AdminUnitID,
                         AmountForReliefProgram = bidDetail.AmountForReliefProgram,
                         AmountForPSNPProgram = bidDetail.AmountForPSNPProgram,
                         BidDocumentPrice = bidDetail.BidDocumentPrice,
@@ -102,6 +104,8 @@ namespace Cats.Areas.Procurement.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
+
+
         //[HttpGet]
         //public ActionResult Index(string bidNumber="", bool open = true, bool closed = false, bool canceled = false, bool approved = false)
         //{
@@ -167,6 +171,7 @@ namespace Cats.Areas.Procurement.Controllers
             if (ModelState.IsValid)
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+                bid.StatusID = 1;
                 var bidDetails = (from detail in regions
                                   select new BidDetail()
                                       {
@@ -182,7 +187,8 @@ namespace Cats.Areas.Procurement.Controllers
 
                 RouteValueDictionary routeValues = this.GridRouteValues();
                 //return RedirectToAction("Edit","Bid", routeValues);
-                return RedirectToAction("Edit", "Bid", new { id = bid.BidID });
+                //return RedirectToAction("Edit", "Bid", new { id = bid.BidID });
+                return RedirectToAction("Index");
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
