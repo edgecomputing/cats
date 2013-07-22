@@ -64,7 +64,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                          Year = request.Year,
                                          Remark = request.Remark,
                                          StatusID = request.Status,
-                                         Round = request.Round,
+                                         Month = request.Month,
                                          RequistionDate = request.RequistionDate,
                                          Status =
                                              _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST,
@@ -118,7 +118,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                                _workflowStatusService.GetStatusName(
                                                                                    Workflow.REGIONAL_REQUEST,
                                                                                    item.Status),
-                                                                           Round = item.Round,
+                                                                           Round = item.Month,
                                                                            Create =
                                                                                _workflowStatusService.GetStatusName(
                                                                                    Workflow.REGIONAL_REQUEST,
@@ -217,7 +217,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     FirstOrDefault();
             ViewBag.CurrentRegion = reliefRequistion.AdminUnit.Name;
             ViewBag.CurrentMonth = reliefRequistion.RequistionDate.Month;
-            ViewBag.CurrentRound = reliefRequistion.Round;
+            ViewBag.CurrentRound = reliefRequistion.Month;
             ViewBag.CurrentYear = reliefRequistion.RequistionDate.Year;
 
             var reliefRequistionDetail = reliefRequistion.RegionalRequestDetails;
@@ -452,7 +452,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 Remark = regionalRequest.Remark,
                 RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate
                 ),
-                Round = regionalRequest.Round,
+                Month = regionalRequest.Month,
                 Status = _workflowStatusService.GetStatusName(WORKFLOW.REGIONAL_REQUEST, regionalRequest.Status),
                 RequistionDate = regionalRequest.RequistionDate,
                 StatusID = regionalRequest.Status,
@@ -470,7 +470,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 RegionID = regionalRequestViewModel.RegionID,
                 RegionalRequestID = regionalRequestViewModel.RegionalRequestID,
                 Remark = regionalRequestViewModel.Remark,
-                Round = regionalRequestViewModel.Round,
+                Month = regionalRequestViewModel.Month,
                 RequistionDate = regionalRequestViewModel.RequistionDate,
                 Status = regionalRequestViewModel.StatusID,
                 Year = regionalRequestViewModel.Year
@@ -499,7 +499,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     target.ReferenceNumber = regionalRequest.ReferenceNumber;
                     target.RegionID = regionalRequest.RegionID;
                     target.Remark = regionalRequest.Remark;
-                    target.Round = regionalRequest.Round;
+                    target.Month = regionalRequest.Month;
                     target.RequistionDate = regionalRequest.RequistionDate;
                     target.Status = regionalRequest.StatusID;
                     target.Year = regionalRequest.Year;

@@ -28,7 +28,7 @@ namespace Cats.Tests.ControllersTests
                                                {
                                                    ProgramId = 1
                                                    ,
-                                                   Round = 1
+                                                   Month = 1
                                                    ,
                                                    RegionID = 1
                                                    ,

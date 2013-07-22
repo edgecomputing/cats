@@ -18,7 +18,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int ProgramId { get; set; }
        
         public string Program { get; set; }
-        public int Round { get; set; }
+        public int Month { get; set; }
         public DateTime RequistionDate { get; set; }
         [ScaffoldColumn(false)]
         public string RequestDateEt { get; set; }

@@ -561,7 +561,11 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
+
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
+
+    <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -759,6 +763,7 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

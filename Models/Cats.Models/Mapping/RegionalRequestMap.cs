@@ -21,7 +21,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.RegionID).HasColumnName("RegionID");
             this.Property(t => t.RequistionDate).HasColumnName("RequestDate");
             this.Property(t => t.ProgramId).HasColumnName("ProgramID");
-            this.Property(t => t.Round).HasColumnName("Round");
+            this.Property(t => t.Month).HasColumnName("Month");
             this.Property(t => t.Year).HasColumnName("Year");
             this.Property(t => t.ReferenceNumber).HasColumnName("RequestNumber");
             this.Property(t => t.Remark).HasColumnName("Remark");

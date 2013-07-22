@@ -12,7 +12,7 @@ namespace Cats.Models.ViewModels
        public string RequisitionDate { get; set; }
        public string Program { get; set; }
        public int ProgramID { get; set; }
-       public int Round { get; set; }
+       public int Month { get; set; }
        public string Region { get; set; }
        public int Year { get; set; }
        public string Status { get; set; }

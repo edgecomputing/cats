@@ -10,7 +10,7 @@
 }
 
 <div class="well">
-    <h4 class="page-header">Regional Monthly Relief Requests</h4>
+    <h4 class="page-header">Regional Monthly Requests</h4>
 </div>
 @section LeftBar
 {
@@ -73,26 +73,26 @@ else
     .Name("grid")
     .Columns(columns =>
                  {
-                     columns.Bound(requst => requst.ReferenceNumber);
-                     columns.Bound(request => request.RequestDateEt);
-                     columns.Bound(request => request.Program);
-                     columns.Bound(request => request.Round);
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
+                     columns.Bound(request => request.Month);
+                     columns.Bound(request => request.Program);
+                     columns.Bound(request => request.RequestDateEt);
+                     columns.Bound(requst => requst.ReferenceNumber);
                      columns.Bound(request => request.Status).Template(
 
 
                          @<text>
-                              @if (item.StatusID == (int) RegionalRequestStatus.Draft)
-                              {
-                                  @Html.ActionLink("Approve", "ApproveRequest", "Request", new {Area = "EarlyWarning", id = @item.RegionalRequestID})
-                              }
-                              else
-                              {
-                                  @item.Status
-                                  @Html.ActionLink("Approve", "ApproveRequest", "Request", new {Area = "EarlyWarning", id = @item.RegionalRequestID})
-                              }
-                          </text>);
+@if (item.StatusID == (int)RegionalRequestStatus.Draft)
+{
+    @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+}
+else
+{
+    @item.Status
+    @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+}
+</text>);
                      columns.Command(command =>
                                          {
                                              command.Edit().Text(" ");
@@ -117,8 +117,8 @@ else
             .Model(model =>
             {
                 model.Id(p => p.RegionalRequestID);
-                
-              //  model.Field(r => r.Status).Editable(false);
+
+                //  model.Field(r => r.Status).Editable(false);
                 model.Field(r => r.RegionalRequestID).Editable(false);
                 model.Field(r => r.StatusID).Editable(false).DefaultValue(1);
                 model.Field(r => r.RequestDateEt).Editable(false);
