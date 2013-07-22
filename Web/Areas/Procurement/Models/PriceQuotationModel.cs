@@ -29,7 +29,13 @@ namespace Cats.Areas.Procurement.Models
     public class PriceQuotationDetailViewModel : GoodsMovementDetailViewModel
     {
         public int QuotationID { get; set; }
-        public double Tariff { get; set; }
+        public int Tariff { get; set; }
         public string Remark { get; set; }
+        public int Rank { get; set; }
+        public bool IsWinner { get; set; }
+        public int TransportBidQuotationID { get; set; }
+        public int BidID { get; set; }
+        public int TransporterID { get; set; }
+       
     }
 }
