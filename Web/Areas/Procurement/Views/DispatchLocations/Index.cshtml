@@ -12,6 +12,8 @@
 
 @section LeftBar
 {
+    
+    @*@Html.Partial()*@
     @using (Html.BeginForm("Index","DispatchLocations",FormMethod.Get))
     {
         <p class="control-list">Search:</p>
@@ -49,9 +51,7 @@
     .DataSource(dataSource => dataSource
           .Server()
              .Model(model => model.Id(p => p.TransporterID))
-            .Create(create => create.Action("Create", "Bid"))
-            .Read(read => read.Action("Index", "Bid"))
-            .Update(update => update.Action("EditBidStatus", "Bid"))
+            .Read(read => read.Action("Index", "DispatchLocations"))
      )
    )
 

@@ -14,58 +14,11 @@
 </div>
 @section LeftBar
 {
-
+    @Html.Partial("_RegionalRequestLeftBar")
 
 }
-@*@using (Html.BeginForm())
-{
-    <div class="control-group">
-        <label class="control-label">Year</label>
-        <div class="controls">
-            @Html.TextBox("year")
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Month</label>
-        <div class="controls">
-            @Html.DropDownList("month", (SelectList)ViewBag.Months)
-        </div>
-    </div>
-
-    <div class="control-group">
-        <div class="controls">
-            <input type="submit" value="Filter" class="btn btn-primary" />
-        </div>
-    </div> 
-}
-@Html.ActionLink("New", "New", "Request")
-
-@(Html.Kendo().Grid(Model).Name("requestgrid")
-.Columns(columns =>
-             {
-                 columns.Bound(request => request.ReferenceNumber);
-                 columns.Bound(request => request.RequestDateEt);
-                 columns.Bound(request => request.Program);
-                 columns.Bound(request => request.Round);
-                 columns.Bound(request => request.Region);
-                 columns.Bound(reqquest => reqquest.Year);
-                 columns.Bound(request => request.Status).Template(
 
 
-                     @<text>
-@if (item.StatusID == (int)RegionalRequestStatus.Draft)
-{
-    @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })}
-else
-{
-    @item.Status 
-}
-</text>);
-
-
-             }).Pageable())
-*@
 
 
 
@@ -73,6 +26,7 @@ else
     .Name("grid")
     .Columns(columns =>
                  {
+                     columns.Bound(request => request.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Allocation", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.Month);
@@ -97,13 +51,13 @@ else
                                          {
                                              command.Edit().Text(" ");
                                              command.Destroy().Text(" ");
-                                         });
+                                         }).Width(60);
 
                  })
     .ToolBar(toolbar =>
 
 
-                     toolbar.Create()
+                     toolbar.Create().Text("")
                  )
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
