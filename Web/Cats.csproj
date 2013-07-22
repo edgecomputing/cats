@@ -567,6 +567,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -769,7 +770,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
-    <Folder Include="Areas\Logistics\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />
   </ItemGroup>
