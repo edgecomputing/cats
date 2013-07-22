@@ -187,7 +187,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
                                               "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
-            //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
+            ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
             ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
 
@@ -305,7 +305,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 regionalRequest.RegionalRequestDetails = releifDetails;
                 regionalRequest.Status = (int)RegionalRequestStatus.Draft;
                 _regionalRequestService.AddRegionalRequest(regionalRequest);
-                return RedirectToAction("Edit", "Request", new { id = regionalRequest.RegionalRequestID });
+                return RedirectToAction("Index", "Request");
             }
 
             PopulateLookup();

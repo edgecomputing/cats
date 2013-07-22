@@ -1,7 +1,8 @@
-﻿<ul class="nav nav-list">
+﻿@using Cats.Models.Constant
+<ul class="nav nav-list">
     <li class="nav-header">Regional Request</li>        
-    <li><a href="#"><i class="icon-check-sign"></i> Regional Requests</a></li>
-    <li><a href="#"><i class="icon-inbox"></i> Approved Requests</a></li>
+    <li><a href="@Url.Action("SubmittedRequest","Request",new{id=(int)RegionalRequestStatus.Approved})"><i class="icon-check-sign"></i> Regional Requests</a></li>
+    <li><a href="@Url.Action("SubmittedRequest","Request",new{id=(int)RegionalRequestStatus.FederalApproved})"><i class="icon-inbox"></i> Approved Requests</a></li>
     
     <li class="divider"></li>
     <li><a href="#"><i class="icon-print"></i> Print</a></li>
