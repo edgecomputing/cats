@@ -9,7 +9,7 @@
 }
 
 <div class="well">
-    <h4 class="page-header">Regional Monthly Relief Requests</h4>
+    <h4 class="page-header">Regional Monthly Requests</h4>
 </div>
 @section LeftBar
 {
@@ -17,41 +17,13 @@
 
 }
 
-@using (Html.BeginForm())
-{
-    <div class="control-group">
-        <label class="control-label">Region</label>
-        <div class="controls">
-            @Html.DropDownList("RegionID", String.Empty)
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Month</label>
-        <div class="controls">
-            @Html.DropDownList("month", (SelectList)ViewBag.Months)
-        </div>
-    </div>
-    <div class="control-group">
-        <label class="control-label">Status</label>
-        <div class="controls">
-            @Html.DropDownList("Status", string.Empty)
-        </div>
-    </div>
-
-    <div class="control-group">
-        <div class="controls">
-            <input type="submit" value="Filter" class="btn btn-primary" />
-        </div>
-    </div> 
-}
 @(Html.Kendo().Grid(Model).Name("requestgrid")
 .Columns(columns =>
              {
                  columns.Bound(request => request.ReferenceNumber);
                  columns.Bound(request => request.RequestDateEt);
                  columns.Bound(request => request.Program);
-                 columns.Bound(request => request.Round);
+                 columns.Bound(request => request.Month);
                  columns.Bound(request => request.Region);
                  columns.Bound(reqquest => reqquest.Year);
                  columns.Bound(request => request.Status) .Template(
