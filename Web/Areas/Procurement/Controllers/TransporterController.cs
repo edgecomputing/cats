@@ -98,6 +98,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return View(listpoco);
         }
+
       
         //
         // GET: /Procurement/Transporter/Details/5
@@ -138,7 +139,7 @@ namespace Cats.Areas.Procurement.Controllers
                //
                // GET: /Procurement/Default1/Edit/5
 
-               public ActionResult Edit(int id = 0)
+               public ActionResult Edit(int id = 0,int ispartial=0)
                 {
                     Transporter transporter;
                     if (id == 0)
@@ -153,10 +154,30 @@ namespace Cats.Areas.Procurement.Controllers
                     {
                         return HttpNotFound();
                     }
-
-                    return View(transporter);
+                    if (ispartial==1)
+                    {
+                        return RedirectToAction("EditPartial/"+id);
+                    }
+                       return View(transporter);
                 }
-              
+               public ActionResult EditPartial(int id = 0)
+               {
+                   Transporter transporter;
+                   if (id == 0)
+                   {
+                       transporter = new Transporter();
+                   }
+                   else
+                   {
+                       transporter = transportService.FindById(id);
+                   }
+                   if (transporter == null)
+                   {
+                       return HttpNotFound();
+                   }
+
+                   return View(transporter);
+               }            
                      //
                      // POST: /Procurement/Default1/Edit/5
 
@@ -176,8 +197,29 @@ namespace Cats.Areas.Procurement.Controllers
                              return RedirectToAction("Index");
                          }
                          return View(transporter);
-                     }
 
+                     }
+                     [HttpPost]
+                     public ActionResult EditPartial(Transporter transporter)
+                     {
+                        // return Json(new[] { item }.ToDataSourceResult(request, ModelState));
+
+
+                         
+                         if (ModelState.IsValid)
+                         {
+                             if (transporter.TransporterID == 0)
+                             {
+                                 transportService.AddTransporter(transporter);
+                             }
+                             else
+                             {
+                                 transportService.EditTransporter(transporter);
+                             }
+                             return Json("{}", JsonRequestBehavior.AllowGet);
+                         }
+                         return View(transporter);
+                     }
                      //
                      // GET: /Procurement/Default1/Delete/5
 
