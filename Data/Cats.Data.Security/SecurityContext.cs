@@ -12,7 +12,7 @@ namespace Cats.Data.Security
             Database.SetInitializer<SecurityContext>(null);
         }
 
-        public SecurityContext() : base("Name=CatsSecurityContext") { }
+        public SecurityContext() : base("Name=SecurityContext") { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserInfo> UsersInfo { get; set; }

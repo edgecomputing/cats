@@ -280,7 +280,7 @@ namespace Cats.Services.Security
             string zeroes = string.Empty;
             for (int start = 0; start < 8 - userSid.Length; start++)
                 zeroes += "0";
-            NetSqlAzMan.Cache.StorageCache storage = new NetSqlAzMan.Cache.StorageCache(System.Configuration.ConfigurationManager.ConnectionStrings["CatsSecurityContext"].ConnectionString);
+            NetSqlAzMan.Cache.StorageCache storage = new NetSqlAzMan.Cache.StorageCache(System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString);
             storage.BuildStorageCache(store, application);
             NetSqlAzMan.Cache.AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, zeroes + userSid, DateTime.Now);
             foreach (NetSqlAzMan.Cache.AuthorizedItem item in items)
