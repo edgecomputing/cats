@@ -14,9 +14,10 @@
 </div>
 @section LeftBar
 {
-
+    @Html.Partial("_RegionalRequestLeftBar")
 
 }
+
 @Html.ActionLink("Back To Regional Request","Index","Request")
 @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
     .Name("grid")
