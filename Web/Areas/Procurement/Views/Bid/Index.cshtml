@@ -22,34 +22,7 @@
 
 @section LeftBar
 {
-    @using (Html.BeginForm("Index", "Bid", FormMethod.Get))
-    {
-        <p class="control-list">Search:</p>
-        <div class="control-group">
-            <label class="control-label">Bid Number</label>
-            <div class="controls">
-                @Html.TextBox("BidNumber")
-            </div>
-            <label class="control-label">Status:</label>
-            @foreach (string statusType in ViewBag.BidStatusTypes)
-            {
-                <div class="controls">
-                    @Html.CheckBox(statusType)
-                    @Html.Label(statusType)
-                </div>
-            }
-            @Html.Hidden("statusTypes", "All")
-        </div>
-
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" value="Filter" class="btn btn-primary" />
-                @*@Html.ActionLink("Create Bid", "Create")*@
-            </div>
-        </div> 
-        
-    }
-
+    @Html.Partial("_BidLeftBar")
 }
 
 @(Html.Kendo().Grid((IEnumerable<Cats.Models.Bid>)ViewData["bids"])

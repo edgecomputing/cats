@@ -48,97 +48,13 @@
     @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
 <body>
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="brand" href="~/">CATS</a>
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li><a href="~/">Home</a></li>
-                        <li><a href="@Url.Action("Create","HRD",new {Area ="EarlyWarning"})">HRD</a></li>
-                       
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Request<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-header">Regional Requests</li>
-                                <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">Submit Regional Request</a></li>
-                              @*  <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Manage Requests</a></li>*@
-                                <li class="nav-header">Requisitions</li>
-                                <li><a href="@Url.Action("SubmittedRequest", "Request", new { Area = "EarlyWarning" })">Received Requests</a></li>
-                                <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })">Manage Requisitions</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation<b class="caret"></b></a>
-
-                            <ul class="dropdown-menu">
-                                <li class="nav-header">Beneficiary Allocation</li>
-                                <li><a href="@Url.Action("Index", "BeneficiaryAllocation", new { Area = "Logistics" })">Beneficiary Allocation</a></li>
-                                <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">Hub Allocation</a></li>
-                               
-                               
-                                <li><a href="@Url.Action("Allocate", "ProjectAllocation", new { Area = "Logistics" })">Project Allocation</a></li>
-                               
-                               
-                                <li><a href="@Url.Action("Requisitions", "TransportRequisition", new { Area = "Logistics" })">Assigned Requisitions</a></li>    
-                                
-                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">Transport Requisitions</a></li>   
-
-                                <li><a href="@Url.Action("TransportRequisitions", "TransportOrder", new { Area = "Procurement" })">Sbmitted Transport Requisitions</a></li>
-                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Stock</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bid<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })">Bid Plan</a></li>
-                                <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Bid Management</a></li>
-                                <li><a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })">Transporter</a></li>
-                                <li><a href="@Url.Action("Create", "Bid", new { Area = "Procurement" })">Create Bid</a></li>
-                                <li><a href="@Url.Action("Index", "RFQ", new { Area = "Procurement" })">RFQ</a></li>
-                                <li><a href="@Url.Action("Index", "PriceQuotation", new { Area = "Procurement" })">Price Quotation</a></li>
-                                <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">Dispatch Locations</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Reports</a></li>
-                        <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">Settings</a></li>
-                    </ul>
-                    <ul class="nav pull-right">
-                        <li class="divider-vertical"></li>
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope"></i><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>No new messages</li>
-                            </ul>
-                        </li>
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> @Html.GetUserName() <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Preference</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Change Password</a></li>
-                                <li><a href="@Url.RouteUrl("Logout")">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <!--/.nav-collapse -->
-            </div>
-        </div>
-    </div>
+    
+    @Html.Partial("_MainMenu")
 
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span2">
-                <div class="well sidebar-nav">
+                <div class="sidebar-nav">
                     <ul class="nav nav-list">
                         @RenderSection("LeftBar", required: false)
                     </ul>
