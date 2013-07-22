@@ -19,7 +19,7 @@ namespace Cats.Models
         
         public int RegionID { get; set; }
         public int ProgramId { get; set; }
-        public int Round { get; set; }
+        public int Month { get; set; }
         public DateTime RequistionDate { get; set; }
         public int Year { get; set; }
         public String ReferenceNumber { get; set; }

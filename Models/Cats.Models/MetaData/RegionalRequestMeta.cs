@@ -19,8 +19,8 @@ namespace Cats.Models
         [Required(ErrorMessage = "Please Select Program")]
         [Display(Name="Program")]
         public int ProgramId { get; set; }
-        [Required(ErrorMessage="Please Select Round")]
-        public int Round { get; set; }
+        [Required(ErrorMessage="Please Select Month")]
+        public int Month { get; set; }
 
         [Required(ErrorMessage = "Please Enter Requisition Date")]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
