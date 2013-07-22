@@ -19,10 +19,6 @@ namespace Cats.Areas.Procurement.Controllers
     
         public DispatchLocationsController(ITransportOrderService transportOrderService)
         {
-
-            
-
-
             this._transportOrderService = transportOrderService;
         }
        
@@ -36,8 +32,6 @@ namespace Cats.Areas.Procurement.Controllers
         
         public ActionResult Details(int id=0)
         {
-
-
             TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
             //var bidWinner = _bidWinnerService.Get(m => m.TransporterID == transportOrder.TransporterID).FirstOrDefault();
             if (transportOrder != null)
@@ -49,6 +43,7 @@ namespace Cats.Areas.Procurement.Controllers
                 ViewBag.BidNumber = transportOrder.BidDocumentNo;
                 ViewBag.Region = region;
                 return View(transportOrder);
+                ViewData["Transporters"] = transportOrder;
             }
             return RedirectToAction("Index");
             
