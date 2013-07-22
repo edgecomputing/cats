@@ -179,6 +179,7 @@
     <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\BidsViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\DispatchLocationViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PriceQuotationModel.cs" />
     <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
@@ -561,9 +562,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\_TransporterLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
