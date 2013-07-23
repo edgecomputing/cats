@@ -1,0 +1,224 @@
+﻿
+@model Dictionary<string, Cats.Models.TransportBidPlanDetail>
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+   
+    <li class="nav-header">Bid Plan @ViewBag.bidPlan.ShortName</li>
+    <li>Year: @ViewBag.bidPlan.Year</li>
+    <li>Period: @ViewBag.bidPlan.YearHalf</li>
+    <li class="nav-header">Tasks</li>
+
+    <li> <a href="@Url.Action("Create/" + ViewBag.bidPlan.TransportBidPlanID, "bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Create Bid</a></li>
+    <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to List</a></li>
+
+}
+<style>
+    table input
+        {
+            width:96%;
+            margin:0;
+            font-size:11px;
+            padding:0px;
+            background:none;
+            border:none;
+            padding-right:6px;
+            text-align:right;
+        }
+    .matrix td
+    {
+       
+         padding:0px;
+    }
+    .table_headbeka,th
+    {
+        color:#04b0bb;
+         padding:4px;
+    }
+    .table_head
+    {
+        color:#04b0bb;
+         margin:4px;
+    }
+    .table_head2
+    {
+        color:#04b0bb;
+         font-size:12px;
+         padding-left:4px;
+         padding-right:4px;
+    }
+    .itemdeleted
+    {
+        color:red;
+    }
+    .itemadded
+    {
+        color:blue;
+    }
+    .itemupdated
+    {
+        color:#068b77;
+    }
+</style>
+<!--<div>
+    @foreach (var region in ViewBag.RegionCollection)
+    {
+        <div class="row">
+            <div class="span2">@region.Name</div>
+            @foreach (var program in ViewBag.ProgramCollection)
+            {
+                        <div class="span2">@program.Name</div>
+            }
+        </div>
+    }
+
+</div>
+
+
+@foreach (var rtotal in ViewBag.RegionTotals)
+{
+    <div>@rtotal.Region.Name  @rtotal.Program.Name @rtotal.Amount  </div>
+}
+
+-->
+@{var cls = "active";}
+<div>
+    <select onclick="onRegionChached">
+    @foreach (var region in ViewBag.RegionCollection){
+        <option value="@region.AdminUnitID" class="row">@region.Name</option>
+    }
+    </select>
+
+    <select onclick="onRegionChached">
+    @foreach (var hub in ViewBag.HubCollection)
+    {
+        <option value="@hub.HubId" class="row">@hub.Name</option>
+    }
+    </select>
+
+
+</div>
+<div id="navbar" class="tabbable tabs-top">
+  <ul class="nav nav-tabs">
+    @foreach (var region in ViewBag.RegionCollection)
+    {
+        var tab_id = "#tab" + region.AdminUnitID;
+        <li class="@cls"><a href="@tab_id" data-toggle="tab">@region.Name</a></li>
+        cls = "";
+    }
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+
+
+    </div>
+      @{var cellCount=0;}
+      @foreach (var region in ViewBag.RegionCollection)
+    {
+        var tab_id = "tab" + region.AdminUnitID;
+        <div class="tab-pane active" id="@tab_id">
+                <h5>Enter the amount to be transported to respective destinations in [MT]</h5>
+            <table class="table table-striped table-bordered table-condensed matrix">
+            <tr>
+                <th>Zone</th>
+                <th>Wereda</th>
+                <th>program</th>
+                 @foreach(var i in ViewBag.HubCollection)
+                    {
+                <th>@i.Name</th>
+                    
+                }
+            </tr>       
+            @foreach (var zone in region.AdminUnit1)
+            {
+                var firstWoreda= true;
+               
+                var woredas=zone.AdminUnit1;
+                foreach (var woreda in woredas)
+                {
+                    var firstProgram = true;
+                    foreach (var program in ViewBag.ProgramCollection)
+                    {
+                    <tr>
+                        @if(firstWoreda)
+                        {
+                            
+                            firstWoreda = false;
+                            var zon_row = woredas.Count * ViewBag.ProgramCollection.Count;
+                            
+                            <td  rowspan="@zon_row"><div class="table_head">@zone.Name</div></td>
+                         }
+                        @if (firstProgram)
+                        {
+
+                            firstProgram = false;
+                            var woreda_row = ViewBag.ProgramCollection.Count;
+                            
+                            <td rowspan="@woreda_row"><div class="table_head">@woreda.Name</div></td>
+                         }
+                        
+                        <td ><div class="table_head2">@program.Name</div></td>
+                        
+                        @foreach(var hub in ViewBag.HubCollection)
+                        {
+                            var hash = ViewBag.bidPlan.TransportBidPlanID + "_" + program.ProgramID + "_" + hub.HubId + "_" + woreda.AdminUnitID;
+                            var quantity="";
+                            var onchangeParam = cellCount + "," + ViewBag.bidPlan.TransportBidPlanID + "," + program.ProgramID + "," + hub.HubId + "," + woreda.AdminUnitID;
+                            if(Model.ContainsKey(hash))
+                            {
+                                quantity = Model[hash].Quantity + "";
+                                onchangeParam = onchangeParam + "," + Model[hash].TransportBidPlanDetailID;
+                            }
+                            
+                            
+                        <td class="no_pad" id="cell_@cellCount"><input onchange="on_amount_change(this.value,@onchangeParam)" value="@quantity"  /></td>
+                            cellCount++;
+                        }
+                    </tr>
+                    }
+                }
+            }
+                
+            </table>
+             
+            
+           
+        </div>
+    }
+
+        
+  </div>
+ </div>   
+<div>
+    
+</div>
+<script>
+    function on_amount_change(amount,cellId, BidPlanID, ProgramID, SourceID, DestinationID, TransportBidPlanDetailID)
+    {
+        
+        TransportBidPlanDetailID = TransportBidPlanDetailID ? TransportBidPlanDetailID : 0;
+        if (amount == "")
+        {
+            //delete
+            amount = -1;
+        }
+       
+        $.post("/Procurement/TransportBidPlan/EditAJAX",
+            {   TransportBidPlanDetailID:TransportBidPlanDetailID
+                ,BidPlanID:BidPlanID
+                , DestinationID: DestinationID
+                , SourceID: SourceID
+                ,ProgramID:ProgramID
+                ,Quantity:amount}
+            ,function (data)
+            {
+                data = data.replace("_cellID_", cellId);
+                $("#cell_" + cellId).html(data);
+            }
+            );
+    }
+</script>

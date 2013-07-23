@@ -4,271 +4,255 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
-@section LeftBar
-{
-    @Html.Partial("_TransporterLeftBar")
-}
-
 <div class="form-horizontal">
-    @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary(true)
-        <p>
-            <input type="submit" value="Save" />
-            @Html.ActionLink("Back to List", "Index")
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <p>
+            <input type="submit" value="Save" /> @Html.ActionLink("Back to List", "Index")
         </p>
     
-        <div style="border: solid 1px #CCC; padding: 4px;">
-            <div id="navbar" class="tabbable tabs-left">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Address</a></li>
-                    <li><a href="#tab2" data-toggle="tab">Capacity</a></li>
-                    <li><a href="#tab3" data-toggle="tab">Management</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab1">
-                        <fieldset>
-                            <legend>Address</legend>
-                            @Html.HiddenFor(model => model.TransporterID)
-                            <!-- Input Name-->
-                            <div class="control-group">
-                                <label class="control-label" for="Name">Name</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", @placeholder = "Name" })
-                                    @Html.ValidationMessageFor(model => model.Name)
-                                </div>
-                            </div>
-                            <!-- Input Region-->
-                            <div class="control-group">
-                                <label class="control-label" for="Region">Region</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Region, new { @class = "input-xlarge", @placeholder = "Region" })
-                                    @Html.ValidationMessageFor(model => model.Region)
-                                </div>
-                            </div>
+    <div style="border:solid 1px #CCC; padding:4px;">
+<div id="navbar" class="tabbable tabs-left">
 
-                            <!-- Input SubCity-->
-                            <div class="control-group">
-                                <label class="control-label" for="SubCity">Sub City</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.SubCity, new { @class = "input-xlarge", @placeholder = "Sub City" })
-                                    @Html.ValidationMessageFor(model => model.SubCity)
-                                </div>
-                            </div>
-
-                            <!-- Input Zone-->
-                            <div class="control-group">
-                                <label class="control-label" for="Zone">Zone</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Zone, new { @class = "input-xlarge", @placeholder = "Zone" })
-                                    @Html.ValidationMessageFor(model => model.Zone)
-                                </div>
-                            </div>
-
-                            <!-- Input Woreda-->
-                            <div class="control-group">
-                                <label class="control-label" for="Woreda">Woreda</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Woreda, new { @class = "input-xlarge", @placeholder = "Woreda" })
-                                    @Html.ValidationMessageFor(model => model.Woreda)
-                                </div>
-                            </div>
-
-                            <!-- Input Kebele-->
-                            <div class="control-group">
-                                <label class="control-label" for="Kebele">Kebele</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Kebele, new { @class = "input-xlarge", @placeholder = "Kebele" })
-                                    @Html.ValidationMessageFor(model => model.Kebele)
-                                </div>
-                            </div>
-
-                            <!-- Input HouseNo-->
-                            <div class="control-group">
-                                <label class="control-label" for="HouseNo">House No</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.HouseNo, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.HouseNo)
-                                </div>
-                            </div>
-
-                            <!-- Input TelephoneNo-->
-                            <div class="control-group">
-                                <label class="control-label" for="TelephoneNo">Telephone No</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.TelephoneNo)
-                                </div>
-                            </div>
-
-                            <!-- Input MobileNo-->
-                            <div class="control-group">
-                                <label class="control-label" for="MobileNo">Mobile No</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.MobileNo)
-                                </div>
-                            </div>
-
-                        </fieldset>
-                    </div>
-                    <div class="tab-pane" id="tab2">
-                        <fieldset>
-                            <legend>Capacity</legend>
-
-                            <!-- Input Ownership-->
-                            <div class="control-group">
-                                <label class="control-label" for="Ownership">Ownership</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Ownership, new { @class = "input-xlarge", @placeholder = "-" })
-                                    @Html.ValidationMessageFor(model => model.Ownership)
-                                </div>
-                            </div>
-
-                            <!-- Input VehicleCount-->
-                            <div class="control-group">
-                                <label class="control-label" for="VehicleCount">Vehicle Count</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.VehicleCount, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.VehicleCount)
-                                </div>
-                            </div>
-
-
-                            <!-- Input LiftCapacityFrom-->
-                            <div class="control-group">
-                                <label class="control-label" for="LiftCapacityFrom">Lift Capacity</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.LiftCapacityFrom, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
-                                </div>
-                            </div>
-                            <!-- Input LiftCapacityTo-->
-
-                            <div class="control-group">
-                                <label class="control-label" for="LiftCapacityTo">To</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.LiftCapacityTo, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.LiftCapacityTo)
-                                </div>
-                            </div>
-
-
-                            <!-- Input LiftCapacityTotal-->
-                            <div class="control-group">
-                                <label class="control-label" for="LiftCapacityTotal">Total Lift Capacity</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.LiftCapacityTotal, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
-                                </div>
-                            </div>
-
-                            <!-- Input Capital-->
-                            <div class="control-group">
-                                <label class="control-label" for="Capital">Capital</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.Capital, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.Capital)
-                                </div>
-                            </div>
-
-                            <!-- Input EmployeeCountMale-->
-                            <div class="control-group">
-                                <label class="control-label" for="EmployeeCountMale">Employee Count Male</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.EmployeeCountMale, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.EmployeeCountMale)
-                                </div>
-                            </div>
-
-                            <!-- Input EmployeeCountFemale-->
-                            <div class="control-group">
-                                <label class="control-label" for="EmployeeCountFemale">Employee Count Female</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.EmployeeCountFemale, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
-                                </div>
-                            </div>
-
-                        </fieldset>
-                    </div>
-                    <div class="tab-pane" id="tab3">
-                        <fieldset>
-                            <legend>Management</legend>
-                            <!-- Input OwnerName-->
-                            <div class="control-group">
-                                <label class="control-label" for="OwnerName">Owner Name</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.OwnerName, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.OwnerName)
-                                </div>
-                            </div>
-
-                            <!-- Input OwnerMobile-->
-                            <div class="control-group">
-                                <label class="control-label" for="OwnerMobile">Owner Mobile</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.OwnerMobile, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.OwnerMobile)
-                                </div>
-                            </div>
-
-                            <!-- Input ManagerName-->
-                            <div class="control-group">
-                                <label class="control-label" for="OwnerMobile">Manager Name</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ManagerName, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ManagerName)
-                                </div>
-                            </div>
-
-                            <!-- Input ManagerMobile-->
-                            <div class="control-group">
-                                <label class="control-label" for="ManagerMobile">Manager Mobile</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ManagerMobile, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ManagerMobile)
-                                </div>
-                            </div>
-
-                            <!-- Input ExperienceFrom-->
-                            <div class="control-group">
-                                <label class="control-label" for="ExperienceFrom">Experience From</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ExperienceFrom, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ExperienceFrom)
-                                </div>
-                            </div>
-
-                            <!-- Input ExperienceTo-->
-                            <div class="control-group">
-                                <label class="control-label" for="ExperienceTo">Experience To</label>
-                                <div class="controls">
-                                    @Html.TextBoxFor(model => model.ExperienceTo, new { @class = "input-xlarge", @placeholder = "0" })
-                                    @Html.ValidationMessageFor(model => model.ExperienceTo)
-                                </div>
-                            </div>
-
-                            <p>
-                                <input type="submit" value="Save" />
-                            </p>
-                        </fieldset>
-                    </div>
-                </div>
+    <!--
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Address</a></li>
+    <li><a href="#tab2" data-toggle="tab">Capacity</a></li>
+      <li><a href="#tab3" data-toggle="tab">Management</a></li>
+  </ul>-->
+  <div class="tab-contents">
+    <div class="tab-pane active" id="tab1">
+      <fieldset>
+        <legend>Address</legend>
+        @Html.HiddenFor(model => model.TransporterID)
+        <!-- Input Name-->
+        <div class="control-group">
+            <label class="control-label" for="Name">Name</label>
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", @placeholder = "Name" })    
+                 @Html.ValidationMessageFor(model => model.Name)
             </div>
-
         </div>
-    }
-</div>
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-@*
-@section Scripts {
-   @Scripts.Render("~/bundles/jqueryval")
-}*@
+        <!-- Input Region-->
+        <div class="control-group">
+            <label class="control-label" for="Region">Region</label>
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Region, new { @class = "input-xlarge", @placeholder = "Region" })    
+                 @Html.ValidationMessageFor(model => model.Region)
+            </div>
+        </div>
+        
+        <!-- Input SubCity-->
+        <div class="control-group">
+            <label class="control-label" for="SubCity">Sub City</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SubCity, new { @class = "input-xlarge", @placeholder = "Sub City" })    
+                @Html.ValidationMessageFor(model => model.SubCity)
+            </div>
+        </div>
+        
+        <!-- Input Zone-->
+        <div class="control-group">
+            <label class="control-label" for="Zone">Zone</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Zone, new { @class = "input-xlarge", @placeholder = "Zone" })    
+                @Html.ValidationMessageFor(model => model.Zone)
+            </div>
+        </div>        
+       
+        <!-- Input Woreda-->
+        <div class="control-group">
+            <label class="control-label" for="Woreda">Woreda</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Woreda, new { @class = "input-xlarge", @placeholder = "Woreda" })    
+                @Html.ValidationMessageFor(model => model.Woreda)
+            </div>
+        </div> 
 
-<script>
-    $('#navbar').scrollspy()
-</script>
+        <!-- Input Kebele-->
+        <div class="control-group">
+            <label class="control-label" for="Kebele">Kebele</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Kebele, new { @class = "input-xlarge", @placeholder = "Kebele" })    
+                @Html.ValidationMessageFor(model => model.Kebele)
+            </div>
+        </div> 
+
+        <!-- Input HouseNo-->
+        <div class="control-group">
+            <label class="control-label" for="HouseNo">House No</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.HouseNo, new { @class = "input-xlarge", @placeholder = "-" })    
+                @Html.ValidationMessageFor(model => model.HouseNo)
+            </div>
+        </div>        
+
+        <!-- Input TelephoneNo-->
+        <div class="control-group">
+            <label class="control-label" for="TelephoneNo">Telephone No</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.TelephoneNo, new { @class = "input-xlarge", @placeholder = "-" })    
+                @Html.ValidationMessageFor(model => model.TelephoneNo)
+            </div>
+        </div> 
+
+        <!-- Input MobileNo-->
+        <div class="control-group">
+            <label class="control-label" for="MobileNo">Mobile No</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.MobileNo, new { @class = "input-xlarge", @placeholder = "-" })    
+                @Html.ValidationMessageFor(model => model.MobileNo)
+            </div>
+        </div>
+        
+        </fieldset>  
+    </div>
+    <div class="tab-pane" id="tab2">
+        <fieldset>
+        <legend>Capacity</legend>   
+               
+         <!-- Input Ownership-->
+        <div class="control-group">
+            <label class="control-label" for="Ownership">Ownership</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Ownership, new { @class = "input-xlarge", @placeholder = "-" })    
+                @Html.ValidationMessageFor(model => model.Ownership)
+            </div>
+        </div>       
+        
+        <!-- Input VehicleCount-->
+        <div class="control-group">
+            <label class="control-label" for="VehicleCount">Vehicle Count</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.VehicleCount, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.VehicleCount)
+            </div>
+        </div>
+
+        
+        <!-- Input LiftCapacityFrom-->
+        <div class="control-group">
+            <label class="control-label" for="LiftCapacityFrom">Lift Capacity</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.LiftCapacityFrom, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
+            </div>
+        </div>
+        <!-- Input LiftCapacityTo-->
+
+        <div class="control-group">
+            <label class="control-label" for="LiftCapacityTo">To</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.LiftCapacityTo, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.LiftCapacityTo)
+            </div>
+        </div>
+        
+
+        <!-- Input LiftCapacityTotal-->
+        <div class="control-group">
+            <label class="control-label" for="LiftCapacityTotal">Total Lift Capacity</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.LiftCapacityTotal, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
+            </div>
+        </div>
+
+        <!-- Input Capital-->
+        <div class="control-group">
+            <label class="control-label" for="Capital">Capital</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Capital, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.Capital)
+            </div>
+        </div>
+
+        <!-- Input EmployeeCountMale-->
+        <div class="control-group">
+            <label class="control-label" for="EmployeeCountMale">Employee Count Male</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.EmployeeCountMale, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.EmployeeCountMale)
+            </div>
+        </div>
+
+         <!-- Input EmployeeCountFemale-->
+        <div class="control-group">
+            <label class="control-label" for="EmployeeCountFemale">Employee Count Female</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.EmployeeCountFemale, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
+            </div>
+        </div>
+  
+        </fieldset>
+    </div>
+    <div class="tab-pane" id="tab3">
+            <fieldset>
+        <legend>Management</legend> 
+        <!-- Input OwnerName-->
+        <div class="control-group">
+            <label class="control-label" for="OwnerName">Owner Name</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.OwnerName, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.OwnerName)
+            </div>
+        </div>
+        
+        <!-- Input OwnerMobile-->
+        <div class="control-group">
+            <label class="control-label" for="OwnerMobile">Owner Mobile</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.OwnerMobile, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.OwnerMobile)
+            </div>
+        </div>
+
+        <!-- Input ManagerName-->
+        <div class="control-group">
+            <label class="control-label" for="OwnerMobile">Manager Name</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ManagerName, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.ManagerName)
+            </div>
+        </div>
+        
+        <!-- Input ManagerMobile-->
+        <div class="control-group">
+            <label class="control-label" for="ManagerMobile">Manager Mobile</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ManagerMobile, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.ManagerMobile)
+            </div>
+        </div>
+        
+        <!-- Input ExperienceFrom-->
+        <div class="control-group">
+            <label class="control-label" for="ExperienceFrom">Experience From</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ExperienceFrom, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.ExperienceFrom)
+            </div>
+        </div>
+
+        <!-- Input ExperienceTo-->
+        <div class="control-group">
+            <label class="control-label" for="ExperienceTo">Experience To</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ExperienceTo, new { @class = "input-xlarge", @placeholder = "0" })    
+                @Html.ValidationMessageFor(model => model.ExperienceTo)
+            </div>
+        </div>        
+
+    </fieldset>
+      </div>
+  </div>
+</div>
+
+      </div>
+}
+    </div>
+<div>
+   <!-- @Html.ActionLink("Back to List", "Index")-->
+</div>
+

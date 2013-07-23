@@ -11,6 +11,10 @@ namespace Cats.Models
         {
             this.TransportOrders = new List<TransportOrder>();
             this.BidWinners=new List<BidWinner>();
+            DateTime dt = DateTime.Now; ;
+            this.ExperienceFrom = dt;
+            this.ExperienceTo = dt;
+
         }
         [Key]
         public int TransporterID { get; set; }
