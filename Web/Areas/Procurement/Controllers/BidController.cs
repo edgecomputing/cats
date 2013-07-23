@@ -53,6 +53,19 @@ namespace Cats.Areas.Procurement.Controllers
             var bidsToDisplay = GetBids(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }
+        public ActionResult ApprovedBids()
+        {
+            var bids = _bidService.Get(m => m.StatusID == 4);
+            var bidsToDisplay = GetBids(bids).ToList();
+            return View(bidsToDisplay);
+        }
+        public ActionResult Bid_Status([DataSourceRequest] DataSourceRequest request)
+        {
+            var bids = _bidService.Get(m => m.StatusID == 4);
+            var StatusToDisplay = GetBids(bids).ToList();
+            return Json(StatusToDisplay.ToDataSourceResult(request));
+        }
+
         public ActionResult BidDetail_Read(int bidID,[DataSourceRequest] DataSourceRequest request)
         {
             var bidDetails = _bidDetailService.GetAllBidDetail();
@@ -252,28 +265,12 @@ namespace Cats.Areas.Procurement.Controllers
         public ViewResult Details(int id = 0)
         {
             Bid bid = _bidService.Get(t => t.BidID == id, null, "BidDetails").FirstOrDefault();
+            //var bidDetails = _bidDetailService.Get(t => t.BidID == id, null,null).FirstOrDefault();
             ViewBag.BidStatus = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
             ViewData["BidDetails"] = bid;
             return View(bid);
 
-            //var viewModel = new BidViewModel();
-            //var bid = _bidService.FindById(id);
-            //var regions = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 2);
-            //var bidDetails = new List<BidDetail>();
-            //foreach (var region in regions)
-            //{
-            //    var bidDetail = new BidDetail();
-            //    bidDetail.AdminUnit = region;
-            //    bidDetail.Bid = bid;
-            //    bidDetails.Add(bidDetail);
-            //}
-            //viewModel.BidID = bid.BidID;
-            //viewModel.BidNumber = bid.BidNumber;
-            //viewModel.StartDate = bid.StartDate;
-            //viewModel.EndDate = bid.EndDate;
-            //viewModel.BidDetails = bidDetails;
-            //return View((viewModel);
-
+            
         }
         public ActionResult EditBidStatus(int id)
         {
