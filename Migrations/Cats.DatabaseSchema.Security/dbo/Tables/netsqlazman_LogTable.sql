@@ -15,6 +15,8 @@
 );
 
 
+
+
 GO
 CREATE CLUSTERED INDEX [IX_Log_2]
     ON [dbo].[netsqlazman_LogTable]([LogDateTime] DESC, [InstanceGuid] ASC, [OperationCounter] DESC);
@@ -28,4 +30,16 @@ CREATE NONCLUSTERED INDEX [IX_Log]
 GO
 CREATE NONCLUSTERED INDEX [IX_Log_1]
     ON [dbo].[netsqlazman_LogTable]([SqlIdentity] ASC);
+
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_LogTable] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+
+
+GO
+GRANT INSERT
+    ON OBJECT::[dbo].[netsqlazman_LogTable] TO [NetSqlAzMan_Readers]
+    AS [dbo];
 

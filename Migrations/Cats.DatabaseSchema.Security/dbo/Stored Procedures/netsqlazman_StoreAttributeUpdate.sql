@@ -10,3 +10,9 @@ IF EXISTS(Select StoreAttributeId FROM dbo.[netsqlazman_StoreAttributes]() WHERE
 	UPDATE [dbo].[netsqlazman_StoreAttributesTable] SET [AttributeKey] = @AttributeKey, [AttributeValue] = @AttributeValue WHERE [StoreAttributeId] = @Original_StoreAttributeId AND [StoreId] = @StoreId 
 ELSE
 	RAISERROR ('Store permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_StoreAttributeUpdate] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

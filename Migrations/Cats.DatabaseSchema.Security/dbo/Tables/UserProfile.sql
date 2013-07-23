@@ -12,11 +12,14 @@
     [FailedAttempts]           INT           NOT NULL,
     [LockedInInd]              BIT           NOT NULL,
     [LanguageCode]             CHAR (2)      CONSTRAINT [DF_UserProfile_LanguageCode] DEFAULT ('en') NOT NULL,
-    [DatePreference]           CHAR (2)      CONSTRAINT [DF_UserProfile_PreferredDateFormat] DEFAULT ('en') NOT NULL,
+    [Calendar]                 CHAR (2)      CONSTRAINT [DF_UserProfile_PreferredDateFormat] DEFAULT ('en') NOT NULL,
+    [Keyboard]                 CHAR (2)      NOT NULL,
     [PreferedWeightMeasurment] CHAR (2)      CONSTRAINT [DF_UserProfile_PreferedWeightMeasurment] DEFAULT ('MT') NOT NULL,
     [MobileNumber]             VARCHAR (20)  NULL,
     [Email]                    VARCHAR (100) NULL,
     [DefaultTheme]             NVARCHAR (50) CONSTRAINT [DF_UserProfile_DefaultTheme] DEFAULT (N'metro') NOT NULL,
     CONSTRAINT [PK_UserProfile] PRIMARY KEY CLUSTERED ([UserProfileID] ASC)
 );
+
+
 

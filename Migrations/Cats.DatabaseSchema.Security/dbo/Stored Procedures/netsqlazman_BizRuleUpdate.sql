@@ -11,3 +11,9 @@ IF EXISTS(SELECT BizRuleId FROM dbo.[netsqlazman_BizRules]() WHERE BizRuleId = @
 	UPDATE [dbo].[netsqlazman_BizRulesTable] SET [BizRuleSource] = @BizRuleSource, [BizRuleLanguage] = @BizRuleLanguage, [CompiledAssembly] = @CompiledAssembly WHERE [BizRuleId] = @Original_BizRuleId
 ELSE
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_BizRuleUpdate] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

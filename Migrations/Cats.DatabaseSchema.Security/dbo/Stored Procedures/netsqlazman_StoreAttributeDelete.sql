@@ -8,3 +8,9 @@ IF EXISTS(Select StoreAttributeId FROM dbo.[netsqlazman_StoreAttributes]() WHERE
 	DELETE FROM [dbo].[netsqlazman_StoreAttributesTable] WHERE [StoreAttributeId] = @StoreAttributeId AND [StoreId] = @StoreId
 ELSE
 	RAISERROR ('Store permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_StoreAttributeDelete] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

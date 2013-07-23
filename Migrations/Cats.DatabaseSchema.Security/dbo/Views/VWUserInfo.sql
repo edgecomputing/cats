@@ -1,7 +1,9 @@
 ﻿CREATE VIEW dbo.VWUserInfo
 AS
-SELECT        dbo.[User].UserId, CONVERT(VARBINARY(85), dbo.[User].UserId) AS DBUserSid, dbo.UserProfile.UserProfileID, dbo.UserProfile.FirstName, 
-                         dbo.UserProfile.LastName, dbo.UserProfile.DatePreference, dbo.UserProfile.LanguageCode, dbo.[User].UserName
+SELECT        dbo.[User].UserId, CONVERT(VARBINARY(85), dbo.[User].UserId) AS DBUserSid, dbo.UserProfile.UserProfileID, dbo.UserProfile.LanguageCode, 
+                         dbo.[User].UserName, dbo.[User].FullName, dbo.[User].Email, dbo.[User].Password, dbo.[User].Disabled, dbo.UserProfile.ActiveInd, 
+                         dbo.UserProfile.LoggedInInd, dbo.UserProfile.LogginDate, dbo.UserProfile.LogOutDate, dbo.UserProfile.FailedAttempts, dbo.UserProfile.LockedInInd, 
+                         dbo.UserProfile.PreferedWeightMeasurment, dbo.UserProfile.Calendar, dbo.UserProfile.Keyboard
 FROM            dbo.[User] INNER JOIN
                          dbo.UserProfile ON dbo.[User].UserName = dbo.UserProfile.UserName
 
@@ -11,7 +13,7 @@ Begin DesignProperties =
    Begin PaneConfigurations = 
       Begin PaneConfiguration = 0
          NumPanes = 4
-         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+         Configuration = "(H (1[72] 4[5] 2[17] 3) )"
       End
       Begin PaneConfiguration = 1
          NumPanes = 3
@@ -91,11 +93,11 @@ Begin DesignProperties =
             Begin Extent = 
                Top = 6
                Left = 246
-               Bottom = 136
-               Right = 484
+               Bottom = 338
+               Right = 487
             End
             DisplayFlags = 280
-            TopColumn = 0
+            TopColumn = 3
          End
       End
    End
@@ -123,6 +125,8 @@ Begin DesignProperties =
       End
    End
 End', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'VWUserInfo';
+
+
 
 
 GO

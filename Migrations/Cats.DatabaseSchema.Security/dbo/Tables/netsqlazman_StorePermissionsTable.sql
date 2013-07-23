@@ -10,6 +10,8 @@
 );
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_StorePermissions]
     ON [dbo].[netsqlazman_StorePermissionsTable]([StoreId] ASC);
@@ -18,4 +20,10 @@ CREATE NONCLUSTERED INDEX [IX_StorePermissions]
 GO
 CREATE NONCLUSTERED INDEX [IX_StorePermissions_1]
     ON [dbo].[netsqlazman_StorePermissionsTable]([StoreId] ASC, [SqlUserOrRole] ASC, [NetSqlAzManFixedServerRole] ASC);
+
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_StorePermissionsTable] TO [NetSqlAzMan_Readers]
+    AS [dbo];
 

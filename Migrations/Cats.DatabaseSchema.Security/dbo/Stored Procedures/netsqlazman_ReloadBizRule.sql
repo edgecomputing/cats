@@ -9,3 +9,9 @@ IF EXISTS(SELECT ItemId FROM dbo.[netsqlazman_Items]() WHERE ItemId = @ItemId) A
 	UPDATE [dbo].[netsqlazman_ItemsTable] SET BizRuleId = @BizRuleId WHERE [ItemId] = @ItemId AND [ApplicationId] = @ApplicationId
 ELSE
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ReloadBizRule] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

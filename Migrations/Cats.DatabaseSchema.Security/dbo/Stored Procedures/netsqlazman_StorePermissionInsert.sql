@@ -13,3 +13,9 @@ BEGIN
 END
 ELSE
 	RAISERROR ('Store permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_StorePermissionInsert] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

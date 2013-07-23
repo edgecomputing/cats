@@ -9,3 +9,9 @@ IF EXISTS(Select StoreId FROM dbo.[netsqlazman_Stores]() WHERE StoreId = @Origin
 	UPDATE [dbo].[netsqlazman_StoresTable] SET [Name] = @Name, [Description] = @Description WHERE [StoreId] = @Original_StoreId
 ELSE
 	RAISERROR ('Store permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_StoreUpdate] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

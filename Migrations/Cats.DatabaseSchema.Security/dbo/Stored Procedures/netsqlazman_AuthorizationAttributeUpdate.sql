@@ -10,3 +10,9 @@ IF EXISTS(SELECT AuthorizationAttributeId FROM dbo.[netsqlazman_AuthorizationAtt
 	UPDATE [dbo].[netsqlazman_AuthorizationAttributesTable] SET [AttributeKey] = @AttributeKey, [AttributeValue] = @AttributeValue WHERE [AuthorizationAttributeId] = @Original_AuthorizationAttributeId
 ELSE
 	RAISERROR ('Application permission denied.', 16 ,1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_AuthorizationAttributeUpdate] TO [NetSqlAzMan_Users]
+    AS [dbo];
+

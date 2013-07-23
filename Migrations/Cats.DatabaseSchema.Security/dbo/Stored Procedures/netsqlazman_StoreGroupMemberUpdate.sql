@@ -12,3 +12,9 @@ IF EXISTS(SELECT StoreGroupMemberId FROM dbo.[netsqlazman_StoreGroupMembers]() W
 	UPDATE [dbo].[netsqlazman_StoreGroupMembersTable] SET [StoreGroupId] = @StoreGroupId, [objectSid] = @objectSid, [WhereDefined] = @WhereDefined, [IsMember] = @IsMember WHERE [StoreGroupMemberId] = @Original_StoreGroupMemberId
 ELSE
 	RAISERROR ('Store permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_StoreGroupMemberUpdate] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

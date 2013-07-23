@@ -8,3 +8,9 @@ FROM         dbo.[netsqlazman_Items]() Items_1 INNER JOIN
                       dbo.[netsqlazman_ItemsHierarchy]() [netsqlazman_ItemsHierarchy] ON Items_1.ItemId = [netsqlazman_ItemsHierarchy].ItemId INNER JOIN
                       dbo.[netsqlazman_Items]() [netsqlazman_Items] ON [netsqlazman_ItemsHierarchy].MemberOfItemId = [netsqlazman_Items].ItemId INNER JOIN
                       dbo.[netsqlazman_Applications]() [netsqlazman_Applications] ON [netsqlazman_Items].ApplicationId = [netsqlazman_Applications].ApplicationId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_ItemsHierarchyView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

@@ -12,3 +12,9 @@ IF EXISTS(SELECT ApplicationGroupMemberId FROM dbo.[netsqlazman_ApplicationGroup
 	UPDATE [dbo].[netsqlazman_ApplicationGroupMembersTable] SET [objectSid] = @objectSid, [WhereDefined] = @WhereDefined, [IsMember] = @IsMember WHERE [ApplicationGroupMemberId] = @Original_ApplicationGroupMemberId
 ELSE	
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ApplicationGroupMemberUpdate] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

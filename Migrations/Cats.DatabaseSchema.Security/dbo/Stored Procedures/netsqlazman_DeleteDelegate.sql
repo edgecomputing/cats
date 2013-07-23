@@ -6,3 +6,9 @@ IF @ApplicationId IS NOT NULL AND dbo.[netsqlazman_CheckApplicationPermissions](
 	DELETE FROM dbo.[netsqlazman_AuthorizationsTable] WHERE AuthorizationId = @AUTHORIZATIONID AND ownerSid = @OWNERSID
 ELSE
 	RAISERROR ('Item NOT Found or Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_DeleteDelegate] TO [NetSqlAzMan_Users]
+    AS [dbo];
+

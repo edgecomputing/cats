@@ -8,3 +8,9 @@ IF EXISTS(SELECT BizRuleId FROM dbo.[netsqlazman_BizRulesTable] WHERE BizRuleId 
 	DELETE FROM [dbo].[netsqlazman_BizRulesTable] WHERE [BizRuleId] = @BizRuleId
 ELSE
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_BizRuleDelete] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

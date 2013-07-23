@@ -93,13 +93,14 @@ namespace Cats.Services.Security
 
         public bool Authenticate(string userName, string password)
         {
-            User user = null;
+            UserInfo user = null;
 
             // Check if the provided user is found in the database. If not tell the user that the user account provided
             // does not exist in the database.
             try
             {
-                user = GetUserDetail(userName);
+                user = GetUserInfoDetail(userName);
+
                 if (null == user)
                     throw new ApplicationException("The requested user could not be found.");
             }
@@ -118,7 +119,7 @@ namespace Cats.Services.Security
             if (user.Password == HashPassword(password))
             {
                 //Add the current Identity and Principal to the current thread.               
-                var identity = new UserIdentity(user);
+                var identity = new UserIdentity(GetUserInfoDetail(userName));
                 var principal = new UserPrincipal(identity);
                 Thread.CurrentPrincipal = principal;
                 return true;

@@ -8,3 +8,9 @@ ELSE
 	SET @result = 0
 RETURN @result
 END
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_IAmAdmin] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

@@ -11,3 +11,9 @@ BEGIN
 END
 ELSE
 	RAISERROR ('Item NOT Found or Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_CreateDelegate] TO [NetSqlAzMan_Users]
+    AS [dbo];
+

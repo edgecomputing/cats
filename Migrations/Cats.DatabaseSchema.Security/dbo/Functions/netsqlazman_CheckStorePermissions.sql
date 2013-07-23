@@ -35,3 +35,9 @@ BEGIN
 END
 RETURN @RESULT
 END
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_CheckStorePermissions] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

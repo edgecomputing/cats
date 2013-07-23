@@ -10,3 +10,9 @@ FROM         dbo.[netsqlazman_Authorizations]() [netsqlazman_Authorizations] INN
                       dbo.[netsqlazman_Items]() [netsqlazman_Items] ON [netsqlazman_Authorizations].ItemId = [netsqlazman_Items].ItemId INNER JOIN
                       dbo.[netsqlazman_Applications]() [netsqlazman_Applications] ON [netsqlazman_Items].ApplicationId = [netsqlazman_Applications].ApplicationId INNER JOIN
                       dbo.[netsqlazman_Stores]() [netsqlazman_Stores] ON [netsqlazman_Applications].StoreId = [netsqlazman_Stores].StoreId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_AuthorizationView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

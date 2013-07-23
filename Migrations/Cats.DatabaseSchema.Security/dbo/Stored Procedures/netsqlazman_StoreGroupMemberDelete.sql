@@ -8,3 +8,9 @@ IF EXISTS(SELECT StoreGroupMemberId FROM dbo.[netsqlazman_StoreGroupMembers]() W
 	DELETE FROM [dbo].[netsqlazman_StoreGroupMembersTable] WHERE [StoreGroupMemberId] = @StoreGroupMemberId
 ELSE
 	RAISERROR ('Store permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_StoreGroupMemberDelete] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

@@ -8,3 +8,9 @@ IF EXISTS(SELECT ApplicationGroupMemberId FROM dbo.[netsqlazman_ApplicationGroup
 	DELETE FROM [dbo].[netsqlazman_ApplicationGroupMembersTable] WHERE [ApplicationGroupMemberId] = @ApplicationGroupMemberId
 ELSE
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ApplicationGroupMemberDelete] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

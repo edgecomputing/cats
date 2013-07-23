@@ -12,3 +12,9 @@ BEGIN
 END
 ELSE
 	RAISERROR ('Store NOT Found or Store permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_RevokeStoreAccess] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

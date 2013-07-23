@@ -9,3 +9,9 @@ IF EXISTS(SELECT ItemId FROM dbo.[netsqlazman_Items]() WHERE ItemId = @ItemId) A
 	DELETE FROM [dbo].[netsqlazman_ItemsHierarchyTable] WHERE [ItemId] = @ItemId AND [MemberOfItemId] = @MemberOfItemId
 ELSE
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ItemsHierarchyDelete] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+
