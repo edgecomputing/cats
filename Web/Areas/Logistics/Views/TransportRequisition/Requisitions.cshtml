@@ -6,6 +6,10 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
 <h2>Hub and Project/SI Code assigned Requisitions.</h2>
 @using (Html.BeginForm("Requisitions", "TransportRequisition", FormMethod.Post))
 {
@@ -85,6 +89,6 @@
 
     </table>
     <p>
-        <input class="btn btn-success" type="submit" value="Create Transport Requisition" />
+        <input class="btn btn-success" type="submit" value="Create Transport Request" />
     </p>
 }

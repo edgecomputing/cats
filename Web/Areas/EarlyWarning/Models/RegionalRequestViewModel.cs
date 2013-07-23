@@ -30,5 +30,6 @@ namespace Cats.Areas.EarlyWarning.Models
        
         public string   Status { get; set; } 
         public string Remark { get; set; }
+       
     }
 }

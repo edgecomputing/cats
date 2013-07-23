@@ -9,6 +9,8 @@ using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -19,19 +21,21 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
+        private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
 
 
-        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService,IWorkflowStatusService workflowStatusService)
+        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService,IWorkflowStatusService workflowStatusService,IReliefRequisitionDetailService reliefRequisitionDetailService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
-
+            this._reliefRequisitionDetailService = reliefRequisitionDetailService;
 
         }
 
-        public ViewResult Requistions()
+        public ViewResult Index(int id=0)
         {
-            var releifRequistions = _reliefRequisitionService.GetAllReliefRequisition();
+            ViewBag.StausID=id;
+            var releifRequistions = id==0 ? _reliefRequisitionService.GetAllReliefRequisition().ToList(): _reliefRequisitionService.Get(t=>t.Status==id).ToList();
             var requisitionToRender = BuilReliefRequisitionViewModel(releifRequistions.FindAll(t=>t.Status.HasValue)).ToList();
             return View(requisitionToRender);
         }
@@ -100,11 +104,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _reliefRequisitionService.Save();
               
             }
-            return RedirectToAction("Requistions", "ReliefRequisition");
+            return RedirectToAction("Index", "ReliefRequisition");
         }
         [HttpGet]
-        public ActionResult RequistionDetailEdit(int id)
+        public ActionResult Allocation(int id)
         {
+           
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();
@@ -112,32 +117,96 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 HttpNotFound();
             }
-            ViewBag.CurrentRegion = requisition.AdminUnit1.Name;
-            ViewBag.CurrentMonth = requisition.RequestedDate.HasValue ? requisition.RequestedDate.Value.ToString("MMM") : "";
-            ViewBag.CurrentRound = requisition.Round;
-            ViewBag.CurrentYear = requisition.RequestedDate.HasValue ? requisition.RequestedDate.Value.Year.ToString():"";
-            ViewBag.CurrentZone = requisition.AdminUnit.Name;
-            var editRequisionDetails = (from requitionDetail in requisition.ReliefRequisitionDetails
-                                        select new ReleifRequisitionDetailEdit()
-                                                   {
-                                                       Amount = 0,
-                                                       BenficiaryNo = requitionDetail.BenficiaryNo,
-                                                       Commodity = requitionDetail.Commodity.Name,
-                                                       Donor = requitionDetail.Donor !=null ? requitionDetail.Donor.Name:"",
-                                                       FDP = requitionDetail.FDP.Name,
-                                                       RequisitionID = requitionDetail.RequisitionID,
-                                                       RequisitionDetailID = requitionDetail.RequisitionDetailID,
-                                                       RequisitionNo = requitionDetail.ReliefRequisition.RequisitionNo,
-                                                       Input =
-                                                           new ReleifRequisitionDetailEdit.
-                                                           ReleifRequisitionDetailEditInput()
-                                                               {
-                                                                   Amount = requitionDetail.Amount ,
-                                                                   Number = requitionDetail.RequisitionDetailID
-                                                               }
-                                                   });
-            return View(editRequisionDetails);
+            var requisitionViewModel = BindReliefRequisitionViewModel(requisition);
+
+            return View(requisitionViewModel);
         }
+
+        public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
+        {
+
+            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id,null,"ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
+            var requisitionDetailViewModels = (from dtl in requisitionDetails select BindReliefRequisitionDetailViewModel(dtl));
+            return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        private ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail)
+        {
+            return new ReliefRequisitionDetailViewModel()
+            {
+               Zone= reliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name ,
+               Woreda=reliefRequisitionDetail.FDP.AdminUnit.Name ,
+               FDP=reliefRequisitionDetail.FDP.Name ,
+               Donor=reliefRequisitionDetail.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "",
+               Commodity=reliefRequisitionDetail.Commodity.Name ,
+               BenficiaryNo=reliefRequisitionDetail.BenficiaryNo,
+               Amount=reliefRequisitionDetail.Amount,
+               RequisitionID=reliefRequisitionDetail.RequisitionID ,
+               RequisitionDetailID=reliefRequisitionDetail.RequisitionDetailID,
+               CommodityID=reliefRequisitionDetail.CommodityID,
+               FDPID=reliefRequisitionDetail.FDPID,
+               DonorID = reliefRequisitionDetail.DonorID
+
+            };
+
+        }
+        private ReliefRequisitionDetail BindReliefRequisitionDetail(ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
+        {
+            return new ReliefRequisitionDetail()
+            {
+
+
+                BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo,
+                Amount = reliefRequisitionDetailViewModel.Amount,
+                RequisitionID = reliefRequisitionDetailViewModel.RequisitionID,
+                RequisitionDetailID = reliefRequisitionDetailViewModel.RequisitionDetailID,
+                CommodityID = reliefRequisitionDetailViewModel.CommodityID,
+                FDPID = reliefRequisitionDetailViewModel.FDPID,
+                DonorID = reliefRequisitionDetailViewModel.DonorID,
+               
+            };
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Allocation_Create([DataSourceRequest] DataSourceRequest request, ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
+        {
+            if (reliefRequisitionDetailViewModel != null && ModelState.IsValid)
+            {
+                _reliefRequisitionDetailService.AddReliefRequisitionDetail(BindReliefRequisitionDetail(reliefRequisitionDetailViewModel));
+            }
+
+            return Json(new[] { reliefRequisitionDetailViewModel }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Allocation_Update([DataSourceRequest] DataSourceRequest request, ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
+        {
+            if (reliefRequisitionDetailViewModel != null && ModelState.IsValid)
+            {
+                var target = _reliefRequisitionDetailService.FindById(reliefRequisitionDetailViewModel.RequisitionDetailID);
+                if (target != null)
+                {
+                    target.Amount = reliefRequisitionDetailViewModel.Amount;
+                    target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
+                  
+                    _reliefRequisitionDetailService.EditReliefRequisitionDetail(target);
+                }
+            }
+
+            return Json(new[] { reliefRequisitionDetailViewModel }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Allocation_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  ReliefRequisitionDetail reliefRequisitionDetail)
+        {
+            if (reliefRequisitionDetail != null)
+            {
+                _reliefRequisitionDetailService.DeleteById(reliefRequisitionDetail.RequisitionDetailID);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+
 
         [HttpPost]
      public    ActionResult RequistionDetailEdit(IEnumerable<ReleifRequisitionDetailEdit.ReleifRequisitionDetailEditInput> input )
@@ -158,7 +227,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _reliefRequisitionService.Save();
 
             }
-            return RedirectToAction("Requistions", "ReliefRequisition");
+            return RedirectToAction("Index", "ReliefRequisition");
         }
 
         [HttpGet]
@@ -180,7 +249,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if(ModelState.IsValid)
             {
                 _reliefRequisitionService.EditReliefRequisition(reliefrequisition);
-               return  RedirectToAction("Requistions", "ReliefRequisition");
+               return  RedirectToAction("Index", "ReliefRequisition");
             }
             return View(reliefrequisition);
         }
@@ -202,7 +271,84 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requisition = _reliefRequisitionService.FindById(requisitionid);
             requisition.Status = (int)ReliefRequisitionStatus.Approved;
             _reliefRequisitionService.Save();
-            return RedirectToAction("Requistions", "ReliefRequisition");
+            return RedirectToAction("Index", "ReliefRequisition");
+        }
+
+        public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            var requests = _reliefRequisitionService.GetAllReliefRequisition();
+            var requestViewModels = (from dtl in requests select BindReliefRequisitionViewModel(dtl));
+            return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        private ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition)
+        {
+            return new ReliefRequisitionViewModel()
+            {
+
+                ProgramID = reliefRequisition.ProgramID,
+                Program = reliefRequisition.Program.Name,
+                Region = reliefRequisition.AdminUnit.Name,
+                RequisitionNo = reliefRequisition.RequisitionNo,
+                RegionID = reliefRequisition.RegionID,
+                RegionalRequestID = reliefRequisition.RegionalRequestID,
+               
+                RequestedDateEt = EthiopianDate.GregorianToEthiopian(reliefRequisition.RequestedDate.Value
+                ),
+                Round = reliefRequisition.Round,
+                Status = _workflowStatusService.GetStatusName(WORKFLOW.REGIONAL_REQUEST, reliefRequisition.Status.Value ),
+                RequestedDate = reliefRequisition.RequestedDate,
+                StatusID = reliefRequisition.Status,
+                RequisitionID = reliefRequisition.RequisitionID ,
+                CommodityID = reliefRequisition.CommodityID ,
+                ZoneID=reliefRequisition.ZoneID ,
+                Zone=reliefRequisition.AdminUnit.Name ,
+                Commodity=reliefRequisition.Commodity.Name ,
+                
+
+
+
+            };
+
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Requisition_Update([DataSourceRequest] DataSourceRequest request, ReliefRequisitionViewModel reliefRequisitionViewModel)
+        {
+            if (reliefRequisitionViewModel != null && ModelState.IsValid)
+            {
+                var target = _reliefRequisitionService.FindById(reliefRequisitionViewModel.RequisitionID);
+                if (target != null)
+                {
+
+                    target.RequisitionNo = reliefRequisitionViewModel.RequisitionNo;
+
+                    _reliefRequisitionService.EditReliefRequisition(target);
+                }
+            }
+
+            return Json(new[] { reliefRequisitionViewModel }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Requisition_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  ReliefRequisition reliefRequisition)
+        {
+            if (reliefRequisition != null)
+            {
+                _reliefRequisitionDetailService.DeleteById(reliefRequisition.RequisitionID);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+       
+        public ActionResult Details(int id)
+        {
+            var requisition = _reliefRequisitionService.FindById(id);
+            if(requisition==null)
+            {
+                return HttpNotFound();
+            }
+            var requisitionViewModel = BindReliefRequisitionViewModel(requisition);
+            return View(requisitionViewModel);
         }
     }
 }

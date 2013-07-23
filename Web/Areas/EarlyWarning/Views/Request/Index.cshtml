@@ -17,11 +17,6 @@
     @Html.Partial("_RegionalRequestLeftBar")
 
 }
-
-
-
-
-
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("grid")
     .Columns(columns =>
@@ -47,13 +42,16 @@ else
     @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
 }
 </text>);
-                     columns.Command(command =>
-                                         {
-                                             command.Edit().Text(" ");
-                                             command.Destroy().Text(" ");
-                                         }).Width(60);
+               
+                     
+                     //columns.Command(command =>
+                     //                    {
+                     //                        command.Edit().Text(" ");
+                     //                        //command.Destroy().Text(" ");
+                     //                    }).Width(60);
 
                  })
+                 
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
     .Sortable()

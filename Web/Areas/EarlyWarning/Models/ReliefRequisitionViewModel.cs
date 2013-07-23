@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -18,15 +19,17 @@ namespace Cats.Areas.EarlyWarning.Models
         public string RequisitionNo { get; set; }
         public Nullable<int> RequestedBy { get; set; }
         public Nullable<System.DateTime> RequestedDate { get; set; }
+        [Display(Name = "Request Date (ET)")]
         public string RequestedDateEt { get; set; }
         public Nullable<int> ApprovedBy { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
+        [Display(Name = "Approved Date (ET)")]
         public string ApprovedDateEt { get; set; }
         public Nullable<int> StatusID { get; set; }
         public string Status { get; set; }
         public Nullable<int> ProgramID { get; set; }
         public string Program { get; set; }
         public Nullable<int> RegionalRequestID { get; set; }
-       
+
     }
 }

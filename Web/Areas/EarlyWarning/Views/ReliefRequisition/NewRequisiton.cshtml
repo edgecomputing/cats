@@ -7,8 +7,12 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2 class="well">New Relief Requisiton For Distribution</h2>
+<h2 class="well">New  Requisiton For Distribution</h2>
+@section LeftBar
+{
+    @Html.Partial("_RequistionsLeftBar")
 
+}
 
 @using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post))
 {
