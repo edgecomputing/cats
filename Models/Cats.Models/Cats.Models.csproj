@@ -134,6 +134,8 @@
     <Compile Include="TransportRequisitionDetail.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
+    <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />
+    <Compile Include="ViewModels\Bid\BidViewModel.cs" />
     <Compile Include="ViewModels\HRD\CreateHumanitarianRequirementViewModel.cs" />
     <Compile Include="ViewModels\HRD\DetailViewModel.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />

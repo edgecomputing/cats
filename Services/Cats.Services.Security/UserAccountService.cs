@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cats.Data.Security;
 using Cats.Models.Security;
+using NetSqlAzMan.Interfaces;
 
 namespace Cats.Services.Security
 {
@@ -256,16 +257,39 @@ namespace Cats.Services.Security
             // TODO: Consider adding exception handling here.
             return _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
         }
-
+        /// <summary>
+        /// Returns the user info based on supplied username
+        /// </summary>
+        /// <param name="userName"> User name identifying the user</param>
+        /// <returns>UserInfo object corrensponding to the user identified by username</returns>
+        public UserInfo GetUserInfoDetail(string userName)
+        {
+            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+        }
         /// <summary>
         /// Retrive a complete Authorization for the current user and populate the string array
         /// from .NetSqlAzMan store 
         /// </summary>
         /// <param name="userName">User name identifying the current user</param>
         /// <returns>Array of strings containing all of the permissions from .NetSqlAzMan store</returns>
-        public string[] GetUserPermissions(string userName)
+        public string[] GetUserPermissions(int userId, string store, string application)
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
+            List<string> UserPermissions = new List<string>();
+            string userSid = userId.ToString("X");
+            string zeroes = string.Empty;
+            for (int start = 0; start < 8 - userSid.Length; start++)
+                zeroes += "0";
+            NetSqlAzMan.Cache.StorageCache storage = new NetSqlAzMan.Cache.StorageCache(System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString);
+            storage.BuildStorageCache(store, application);
+            NetSqlAzMan.Cache.AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, zeroes + userSid, DateTime.Now);
+            foreach (NetSqlAzMan.Cache.AuthorizedItem item in items)
+            {
+                if (item.Authorization == AuthorizationType.Allow)
+                    UserPermissions.Add(item.Name);
+            }
+            //  NetSqlAzMan.Providers.NetSqlAzManRoleProvider provider = new NetSqlAzMan.Providers.NetSqlAzManRoleProvider();
+            return UserPermissions.ToArray();
         }
 
 

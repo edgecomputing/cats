@@ -5,12 +5,15 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 
 }
+
+@section LeftBar
+{
+    @Html.Partial("_TransporterLeftBar")
+}
 <div>
     <h4>Transporter Registration</h4>
 </div>
 
-
-@Html.ActionLink("New Transporter", "edit")
 @(Html.Kendo().Grid<Cats.Procurement.Models.TransporterPOCO>()
     .Name("grid")
     .Columns(columns =>

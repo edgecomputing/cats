@@ -166,7 +166,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
-    <Compile Include="Areas\Procurement\Controllers\Copy of PriceQuotationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\PriceQuotationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
@@ -178,7 +177,8 @@
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
-    <Compile Include="Areas\Procurement\Models\BidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\BidsViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\DispatchLocationViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PriceQuotationModel.cs" />
     <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
@@ -186,6 +186,9 @@
     <Compile Include="Areas\Procurement\Models\TransportBidPlanViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransporterPOCO.cs" />
     <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
+    <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
@@ -561,10 +564,17 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
+
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Copy of WarehouseSelection.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_AdminUnitTree.cshtml" />
+
+    <Content Include="Areas\Procurement\Views\Transporter\_TransporterLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
 
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
@@ -768,7 +778,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
-    <Folder Include="Areas\Logistics\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />
   </ItemGroup>

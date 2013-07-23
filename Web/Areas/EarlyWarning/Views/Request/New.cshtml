@@ -7,8 +7,14 @@
 }
 
 <div class="well">
-    <h3>Regional Request</h3>
+    <h3> New Regional Request</h3>
 </div>
+@section LeftBar
+{
+    @Html.Partial("_RegionalRequestLeftBar")
+
+}
+
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
@@ -34,26 +40,27 @@
                 </div>
             </div>
 
+          
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.RequistionDate)
-                   
+                    @Html.LabelFor(model => model.Month, "Month")
                 </div>
                 <div class="controls">
-                    @Html.HiddenFor(model => model.RequistionDate)
-                     <input class="cats-datepicker" type="text" id="requestDate" name="requestDate"/>
-                    @Html.ValidationMessageFor(model => model.RequistionDate)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Round, "Round")
-                </div>
-                <div class="controls">
-                    @Html.EditorFor(model => model.Round)
+                     @Html.DropDownList("Month", String.Empty)
+                     @Html.ValidationMessageFor(model => model.Month)
                 </div>
             </div>
 
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Year)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Year)
+                    @Html.ValidationMessageFor(model => model.Year)
+                </div>
+            </div>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.ReferenceNumber)
@@ -63,13 +70,15 @@
                     @Html.ValidationMessageFor(model => model.ReferenceNumber)
                 </div>
             </div>
-            <div class="control-group">
+              <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Year)
+                    @Html.LabelFor(model => model.RequistionDate)
+                   
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.Year)
-                    @Html.ValidationMessageFor(model => model.Year)
+                    @Html.HiddenFor(model => model.RequistionDate)
+                     <input class="cats-datepicker" type="text" id="requestDate" name="requestDate"/>
+                    @Html.ValidationMessageFor(model => model.RequistionDate)
                 </div>
             </div>
             <div class="control-group">

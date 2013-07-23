@@ -6,6 +6,9 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using System;
 using Cats.Models;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+
 namespace Cats.Areas.Procurement.Controllers
 {
     public class DispatchLocationsController : Controller
@@ -19,10 +22,6 @@ namespace Cats.Areas.Procurement.Controllers
     
         public DispatchLocationsController(ITransportOrderService transportOrderService)
         {
-
-            
-
-
             this._transportOrderService = transportOrderService;
         }
        
@@ -33,11 +32,34 @@ namespace Cats.Areas.Procurement.Controllers
             ViewData["Transporters"] = transporterOrder;
             return View(transporterOrder);
         }
-        
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DispatchLocation_Read([DataSourceRequest] DataSourceRequest request,int id=1)
+        {
+            //var TransportOrder = _transportOrderService.Get(m => m.TransporterID == id);
+            var locations = _transportOrderService.GetTransportOrderDetailByTransportId(id);
+            var locationsToDisplay = GetDispatchLocations(locations).ToList();
+            return Json(locationsToDisplay.ToDataSourceResult(request));
+        }
+     private IEnumerable<DispatchLocationViewModel> GetDispatchLocations(IEnumerable<TransportOrderDetail> dispatchLocations)
+        {
+            return (from location in dispatchLocations
+                    select new DispatchLocationViewModel()
+                    {
+                        TransportOrerDetailID = location.TransportOrderDetailID,
+                        RequisitionNumber = location.ReliefRequisition.RequisitionNo,
+                        Warehouse = location.Hub.Name,
+                        Zone = location.FDP.AdminUnit.AdminUnit2.Name,
+                        Woreda = location.FDP.AdminUnit.Name,
+                        Destination = location.FDP.AdminUnit.Name,
+                        Item = location.Commodity.Name,
+                        Quantity = location.QuantityQtl,
+                        Tariff = location.TariffPerQtl
+                        
+                    });
+        }
         public ActionResult Details(int id=0)
         {
-
-
             TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
             //var bidWinner = _bidWinnerService.Get(m => m.TransporterID == transportOrder.TransporterID).FirstOrDefault();
             if (transportOrder != null)

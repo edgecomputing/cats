@@ -41,30 +41,28 @@
 </div>
 
 
-@(Html.Kendo().Grid<Cats.Models.TransportOrderDetail>()
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.DispatchLocationViewModel>() 
 .Name("Bid").Columns(columns =>
          {
-            columns.Bound(p => p.ReliefRequisition.RequisitionNo).Title("Requisition Number");
-            columns.Bound(p => p.Hub.Name).Title("Warehouse");
-            columns.Bound(p => p.FDP.AdminUnit.AdminUnit2.Name).Title("Zone");
-            columns.Bound(p => p.FDP.AdminUnit.Name).Title("Woreda");
-            columns.Bound(p => p.FDP.AdminUnit.Name).Title("Destinaiton");
-            columns.Bound(p => p.Commodity.Name).Title("Item");
-            columns.Bound(p => p.QuantityQtl).Title("Quantity in MT");
-            columns.Bound(p => p.TariffPerQtl).Title("Tariff");
-                                                                  
-            columns.Command(command => command.Edit()).Width(200);
-
+            columns.Bound(p => p.RequisitionNumber).Title("Requisition Number");
+            columns.Bound(p => p.Warehouse).Title("Warehouse");
+            columns.Bound(p => p.Zone).Title("Zone");
+            columns.Bound(p => p.Woreda).Title("Woreda");
+            columns.Bound(p => p.Destination).Title("Destinaiton");
+            columns.Bound(p => p.Item).Title("Item");
+            columns.Bound(p => p.Quantity).Title("Quantity in MT");
+            columns.Bound(p => p.Tariff).Title("Tariff");
+            columns.Bound(p => p.Total);
+           
           })
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Sortable()
       .Filterable()
       .DataSource(datasource=>datasource
-      .Server()
-      .Model(model=>model.Id(p=>p.TransportOrderDetailID))
-      .Read(read => read.Action("Edit", "Bid"))
-      .Update(update=>update.Action("Edit","Bid"))
+      .Ajax()
+      .Model(model=>model.Id(p=>p.TransportOrerDetailID))
+      .Read(read => read.Action("DispatchLocation_Read", "DispatchLocations"))
       )
       
 )

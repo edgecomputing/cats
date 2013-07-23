@@ -22,13 +22,17 @@ namespace Cats.Data.Security
 
         #region UnitOfWork public properties
         private IGenericRepository<User> userRepo;
-        
+        private IGenericRepository<UserInfo> userInfoRepo;
         public IGenericRepository<User> UserRepository
         {
             get { return this.userRepo ?? (this.userRepo = new GenericRepository<User>(_context)); }
 
         }
- 
+
+        public IGenericRepository<UserInfo> UserInfoRepository
+        {
+            get { return userInfoRepo ?? (this.userInfoRepo = new GenericRepository<UserInfo>(_context)); }
+        }
         #endregion
 
         #region UnitOfWork CRUD method(s)

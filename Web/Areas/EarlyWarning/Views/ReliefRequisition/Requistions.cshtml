@@ -8,6 +8,10 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+@section LeftBar
+{
+    @Html.Partial("_RequistionsLeftBar")
+}
 <h2 class="well">Requistions</h2>
 @(Html.Kendo().Grid(Model).Name("Grid").Columns(columns =>
                                        {

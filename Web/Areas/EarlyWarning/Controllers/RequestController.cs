@@ -187,7 +187,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
                                               "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
-            //ViewBag.RoundID = new SelectList(_roundService.GetAllRound(), "RoundID", "RoundNumber");
+            ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
             ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
 
@@ -304,8 +304,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                 }).ToList();
                 regionalRequest.RegionalRequestDetails = releifDetails;
                 regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-                _regionalRequestService.AddReliefRequistion(regionalRequest);
-                return RedirectToAction("Edit", "Request", new { id = regionalRequest.RegionalRequestID });
+                _regionalRequestService.AddRegionalRequest(regionalRequest);
+                return RedirectToAction("Index", "Request");
             }
 
             PopulateLookup();
@@ -319,6 +319,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Allocation(int id)
         {
             ViewBag.RequestID = id;
+            var request =
+                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
+            if(request!=null)
+            {
+                ViewBag.Region = request.AdminUnit.Name;
+                ViewBag.Month = request.Month;
+                ViewBag.Year = request.Year;
+                ViewBag.Program = request.Program.Name;
+            }
+           
             return View();
         }
 
@@ -427,6 +437,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewData["programs"] = programs;
                  
                 
+           
 
 
             return View();
@@ -435,7 +446,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Request_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var requests = _regionalRequestService.GetAllReliefRequistion();
+            var requests = _regionalRequestService.GetAllRegionalRequest();
             var requestViewModels = (from dtl in requests select BindRegionalRequestViewModel(dtl));
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -481,7 +492,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestViewModel != null && ModelState.IsValid)
             {
-                _regionalRequestService.AddReliefRequistion(BindRegionalRequest(regionalRequestViewModel));
+                    var regionalRequest = BindRegionalRequest(regionalRequestViewModel);
+                    _regionalRequestService.AddRegionalRequest(regionalRequest);
             }
 
             return Json(new[] { regionalRequestViewModel }.ToDataSourceResult(request, ModelState));
@@ -503,7 +515,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     target.RequistionDate = regionalRequest.RequistionDate;
                     target.Status = regionalRequest.StatusID;
                     target.Year = regionalRequest.Year;
-                    _regionalRequestService.EditReliefRequistion(target);
+                    _regionalRequestService.EditRegionalRequest(target);
                 }
             }
 

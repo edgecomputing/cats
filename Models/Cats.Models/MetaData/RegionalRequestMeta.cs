@@ -9,31 +9,33 @@ namespace Cats.Models
 {
     public class RegionalRequestMeta
     {
-       
+
         public int RegionalRequestID { get; set; }
 
-        [Required (ErrorMessage="Please Select Region")]
-        [Display (Name="Region")]
+        [Required(ErrorMessage = "Please Select Region")]
+        [Display(Name = "Region")]
         public int RegionID { get; set; }
 
         [Required(ErrorMessage = "Please Select Program")]
-        [Display(Name="Program")]
+        [Display(Name = "Program")]
         public int ProgramId { get; set; }
-        [Required(ErrorMessage="Please Select Month")]
+        [Required(ErrorMessage = "Please Select Month")]
+       
         public int Month { get; set; }
 
         [Required(ErrorMessage = "Please Enter Requisition Date")]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        [Display(Name="Request Date")]
+        [Display(Name = "Request Date")]
         public DateTime RequistionDate { get; set; }
 
         [Required(ErrorMessage = "Please Select Year")]
+        [RegularExpression(@"20[12][0-9]", ErrorMessage = "Please enter year in yyyy format.")]
         public int Year { get; set; }
-        [Required (ErrorMessage="Please Enter Reference Number")]
-        [Display(Name="Reference Number")]
+        [Required(ErrorMessage = "Please Enter Reference Number")]
+        [Display(Name = "Reference Number")]
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
 
-      
+
     }
 }
