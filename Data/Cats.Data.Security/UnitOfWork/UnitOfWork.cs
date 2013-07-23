@@ -33,6 +33,7 @@ namespace Cats.Data.Security
         {
             get { return userInfoRepo ?? (this.userInfoRepo = new GenericRepository<UserInfo>(_context)); }
         }
+    
         #endregion
 
         #region UnitOfWork CRUD method(s)

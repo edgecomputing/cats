@@ -100,7 +100,7 @@ namespace Cats.Services.Security
             try
             {
                 user = GetUserDetail(userName);
-                if(null==user)
+                if (null == user)
                     throw new ApplicationException("The requested user could not be found.");
             }
             catch (Exception ex)
@@ -257,6 +257,7 @@ namespace Cats.Services.Security
             // TODO: Consider adding exception handling here.
             return _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
         }
+
         /// <summary>
         /// Returns the user info based on supplied username
         /// </summary>
@@ -291,7 +292,6 @@ namespace Cats.Services.Security
             //  NetSqlAzMan.Providers.NetSqlAzManRoleProvider provider = new NetSqlAzMan.Providers.NetSqlAzManRoleProvider();
             return UserPermissions.ToArray();
         }
-
 
         public string GenerateString(Random rng, int length)
         {

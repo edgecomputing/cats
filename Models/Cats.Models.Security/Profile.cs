@@ -8,7 +8,8 @@ namespace Cats.Models.Security
 {
     public partial class Profile
     {
-        public int UserId { get; set; }
+        public int UserProfileId { get; set; }
+        public string UserName { get; set; }
         public Nullable<int> UILanguage { get; set; }
         public Nullable<int> KeyboardLanguage { get; set; }
         public Nullable<int> Calendar { get; set; }
