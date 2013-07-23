@@ -1,0 +1,6 @@
+﻿@(Html.Kendo().DropDownList()
+    .Name("Program") // Name of the widget should be the same as the name of the property
+    .DataValueField("ProgramID") // The value of the dropdown is taken from the id property
+    .DataTextField("Name") // The text of the items is taken from the name property
+    .BindTo((System.Collections.IEnumerable)ViewData["programs"]) // A list of all list which is populated in the controller
+)
