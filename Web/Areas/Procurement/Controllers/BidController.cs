@@ -59,13 +59,24 @@ namespace Cats.Areas.Procurement.Controllers
             var bidsToDisplay = GetBids(bids).ToList();
             return View(bidsToDisplay);
         }
-        public ActionResult Bid_Status([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Bid_Approved([DataSourceRequest] DataSourceRequest request,string bidNumber="")
         {
-            var bids = _bidService.Get(m => m.StatusID == 4);
+            var bids = _bidService.Get(m => m.StatusID == 4 && m.BidNumber.StartsWith(bidNumber));
             var StatusToDisplay = GetBids(bids).ToList();
             return Json(StatusToDisplay.ToDataSourceResult(request));
         }
-
+        public ActionResult CurrentBids()
+        {
+            var bids = _bidService.Get(m => m.StatusID == 1);
+            var bidsToDisplay = GetBids(bids).ToList();
+            return View(bidsToDisplay);
+        }
+        public ActionResult Bid_Current([DataSourceRequest] DataSourceRequest request)
+        {
+            var currentBid = _bidService.Get(m => m.StatusID == 1);
+            var bidToDisplay = GetBids(currentBid).ToList();
+            return Json(bidToDisplay.ToDataSourceResult(request));
+        }
         public ActionResult BidDetail_Read(int bidID,[DataSourceRequest] DataSourceRequest request)
         {
             var bidDetails = _bidDetailService.GetAllBidDetail();

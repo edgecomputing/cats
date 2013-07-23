@@ -570,6 +570,7 @@
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

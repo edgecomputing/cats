@@ -2,7 +2,7 @@
 @model  List<Cats.Models.ViewModels.Bid.BidViewModel>
 
 @{
-    ViewBag.Title = "Approved Bids";
+    ViewBag.Title = "Create Bid";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -49,22 +49,6 @@ $(document).ready(function () {
 </script>
 <div class="well">
     <h4 class="page-header">Bid For Transporters</h4>
-    @* @using (Html.BeginForm("ApprovedBids","Bid",FormMethod.Get))
-    {
-        <p class="control-list">Search:</p>
-        <div class="control-group">
-            <label class="control-label">Bid Number </label>
-        <div class="controls">
-            @Html.TextBox("bidNumber")
-        </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" value="Filter" class="btn btn-primary"/>
-            </div>
-        </div> 
-        
-    }*@
     <div align="right">
         <a href="Create" class="btn btn-success">Create New Bid</a>
     </div>
@@ -88,8 +72,12 @@ $(document).ready(function () {
             columns.Bound(p => p.EndDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.OpeningDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status).Title("Status");
-            columns.Command(p => p.Custom("Edit").Click("bidEdit"));
-               
+            columns.Command(p =>
+                {
+                    p.Custom("Edit").Click("bidEdit");
+                    p.Custom("Approve").Click("onApprove");
+                });
+
         })
     .Pageable()
     .Sortable()
@@ -101,7 +89,7 @@ $(document).ready(function () {
           .Ajax()
           .PageSize(5)
             .Model(model => model.Id(p => p.BidID))
-            .Read(read => read.Action("Bid_Approved", "Bid"))
+            .Read(read => read.Action("Bid_Read", "Bid"))
  
      )
      .Events(events => events.DataBound("dataBound"))
