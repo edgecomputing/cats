@@ -91,17 +91,6 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return RedirectToAction("Index");
         }
-        /* public Dictionary<string, TransportBidQuotation> organizeList(List<TransportBidQuotation> quoteList)
-         {
-             System.Collections.Generic.Dictionary<string, TransportBidQuotation> ret = new Dictionary<string, TransportBidQuotation>();
-
-             foreach (var i in quoteList)
-             {
-                 string hash = i.BidID + "_" + i.TransporterID + "_" + i.SourceID + "_" + i.DestinationID;
-                 ret.Add(hash, i);// = i;
-             }
-             return ret;
-         }*/
         public List<GoodsMovementDetailViewModel> GetPlannedDistribution(int BidPlanID, int RegionID)
         {
             List<TransportBidPlanDetail> regionalPlan

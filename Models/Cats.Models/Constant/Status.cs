@@ -18,8 +18,10 @@ namespace Cats.Models.Constant
     public enum RegionalRequestStatus
     {
         Draft=1,
-        Approved=2,
-        Closed=3
+        Approved=2, 
+        Closed=3,
+        FederalApproved=4
+     
 
     }
 

@@ -10,6 +10,7 @@ namespace Cats.Data.Security
     public interface IUnitOfWork : IDisposable
     {
         IGenericRepository<User> UserRepository { get; }
+        IGenericRepository<UserInfo> UserInfoRepository { get; }
         void Save();
     }
 }
