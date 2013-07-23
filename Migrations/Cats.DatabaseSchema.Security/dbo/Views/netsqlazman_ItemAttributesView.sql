@@ -5,3 +5,9 @@ SELECT     [netsqlazman_Items].ItemId, [netsqlazman_Items].ApplicationId, [netsq
                       [netsqlazman_ItemAttributes].AttributeKey, [netsqlazman_ItemAttributes].AttributeValue
 FROM         dbo.[netsqlazman_Items]() [netsqlazman_Items] INNER JOIN
                       dbo.[netsqlazman_ItemAttributes]() [netsqlazman_ItemAttributes] ON [netsqlazman_Items].ItemId = [netsqlazman_ItemAttributes].ItemId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_ItemAttributesView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

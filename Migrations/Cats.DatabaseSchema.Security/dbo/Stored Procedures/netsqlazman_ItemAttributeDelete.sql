@@ -8,3 +8,9 @@ IF EXISTS(SELECT ItemAttributeId FROM dbo.[netsqlazman_ItemAttributes]() WHERE I
 	DELETE FROM [dbo].[netsqlazman_ItemAttributesTable] WHERE [ItemAttributeId] = @ItemAttributeId
 ELSE
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ItemAttributeDelete] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

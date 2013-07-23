@@ -4,3 +4,9 @@ SELECT     [netsqlazman_Items].ItemId, [netsqlazman_Items].ApplicationId, [netsq
                       [netsqlazman_BizRules].CompiledAssembly
 FROM         dbo.[netsqlazman_Items]() [netsqlazman_Items] INNER JOIN
                       dbo.[netsqlazman_BizRules]() [netsqlazman_BizRules] ON [netsqlazman_Items].BizRuleId = [netsqlazman_BizRules].BizRuleId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_BizRuleView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

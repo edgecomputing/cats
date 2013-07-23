@@ -10,3 +10,9 @@ IF EXISTS(SELECT ApplicationAttributeId FROM dbo.[netsqlazman_ApplicationAttribu
 	UPDATE [dbo].[netsqlazman_ApplicationAttributesTable] SET [AttributeKey] = @AttributeKey, [AttributeValue] = @AttributeValue WHERE [ApplicationAttributeId] = @Original_ApplicationAttributeId AND [ApplicationId] = @ApplicationId
 ELSE
 	RAISERROR ('Applicaction Permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ApplicationAttributeUpdate] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

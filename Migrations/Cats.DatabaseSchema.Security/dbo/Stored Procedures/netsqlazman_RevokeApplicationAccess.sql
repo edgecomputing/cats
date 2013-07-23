@@ -14,3 +14,9 @@ BEGIN
 END
 ELSE
 	RAISERROR ('Application NOT Found or Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_RevokeApplicationAccess] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

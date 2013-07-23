@@ -39,3 +39,9 @@ BEGIN
 END
 RETURN @RESULT
 END
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_CheckApplicationPermissions] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

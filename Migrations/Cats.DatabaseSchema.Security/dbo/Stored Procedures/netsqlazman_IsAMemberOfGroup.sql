@@ -90,3 +90,9 @@ CLOSE @member_cur
 DEALLOCATE @member_cur
 
 SELECT CONVERT(bit, 0) -- true
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_IsAMemberOfGroup] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

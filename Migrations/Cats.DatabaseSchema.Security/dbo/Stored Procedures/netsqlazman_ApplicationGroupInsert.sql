@@ -15,3 +15,9 @@ BEGIN
 END
 ELSE	
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ApplicationGroupInsert] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

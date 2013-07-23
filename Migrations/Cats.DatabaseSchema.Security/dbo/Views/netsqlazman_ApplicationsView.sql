@@ -4,3 +4,9 @@ SELECT     [netsqlazman_Stores].StoreId, [netsqlazman_Stores].Name AS StoreName,
                       [netsqlazman_Applications].Description AS ApplicationDescription
 FROM         dbo.[netsqlazman_Applications]() [netsqlazman_Applications] INNER JOIN
                       dbo.[netsqlazman_Stores]() [netsqlazman_Stores] ON [netsqlazman_Applications].StoreId = [netsqlazman_Stores].StoreId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_ApplicationsView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

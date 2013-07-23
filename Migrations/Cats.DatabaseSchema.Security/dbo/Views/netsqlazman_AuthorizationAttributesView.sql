@@ -5,3 +5,9 @@ SELECT     dbo.[netsqlazman_AuthorizationView].AuthorizationId, dbo.[netsqlazman
                       [netsqlazman_AuthorizationAttributes].AuthorizationAttributeId, [netsqlazman_AuthorizationAttributes].AttributeKey, [netsqlazman_AuthorizationAttributes].AttributeValue
 FROM         dbo.[netsqlazman_AuthorizationView] INNER JOIN
                       dbo.[netsqlazman_AuthorizationAttributes]() [netsqlazman_AuthorizationAttributes] ON dbo.[netsqlazman_AuthorizationView].AuthorizationId = [netsqlazman_AuthorizationAttributes].AuthorizationId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_AuthorizationAttributesView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

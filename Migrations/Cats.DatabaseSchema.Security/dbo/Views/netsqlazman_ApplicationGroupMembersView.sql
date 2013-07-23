@@ -9,3 +9,9 @@ FROM         dbo.[netsqlazman_ApplicationGroupMembers]() [netsqlazman_Applicatio
                       dbo.[netsqlazman_ApplicationGroups]() [netsqlazman_ApplicationGroups] ON [netsqlazman_ApplicationGroupMembers].ApplicationGroupId = [netsqlazman_ApplicationGroups].ApplicationGroupId INNER JOIN
                       dbo.[netsqlazman_Applications]() [netsqlazman_Applications] ON [netsqlazman_ApplicationGroups].ApplicationId = [netsqlazman_Applications].ApplicationId INNER JOIN
                       dbo.[netsqlazman_Stores]() [netsqlazman_Stores] ON [netsqlazman_Applications].StoreId = [netsqlazman_Stores].StoreId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_ApplicationGroupMembersView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

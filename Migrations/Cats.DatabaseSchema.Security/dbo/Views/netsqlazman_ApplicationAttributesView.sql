@@ -4,3 +4,9 @@ SELECT     [netsqlazman_Applications].ApplicationId, [netsqlazman_Applications].
                       ApplicationAttributes.AttributeKey, ApplicationAttributes.AttributeValue
 FROM         dbo.[netsqlazman_Applications]() [netsqlazman_Applications] INNER JOIN
                       dbo.[netsqlazman_ApplicationAttributes]() ApplicationAttributes ON [netsqlazman_Applications].ApplicationId = ApplicationAttributes.ApplicationId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_ApplicationAttributesView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

@@ -6,3 +6,9 @@
 AS
 INSERT INTO [dbo].[netsqlazman_StoresTable] ([Name], [Description]) VALUES (@Name, @Description);
 RETURN SCOPE_IDENTITY()
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_StoreInsert] TO [NetSqlAzMan_Administrators]
+    AS [dbo];
+

@@ -7,3 +7,9 @@ SELECT     StoreGroupMembers.StoreGroupMemberId, StoreGroupMembers.StoreGroupId,
 FROM         dbo.[netsqlazman_StoreGroupMembers]() StoreGroupMembers INNER JOIN
                       dbo.[netsqlazman_StoreGroups]() StoreGroups ON StoreGroupMembers.StoreGroupId = StoreGroups.StoreGroupId INNER JOIN
                       dbo.[netsqlazman_Stores]() Stores ON StoreGroups.StoreId = Stores.StoreId
+
+GO
+GRANT SELECT
+    ON OBJECT::[dbo].[netsqlazman_StoreGroupMembersView] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

@@ -24,3 +24,9 @@ FROM         dbo.[netsqlazman_Items]() Items INNER JOIN
                       dbo.[netsqlazman_Applications]() Applications ON Stores.StoreId = Applications.StoreId ON Items.ApplicationId = Applications.ApplicationId
 WHERE     (Stores.Name = @STORENAME) AND (Applications.Name = @APPLICATIONNAME) AND Items.BizRuleId IS NOT NULL
 SET NOCOUNT OFF
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_BuildUserPermissionCache] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

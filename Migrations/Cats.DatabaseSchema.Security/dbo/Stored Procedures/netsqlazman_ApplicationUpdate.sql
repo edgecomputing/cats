@@ -9,3 +9,9 @@ IF EXISTS(SELECT ApplicationId FROM dbo.[netsqlazman_Applications]() WHERE Appli
 	UPDATE [dbo].[netsqlazman_ApplicationsTable] SET [Name] = @Name, [Description] = @Description WHERE [ApplicationId] = @Original_ApplicationId
 ELSE
 	RAISERROR ('Application permission denied.', 16, 1)
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_ApplicationUpdate] TO [NetSqlAzMan_Managers]
+    AS [dbo];
+

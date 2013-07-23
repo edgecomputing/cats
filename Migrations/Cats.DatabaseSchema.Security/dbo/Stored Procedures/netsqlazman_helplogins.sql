@@ -32,3 +32,9 @@ AND SUSER_SNAME(MemberSid) IS NOT NULL
 ORDER BY SUSER_SNAME(MemberSid)
 
 DROP TABLE #temptable
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[netsqlazman_helplogins] TO [NetSqlAzMan_Readers]
+    AS [dbo];
+

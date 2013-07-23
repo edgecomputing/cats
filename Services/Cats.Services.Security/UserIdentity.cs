@@ -9,6 +9,7 @@ namespace Cats.Services.Security
         private string userName = string.Empty;
         private string fullName = string.Empty;
         private ArrayList roles = new ArrayList();
+        private UserInfo _profile;
         private bool authenticated = false;
 
 
@@ -33,6 +34,14 @@ namespace Cats.Services.Security
         {
             get { return fullName; }
         }
+
+        public UserInfo Profile
+        {
+            get
+            {
+                return _profile;
+            }
+        }
         internal bool IsInRole(string role)
         {
             return roles.Contains(role);
@@ -49,6 +58,13 @@ namespace Cats.Services.Security
             this.authenticated = true;
         }
 
+        public UserIdentity(UserInfo info)
+        {
+            this.userName = info.UserName;
+            this.fullName = info.FullName;
+            this._profile = info;
+            this.authenticated = true;            
+        }
 
         public void SetPermissions(string[] permissions)
         {
@@ -61,6 +77,7 @@ namespace Cats.Services.Security
             var user = service.GetUserDetail(userId);
             this.userName = user.UserName;
             this.fullName = user.FullName;
+            this._profile = userInfo;
             this.roles.Clear();
             authenticated = true;
             /* Retrive the list of all authorized Tasks and Operations from NetSqlAzMan database
