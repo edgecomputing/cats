@@ -27,8 +27,12 @@ namespace Cats.Areas.Procurement.Controllers
         {
             TransporterPOCO tp= new TransporterPOCO{TransporterID=tm.TransporterID,Name=tm.Name,Region=tm.Region,Zone=tm.Zone
                                                     ,SubCity=tm.SubCity    
-                                                   ,Woreda=tm.Woreda,Kebele=tm.Kebele,HouseNo=tm.HouseNo,TelephoneNo=tm.TelephoneNo
-                                                    ,MobileNo=tm.MobileNo,Ownership=tm.Ownership,VehicleCount=tm.VehicleCount,LiftCapacityFrom=tm.LiftCapacityFrom
+                                                   ,Woreda=tm.Woreda
+                                                   ,Kebele=tm.Kebele
+                                                   ,HouseNo=tm.HouseNo
+                                                   ,TelephoneNo=tm.TelephoneNo
+                                                    ,MobileNo=tm.MobileNo
+                                                    ,Ownership=tm.Ownership,VehicleCount=tm.VehicleCount,LiftCapacityFrom=tm.LiftCapacityFrom
                                                     ,Capital=tm.Capital, EmployeeCountMale=tm.EmployeeCountMale,EmployeeCountFemale=tm.EmployeeCountFemale
                                                     ,OwnerName=tm.OwnerName, OwnerMobile=tm.OwnerMobile  ,ManagerName=tm.ManagerName
                                                     ,ManagerMobile=tm.ManagerMobile
