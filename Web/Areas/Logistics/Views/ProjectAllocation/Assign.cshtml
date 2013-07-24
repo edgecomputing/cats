@@ -12,9 +12,28 @@
                 rules: {
                     datepicker: {
                         required: true
+                    },
+                    PCodeqty: {
+                        number: true,
+                        min: 0
+                        
+                    },
+                    SICodeqty: {
+                        number: true,
+                        min: 0
                     }
                    
                 },
+                submitHandler: function(form){
+                    var total = parseInt($("#PCodeqty").val()) + parseInt($("#SICodeqty").val());
+                    if (total > $("#Remaining").val()) {
+                        $("#Notification").show();
+                             return false;
+                    }
+                    else form.submit();
+                    return true;
+                },
+                
                 highlight: function (element) {
                     $(element).closest('.control-group').removeClass('success').addClass('error');
                 },
@@ -27,21 +46,12 @@
         
        
         
-        function qtyCheck(txtSi, txtPc,remaining) {
-            var siQty = document.getElementById(txtSi).value;
-            var pcQty = document.getElementById(txtPc).value;
-            
-            if (remaining < (siQty + pcQty)) {
-                $("#Notification").toggle();
-                return false;
-            }
-            return true;
-        }
+       
 
     }); 
       </script>
 
-<div class="alert alert-block" id="Notification" hidden >
+<div class="alert alert-block" id="Notification" >
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <h4>Warning!</h4>
     Best check yo self, you're not...
