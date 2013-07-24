@@ -581,8 +581,8 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlan\WoredaWarehouseSelection.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\BidWinner.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
 
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">

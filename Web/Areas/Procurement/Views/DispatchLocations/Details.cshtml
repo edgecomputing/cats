@@ -29,132 +29,53 @@
 </style>
 @section LeftBar
 {
-    <li class="nav-header">Bid Winners Informaation</li>
+ 
+     @Html.Partial("_DispatchLocationsLeftBar");
+    @* <li class="nav-header">Bid Winners Informaation</li>
     <li>Region: @ViewBag.Region</li>
     <li>Transporter: @ViewBag.Transporter</li>
     <li>Bid Number: @ViewBag.BidNumber</li>
     <li class="nav-header">Tasks</li>
-    <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Winners List</a></li>
+    <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Winners List</a></li>*@
 }
 <div class="well">
     <h2 class="page-header">Transport Requisitions Winner by Transporter</h2>
+    <p>Transporter Name :<b class="k-info-colored">@ViewBag.Transporter</b></p>
 </div>
 
 
 @(Html.Kendo().Grid<Cats.Areas.Procurement.Models.DispatchLocationViewModel>() 
 .Name("Bid").Columns(columns =>
          {
-            columns.Bound(p => p.RequisitionNumber).Title("Requisition Number");
+            columns.Bound(p => p.RequisitionNumber).Width(10).Title("Requisition Number");
             columns.Bound(p => p.Warehouse).Title("Warehouse");
             columns.Bound(p => p.Zone).Title("Zone");
-            columns.Bound(p => p.Woreda).Title("Woreda");
+            columns.Bound(p => p.Woreda).Width(400).Title("Woreda").ClientFooterTemplate("Summary For:<b>" + @ViewBag.Transporter); 
             columns.Bound(p => p.Destination).Title("Destinaiton");
             columns.Bound(p => p.Item).Title("Item");
             columns.Bound(p => p.Quantity).Title("Quantity in MT");
-            columns.Bound(p => p.Tariff).Title("Tariff");
-            columns.Bound(p => p.Total);
-           
-          })
-      .Editable(editable => editable.Mode(GridEditMode.InLine))
+             columns.Bound(p => p.Tariff).Title("Tariff");
+             columns.Bound(p => p.Total).Width(200).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+             //columns.Bound(p => p.subTotalQuantity);
+             //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
+             //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
+
+
+         })
+      //.Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Sortable()
       .Filterable()
       .DataSource(datasource=>datasource
-      .Server()
-      .Model(model=>model.Id(p=>p.TransportOrerDetailID))
-      .Read(read => read.Action("DispatchLocation_Read", "DispatchLocations"))
+      .Ajax()
+      .Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
+       
+      .Model(model=>model.Id(p=>p.TransporterID))
+      .Read(read => read.Action("DispatchLocation_Read", "DispatchLocations",new{id=Model.TransporterID}))
       )
       
 )
 
-
-@using (Html.BeginForm("Details", "DispatchLocations", FormMethod.Post))
-{
-    <table class="table table-bordered table-condensed table-striped matrix">
-        <tr>
-            
-             <th>
-              Requisition Number
-            </th>
-            <th>
-                Warehouse
-            </th>
-            <th>
-                Zone
-            </th>
-            <th>
-                Woreda
-            </th>
-            <th>
-               Destinaiton
-            </th>
-            <th>
-              Item
-            </th>
-            <th>
-                Quantity
-            </th>
-            <th>
-                Tariff
-            </th>
-            <th>Total</th>
-        </tr>
-        @{ int index = 0;
-            var grandTotal = 0;
-           }
-        @foreach (var transportOrderDetail in Model.TransportOrderDetails)
-        {
-            <tr>
-                <td >
-                    <b>@transportOrderDetail.ReliefRequisition.RequisitionNo</b>
-                </td>
- 
-                <td>
-                      @transportOrderDetail.Hub.Name
-                </td>
-                <td>
-                     @transportOrderDetail.FDP.AdminUnit.AdminUnit2.Name
-                </td>
-                <td>
-                    @transportOrderDetail.FDP.AdminUnit.Name
-                </td>
-                <td>
-                    @transportOrderDetail.FDP.AdminUnit.Name
-                </td>
-                <td>
-                    @transportOrderDetail.Commodity.Name
-                </td>
-                <td>
-                      @transportOrderDetail.QuantityQtl
-                </td>
-                <td>
-                     @transportOrderDetail.TariffPerQtl
-                </td>
-                <td>
-                    @{
-            var total = transportOrderDetail.QuantityQtl * transportOrderDetail.TariffPerQtl;
-                        grandTotal = (int) (grandTotal + total);
-                    }
-                    @total
-                </td>
-
-            </tr>
-            index++;
-
-        }
-        <tr>
-            <td colspan="6" class="border-box">
-                <p align="center">Summary For  :<b class="k-info-colored">@ViewBag.Transporter</b></p>
-            </td>
-            <td>
-                <b class="k-info-colored">Sub Total Quintal : @ViewBag.TotalAmount</b>
-            </td>
-            <td colspan="2">
-               <p align="center"><b class="k-info-colored">Sub Total Tariff : Birr @grandTotal</b></p>
-            </td>
-        </tr>
-    </table>
-}
 
 
 

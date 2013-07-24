@@ -34,7 +34,7 @@ $(document).ready(function () {
 
         $("#yes").click(function () {
            
-            window.location = "ApproveBid/" + dataItem.BidID;
+            window.location = "bid/ApproveBid/" + dataItem.BidID;
             wnd.close();
         });
         
@@ -50,7 +50,7 @@ $(document).ready(function () {
 <div class="well">
     <h4 class="page-header">Bid For Transporters</h4>
     <div align="right">
-        <a href="Create" class="btn btn-success">Create New Bid</a>
+        <a href="Bid/Create" class="btn btn-success">Create New Bid</a>
     </div>
 </div>
 
@@ -72,11 +72,11 @@ $(document).ready(function () {
             columns.Bound(p => p.EndDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.OpeningDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status).Title("Status");
-            columns.Command(p =>
-                {
-                    p.Custom("Edit").Click("bidEdit");
-                    p.Custom("Approve").Click("onApprove");
-                });
+            columns.Command(p => p.Custom("Edit").Click("bidEdit"));
+                //{
+                //    p.Custom("Edit").Click("bidEdit");
+                //    p.Custom("Approve").Click("onApprove");
+                //});
 
         })
     .Pageable()
@@ -89,7 +89,7 @@ $(document).ready(function () {
           .Ajax()
           .PageSize(5)
             .Model(model => model.Id(p => p.BidID))
-            .Read(read => read.Action("Bid_Read", "Bid"))
+            .Read(read => read.Action("All_Bids", "Bid"))
  
      )
      .Events(events => events.DataBound("dataBound"))
@@ -147,7 +147,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID
+        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID;
     }
 </script>
 <script type="text/javascript">

@@ -33,13 +33,16 @@ namespace Cats.Areas.Procurement.Controllers
             return View(transporterOrder);
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult DispatchLocation_Read([DataSourceRequest] DataSourceRequest request,int id=1)
+        //[AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DispatchLocation_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
-            //var TransportOrder = _transportOrderService.Get(m => m.TransporterID == id);
             var locations = _transportOrderService.GetTransportOrderDetailByTransportId(id);
-            var locationsToDisplay = GetDispatchLocations(locations).ToList();
-            return Json(locationsToDisplay.ToDataSourceResult(request));
+            if (locations != null)
+            {
+                var locationsToDisplay = GetDispatchLocations(locations).ToList();
+                return Json(locationsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
         }
      private IEnumerable<DispatchLocationViewModel> GetDispatchLocations(IEnumerable<TransportOrderDetail> dispatchLocations)
         {
@@ -47,6 +50,7 @@ namespace Cats.Areas.Procurement.Controllers
                     select new DispatchLocationViewModel()
                     {
                         TransportOrerDetailID = location.TransportOrderDetailID,
+                        TransporterID = location.TransportOrder.TransporterID,
                         RequisitionNumber = location.ReliefRequisition.RequisitionNo,
                         Warehouse = location.Hub.Name,
                         Zone = location.FDP.AdminUnit.AdminUnit2.Name,
@@ -56,27 +60,28 @@ namespace Cats.Areas.Procurement.Controllers
                         Quantity = location.QuantityQtl,
                         Tariff = location.TariffPerQtl
                         
+                        
                     });
         }
       
      public ActionResult Details(int id = 0)
-        {
-            TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
-       
-            if (transportOrder != null)
-            {
-                var totalAmount = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl);
-                var region = transportOrder.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
-                ViewBag.Transporter = transportOrder.Transporter.Name;
-                ViewBag.TotalAmount = totalAmount;
-                ViewBag.BidNumber = transportOrder.BidDocumentNo;
-                ViewBag.Region = region;
-                ViewData["Locations"] = transportOrder;
-                return View(transportOrder);
-            }
-            return RedirectToAction("Index");
-            
-        }
+     {
+         TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
+
+         if (transportOrder != null)
+         {
+             var totalAmount = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl);
+             var region = transportOrder.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
+             ViewBag.Transporter = transportOrder.Transporter.Name;
+             ViewBag.TotalAmount = totalAmount;
+             ViewBag.BidNumber = transportOrder.BidDocumentNo;
+             ViewBag.Region = region;
+             ViewData["Locations"] = transportOrder;
+             return View(transportOrder);
+         }
+         return RedirectToAction("Index");
+
+     }
 
     }
 }

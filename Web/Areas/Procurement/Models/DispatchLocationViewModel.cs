@@ -8,6 +8,7 @@ namespace Cats.Areas.Procurement.Models
     public class DispatchLocationViewModel
     {
         public int TransportOrerDetailID { get; set; }
+        public int TransporterID { get; set; }
         public string RequisitionNumber { get; set; }
         public string Warehouse { get; set; }
         public string Zone { get; set; }
@@ -17,6 +18,8 @@ namespace Cats.Areas.Procurement.Models
         public decimal Quantity { get; set; }
         public decimal Tariff { get; set; }
         public decimal Total { get { return Quantity * Tariff; } }
+        public decimal subTotalQuantity { get; set; }
+        public decimal subTotalTariff{ get; set; }
 
     }
 }

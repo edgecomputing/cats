@@ -85,6 +85,7 @@ $(document).ready(function () {
     .ClientDetailTemplateId("template")
         //.HtmlAttributes(new { style = "height:430px;" })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Navigatable()
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(5)
@@ -124,9 +125,7 @@ $(document).ready(function () {
                                   model.Field(p => p.BidDetailID).Editable(false);
                                   model.Field(p => p.Region).Editable(false);
                               })
-                            //.Model(model => model.Id(p => p.BidDetailID))
                             .Read(read => read.Action("BidDetail_Read", "Bid", new { bidID = "#=BidID#" }))
-                            //.Update(update=>update.Action("Edit","Bid"))
                             .Update(update => update.Action("BidDetail_Update", "Bid"))
 
                         )
