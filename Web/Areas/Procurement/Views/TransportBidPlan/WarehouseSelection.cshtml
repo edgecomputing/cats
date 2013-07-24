@@ -1,5 +1,7 @@
 ﻿@using Kendo.Mvc.UI
+@using Cats.Areas.Procurement.Models
 
+@model List<Cats.Areas.Procurement.Models.WarehouseProgramViewModel>
 
 
 @{
@@ -22,37 +24,88 @@
 <div class="span4 well">
      @Html.Partial("_AdminUnitTree")
 </div>
-<div class="span8 well">
+<div id="div_warehouse_selection" style="display:none;" class="span8 ">
+   <!-- <input id="txt_BidPlanID" value="@ViewBag.bidPlan.TransportBidPlanID" />
+<input id="txt_WoredaID" value="" /><input type="button" value="Filter" onclick="FilterChange()" />-->
     <h3></h3>
-    @foreach (var hub in ViewBag.HubCollection)
-{
-    <div>@hub.Name</div>
-}
+   @(Html.Kendo().Grid<WarehouseProgramViewModel>()
+    .Name("grid")
+    
+    .Columns(columns =>
+    {
+        //columns.Bound(p => p.BidPlanID).Width(100);
+       // columns.Bound(p => p.WoredaID).Width(100); 
+        columns.Bound(p => p.WarehouseName).Width(100);
+        columns.Bound(p => p.PSNP).Width(100);
+        columns.Bound(p => p.Relief).Width(100);
+
+        
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model =>
+        {
+           model.Id(p => p.WarehouseID);
+           model.Field(p => p.WarehouseName).Editable(false);
+        })
+        .Create(update => update.Action("EditingInline_Create", "Grid"))
+        .Read(read => read.Action("ReadJson", "TransportBidPlan").Data("filterInfo"))
+        .Update(update => update.Action("EditingInline_Update", "Grid"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
+    ).Resizable(resize => resize.Columns(true))
+)
 
 </div>
-<script>
-    function on_amount_change(amount,cellId, BidPlanID, ProgramID, SourceID, DestinationID, TransportBidPlanDetailID)
-    {
-        
-        TransportBidPlanDetailID = TransportBidPlanDetailID ? TransportBidPlanDetailID : 0;
-        if (amount == "")
-        {
-            //delete
-            amount = -1;
+<script type="text/javascript">
+    var TransportBidPlanID= @ViewBag.bidPlan.TransportBidPlanID
+    var selectedWoreda;
+
+    function error_handler(e) {    
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function() {
+                        message += this + "\n";
+                    });
+                }
+            });        
+            alert(message);
         }
-       
-        $.post("/Procurement/TransportBidPlan/EditAJAX",
-            {   TransportBidPlanDetailID:TransportBidPlanDetailID
-                ,BidPlanID:BidPlanID
-                , DestinationID: DestinationID
-                , SourceID: SourceID
-                ,ProgramID:ProgramID
-                ,Quantity:amount}
-            ,function (data)
-            {
-                data = data.replace("_cellID_", cellId);
-                $("#cell_" + cellId).html(data);
-            }
-            );
+    }
+    function filterInfo() {
+        return {TransportBidPlanID:TransportBidPlanID,selectedWoreda:selectedWoreda};
+    }
+    function onSelect(e) {
+        var id = this.dataItem(e.node).id;
+        if (id) {
+            selectedWoreda=id;
+            $("#div_warehouse_selection").show();
+            $("#grid").data("kendoGrid").dataSource.read();
+        }
+        else {
+            $("#div_warehouse_selection").hide();
+        }
+        //$("#div_tree_log").html(id + "<br/>" + show_obj(this.dataItem(e.node)));
+        //"Selecting: " + this.text(e.node) + " " + this.id(e.node));
+
+    }
+    function FilterChange() {
+        var value = $("#txt_BidPlanID").val(),
+		 	 grid = $("#grid").data("kendoGrid");
+
+        if (value) {
+            grid.dataSource.filter({ field: "BidPlanID", operator: "eq", value: parseInt(value) });
+        } else {
+            grid.dataSource.filter({});
+        }
     }
 </script>

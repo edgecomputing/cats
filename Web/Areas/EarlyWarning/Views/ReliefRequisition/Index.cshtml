@@ -1,7 +1,6 @@
 ﻿@using Cats.Models.Constant
-@using Cats.Models.ViewModels
 @using Kendo.Mvc.UI
-@model IEnumerable<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>
+
 
 @{
     ViewBag.Title = "Requistions";
@@ -13,23 +12,26 @@
     @Html.Partial("_RequistionsLeftBar")
 }
 <h2 class="well">Requistions</h2>
-@(Html.Kendo().Grid(Model).Name("Grid").Columns(columns =>
-                                       {
-                                           columns.Bound(requisition => requisition.RequisitionNo);
-                                           columns.Bound(requisition => requisition.Commodity);
-                                           columns.Bound(requisition => requisition.Region);
-                                           columns.Bound(requisition => requisition.Zone);
-                                           columns.Bound(requisition => requisition.Round);
-                                           columns.Bound(requisiton => requisiton.Program);
-                                           columns.Bound(requisition => requisition.RequestedDateEt);
-                                           columns.Bound(requisition => requisition.Status).Template(
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
+{
+
+    columns.Bound(requisition => requisition.RequisitionNo).ClientTemplate("<a href='" + Url.Action("Allocation", "ReliefRequisition", new { id = "#=RequisitionID#" }) + " '>#=RequisitionNo#</a>  ");
+    columns.Bound(requisition => requisition.Commodity);
+    columns.Bound(requisition => requisition.Region);
+    columns.Bound(requisition => requisition.Zone);
+    columns.Bound(requisition => requisition.Round);
+    columns.Bound(requisiton => requisiton.Program);
+
+    columns.Bound(requisition => requisition.RequestedDateEt);
+    columns.Bound(requisition => requisition.Status).Template(
 
 
-                     @<text>
+@<text>
 @if (item.StatusID == (int)ReliefRequisitionStatus.Draft)
 {
+  
     <a  href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-edit"></i></a>
-   <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-ok"></i></a>
+    <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-ok"></i></a>
     <a  href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-pencil"></i></a>
    
   
@@ -39,8 +41,42 @@ else
     @item.Status 
 }
 </text>);
+                     //columns.Command(command =>
+                     //                    {
+                     //                        command.Edit().Text(" ");
+                     //                        command.Destroy().Text(" ");
+                     //                    }).Width(60);
 
-                                       }))
+                 })
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+
+            .Model(model =>
+            {
+                model.Id(p => p.RegionalRequestID);
+
+                //  model.Field(r => r.Status).Editable(false);
+                model.Field(r => r.Commodity).Editable(false);
+                model.Field(r => r.Region).Editable(false);
+                model.Field(r => r.RequestedDateEt).Editable(false);
+                model.Field(r => r.Region).Editable(false);
+                model.Field(r => r.Zone).Editable(false);
+                model.Field(r => r.Round).Editable(false);
+                model.Field(r => r.Program).Editable(false);
+                model.Field(r => r.Status).Editable(false);
+            })
+    
+        .Read(read => read.Action("Requisition_Read", "ReliefRequisition"))
+        .Update(update => update.Action("Requisition_Update", "ReliefRequisition"))
+        .Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
+    ).Pageable()
+)
 
 @*<table class="table table-bordered table-condensed table-striped">
     <tr>

@@ -23,10 +23,10 @@ namespace Cats.Helpers
             }                       
         }
 
-        public static User GetUser(string userName)
+        public static UserInfo GetUser(string userName)
         {
             var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof (IUserAccountService));
-            return service.GetUserDetail(userName);
+            return service.GetUserInfo(userName);
         }
     }
 }

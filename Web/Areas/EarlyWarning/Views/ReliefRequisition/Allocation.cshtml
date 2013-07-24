@@ -1,0 +1,221 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+<h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation
+        
+</h5>
+
+
+
+
+<div class="row-fluid">
+    <div>
+        <div class="form-horizontal well">
+            <table class="table-condensed">
+                <tr>
+                    <td>
+
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.RequisitionNo) :</b>
+                        @Html.DisplayFor(model => model.RequisitionNo)
+
+
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Region)
+                                :</b>
+                        @Html.DisplayFor(model => model.Region)
+
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Zone)
+                                :</b>
+                            @Html.DisplayFor(model => model.Zone)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Commodity)
+                                :</b>
+                            @Html.DisplayFor(model => model.Commodity)
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Round)
+                                :</b>
+                            @Html.DisplayFor(model => model.Round)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.RequestedDateEt)
+                                :</b>
+                            @Html.DisplayFor(model => model.RequestedDateEt)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Program)
+                                :</b>
+                            @Html.DisplayFor(model => model.Program)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>Status
+                                   :</b>
+                            @Html.DisplayFor(model => model.Status)
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
+
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID })
+                                </td>
+                                   
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+@section LeftBar
+{
+    @Html.Partial("_RequistionsLeftBar")
+
+}
+<div style="color: lightgray"></div>
+
+
+@(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.BenficiaryNo).Width(100);
+        columns.Bound(p => p.Amount).Width(100);
+    })
+    .ToolBar(toolbar => toolbar.Save())
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Events(events => events.Error("error_handler"))
+            .Model(model =>
+            {
+                model.Id(p => p.RequisitionDetailID);
+                model.Field(detail => detail.FDP).Editable(false);
+                model.Field(detail => detail.Zone).Editable(false);
+                model.Field(detail => detail.Donor).Editable(false);
+                model.Field(detail => detail.Woreda).Editable(false);
+                model.Field(detail => detail.Commodity).Editable(false);
+            })
+        .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
+        .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new { id = Model.RequisitionID }))
+        .Update(update => update.Action("Allocation_Update", "ReliefRequisition"))
+        .Destroy(update => update.Action("Allocation_Destroy", "ReliefRequisition"))
+    )
+)
+
+@*@using (Html.BeginForm("RequistionDetailEdit", "ReliefRequisition", FormMethod.Post))
+{
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FDP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Donor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Commodity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BenficiaryNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+           
+        @{ int index = 0; }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.FDP
+                </td>
+                <td>
+                    @item.Donor
+                </td>
+                <td>
+                    @item.Commodity
+                </td>
+                 <td>
+                    @item.BenficiaryNo
+                </td>
+                <td>
+                    @Html.TextBox("input[" + index + "].Amount", item.Input.Amount, new { @style = "width:80%; border:none; !important;" })
+                </td>
+               
+                <td>
+                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
+                </td>
+                <td>
+                   
+                </td>
+            </tr>
+            index++;
+        }
+
+    </table>
+    <p>
+        <input class="btn btn-success" type="submit" value="Save" />
+    </p>
+}*@

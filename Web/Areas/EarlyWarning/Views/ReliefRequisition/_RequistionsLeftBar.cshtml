@@ -1,8 +1,9 @@
-﻿<ul class="nav nav-list">
+﻿@using Cats.Models.Constant
+<ul class="nav nav-list">
     <li class="nav-header">Requistions</li>        
-    <li><a href="#"><i class="icon-inbox"></i> Draft</a></li>
-    <li><a href="#"><i class="icon-check"></i> Approved</a></li>
-    <li><a href="#"><i class="icon-bullseye"></i> Followup</a></li>
+    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.Draft})"><i class="icon-inbox"></i> Draft</a></li>
+    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.Approved})"><i class="icon-check"></i> Approved</a></li>
+    <li><a href="@Url.Action("Index","ReliefRequisition")"><i class="icon-bullseye"></i> Followup</a></li>
     
     <li class="divider"></li>
     <li><a href="#"><i class="icon-warning-sign"></i> Exceptions</a></li>

@@ -1,11 +1,15 @@
-﻿CREATE VIEW dbo.VWUserInfo
+﻿CREATE VIEW dbo.UserInfo
 AS
-SELECT        dbo.[User].UserId, CONVERT(VARBINARY(85), dbo.[User].UserId) AS DBUserSid, dbo.UserProfile.UserProfileID, dbo.UserProfile.LanguageCode, 
-                         dbo.[User].UserName, dbo.[User].FullName, dbo.[User].Email, dbo.[User].Password, dbo.[User].Disabled, dbo.UserProfile.ActiveInd, 
-                         dbo.UserProfile.LoggedInInd, dbo.UserProfile.LogginDate, dbo.UserProfile.LogOutDate, dbo.UserProfile.FailedAttempts, dbo.UserProfile.LockedInInd, 
-                         dbo.UserProfile.PreferedWeightMeasurment, dbo.UserProfile.Calendar, dbo.UserProfile.Keyboard
-FROM            dbo.[User] INNER JOIN
-                         dbo.UserProfile ON dbo.[User].UserName = dbo.UserProfile.UserName
+SELECT        dbo.UserAccount.UserAccountId, dbo.UserAccount.UserName, dbo.UserAccount.Password, dbo.UserAccount.Disabled, dbo.UserAccount.LoggedIn, 
+                         dbo.UserAccount.LogginDate, dbo.UserAccount.LogOutDate, dbo.UserAccount.FailedAttempts, CONVERT(VARBINARY(85), dbo.UserAccount.UserAccountId) 
+                         AS UserSID, dbo.UserProfile.FirstName + N' ' + dbo.UserProfile.LastName AS FullName, dbo.UserProfile.Email, dbo.UserPreference.LanguageCode, 
+                         dbo.UserPreference.Calendar, dbo.UserPreference.Keyboard, dbo.UserPreference.PreferedWeightMeasurment, dbo.UserPreference.DefaultTheme
+FROM            dbo.UserAccount INNER JOIN
+                         dbo.UserPreference ON dbo.UserAccount.UserAccountId = dbo.UserPreference.UserAccountId INNER JOIN
+                         dbo.UserProfile ON dbo.UserAccount.UserAccountId = dbo.UserProfile.UserAccountId
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_DiagramPaneCount', @value = 1, @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'UserInfo';
+
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_DiagramPane1', @value = N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
@@ -13,7 +17,7 @@ Begin DesignProperties =
    Begin PaneConfigurations = 
       Begin PaneConfiguration = 0
          NumPanes = 4
-         Configuration = "(H (1[72] 4[5] 2[17] 3) )"
+         Configuration = "(H (1[32] 4[24] 2[17] 3) )"
       End
       Begin PaneConfiguration = 1
          NumPanes = 3
@@ -79,25 +83,35 @@ Begin DesignProperties =
          Left = 0
       End
       Begin Tables = 
-         Begin Table = "User"
+         Begin Table = "UserAccount"
             Begin Extent = 
-               Top = 6
-               Left = 38
-               Bottom = 136
-               Right = 208
+               Top = 25
+               Left = 397
+               Bottom = 334
+               Right = 567
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "UserPreference"
+            Begin Extent = 
+               Top = 22
+               Left = 55
+               Bottom = 205
+               Right = 293
             End
             DisplayFlags = 280
             TopColumn = 0
          End
          Begin Table = "UserProfile"
             Begin Extent = 
-               Top = 6
-               Left = 246
-               Bottom = 338
-               Right = 487
+               Top = 20
+               Left = 741
+               Bottom = 196
+               Right = 927
             End
             DisplayFlags = 280
-            TopColumn = 3
+            TopColumn = 0
          End
       End
    End
@@ -106,10 +120,29 @@ Begin DesignProperties =
    Begin DataPane = 
       Begin ParameterDefaults = ""
       End
+      Begin ColumnWidths = 17
+         Width = 284
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+      End
    End
    Begin CriteriaPane = 
       Begin ColumnWidths = 11
-         Column = 1440
+         Column = 4740
          Alias = 900
          Table = 1170
          Output = 720
@@ -124,11 +157,5 @@ Begin DesignProperties =
          Or = 1350
       End
    End
-End', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'VWUserInfo';
-
-
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'MS_DiagramPaneCount', @value = 1, @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'VWUserInfo';
+End', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'UserInfo';
 

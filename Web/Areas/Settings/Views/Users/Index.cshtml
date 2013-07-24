@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Models.Security.UserInfo>
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -13,44 +15,48 @@
     @Html.Partial("_AdminLeftBar")
 }
 
-<h3 class="page-header">User Accounts</h3>
+<h4 class="page-header">User Accounts</h4>
 <div>
-    <a href="@Url.Action("New","Users")" class="btn btn-primary btn-large">Create new user</a>
+    <a href="@Url.Action("New", "Users")" class="btn btn-success">Create new user</a>
 </div>
-<br/>
-<div id="grid"></div>
-<script>
-    $(document).ready(function () {
-        $("#grid").kendoGrid({
-            dataSource: {
-                type: "json",
-                transport: {
-                    read: "@Url.Action("GetUsers","Users")"
-                },
-                schema: {
-                    model: {
-                        fields: {
-                            UserId: { editable: false },
-                            UserName: { editable: false },
-                            FullName: { editable: true },
-                            Email: { editable: true },
-                            Disabled: { editable: true }
-                        }
-                    }
-                },
-                
-                //pageSize: 20,
-                //serverPaging: true,
-                //serverFiltering: true,
-                //serverSorting: true
-            },
-            sortable: true,
-            columns: [
-                { field: "FullName", title: "Full Name", template:'<a href="@Url.Action("Profile","Users")/#=UserId#">#=FullName#</a>' },
-                { field: "UserName", title: "User Name"},
-                { field: "Email", title: "Email" },
-                { field: "Disabled", editable: true, title: "Account Disabled", template: '<input type="checkbox" #= Disabled ? "checked=checked" : "" # disabled="disabled" ></input>' }
-            ]
-        });
-    });
-</script>
+<br />
+
+@(Html.Kendo().Grid(Model)
+    .Name("Users")
+    .Columns(columns =>
+    {
+        columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
+            
+            
+            "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserAccountId#" }) + " '>#=UserName#</a> "
+            );
+        columns.Bound(u => u.FullName).Title("Full Name");
+        columns.Bound(u => u.Disabled).Title("Disabled Account");
+        columns.Bound(u => u.LoggedIn).Title("Currently Logged In");
+        columns.Bound(u => u.LanguageCode).Title("UI Language");
+        columns.Bound(u => u.Keyboard).Title("Keyboard Language");
+        columns.Bound(u => u.Calendar).Title("Calendar Preference");
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("UsersList", "Users"))
+    )
+)
+
+
+@*<div class="btn-group">
+    <button class="btn"><i class="icon-cog"></i></button>
+    <button class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Disable Account</a></li>
+        <li><a href="#">Reset</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Delete</a></li>
+    </ul>
+</div>*@

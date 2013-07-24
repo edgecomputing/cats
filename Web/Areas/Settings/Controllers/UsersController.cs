@@ -4,6 +4,8 @@ using Cats.Services.Security;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Settings.Models;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Settings.Controllers
 {
@@ -15,6 +17,12 @@ namespace Cats.Areas.Settings.Controllers
         public UsersController(IUserAccountService service)
         {
             userService = service;
+        }
+
+        public ActionResult UsersList([DataSourceRequest] DataSourceRequest request)
+        {
+            var users = userService.GetUsers();
+            return Json(users.ToDataSourceResult(request),JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Index()
@@ -47,15 +55,21 @@ namespace Cats.Areas.Settings.Controllers
                 return View();
             
             // If the supplied information is correct then persist it to the database
-            var user = new User();
+            var user = new UserAccount();
             user.UserName = userInfo.UserName;
-            user.FullName = userInfo.FullName;
+            user.UserProfile.FirstName = userInfo.FullName;
             user.Password = userService.HashPassword(userInfo.Password);
 
             userService.Add(user);
 
             return View();
 
+        }
+
+        public ActionResult UserProfile(int id)
+        {
+            var user = userService.GetUserInfo(id);
+            return View(user);
         }
 
         public JsonResult GetUsers()

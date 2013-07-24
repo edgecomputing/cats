@@ -33,21 +33,21 @@ namespace Cats.Services.Security
 
         #region Default Service Implementation
 
-        public bool Add(User entity)
+        public bool Add(UserAccount entity)
         {
             _unitOfWork.UserRepository.Add(entity);
             _unitOfWork.Save();
             return true;
         }
 
-        public bool Save(User entity)
+        public bool Save(UserAccount entity)
         {
             _unitOfWork.UserRepository.Edit(entity);
             _unitOfWork.Save();
             return true;
         }
 
-        public bool Delete(User entity)
+        public bool Delete(UserAccount entity)
         {
             if (entity == null) return false;
             _unitOfWork.UserRepository.Delete(entity);
@@ -64,17 +64,22 @@ namespace Cats.Services.Security
             return true;
         }
 
-        public List<User> GetAll()
+        public List<UserAccount> GetAll()
         {
             return _unitOfWork.UserRepository.GetAll();
         }
 
-        public User FindById(int id)
+        public List<UserInfo> GetUsers()
+        {
+            return _unitOfWork.UserInfoRepository.GetAll();
+        }
+
+        public UserAccount FindById(int id)
         {
             return _unitOfWork.UserRepository.FindById(id);
         }
 
-        public List<User> FindBy(Expression<Func<User, bool>> predicate)
+        public List<UserAccount> FindBy(Expression<Func<UserAccount, bool>> predicate)
         {
             return _unitOfWork.UserRepository.FindBy(predicate);
         }
@@ -86,9 +91,15 @@ namespace Cats.Services.Security
         #endregion
 
         #region Security Module Logic
-        public bool Authenticate(User userInfo)
+
+        public bool Authenticate(UserAccount userInfo)
         {
             return Authenticate(userInfo.UserName, userInfo.Password);
+        }
+
+        public bool Authenticate(UserInfo info)
+        {
+            return Authenticate(info.UserName, info.Password);
         }
 
         public bool Authenticate(string userName, string password)
@@ -99,7 +110,7 @@ namespace Cats.Services.Security
             // does not exist in the database.
             try
             {
-                user = GetUserInfoDetail(userName);
+                user = GetUserInfo(userName);
 
                 if (null == user)
                     throw new ApplicationException("The requested user could not be found.");
@@ -119,7 +130,7 @@ namespace Cats.Services.Security
             if (user.Password == HashPassword(password))
             {
                 //Add the current Identity and Principal to the current thread.               
-                var identity = new UserIdentity(GetUserInfoDetail(userName));
+                var identity = new UserIdentity(user);
                 var principal = new UserPrincipal(identity);
                 Thread.CurrentPrincipal = principal;
                 return true;
@@ -143,11 +154,11 @@ namespace Cats.Services.Security
             return ChangePassword(user, password);
         }
 
-        public bool ChangePassword(User userInfo, string password)
+        public bool ChangePassword(UserAccount userInfo, string password)
         {
             try
             {
-                var user = _unitOfWork.UserRepository.FindBy(u => u.UserId == userInfo.UserId).SingleOrDefault();
+                var user = _unitOfWork.UserRepository.FindBy(u => u.UserAccountId == userInfo.UserAccountId).SingleOrDefault();
                 if (user != null)
                 {
                     user.Password = HashPassword(password);
@@ -162,22 +173,24 @@ namespace Cats.Services.Security
             return false;
         }
 
-        public string ResetPassword(User userInfo)
+        public string ResetPassword(UserInfo userInfo)
         {
             return ResetPassword(userInfo.UserName);
         }
 
         public string ResetPassword(string userName)
         {
+            var info=new UserInfo();
+
             // Generate a random password
             var random = new Random();
             var randomPassword = GenerateString(random, 8);
 
             // Reset the current user's password attribute to the new one            
             var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
-
             if (user != null)
             {
+                 info = _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == user.UserAccountId).SingleOrDefault();
                 user.Password = HashPassword(randomPassword);
                 try
                 {
@@ -186,7 +199,7 @@ namespace Cats.Services.Security
                 }
                 catch (Exception e)
                 {
-                    throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", user.FullName, e.Message), e);
+                    throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", info.FullName, e.Message), e);
                 }
             }
             return randomPassword;
@@ -243,9 +256,9 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userId">Unique id identifying the user</param>
         /// <returns>User object corresponding to the user identified by UserId</returns>
-        public User GetUserDetail(int userId)
+        public UserAccount GetUserDetail(int userId)
         {
-            return _unitOfWork.UserRepository.FindBy(u => u.UserId == userId).SingleOrDefault();
+            return _unitOfWork.UserRepository.FindBy(u => u.UserAccountId == userId).SingleOrDefault();
         }
 
         /// <summary>
@@ -253,9 +266,8 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userName">User name identifying the user</param>
         /// <returns>User object corresponding to the user identified by UserName</returns>
-        public User GetUserDetail(string userName)
+        public UserAccount GetUserDetail(string userName)
         {
-            // TODO: Consider adding exception handling here.
             return _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
         }
 
@@ -264,9 +276,14 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userName"> User name identifying the user</param>
         /// <returns>UserInfo object corrensponding to the user identified by username</returns>
-        public UserInfo GetUserInfoDetail(string userName)
+        public UserInfo GetUserInfo(string userName)
         {
             return _unitOfWork.UserInfoRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+        }
+
+        public UserInfo GetUserInfo(int userId)
+        {
+            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == userId).SingleOrDefault();
         }
         /// <summary>
         /// Retrive a complete Authorization for the current user and populate the string array

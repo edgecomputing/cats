@@ -9,23 +9,6 @@ namespace Cats.Models
 {
     public class RequisitionViewModel
     {
-<<<<<<< HEAD
-=======
-        public int RequisitionID { get; set; }
-        public Nullable<int> CommodityID { get; set; }
-        public Nullable<int> RegionID { get; set; }
-        public Nullable<int> ZoneID { get; set; }
-        public Nullable<int> Round { get; set; }
-        public string RequisitionNo { get; set; }
-        public Nullable<int> RequestedBy { get; set; }
-        public Nullable<System.DateTime> RequestedDate { get; set; }
-        public Nullable<int> ApprovedBy { get; set; }
-        public Nullable<System.DateTime> ApprovedDate { get; set; }
-        public Nullable<int> Status { get; set; }
-        public Nullable<int> ProgramID { get; set; }
-        public Nullable<int> RegionalRequestID { get; set; }
->>>>>>> 0000623cfc75a6aee90297fc8b5f0a9a30820ec4
-        
 
         public int RequisitionID { get; set; }
         public Nullable<int> CommodityID { get; set; }

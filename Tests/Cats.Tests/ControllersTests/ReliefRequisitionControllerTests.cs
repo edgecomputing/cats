@@ -130,13 +130,15 @@ namespace Cats.Tests.ControllersTests
                          }).ToList();
 
             var mockReliefRequistionService = new Mock<IReliefRequisitionService>();
+            var mockReliefRequistionDetailService = new Mock<IReliefRequisitionDetailService>();
+
             mockReliefRequistionService.Setup(t => t.GetAllReliefRequisition()).Returns(reliefRequisitions);
             mockReliefRequistionService.Setup(t => t.Get(It.IsAny<Expression<Func<ReliefRequisition, bool>>>(), null, It.IsAny<string>())).Returns(reliefRequisitions.AsQueryable());
             mockReliefRequistionService.Setup(t => t.CreateRequisition(1)).Returns(input);
             mockReliefRequistionService.Setup(t => t.GetRequisitionByRequestId(It.IsAny<int>())).Returns((int requestId) => input.FindAll(t => t.RegionalRequestId == requestId));
             var workflowStatusService = new Mock<IWorkflowStatusService>();
             workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Draft");
-            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object);
+            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object);
 
             _input = input;
 
@@ -164,7 +166,7 @@ namespace Cats.Tests.ControllersTests
 
 
             //Act
-            var view = _reliefRequisitionController.Requistions();
+            var view = _reliefRequisitionController.Index();
 
 
             //Asert

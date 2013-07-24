@@ -1,5 +1,5 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
-
+@model RegionalRequestViewModel
 @using Kendo.Mvc.UI
 
 @{
@@ -7,10 +7,87 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<div class="well">
-    <h4>Region:   @ViewBag.Region</h4>
-    <h5 class="page-header">Regional Monthly @ViewBag.Program Request Resource Allocation
-        <br />For month of @ViewBag.Month/@ViewBag.Year </h5>
+
+<div class="row-fluid">
+    <div>
+        <div class="form-horizontal well">
+            <table class="table-condensed">
+                <tr>
+                    <td>
+
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.ReferenceNumber) :</b>
+                        @Html.DisplayFor(model => model.ReferenceNumber)
+
+
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Region)
+                                :</b>
+                        @Html.DisplayFor(model => model.Region)
+
+                    </td>
+                 <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Month)
+                                :</b>
+                            @Cats.Helpers.RequestHelper.MonthName(Model.Month)
+                           <b>Year:</b> @Model.Year 
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.RequestDateEt)
+                                :</b>
+                            @Html.DisplayFor(model => model.RequestDateEt)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Program)
+                                :</b>
+                            @Html.DisplayFor(model => model.Program)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>Status
+                                   :</b>
+                            @Html.DisplayFor(model => model.Status)
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
+
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new {Controller="Request", Area = "EarlyWarning", id = Model.RegionalRequestID })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Approve", "ApproveRequest", new { id = Model.RegionalRequestID })
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning",id=Model.RegionalRequestID })">Create Requisition</a>
+                                   
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
 </div>
 @section LeftBar
 {
@@ -18,12 +95,14 @@
 
 }
 
-@Html.ActionLink("Back To Regional Request","Index","Request")
+
 @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new {style="background-color:whitesmoke"}); ;
+        columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" }); 
         columns.Bound(p => p.Beneficiaries).Width(100);
         columns.Bound(p => p.Grain).Width(100);
         columns.Bound(p => p.Pulse).Width(100);

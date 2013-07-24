@@ -377,9 +377,16 @@ namespace Cats.Data.UnitWork
             get { return this.workflowStatusRepository ?? (this.workflowStatusRepository = new GenericRepository<WorkflowStatus>(_context)); }
 
         }
-      
-      
 
+        private IGenericRepository<ApplicationSetting> applicationSettingRepository;
+
+        public IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+        {
+
+            get { return this.applicationSettingRepository ?? (this.applicationSettingRepository = new GenericRepository<ApplicationSetting>(_context)); }
+
+        }    
+      //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
       
     }
 }
