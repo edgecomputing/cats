@@ -91,17 +91,6 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return RedirectToAction("Index");
         }
-        /* public Dictionary<string, TransportBidQuotation> organizeList(List<TransportBidQuotation> quoteList)
-         {
-             System.Collections.Generic.Dictionary<string, TransportBidQuotation> ret = new Dictionary<string, TransportBidQuotation>();
-
-             foreach (var i in quoteList)
-             {
-                 string hash = i.BidID + "_" + i.TransporterID + "_" + i.SourceID + "_" + i.DestinationID;
-                 ret.Add(hash, i);// = i;
-             }
-             return ret;
-         }*/
         public List<GoodsMovementDetailViewModel> GetPlannedDistribution(int BidPlanID, int RegionID)
         {
             List<TransportBidPlanDetail> regionalPlan
@@ -215,21 +204,21 @@ namespace Cats.Areas.Procurement.Controllers
         {
             List<PriceQuotationDetailViewModel> qoutation = populateForm(model);
 
-            /* Session["PriceQuotationFilter"] = model;
-             LoadLookups();
-             ViewBag.ModelFilter = model;
-             ViewBag.SelectedRegion = _adminUnitService.FindById(model.RegionID);
-             int bidID = model.BidPlanID;
+             Session["PriceQuotationFilter"] = model;
+             /* LoadLookups();
+              ViewBag.ModelFilter = model;
+              ViewBag.SelectedRegion = _adminUnitService.FindById(model.RegionID);
+              int bidID = model.BidPlanID;
             
 
-             ViewBag.SelectedTransporter = _transporterService.FindById(model.TransporterID);
-             Bid SelectedBid = _bidService.FindById(bidID);
-             ViewBag.SelectedBid =SelectedBid;
-             int bidPlanID = SelectedBid.TransportBidPlanID;
+              ViewBag.SelectedTransporter = _transporterService.FindById(model.TransporterID);
+              Bid SelectedBid = _bidService.FindById(bidID);
+              ViewBag.SelectedBid =SelectedBid;
+              int bidPlanID = SelectedBid.TransportBidPlanID;
 
-             List<GoodsMovementDetailViewModel> quotationDestinations = GetPlannedDistribution(bidPlanID, model.RegionID);
-             List<PriceQuotationDetailViewModel> qoutation = GetPriceQuotation(quotationDestinations,model.TransporterID, bidID);
-             */
+              List<GoodsMovementDetailViewModel> quotationDestinations = GetPlannedDistribution(bidPlanID, model.RegionID);
+              List<PriceQuotationDetailViewModel> qoutation = GetPriceQuotation(quotationDestinations,model.TransporterID, bidID);
+              */
             return View(qoutation);
 
         }

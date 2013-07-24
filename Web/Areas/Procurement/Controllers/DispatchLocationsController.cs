@@ -58,10 +58,11 @@ namespace Cats.Areas.Procurement.Controllers
                         
                     });
         }
-        public ActionResult Details(int id=0)
+      
+     public ActionResult Details(int id = 0)
         {
             TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
-            //var bidWinner = _bidWinnerService.Get(m => m.TransporterID == transportOrder.TransporterID).FirstOrDefault();
+       
             if (transportOrder != null)
             {
                 var totalAmount = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl);
@@ -70,6 +71,7 @@ namespace Cats.Areas.Procurement.Controllers
                 ViewBag.TotalAmount = totalAmount;
                 ViewBag.BidNumber = transportOrder.BidDocumentNo;
                 ViewBag.Region = region;
+                ViewData["Locations"] = transportOrder;
                 return View(transportOrder);
             }
             return RedirectToAction("Index");

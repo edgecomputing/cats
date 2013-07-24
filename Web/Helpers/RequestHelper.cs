@@ -26,5 +26,10 @@ namespace Cats.Helpers
             months.Add(new Month(12, "December"));
             return months;
         }
+        public static string MonthName(int id)
+        {
+            var monthList = GetMonthList();
+           return  monthList.Find(t => t.Id == id).Name;
+        }
     }
 }

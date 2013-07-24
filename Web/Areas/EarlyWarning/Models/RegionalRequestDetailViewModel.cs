@@ -9,6 +9,8 @@ namespace Cats.Areas.EarlyWarning.Models
     {
         public int RegionalRequestDetailID { get; set; }
         public int RegionalRequestID { get; set; }
+        public string Zone { get; set; }
+        public string Woreda { get; set; }
         public int Fdpid { get; set; }
         public string FDP { get; set; }
         public decimal Grain { get; set; }

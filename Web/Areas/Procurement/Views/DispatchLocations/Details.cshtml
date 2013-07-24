@@ -60,7 +60,7 @@
       .Sortable()
       .Filterable()
       .DataSource(datasource=>datasource
-      .Ajax()
+      .Server()
       .Model(model=>model.Id(p=>p.TransportOrerDetailID))
       .Read(read => read.Action("DispatchLocation_Read", "DispatchLocations"))
       )

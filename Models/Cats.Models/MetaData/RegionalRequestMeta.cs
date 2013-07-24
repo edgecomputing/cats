@@ -29,7 +29,7 @@ namespace Cats.Models
         public DateTime RequistionDate { get; set; }
 
         [Required(ErrorMessage = "Please Select Year")]
-        [RegularExpression(@"20[12][0-9]", ErrorMessage = "Please enter year in yyyy format.")]
+        [RegularExpression(@"^20\d{2}$", ErrorMessage = "Please enter year in yyyy format.")]
         public int Year { get; set; }
         [Required(ErrorMessage = "Please Enter Reference Number")]
         [Display(Name = "Reference Number")]

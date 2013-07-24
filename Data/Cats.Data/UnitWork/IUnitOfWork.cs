@@ -56,8 +56,9 @@ namespace Cats.Data.UnitWork
         IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
 
         IGenericRepository<TransportBidQuotation> TransportBidQuotationRepository { get; }
+        IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
 
-
+        
         void Save();
 
     }

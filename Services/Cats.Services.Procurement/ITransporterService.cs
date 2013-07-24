@@ -17,7 +17,7 @@ namespace Cats.Services.Procurement
         Transporter FindById(int id);
         List<Transporter> GetAllTransporter();
         List<Transporter> FindBy(Expression<Func<Transporter, bool>> predicate);
-
+        List<TransportBidQuotation> GetBidWinner(int sourceID, int DestinationID);
 
     }
 }

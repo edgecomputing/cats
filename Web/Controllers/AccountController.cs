@@ -36,6 +36,8 @@ namespace Cats.Controllers
                 if (service.Authenticate(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    // TODO: Review user permission code
+                    //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
                     return RedirectToLocal(returnUrl);
                 }
             }

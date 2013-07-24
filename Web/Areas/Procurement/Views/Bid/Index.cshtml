@@ -33,7 +33,7 @@ $(document).ready(function () {
         wnd.center().open();
 
         $("#yes").click(function () {
-            //wnd.location = "bid/ApproveBid/" + grid.BidID;
+           
             window.location = "bid/ApproveBid/" + dataItem.BidID;
             wnd.close();
         });
@@ -65,7 +65,6 @@ $(document).ready(function () {
         {
             columns.Bound(p => p.BidNumber).Template(
                 
-                  
                 @<text>
 <a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
 </text>);
@@ -73,9 +72,11 @@ $(document).ready(function () {
             columns.Bound(p => p.EndDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.OpeningDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status).Title("Status");
-            //columns.ForeignKey(p => p.StatusID, (System.Collections.IEnumerable)ViewData["Status"], "StatusID", "Name").Title("Status");
-            columns.Command(p => p.Custom("Edit").Click("bidEdit"));
-            columns.Command(p => p.Custom("Approve").Click("onApprove"));
+            columns.Command(p =>
+                {
+                    p.Custom("Edit").Click("bidEdit");
+                    p.Custom("Approve").Click("onApprove");
+                });
 
         })
     .Pageable()
@@ -89,7 +90,7 @@ $(document).ready(function () {
           .PageSize(5)
             .Model(model => model.Id(p => p.BidID))
             .Read(read => read.Action("Bid_Read", "Bid"))
-        //.Update(update => update.Action("EditBidStatus", "Bid"))
+ 
      )
      .Events(events => events.DataBound("dataBound"))
       )
@@ -106,8 +107,7 @@ $(document).ready(function () {
                             columns.Bound(b => b.AmountForPSNPProgram).Title("PSNP");
                             columns.Bound(b => b.BidDocumentPrice);
                             columns.Bound(b => b.CPO);
-                            //columns.Command(p => p.Custom("Edit").Click("bidDetailEdit"));
-                            //columns.Command(b => b.Edit());
+
                         })
                         .ToolBar(toolBar => toolBar.Save())
                         .Editable(editable => editable.Mode(GridEditMode.InCell))
@@ -147,11 +147,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        //var wnd = $("#Details").data("kendoWindow");
-        //alert(dataItem.BidID)
-        //wnd.content(detailsTemplate(dataItem));
-        //wnd.center().open();
-        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID
+        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID;
     }
 </script>
 <script type="text/javascript">

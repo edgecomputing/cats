@@ -152,6 +152,7 @@
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
@@ -166,7 +167,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
-    <Compile Include="Areas\Procurement\Controllers\Copy of PriceQuotationController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
     <Compile Include="Areas\Procurement\Controllers\PriceQuotationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
@@ -187,6 +188,9 @@
     <Compile Include="Areas\Procurement\Models\TransportBidPlanViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransporterPOCO.cs" />
     <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
+    <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\DashboardController.cs" />
@@ -211,7 +215,6 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
-    <Compile Include="Models\ViewModels\ReliefRequisitions.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -566,15 +569,23 @@
     <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
-    <Content Include="Areas\Procurement\Views\Transporter\_TransporterLeftBar.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
+
     <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocateProjectCode.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocatePC.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Assign.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\AssignedprojectCodes.cshtml" />
+
+    <Content Include="Areas\Procurement\Views\Shared\_AdminUnitTree.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\WoredaWarehouseSelection.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\BidWinner.cshtml" />
+
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
+
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -599,7 +610,7 @@
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="Scripts\kendo.web.min.js" />
     <Content Include="Areas\Procurement\Views\Web.config" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Requistions.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
@@ -628,7 +639,7 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\RequistionDetailEdit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Allocation.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
     <Content Include="Areas\Settings\Views\Web.config" />
     <Content Include="Areas\Settings\Views\AdminDashboard\Index.cshtml" />

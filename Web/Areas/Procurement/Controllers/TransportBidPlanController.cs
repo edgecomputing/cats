@@ -9,9 +9,10 @@ using Cats.Models;
 using Cats.Data;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
-using Cats.Areas.Procurement.Models;
+
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Areas.Procurement.Models;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -170,94 +171,82 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("Index");
         }
 
-        public Dictionary<string, TransportBidPlanDetail> organizeList(List<TransportBidPlanDetail> bidList)
-        {
-            System.Collections.Generic.Dictionary<string, TransportBidPlanDetail> ret = new Dictionary<string, TransportBidPlanDetail>();
+       
 
-            foreach (var i in bidList)
+        public List<AdminUnit> GetAllWoredas(int regionID)
+        {
+            List<AdminUnit> AdminUnits = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3 && t.AdminUnit2.AdminUnitID==regionID);
+            return AdminUnits;
+            System.Collections.Generic.Dictionary<string, TransportBidPlanDetail> filled;
+
+        }
+
+        public List<Cats.Areas.Procurement.Models.WarehouseProgramViewModel> GetWoredaWarehouseProgram(int BidPlanID, int WoredaID)
+        {
+            //this._transportBidPlanDetailService.get
+            List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.DestinationID == WoredaID);
+             List<Hub> hubs = _hubService.GetAllHub();
+            
+            List<WarehouseProgramViewModel> ret=
+               ( from hub in hubs
+                    select new WarehouseProgramViewModel
+                    {
+                        WarehouseID = hub.HubId,
+                        WarehouseName = hub.Name,
+                        PSNP=0,
+                        Relief=0,
+                        BidPlanID=BidPlanID,
+                        WoredaID=WoredaID
+                    }).ToList();
+            
+            System.Collections.Generic.Dictionary<string, TransportBidPlanDetail> filled = new Dictionary<string, TransportBidPlanDetail>();
+
+            foreach (var i in bidDetails)
             {
-                string hash = i.BidPlanID + "_" + i.ProgramID + "_" + i.SourceID + "_" + i.DestinationID;
-                ret.Add(hash, i);// = i;
+                string hash = i.ProgramID + "_" + i.SourceID;
+                filled.Add(hash, i);// = i;
+            }
+            foreach (WarehouseProgramViewModel i in ret)
+            {
+                string hash_psnp = "2_" + i.WarehouseID;
+                string hash_relief = "1_" + i.WarehouseID;
+                if (filled.ContainsKey(hash_psnp))
+                {
+                    TransportBidPlanDetail psnp = filled[hash_psnp];
+                    i.PSNP = psnp.Quantity;
+                }
+                if (filled.ContainsKey(hash_relief))
+                {
+                    TransportBidPlanDetail releif = filled[hash_relief];
+                    i.Relief = releif.Quantity;
+                }
+              //  ret.Add(filled, i);// = i;
             }
             return ret;
         }
+       
+
         //
         // GET: /Procurement/TransportBidPlan/Details/5
 
         public ActionResult WarehouseSelection(int id = 0)
         {
             TransportBidPlan transportbidplan = fetchFromDB(id);
-            List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.GetAllTransportBidPlanDetail();
-            Dictionary<string, TransportBidPlanDetail> matrix = organizeList(bidDetails);
-
+            @ViewBag.bidPlan = transportbidplan;
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            ViewBag.bidPlan = transportbidplan;
-            ViewBag.HubCollection = this._hubService.GetAllHub();
-            ViewBag.ProgramCollection = this._programService.GetAllProgram();
-            ViewBag.RegionTotals = getRegionTotals(id);
+            List<WarehouseProgramViewModel> table = GetWoredaWarehouseProgram(id,0);
+            return View(table);
 
-            if (transportbidplan == null)
-            {
-                return HttpNotFound();
-            }
-            return View(matrix);
         }
-        public List<RegionTotalViewModel> getRegionTotals(int bidplanid)
+
+        public ActionResult ReadJson( [DataSourceRequest] DataSourceRequest request,int TransportBidPlanID, int selectedWoreda=0)
         {
-            List<RegionTotalViewModel> ret = new List<RegionTotalViewModel>();
-            List<Program> ProgramCollection = this._programService.GetAllProgram();
-            List<AdminUnit> RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            foreach (var r in RegionCollection)
-            {
-                foreach (var p in ProgramCollection)
-                {
-                    double amount = this._transportBidPlanDetailService.GetRegionPlanTotal(bidplanid, r.AdminUnitID, p.ProgramID);
-                    RegionTotalViewModel rt = new RegionTotalViewModel { Program = p, Region = r, Amount = amount };
-                    ret.Add(rt);
-                }
-            }
-            return ret;
+            List<WarehouseProgramViewModel> table = GetWoredaWarehouseProgram(TransportBidPlanID, selectedWoreda);
+           // return View(table);
+            return Json(table.ToDataSourceResult(request));
         }
-        [HttpPost]
-        public ActionResult EditAJAX(TransportBidPlanDetail transportbidplan)
-        {
+        
 
-            if (ModelState.IsValid)
-            {
-                if (transportbidplan.TransportBidPlanDetailID == 0)
-                {
-                    _transportBidPlanDetailService.AddTransportBidPlanDetail(transportbidplan);
-                    ViewBag.status = "itemadded";
-                }
-                else
-                {
-                    if (transportbidplan.Quantity >= 0)
-                    {
-                        _transportBidPlanDetailService.UpdateTransportBidPlanDetail(transportbidplan);
-                        ViewBag.status = "itemupdated";
-                    }
-                    else
-                    {
-                        TransportBidPlanDetail newModel = new TransportBidPlanDetail();
-                        newModel.BidPlanID = transportbidplan.BidPlanID;
-                        newModel.DestinationID = transportbidplan.DestinationID;
-                        newModel.ProgramID = transportbidplan.ProgramID;
-                        newModel.Quantity = 0;
-                        newModel.SourceID = transportbidplan.SourceID;
-
-                        _transportBidPlanDetailService.DeleteById(transportbidplan.TransportBidPlanDetailID);
-                        ViewBag.status = "itemdeleted";
-                        return View(newModel);
-                    }
-
-                }
-                /*db.Entry(transportbidplan).State = EntityState.Modified;
-                db.SaveChanges();*/
-                //return RedirectToAction("Index");
-            }
-            return View(transportbidplan);
-            //loadLookups(transportbidplan);
-            // return View(transportbidplan);
-        }
+       
     }
 }

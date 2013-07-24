@@ -10,6 +10,9 @@ namespace Cats.Procurement.Models
         public TransporterPOCO()
         {
             this.Name = "Transporter1";
+            DateTime dt = DateTime.Now; ;
+            this.ExperienceFrom = dt;
+            this.ExperienceTo = dt;
         }
         public int TransporterID { get; set; }
         public string Name { get; set; }
