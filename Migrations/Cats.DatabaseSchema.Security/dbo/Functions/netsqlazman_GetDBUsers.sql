@@ -21,9 +21,9 @@ CREATE FUNCTION [dbo].[netsqlazman_GetDBUsers] (@StoreName nvarchar(255), @Appli
 RETURNS TABLE 
 AS  
 RETURN 
-	SELECT TOP 100 PERCENT CONVERT(VARBINARY(85), UserId) AS DBUserSid, UserName AS DBUserName, FullName, '' AS OtherFields FROM dbo.[User]
+	SELECT TOP 100 PERCENT CONVERT(VARBINARY(85), UserAccountId) AS DBUserSid, UserName AS DBUserName, '' AS OtherFields FROM dbo.[UserAccount]
 	WHERE 
-		(@DBUserSid IS NOT NULL AND CONVERT(VARBINARY(85), UserID) = @DBUserSid OR @DBUserSid  IS NULL)
+		(@DBUserSid IS NOT NULL AND CONVERT(VARBINARY(85), UserAccountId) = @DBUserSid OR @DBUserSid  IS NULL)
 		AND
 		(@DBUserName IS NOT NULL AND UserName = @DBUserName OR @DBUserName IS NULL)
 	ORDER BY UserName

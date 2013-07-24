@@ -21,11 +21,12 @@ namespace Cats.Data.Security
         #endregion
 
         #region UnitOfWork public properties
-        private IGenericRepository<User> userRepo;
+        private IGenericRepository<UserAccount> userRepo;
         private IGenericRepository<UserInfo> userInfoRepo;
-        public IGenericRepository<User> UserRepository
+
+        public IGenericRepository<UserAccount> UserRepository
         {
-            get { return this.userRepo ?? (this.userRepo = new GenericRepository<User>(_context)); }
+            get { return this.userRepo ?? (this.userRepo = new GenericRepository<UserAccount>(_context)); }
 
         }
 

@@ -119,7 +119,7 @@ namespace Cats.Services.Security
             if (user.Password == HashPassword(password))
             {
                 //Add the current Identity and Principal to the current thread.               
-                var identity = new UserIdentity(GetUserInfoDetail(userName));
+                var identity = new UserIdentity(user);
                 var principal = new UserPrincipal(identity);
                 Thread.CurrentPrincipal = principal;
                 return true;

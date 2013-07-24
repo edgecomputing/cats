@@ -75,7 +75,6 @@
     <Build Include="dbo\Tables\netsqlazman_ApplicationAttributesTable.sql" />
     <Build Include="dbo\Tables\netsqlazman_ApplicationPermissionsTable.sql" />
     <Build Include="dbo\Tables\netsqlazman_StoreGroupMembersTable.sql" />
-    <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\netsqlazman_ApplicationsTable.sql" />
     <Build Include="dbo\Tables\UserProfile.sql" />
     <Build Include="dbo\Tables\netsqlazman_StoreAttributesTable.sql" />
@@ -90,7 +89,6 @@
     <Build Include="dbo\Views\netsqlazman_BizRuleView.sql" />
     <Build Include="dbo\Views\netsqlazman_ItemAttributesView.sql" />
     <Build Include="dbo\Views\netsqlazman_AuthorizationAttributesView.sql" />
-    <Build Include="dbo\Views\VWUserInfo.sql" />
     <Build Include="dbo\Views\netsqlazman_DatabaseUsers.sql" />
     <Build Include="dbo\Views\netsqlazman_ApplicationsView.sql" />
     <Build Include="dbo\Views\netsqlazman_StoreAttributesView.sql" />
@@ -189,5 +187,8 @@
     <Build Include="Security\NetSqlAzMan_Managers_1.sql" />
     <Build Include="Security\NetSqlAzMan_Readers_1.sql" />
     <Build Include="Security\NetSqlAzMan_Users_1.sql" />
+    <Build Include="dbo\Tables\UserPreference.sql" />
+    <Build Include="dbo\Tables\UserAccount.sql" />
+    <Build Include="dbo\Views\UserInfo.sql" />
   </ItemGroup>
 </Project>

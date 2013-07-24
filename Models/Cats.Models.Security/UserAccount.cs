@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Security
 {
-    public partial class UserInfo
+    public partial class UserAccount
     {
         public int UserAccountId { get; set; }
         public string UserName { get; set; }
@@ -16,13 +16,7 @@ namespace Cats.Models.Security
         public Nullable<System.DateTime> LogginDate { get; set; }
         public Nullable<System.DateTime> LogOutDate { get; set; }
         public int FailedAttempts { get; set; }
-        public byte[] UserSID { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string LanguageCode { get; set; }
-        public string Calendar { get; set; }
-        public string Keyboard { get; set; }
-        public string PreferedWeightMeasurment { get; set; }
-        public string DefaultTheme { get; set; }
+        public virtual UserPreference UserPreference { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }
