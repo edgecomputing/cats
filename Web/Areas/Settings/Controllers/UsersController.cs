@@ -47,9 +47,9 @@ namespace Cats.Areas.Settings.Controllers
                 return View();
             
             // If the supplied information is correct then persist it to the database
-            var user = new User();
+            var user = new UserAccount();
             user.UserName = userInfo.UserName;
-            user.FullName = userInfo.FullName;
+            user.UserProfile.FirstName = userInfo.FullName;
             user.Password = userService.HashPassword(userInfo.Password);
 
             userService.Add(user);

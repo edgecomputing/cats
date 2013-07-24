@@ -40,18 +40,47 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Index()
         {
+            //var bids = _bidService.Get(m => m.StatusID == 1);
+            //var bidsToDisplay = GetBids(bids).ToList();
+            //return View(bidsToDisplay);
+            return View();
+        }
+       
+        public ActionResult GetBidNumbers()
+        {
+            var bids = _bidService.GetAllBid();
+            return Json(bids.Select(c => new { BidID = c.BidID, BidNumber = c.BidNumber }), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var bids = _bidService.Get(m => m.StatusID == 1).OrderByDescending(m => m.BidID);
+            var bidsToDisplay = GetBids(bids).ToList();
+            ViewBag.BidNumber = "bihidhfi";
+            return Json(bidsToDisplay.ToDataSourceResult(request));
+        }
+        public ActionResult ApprovedBids()
+        {
+            var bids = _bidService.Get(m => m.StatusID == 4);
+            var bidsToDisplay = GetBids(bids).ToList();
+            return View(bidsToDisplay);
+        }
+        public ActionResult Bid_Approved([DataSourceRequest] DataSourceRequest request,string bidNumber="")
+        {
+            var bids = _bidService.Get(m => m.StatusID == 4 && m.BidNumber.StartsWith(bidNumber)).OrderByDescending(m=>m.BidID);
+            var StatusToDisplay = GetBids(bids).ToList();
+            return Json(StatusToDisplay.ToDataSourceResult(request));
+        }
+        public ActionResult CurrentBids()
+        {
             var bids = _bidService.Get(m => m.StatusID == 1);
             var bidsToDisplay = GetBids(bids).ToList();
             return View(bidsToDisplay);
         }
-       
-     
-        public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Bid_Current([DataSourceRequest] DataSourceRequest request)
         {
-            var bids = _bidService.Get(m => m.StatusID == 1);
-            //var bids = _bidService.GetAllBid();
-            var bidsToDisplay = GetBids(bids).ToList();
-            return Json(bidsToDisplay.ToDataSourceResult(request));
+            var currentBid = _bidService.Get(m => m.StatusID == 1).OrderByDescending(m=>m.BidID);
+            var bidToDisplay = GetBids(currentBid).ToList();
+            return Json(bidToDisplay.ToDataSourceResult(request));
         }
         public ActionResult BidDetail_Read(int bidID,[DataSourceRequest] DataSourceRequest request)
         {
@@ -105,26 +134,6 @@ namespace Cats.Areas.Procurement.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-
-
-        //[HttpGet]
-        //public ActionResult Index(string bidNumber="", bool open = true, bool closed = false, bool canceled = false, bool approved = false)
-        //{
-        //    var allStatusTypes = _statusService.GetAllStatus().Select(m => m.Name).ToList();
-        //    ViewBag.BidStatusTypes = allStatusTypes;
-
-        //    var statusTypesList = "";
-        //    if (open) statusTypesList += "Open;";
-        //    if (closed) statusTypesList += "Closed;";
-        //    if (canceled) statusTypesList += "Canceled;";
-        //    if (approved) statusTypesList += "Approved;";
-
-        //    var listOfStatusTypes = statusTypesList.Split(';');
-
-        //    var filteredBids = _bidService.Get(b => b.BidNumber.StartsWith(bidNumber) &&(listOfStatusTypes.Contains(b.Status.Name)));
-        //    ViewData["bids"] = filteredBids;
-        //    return View(filteredBids.ToList());
-        //}
 
         public ActionResult Create(int id = 0)
         {
@@ -256,24 +265,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewData["BidDetails"] = bid;
             return View(bid);
 
-            //var viewModel = new BidViewModel();
-            //var bid = _bidService.FindById(id);
-            //var regions = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 2);
-            //var bidDetails = new List<BidDetail>();
-            //foreach (var region in regions)
-            //{
-            //    var bidDetail = new BidDetail();
-            //    bidDetail.AdminUnit = region;
-            //    bidDetail.Bid = bid;
-            //    bidDetails.Add(bidDetail);
-            //}
-            //viewModel.BidID = bid.BidID;
-            //viewModel.BidNumber = bid.BidNumber;
-            //viewModel.StartDate = bid.StartDate;
-            //viewModel.EndDate = bid.EndDate;
-            //viewModel.BidDetails = bidDetails;
-            //return View((viewModel);
-
+            
         }
         public ActionResult EditBidStatus(int id)
         {
@@ -287,18 +279,10 @@ namespace Cats.Areas.Procurement.Controllers
         //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditBidStatus(Bid bid)
         {
-            //    DateTime startingdate = GetGregorianDate(start);
-            //    DateTime EndDate = GetGregorianDate(end);
-            //    DateTime OpeningDate = GetGregorianDate(open);
-
-            //bid.StartDate = startingdate.Date;
-            //bid.EndDate = EndDate.Date;
-            //bid.OpeningDate = OpeningDate.Date;
             if (ModelState.IsValid)
             {
                 _bidService.EditBid(bid);
                 RouteValueDictionary routeValues = this.GridRouteValues();
-                //return RedirectToAction("Index", routeValues);
                 return RedirectToAction("Index");
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);

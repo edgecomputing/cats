@@ -1,4 +1,5 @@
-﻿@model Cats.Models.Bid
+﻿@using Kendo.Mvc.UI
+@model Cats.Models.Bid
 
 @{
     ViewBag.Title = "Details";
@@ -27,15 +28,39 @@
             <td>@Html.TextBoxFor(m => m.OpeningDate,null,new { disabled = "true"} )</td>
         </tr>
         <tr>
-            <td>@Html.LabelFor(m=>m.StatusID,"Status:")</td>
-            @* <td>@Html.DropDownList("BidStatus",String.Empty)</td>*@
-            <td>@Html.TextBoxFor(m=>m.Status.Name,null,new { disabled = "true"})</td>
+               <td>@Html.LabelFor(m=>m.StatusID,"Status:")</td>
+               @*<td>@Html.DropDownList("BidStatus",String.Empty)</td>*@
+                <td>@Html.TextBoxFor(m=>m.Status.Name,null,new { disabled = "true"})</td>
             
             <td>@Html.LabelFor(m => m.TransportBidPlanID,"Bid Plan ")</td>
             <td>@Html.TextBoxFor(m => m.TransportBidPlan.ShortName,null,new { disabled = "true"} )</td>
         </tr>
     </table>
 </div>
+
+@(Html.Kendo().Grid<Cats.Models.BidDetail>()
+//.Grid((IEnumerable<Cats.Models.BidDetail>)ViewData["bids"]) 
+.Name("Bid").Columns(columns =>
+         {
+            columns.Bound(p => p.AdminUnit.Name).Title("Region");
+            columns.Bound(p => p.AmountForReliefProgram).Title("Relief");
+            columns.Bound(p => p.AmountForPSNPProgram).Title("PSNP");
+            columns.Bound(p => p.BidDocumentPrice).Title("Bid Document Price");
+            columns.Bound(p => p.CPO).Title("CPO");
+           
+          })
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .DataSource(datasource=>datasource
+      .Server()
+      .Model(model=>model.Id(p=>p.BidID))
+      .Read(read => read.Action("Details", "Bid"))
+      )
+      
+)
+
+
 @using (Html.BeginForm())
 {
     

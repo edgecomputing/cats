@@ -206,48 +206,37 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return View(reliefrequistion);
         }
-
-        public ActionResult Edit()
+        [HttpGet]
+        public ActionResult Edit(int id)
         {
-            var reliefRequistion =
-                _regionalRequestService.Get(t => t.RegionalRequestID == 1, null,
+            PopulateLookup();
+            var regionalRequest =
+                _regionalRequestService.Get(t => t.RegionalRequestID == id, null,
                                             "RegionalRequestDetails,RegionalRequestDetails.Fdp," +
                                             "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2")
                     .
                     FirstOrDefault();
-            ViewBag.CurrentRegion = reliefRequistion.AdminUnit.Name;
-            ViewBag.CurrentMonth = reliefRequistion.RequistionDate.Month;
-            ViewBag.CurrentRound = reliefRequistion.Month;
-            ViewBag.CurrentYear = reliefRequistion.RequistionDate.Year;
-
-            var reliefRequistionDetail = reliefRequistion.RegionalRequestDetails;
-            //var input = (from itm in reliefRequistionDetail
-            //             select new RequestDetailEdit
-            //               {
-            //                   RegionalRequestDetailId = itm.RegionalRequestDetailID,
-            //                   RegionalRequestId = itm.RegionalRequestID,
-            //                   Fdp = itm.Fdp.Name,
-            //                   Wereda = itm.Fdp.AdminUnit.Name,
-            //                   Zone = itm.Fdp.AdminUnit.AdminUnit2.Name,
-
-            //                   Beneficiaries = itm.Beneficiaries,
-            //                   Input = new RequestDetailEdit.RequestDetailEditInput()
-            //                   {
-            //                       Number = itm.RegionalRequestDetailID,
-            //                       Grain = itm.Grain,
-            //                       Pulse = itm.Pulse,
-            //                       Oil = itm.Oil,
-            //                       CSB = itm.CSB,
-            //                       Beneficiaries = itm.Beneficiaries
-            //                   }
-            //               });
-            return View(reliefRequistionDetail);
+            return View(regionalRequest);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(RegionalRequestDetail regionalRequestDetail)
+        public ActionResult Edit(RegionalRequest regionalRequest)
         {
             var requId = 0;
+            if(regionalRequest!=null && ModelState.IsValid )
+            {
+                var target = _regionalRequestService.FindById(regionalRequest.RegionalRequestID);
+                target.ProgramId = regionalRequest.ProgramId;
+                target.ReferenceNumber = regionalRequest.ReferenceNumber;
+                target.RegionID = regionalRequest.RegionID;
+                target.Year = regionalRequest.Year;
+                target.RequistionDate = regionalRequest.RequistionDate;
+                target.Remark = regionalRequest.Remark;
+                target.Month = regionalRequest.Month;
+
+                _regionalRequestService.EditRegionalRequest(target);
+                return RedirectToAction("Allocation", "Request", new { id = regionalRequest.RegionalRequestID });
+            }
             //foreach (var reliefRequisitionDetailEditInput in input)
             //{
 
@@ -260,9 +249,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             //    tempReliefRequistionDetail.Pulse = reliefRequisitionDetailEditInput.Pulse;
 
             //}
-            _reliefRequisitionDetailService.Save();
 
-            return RedirectToAction("Edit", "Request", new { id = requId });
+            PopulateLookup();
+            return View(regionalRequest);
         }
 
         public ActionResult ApproveRequest(int id)
@@ -321,15 +310,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RequestID = id;
             var request =
                 _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
-            if(request!=null)
-            {
-                ViewBag.Region = request.AdminUnit.Name;
-                ViewBag.Month = request.Month;
-                ViewBag.Year = request.Year;
-                ViewBag.Program = request.Program.Name;
-            }
-           
-            return View();
+            var requestModelView = BindRegionalRequestViewModel(request);
+            return View(requestModelView);
         }
 
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
@@ -351,7 +333,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                            Oil = regionalRequestDetail.Oil,
                            Pulse = regionalRequestDetail.Pulse,
                            RegionalRequestID = regionalRequestDetail.RegionalRequestID,
-                           RegionalRequestDetailID = regionalRequestDetail.RegionalRequestDetailID
+                           RegionalRequestDetailID = regionalRequestDetail.RegionalRequestDetailID,
+                           Woreda= regionalRequestDetail.Fdp.AdminUnit.Name,
+                           Zone=regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name 
                        };
 
         }
@@ -454,6 +438,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             return new RegionalRequestViewModel()
             {
+               
                 ProgramId = regionalRequest.ProgramId,
                 Program=regionalRequest.Program.Name ,
                 Region=regionalRequest.AdminUnit.Name ,
@@ -468,6 +453,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 RequistionDate = regionalRequest.RequistionDate,
                 StatusID = regionalRequest.Status,
                 Year = regionalRequest.Year,
+                
+                
                 
             };
 
