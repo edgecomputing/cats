@@ -142,8 +142,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                     int SICodeqty=0)
         {
 
-
-            
+            bool isLastAssignment = false;
 
 
             if (Remaining < PCodeqty + SICodeqty)
@@ -167,7 +166,9 @@ namespace Cats.Areas.Logistics.Controllers
                                                HubAllocationID = hubAllocation.HubAllocationID
                                            };
 
-            _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation,requisitionId);
+            if (Remaining == PCodeqty + SICodeqty)
+                isLastAssignment = true;
+            _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation,requisitionId,isLastAssignment);
             return RedirectToAction("AllocateProjectCode","ProjectAllocation");
 
         }

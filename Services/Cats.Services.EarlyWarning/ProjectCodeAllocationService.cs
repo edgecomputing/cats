@@ -21,10 +21,14 @@ namespace Cats.Services.EarlyWarning
       
 
         #region Implementation of Service
-        public bool AddProjectCodeAllocation(ProjectCodeAllocation _ProjectCodeAllocationDetail,int requisitionId)
+        public bool AddProjectCodeAllocation(ProjectCodeAllocation _ProjectCodeAllocationDetail,int requisitionId,bool IsLastAssignment)
         {
-            //var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionID == requisitionId).Single();
-            //requisition.Status = 4;
+            if (IsLastAssignment)
+            {
+                var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionID == requisitionId).Single();
+                requisition.Status = 4;
+            }
+            
 
             _unitOfWork.ProjectCodeAllocationRepository.Add(_ProjectCodeAllocationDetail);
             _unitOfWork.Save();

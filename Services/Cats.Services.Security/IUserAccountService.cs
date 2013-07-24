@@ -17,6 +17,7 @@ namespace Cats.Services.Security
         bool Save(UserAccount user);
         UserAccount FindById(int id);
         List<UserAccount> GetAll();
+        List<UserInfo> GetUsers();
         List<UserAccount> FindBy(Expression<Func<UserAccount, bool>> predicate);
 
         // User Account Business Logic
@@ -35,6 +36,7 @@ namespace Cats.Services.Security
         UserAccount GetUserDetail(int userId);
         UserAccount GetUserDetail(string userName);
         UserInfo GetUserInfo(string userName);
+        UserInfo GetUserInfo(int userId);
         string[] GetUserPermissions(int userId, string store, string application);
 
     }

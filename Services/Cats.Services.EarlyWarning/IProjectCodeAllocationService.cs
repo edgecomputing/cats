@@ -12,7 +12,7 @@ namespace Cats.Services.EarlyWarning
     public interface IProjectCodeAllocationService
     {
         bool AddProjectCodeAllocationDetail(ProjectCodeAllocation _ProjectCodeAllocationDetail);
-        bool AddProjectCodeAllocation(ProjectCodeAllocation _ProjectCodeAllocationDetail,int requisitionId);
+        bool AddProjectCodeAllocation(ProjectCodeAllocation _ProjectCodeAllocationDetail, int requisitionId, bool IsLastAssignment);
 
         bool EditProjectCodeAllocationDetail(ProjectCodeAllocation _ProjectCodeAllocationDetail);
 
