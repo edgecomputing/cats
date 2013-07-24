@@ -7,6 +7,7 @@ using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
 using Cats.Infrastructure;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
@@ -21,13 +22,16 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransportOrderService _transportOrderService;
 
         private readonly ITransportRequisitionService _transportRequisitionService;
+        private readonly IWorkflowStatusService _workflowStatusService;
+        private readonly ITransporterService _transporterService;
 
 
-        public TransportOrderController(ITransportOrderService transportOrderService,ITransportRequisitionService transportRequisitionService)
+        public TransportOrderController(ITransportOrderService transportOrderService,ITransportRequisitionService transportRequisitionService,IWorkflowStatusService workflowStatusService)
         {
             this._transportOrderService = transportOrderService;
             this._transportRequisitionService = transportRequisitionService;
-           
+            this._workflowStatusService = workflowStatusService;
+          
         } 
 
             
@@ -36,7 +40,7 @@ namespace Cats.Areas.Procurement.Controllers
        [HttpGet]
         public ViewResult TransportRequisitions()
         {
-            var transportRequisitions = _transportRequisitionService.GetAllTransportRequisition();
+            var transportRequisitions = _transportRequisitionService.Get(t=>t.Status==(int)TransportRequisitionStatus.Approved);
             var transportReqInput = (from item in transportRequisitions
                                      select new TransportRequisitionSelect
                                                 {
@@ -44,7 +48,10 @@ namespace Cats.Areas.Procurement.Controllers
                                                     CertifiedDate= item.CertifiedDate,
                                                     RequestedBy= item.RequestedBy ,
                                                     RequestedDate= item.RequestedDate,
-                                                    Status= item.Status ,
+                                                    StatusName = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION, item.Status),
+                                                    Status=item.Status,
+                                                    RequestDateET=EthiopianDate.GregorianToEthiopian(item.RequestedDate),
+                                                    CertifiedDateET=EthiopianDate.GregorianToEthiopian(item.CertifiedDate),
                                                     TransportRequisitionID= item.TransportRequisitionID,
                                                     TransportRequisitionNo= item.TransportRequisitionNo,
                                                     Input= new TransportRequisitionSelect.TransportRequisitionSelectInput
@@ -68,17 +75,19 @@ namespace Cats.Areas.Procurement.Controllers
 
             return File(result.RenderBytes ,result.MimeType);
         }
+      
         [HttpPost]
-        public ActionResult TransportRequisitions(IList<TransportRequisitionSelect.TransportRequisitionSelectInput> input)
+        public ActionResult TransportRequisitions(IList<SelectFromGrid> input)
         {
-           
-                var requisionIds = (from item in input where item.IsSelected select item.Number).ToList();
-                return CreateTransportOrder(requisionIds);
+
+            var requisionIds = (from item in input where (item.IsSelected != null ? ((string[])item.IsSelected)[0] : "off") == "on" select item.Number).ToList();
+            return CreateTransportOrder(requisionIds);
            
         }
 
         public ActionResult CreateTransportOrder(IEnumerable<int> requisitionToDispatches)
         {
+            
             _transportOrderService.CreateTransportOrder(requisitionToDispatches);
             return RedirectToAction("Index","TransportOrder");
         }

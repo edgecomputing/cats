@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
 using Cats.Areas.Procurement.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Moq;
@@ -63,8 +66,11 @@ namespace Cats.Tests.ControllersTests
             mockTransportOrderService.Setup(t => t.GetAllTransportOrder()).Returns(transportOrders);
 
             var mockTransportRequisitionService = new Mock<ITransportRequisitionService>();
-            mockTransportRequisitionService.Setup(t => t.GetAllTransportRequisition()).Returns(requisitionsToDispatch);
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object);
+            mockTransportRequisitionService.Setup(t => t.Get(It.IsAny<Expression<Func<TransportRequisition, bool>>>(), null, It.IsAny<string>())).Returns(requisitionsToDispatch);
+
+            var workflowStatusService = new Mock<IWorkflowStatusService>();
+            workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Approved");
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,workflowStatusService.Object);
 
         }
 
@@ -77,7 +83,7 @@ namespace Cats.Tests.ControllersTests
         #region Tests
 
         [Test]
-        public void Can_Display_Transport_Requisitions()
+        public void CanDisplayTransportRequisitions()
         {
             //Act
             var result = _transportOrderController.TransportRequisitions();

@@ -10,43 +10,49 @@
 @using (Html.BeginForm("TransportRequisitions", "TransportOrder", FormMethod.Post))
 {
 
-
-<table class="table table-bordered table-condensed table-striped">
-    <tr>
-        <th>
-            
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TransportRequisitionNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequestedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequestedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CertifiedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CertifiedDate)
-        </th>
+    <div class="k-content">
+        
+<table class="table table-bordered table-condensed table-striped" id="kGrid">
+     <thead>
+     <tr>
+         <th>
+            Select
+         </th>
+         <th>
+             @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+         </th>
+         <th>
+             @Html.DisplayNameFor(model => model.RequestedBy)
+         </th>
+         <th>
+             @Html.DisplayNameFor(model => model.RequestDateET)
+         </th>
+         <th>
+             @Html.DisplayNameFor(model => model.CertifiedBy)
+         </th>
+         <th>
+             @Html.DisplayNameFor(model => model.CertifiedDateET)
+         </th>
        
 
-        <th>
-            @Html.Label("Status")
+         <th>
+             @Html.Label("Status")
 
-        </th>
+         </th>
 
-        <th></th>
-    </tr>
+        @* <th style="visibility: hidden">
+             
+         </th>*@
+     </tr>
+          </thead>
+            <tbody>
     @{int index = 0;}
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-               @Html.CheckBox("input[" + index + "].IsSelected", item.Input.IsSelected)
-               
+            <td >
+            @*   @Html.CheckBox("input[" + index + "].IsSelected", item.Input.IsSelected)*@
+                 <input type='checkbox'  name="input[@index].IsSelected" id="chkApprovedRequests" value="@item.Input.IsSelected"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TransportRequisitionNo)
@@ -55,38 +61,48 @@
                 @Html.DisplayFor(modelItem => item.RequestedBy)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RequestedDate,new {@class="cats-datepicker"})
+                @Html.DisplayFor(modelItem => item.RequestDateET)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CertifiedBy)
             </td>
            
             <td>
-                @Html.DisplayFor(modelItem => item.CertifiedDate,new {@class="cats-datepicker"})
+                @Html.DisplayFor(modelItem => item.CertifiedDateET)
             </td>
           
 
         <td>
-        @{
-        var statusName = item.Status == 1 ? "Draft" : item.Status == 2 ? "Approved" : "Closed";
-       
-                }
-               @Html.Label(statusName)
+        @Html.DisplayFor(modelItem => item.StatusName)
+             <input type='hidden'  name="input[@index].Number" id="txtRequisitionID" value="@item.Input.Number"/>
         </td>
-             <td>
-             <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />
-            </td>
+            @*<td hidden="true">
+                  <input type='hidden'  name="input[@index].Number" id="txtRequisitionID" value="@item.Input.Number"/>
+            
+            </td>*@
 
 
-            <td>
-              
-            </td>
+          
         </tr>
         index++;
     }
-
+</tbody>
 </table>
+    
+    </div>
     <p>
         <input class="btn btn-success" type="submit" value="Create Transport Order" />
     </p>
 }
+<script>
+
+    $(document).ready(function() {
+        $("#kGrid").kendoGrid({
+            pageable: true,
+            sortable: true
+                
+            
+        });
+        
+    });
+</script>

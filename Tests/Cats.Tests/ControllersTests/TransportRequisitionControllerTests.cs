@@ -8,6 +8,7 @@ using Cats.Areas.Procurement.Models;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Moq;
 using NUnit.Framework;
@@ -57,7 +58,7 @@ namespace Cats.Tests.ControllersTests
                                                            Input=new RequisitionToDispatchSelect.RequisitionToDispatchSelectInput()
                                                                      {
                                                                          Number=1,
-                                                                         IsSelected = false
+                                                                         IsSelected =false
                                                                      }
 
                                                        }
@@ -87,8 +88,10 @@ namespace Cats.Tests.ControllersTests
            var _transportRequisitionService = new Mock<ITransportRequisitionService>();
            _transportRequisitionService.Setup(t => t.GetRequisitionToDispatch()).Returns(_requisitionToDispatches1);
             _transportRequisitionService.Setup(t => t.FindById(It.IsAny<int>())).Returns(_transportRequisition);
+            var _workflowStatusService = new Mock<IWorkflowStatusService>();
+            _workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Approved");
 
-                _transportRequisitionController=new TransportRequisitionController(_transportRequisitionService.Object);
+            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object, _workflowStatusService.Object);
         }
 
         [TearDown]

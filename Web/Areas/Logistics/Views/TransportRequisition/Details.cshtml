@@ -1,0 +1,160 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+
+
+<div class="row-fluid">
+    <div>
+        <div class="form-horizontal well">
+            <table class="table-condensed">
+                <tr>
+                    <td>
+
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.TransportRequisitionNo) :</b>
+                        @Html.DisplayFor(model => model.TransportRequisitionNo)
+
+
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.RequestedBy)
+                                :</b>
+                        @Html.DisplayFor(model => model.RequestedDateET)
+
+                    </td>
+                 <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.CertifiedBy)
+                                :</b>
+                            @Html.DisplayFor(model => model.CertifiedBy)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.CertifiedDateET)
+                                :</b>
+                            @Html.DisplayFor(model => model.CertifiedDateET)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>Status
+                                   :</b>
+                            @Html.DisplayFor(model => model.Status)
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })"><i class="icon-chevron-left"></i>Back</a>
+
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new {Controller="TransportRequisition", Area = "Logistics", id = Model.TransportRequisitionID })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Approve", "Approve", new {Controller="TransportRequisition" ,id = Model.TransportRequisitionID })
+                                </td>
+                               
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+
+@(Html.Kendo().Grid((IEnumerable<TransportRequisitionDetailViewModel>)ViewData["Transport.Requisition.detail.ViewModel"])
+.Name("Grid").Columns(columns=>
+                          {
+                              columns.Bound(trd => trd.CommodityName);
+                              columns.Bound(trd => trd.RequisitionNo);
+                              columns.Bound(trd => trd.QuanityInQtl);
+                              columns.Bound(trd => trd.OrignWarehouse);
+                              columns.Bound(trd => trd.Region);
+                              columns.Bound(trd => trd.Zone);
+                             
+                          }).Pageable())
+
+@*<h2>Details</h2>
+
+<fieldset>
+    <legend>TransportRequisition</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransportRequisitionNo)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RequestedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RequestedBy)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RequestedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RequestedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CertifiedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CertifiedBy)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CertifiedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CertifiedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Remark)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Remark)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Status)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Status)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TransportRequisitionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@
