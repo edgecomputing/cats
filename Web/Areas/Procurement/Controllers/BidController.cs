@@ -45,42 +45,33 @@ namespace Cats.Areas.Procurement.Controllers
             //return View(bidsToDisplay);
             return View();
         }
-       
-        public ActionResult GetBidNumbers()
-        {
-            var bids = _bidService.GetAllBid();
-            return Json(bids.Select(c => new { BidID = c.BidID, BidNumber = c.BidNumber }), JsonRequestBehavior.AllowGet);
-        }
         public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {
+
             var bids = _bidService.Get(m => m.StatusID == 1).OrderByDescending(m => m.BidID);
             var bidsToDisplay = GetBids(bids).ToList();
-            ViewBag.BidNumber = "bihidhfi";
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }
         public ActionResult ApprovedBids()
         {
-            var bids = _bidService.Get(m => m.StatusID == 4);
+            return View();
+        }
+        public ActionResult Approved_Bids([DataSourceRequest] DataSourceRequest request)
+        {
+            var bids = _bidService.Get(m => m.StatusID == 4).OrderByDescending(m => m.BidID);
             var bidsToDisplay = GetBids(bids).ToList();
-            return View(bidsToDisplay);
+            return Json(bidsToDisplay.ToDataSourceResult(request)); 
         }
-        public ActionResult Bid_Approved([DataSourceRequest] DataSourceRequest request,string bidNumber="")
+        public ActionResult AllBids()
         {
-            var bids = _bidService.Get(m => m.StatusID == 4 && m.BidNumber.StartsWith(bidNumber)).OrderByDescending(m=>m.BidID);
-            var StatusToDisplay = GetBids(bids).ToList();
-            return Json(StatusToDisplay.ToDataSourceResult(request));
+            return View();
         }
-        public ActionResult CurrentBids()
+        public ActionResult All_Bids([DataSourceRequest] DataSourceRequest request)
         {
-            var bids = _bidService.Get(m => m.StatusID == 1);
+            var bids = _bidService.Get(m => m.StatusID == 4 || m.StatusID == 1 || m.StatusID == 2 || m.StatusID == 3).OrderByDescending(m => m.BidID);
+            //var bids = _bidService.GetAllBid().OrderByDescending(m => m.BidID);
             var bidsToDisplay = GetBids(bids).ToList();
-            return View(bidsToDisplay);
-        }
-        public ActionResult Bid_Current([DataSourceRequest] DataSourceRequest request)
-        {
-            var currentBid = _bidService.Get(m => m.StatusID == 1).OrderByDescending(m=>m.BidID);
-            var bidToDisplay = GetBids(currentBid).ToList();
-            return Json(bidToDisplay.ToDataSourceResult(request));
+            return Json(bidsToDisplay.ToDataSourceResult(request));  
         }
         public ActionResult BidDetail_Read(int bidID,[DataSourceRequest] DataSourceRequest request)
         {

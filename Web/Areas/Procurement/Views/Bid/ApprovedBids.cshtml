@@ -2,7 +2,7 @@
 @model  List<Cats.Models.ViewModels.Bid.BidViewModel>
 
 @{
-    ViewBag.Title = "Approved Bids";
+    ViewBag.Title = "Create Bid";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -49,24 +49,8 @@ $(document).ready(function () {
 </script>
 <div class="well">
     <h4 class="page-header">Bid For Transporters</h4>
-    @* @using (Html.BeginForm("ApprovedBids","Bid",FormMethod.Get))
-    {
-        <p class="control-list">Search:</p>
-        <div class="control-group">
-            <label class="control-label">Bid Number </label>
-        <div class="controls">
-            @Html.TextBox("bidNumber")
-        </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" value="Filter" class="btn btn-primary"/>
-            </div>
-        </div> 
-        
-    }*@
     <div align="right">
-        <a href="Create" class="btn btn-success">Create New Bid</a>
+        <a href="Bid/Create" class="btn btn-success">Create New Bid</a>
     </div>
 </div>
 
@@ -101,7 +85,7 @@ $(document).ready(function () {
           .Ajax()
           .PageSize(5)
             .Model(model => model.Id(p => p.BidID))
-            .Read(read => read.Action("Bid_Approved", "Bid"))
+            .Read(read => read.Action("Approved_Bids", "Bid"))
  
      )
      .Events(events => events.DataBound("dataBound"))
@@ -159,7 +143,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID
+        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID;
     }
 </script>
 <script type="text/javascript">
