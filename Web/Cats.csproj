@@ -218,7 +218,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Settings\Views\Users\Users.js" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -573,10 +572,13 @@
     <Content Include="Areas\Procurement\Views\Shared\_AdminUnitTree.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\WoredaWarehouseSelection.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\BidWinner.cshtml" />
-
+    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
-
+    <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

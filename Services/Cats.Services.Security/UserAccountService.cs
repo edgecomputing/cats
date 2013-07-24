@@ -69,6 +69,11 @@ namespace Cats.Services.Security
             return _unitOfWork.UserRepository.GetAll();
         }
 
+        public List<UserInfo> GetUsers()
+        {
+            return _unitOfWork.UserInfoRepository.GetAll();
+        }
+
         public UserAccount FindById(int id)
         {
             return _unitOfWork.UserRepository.FindById(id);
@@ -274,6 +279,11 @@ namespace Cats.Services.Security
         public UserInfo GetUserInfo(string userName)
         {
             return _unitOfWork.UserInfoRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+        }
+
+        public UserInfo GetUserInfo(int userId)
+        {
+            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == userId).SingleOrDefault();
         }
         /// <summary>
         /// Retrive a complete Authorization for the current user and populate the string array
