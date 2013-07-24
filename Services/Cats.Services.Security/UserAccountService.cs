@@ -112,7 +112,7 @@ namespace Cats.Services.Security
             {
                 user = GetUserInfo(userName);
 
-                if (null == user)
+                if (null == user)                    
                     throw new ApplicationException("The requested user could not be found.");
             }
             catch (Exception ex)
@@ -277,8 +277,16 @@ namespace Cats.Services.Security
         /// <param name="userName"> User name identifying the user</param>
         /// <returns>UserInfo object corrensponding to the user identified by username</returns>
         public UserInfo GetUserInfo(string userName)
-        {
-            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+        {            
+            try
+            {
+                return _unitOfWork.UserInfoRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+            }
+            catch (Exception)
+            {                
+                throw;
+            }
+            return null;
         }
 
         public UserInfo GetUserInfo(int userId)
