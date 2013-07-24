@@ -51,10 +51,9 @@ namespace Cats.Services.Security
 
         #region Constructor(s)
 
-        public UserIdentity(User user)
+        public UserIdentity(UserAccount user)
         {
             this.userName = user.UserName;
-            this.fullName = user.FullName;
             this.authenticated = true;
         }
 
@@ -71,19 +70,19 @@ namespace Cats.Services.Security
             roles.AddRange(permissions);
         }
 
+        // TODO: Remember to refactor code!!!
         public UserIdentity(int userId, UserAccountService service, UserInfo userInfo, string store, string application)
         {
             //Assign the incoming user name to the current one and clear the roles collection
             var user = service.GetUserDetail(userId);
             this.userName = user.UserName;
-            this.fullName = user.FullName;
             this._profile = userInfo;
             this.roles.Clear();
             authenticated = true;
             /* Retrive the list of all authorized Tasks and Operations from NetSqlAzMan database
              * and persist it with the roles arraylist collection
              */
-            roles.AddRange(service.GetUserPermissions(userInfo.UserId, store, application));
+            roles.AddRange(service.GetUserPermissions(userInfo.UserAccountId, store, application));
         }
         #endregion
     }

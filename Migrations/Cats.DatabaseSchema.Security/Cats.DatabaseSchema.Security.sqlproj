@@ -190,5 +190,6 @@
     <Build Include="dbo\Tables\UserPreference.sql" />
     <Build Include="dbo\Tables\UserAccount.sql" />
     <Build Include="dbo\Views\UserInfo.sql" />
+    <None Include="Default-User.sql" />
   </ItemGroup>
 </Project>
