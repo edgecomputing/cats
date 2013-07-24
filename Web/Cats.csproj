@@ -563,9 +563,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-<<<<<<< HEAD
     <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
-=======
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\_TransporterLeftBar.cshtml" />
@@ -573,7 +571,10 @@
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
->>>>>>> 8c8868b02b66c9d3034ab9114a11333b255b4cea
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocateProjectCode.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocatePC.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Assign.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AssignedprojectCodes.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

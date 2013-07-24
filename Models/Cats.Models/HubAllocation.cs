@@ -15,7 +15,7 @@ namespace Cats.Models
 
            // this.UserProfile = new UserProfile();
 
-            this.ReliefRequisition = new ReliefRequisition();
+            //this.ReliefRequisition = new ReliefRequisition();
         }
 
         public int HubAllocationID { get; set; }

@@ -12,6 +12,7 @@ namespace Cats.Services.EarlyWarning
     public interface IProjectCodeAllocationService
     {
         bool AddProjectCodeAllocationDetail(ProjectCodeAllocation _ProjectCodeAllocationDetail);
+        bool AddProjectCodeAllocation(ProjectCodeAllocation _ProjectCodeAllocationDetail,int requisitionId);
 
         bool EditProjectCodeAllocationDetail(ProjectCodeAllocation _ProjectCodeAllocationDetail);
 
@@ -29,7 +30,7 @@ namespace Cats.Services.EarlyWarning
 
         IEnumerable<ProjectCodeAllocation> FindBy(Expression<Func<ProjectCodeAllocation, bool>> predicate);
 
-        bool SaveProjectCodeAllocation(IEnumerable<ProjectCodeAllocation> projectAllocations);
+       // bool SaveProjectCodeAllocation(IEnumerable<ProjectCodeAllocation> projectAllocations);
         List<HubAllocation> GetHubAllocation(Expression<Func<HubAllocation, bool>> predicate);
         List<HubAllocation> GetAllRequisitionsInHubAllocation();
         IEnumerable<HubAllocation> Get(
@@ -37,7 +38,7 @@ namespace Cats.Services.EarlyWarning
            Func<IQueryable<HubAllocation>, IOrderedQueryable<HubAllocation>> orderBy = null,
            string includeProperties = "");
 
-        List<HubAllocation> GetHubAllocationByHubID(int hubId);
-        HubAllocation GetHubAllocationByID(int hubID);
+        List<ProjectCodeAllocation> GetHubAllocationByHubID(int status);
+        List<ProjectCodeAllocation> GetHubAllocationByID(int hubID);
     }
 }

@@ -7,15 +7,6 @@
 }
 
 
-  
-    
-    
-   
-
-
-
-    
-
 <script>
     $(document).ready(function(){
  
@@ -47,40 +38,37 @@
 
 
 
-   @using (Html.BeginForm("InserRequisition", "HubAllocation", FormMethod.Post, new {name = "frmHub", id = "frmHub"}))
+   @using (Html.BeginForm(" ", " ", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
    {
-       <div>
+       <div class="container">
            <fieldset>
                <legend>Hub Allocation</legend>
            </fieldset>
-	    <div class="form-horizontal">
+	    
            <div class="control-group">
-               <label class="control-label">Allocation Date</label>
-               <div class="controls">
-                   <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
-               </div>
+               <label class="control-label">Requisition No</label>
+                   <input type="text"  id="ReqNo" name="ReqNo" readonly="readonly">
            </div>
-           <div class="control-group ">
-               <label class="control-label">Allocation Reference No</label>
-               <div class="controls">
-                   <input type="text" class="input-xlarge" id="rNumber" name="rNumber" placeholder="Reference Number">
-               </div>
+          
+           <div class="control-group">
+               <label class="control-label">Hub</label>
+              
+               <input type="text" id="hub" name="hub"  readonly="readonly"/>
            </div>
            <div class="control-group">
-               <label class="control-label">Hubs</label>
-               <div class="controls">
-	                
-                   @Html.Hidden("Selected")
-                   @Html.DropDownList("hub", ViewBag.Hubs as SelectList, "Select a hub", new {id = "HubId"})
-	              
-               
-               </div>
+               <label class="control-label">Requested Amount</label>
+             
+               <input type="text" id="ReqAmount" name="ReqAmount"  readonly="readonly"/>
            </div>
-    
+           <div class="control-group">
+               <label class="control-label">Requested Date</label>
+                 
+                   <input type="text" id="ReqDate" name="ReqDate"  readonly="readonly"/>
+           </div>
    
        </div>
 
-           </div>
+
 
 
        <script>
@@ -111,17 +99,6 @@
                        </th>
                        <th>
                            @Html.Label("Zone")
-                       </th>
-        
-                       <th>
-                           @Html.Label("ReqNo")
-                       </th>
-       
-                       <th>
-                           @Html.Label("ReqDate")
-                       </th>
-                       <th>
-                           @Html.Label("Amount")
                        </th>
                        <th>
                            @Html.Label("Beneficiaries")
@@ -156,28 +133,6 @@
                                @Html.HiddenFor(m => m[i].Zone)
             
                            </td>
-        
-        
-         
-        
-                           <td>
-           
-                               @Html.DisplayFor(m => m[i].RequisitionNo)
-                               @Html.HiddenFor(m => m[i].RequisitionNo)
-            
-                           </td>
-        
-        
-                           <td>
-                               @Html.DisplayFor(m => m[i].RequisitionDate)
-                               @Html.HiddenFor(m => m[i].RequisitionDate)
-            
-                           </td>
-                           <td>
-                               @Html.DisplayFor(m => m[i].Amount)
-                               @Html.HiddenFor(m => m[i].Amount)
-            
-                           </td>
                            <td>
                                @Html.DisplayFor(m => m[i].BenficiaryNo)
                                @Html.HiddenFor(m => m[i].BenficiaryNo)
@@ -199,7 +154,7 @@
        <br/>
        <div>
            <button type="submit" class="btn btn-success">
-               <i class="icon-user icon-white"></i> Assign hub
+               <i class="icon-user icon-white"></i> Assign
            </button>
        </div>
    }
@@ -211,19 +166,39 @@
 <script  >
     (document).ready(function () {
         // storing selected value to hidden field
-        $("#Selected").val($("#HubId").val());
+        $("#PC").val($("#PCId").val());
+        $("#SI").val($("#SIId").val());
+       
+      
 
-        $("#HubId").change(function () {
+
+
+
+        $("#PCId").change(function () {
             $.ajax({
                 url: "~/HubAllocation/inserRequisition",
                 type: 'POST',
                 cache: false,
-                data: { Selected: $("# Selected").val() },
+                data: { Selected: $("# PCId").val() },
                 success: function (data) {
                     //
                 }
             });
         });
+
+        $("#SIId").change(function () {
+            $.ajax({
+                url: "~/HubAllocation/inserRequisition",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# SIId").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+        
+
     })
     
    
