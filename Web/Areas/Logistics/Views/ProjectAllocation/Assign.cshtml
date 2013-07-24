@@ -25,8 +25,7 @@
                 }
             });
         
-        var element = document.getElementById('AssignBtn');
-        element.addEventListener('click', qtyCheck, false);
+       
         
         function qtyCheck(txtSi, txtPc,remaining) {
             var siQty = document.getElementById(txtSi).value;
@@ -56,35 +55,49 @@
     
     <input type="hidden" value="@ViewBag.ReqId" name="RequisitionId" />
     
-    <div class="form-horizontal">
-        <div class="control-group">
-            <div class="control-label">
-                <label>Requested Amount</label>    
-            </div> 
+    
+    <div class="form-horizontal well">
        
-            <div class="controls">
-                <input type="text" class="icon-file-text-alt" id="Requested" name="Requested" value="@ViewBag.RequetedAmount" readonly="readonly" />    
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    @Html.Label("Requested Amount", new { @class = "control-label" }) 
+                    <div class="controls">
+                        <input type="text" class="icon-file-text-alt" id="Requested" name="Requested" value="@ViewBag.RequetedAmount" readonly="readonly" />    
+                    </div>
+                </div>
+            </div>
+           
+            
+            <div class="span4">
+                <div class="control-group">
+                    @Html.Label("Hub", new { @class = "control-label" }) 
+                    <div class="controls">
+                        @Html.Hidden("hub")
+                        <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly"/>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="control-group">
-            <label class="control-label">Hub</label>
-            <div class="controls">
-                @Html.Hidden("hub")
-                <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly"/>
+       
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    @Html.Label("Reamining", new { @class = "control-label" }) 
+                    <div class="controls">
+                        @Html.Hidden("reamaining")
+                        <input type="text" id="Reamining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+                    </div>
+                </div>
             </div>
-        </div>
-         <div class="control-group">
-            <label class="control-label">Remaining</label>
-            <div class="controls">
-                 @Html.Hidden("reamaining")
-                <input type="text" id="Reamining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Allocation Date</label>
-            <div class="controls">
-                <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
+             
+            <div class="span4">
+                <div class="control-group">
+                      @Html.Label("Allocation Date", new { @class = "control-label" }) 
+                    <div class="controls">
+                        <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
+                    </div>
+                </div>
             </div>
         </div>
         <div class="control-group ">
