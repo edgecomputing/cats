@@ -11,6 +11,8 @@ namespace Cats.Areas.Procurement.Models
         public decimal Relief { get; set; }
         public string WarehouseName { get; set; }
         public int WarehouseID { get; set; }
+        public int BidPlanID { get; set; }
+        public int WoredaID { get; set; }
 
     }
 }

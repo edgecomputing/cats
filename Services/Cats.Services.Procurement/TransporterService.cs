@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
-
+using System.Linq;
 
 namespace Cats.Services.Procurement
 {
@@ -60,6 +60,28 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransporterRepository.FindBy(predicate);
         }
         #endregion
+
+        public List<TransportBidQuotation> GetBidWinner(int sourceID, int DestinationID)
+        {
+            List<TransportBidQuotation> Winners = new List<TransportBidQuotation>();
+            List<ApplicationSetting> currentBids = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
+            if (currentBids.Count < 1)
+            {
+                return Winners;
+            }
+            string bidIdstr = currentBids[0].SettingValue;
+            if (bidIdstr=="")
+            {
+                return Winners;
+            }
+            if (bidIdstr != "")
+            {
+                int currentBidId = int.Parse(bidIdstr);
+                Winners = _unitOfWork.TransportBidQuotationRepository.FindBy(q => q.BidID == currentBidId && q.SourceID == sourceID && q.DestinationID == DestinationID && q.IsWinner == true);
+                Winners.OrderBy(t => t.Position);
+            }
+            return Winners;
+        }
 
         public void Dispose()
         {

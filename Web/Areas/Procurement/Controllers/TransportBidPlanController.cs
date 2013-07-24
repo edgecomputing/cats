@@ -9,10 +9,10 @@ using Cats.Models;
 using Cats.Data;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
-using Cats.Areas.Procurement.Models;
+
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-
+using Cats.Areas.Procurement.Models;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -177,10 +177,16 @@ namespace Cats.Areas.Procurement.Controllers
         {
             List<AdminUnit> AdminUnits = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3 && t.AdminUnit2.AdminUnitID==regionID);
             return AdminUnits;
+            System.Collections.Generic.Dictionary<string, TransportBidPlanDetail> filled;
+
         }
-        public List<WarehouseProgramViewModel> GetAllWarehouseProgram()
+
+        public List<Cats.Areas.Procurement.Models.WarehouseProgramViewModel> GetWoredaWarehouseProgram(int BidPlanID, int WoredaID)
         {
-            List<Hub> hubs = _hubService.GetAllHub();
+            //this._transportBidPlanDetailService.get
+            List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.DestinationID == WoredaID);
+             List<Hub> hubs = _hubService.GetAllHub();
+            
             List<WarehouseProgramViewModel> ret=
                ( from hub in hubs
                     select new WarehouseProgramViewModel
@@ -188,20 +194,58 @@ namespace Cats.Areas.Procurement.Controllers
                         WarehouseID = hub.HubId,
                         WarehouseName = hub.Name,
                         PSNP=0,
-                        Relief=0
+                        Relief=0,
+                        BidPlanID=BidPlanID,
+                        WoredaID=WoredaID
                     }).ToList();
+            
+            System.Collections.Generic.Dictionary<string, TransportBidPlanDetail> filled = new Dictionary<string, TransportBidPlanDetail>();
+
+            foreach (var i in bidDetails)
+            {
+                string hash = i.ProgramID + "_" + i.SourceID;
+                filled.Add(hash, i);// = i;
+            }
+            foreach (WarehouseProgramViewModel i in ret)
+            {
+                string hash_psnp = "2_" + i.WarehouseID;
+                string hash_relief = "1_" + i.WarehouseID;
+                if (filled.ContainsKey(hash_psnp))
+                {
+                    TransportBidPlanDetail psnp = filled[hash_psnp];
+                    i.PSNP = psnp.Quantity;
+                }
+                if (filled.ContainsKey(hash_relief))
+                {
+                    TransportBidPlanDetail releif = filled[hash_relief];
+                    i.Relief = releif.Quantity;
+                }
+              //  ret.Add(filled, i);// = i;
+            }
             return ret;
         }
+       
+
         //
         // GET: /Procurement/TransportBidPlan/Details/5
 
-        public ActionResult WarehouseSelectionDetail(WarehouseSelectionFilterViewModel model)
+        public ActionResult WarehouseSelection(int id = 0)
         {
+            TransportBidPlan transportbidplan = fetchFromDB(id);
+            @ViewBag.bidPlan = transportbidplan;
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            List<WarehouseProgramViewModel> table= GetAllWarehouseProgram();
+            List<WarehouseProgramViewModel> table = GetWoredaWarehouseProgram(id,0);
             return View(table);
 
         }
+
+        public ActionResult ReadJson( [DataSourceRequest] DataSourceRequest request,int TransportBidPlanID, int selectedWoreda=0)
+        {
+            List<WarehouseProgramViewModel> table = GetWoredaWarehouseProgram(TransportBidPlanID, selectedWoreda);
+           // return View(table);
+            return Json(table.ToDataSourceResult(request));
+        }
+        
 
        
     }

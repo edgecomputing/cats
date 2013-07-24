@@ -25,24 +25,19 @@
      @Html.Partial("_AdminUnitTree")
 </div>
 <div id="div_warehouse_selection" style="display:none;" class="span8 ">
-   <!-- <input id="txt_BidPlanID" value="@ViewBag.bidPlan.TransportBidPlanID" />
-<input id="txt_WoredaID" value="" /><input type="button" value="Filter" onclick="FilterChange()" />-->
     <h3></h3>
    @(Html.Kendo().Grid<WarehouseProgramViewModel>()
     .Name("grid")
     
     .Columns(columns =>
     {
-        //columns.Bound(p => p.BidPlanID).Width(100);
-       // columns.Bound(p => p.WoredaID).Width(100); 
+        columns.Bound(p => p.BidPlanID);
         columns.Bound(p => p.WarehouseName).Width(100);
         columns.Bound(p => p.PSNP).Width(100);
         columns.Bound(p => p.Relief).Width(100);
-
-        
-        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+       // columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
     })
-    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
     .Pageable()
     .Sortable()
     .Scrollable()
@@ -57,7 +52,7 @@
            model.Field(p => p.WarehouseName).Editable(false);
         })
         .Create(update => update.Action("EditingInline_Create", "Grid"))
-        .Read(read => read.Action("ReadJson", "TransportBidPlan").Data("filterInfo"))
+        .Read(read => read.Action("ReadJson/" + ViewBag.bidPlan.TransportBidPlanID, "TransportBidPlan"))
         .Update(update => update.Action("EditingInline_Update", "Grid"))
         .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
     ).Resizable(resize => resize.Columns(true))
@@ -65,9 +60,6 @@
 
 </div>
 <script type="text/javascript">
-    var TransportBidPlanID= @ViewBag.bidPlan.TransportBidPlanID
-    var selectedWoreda;
-
     function error_handler(e) {    
         if (e.errors) {
             var message = "Errors:\n";
@@ -79,33 +71,6 @@
                 }
             });        
             alert(message);
-        }
-    }
-    function filterInfo() {
-        return {TransportBidPlanID:TransportBidPlanID,selectedWoreda:selectedWoreda};
-    }
-    function onSelect(e) {
-        var id = this.dataItem(e.node).id;
-        if (id) {
-            selectedWoreda=id;
-            $("#div_warehouse_selection").show();
-            $("#grid").data("kendoGrid").dataSource.read();
-        }
-        else {
-            $("#div_warehouse_selection").hide();
-        }
-        //$("#div_tree_log").html(id + "<br/>" + show_obj(this.dataItem(e.node)));
-        //"Selecting: " + this.text(e.node) + " " + this.id(e.node));
-
-    }
-    function FilterChange() {
-        var value = $("#txt_BidPlanID").val(),
-		 	 grid = $("#grid").data("kendoGrid");
-
-        if (value) {
-            grid.dataSource.filter({ field: "BidPlanID", operator: "eq", value: parseInt(value) });
-        } else {
-            grid.dataSource.filter({});
         }
     }
 </script>

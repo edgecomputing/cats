@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
+    <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
     <Compile Include="BidWinner.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="HumanitarianRequirementDetail.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
+    <Compile Include="Mapping\ApplicationSettingMap.cs" />
     <Compile Include="Mapping\BidDetailMap.cs" />
     <Compile Include="Mapping\BidMap.cs" />
     <Compile Include="Mapping\BidWinnerMap.cs" />

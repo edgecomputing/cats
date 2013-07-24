@@ -59,7 +59,7 @@ namespace Cats.Data
         public DbSet<Workflow> Workflows { get; set; }
         public DbSet<WorkflowStatus> WorkflowStatuses { get; set; }
         public DbSet<TransportBidQuotation> TransportBidQuotations { get; set; }
-
+        public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
 
         //public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -103,6 +103,7 @@ namespace Cats.Data
              modelBuilder.Configurations.Add(new WorkflowMap());
             modelBuilder.Configurations.Add(new WorkflowStatusMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationMap());
+            modelBuilder.Configurations.Add(new ApplicationSettingMap());
         }
 
     }
