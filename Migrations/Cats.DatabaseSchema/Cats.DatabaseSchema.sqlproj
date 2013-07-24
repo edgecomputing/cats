@@ -184,6 +184,7 @@
     <Build Include="Script.PostDeployment-Users.sql" />
     <Build Include="Procurement\Tables\BidWinner.sql" />
     <Build Include="Procurement\Tables\TransportBidQuotation.sql" />
+    <Build Include="dbo\Tables\ApplicationSetting.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
