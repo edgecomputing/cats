@@ -6,52 +6,62 @@
 }
 @section LeftBar
 {
-      @Html.ActionLink("Back to List", "Requistions")
+      @Html.Partial("_RequistionsLeftBar")
 }
+
 <h2>Send Requistion To Logistics</h2>
-<h3>Are you sure you want to send to logistics this?</h3>
+<h3>Are you sure you want to send this Requisition to logistics ?</h3>
+<div class="form-horizontal">
 <fieldset>
-    <legend>ReliefRequistion</legend>
-    <div >
-         @Html.DisplayNameFor(model => model.RequisitionNo)
+    <div class="control-group" >
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.RequisitionNo)
+        </div>
+        <div class="controls" >
+            @Html.TextBoxFor(model => model.RequisitionNo,null,new { disabled = "true" })
+        </div>
     </div>
-    <div >
-        @Html.DisplayFor(model => model.RequisitionNo)
+    <div class="control-group">
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.RegionID)
+        </div>
+        <div class="controls" >
+            @Html.TextBoxFor(model => model.AdminUnit.Name,null,new { disabled = "true" })
+        </div>
     </div>
-
-    <div>
-         @Html.DisplayNameFor(model => model.RegionID)
+    <div class="control-group">
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.ProgramID)
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Program.Name,null,new { disabled = "true" })
+        </div>
     </div>
-    <div >
-        @Html.DisplayFor(model => model.AdminUnit.Name)
+    <div class="control-group">
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.Round)
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Round,null,new { disabled = "true" })
+        </div>
     </div>
-
-    <div>
-         @Html.DisplayNameFor(model => model.ProgramID)
+    <div class="control-group">
+        <div class="control-label" >
+            @Html.DisplayNameFor(model => model.RequestedDate)
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(model => model.RequestedDate,null,new {disabled="true"})
+        </div>
     </div>
-    <div >
-        @Html.DisplayFor(model => model.Program.Name)
-    </div>
-
-    <div >
-         @Html.DisplayNameFor(model => model.Round)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.Round)
-    </div>
-
-    <div >
-         @Html.DisplayNameFor(model => model.RequestedDate)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.RequestedDate,new {@class="cats-datepicker"})
-    </div>
-
-    
-
-    
-   
+     <div class="control-group">
+         <div class="controls">
+             <a class="btn btn-success" href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning"})">Yes</a>
+             <a class="btn btn-success" href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning"})">No</a>
+         </div>
+            </div>
 </fieldset>
+    </div>
+
 @using (Html.BeginForm("ConfirmSendToLogistics", "ReliefRequisition", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <p>

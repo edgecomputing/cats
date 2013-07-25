@@ -87,7 +87,7 @@ namespace Cats.Areas.Procurement.Controllers
                 var requisionIds = (from item in input where (item.IsSelected != null ? ((string[])item.IsSelected)[0] : "off") == "on" select item.Number).ToList();
                 return CreateTransportOrder(requisionIds);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
                 return View("TransportRequisitions", "TransportOrder");

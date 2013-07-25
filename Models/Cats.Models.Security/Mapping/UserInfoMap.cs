@@ -8,11 +8,11 @@ namespace Cats.Models.Security.Mapping
         public UserInfoMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.UserAccountId, t.UserName, t.Password, t.Disabled, t.LoggedIn, t.FailedAttempts, t.FullName, t.LanguageCode, t.Calendar, t.Keyboard, t.PreferedWeightMeasurment, t.DefaultTheme });
+            this.HasKey(t => new { t.UserAccountId});
 
             // Properties
             this.Property(t => t.UserAccountId)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.Property(t => t.UserName)
                 .IsRequired()
@@ -24,14 +24,19 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.FailedAttempts)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-            this.Property(t => t.UserSID)
-                .HasMaxLength(85);
-
-            this.Property(t => t.FullName)
+            this.Property(t => t.FirstName)
                 .IsRequired()
-                .HasMaxLength(401);
+                .HasMaxLength(200);
+
+            this.Property(t => t.LastName)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            this.Property(t => t.GrandFatherName)
+                .HasMaxLength(200);
 
             this.Property(t => t.Email)
+                .IsRequired()
                 .HasMaxLength(50);
 
             this.Property(t => t.LanguageCode)
@@ -58,6 +63,9 @@ namespace Cats.Models.Security.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
+            this.Property(t => t.UserSID)
+                .HasMaxLength(85);
+
             // Table & Column Mappings
             this.ToTable("UserInfo");
             this.Property(t => t.UserAccountId).HasColumnName("UserAccountId");
@@ -68,14 +76,17 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.LogginDate).HasColumnName("LogginDate");
             this.Property(t => t.LogOutDate).HasColumnName("LogOutDate");
             this.Property(t => t.FailedAttempts).HasColumnName("FailedAttempts");
-            this.Property(t => t.UserSID).HasColumnName("UserSID");
-            this.Property(t => t.FullName).HasColumnName("FullName");
+            this.Property(t => t.FirstName).HasColumnName("FirstName");
+            this.Property(t => t.LastName).HasColumnName("LastName");
+            this.Property(t => t.GrandFatherName).HasColumnName("GrandFatherName");
             this.Property(t => t.Email).HasColumnName("Email");
+            this.Property(t => t.CaseTeam).HasColumnName("CaseTeam");
             this.Property(t => t.LanguageCode).HasColumnName("LanguageCode");
             this.Property(t => t.Calendar).HasColumnName("Calendar");
             this.Property(t => t.Keyboard).HasColumnName("Keyboard");
             this.Property(t => t.PreferedWeightMeasurment).HasColumnName("PreferedWeightMeasurment");
             this.Property(t => t.DefaultTheme).HasColumnName("DefaultTheme");
+            this.Property(t => t.UserSID).HasColumnName("UserSID");
         }
     }
 }

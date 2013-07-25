@@ -24,10 +24,39 @@
                     }
                    
                 },
-                submitHandler: function(form){
-                    var total = parseInt($("#PCodeqty").val()) + parseInt($("#SICodeqty").val());
-                    if (total > $("#Remaining").val()) {
-                        $("#Notification").show();
+                submitHandler: function(form) {
+
+                    var siQty = 0;
+                    var pcQty=0;
+                    
+
+                    pcQty = parseInt($("#PCodeqty").val());
+                    siQty = parseInt($("#SICodeqty").val());
+                    
+
+                    if ($("#PCodeqty").val()=='') {
+                        pcQty = 0;
+                        
+                    }
+                    if ($("#SICodeqty").val()=='') {
+                        siQty = 0;
+                        
+
+                    }
+
+                    
+                    
+                    var total = pcQty + siQty;
+                    //alert(pcQty + "," + siQty + "," + total + "," + parseInt($("#Remaining").val()));
+
+                    
+                    if (total > parseInt($("#Remaining").val())) {
+                        var error = document.getElementById("Notification");
+                        if (error.style.display == "none") {
+                            error.style.display = "block";
+                        }
+                       
+                       
                              return false;
                     }
                     else form.submit();
@@ -39,7 +68,6 @@
                 },
                 success: function (element) {
                     element
-                        .text('OK!').addClass('valid')
                         .closest('.control-group').removeClass('error').addClass('success');
                 }
             });
@@ -51,11 +79,7 @@
     }); 
       </script>
 
-<div class="alert alert-block" id="Notification" >
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <h4>Warning!</h4>
-    Best check yo self, you're not...
-</div>
+
 
 @using (Html.BeginForm("SaveProjectAllocation", "ProjectAllocation", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
 {
@@ -64,6 +88,14 @@
     </fieldset>
     
     <input type="hidden" value="@ViewBag.ReqId" name="RequisitionId" />
+    
+    <div class="alert alert-block" id="Notification" style="display: none" >
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Error!</h4>
+    The amount allocated can not be greater than the remaining quantity
+</div>
+    
+    
     
     
     <div class="form-horizontal well">
@@ -84,7 +116,7 @@
                     @Html.Label("Hub", new { @class = "control-label" }) 
                     <div class="controls">
                         @Html.Hidden("hub")
-                        <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly"/>
+                        <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly" />
                     </div>
                 </div>
             </div>
@@ -96,50 +128,72 @@
                     @Html.Label("Reamining", new { @class = "control-label" }) 
                     <div class="controls">
                         @Html.Hidden("reamaining")
-                        <input type="text" id="Reamining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+                        <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
                     </div>
                 </div>
             </div>
              
             <div class="span4">
                 <div class="control-group">
-                      @Html.Label("Allocation Date", new { @class = "control-label" }) 
+                    @Html.Label("Date", new { @class = "control-label" }) 
                     <div class="controls">
                         <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
                     </div>
                 </div>
             </div>
         </div>
-        <div class="control-group ">
-            <label class="control-label">Project Code</label>
-            <div class="controls">
-                @Html.Hidden("PC")
-                @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new {id = "ProjectCodeID"})
-               
+        
+        <fieldset>
+            <legend></legend>
+
+        
+        <div class="row" >
+            <div class="span4">
+                <div class="control-group ">
+                    <label class="control-label">Project Code</label>
+                    <div class="controls">
+                        @Html.Hidden("PC")
+                        @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new { id = "ProjectCodeID" })
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">PC Quantity</label>
+                    <div class="controls">
+                       @Html.Hidden("PCQty")
+                        <input type="text" id="PCodeqty" name="PCodeqty" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label">SI Code</label>
+                    <div class="controls">
 	                
-                @Html.Hidden("PCQty")
-                <input type="text" id="PCodeqty" name="PCodeqty" />
-            
+                        @Html.Hidden("SI")
+                        @Html.DropDownList("SICode", ViewBag.SI as SelectList, "Select SI", new { id = "ShippingInstructionID" })
+                      </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">SI Quantity</label>
+                    <div class="controls">
+                        @Html.Hidden("SIQty")
+                        <input type="text" id="SICodeqty" name="SICodeqty" />
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label">SI Code</label>
-            <div class="controls">
-	                
-                @Html.Hidden("SI")
-                @Html.DropDownList("SICode", ViewBag.SI as SelectList, "Select SI", new {id = "ShippingInstructionID"})
-                      
-                @Html.Hidden("SIQty")
-                <input type="text" id="SICodeqty" name="SICodeqty" />
-            </div>
-        </div>
+       </fieldset>
+        
        
     </div>
     
     <br/>
     
     <input hidden=""/>
-     <button type="submit" class="btn btn-success" id="AssignBtn" onclick="return qtyCheck('SICodeqty','PCodeqty','Remaining');">
+     <button type="submit" class="btn btn-primary">
   <i class="icon-user icon-white"></i> Assign
 </button>
 }
@@ -153,55 +207,12 @@
         $("#SIQty").val($("#SICodeqty").val());
         $("#HubId").val($("#hub").val());
 
-        $("#ShippingInstructionID").change(function () {
-            $.ajax({
-                url: "~/ProjectAllocation/SaceProjectCode",
-                type: 'POST',
-                cache: false,
-                data: { Selected: $("# SI").val() },
-                success: function (data) {
-                    //
-                }
-            });
-        });
-        
-        $("#ProjectCodeID").change(function () {
-            $.ajax({
-                url: "~/ProjectAllocation/SaceProjectCode",
-                type: 'POST',
-                cache: false,
-                data: { Selected: $("# PC").val() },
-                success: function (data) {
-                    //
-                }
-            });
-        });
+       
+       
 
 
-        $("#SIQty").change(function () {
-            $.ajax({
-                url: "~/ProjectAllocation/SaceProjectCode",
-                type: 'POST',
-                cache: false,
-                data: { Selected: $("# SIQty").val() },
-                success: function (data) {
-                    //
-                }
-            });
-        });
-        
 
-        $("#PCQty").change(function () {
-            $.ajax({
-                url: "~/ProjectAllocation/SaceProjectCode",
-                type: 'POST',
-                cache: false,
-                data: { Selected: $("# PCQty").val() },
-                success: function (data) {
-                    //
-                }
-            });
-        });
+        }
         
 
     })

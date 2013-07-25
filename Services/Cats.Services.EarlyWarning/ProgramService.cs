@@ -19,6 +19,7 @@ namespace Cats.Services.EarlyWarning
         {
             this._unitOfWork = unitOfWork;
         }
+
         #region Default Service Implementation
         public bool AddProgram(Program program)
         {
