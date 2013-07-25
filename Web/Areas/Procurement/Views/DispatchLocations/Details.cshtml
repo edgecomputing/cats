@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Services.Security
+@using Kendo.Mvc.UI
 @model Cats.Models.TransportOrder
 
 @{
@@ -24,9 +25,14 @@
     .matrix th
     {
         color:#04b0bb;
-         padding:4px;
+        padding:4px;
     }
 </style>
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
 @section LeftBar
 {
  
@@ -53,7 +59,7 @@
             columns.Bound(p => p.Woreda).Width(400).Title("Woreda").ClientFooterTemplate("Summary For:<b>" + @ViewBag.Transporter); 
             columns.Bound(p => p.Destination).Title("Destinaiton");
             columns.Bound(p => p.Item).Title("Item");
-            columns.Bound(p => p.Quantity).Title("Quantity in MT");
+            columns.Bound(p => p.Quantity).Title("Quantity in " + @unit);
              columns.Bound(p => p.Tariff).Title("Tariff");
              columns.Bound(p => p.Total).Width(200).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
              //columns.Bound(p => p.subTotalQuantity);
