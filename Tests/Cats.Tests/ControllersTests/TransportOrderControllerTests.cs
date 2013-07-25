@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
 using Cats.Areas.Procurement.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Moq;
@@ -55,7 +58,13 @@ namespace Cats.Tests.ControllersTests
                                                 ConsignerName = "Mr y",
                                                 ConsignerDate=DateTime.Today,
                                                 OrderDate=DateTime.Today,
-                                                OrderExpiryDate=DateTime.Today
+                                                OrderExpiryDate=DateTime.Today,
+                                                Transporter=new Transporter
+                                                                {
+                                                                    TransporterID=1,
+                                                                     Name="Trans"
+                                                                }
+                                                
                                             }
                                     };
             var mockTransportOrderService = new Mock<ITransportOrderService>();
@@ -63,8 +72,11 @@ namespace Cats.Tests.ControllersTests
             mockTransportOrderService.Setup(t => t.GetAllTransportOrder()).Returns(transportOrders);
 
             var mockTransportRequisitionService = new Mock<ITransportRequisitionService>();
-            mockTransportRequisitionService.Setup(t => t.GetAllTransportRequisition()).Returns(requisitionsToDispatch);
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object);
+            mockTransportRequisitionService.Setup(t => t.Get(It.IsAny<Expression<Func<TransportRequisition, bool>>>(), null, It.IsAny<string>())).Returns(requisitionsToDispatch);
+
+            var workflowStatusService = new Mock<IWorkflowStatusService>();
+            workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Approved");
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,workflowStatusService.Object);
 
         }
 
@@ -77,7 +89,7 @@ namespace Cats.Tests.ControllersTests
         #region Tests
 
         [Test]
-        public void Can_Display_Transport_Requisitions()
+        public void CanDisplayTransportRequisitions()
         {
             //Act
             var result = _transportOrderController.TransportRequisitions();
@@ -88,7 +100,7 @@ namespace Cats.Tests.ControllersTests
             Assert.AreEqual(1, ((IEnumerable<TransportRequisitionSelect>)result.Model).Count());
         }
         [Test]
-        public void Should_Generate_Transport_Order_For_Selected_Transport_Requisition()
+        public void ShouldGenerateTransportOrderForSelectedTransportRequisition()
         {
             //Act
              var requisitions = new List<int>()
@@ -97,9 +109,10 @@ namespace Cats.Tests.ControllersTests
                                    };
           
             _transportOrderController.CreateTransportOrder(requisitions);
-            var result = _transportOrderController.Index();
+            var request =new Kendo.Mvc.UI.DataSourceRequest();
+            var result = _transportOrderController.TransportOrder_Read(request);
             //Assert
-            Assert.IsInstanceOf<List<TransportOrder>>(result.Model);
+            Assert.IsInstanceOf<JsonResult>(result);
         }
         #endregion
     }

@@ -1,8 +1,121 @@
-﻿@model Cats.Models.TransportOrder
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@model TransportOrderViewModel
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_TransportOrderLeftBar")
+}
+
+
+<div class="row-fluid">
+    <div>
+        <div class="form-horizontal well">
+            <table class="table-condensed">
+                <tr>
+                    <td>
+
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.TransportOrderNo) :</b>
+                        @Html.DisplayFor(model => model.TransportOrderNo)
+
+
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.Transporter)
+                                :</b>
+                        @Html.DisplayFor(model => model.Transporter)
+
+                    </td>
+                 <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.ContractNumber)
+                                :</b>
+                            @Html.DisplayFor(model => model.ContractNumber)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.OrderDateET)
+                                :</b>
+                            @Html.DisplayFor(model => model.OrderDateET)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.RequestedDispatchDateET)
+                                   :</b>
+                            @Html.DisplayFor(model => model.RequestedDispatchDateET)
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })"><i class="icon-chevron-left"></i> Back</a>
+
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new {Controller="TransportOrder", Area = "Procurement", id = Model.TransportOrderID })
+                                </td>
+                                <td>
+                                  @*  @Html.ActionLink("Print", "Print", new {Controller="TransportOrder" ,id = Model.TransportOrderID })*@
+                                    <a target="_blank" href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement" ,id = Model.TransportOrderID })"><i class="icon-print"></i> Print</a>
+                                </td>
+                               @* <td>
+                                    @Html.ActionLink("Approve", "Approve", new {Controller="TransportOrder" ,id = Model.TransporterID })
+                                </td>*@
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+
+@(Html.Kendo().Grid((IEnumerable<TransportOrderDetailViewModel>)ViewData["Transport.order.detail.ViewModel"])
+.Name("Grid").Columns(columns=>
+                          {
+                              columns.Bound(trd => trd.Woreda);
+                              columns.Bound(trd => trd.RequisitionNo);
+                              columns.Bound(trd => trd.FDP);
+                              columns.Bound(trd => trd.OriginWarehouse);
+                              columns.Bound(trd => trd.QuantityQtl);
+                              columns.Bound(trd => trd.TariffPerQtl);
+                              columns.Bound(trd => trd.TotalAmount);
+
+                          }).Pageable())
+
+
+
+
+@*@model Cats.Models.TransportOrder
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar{
+    @Html.Partial("_TransportOrderLeftBar");
 }
 
 <h2>Details</h2>
@@ -104,7 +217,7 @@
    
     @Html.ActionLink("Back to List", "Index")
      <a href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })">Print (PDF)</a>
-</p>
+</p>*@
 @*@{
     var detailModel = Model.TransportOrderDetails;
 }

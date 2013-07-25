@@ -181,8 +181,37 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                 });
             mockUnitOfWork.Setup(t => t.TransportRequisitionDetailRepository).Returns(
                 transportRequisitionDetailRepository.Object);
+            var transporterService = new Mock<ITransporterService>();
+            transporterService.Setup(t => t.GetCurrentBidWinner(It.IsAny<int>(), It.IsAny<int>())).Returns(new TransportBidQuotation
+                                                                                                               ()
+                                                                                                               {
+                                                                                                                   BidID
+                                                                                                                       =
+                                                                                                                       1,
+                                                                                                                   DestinationID
+                                                                                                                       =
+                                                                                                                       1,
+                                                                                                                   Position
+                                                                                                                       =
+                                                                                                                       1,
+                                                                                                                   IsWinner
+                                                                                                                       =
+                                                                                                                       true,
+                                                                                                                   SourceID
+                                                                                                                       =
+                                                                                                                       1,
+                                                                                                                   Tariff
+                                                                                                                       =
+                                                                                                                       1,
+                                                                                                                   TransporterID
+                                                                                                                       =
+                                                                                                                       1,
+                                                                                                                   TransportBidQuotationID
+                                                                                                                       =
+                                                                                                                       1
+                                                                                                               });
 
-            _transportOrderService = new TransportOrderService(mockUnitOfWork.Object);
+            _transportOrderService = new TransportOrderService(mockUnitOfWork.Object,transporterService.Object);
             //Act 
         }
 

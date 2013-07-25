@@ -7,10 +7,14 @@ using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
 using Cats.Infrastructure;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Cats.Areas.Logistics.Models;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -21,35 +25,41 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransportOrderService _transportOrderService;
 
         private readonly ITransportRequisitionService _transportRequisitionService;
+        private readonly IWorkflowStatusService _workflowStatusService;
 
 
-        public TransportOrderController(ITransportOrderService transportOrderService,ITransportRequisitionService transportRequisitionService)
+
+        public TransportOrderController(ITransportOrderService transportOrderService, ITransportRequisitionService transportRequisitionService, IWorkflowStatusService workflowStatusService)
         {
             this._transportOrderService = transportOrderService;
             this._transportRequisitionService = transportRequisitionService;
-           
-        } 
+            this._workflowStatusService = workflowStatusService;
 
-            
-        
+        }
 
-       [HttpGet]
+
+
+
+        [HttpGet]
         public ViewResult TransportRequisitions()
         {
-            var transportRequisitions = _transportRequisitionService.GetAllTransportRequisition();
+            var transportRequisitions = _transportRequisitionService.Get(t => t.Status == (int)TransportRequisitionStatus.Approved);
             var transportReqInput = (from item in transportRequisitions
                                      select new TransportRequisitionSelect
                                                 {
-                                                    CertifiedBy= item.CertifiedBy,
-                                                    CertifiedDate= item.CertifiedDate,
-                                                    RequestedBy= item.RequestedBy ,
-                                                    RequestedDate= item.RequestedDate,
-                                                    Status= item.Status ,
-                                                    TransportRequisitionID= item.TransportRequisitionID,
-                                                    TransportRequisitionNo= item.TransportRequisitionNo,
-                                                    Input= new TransportRequisitionSelect.TransportRequisitionSelectInput
+                                                    CertifiedBy = item.CertifiedBy,
+                                                    CertifiedDate = item.CertifiedDate,
+                                                    RequestedBy = item.RequestedBy,
+                                                    RequestedDate = item.RequestedDate,
+                                                    StatusName = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION, item.Status),
+                                                    Status = item.Status,
+                                                    RequestDateET = EthiopianDate.GregorianToEthiopian(item.RequestedDate),
+                                                    CertifiedDateET = EthiopianDate.GregorianToEthiopian(item.CertifiedDate),
+                                                    TransportRequisitionID = item.TransportRequisitionID,
+                                                    TransportRequisitionNo = item.TransportRequisitionNo,
+                                                    Input = new TransportRequisitionSelect.TransportRequisitionSelectInput
                                                               {
-                                                                  Number=item.TransportRequisitionID ,
+                                                                  Number = item.TransportRequisitionID,
                                                                   IsSelected = false
                                                               }
 
@@ -66,36 +76,82 @@ namespace Cats.Areas.Procurement.Controllers
             var dataSourceName = "TransportOrders";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 
-            return File(result.RenderBytes ,result.MimeType);
+            return File(result.RenderBytes, result.MimeType);
         }
+
         [HttpPost]
-        public ActionResult TransportRequisitions(IList<TransportRequisitionSelect.TransportRequisitionSelectInput> input)
+        public ActionResult TransportRequisitions(IList<SelectFromGrid> input)
         {
-           
-                var requisionIds = (from item in input where item.IsSelected select item.Number).ToList();
+            try
+            {
+                var requisionIds = (from item in input where (item.IsSelected != null ? ((string[])item.IsSelected)[0] : "off") == "on" select item.Number).ToList();
                 return CreateTransportOrder(requisionIds);
-           
+            }
+            catch (Exception exception)
+            {
+
+                return View("TransportRequisitions", "TransportOrder");
+            }
+
+
         }
 
         public ActionResult CreateTransportOrder(IEnumerable<int> requisitionToDispatches)
         {
+
             _transportOrderService.CreateTransportOrder(requisitionToDispatches);
-            return RedirectToAction("Index","TransportOrder");
+
+
+            return RedirectToAction("Index", "TransportOrder");
         }
 
         public ViewResult Index()
         {
-            var transportOrders = _transportOrderService.Get(null,null,"TransportOrderDetails,Transporter");
-           
-            return View(transportOrders.ToList());
+
+
+            return View();
+        }
+
+        public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var transportOrders = _transportOrderService.GetAllTransportOrder();
+            var transportOrderViewModels =
+                (from itm in transportOrders select BindTransportOrderViewModel(itm));
+            return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        private TransportOrderViewModel BindTransportOrderViewModel(TransportOrder transportOrder)
+        {
+            TransportOrderViewModel transportOrderViewModel = null;
+            if (transportOrder != null)
+            {
+                transportOrderViewModel = new TransportOrderViewModel();
+                transportOrderViewModel.BidDocumentNo = transportOrder.BidDocumentNo;
+                transportOrderViewModel.OrderDate = transportOrder.OrderDate;
+                transportOrderViewModel.OrderDateET =
+                    EthiopianDate.GregorianToEthiopian(transportOrder.OrderDate);
+                transportOrderViewModel.ContractNumber = transportOrder.ContractNumber;
+                transportOrderViewModel.PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo;
+                transportOrderViewModel.OrderExpiryDate = transportOrder.OrderExpiryDate;
+                transportOrderViewModel.OrderExpiryDateET = EthiopianDate.GregorianToEthiopian(transportOrder.OrderExpiryDate);
+                transportOrderViewModel.Transporter = transportOrder.Transporter.Name ;
+                transportOrderViewModel.RequestedDispatchDate = transportOrder.RequestedDispatchDate;
+                transportOrderViewModel.RequestedDispatchDateET =  EthiopianDate.GregorianToEthiopian(transportOrder.RequestedDispatchDate);
+                transportOrderViewModel.TransporterID = transportOrder.TransporterID;
+                transportOrderViewModel.TransportOrderNo = transportOrder.TransportOrderNo;
+                transportOrderViewModel.TransportOrderID = transportOrder.TransportOrderID;
+
+
+            }
+            return transportOrderViewModel;
+            
         }
         [HttpGet]
         public ActionResult Edit(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
-            if (transportOrder==null)
+            if (transportOrder == null)
             {
-               return  HttpNotFound();
+                return HttpNotFound();
             }
             return View(transportOrder);
 
@@ -105,17 +161,60 @@ namespace Cats.Areas.Procurement.Controllers
         {
             if (ModelState.IsValid)
             {
-                _transportOrderService.EditTransportOrder(transportOrder);
+                var target = _transportOrderService.FindById(transportOrder.TransportOrderID);
+                target.TransportOrderNo = transportOrder.TransportOrderNo;
+                target.ContractNumber = transportOrder.ContractNumber;
+                target.OrderDate = transportOrder.OrderDate;
+                target.OrderExpiryDate = transportOrder.OrderExpiryDate;
+                target.RequestedDispatchDate = transportOrder.RequestedDispatchDate;
+                target.PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo;
+                target.BidDocumentNo = transportOrder.BidDocumentNo;
+                target.TransporterSignedDate = transportOrder.TransporterSignedDate;
+                target.TransporterSignedName = transportOrder.TransporterSignedName;
+                target.ConsignerDate = transportOrder.ConsignerDate;
+                target.ConsignerName = transportOrder.ConsignerName;
+                _transportOrderService.EditTransportOrder(target);
                 return RedirectToAction("Index", "TransportOrder");
             }
             return View(transportOrder);
         }
         public ActionResult Details(int id)
         {
-            var transportOrder = _transportOrderService.FindById(id);
-            return View(transportOrder);
+            var transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails.FDP,TransportOrderDetails.FDP.AdminUnit,TransportOrderDetails.Commodity,TransportOrderDetails.Hub,TransportOrderDetails.ReliefRequisition").FirstOrDefault();
+            var transportOrderViewModel = BindTransportOrderViewModel(transportOrder);
+            ViewData["Transport.order.detail.ViewModel"] = transportOrder ==null ? null :
+                GetDetail(transportOrder.TransportOrderDetails);
+            return View(transportOrderViewModel);
         }
-
+        private IEnumerable<TransportOrderDetailViewModel> GetDetail(IEnumerable<TransportOrderDetail> transportOrderDetails)
+        {
+            
+            var transportOrderDetailViewModels =
+                (from itm in transportOrderDetails select BindTransportOrderDetailViewModel(itm));
+            return transportOrderDetailViewModels;
+        } 
+        private TransportOrderDetailViewModel BindTransportOrderDetailViewModel(TransportOrderDetail transportOrderDetail)
+        {
+            TransportOrderDetailViewModel transportOrderDetailViewModel = null;
+            if(transportOrderDetail !=null)
+            {
+                transportOrderDetailViewModel = new TransportOrderDetailViewModel();
+                transportOrderDetailViewModel.FdpID = transportOrderDetail.FdpID;
+                transportOrderDetailViewModel.FDP = transportOrderDetail.FDP.Name;
+                transportOrderDetailViewModel.CommodityID = transportOrderDetail.CommodityID;
+                transportOrderDetailViewModel.Commodity = transportOrderDetail.Commodity.Name;
+                transportOrderDetailViewModel.DonorID = transportOrderDetail.DonorID;
+                transportOrderDetailViewModel.OriginWarehouse = transportOrderDetail.Hub.Name;
+                transportOrderDetailViewModel.QuantityQtl = transportOrderDetail.QuantityQtl;
+                transportOrderDetailViewModel.RequisitionID = transportOrderDetail.RequisitionID;
+                transportOrderDetailViewModel.RequisitionNo = transportOrderDetail.ReliefRequisition.RequisitionNo;
+                transportOrderDetailViewModel.SourceWarehouseID = transportOrderDetail.SourceWarehouseID;
+                transportOrderDetailViewModel.TariffPerQtl = transportOrderDetail.TariffPerQtl;
+                transportOrderDetailViewModel.Woreda = transportOrderDetail.FDP.AdminUnit.Name;
+               
+            }
+            return transportOrderDetailViewModel;
+        }
         public ActionResult TransportOrder()
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
@@ -128,7 +227,7 @@ namespace Cats.Areas.Procurement.Controllers
                 transOrderDetailList.AddRange(result);
             }
             return View(transOrderDetailList);
-           
+
 
         }
 
@@ -137,7 +236,7 @@ namespace Cats.Areas.Procurement.Controllers
             var detailTransportOrders = _transportOrderService.GetTransportOrderDetailByTransportId(id);
             if (detailTransportOrders == null)
             {
-                 return HttpNotFound();
+                return HttpNotFound();
             }
             return View(detailTransportOrders.ToList());
         }

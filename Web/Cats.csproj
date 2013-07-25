@@ -167,13 +167,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
+    <Compile Include="Areas\Logistics\Models\TransportRequisitionDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\TransportRequisitionViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\PriceQuotationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
     <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
-    <Compile Include="Areas\Procurement\Controllers\TransporterController.cs">
-      <BrowseToURL>d</BrowseToURL>
-    </Compile>
+    <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
     <Compile Include="Areas\Logistics\Models\ProjectCodeAllocation.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
@@ -214,6 +216,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\SelectFromGrid.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -571,12 +574,10 @@
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
-
     <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocateProjectCode.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocatePC.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Assign.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\AssignedprojectCodes.cshtml" />
-
     <Content Include="Areas\Procurement\Views\Shared\_AdminUnitTree.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\WoredaWarehouseSelection.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\BidWinner.cshtml" />
@@ -584,11 +585,16 @@
     <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
-
+    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\_TransportOrderLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

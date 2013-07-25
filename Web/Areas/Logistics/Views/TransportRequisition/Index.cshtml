@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Cats.Models.TransportRequisition>
-
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -10,8 +10,49 @@
     @Html.Partial("_AllocationLeftBar")
 }
 <h2>Transport Requisition</h2>
+@(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
+{
 
-<table class="table table-bordered table-striped table-condensed">
+    columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
+    columns.Bound(requisition => requisition.RequestedBy);
+    columns.Bound(requisition => requisition.RequestedDateET);
+    columns.Bound(requisition => requisition.CertifiedBy);
+    columns.Bound(requisition => requisition.CertifiedDateET);
+    columns.Bound(requisiton => requisiton.Status);
+})
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Model(model =>model.Id(p => p.TransportRequisitionID))
+        .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition"))
+    ).Pageable()
+)
+
+
+
+
+@*@(Html.Kendo().Grid(Model).Name("Grid")
+      .Columns(columns =>
+                   {
+
+                       columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area="Logistics",id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
+                       columns.Bound(requisition => requisition.RequestedBy);
+                       columns.Bound(requisition => requisition.RequestedDate);
+                       columns.Bound(requisition => requisition.CertifiedBy);
+                       columns.Bound(requisition => requisition.CertifiedDate);
+                       columns.Bound(requisition => requisition.Status); 
+                                      
+
+
+                   } )
+                   
+      .Pageable());*@
+@*<table class="table table-bordered table-striped table-condensed">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.TransportRequisitionNo)
@@ -63,7 +104,7 @@
               
             }
             @status 
-            @*@Html.DisplayFor(modelItem => item.Status)*@
+          
         </td>
         <td>
           @if(item.Status==1){
@@ -77,4 +118,4 @@
     </tr>
 }
 
-</table>
+</table>*@
