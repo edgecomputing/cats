@@ -12,16 +12,16 @@
     <button id="no" class="k-button">No</button>
 </div>
 <script>
-var wnd;
-$(document).ready(function () {
-    wnd = $("#modalWindow").kendoWindow({
-                        title: "Approve confirmation",
-                        modal: true,
-                        visible: false,
-                        resizable: false,
-                        width: 300
-                    }).data("kendoWindow");
-});
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
 </script>
 <script>
 
@@ -41,6 +41,14 @@ $(document).ready(function () {
         $("#no").click(function () {
             wnd.close();
         });
+    }
+</script>
+<script>
+    function onActive(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "bid/MakeActive/" + dataItem.BidID;
+  
     }
 </script>
 <div class="well">
@@ -72,6 +80,7 @@ $(document).ready(function () {
                 {
                     p.Custom("Edit").Click("bidEdit");
                     p.Custom("Approve").Click("onApprove");
+                    p.Custom("Active").Click("onActive");
                 });
 
         })
