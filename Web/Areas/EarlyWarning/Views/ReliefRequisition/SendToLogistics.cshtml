@@ -11,7 +11,7 @@
 
 <h2>Send Requistion To Logistics</h2>
 <h3>Are you sure you want to send this Requisition to logistics ?</h3>
-<div class="form-horizontal">
+<div class="form-horizontal well">
 <fieldset>
     <div class="control-group" >
         <div class="control-label">
@@ -55,21 +55,22 @@
     </div>
      <div class="control-group">
          <div class="controls">
-             <a class="btn btn-success" href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning"})">Yes</a>
-             <a class="btn btn-success" href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning"})">No</a>
-         </div>
-            </div>
-</fieldset>
-    </div>
+             
+         
+
 
 @using (Html.BeginForm("ConfirmSendToLogistics", "ReliefRequisition", FormMethod.Post, new { @class = "form-horizontal" }))
 {
-    <p>
+    <p> <a class="btn btn-success" href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning",id=Model.RequisitionID})"><i class="icon-chevron-left"></i> Back</a>
         @Html.HiddenFor(model=>model.RequisitionID)
         @if(Model.Status == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-        { <input type="submit"  value="Send" /> 
+        { <input class="btn btn-success" type="submit"  value="Send" /> 
         
       }
-      
+
+       
     </p>
-}
+}</div>
+            </div>
+</fieldset>
+    </div>

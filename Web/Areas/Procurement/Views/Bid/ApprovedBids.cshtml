@@ -98,7 +98,7 @@ $(document).ready(function () {
                         .Columns(columns =>
                         {
                             //columns.Bound(b => b.BidDetailID).Title("ID").Width(56);
-                            columns.Bound(b => b.Region);
+                            columns.Bound(b => b.Region).HtmlAttributes(new { style = "background-color:lightgray" }); ;
                             columns.Bound(b => b.AmountForReliefProgram).Title("Relief");
                             columns.Bound(b => b.AmountForPSNPProgram).Title("PSNP");
                             columns.Bound(b => b.BidDocumentPrice);

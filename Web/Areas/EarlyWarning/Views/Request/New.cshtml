@@ -17,7 +17,7 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
+    <div class="form-horizontal well">
         <fieldset>
             <legend></legend>
             <div class="control-group">
@@ -39,8 +39,7 @@
                     @Html.ValidationMessageFor(model => model.ProgramId)
                 </div>
             </div>
-
-          
+            
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.Month, "Month")
