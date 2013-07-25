@@ -73,6 +73,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IWorkflowStatusService>().To<WorkflowStatusService>();
             kernel.Bind<ITransportBidQuotationService>().To<TransportBidQuotationService>();
             kernel.Bind<IApplicationSettingService>().To<ApplicationSettingService>();
+            kernel.Bind<IRationService>().To<RationService>();
         }
     }
 }

@@ -12,4 +12,9 @@ namespace Cats.Models
         public int Number { get; set; }
         public object IsSelected { get; set; }
     }
+    public class DataFromGrid
+    {
+        public int Number { get; set; }
+        public string RequisitionNo { get; set; }
+    }
 }

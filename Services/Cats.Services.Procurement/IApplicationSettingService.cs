@@ -21,5 +21,6 @@ namespace Cats.Services.Procurement
         List<ApplicationSetting> FindBy(Expression<Func<ApplicationSetting, bool>> predicate);
         void SetValue(string name, string value);
         string FindValue(string name);
+        void SetValue(string name, string value);
     }
 }

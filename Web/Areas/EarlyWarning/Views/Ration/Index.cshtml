@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.RationViewModel>
+
+@{
+
+    ViewBag.Title = "Beneficiary Ration";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<table class="table table-bordered table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Commodity)
+        </th>
+        <th>
+           Ration
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Commodity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RationID }) |
+          
+        </td>
+    </tr>
+}
+
+</table>

@@ -73,10 +73,10 @@ namespace Cats.Services.Procurement
                 UpdateApplicationSetting(ret[0]);
                 return;
             }
-
             ApplicationSetting apset = new ApplicationSetting { SettingName = name, SettingValue = value };
-                AddApplicationSetting(apset);
+            AddApplicationSetting(apset);
 
+        }
             }
 
         

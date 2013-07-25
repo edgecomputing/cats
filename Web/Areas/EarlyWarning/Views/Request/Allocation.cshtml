@@ -96,54 +96,85 @@
 }
 
 
-@(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" }); 
-        columns.Bound(p => p.Beneficiaries).Width(100);
-        columns.Bound(p => p.Grain).Width(100);
-        columns.Bound(p => p.Pulse).Width(100);
-        columns.Bound(p => p.CSB).Width(100);
-        columns.Bound(p => p.Oil).Width(100);
 
-    })
-    .ToolBar(toolbar => toolbar.Save())
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
-    .Pageable()
-    .Sortable()
-    .Scrollable()
-    .Navigatable()
-    .HtmlAttributes(new { style = "height:430px;" })
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(20)
-        //.Events(events => events.Error("error_handler"))
-            .Model(model =>
-            {
-                model.Id(p => p.RegionalRequestDetailID);
-                model.Field(detail => detail.FDP).Editable(false);
-            })
-        .Create(update => update.Action("Allocation_Create", "Request"))
-        .Read(read => read.Action("Allocation_Read", "Request",new {id=ViewBag.RequestID}))
-        .Update(update => update.Action("Allocation_Update", "Request"))
-        .Destroy(update => update.Action("Allocation_Destroy", "Request"))
-    )
-)
-@*<script type="text/javascript">
-    function error_handler(e) {
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function () {
-                        message += this + "\n";
-                    });
-                }
-            });
-            alert(message);
-        }
+@(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
+      .Name("grid")
+      .Columns(columns =>
+                   {
+                       columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                       columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                       columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" }); 
+                       columns.Bound(p => p.Beneficiaries).Width(100);
+                       columns.Bound(p => p.Grain).Width(100);
+                       columns.Bound(p => p.Pulse).Width(100);
+                       columns.Bound(p => p.CSB).Width(100);
+                       columns.Bound(p => p.Oil).Width(100);
+
+                   })
+      .ToolBar(toolbar => toolbar.Save())
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Events(events => events.DataBound("onDataBound"))
+      .Pageable()
+      .Sortable()
+      .Scrollable()
+      .Selectable(t=>t.Mode(GridSelectionMode.Single	))
+      .Navigatable()
+      .HtmlAttributes(new { style = "height:430px;" })
+      .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(20)
+                                    //.Events(events => events.Error("error_handler"))
+                                    .Model(model =>
+                                               {
+                                                   model.Id(p => p.RegionalRequestDetailID);
+                                                   model.Field(detail => detail.FDP).Editable(false);
+                                               })
+                                    .Create(update => update.Action("Allocation_Create", "Request"))
+       
+                                    .Read(read => read.Action("Allocation_Read", "Request",new {id=ViewBag.RequestID}))
+                                    .Update(update => update.Action("Allocation_Update", "Request"))
+                                    .Destroy(update => update.Action("Allocation_Destroy", "Request"))
+      ))
+<script type="text/javascript">
+   
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var benficiery = firstItem.get('Beneficiaries');
+           
+         
+         
+            $.getJSON('/Request/GetRation', function (data) {
+               
+
+                $.each(data, function (key, val) {
+                    if (val.Name == "CSB") {
+                       firstItem.set('CSB', val.Value * benficiery);
+                      
+                    }
+                    else if (val.Name == "Grain") {
+                        firstItem.set('Grain', val.Value * benficiery);
+
+                    } else if (val.Name == "Oil") {
+                        firstItem.set('Oil', val.Value * benficiery);
+
+                    } else if (val.Name == "Pulse") {
+                        firstItem.set('Pulse', val.Value * benficiery);
+
+                    }
+                   
+                 
+                });
+
+               
+            });         
+
+
+        });
     }
-</script>*@
+
+    
+</script>

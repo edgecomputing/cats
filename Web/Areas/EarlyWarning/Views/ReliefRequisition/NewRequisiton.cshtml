@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2 class="well">New  Requisiton For Distribution</h2>
+<h4 class="well">New  Requisiton For Distribution</h4>
 @section LeftBar
 {
     @Html.Partial("_RequistionsLeftBar")
@@ -16,30 +16,31 @@
 
 @using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post))
 {
-    <table class="table table-bordered table-striped table-condensed">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RequisitionNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Region)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Program)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Zone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Commodity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Round)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestedDate)
-            </th>
-            @* <th>
+    <table  id="kGrid">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequisitionNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Region)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Program)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Zone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Commodity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Round)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestedDate)
+                </th>
+                @* <th>
                 @Html.DisplayNameFor(model => model.RequestedBy)
             </th>
            
@@ -49,42 +50,44 @@
             <th>
                 @Html.DisplayNameFor(model => model.ApprovedDate)
             </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
 
-            <th></th>
-            <th></th>
-        </tr>
-        @{ int index = 0; }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new { @style = "width:80%; border:none; !important;" })
-                    @Html.ValidationMessageFor(modelItem => item.RequisitionNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Region)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Program)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Zone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Commodity)
-                </td>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 0; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+@*                        @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new { @style = "width:80%; border:none; !important;" })*@
+                          <input type='text'  name="input[@index].RequisitionNo" id="txtRequisitionID" value="@item.Input.RequisitionNo"/>
+                        @Html.ValidationMessageFor(modelItem => item.RequisitionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Program)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Zone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Commodity)
+                    </td>
 
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Round)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestedDate)
-                </td>
-                @*<td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Round)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestedDate)
+                    </td>
+                    @*<td>
                     @Html.DisplayFor(modelItem => item.RequestedBy)
                 </td>
                 
@@ -94,54 +97,67 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ApprovedDate)
                 </td>*@
-                <td>
-                    @{
-            var statusName = item.Status.ToString();
-            var showme = item.Status == 2 ? "" : "hidden";
-                    }
-                    @{
-            string status=string.Empty;
+                    <td>
+                        @{
+                            var statusName = item.Status.ToString();
+                            var showme = item.Status == 2 ? "" : "hidden";
+                        }
+                        @{
+                            string status=string.Empty;
 
-            switch (item.Status)
-            {
-                case (int)ReliefRequisitionStatus.Draft:
-                    status = "Draft";
-                    break;
-                case (int)ReliefRequisitionStatus.Approved:
-                    status = "Approved";
-                    break;
-                case (int)ReliefRequisitionStatus.HubAssigned:
-                    status = "HubAssigned";
-                    break;
-                case (int)ReliefRequisitionStatus.ProjectCodeAssigned:
-                    status = "ProjectCodeAssigned";
-                    break;
-                case (int)ReliefRequisitionStatus.TransportOrderCreated:
-                    status = "TransportOrderCreated";
-                    break;
-                case (int)ReliefRequisitionStatus.TransportRequisitionCreated:
-                    status = "TransportRequisitionCreated";
-                    break;
-            }
+                            switch (item.Status)
+                            {
+                                case (int)ReliefRequisitionStatus.Draft:
+                                    status = "Draft";
+                                    break;
+                                case (int)ReliefRequisitionStatus.Approved:
+                                    status = "Approved";
+                                    break;
+                                case (int)ReliefRequisitionStatus.HubAssigned:
+                                    status = "HubAssigned";
+                                    break;
+                                case (int)ReliefRequisitionStatus.ProjectCodeAssigned:
+                                    status = "ProjectCodeAssigned";
+                                    break;
+                                case (int)ReliefRequisitionStatus.TransportOrderCreated:
+                                    status = "TransportOrderCreated";
+                                    break;
+                                case (int)ReliefRequisitionStatus.TransportRequisitionCreated:
+                                    status = "TransportRequisitionCreated";
+                                    break;
+                            }
                 
-                    }
-                    @status
-                </td>
+                        }
+                        @status
+                          <input type='hidden'  name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
+                   @* </td>
 
-                <td>
-                    <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />
-                </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new {id = item.RequisitionID}) |*@
+                    <td>*@
+                      @*  <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />*@
+                    @*</td>
+                    <td>*@
+                        @*@Html.ActionLink("Edit", "Edit", new {id = item.RequisitionID}) |*@
 
-                </td>
-            </tr>
+                   @* </td>*@
+                </tr>
             
-            index++;
-        }
-
+                index++;
+            }
+        </tbody>
     </table>
     <p>
         <input class="btn btn-success" type="submit" value="Save Change" />
     </p>
 }
+<script>
+
+    $(document).ready(function() {
+        $("#kGrid").kendoGrid({
+            pageable: true,
+            sortable: true
+                
+            
+        });
+        
+    });
+</script>

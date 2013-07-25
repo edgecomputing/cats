@@ -56,11 +56,9 @@
             {
                 <tr>
                     <td>
-                        @* +  ((item.IsSelected == true) ? "checked" : "") + " *@
-                        @*@Html.CheckBox("input[" + index + "].IsSelected", item.Input.IsSelected)*@
+                       
                         <input type='checkbox'  name="input[@index].IsSelected" id="chkApprovedRequests" value="@item.Input.IsSelected"/>
-                        @* @Html.DisplayFor(modelItem => item.IsSelected);*@
-
+                    
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CommodityName)
