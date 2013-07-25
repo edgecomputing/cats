@@ -25,6 +25,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;
         private readonly IHubAllocationService _hubAllocationService;
+        
         public HubAllocationController(
            IReliefRequisitionDetailService reliefRequisitionDetailService,
            IHubService hubService,
@@ -50,6 +51,7 @@ namespace Cats.Areas.Logistics.Controllers
         
         public JsonResult GetRequisitionsForAssignment()
         {
+            
             var reliefRequisitions = _reliefRequisitionService.Get(r=>r.Status==(int)ReliefRequisitionStatus.Approved, null);
             var result = reliefRequisitions.ToList().Select(item => new AssignHubViewModel
                                                                         {
