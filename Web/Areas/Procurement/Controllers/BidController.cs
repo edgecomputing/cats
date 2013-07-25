@@ -23,12 +23,14 @@ namespace Cats.Areas.Procurement.Controllers
         private IStatusService _statusService;
         private ITransportBidPlanService _transportBidPlanService;
         private ITransportBidPlanDetailService _transportBidPlanDetailService;
+        private IApplicationSettingService _applicationSettingService;
 
         public BidController(IBidService bidService, IBidDetailService bidDetailService,
                              IAdminUnitService adminUnitService,
                              IStatusService statusService,
                              ITransportBidPlanService transportBidPlanService,
-                             ITransportBidPlanDetailService transportBidPlanDetailService)
+                             ITransportBidPlanDetailService transportBidPlanDetailService,
+                             IApplicationSettingService applicationSettingService)
         {
             this._bidService = bidService;
             this._bidDetailService = bidDetailService;
@@ -36,6 +38,7 @@ namespace Cats.Areas.Procurement.Controllers
             this._statusService = statusService;
             this._transportBidPlanService = transportBidPlanService;
             this._transportBidPlanDetailService = transportBidPlanDetailService;
+            this._applicationSettingService = applicationSettingService;
         }
 
         public ActionResult Index()
@@ -302,7 +305,11 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return convertedGregorianDate;
         }
-
+        public ActionResult MakeActive(int id)
+        {
+            _applicationSettingService.SetValue("CurrentBid", ""+id);
+            return RedirectToAction("Index");
+        }
         public ActionResult ApproveBid(int id)
         {
             var bid = _bidService.FindById(id);

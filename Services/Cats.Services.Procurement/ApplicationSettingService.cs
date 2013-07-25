@@ -77,5 +77,8 @@ namespace Cats.Services.Procurement
             AddApplicationSetting(apset);
 
         }
+            }
+
+        
+
     }
-}
