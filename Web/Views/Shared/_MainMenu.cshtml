@@ -1,4 +1,11 @@
 ﻿@using Cats.Helpers
+@using Cats.Models.Security;
+@using Cats.Services.Security
+
+@{
+    var user = (UserIdentity)HttpContext.Current.User.Identity;
+    var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+}
 
 <div class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
@@ -12,6 +19,8 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><a href="~/">Home</a></li>
+                    @if(role=="EW" || role=="SU")
+                    {
                     <li><a href="@Url.Action("Create", "HRD", new { Area = "EarlyWarning" })">HRD</a></li>
 
                     <li class="dropdown">
@@ -28,7 +37,11 @@
                             <li><a href="#"> Reports</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    }
+
+                    @if(role=="LG" || role=="SU")
+                    {
+                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Allocation <b class="caret"></b></a>
 
                         <ul class="dropdown-menu">
@@ -36,8 +49,13 @@
                             <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">Transport Orders</a></li>
                         </ul>
                     </li>
+                    }
+                    
                     <li><a href="#">Stock</a></li>
-                    <li class="dropdown">
+                    
+                    @if(role=="PC" || role=="SU")
+                    {
+                       <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tender <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">Manage Bids</a></li>
@@ -49,8 +67,13 @@
                             <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">Dispatch Locations</a></li>
                         </ul>
                     </li>
+                    }                   
+                    
                     <li><a href="#">Reports</a></li>
-                    <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">Settings</a></li>
+                    @if(role=="SU")
+                    {
+                        <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">Settings</a></li>
+                    }                    
                 </ul>
                 <ul class="nav pull-right">
                     <li class="divider-vertical"></li>

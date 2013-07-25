@@ -210,6 +210,7 @@
     <Compile Include="Helpers\getGregorianDate.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Helpers\UserAccountHelper.cs" />
+    <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">

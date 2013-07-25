@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cats.Models.Security;
 
 namespace Cats.Data.Security

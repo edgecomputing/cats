@@ -17,7 +17,7 @@ namespace Cats.Data.Security
         public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<UserPreference> UserPreferences { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
-        public DbSet<UserInfo> UsersInfo { get; set; }
+        public DbSet<UserInfo> UsersInfos { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
