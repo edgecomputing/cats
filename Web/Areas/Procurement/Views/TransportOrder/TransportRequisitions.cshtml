@@ -5,8 +5,14 @@
     ViewBag.Title = "TransportRequisitions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section LeftBar{
+    @Html.Partial("_TransportOrderLeftBar");
+}
 <h2>Transport Requisitions</h2>
+@if(ViewBag.ErrorText!=string.Empty)
+{
+    <div class="alert-error">@ViewBag.ErrorText</div>
+}
 @using (Html.BeginForm("TransportRequisitions", "TransportOrder", FormMethod.Post))
 {
 
