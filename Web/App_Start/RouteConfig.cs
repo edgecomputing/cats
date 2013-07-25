@@ -14,6 +14,11 @@ namespace Cats
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name:"Error",
+                url:"Error",
+                defaults:new{controller="Home",action="Error"}
+                );
+            routes.MapRoute(
                 name:"Login",
                 url:"login",
                 defaults:new {controller="Account",action="Login"}

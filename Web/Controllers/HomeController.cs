@@ -18,6 +18,9 @@ namespace Cats.Controllers
             return View();
         }
 
-
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }
