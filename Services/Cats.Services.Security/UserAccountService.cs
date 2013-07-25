@@ -35,8 +35,11 @@ namespace Cats.Services.Security
 
         public bool Add(UserAccount entity)
         {
+            // Add the user account first and latter set default preference and profiles for user
             _unitOfWork.UserRepository.Add(entity);
             _unitOfWork.Save();
+
+            
             return true;
         }
 
@@ -104,7 +107,7 @@ namespace Cats.Services.Security
 
         public bool Authenticate(string userName, string password)
         {
-            UserInfo user = null;
+            UserInfo user = GetUserInfo(userName);
 
             // Check if the provided user is found in the database. If not tell the user that the user account provided
             // does not exist in the database.
@@ -112,7 +115,7 @@ namespace Cats.Services.Security
             {
                 user = GetUserInfo(userName);
 
-                if (null == user)                    
+                if (null == user)
                     throw new ApplicationException("The requested user could not be found.");
             }
             catch (Exception ex)
@@ -180,7 +183,7 @@ namespace Cats.Services.Security
 
         public string ResetPassword(string userName)
         {
-            var info=new UserInfo();
+            var info = new UserInfo();
 
             // Generate a random password
             var random = new Random();
@@ -190,7 +193,7 @@ namespace Cats.Services.Security
             var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
             if (user != null)
             {
-                 info = _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == user.UserAccountId).SingleOrDefault();
+                info = _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == user.UserAccountId).SingleOrDefault();
                 user.Password = HashPassword(randomPassword);
                 try
                 {
@@ -277,16 +280,8 @@ namespace Cats.Services.Security
         /// <param name="userName"> User name identifying the user</param>
         /// <returns>UserInfo object corrensponding to the user identified by username</returns>
         public UserInfo GetUserInfo(string userName)
-        {            
-            try
-            {
-                return _unitOfWork.UserInfoRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
-            }
-            catch (Exception)
-            {                
-                throw;
-            }
-            return null;
+        {
+            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserName == userName).Single();
         }
 
         public UserInfo GetUserInfo(int userId)
@@ -301,7 +296,7 @@ namespace Cats.Services.Security
         /// <returns>Array of strings containing all of the permissions from .NetSqlAzMan store</returns>
         public string[] GetUserPermissions(int userId, string store, string application)
         {
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
             List<string> UserPermissions = new List<string>();
             string userSid = userId.ToString("X");
             string zeroes = string.Empty;

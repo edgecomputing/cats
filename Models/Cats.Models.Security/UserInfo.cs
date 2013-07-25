@@ -16,13 +16,21 @@ namespace Cats.Models.Security
         public Nullable<System.DateTime> LogginDate { get; set; }
         public Nullable<System.DateTime> LogOutDate { get; set; }
         public int FailedAttempts { get; set; }
-        public byte[] UserSID { get; set; }
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string GrandFatherName { get; set; }
         public string Email { get; set; }
+        public Nullable<int> CaseTeam { get; set; }
         public string LanguageCode { get; set; }
         public string Calendar { get; set; }
         public string Keyboard { get; set; }
         public string PreferedWeightMeasurment { get; set; }
         public string DefaultTheme { get; set; }
+        public byte[] UserSID { get; set; }
+
+        public string FullName
+        {
+            get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); }
+        }
     }
 }
