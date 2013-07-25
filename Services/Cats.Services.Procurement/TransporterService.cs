@@ -82,7 +82,12 @@ namespace Cats.Services.Procurement
             }
             return Winners.OrderBy(t => t.Position).ToList();
         }
-
+        public TransportBidQuotation GetCurrentBidWinner(int sourceID,int DestincationID)
+        {
+           var winners =GetBidWinner(sourceID, DestincationID);
+           if (winners.Count < 1) return null;
+            return winners[0];
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

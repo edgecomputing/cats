@@ -14,11 +14,13 @@ namespace Cats.Services.Procurement
     public class TransportOrderService : ITransportOrderService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ITransporterService _transporterService;
 
 
-        public TransportOrderService(IUnitOfWork unitOfWork)
+        public TransportOrderService(IUnitOfWork unitOfWork,ITransporterService transporterService)
         {
             this._unitOfWork = unitOfWork;
+            this._transporterService = transporterService;
         }
 
         #region Default Service Implementation
@@ -138,7 +140,7 @@ namespace Cats.Services.Procurement
        {
            return _unitOfWork.TransportOrderDetailRepository.Get(t => t.TransportOrderID == transportId);
        }
-        //TODO:Factor Out this method to single responiblity methods
+        //TODO:Factor Out  to single responiblity Principle 
         public bool CreateTransportOrder(IEnumerable<int> requisitions)
         {
             //var requId=_unitOfWork.TransportRequisitionDetailRepository.FindBy(t=>t.TransportRequisitionID==)
@@ -234,15 +236,16 @@ namespace Cats.Services.Procurement
             foreach (var reliefRequisitionDetail in reqDetails)
             {
                 var transportRequisition = new TransporterRequisition();
-                var requi =
-                    _unitOfWork.ReliefRequisitionRepository.Get(
-                        t => t.RequisitionID == reliefRequisitionDetail.RequisitionID, null, "HubAllocations").FirstOrDefault();
+                //var requi =
+                //    _unitOfWork.ReliefRequisitionRepository.Get(
+                //        t => t.RequisitionID == reliefRequisitionDetail.RequisitionID, null, "HubAllocations").FirstOrDefault();
                 transportRequisition.RequisitionID = reliefRequisitionDetail.RequisitionID;
                 transportRequisition.HubID = _unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==reliefRequisitionDetail.RequisitionID).FirstOrDefault().HubID;//requi.HubAllocations.FirstOrDefault().HubID;
                 transportRequisition.WoredaID = reliefRequisitionDetail.FDP.AdminUnitID;
-                var transportBidWinner =
-                   _unitOfWork.BidWinnerRepository.Get(
-                       t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
+                var transportBidWinner = _transporterService.GetCurrentBidWinner(transportRequisition.HubID,
+                                                                          transportRequisition.WoredaID);
+                   //_unitOfWork.BidWinnerRepository.Get(
+                   //    t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
                 if (transportBidWinner == null)
                 {
                     throw new Exception(string.Format("Transporter Couldn't be found for from {0} to {1}", transportRequisition.HubID, transportRequisition.WoredaID));

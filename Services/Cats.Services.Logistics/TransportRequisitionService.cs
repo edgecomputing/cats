@@ -166,6 +166,39 @@ namespace Cats.Services.Logistics
             _unitOfWork.Save();
             return true;
         }
+
+
+        public List<RequisitionToDispatch> GetTransportRequisitionDetail(List<int> requIds)
+        {
+            var result = new List<RequisitionToDispatch>();
+            foreach (var requId in requIds)
+            {
+                var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requId);
+                var requisitionToDispatch = new RequisitionToDispatch();
+                var hubAllocation =
+                    _unitOfWork.HubAllocationRepository.Get(t => t.RequisitionID == requisition.RequisitionID, null,
+                                                            "Hub").FirstOrDefault();
+                var status = _unitOfWork.WorkflowStatusRepository.Get(
+                    t => t.StatusID == requisition.Status && t.WorkflowID == (int)WORKFLOW.RELIEF_REQUISITION).FirstOrDefault();
+
+                requisitionToDispatch.HubID = hubAllocation.HubID;
+                requisitionToDispatch.RequisitionID = requisition.RequisitionID;
+                requisitionToDispatch.RequisitionNo = requisition.RequisitionNo;
+                requisitionToDispatch.RequisitionStatus = requisition.Status.Value;
+                requisitionToDispatch.ZoneID = requisition.ZoneID.Value;
+                requisitionToDispatch.QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount);
+                requisitionToDispatch.OrignWarehouse = hubAllocation.Hub.Name;
+                requisitionToDispatch.CommodityID = requisition.CommodityID.Value;
+                requisitionToDispatch.CommodityName = requisition.Commodity.Name;
+                requisitionToDispatch.Zone = requisition.AdminUnit.Name;
+                requisitionToDispatch.RegionID = requisition.RegionID.Value;
+
+                requisitionToDispatch.RegionName = requisition.AdminUnit1.Name;
+                requisitionToDispatch.RequisitionStatusName = status.Description;
+                result.Add(requisitionToDispatch);
+            }
+            return result;
+        }
     }
 }
 

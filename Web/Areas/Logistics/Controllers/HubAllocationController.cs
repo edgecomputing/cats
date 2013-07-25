@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
 using Kendo.Mvc.Extensions;
@@ -49,7 +50,7 @@ namespace Cats.Areas.Logistics.Controllers
         
         public JsonResult GetRequisitionsForAssignment()
         {
-            var reliefRequisitions = _reliefRequisitionService.Get(r=>r.Status==2, null);
+            var reliefRequisitions = _reliefRequisitionService.Get(r=>r.Status==(int)ReliefRequisitionStatus.Approved, null);
             var result = reliefRequisitions.ToList().Select(item => new AssignHubViewModel
                                                                         {
                                                                             Commodity = item.Commodity.Name,
