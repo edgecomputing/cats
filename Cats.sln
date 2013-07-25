@@ -55,11 +55,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema", "Migr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Logistics", "Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj", "{EEF1DDEB-A6E9-493D-975D-C551A73A79B9}"
 EndProject
-
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Settings", "Cats.Services.Settings\Cats.Services.Settings.csproj", "{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}"
-
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema.Security", "Migrations\Cats.DatabaseSchema.Security\Cats.DatabaseSchema.Security.sqlproj", "{6941F350-B85A-4A39-96E4-B0433388A3C1}"
-
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,19 +120,16 @@ Global
 		{EEF1DDEB-A6E9-493D-975D-C551A73A79B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEF1DDEB-A6E9-493D-975D-C551A73A79B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEF1DDEB-A6E9-493D-975D-C551A73A79B9}.Release|Any CPU.Build.0 = Release|Any CPU
-
 		{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}.Release|Any CPU.Build.0 = Release|Any CPU
-
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Release|Any CPU.Deploy.0 = Release|Any CPU
-
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
