@@ -8,10 +8,14 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 
 }
+@section LeftBar
+{
+    @Html.Partial("_BidPlanLeftBar")
+}
 <div>
-    <h4>List of Bids</h4>
+    <h4>List of Bid Plans</h4>
 </div>
-@Html.ActionLink("New Plan", "Create")
+
 @(Html.Kendo().Grid<Cats.Models.TransportBidPlan>()
     .Name("grid")
     .Columns(columns =>
@@ -49,12 +53,12 @@
         .Events(events => events.Error("error_handler"))
         .Model(model => model.Id(p => p.TransportBidPlanID))
         .Read(read => read.Action("GetListJson", "TransportBidPlan"))
-        .Destroy(update => update.Action("EditingInline_Destroy", "TransportBidPlan"))
+        .Destroy(update => update.Action("DeleteAjax", "TransportBidPlan"))
         //.Update(update => update.Action("EditingInline_Update", "Transporter"))
         //.Create(update => update.Action("EditingInline_Create", "Transporter"))
         
-        .Update(update => update.Action("Edit", "TransportBidPlan"))
-        .Create(update => update.Action("Create", "TransportBidPlan"))
+        .Update(update => update.Action("UpdateAjax", "TransportBidPlan"))
+        .Create(update => update.Action("CreateAjax", "TransportBidPlan"))
     )
 )
 <script type="text/javascript">

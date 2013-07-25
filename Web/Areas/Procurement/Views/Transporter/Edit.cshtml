@@ -4,11 +4,15 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section LeftBar
+{
+    @Html.Partial("_TransporterLeftBar")
+}
 <div class="form-horizontal">
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <p>
-            <input type="submit" value="Save" /> @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Save" /> 
         </p>
     
     <div style="border:solid 1px #CCC; padding:4px;">

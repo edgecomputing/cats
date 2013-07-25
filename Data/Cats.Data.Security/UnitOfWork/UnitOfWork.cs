@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cats.Models.Security;
 using System.Data.Entity;
 
@@ -64,7 +66,8 @@ namespace Cats.Data.Security
             GC.SuppressFinalize(this);
         }
 
-        #endregion
 
+
+        #endregion
     }
 }

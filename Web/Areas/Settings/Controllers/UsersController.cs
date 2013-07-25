@@ -56,9 +56,18 @@ namespace Cats.Areas.Settings.Controllers
             
             // If the supplied information is correct then persist it to the database
             var user = new UserAccount();
-            user.UserName = userInfo.UserName;
-            user.UserProfile.FirstName = userInfo.FullName;
+            user.UserName = userInfo.UserName;                        
             user.Password = userService.HashPassword(userInfo.Password);
+
+            user.Disabled = false;
+            user.LoggedIn = false;
+
+            user.UserProfile.FirstName = userInfo.FullName;
+            user.UserPreference.LanguageCode = "EN";
+            user.UserPreference.Keyboard = "AM";
+            user.UserPreference.PreferedWeightMeasurment = "MT";
+            user.UserPreference.Calendar = "GC";
+            user.UserPreference.DefaultTheme = "Default";
 
             userService.Add(user);
 

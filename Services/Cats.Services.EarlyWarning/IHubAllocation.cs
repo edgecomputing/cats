@@ -18,7 +18,8 @@ namespace Cats.Services.EarlyWarning
         HubAllocation FindById(int id);
         List<HubAllocation> GetAllHubAllocation();
         List<HubAllocation> FindBy(Expression<Func<HubAllocation, bool>> predicate);
-
+        HubAllocation GetAllocatedHubByRequisitionNo(int requisitionNo);
+        string GetAllocatedHub(int id);
         List<RequisitionViewModel> ReturnRequisitionGroupByReuisitionNo(int status);
     }
 }

@@ -4,14 +4,17 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section LeftBar
+{
+    @Html.Partial("_BidPlanLeftBar")
+}
 <h2>Edit</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>TransportBidPlan</legend>
+        <legend>Transport Bid Plan</legend>
 
         @Html.HiddenFor(model => model.TransportBidPlanID)
 

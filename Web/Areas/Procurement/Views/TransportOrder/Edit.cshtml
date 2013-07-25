@@ -5,14 +5,17 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-
+@section LeftBar{
+    @Html.Partial("_TransportOrderLeftBar");
+}
+ <h2 class="well">Edit Transport Order</h2>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
-    <div class="form-horizontal">
+    <div class="form-horizontal well">
         <fieldset>
-            <legend>Edit Transport Order</legend>
+           
 
             @Html.HiddenFor(model => model.TransportOrderID)
 
@@ -125,7 +128,7 @@
                     @Html.ValidationMessageFor(model => model.TransporterSignedDate)
                 </div>
             </div>
-            <p>
+            <p class="controls">
                 <input type="submit" value="Save" />
             </p>
         </fieldset>
@@ -133,9 +136,6 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

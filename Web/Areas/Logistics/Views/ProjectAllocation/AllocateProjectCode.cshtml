@@ -1,0 +1,157 @@
+﻿@model IList<Cats.Models.RequisitionViewModel>
+
+@{
+    ViewBag.Title = "Hub Allocated Requesitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+   
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+
+<fieldset>
+    <legend>
+        Hub Allocated Requesitions
+    </legend>
+</fieldset>
+
+
+
+<script>
+  
+    @{ var total = ViewData["Total"]; }
+
+    $(document).ready(function () {
+        var selectedIds = {};
+        $("#kGrid").kendoGrid({
+            
+            groupable: true,
+            scrollable: true,
+            sortable: true,
+            pageable: true,
+            autoBind: true,
+            dataSource: {
+                pageSize:10
+            }
+            
+          
+  
+        });
+       
+    });
+ 
+</script>
+@using (Html.BeginForm("ProjectCodeAllocation", "ProjectAllocation", FormMethod.Post, Model))
+{
+    <div  class="k-content">
+        <table  id="kGrid" >
+            
+        <thead>
+            <tr>
+                    
+                <th>
+                    @Html.Label("Select Request")
+                </th>
+                <th>
+                    @Html.Label("Commodity")
+                </th>
+                <th>
+                    @Html.Label("Region")
+                </th>
+                <th>
+                    @Html.Label("Zone")
+                </th>
+       
+                <th>
+                    @Html.Label("Requisition No")
+                </th>
+                   
+       
+                <th>
+                    @Html.Label("Amount")
+                </th>
+                <th>
+                    @Html.Label("Beneficiaries")
+                </th>
+                <th>
+                    @Html.Label("Requisition ID")
+                </th>
+              
+            </tr>
+        </thead>
+             <tbody>
+            @for(int i = 0;i < Model.Count;i++)
+
+            {
+               
+                    <tr>
+                        <td>
+                           @* <input type='checkbox' name="IsChecked" id="chkApprovedRequests" value="@i"/>
+                            <a href="@Url.Action("ProjectCodeAllocation", "ProjectAllocation", new { Area = "Logistics", id = Model[i].RequisitionId })">@Html.DisplayFor(modelItem => modelItem[i].RequisitionNo)</a>*@
+                             @Ajax.ActionLink("Project/SI","AssignedprojectCodes",  new { Area = "Logistics", requisitionId=Model[i].RequisitionId }, new AjaxOptions {
+                                                                                                                                                                                                       InsertionMode = InsertionMode.InsertAfter,
+                                                                                                                                                                                                       UpdateTargetId = "#projectSIAllocation"},new {id="test"})
+                        </td> 
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Commodity)
+                            @Html.HiddenFor(m=>m[i].Commodity)
+            
+                        </td>
+        
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Region)
+                            @Html.HiddenFor(m=>m[i].Region)
+            
+                        </td>
+        
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Zone)
+                            @Html.HiddenFor(m=>m[i].Zone)
+            
+                        </td>
+        
+                        <td >
+           
+                            @Html.DisplayFor(m=>m[i].RequisitionNo)
+                            @Html.HiddenFor(m=>m[i].RequisitionNo)
+            
+                        </td>
+        
+                       
+           
+                        <td>
+                            @Html.DisplayFor(m=>m[i].Amount)
+                            @Html.HiddenFor(m=>m[i].Amount)
+            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>m[i].BenficiaryNo)
+                            @Html.HiddenFor(m=>m[i].BenficiaryNo)
+            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>m[i].RequisitionId)
+                            @Html.HiddenFor(m=>m[i].RequisitionId)
+            
+                        </td>
+                        
+                    </tr>
+               
+    
+            }
+ </tbody>
+        </table>
+    </div>
+    
+    
+    
+        }
+
+
+
+
+
+
+        

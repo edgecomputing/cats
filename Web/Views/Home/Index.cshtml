@@ -1,12 +1,16 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.ViewWidth = "Wide";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<div class="well">
+
+<div class=" span12 ">
     <h3>Welcome to CATS</h3>
 </div>
-
+<div class=" span12">
+    @Html.Partial("_Dashboard")
+</div>
 
 

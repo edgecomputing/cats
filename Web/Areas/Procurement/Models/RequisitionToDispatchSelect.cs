@@ -21,6 +21,7 @@ namespace Cats.Areas.Procurement.Models
         public string CommodityName { get; set; }
         public int RegionID { get; set; }
         public string RegionName { get; set; }
+        public bool IsSelected { get; set; }
         public RequisitionToDispatchSelectInput Input { get; set; }
 
         public class RequisitionToDispatchSelectInput

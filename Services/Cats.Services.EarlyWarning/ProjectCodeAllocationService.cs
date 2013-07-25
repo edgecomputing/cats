@@ -21,12 +21,29 @@ namespace Cats.Services.EarlyWarning
       
 
         #region Implementation of Service
-        public bool AddProjectCodeAllocationDetail(ProjectCodeAllocation _ProjectCodeAllocationDetail)
+        public bool AddProjectCodeAllocation(ProjectCodeAllocation _ProjectCodeAllocationDetail,int requisitionId,bool IsLastAssignment)
         {
+            if (IsLastAssignment)
+            {
+                var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionID == requisitionId).Single();
+                requisition.Status = 4;
+            }
+            
+
             _unitOfWork.ProjectCodeAllocationRepository.Add(_ProjectCodeAllocationDetail);
             _unitOfWork.Save();
             return true;
         }
+
+        public bool AddProjectCodeAllocationDetail(ProjectCodeAllocation _ProjectCodeAllocationDetail)
+        {
+            
+
+            _unitOfWork.ProjectCodeAllocationRepository.Add(_ProjectCodeAllocationDetail);
+            _unitOfWork.Save();
+            return true;
+        }
+
         public bool EditProjectCodeAllocationDetail(ProjectCodeAllocation _ProjectCodeAllocationDetail)
         {
             _unitOfWork.ProjectCodeAllocationRepository.Edit(_ProjectCodeAllocationDetail);
@@ -88,24 +105,24 @@ namespace Cats.Services.EarlyWarning
         }
 
 
-        public bool SaveProjectCodeAllocation(IEnumerable<ProjectCodeAllocation> projectCodeAlloation)
-        {
-            try{
-                foreach (var item in projectCodeAlloation)
-                    {
-                        var tempProjectCodeAllocation=FindById(item.HubAllocationID);
-                            tempProjectCodeAllocation.ProjectCodeID=item.ProjectCodeID;
-                            tempProjectCodeAllocation.ShippingInstructionID = item.ShippingInstructionID;
-                            this.EditProjectCodeAllocationDetail(tempProjectCodeAllocation);
-                    }
-                    return true;
-                }
-                catch
-                    {
-                        return false;
-                    }
+        //public bool SaveProjectCodeAllocation(IEnumerable<ProjectCodeAllocation> projectCodeAlloation)
+        //{
+        //    try{
+        //        foreach (var item in projectCodeAlloation)
+        //            {
+        //                var tempProjectCodeAllocation=FindById(item.HubAllocationID);
+        //                    tempProjectCodeAllocation.ProjectCodeID=item.ProjectCodeID;
+        //                    tempProjectCodeAllocation.ShippingInstructionID = item.ShippingInstructionID;
+        //                    this.EditProjectCodeAllocationDetail(tempProjectCodeAllocation);
+        //            }
+        //            return true;
+        //        }
+        //        catch
+        //            {
+        //                return false;
+        //            }
             
-        }
+        //}
 
         public List<HubAllocation> GetHubAllocation(Expression<Func<HubAllocation, bool>> predicate)
         {
@@ -133,13 +150,14 @@ namespace Cats.Services.EarlyWarning
         //    return _unitOfWork.ReliefRequisitionRepository.Get(filter, orderBy, includeProperties);
         //}
 
-        public List<HubAllocation> GetHubAllocationByHubID(int hubID)
+        public List<ProjectCodeAllocation> GetHubAllocationByHubID(int status)
         {
-            return _unitOfWork.HubAllocationRepository.FindBy(t => t.HubID == hubID);
+            return _unitOfWork.ProjectCodeAllocationRepository.Get(t => t.HubAllocationID == status).ToList();
         }
-        public HubAllocation GetHubAllocationByID(int hubID)
+        public List<ProjectCodeAllocation> GetHubAllocationByID(int hubID)
         {
-            return _unitOfWork.HubAllocationRepository.FindById(hubID);
+            return _unitOfWork.ProjectCodeAllocationRepository.Get(h=>h.HubAllocationID == hubID).ToList();
         } 
+        
     }
 }

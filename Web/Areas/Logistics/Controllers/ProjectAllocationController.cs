@@ -1,14 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
-using Cats.Areas.Logistics.Models;
-//using Cats.Models;
-using Cats.Services;
-using ProjectCodeAllocation = Cats.Areas.Logistics.Models.ProjectCodeAllocation;
+
+
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -59,15 +58,7 @@ namespace Cats.Areas.Logistics.Controllers
             this._transactionService = transactionservice;
         }
 
-        //public ActionResult HubAllocationDetail()
-        //{
-        //    var seleList = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
-        //    ViewBag.HubId = seleList;
-        //    ViewBag.Zone = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
-        //    var hubAllocation = _projectCodeAllocationService.GetHubAllocation(t=>t.HubAllocationID==0);
-        //    return View(hubAllocation);
-            
-        //}
+       
         [HttpPost]
         public ActionResult HubAllocationDetail(Cats.Models.HubAllocation hubAllocation)
         {
@@ -80,92 +71,149 @@ namespace Cats.Areas.Logistics.Controllers
             return View(detail);
             
         }
-        public  ActionResult Allocate()
+
+        public ActionResult AllocateProjectCode()
         {
-            ViewBag.HubId = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
-            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(0);
-            return View(hubAllocation);
-        }
-        public ActionResult HubAllocatedList(int hubId)
-        {
-            var hubAllocations= new List<Cats.Models.HubAllocation>();
-            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(hubId);
-            var firstOrDefault = hubAllocation.FirstOrDefault();
-            if (firstOrDefault != null)
+            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(3);
+            if (reliefRequisitions != null)
             {
-                var reqId = firstOrDefault.RequisitionID;
-                foreach (var allocation in hubAllocation)
+                var total = reliefRequisitions.Count();
+                ViewData["total"] = total;
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+            
+            return View(reliefRequisitions.ToList());
+        }
+
+        public ActionResult Assign( int ReqId,double Remaining)
+        {
+
+            ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == ReqId).SingleOrDefault();
+            
+           
+            ViewBag.SI = new SelectList(_shippingInstructionService.GetAllShippingInstruction(), "ShippingInstructionID", "Value");
+            ViewBag.PC = new SelectList(_projectCodeService.GetAllProjectCode(), "ProjectCodeID", "Value");
+            ViewBag.RequetedAmount = listOfRequsitions.ReliefRequisitionDetails.Sum(a => a.Amount);
+            ViewBag.Hub = _hubAllocationService.GetAllocatedHub(ReqId);
+            ViewBag.ReqId = listOfRequsitions.RequisitionID;
+            ViewBag.Remaining = Remaining;
+            return View();
+        }
+        public ActionResult AllocatePC(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
+        {
+            ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
+            List<ReliefRequisition> projectCodeAllocatedReq = _requisitionService.Get(r => r.Status == 4 && r.RequisitionID == requisitionDetail.SingleOrDefault().RequisitionId).ToList();
+
+
+
+            ICollection<RequisitionViewModel> listOfRequsitions = new List<RequisitionViewModel>();
+            RequisitionViewModel[] _requisitionDetail;
+
+            if (requisitionDetail == null) return View();
+
+            _requisitionDetail = requisitionDetail.ToArray();
+
+            var chkValue = form["IsChecked"]; // for this code the chkValue will return all value of each checkbox that is checked
+
+
+            if (chkValue != null)
+            {
+                string[] arrChkValue = form["IsChecked"].Split(',');
+
+                foreach (var value in arrChkValue)
                 {
-                    var req = _requisitionService.FindById(allocation.RequisitionID);
-                    hubAllocations.Add(new Cats.Models.HubAllocation 
-                                           {
-                                               ReliefRequisition = req,
-                                               HubAllocationID = allocation.HubAllocationID,
-                                           }); 
+                    listOfRequsitions.Add(_requisitionDetail[int.Parse(value)]);
                 }
             }
 
-
-            return View(hubAllocations);
-        }
-        
-        [HttpGet]
-        public ActionResult ProjectCodeAllocation(int id, int requisitionId)
-        {
+            return View(listOfRequsitions.ToList());
             
-            var previousProjectAllocation = _projectCodeAllocationService.FindBy(t => t.HubAllocationID == id);
-            var hubAllocationInfo = _projectCodeAllocationService.GetHubAllocationByID(id);
+        }
+
+        public ActionResult SaveProjectAllocation(RequisitionViewModel requisitionViewModel, 
+                                                    FormCollection form, 
+                                                    string hub, 
+                                                    int RequisitionId,
+                                                    int Remaining=0, 
+                                                    int PCodeqty=0, 
+                                                    int SICodeqty=0)
+        {
+
+            bool isLastAssignment = false;
+
+
+            if (Remaining < PCodeqty + SICodeqty)
+                return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
+
+            var requisitionId = requisitionViewModel.RequisitionId;
+            var pCode = int.Parse(form["PCCode"].ToString(CultureInfo.InvariantCulture));
+            var siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
+            
+            var hubAllocation = _hubAllocationService.GetAllocatedHubByRequisitionNo(requisitionId);
+           
+            var newProjectAllocation = new ProjectCodeAllocation
+                                           {
+
+                                               AllocatedBy = 1,
+                                               AlloccationDate = DateTime.Parse(form["datepicker"]),
+                                               Amount_FromProject = PCodeqty,
+                                               ProjectCodeID = pCode,
+                                               Amount_FromSI = SICodeqty,
+                                               SINumberID = siCode,
+                                               HubAllocationID = hubAllocation.HubAllocationID
+                                           };
+
+            if (Remaining == PCodeqty + SICodeqty)
+                isLastAssignment = true;
+            _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation,requisitionId,isLastAssignment);
+            return RedirectToAction("AllocateProjectCode","ProjectAllocation");
+
+        }
+
+        public ActionResult ProjectCodeAllocation()
+        {
+            ViewBag.HubId = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
+            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(3);
+            return View(hubAllocation);
+        }
+        public  ActionResult Allocate()
+        {
+            ViewBag.HubId = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
+            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(3);
+            return View(hubAllocation);
+        }
+
+        public ActionResult AssignedprojectCodes(int requisitionId)
+        {
+
+            var hubId = _hubAllocationService.GetAllocatedHubByRequisitionNo(requisitionId);
+
+
+            var assigned = _projectCodeAllocationService.GetHubAllocationByID(hubId.HubAllocationID).ToList();
             var requisition = _requisitionService.FindById(requisitionId);
-            List<Cats.Models.ProjectCode> projectFromTransaction = _transactionService.getAllProjectByHubCommodity(hubAllocationInfo.HubID, requisition.Commodity.CommodityID);
-            var selectList = new SelectList(projectFromTransaction, "ProjectCodeID", "value");
-            ViewBag.ProjectCodeID = selectList;
-            List<ShippingInstruction> siList = _transactionService.getAllSIByHubCommodity(hubAllocationInfo.HubID, requisition.Commodity.CommodityID);
-            var siSelectList = new SelectList(siList, "ShippingInstructionID","Value" );
-            ViewBag.ShippingInstructionID = siSelectList;
+            int? siAmount=0;
+            int? pcAmount=0;
+            for (int i = 0; i < assigned.Count; i++)
+            {
+                siAmount = siAmount + assigned[i].Amount_FromSI;
+                pcAmount = pcAmount + assigned[i].Amount_FromProject;
+            }
 
-            ViewBag.HubName = hubAllocationInfo.Hub.Name;
-            ViewBag.HubAllocationID = hubAllocationInfo.HubAllocationID;
-            ViewBag.requested = requisition.ReliefRequisitionDetails.FirstOrDefault().Amount;
-            ViewBag.allocated = previousProjectAllocation.Sum(t => t.Amount_Project);
-            ViewBag.projectBalance = _transactionService.getProjectBalance(hubAllocationInfo.HubID,
-                                                                           requisition.Commodity.CommodityID);
-            ViewBag.SIBalance = _transactionService.getSIBalance(hubAllocationInfo.HubID,
-                                                                 requisition.Commodity.CommodityID);
+            ViewBag.AmountPCAssigned = pcAmount;
+            ViewBag.AmountSIAssined = siAmount;
 
-            var input = (
-                from item in previousProjectAllocation
-                select new ProjectCodeAllocation
-                        {
-                            Hub = hubAllocationInfo.Hub.Name,
-                            HubAllocationID = item.HubAllocationID,
-                            Input = new ProjectCodeAllocation.ProjectCodeAllocationInput()
-                            {
-                                Hub = hubAllocationInfo.Hub.Name,
-                                HubAllocationID =  item.HubAllocationID,
-                                ProjectCodeAllocationID = item.ProjectCodeAllocationID,  
-                                ProjectCodeID = item.ProjectCodeID,
-                                SINumberID = item.ShippingInstructionID,
-                                Amount_FromProject = item.Amount_Project,
-                                Amount_FromSI = item.Amount_SI
-                            }
+            ViewBag.Total = pcAmount + siAmount;
+            ViewBag.Allocated = requisition.ReliefRequisitionDetails.Sum(a => a.Amount);
+            ViewBag.ReqId = requisitionId;
+            ViewBag.ReqNo = requisition.RequisitionNo;
+            ViewBag.Remaining = ViewBag.Allocated - ViewBag.Total;
+            ViewBag.Hub = hubId.Hub.Name;
 
-                        });
-
-            return View(input);
-            
+            return View(assigned);
         }
-
-        
-        [HttpPost]
-        public ActionResult Add(Cats.Models.ProjectCodeAllocation newData)
-        {
-
-            _projectCodeAllocationService.Save(newData);
-            
-            var hubAllocationInfo = _projectCodeAllocationService.GetHubAllocationByID(newData.HubAllocationID);
-            return RedirectToAction("ProjectCodeAllocation", "ProjectAllocation", new { id = newData.HubAllocationID, requisitionId = hubAllocationInfo.RequisitionID});
-            
-        }
-        
+     
     }
 }

@@ -1,12 +1,7 @@
 ﻿CREATE VIEW dbo.UserInfo
 AS
-SELECT        dbo.UserAccount.UserAccountId, dbo.UserAccount.UserName, dbo.UserAccount.Password, dbo.UserAccount.Disabled, dbo.UserAccount.LoggedIn, 
-                         dbo.UserAccount.LogginDate, dbo.UserAccount.LogOutDate, dbo.UserAccount.FailedAttempts, CONVERT(VARBINARY(85), dbo.UserAccount.UserAccountId) 
-                         AS UserSID, dbo.UserProfile.FirstName + N' ' + dbo.UserProfile.LastName AS FullName, dbo.UserProfile.Email, dbo.UserPreference.LanguageCode, 
-                         dbo.UserPreference.Calendar, dbo.UserPreference.Keyboard, dbo.UserPreference.PreferedWeightMeasurment, dbo.UserPreference.DefaultTheme
-FROM            dbo.UserAccount INNER JOIN
-                         dbo.UserPreference ON dbo.UserAccount.UserAccountId = dbo.UserPreference.UserAccountId INNER JOIN
-                         dbo.UserProfile ON dbo.UserAccount.UserAccountId = dbo.UserProfile.UserAccountId
+SELECT        dbo.UserAccount.*, CONVERT(VARBINARY(85), UserAccountId) AS UserSID
+FROM            dbo.UserAccount
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_DiagramPaneCount', @value = 1, @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'UserInfo';
 
@@ -85,30 +80,10 @@ Begin DesignProperties =
       Begin Tables = 
          Begin Table = "UserAccount"
             Begin Extent = 
-               Top = 25
-               Left = 397
-               Bottom = 334
-               Right = 567
-            End
-            DisplayFlags = 280
-            TopColumn = 0
-         End
-         Begin Table = "UserPreference"
-            Begin Extent = 
-               Top = 22
-               Left = 55
-               Bottom = 205
-               Right = 293
-            End
-            DisplayFlags = 280
-            TopColumn = 0
-         End
-         Begin Table = "UserProfile"
-            Begin Extent = 
-               Top = 20
-               Left = 741
-               Bottom = 196
-               Right = 927
+               Top = 6
+               Left = 262
+               Bottom = 135
+               Right = 500
             End
             DisplayFlags = 280
             TopColumn = 0
@@ -120,8 +95,10 @@ Begin DesignProperties =
    Begin DataPane = 
       Begin ParameterDefaults = ""
       End
-      Begin ColumnWidths = 17
+      Begin ColumnWidths = 19
          Width = 284
+         Width = 1500
+         Width = 1500
          Width = 1500
          Width = 1500
          Width = 1500
@@ -158,4 +135,6 @@ Begin DesignProperties =
       End
    End
 End', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'VIEW', @level1name = N'UserInfo';
+
+
 

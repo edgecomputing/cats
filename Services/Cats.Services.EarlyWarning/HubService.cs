@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Models;
 using Cats.Data.UnitWork;
@@ -63,7 +64,13 @@ namespace Cats.Services.EarlyWarning
         }
         #endregion
 
+        public int GetHubId(string hub)
+        {
+            var hubId = _unitOfWork.HubRepository.Get(h => h.Name == hub).SingleOrDefault();
+            if (hubId == null) return -1;
+            return hubId.HubId;
 
+        }
         
         public void Dispose()
         {

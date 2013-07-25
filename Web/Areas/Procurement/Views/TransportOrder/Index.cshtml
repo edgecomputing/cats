@@ -1,13 +1,47 @@
-﻿@model IEnumerable<Cats.Models.TransportOrder>
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section LeftBar{
+    @Html.Partial("_TransportOrderLeftBar");
+}
 
 <h2>Transport Orders</h2>
 
 
+@(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
+{
+
+    columns.Bound(requisition => requisition.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ");
+    columns.Bound(requisition => requisition.Transporter);
+    columns.Bound(requisition => requisition.BidDocumentNo);
+    columns.Bound(requisition => requisition.OrderDateET);
+    columns.Bound(requisition => requisition.OrderExpiryDateET );
+    columns.Bound(requisiton => requisiton.RequestedDispatchDateET);
+    columns.Bound(requisition => requisition.ContractNumber);
+    columns.Bound(requisition => requisition.PerformanceBondReceiptNo);
+})
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Model(model =>model.Id(p => p.TransportOrderID))
+        .Read(read => read.Action("TransportOrder_Read", "TransportOrder"))
+    ).Pageable()
+)
+
+
+
+@*
 <table class="table table-bordered table-striped table-condensed">
     <tr>
         <th>
@@ -36,21 +70,7 @@
             @Html.DisplayNameFor(model => model.PerformanceBondReceiptNo)
         </th>
         <th>
-        @*  <th>
-            @Html.DisplayNameFor(model => model.TransporterID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConsignerName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TransporterSignedName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConsignerDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TransporterSignedDate)
-        </th>*@
+       
         <th></th>
     </tr>
 
@@ -58,8 +78,7 @@
     <tr>
         <td>
             
-                @*<a href="@Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = item.TransporterID })">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>*@
-            
+             
             @Html.DisplayFor(modelItem=>item.Transporter.Name)
         </td>
         <td>
@@ -83,21 +102,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.PerformanceBondReceiptNo)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.TransporterID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConsignerName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TransporterSignedName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConsignerDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TransporterSignedDate)
-        </td>*@
+       
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TransportOrderID }) |
             @Html.ActionLink("Print", "Print", new { id = item.TransportOrderID}, new {target="_blank"})
@@ -106,4 +111,4 @@
     </tr>
 }
 
-</table>
+</table>*@
