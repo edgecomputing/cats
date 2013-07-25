@@ -141,7 +141,7 @@ namespace Cats.Tests.ControllersTests
                               return  _status.Find(t => t.StatusID == statusId && t.WorkflowID == (int) workflow).Description;
                             });
 
-            _requestController = new RequestController(mockRegionalRequestService.Object, null, mockAdminUnitService.Object, null, null, null,workflowService.Object);
+            _requestController = new RequestController(mockRegionalRequestService.Object, null, mockAdminUnitService.Object, null, null, null,workflowService.Object,null);
 
         }
 

@@ -28,6 +28,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private ICommodityService _commodityService;
         private IRegionalRequestDetailService _reliefRequisitionDetailService;
         private IWorkflowStatusService _workflowStatusService;
+        private IRationService _rationService;
 
         public RequestController(IRegionalRequestService reliefRequistionService
                                  , IFDPService fdpService
@@ -35,7 +36,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                  IProgramService programService,
                                  ICommodityService commodityService,
                                  IRegionalRequestDetailService reliefRequisitionDetailService,
-                                 IWorkflowStatusService workflowStatusService)
+                                 IWorkflowStatusService workflowStatusService,
+            IRationService rationService)
         {
             this._regionalRequestService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
@@ -44,6 +46,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             this._programService = programService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             this._workflowStatusService = workflowStatusService;
+            this._rationService = rationService;
         }
 
      
@@ -102,7 +105,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
-
+        public JsonResult GetRation()
+        {
+           
+           
+            var ration = _rationService.GetAllRation();
+            var rationViewModel = (from item in ration
+                                   select new
+                                              {
+                                                  _commodityService.FindById(item.CommodityID).Name,
+                                                  Value = item.Amount
+                                              });
+            return Json(rationViewModel, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult Submitted()
         {
             var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");

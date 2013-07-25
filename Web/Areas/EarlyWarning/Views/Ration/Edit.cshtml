@@ -1,0 +1,47 @@
+﻿@model Cats.Areas.EarlyWarning.Models.RationViewModel
+
+@{
+
+    ViewBag.Title = "Beneficiary Ration Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<h4 class="well">Beneficiary Ration Edit</h4>
+
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Ration</legend>
+
+        @Html.HiddenFor(model => model.RationID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Commodity)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.CommodityID)
+            @Html.DisplayFor(model=>model.Commodity)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Amount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Amount)
+            @Html.ValidationMessageFor(model => model.Amount)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
