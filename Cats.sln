@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{22239E9E-2CFB-4860-A1CF-28A80CF15054}"
@@ -128,14 +128,13 @@ Global
 		{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B14CDF42-2490-41F4-B0A9-99403F2FF8C8}.Release|Any CPU.Build.0 = Release|Any CPU
-=======
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6941F350-B85A-4A39-96E4-B0433388A3C1}.Release|Any CPU.Deploy.0 = Release|Any CPU
->>>>>>> db7d7df46f17a5d71245ab021aed707e2bd2dc4b
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
