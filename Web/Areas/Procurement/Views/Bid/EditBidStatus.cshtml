@@ -41,7 +41,7 @@
                     @Html.LabelFor(model => model.StartDate, "Start Date")
                 </div>
                 <div class="controls">
-                    <input class="cats-datepicker" type="text" id="start" name="start" />
+                    <input class="cats-datepicker" type="text" id="start" name="start" value="@Model.StartDate"/>
                     @Html.HiddenFor(model=>model.StartDate)
                     @Html.ValidationMessageFor(model => model.StartDate)
 
@@ -54,7 +54,7 @@
                 </div>
                
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="end" name="end" />
+                     <input class="cats-datepicker" type="text" id="end" name="end" value="@Model.EndDate" />
                     @Html.HiddenFor(model=>model.EndDate)
                     @Html.ValidationMessageFor(model => model.EndDate)
                 </div>
@@ -66,7 +66,7 @@
                 </div>
                 
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="open" name="open"/>
+                     <input class="cats-datepicker" type="text" id="open" name="open" value="@Model.OpeningDate"/>
                     @Html.HiddenFor(model=>model.OpeningDate)
                     @Html.ValidationMessageFor(model => model.OpeningDate)
                 </div>
