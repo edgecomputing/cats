@@ -102,6 +102,19 @@ namespace Cats.Services.EarlyWarning
 
         }
 
+        public string GetAllocatedHub(int id)
+        {
+            var HubAllocatedRequest = _unitOfWork.HubAllocationRepository.Get(r => r.RequisitionID == id).SingleOrDefault();
+            if (HubAllocatedRequest == null) return null;
+            return HubAllocatedRequest.Hub.Name;
+        }
+
+        public HubAllocation GetAllocatedHubByRequisitionNo(int requisitionNo)
+        {
+            var hubAllocatedRequest = _unitOfWork.HubAllocationRepository.Get(r => r.RequisitionID == requisitionNo).SingleOrDefault();
+            if (hubAllocatedRequest == null) return null;
+            return hubAllocatedRequest;
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

@@ -1,0 +1,210 @@
+﻿@model IList<Cats.Models.RequisitionViewModel>
+@{
+    ViewBag.Title = "PC/SI Assignment";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+
+        $('#frmHub').validate(
+            {
+                rules: {
+                    datepicker: {
+                        required: true
+                    },
+                    PCodeqty: {
+                        number: true,
+                        min: 0
+                        
+                    },
+                    SICodeqty: {
+                        number: true,
+                        min: 0
+                    }
+                   
+                },
+                submitHandler: function(form){
+                    var total = parseInt($("#PCodeqty").val()) + parseInt($("#SICodeqty").val());
+                    if (total > $("#Remaining").val()) {
+                        $("#Notification").show();
+                             return false;
+                    }
+                    else form.submit();
+                    return true;
+                },
+                
+                highlight: function (element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function (element) {
+                    element
+                        .text('OK!').addClass('valid')
+                        .closest('.control-group').removeClass('error').addClass('success');
+                }
+            });
+        
+       
+        
+       
+
+    }); 
+      </script>
+
+<div class="alert alert-block" id="Notification" >
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Warning!</h4>
+    Best check yo self, you're not...
+</div>
+
+@using (Html.BeginForm("SaveProjectAllocation", "ProjectAllocation", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
+{
+    <fieldset>
+        <legend>Projec Code/SI Assignment</legend>
+    </fieldset>
+    
+    <input type="hidden" value="@ViewBag.ReqId" name="RequisitionId" />
+    
+    
+    <div class="form-horizontal well">
+       
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    @Html.Label("Requested Amount", new { @class = "control-label" }) 
+                    <div class="controls">
+                        <input type="text" class="icon-file-text-alt" id="Requested" name="Requested" value="@ViewBag.RequetedAmount" readonly="readonly" />    
+                    </div>
+                </div>
+            </div>
+           
+            
+            <div class="span4">
+                <div class="control-group">
+                    @Html.Label("Hub", new { @class = "control-label" }) 
+                    <div class="controls">
+                        @Html.Hidden("hub")
+                        <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    @Html.Label("Reamining", new { @class = "control-label" }) 
+                    <div class="controls">
+                        @Html.Hidden("reamaining")
+                        <input type="text" id="Reamining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+                    </div>
+                </div>
+            </div>
+             
+            <div class="span4">
+                <div class="control-group">
+                      @Html.Label("Allocation Date", new { @class = "control-label" }) 
+                    <div class="controls">
+                        <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="control-group ">
+            <label class="control-label">Project Code</label>
+            <div class="controls">
+                @Html.Hidden("PC")
+                @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new {id = "ProjectCodeID"})
+               
+	                
+                @Html.Hidden("PCQty")
+                <input type="text" id="PCodeqty" name="PCodeqty" />
+            
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">SI Code</label>
+            <div class="controls">
+	                
+                @Html.Hidden("SI")
+                @Html.DropDownList("SICode", ViewBag.SI as SelectList, "Select SI", new {id = "ShippingInstructionID"})
+                      
+                @Html.Hidden("SIQty")
+                <input type="text" id="SICodeqty" name="SICodeqty" />
+            </div>
+        </div>
+       
+    </div>
+    
+    <br/>
+    
+    <input hidden=""/>
+     <button type="submit" class="btn btn-success" id="AssignBtn" onclick="return qtyCheck('SICodeqty','PCodeqty','Remaining');">
+  <i class="icon-user icon-white"></i> Assign
+</button>
+}
+
+<script  >
+    (document).ready(function () {
+        // storing selected value to hidden field
+        $("#SI").val($("#ShippingInstructionID").val());
+        $("#PI").val($("#ProjectCodeID").val());
+        $("#PCQty").val($("#PCodeqty").val());
+        $("#SIQty").val($("#SICodeqty").val());
+        $("#HubId").val($("#hub").val());
+
+        $("#ShippingInstructionID").change(function () {
+            $.ajax({
+                url: "~/ProjectAllocation/SaceProjectCode",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# SI").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+        
+        $("#ProjectCodeID").change(function () {
+            $.ajax({
+                url: "~/ProjectAllocation/SaceProjectCode",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# PC").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+
+
+        $("#SIQty").change(function () {
+            $.ajax({
+                url: "~/ProjectAllocation/SaceProjectCode",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# SIQty").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+        
+
+        $("#PCQty").change(function () {
+            $.ajax({
+                url: "~/ProjectAllocation/SaceProjectCode",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# PCQty").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+        
+
+    })
+
+
+</script>

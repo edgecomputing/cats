@@ -57,6 +57,7 @@
     <Compile Include="CommodityType.cs" />
     <Compile Include="CommodityTypeDetail.cs" />
     <Compile Include="Constant\Status.cs" />
+    <Compile Include="DashBoard.cs" />
     <Compile Include="DispatchAllocation.cs" />
     <Compile Include="DispatchAllocationDetail.cs" />
     <Compile Include="Donor.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
+    <Compile Include="UserDashboard.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />

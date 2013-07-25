@@ -1,5 +1,5 @@
 ﻿@using Cats.Models
-@model IEnumerable<Cats.Areas.Logistics.Models.ProjectCodeAllocation>
+@model IEnumerable<Cats.Models.ProjectCodeAllocation>
 
 @{
     ViewBag.Title = "ProjectCodeAllocation";
@@ -75,7 +75,7 @@
     <div class="control-group">
             <label class="control-label">Amount :</label>
             <div class="controls">
-            @Html.TextBoxFor(model=>model.FirstOrDefault().Amount_Project)
+            @Html.TextBoxFor(model=>model.FirstOrDefault().Amount_FromProject)
                 </div>
         </div>
     <div class="control-group">
@@ -87,7 +87,7 @@
     <div class="control-group">
             <label class="control-label">Amount : </label>
             <div class="controls">
-            @Html.TextBoxFor(model=>model.FirstOrDefault().Amount_SI)
+            @Html.TextBoxFor(model=>model.FirstOrDefault().Amount_FromSI)
                 </div>
         </div>
         <div class="control-group">
@@ -115,7 +115,8 @@
                 Allocated amount from project
             </th>   
         </tr>
-        @{ int index = 0; }
+        
+       @* @{ int index = 0; }
         @foreach(var item in Model)
         {
             <tr>
@@ -136,11 +137,11 @@
                 @*<td>
                      <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" />
                 @Html.ActionLink("Edit", "Edit" ,"ProjectAllocation", new { id=item.Input.ProjectCodeAllocationID }, null
-                </td>)*@
+                </td>)
 
             </tr>
             index++;
-        }
+        } *@
     </table>
     
     @Html.ActionLink("Back", "Allocate" ,"ProjectAllocation", null, null)

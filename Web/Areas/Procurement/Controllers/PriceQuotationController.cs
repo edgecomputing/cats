@@ -222,28 +222,19 @@ namespace Cats.Areas.Procurement.Controllers
             return View(qoutation);
 
         }
+        public ActionResult DeleteAjax(int TransportBidQuotationID)
+        {
+            _bidQuotationService.DeleteById(TransportBidQuotationID);
+            return Json("{}");
+
+        }
+
         public ActionResult ReadAjax([DataSourceRequest] DataSourceRequest request)
         {
             PriceQuotationFilterViewModel model = (PriceQuotationFilterViewModel)Session["PriceQuotationFilter"];
             List<PriceQuotationDetailViewModel> qoutation = populateForm(model);
             return Json(qoutation.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-            /*
-            if (model!=null)
-            {
-                int bidID = model.BidPlanID;
-
-
-                ViewBag.SelectedTransporter = _transporterService.FindById(model.TransporterID);
-                Bid SelectedBid = _bidService.FindById(bidID);
-                ViewBag.SelectedBid = SelectedBid;
-                int bidPlanID = SelectedBid.TransportBidPlanID;
-
-                List<GoodsMovementDetailViewModel> quotationDestinations = GetPlannedDistribution(bidPlanID, model.RegionID);
-                List<PriceQuotationDetailViewModel> qoutation = GetPriceQuotation(quotationDestinations, model.TransporterID, bidID);
-                return Json(qoutation.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-            }
-
-            return Json("{}", JsonRequestBehavior.AllowGet);*/
+            
         }
         public ActionResult EditAjax([DataSourceRequest] DataSourceRequest request, PriceQuotationDetailViewModel item)
         {

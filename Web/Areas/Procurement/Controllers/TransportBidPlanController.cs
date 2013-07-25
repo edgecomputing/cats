@@ -245,8 +245,20 @@ namespace Cats.Areas.Procurement.Controllers
            // return View(table);
             return Json(table.ToDataSourceResult(request));
         }
+        public ActionResult DeleteWarehouseSelectionAjax(int TransportBidPlanID, int selectedWoreda = 0,int sourceWarehouse=0)
+        {
+            List<TransportBidPlanDetail> bidDetails =_transportBidPlanDetailService.FindBy(t => t.BidPlanID == TransportBidPlanID 
+                                                            && t.DestinationID == selectedWoreda 
+                                                            && t.SourceID==sourceWarehouse);
 
-        public ActionResult DeleteAjax([DataSourceRequest] DataSourceRequest request, TransportBidPlan transportbidplan)
+            // return View(table);
+            foreach (TransportBidPlanDetail i in bidDetails)
+            {
+                _transportBidPlanDetailService.DeleteTransportBidPlanDetail(i);
+            }
+            return Json("{}");
+        }
+        public ActionResult DeleteAjax2([DataSourceRequest] DataSourceRequest request, TransportBidPlan transportbidplan)
         {
             if (transportbidplan != null)
             {

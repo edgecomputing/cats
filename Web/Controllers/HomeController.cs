@@ -6,11 +6,12 @@ using System.Web.Mvc;
 
 namespace Cats.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         //
         // GET: /Home/
+        [Authorize]
 
         public ActionResult Index()
         {

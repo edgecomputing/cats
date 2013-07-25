@@ -11,14 +11,17 @@
     }
 
 
+<div class="well">
+    <p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
+    <p>Transporter : <b>@ViewBag.SelectedTransporter.Name <!--@ViewBag.SelectedTransporter.TransporterID--></b> </p>
+    <p>Bid : <b>@ViewBag.SelectedBid.BidNumber <!-- @ViewBag.SelectedBid.BidID--></b> </p>
 
-<p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
-<p>Transporter : <b>@ViewBag.SelectedTransporter.Name <!--@ViewBag.SelectedTransporter.TransporterID--></b> </p>
-<p>Bid : <b>@ViewBag.SelectedBid.BidNumber <!-- @ViewBag.SelectedBid.BidID--></b> </p>
+</div>
 @(Html.Kendo().Grid<PriceQuotationDetailViewModel>()
-    .Name("Grid")
+    .Name("grid")
     .Columns(columns =>
     {
+        columns.Bound(p => p.TransportBidQuotationID).Width(100).Title("ID");
         columns.Bound(p => p.SourceName).Width(100).Title("Source");
         columns.Bound(p => p.DestinationZone).Width(130);
         columns.Bound(p => p.DestinationName).Width(130).Title("Destination Woreda");
@@ -29,11 +32,7 @@
 
         columns.Command(command => { command.Edit(); command.Custom("Delete").Click("deleteRecord"); }).Width(200);
     })
-    .ToolBar(toolBar =>
-        {
-//            toolBar.Create();
-           // toolBar.Save();
-        })
+
     .HtmlAttributes(new { style = "height:430px;" })    
     .Editable(editable => editable.Mode(GridEditMode.InLine))
     .Pageable()
@@ -41,143 +40,61 @@
     .Scrollable()
     .DataSource(dataSource => dataSource     
         .Ajax()
+         .PageSize(20)
+        .Events(events => events.Error("error_handler"))
         .Model(model =>
         {
+            //model.Id(p => p.TransportBidQuotationID);
             model.Id(p => p.QuotationID);
+            model.Field(p => p.TransportBidQuotationID).Editable(false);
             model.Field(p => p.SourceName).Editable(false);
             model.Field(p => p.DestinationZone).Editable(false);
             model.Field(p => p.DestinationName).Editable(false);
         })
-        .PageSize(20)
+        .Create(update => update.Action("EditAjax", "PriceQuotation")) 
         .Read(read => read.Action("ReadAjax", "PriceQuotation"))
-        .Destroy(update => update.Action("DeleteAjax", "PriceQuotation"))
-        //.Update(update => update.Action("EditingInline_Update", "Transporter"))
-        //.Create(update => update.Action("EditingInline_Create", "Transporter"))
-        
         .Update(update => update.Action("EditAjax", "PriceQuotation"))
-        .Create(update => update.Action("CreateAjax", "PriceQuotation")) 
+        .Destroy(update => update.Action("DeleteAjax", "PriceQuotation"))
      )
 )
- <script type="text/x-kendo-template" id="template">
-    <div id="details-container">
-        <h2>#= Name # #= Region #</h2>
-        <em>#= SubCity #</em>
-        <dl>
-            <dt>Capital: #= Capital #</dt>
-            <dt>Employees: #= EmployeeCountMale #</dt>
-            <dt>Edit: @Html.ActionLink("Edit", "Edit",1) </dt>
-      
-        </dl>
-    </div>
-</script>
+
 <script>
+    var deleteURL = "@Url.Action("DeleteAjax", "PriceQuotation", new { Area = "Procurement" })";
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
     function deleteRecord(e) {
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        if (!dataItem.TransportBidQuotationID) {
+            return;
+        }
         e.preventDefault();
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        alert("Deleting " + dataItem.DestinationName);
-        dataItem.Tariff = "";
-        dataItem.Remark = "";
-        $('#Grid').data('kendoGrid').refresh();
-        //window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
+       
+        if (confirm("Are you sure you want to delete this record?") == true) {
+            var post_values = { TransportBidQuotationID: dataItem.TransportBidQuotationID};
+
+            $.post(
+                    deleteURL
+                    , post_values
+                    , function (data) {
+                       // alert($("#grid").data("kendoGrid"));
+                        $("#grid").data("kendoGrid").dataSource.read();
+                    }
+                 );
+
+        }
     }
 </script>
-<!--
-
-<style>
-     th
-    {
-        text-align:center;
-    }
-   
-
-    table input
-        {
-            width:96%;
-            margin:0;
-            font-size:11px;
-            padding:0px;
-            background:none;
-            border:none;
-            padding-right:6px;
-            text-align:right;
-            height:24px;
-        }
-    .matrix td
-    {
-        vertical-align:central;
-         padding:2px;
-    }
-    input
-    {
-        width:20px;
-    }
-</style>
-
-
-<table class="table table-bordered matrix table-hover table-striped">
-    <tr>
-        <th rowspan="2">S.No</th>
-        <th rowspan="2">Source Warehouse</th>
-        <th colspan="2">Destination</th>
-        <th rowspan="2">Tariff/Quintal</th>
-        <th rowspan="2" style="min-width:200px;">Remark</th>
-        <th rowspan="2">Winner</th>
-        <th rowspan="2">Rank</th>
-        <th rowspan="2"></th>
-    </tr>
-    <tr>
-        <th>Zone</th>
-        <th>Woreda</th>
-        
-    </tr>
-
- @{
-     var count = 0;
-     foreach (PriceQuotationDetailViewModel item in Model)
-     {
-        
-         count++;
-
-         var save_fn = "save_entry(" + count + ")";
-    <tr>
-        <td>@count</td>
-        <td>@item.SourceName - @item.SourceID <input type="hidden" id="SourceID_@count" value="@item.SourceID"/></td>
-        <td>@item.DestinationZone </td>
-        <td>@item.DestinationName  -@item.DestinationID<input type="hidden" id="DestinationID_@count" value="@item.DestinationID"/></td>
-
-        
-        <td><input id="Tariff_@count"  value="@item.Tariff" /></td>
-        <td><input id="Remark_@count"  value="@item.Remark" /></td>
-        <td>&nbsp;<input  id="IsWinner_@count" type="checkbox" /></td>    
-        <td><input id="Position_@count"  value="" /></td>
-        <td><input type="button"  value="Save" onclick="@save_fn" class="btn btn-primary " /></td>
-    </tr>
-}
-}
-</table>
-<script>
-    function save_entry(id) {
-        var post_values={TransporterID:$("#TransporterID_0").val(),BidID:$("#BidID_0").val()
-            ,SourceID:$("#SourceID_"+id).val()
-            ,DestinationID:$("#DestinationID_"+id).val()
-            ,Tariff:$("#Tariff_"+id).val()
-            ,IsWinner:document.getElementById("IsWinner_"+id).checked
-            ,Position:$("#Position_"+id).val()
-            ,Remark:$("#Remark_"+id).val()
-        }
-        //alert(post_values.Tariff);
-        $.post("/Procurement/PriceQuotation/Edit",
-            post_values
-            ,function (data)
-            {
-                //var s = new String;
-               // data = data.replace("_cellID_", cellId);
-               //  alert(data);
-               // $("#cell_" + cellId).html(data);
-            }
-            );
-    }
-</script>
-
-    -->

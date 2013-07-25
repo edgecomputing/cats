@@ -80,15 +80,24 @@ namespace Cats.Areas.Logistics.Controllers
       
 
 
-        public ActionResult ApprovedRequesitions()
+        public ActionResult ApprovedRequesitions([DataSourceRequest]DataSourceRequest request)
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
 
-            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(2);//.re _reliefRequisitionDetailService.Get(r => r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
+            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(2);
+            if (reliefRequisitions != null)
+            {
+                var total = reliefRequisitions.Count();
+                ViewData["total"] = total;
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+                //.re _reliefRequisitionDetailService.Get(r => r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
             return View(reliefRequisitions.ToList());
-        
         }
         public ActionResult Request(ICollection<ReliefRequisitionDetail> requisitionDetail)
         {
@@ -98,40 +107,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult Alocation([DataSourceRequest] DataSourceRequest request,
-                                      ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
-        {
-            if (requisitionDetail != null && ModelState.IsValid)
-            {
-                ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
-                ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-
-                ICollection<RequisitionViewModel> listOfRequsitions = new List<RequisitionViewModel>();
-                RequisitionViewModel[] _requisitionDetail;
-
-                if (requisitionDetail == null) return View();
-
-                _requisitionDetail = requisitionDetail.ToArray();
-
-                var chkValue = form["IsChecked"];
-                    // for this code the chkValue will return all value of each checkbox that is checked
-
-
-                if (chkValue != null)
-                {
-                    string[] arrChkValue = form["IsChecked"].Split(',');
-
-                    foreach (var value in arrChkValue)
-                    {
-                        listOfRequsitions.Add(_requisitionDetail[int.Parse(value)]);
-                    }
-                }
-
-                return View(listOfRequsitions.ToList());
-            }
-            return HttpNotFound();
-        }
+        
         public ActionResult hubAllocation(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
         {
             ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");

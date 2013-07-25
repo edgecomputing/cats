@@ -193,6 +193,7 @@
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
+    <Compile Include="Areas\Settings\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -218,7 +219,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Settings\Views\Users\Users.js" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -564,18 +564,30 @@
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.woff" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
+    <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocateProjectCode.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocatePC.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Assign.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AssignedprojectCodes.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_AdminUnitTree.cshtml" />
-    <Content Include="Areas\Procurement\Views\TransportBidPlan\WoredaWarehouseSelection.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\BidWinner.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_RFQFilterPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\_BidPlanLeftBar.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -774,6 +786,8 @@
     <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\_Dashboard.cshtml" />
+    <Content Include="Views\Shared\_DashboardLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

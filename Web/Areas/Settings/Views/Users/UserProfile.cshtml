@@ -1,0 +1,111 @@
+﻿@model Cats.Models.Security.UserInfo
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section MainMenu
+{
+    @Html.Partial("_AdminMenuBar")
+}
+
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+
+<form class=" form-horizontal">
+    <legend>User Profile</legend>
+
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.UserName, new { @size = 50, @disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                @Html.LabelFor(m => m.FullName, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.FullName, new { @size = 200, @disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                @Html.LabelFor(m => m.Disabled, "Account Disabled", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.CheckBoxFor(m => m.Disabled, new{@disabled="disabled"})
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                @Html.LabelFor(m => m.LoggedIn, "Currently logged in", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.CheckBoxFor(m => m.LoggedIn,new{@disabled="disabled"})
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <h4 class="page-header">Preference</h4>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                @Html.LabelFor(m => m.LanguageCode, "UI Lanaguage", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.LanguageCode,new{@disabled = "disabled"})
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                @Html.LabelFor(m => m.PreferedWeightMeasurment, "Weight Measurement", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.PreferedWeightMeasurment,new{@disabled = "disabled"})
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                @Html.LabelFor(m => m.Keyboard, "Keyboard Lanaguage", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Keyboard,new{@disabled = "disabled"})
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                @Html.LabelFor(m => m.Calendar, "Calendar", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Calendar,new{@disabled = "disabled"})
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a class="btn" href="@Url.Action("Index","Users")">Cancel</a>
+        <a class="btn btn-warning" href="#"><i class="icon-unlink"></i> Disable Account</a>
+        <a class="btn btn-danger" href="#"><i class="icon-trash"></i> Delete Account</a>
+
+    </div>
+</form>
+

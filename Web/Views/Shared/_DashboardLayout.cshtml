@@ -53,17 +53,25 @@
     @Html.Partial("_MainMenu")
 
     <div class="container-fluid">
-        <div class="row-fluid">
+        <div class="row">
+            @{
+                var bodyspan = "span12";
+                }
+            @if(ViewBag.ViewWidth != "Wide")
+            {
+                bodyspan = "span10";
             <div class="span2 column-divider">
                 <div class="sidebar-nav">
+                    Left
                     <ul class="nav nav-list">
                         @RenderSection("LeftBar", required: false)
                     </ul>
                 </div>
                 <!--/.well -->
             </div>
+            }
             <!--/span-->
-            <div class="span10">
+            <div class="@bodyspan">
                 @RenderBody()
             </div>
             <!--/span-->

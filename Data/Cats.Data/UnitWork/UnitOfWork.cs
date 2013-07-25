@@ -323,7 +323,16 @@ namespace Cats.Data.UnitWork
 
         }
 
-       
+
+        private IGenericRepository<UserDashboard> userDashboardRepository;
+
+        public IGenericRepository<UserDashboard> UserDashboardRepository
+        {
+
+            get { return this.userDashboardRepository ?? (this.userDashboardRepository = new GenericRepository<UserDashboard>(_context)); }
+
+        }
+
         public IGenericRepository<TransportOrderDetail> TransportOrderDetailRepository
         {
 
