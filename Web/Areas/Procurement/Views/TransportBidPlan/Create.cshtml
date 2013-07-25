@@ -4,7 +4,10 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section LeftBar
+{
+    @Html.Partial("_BidPlanLeftBar")
+}
 <h3>Transport Bid Plan</h3>
 <!-- @Html.DisplayFor(model => model.TransportBidPlanID)-->
 @using (Html.BeginForm()) {

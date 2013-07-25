@@ -245,8 +245,84 @@ namespace Cats.Areas.Procurement.Controllers
            // return View(table);
             return Json(table.ToDataSourceResult(request));
         }
-        
 
-       
+        public ActionResult DeleteAjax([DataSourceRequest] DataSourceRequest request, TransportBidPlan transportbidplan)
+        {
+            if (transportbidplan != null)
+            {
+                _transportBidPlanService.DeleteById(transportbidplan.TransportBidPlanID);
+                //transportService.DeleteTransporter(transporter);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+        public ActionResult UpdateAjax([DataSourceRequest] DataSourceRequest request, TransportBidPlan transportbidplan)
+        {
+            _transportBidPlanService.UpdateTransportBidPlan(transportbidplan);
+//            transportService.EditTransporter(transporter);
+            return Json(ModelState.ToDataSourceResult(), JsonRequestBehavior.AllowGet);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateAjax([DataSourceRequest] DataSourceRequest request, TransportBidPlan transportbidplan)
+        {
+            if (transportbidplan != null && ModelState.IsValid)
+            {
+                _transportBidPlanService.AddTransportBidPlan(transportbidplan);
+            }
+
+            return Json(new[] { transportbidplan }.ToDataSourceResult(request, ModelState));
+        }
+        public ActionResult UpdateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request, WarehouseProgramViewModel WarehouseAllocation)
+        {
+            if (WarehouseAllocation != null && ModelState.IsValid)
+            {
+                List<TransportBidPlanDetail> inDb = _transportBidPlanDetailService.FindBy(w =>
+                                w.BidPlanID == WarehouseAllocation.BidPlanID
+                                && w.DestinationID == WarehouseAllocation.WoredaID
+                                && w.SourceID == WarehouseAllocation.WarehouseID
+                                );
+                TransportBidPlanDetail psnp = new TransportBidPlanDetail
+                    {
+                        BidPlanID = WarehouseAllocation.BidPlanID,
+                        SourceID = WarehouseAllocation.WarehouseID,
+                        DestinationID = WarehouseAllocation.WoredaID,
+                        Quantity = WarehouseAllocation.PSNP,
+                        ProgramID=2
+                    };
+                UpdateBidPlanDetail(psnp);
+
+                TransportBidPlanDetail relief = new TransportBidPlanDetail
+                {
+                    BidPlanID = WarehouseAllocation.BidPlanID,
+                    SourceID = WarehouseAllocation.WarehouseID,
+                    DestinationID = WarehouseAllocation.WoredaID,
+                    Quantity = WarehouseAllocation.Relief,
+                    ProgramID = 1
+                };
+                UpdateBidPlanDetail(relief);
+            }
+
+            return Json(new[] { WarehouseAllocation }.ToDataSourceResult(request, ModelState));
+        }
+        public void UpdateBidPlanDetail(TransportBidPlanDetail bpd)
+        {
+            List<TransportBidPlanDetail> inDb = _transportBidPlanDetailService.FindBy(w =>
+                                w.BidPlanID == bpd.BidPlanID
+                                && w.DestinationID == bpd.DestinationID
+                                && w.SourceID == bpd.SourceID
+                                && w.ProgramID == bpd.ProgramID
+                                );
+            if (inDb.Count <= 0)
+            {
+                _transportBidPlanDetailService.AddTransportBidPlanDetail(bpd);
+            }
+            else
+            {
+                TransportBidPlanDetail bpd_orignal = inDb[0];
+                bpd_orignal.Quantity = bpd.Quantity;
+                _transportBidPlanDetailService.UpdateTransportBidPlanDetail(bpd_orignal);
+            }
+        }
+        
     }
 }

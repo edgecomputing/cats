@@ -19,12 +19,12 @@
     .Name("Grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.SourceName).Width(130);
+        columns.Bound(p => p.SourceName).Width(100).Title("Source");
         columns.Bound(p => p.DestinationZone).Width(130);
-        columns.Bound(p => p.DestinationName).Width(130);
-        columns.Bound(p => p.Tariff).Width(130);
+        columns.Bound(p => p.DestinationName).Width(130).Title("Destination Woreda");
+        columns.Bound(p => p.Tariff).Width(130).Title("Tariff [Birr/Quintal]");
         columns.Bound(p => p.Remark).Width(100);
-        columns.Bound(p => p.IsWinner).Width(50);
+        columns.Bound(p => p.IsWinner).Width(70).Title("Winner?");
         columns.Bound(p => p.Rank).Width(50);
 
         columns.Command(command => { command.Edit(); command.Custom("Delete").Click("deleteRecord"); }).Width(200);

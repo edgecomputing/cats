@@ -20,13 +20,17 @@
     <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to List</a></li>
 
 }
-
+<div class="well row">
+    <h3>Warehouse Assignment</h3>
+    Select A woreda from the tree to specify quantity of goods to be transported from each warehouse.
+</div>
+<div class="row">
 <div class="span4 well">
      @Html.Partial("_AdminUnitTree")
 </div>
+
 <div id="div_warehouse_selection" style="display:none;" class="span8 ">
-   <!-- <input id="txt_BidPlanID" value="@ViewBag.bidPlan.TransportBidPlanID" />
-<input id="txt_WoredaID" value="" /><input type="button" value="Filter" onclick="FilterChange()" />-->
+   
     <h3></h3>
    @(Html.Kendo().Grid<WarehouseProgramViewModel>()
     .Name("grid")
@@ -40,7 +44,10 @@
         columns.Bound(p => p.Relief).Width(100);
 
         
-        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+        columns.Command(command => { 
+            command.Edit(); 
+            command.Custom("Delete").Click("deleteRecord");            
+        }).Width(172);
     })
     .Editable(editable => editable.Mode(GridEditMode.InLine))
     .Pageable()
@@ -56,12 +63,14 @@
            model.Id(p => p.WarehouseID);
            model.Field(p => p.WarehouseName).Editable(false);
         })
-        .Create(update => update.Action("EditingInline_Create", "Grid"))
+        .Create(update => update.Action("CreateWarehouseSelectionAjax", "TransportBidPlan"))
         .Read(read => read.Action("ReadJson", "TransportBidPlan").Data("filterInfo"))
-        .Update(update => update.Action("EditingInline_Update", "Grid"))
-        .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
+        .Update(update => update.Action("UpdateWarehouseSelectionAjax", "TransportBidPlan"))
+        .Destroy(update => update.Action("DeleteWarehouseSelectionAjax", "TransportBidPlan"))
     ).Resizable(resize => resize.Columns(true))
 )
+
+</div>
 
 </div>
 <script type="text/javascript">
@@ -98,14 +107,18 @@
         //"Selecting: " + this.text(e.node) + " " + this.id(e.node));
 
     }
-    function FilterChange() {
-        var value = $("#txt_BidPlanID").val(),
-		 	 grid = $("#grid").data("kendoGrid");
+    function deleteRecord(e) {
+        e.preventDefault();
 
-        if (value) {
-            grid.dataSource.filter({ field: "BidPlanID", operator: "eq", value: parseInt(value) });
-        } else {
-            grid.dataSource.filter({});
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        if(confirm("Are you sure you want to delete this record?")==true)
+        {
+            dataItem.Tariff = "";
+            dataItem.Remark = "";
+            $('#Grid').data('kendoGrid').refresh();
+
         }
+
+        //window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
     }
 </script>

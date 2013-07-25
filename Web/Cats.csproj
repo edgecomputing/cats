@@ -564,7 +564,6 @@
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.woff" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
-    <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
@@ -573,10 +572,10 @@
     <Content Include="Areas\Procurement\Views\Shared\_AdminUnitTree.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\WoredaWarehouseSelection.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\BidWinner.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
-
+    <Content Include="Areas\Procurement\Views\Shared\_RFQFilterPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\_BidPlanLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

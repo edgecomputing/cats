@@ -80,7 +80,7 @@ namespace Cats.Services.Procurement
                 Winners = _unitOfWork.TransportBidQuotationRepository.FindBy(q => q.BidID == currentBidId && q.SourceID == sourceID && q.DestinationID == DestinationID && q.IsWinner == true);
                 Winners.OrderBy(t => t.Position);
             }
-            return Winners;
+            return Winners.OrderBy(t => t.Position).ToList();
         }
 
         public void Dispose()

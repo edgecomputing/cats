@@ -1,16 +1,4 @@
-﻿   @model  IEnumerable<Cats.Models.TransportBidQuotation>
-
-@{
-    ViewBag.Title = "rfq";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
-
-}
-
-@section LeftBar
-{
-    
-  
-    <style>
+﻿<style>
     .sidebarForm, .sidebarForm form
     {
         margin:0;
@@ -20,9 +8,12 @@
     {
         width:150px;
     }
-</style> 
-    <form action="details" class="sidebarForm" method="post">
+</style>
+<div class="sidebarForm">
 
+ @using (Html.BeginForm())
+    {
+     
         <div class="control-group">
             <label class="control-label">Bid</label>
             <div class="controls">
@@ -32,17 +23,10 @@
         <div class="control-group">
             <label class="control-label">Region</label>
             <div class="controls">
-             
                 @Html.DropDownList("RegionID")
                 
             </div>
         </div>
-        
-        
         <input type="submit" value="Select" class="btn btn-primary"/>
-</form>
-      <!-- -->
-}
-
-<h3>Request for Quote</h3>
-<h4>Please specify the bid no and Region to continue</h4>
+    }
+</div>
