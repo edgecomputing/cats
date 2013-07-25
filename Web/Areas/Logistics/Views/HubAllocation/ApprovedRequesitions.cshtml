@@ -24,7 +24,38 @@
     </legend>
 </fieldset>
 
+<script>
+    $(document).ready(function () {
 
+        $('#frm').validate(
+            {
+                
+                submitHandler: function (form) {
+                    var rows = $("#kGrid").data("kendoGrid").dataSource.total();
+                   
+                    if (rows < 1) {
+                       
+                        var error = document.getElementById("Notification");
+                        if (error.style.display == "none") {
+                            error.style.display = "block";
+                        }
+
+
+                        return false;
+                    } else form.submit();
+                    return true;
+                },
+
+                
+                
+            });
+
+
+
+
+
+    });
+      </script>
 
 <script>
   
@@ -40,7 +71,7 @@
             pageable: true,
             autoBind: true,
             dataSource: {
-                pageSize:10
+                pageSize:1
             }
             
           
@@ -54,18 +85,44 @@
 
     });
     
-
-    
-   
-
 </script>
-@using (Html.BeginForm("hubAllocation","HubAllocation",FormMethod.Post,Model))
+
+
+@*<script>
+    // this object will store all checked records
+    var checked = {};
+
+    function onLoad() {
+        // handle the click event of all checkboxes
+        $(this).delegate(":checkbox", "click", function () {
+            // store the checked state of the record (this.value is set to the value of the  OrderID property of the data item)
+            checked[this.value] = this.checked;
+        });
+    }
+
+    function onRowDataBound(e) {
+        if (checked[e.dataItem.i]) {
+            // if the record was checked update the checked state of the checkbox
+            $(e.row).find(":checkbox").attr("checked", true);
+        }
+    }
+</script>*@
+
+
+<div class="alert alert-block" id="Notification" style="display: none" >
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Error!</h4>
+    No data to allocate!
+</div>
+
+
+@using (Html.BeginForm("hubAllocation", "HubAllocation", FormMethod.Post, new { name = "frm", id = "frm" }))
 {
-    <fieldset>
-        <legend>
-            Metric: @unitPreference
-        </legend>
-    </fieldset>
+    
+       
+      <h5 align="right"> Metric: @unitPreference </h5>
+       
+    
     <div  class="k-content">
         <table  id="kGrid" >
             

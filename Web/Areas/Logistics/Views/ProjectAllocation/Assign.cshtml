@@ -1,8 +1,16 @@
-﻿@model IList<Cats.Models.RequisitionViewModel>
+﻿@using Cats.Services.Security
+@model IList<Cats.Models.RequisitionViewModel>
 @{
     ViewBag.Title = "PC/SI Assignment";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
+}
+
 <script>
     $(document).ready(function () {
 
@@ -96,7 +104,7 @@
     
     
     
-    
+    <h5 align="right"> Metric: @unitPreference </h5>
     <div class="form-horizontal well">
        
         <div class="row">

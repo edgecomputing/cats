@@ -1,4 +1,5 @@
-﻿@model IList<Cats.Models.RequisitionViewModel>
+﻿@using Cats.Services.Security
+@model IList<Cats.Models.RequisitionViewModel>
 
 @{
     ViewBag.Title = "Hub Allocated Requesitions";
@@ -9,6 +10,12 @@
 @section LeftBar
 {
     @Html.Partial("_AllocationLeftBar")
+}
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
 
 <fieldset>
@@ -43,6 +50,7 @@
     });
  
 </script>
+<h5 align="right"> Metric: @unitPreference </h5>
 @using (Html.BeginForm("ProjectCodeAllocation", "ProjectAllocation", FormMethod.Post, Model))
 {
     <div  class="k-content">
