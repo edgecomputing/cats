@@ -10,7 +10,22 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
-
+    
+    <script>
+        function message() {
+            var theForm = document.forms['frmHub'];
+            
+            var objOne = document.getElementById("PCCode");
+            if (objOne.selectedIndex == 0) {
+                alert("hhh");
+                return false;
+            }
+            else {
+                theForm.submit();
+                return true;
+            }
+        }
+    </script>
 <script>
     $(document).ready(function () {
 

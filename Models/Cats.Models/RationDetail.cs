@@ -12,6 +12,6 @@ namespace Cats.Models
         public int CommodityTypeID { get; set; }
         public decimal Rate { get; set; }
 
-        public virtual Ration Ration { get; set; }
+       
     }
 }

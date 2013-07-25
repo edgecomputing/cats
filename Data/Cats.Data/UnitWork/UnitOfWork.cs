@@ -394,8 +394,25 @@ namespace Cats.Data.UnitWork
 
             get { return this.applicationSettingRepository ?? (this.applicationSettingRepository = new GenericRepository<ApplicationSetting>(_context)); }
 
-        }    
+        }
+
+
+        private IGenericRepository<Ration> rationRepository;
+
+        public IGenericRepository<Ration> RationRepository
+        {
+
+            get { return this.rationRepository ?? (this.rationRepository = new GenericRepository<Ration>(_context)); }
+
+        }
+
+
+
+      
       //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+
+
+
       
     }
 }

@@ -21,7 +21,12 @@
         width:150px;
     }
 </style> 
-    <form action="details" class="sidebarForm" method="post">
+    <div class="sidebarForm">
+
+ 
+    @using (Html.BeginForm("details", "RFQ", FormMethod.Post))
+    {
+
 
         <div class="control-group">
             <label class="control-label">Bid</label>
@@ -40,7 +45,8 @@
         
         
         <input type="submit" value="Select" class="btn btn-primary"/>
-</form>
+    }
+           </div>
       <!-- -->
 }
 

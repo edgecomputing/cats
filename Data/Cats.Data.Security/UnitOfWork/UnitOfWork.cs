@@ -25,6 +25,8 @@ namespace Cats.Data.Security
         #region UnitOfWork public properties
         private IGenericRepository<UserAccount> userRepo;
         private IGenericRepository<UserInfo> userInfoRepo;
+        private IGenericRepository<UserProfile> userProfileRepo;
+        private IGenericRepository<UserPreference> userPreferenceRepo;
 
         public IGenericRepository<UserAccount> UserRepository
         {
@@ -35,6 +37,16 @@ namespace Cats.Data.Security
         public IGenericRepository<UserInfo> UserInfoRepository
         {
             get { return userInfoRepo ?? (this.userInfoRepo = new GenericRepository<UserInfo>(_context)); }
+        }
+
+        public IGenericRepository<UserProfile> UserProfileRepository
+        {
+            get { return userProfileRepo ?? (this.userProfileRepo = new GenericRepository<UserProfile>(_context)); }
+        }
+
+        public IGenericRepository<UserPreference> UserPreferenceRepository
+        {
+            get { return userPreferenceRepo ?? (this.userPreferenceRepo = new GenericRepository<UserPreference>(_context)); }
         }
     
         #endregion

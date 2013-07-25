@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.Procurement;
 using System.Web.Mvc;
-
+using Cats.Helpers;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Procurement.Models;
@@ -186,8 +186,23 @@ namespace Cats.Areas.Procurement.Controllers
                      // POST: /Procurement/Default1/Edit/5
 
                      [HttpPost]
-                     public ActionResult Edit(Transporter transporter)
+               public ActionResult Edit(Transporter transporter, string strExperienceFrom, string strExperienceTo)
                      {
+                         DateTime ExperienceFrom;
+                         DateTime ExperienceTo;
+
+                         try
+                         {
+                             ExperienceFrom = DateTime.Parse(strExperienceFrom);
+                             ExperienceTo = DateTime.Parse(strExperienceTo);
+                             //OpeningDate = DateTime.Parse(Opening);
+                         }
+                         catch (Exception)
+                         {
+                             getGregorianDate EthData = new getGregorianDate();
+                             ExperienceFrom = EthData.ReturnGregorianDate(strExperienceFrom);
+                             ExperienceTo = EthData.ReturnGregorianDate(strExperienceTo);
+                         }
                          if (ModelState.IsValid)
                          {
                              if (transporter.TransporterID == 0)
@@ -196,6 +211,8 @@ namespace Cats.Areas.Procurement.Controllers
                              }
                              else
                              {
+                                 transporter.ExperienceFrom = ExperienceFrom;
+                                 transporter.ExperienceTo = ExperienceTo;
                                  transportService.EditTransporter(transporter);
                              }
                              return RedirectToAction("Index");

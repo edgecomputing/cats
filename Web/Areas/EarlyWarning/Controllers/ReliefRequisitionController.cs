@@ -87,7 +87,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewRequisiton(List<ReliefRequisitionNew.ReliefRequisitionNewInput> input)
+        public ActionResult NewRequisiton(List<DataFromGrid> input)
         {
             var requId = 0;
             if (ModelState.IsValid)
@@ -270,14 +270,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var requisition = _reliefRequisitionService.FindById(requisitionid);
             requisition.Status = (int)ReliefRequisitionStatus.Approved;
-            _reliefRequisitionService.Save();
+            _reliefRequisitionService.EditReliefRequisition(requisition);
             return RedirectToAction("Index", "ReliefRequisition");
         }
 
         public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request)
         {
-
-            var requests = _reliefRequisitionService.GetAllReliefRequisition();
+            
+            
+               var requests = _reliefRequisitionService.GetAllReliefRequisition();
+        
             var requestViewModels = (from dtl in requests select BindReliefRequisitionViewModel(dtl));
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }

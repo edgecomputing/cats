@@ -165,13 +165,24 @@ namespace Cats.Areas.Logistics.Controllers
 
 
             bool isLastAssignment = false;
+            var pCode =-1;
+            var siCode=-1;
 
             if (Remaining < PCodeqty + SICodeqty)
                 return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
 
             var requisitionId = requisitionViewModel.RequisitionId;
-            var pCode = int.Parse(form["PCCode"].ToString(CultureInfo.InvariantCulture));
-            var siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
+
+            try
+            {
+                pCode = int.Parse(form["PCCode"].ToString(CultureInfo.InvariantCulture));
+                siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
+            }
+            catch 
+            {
+                return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
+            }
+           
             
             var hubAllocation = _hubAllocationService.GetAllocatedHubByRequisitionNo(requisitionId);
            
