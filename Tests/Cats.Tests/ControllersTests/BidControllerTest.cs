@@ -95,7 +95,6 @@ namespace Cats.Tests.ControllersTests
             }
             catch (Exception e)
             {
-
                 Assert.Fail(e.Message);
             }
         }
