@@ -591,6 +591,8 @@
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
+<<<<<<< HEAD
+=======
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
@@ -598,6 +600,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\_TransportOrderLeftBar.cshtml" />
+>>>>>>> f342fbb94b00d6f2754aa0c3bc3215bf14bafa5c
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
