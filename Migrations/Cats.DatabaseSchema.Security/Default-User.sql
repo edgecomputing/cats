@@ -3,10 +3,16 @@
 	WARNING: This script will delete all user accounts
 */
 
+Delete UserProfile 
+go
+
+Delete UserPreference
+go
 DELETE UserAccount
+
 GO
 
- DBCC CHECKIDENT('UserAccount', RESEED)
+ DBCC CHECKIDENT('UserAccount', RESEED,0)
 
 
 GO

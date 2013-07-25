@@ -104,6 +104,7 @@ namespace Cats.Services.Security
 
         public bool Authenticate(string userName, string password)
         {
+           
             UserInfo user = null;
 
             // Check if the provided user is found in the database. If not tell the user that the user account provided
