@@ -58,7 +58,13 @@ namespace Cats.Tests.ControllersTests
                                                 ConsignerName = "Mr y",
                                                 ConsignerDate=DateTime.Today,
                                                 OrderDate=DateTime.Today,
-                                                OrderExpiryDate=DateTime.Today
+                                                OrderExpiryDate=DateTime.Today,
+                                                Transporter=new Transporter
+                                                                {
+                                                                    TransporterID=1,
+                                                                     Name="Trans"
+                                                                }
+                                                
                                             }
                                     };
             var mockTransportOrderService = new Mock<ITransportOrderService>();
@@ -94,7 +100,7 @@ namespace Cats.Tests.ControllersTests
             Assert.AreEqual(1, ((IEnumerable<TransportRequisitionSelect>)result.Model).Count());
         }
         [Test]
-        public void Should_Generate_Transport_Order_For_Selected_Transport_Requisition()
+        public void ShouldGenerateTransportOrderForSelectedTransportRequisition()
         {
             //Act
              var requisitions = new List<int>()
@@ -103,9 +109,10 @@ namespace Cats.Tests.ControllersTests
                                    };
           
             _transportOrderController.CreateTransportOrder(requisitions);
-            var result = _transportOrderController.Index();
+            var request =new Kendo.Mvc.UI.DataSourceRequest();
+            var result = _transportOrderController.TransportOrder_Read(request);
             //Assert
-            Assert.IsInstanceOf<List<TransportOrder>>(result.Model);
+            Assert.IsInstanceOf<JsonResult>(result);
         }
         #endregion
     }
