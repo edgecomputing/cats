@@ -620,6 +620,7 @@
     <Content Include="Content\site.js" />
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\js\jquery.mb.browser.js" />
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="Scripts\kendo.web.min.js" />
     <Content Include="Areas\Procurement\Views\Web.config" />

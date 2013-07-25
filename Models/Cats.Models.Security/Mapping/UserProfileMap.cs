@@ -8,10 +8,10 @@ namespace Cats.Models.Security.Mapping
         public UserProfileMap()
         {
             // Primary Key
-            this.HasKey(t => t.UserAccountId);
+            this.HasKey(t => t.UserProfileId);
 
             // Properties
-            this.Property(t => t.UserAccountId)
+            this.Property(t => t.UserProfileId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             this.Property(t => t.FirstName)
@@ -31,7 +31,7 @@ namespace Cats.Models.Security.Mapping
 
             // Table & Column Mappings
             this.ToTable("UserProfile");
-            this.Property(t => t.UserAccountId).HasColumnName("UserAccountId");
+            this.Property(t => t.UserProfileId).HasColumnName("UserProfileId");
             this.Property(t => t.FirstName).HasColumnName("FirstName");
             this.Property(t => t.LastName).HasColumnName("LastName");
             this.Property(t => t.GrandFatherName).HasColumnName("GrandFatherName");
