@@ -3,7 +3,6 @@
     ViewBag.Title = "PC/SI Assignment";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
 <script>
     $(document).ready(function () {
 
@@ -199,7 +198,7 @@
 }
 
 <script  >
-    (document).ready(function () {
+    $(document).ready(function () {
         // storing selected value to hidden field
         $("#SI").val($("#ShippingInstructionID").val());
         $("#PI").val($("#ProjectCodeID").val());
@@ -207,14 +206,7 @@
         $("#SIQty").val($("#SICodeqty").val());
         $("#HubId").val($("#hub").val());
 
-       
-       
-
-
-
-        }
-        
-
+    
     })
 
 
