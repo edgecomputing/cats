@@ -1,4 +1,5 @@
-﻿
+﻿@using Cats.Helpers
+
 @{
     ViewBag.Title = "Index";
     ViewBag.ViewWidth = "Wide";
@@ -7,7 +8,7 @@
 
 
 <div class=" span12 ">
-    <h3>Welcome to CATS</h3>
+    <h4>Welcome @Html.GetUserName()</h4>
 </div>
 <div class="">
     @Html.Partial("_Dashboard")
