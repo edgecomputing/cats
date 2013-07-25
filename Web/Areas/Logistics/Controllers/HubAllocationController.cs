@@ -8,6 +8,7 @@ using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
@@ -25,6 +26,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;
         private readonly IHubAllocationService _hubAllocationService;
+        
         public HubAllocationController(
            IReliefRequisitionDetailService reliefRequisitionDetailService,
            IHubService hubService,
@@ -50,6 +52,9 @@ namespace Cats.Areas.Logistics.Controllers
         
         public JsonResult GetRequisitionsForAssignment()
         {
+            var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+            var unitPreference = user.Profile.PreferedWeightMeasurment.ToString();
+
             var reliefRequisitions = _reliefRequisitionService.Get(r=>r.Status==(int)ReliefRequisitionStatus.Approved, null);
             var result = reliefRequisitions.ToList().Select(item => new AssignHubViewModel
                                                                         {
@@ -60,7 +65,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                             RequisitionId = item.RequisitionID, 
                                                                             Beneficiaries = item.ReliefRequisitionDetails.Sum(b=>b.BenficiaryNo),
                                                                             Amount = item.ReliefRequisitionDetails.Sum(a=>a.Amount),
-                                                                            Selected = true
+                                                                            Selected = true,
+                                                                            Unit = unitPreference
                                                                         }).ToList();
            
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -87,7 +93,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
 
-            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(2);
+            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo((int)ReliefRequisitionStatus.Approved);
             if (reliefRequisitions != null)
             {
                 var total = reliefRequisitions.Count();

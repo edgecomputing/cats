@@ -17,7 +17,7 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
+    <div class="form-horizontal well">
         <fieldset>
             @Html.HiddenFor(model => model.RequisitionID)
             @Html.HiddenFor(model => model.Status)
@@ -85,7 +85,8 @@
 
           <div class="control-group">
             <div class="controls">
-                 <input type="submit" value="Save Changes" class="btn btn-success" />
+                <input type="submit" value="Save Changes" class="btn btn-success" />
+                <a class="btn btn-success" href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning"})">Cancel</a>
             </div>
             </div>
         </fieldset>

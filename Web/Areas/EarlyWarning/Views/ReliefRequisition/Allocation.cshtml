@@ -86,10 +86,19 @@
 
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
+                                   @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+                                     { 
+                                        @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
+        
+                                     }
+                                    
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID })
+                                    @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+                                     {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
+        
+                                     }
+                                   
                                 </td>
                                    
                             </tr>
@@ -97,21 +106,6 @@
                     </td>
                 </tr>
             </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </div>
     </div>

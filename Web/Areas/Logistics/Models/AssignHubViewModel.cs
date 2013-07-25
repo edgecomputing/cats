@@ -23,7 +23,7 @@ namespace Cats.Areas.Logistics.Models
         public decimal Fdp { get; set; }
 
         public bool Selected { get; set; }
-
+        public string Unit { get; set; }
 
     }
 }
