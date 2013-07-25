@@ -14,7 +14,7 @@
     @using (Html.BeginForm())
     {
          @Html.ValidationSummary(true,"unsuccessful")
-        <div class="form-horizontal">
+        <div class="form-horizontal well">
         <fieldset>
             <legend> Edit Bid </legend>
             @Html.HiddenFor(model=>model.BidID)
@@ -84,7 +84,8 @@
             
             <div class="control-group">
             <div class="controls">
-                 <input type="submit" value="Save Bid" class="btn btn-success" />
+                <input type="submit" value="Save Changes" class="btn btn-success" />
+                <a class="btn btn-success" href="@Url.Action("Index", "Bid", new { Area = "Procurement"})">Cancel</a>
             </div>
             </div>
                

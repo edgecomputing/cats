@@ -41,10 +41,6 @@ $(document).ready(function () {
         $("#no").click(function () {
             wnd.close();
         });
-        //var agree = confirm("Are you sure you want to approve this bid?");
-        //var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        //if (agree)
-        //    window.location = "bid/ApproveBid/" + dataItem.BidID;
     }
 </script>
 <div class="well">
@@ -103,7 +99,7 @@ $(document).ready(function () {
                         .Columns(columns =>
                         {
                             //columns.Bound(b => b.BidDetailID).Title("ID").Width(56);
-                            columns.Bound(b => b.Region);
+                            columns.Bound(b => b.Region).HtmlAttributes(new { style = "background-color:lightgray" }); 
                             columns.Bound(b => b.AmountForReliefProgram).Title("Relief");
                             columns.Bound(b => b.AmountForPSNPProgram).Title("PSNP");
                             columns.Bound(b => b.BidDocumentPrice);

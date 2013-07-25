@@ -68,16 +68,12 @@ $(document).ready(function () {
                 @<text>
 <a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
 </text>);
-            columns.Bound(p => p.StartDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.StartDate).Format("{0:MM/dd/yyyy}") ;
             columns.Bound(p => p.EndDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.OpeningDate).Format("{0:MM/dd/yyyy}");
-            columns.Bound(p => p.Status).Title("Status");
+            columns.Bound(p => p.Status).Title("Status") ;
             columns.Command(p => p.Custom("Edit").Click("bidEdit"));
-                //{
-                //    p.Custom("Edit").Click("bidEdit");
-                //    p.Custom("Approve").Click("onApprove");
-                //});
-
+              
         })
     .Pageable()
     .Sortable()
@@ -102,7 +98,7 @@ $(document).ready(function () {
                         .Columns(columns =>
                         {
                             //columns.Bound(b => b.BidDetailID).Title("ID").Width(56);
-                            columns.Bound(b => b.Region);
+                            columns.Bound(b => b.Region).HtmlAttributes(new { style = "background-color:lightgray" }); 
                             columns.Bound(b => b.AmountForReliefProgram).Title("Relief");
                             columns.Bound(b => b.AmountForPSNPProgram).Title("PSNP");
                             columns.Bound(b => b.BidDocumentPrice);
