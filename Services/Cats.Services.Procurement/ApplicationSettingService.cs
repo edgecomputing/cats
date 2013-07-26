@@ -64,5 +64,18 @@ namespace Cats.Services.Procurement
             return "";
 
         }
+        public void SetValue(string name, string value)
+        {
+            List<ApplicationSetting> ret = FindBy(t => t.SettingName == name);
+            if (ret.Count == 1)
+            {
+                ret[0].SettingValue = value;
+                UpdateApplicationSetting(ret[0]);
+                return;
+            }
+            ApplicationSetting apset = new ApplicationSetting { SettingName = name, SettingValue = value };
+            AddApplicationSetting(apset);
+
+        }
     }
 }
