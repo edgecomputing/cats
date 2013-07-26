@@ -128,9 +128,12 @@
                     @Html.ValidationMessageFor(model => model.TransporterSignedDate)
                 </div>
             </div>
-            <p class="controls">
-                <input type="submit" value="Save" />
-            </p>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" value="Save Changes" class="btn btn-success"/>
+                    <a class="btn btn-success" href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement"})">Cancel</a>
+                </div>
+            </div>
         </fieldset>
 
     </div>

@@ -145,12 +145,17 @@ namespace Cats.Areas.Procurement.Controllers
 
         //[HttpPost]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(Bid bid)
+        public ActionResult Create(Bid bid,string start,string open,string end)
         {
 
-            //DateTime startingdate=DateTime.Now;
-            //DateTime EndDate= DateTime.Now;
-            //DateTime OpeningDate=DateTime.Now;
+            DateTime startingdate = DateTime.Now;
+            DateTime EndDate = DateTime.Now;
+            DateTime OpeningDate = DateTime.Now;
+
+            startingdate = GetGregorianDate(start);
+            EndDate = GetGregorianDate(start);
+            OpeningDate = GetGregorianDate(start);
+            
             //try
             //{
             //    startingdate = DateTime.Parse(start);
@@ -165,9 +170,9 @@ namespace Cats.Areas.Procurement.Controllers
             //    OpeningDate = strEth.ReturnGregorianDate(Opening);
             //    //throw;
             //}
-            //bid.StartDate = startingdate.Date;
-            //bid.EndDate = EndDate.Date;
-            //bid.OpeningDate = OpeningDate.Date;
+            bid.StartDate = startingdate.Date;
+            bid.EndDate = EndDate.Date;
+            bid.OpeningDate = OpeningDate.Date;
 
             if (ModelState.IsValid)
             {

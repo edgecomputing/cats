@@ -14,7 +14,7 @@
     {
          @Html.ValidationSummary(true)
        
-        <div class="form-horizontal">
+        <div class="form-horizontal well">
         <fieldset>
             <legend> New Bid </legend>
             <div class="control-group ">
@@ -40,10 +40,11 @@
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.StartDate, "Start Date")
+
                 </div>
                 <div class="controls">
-                    @*<input class="cats-datepicker" type="text" id="start" name="start" value="@Model.StartDate" />*@
-                    @Html.TextBoxFor(model=>model.StartDate)
+                    <input class="cats-datepicker" type="text" id="start" name="start" />
+                    @Html.HiddenFor(model=>model.StartDate)
                     @Html.ValidationMessageFor(model => model.StartDate)
                    
                 </div>
@@ -54,8 +55,8 @@
                     @Html.LabelFor(model => model.EndDate, "End Date")
                 </div>
                 <div class="controls">
-                    @*<input class="cats-datepicker" type="text" id="End" name="End" value="@Model.EndDate"/>*@
-                    @Html.TextBoxFor(model=>model.EndDate)
+                    <input class="cats-datepicker" type="text" id="end" name="end"/>
+                    @Html.HiddenFor(model=>model.EndDate)
                     @Html.ValidationMessageFor(model => model.EndDate)
                     
                 </div>
@@ -66,8 +67,8 @@
                     @Html.LabelFor(model => model.EndDate, "Opening Date")
                 </div>
                 <div class="controls">
-                     @*<input class="cats-datepicker" type="text" id="Opening" name="Opening" value="@Model.OpeningDate"/>*@
-                    @Html.TextBoxFor(model=>model.OpeningDate)
+                     <input class="cats-datepicker" type="text" id="Open" name="Open" />
+                    @Html.HiddenFor(model=>model.OpeningDate)
                     @Html.ValidationMessageFor(model => model.OpeningDate)
                     
                 </div>

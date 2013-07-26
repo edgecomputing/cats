@@ -14,7 +14,7 @@
     @using (Html.BeginForm())
     {
          @Html.ValidationSummary(true,"unsuccessful")
-        <div class="form-horizontal">
+        <div class="form-horizontal well">
         <fieldset>
             <legend> Edit Bid </legend>
             @Html.HiddenFor(model=>model.BidID)
@@ -41,8 +41,8 @@
                     @Html.LabelFor(model => model.StartDate, "Start Date")
                 </div>
                 <div class="controls">
-                    @*<input class="cats-datepicker" type="text" id="start" name="start" />*@
-                    @Html.TextBoxFor(model=>model.StartDate)
+                    <input class="cats-datepicker" type="text" id="start" name="start" value="@Model.StartDate"/>
+                    @Html.HiddenFor(model=>model.StartDate)
                     @Html.ValidationMessageFor(model => model.StartDate)
 
                 </div>
@@ -54,8 +54,8 @@
                 </div>
                
                 <div class="controls">
-                     @*<input class="cats-datepicker" type="text" id="end" name="end" />*@
-                    @Html.TextBoxFor(model=>model.EndDate)
+                     <input class="cats-datepicker" type="text" id="end" name="end" value="@Model.EndDate" />
+                    @Html.HiddenFor(model=>model.EndDate)
                     @Html.ValidationMessageFor(model => model.EndDate)
                 </div>
                 
@@ -66,8 +66,8 @@
                 </div>
                 
                 <div class="controls">
-                     @*<input class="cats-datepicker" type="text" id="open" name="open"/>*@
-                    @Html.TextBoxFor(model=>model.OpeningDate)
+                     <input class="cats-datepicker" type="text" id="open" name="open" value="@Model.OpeningDate"/>
+                    @Html.HiddenFor(model=>model.OpeningDate)
                     @Html.ValidationMessageFor(model => model.OpeningDate)
                 </div>
                
@@ -84,7 +84,8 @@
             
             <div class="control-group">
             <div class="controls">
-                 <input type="submit" value="Save Bid" class="btn btn-success" />
+                <input type="submit" value="Save Changes" class="btn btn-success" />
+                <a class="btn btn-success" href="@Url.Action("Index", "Bid", new { Area = "Procurement"})">Cancel</a>
             </div>
             </div>
                

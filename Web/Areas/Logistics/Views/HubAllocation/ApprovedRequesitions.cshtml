@@ -1,5 +1,12 @@
-﻿@model IList<Cats.Models.RequisitionViewModel>
+﻿@using Cats.Services.Security
+@model IList<Cats.Models.RequisitionViewModel>
 
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
+}
 @{
     ViewBag.Title = "ApprovedRequesitions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -54,42 +61,49 @@
 </script>
 @using (Html.BeginForm("hubAllocation","HubAllocation",FormMethod.Post,Model))
 {
+    <fieldset>
+        <legend>
+            Metric: @unitPreference
+        </legend>
+    </fieldset>
     <div  class="k-content">
         <table  id="kGrid" >
             
-        <thead>
-            <tr>
+            <thead>
+                
+                <tr>
                     
-                <th>
-                    @Html.Label("Select Request")
-                </th>
-                <th>
-                    @Html.Label("Commodity")
-                </th>
-                <th>
-                    @Html.Label("Region")
-                </th>
-                <th>
-                    @Html.Label("Zone")
-                </th>
+                    <th>
+                        @Html.Label("Select Request")
+                    </th>
+                    <th>
+                        @Html.Label("Commodity")
+                    </th>
+                    <th>
+                        @Html.Label("Region")
+                    </th>
+                    <th>
+                        @Html.Label("Zone")
+                    </th>
        
-                <th>
-                    @Html.Label("Requisition No")
-                </th>
+                    <th>
+                        @Html.Label("Requisition No")
+                    </th>
                    
        
-                <th>
-                    @Html.Label("Amount")
-                </th>
-                <th>
-                    @Html.Label("Beneficiaries")
-                </th>
-                <th>
-                    @Html.Label("Requisition ID")
-                </th>
+                    <th>
+                        @Html.Label("Amount")
+                    </th>
+                
+                    <th>
+                        @Html.Label("Beneficiaries")
+                    </th>
+                    <th>
+                        @Html.Label("Requisition ID")
+                    </th>
         
-            </tr>
-        </thead>
+                </tr>
+            </thead>
              <tbody>
             @for(int i = 0;i < Model.Count;i++)
 

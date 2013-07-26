@@ -14,10 +14,10 @@
     @Html.Partial("_RegionalRequestLeftBar")
 
 }
-<a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning" ,id=Model.RegionalRequestID})"><i class="icon-chevron-left"></i>Back</a>
+ @*<a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning" ,id=Model.RegionalRequestID})"><i class="icon-chevron-left"></i>Back</a>*@
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
+    <div class="form-horizontal well">
         <fieldset>
             <legend></legend>
             <div class="control-group">
@@ -57,7 +57,7 @@
                     @Html.LabelFor(model => model.Year)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.Year)
+                    @Html.TextBoxFor(model => model.Year)
                     @Html.ValidationMessageFor(model => model.Year)
                 </div>
             </div>
@@ -66,7 +66,7 @@
                     @Html.LabelFor(model => model.ReferenceNumber)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.ReferenceNumber)
+                    @Html.TextBoxFor(model => model.ReferenceNumber)
                     @Html.ValidationMessageFor(model => model.ReferenceNumber)
                 </div>
             </div>
@@ -86,13 +86,15 @@
                     @Html.LabelFor(model => model.Remark)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.Remark)
+                    @Html.TextAreaFor(model => model.Remark)
                     @Html.ValidationMessageFor(model => model.Remark)
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
-                <input type="submit" value="Create" class="btn btn-success"/></div>
+                    <input type="submit" value="Save Changes" class="btn btn-success"/>
+                    <a class="btn btn-success" href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning",id=Model.RegionalRequestID})">Cancel</a>
+                    </div>
             </div>
         </fieldset>
 

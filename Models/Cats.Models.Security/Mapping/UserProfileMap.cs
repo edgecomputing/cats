@@ -31,7 +31,7 @@ namespace Cats.Models.Security.Mapping
 
             // Table & Column Mappings
             this.ToTable("UserProfile");
-            this.Property(t => t.UserAccountId).HasColumnName("UserAccountId");
+            this.Property(t => t.UserAccountId).HasColumnName("UserProfileId");
             this.Property(t => t.FirstName).HasColumnName("FirstName");
             this.Property(t => t.LastName).HasColumnName("LastName");
             this.Property(t => t.GrandFatherName).HasColumnName("GrandFatherName");
