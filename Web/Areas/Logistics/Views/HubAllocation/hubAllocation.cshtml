@@ -227,3 +227,17 @@
 </script>
 
     
+<script type="text/javascript">
+    function message() {
+        var theForm = document.forms['frmHub'];
+        if (!theForm) theForm = document.form1;
+        var objOne = document.getElementById("HubId");
+        if (objOne.selectedIndex == 0) {
+            alert("hhh");
+            return false;
+        }
+        else {
+            theForm.submit();
+        }
+    }
+    </script>
