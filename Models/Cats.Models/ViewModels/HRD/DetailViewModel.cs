@@ -7,13 +7,13 @@ namespace Cats.Models.ViewModels.HRD
 {
     public class DetailViewModel
     {
-        private HumanitarianRequirementDetail _detail;
+        private HRDDetail _detail;
         public DetailViewModel()
         {
-            _detail = new HumanitarianRequirementDetail();
+            _detail = new HRDDetail();
         }
 
-        public DetailViewModel(HumanitarianRequirementDetail detail)
+        public DetailViewModel(HRDDetail detail)
         {
             _detail = detail;
         }
@@ -24,7 +24,8 @@ namespace Cats.Models.ViewModels.HRD
         public string Woreda { get { return _detail.Woreda.Name; } }
         public string Zone { get { return _detail.Woreda.Name; } }
         public string Region { get { return _detail.Woreda.AdminUnit2.Name; } }
-        public string Month { get; set; }
+        public int StartingMonth { get { return _detail.StartingMonth; } set { _detail.StartingMonth = value; } }
+
         public int Cereal { get; set; }
         public int Pulse { get; set; }
         public int CSB { get; set; }

@@ -30,10 +30,10 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-             @Html.LabelFor(m => m.HumanitarianRequirement.Ration.Name, "Ration Name")
+             @Html.LabelFor(m => m.Hrd.Ration.RationID, "Ration")
         </div>
         <div class="controls">
-            @Html.TextBoxFor(m => m.HumanitarianRequirement.Ration.Name)
+            @Html.TextBoxFor(m => m.Hrd.Ration.RationID)
         </div>
         
     </div>
@@ -50,6 +50,7 @@
             <th rowspan="2">Woreda</th>
             <th rowspan="2">Beneficiaries</th>
             <th rowspan="2">Duration of Assistance</th>
+             <th rowspan="2">Starting Month</th>
             <th colspan="4"><b>Food Requirement in Mt </b></th>
 
         </tr>
@@ -67,6 +68,7 @@
                 <td>@detail.Woreda</td>
                 <td>@detail.NumberOfBeneficiaries</td>
                 <td>@detail.DurationOfAssistance</td>
+                <td>@detail.StartingMonth</td>
                 <td>@detail.Cereal</td>
                 <td>@detail.Pulse</td>
                 <td>@detail.CSB</td>

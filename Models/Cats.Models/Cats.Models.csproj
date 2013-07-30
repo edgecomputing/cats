@@ -64,8 +64,8 @@
     <Compile Include="FDP.cs" />
     <Compile Include="Hub.cs" />
     <Compile Include="HubAllocation.cs" />
-    <Compile Include="HumanitarianRequirement.cs" />
-    <Compile Include="HumanitarianRequirementDetail.cs" />
+    <Compile Include="HRD.cs" />
+    <Compile Include="HRDDetail.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\ApplicationSettingMap.cs" />

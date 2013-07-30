@@ -27,14 +27,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Create()
         {
-            var humanitarianRequirement = new HumanitarianRequirement();
-            humanitarianRequirement.HumanitarianRequirementDetails = new List<HumanitarianRequirementDetail>();
+            var humanitarianRequirement = new HRD();
+            humanitarianRequirement.HRDDetails = new List<HRDDetail>();
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
             foreach (var woreda in woredas)
             {
-                var detail = new HumanitarianRequirementDetail();
+                var detail = new HRDDetail();
                 detail.Woreda = woreda;
-                humanitarianRequirement.HumanitarianRequirementDetails.Add(detail);
+                humanitarianRequirement.HRDDetails.Add(detail);
             }
 
             var viewModel = new CreateHumanitarianRequirementViewModel(humanitarianRequirement);
@@ -45,7 +45,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Create(CreateHumanitarianRequirementViewModel viewModel)
         {
-            var requirement = viewModel.HumanitarianRequirement;
+            var requirement = viewModel.Hrd;
             // _hrdService.Add(requirement);
             return RedirectToAction("Index");
         }

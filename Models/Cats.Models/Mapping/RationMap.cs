@@ -16,11 +16,23 @@ namespace Cats.Models.Mapping
             this.HasKey(t => t.RationID);
 
             // Properties
+            this.Property(t => t.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
             // Table & Column Mappings
-            this.ToTable("Ration", "Logistics");
+            this.ToTable("Ration");
             this.Property(t => t.RationID).HasColumnName("RationID");
-            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
-            this.Property(t => t.Amount).HasColumnName("Amount");
+            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
+            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+            //this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
+
+            // Relationships
+            //this.HasOptional(t => t.UserProfile)
+               // .WithMany(t => t.Rations)
+               // .HasForeignKey(d => d.CreatedBy);
+
         }
     }
 }

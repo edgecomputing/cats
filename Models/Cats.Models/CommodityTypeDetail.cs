@@ -12,7 +12,7 @@ namespace Cats.Models
         public int CommodityTypeID { get; set; }
         public long Amount { get; set; }
 
-        public virtual HumanitarianRequirementDetail HumanitarianRequirementDetail { get; set; }
+        public virtual HRDDetail HrdDetail { get; set; }
         public virtual CommodityType CommodityType { get; set; }
 
     }
