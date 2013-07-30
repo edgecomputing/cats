@@ -86,50 +86,50 @@ namespace Cats.Tests.ControllersTests
 
         #region Tests
 
-        [Test]
-        public void CanReadRation()
-        {
-            //Act
-            var request = new DataSourceRequest();
-            var result = _rationController.Ration_Read(request);
+        //[Test]
+        //public void CanReadRation()
+        //{
+        //    //Act
+        //    var request = new DataSourceRequest();
+        //    var result = _rationController.Ration_Read(request);
 
-            //Assert
+        //    //Assert
 
-            Assert.IsInstanceOf<JsonResult>(result);
+        //    Assert.IsInstanceOf<JsonResult>(result);
 
-        }
+        //}
 
-        [Test]
-        public void CanAddRation()
-        {
-            //Act
-            var request = new DataSourceRequest();
-            var rationViewModel = new RationViewModel() { Amount = 11, CommodityID = 5, Commodity = "Commodity 5", RationID = 5 };
-            _rationController.Ration_Create(request, rationViewModel);
-            var result = _rationController.Ration_Read(request);
+        //[Test]
+        //public void CanAddRation()
+        //{
+        //    //Act
+        //    var request = new DataSourceRequest();
+        //    var rationViewModel = new RationViewModel() { Amount = 11, CommodityID = 5, Commodity = "Commodity 5", RationID = 5 };
+        //    _rationController.Ration_Create(request, rationViewModel);
+        //    var result = _rationController.Ration_Read(request);
 
-            //Assert
+        //    //Assert
 
 
-            Assert.AreEqual(5, ((DataSourceResult)((JsonResult)result).Data).Total);
-        }
+        //    Assert.AreEqual(5, ((DataSourceResult)((JsonResult)result).Data).Total);
+        //}
 
-        [Test]
-        public void CanUpdateRation()
-        {
-            //Act
-            var request = new DataSourceRequest();
-            var rationViewModel = new RationViewModel() { Amount = 32, CommodityID = 4, Commodity = "Commodity 4", RationID = 4 };
-            _rationController.Ration_Update(request, rationViewModel);
-            var result = _rationController.Ration_Read(request);
-            var data = ((JsonResult)result).Data;
-            var rationsResult =
-                (((DataSourceResult)data).Data).Cast<RationViewModel>();
-            var updatedRation = rationsResult.ToList().Find(t => t.RationID == 4);
-            //Assert
-            Assert.AreEqual(4, rationsResult.Count());
-            Assert.AreEqual(32, updatedRation.Amount);
-        }
+        //[Test]
+        //public void CanUpdateRation()
+        //{
+        //    //Act
+        //    var request = new DataSourceRequest();
+        //    var rationViewModel = new RationViewModel() { Amount = 32, CommodityID = 4, Commodity = "Commodity 4", RationID = 4 };
+        //    _rationController.Ration_Update(request, rationViewModel);
+        //    var result = _rationController.Ration_Read(request);
+        //    var data = ((JsonResult)result).Data;
+        //    var rationsResult =
+        //        (((DataSourceResult)data).Data).Cast<RationViewModel>();
+        //    var updatedRation = rationsResult.ToList().Find(t => t.RationID == 4);
+        //    //Assert
+        //    Assert.AreEqual(4, rationsResult.Count());
+        //    Assert.AreEqual(32, updatedRation.Amount);
+        //}
 
         [Test]
         public void CanDeleteRation()
