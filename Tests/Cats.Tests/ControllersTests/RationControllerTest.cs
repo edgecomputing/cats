@@ -86,18 +86,18 @@ namespace Cats.Tests.ControllersTests
 
         #region Tests
 
-        //[Test]
-        //public void CanReadRation()
-        //{
-        //    //Act
-        //    var request = new DataSourceRequest();
-        //    var result = _rationController.Ration_Read(request);
+        [Test]
+        public void CanReadRation()
+        {
+            //Act
+            var request = new DataSourceRequest();
+            var result = _rationController.Ration_Read(request);
 
-        //    //Assert
+            //Assert
 
-        //    Assert.IsInstanceOf<JsonResult>(result);
+            Assert.IsInstanceOf<JsonResult>(result);
 
-        //}
+        }
 
         //[Test]
         //public void CanAddRation()
@@ -131,22 +131,22 @@ namespace Cats.Tests.ControllersTests
         //    Assert.AreEqual(32, updatedRation.Amount);
         //}
 
-        [Test]
-        public void CanDeleteRation()
-        {
-            //Act
-            var request = new DataSourceRequest();
-            var rationViewModel = new RationViewModel() { Amount = 32, CommodityID = 4, Commodity = "Commodity 4", RationID = 4 };
-            _rationController.Ration_Destroy(request, rationViewModel);
-            var result = _rationController.Ration_Read(request);
-            var data = ((JsonResult)result).Data;
-            var rationsResult =
-                (((DataSourceResult)data).Data).Cast<RationViewModel>();
+        //[Test]
+        //public void CanDeleteRation()
+        //{
+        //    //Act
+        //    var request = new DataSourceRequest();
+        //    var rationViewModel = new RationViewModel() { Amount = 32, CommodityID = 4, Commodity = "Commodity 4", RationID = 4 };
+        //    _rationController.Ration_Destroy(request, rationViewModel);
+        //    var result = _rationController.Ration_Read(request);
+        //    var data = ((JsonResult)result).Data;
+        //    var rationsResult =
+        //        (((DataSourceResult)data).Data).Cast<RationViewModel>();
 
-            //Assert
-            Assert.AreEqual(3, rationsResult.Count());
+        //    //Assert
+        //    Assert.AreEqual(3, rationsResult.Count());
 
-        }
+        //}
         #endregion
     }
 }
