@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -208,6 +214,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ElmahErrorAttribute.cs" />
     <Compile Include="Helpers\EthiopianDate.cs" />
     <Compile Include="Helpers\getGregorianDate.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
