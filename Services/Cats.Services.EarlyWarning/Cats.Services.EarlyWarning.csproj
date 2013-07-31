@@ -63,6 +63,7 @@
     <Compile Include="IProgramService.cs" />
     <Compile Include="IProjectCodeAllocationService.cs" />
     <Compile Include="IProjectCodeService.cs" />
+    <Compile Include="IRationDetailService.cs" />
     <Compile Include="IRationService.cs" />
     <Compile Include="IRegionalRequestDetailService.cs" />
     <Compile Include="IRegionalRequestService.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="ProjectCodeAllocationService.cs" />
     <Compile Include="ProjectCodeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RationDetailService.cs" />
     <Compile Include="RationService.cs" />
     <Compile Include="RegionalRequestDetailService.cs" />
     <Compile Include="RegionalRequestService.cs" />

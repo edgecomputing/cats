@@ -12,18 +12,20 @@ namespace Cats.Models.Mapping
         public RationDetailMap()
         {
             // Primary Key
-            this.HasKey(t => t.RationDetailID);
+            this.HasKey(t => t.RationDetatilID);
 
             // Properties
             // Table & Column Mappings
             this.ToTable("RationDetail");
-            this.Property(t => t.RationDetailID).HasColumnName("RationDetailID");
+            this.Property(t => t.RationDetatilID).HasColumnName("RationDetailID");
             this.Property(t => t.RationID).HasColumnName("RationID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
-            this.Property(t => t.Rate).HasColumnName("Rate");
-            //this.Property(t => t.rowguid).HasColumnName("rowguid");
+            this.Property(t => t.Amount).HasColumnName("Amount");
 
             // Relationships
+            this.HasRequired(t => t.Commodity)
+                .WithMany(t => t.RationDetails)
+                .HasForeignKey(d => d.CommodityID);
             this.HasRequired(t => t.Ration)
                 .WithMany(t => t.RationDetails)
                 .HasForeignKey(d => d.RationID);

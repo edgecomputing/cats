@@ -429,11 +429,17 @@ namespace Cats.Data.UnitWork
             get { return this.hrdDetailRepository ?? (this.hrdDetailRepository = new GenericRepository<HRDDetail>(_context)); }
 
         }
+
+      
+
       
       //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
 
 
 
-      
+
+
+
+        
     }
 }

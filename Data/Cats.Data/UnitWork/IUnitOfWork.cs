@@ -59,7 +59,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
 
         IGenericRepository<Ration> RationRepository { get; }
-        IGenericRepository<RationDetail> RationDetailRepository { get; }
+        IGenericRepository<RationDetail> RationDetailRepository { get; } 
         IGenericRepository<HRD> HRDRepository { get; }
         IGenericRepository<HRDDetail> HRDDetailRepository { get; } 
              
