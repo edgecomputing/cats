@@ -8,7 +8,7 @@ using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
-    public interface ICommodityService
+    public interface ICommodityService:IDisposable
     {
 
         bool AddCommodity(Commodity commodity);
