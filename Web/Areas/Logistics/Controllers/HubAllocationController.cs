@@ -123,7 +123,7 @@ namespace Cats.Areas.Logistics.Controllers
             ICollection<RequisitionViewModel> listOfRequsitions = new List<RequisitionViewModel>();
             RequisitionViewModel[] _requisitionDetail;
 
-            if (requisitionDetail == null) return View();
+            if (requisitionDetail == null) return HttpNotFound();
 
            _requisitionDetail = requisitionDetail.ToArray();
 

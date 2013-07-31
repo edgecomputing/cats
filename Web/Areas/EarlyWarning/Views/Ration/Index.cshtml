@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Cats.Areas.EarlyWarning.Models.RationViewModel>
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Kendo.Mvc.UI
 
 @{
 
@@ -6,33 +7,55 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Index</h2>
-
-
-<table class="table table-bordered table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Commodity)
-        </th>
-        <th>
-           Ration
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Commodity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RationID }) |
-          
-        </td>
-    </tr>
+<h2 class="well">Ration</h2>
+@section LeftBar
+{
+    <ul class="nav nav-list">
+    <li class="nav-header">Rations</li>        
+   @* <li><a href="@Url.Action("NewRation","Ration",new{id=(int)ReliefRequisitionStatus.Draft})"><i class="icon-inbox"></i> Draft</a></li>
+   *@
+    
+</ul>
 }
 
-</table>
+@(Html.Kendo().Grid<RationViewModel>()
+      .Name("grid")
+      .Columns(columns =>
+                   {
+                       columns.Bound(p => p.CommodityID).Width(100).Visible(false);
+                       columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                       columns.Bound(p => p.RationID).Width(100).Visible(false);
+                       columns.Bound(p => p.Amount).Width(100);
+                       //columns.Command(command =>
+                       //                    {
+                       //                        //command.Destroy();
+                       //                        //command.Edit();
+                       //                    });
+                   })
+          .ToolBar(toolbar =>
+          {
+              toolbar.Save();
+              //toolbar.Create();
+          })
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable()
+      .Sortable()
+      .Scrollable()
+      .Selectable(t => t.Mode(GridSelectionMode.Single))
+      .Navigatable()
+      .HtmlAttributes(new { style = "height:430px;" })
+      .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(20)
+                                    .Model(
+    
+        model => {model.Id(p => p.RationID);
+                     model.Field(ration => ration.Commodity).Editable(false);
+        }
+    )
+                                    .Create(update => update.Action("Ration_Create", "Ration"))
+                                    .Read(read => read.Action("Ration_Read", "Ration"))
+                                    .Update(update => update.Action("Ration_Update", "Ration"))
+                                    .Destroy(update => update.Action("Ration_Destroy", "Ration"))
+      ))
+

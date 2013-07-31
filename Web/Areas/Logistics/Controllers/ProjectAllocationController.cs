@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
@@ -136,21 +137,52 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult SaveProjectAllocation(RequisitionViewModel requisitionViewModel, 
                                                     FormCollection form, 
                                                     string hub, 
+                                                    string datepicker,
                                                     int RequisitionId,
                                                     int Remaining=0, 
                                                     int PCodeqty=0, 
                                                     int SICodeqty=0)
         {
 
-            bool isLastAssignment = false;
+            DateTime date;
 
+
+            try
+            {
+                date = DateTime.Parse(datepicker);
+                //checkes if date is ethiopian date. if it is then it will enter to the catch and convert to gragorian for  persistance.
+            }
+            catch (Exception)
+            {
+
+                var strEth = new getGregorianDate();
+                date = strEth.ReturnGregorianDate(datepicker);
+            }
+
+
+
+
+
+
+            bool isLastAssignment = false;
+            var pCode =-1;
+            var siCode=-1;
 
             if (Remaining < PCodeqty + SICodeqty)
                 return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
 
             var requisitionId = requisitionViewModel.RequisitionId;
-            var pCode = int.Parse(form["PCCode"].ToString(CultureInfo.InvariantCulture));
-            var siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
+
+            try
+            {
+                pCode = int.Parse(form["PCCode"].ToString(CultureInfo.InvariantCulture));
+                siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
+            }
+            catch 
+            {
+                return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
+            }
+           
             
             var hubAllocation = _hubAllocationService.GetAllocatedHubByRequisitionNo(requisitionId);
            
@@ -158,7 +190,7 @@ namespace Cats.Areas.Logistics.Controllers
                                            {
 
                                                AllocatedBy = 1,
-                                               AlloccationDate = DateTime.Parse(form["datepicker"]),
+                                               AlloccationDate = date,
                                                Amount_FromProject = PCodeqty,
                                                ProjectCodeID = pCode,
                                                Amount_FromSI = SICodeqty,

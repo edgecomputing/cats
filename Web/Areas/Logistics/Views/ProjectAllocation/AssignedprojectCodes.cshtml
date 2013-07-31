@@ -1,8 +1,15 @@
-﻿@model IEnumerable<Cats.Models.ProjectCodeAllocation>
+﻿
+@using Cats.Services.Security
+@model IEnumerable<Cats.Models.ProjectCodeAllocation>
 
 @{
     ViewBag.Title = "AssignedprojectCodes";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
 
 <fieldset>
@@ -39,7 +46,7 @@
     });
  
 </script>
-
+<h5 align="right"> Metric: @unitPreference </h5>
 <div class="form-horizontal well">
     <div class="control-group">
         <div class=control-label>Allocated Amount</div>

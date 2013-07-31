@@ -1,8 +1,31 @@
-﻿@model IList<Cats.Models.RequisitionViewModel>
+﻿@using Cats.Services.Security
+@model IList<Cats.Models.RequisitionViewModel>
 @{
     ViewBag.Title = "PC/SI Assignment";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
+}
+    
+    <script>
+        function message() {
+            var theForm = document.forms['frmHub'];
+            
+            var objOne = document.getElementById("PCCode");
+            if (objOne.selectedIndex == 0) {
+                alert("hhh");
+                return false;
+            }
+            else {
+                theForm.submit();
+                return true;
+            }
+        }
+    </script>
 <script>
     $(document).ready(function () {
 
@@ -96,7 +119,7 @@
     
     
     
-    
+    <h5 align="right"> Metric: @unitPreference </h5>
     <div class="form-horizontal well">
        
         <div class="row">
@@ -210,4 +233,41 @@
     })
 
 
+</script>
+
+< <script type="text/javascript">
+      $(document).ready(function () {
+          //Dropdownlist Selectedchange event
+          var SItext;
+          var ProjectCodetext;
+          $('#ShippingInstructionID').change(function () {
+              // Get Dropdownlist seleted item text
+                SItext = $("#ShippingInstructionID option:selected").text();
+              alert(text);
+              // Get Dropdownlist selected item value
+              var sIvalue = $("#ShippingInstructionID").val();
+              alert(sIvalue);
+              
+
+             
+          })
+          
+          $('#ProjectCodeID').change(function () {
+              // Get Dropdownlist seleted item text
+               ProjectCodetext = $("#ProjectCodeID option:selected").text();
+              alert(text);
+              // Get Dropdownlist selected item value
+              var projectCodevalue = $("#ProjectCodeID").val();
+              alert(projectCodevalue);
+
+
+             
+          })
+          
+          if (SItext == "Select SI" && ProjectCodetext == "Selected Project code") {
+              alert("Please select Project code or SI ")
+              return false;
+          }
+          return true
+      });
 </script>

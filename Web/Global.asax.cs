@@ -20,6 +20,7 @@ namespace Cats
     {
         protected void Application_Start()
         {
+            GlobalConfiguration.Configuration.Filters.Add(new ElmahErrorAttribute());
             AreaRegistration.RegisterAllAreas();
 
             DependencyResolver.SetResolver(new NinjectDependencyResolver());
