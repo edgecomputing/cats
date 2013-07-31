@@ -1,21 +1,59 @@
 ﻿@using Kendo.Mvc.UI
 
 @{
-    ViewBag.Title = "Beneficiary numbers and duration of assistance ";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 <fieldset>
     <legend>
-        Beneficiary numbers and duration of assistance
-    </legend>
-</fieldset>  
-
-
-<fieldset>
-    <legend>
-        
+        Beneficiary numbers and duration of assisstance
     </legend>
 </fieldset>
 
-<div ></div>
+@(Html.Kendo().Grid<Cats.Models.NeedAssessment>()
+    .Name("NA").Columns(columns =>
+         {
+            columns.Bound(p => p.Zone).Width(100);
+            columns.Bound(p => p.District).Width(100);
+            columns.Bound(p => p.VPoorNoOfM).Width(100);
+            columns.Bound(p => p.VPoorNoOfB).Width(100);
+            columns.Bound(p => p.PoorNoOfM).Width(100);
+            columns.Bound(p => p.PoorNoOfB).Width(100);
+            columns.Bound(p => p.MiddleNoOfM).Width(100);
+            columns.Bound(p => p.MiddleNoOfB).Width(100);
+            columns.Bound(p => p.BOffNoOfM).Width(100);
+            columns.Bound(p => p.BOffNoOfB).Width(100);                                                            
+            columns.Command(command => command.Edit()).Width(200);
+            columns.Command(command => command.Destroy()).Width(200);
+
+          })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Pageable()
+      .Sortable()
+      .DataSource(datasource=>datasource.Ajax()
+      .Model(model => model.Id(p => p.NAId))
+      .Read(read => read.Action("Read", "NeedAssessment"))
+      .Update(update=>update.Action("Edit","NeedAssessment"))
+      .Create(create=>create.Action("Create","NeedAssessment"))
+      .Destroy(destroy=>destroy.Action("Delete","NeedAssessment"))
+      )
+      .ToolBar((toolbar=>toolbar.Create()))
+      
+      
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

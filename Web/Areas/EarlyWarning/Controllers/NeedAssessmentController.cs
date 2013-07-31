@@ -1,13 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Cats.Models;
 using System.Web.Mvc;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
+using Cats.Services.EarlyWarning;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class NeedAssessmentController : Controller
     {
+        //service declarations
+        private readonly INeedAssessmentService _needAssessment;
+
+        //service injection
+        public NeedAssessmentController(INeedAssessmentService needAssessment)
+        {
+            _needAssessment = needAssessment;
+        }
+
+
         //
         // GET: /EarlyWarning/NeedAssessment/
 
@@ -16,90 +26,58 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
-        //
-        // GET: /EarlyWarning/NeedAssessment/Details/5
-
-        public ActionResult Details(int id)
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            return View();
+            var needAssessment = _needAssessment.GetAllNeedAssessment();
+            return Json(needAssessment.ToDataSourceResult(request));
         }
-
         //
-        // GET: /EarlyWarning/NeedAssessment/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        }
+      
 
         //
         // POST: /EarlyWarning/NeedAssessment/Create
 
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, NeedAssessment needAssessment)
         {
-            try
+            if (ModelState.IsValid && needAssessment != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                _needAssessment.AddNeedAssessment(needAssessment);
+                
             }
-            catch
-            {
-                return View();
-            }
+           return Json(new[] { needAssessment }.ToDataSourceResult(request, ModelState));
         }
 
-        //
-        // GET: /EarlyWarning/NeedAssessment/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
+      
         // POST: /EarlyWarning/NeedAssessment/Edit/5
 
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit([DataSourceRequest] DataSourceRequest request, NeedAssessment needAssessment)
         {
-            try
+            if (ModelState.IsValid && needAssessment != null)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                _needAssessment.EditNeedAssessment(needAssessment);
+               
             }
-            catch
-            {
-                return View();
-            }
+            return Json(ModelState.ToDataSourceResult());
         }
 
-        //
-        // GET: /EarlyWarning/NeedAssessment/Delete/5
+        
+      
 
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+       
 
         //
         // POST: /EarlyWarning/NeedAssessment/Delete/5
 
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete([DataSourceRequest]  DataSourceRequest request, NeedAssessment needAssessment)
         {
-            try
+            if (ModelState.IsValid && needAssessment != null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                _needAssessment.DeleteNeedAssessment(needAssessment);
+               
             }
-            catch
-            {
-                return View();
-            }
+            return Json(ModelState.ToDataSourceResult());
         }
+
+      
     }
 }
