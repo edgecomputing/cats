@@ -70,7 +70,12 @@ namespace Cats.Services.EarlyWarning
 
         }
 
-
+        public IEnumerable<Commodity> Get(System.Linq.Expressions.
+           Expression<Func<Commodity, bool>> filter = null,
+           Func<IQueryable<Commodity>, IOrderedQueryable<Commodity>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.CommodityRepository.Get(filter, orderBy, includeProperties);
+        }
 
         public int GetCommoidtyId(string commodityName)
         {

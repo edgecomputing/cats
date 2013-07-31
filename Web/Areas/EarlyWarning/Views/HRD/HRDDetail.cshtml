@@ -20,7 +20,7 @@
 
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
-.Name("HrdDetail").Columns(columns =>
+.Name("HRD").Columns(columns =>
          {
             columns.Bound(p => p.Region).Width(10);
             columns.Bound(p => p.Zone);
@@ -29,9 +29,9 @@
             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
             columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
             columns.Bound(p => p.CSB);
-             columns.Bound(p => p.Pulse);
-             columns.Bound(p => p.Oil);
-             columns.Bound(p => p.Cereal);
+            columns.Bound(p => p.Pulse);
+            columns.Bound(p => p.Oil);
+            columns.Bound(p => p.Cereal);
              //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
              //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
 
@@ -46,7 +46,8 @@
       //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
        
       .Model(model=>model.Id(p=>p.HRDID))
-      //.Read(read => read.Action("BidDetail_Read", "HRD",new {id=Model.HRDID}))
+         // .Read(read => read.Action("HRDDetail_Read", "HRD", new{ id = Model.HRDID }))
+          .Read(read => read.Action("HRDDetail_Read", "HRD",new{id=Model.HRDID}))
       )
       
 )

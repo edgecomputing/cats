@@ -19,6 +19,11 @@ namespace Cats.Services.EarlyWarning
         List<Commodity> GetAllCommodity();
         List<Commodity> FindBy(Expression<Func<Commodity, bool>> predicate);
 
+        IEnumerable<Commodity> Get(
+             Expression<Func<Commodity, bool>> filter = null,
+             Func<IQueryable<Commodity>, IOrderedQueryable<Commodity>> orderBy = null,
+             string includeProperties = "");
+
         int GetCommoidtyId(string commodityName);
     }
 }

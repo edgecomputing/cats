@@ -8,6 +8,10 @@ namespace Cats.Models
 {
     public class HRDDetail
     {
+        public HRDDetail()
+        {
+            this.HRDCommodityDetails=new List<HRDCommodityDetail>();
+        }
         public int HRDDetailID { get; set; }
         public int HRDID { get; set; }
         public int WoredaID { get; set; }
@@ -17,6 +21,6 @@ namespace Cats.Models
 
         public virtual HRD HRD { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
-        public virtual ICollection<CommodityTypeDetail> CommodityTypeDetails { get; set; }
+        public virtual ICollection<HRDCommodityDetail> HRDCommodityDetails { get; set; }
     }
 }

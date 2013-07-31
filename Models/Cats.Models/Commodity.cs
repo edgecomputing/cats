@@ -15,6 +15,7 @@ namespace Cats.Models
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.BidWinners=new List<BidWinner>();
             this.RationDetails=new List<RationDetail>();
+            this.HRDCommodityDetails=new List<HRDCommodityDetail>();
         }
 
         public int CommodityID { get; set; }
@@ -35,6 +36,7 @@ namespace Cats.Models
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<BidWinner> BidWinners  { get; set; }
         public virtual ICollection<RationDetail> RationDetails { get; set; }
+        public virtual ICollection<HRDCommodityDetail> HRDCommodityDetails  { get; set; }
  
     }
 }

@@ -19,12 +19,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IHRDService _hrdService;
         private IRationService _rationService;
         private IHRDDetailService _hrdDetailService;
+        private ICommodityService _commodityService;
 
-        public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService, IHRDDetailService hrdDetailService)
+        public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService, 
+                             IHRDDetailService hrdDetailService,ICommodityService commodityService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
             _hrdDetailService = hrdDetailService;
+            _commodityService = commodityService;
         }
 
         public ActionResult Index()
@@ -33,14 +36,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrd = _hrdService.GetAllHRD();
             return View(hrd);
         }
-        public ActionResult HRDDetail(int id=0)
+        public ActionResult HRDDetail(int id = 0)
         {
-             HRD hrd = _hrdService.Get(t => t.HRDID == id, null, "HRDDetails").FirstOrDefault();
+            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails,HRDDetails.HRDCommodityDetails").FirstOrDefault();
 
-             if (hrd != null)
-             {
-                 return View(hrd);
-             }
+            if (hrd != null)
+            {
+                return View(hrd);
+            }
             return RedirectToAction("Index");
         }
 
@@ -52,7 +55,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
 
-        public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request,int id=0)
+        public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
             var hrdDetail = _hrdService.GetHRDDetailByHRDID(id);
             if (hrdDetail != null)
@@ -73,7 +76,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         Year = hrd.Year,
                         CreatedDate = DateTime.Now,
                         PublishedDate = hrd.PublishedDate
-                        
+
                     });
         }
 
@@ -89,31 +92,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             NumberOfBeneficiaries = hrdDetail.NumberOfBeneficiaries,
                             StartingMonth = hrdDetail.StartingMonth,
                             DurationOfAssistance = hrdDetail.DurationOfAssistance,
-                            CSB =1,
-                            Pulse = 1,
-                            Cereal = 2,
-                            Oil = 2
                             
-                           // should be refactored to populate commodities form separate commodityDetail model
-                          
+                            CSB = (int) hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 8).Amount,
+                            Pulse = (int)hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 2).Amount,
+                            Cereal = (int)hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 1).Amount,
+                            Oil = (int)hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 4).Amount
 
-                    });
+                            
+
+
+                        });
         }
-        public ActionResult Create(int id=0)
+        public ActionResult Create(int id = 0)
         {
             var hrd = new HRD();
             hrd.HRDDetails = new List<HRDDetail>();
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
-
+             var commodities = _commodityService.GetAllCommodity();
 
             var hrdDetails = (from detail in woredas
                               select new HRDDetail()
                               {
                                   WoredaID = detail.AdminUnitID,
-                                  NumberOfBeneficiaries = 0,
+                                  NumberOfBeneficiaries = 0
+                                 
                               }).ToList();
             hrd.HRDDetails = hrdDetails;
-            
+
 
             //ViewBag.Ration = _rationService.GetAllRation();
             //foreach (var woreda in woredas)
@@ -134,29 +139,38 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
+                
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
+                var commodities = _commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
 
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {
                                       WoredaID = detail.AdminUnitID,
                                       NumberOfBeneficiaries = 0,
-                                      DurationOfAssistance =0,
+                                      DurationOfAssistance = 0,
+                                      HRDCommodityDetails = (from commodity in commodities
+                                                             select new HRDCommodityDetail()
+                                                             {
+                                                                 CommodityID = commodity.CommodityID,
+                                                                 Amount = 0
+                                                             }).ToList()
                                     
-
+                                
                                   }).ToList();
+                
                 hrd.HRDDetails = hrdDetails;
                 _hrdService.AddHRD(hrd);
 
-               // RouteValueDictionary routeValues = this.GridRouteValues();
+                // RouteValueDictionary routeValues = this.GridRouteValues();
                 //return RedirectToAction("Edit","Bid", routeValues);
                 //return RedirectToAction("Edit", "Bid", new { id = bid.BidID });
                 return RedirectToAction("Index");
             }
-            
-            
-            
-            
+
+
+
+
             //var requirement = viewModel.Hrd;
             //_hrdService.AddHRD(requirement);
             return RedirectToAction("Index");
