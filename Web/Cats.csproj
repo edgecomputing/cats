@@ -151,10 +151,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\NeedAssement.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestDetailViewModel.cs" />
@@ -611,6 +613,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\View1.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
