@@ -17,7 +17,7 @@ namespace Cats.Services.EarlyWarning
         HRD FindById(int id);
         List<HRD> GetAllHRD();
         List<HRD> FindBy(Expression<Func<HRD, bool>> predicate);
-
+        IEnumerable<HRDDetail> GetHRDDetailByHRDID(int hrdID);
         IEnumerable<HRD> Get(
                    Expression<Func<HRD, bool>> filter = null,
                    Func<IQueryable<HRD>, IOrderedQueryable<HRD>> orderBy = null,

@@ -16,7 +16,7 @@ namespace Cats.Models
         public int StartingMonth { get; set; }
 
         public virtual HRD HRD { get; set; }
-        public virtual AdminUnit Woreda { get; set; }
+        public virtual AdminUnit AdminUnit { get; set; }
         public virtual ICollection<CommodityTypeDetail> CommodityTypeDetails { get; set; }
     }
 }

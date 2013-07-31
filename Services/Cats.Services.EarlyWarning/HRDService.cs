@@ -62,6 +62,10 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.HRDRepository.FindBy(predicate);
         }
 
+        public IEnumerable<HRDDetail> GetHRDDetailByHRDID(int hrdID)
+        {
+            return _unitOfWork.HRDDetailRepository.Get(t => t.HRDID == hrdID);
+        }
         public IEnumerable<HRD> Get(System.Linq.Expressions.Expression<Func<HRD, bool>> filter = null,
                                     Func<IQueryable<HRD>, IOrderedQueryable<HRD>> orderBy = null,
                                     string includeProperties = "")

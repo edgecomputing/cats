@@ -47,6 +47,7 @@
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
     <Compile Include="FDPService.cs" />
+    <Compile Include="HRDDetailService.cs" />
     <Compile Include="HRDService.cs" />
     <Compile Include="HubAllocationService.cs" />
     <Compile Include="HubService.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="ICommodityService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IFDPService.cs" />
+    <Compile Include="IHRDDetailService.cs" />
     <Compile Include="IHRDService.cs" />
     <Compile Include="IHubAllocation.cs" />
     <Compile Include="IHubService.cs" />

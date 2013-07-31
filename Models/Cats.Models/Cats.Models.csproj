@@ -144,8 +144,8 @@
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />
     <Compile Include="ViewModels\Bid\BidViewModel.cs" />
-    <Compile Include="ViewModels\HRD\CreateHumanitarianRequirementViewModel.cs" />
-    <Compile Include="ViewModels\HRD\DetailViewModel.cs" />
+    <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
+    <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />

@@ -21,12 +21,12 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Year).HasColumnName("Year");
             //this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
             //this.Property(t => t.RevisionNumber).HasColumnName("RevisionNumber");
-            //this.Property(t => t.DateCreated).HasColumnName("DateCreated");
-            //this.Property(t => t.SeasonID).HasColumnName("SeasonID");
+            this.Property(t => t.CreatedDate).HasColumnName("DateCreated");
+            this.Property(t => t.Month).HasColumnName("Month");
             //this.Property(t => t.IsWorkingVersion).HasColumnName("IsWorkingVersion");
             //this.Property(t => t.IsPublished).HasColumnName("IsPublished");
-            //this.Property(t => t.PublishedDate).HasColumnName("PublishedDate");
-            this.Property(t => t.RationID).HasColumnName("RationID");
+            this.Property(t => t.PublishedDate).HasColumnName("PublishedDate");
+           // this.Property(t => t.RationID).HasColumnName("RationID");
 
             // Relationships
             //this.HasOptional(t => t.Ration)

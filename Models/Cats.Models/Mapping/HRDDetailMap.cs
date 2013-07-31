@@ -20,14 +20,14 @@ namespace Cats.Models.Mapping
             this.Property(t => t.HRDDetailID).HasColumnName("HRDDetailID");
             this.Property(t => t.HRDID).HasColumnName("HRDID");
             this.Property(t => t.DurationOfAssistance).HasColumnName("Duration");
-            //this.Property(t => t.Woreda).HasColumnName("AdminUnitID");
+            this.Property(t => t.WoredaID).HasColumnName("AdminUnitID");
             this.Property(t => t.NumberOfBeneficiaries).HasColumnName("Beneficiaries");
             this.Property(t => t.StartingMonth).HasColumnName("StartingMonth");
 
             // Relationships
-            //this.HasRequired(t => t.)
-                //.WithMany(t => t.HRDDetails)
-               // .HasForeignKey(d => d.AdminUnitID);
+            this.HasRequired(t => t.AdminUnit)
+                .WithMany(t => t.HrdDetails)
+                .HasForeignKey(d => d.WoredaID);
             this.HasRequired(t => t.HRD)
                 .WithMany(t => t.HRDDetails)
                 .HasForeignKey(d => d.HRDID);
