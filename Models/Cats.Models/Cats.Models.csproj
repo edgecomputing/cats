@@ -108,6 +108,7 @@
     <Compile Include="MetaData\TransportOrder.cs" />
     <Compile Include="MetaData\TransportRequisitionMeta.cs" />
     <Compile Include="MetaData\TransportRequisitionDetailMeta.cs" />
+    <Compile Include="NeedAssement.cs" />
     <Compile Include="Partials\RegionalRequestDetail.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />

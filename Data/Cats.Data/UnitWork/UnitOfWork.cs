@@ -408,11 +408,17 @@ namespace Cats.Data.UnitWork
 
 
 
-      
-      //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+
+        private IGenericRepository<NeedAssessment> needAssessmentRepository;
+        public IGenericRepository<NeedAssessment> NeedAssessmentRepository
+        {
+            get
+            {
+                return this.needAssessmentRepository ?? (this.needAssessmentRepository = new GenericRepository<NeedAssessment>(_context));
+            }
+        }
 
 
 
-      
     }
 }

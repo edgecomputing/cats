@@ -74,6 +74,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransportBidQuotationService>().To<TransportBidQuotationService>();
             kernel.Bind<IApplicationSettingService>().To<ApplicationSettingService>();
             kernel.Bind<IRationService>().To<RationService>();
+            kernel.Bind<INeedAssessmentService>().To<NeedAssessmentService>();
         }
     }
 }
