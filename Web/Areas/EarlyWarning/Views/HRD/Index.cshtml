@@ -9,8 +9,9 @@
 @(Html.Kendo().Grid<Cats.Models.HRD>()
     .Name("grid")
     .Columns(columns =>
-    {
-        columns.Bound(p => p.HRDID);
+        {
+            columns.Bound(p => p.HRDID);
+        
         columns.Bound(p => p.Month);
         columns.Bound(p => p.Year);
         columns.Bound(p => p.CreatedDate);
@@ -23,7 +24,7 @@
         //columns.Bound(p => p.CSB);
         //columns.Bound(p => p.Oil);
 
-        //columns.Command(p => p.Custom("ViewDetail").Click("HrdDetail"));
+       // columns.Command(p => p.Custom("ViewDetail").Click("HrdDetail"));
        
     })
     .Groupable()

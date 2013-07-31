@@ -1,7 +1,9 @@
 ﻿@using Cats.Services.Security
 @using Kendo.Mvc.UI
+@model  Cats.Models.HRD
 @{
     ViewBag.Title = "HRDDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
 }
 
 
@@ -12,8 +14,8 @@
 }
 
 <div class="well">
-    <h2 class="page-header">Transport Requisitions Winner by Transporter</h2>
-    <p>Transporter Name :<b class="k-info-colored">@ViewBag.Transporter</b></p>
+    <h2 class="page-header">HRD Detail</h2>
+   
 </div>
 
 
@@ -44,7 +46,7 @@
       //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
        
       .Model(model=>model.Id(p=>p.HRDID))
-      .Read(read => read.Action("BidDetail_Read", "HRD",new{id=Model.HRDID}))
+      //.Read(read => read.Action("BidDetail_Read", "HRD",new {id=Model.HRDID}))
       )
       
 )

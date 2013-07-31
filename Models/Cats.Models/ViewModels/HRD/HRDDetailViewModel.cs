@@ -20,8 +20,8 @@ namespace Cats.Models.ViewModels.HRD
 
         public int HRDDetailID { get; set; }
         public int HRDID { get; set; }
-        public long NumberOfBeneficiaries { get { return _detail.NumberOfBeneficiaries; } set { _detail.NumberOfBeneficiaries = value; } }
-        public int DurationOfAssistance { get { return _detail.DurationOfAssistance; } set { _detail.DurationOfAssistance = value; } }
+        public int NumberOfBeneficiaries { get; set; }
+        public int DurationOfAssistance { get; set; }
         public int WoredaID { get { return _detail.WoredaID; } set { _detail.WoredaID = value; } }
         public string Woreda { get { return _detail.AdminUnit.Name; } }
         public string Zone { get { return _detail.AdminUnit.Name; } }

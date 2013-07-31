@@ -11,7 +11,7 @@ namespace Cats.Models
         public int HRDDetailID { get; set; }
         public int HRDID { get; set; }
         public int WoredaID { get; set; }
-        public long NumberOfBeneficiaries { get; set; }
+        public int NumberOfBeneficiaries { get; set; }
         public int DurationOfAssistance { get; set; }
         public int StartingMonth { get; set; }
 
