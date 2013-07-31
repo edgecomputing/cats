@@ -14,10 +14,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //
         // GET: /EarlyWarning/HRD/
         private IAdminUnitService _adminUnitService;
+        private IHRDService _hrdService;
 
-        public HRDController(IAdminUnitService adminUnitService)
+        public HRDController(IAdminUnitService adminUnitService,IHRDService hrdService)
         {
             _adminUnitService = adminUnitService;
+            _hrdService = hrdService;
         }
 
         public ActionResult Index()
@@ -46,7 +48,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create(CreateHumanitarianRequirementViewModel viewModel)
         {
             var requirement = viewModel.Hrd;
-            // _hrdService.Add(requirement);
+            _hrdService.AddHRD(requirement);
             return RedirectToAction("Index");
         }
     }

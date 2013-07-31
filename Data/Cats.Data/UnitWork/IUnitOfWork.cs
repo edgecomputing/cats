@@ -58,7 +58,11 @@ namespace Cats.Data.UnitWork
         IGenericRepository<TransportBidQuotation> TransportBidQuotationRepository { get; }
         IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
 
-        IGenericRepository<Ration> RationRepository { get; } 
+        IGenericRepository<Ration> RationRepository { get; }
+        IGenericRepository<RationDetail> RationDetailRepository { get; }
+        IGenericRepository<HRD> HRDRepository { get; }
+        IGenericRepository<HRDDetail> HRDDetailRepository { get; } 
+             
         void Save();
 
     }

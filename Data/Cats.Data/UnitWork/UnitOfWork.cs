@@ -19,6 +19,9 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Status> statusRepository; 
         private IGenericRepository<BidWinner> bidWinnerRepository;
         private IGenericRepository<TransportOrderDetail> transportOrderDetailRepository;
+        private IGenericRepository<RationDetail> rationDetailRepository;
+        private IGenericRepository<HRD> hrdRepository;
+        private IGenericRepository<HRDDetail> hrdDetailRepository; 
         
 
         public UnitOfWork()
@@ -406,8 +409,26 @@ namespace Cats.Data.UnitWork
 
         }
 
+        public IGenericRepository<RationDetail> RationDetailRepository
+        {
 
+            get { return this.rationDetailRepository ?? (this.rationDetailRepository = new GenericRepository<RationDetail>(_context)); }
 
+        }
+
+        public IGenericRepository<HRD> HRDRepository    
+        {
+
+            get { return this.hrdRepository ?? (this.hrdRepository = new GenericRepository<HRD>(_context)); }
+
+        }
+
+        public IGenericRepository<HRDDetail> HRDDetailRepository
+        {
+
+            get { return this.hrdDetailRepository ?? (this.hrdDetailRepository = new GenericRepository<HRDDetail>(_context)); }
+
+        }
       
       //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
 

@@ -20,7 +20,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.HRDDetailID).HasColumnName("HRDDetailID");
             this.Property(t => t.HRDID).HasColumnName("HRDID");
             this.Property(t => t.DurationOfAssistance).HasColumnName("Duration");
-            this.Property(t => t.Woreda).HasColumnName("AdminUnitID");
+            //this.Property(t => t.Woreda).HasColumnName("AdminUnitID");
             this.Property(t => t.NumberOfBeneficiaries).HasColumnName("Beneficiaries");
             this.Property(t => t.StartingMonth).HasColumnName("StartingMonth");
 
