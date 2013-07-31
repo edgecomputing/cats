@@ -408,11 +408,27 @@ namespace Cats.Data.UnitWork
 
 
 
+        private IGenericRepository<RationDetail> rationDetailRepository;
+
+        public IGenericRepository<RationDetail> RationDetailRepository
+        {
+
+            get { return this.rationDetailRepository ?? (this.rationDetailRepository = new GenericRepository<RationDetail>(_context)); }
+
+        }
+
+
+
+      
+
       
       //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
 
 
 
-      
+
+
+
+        
     }
 }
