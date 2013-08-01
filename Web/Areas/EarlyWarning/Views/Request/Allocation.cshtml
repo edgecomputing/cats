@@ -100,7 +100,8 @@
 @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
       .Name("grid")
       .Columns(columns =>
-                   {
+      {
+          columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
                        columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
                        columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
                        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" }); 
@@ -123,7 +124,7 @@
       .DataSource(dataSource => dataSource
                                     .Ajax()
                                     .PageSize(20)
-                                    //.Events(events => events.Error("error_handler"))
+                                
                                     .Model(model =>
                                                {
                                                    model.Id(p => p.RegionalRequestDetailID);
@@ -138,6 +139,7 @@
 <script type="text/javascript">
    
     function onDataBound(e) {
+        rowNumber = 0;
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("change", "td", function (e) {
             var row = $(this).closest("tr");

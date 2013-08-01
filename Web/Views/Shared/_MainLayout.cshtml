@@ -134,18 +134,30 @@
 
 
 
-                 $(".cats-datepicker").calendarsPicker({
+                $(".cats-datepicker").calendarsPicker({
 
-                     calendar: $.calendars.instance('ethiopian', 'am')
-                     //disableInput: true
-                 }).attr('style', 'background-color : #fff');
-                 $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
-             });
-         </script>                                                                                                
+                    calendar: $.calendars.instance('ethiopian', 'am')
+                    //disableInput: true
+                }).attr('style', 'background-color : #fff');
+                $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
+            });
+        </script>                                                                                                
 
                                                                                                                                    
     
         }
+        <script>
+            //Script to generate row number
+            var rowNumber = 0;
+
+            function resetRowNumber(e) {
+                rowNumber = 0;
+            }
+
+            function renderNumber(data) {
+                return ++rowNumber;
+            }
+        </script>
     }
 
 </body>
