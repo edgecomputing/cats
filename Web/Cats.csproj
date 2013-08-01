@@ -203,6 +203,9 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
+    <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
@@ -222,6 +225,7 @@
     <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
+    <Compile Include="Models\CatsContextPSNP.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -615,6 +619,12 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
+    <Content Include="Areas\PSNP\Views\Web.config" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Details.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Delete.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -820,6 +830,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\EarlyWarning\Views\Shared\" />
+    <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />
   </ItemGroup>
@@ -827,6 +838,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
+      <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>

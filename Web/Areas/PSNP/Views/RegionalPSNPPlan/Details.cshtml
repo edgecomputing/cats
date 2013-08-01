@@ -1,0 +1,37 @@
+﻿@model Cats.Models.RegionalPSNPPlan
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>RegionalPSNPPlan</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Year)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Year)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Duration)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Duration)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RegionID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RegionID)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.RegionalPSNPPlanID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

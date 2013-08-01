@@ -61,8 +61,10 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Ration> RationRepository { get; }
         IGenericRepository<RationDetail> RationDetailRepository { get; } 
         IGenericRepository<HRD> HRDRepository { get; }
-        IGenericRepository<HRDDetail> HRDDetailRepository { get; } 
-             
+        IGenericRepository<HRDDetail> HRDDetailRepository { get; }
+        IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository { get; } 
+        
+        
         void Save();
 
     }

@@ -1,0 +1,88 @@
+﻿@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Models.PSNP.RegionalPSNPPlanViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@(Html.Kendo().Grid(Model)    
+    .Name("Grid")
+    .Columns(columns => {
+        columns.Bound(p => p.RegionName).Groupable(false);
+        columns.Bound(p => p.Year);
+        columns.Bound(p => p.Duration);
+        columns.Command(command =>
+        {
+            command.Custom("Edit").Click("editRecord");
+            command.Custom("Detail").Click("detailRecord");
+            command.Custom("Delete").Click("deleteRecord");
+        });
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Model(model => model.Id(p => p.RegionalPSNPPlanID))
+        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlan"))
+        )
+    .Pageable()
+    .Sortable()
+    .Scrollable() 
+    .Filterable()
+    .Groupable()
+)
+    <script>
+    function editRecord(e) {
+        e.preventDefault();
+
+        
+        var edit_url='@Url.Action("Edit", "RegionalPSNPPlan", new { Area = "PSNP",id="" })'
+        //alert(edit_url);
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = edit_url + "/" + dataItem.RegionalPSNPPlanID;
+    }
+    function detailRecord(e) {
+    }
+    function deleteRecord(e) {
+    }
+
+</script>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegionID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Duration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegionID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RegionalPSNPPlanID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RegionalPSNPPlanID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RegionalPSNPPlanID })
+        </td>
+    </tr>
+}
+
+</table>
