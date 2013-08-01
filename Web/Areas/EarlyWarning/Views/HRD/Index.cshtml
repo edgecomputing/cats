@@ -5,7 +5,14 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+@section LeftBar{
 
+    @Html.Partial("_HRDLeftBar");
+}
+<div class="well">
+    <h2 class="page-header">List Of HRDs</h2>
+   
+</div>
 @(Html.Kendo().Grid<Cats.Models.HRD>()
     .Name("grid")
     .Columns(columns =>
@@ -15,28 +22,17 @@
         columns.Bound(p => p.Month);
         columns.Bound(p => p.Year);
         columns.Bound(p => p.CreatedDate);
-        columns.Bound(p => p.PublishedDate);
-        
-        //columns.Bound(p => p.DurationOfAssistance);
-        //columns.Bound(p => p.StartingMonth);
-        //columns.Bound(p => p.Cereal);
-        //columns.Bound(p => p.Pulse);
-        //columns.Bound(p => p.CSB);
-        //columns.Bound(p => p.Oil);
-       
+        columns.Bound(p => p.PublishedDate);      
 
         columns.Command(p => p.Custom("ViewDetails").Click("showDetails"));
 
-        //columns.Command(p => p.Custom("ViewDetail").Click("HrdDetail"));
-       
-    })
+        })
     .Pageable()
     .Sortable()
-    .Scrollable()
     .Filterable()
     .DataSource(dataSource => dataSource
           .Ajax()
-          .PageSize(5)
+          .PageSize(8)
             .Model(model => model.Id(p => p.HRDID))
             .Read(read => read.Action("HRD_Read", "HRD"))
  

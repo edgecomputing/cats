@@ -58,7 +58,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-            ViewData["Months"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            //ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
             var hrdDetail = _hrdService.GetHRDDetailByHRDID(id);
             if (hrdDetail != null)
             {
@@ -76,6 +76,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         HRDID = hrd.HRDID,
                         Month = hrd.Month,
                         Year = hrd.Year,
+                        //RationID = hrd.RationID,
                         CreatedDate = hrd.CreatedDate,
                         PublishedDate = hrd.PublishedDate
 
@@ -97,7 +98,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             NumberOfBeneficiaries = hrdDetail.NumberOfBeneficiaries,
                             StartingMonth = hrdDetail.StartingMonth,
                             DurationOfAssistance = hrdDetail.DurationOfAssistance,
-                            CSB = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries)
+                            Cereal = (decimal) ((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries)*0.015),
+                            Pulse = (decimal) ((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.00045),
+                            CSB = (decimal) ((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.0015),
+                            Oil = (decimal) ((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.00045)
                             //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 8).Amount,
                             //Pulse = //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 2).Amount,
                             //Cereal = //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 1).Amount,
@@ -112,6 +116,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrd = new HRD();
            // hrd.HRDDetails = new List<HRDDetail>();
+            //ViewBag.Ration = new SelectList(_rationService.GetAllRation(), "RationID", "Name");
+            ViewData["Months"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
              var commodities = _commodityService.GetAllCommodity();
 
@@ -140,17 +146,28 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         //update HRD detail information
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult HRDDetail_Update([DataSourceRequest] DataSourceRequest request,[Bind(Prefix = "models")]IEnumerable<HRDDetail> hrdDetails)
+        public ActionResult HRDDetail_Update([DataSourceRequest] DataSourceRequest request, HRDDetailViewModel hrdDetails)
         {
             if (hrdDetails != null && ModelState.IsValid)
             {
-                foreach (var details in hrdDetails)
+                var detail = _hrdDetailService.FindById(hrdDetails.HRDDetailID);
+                if (detail != null)
                 {
-                    _hrdDetailService.EditHRDDetail(details);
+                    detail.HRDID = hrdDetails.HRDID;
+                    detail.DurationOfAssistance = hrdDetails.DurationOfAssistance;
+                    detail.NumberOfBeneficiaries = hrdDetails.NumberOfBeneficiaries;
+                    detail.StartingMonth = hrdDetails.StartingMonth;
+                    detail.WoredaID = hrdDetails.WoredaID;
+                  
+                    _hrdDetailService.EditHRDDetail(detail);
                 }
+                //foreach (var details in hrdDetails)
+                //{
+                //    _hrdDetailService.EditHRDDetail(details);
+                //}
             }
-
-            return Json(ModelState.ToDataSourceResult());
+            return Json(new[] { hrdDetails }.ToDataSourceResult(request, ModelState));
+            //return Json(ModelState.ToDataSourceResult());
         }
         private DateTime GetGregorianDate(string ethiopianDate)
         {

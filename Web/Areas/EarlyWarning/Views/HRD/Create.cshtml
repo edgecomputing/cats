@@ -8,9 +8,11 @@
 }
 @section LeftBar
 {
-    <li class="nav-header">HRD Informaation</li>
+   
+    @Html.Partial("_HRDLeftBar");
+    @*<li class="nav-header">HRD Informaation</li>
     <li class="nav-header">Tasks</li>
-    <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>HRD Summary</a></li>
+    <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>HRD Summary</a></li>*@
 }
 <div class="well"><h3>Create HRD</h3></div>
     @using (Html.BeginForm())
@@ -34,11 +36,21 @@
                     @Html.LabelFor(m => m.Month)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => m.Month)
+                    @Html.DropDownList("Months",String.Empty)
                     @Html.ValidationMessageFor(m=>m.Month)
                 </div>
         
             </div>
+            @* <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.RationID,"Ration")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("Ration",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.RationID)
+                </div>
+        
+            </div>*@
              <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")

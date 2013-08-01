@@ -12,6 +12,10 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
+@section LeftBar
+{
+    @Html.Partial("_HRDLeftBar");
+}
 
 <div class="well">
     <h2 class="page-header">HRD Detail</h2>
@@ -22,10 +26,9 @@
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
 .Name("HRD").Columns(columns =>
          {
-            columns.Bound(p => p.Region).Width(10);
-            columns.Bound(p => p.Zone);
-            columns.Bound(p => p.Woreda);
-            columns.Bound(p => p.WoredaID);
+             columns.Bound(p => p.Region).Width(10).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" }); 
             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
             columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
             columns.Bound(p => p.StartingMonth).Title("Starting Month");
@@ -33,11 +36,12 @@
             columns.Bound(p => p.Pulse);
             columns.Bound(p => p.Oil);
             columns.Bound(p => p.Cereal);
-             
+            columns.Bound(p => p.Total); 
+
 
              //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
              //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
-            
+
 
 
          })
@@ -48,6 +52,7 @@
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
+      .Events(events => events.Error("error_handler"))
       //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
        .Model(model =>
                               {
@@ -72,4 +77,18 @@
       
 )
 
-
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

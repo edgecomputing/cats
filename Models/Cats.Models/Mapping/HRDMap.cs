@@ -26,7 +26,7 @@ namespace Cats.Models.Mapping
             //this.Property(t => t.IsWorkingVersion).HasColumnName("IsWorkingVersion");
             //this.Property(t => t.IsPublished).HasColumnName("IsPublished");
             this.Property(t => t.PublishedDate).HasColumnName("PublishedDate");
-           // this.Property(t => t.RationID).HasColumnName("RationID");
+            //this.Property(t => t.RationID).HasColumnName("RationID");
 
             // Relationships
             //this.HasOptional(t => t.Ration)

@@ -21,6 +21,8 @@ namespace Cats.Models
             public bool IsDefaultRation { get; set; }
             public string RefrenceNumber { get; set; }
             public virtual  ICollection<RationDetail> RationDetails { get; set; }
+          //  public virtual ICollection<HRD> HRDs { get; set; }
+           
         }
   
 }

@@ -14,9 +14,9 @@ namespace Cats.Models
         public DateTime CreatedDate { get; set; }
         public DateTime PublishedDate { get; set; }
         //public int StatusID { get; set; }
-        //public int RationID { get; set; }
+        ///public int RationID { get; set; }
 
-        //public virtual Ration Ration { get; set; }
+       // public virtual Ration Ration { get; set; }
         public virtual ICollection<HRDDetail> HRDDetails { get; set; }
 
     }
