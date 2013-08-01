@@ -1,30 +1,45 @@
 ﻿@using Kendo.Mvc.UI
-@model Cats.Models.ViewModels.HRD.CreateHumanitarianRequirementViewModel
+@model List<Cats.Models.HRD>
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
-@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.DetailViewModel>()
+@(Html.Kendo().Grid<Cats.Models.HRD>()
     .Name("grid")
     .Columns(columns =>
-    {
-        columns.Bound(p => p.Region).Groupable(false);
-        columns.Bound(p => p.Zone);
-        columns.Bound(p => p.Woreda);
-        columns.Bound(p => p.NumberOfBeneficiaries);
-        columns.Bound(p => p.DurationOfAssistance);
+        {
+            columns.Bound(p => p.HRDID);
+        
         columns.Bound(p => p.Month);
-        columns.Bound(p => p.Cereal);
-        columns.Bound(p => p.Pulse);
-        columns.Bound(p => p.CSB);
-        columns.Bound(p => p.Oil);
+        columns.Bound(p => p.Year);
+        columns.Bound(p => p.CreatedDate);
+        columns.Bound(p => p.PublishedDate);
+        
+        //columns.Bound(p => p.DurationOfAssistance);
+        //columns.Bound(p => p.StartingMonth);
+        //columns.Bound(p => p.Cereal);
+        //columns.Bound(p => p.Pulse);
+        //columns.Bound(p => p.CSB);
+        //columns.Bound(p => p.Oil);
+
+       // columns.Command(p => p.Custom("ViewDetail").Click("HrdDetail"));
+       
     })
     .Groupable()
     .Pageable()
     .Sortable()
     .Scrollable()
     .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(5)
+            .Model(model => model.Id(p => p.HRDID))
+            .Read(read => read.Action("HRD_Read", "HRD"))
+ 
+     )
    
-    )
+      )
+
+

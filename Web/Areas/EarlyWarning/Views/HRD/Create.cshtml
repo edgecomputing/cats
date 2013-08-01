@@ -1,6 +1,6 @@
-﻿@using Cats.Models.ViewModels.HRD
-@using Kendo.Mvc
-@model Cats.Models.ViewModels.HRD.CreateHumanitarianRequirementViewModel
+﻿
+@using Kendo.Mvc.UI
+@model Cats.Models.HRD
 
 @{
     ViewBag.Title = "Create";
@@ -10,71 +10,82 @@
 {
     <li class="nav-header">HRD Informaation</li>
     <li class="nav-header">Tasks</li>
-    <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>HRD Summary</a></li>
+    <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>HRD Summary</a></li>
 }
-<div class="well form-horizontal">
-    <h4 class="page-header">Create Humanitarian Requirement</h4>
-    <div class="control-group">
-        <div class="control-label">
-             @Html.LabelFor(m => m.Year)
-        </div>
-       <div class="controls">@Html.TextBoxFor(m => m.Year)</div>
+<div class="well"><h3>Create HRD</h3></div>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
+        <div class="well form-horizontal">
+            <h4 class="page-header">Create Humanitarian Requirement</h4>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Year)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Year)
+                </div>
         
-    </div>
-    <div class="control-group">
-        <div class="control-label">
-             @Html.LabelFor(m => m.Month)
-        </div>
-       <div class="controls">@Html.TextBoxFor(m => m.Month)</div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Month)
+                </div>
+                <div class="controls">@Html.TextBoxFor(m => m.Month)</div>
         
-    </div>
-    <div class="control-group">
-        <div class="control-label">
-             @Html.LabelFor(m => m.HumanitarianRequirement.Ration.Name, "Ration Name")
-        </div>
-        <div class="controls">
-            @Html.TextBoxFor(m => m.HumanitarianRequirement.Ration.Name)
-        </div>
+            </div>
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.CreatedDate,"Created Date")
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.CreatedDate)
+                </div>
         
-    </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.PublishedDate,"Published Date")
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.PublishedDate)
+                </div>
+        
+            </div>
+            <div class="control-group">      
+                <div class="controls">
+                    <input type="submit" value="Create HRD" class="btn btn-success" />
+                </div>
+            </div>
+
+        </div>
+    }
+ @*@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.DetailViewModel>()
+    .Name("HRD")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Region).Groupable(false);
+        columns.Bound(p => p.Zone);
+        columns.Bound(p => p.Woreda);
+        columns.Bound(p => p.NumberOfBeneficiaries);
+        columns.Bound(p => p.DurationOfAssistance);
+        columns.Bound(p => p.StartingMonth);
+        columns.Bound(p => p.Cereal);
+        columns.Bound(p => p.Pulse);
+        columns.Bound(p => p.CSB);
+        columns.Bound(p => p.Oil);
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+    //.DataSource(dataSource => dataSource
+          //.Server()
+         // .PageSize(5)
+            //.Model(model => model.Id(p => p.BidID))
+            //.Read(read => read.Action("Creaet", "HRD"))
+   
+    )*@
 
 
-</div>
-<div>
-
-    <table class="table table-bordered table-condensed table-striped">
-
-        <tr>
-            <th rowspan="2">Region</th>
-            <th rowspan="2">Zone</th>
-            <th rowspan="2">Woreda</th>
-            <th rowspan="2">Beneficiaries</th>
-            <th rowspan="2">Duration of Assistance</th>
-            <th colspan="4"><b>Food Requirement in Mt </b></th>
-
-        </tr>
-        <tr>
-            <th>Cereal</th>
-            <th>Pulse</th>
-            <th>CSB</th>
-            <th>Oil</th>
-        </tr>
-        @foreach (DetailViewModel detail in Model.Details)
-        {
-            <tr>
-                <td>@detail.Region</td>
-                <td>@detail.Zone</td>
-                <td>@detail.Woreda</td>
-                <td>@detail.NumberOfBeneficiaries</td>
-                <td>@detail.DurationOfAssistance</td>
-                <td>@detail.Cereal</td>
-                <td>@detail.Pulse</td>
-                <td>@detail.CSB</td>
-                <td>@detail.Oil</td>
-            </tr>
-        }
-    </table>
-    <p>
-        <input class="btn btn-success" type="submit" value="Save HRD" />
-    </p>
-</div>

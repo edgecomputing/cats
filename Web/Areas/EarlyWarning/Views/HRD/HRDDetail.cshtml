@@ -1,0 +1,54 @@
+﻿@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model  Cats.Models.HRD
+@{
+    ViewBag.Title = "HRDDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+
+<div class="well">
+    <h2 class="page-header">HRD Detail</h2>
+   
+</div>
+
+
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
+.Name("HrdDetail").Columns(columns =>
+         {
+            columns.Bound(p => p.Region).Width(10);
+            columns.Bound(p => p.Zone);
+            columns.Bound(p => p.Woreda);
+            columns.Bound(p => p.WoredaID);
+            columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
+            columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
+            columns.Bound(p => p.CSB);
+             columns.Bound(p => p.Pulse);
+             columns.Bound(p => p.Oil);
+             columns.Bound(p => p.Cereal);
+             //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
+             //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
+
+
+         })
+      //.Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .DataSource(datasource=>datasource
+      .Ajax()
+      //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
+       
+      .Model(model=>model.Id(p=>p.HRDID))
+      //.Read(read => read.Action("BidDetail_Read", "HRD",new {id=Model.HRDID}))
+      )
+      
+)
+
+

@@ -159,20 +159,6 @@ namespace Cats.Areas.Procurement.Controllers
             EndDate = GetGregorianDate(start);
             OpeningDate = GetGregorianDate(start);
             
-            //try
-            //{
-            //    startingdate = DateTime.Parse(start);
-            //    EndDate = DateTime.Parse(End);
-            //    OpeningDate = DateTime.Parse(Opening);
-            //}
-            //catch (Exception)
-            //{
-            //    var strEth = new getGregorianDate();
-            //    startingdate = strEth.ReturnGregorianDate(start);
-            //    EndDate = strEth.ReturnGregorianDate(End);
-            //    OpeningDate = strEth.ReturnGregorianDate(Opening);
-            //    //throw;
-            //}
             bid.StartDate = startingdate.Date;
             bid.EndDate = EndDate.Date;
             bid.OpeningDate = OpeningDate.Date;

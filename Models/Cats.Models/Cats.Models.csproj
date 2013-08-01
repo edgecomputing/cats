@@ -64,8 +64,8 @@
     <Compile Include="FDP.cs" />
     <Compile Include="Hub.cs" />
     <Compile Include="HubAllocation.cs" />
-    <Compile Include="HumanitarianRequirement.cs" />
-    <Compile Include="HumanitarianRequirementDetail.cs" />
+    <Compile Include="HRD.cs" />
+    <Compile Include="HRDDetail.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\ApplicationSettingMap.cs" />
@@ -75,10 +75,13 @@
     <Compile Include="Mapping\CommodityMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />
+    <Compile Include="Mapping\HRDDetailMap.cs" />
+    <Compile Include="Mapping\HRDMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
     <Compile Include="Mapping\ProjectCodeMap.cs" />
+    <Compile Include="Mapping\RationDetailMap.cs" />
     <Compile Include="Mapping\RationMap.cs" />
     <Compile Include="Mapping\ReceiptAllocationMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
@@ -141,8 +144,8 @@
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />
     <Compile Include="ViewModels\Bid\BidViewModel.cs" />
-    <Compile Include="ViewModels\HRD\CreateHumanitarianRequirementViewModel.cs" />
-    <Compile Include="ViewModels\HRD\DetailViewModel.cs" />
+    <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
+    <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />
     <Compile Include="MetaData\RequisitionMeta.cs" />
