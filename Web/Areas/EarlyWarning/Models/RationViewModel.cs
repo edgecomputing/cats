@@ -28,6 +28,7 @@ namespace Cats.Areas.EarlyWarning.Models
         [Display(Name="Is Default Ration")]
         public bool IsDefaultRation { get; set; }
         [Display(Name="Reference Number")]
+        [Required(ErrorMessage = "Refrence Number can't be empty.")]
         public string ReferenceNumber { get; set; }
     }
 }

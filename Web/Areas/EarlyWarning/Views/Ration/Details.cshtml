@@ -9,18 +9,26 @@
     ViewBag.Title = "Beneficiary Ration";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-<div id='dialogDiv' class='modal hide fade in'>
-    <div id='dialogContent'></div>
-</div>
-<h4 class="well">Ration Details</h4>
 
+@section LeftBar
+{
+    <ul class="nav nav-list">
+        <li class="nav-header">Ration</li>
+        <li><a id="btnEdit" href="@Url.Action("Edit", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><i class="icon-edit"></i>Edit Ration</a></li>
+        <li><a  href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })"><i class="icon-edit"></i>Rations</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="icon-print"></i>Print</a></li>
+        <li><a href="#"><i class="icon-share"></i>Export</a></li>
+
+    </ul>
+}
 @{
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
     var cal = user.Calendar; 
 }
 
-
-<div>
+<h4 class="well">Rations</h4>
+<div class="well">
     @Html.DisplayNameFor(model => model.ReferenceNumber):
     @Html.DisplayFor(model => model.ReferenceNumber)
 
@@ -43,10 +51,10 @@
 
 
     <p>
-        
- 
-        <a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i> Back </a>
-        <a id="btnCreate" href="@Url.Action("Edit", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><i class="icon-edit"></i> Edit </a>
+
+
+        @*<a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back </a>*@
+        @*<a id="btnEdit" href="@Url.Action("Edit", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><i class="icon-edit"></i>Edit </a>*@
     </p>
 
 </div>
@@ -57,21 +65,23 @@
 @(Html.Kendo().Grid<RationDetailViewModel>()
       .Name("grid")
       .Columns(columns =>
-                   {
-                       columns.Bound(p => p.CommodityID).Width(100).Visible(false);
-                       columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                       columns.Bound(p => p.RationID).Width(100).Visible(false);
-                       columns.Bound(p => p.Amount).Width(100);
-                       //columns.Command(command =>
-                       //                    {
-                       //                        //command.Destroy();
-                       //                        //command.Edit();
-                       //                    });
-                   })
+      {
+          columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
+          columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable)ViewData["commodities"], "CommodityID", "Name").Width(50);
+          //columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+          columns.Bound(p => p.RationID).Width(100).Visible(false);
+          columns.Bound(p => p.RationDetailID).Visible(false);
+          columns.Bound(p => p.Amount).Width(100);
+          columns.Command(command =>
+                              {
+                                  command.Destroy();
+                                  //command.Edit();
+                              }).Width(100);
+      })
           .ToolBar(toolbar =>
           {
               toolbar.Save();
-              //toolbar.Create();
+              toolbar.Create();
           })
       .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Pageable()
@@ -80,6 +90,7 @@
       .Selectable(t => t.Mode(GridSelectionMode.Single))
       .Navigatable()
       .HtmlAttributes(new { style = "height:430px;" })
+      .Events(ev => ev.DataBound("resetRowNumber"))
       .DataSource(dataSource => dataSource
                                     .Ajax()
                                     .PageSize(20)
@@ -88,27 +99,31 @@
         model =>
         {
             model.Id(p => p.RationID);
-            model.Field(ration => ration.Commodity).Editable(false);
+            //model.Field(ration => ration.Commodity).Editable(false);
         }
     )
-                                    .Create(update => update.Action("RationDetail_Create", "Ration"))
-                                    .Read(read => read.Action("RationDetail_Read", "Ration",new {id=Model.RationID}))
+                                    .Create(update => update.Action("RationDetail_Create", "Ration", new { id = Model.RationID }))
+                                    .Read(read => read.Action("RationDetail_Read", "Ration", new { id = Model.RationID }))
                                     .Update(update => update.Action("RationDetail_Update", "Ration"))
                                     .Destroy(update => update.Action("RationDetail_Destroy", "Ration"))
-      ))
+          ))
 
 @section Scripts
 {
-   
+
 }
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+<h4 class="well">Ration Details</h4>
 <script type="text/javascript">
-    
+
     $(function () {
 
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
-        $('#btnCreate').click(function () {
+        $('#btnEdit').click(function () {
             $('#dialogContent').load(this.href, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',

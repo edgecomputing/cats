@@ -14,7 +14,7 @@
 <h2 class="well">Requistions</h2>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
-
+    columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
     columns.Bound(requisition => requisition.RequisitionNo).ClientTemplate("<a href='" + Url.Action("Allocation", "ReliefRequisition", new { id = "#=RequisitionID#" }) + " '>#=RequisitionNo#</a>  ");
     columns.Bound(requisition => requisition.Commodity);
     columns.Bound(requisition => requisition.Region);
@@ -53,6 +53,7 @@ else
     .Sortable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
+    .Events(ev => ev.DataBound("resetRowNumber"))
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)

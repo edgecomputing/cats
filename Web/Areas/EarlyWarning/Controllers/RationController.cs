@@ -18,7 +18,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IRationDetailService _rationDetailService;
         private readonly ICommodityService _commodityService;
 
-        public RationController(IRationService rationService, ICommodityService commodityService,IRationDetailService rationDetailService)
+        public RationController(IRationService rationService, ICommodityService commodityService, IRationDetailService rationDetailService)
         {
             this._rationService = rationService;
             this._rationDetailService = rationDetailService;
@@ -36,8 +36,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Details(int id)
         {
+            ViewBag.RationID = id;
             var ration = _rationService.FindById(id);
             var rationViewModel = BindRationViewModel(ration);
+            var commdities = (from item in _commodityService.GetAllCommodity()
+                              select new
+                                         {
+                                             item.CommodityID,
+                                             item.Name
+                                         });
+            ViewData["commodities"] = commdities;
             return View(rationViewModel);
         }
         private RationDetailViewModel BindRationDetailViewModel(RationDetail rationDetail)
@@ -50,6 +58,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 rationViewModel.Commodity = _commodityService.FindById(rationDetail.CommodityID).Name;
                 rationViewModel.CommodityID = rationDetail.CommodityID;
                 rationViewModel.RationID = rationDetail.RationID;
+                rationViewModel.RationDetailID = rationDetail.RationDetatilID;
             }
             return rationViewModel;
         }
@@ -57,7 +66,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var obj = _rationService.FindById(id);
             var rationViewModel = BindRationViewModel(obj);
-            return PartialView("_Edit",rationViewModel);
+            return PartialView("_Edit", rationViewModel);
         }
         private RationViewModel BindRationViewModel(Ration ration)
         {
@@ -65,8 +74,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var rationViewModel = new RationViewModel();
             rationViewModel.RationID = ration.RationID;
             rationViewModel.IsDefaultRation = ration.IsDefaultRation;
-            rationViewModel.CreatedBy =ration.CreatedBy;
+            rationViewModel.CreatedBy = ration.CreatedBy;
             
+
             rationViewModel.CreatedDate = ration.CreatedDate;
             rationViewModel.UpdatedBy = ration.UpdatedBy;
             rationViewModel.UpdatedDate = ration.UpdatedDate;
@@ -88,12 +98,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     var orign = _rationService.FindById(rationViewModel.RationID);
                     orign.IsDefaultRation = rationViewModel.IsDefaultRation;
-                    orign.CreatedBy = rationViewModel.CreatedBy;
-                    orign.CreatedDate = rationViewModel.CreatedDate;
-                    orign.UpdatedBy = rationViewModel.UpdatedBy;
-                    orign.UpdatedDate = rationViewModel.UpdatedDate;
+
+                    orign.UpdatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+                    orign.UpdatedDate = DateTime.Today;
                     _rationService.EditRation(orign);
-                    return Json(new { Success = true });
+                    return Json(new { success = true });
                 }
                 catch (Exception ex)
                 {
@@ -112,40 +121,43 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Create(Ration ration)
         {
-            if(ration!=null && ModelState.IsValid )
+            if (ration != null && ModelState.IsValid)
             {
                 try
                 {
                     ration.CreatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
                     ration.CreatedDate = DateTime.Today;
                     _rationService.AddRation(ration);
-                    return Json(new {Success = true});
+                    return Json(new { success = true });
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("",ex.Message);
+                    ModelState.AddModelError("", ex.Message);
                 }
             }
-            return PartialView("_Create",ration);
+            return PartialView("_Create", ration);
         }
         public ActionResult Ration_Read([DataSourceRequest] DataSourceRequest request)
         {
+         
             var rations = _rationService.GetAllRation();
             var rationViewModels = (from item in rations select BindRationViewModel(item));
             return Json(rationViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult RationDetail_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
-            var rationDetails = _rationDetailService.GetAllRationDetail();
+            var rationDetails = _rationDetailService.Get(t => t.RationID == id);
             var rationViewModels = (from item in rationDetails select BindRationDetailViewModel(item));
             return Json(rationViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-       
+
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult RationDetail_Create([DataSourceRequest] DataSourceRequest request, RationDetailViewModel rationDetailViewModel)
+        public ActionResult RationDetail_Create([DataSourceRequest] DataSourceRequest request, RationDetailViewModel rationDetailViewModel,int id)
         {
             if (rationDetailViewModel != null && ModelState.IsValid)
             {
+                rationDetailViewModel.RationID = id;
+               
                 _rationDetailService.AddRationDetail(BindRationDetail(rationDetailViewModel));
             }
 
@@ -157,11 +169,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (rationDetailViewModel == null) return null;
             var ration = new RationDetail()
                              {
-                                 RationDetatilID=rationDetailViewModel.RationDetailID,
+                                 RationDetatilID = rationDetailViewModel.RationDetailID,
                                  RationID = rationDetailViewModel.RationID,
                                  CommodityID = rationDetailViewModel.CommodityID,
                                  Amount = rationDetailViewModel.CommodityID,
-                                 
+
                              };
             return ration;
         }
@@ -169,25 +181,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult RationDetail_Update([DataSourceRequest] DataSourceRequest request, RationDetailViewModel rationDetailViewModel)
         {
-            if(rationDetailViewModel!=null && ModelState.IsValid)
+            if (rationDetailViewModel != null && ModelState.IsValid)
             {
                 var origin = _rationDetailService.FindById(rationDetailViewModel.RationID);
                 origin.Amount = rationDetailViewModel.Amount;
                 _rationDetailService.EditRationDetail(origin);
             }
-            return Json(new[] {rationDetailViewModel}.ToDataSourceResult(request, ModelState));
+            return Json(new[] { rationDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult RationDetail_Destroy([DataSourceRequest] DataSourceRequest request,RationDetailViewModel rationDetailViewModel)
+        public ActionResult RationDetail_Destroy([DataSourceRequest] DataSourceRequest request, RationDetailViewModel rationDetailViewModel)
         {
-            if(rationDetailViewModel!=null&& ModelState.IsValid)
+            if (rationDetailViewModel != null && ModelState.IsValid)
             {
                 _rationDetailService.DeleteById(rationDetailViewModel.RationDetailID);
             }
             return Json(ModelState.ToDataSourceResult());
         }
-        private bool _disposed=false;
+        private bool _disposed = false;
         protected virtual void Dispose(bool disposing)
         {
             if (!this._disposed)
