@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
@@ -38,7 +39,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult HRDDetail(int id = 0)
         {
-            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails,HRDDetails.HRDCommodityDetails").FirstOrDefault();
+            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
 
             if (hrd != null)
             {
@@ -57,6 +58,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
+            ViewData["Months"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var hrdDetail = _hrdService.GetHRDDetailByHRDID(id);
             if (hrdDetail != null)
             {
@@ -74,7 +76,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         HRDID = hrd.HRDID,
                         Month = hrd.Month,
                         Year = hrd.Year,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = hrd.CreatedDate,
                         PublishedDate = hrd.PublishedDate
 
                     });
@@ -89,14 +91,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             HRDDetailID = hrdDetail.HRDDetailID,
                             HRDID = hrdDetail.HRDID,
                             WoredaID = hrdDetail.WoredaID,
+                            Zone = hrdDetail.AdminUnit.Name,
+                            Region = hrdDetail.AdminUnit.AdminUnit2.Name,
+                            Woreda = hrdDetail.AdminUnit.Name,
                             NumberOfBeneficiaries = hrdDetail.NumberOfBeneficiaries,
                             StartingMonth = hrdDetail.StartingMonth,
                             DurationOfAssistance = hrdDetail.DurationOfAssistance,
-                            
-                            CSB = (int) hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 8).Amount,
-                            Pulse = (int)hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 2).Amount,
-                            Cereal = (int)hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 1).Amount,
-                            Oil = (int)hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 4).Amount
+                            CSB = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries)
+                            //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 8).Amount,
+                            //Pulse = //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 2).Amount,
+                            //Cereal = //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 1).Amount,
+                            //Oil =  //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 4).Amount
 
                             
 
@@ -106,7 +111,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create(int id = 0)
         {
             var hrd = new HRD();
-            hrd.HRDDetails = new List<HRDDetail>();
+           // hrd.HRDDetails = new List<HRDDetail>();
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
              var commodities = _commodityService.GetAllCommodity();
 
@@ -133,28 +138,67 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrd);
         }
 
-        [HttpPost]
-        public ActionResult Create(HRD hrd)
+        //update HRD detail information
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult HRDDetail_Update([DataSourceRequest] DataSourceRequest request,[Bind(Prefix = "models")]IEnumerable<HRDDetail> hrdDetails)
         {
+            if (hrdDetails != null && ModelState.IsValid)
+            {
+                foreach (var details in hrdDetails)
+                {
+                    _hrdDetailService.EditHRDDetail(details);
+                }
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+        private DateTime GetGregorianDate(string ethiopianDate)
+        {
+            DateTime convertedGregorianDate;
+            try
+            {
+                convertedGregorianDate = DateTime.Parse(ethiopianDate);
+            }
+            catch (Exception ex)
+            {
+                var strEth = new getGregorianDate();
+                convertedGregorianDate = strEth.ReturnGregorianDate(ethiopianDate);
+            }
+            return convertedGregorianDate;
+        }
+
+        [HttpPost]
+        public ActionResult Create(HRD hrd, string create, string published)
+        {
+            DateTime dateCreated = DateTime.Now;
+            DateTime DatePublished = DateTime.Now;
+
+            dateCreated = GetGregorianDate(create);
+            DatePublished = GetGregorianDate(published);
+
+            hrd.CreatedDate = dateCreated;
+            hrd.PublishedDate = DatePublished;
 
             if (ModelState.IsValid)
             {
                 
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
-                var commodities = _commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
+                //var commodities = _commodityService.GetCommonCommodity();
+                    //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
 
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {
                                       WoredaID = detail.AdminUnitID,
-                                      NumberOfBeneficiaries = 0,
-                                      DurationOfAssistance = 0,
-                                      HRDCommodityDetails = (from commodity in commodities
-                                                             select new HRDCommodityDetail()
-                                                             {
-                                                                 CommodityID = commodity.CommodityID,
-                                                                 Amount = 0
-                                                             }).ToList()
+                                      NumberOfBeneficiaries = 100,
+                                      DurationOfAssistance = 8
+                                      //HRDCommodityDetails = (from commodity in commodities
+                                      //                       select new HRDCommodityDetail()
+                                      //                       {
+                                      //                           //Commodity = commodity
+                                      //                           CommodityID = commodity.CommodityID,
+                                      //                           Amount = 0
+                                      //                       }).ToList()
                                     
                                 
                                   }).ToList();

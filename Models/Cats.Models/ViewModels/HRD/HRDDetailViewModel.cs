@@ -28,9 +28,9 @@ namespace Cats.Models.ViewModels.HRD
         public string Region { get; set; }
         public int StartingMonth { get; set; }
 
-        public int Cereal { get; set; }
-        public int Pulse { get; set; }
-        public int CSB { get; set; }
-        public int Oil { get; set; }
+        public decimal Cereal { get; set; }
+        public decimal Pulse { get; set; }
+        public decimal CSB { get; set; }
+        public decimal Oil { get; set; }
     }
 }

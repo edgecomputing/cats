@@ -23,11 +23,13 @@
         //columns.Bound(p => p.Pulse);
         //columns.Bound(p => p.CSB);
         //columns.Bound(p => p.Oil);
+       
 
-       // columns.Command(p => p.Custom("ViewDetail").Click("HrdDetail"));
+        columns.Command(p => p.Custom("ViewDetails").Click("showDetails"));
+
+        //columns.Command(p => p.Custom("ViewDetail").Click("HrdDetail"));
        
     })
-    .Groupable()
     .Pageable()
     .Sortable()
     .Scrollable()
@@ -43,3 +45,27 @@
       )
 
 
+
+<script>
+    function showDetails(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "HRD/HRDDetail/" + dataItem.HRDID;
+
+    }
+</script>
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

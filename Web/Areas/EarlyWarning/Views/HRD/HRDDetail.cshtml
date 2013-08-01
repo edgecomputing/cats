@@ -28,26 +28,46 @@
             columns.Bound(p => p.WoredaID);
             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
             columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
+            columns.Bound(p => p.StartingMonth).Title("Starting Month");
             columns.Bound(p => p.CSB);
             columns.Bound(p => p.Pulse);
             columns.Bound(p => p.Oil);
             columns.Bound(p => p.Cereal);
+             
+
              //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
              //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
+            
 
 
          })
-      //.Editable(editable => editable.Mode(GridEditMode.InLine))
+         .ToolBar(toolBar => toolBar.Save())
+       .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Pageable()
       .Sortable()
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
       //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
-       
-      .Model(model=>model.Id(p=>p.HRDID))
+       .Model(model =>
+                              {
+                                  model.Id(p => p.HRDID);
+                                  model.Field(p => p.HRDDetailID);
+                                  model.Field(p =>p.StartingMonth).DefaultValue(
+                                      ViewData["Months"] as Cats.Models.ViewModels.HRD.HRDDetailViewModel);
+                                  model.Field(p => p.Oil).Editable(false);
+                                  model.Field(p => p.Pulse).Editable(false);
+                                  model.Field(p => p.Cereal).Editable(false);
+                                  model.Field(p => p.CSB).Editable(false);
+                                  model.Field(p => p.Region).Editable(false);
+                                  model.Field(p => p.Woreda).Editable(false);
+                                  model.Field(p => p.Zone).Editable(false);
+                              }) 
+      
+      //.Model(model=>model.Id(p=>p.HRDID))
          // .Read(read => read.Action("HRDDetail_Read", "HRD", new{ id = Model.HRDID }))
           .Read(read => read.Action("HRDDetail_Read", "HRD",new{id=Model.HRDID}))
+          .Update(update => update.Action("HRDDetail_Update", "HRD"))
       )
       
 )

@@ -19,9 +19,9 @@ namespace Cats.Models.Mapping
             
 
             // Relationships
-            this.HasRequired(t => t.HrdDetail)
-                .WithMany(t => t.HRDCommodityDetails)
-                .HasForeignKey(d => d.HRDDetailID);
+            //this.HasRequired(t => t.HrdDetail)
+            //    .WithMany(t => t.HRDCommodityDetails)
+            //    .HasForeignKey(d => d.HRDDetailID);
 
             this.HasRequired(t => t.Commodity)
                 .WithMany(t => t.HRDCommodityDetails)

@@ -12,7 +12,7 @@ namespace Cats.Models
         public int CommodityID { get; set; }
         public decimal Amount { get; set; }
 
-        public virtual HRDDetail HrdDetail { get; set; }
+        //public virtual HRDDetail HrdDetail { get; set; }
         public virtual Commodity Commodity { get; set; }
 
     }

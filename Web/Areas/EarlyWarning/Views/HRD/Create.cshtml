@@ -25,6 +25,7 @@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Year)
+                    @Html.ValidationMessageFor(m=>m.Year)
                 </div>
         
             </div>
@@ -32,7 +33,10 @@
                 <div class="control-label">
                     @Html.LabelFor(m => m.Month)
                 </div>
-                <div class="controls">@Html.TextBoxFor(m => m.Month)</div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Month)
+                    @Html.ValidationMessageFor(m=>m.Month)
+                </div>
         
             </div>
              <div class="control-group">
@@ -40,7 +44,9 @@
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.CreatedDate)
+                     <input class="cats-datepicker" type="text" id="create" name="create" />
+                    @Html.HiddenFor(m=>m.CreatedDate)
+                    @Html.ValidationMessageFor(m => m.CreatedDate)
                 </div>
         
             </div>
@@ -49,7 +55,9 @@
                     @Html.LabelFor(m => m.PublishedDate,"Published Date")
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.PublishedDate)
+                     <input class="cats-datepicker" type="text" id="published" name="published" />
+                    @Html.HiddenFor(m=>m.PublishedDate)
+                    @Html.ValidationMessageFor(m=>m.PublishedDate)
                 </div>
         
             </div>

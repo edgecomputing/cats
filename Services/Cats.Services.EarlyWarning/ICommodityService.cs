@@ -17,6 +17,7 @@ namespace Cats.Services.EarlyWarning
         bool EditCommodity(Commodity commodity);
         Commodity FindById(int id);
         List<Commodity> GetAllCommodity();
+        List<Commodity> GetCommonCommodity();
         List<Commodity> FindBy(Expression<Func<Commodity, bool>> predicate);
 
         IEnumerable<Commodity> Get(
