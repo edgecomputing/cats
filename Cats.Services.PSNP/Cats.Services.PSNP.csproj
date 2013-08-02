@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRegionalPSNPPlanDetailService.cs" />
     <Compile Include="IRegionalPSNPPlanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionalPSNPPlanDetailService.cs" />
     <Compile Include="RegionalPSNPPlanService.cs" />
   </ItemGroup>
   <ItemGroup>

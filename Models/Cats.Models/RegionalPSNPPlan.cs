@@ -28,5 +28,6 @@ namespace Cats.Models
         [Display(Name = "Region ID")]
         public int RegionID { get; set; }
 
+        public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
     }
 }

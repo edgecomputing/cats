@@ -22,8 +22,8 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<RationDetail> rationDetailRepository;
         private IGenericRepository<HRD> hrdRepository;
         private IGenericRepository<HRDDetail> hrdDetailRepository;
-        private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository; 
-        
+        private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
+        private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
 
         public UnitOfWork()
         {
@@ -436,8 +436,14 @@ namespace Cats.Data.UnitWork
             get { return this.regionalPSNPPlanRepository ?? (this.regionalPSNPPlanRepository = new GenericRepository<RegionalPSNPPlan>(_context)); }
 
         }
-      
 
+        public IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository
+        {
+
+            get { return this.regionalPSNPPlanDetailRepository ?? (this.regionalPSNPPlanDetailRepository = new GenericRepository<RegionalPSNPPlanDetail>(_context)); }
+
+        }
+      //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
       
       //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
 

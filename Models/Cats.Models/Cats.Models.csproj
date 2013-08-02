@@ -84,6 +84,7 @@
     <Compile Include="Mapping\RationDetailMap.cs" />
     <Compile Include="Mapping\RationMap.cs" />
     <Compile Include="Mapping\ReceiptAllocationMap.cs" />
+    <Compile Include="Mapping\RegionalPSNPPlanDetailMap.cs" />
     <Compile Include="Mapping\RegionalPSNPPlanMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
     <Compile Include="Mapping\RegionalRequestMap.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="RationDetail.cs" />
     <Compile Include="ReceiptAllocation.cs" />
     <Compile Include="RegionalPSNPPlan.cs" />
+    <Compile Include="RegionalPSNPPlanDetail.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="ReliefRequisition.cs" />

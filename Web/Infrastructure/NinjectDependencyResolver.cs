@@ -79,6 +79,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IHRDService>().To<HRDService>();
             kernel.Bind<IHRDDetailService>().To<HRDDetailService>();
             kernel.Bind<IRegionalPSNPPlanService>().To<RegionalPSNPPlanService>();
+            kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
         }
     }
 }
