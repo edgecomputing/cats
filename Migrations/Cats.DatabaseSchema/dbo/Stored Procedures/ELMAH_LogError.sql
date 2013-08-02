@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[ELMAH_LogError]
+﻿
+CREATE PROCEDURE [dbo].[ELMAH_LogError]
 (
     @ErrorId UNIQUEIDENTIFIER,
     @Application NVARCHAR(60),
@@ -17,9 +18,9 @@ AS
 
     INSERT
     INTO
-        [ErrorLog]
+        [ELMAH_Error]
         (
-            [ErrorLogID],
+            [ErrorId],
             [Application],
             [Host],
             [Type],
