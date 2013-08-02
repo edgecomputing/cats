@@ -5,15 +5,17 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+<div class="well">
+    <h4 class="page-header">List of HRD</h4>
+    <div align="right">
+        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
+    </div>
+</div>
 @section LeftBar{
 
     @Html.Partial("_HRDLeftBar");
 }
-<div class="well">
-    <h2 class="page-header">List Of HRDs</h2>
-   
-</div>
-@(Html.Kendo().Grid<Cats.Models.HRD>()
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
@@ -21,8 +23,9 @@
 
                 @<text>
 <a href="@Url.Action("Edit", "HRD", new { Area = "EarlyWarning", id = item.HRDID })">@Html.DisplayFor(modelItem => item.HRDID)</a>
-</text>); 
-        
+</text>);
+
+        columns.Bound(p => p.Ration).Title("Ration No");
         columns.Bound(p => p.Month);
         columns.Bound(p => p.Year);
         columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");

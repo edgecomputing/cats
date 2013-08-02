@@ -12,6 +12,11 @@ namespace Cats.Models
             //public int RationID { get; set; }
             //public int CommodityID { get; set; }
             //public decimal Amount { get; set; }
+            public Ration ()
+            {
+                this.RationDetails=new List<RationDetail>();
+                this.HRDs=new List<HRD>();
+            }
             
             public int RationID { get; set; }
             public Nullable<System.DateTime> CreatedDate { get; set; }
@@ -21,7 +26,7 @@ namespace Cats.Models
             public bool IsDefaultRation { get; set; }
             public string RefrenceNumber { get; set; }
             public virtual  ICollection<RationDetail> RationDetails { get; set; }
-          //  public virtual ICollection<HRD> HRDs { get; set; }
+            public virtual ICollection<HRD> HRDs { get; set; }
            
         }
   
