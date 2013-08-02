@@ -61,7 +61,7 @@ namespace Cats.Data
         public DbSet<TransportBidQuotation> TransportBidQuotations { get; set; }
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         public DbSet<Ration> Rations { get; set; }
-        public DbSet<NeedAssessment> NeedAssessment { get; set; }
+        public DbSet<NeedAssement> NeedAssessment { get; set; }
         //public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -16,6 +16,9 @@ namespace Cats.Models
             this.ReliefRequisitions1 = new List<ReliefRequisition>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.BidWinners=new List<BidWinner>();
+
+            //this.NeedAssements = new List<NeedAssement>();
+            //this.NeedAssements1 = new List<NeedAssement>();
            
         }
 
@@ -38,8 +41,10 @@ namespace Cats.Models
 
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<BidWinner> BidWinners { get; set; }
-        public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; } 
-        
+        public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
+
+        //public virtual ICollection<NeedAssement> NeedAssements { get; set; }
+        //public virtual ICollection<NeedAssement> NeedAssements1 { get; set; }
 
     }
 }

@@ -187,6 +187,8 @@
     <Build Include="dbo\Tables\ApplicationSetting.sql" />
     <Build Include="Logistics\Tables\Ration.sql" />
     <Build Include="dbo\Tables\CurrentRation.sql" />
+    <Build Include="EarlyWarning\Tables\NeedAssement.sql" />
+    <Build Include="dbo\Tables\ELMAH_Error.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

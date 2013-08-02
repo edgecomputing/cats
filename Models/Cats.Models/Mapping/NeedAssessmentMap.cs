@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.ModelConfiguration;
 
+
 namespace Cats.Models.Mapping
 {
-    public class NeedAssessmentMap:EntityTypeConfiguration<NeedAssessment>
+    public class NeedAssessmentMap:EntityTypeConfiguration<NeedAssement>
     {
         public NeedAssessmentMap()
         {
@@ -24,6 +25,14 @@ namespace Cats.Models.Mapping
             this.Property(t => t.BOffNoOfB).HasColumnName("BOffNoOfB");
             this.Property(t => t.Zone).HasColumnName("Zone");
             this.Property(t => t.District).HasColumnName("District");
+
+            // Relationships
+            //this.HasOptional(t => t.AdminUnit)
+            //    .WithMany(t => t.NeedAssements)
+            //    .HasForeignKey(d => d.Zone);
+            //this.HasOptional(t => t.AdminUnit1)
+            //    .WithMany(t => t.NeedAssements1)
+            //    .HasForeignKey(d => d.District);
         }
     }
 }

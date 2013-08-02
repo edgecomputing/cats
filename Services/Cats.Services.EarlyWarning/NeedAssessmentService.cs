@@ -17,21 +17,21 @@ namespace Cats.Services.EarlyWarning
             this._unitOfWork = new UnitOfWork();
         }
         #region Default Service Implementation
-        public bool AddNeedAssessment(NeedAssessment needAssessment)
+        public bool AddNeedAssessment(NeedAssement needAssessment)
         {
             _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditNeedAssessment(NeedAssessment needAssessment)
+        public bool EditNeedAssessment(NeedAssement needAssessment)
         {
             _unitOfWork.NeedAssessmentRepository.Edit(needAssessment);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteNeedAssessment(NeedAssessment needAssessment)
+        public bool DeleteNeedAssessment(NeedAssement needAssessment)
         {
             if (needAssessment == null) return false;
             _unitOfWork.NeedAssessmentRepository.Delete(needAssessment);
@@ -46,15 +46,15 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Save();
             return true;
         }
-        public List<NeedAssessment> GetAllNeedAssessment()
+        public List<NeedAssement> GetAllNeedAssessment()
         {
             return _unitOfWork.NeedAssessmentRepository.GetAll();
         }
-        public NeedAssessment FindById(int id)
+        public NeedAssement FindById(int id)
         {
             return _unitOfWork.NeedAssessmentRepository.FindById(id);
         }
-        public List<NeedAssessment> FindBy(Expression<Func<NeedAssessment, bool>> predicate)
+        public List<NeedAssement> FindBy(Expression<Func<NeedAssement, bool>> predicate)
         {
             return _unitOfWork.NeedAssessmentRepository.FindBy(predicate);
         }

@@ -614,6 +614,7 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
