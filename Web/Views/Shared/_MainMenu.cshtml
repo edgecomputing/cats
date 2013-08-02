@@ -4,7 +4,7 @@
 
 @{
     var user = (UserIdentity)HttpContext.Current.User.Identity;
-    var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+    var role = user.Profile.Role;
 }
 
 <div class="navbar navbar-fixed-top navbar-inverse">

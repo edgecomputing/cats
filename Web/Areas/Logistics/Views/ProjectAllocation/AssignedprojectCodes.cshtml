@@ -1,5 +1,4 @@
-﻿
-@using Cats.Services.Security
+﻿@using Cats.Services.Security
 @model IEnumerable<Cats.Models.ProjectCodeAllocation>
 
 @{
@@ -12,99 +11,102 @@
     var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
 
-<fieldset>
-    <legend>
-        Assigned project Code / SI for Requisition No: @ViewBag.ReqNo<br/>
-        Hub: @ViewBag.Hub
-    </legend>
-    
-</fieldset>
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+
+<div class="page-header">
+    <h4>Assigned project Code / SI for Requisition No: @ViewBag.ReqNo<br /></h4>
+    Hub: @ViewBag.Hub
+</div>
 
 
 
 <script>
-  
-    
-
     $(document).ready(function () {
         var selectedIds = {};
         $("#ProjectCode").kendoGrid({
-            
-            groupable: true,
+
+
             scrollable: true,
             sortable: true,
             pageable: true,
             autoBind: true,
             dataSource: {
-                pageSize:10
+                pageSize: 10
             }
-            
-          
-  
+
+
+
         });
-       
+
     });
- 
+
 </script>
-<h5 align="right"> Metric: @unitPreference </h5>
 <div class="form-horizontal well">
     <div class="control-group">
-        <div class=control-label>Allocated Amount</div>
-            <div class="controls">
-                <input type="text" id="allocated" name="allocated" value="@ViewBag.Allocated" readonly="readonly"/>
-               
-            </div>
-        
+        <div class="control-label">Allocated Amount</div>
+        <div class="controls">
+            <input type="text" id="allocated" name="allocated" value="@ViewBag.Allocated" readonly="readonly"/>
+
+        </div>
+
     </div>
     <div class="control-group">
         <div class="control-label">
-            SI amount Allocated: </div>
-            <div class="controls">
-                  <input type="text" id="si" name="si" value="@ViewBag.AmountSIAssined" readonly="readonly"/>
-               
-            </div>
-        
+            SI amount Allocated:
+        </div>
+        <div class="controls">
+            <input type="text" id="si" name="si" value="@ViewBag.AmountSIAssined" readonly="readonly"/>
+
+        </div>
+
     </div>
     <div class="control-group">
         <div class="control-label">
-            PC amount Allocated: </div>
+            PC amount Allocated:
+        </div>
         <div class="controls">
             <input type="text" id="pc" name="pc" value="@ViewBag.AmountPCAssigned" readonly="readonly"/>
-               
+
         </div>
-        
+
     </div>
     <div class="control-group">
         <div class="control-label">
-           Total Amount Assined</div>
+            Total Amount Assined
+        </div>
         <div class="controls">
             <input type="text" id="total" name="total" value="@ViewBag.Total" readonly="readonly" />
-               
+
         </div>
-        
+
     </div>
     <div class="control-group">
         <div class="control-label">
-            Requisition No </div>
-            <div class="controls">
-                  <input type="text" id="ReqNo" name="ReqNo" value="@ViewBag.ReqNo" readonly="readonly"/>
-               
-            </div>
-        
+            Requisition No
+        </div>
+        <div class="controls">
+            <input type="text" id="ReqNo" name="ReqNo" value="@ViewBag.ReqNo" readonly="readonly"/>
+
+        </div>
+
     </div>
-    
+
     <div class="control-group">
         <div class="control-label">
-            Remaining </div>
-            <div class="controls">
-                  <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
-               
-            </div>
-        
+            Remaining
+        </div>
+        <div class="controls">
+            <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+
+        </div>
+
     </div>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining }, null)
+    @Html.ActionLink("Back to List", "AllocateProjectCode", "ProjectAllocation", null, null) |  @Html.ActionLink("Allocate", "Assign", "ProjectAllocation", new { ReqId = ViewBag.ReqId, remaining = ViewBag.Remaining }, null)
 </p>
 <table id="ProjectCode">
     <thead>
@@ -116,13 +118,13 @@
                 @Html.DisplayNameFor(model => model.ProjectCodeID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount_FromProject)
+                @Html.DisplayNameFor(model => model.Amount_FromProject) (@unitPreference)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SINumberID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount_FromSI)
+                @Html.DisplayNameFor(model => model.Amount_FromSI) (@unitPreference)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AllocatedBy)
@@ -134,40 +136,41 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
     
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.HubAllocationID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectCodeID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount_FromProject)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SINumberID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount_FromSI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AllocatedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AlloccationDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectCodeAllocationID }) |
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HubAllocationID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectCodeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount_FromProject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SINumberID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount_FromSI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllocatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlloccationDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProjectCodeAllocationID }) |
            
-        </td>
-    </tr>
-}
-</tbody>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
-<br/>
-<div class="footer-links">@Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) | |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation", new {  ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining }, null)
+<br />
+<div class="footer-links">@Html.ActionLink("Back to List", "AllocateProjectCode", "ProjectAllocation", null, null) | |  @Html.ActionLink("Allocate", "Assign", "ProjectAllocation", new { ReqId = ViewBag.ReqId, remaining = ViewBag.Remaining }, null)
 </div>
 
 

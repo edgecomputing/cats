@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Security.Mapping
 {
-     public class UserAccountMap : EntityTypeConfiguration<UserAccount>
+    public class UserAccountMap : EntityTypeConfiguration<UserAccount>
     {
         public UserAccountMap()
         {
@@ -34,7 +34,6 @@ namespace Cats.Models.Security.Mapping
                 .HasMaxLength(200);
 
             this.Property(t => t.Email)
-                .IsRequired()
                 .HasMaxLength(50);
 
             this.Property(t => t.LanguageCode)
@@ -61,6 +60,10 @@ namespace Cats.Models.Security.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
+            this.Property(t => t.Role)
+                .IsFixedLength()
+                .HasMaxLength(2);
+
             // Table & Column Mappings
             this.ToTable("UserAccount");
             this.Property(t => t.UserAccountId).HasColumnName("UserAccountId");
@@ -81,6 +84,7 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.Keyboard).HasColumnName("Keyboard");
             this.Property(t => t.PreferedWeightMeasurment).HasColumnName("PreferedWeightMeasurment");
             this.Property(t => t.DefaultTheme).HasColumnName("DefaultTheme");
+            this.Property(t => t.Role).HasColumnName("Role");
         }
     }
 }
