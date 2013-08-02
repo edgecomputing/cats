@@ -5,9 +5,10 @@ using System.Web;
 
 namespace Cats.Areas.EarlyWarning.Models
 {
-    public class NeedAssement
+    public class NeedAssessmentViewModel
     {
         public int NAId { get; set; }
+        public int NaHeaderId { get; set; }
         public int VPoorNoOfM { get; set; }
         public int VPoorNoOfB { get; set; }
         public int PoorNoOfM { get; set; }
@@ -18,6 +19,14 @@ namespace Cats.Areas.EarlyWarning.Models
         public int BOffNoOfB { get; set; }
         public int Zone { get; set; }
         public int District { get; set; }
+
+        public string ZoneName { get; set; }
+        public string DistrictName { get; set; }
+
+        public Nullable<System.DateTime> NeedACreatedDate { get; set; }
+        public Nullable<int> NeedACreatedBy { get; set; }
+        public Nullable<bool> NeedAApproved { get; set; }
+        public string Remark { get; set; }
 
     }
 }

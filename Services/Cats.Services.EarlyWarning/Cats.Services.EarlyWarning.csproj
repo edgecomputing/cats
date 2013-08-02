@@ -56,7 +56,8 @@
     <Compile Include="IFDPService.cs" />
     <Compile Include="IHubAllocation.cs" />
     <Compile Include="IHubService.cs" />
-    <Compile Include="INeedAssessmentService.cs" />
+    <Compile Include="INeedAssessmentDetailService.cs" />
+    <Compile Include="INeedAssessmentHeaderService.cs" />
     <Compile Include="IProgramService.cs" />
     <Compile Include="IProjectCodeAllocationService.cs" />
     <Compile Include="IProjectCodeService.cs" />
@@ -68,7 +69,8 @@
     <Compile Include="IShippingInstructionService.cs" />
     <Compile Include="ITransactionService.cs" />
     <Compile Include="IWorkflowStatusService.cs" />
-    <Compile Include="NeedAssessmentService.cs" />
+    <Compile Include="NeedAssessmentDetailService.cs" />
+    <Compile Include="NeedAssessmentHeaderService.cs" />
     <Compile Include="ProgramService.cs" />
     <Compile Include="ProjectCodeAllocationService.cs" />
     <Compile Include="ProjectCodeService.cs" />

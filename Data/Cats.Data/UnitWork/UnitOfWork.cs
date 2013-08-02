@@ -409,16 +409,23 @@ namespace Cats.Data.UnitWork
 
 
 
-        private IGenericRepository<NeedAssement> needAssessmentRepository;
-        public IGenericRepository<NeedAssement> NeedAssessmentRepository
+        private IGenericRepository<NeedAssessmentHeader> needAssessmentHeaderRepository;
+        public IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository
         {
             get
             {
-                return this.needAssessmentRepository ?? (this.needAssessmentRepository = new GenericRepository<NeedAssement>(_context));
+                return this.needAssessmentHeaderRepository ?? (this.needAssessmentHeaderRepository = new GenericRepository<NeedAssessmentHeader>(_context));
             }
         }
 
-
+        private IGenericRepository<NeedAssessmentDetail> needAssessmentDetailRepository;
+        public IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository
+        {
+            get
+            {
+                return this.needAssessmentDetailRepository ?? (this.needAssessmentDetailRepository = new GenericRepository<NeedAssessmentDetail>(_context));
+            }
+        }
 
     }
 }

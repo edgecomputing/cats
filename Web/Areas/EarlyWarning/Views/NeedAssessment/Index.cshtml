@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Kendo.Mvc.UI
 
 @{
     ViewBag.Title = "Index";
@@ -11,25 +12,25 @@
     </legend>
 </fieldset>
 
+@{var record = 0;}
 
-<div style="display: block;" class="blockContent">
-
-@(Html.Kendo().Grid<Cats.Models.NeedAssement>()
+@(Html.Kendo().Grid<NeedAssessmentViewModel>()
   
     .Name("NA").Columns(columns =>
                             {
-
-                                columns.ForeignKey(p => p.Zone, (System.Collections.IEnumerable)ViewData["zone"], "AdminUnitID", "Name");
-                                columns.ForeignKey(p => p.District, (System.Collections.IEnumerable)ViewData["woreda"], "AdminUnitID", "Name");
+                                
+    
+                                columns.ForeignKey(p => p.Zone, (System.Collections.IEnumerable)ViewData["zone"], "AdminUnitID", "Name").Width(120);
+                                columns.ForeignKey(p => p.District, (System.Collections.IEnumerable)ViewData["woreda"], "AdminUnitID", "Name").Width(120);;
         
-                                columns.Bound(p => p.VPoorNoOfM);
-                                columns.Bound(p => p.VPoorNoOfB);
-                                columns.Bound(p => p.PoorNoOfM);
-                                columns.Bound(p => p.PoorNoOfB);
-                                columns.Bound(p => p.MiddleNoOfM);
-                                columns.Bound(p => p.MiddleNoOfB);
-                                columns.Bound(p => p.BOffNoOfM);
-                                columns.Bound(p => p.BOffNoOfB);
+                                columns.Bound(p => p.VPoorNoOfM).Title("V.P M");
+                                columns.Bound(p => p.VPoorNoOfB).Title("V.P B"); ;
+                                columns.Bound(p => p.PoorNoOfM).Title("P M"); ;
+                                columns.Bound(p => p.PoorNoOfB).Title("P B"); ;
+                                columns.Bound(p => p.MiddleNoOfM).Title("M M"); ;
+                                columns.Bound(p => p.MiddleNoOfB).Title("M B"); ;
+                                columns.Bound(p => p.BOffNoOfM).Title("B M"); ;
+                                columns.Bound(p => p.BOffNoOfB).Title("B B"); ;
                                 columns.Command(commands =>
                                 {
                                     commands.Edit();
@@ -48,7 +49,8 @@
       .Destroy(destroy=>destroy.Action("Delete","NeedAssessment"))
       )
       .ToolBar((toolbar=>toolbar.Create()))
-      .HtmlAttributes("<a href='/account/index/#= id#'>#=BankName#</a>")
+     
+        
       
       )
-    </div>
+  

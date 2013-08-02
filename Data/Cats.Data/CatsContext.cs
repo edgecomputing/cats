@@ -35,7 +35,7 @@ namespace Cats.Data
 
         public DbSet<TransportBidPlan> TransportBidPlans { get; set; }
         public DbSet<TransportBidPlanDetail> TransportBidPlanDetails { get; set; }
-        //public DbSet<HubAllocation> HubAllocations { get; set; }
+       
         public DbSet<ProjectCodeAllocation> ProjectCodeAllocation { get; set; }
 
         public DbSet<TransportRequisition> TransportRequisition { get; set; }
@@ -45,12 +45,12 @@ namespace Cats.Data
 
        
         public DbSet<BidWinner> BidWinners { get; set; }
-        //public DbSet<HubAllocation> HubAllocation { get; set; } 
+      
 
         public DbSet<TransportOrder> TransportOrders { get; set; }
         public DbSet<TransportOrderDetail> TransportOrderDetails { get; set; }
         public DbSet<vwTransportOrder> vwTransportOrders { get; set; }
-        //public DbSet<TransportRequisition> TransportRequisitions { get; set; }
+        
         public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<ReceiptAllocation> ReceiptAllocation { get; set; } 
@@ -61,7 +61,8 @@ namespace Cats.Data
         public DbSet<TransportBidQuotation> TransportBidQuotations { get; set; }
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         public DbSet<Ration> Rations { get; set; }
-        public DbSet<NeedAssement> NeedAssessment { get; set; }
+        public DbSet<NeedAssessmentHeader> NeedAssessmentHeader { get; set; }
+        public DbSet<NeedAssessmentDetail> NeedAssessmentDetail { get; set; }
         //public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -79,7 +80,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new BidDetailMap());
             modelBuilder.Configurations.Add(new BidMap());
             modelBuilder.Configurations.Add(new StatusMap());
-            //modelBuilder.Configurations.Add(new OrderDeatilMap());
+       
             modelBuilder.Configurations.Add(new TransporterMap());
             modelBuilder.Configurations.Add(new TransportBidPlanMap());
             modelBuilder.Configurations.Add(new TransportBidPlanDetailMap());
@@ -91,7 +92,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new ShippingInstructionMap());
 
             modelBuilder.Configurations.Add(new BidWinnerMap());
-            //modelBuilder.Configurations.Add(new HubAllocationMap());
+           
             modelBuilder.Configurations.Add(new TransportOrderMap());
             modelBuilder.Configurations.Add(new TransportOrderDetailMap());
             modelBuilder.Configurations.Add(new vwTransportOrderMap());
@@ -106,7 +107,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TransportBidQuotationMap());
             modelBuilder.Configurations.Add(new ApplicationSettingMap());
             modelBuilder.Configurations.Add(new RationMap());
-            modelBuilder.Configurations.Add(new NeedAssessmentMap());
+            modelBuilder.Configurations.Add(new NeedAssessmentHeaderMap());
+            modelBuilder.Configurations.Add(new NeedAssessmentDetailMap());
         }
 
     }

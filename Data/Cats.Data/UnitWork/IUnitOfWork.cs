@@ -59,7 +59,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
 
         IGenericRepository<Ration> RationRepository { get; }
-        IGenericRepository<NeedAssement> NeedAssessmentRepository { get; }
+        IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository { get; }
+        IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository { get; }
         void Save();
 
     }
