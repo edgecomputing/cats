@@ -39,6 +39,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult HRDDetail(int id = 0)
         {
+            ViewData["Month"] = RequestHelper.GetMonthList();
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
 
             if (hrd != null)
@@ -59,7 +60,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
             //ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
-            var hrdDetail = _hrdService.GetHRDDetailByHRDID(id);
+           
+            var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
             if (hrdDetail != null)
             {
                 var detailsToDisplay = GetHRDDetails(hrdDetail).ToList();
@@ -92,8 +94,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             HRDDetailID = hrdDetail.HRDDetailID,
                             HRDID = hrdDetail.HRDID,
                             WoredaID = hrdDetail.WoredaID,
-                            Zone = hrdDetail.AdminUnit.Name,
-                            Region = hrdDetail.AdminUnit.AdminUnit2.Name,
+                            Zone = hrdDetail.AdminUnit.AdminUnit2.Name,
+                            Region = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.Name,
                             Woreda = hrdDetail.AdminUnit.Name,
                             NumberOfBeneficiaries = hrdDetail.NumberOfBeneficiaries,
                             StartingMonth = hrdDetail.StartingMonth,
@@ -102,13 +104,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Pulse = (decimal) ((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.00045),
                             CSB = (decimal) ((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.0015),
                             Oil = (decimal) ((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.00045)
-                            //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 8).Amount,
-                            //Pulse = //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 2).Amount,
-                            //Cereal = //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 1).Amount,
-                            //Oil =  //hrdDetail.HRDCommodityDetails.Single(m => m.CommodityID == 4).Amount
-
-                            
-
+                                          
 
                         });
         }
@@ -117,7 +113,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrd = new HRD();
            // hrd.HRDDetails = new List<HRDDetail>();
             //ViewBag.Ration = new SelectList(_rationService.GetAllRation(), "RationID", "Name");
-            ViewData["Months"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            ViewData["Month"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
              var commodities = _commodityService.GetAllCommodity();
 
@@ -131,16 +127,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             hrd.HRDDetails = hrdDetails;
 
 
-            //ViewBag.Ration = _rationService.GetAllRation();
-            //foreach (var woreda in woredas)
-            //{
-            //    var detail = new HRDDetail();
-            //    detail.Woreda = woreda;
-            //    hrd.HRDDetails.Add(detail);
-            //}
-
-            //var viewModel = new CreateHumanitarianRequirementViewModel(hrd);
-            //ViewData["HRDDetail"] = viewModel;
             return View(hrd);
         }
 
@@ -161,10 +147,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                   
                     _hrdDetailService.EditHRDDetail(detail);
                 }
-                //foreach (var details in hrdDetails)
-                //{
-                //    _hrdDetailService.EditHRDDetail(details);
-                //}
+                
             }
             return Json(new[] { hrdDetails }.ToDataSourceResult(request, ModelState));
             //return Json(ModelState.ToDataSourceResult());
@@ -199,7 +182,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
                 
-                var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
+                var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                 //var commodities = _commodityService.GetCommonCommodity();
                     //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
 
@@ -207,34 +190,39 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                   select new HRDDetail()
                                   {
                                       WoredaID = detail.AdminUnitID,
+                                      StartingMonth = 1,
                                       NumberOfBeneficiaries = 100,
                                       DurationOfAssistance = 8
-                                      //HRDCommodityDetails = (from commodity in commodities
-                                      //                       select new HRDCommodityDetail()
-                                      //                       {
-                                      //                           //Commodity = commodity
-                                      //                           CommodityID = commodity.CommodityID,
-                                      //                           Amount = 0
-                                      //                       }).ToList()
-                                    
-                                
+                                      
                                   }).ToList();
                 
                 hrd.HRDDetails = hrdDetails;
                 _hrdService.AddHRD(hrd);
 
-                // RouteValueDictionary routeValues = this.GridRouteValues();
-                //return RedirectToAction("Edit","Bid", routeValues);
-                //return RedirectToAction("Edit", "Bid", new { id = bid.BidID });
+            }
+
+            return RedirectToAction("Index");
+        }
+        //HRD/Edit/2
+        public ActionResult Edit(int id)
+        {
+            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+            ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name", hrd.Month);
+           
+            return View(hrd);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(HRD hrd)
+        {
+            if(ModelState.IsValid)
+            {
+                _hrdService.EditHRD(hrd);
                 return RedirectToAction("Index");
             }
 
-
-
-
-            //var requirement = viewModel.Hrd;
-            //_hrdService.AddHRD(requirement);
-            return RedirectToAction("Index");
+            return View(hrd);
         }
+
     }
 }

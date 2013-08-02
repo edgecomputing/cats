@@ -1,4 +1,6 @@
-﻿@using Cats.Services.Security
+﻿@using System.Collections
+@using Cats.Models
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @model  Cats.Models.HRD
 @{
@@ -31,7 +33,8 @@
              columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" }); 
             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
             columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
-            columns.Bound(p => p.StartingMonth).Title("Starting Month");
+             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name");
+    //).Title("Starting Month");
             columns.Bound(p => p.CSB);
             columns.Bound(p => p.Pulse);
             columns.Bound(p => p.Oil);
@@ -52,14 +55,15 @@
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
+      .PageSize(15)
       .Events(events => events.Error("error_handler"))
       //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
        .Model(model =>
                               {
                                   model.Id(p => p.HRDID);
                                   model.Field(p => p.HRDDetailID);
-                                  model.Field(p =>p.StartingMonth).DefaultValue(
-                                      ViewData["Months"] as Cats.Models.ViewModels.HRD.HRDDetailViewModel);
+                                  model.Field(p => p.StartingMonth);
+                                      //.DefaultValue(ViewData["Months"] as Cats.Models.ViewModels.HRD.HRDDetailViewModel);
                                   model.Field(p => p.Oil).Editable(false);
                                   model.Field(p => p.Pulse).Editable(false);
                                   model.Field(p => p.Cereal).Editable(false);

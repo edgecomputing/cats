@@ -616,6 +616,7 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Edit.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
