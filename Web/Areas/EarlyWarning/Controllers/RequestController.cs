@@ -109,8 +109,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
            
            
-            var ration = _rationService.GetAllRation();
-            var rationViewModel = (from item in ration
+            var ration = _rationService.Get(t=>t.IsDefaultRation,null,"RationDetails").FirstOrDefault();
+            var rationViewModel = (from item in ration.RationDetails
                                    select new
                                               {
                                                   _commodityService.FindById(item.CommodityID).Name,

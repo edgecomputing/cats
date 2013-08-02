@@ -13,6 +13,7 @@ using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 using System.Web.Script.Serialization;
+using System.Linq.Expressions;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -25,13 +26,28 @@ namespace Cats.Tests.ControllersTests
         [SetUp]
         public void Init()
         {
+            var rationDetails = new List<RationDetail>()
+                              {
+                                  new RationDetail() {RationID = 1, CommodityID = 1, Amount = 15},
+                                  new RationDetail {RationID = 2, CommodityID = 2, Amount = 1},
+                                  new RationDetail() {RationID =3, CommodityID = 3, Amount = 2},
+                                  new RationDetail {RationID = 4, CommodityID = 4, Amount = 4}
+                              };
             var rations = new List<Ration>()
                               {
-                                  new Ration() {RationID = 1, CommodityID = 1, Amount = 15},
-                                  new Ration {RationID = 2, CommodityID = 2, Amount = 1},
-                                  new Ration() {RationID =3, CommodityID = 3, Amount = 2},
-                                  new Ration {RationID = 4, CommodityID = 4, Amount = 4}
+                                  new Ration()
+                                      {
+                                          CreatedBy = 1,
+                                          RationID = 1,
+                                          CreatedDate = DateTime.Today,
+                                          IsDefaultRation = true,
+                                          RationDetails = rationDetails,
+                                          UpdatedBy = 1,
+                                          UpdatedDate = DateTime.Today
+                                      },
+
                               };
+
             var commodities = new List<Commodity>
                                   {
                                       new Commodity {CommodityID = 1, CommodityCode = "1", Name = "commodity 1"},
@@ -41,39 +57,43 @@ namespace Cats.Tests.ControllersTests
                                       new Commodity {CommodityID = 5, CommodityCode = "5", Name = "commodity 5"},
                                   };
             var rationService = new Mock<IRationService>();
+            rationService.Setup(t => t.Get(It.IsAny<Expression<Func<Ration, bool>>>(), It.IsAny<Func<IQueryable<Ration>, IOrderedQueryable<Ration>>>(), It.IsAny<string>())).Returns(
+                rations);
             rationService.Setup(t => t.GetAllRation()).Returns(rations);
 
-            rationService.Setup(t => t.AddRation(It.IsAny<Ration>())).Returns((Ration ration) =>
+            var rationDetailService = new Mock<IRationDetailService>();
+
+            rationDetailService.Setup(t => t.AddRationDetail(It.IsAny<RationDetail>())).Returns((RationDetail rationDetail) =>
                                                                                   {
-                                                                                      rations.Add(ration);
+                                                                                      rationDetails.Add(rationDetail);
                                                                                       return true;
                                                                                   });
-            rationService.Setup(t => t.EditRation(It.IsAny<Ration>())).Returns((Ration ration) =>
+            rationDetailService.Setup(t => t.EditRationDetail(It.IsAny<RationDetail>())).Returns((RationDetail rationDetail) =>
                                                                                    {
                                                                                        var target =
-                                                                                           rations.Find(
+                                                                                           rationDetails.Find(
                                                                                                t =>
                                                                                                t.RationID ==
-                                                                                               ration.RationID);
-                                                                                       target.Amount = ration.Amount;
+                                                                                               rationDetail.RationID);
+                                                                                       target.Amount = rationDetail.Amount;
                                                                                        return true;
                                                                                    });
-            rationService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
-                (int id) => rations.Find(t => t.RationID == id));
+            rationDetailService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
+                (int id) => rationDetails.Find(t => t.RationDetatilID == id));
 
-            rationService.Setup(t => t.DeleteById(It.IsAny<int>())).Returns((int id) =>
+            rationDetailService.Setup(t => t.DeleteById(It.IsAny<int>())).Returns((int id) =>
                                                                                 {
                                                                                     var origin =
-                                                                                        rations.Find(
-                                                                                            t => t.RationID == id);
-                                                                                    rations.Remove(origin);
+                                                                                        rationDetails.Find(
+                                                                                            t => t.RationDetatilID == id);
+                                                                                    rationDetails.Remove(origin);
                                                                                     return true;
                                                                                 });
 
             var commodityService = new Mock<ICommodityService>();
             commodityService.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) => commodities.Find(t => t.CommodityID == id));
 
-            _rationController = new RationController(rationService.Object, commodityService.Object);
+            _rationController = new RationController(rationService.Object, commodityService.Object, rationDetailService.Object);
         }
 
         [TearDown]

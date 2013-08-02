@@ -61,8 +61,15 @@ namespace Cats.Data
         public DbSet<TransportBidQuotation> TransportBidQuotations { get; set; }
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         public DbSet<Ration> Rations { get; set; }
+
         public DbSet<NeedAssessmentHeader> NeedAssessmentHeader { get; set; }
         public DbSet<NeedAssessmentDetail> NeedAssessmentDetail { get; set; }
+
+        public DbSet<HRD> HRDs { get; set; }
+        public DbSet<HRDDetail> HRDDetails { get; set; }
+        public DbSet<RationDetail> RationDetails { get; set; }
+        public DbSet<HRDCommodityDetail> HrdCommodityDetails { get; set; } 
+
         //public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -107,8 +114,15 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TransportBidQuotationMap());
             modelBuilder.Configurations.Add(new ApplicationSettingMap());
             modelBuilder.Configurations.Add(new RationMap());
+
             modelBuilder.Configurations.Add(new NeedAssessmentHeaderMap());
             modelBuilder.Configurations.Add(new NeedAssessmentDetailMap());
+
+            modelBuilder.Configurations.Add(new HRDMap());
+            modelBuilder.Configurations.Add(new HRDDetailMap());
+            modelBuilder.Configurations.Add(new RationDetailMap());
+            modelBuilder.Configurations.Add(new HRDCommodityDetailMap());
+
         }
 
     }

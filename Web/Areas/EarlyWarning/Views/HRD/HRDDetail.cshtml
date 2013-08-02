@@ -1,0 +1,98 @@
+﻿@using System.Collections
+@using Cats.Models
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model  Cats.Models.HRD
+@{
+    ViewBag.Title = "HRDDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+@section LeftBar
+{
+    @Html.Partial("_HRDLeftBar");
+}
+
+<div class="well">
+    <h2 class="page-header">HRD Detail</h2>
+   
+</div>
+
+
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
+.Name("HRD").Columns(columns =>
+         {
+             columns.Bound(p => p.Region).Width(10).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" }); 
+            columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
+            columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
+             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name");
+    //).Title("Starting Month");
+            columns.Bound(p => p.CSB);
+            columns.Bound(p => p.Pulse);
+            columns.Bound(p => p.Oil);
+            columns.Bound(p => p.Cereal);
+            columns.Bound(p => p.Total); 
+
+
+             //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
+             //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
+
+
+
+         })
+         .ToolBar(toolBar => toolBar.Save())
+       .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .DataSource(datasource=>datasource
+      .Ajax()
+      .PageSize(15)
+      .Events(events => events.Error("error_handler"))
+      //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
+       .Model(model =>
+                              {
+                                  model.Id(p => p.HRDID);
+                                  model.Field(p => p.HRDDetailID);
+                                  model.Field(p => p.StartingMonth);
+                                      //.DefaultValue(ViewData["Months"] as Cats.Models.ViewModels.HRD.HRDDetailViewModel);
+                                  model.Field(p => p.Oil).Editable(false);
+                                  model.Field(p => p.Pulse).Editable(false);
+                                  model.Field(p => p.Cereal).Editable(false);
+                                  model.Field(p => p.CSB).Editable(false);
+                                  model.Field(p => p.Region).Editable(false);
+                                  model.Field(p => p.Woreda).Editable(false);
+                                  model.Field(p => p.Zone).Editable(false);
+                              }) 
+      
+      //.Model(model=>model.Id(p=>p.HRDID))
+         // .Read(read => read.Action("HRDDetail_Read", "HRD", new{ id = Model.HRDID }))
+          .Read(read => read.Action("HRDDetail_Read", "HRD",new{id=Model.HRDID}))
+          .Update(update => update.Action("HRDDetail_Update", "HRD"))
+      )
+      
+)
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

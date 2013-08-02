@@ -1,0 +1,84 @@
+﻿@model Cats.Models.Ration
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Create Ration</h3>
+</div>
+
+@using (Html.BeginForm("Create", "Ration", FormMethod.Post, new { @class = "modal-form" }))
+{
+    @Html.ValidationSummary()
+
+    <div class="modal-body well">
+
+
+        <div class="form-horizontal">
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RefrenceNumber)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.RefrenceNumber)
+                    @Html.ValidationMessageFor(model => model.RefrenceNumber)
+                </div>
+             </div>  
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.IsDefaultRation)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.IsDefaultRation)
+                    @Html.ValidationMessageFor(model => model.IsDefaultRation)
+                </div>
+            </div>
+            @*<div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CreatedDate)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.CreatedDate)
+                    @Html.ValidationMessageFor(model => model.CreatedDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CreatedBy)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.CreatedBy)
+                    @Html.ValidationMessageFor(model => model.CreatedBy)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.UpdatedDate)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.UpdatedDate)
+                    @Html.ValidationMessageFor(model => model.UpdatedDate)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.UpdatedBy)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.UpdatedBy)
+                    @Html.ValidationMessageFor(model => model.UpdatedBy)
+                </div>
+            </div>*@
+
+          
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+
+}
+

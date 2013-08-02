@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -145,9 +151,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestViewModel.cs" />
@@ -206,10 +215,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ElmahErrorAttribute.cs" />
     <Compile Include="Helpers\EthiopianDate.cs" />
     <Compile Include="Helpers\getGregorianDate.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Helpers\UserAccountHelper.cs" />
+    <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">
@@ -591,8 +602,6 @@
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
-<<<<<<< HEAD
-=======
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
@@ -600,7 +609,16 @@
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\_TransportOrderLeftBar.cshtml" />
->>>>>>> f342fbb94b00d6f2754aa0c3bc3215bf14bafa5c
+    <Content Include="Areas\EarlyWarning\Views\Request\View1.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\_Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
+=======
+    <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
+>>>>>>> 0ae0967b6a88ce563ddd1b9a4a0ec773177037ca
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -622,6 +640,7 @@
     <Content Include="Content\site.js" />
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\js\jquery.mb.browser.js" />
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="Scripts\kendo.web.min.js" />
     <Content Include="Areas\Procurement\Views\Web.config" />
@@ -804,7 +823,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />
   </ItemGroup>

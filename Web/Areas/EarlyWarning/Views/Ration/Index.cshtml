@@ -1,61 +1,81 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @using Kendo.Mvc.UI
-
+@using Cats.Helpers
 @{
-
-    ViewBag.Title = "Beneficiary Ration";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
-<h2 class="well">Ration</h2>
-@section LeftBar
-{
-    <ul class="nav nav-list">
-    <li class="nav-header">Rations</li>        
-   @* <li><a href="@Url.Action("NewRation","Ration",new{id=(int)ReliefRequisitionStatus.Draft})"><i class="icon-inbox"></i> Draft</a></li>
-   *@
-    
-</ul>
+@{
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+    var cal = user.Calendar; 
 }
 
-@(Html.Kendo().Grid<RationViewModel>()
-      .Name("grid")
-      .Columns(columns =>
-                   {
-                       columns.Bound(p => p.CommodityID).Width(100).Visible(false);
-                       columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                       columns.Bound(p => p.RationID).Width(100).Visible(false);
-                       columns.Bound(p => p.Amount).Width(100);
-                       //columns.Command(command =>
-                       //                    {
-                       //                        //command.Destroy();
-                       //                        //command.Edit();
-                       //                    });
-                   })
-          .ToolBar(toolbar =>
-          {
-              toolbar.Save();
-              //toolbar.Create();
-          })
-      .Editable(editable => editable.Mode(GridEditMode.InCell))
-      .Pageable()
-      .Sortable()
-      .Scrollable()
-      .Selectable(t => t.Mode(GridSelectionMode.Single))
-      .Navigatable()
-      .HtmlAttributes(new { style = "height:430px;" })
-      .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .PageSize(20)
-                                    .Model(
-    
-        model => {model.Id(p => p.RationID);
-                     model.Field(ration => ration.Commodity).Editable(false);
-        }
-    )
-                                    .Create(update => update.Action("Ration_Create", "Ration"))
-                                    .Read(read => read.Action("Ration_Read", "Ration"))
-                                    .Update(update => update.Action("Ration_Update", "Ration"))
-                                    .Destroy(update => update.Action("Ration_Destroy", "Ration"))
-      ))
+@section LeftBar
+{
+   @Html.Partial("_rationLeftBar");
+}
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 
+<h4 class="well">Rations</h4>
+@(Html.Kendo().Grid<RationViewModel>().Name("grid")
+.Columns(columns =>
+             {
+                 columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
+                 columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
+                 columns.Bound(p => p.CreatedBy);
+                 if (cal.ToLower() == "ec")
+                 { columns.Bound(p => p.CreatedDateEC); }
+                 else
+                 { columns.Bound(p => p.CreatedDate); }
+
+                 columns.Bound(p => p.IsDefaultRation);
+             }).Events(ev => ev.DataBound("resetRowNumber"))
+             .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration")))
+@section Scripts
+{
+  
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnCreate').click(function () {
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+    });
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#dialogDiv').modal('hide');
+                        // Refresh:
+                        // location.reload();
+                    } else {
+                        $('#dialogContent').html(result);
+                        bindForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
+  
+
+</script>

@@ -1,0 +1,120 @@
+﻿@using Cats.Helpers
+@model Cats.Areas.EarlyWarning.Models.RationViewModel
+@{
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Edit Ration</h3>
+</div>
+@{
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+    var cal = user.Calendar; 
+}
+
+@using (Html.BeginForm("Edit", "Ration", FormMethod.Post, new { @class = "modal-form" }))
+{
+    @Html.ValidationSummary()
+
+    <div class="modal-body well">
+        @Html.HiddenFor(model=>model.RationID)
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ReferenceNumber)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.ReferenceNumber)
+                    @Html.ValidationMessageFor(model => model.ReferenceNumber)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.IsDefaultRation)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.IsDefaultRation)
+                    @Html.ValidationMessageFor(model => model.IsDefaultRation)
+                </div>
+            </div>
+            @if (cal.ToLower() == "ec")
+            {
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.CreatedDateEC)
+                    </div>
+                    <div class="controls">
+                        @Html.DisplayFor(model => model.CreatedDateEC)
+                     
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.CreatedDate)
+                    </div>
+                    <div class="controls">
+                        @Html.DisplayFor(model => model.CreatedDate)
+                         @Html.HiddenFor(model => model.CreatedDate)
+                    </div>
+                </div>
+            }
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CreatedBy)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.CreatedBy)
+                </div>
+            </div>
+
+            @if (cal.ToLower() == "ec")
+            {
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.UpdatedDateEC)
+                    </div>
+                    <div class="controls">
+                        @Html.DisplayFor(model => model.UpdatedDateEC)
+                       
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.UpdatedDate)
+                    </div>
+                    <div class="controls">
+                        @Html.DisplayFor(model => model.UpdatedDate)
+                        @Html.HiddenFor(model => model.UpdatedDate)
+                       
+                    </div>
+                </div>
+            }
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.UpdatedBy)
+                </div>
+                <div class="controls">
+                 
+                    @Html.DisplayFor(model => model.UpdatedBy)
+                    @Html.HiddenFor(model => model.UpdatedBy)
+                   
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+
+}
+

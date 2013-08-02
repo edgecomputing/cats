@@ -5,31 +5,31 @@ namespace Cats.Models.ViewModels.HRD
 {
     public class CreateHumanitarianRequirementViewModel
     {
-        private readonly HumanitarianRequirement _humanitarianRequirement;
+        private readonly Models.HRD _hrd;
         private List<DetailViewModel> _details = new List<DetailViewModel>(); 
         public CreateHumanitarianRequirementViewModel()
         {
-            _humanitarianRequirement = new HumanitarianRequirement();
+            _hrd = new Models.HRD();
         }
 
-        public CreateHumanitarianRequirementViewModel(HumanitarianRequirement humanitarianRequirement)
+        public CreateHumanitarianRequirementViewModel(Models.HRD hrd)
         {
-            _humanitarianRequirement = humanitarianRequirement;
-            foreach (var detail in humanitarianRequirement.HumanitarianRequirementDetails)
+            _hrd = hrd;
+            foreach (var detail in hrd.HRDDetails)
             {
                 _details.Add(new DetailViewModel(detail));
             }
         }
 
-        public int Year { get { return _humanitarianRequirement.Year; } set { _humanitarianRequirement.Year = value; } }
-        public string Month { get { return _humanitarianRequirement.Month; } set { _humanitarianRequirement.Month = value; } }
-        public DateTime CreatedDate { get { return _humanitarianRequirement.CreatedDate; } set { _humanitarianRequirement.CreatedDate = value; } }
+        public int Year { get { return _hrd.Year; } set { _hrd.Year = value; } }
+        public string Month { get { return _hrd.Month; } set { _hrd.Month = value; } }
+        public DateTime CreatedDate { get { return _hrd.CreatedDate; } set { _hrd.CreatedDate = value; } }
         public List<DetailViewModel> Details
         {
             get { return _details ?? (_details = new List<DetailViewModel>()); }
             set { _details = value; }
         }
 
-        public HumanitarianRequirement HumanitarianRequirement { get { return _humanitarianRequirement; } }
+        public Models.HRD Hrd { get { return _hrd; } }
     }
 }
