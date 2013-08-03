@@ -1,0 +1,90 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "NeedAssessmentToBeApproved";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+@section LeftBar
+{
+   @Html.Partial("_NeedAssessmentPartial");
+}
+
+<fieldset>
+    <legend>
+       Need Assessment To Be Approved
+    </legend>
+</fieldset>
+
+@{var record = 0;}
+
+@(Html.Kendo().Grid<NeedAssessmentViewModel>()
+
+    .Name("NeedAssessment").Columns(columns =>
+                            {
+                               
+                                columns.Bound(p => p.NeedACreatedDate);
+                                columns.Bound(p => p.NeedACreatedBy);
+                                columns.Bound(p => p.NeedAApproved).Template(@<text></text>).ClientTemplate("<input type='checkbox' #= NeedAApproved ? checked='checked' : '' # class='check_row'/>");
+                               
+                            })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Pageable()
+      .Sortable()
+      .DataSource(datasource => datasource.Ajax()
+      .Model(model => model.Id(p => p.NAId))
+      .Read(read => read.Action("NeedAssessmentsToBeApproved", "NeedAssessment"))
+      
+      )
+      
+      )
+  
+<br/>
+<div class="control-group">      
+    <div class="controls">
+        <input type="submit" value="Approve" class="btn btn-success" onclick="Save()"/>
+    </div>
+</div>
+
+<script>
+    
+    //Adding click event on check box 
+    $('.check_row').live('click', function (e) {
+        //Getting checkbox
+        var $cb = $(this);
+        //Getting checkbox value
+        var checked = $cb.is(':checked');
+        //Setting checkbox value to data Item
+        setValueToGridData(checked);
+    });
+
+    function setValueToGridData(val) {
+        //Selecting Grid
+        var grid = $("#NeedAssessment").data("kendoGrid");
+        //Getting selected Item(s)
+        var selectedItems = grid.select();
+        selectedItems.each(function (index, row) {
+            var selectedItem = grid.dataItem(row);
+            //Setting value to data item; so that we can read updated data
+            selectedItem.set('NeedAApproved', val);
+        });
+    }
+    
+
+    function Save() {
+        alert("test");
+        //getting json data from kendo Grid
+        var gridData = $("#NeedAssessment").data("kendoGrid").dataSource.data();
+        $.ajax({
+            type: "POST"
+            , url: "/NeedAssessment/Approve"
+            , data: JSON.stringify({ users: gridData })
+            , contentType: "application/json"
+            , success: function (result) {
+                alert(result.count + " record(s) found");
+            }
+        });
+    }
+</script>

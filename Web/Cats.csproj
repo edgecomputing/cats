@@ -156,11 +156,8 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestDetailViewModel.cs" />
@@ -619,14 +616,13 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Edit.cshtml" />
-
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentToBeApproved.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -831,7 +827,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />
   </ItemGroup>
