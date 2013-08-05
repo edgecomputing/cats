@@ -58,7 +58,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 rationViewModel.Commodity = _commodityService.FindById(rationDetail.CommodityID).Name;
                 rationViewModel.CommodityID = rationDetail.CommodityID;
                 rationViewModel.RationID = rationDetail.RationID;
-                rationViewModel.RationDetailID = rationDetail.RationDetatilID;
+                rationViewModel.RationDetailID = rationDetail.RationDetailID;
             }
             return rationViewModel;
         }
@@ -169,7 +169,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (rationDetailViewModel == null) return null;
             var ration = new RationDetail()
                              {
-                                 RationDetatilID = rationDetailViewModel.RationDetailID,
+                                 RationDetailID = rationDetailViewModel.RationDetailID,
                                  RationID = rationDetailViewModel.RationID,
                                  CommodityID = rationDetailViewModel.CommodityID,
                                  Amount = rationDetailViewModel.CommodityID,
