@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Models
 {
@@ -16,7 +15,13 @@ namespace Cats.Models
             this.ReliefRequisitions1 = new List<ReliefRequisition>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.BidWinners=new List<BidWinner>();
+
+
+            this.NeedAssessmentDetails = new List<NeedAssessmentDetail>();
+            this.NeedAssessmentDetails1 = new List<NeedAssessmentDetail>();
+
             this.HrdDetails=new List<HRDDetail>();
+
            
         }
 
@@ -30,6 +35,8 @@ namespace Cats.Models
         public virtual AdminUnitType AdminUnitType { get; set; }
         public virtual ICollection<BidDetail> BidDetails { get; set; }
         public virtual ICollection<FDP> FDPs { get; set; }
+        public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails { get; set; }
+        public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails1 { get; set; }
         public ICollection<RegionalRequest> RegionalRequests { get; set; }
         public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
@@ -42,7 +49,8 @@ namespace Cats.Models
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
         public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; } 
         
-        
+
+      
 
     }
 }

@@ -1,0 +1,46 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "NeedAssessment Approved";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+@section LeftBar
+{
+   @Html.Partial("_NeedAssessmentPartial");
+}
+
+<fieldset>
+    <legend>
+       Need Assessment Approved
+    </legend>
+</fieldset>
+
+@{var record = 0;}
+
+@(Html.Kendo().Grid<NeedAssessmentViewModel>()
+
+    .Name("NeedAssessment").Columns(columns =>
+                            {
+                               
+                                columns.Bound(p => p.NeedACreatedDate).Format("{0:MM/dd/yyyy}").Title("Date");
+                                columns.Bound(p => p.CreaterUser).Title("Created By");
+                                //columns.Bound(p => p.NeedAApproved).Template(@<text></text>).ClientTemplate("<input type='checkbox' #= NeedAApproved ? checked='checked' : '' # class='check_row'/>");
+                                
+                            })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Pageable()
+      .Sortable()
+      .ColumnMenu()
+      .DataSource(datasource => datasource.Ajax()
+      .Model(model => model.Id(p => p.NAId))
+      .Read(read => read.Action("GetApproved", "NeedAssessment"))
+      
+      )
+      
+      )
+  
+
+

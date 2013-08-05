@@ -151,10 +151,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
@@ -620,12 +622,19 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Details.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentToBeApproved.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Approved.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Delete.cshtml" />
     <Content Include="Areas\PSNP\Views\Default1\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\Default1\Details.cshtml" />
@@ -841,7 +850,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\EarlyWarning\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />

@@ -1,23 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cats.Models
+namespace Cats.Models.MetaData
 {
-    public partial class HRD
+    public class HRDMetaData
     {
-        public int HRDID { get; set; }
+        
         public int Year { get; set; }
+
+        [Required(ErrorMessage = "Please Select Month")]
         public int Month { get; set; }
+
+         [Required(ErrorMessage = "Please Enter Created Date")]
         public DateTime CreatedDate { get; set; }
+
+         [Required(ErrorMessage = "Please Enter Published Date")]
         public DateTime PublishedDate { get; set; }
         //public int StatusID { get; set; }
+        [Required(ErrorMessage = "Please Select Ration")]
         public int RationID { get; set; }
 
-        public virtual Ration Ration { get; set; }
-        public virtual ICollection<HRDDetail> HRDDetails { get; set; }
+       
 
     }
 }

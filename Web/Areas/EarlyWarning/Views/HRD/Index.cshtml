@@ -5,36 +5,44 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+<div class="well">
+    <h4 class="page-header">List of HRD</h4>
+    <div align="right">
+        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
+    </div>
+</div>
+@section LeftBar{
 
-@(Html.Kendo().Grid<Cats.Models.HRD>()
+    @Html.Partial("_HRDLeftBar");
+}
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.HRDID);
-        
+        columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
         columns.Bound(p => p.Month);
         columns.Bound(p => p.Year);
-        columns.Bound(p => p.CreatedDate);
-        columns.Bound(p => p.PublishedDate);
-        
-        //columns.Bound(p => p.DurationOfAssistance);
-        //columns.Bound(p => p.StartingMonth);
-        //columns.Bound(p => p.Cereal);
-        //columns.Bound(p => p.Pulse);
-        //columns.Bound(p => p.CSB);
-        //columns.Bound(p => p.Oil);
+        columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");
+        columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
 
-       // columns.Command(p => p.Custom("ViewDetail").Click("HrdDetail"));
-       
-    })
-    .Groupable()
+            columns.Command(p =>p.Custom("Edit").Click("hrdEdit"));
+                //{
+                //   // p.Custom("ViewDetails").Click("showDetails");
+                //    p.Custom("Edit").Click("hrdEdit");
+                //});
+            //columns.Command(p =>
+            //{
+            //    p.Custom("Edit").Click("hrdEdit");
+            //    p.Custom("ViewDetails").Click("showDetails");
+            //});
+
+        })
     .Pageable()
     .Sortable()
-    .Scrollable()
     .Filterable()
     .DataSource(dataSource => dataSource
           .Ajax()
-          .PageSize(5)
+          .PageSize(8)
             .Model(model => model.Id(p => p.HRDID))
             .Read(read => read.Action("HRD_Read", "HRD"))
  
@@ -43,3 +51,37 @@
       )
 
 
+
+<script>
+    function showDetails(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "HRD/HRDDetail/" + dataItem.HRDID;
+
+    }
+    
+</script>
+<script>
+    function hrdEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "HRD/Edit/" + dataItem.HRDID;
+    }
+</script>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

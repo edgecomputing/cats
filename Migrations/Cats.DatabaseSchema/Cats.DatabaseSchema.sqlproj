@@ -186,9 +186,12 @@
     <Build Include="Procurement\Tables\TransportBidQuotation.sql" />
     <Build Include="dbo\Tables\ApplicationSetting.sql" />
     <Build Include="dbo\Tables\CurrentRation.sql" />
+    <Build Include="dbo\Tables\ELMAH_Error.sql" />
     <Build Include="Procurement\Tables\Bid_1.sql" />
     <Build Include="dbo\Tables\RationDetail_1.sql" />
     <Build Include="dbo\Tables\Ration_1.sql" />
+    <Build Include="EarlyWarning\Tables\NeedAssessmentHeader.sql" />
+    <Build Include="EarlyWarning\Tables\NeedAssessmentDetail.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

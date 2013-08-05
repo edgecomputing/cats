@@ -59,6 +59,10 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
 
         IGenericRepository<Ration> RationRepository { get; }
+
+        IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository { get; }
+        IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository { get; }
+
         IGenericRepository<RationDetail> RationDetailRepository { get; } 
         IGenericRepository<HRD> HRDRepository { get; }
         IGenericRepository<HRDDetail> HRDDetailRepository { get; }
@@ -66,6 +70,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
         
         
+
         void Save();
 
     }

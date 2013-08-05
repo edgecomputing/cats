@@ -1,4 +1,6 @@
-﻿@using Cats.Services.Security
+﻿@using System.Collections
+@using Cats.Models
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @model  Cats.Models.HRD
 @{
@@ -12,6 +14,10 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
+@section LeftBar
+{
+    @Html.Partial("_HRDLeftBar");
+}
 
 <div class="well">
     <h2 class="page-header">HRD Detail</h2>
@@ -20,35 +26,122 @@
 
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
-.Name("HrdDetail").Columns(columns =>
+.Name("grid").Columns(columns =>
          {
-            columns.Bound(p => p.Region).Width(10);
-            columns.Bound(p => p.Zone);
-            columns.Bound(p => p.Woreda);
-            columns.Bound(p => p.WoredaID);
+             columns.Bound(p => p.Region).Width(10).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" }); 
             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
             columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
-            columns.Bound(p => p.CSB);
-             columns.Bound(p => p.Pulse);
-             columns.Bound(p => p.Oil);
+             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name");
              columns.Bound(p => p.Cereal);
+             columns.Bound(p => p.BlendedFood).Title("B.Food");
+            columns.Bound(p => p.Oil);
+            columns.Bound(p => p.Pulse);
+            columns.Bound(p => p.Total); 
+
+
              //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
              //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
 
 
+
          })
-      //.Editable(editable => editable.Mode(GridEditMode.InLine))
+         .ToolBar(toolBar => toolBar.Save())
+       .Editable(editable => editable.Mode(GridEditMode.InCell))
+       .Events(events => events.DataBound("onDataBound"))
       .Pageable()
       .Sortable()
+      .Selectable(t=>t.Mode(GridSelectionMode.Single	))
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
+      .PageSize(15)
+      .Events(events => events.Error("error_handler"))
       //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
-       
-      .Model(model=>model.Id(p=>p.HRDID))
-      //.Read(read => read.Action("BidDetail_Read", "HRD",new {id=Model.HRDID}))
+       .Model(model =>
+                              {
+                                  model.Id(p => p.HRDID);
+                                  model.Field(p => p.HRDDetailID);
+                                  model.Field(p => p.StartingMonth);
+                                      //.DefaultValue(ViewData["Months"] as Cats.Models.ViewModels.HRD.HRDDetailViewModel);
+                                  //model.Field(p => p.Oil).Editable(false);
+                                  //model.Field(p => p.Pulse).Editable(false);
+                                  //model.Field(p => p.Cereal).Editable(false);
+                                  //model.Field(p => p.BlendedFood).Editable(false);
+                                  model.Field(p => p.Region).Editable(false);
+                                  model.Field(p => p.Woreda).Editable(false);
+                                  model.Field(p => p.Zone).Editable(false);
+                              }) 
+      
+      //.Model(model=>model.Id(p=>p.HRDID))
+         // .Read(read => read.Action("HRDDetail_Read", "HRD", new{ id = Model.HRDID }))
+          .Read(read => read.Action("HRDDetail_Read", "HRD",new{id=Model.HRDID}))
+          .Update(update => update.Action("HRDDetail_Update", "HRD"))
       )
       
 )
 
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
+
+
+<script type="text/javascript">
+
+    function onDataBound(e) {
+        rowNumber = 0;
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var benficiery = firstItem.get('NumberOfBeneficiaries');
+            var duration = firstItem.get('DurationOfAssistance');
+
+
+
+            $.getJSON('/HRD/GetRation', function (data) {
+
+
+                $.each(data, function (key, val) {
+                    if (val.Name == "Cereal") {
+                        firstItem.set('Cereal', val.Value * benficiery * duration);
+
+                    }
+                    else if (val.Name == "Blended food") {
+                        firstItem.set('BlendedFood', val.Value * benficiery * duration);
+
+                    } else if (val.Name == "Oil") {
+                        firstItem.set('Oil', val.Value * benficiery * duration);
+
+                    } else if (val.Name == "Pulse") {
+                        firstItem.set('Pulse', val.Value * benficiery * duration);
+
+                    }
+
+
+                });
+
+
+            });
+
+
+        });
+    }
+
+
+</script>
 

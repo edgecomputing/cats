@@ -1,0 +1,177 @@
+﻿@model Cats.Models.NeedAssement
+
+@{
+    ViewBag.Title = "NewNeedAssessment";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("Save", "NeedAssessment",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-horizontal well">
+        <fieldset>
+            <legend>Need Assement</legend>
+            
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NAId)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NAId)
+                    @Html.ValidationMessageFor(model => model.NAId)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.VPoorNoOfM)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.VPoorNoOfM)
+                    @Html.ValidationMessageFor(model => model.VPoorNoOfM)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.VPoorNoOfB)
+                </div>
+
+                <div class="controls">
+                    @Html.EditorFor(model => model.VPoorNoOfB)
+                    @Html.ValidationMessageFor(model => model.VPoorNoOfB)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PoorNoOfM)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.PoorNoOfM)
+                    @Html.ValidationMessageFor(model => model.PoorNoOfM)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PoorNoOfB)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.PoorNoOfB)
+                    @Html.ValidationMessageFor(model => model.PoorNoOfB)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.MiddleNoOfM)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.MiddleNoOfM)
+                    @Html.ValidationMessageFor(model => model.MiddleNoOfM)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.MiddleNoOfB)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.MiddleNoOfB)
+                    @Html.ValidationMessageFor(model => model.MiddleNoOfB)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BOffNoOfM)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.BOffNoOfM)
+                    @Html.ValidationMessageFor(model => model.BOffNoOfM)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BOffNoOfB)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.BOffNoOfB)
+                    @Html.ValidationMessageFor(model => model.BOffNoOfB)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.AdminUnit.AdminUnitID,"Zones")
+                </div>
+                <div class="controls">
+                     @Html.Hidden("Zone")
+                    @Html.DropDownList("Zone", ViewBag.Zones as SelectList, "Select Zone", new {id = "ZoneId"})
+                    @Html.ValidationMessageFor(model => model.AdminUnit.AdminUnitID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.AdminUnit1.AdminUnitID,"Woredas")
+                </div>
+
+                <div class="controls">
+                     @Html.Hidden("Woreda")
+                    @Html.DropDownList("Woreda", ViewBag.Woredas as SelectList, "Select Woreda", new {id = "WoredaId"})
+                    @Html.ValidationMessageFor(model => model.AdminUnit1.AdminUnitID)
+                </div>
+            </div>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script  >
+    (document).ready(function () {
+        // storing selected value to hidden field
+        $("#Zone").val($("#ZoneId").val());
+        $("#Woreda").val($("#WoredaId").val());
+
+        $("#WoredaId").change(function () {
+            $.ajax({
+                url: "~/NeedAssessment/NewNeedAssessment",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# WoredaId").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+        
+        $("#ZoneId").change(function () {
+            $.ajax({
+                url: "~/NeedAssessment/NewNeedAssessment",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# ZoneId").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+        
+    })
+    
+   
+</script>

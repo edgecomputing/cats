@@ -54,6 +54,12 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.CommodityRepository.GetAll();
         }
+
+        public List<Commodity> GetCommonCommodity()
+        {
+            return _unitOfWork.CommodityRepository.FindBy(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
+        }
+
         public Commodity FindById(int id)
         {
             return _unitOfWork.CommodityRepository.FindById(id);
@@ -70,7 +76,12 @@ namespace Cats.Services.EarlyWarning
 
         }
 
-
+        public IEnumerable<Commodity> Get(System.Linq.Expressions.
+           Expression<Func<Commodity, bool>> filter = null,
+           Func<IQueryable<Commodity>, IOrderedQueryable<Commodity>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.CommodityRepository.Get(filter, orderBy, includeProperties);
+        }
 
         public int GetCommoidtyId(string commodityName)
         {

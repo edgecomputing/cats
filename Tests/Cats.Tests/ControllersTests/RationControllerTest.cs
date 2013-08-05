@@ -79,13 +79,13 @@ namespace Cats.Tests.ControllersTests
                                                                                        return true;
                                                                                    });
             rationDetailService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
-                (int id) => rationDetails.Find(t => t.RationDetatilID == id));
+                (int id) => rationDetails.Find(t => t.RationDetailID == id));
 
             rationDetailService.Setup(t => t.DeleteById(It.IsAny<int>())).Returns((int id) =>
                                                                                 {
                                                                                     var origin =
                                                                                         rationDetails.Find(
-                                                                                            t => t.RationDetatilID == id);
+                                                                                            t => t.RationDetailID == id);
                                                                                     rationDetails.Remove(origin);
                                                                                     return true;
                                                                                 });

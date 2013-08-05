@@ -12,7 +12,7 @@
     @Html.Partial("_HRDLeftBar");
    
 }
-<div class="well"><h3>Create HRD</h3></div>
+<div class="well"><h3>Edit HRD</h3></div>
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
@@ -23,7 +23,7 @@
                     @Html.LabelFor(m => m.Year)
                 </div>
                 <div class="controls">
-                    @Html.TextBox("Year")
+                    @Html.TextBoxFor(m => m.Year)
                     @Html.ValidationMessageFor(m=>m.Year)
                 </div>
         
@@ -53,7 +53,7 @@
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")
                 </div>
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="create" name="create" />
+                     <input class="cats-datepicker" type="text" id="create" name="create" value="@Model.CreatedDate"/>
                     @Html.HiddenFor(m=>m.CreatedDate)
                     @Html.ValidationMessageFor(m => m.CreatedDate)
                 </div>
@@ -64,7 +64,7 @@
                     @Html.LabelFor(m => m.PublishedDate,"Published Date")
                 </div>
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="published" name="published" />
+                     <input class="cats-datepicker" type="text" id="published" name="published" value="@Model.PublishedDate" />
                     @Html.HiddenFor(m=>m.PublishedDate)
                     @Html.ValidationMessageFor(m=>m.PublishedDate)
                 </div>
