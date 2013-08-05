@@ -192,6 +192,8 @@
     <Build Include="dbo\Tables\Ration_1.sql" />
     <Build Include="EarlyWarning\Tables\NeedAssessmentHeader.sql" />
     <Build Include="EarlyWarning\Tables\NeedAssessmentDetail.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPlanDetail.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPlan.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
