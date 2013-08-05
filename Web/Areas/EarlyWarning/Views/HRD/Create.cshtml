@@ -12,19 +12,18 @@
     @Html.Partial("_HRDLeftBar");
    
 }
-<div class="well"><h3>Edit HRD</h3></div>
+<div class="well"><h3>Create HRD</h3></div>
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
 
         <div class="well form-horizontal">
-            <h4 class="page-header">Create Humanitarian Requirement</h4>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.Year)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => m.Year)
+                    @Html.TextBox("Year")
                     @Html.ValidationMessageFor(m=>m.Year)
                 </div>
         
@@ -39,16 +38,16 @@
                 </div>
         
             </div>
-            @* <div class="control-group">
+             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.RationID,"Ration")
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("Ration",String.Empty)
+                    @Html.DropDownList("RationID",String.Empty)
                     @Html.ValidationMessageFor(m=>m.RationID)
                 </div>
         
-            </div>*@
+            </div>
              <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")

@@ -75,9 +75,9 @@ namespace Cats.Infrastructure
             kernel.Bind<IApplicationSettingService>().To<ApplicationSettingService>();
             kernel.Bind<IRationService>().To<RationService>();
             kernel.Bind<IRationDetailService>().To<RationDetailService>();
+
             kernel.Bind<INeedAssessmentHeaderService>().To<NeedAssessmentHeaderService>();
             kernel.Bind<INeedAssessmentDetailService>().To<NeedAssessmentDetailService>();
-
 
             kernel.Bind<IHRDService>().To<HRDService>();
             kernel.Bind<IHRDDetailService>().To<HRDDetailService>();

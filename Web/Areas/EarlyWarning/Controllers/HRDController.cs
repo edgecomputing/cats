@@ -21,14 +21,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IRationService _rationService;
         private IHRDDetailService _hrdDetailService;
         private ICommodityService _commodityService;
+        private IRationDetailService _rationDetailService;
 
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService, 
+                             IRationService rationservice,IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService,ICommodityService commodityService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
             _hrdDetailService = hrdDetailService;
             _commodityService = commodityService;
+            _rationService = rationservice;
+            _rationDetailService = rationDetailService;
         }
 
         public ActionResult Index()
@@ -59,7 +63,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-            //ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
+            
            
             var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
             if (hrdDetail != null)
@@ -76,9 +80,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     select new HRDViewModel()
                     {
                         HRDID = hrd.HRDID,
-                        Month = hrd.Month,
+                        Month = RequestHelper.MonthName(hrd.Month),
                         Year = hrd.Year,
-                        //RationID = hrd.RationID,
+                        Ration = hrd.Ration.RefrenceNumber,
                         CreatedDate = hrd.CreatedDate,
                         PublishedDate = hrd.PublishedDate
 
@@ -88,6 +92,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //gets hrd Detail Information
         private IEnumerable<HRDDetailViewModel> GetHRDDetails(IEnumerable<HRDDetail> hrdDetails)
         {
+            //var rationDetail=_rationDetailService.GetAllRationDetail();
             return (from hrdDetail in hrdDetails
                     select new HRDDetailViewModel()
                         {
@@ -112,7 +117,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrd = new HRD();
            // hrd.HRDDetails = new List<HRDDetail>();
-            //ViewBag.Ration = new SelectList(_rationService.GetAllRation(), "RationID", "Name");
+            ViewBag.Year = DateTime.Today.Year;
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
             ViewData["Month"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
              var commodities = _commodityService.GetAllCommodity();
@@ -208,6 +214,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name", hrd.Month);
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber",hrd.RationID);
            
             return View(hrd);
         }
