@@ -25,14 +25,15 @@
     .Name("NeedAssessment").Columns(columns =>
                             {
                                
-                                columns.Bound(p => p.NeedACreatedDate);
-                                columns.Bound(p => p.NeedACreatedBy);
-                                columns.Bound(p => p.NeedAApproved).Template(@<text></text>).ClientTemplate("<input type='checkbox' #= NeedAApproved ? checked='checked' : '' # class='check_row'/>");
-                               
+                                columns.Bound(p => p.NeedACreatedDate).Format("{0:MM/dd/yyyy}").Title("Date");
+                                columns.Bound(p => p.CreaterUser).Title("Created By");
+                                //columns.Bound(p => p.NeedAApproved).Template(@<text></text>).ClientTemplate("<input type='checkbox' #= NeedAApproved ? checked='checked' : '' # class='check_row'/>");
+                                columns.Command(p => p.Custom("Approve").Click("onApprove"));
                             })
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Sortable()
+      .ColumnMenu()
       .DataSource(datasource => datasource.Ajax()
       .Model(model => model.Id(p => p.NAId))
       .Read(read => read.Action("NeedAssessmentsToBeApproved", "NeedAssessment"))
@@ -42,49 +43,48 @@
       )
   
 <br/>
-<div class="control-group">      
-    <div class="controls">
-        <input type="submit" value="Approve" class="btn btn-success" onclick="Save()"/>
-    </div>
+
+
+<div id="modalWindow">
+    <h6>Approve Need Assessment?</h6>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
 </div>
-
 <script>
-    
-    //Adding click event on check box 
-    $('.check_row').live('click', function (e) {
-        //Getting checkbox
-        var $cb = $(this);
-        //Getting checkbox value
-        var checked = $cb.is(':checked');
-        //Setting checkbox value to data Item
-        setValueToGridData(checked);
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
     });
+</script>
+<script>
 
-    function setValueToGridData(val) {
-        //Selecting Grid
-        var grid = $("#NeedAssessment").data("kendoGrid");
-        //Getting selected Item(s)
-        var selectedItems = grid.select();
-        selectedItems.each(function (index, row) {
-            var selectedItem = grid.dataItem(row);
-            //Setting value to data item; so that we can read updated data
-            selectedItem.set('NeedAApproved', val);
+    function onApprove(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "Approve/" + dataItem.NaHeaderId;
+            wnd.close();
         });
-    }
-    
 
-    function Save() {
-        alert("test");
-        //getting json data from kendo Grid
-        var gridData = $("#NeedAssessment").data("kendoGrid").dataSource.data();
-        $.ajax({
-            type: "POST"
-            , url: "/NeedAssessment/Approve"
-            , data: JSON.stringify({ users: gridData })
-            , contentType: "application/json"
-            , success: function (result) {
-                alert(result.count + " record(s) found");
-            }
+        $("#no").click(function () {
+            wnd.close();
         });
     }
 </script>
+<script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>
+

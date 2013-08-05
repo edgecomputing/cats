@@ -28,5 +28,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public Nullable<bool> NeedAApproved { get; set; }
         public string Remark { get; set; }
 
+        public string CreaterUser { get; set; }
+
     }
 }

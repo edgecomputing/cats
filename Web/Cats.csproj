@@ -623,6 +623,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentToBeApproved.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Approved.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

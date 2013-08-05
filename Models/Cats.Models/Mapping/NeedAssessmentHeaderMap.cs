@@ -21,6 +21,12 @@ namespace Cats.Models.Mapping
             this.Property(t => t.NeddACreatedBy).HasColumnName("NeddACreatedBy");
             this.Property(t => t.NeedAApproved).HasColumnName("NeedAApproved");
             this.Property(t => t.Remark).HasColumnName("Remark");
+
+
+            // Relationships
+            this.HasOptional(t => t.UserProfile)
+                .WithMany(t => t.NeedAssessmentHeaders)
+                .HasForeignKey(d => d.NeddACreatedBy);
         }
     }
 }

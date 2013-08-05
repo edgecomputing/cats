@@ -220,11 +220,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 tempViewModel.NAId = t.NAId;
 
-
-                tempViewModel.NeedACreatedDate = t.NeedAssessmentHeader.NeedACreatedDate;
+                 
+                if (t.NeedAssessmentHeader.NeedACreatedDate != null)
+                    tempViewModel.NeedACreatedDate =  t.NeedAssessmentHeader.NeedACreatedDate.Value.Date;
                 tempViewModel.NeedAApproved = t.NeedAssessmentHeader.NeedAApproved;
                 tempViewModel.NeedACreatedBy = t.NeedAssessmentHeader.NeddACreatedBy;
-
+                tempViewModel.CreaterUser = t.NeedAssessmentHeader.UserProfile.UserName;
                 result.Add(tempViewModel);
 
             }
@@ -234,23 +235,41 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-        public ActionResult Approve([DataSourceRequest] DataSourceRequest request,List<NeedAssessmentViewModel> needAssessment)
+        public ActionResult Approve(int id)
         {
-            NeedAssessmentHeader result = null;
-            foreach (NeedAssessmentViewModel need in needAssessment)
-            {
-                NeedAssessmentViewModel _needAssessment = need;
-                 result =
-                    _needAssessmentHeaderService.FindBy(n => n.NAHeaderId == _needAssessment.NaHeaderId)
-                                                .SingleOrDefault();
-                if (result != null && ModelState.IsValid)
-                {
-                    result.NeedAApproved = need.NeedAApproved;
-
-                }
-            }
-            _needAssessmentHeaderService.EditNeedAssessmentHeader(result);
+            var headerInfo = _needAssessmentHeaderService.FindById(id);
+            headerInfo.NeedAApproved = true;
+            _needAssessmentHeaderService.EditNeedAssessmentHeader(headerInfo);
            return RedirectToAction("NeedAssessmentToBeApproved", "NeedAssessment");
+        }
+
+        public ActionResult Approved()
+        {
+            return View();
+        }
+
+        public ActionResult GetApproved([DataSourceRequest] DataSourceRequest request)
+        {
+            var needAssessment = _needAssessmentDetailService.GetApproved();
+            List<NeedAssessmentViewModel> result = new List<NeedAssessmentViewModel>();
+
+            foreach (NeedAssessmentDetail t in needAssessment)
+            {
+                var tempViewModel = new NeedAssessmentViewModel { NaHeaderId = t.NeedAssessmentHeader.NAHeaderId };
+
+                tempViewModel.NAId = t.NAId;
+
+
+                if (t.NeedAssessmentHeader.NeedACreatedDate != null)
+                    tempViewModel.NeedACreatedDate = t.NeedAssessmentHeader.NeedACreatedDate.Value.Date;
+                tempViewModel.NeedAApproved = t.NeedAssessmentHeader.NeedAApproved;
+                tempViewModel.NeedACreatedBy = t.NeedAssessmentHeader.NeddACreatedBy;
+                tempViewModel.CreaterUser = t.NeedAssessmentHeader.UserProfile.UserName;
+                result.Add(tempViewModel);
+
+            }
+
+            return Json(result.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
         }
     }
 }
