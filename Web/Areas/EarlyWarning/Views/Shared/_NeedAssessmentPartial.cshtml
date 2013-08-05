@@ -1,0 +1,14 @@
+﻿<ul class="nav nav-list">
+    <li class="nav-header">Need Assessment</li>
+    <li><a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })"><i class="icon-inbox"></i>Draft Assessment</a></li>
+    <li><a href="@Url.Action("NeedAssessmentToBeApproved", "NeedAssessment", new { Area = "EarlyWarning" })"><i class="icon-check"></i>Approved Assessments</a></li>
+    <li><a href="@Url.Action("Approved","NeedAssessment",new {Area="EarlyWarning"})"><i class="icon-bullseye"></i> Completed</a></li>
+    
+    <li class="nav-header">HRD</li>
+    <li><a href="@Url.Action("","",new {Area="EarlyWarning"})"><i class="icon-inbox"></i>Create HRD</a></li>
+    
+    <li class="divider"></li>
+    <li><a href="#"><i class="icon-print"></i> Print</a></li>
+    <li><a href="#"><i class="icon-share"></i> Export</a></li>
+
+</ul>

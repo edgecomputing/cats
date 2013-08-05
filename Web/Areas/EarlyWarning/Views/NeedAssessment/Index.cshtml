@@ -1,9 +1,19 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
 @using Kendo.Mvc.UI
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@{
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+    var cal = user.Calendar; 
+}
+
+@section LeftBar
+{
+   @Html.Partial("_NeedAssessmentPartial");
 }
 
 <fieldset>
@@ -18,8 +28,8 @@
   
     .Name("NA").Columns(columns =>
                             {
-                                
-    
+
+                                columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
                                 columns.ForeignKey(p => p.Zone, (System.Collections.IEnumerable)ViewData["zone"], "AdminUnitID", "Name").Width(120);
                                 columns.ForeignKey(p => p.District, (System.Collections.IEnumerable)ViewData["woreda"], "AdminUnitID", "Name").Width(120);;
         

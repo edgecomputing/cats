@@ -4,6 +4,9 @@
     [NeddACreatedBy]   INT           NULL,
     [NeedAApproved]    BIT           NULL,
     [Remark]           NVARCHAR (50) NULL,
-    CONSTRAINT [PK_NeedAssessmentHeader] PRIMARY KEY CLUSTERED ([NAHeaderId] ASC)
+    CONSTRAINT [PK_NeedAssessmentHeader] PRIMARY KEY CLUSTERED ([NAHeaderId] ASC),
+    CONSTRAINT [FK_NeedAssessmentHeader_UserProfile] FOREIGN KEY ([NeddACreatedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID])
 );
+
+
 
