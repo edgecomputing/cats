@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
@@ -68,6 +69,29 @@ namespace Cats.Services.EarlyWarning
        public List<NeedAssessmentDetail> GetApproved()
         {
             return _unitOfWork.NeedAssessmentDetailRepository.FindBy(d => d.NeedAssessmentHeader.NeedAApproved == true);
+        }
+
+        public int GetNeedAssessmentBeneficiaryNo(int weredaId, int id)
+        {
+            var beneficiaryNo =_unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id).SingleOrDefault();
+
+            if (beneficiaryNo != null)
+            {
+                var totalBeneficiaties = (int) (beneficiaryNo.VPoorNoOfB + beneficiaryNo.PoorNoOfB + beneficiaryNo.MiddleNoOfB + beneficiaryNo.BOffNoOfB);
+                return totalBeneficiaties;
+            }
+            return 0;
+        }
+        public int GetNeedAssessmentMonths(int weredaId, int id)
+        {
+            var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id).SingleOrDefault();
+
+            if (months != null)
+            {
+                var totalMonths = (int)(months.VPoorNoOfM + months.PoorNoOfM + months.MiddleNoOfM + months.BOffNoOfM);
+                return totalMonths;
+            }
+            return 0;
         }
         public void Dispose()
         {
