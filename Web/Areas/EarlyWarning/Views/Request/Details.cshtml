@@ -1,61 +1,128 @@
-﻿@model Cats.Models.RegionalRequest
+﻿@using Cats.Areas.EarlyWarning.Models
+@model System.Data.DataTable
+@using Kendo.Mvc.UI
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Regional Relief Requests";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@{
+    var modelRequest =(RegionalRequestViewModel) ViewData["Request_main_data"];
+}
 
-<h2>Details</h2>
-
-<fieldset>
-    <legend>ReliefRequistion</legend>
-
+<div class="row-fluid">
     <div>
-         @Html.DisplayNameFor(model => model.RegionID)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.AdminUnit.Name)
+        <div class="form-horizontal well">
+            <table class="table-condensed">
+                <tr>
+                    <td>
+
+                        <p>
+                            <b>Reference Number:</b>
+                        @Html.DisplayName(  modelRequest.ReferenceNumber)
+
+
+                    </td>
+                    <td>
+                        <p>
+                            <b>Region
+                                :</b>
+                        @Html.DisplayName(modelRequest.Region)
+
+                    </td>
+                 <td>
+                        <p>
+                            <b>Month
+                                :</b>
+                            @Cats.Helpers.RequestHelper.MonthName(modelRequest.Month)
+                           <b>Year:</b> @modelRequest.Year 
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td>
+                        <p>
+                            <b>Requested Date(ET)
+                                :</b>
+                            @Html.DisplayName(modelRequest.RequestDateEt)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>Program
+                                :</b>
+                            @Html.DisplayName(modelRequest.Program)
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <b>Status
+                                   :</b>
+                            @Html.DisplayName(modelRequest.Status)
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
+
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new {Controller="Request", Area = "EarlyWarning", id = modelRequest.RegionalRequestID })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Approve", "ApproveRequest", new { id = modelRequest.RegionalRequestID })
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning",id=modelRequest.RegionalRequestID })">Create Requisition</a>
+                                   
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
     </div>
 
-    <div>
-         @Html.DisplayNameFor(model => model.ProgramId)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.Program.Name)
-    </div>
+</div>
+@section LeftBar
+{
+    @Html.Partial("_RegionalRequestLeftBar")
 
-    
+}
 
-    <div >
-         @Html.DisplayNameFor(model => model.RequistionDate)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.RequistionDate,new {@class="cats-datepicker"})
-    </div>
 
-    <div >
-         @Html.DisplayNameFor(model => model.Year)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.Year)
-    </div>
 
-    <div >
-         @Html.DisplayNameFor(model => model.ReferenceNumber)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.ReferenceNumber)
-    </div>
+@(Html.Kendo().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in Model.Columns)
+        {
+            columns.Bound(column.ColumnName);
+        }
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Groupable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model =>
+            {
+                foreach (System.Data.DataColumn column in Model.Columns)
+                {
+                    model.Field(column.ColumnName, column.DataType);
+                }                
+            })
+        .Read(read => read.Action("Details_Read", "Request"))
+    )
+)
 
-    <div >
-         @Html.DisplayNameFor(model => model.Remark)
-    </div>
-    <div >
-        @Html.DisplayFor(model => model.Remark)
-    </div>
 
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.RegionalRequestID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -37,6 +37,7 @@ namespace Cats.Models
         public virtual ICollection<BidWinner> BidWinners  { get; set; }
         public virtual ICollection<RationDetail> RationDetails { get; set; }
         public virtual ICollection<HRDCommodityDetail> HRDCommodityDetails  { get; set; }
+        public virtual ICollection<RequestDetailCommodity> RequestDetailCommodities { get; set; }
  
     }
 }

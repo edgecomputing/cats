@@ -73,6 +73,8 @@ namespace Cats.Data
         public DbSet<HRDCommodityDetail> HrdCommodityDetails { get; set; } 
 
         //public DbSet<Product> Products { get; set; }
+        public DbSet<RequestDetailCommodity> RequestDetailCommodities { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //TODO: Add mapping information for each Poco model.
@@ -123,9 +125,13 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new HRDMap());
             modelBuilder.Configurations.Add(new HRDDetailMap());
             modelBuilder.Configurations.Add(new RationDetailMap());
+
             modelBuilder.Configurations.Add(new RegionalPSNPPlanMap());
             modelBuilder.Configurations.Add(new RegionalPSNPPlanDetailMap());
             
+
+            modelBuilder.Configurations.Add(new RequestDetailCommodityMap());
+
         }
 
 

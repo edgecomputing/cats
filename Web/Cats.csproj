@@ -530,7 +530,6 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
@@ -606,14 +605,12 @@
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\_TransportOrderLeftBar.cshtml" />
@@ -625,6 +622,7 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
+
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Details.cshtml" />
@@ -646,6 +644,9 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Delete.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
+
+    <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

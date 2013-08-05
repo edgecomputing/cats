@@ -18,6 +18,10 @@ namespace Cats.Services.EarlyWarning
         RegionalRequestDetail FindById(int id);
         List<RegionalRequestDetail> GetAllRegionalRequestDetail();
         List<RegionalRequestDetail> FindBy(Expression<Func<RegionalRequestDetail, bool>> predicate);
+        IEnumerable<RegionalRequestDetail> Get(
+                 Expression<Func<RegionalRequestDetail, bool>> filter = null,
+                 Func<IQueryable<RegionalRequestDetail>, IOrderedQueryable<RegionalRequestDetail>> orderBy = null,
+                 string includeProperties = "");
         bool Save();
 
     }
