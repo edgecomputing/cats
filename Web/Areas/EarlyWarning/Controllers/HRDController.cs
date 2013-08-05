@@ -22,10 +22,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IHRDDetailService _hrdDetailService;
         private ICommodityService _commodityService;
         private IRationDetailService _rationDetailService;
+        private INeedAssessmentDetailService _needAssessmentDetailService;
+        private INeedAssessmentHeaderService _needAssessmentService;
 
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService, 
                              IRationService rationservice,IRationDetailService rationDetailService,
-                             IHRDDetailService hrdDetailService,ICommodityService commodityService)
+                             IHRDDetailService hrdDetailService,ICommodityService commodityService,
+                             INeedAssessmentDetailService needAssessmentDetailService,INeedAssessmentHeaderService needAssessmentService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -33,6 +36,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _commodityService = commodityService;
             _rationService = rationservice;
             _rationDetailService = rationDetailService;
+            _needAssessmentDetailService = needAssessmentDetailService;
+            _needAssessmentService = needAssessmentService;
         }
 
         public ActionResult Index()
@@ -86,6 +91,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         Year = hrd.Year,
                         Ration = hrd.Ration.RefrenceNumber,
                         CreatedDate = hrd.CreatedDate,
+                        CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
                         PublishedDate = hrd.PublishedDate
 
                     });
@@ -159,7 +165,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrd = new HRD();
            // hrd.HRDDetails = new List<HRDDetail>();
             ViewBag.Year = DateTime.Today.Year;
-            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber",hrd.RationID=1);
+            ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader(), "NAHeaderId",
+                                                      "NeedACreatedDate");
             ViewData["Month"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
              var commodities = _commodityService.GetAllCommodity();
@@ -245,14 +253,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                 //var commodities = _commodityService.GetCommonCommodity();
                     //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
-
+                hrd.CreatedBY = userid;
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {
                                       WoredaID = detail.AdminUnitID,
                                       StartingMonth = 1,
-                                      NumberOfBeneficiaries = 100,
-                                      DurationOfAssistance = 8
+                                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo((int) hrd.NeedAssessmentID,detail.AdminUnitID),
+                                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths((int) hrd.NeedAssessmentID,detail.AdminUnitID)
                                       
                                   }).ToList();
                 
