@@ -11,7 +11,7 @@ using Cats.Services.PSNP;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-
+using Cats.Models.PSNP;
 namespace Cats.Areas.PSNP.Controllers
 {
     public class RegionalPSNPPlanDetailController : Controller
@@ -35,6 +35,20 @@ namespace Cats.Areas.PSNP.Controllers
             ViewBag.PlanedFDPID = new SelectList(_FDPService.GetAllFDP(), "FDPID", "Name");
 
         }
+        public IEnumerable<RegionalPSNPPlanDetailViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlanDetail> list)
+        {
+            return (from plandetail in list
+                    select new RegionalPSNPPlanDetailViewModel
+                    {
+                        RegionalPSNPPlanDetailID = plandetail.RegionalPSNPPlanDetailID,
+                        RegionalPSNPPlanID = plandetail.RegionalPSNPPlanID,
+                        PlanedFDPName = plandetail.PlanedFDP.Name,
+                        PlanedFDPID = plandetail.PlanedFDP.FDPID,
+                        BeneficiaryCount = plandetail.BeneficiaryCount,
+                        FoodRatio = plandetail.FoodRatio,
+                        CashRatio = plandetail.CashRatio
+                    });
+        }
         //
         // GET: /PSNP/RegionalPSNPPlanDetail/
 
@@ -42,9 +56,14 @@ namespace Cats.Areas.PSNP.Controllers
         {
             IEnumerable<Cats.Models.RegionalPSNPPlanDetail> list = (IEnumerable<Cats.Models.RegionalPSNPPlanDetail>)_regionalPSNPPlanDetailService.GetAllRegionalPSNPPlanDetail();
 
-            return View(list);
+            return View(toViewModel(list));
         }
 
+        public ActionResult GetListAjax([DataSourceRequest] DataSourceRequest request)
+        {
+            IEnumerable<Cats.Models.RegionalPSNPPlanDetail> list = (IEnumerable<Cats.Models.RegionalPSNPPlanDetail>)_regionalPSNPPlanDetailService.GetAllRegionalPSNPPlanDetail();
+            return Json(toViewModel(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
         //
         // GET: /PSNP/RegionalPSNPPlanDetail/Details/5
 

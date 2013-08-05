@@ -1,10 +1,15 @@
 ﻿@using Cats.Helpers
 @using Cats.Models.Security;
 @using Cats.Services.Security
+@using Helpers.Localization
+
 
 @{
     var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+    var lang = user.Profile.LanguageCode;
+    Translator.LoadTexts();
+    Translator.CurrentLanguage = lang;
 }
 
 <div class="navbar navbar-fixed-top navbar-inverse">
@@ -18,7 +23,7 @@
             <a class="brand" href="~/">CATS</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="~/">Home</a></li>
+                    <li><a href="~/">@Translator.Translate("Home")</a></li>
                     @if(role=="EW" || role=="SU")
                     {
                     <li><a href="@Url.Action("Create", "HRD", new { Area = "EarlyWarning" })">HRD</a></li>
