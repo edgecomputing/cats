@@ -26,7 +26,7 @@
 
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
-.Name("HRD").Columns(columns =>
+.Name("grid").Columns(columns =>
          {
              columns.Bound(p => p.Region).Width(10).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
@@ -34,11 +34,10 @@
             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
             columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
              columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name");
-    //).Title("Starting Month");
-            columns.Bound(p => p.CSB);
-            columns.Bound(p => p.Pulse);
+             columns.Bound(p => p.Cereal);
+             columns.Bound(p => p.BlendedFood).Title("B.Food");
             columns.Bound(p => p.Oil);
-            columns.Bound(p => p.Cereal);
+            columns.Bound(p => p.Pulse);
             columns.Bound(p => p.Total); 
 
 
@@ -50,8 +49,10 @@
          })
          .ToolBar(toolBar => toolBar.Save())
        .Editable(editable => editable.Mode(GridEditMode.InCell))
+       .Events(events => events.DataBound("onDataBound"))
       .Pageable()
       .Sortable()
+      .Selectable(t=>t.Mode(GridSelectionMode.Single	))
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
@@ -64,10 +65,10 @@
                                   model.Field(p => p.HRDDetailID);
                                   model.Field(p => p.StartingMonth);
                                       //.DefaultValue(ViewData["Months"] as Cats.Models.ViewModels.HRD.HRDDetailViewModel);
-                                  model.Field(p => p.Oil).Editable(false);
-                                  model.Field(p => p.Pulse).Editable(false);
-                                  model.Field(p => p.Cereal).Editable(false);
-                                  model.Field(p => p.CSB).Editable(false);
+                                  //model.Field(p => p.Oil).Editable(false);
+                                  //model.Field(p => p.Pulse).Editable(false);
+                                  //model.Field(p => p.Cereal).Editable(false);
+                                  //model.Field(p => p.BlendedFood).Editable(false);
                                   model.Field(p => p.Region).Editable(false);
                                   model.Field(p => p.Woreda).Editable(false);
                                   model.Field(p => p.Zone).Editable(false);
@@ -96,3 +97,51 @@
         }
     }
 </script>
+
+
+<script type="text/javascript">
+
+    function onDataBound(e) {
+        rowNumber = 0;
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var benficiery = firstItem.get('NumberOfBeneficiaries');
+            var duration = firstItem.get('DurationOfAssistance');
+
+
+
+            $.getJSON('/HRD/GetRation', function (data) {
+
+
+                $.each(data, function (key, val) {
+                    if (val.Name == "Cereal") {
+                        firstItem.set('Cereal', val.Value * benficiery * duration);
+
+                    }
+                    else if (val.Name == "Blended food") {
+                        firstItem.set('BlendedFood', val.Value * benficiery * duration);
+
+                    } else if (val.Name == "Oil") {
+                        firstItem.set('Oil', val.Value * benficiery * duration);
+
+                    } else if (val.Name == "Pulse") {
+                        firstItem.set('Pulse', val.Value * benficiery * duration);
+
+                    }
+
+
+                });
+
+
+            });
+
+
+        });
+    }
+
+
+</script>
+

@@ -30,8 +30,8 @@ namespace Cats.Models.ViewModels.HRD
 
         public decimal Cereal { get; set; }
         public decimal Pulse { get; set; }
-        public decimal CSB { get; set; }
+        public decimal BlendedFood { get; set; }
         public decimal Oil { get; set; }
-        public decimal Total { get { return CSB + Cereal + Oil + Pulse; } }
+        public decimal Total { get { return BlendedFood + Cereal + Oil + Pulse; } }
     }
 }
