@@ -68,6 +68,8 @@ namespace Cats.Data
         public DbSet<HRD> HRDs { get; set; }
         public DbSet<HRDDetail> HRDDetails { get; set; }
         public DbSet<RationDetail> RationDetails { get; set; }
+        public DbSet<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
+        public DbSet<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
         public DbSet<HRDCommodityDetail> HrdCommodityDetails { get; set; } 
 
         //public DbSet<Product> Products { get; set; }
@@ -121,9 +123,13 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new HRDMap());
             modelBuilder.Configurations.Add(new HRDDetailMap());
             modelBuilder.Configurations.Add(new RationDetailMap());
-            modelBuilder.Configurations.Add(new HRDCommodityDetailMap());
-
+            modelBuilder.Configurations.Add(new RegionalPSNPPlanMap());
+            modelBuilder.Configurations.Add(new RegionalPSNPPlanDetailMap());
+            
         }
+
+
+        
 
     }
 }

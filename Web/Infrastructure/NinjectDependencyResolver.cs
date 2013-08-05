@@ -9,6 +9,8 @@ using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Logistics;
+using Cats.Services.PSNP;
+
 
 namespace Cats.Infrastructure
 {
@@ -81,7 +83,8 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IHRDService>().To<HRDService>();
             kernel.Bind<IHRDDetailService>().To<HRDDetailService>();
-
+            kernel.Bind<IRegionalPSNPPlanService>().To<RegionalPSNPPlanService>();
+            kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
         }
     }
 }

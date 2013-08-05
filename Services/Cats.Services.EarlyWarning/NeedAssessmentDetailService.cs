@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -93,6 +93,7 @@ namespace Cats.Services.EarlyWarning
            }
            return 0;
        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
