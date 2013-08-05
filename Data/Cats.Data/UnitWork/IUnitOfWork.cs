@@ -66,17 +66,17 @@ namespace Cats.Data.UnitWork
         IGenericRepository<RationDetail> RationDetailRepository { get; } 
         IGenericRepository<HRD> HRDRepository { get; }
         IGenericRepository<HRDDetail> HRDDetailRepository { get; }
-<<<<<<< HEAD
+
         IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository { get; }
         IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
         
         
 
-=======
+
 
         IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; } 
              
->>>>>>> CATS-28 Allocation and Ration Commodity amount calculation based on ration
+
         void Save();
 
     }

@@ -8,10 +8,7 @@ namespace Cats.Models
     
         public partial class Ration
         {
-            public Ration()
-            {
-                this.RationDetails=new List<RationDetail>();
-            }
+           
             //public int RationID { get; set; }
             //public int CommodityID { get; set; }
             //public decimal Amount { get; set; }
