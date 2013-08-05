@@ -70,6 +70,15 @@
                     @Html.ValidationMessageFor(model => model.ReferenceNumber)
                 </div>
             </div>
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RationID, "Ration")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RationID", String.Empty)
+                    @Html.ValidationMessageFor(model => model.RationID)
+                </div>
+            </div>
               <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.RequistionDate)

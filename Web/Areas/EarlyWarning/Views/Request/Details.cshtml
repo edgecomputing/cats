@@ -77,6 +77,10 @@
                                 <td>
                                     @Html.ActionLink("Approve", "ApproveRequest", new { id = modelRequest.RegionalRequestID })
                                 </td>
+                                 <td>
+                                    <a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning",id=modelRequest.RegionalRequestID })">Modify Allocation</a>
+                                   
+                                </td>
                                 <td>
                                     <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning",id=modelRequest.RegionalRequestID })">Create Requisition</a>
                                    

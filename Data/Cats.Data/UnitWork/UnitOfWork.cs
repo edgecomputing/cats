@@ -433,9 +433,29 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository
         {
 
+<<<<<<< HEAD
             get { return this.regionalPSNPPlanRepository ?? (this.regionalPSNPPlanRepository = new GenericRepository<RegionalPSNPPlan>(_context)); }
 
         }
+=======
+
+
+
+        private IGenericRepository<RequestDetailCommodity> requestDetailCommodityRepository;
+
+        public IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository
+        {
+
+            get { return this.requestDetailCommodityRepository ?? (this.requestDetailCommodityRepository = new GenericRepository<RequestDetailCommodity>(_context)); }
+
+        }
+
+
+
+      
+      
+      //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+>>>>>>> CATS-28 Allocation and Ration Commodity amount calculation based on ration
 
         public IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository
         {
@@ -466,7 +486,14 @@ namespace Cats.Data.UnitWork
 
 
 
+<<<<<<< HEAD
         
 
+=======
+
+
+
+      
+>>>>>>> CATS-28 Allocation and Ration Commodity amount calculation based on ration
     }
 }

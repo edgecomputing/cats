@@ -156,7 +156,11 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+<<<<<<< HEAD
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
+=======
+    <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
+>>>>>>> CATS-28 Allocation and Ration Commodity amount calculation based on ration
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />

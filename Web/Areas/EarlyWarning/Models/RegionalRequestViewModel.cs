@@ -16,7 +16,8 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Region { get; set; }
         [UIHint("ProgramEditor")]
         public int ProgramId { get; set; }
-       
+
+        public int RationID { get; set; }
         public string Program { get; set; }
         public int Month { get; set; }
         public DateTime RequistionDate { get; set; }

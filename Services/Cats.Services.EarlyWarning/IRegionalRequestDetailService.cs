@@ -22,6 +22,11 @@ namespace Cats.Services.EarlyWarning
                  Expression<Func<RegionalRequestDetail, bool>> filter = null,
                  Func<IQueryable<RegionalRequestDetail>, IOrderedQueryable<RegionalRequestDetail>> orderBy = null,
                  string includeProperties = "");
+
+        bool AddRequestDetailCommodity(int commodityId,int requestId);
+        bool DeleteRequestDetailCommodity(int commodityId, int requestId);
+        bool UpdateRequestDetailCommodity(int commodityId, int requestCommodityId);
+        
         bool Save();
 
     }

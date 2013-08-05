@@ -8,7 +8,10 @@ namespace Cats.Models
     
         public partial class Ration
         {
-
+            public Ration()
+            {
+                this.RationDetails=new List<RationDetail>();
+            }
             //public int RationID { get; set; }
             //public int CommodityID { get; set; }
             //public decimal Amount { get; set; }
@@ -25,6 +28,7 @@ namespace Cats.Models
             public Nullable<int> UpdatedBy { get; set; }
             public bool IsDefaultRation { get; set; }
             public string RefrenceNumber { get; set; }
+            public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
             public virtual  ICollection<RationDetail> RationDetails { get; set; }
             public virtual ICollection<HRD> HRDs { get; set; }
            

@@ -32,9 +32,22 @@ namespace Cats.Services.EarlyWarning
         public bool EditRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail)
         {
             _unitOfWork.RegionalRequestDetailRepository.Edit(regionalRequestDetail);
+            CalculateAllocation(regionalRequestDetail);
             _unitOfWork.Save();
             return true;
 
+        }
+
+        private bool CalculateAllocation(RegionalRequestDetail requestDetail)
+        {
+          
+            foreach (var requestCommodity in requestDetail.RequestDetailCommodities)
+            {
+                var rationAmount = GetCommodityRation(requestDetail.RegionalRequestID, requestCommodity.CommodityID);
+                var target = _unitOfWork.RequestDetailCommodityRepository.FindById(requestCommodity.RequestCommodityID);
+                target.Amount = requestDetail.Beneficiaries*rationAmount;
+            }
+            return true;
         }
         public bool DeleteRegionalRequestDetail(RegionalRequestDetail regionalRequestDetail)
         {
@@ -85,6 +98,68 @@ namespace Cats.Services.EarlyWarning
            _unitOfWork.Save();
             return true;
         }
+
+       
+
+        public bool AddRequestDetailCommodity(int commodityId,int requestId)
+        {
+            var requestDetail = _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId);
+
+            var rationAmount = GetCommodityRation(requestId, commodityId);
+
+            foreach (var regionalRequestDetail in requestDetail)
+            {
+               if(regionalRequestDetail.RequestDetailCommodities.All(t=>t.CommodityID!=commodityId))
+               {
+                   regionalRequestDetail.RequestDetailCommodities.Add(new RequestDetailCommodity
+                                                                          {
+                                                                              CommodityID=commodityId ,
+                                                                              Amount = regionalRequestDetail.Beneficiaries * rationAmount
+                                                                              
+                                                                          });
+               }
+            }
+            _unitOfWork.Save();
+            return true;
+        }
+        private decimal GetCommodityRation(int requestId, int commodityId)
+        {
+            var rationID = _unitOfWork.RegionalRequestRepository.FindById(requestId).RationID;
+            var ration =
+                _unitOfWork.RationDetailRepository.FindBy(t => t.RationID == rationID && t.CommodityID == commodityId).FirstOrDefault();
+            if (ration == null) return 0;
+            return ration.Amount;
+        }
+        public bool DeleteRequestDetailCommodity(int commodityId, int requestId)
+        {
+            var requestDetail = _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId);
+            foreach (var regionalRequestDetail in requestDetail)
+            {
+               if(regionalRequestDetail.RequestDetailCommodities.Any(t=>t.CommodityID==commodityId))
+               {
+                   var requestDeatilId = regionalRequestDetail.RegionalRequestDetailID;
+                   var requestCommodity =
+                       _unitOfWork.RequestDetailCommodityRepository.Get(
+                           t => t.CommodityID == commodityId && t.RegionalRequestDetailID == requestDeatilId).
+                           FirstOrDefault();
+                   _unitOfWork.RequestDetailCommodityRepository.Delete(requestCommodity);
+               }
+            }
+            _unitOfWork.Save();
+            return true;
+        }
+        public bool UpdateRequestDetailCommodity(int commodityId, int requestCommodityId)
+        {
+            var requestDetailCommodity = _unitOfWork.RequestDetailCommodityRepository.FindById( requestCommodityId);
+            requestDetailCommodity.CommodityID = commodityId;
+            var requestDetail =
+                _unitOfWork.RegionalRequestDetailRepository.FindById(requestDetailCommodity.RegionalRequestDetailID);
+          
+            _unitOfWork.Save();  
+            CalculateAllocation(requestDetail);
+            return true;
+        }
+        
     }
 }
 

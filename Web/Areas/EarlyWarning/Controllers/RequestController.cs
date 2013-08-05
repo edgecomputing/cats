@@ -233,6 +233,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                             "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2")
                     .
                     FirstOrDefault();
+            ViewData["RationID"] = new SelectList( _rationService.GetAllRation(),"RationID", "RationID");
             return View(regionalRequest);
         }
 
@@ -328,6 +329,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var request =
                 _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
             var requestModelView = BindRegionalRequestViewModel(request);
+            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id);
+            var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
+
+            ViewData["AllocatedCommodities"] = (from itm in requestDetailCommodities select new Commodity(){ CommodityID=itm.CommodityID});
+            ViewData["AvailableCommodities"] = _commodityService.GetAllCommodity();
+
             return View(requestModelView);
         }
         public ActionResult Details(int id)
@@ -501,6 +508,54 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (regionalRequestDetail != null)
             {
                 _reliefRequestDetailService.DeleteById(regionalRequestDetail.RegionalRequestDetailID);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+        public ActionResult Commodity_Read([DataSourceRequest] DataSourceRequest request, int id)
+        {
+
+            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id);
+            var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
+
+           var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID ,RequestDetailCommodityID= itm.RequestCommodityID});
+            ViewData["AvailableCommodities"] = _commodityService.GetAllCommodity();
+
+            return Json(commodities.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Create([DataSourceRequest] DataSourceRequest request, RequestDetailCommodityViewModel commodity,int id)
+        {
+            if (commodity != null && ModelState.IsValid)
+            {
+               _reliefRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID,id);
+            }
+
+            return Json(new[] { commodity }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Update([DataSourceRequest] DataSourceRequest request, RequestDetailCommodityViewModel commodity)
+        {
+            if (commodity != null && ModelState.IsValid)
+            {
+                var target = _reliefRequestDetailService.UpdateRequestDetailCommodity(commodity.CommodityID,
+                                                                                      commodity.RequestDetailCommodityID);
+            }
+
+            return Json(new[] { commodity }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  RequestDetailCommodityViewModel commodity,int id)
+        {
+            if (commodity != null)
+            {
+                _reliefRequestDetailService.DeleteRequestDetailCommodity(commodity.CommodityID, id);
             }
 
             return Json(ModelState.ToDataSourceResult());
