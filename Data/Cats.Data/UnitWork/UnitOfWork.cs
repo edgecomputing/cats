@@ -433,9 +433,29 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository
         {
 
+
             get { return this.regionalPSNPPlanRepository ?? (this.regionalPSNPPlanRepository = new GenericRepository<RegionalPSNPPlan>(_context)); }
 
         }
+
+
+
+
+        private IGenericRepository<RequestDetailCommodity> requestDetailCommodityRepository;
+
+        public IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository
+        {
+
+            get { return this.requestDetailCommodityRepository ?? (this.requestDetailCommodityRepository = new GenericRepository<RequestDetailCommodity>(_context)); }
+
+        }
+
+
+
+      
+      
+      //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+
 
         public IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository
         {
@@ -465,8 +485,6 @@ namespace Cats.Data.UnitWork
 
 
 
-
-        
 
     }
 }

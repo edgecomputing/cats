@@ -1,5 +1,6 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @model RegionalRequestViewModel
+@using Cats.Models
 @using Kendo.Mvc.UI
 
 @{
@@ -7,7 +8,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-
+<h5 class="well">Regional Request Resource Allocation</h5>
 <div class="row-fluid">
     <div>
         <div class="form-horizontal well">
@@ -28,17 +29,16 @@
                         @Html.DisplayFor(model => model.Region)
 
                     </td>
-                 <td>
+                    <td>
                         <p>
                             <b>@Html.DisplayNameFor(model => model.Month)
                                 :</b>
                             @Cats.Helpers.RequestHelper.MonthName(Model.Month)
-                           <b>Year:</b> @Model.Year 
+                            <b>Year:</b> @Model.Year
                         </p>
                     </td>
-                </tr>
-                <tr>
-                    
+
+
                     <td>
                         <p>
                             <b>@Html.DisplayNameFor(model => model.RequestDateEt)
@@ -65,19 +65,8 @@
                     <td>
                         <table>
                             <tr>
-                                <td><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
-
-
-                                </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new {Controller="Request", Area = "EarlyWarning", id = Model.RegionalRequestID })
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Approve", "ApproveRequest", new { id = Model.RegionalRequestID })
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning",id=Model.RegionalRequestID })">Create Requisition</a>
-                                   
+                                    <a href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })"><i class="icon-chevron-left"></i>Back</a>
                                 </td>
                             </tr>
                         </table>
@@ -94,89 +83,118 @@
     @Html.Partial("_RegionalRequestLeftBar")
 
 }
+<h5 class="well-small">Commodities Allocation</h5>
+@(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
+      .Name("commodityGrid")
+          .Columns(columns =>
+          {
+              columns.ForeignKey(p => p.CommodityID, (IEnumerable<Commodity>)ViewData["AvailableCommodities"], "CommodityID", "Name");
+              columns.Command(command => command.Destroy());
+          }
+
+      )
+            .ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+              .DataSource(dataSource => dataSource
+             .Ajax()
+            .PageSize(5)
+            .Model(model => model.Id(p => p.CommodityID))
+            .Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
+            .Read(read => read.Action("Commodity_Read", "Request", new { id = ViewBag.RequestID }))
+                .Update(update => update.Action("Commodity_Update", "Request"))
+            .Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID })))
+      )
 
 
 
+<h5 class="well-small">Number of Beneficiaries</h5>
 @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
       .Name("grid")
       .Columns(columns =>
       {
           columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-                       columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                       columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                       columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" }); 
-                       columns.Bound(p => p.Beneficiaries).Width(100);
-                       columns.Bound(p => p.Grain).Width(100);
-                       columns.Bound(p => p.Pulse).Width(100);
-                       columns.Bound(p => p.CSB).Width(100);
-                       columns.Bound(p => p.Oil).Width(100);
+          columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+          columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+          columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+          columns.Bound(p => p.Beneficiaries).Width(100);
+          //columns.Bound(p => p.Grain).Width(100);
+          //columns.Bound(p => p.Pulse).Width(100);
+          //columns.Bound(p => p.CSB).Width(100);
+          //columns.Bound(p => p.Oil).Width(100);
 
-                   })
+      })
       .ToolBar(toolbar => toolbar.Save())
       .Editable(editable => editable.Mode(GridEditMode.InCell))
-      .Events(events => events.DataBound("onDataBound"))
+        //.Events(events => events.DataBound("onDataBound"))
       .Pageable()
       .Sortable()
       .Scrollable()
-      .Selectable(t=>t.Mode(GridSelectionMode.Single	))
+      .Selectable(t => t.Mode(GridSelectionMode.Single))
       .Navigatable()
       .HtmlAttributes(new { style = "height:430px;" })
       .DataSource(dataSource => dataSource
                                     .Ajax()
                                     .PageSize(20)
-                                
+
                                     .Model(model =>
                                                {
                                                    model.Id(p => p.RegionalRequestDetailID);
                                                    model.Field(detail => detail.FDP).Editable(false);
                                                })
                                     .Create(update => update.Action("Allocation_Create", "Request"))
-       
-                                    .Read(read => read.Action("Allocation_Read", "Request",new {id=ViewBag.RequestID}))
+
+                                    .Read(read => read.Action("Allocation_Read", "Request", new { id = ViewBag.RequestID }))
                                     .Update(update => update.Action("Allocation_Update", "Request"))
                                     .Destroy(update => update.Action("Allocation_Destroy", "Request"))
       ))
 <script type="text/javascript">
-   
-    function onDataBound(e) {
-        rowNumber = 0;
-        var grid = $("#grid").data("kendoGrid");
-        $(grid.tbody).on("change", "td", function (e) {
-            var row = $(this).closest("tr");
-            var rowIdx = $("tr", grid.tbody).index(row);
-            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
-            var benficiery = firstItem.get('Beneficiaries');
-           
-         
-         
-            $.getJSON('/Request/GetRation', function (data) {
-               
 
-                $.each(data, function (key, val) {
-                    if (val.Name == "CSB") {
-                       firstItem.set('CSB', val.Value * benficiery);
-                      
-                    }
-                    else if (val.Name == "Grain") {
-                        firstItem.set('Grain', val.Value * benficiery);
-
-                    } else if (val.Name == "Oil") {
-                        firstItem.set('Oil', val.Value * benficiery);
-
-                    } else if (val.Name == "Pulse") {
-                        firstItem.set('Pulse', val.Value * benficiery);
-
-                    }
-                   
-                 
-                });
-
-               
-            });         
+    //function onDataBound(e) {
+    //    rowNumber = 0;
+    //    var grid = $("#grid").data("kendoGrid");
+    //    $(grid.tbody).on("change", "td", function (e) {
+    //        var row = $(this).closest("tr");
+    //        var rowIdx = $("tr", grid.tbody).index(row);
+    //        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+    //        var benficiery = firstItem.get('Beneficiaries');
 
 
-        });
-    }
 
-    
+    //        $.getJSON('/Request/GetRation', function (data) {
+
+
+    //            $.each(data, function (key, val) {
+    //                if (val.Name == "CSB") {
+    //                    firstItem.set('CSB', val.Value * benficiery);
+
+    //                }
+    //                else if (val.Name == "Grain") {
+    //                    firstItem.set('Grain', val.Value * benficiery);
+
+    //                } else if (val.Name == "Oil") {
+    //                    firstItem.set('Oil', val.Value * benficiery);
+
+    //                } else if (val.Name == "Pulse") {
+    //                    firstItem.set('Pulse', val.Value * benficiery);
+
+    //                }
+
+
+    //            });
+
+
+    //        });
+
+
+    //    });
+    //}
+
+
 </script>

@@ -17,7 +17,11 @@ namespace Cats.Models.Mapping
             // Properties
             // Table & Column Mappings
             this.ToTable("RationDetail");
+
             this.Property(t => t.RationDetailID).HasColumnName("RationDetailID");
+
+           
+
             this.Property(t => t.RationID).HasColumnName("RationID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.Amount).HasColumnName("Amount");

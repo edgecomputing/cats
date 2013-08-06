@@ -151,10 +151,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+
+    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
+
+    <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
+
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
@@ -163,6 +169,8 @@
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
+    <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
+    <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
@@ -203,6 +211,11 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\Default1Controller.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
+    <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
+    <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
@@ -222,6 +235,7 @@
     <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
+    <Compile Include="Models\CatsContextPSNP.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -522,7 +536,6 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
@@ -598,14 +611,12 @@
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\_TransportOrderLeftBar.cshtml" />
@@ -614,11 +625,42 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
-<<<<<<< HEAD
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
-=======
-    <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
->>>>>>> 0ae0967b6a88ce563ddd1b9a4a0ec773177037ca
+
+    <Content Include="Areas\PSNP\Views\Web.config" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Details.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentToBeApproved.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Approved.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Delete.cshtml" />
+    <Content Include="Areas\PSNP\Views\Default1\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\Default1\Details.cshtml" />
+    <Content Include="Areas\PSNP\Views\Default1\Create.cshtml" />
+    <Content Include="Areas\PSNP\Views\Default1\Edit.cshtml" />
+    <Content Include="Areas\PSNP\Views\Default1\Delete.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Edit.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Create.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Delete.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
+
+    <Content Include="Areas\Localization\Views\Web.config" />
+    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
+
+
+    <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
+
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -823,6 +865,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Localization\Models\" />
+    <Folder Include="Areas\Localization\Views\Shared\" />
+    <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="bin\" />
   </ItemGroup>
@@ -830,6 +875,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
+      <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
@@ -837,6 +886,10 @@
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helpers.Localization\Helpers.Localization.csproj">
+      <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
+      <Name>Helpers.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
