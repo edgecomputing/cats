@@ -136,7 +136,7 @@ namespace Cats.Services.EarlyWarning
 
         }
        
-        public ReliefRequisition GenerateRequisition(RegionalRequest regionalRequest, int commodityId, int zoneId)
+        public ReliefRequisition GenerateRequisition(RegionalRequest regionalRequest, List<RegionalRequestDetail> regionalRequestDetails, int commodityId, int zoneId)
         {
 
             var relifRequisition = new ReliefRequisition()
@@ -158,20 +158,19 @@ namespace Cats.Services.EarlyWarning
                 //ApprovedDate=itm.ApprovedDate,
 
             };
-            var relifRequistionDetail = (from requestDetail in regionalRequest.RegionalRequestDetails
-                                         select new ReliefRequisitionDetail()
-                                         {
-                                             CommodityID = commodityId
+            foreach (var regionalRequestDetail in regionalRequestDetails)
+            {
+                var relifRequistionDetail = new ReliefRequisitionDetail();
+                var commodity = regionalRequestDetail.RequestDetailCommodities.First(t => t.CommodityID == commodityId);
 
-                                             ,
-                                             Amount = requestDetail.Grain
-                                             ,
-                                             BenficiaryNo = requestDetail.Beneficiaries
-                                             ,
-                                             FDPID = requestDetail.Fdpid
-
-                                         }).ToList();
-            relifRequisition.ReliefRequisitionDetails = relifRequistionDetail;
+                relifRequistionDetail.FDPID = regionalRequestDetail.Fdpid;
+                relifRequistionDetail.BenficiaryNo = regionalRequestDetail.Beneficiaries;
+                relifRequistionDetail.CommodityID = commodity.CommodityID;
+                relifRequistionDetail.Amount = commodity.Amount;
+                relifRequisition.ReliefRequisitionDetails.Add(relifRequistionDetail);
+            }
+           
+         
 
             return relifRequisition;
 
@@ -182,44 +181,34 @@ namespace Cats.Services.EarlyWarning
         {
             //Note Here we are going to create 4 requistion from one request
             //Assumtions Here is ColumnName of the request detail match with commodity name 
-            //var regionalRequest = _regionalRequestService.Get(t => t.RegionalRequestID == requestId, null,
-            //                                                  "RegionalRequestDetails").FirstOrDefault();
-            //var regionalRequest = _regionalRequestService.GetAllReliefRequistion().FirstOrDefault();
-
-
-            var regionalRequestDetailToGetCommodityId = new RegionalRequestDetail();
+            var requestDetails =
+                _unitOfWork.RegionalRequestDetailRepository.Get(
+                    t => t.RegionalRequestID == regionalRequest.RegionalRequestID,null,"FDP.AdminUnit");
+          
             var reliefRequisitions = new List<ReliefRequisition>();
 
             var zones = GetZonesFoodRequested(regionalRequest.RegionalRequestID);
-
+          
             foreach (var zone in zones)
             {
                 var zoneId = zone.HasValue ? zone.Value : -1;
                 if (zoneId == -1) continue;
+                var zoneRequestDetails = (from item in requestDetails where item.Fdp.AdminUnit.ParentID == zoneId select item).ToList();
+                if(zoneRequestDetails.Count < 1) continue;
 
-                //Create Requisiton for Grain
+                var requestDetail = zoneRequestDetails.FirstOrDefault();
+                if(requestDetail==null) continue;
 
-                var commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.GrainName).SingleOrDefault().CommodityID;
+                var requestCommodity=
+                    (from item in requestDetail.RequestDetailCommodities select item.CommodityID ).ToList();
+                if (requestCommodity.Count<1) continue;
 
-                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
-
-
-                //Create Requistion for Oil
-
-                commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.OilName).SingleOrDefault().CommodityID;
-
-                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
-
-                //Create Requistion for pulse
-
-                commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.PulseName).SingleOrDefault().CommodityID;
-
-                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
-
-                //Create Requistion for CSB
-
-                commodityId = _unitOfWork.CommodityRepository.FindBy(t => t.Name == regionalRequestDetailToGetCommodityId.CSBName).SingleOrDefault().CommodityID;
-                reliefRequisitions.Add(GenerateRequisition(regionalRequest, commodityId, zoneId));
+                foreach (var commodityId in requestCommodity)
+                {
+                    reliefRequisitions.Add(GenerateRequisition(regionalRequest, zoneRequestDetails,commodityId, zoneId));
+                }
+               
+               
             }
 
             return reliefRequisitions;

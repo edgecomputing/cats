@@ -183,7 +183,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult New()
         {
-            PopulateLookup();
+          
 
             var relifRequisition = new RegionalRequest();
             var fdpList = _fdpService.GetAllFDP();
@@ -195,7 +195,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                                             }).ToList();
             relifRequisition.RegionalRequestDetails = releifDetails;
-
+            PopulateLookup(relifRequisition);
             return View(relifRequisition);
         }
 
@@ -205,11 +205,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                               "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
-            ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
-            ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
-
+            //ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
+            //ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RationID");
         }
-
+        private void PopulateLookup(RegionalRequest regionalRequest)
+        {
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name", regionalRequest.RegionID);
+            ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", regionalRequest.ProgramId);
+            ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name", regionalRequest.Month);
+            //ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name", regionalRequest.);
+            //ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name", regionalRequest.);
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RationID", regionalRequest.RationID);
+        }
         //
         // GET: /ReliefRequisitoin/Details/5
 
@@ -233,7 +242,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                             "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2")
                     .
                     FirstOrDefault();
-            ViewData["RationID"] = new SelectList( _rationService.GetAllRation(),"RationID", "RationID");
+          
             return View(regionalRequest);
         }
 
@@ -384,7 +393,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             foreach (var ds in requestDetails.FirstOrDefault().RequestDetailCommodities)
             {
-                var col = new DataColumn(ds.Commodity.Name, typeof(decimal));
+                var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
                 col.ExtendedProperties.Add("ID", ds.CommodityID);
                 dt.Columns.Add(col);
             }

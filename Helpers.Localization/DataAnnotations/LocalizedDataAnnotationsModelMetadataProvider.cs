@@ -24,8 +24,8 @@ namespace LanguageHelpers.Localization.DataAnnotations
             modelAccessor,
             modelType,
             propertyName);
-
-            metadata.DisplayName = Translator.Translate(metadata.GetDisplayName());
+            //TODO:Comented out because of error  
+            //metadata.DisplayName = Translator.Translate(metadata.GetDisplayName());
             //BekaMvcTests.Services.LocalizationTextService.Instance.Translate(metadata.GetDisplayName());
             return metadata;
         }
