@@ -1,0 +1,48 @@
+﻿@using Kendo.Mvc.UI
+@model  List<LanguageHelpers.Localization.Models.LocalizedText>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="well">
+    <h4 class="page-header">Localization</h4>
+</div>
+@section LeftBar{
+    
+    @Html.Partial("_TranslationLeftBar");
+    
+}
+@(Html.Kendo().Grid<LanguageHelpers.Localization.Models.LocalizedText>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.LocalizedTextId);
+        columns.Bound(p => p.LanguageCode);
+        columns.Bound(p => p.TextKey);
+        columns.Bound(p => p.Value);
+            
+        columns.Command(p => p.Custom("Edit").Click("translationEdit"));
+       
+
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.LocalizedTextId))
+                .Read(read => read.Action("Localization_Read", "Translation"))
+ 
+     )
+   
+      )
+<script>
+    function translationEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "Translation/Edit/" + dataItem.LocalizedTextId;
+    }
+</script>

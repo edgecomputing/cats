@@ -5,8 +5,10 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
+using Helpers.Localization;
+using LanguageHelpers.Localization;
 
-namespace Helpers.Localization.DataAnnotations
+namespace LanguageHelpers.Localization.DataAnnotations
 {
     public class LocalizedDataAnnotationsModelMetadataProvider : DataAnnotationsModelMetadataProvider
     {

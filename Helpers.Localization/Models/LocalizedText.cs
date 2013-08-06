@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace Helpers.Localization.Models
+namespace LanguageHelpers.Localization.Models
 {
     public class LocalizedText
     {

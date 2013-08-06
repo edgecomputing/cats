@@ -70,7 +70,8 @@ namespace Cats.Data
         public DbSet<RationDetail> RationDetails { get; set; }
         public DbSet<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
         public DbSet<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
-        public DbSet<HRDCommodityDetail> HrdCommodityDetails { get; set; } 
+        public DbSet<HRDCommodityDetail> HrdCommodityDetails { get; set; }
+        //public DbSet<LocalizedText> LocalizedTexts { get; set; }
 
         //public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Helpers.Localization.Models;
+using LanguageHelpers.Localization.Data.Repository;
+using LanguageHelpers.Localization.Models;
 
-using Helpers.Localization.Data.Repository;
-using System.Data.Entity;
-
-namespace Helpers.Localization.Data.UnitWork
+namespace LanguageHelpers.Localization.Data.UnitOfWork
 {
     /// <summary>
     /// UnitOfwork implementation for security module    

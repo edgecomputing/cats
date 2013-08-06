@@ -10,7 +10,7 @@ using System.Web.Security;
 using Cats.Infrastructure;
 using Cats.Services.Security;
 using Cats.Helpers;
-using Helpers.Localization.DataAnnotations;
+using LanguageHelpers.Localization.DataAnnotations;
 namespace Cats
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 

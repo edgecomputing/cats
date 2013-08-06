@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Services.Security;
+using Helpers.Localization.Services;
+using LanguageHelpers.Localization.Services;
 using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
@@ -85,6 +85,8 @@ namespace Cats.Infrastructure
             kernel.Bind<IHRDDetailService>().To<HRDDetailService>();
             kernel.Bind<IRegionalPSNPPlanService>().To<RegionalPSNPPlanService>();
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
+
+            kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
         }
     }
 }

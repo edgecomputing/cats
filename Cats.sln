@@ -59,7 +59,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema.Securit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.PSNP", "Cats.Services.PSNP\Cats.Services.PSNP.csproj", "{8EDA6B56-C5C9-4744-A356-1AF76AD96159}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LanguageHelpers", "LanguageHelpers", "{4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.Localization", "Helpers.Localization\Helpers.Localization.csproj", "{29C71652-546B-4362-BF05-A187E781D6BD}"
 EndProject

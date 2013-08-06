@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Helpers.Localization
+﻿using LanguageHelpers.Localization.Data.UnitOfWork;
+namespace LanguageHelpers.Localization
 {
    
        /* private static BekaMvcTestsContext db = new BekaMvcTestsContext();
@@ -21,7 +16,7 @@ namespace Helpers.Localization
          private Services.LocalizedTextService _dataservice; 
          private Translator()
             { 
-             _dataservice = new Services.LocalizedTextService(new Data.UnitWork.UnitOfWork());
+             _dataservice = new Services.LocalizedTextService(new UnitOfWork());
              //db = new BekaMvcTestsContext(); 
             }
          public static Translator Instance { get { return _instance; } }
