@@ -1,16 +1,17 @@
 ﻿@using Kendo.Mvc.UI
-@model  List<LanguageHelpers.Localization.Models.LocalizedText>
+@model  LanguageHelpers.Localization.Models.LocalizedText
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
 <div class="well">
     <h4 class="page-header">Localization</h4>
 </div>
 @section LeftBar{
     
-    @Html.Partial("_TranslationLeftBar");
+    @*@Html.Partial("_TranslationLeftBar")*@;
     
 }
 @(Html.Kendo().Grid<LanguageHelpers.Localization.Models.LocalizedText>()
@@ -33,7 +34,7 @@
           .Ajax()
           .PageSize(12)
             .Model(model => model.Id(p => p.LocalizedTextId))
-                .Read(read => read.Action("Localization_Read", "Translation"))
+                .Read(read => read.Action("Translation_Read", "Language",new {code=Model.LanguageCode}))
  
      )
    

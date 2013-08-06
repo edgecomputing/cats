@@ -1,0 +1,54 @@
+﻿
+@using Kendo.Mvc.UI
+@model LanguageHelpers.Localization.Models.Language
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section LeftBar
+{
+   
+@*@Html.Partial("_TranslationLeftBar")*@;
+     
+}
+<div class="well"><h3>Create new Language</h3></div>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.LanguageCode)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.LanguageCode)
+                    <span class="input-validation-error">
+                        @ViewBag.Error
+                    </span>
+                    @Html.ValidationMessageFor(m=>m.LanguageCode)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Name)
+                </div>
+                <div class="controls">
+                   @Html.TextBoxFor(m => m.Name)
+                    @Html.ValidationMessageFor(m=>m.Name)
+                </div>
+        
+            </div>            
+            <div class="control-group">      
+                <div class="controls">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+
+        </div>
+    }
+ 
+
+

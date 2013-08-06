@@ -1,0 +1,49 @@
+﻿@using Kendo.Mvc.UI
+@model  List<LanguageHelpers.Localization.Models.Language>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="well">
+    <h4 class="page-header">Language Registration</h4>
+</div>
+@section LeftBar{
+    
+    @*@Html.Partial("_TranslationLeftBar")*@;
+    
+}
+@(Html.Kendo().Grid<LanguageHelpers.Localization.Models.Language>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.LanguageID);
+        columns.Bound(p => p.LanguageCode);
+        columns.Bound(p => p.Name);
+            
+        columns.Command(p => p.Custom("Edit").Click("languageEdit"));
+       
+
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(12)
+            .Model(model => model.Id(p => p.LanguageID))
+                .Read(read => read.Action("Language_Read", "Language"))
+               
+ 
+     )
+   
+      )
+<script>
+    function languageEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "Language/Edit/" + dataItem.LanguageID;
+    }
+</script>

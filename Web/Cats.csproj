@@ -156,11 +156,8 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
@@ -169,6 +166,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
+    <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
@@ -628,7 +626,6 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
-
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Details.cshtml" />
@@ -650,14 +647,16 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Delete.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
-
     <Content Include="Areas\Localization\Views\Web.config" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
