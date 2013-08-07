@@ -390,48 +390,51 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(decimal));
             colNoBeneficiary.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colNoBeneficiary);
-
-            foreach (var ds in requestDetails.FirstOrDefault().RequestDetailCommodities)
+            var requestdetail = requestDetails.FirstOrDefault();
+            if(requestdetail!=null)
             {
-                var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
-                col.ExtendedProperties.Add("ID", ds.CommodityID);
-                dt.Columns.Add(col);
-            }
-
-            //int rowID = 0;
-            //bool addRow = false;
-            //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
-            foreach (var requestDetail in requestDetails)
-            {
-                var dr = dt.NewRow();
-                //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
-                dr[colNoBeneficiary] = requestDetail.Beneficiaries;
-                dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
-                dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;    
-                dr[colFDP] = requestDetail.Fdp.Name;
-                         
-
-                foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
+                foreach (var ds in requestdetail.RequestDetailCommodities)
                 {
+                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof (decimal));
+                    col.ExtendedProperties.Add("ID", ds.CommodityID);
+                    dt.Columns.Add(col);
+                }
 
-                    DataColumn col = null;
-                    foreach (DataColumn column in dt.Columns)
+                //int rowID = 0;
+                //bool addRow = false;
+                //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
+                foreach (var requestDetail in requestDetails)
+                {
+                    var dr = dt.NewRow();
+                    //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
+                    dr[colNoBeneficiary] = requestDetail.Beneficiaries;
+                    dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
+                    dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;
+                    dr[colFDP] = requestDetail.Fdp.Name;
+
+
+                    foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
                     {
-                        if (requestDetailCommodity.CommodityID.ToString() == column.ExtendedProperties["ID"].ToString())
+
+                        DataColumn col = null;
+                        foreach (DataColumn column in dt.Columns)
                         {
-                            col = column;
-                            break;
+                            if (requestDetailCommodity.CommodityID.ToString() ==
+                                column.ExtendedProperties["ID"].ToString())
+                            {
+                                col = column;
+                                break;
+                            }
+                        }
+                        if (col != null)
+                        {
+                            dr[col.ColumnName] = requestDetailCommodity.Amount;
+
                         }
                     }
-                    if (col != null)
-                    {
-                        dr[col.ColumnName] = requestDetailCommodity.Amount;
-
-                    }
+                    dt.Rows.Add(dr);
                 }
-                dt.Rows.Add(dr);
             }
-
             //var dta = (from DataRow row in dt.Rows select new
             //                                                  {
 
