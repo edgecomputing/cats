@@ -156,11 +156,8 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
@@ -220,6 +217,8 @@
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
+    <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
+    <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
@@ -627,7 +626,6 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
-
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Details.cshtml" />
@@ -644,14 +642,18 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Delete.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
-
     <Content Include="Areas\Localization\Views\Web.config" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
+    <Content Include="Areas\Transaction\Views\Web.config" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Index.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Details.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Create.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Edit.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Delete.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -860,6 +862,8 @@
     <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
+    <Folder Include="Areas\Transaction\Models\" />
+    <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
@@ -869,6 +873,10 @@
     <ProjectReference Include="..\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
       <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
       <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>

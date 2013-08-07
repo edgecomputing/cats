@@ -29,7 +29,7 @@ namespace Cats
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            ModelMetadataProviders.Current = new LocalizedDataAnnotationsModelMetadataProvider();
+           // ModelMetadataProviders.Current = new LocalizedDataAnnotationsModelMetadataProvider();
             
 
         }
