@@ -54,5 +54,11 @@ namespace Cats.Services.PSNP
             return _unitOfWork.RegionalPSNPPlanRepository.FindBy(predicate);
 
         }
+
+
+        public List<vwPSNPAnnualPlan> GetAnnualPlanRpt()
+        {
+            return _unitOfWork.VwPSNPAnnualPlanRepository.GetAll();
+        }
     }
 }

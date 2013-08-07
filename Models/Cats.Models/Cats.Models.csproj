@@ -106,6 +106,7 @@
     <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
+    <Compile Include="Mapping\vwPSNPAnnualPlanMap.cs" />
     <Compile Include="Mapping\vwTransportOrderMap.cs" />
     <Compile Include="Mapping\WorkflowMap.cs" />
     <Compile Include="Mapping\WorkflowStatusMap.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
     <Compile Include="ViewModels\RequestView.cs" />
     <Compile Include="ViewModels\SINumber.cs" />
+    <Compile Include="vwPSNPAnnualPlan.cs" />
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowStatus.cs" />
