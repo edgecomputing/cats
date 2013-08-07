@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "GenerateTemplate";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<fieldset>
+    <legend>
+        Generate Template
+    </legend>
+</fieldset> 
+
+@using (Html.BeginForm("GenerateTemplate", "GiftCertificate", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
+{
+    
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label("Reference No:")
+                </div>
+                <div class="controls">
+                    @Html.TextBox("RefNo")
+            
+                </div>
+        
+            </div>
+            <div class="control-group">      
+                <div class="controls">
+                    <input type="submit" value="Create Template" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+}

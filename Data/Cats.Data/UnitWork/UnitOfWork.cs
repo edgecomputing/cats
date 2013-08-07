@@ -494,5 +494,27 @@ namespace Cats.Data.UnitWork
         }
 
 
+
+        private IGenericRepository<GiftCertificate> giftCertificateRepository;
+        public IGenericRepository<GiftCertificate> GiftCertificateRepository
+        {
+            get
+            {
+                return this.giftCertificateRepository ?? (this.giftCertificateRepository = new GenericRepository<GiftCertificate>(_context));
+            }
+        }
+
+
+        private IGenericRepository<GiftCertificateDetail> giftCertificateDetailRepository;
+        public IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository
+        {
+            get
+            {
+                return this.giftCertificateDetailRepository ?? (this.giftCertificateDetailRepository = new GenericRepository<GiftCertificateDetail>(_context));
+            }
+        }
+
+
+
     }
 }
