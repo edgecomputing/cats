@@ -205,7 +205,6 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
-    <Compile Include="Areas\PSNP\Controllers\Default1Controller.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
@@ -636,11 +635,6 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Approved.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Delete.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Details.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Create.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Edit.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Delete.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Edit.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Create.cshtml" />
