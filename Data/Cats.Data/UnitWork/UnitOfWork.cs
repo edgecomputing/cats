@@ -452,6 +452,14 @@ namespace Cats.Data.UnitWork
         }
 
 
+        private IGenericRepository<UserProfile> userProfileRepository;
+        public IGenericRepository<UserProfile> UserProfileRepository
+        {
+            get
+            {
+                return this.userProfileRepository ?? (this.userProfileRepository = new GenericRepository<UserProfile>(_context));
+            }
+        }
 
 
         

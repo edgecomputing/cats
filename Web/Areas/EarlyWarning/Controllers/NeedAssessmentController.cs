@@ -110,7 +110,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                  {
                                      NeedAApproved = false,
                                      NeedACreatedDate = DateTime.Now,
-                                     NeddACreatedBy = user.Profile.UserAccountId
+                                     NeddACreatedBy = _needAssessmentHeaderService.GetUserProfileId(user.Profile.UserName)
                                  };
 
 
