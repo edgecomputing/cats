@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Cats.Models.PSNP.RegionalPSNPPlanDetailViewModel>
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Plan</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@(Html.Kendo().Grid(Model)    
+    .Name("Grid")
+    .Columns(columns => {
+        columns.Bound(p => p.RegionalPSNPPlanID);
+        columns.Bound(p => p.PlanedFDPID);
+
+        columns.Bound(p => p.PlanedFDPName).Groupable(false);
+        columns.Bound(p => p.BeneficiaryCount);
+        columns.Bound(p => p.FoodRatio);
+        
+        columns.Command(command =>
+        {
+           // command.Custom("Edit").Click("editRecord");
+           // command.Custom("Detail").Click("detailRecord");
+            command.Custom("Delete").Click("deleteRecord");
+        });
+    })
+    .DataSource(dataSource => dataSource
+        
+        .Ajax()
+        .PageSize(20)
+        .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
+        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail"))
+        .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail")) 
+        .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+        .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
+        )
+    .Editable(editable => editable.Mode(GridEditMode.InCell))    
+    .Pageable()
+    .Sortable()
+    .Scrollable() 
+    .Filterable()
+    .Groupable()
+)
+<script>
+    function deleteRecord() {
+    }
+</script>

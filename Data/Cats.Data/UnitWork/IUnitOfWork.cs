@@ -67,7 +67,19 @@ namespace Cats.Data.UnitWork
         IGenericRepository<HRD> HRDRepository { get; }
         IGenericRepository<HRDDetail> HRDDetailRepository { get; }
 
+
         IGenericRepository<UserProfile> UserProfileRepository { get; } 
+
+        IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository { get; }
+        IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
+        
+        
+
+
+
+        IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; } 
+             
+
 
         void Save();
 

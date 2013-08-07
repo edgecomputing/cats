@@ -1,0 +1,75 @@
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
+using Helpers.Localization.Services;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using LanguageHelpers.Localization.Models;
+using LanguageHelpers.Localization.Services;
+using LanguageHelpers.Localization.Data.UnitOfWork;
+
+namespace Cats.Areas.Localization.Controllers
+{
+    public class TranslationController : Controller
+    {
+        //
+        // GET: /Localization/Translation/
+        private ILocalizedTextService _localizedTextService;
+        public TranslationController()
+        {
+          //  ILocalizedTextService localizedTextService
+            _localizedTextService = new LocalizedTextService(new UnitOfWork());
+        }
+
+        public ActionResult Localization_Read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            var loccalization = _localizedTextService.FindBy(m=>m.LanguageCode=="am");
+            var hrdsToDisplay = loccalization.ToList();
+            return Json(hrdsToDisplay.ToDataSourceResult(request));
+        }
+        public ActionResult Index()
+        {
+            var localization = _localizedTextService.GetAllLocalizedText();
+            return View(localization);
+        }
+
+        public ActionResult Create()
+        {
+            var localizedText = new LocalizedText();
+            ViewBag.LanguageCode = new SelectList(_localizedTextService.GetAllLocalizedText(), "LanguageCode", "LanguageCode").Distinct().ToList();
+
+            return View(localizedText);
+        }
+
+         [HttpPost]
+        public ActionResult Create (LocalizedText localizedText)
+        {
+            if (ModelState.IsValid)
+            {
+                _localizedTextService.AddLocalizedText(localizedText);
+                return RedirectToAction("Index");
+            }
+            return View(localizedText);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var localizedText = _localizedTextService.FindById(id);
+            ViewBag.LanguageCode = new SelectList(_localizedTextService.GetAllLocalizedText(), "LocalizedTextId", "LanguageCode", localizedText.LocalizedTextId);
+          
+            return View(localizedText);
+        }
+        [HttpPost]
+        public ActionResult Edit(LocalizedText localizedText)
+        {
+            if(ModelState.IsValid)
+            {
+                _localizedTextService.UpdateLocalizedText(localizedText);
+                return RedirectToAction("Index");
+            }
+            return View(localizedText);
+        }
+
+    }
+}

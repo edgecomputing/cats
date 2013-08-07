@@ -22,7 +22,7 @@
     .Columns(columns =>
                  {
                      columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-                     columns.Bound(request => request.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Allocation", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
+                     columns.Bound(request => request.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.Month);

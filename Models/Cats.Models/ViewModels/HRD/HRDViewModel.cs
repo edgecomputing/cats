@@ -13,6 +13,7 @@ namespace Cats.Models.ViewModels.HRD
         public string Ration { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime PublishedDate { get; set; }
+        public string CreatedBy { get; set; }
         public List<HRDDetailViewModel> HRDDetails { get; set; }
 
        

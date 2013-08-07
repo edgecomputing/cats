@@ -78,31 +78,6 @@
 
         </div>
     }
- @*@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.DetailViewModel>()
-    .Name("HRD")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.Region).Groupable(false);
-        columns.Bound(p => p.Zone);
-        columns.Bound(p => p.Woreda);
-        columns.Bound(p => p.NumberOfBeneficiaries);
-        columns.Bound(p => p.DurationOfAssistance);
-        columns.Bound(p => p.StartingMonth);
-        columns.Bound(p => p.Cereal);
-        columns.Bound(p => p.Pulse);
-        columns.Bound(p => p.CSB);
-        columns.Bound(p => p.Oil);
-    })
-    .Pageable()
-    .Sortable()
-    .Scrollable()
-    .Filterable()
-    //.DataSource(dataSource => dataSource
-          //.Server()
-         // .PageSize(5)
-            //.Model(model => model.Id(p => p.BidID))
-            //.Read(read => read.Action("Creaet", "HRD"))
-   
-    )*@
+ 
 
 

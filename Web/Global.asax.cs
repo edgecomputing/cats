@@ -10,7 +10,7 @@ using System.Web.Security;
 using Cats.Infrastructure;
 using Cats.Services.Security;
 using Cats.Helpers;
-
+using LanguageHelpers.Localization.DataAnnotations;
 namespace Cats
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -29,6 +29,9 @@ namespace Cats
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelMetadataProviders.Current = new LocalizedDataAnnotationsModelMetadataProvider();
+            
+
         }
 
         /// <summary>

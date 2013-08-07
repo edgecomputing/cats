@@ -21,8 +21,9 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<TransportOrderDetail> transportOrderDetailRepository;
         private IGenericRepository<RationDetail> rationDetailRepository;
         private IGenericRepository<HRD> hrdRepository;
-        private IGenericRepository<HRDDetail> hrdDetailRepository; 
-        
+        private IGenericRepository<HRDDetail> hrdDetailRepository;
+        private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
+        private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
 
         public UnitOfWork()
         {
@@ -429,9 +430,40 @@ namespace Cats.Data.UnitWork
             get { return this.hrdDetailRepository ?? (this.hrdDetailRepository = new GenericRepository<HRDDetail>(_context)); }
 
         }
+        public IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository
+        {
+
+
+            get { return this.regionalPSNPPlanRepository ?? (this.regionalPSNPPlanRepository = new GenericRepository<RegionalPSNPPlan>(_context)); }
+
+        }
+
+
+
+
+        private IGenericRepository<RequestDetailCommodity> requestDetailCommodityRepository;
+
+        public IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository
+        {
+
+            get { return this.requestDetailCommodityRepository ?? (this.requestDetailCommodityRepository = new GenericRepository<RequestDetailCommodity>(_context)); }
+
+        }
+
+
 
       
+      
+      //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
 
+
+        public IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository
+        {
+
+            get { return this.regionalPSNPPlanDetailRepository ?? (this.regionalPSNPPlanDetailRepository = new GenericRepository<RegionalPSNPPlanDetail>(_context)); }
+
+        }
+      //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
 
         private IGenericRepository<NeedAssessmentHeader> needAssessmentHeaderRepository;
         public IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository
@@ -461,8 +493,6 @@ namespace Cats.Data.UnitWork
             }
         }
 
-
-        
 
     }
 }

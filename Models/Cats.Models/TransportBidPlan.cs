@@ -6,7 +6,7 @@ namespace Cats.Models
 {
     public class TransportBidPlan
     {
-
+          
         
         public TransportBidPlan()
         {

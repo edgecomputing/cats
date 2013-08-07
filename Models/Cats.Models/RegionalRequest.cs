@@ -25,11 +25,13 @@ namespace Cats.Models
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }
+        public int RationID { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
+        public virtual Ration Ration { get; set; }
        
   
         
