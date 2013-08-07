@@ -8,7 +8,6 @@
     var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     var lang = user.Profile.LanguageCode;
-    Translator.LoadTexts();
     Translator.CurrentLanguage = lang;
 }
 
