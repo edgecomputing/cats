@@ -81,70 +81,70 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return result;
         }
 
-        [HttpPost]
-        public ActionResult Index(int year, int month)
-        {
-            // TODO: Filter the collection using incoming parameters
-            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+        //[HttpPost]
+        //public ActionResult Index(int year, int month)
+        //{
+        //    // TODO: Filter the collection using incoming parameters
+        //    ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
 
 
-            var reliefrequistions =
-                _regionalRequestService.Get(r => r.RequistionDate.Year == year && r.RequistionDate.Month == month, null,
-                                            "AdminUnit,Program");
+        //    var reliefrequistions =
+        //        _regionalRequestService.Get(r => r.RequistionDate.Year == year && r.RequistionDate.Month == month, null,
+        //                                    "AdminUnit,Program");
 
-            return View(reliefrequistions.ToList());
-        }
+        //    return View(reliefrequistions.ToList());
+        //}
 
-        public ActionResult RequestsFromRegion()
-        {
-            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
-                                              "Name");
-            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
-                                            "Description");
+        //public ActionResult RequestsFromRegion()
+        //{
+        //    ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+        //    ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+        //                                      "Name");
+        //    ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
+        //                                    "Description");
 
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        public JsonResult GetRation()
-        {
+        //public JsonResult GetRation()
+        //{
            
            
-            var ration = _rationService.Get(t=>t.IsDefaultRation,null,"RationDetails").FirstOrDefault();
-            var rationViewModel = (from item in ration.RationDetails
-                                   select new
-                                              {
-                                                  _commodityService.FindById(item.CommodityID).Name,
-                                                  Value = item.Amount
-                                              });
-            return Json(rationViewModel, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult Submitted()
-        {
-            var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
-            var resutl = reliefrequistions.ToList().Select(item => new ReceivedRequisitionsDto()
-                                                                       {
-                                                                           Program = item.Program.Name,
-                                                                           ReferenceNumber = item.ReferenceNumber,
-                                                                           Region = item.AdminUnit.Name,
-                                                                           RequistionDate = item.RequistionDate.Date,
-                                                                           Remark = item.Remark,
-                                                                           Year = item.Year,
-                                                                           Status =
-                                                                               _workflowStatusService.GetStatusName(
-                                                                                   Workflow.REGIONAL_REQUEST,
-                                                                                   item.Status),
-                                                                           Round = item.Month,
-                                                                           Create =
-                                                                               _workflowStatusService.GetStatusName(
-                                                                                   Workflow.REGIONAL_REQUEST,
-                                                                                   item.Status)
-                                                                       }).ToList();
+        //    var ration = _rationService.Get(t=>t.IsDefaultRation,null,"RationDetails").FirstOrDefault();
+        //    var rationViewModel = (from item in ration.RationDetails
+        //                           select new
+        //                                      {
+        //                                          _commodityService.FindById(item.CommodityID).Name,
+        //                                          Value = item.Amount
+        //                                      });
+        //    return Json(rationViewModel, JsonRequestBehavior.AllowGet);
+        //}
+        //public JsonResult Submitted()
+        //{
+        //    var reliefrequistions = _regionalRequestService.Get(null, null, "AdminUnit,Program");
+        //    var resutl = reliefrequistions.ToList().Select(item => new ReceivedRequisitionsDto()
+        //                                                               {
+        //                                                                   Program = item.Program.Name,
+        //                                                                   ReferenceNumber = item.ReferenceNumber,
+        //                                                                   Region = item.AdminUnit.Name,
+        //                                                                   RequistionDate = item.RequistionDate.Date,
+        //                                                                   Remark = item.Remark,
+        //                                                                   Year = item.Year,
+        //                                                                   Status =
+        //                                                                       _workflowStatusService.GetStatusName(
+        //                                                                           Workflow.REGIONAL_REQUEST,
+        //                                                                           item.Status),
+        //                                                                   Round = item.Month,
+        //                                                                   Create =
+        //                                                                       _workflowStatusService.GetStatusName(
+        //                                                                           Workflow.REGIONAL_REQUEST,
+        //                                                                           item.Status)
+        //                                                               }).ToList();
 
 
-            return Json(resutl.ToList(), JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(resutl.ToList(), JsonRequestBehavior.AllowGet);
+        //}
 
         public ViewResult SubmittedRequest()
         {
@@ -159,24 +159,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(BuildRegionalRequestViewModel(requests));
         }
 
-        [HttpPost]
-        public ViewResult SubmittedRequest(int? RegionID, int month, int? Status)
-        {
+        //[HttpPost]
+        //public ViewResult SubmittedRequest(int? RegionID, int month, int? Status)
+        //{
 
 
-            // TODO: Filter the collection using incoming parameters
-            ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
-                                              "Name");
-            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
-                                            "Description");
-            var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0,
-                                                                                month,
-                                                                                Status.HasValue ? Status.Value : 1);
+        //    // TODO: Filter the collection using incoming parameters
+        //    ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+        //    ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+        //                                      "Name");
+        //    ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
+        //                                    "Description");
+        //    var reliefrequistions = _regionalRequestService.GetSubmittedRequest(RegionID.HasValue ? RegionID.Value : 0,
+        //                                                                        month,
+        //                                                                        Status.HasValue ? Status.Value : 1);
 
 
-            return View(reliefrequistions);
-        }
+        //    return View(reliefrequistions);
+        //}
 
 
 

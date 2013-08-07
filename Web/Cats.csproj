@@ -561,7 +561,6 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
