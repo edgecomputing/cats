@@ -16,7 +16,7 @@
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
-
+        @Html.HiddenFor(m=>m.HRDID)
         <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">

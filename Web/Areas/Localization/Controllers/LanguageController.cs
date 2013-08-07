@@ -94,6 +94,24 @@ namespace Cats.Areas.Localization.Controllers
             }
             return RedirectToAction("Index");
         }
+         public ActionResult EditTranslation(int id)
+        {
+            var localizedText = _localizedTextService.FindById(id);
+            ViewBag.LanguageCode = new SelectList(_localizedTextService.GetAllLocalizedText(), "LocalizedTextId", "LanguageCode", localizedText.LocalizedTextId);
+          
+            return View(localizedText);
+        }
+        [HttpPost]
+         public ActionResult EditTranslation(LocalizedText localizedText, string amharicText)
+        {
+            localizedText.Value = amharicText;
+            if(ModelState.IsValid)
+            {
+                _localizedTextService.UpdateLocalizedText(localizedText);
+                return RedirectToAction("Details");
+            }
+            return View(localizedText);
+        }
         public ActionResult Details()
         {
             //var language = _languageService.FindById(id);

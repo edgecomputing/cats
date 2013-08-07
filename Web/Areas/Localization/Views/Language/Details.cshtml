@@ -22,17 +22,17 @@
         columns.Bound(p => p.LanguageCode).Width(50);
         columns.Bound(p => p.TextKey).Width(400);
         columns.Bound(p => p.Value).Width(400);
-       
 
-           // columns.Command(p => p.Custom("Edit").Click("translationEdit"));
+
+        columns.Command(p => p.Custom("Edit").Click("translationEdit"));
        
 
         })
     .Pageable()
     .Sortable()
     .Filterable()
-                .ToolBar(toolBar => toolBar.Save())
-                                  .Editable(editable => editable.Mode(GridEditMode.InCell))
+    //.ToolBar(toolBar => toolBar.Save())
+    //.Editable(editable => editable.Mode(GridEditMode.InCell))
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(12)
@@ -43,7 +43,7 @@
                     model.Field(p => p.TextKey).Editable(false);
                 })
                 .Read(read => read.Action("Translation_Read", "Language"))
-                .Update(update => update.Action("Translation_Update","Language"))
+                .Update(update => update.Action("Translation_Update", "Language"))
  
      )
    
@@ -54,7 +54,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "Translation/Edit/" + dataItem.LocalizedTextId;
+        window.location = "EditTranslation/" + dataItem.LocalizedTextId;
     }
 </script>
 

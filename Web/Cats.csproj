@@ -657,6 +657,8 @@
     <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -668,6 +670,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\js\amharictyping.js" />
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
