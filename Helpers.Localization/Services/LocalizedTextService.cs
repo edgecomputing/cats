@@ -43,6 +43,7 @@ namespace LanguageHelpers.Localization.Services
         }
         public LocalizedText FindById(int id)
         {
+
             return _unitOfWork.LocalizedTextRepository.FindById(id);
         }
         public List<LocalizedText> GetAllLocalizedText()
