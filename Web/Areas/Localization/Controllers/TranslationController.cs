@@ -22,7 +22,9 @@ namespace Cats.Areas.Localization.Controllers
         public ActionResult Localization_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var loccalization = _localizedTextService.FindBy(m=>m.LanguageCode=="EN");
+            //var loccalization = _localizedTextService.FindBy(m=>m.LanguageCode=="EN");
+            var loccalization = _localizedTextService.GetAllLocalizedText();
+            ;
             var localToDisplay = loccalization.ToList();
             return Json(localToDisplay.ToDataSourceResult(request));
         }

@@ -57,6 +57,7 @@
     <Compile Include="DataAnnotations\LocalizedDataAnnotationsModelMetadataProvider.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\LocalizedText.cs" />
+    <Compile Include="Models\TranslationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ILanguageService.cs" />
     <Compile Include="Services\ILocalizedTextService.cs" />

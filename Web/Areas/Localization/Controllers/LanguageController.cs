@@ -78,14 +78,14 @@ namespace Cats.Areas.Localization.Controllers
            }
             return View(language);
         }
-        public ActionResult Translation_Read([DataSourceRequest] DataSourceRequest request, string code)
+        public ActionResult Translation_Read([DataSourceRequest] DataSourceRequest request)
         {
 
 
             //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
             //var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
             //var language = _languageService.FindById(id);
-            var localized = _localizedTextService.FindBy(m => m.LanguageCode ==code);
+            var localized = _localizedTextService.FindBy(m => m.LanguageCode =="AM");
 
             if (localized != null)
             {
@@ -94,11 +94,32 @@ namespace Cats.Areas.Localization.Controllers
             }
             return RedirectToAction("Index");
         }
-        public ActionResult Details(string code)
+        public ActionResult Details()
         {
             //var language = _languageService.FindById(id);
-            var localized = _localizedTextService.FindBy(m => m.LanguageCode == code).FirstOrDefault();
+            var localized = _localizedTextService.FindBy(m => m.LanguageCode == "AM").FirstOrDefault();
             return View(localized);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Translation_Update([DataSourceRequest] DataSourceRequest request, TranslationViewModel translation)
+        {
+            if (translation != null && ModelState.IsValid)
+            {
+                var detail = _localizedTextService.FindById(translation.LocalizedTextId);
+                if (detail != null)
+                {
+                    detail.LocalizedTextId = translation.LocalizedTextId;
+                    detail.LanguageCode = translation.LanguageCode;
+                    detail.TextKey = translation.TextKey;
+                    detail.Value = translation.Value;
+                    
+                    _localizedTextService.UpdateLocalizedText(detail);
+                }
+
+            }
+            return Json(new[] { translation }.ToDataSourceResult(request, ModelState));
+            //return Json(ModelState.ToDataSourceResult());
         }
 
     }
