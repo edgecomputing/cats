@@ -5,8 +5,10 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
+using Helpers.Localization;
+using LanguageHelpers.Localization;
 
-namespace Helpers.Localization.DataAnnotations
+namespace LanguageHelpers.Localization.DataAnnotations
 {
     public class LocalizedDataAnnotationsModelMetadataProvider : DataAnnotationsModelMetadataProvider
     {
@@ -22,8 +24,8 @@ namespace Helpers.Localization.DataAnnotations
             modelAccessor,
             modelType,
             propertyName);
-
-            metadata.DisplayName = Translator.Translate(metadata.GetDisplayName());
+            //TODO:Comented out because of error  
+            //metadata.DisplayName = Translator.Translate(metadata.GetDisplayName());
             //BekaMvcTests.Services.LocalizationTextService.Instance.Translate(metadata.GetDisplayName());
             return metadata;
         }

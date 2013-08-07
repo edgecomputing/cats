@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Helpers.Localization.Data.Repository
+namespace LanguageHelpers.Localization.Data.Repository
 {
     public interface IGenericRepository<T> where T : class
     {

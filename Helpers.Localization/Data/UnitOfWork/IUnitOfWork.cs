@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using Helpers.Localization.Models;
-using Helpers.Localization.Data.Repository;
-namespace Helpers.Localization.Data.UnitWork
+using LanguageHelpers.Localization.Models;
+using LanguageHelpers.Localization.Data.Repository;
+
+namespace LanguageHelpers.Localization.Data.UnitOfWork
 {
     /// <summary>
     /// UnitOfWork class to manage persistence and retrival of modles associated with

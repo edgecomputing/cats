@@ -1,9 +1,10 @@
 ﻿
 using System.Data.Entity;
-using Helpers.Localization.Models;
+using LanguageHelpers.Localization.Models;
+
 //using Cats.Models.Security.Mapping;
 
-namespace Helpers.Localization.Data
+namespace LanguageHelpers.Localization.Data
 {
     public partial class LocalizationContext : DbContext
     {

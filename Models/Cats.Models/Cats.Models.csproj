@@ -93,6 +93,7 @@
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionMap.cs" />
+    <Compile Include="Mapping\RequestDetailCommodityMap.cs" />
     <Compile Include="Mapping\ShippingInstructionMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
     <Compile Include="Mapping\TransactionMap.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
+    <Compile Include="RequestDetailCommodity.cs" />
     <Compile Include="RequisitionViewModel.cs" />
     <Compile Include="ShippingInstruction.cs" />
     <Compile Include="Status.cs" />

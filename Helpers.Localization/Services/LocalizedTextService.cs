@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
-using Helpers.Localization.Models;
-using Helpers.Localization.Data.UnitWork;
+using Helpers.Localization.Services;
+using LanguageHelpers.Localization.Data.UnitOfWork;
+using LanguageHelpers.Localization.Models;
 
 
-namespace Helpers.Localization.Services
+namespace LanguageHelpers.Localization.Services
 {
     public class LocalizedTextService : ILocalizedTextService
     {
@@ -43,6 +44,7 @@ namespace Helpers.Localization.Services
         }
         public LocalizedText FindById(int id)
         {
+
             return _unitOfWork.LocalizedTextRepository.FindById(id);
         }
         public List<LocalizedText> GetAllLocalizedText()

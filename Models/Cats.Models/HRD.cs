@@ -13,11 +13,14 @@ namespace Cats.Models
         public int Month { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime PublishedDate { get; set; }
-        //public int StatusID { get; set; }
+        public Nullable<int> CreatedBY { get; set; }
         public int RationID { get; set; }
+        public Nullable<int> NeedAssessmentID { get; set; }
 
         public virtual Ration Ration { get; set; }
         public virtual ICollection<HRDDetail> HRDDetails { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
+        public virtual NeedAssessmentHeader NeedAssessment { get; set; }
 
     }
 }

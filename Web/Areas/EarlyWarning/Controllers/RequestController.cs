@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
@@ -26,7 +28,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IAdminUnitService _adminUnitService;
         private IProgramService _programService;
         private ICommodityService _commodityService;
-        private IRegionalRequestDetailService _reliefRequisitionDetailService;
+        private IRegionalRequestDetailService _reliefRequestDetailService;
         private IWorkflowStatusService _workflowStatusService;
         private IRationService _rationService;
 
@@ -44,7 +46,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             this._commodityService = commodityService;
             this._fdpService = fdpService;
             this._programService = programService;
-            this._reliefRequisitionDetailService = reliefRequisitionDetailService;
+            this._reliefRequestDetailService = reliefRequisitionDetailService;
             this._workflowStatusService = workflowStatusService;
             this._rationService = rationService;
         }
@@ -181,7 +183,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult New()
         {
-            PopulateLookup();
+          
 
             var relifRequisition = new RegionalRequest();
             var fdpList = _fdpService.GetAllFDP();
@@ -193,7 +195,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                                             }).ToList();
             relifRequisition.RegionalRequestDetails = releifDetails;
-
+            PopulateLookup(relifRequisition);
             return View(relifRequisition);
         }
 
@@ -203,24 +205,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                               "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
-            ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
-            ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
-
+            //ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
+            //ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name");
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RationID");
         }
-
+        private void PopulateLookup(RegionalRequest regionalRequest)
+        {
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name", regionalRequest.RegionID);
+            ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", regionalRequest.ProgramId);
+            ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name", regionalRequest.Month);
+            //ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name", regionalRequest.);
+            //ViewBag.FDPID = new SelectList(_fdpService.GetAllFDP(), "FDPID", "Name", regionalRequest.);
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RationID", regionalRequest.RationID);
+        }
         //
         // GET: /ReliefRequisitoin/Details/5
 
-        public ActionResult Details(int id = 0)
-        {
-            RegionalRequest reliefrequistion =
-                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
-            if (reliefrequistion == null)
-            {
-                return HttpNotFound();
-            }
-            return View(reliefrequistion);
-        }
+        //public ActionResult Details(int id = 0)
+        //{
+        //    RegionalRequest reliefrequistion =
+        //        _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
+        //    if (reliefrequistion == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(reliefrequistion);
+        //}
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -231,6 +242,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                             "RegionalRequestDetails.Fdp.AdminUnit,RegionalRequestDetails.Fdp.AdminUnit.AdminUnit2")
                     .
                     FirstOrDefault();
+          
             return View(regionalRequest);
         }
 
@@ -326,13 +338,112 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var request =
                 _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
             var requestModelView = BindRegionalRequestViewModel(request);
+            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id);
+            var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
+
+            ViewData["AllocatedCommodities"] = (from itm in requestDetailCommodities select new Commodity(){ CommodityID=itm.CommodityID});
+            ViewData["AvailableCommodities"] = _commodityService.GetAllCommodity();
+
             return View(requestModelView);
+        }
+        public ActionResult Details(int id)
+        {
+
+            ViewBag.RequestID = id;
+
+             var request =
+                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
+            var requestModelView = BindRegionalRequestViewModel(request);
+
+            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
+            var dt = TransposeData( requestDetails);
+            ViewData["Request_main_data"] = requestModelView;
+            return View(dt);
+        }
+        public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
+        {
+
+            ViewBag.RequestID = id;
+            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
+            var dt = TransposeData(requestDetails);
+            return Json(dt.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        private DataTable TransposeData( IEnumerable<RegionalRequestDetail> requestDetails)
+        {
+            var dt = new DataTable("Transpose");
+            //var colRequstDetailID = new DataColumn("RequstDetailID", typeof(int));
+            //colRequstDetailID.ExtendedProperties["ID"] = -1;
+            //dt.Columns.Add(colRequstDetailID);
+
+            var colZone = new DataColumn("Zone", typeof(string));
+            colZone.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colZone);
+
+            var colWoreda = new DataColumn("Woreda", typeof(string));
+            colWoreda.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colWoreda);
+
+            var colFDP = new DataColumn("FDP", typeof(string));
+            colFDP.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colFDP);
+
+            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(decimal));
+            colNoBeneficiary.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colNoBeneficiary);
+
+            foreach (var ds in requestDetails.FirstOrDefault().RequestDetailCommodities)
+            {
+                var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                col.ExtendedProperties.Add("ID", ds.CommodityID);
+                dt.Columns.Add(col);
+            }
+
+            //int rowID = 0;
+            //bool addRow = false;
+            //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
+            foreach (var requestDetail in requestDetails)
+            {
+                var dr = dt.NewRow();
+                //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
+                dr[colNoBeneficiary] = requestDetail.Beneficiaries;
+                dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
+                dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;    
+                dr[colFDP] = requestDetail.Fdp.Name;
+                         
+
+                foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
+                {
+
+                    DataColumn col = null;
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        if (requestDetailCommodity.CommodityID.ToString() == column.ExtendedProperties["ID"].ToString())
+                        {
+                            col = column;
+                            break;
+                        }
+                    }
+                    if (col != null)
+                    {
+                        dr[col.ColumnName] = requestDetailCommodity.Amount;
+
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+
+            //var dta = (from DataRow row in dt.Rows select new
+            //                                                  {
+
+            //                                                  }).ToList();
+
+            return dt;
         }
 
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
-            var requestDetails = _reliefRequisitionDetailService.FindBy(t => t.RegionalRequestID == id);
+            var requestDetails = _reliefRequestDetailService.FindBy(t => t.RegionalRequestID == id);
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
             return Json(requestDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -373,7 +484,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetailViewModel != null && ModelState.IsValid)
             {
-                _reliefRequisitionDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
+                _reliefRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
             }
 
             return Json(new[] { regionalRequestDetailViewModel }.ToDataSourceResult(request, ModelState));
@@ -384,7 +495,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetail != null && ModelState.IsValid)
             {
-                var target = _reliefRequisitionDetailService.FindById(regionalRequestDetail.RegionalRequestDetailID);
+                var target = _reliefRequestDetailService.FindById(regionalRequestDetail.RegionalRequestDetailID);
                 if (target != null)
                 {
                     target.Grain = regionalRequestDetail.Grain;
@@ -392,7 +503,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     target.CSB = regionalRequestDetail.CSB;
                     target.Oil = regionalRequestDetail.Oil;
                     target.Beneficiaries = regionalRequestDetail.Beneficiaries;
-                    _reliefRequisitionDetailService.EditRegionalRequestDetail(target);
+                    _reliefRequestDetailService.EditRegionalRequestDetail(target);
                 }
             }
 
@@ -405,7 +516,55 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetail != null)
             {
-                _reliefRequisitionDetailService.DeleteById(regionalRequestDetail.RegionalRequestDetailID);
+                _reliefRequestDetailService.DeleteById(regionalRequestDetail.RegionalRequestDetailID);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+        public ActionResult Commodity_Read([DataSourceRequest] DataSourceRequest request, int id)
+        {
+
+            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id);
+            var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
+
+           var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID ,RequestDetailCommodityID= itm.RequestCommodityID});
+            ViewData["AvailableCommodities"] = _commodityService.GetAllCommodity();
+
+            return Json(commodities.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Create([DataSourceRequest] DataSourceRequest request, RequestDetailCommodityViewModel commodity,int id)
+        {
+            if (commodity != null && ModelState.IsValid)
+            {
+               _reliefRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID,id);
+            }
+
+            return Json(new[] { commodity }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Update([DataSourceRequest] DataSourceRequest request, RequestDetailCommodityViewModel commodity)
+        {
+            if (commodity != null && ModelState.IsValid)
+            {
+                var target = _reliefRequestDetailService.UpdateRequestDetailCommodity(commodity.CommodityID,
+                                                                                      commodity.RequestDetailCommodityID);
+            }
+
+            return Json(new[] { commodity }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  RequestDetailCommodityViewModel commodity,int id)
+        {
+            if (commodity != null)
+            {
+                _reliefRequestDetailService.DeleteRequestDetailCommodity(commodity.CommodityID, id);
             }
 
             return Json(ModelState.ToDataSourceResult());
@@ -530,7 +689,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequest != null)
             {
-                _reliefRequisitionDetailService.DeleteById(regionalRequest.RegionalRequestID);
+                _reliefRequestDetailService.DeleteById(regionalRequest.RegionalRequestID);
             }
 
             return Json(ModelState.ToDataSourceResult());

@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Helpers.Localization.Models;
-using Helpers.Localization.Data.UnitWork;
+using LanguageHelpers.Localization.Models;
 
 
 namespace Helpers.Localization.Services

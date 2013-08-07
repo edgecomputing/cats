@@ -1,4 +1,5 @@
-﻿@model  Cats.Models.RegionalRequest
+﻿@using System.Collections
+@model  Cats.Models.RegionalRequest
 
 
 @{
@@ -20,12 +21,13 @@
     <div class="form-horizontal well">
         <fieldset>
             <legend></legend>
+               @Html.HiddenFor(model => model.RegionalRequestID)
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.RegionID, "Region")
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("RegionID", String.Empty)
+                    @Html.DropDownList("RegionID",string.Empty)
                     @Html.ValidationMessageFor(model => model.RegionID)
                 </div>
             </div>
@@ -67,6 +69,15 @@
                 <div class="controls">
                     @Html.TextBoxFor(model => model.ReferenceNumber)
                     @Html.ValidationMessageFor(model => model.ReferenceNumber)
+                </div>
+            </div>
+               <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RationID, "Ration")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RationID", String.Empty)
+                    @Html.ValidationMessageFor(model => model.RationID)
                 </div>
             </div>
               <div class="control-group">

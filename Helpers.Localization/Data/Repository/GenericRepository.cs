@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Helpers.Localization.Data.Repository
+namespace LanguageHelpers.Localization.Data.Repository
 {
     public class GenericRepository<T> :
    IGenericRepository<T>
