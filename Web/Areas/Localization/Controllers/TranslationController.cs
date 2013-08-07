@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Helpers.Localization.Services;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using LanguageHelpers.Localization.Models;
@@ -24,9 +22,11 @@ namespace Cats.Areas.Localization.Controllers
         public ActionResult Localization_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var loccalization = _localizedTextService.FindBy(m=>m.LanguageCode=="am");
-            var hrdsToDisplay = loccalization.ToList();
-            return Json(hrdsToDisplay.ToDataSourceResult(request));
+            //var loccalization = _localizedTextService.FindBy(m=>m.LanguageCode=="EN");
+            var loccalization = _localizedTextService.GetAllLocalizedText();
+            ;
+            var localToDisplay = loccalization.ToList();
+            return Json(localToDisplay.ToDataSourceResult(request));
         }
         public ActionResult Index()
         {

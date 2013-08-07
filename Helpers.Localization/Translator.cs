@@ -1,4 +1,5 @@
 ﻿using LanguageHelpers.Localization.Data.UnitOfWork;
+using System.Web;
 namespace LanguageHelpers.Localization
 {
    
@@ -26,11 +27,13 @@ namespace LanguageHelpers.Localization
          }
          public string _Translate(string TextKey, string LanguageCode)
          {
+            
              return _dataservice.Translate(TextKey, LanguageCode);
          }
          
          public static string Translate(string TextKey)
          {
+             
              return _instance._Translate(TextKey, CurrentLanguage);
          }
          public string Translate(string TextKey, string LanguageCode)

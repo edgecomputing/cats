@@ -160,7 +160,8 @@ namespace Cats.Tests.ControllersTests
 
           Assert.AreEqual(1, ((IEnumerable<RegionalRequestViewModel>)view.Model).Count());
       }
-
+      
+        
         #endregion
     }
 }

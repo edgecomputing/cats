@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountTransaction.cs" />
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="ApplicationSetting.cs" />
@@ -69,7 +70,11 @@
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
+
     <Compile Include="InternalMovement.cs" />
+
+    <Compile Include="Mapping\AccountTransactionMap.cs" />
+
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\ApplicationSettingMap.cs" />
@@ -112,6 +117,7 @@
     <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
+    <Compile Include="Mapping\vwPSNPAnnualPlanMap.cs" />
     <Compile Include="Mapping\vwTransportOrderMap.cs" />
     <Compile Include="Mapping\WorkflowMap.cs" />
     <Compile Include="Mapping\WorkflowStatusMap.cs" />
@@ -173,6 +179,7 @@
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
     <Compile Include="ViewModels\RequestView.cs" />
     <Compile Include="ViewModels\SINumber.cs" />
+    <Compile Include="vwPSNPAnnualPlan.cs" />
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowStatus.cs" />

@@ -75,7 +75,12 @@ namespace Cats.Data
 
         //public DbSet<Product> Products { get; set; }
         public DbSet<RequestDetailCommodity> RequestDetailCommodities { get; set; }
+
         public DbSet<GiftCertificate> GiftCertificate { get; set; }
+
+        //public DbSet<AccountTransaction> AccountTransactions { get; set; }
+        //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //TODO: Add mapping information for each Poco model.
@@ -132,8 +137,14 @@ namespace Cats.Data
             
 
             modelBuilder.Configurations.Add(new RequestDetailCommodityMap());
+
             modelBuilder.Configurations.Add(new GiftCertificateMap());
             modelBuilder.Configurations.Add(new GiftCertificateDetailMap());
+
+            //modelBuilder.Configurations.Add(new AccountTransactionMap());
+            //modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
+
+
         }
 
 

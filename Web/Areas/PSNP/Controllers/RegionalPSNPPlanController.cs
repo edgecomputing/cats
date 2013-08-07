@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.PSNP;
 using Cats.Data;
@@ -136,6 +137,15 @@ namespace Cats.Areas.PSNP
         {
             _regionalPSNPPlanService.DeleteById(id);
             return RedirectToAction("Index");
+        }
+        public FileResult Print()
+        {
+            var reportPath = Server.MapPath("~/Report/PSNP/AnnualPlan.rdlc");
+            var reportData = _regionalPSNPPlanService.GetAnnualPlanRpt();
+            var dataSourceName = "annualplan";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+
+            return File(result.RenderBytes, result.MimeType);
         }
 
         protected override void Dispose(bool disposing)
