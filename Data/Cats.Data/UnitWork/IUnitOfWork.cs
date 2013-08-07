@@ -76,7 +76,7 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; }
         IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }      
-
+        IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
         void Save();
 
     }

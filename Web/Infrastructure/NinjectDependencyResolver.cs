@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Services.Security;
-using Helpers.Localization.Services;
 using LanguageHelpers.Localization.Services;
 using Ninject;
 using Cats.Services.EarlyWarning;

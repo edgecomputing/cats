@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
-using Helpers.Localization;
-using LanguageHelpers.Localization;
 
 namespace LanguageHelpers.Localization.DataAnnotations
 {
@@ -25,7 +19,7 @@ namespace LanguageHelpers.Localization.DataAnnotations
             modelType,
             propertyName);
             //TODO:Comented out because of error  
-            //metadata.DisplayName = Translator.Translate(metadata.GetDisplayName());
+            metadata.DisplayName = Translator.Translate(metadata.GetDisplayName());
             //BekaMvcTests.Services.LocalizationTextService.Instance.Translate(metadata.GetDisplayName());
             return metadata;
         }

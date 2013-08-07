@@ -19,5 +19,7 @@ namespace Cats.Services.PSNP
         RegionalPSNPPlan FindById(int id);
         List<RegionalPSNPPlan> GetAllRegionalPSNPPlan();
         List<RegionalPSNPPlan> FindBy(Expression<Func<RegionalPSNPPlan, bool>> predicate);
+
+        List<vwPSNPAnnualPlan> GetAnnualPlanRpt();
     }
 }

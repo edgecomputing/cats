@@ -61,10 +61,11 @@
         <li class="nav-header">Translations
         </li>
         <li>
-            <a href="#"><i class="icon-user"></i>Languages</a>
+            <a href="@Url.Action("Index","Language",new {Area="Localization"})"><i class="icon-user"></i>Languages</a>
         </li>
         <li>
-            <a href="#"><i class="icon-cog"></i>Translation Terms</a>
+            <a href="@Url.Action("Details","Language",new {Area="Localization"})"><i class="icon-cog"></i>Translation Terms</a>
+
         </li>
         <li class="divider"></li>
         <li class="nav-header">Users & Roles</li>

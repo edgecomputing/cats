@@ -166,6 +166,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
+    <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
@@ -562,7 +563,6 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
@@ -654,6 +654,12 @@
     <Content Include="Areas\Transaction\Views\TransactionTest\Create.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\Edit.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\Delete.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -665,6 +671,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\js\amharictyping.js" />
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
@@ -918,6 +925,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
+    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

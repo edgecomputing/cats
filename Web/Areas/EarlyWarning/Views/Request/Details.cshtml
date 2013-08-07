@@ -1,13 +1,14 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @model System.Data.DataTable
 @using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Regional Relief Requests";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @{
-    var modelRequest =(RegionalRequestViewModel) ViewData["Request_main_data"];
+    var modelRequest = (RegionalRequestViewModel)ViewData["Request_main_data"];
 }
 
 <div class="row-fluid">
@@ -18,48 +19,48 @@
                     <td>
 
                         <p>
-                            <b>Reference Number:</b>
-                        @Html.DisplayName(  modelRequest.ReferenceNumber)
+                            <b>@Translator.Translate("Reference Number:")</b>
+                        @modelRequest.ReferenceNumber
 
 
                     </td>
                     <td>
                         <p>
-                            <b>Region
+                            <b>@Translator.Translate("Region")
                                 :</b>
-                        @Html.DisplayName(modelRequest.Region)
+                        @modelRequest.Region
 
                     </td>
-                 <td>
+                    <td>
                         <p>
-                            <b>Month
+                            <b>@Translator.Translate("Month")
                                 :</b>
-                            @Cats.Helpers.RequestHelper.MonthName(modelRequest.Month)
-                           <b>Year:</b> @modelRequest.Year 
+                            @Translator.Translate(@Cats.Helpers.RequestHelper.MonthName(modelRequest.Month))
+                            <b>@Translator.Translate("Year"):</b> @modelRequest.Year
                         </p>
                     </td>
                 </tr>
                 <tr>
-                    
+
                     <td>
                         <p>
-                            <b>Requested Date(ET)
+                            <b>@Html.DisplayName(modelRequest.RequestDateEt)
                                 :</b>
-                            @Html.DisplayName(modelRequest.RequestDateEt)
+                            @modelRequest.RequestDateEt
                         </p>
                     </td>
                     <td>
                         <p>
                             <b>Program
                                 :</b>
-                            @Html.DisplayName(modelRequest.Program)
+                            @modelRequest.Program
                         </p>
                     </td>
                     <td>
                         <p>
                             <b>Status
                                    :</b>
-                            @Html.DisplayName(modelRequest.Status)
+                            @modelRequest.Status
                         </p>
                     </td>
                 </tr>
@@ -71,20 +72,26 @@
 
 
                                 </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new {Controller="Request", Area = "EarlyWarning", id = modelRequest.RegionalRequestID })
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Approve", "ApproveRequest", new { id = modelRequest.RegionalRequestID })
-                                </td>
-                                 <td>
-                                    <a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning",id=modelRequest.RegionalRequestID })">Modify Allocation</a>
-                                   
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning",id=modelRequest.RegionalRequestID })">Create Requisition</a>
-                                   
-                                </td>
+                                @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+                                {
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { Controller = "Request", Area = "EarlyWarning", id = modelRequest.RegionalRequestID })
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Approve", "ApproveRequest", new { id = modelRequest.RegionalRequestID })
+                                    </td>
+                               
+                                    <td>
+                                        <a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Modify Allocation</a>
+
+                                    </td> }
+                                @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+                                {
+                                    <td>
+                                        <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Create Requisition</a>
+
+                                    </td>
+                                }
                             </tr>
                         </table>
                     </td>
@@ -123,7 +130,7 @@
                 foreach (System.Data.DataColumn column in Model.Columns)
                 {
                     model.Field(column.ColumnName, column.DataType);
-                }                
+                }
             })
         .Read(read => read.Action("Details_Read", "Request"))
     )

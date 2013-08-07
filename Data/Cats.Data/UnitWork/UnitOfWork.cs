@@ -492,6 +492,19 @@ namespace Cats.Data.UnitWork
         }
        // IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }  
 
+        private IGenericRepository<vwPSNPAnnualPlan> vwPSNPAnnualPlanRepository;
+
+        public IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository
+        {
+
+            get { return this.vwPSNPAnnualPlanRepository ?? (this.vwPSNPAnnualPlanRepository = new GenericRepository<vwPSNPAnnualPlan>(_context)); }
+
+        }
+
+
+
+      
+
 
     }
 }

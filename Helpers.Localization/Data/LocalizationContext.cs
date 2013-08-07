@@ -17,6 +17,7 @@ namespace LanguageHelpers.Localization.Data
 
         // TODO: Add properties to access set of Poco classes
         public DbSet<LocalizedText> LocalizedTexts { get; set; }
+        public DbSet<Language> Languages { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

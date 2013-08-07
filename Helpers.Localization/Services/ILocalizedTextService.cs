@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using LanguageHelpers.Localization.Models;
 
 
-namespace Helpers.Localization.Services
+namespace LanguageHelpers.Localization.Services
 {
    public interface ILocalizedTextService
     {

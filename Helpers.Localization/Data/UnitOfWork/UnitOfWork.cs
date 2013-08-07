@@ -13,6 +13,7 @@ namespace LanguageHelpers.Localization.Data.UnitOfWork
 
         private readonly LocalizationContext _context;
         private IGenericRepository<LocalizedText> localizedTextRepository;
+        private IGenericRepository<Language> languageRepository; 
         // private readonly SecurityContext _context;
               
         public UnitOfWork()
@@ -27,6 +28,14 @@ namespace LanguageHelpers.Localization.Data.UnitOfWork
         public IGenericRepository<LocalizedText> LocalizedTextRepository
         {
             get { return this.localizedTextRepository ?? (this.localizedTextRepository = new GenericRepository<LocalizedText>(_context)); }
+
+        }
+
+
+
+        public IGenericRepository<Language> LanguageRepositroy
+        {
+            get { return this.languageRepository ?? (this.languageRepository = new GenericRepository<Language>(_context)); }
 
         }
 

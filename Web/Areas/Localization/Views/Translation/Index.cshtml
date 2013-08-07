@@ -31,7 +31,7 @@
     .Filterable()
     .DataSource(dataSource => dataSource
           .Ajax()
-          .PageSize(8)
+          .PageSize(12)
             .Model(model => model.Id(p => p.LocalizedTextId))
                 .Read(read => read.Action("Localization_Read", "Translation"))
  

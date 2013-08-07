@@ -28,12 +28,12 @@
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
 .Name("grid").Columns(columns =>
          {
-             columns.Bound(p => p.Region).Width(10).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Region).Width(5).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" }); 
             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary");
-            columns.Bound(p => p.DurationOfAssistance).Title("Duration of assistance");
-             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name");
+            columns.Bound(p => p.DurationOfAssistance).Width(5).Title("Duration");
+             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(10);
              columns.Bound(p => p.Cereal);
              columns.Bound(p => p.BlendedFood).Title("B.Food");
             columns.Bound(p => p.Oil);
