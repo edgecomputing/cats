@@ -24,7 +24,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<HRDDetail> hrdDetailRepository;
         private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
         private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
-        private IGenericRepository<AccountTransaction> accountTransactionRepository;
+        //private IGenericRepository<AccountTransaction> accountTransactionRepository;
         public UnitOfWork()
         {
             this._context = new CatsContext();
@@ -483,6 +483,7 @@ namespace Cats.Data.UnitWork
             }
         }
 
+        private IGenericRepository<AccountTransaction> accountTransactionRepository;
         public IGenericRepository<AccountTransaction> AccountTransactionRepository
         {
             get
@@ -490,7 +491,7 @@ namespace Cats.Data.UnitWork
                 return this.accountTransactionRepository ?? (this.accountTransactionRepository = new GenericRepository<AccountTransaction>(_context));
             }
         }
-       // IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }  
+        //IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }  
 
         private IGenericRepository<vwPSNPAnnualPlan> vwPSNPAnnualPlanRepository;
 
