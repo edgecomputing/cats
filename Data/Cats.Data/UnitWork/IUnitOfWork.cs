@@ -67,6 +67,9 @@ namespace Cats.Data.UnitWork
         IGenericRepository<HRD> HRDRepository { get; }
         IGenericRepository<HRDDetail> HRDDetailRepository { get; }
 
+
+        IGenericRepository<UserProfile> UserProfileRepository { get; } 
+
         IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository { get; }
         IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
         
@@ -74,8 +77,15 @@ namespace Cats.Data.UnitWork
 
 
 
-        IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; } 
-             
+        IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; }
+
+        IGenericRepository<GiftCertificate> GiftCertificateRepository { get; }
+        IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository { get; }
+
+
+
+        IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }
+        IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
 
         void Save();
 

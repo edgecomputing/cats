@@ -73,7 +73,7 @@ namespace Cats.Services.EarlyWarning
 
        public int GetNeedAssessmentBeneficiaryNo(int id,int weredaId)
        {
-           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id).SingleOrDefault();
+           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id && w.NeedAssessmentHeader.NeedAApproved == true).SingleOrDefault();
 
            if (beneficiaryNo != null)
            {
@@ -84,7 +84,7 @@ namespace Cats.Services.EarlyWarning
        }
        public int GetNeedAssessmentMonths(int id,int weredaId)
        {
-           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id).SingleOrDefault();
+           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id && w.NeedAssessmentHeader.NeedAApproved == true).SingleOrDefault();
 
            if (months != null)
            {

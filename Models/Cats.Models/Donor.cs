@@ -14,6 +14,7 @@ namespace Cats.Models
           
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
+            this.GiftCertificates = new List<GiftCertificate>();
         }
 
         public int DonorID { get; set; }
@@ -22,6 +23,7 @@ namespace Cats.Models
         public bool IsResponsibleDonor { get; set; }
         public bool IsSourceDonor { get; set; }
         public string LongName { get; set; }
+        public virtual ICollection<GiftCertificate> GiftCertificates { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
   
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }

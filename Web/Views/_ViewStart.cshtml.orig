@@ -1,0 +1,22 @@
+﻿@using Cats.Helpers
+@using Cats.Models.Security;
+@using Cats.Services.Security
+<<<<<<< HEAD
+@using LanguageHelpers.Localization
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //var user = (UserIdentity)HttpContext.Current.User.Identity;
+    //var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+    //var lang = user.Profile.LanguageCode;
+    //Translator.LoadTexts();
+    //Translator.CurrentLanguage = lang;
+=======
+@*@using Helpers.Localization*@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+   
+>>>>>>> a641f872d30791b069c87919707de399487406a9
+}

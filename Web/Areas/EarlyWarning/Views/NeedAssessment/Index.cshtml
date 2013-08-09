@@ -33,14 +33,14 @@
                                 columns.ForeignKey(p => p.Zone, (System.Collections.IEnumerable)ViewData["zone"], "AdminUnitID", "Name").Width(120);
                                 columns.ForeignKey(p => p.District, (System.Collections.IEnumerable)ViewData["woreda"], "AdminUnitID", "Name").Width(120);;
         
-                                columns.Bound(p => p.VPoorNoOfM).Title("V.P M");
-                                columns.Bound(p => p.VPoorNoOfB).Title("V.P B"); ;
-                                columns.Bound(p => p.PoorNoOfM).Title("P M"); ;
-                                columns.Bound(p => p.PoorNoOfB).Title("P B"); ;
-                                columns.Bound(p => p.MiddleNoOfM).Title("M M"); ;
-                                columns.Bound(p => p.MiddleNoOfB).Title("M B"); ;
-                                columns.Bound(p => p.BOffNoOfM).Title("B M"); ;
-                                columns.Bound(p => p.BOffNoOfB).Title("B B"); ;
+                                columns.Bound(p => p.VPoorNoOfM);
+                                columns.Bound(p => p.VPoorNoOfB);
+                                columns.Bound(p => p.PoorNoOfM);
+                                columns.Bound(p => p.PoorNoOfB);
+                                columns.Bound(p => p.MiddleNoOfM) ;
+                                columns.Bound(p => p.MiddleNoOfB) ;
+                                columns.Bound(p => p.BOffNoOfM);
+                                columns.Bound(p => p.BOffNoOfB);
                                 columns.Command(commands =>
                                 {
                                     commands.Edit();
@@ -51,6 +51,7 @@
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Sortable()
+      .Scrollable()
       .DataSource(datasource=>datasource.Ajax()
       .Model(model => model.Id(p => p.NAId))
       .Read(read => read.Action("Read", "NeedAssessment"))

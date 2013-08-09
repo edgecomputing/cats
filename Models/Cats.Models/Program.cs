@@ -8,7 +8,7 @@ namespace Cats.Models
     {
         public Program()
         {
-           
+            this.GiftCertificates = new List<GiftCertificate>();
         }
         [Key]
         public int ProgramID { get; set; }
@@ -18,5 +18,6 @@ namespace Cats.Models
         public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
         public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public ICollection<TransportBidPlan> TransportBidPlans { get; set; }
+        public virtual ICollection<GiftCertificate> GiftCertificates { get; set; }
     }
 }

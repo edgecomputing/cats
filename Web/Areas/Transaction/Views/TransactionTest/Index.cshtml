@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Cats.Models.AccountTransaction>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PartitionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionGroupID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LedgerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HubOwnerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HubID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StoreID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stack)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectCodeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingInstructionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProgramID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParentCommodityID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommodityID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommodityGradeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityInMT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityInUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartitionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransactionGroupID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LedgerID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HubOwnerID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HubID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StoreID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stack)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectCodeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingInstructionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProgramID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParentCommodityID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommodityID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommodityGradeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityInMT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityInUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransactionDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AccountTransactionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AccountTransactionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AccountTransactionID })
+        </td>
+    </tr>
+}
+
+</table>

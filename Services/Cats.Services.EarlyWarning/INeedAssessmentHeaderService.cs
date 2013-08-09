@@ -22,6 +22,8 @@ namespace Cats.Services.EarlyWarning
             Func<IQueryable<NeedAssessmentHeader>, IOrderedQueryable<NeedAssessmentHeader>> orderBy = null,
             string includeProperties = "");
 
+        int GetUserProfileId(string userName);
+
     }
 }
 

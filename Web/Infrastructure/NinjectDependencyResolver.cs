@@ -9,7 +9,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Logistics;
 using Cats.Services.PSNP;
-
+using Cats.Services.Transaction;
 
 namespace Cats.Infrastructure
 {
@@ -88,6 +88,13 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
 
             kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
+
+            kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
+            kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
+            
+
+            kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
+
         }
     }
 }

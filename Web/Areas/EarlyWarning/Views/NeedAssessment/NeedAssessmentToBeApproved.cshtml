@@ -25,8 +25,8 @@
     .Name("NeedAssessment").Columns(columns =>
                             {
                                 columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-                                columns.Bound(p => p.NeedACreatedDate).Format("{0:MM/dd/yyyy}").Title("Date");
-                                columns.Bound(p => p.CreaterUser).Title("Created By");
+                                columns.Bound(p => p.NeedACreatedDate).Format("{0:MM/dd/yyyy}");
+                                columns.Bound(p => p.CreaterUser);
                                 //columns.Bound(p => p.NeedAApproved).Template(@<text></text>).ClientTemplate("<input type='checkbox' #= NeedAApproved ? checked='checked' : '' # class='check_row'/>");
                                 columns.Command(p => p.Custom("Approve").Click("onApprove"));
                             })

@@ -57,6 +57,11 @@
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\lib\Microsoft Office Interop word\Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -150,12 +155,14 @@
     <Compile Include="App_Start\WebApiConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
@@ -218,6 +225,8 @@
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
+    <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
+    <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
@@ -562,7 +571,6 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
@@ -624,7 +632,6 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
@@ -648,6 +655,14 @@
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\GenerateTemplate.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Index.cshtml" />
+    <Content Include="Areas\Transaction\Views\Web.config" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Index.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Details.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Create.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Edit.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Delete.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
@@ -857,6 +872,7 @@
     <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Templates\gift_Certificate.dotx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -864,6 +880,8 @@
     <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
+    <Folder Include="Areas\Transaction\Models\" />
+    <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
@@ -873,6 +891,10 @@
     <ProjectReference Include="..\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
       <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
       <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
@@ -914,6 +936,27 @@
   <ItemGroup>
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
+    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
