@@ -1,13 +1,13 @@
 ﻿@using Cats.Helpers
 @using Cats.Models.Security;
 @using Cats.Services.Security
-@using Helpers.Localization
+@using LanguageHelpers.Localization
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var user = (UserIdentity)HttpContext.Current.User.Identity;
-    var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
-    var lang = user.Profile.LanguageCode;
-   Translator.LoadTexts();
-    Translator.CurrentLanguage = lang;
+    //var user = (UserIdentity)HttpContext.Current.User.Identity;
+    //var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+    //var lang = user.Profile.LanguageCode;
+    //Translator.LoadTexts();
+    //Translator.CurrentLanguage = lang;
 }

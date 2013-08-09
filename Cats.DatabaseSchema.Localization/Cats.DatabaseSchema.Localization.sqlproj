@@ -58,5 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\LocalizedTexts.sql" />
+    <Build Include="dbo\Tables\Languages.sql" />
   </ItemGroup>
 </Project>
