@@ -157,6 +157,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
@@ -649,10 +650,8 @@
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\GenerateTemplate.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Index.cshtml" />
-
     <Content Include="Areas\Transaction\Views\Web.config" />
     <Content Include="Areas\Transaction\Views\TransactionTest\Index.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\Details.cshtml" />
@@ -665,7 +664,6 @@
     <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
     <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
-
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

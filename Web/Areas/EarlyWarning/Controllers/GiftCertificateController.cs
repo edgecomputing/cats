@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
 using System.Web.Mvc;
 using Microsoft.Office.Interop.Word;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
+
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -22,11 +25,34 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
+
             return View();
         }
 
-        public void GenerateTemplate(string RefNo)
+        public JsonResult GetListOfCertificate([DataSourceRequest] DataSourceRequest request)
         {
+            var giftCertList = _giftCertificateDetailService.GetAllGiftCertificateDetail();
+             
+            var result = giftCertList.ToList().Select(item => new GiftCertificateViewModel
+
+                                                                  {
+                                                                      CommodityName = item.Commodity.Name,
+                                                                      GiftDate = item.GiftCertificate.GiftDate,
+                                                                      Donor = item.GiftCertificate.Donor.Name,
+                                                                      Program = item.GiftCertificate.Program.Name,
+                                                                      ReferenceNo = item.GiftCertificate.ReferenceNo,
+                                                                      GiftCertificateID = item.GiftCertificateID,
+                                                                      SINumber = item.GiftCertificate.SINumber,
+                                                                      PortName = item.GiftCertificate.PortName
+                                                                  }).ToList();
+
+            return Json(result.ToDataSourceResult(request, ModelState));
+        }
+
+        public ActionResult GenerateTemplate(string RefNo)
+        {
+            if (RefNo.Trim() == "")
+                return RedirectToAction("Index");
             //OBJECT OF MISSING "NULL VALUE"
             string path = HttpContext.ApplicationInstance.Server.MapPath("~/Templates/gift_Certificate.dotx");
             if (path != null) Response.Write(path);
@@ -35,6 +61,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             Object oTemplatePath = path ;
 
             List<GiftCertificateDetail> giftCert = GetGiftCertificate(RefNo);//"L1344/SF148/2011");
+
+            if (giftCert.Count < 1)
+                return RedirectToAction("Index");
 
             Application wordApp = new Application();
             Document wordDoc = new Document();
@@ -103,6 +132,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             wordDoc.SaveAs("gift_cert.doc");
             wordApp.Documents.Open("gift_cert.doc");
             //wordApp.Application.Quit();
+            return RedirectToAction("Index");
         }
 
 
