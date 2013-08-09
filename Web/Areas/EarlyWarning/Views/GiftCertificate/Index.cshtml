@@ -37,8 +37,9 @@
                                 columns.Bound(p => p.ETA).Title("ETA").Format("{0:MM/dd/yyyy}");  
                                 columns.Bound(p => p.PortName).Title("Port"); 
                                 columns.Bound(p => p.SINumber).Title("SI");
-                                columns.Bound(p => p.Program).Title("Program"); 
-                               
+                                columns.Bound(p => p.Program).Title("Program");
+                                columns.Command(p => p.Custom("Print").Click("onPrint"));
+                             
 
                             })
      
@@ -55,13 +56,51 @@
         
       
       )
+
+<div id="modalWindow">
+    <h5>Print gift Certificate?</h5>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Print confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+<script>
+
+    function onPrint(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "GiftCertificate/GenerateTemplate/" + dataItem.GiftCertificateID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
   @*<br/>
 <div class="control-group">      
     <div class="controls">
         <input type="submit" value="Create Template" class="btn btn-success" />
     </div>
 </div>*@
-@using (Html.BeginForm("GenerateTemplate", "GiftCertificate", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
+@*@using (Html.BeginForm("GenerateTemplate", "GiftCertificate", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
 {
     
         <div class="well form-horizontal">
@@ -81,6 +120,6 @@
                 </div>
             </div>
         </div>
-    }
+    }*@
 
 

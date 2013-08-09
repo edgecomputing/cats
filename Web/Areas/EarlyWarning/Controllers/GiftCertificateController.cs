@@ -49,10 +49,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(result.ToDataSourceResult(request, ModelState));
         }
 
-        public ActionResult GenerateTemplate(string RefNo)
+        public void GenerateTemplate1(int id)
         {
-            if (RefNo.Trim() == "")
-                return RedirectToAction("Index");
+        }
+        public ActionResult GenerateTemplate(int id)
+        {
+            //if (RefNo.Trim() == "")
+            //    return RedirectToAction("Index");
             //OBJECT OF MISSING "NULL VALUE"
             string path = HttpContext.ApplicationInstance.Server.MapPath("~/Templates/gift_Certificate.dotx");
            
@@ -60,7 +63,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             Object oTemplatePath = path ;
 
-            List<GiftCertificateDetail> giftCert = GetGiftCertificate(RefNo);//"L1344/SF148/2011");
+            List<GiftCertificateDetail> giftCert = GetGiftCertificate(id);//"L1344/SF148/2011");
 
             if (giftCert.Count < 1)
                 return RedirectToAction("Index");
@@ -137,9 +140,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
 
-        private List<GiftCertificateDetail> GetGiftCertificate(string giftReferenceNo)
+        private List<GiftCertificateDetail> GetGiftCertificate(int giftCertId)
         {
-            var giftCertList = _giftCertificateDetailService.Get(d => d.GiftCertificate.ReferenceNo == giftReferenceNo,
+            var giftCertList = _giftCertificateDetailService.Get(d => d.GiftCertificate.GiftCertificateID == giftCertId,
                                                                  null, "GiftCertificate");
 
             return giftCertList.ToList();
