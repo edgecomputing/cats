@@ -277,6 +277,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name", hrd.Month);
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber",hrd.RationID);
+            ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader(), "NAHeaderId",
+                                                     "NeedACreatedDate",hrd.NeedAssessmentID);
+
            
             return View(hrd);
         }
@@ -284,6 +287,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Edit(HRD hrd)
         {
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            hrd.CreatedBY = userid;
             if(ModelState.IsValid)
             {
                 _hrdService.EditHRD(hrd);

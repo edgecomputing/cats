@@ -102,9 +102,9 @@ namespace Cats.Areas.Localization.Controllers
             return View(localizedText);
         }
         [HttpPost]
-         public ActionResult EditTranslation(LocalizedText localizedText, string amharicText)
+         public ActionResult EditTranslation(LocalizedText localizedText)
         {
-            localizedText.Value = amharicText;
+            //localizedText.Value = amharicText;
             if(ModelState.IsValid)
             {
                 _localizedTextService.UpdateLocalizedText(localizedText);

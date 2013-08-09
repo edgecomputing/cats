@@ -31,8 +31,8 @@
              columns.Bound(p => p.Region).Width(5).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" }); 
-            columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary").HtmlAttributes(new { align="Right"});
-            columns.Bound(p => p.DurationOfAssistance).Width(5).Title("Duration").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary").HtmlAttributes(new { align="Right"});
+             columns.Bound(p => p.DurationOfAssistance).Width(5).Title("Duration").HtmlAttributes(new { align = "Right" });
              columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(10);
              columns.Bound(p => p.Cereal).Format("{0:N}").HtmlAttributes(new { align = "Right" });
              columns.Bound(p => p.BlendedFood).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
@@ -47,9 +47,9 @@
 
 
          })
-         .ToolBar(toolBar => toolBar.Save())
-       .Editable(editable => editable.Mode(GridEditMode.InCell))
-       .Events(events => events.DataBound("onDataBound"))
+      .ToolBar(toolBar => toolBar.Save())
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Events(events => events.DataBound("onDataBound"))
       .Pageable()
       .Groupable()
       .Sortable()
@@ -65,7 +65,6 @@
                                   model.Id(p => p.HRDID);
                                   model.Field(p => p.HRDDetailID);
                                   model.Field(p => p.StartingMonth);
-                                      //.DefaultValue(ViewData["Months"] as Cats.Models.ViewModels.HRD.HRDDetailViewModel);
                                   //model.Field(p => p.Oil).Editable(false);
                                   //model.Field(p => p.Pulse).Editable(false);
                                   //model.Field(p => p.Cereal).Editable(false);

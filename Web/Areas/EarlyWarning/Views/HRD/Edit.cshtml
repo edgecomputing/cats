@@ -38,13 +38,23 @@
                 </div>
         
             </div>
-             <div class="control-group">
+            <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.RationID,"Ration")
                 </div>
                 <div class="controls">
                     @Html.DropDownList("RationID",String.Empty)
                     @Html.ValidationMessageFor(m=>m.RationID)
+                </div>
+        
+            </div>
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.NeedAssessmentID,"Need Assessment")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("NeedAssessmentID",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.NeedAssessmentID)
                 </div>
         
             </div>
