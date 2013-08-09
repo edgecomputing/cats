@@ -55,7 +55,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 return RedirectToAction("Index");
             //OBJECT OF MISSING "NULL VALUE"
             string path = HttpContext.ApplicationInstance.Server.MapPath("~/Templates/gift_Certificate.dotx");
-            if (path != null) Response.Write(path);
+           
             Object oMissing = System.Reflection.Missing.Value;
 
             Object oTemplatePath = path ;
