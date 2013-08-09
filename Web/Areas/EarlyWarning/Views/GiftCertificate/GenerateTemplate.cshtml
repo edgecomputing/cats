@@ -1,4 +1,4 @@
-﻿
+﻿@using LanguageHelpers.Localization
 @{
     ViewBag.Title = "GenerateTemplate";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -16,7 +16,7 @@
         <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label("Reference No:")
+                    @Translator.Translate("Reference No:")
                 </div>
                 <div class="controls">
                     @Html.TextBox("RefNo")

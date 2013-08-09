@@ -29,15 +29,15 @@
 
                                 columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
 
-                                columns.Bound(p => p.GiftCertificateID).Title("Gift Cert. Id");
-                                columns.Bound(p => p.ReferenceNo).Title("Ref No");
-                                columns.Bound(p => p.CommodityName).Title("Commodity"); 
-                                columns.Bound(p => p.Donor).Title("Donor");
-                                columns.Bound(p => p.GiftDate).Title("Gift Date").Format("{0:MM/dd/yyyy}");
-                                columns.Bound(p => p.ETA).Title("ETA").Format("{0:MM/dd/yyyy}");  
-                                columns.Bound(p => p.PortName).Title("Port"); 
-                                columns.Bound(p => p.SINumber).Title("SI");
-                                columns.Bound(p => p.Program).Title("Program");
+                                columns.Bound(p => p.GiftCertificateID).Width("100");
+                                columns.Bound(p => p.ReferenceNo).Width("100");
+                                columns.Bound(p => p.CommodityName).Width("100");
+                                columns.Bound(p => p.Donor).Width("200");
+                                columns.Bound(p => p.GiftDate).Width("100").Format("{0:MM/dd/yyyy}");
+                                columns.Bound(p => p.ETA).Width("100").Format("{0:MM/dd/yyyy}");  
+                               
+                                columns.Bound(p => p.SINumber).Width("100");
+                                columns.Bound(p => p.Program).Width("100");
                                 columns.Command(p => p.Custom("Print").Click("onPrint"));
                              
 

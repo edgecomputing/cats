@@ -1,6 +1,6 @@
 ﻿@using Cats.Services.Security
 @model IList<Cats.Models.RequisitionViewModel>
-
+@using LanguageHelpers.Localization
 @{
     
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -101,30 +101,30 @@
                    <tr>
         
                        <th>
-                           @Html.Label("Commodity")
+                           @Translator.Translate("Commodity")
                        </th>
                        <th>
-                           @Html.Label("Region")
+                           @Translator.Translate("Region")
                        </th>
                        <th>
-                           @Html.Label("Zone")
+                           @Translator.Translate("Zone")
                        </th>
         
                        <th>
-                           @Html.Label("ReqNo")
+                           @Translator.Translate("ReqNo")
                        </th>
        
                        <th>
-                           @Html.Label("ReqDate")
+                           @Translator.Translate("ReqDate")
                        </th>
                        <th>
-                           @Html.Label("Amount")
+                           @Translator.Translate("Amount")
                        </th>
                        <th>
-                           @Html.Label("Beneficiaries")
+                           @Translator.Translate("Beneficiaries")
                        </th>
                        <th>
-                             @Html.Label("Requisition ID")
+                             @Translator.Translate("Requisition ID")
                        </th>
         
                    </tr>
