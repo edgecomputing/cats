@@ -194,12 +194,10 @@
     <Build Include="EarlyWarning\Tables\NeedAssessmentDetail.sql" />
     <Build Include="dbo\Tables\RegionalPSNPPlanDetail.sql" />
     <Build Include="dbo\Tables\RegionalPSNPPlan.sql" />
-
     <Build Include="dbo\Tables\HRDDetail_2.sql" />
     <Build Include="dbo\Tables\HRD_2.sql" />
-
     <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
-
+    <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

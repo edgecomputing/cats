@@ -7,7 +7,9 @@ using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Services.EarlyWarning;
+using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 
@@ -49,19 +51,17 @@ namespace Cats.Tests.ControllersTests
                                                                      Name="Region",
                                                                      AdminUnitID=1
                                                                  },
+                                                                 Ration=new Ration()
+                                                                            {
+                                                                                RationID=1,
+                                                                                RefrenceNumber="RE1",
+                                                                                
+                                                                            },
                                                    RegionalRequestDetails = new List<RegionalRequestDetail>
                                                                                 {
                                                                                     new RegionalRequestDetail
                                                                                         {
                                                                                             Beneficiaries = 100
-                                                                                            ,
-                                                                                            CSB = 10
-                                                                                            ,
-                                                                                            Grain = 20
-                                                                                            ,
-                                                                                            Oil = 30
-                                                                                            ,
-                                                                                            Pulse = 40
                                                                                             ,
                                                                                             Fdpid = 1
                                                                                             ,
@@ -73,14 +73,6 @@ namespace Cats.Tests.ControllersTests
                                                                                         {
                                                                                             Beneficiaries = 100
                                                                                             ,
-                                                                                            CSB = 50
-                                                                                            ,
-                                                                                            Grain = 60
-                                                                                            ,
-                                                                                            Oil = 70
-                                                                                            ,
-                                                                                            Pulse = 80
-                                                                                            ,
                                                                                             Fdpid = 2
                                                                                             ,
                                                                                             RegionalRequestID = 1
@@ -91,6 +83,18 @@ namespace Cats.Tests.ControllersTests
                                                }
 
                                        };
+            var requestDetailCommodity = new List<RequestDetailCommodity>()
+                                             {
+                                                 new RequestDetailCommodity
+                                                     {
+                                                         CommodityID = 1,
+                                                         Amount = 20,
+                                                         RequestCommodityID = 1,
+                                                         RegionalRequestDetailID = 1
+                                                     },
+                                                
+                                             };
+            regionalRequests[0].RegionalRequestDetails.First().RequestDetailCommodities = requestDetailCommodity;
             var adminUnit = new List<AdminUnit>()
                                 {
                                     new AdminUnit
@@ -103,14 +107,39 @@ namespace Cats.Tests.ControllersTests
             mockRegionalRequestService.Setup(
                 t => t.GetSubmittedRequest(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(
                     (int region, int month, int status) =>
-                        {
-                         return   regionalRequests.FindAll(
-                                t => t.RegionID == region && t.RequistionDate.Month == month && t.Status == status).ToList();
-                        });
+                    {
+                        return regionalRequests.FindAll(
+                               t => t.RegionID == region && t.RequistionDate.Month == month && t.Status == status).ToList();
+                    });
             mockRegionalRequestService.Setup(t => t.Get(It.IsAny<Expression<Func<RegionalRequest, bool>>>(), null, It.IsAny<string>())).Returns(regionalRequests.AsQueryable());
-         
+            mockRegionalRequestService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
+                (int requestId) => regionalRequests.Find(t => t.RegionalRequestID == requestId));
+            mockRegionalRequestService.Setup(t => t.ApproveRequest(It.IsAny<int>())).Returns((int reqId) =>
+                                                                                                 {
+                                                                                                     regionalRequests.
+                                                                                                         Find
+                                                                                                         (t =>
+                                                                                                          t.
+                                                                                                              RegionalRequestID
+                                                                                                          == reqId).
+                                                                                                         Status
+                                                                                                         =
+                                                                                                         (int)
+                                                                                                         RegionalRequestStatus
+                                                                                                             .Approved;
+                                                                                                     return true;
+                                                                                                 });
+            mockRegionalRequestService.Setup(t => t.AddRegionalRequest(It.IsAny<RegionalRequest>())).Returns(
+                (RegionalRequest rRequest) =>
+                {
+                    regionalRequests.Add(rRequest);
+                    return true;
+                });
+            mockRegionalRequestService.Setup(t => t.GetAllRegionalRequest()).Returns(regionalRequests);
             var mockAdminUnitService = new Mock<IAdminUnitService>();
             mockAdminUnitService.Setup(t => t.FindBy(It.IsAny<Expression<Func<AdminUnit, bool>>>())).Returns(adminUnit);
+
+            mockAdminUnitService.Setup(t => t.GetRegions()).Returns(adminUnit);
 
             var workflowService = new Mock<IWorkflowStatusService>();
             var _status = new List<Cats.Models.WorkflowStatus>()
@@ -138,30 +167,180 @@ namespace Cats.Tests.ControllersTests
             workflowService.Setup(t => t.GetStatusName(It.IsAny<Cats.Models.Constant.WORKFLOW>(), It.IsAny<int>())).
                 Returns((Cats.Models.Constant.WORKFLOW workflow, int statusId) =>
                             {
-                              return  _status.Find(t => t.StatusID == statusId && t.WorkflowID == (int) workflow).Description;
+                                return _status.Find(t => t.StatusID == statusId && t.WorkflowID == (int)workflow).Description;
                             });
+            var programService = new Mock<IProgramService>();
+            programService.Setup(t => t.GetAllProgram()).Returns(new List<Program>()
+                                                                     {
+                                                                         new Program()
+                                                                             {ProgramID = 1, Description = "Relief"}
+                                                                     });
+            var rationService = new Mock<IRationService>();
+            rationService.Setup(t => t.GetAllRation()).Returns(new List<Ration>()
+                                                                   {
+                                                                       new Ration
+                                                                           {RationID = 1, RefrenceNumber = "R-00983"}
+                                                                   });
 
-            _requestController = new RequestController(mockRegionalRequestService.Object, null, mockAdminUnitService.Object, null, null, null,workflowService.Object,null);
+            var fdpService = new Mock<IFDPService>();
+            fdpService.Setup(t => t.FindBy(It.IsAny<Expression<Func<FDP, bool>>>())).Returns(new List<FDP>()
+                                                                           {
+                                                                               new FDP()
+                                                                                   {
+                                                                                       FDPID = 1,
+                                                                                       Name = "FDP1",
+                                                                                       AdminUnitID = 1
+                                                                                   }
+                                                                           });
+            var requestDetailService = new Mock<IRegionalRequestDetailService>();
+            requestDetailService.Setup(t => t.Get(It.IsAny<Expression<Func<RegionalRequestDetail, bool>>>(), null, It.IsAny<string>())).Returns(regionalRequests.First().RegionalRequestDetails);
+
+
+            var commodityService = new Mock<ICommodityService>();
+            commodityService.Setup(t => t.GetAllCommodity()).Returns(new List<Commodity>()
+                                                                         {new Commodity {CommodityID = 1, Name = "CSB"}});
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, mockAdminUnitService.Object, programService.Object, commodityService.Object, requestDetailService.Object, workflowService.Object, rationService.Object);
 
         }
 
         [TearDown]
         public void Dispose()
-        { }
+        {
+            _requestController.Dispose();
+        }
 
         #endregion
 
         #region Tests
 
-      [Test]
+        [Test]
         public void Should_List_Submitted_Requests()
-      {
-          var view = _requestController.SubmittedRequest();
+        {
+            var view = _requestController.SubmittedRequest();
 
-          Assert.AreEqual(1, ((IEnumerable<RegionalRequestViewModel>)view.Model).Count());
-      }
-      
-        
+            Assert.AreEqual(1, ((IEnumerable<RegionalRequestViewModel>)view.Model).Count());
+        }
+
+        [Test]
+        public void CanApproveDraftRequest()
+        {
+            //Act
+            _requestController.ApproveRequest(1);
+            // var reqStatus = regionalRequests[0].Status;
+            var resut = (ViewResult)_requestController.Edit(1);
+
+            //Assert
+
+            Assert.IsInstanceOf<RegionalRequest>(resut.Model);
+            Assert.AreEqual((int)RegionalRequestStatus.Approved, ((RegionalRequest)resut.Model).Status);
+        }
+        [Test]
+        public void CanGetRequestForEdit()
+        {
+            //Act
+            var result = (ViewResult)_requestController.Edit(1);
+            var regionalRequest = (RegionalRequest)result.Model;
+
+            //Assert
+            Assert.IsInstanceOf<RegionalRequest>(result.Model);
+            Assert.AreEqual(1, regionalRequest.RegionalRequestID);
+
+        }
+
+        [Test]
+        public void CanCreateNewRegionalRequest()
+        {
+
+            var newRegionalRequest = new RegionalRequest
+                {
+                    ProgramId = 1
+                    ,
+                    Month = 2
+                    ,
+                    RegionID = 2
+                    ,
+                    RegionalRequestID = 4
+                    ,
+                    RequistionDate = DateTime.Parse("7/3/2013")
+                    ,
+                    Year = DateTime.Today.Year
+                    ,
+                    Status = 1,
+                    Program = new Program()
+                                  {
+                                      Name = "Program1",
+                                      ProgramID = 1
+
+                                  },
+                    AdminUnit = new AdminUnit
+                                    {
+                                        Name = "Region",
+                                        AdminUnitID = 1
+                                    },
+                    Ration = new Ration()
+                                 {
+                                     RationID = 1,
+                                     RefrenceNumber = "RE1",
+
+                                 },
+                    RegionalRequestDetails = new List<RegionalRequestDetail>
+                                                 {
+                                                     new RegionalRequestDetail
+                                                         {
+                                                             Beneficiaries = 100
+                                                             ,
+                                                             Fdpid = 1
+                                                             ,
+                                                             RegionalRequestID = 1
+                                                             ,
+                                                             RegionalRequestDetailID = 1
+                                                         },
+                                                     new RegionalRequestDetail
+                                                         {
+                                                             Beneficiaries = 100
+                                                             ,
+                                                             Fdpid = 2
+                                                             ,
+                                                             RegionalRequestID = 1
+                                                             ,
+                                                             RegionalRequestDetailID = 2
+                                                         }
+                                                 }
+                };
+
+            //Act
+            _requestController.New(newRegionalRequest, "1-1-2005");
+            var request = new DataSourceRequest();
+            var result = (JsonResult)_requestController.Request_Read(request);
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, (((DataSourceResult)result.Data).Total));
+
+        }
+        [Test]
+        public void ShouldListAllRegionalRequests()
+        {
+            //Act
+            var request = new DataSourceRequest();
+            request.Page = 1;
+            request.PageSize = 5;
+
+            var result = (JsonResult)_requestController.Request_Read(request);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, (((DataSourceResult)result.Data).Total));
+        }
+        [Test]
+        public void AllocationModelShouldContainRegionalRequest()
+        {
+            //Arrange
+            //Act
+            var result = (ViewResult)_requestController.Allocation(1);
+
+            //Assert
+            Assert.IsInstanceOf<RegionalRequestViewModel>(result.Model);
+        }
         #endregion
     }
 }

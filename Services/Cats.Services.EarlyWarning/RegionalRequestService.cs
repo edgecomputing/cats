@@ -43,11 +43,7 @@ namespace Cats.Services.EarlyWarning
                                  select new RegionalRequestDetail()
                                  {
                                      Beneficiaries = 0,
-                                     Fdpid = fdp.FDPID,
-                                     Grain = 0,
-                                     Pulse = 0,
-                                     Oil = 0,
-                                     CSB = 0
+                                     Fdpid = fdp.FDPID
 
                                  });
             return requestDetail.ToList();
