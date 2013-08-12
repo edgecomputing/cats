@@ -70,11 +70,8 @@
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
-
     <Compile Include="InternalMovement.cs" />
-
     <Compile Include="Mapping\AccountTransactionMap.cs" />
-
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\ApplicationSettingMap.cs" />
@@ -116,6 +113,7 @@
     <Compile Include="Mapping\TransportOrderMap.cs" />
     <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
+    <Compile Include="Mapping\UnitMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
     <Compile Include="Mapping\vwPSNPAnnualPlanMap.cs" />
     <Compile Include="Mapping\vwTransportOrderMap.cs" />
@@ -165,6 +163,7 @@
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
+    <Compile Include="Unit.cs" />
     <Compile Include="UserDashboard.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />

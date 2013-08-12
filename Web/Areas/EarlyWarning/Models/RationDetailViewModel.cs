@@ -15,6 +15,9 @@ namespace Cats.Areas.EarlyWarning.Models
         public int CommodityID { get; set; }
         public decimal Amount { get; set; }
         public string Commodity { get; set; }
+        [Display(Name="Unit")]
+        public int UnitID { get; set; }
+        public string Unit { get; set; }
       
     }
 }

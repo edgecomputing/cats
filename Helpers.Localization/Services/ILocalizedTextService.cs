@@ -6,7 +6,7 @@ using LanguageHelpers.Localization.Models;
 
 namespace LanguageHelpers.Localization.Services
 {
-   public interface ILocalizedTextService
+   public interface ILocalizedTextService:IDisposable
     {
       bool AddLocalizedText(LocalizedText item);
       bool UpdateLocalizedText(LocalizedText item);

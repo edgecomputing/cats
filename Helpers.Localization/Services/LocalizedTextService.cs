@@ -61,9 +61,14 @@ namespace LanguageHelpers.Localization.Services
             List<LocalizedText> list = FindBy(f => f.TextKey == key && f.LanguageCode==languageCode).ToList();
             if (list.Count >= 1)
             {
-                return list[0].Value;
+                return list[0].TranslatedText;
             }
-            return key;// +"-" + languageCode;
+            return key;
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
         }
     }
 }

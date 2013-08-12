@@ -23,6 +23,7 @@ namespace Cats.Models
         public DateTime RequistionDate { get; set; }
         public int Year { get; set; }
         public String ReferenceNumber { get; set; }
+        [UIHint("AmharicTextBox")]
         public string Remark { get; set; }
         public int Status { get; set; }
         public int RationID { get; set; }

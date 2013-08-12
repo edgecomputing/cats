@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace LanguageHelpers.Localization.Models
 {
-    public class LocalizedText
+    public sealed class LocalizedText
     {
 
         [Key]
@@ -19,7 +19,7 @@ namespace LanguageHelpers.Localization.Models
 
         public string TextKey { get; set; }
 
-
-        public string Value { get; set; }
+        [UIHint("AmharicTextBox")]
+        public string TranslatedText { get; set; }
     }
 }

@@ -89,6 +89,12 @@ namespace Cats.Services.EarlyWarning
             
            
         }
+
+
+        public IEnumerable<Unit> GetAllUnit()
+        {
+            return _unitOfWork.UnitRepository.GetAll();
+        }
     }
 }
 

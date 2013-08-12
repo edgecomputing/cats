@@ -25,6 +25,7 @@ namespace Cats.Services.EarlyWarning
              Func<IQueryable<Commodity>, IOrderedQueryable<Commodity>> orderBy = null,
              string includeProperties = "");
 
+        IEnumerable<Unit> GetAllUnit(); 
         int GetCommoidtyId(string commodityName);
     }
 }

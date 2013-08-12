@@ -25,6 +25,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.RationID).HasColumnName("RationID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.Amount).HasColumnName("Amount");
+            this.Property(t => t.UnitID).HasColumnName("UnitID");
 
             // Relationships
             this.HasRequired(t => t.Commodity)
@@ -33,6 +34,9 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Ration)
                 .WithMany(t => t.RationDetails)
                 .HasForeignKey(d => d.RationID);
+            this.HasOptional(t => t.Unit)
+                .WithMany(t => t.RationDetails)
+                .HasForeignKey(d => d.UnitID);
 
         }
     }

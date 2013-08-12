@@ -40,14 +40,14 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Value)
+                    @Html.LabelFor(m => m.TranslatedText)
                 </div>
                 <div class="controls">
                     @* <input id="amharicText" name="amharicText" style="font-family: Visual Geez Unicode;" 
                            onkeypress="return AmharicPhoneticKeyPress(event,this);" maxlength="100" type="text" value="@Model.Value">
                    *@  
-                    @Html.TextBoxFor(m => m.Value)
-                    @Html.ValidationMessageFor(m=>m.Value)
+                    @Html.EditorFor(m => m.TranslatedText)
+                    @Html.ValidationMessageFor(m=>m.TranslatedText)
                 </div>
         
             </div>
@@ -60,23 +60,16 @@
 
         </div>
     }
+ 
+   <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.jgeez.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var name = $('#Value');
+            name.jGeez();
+        });
 
-@*<script src="@Url.Content("~/Scripts/js/amharictyping.js")" type="text/javascript"></script>*@
-<script src="@Url.Content("~/Scripts/js/jquery.jgeez.min.js")" type="text/javascript"></script>
-@*<script type="text/javascript">
-    $(function () {
-        var name = $('#Value');
-        name.addClass("amharic");
-        name.jGeez();
-    });
-</script>*@
-<script type="text/javascript">
-    $(function () {
-        var name = $('#Value');
-        name.jGeez();
-    });
-
-</script>
+    </script>
  
 </div>
 

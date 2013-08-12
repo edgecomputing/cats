@@ -421,7 +421,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (commodity != null && ModelState.IsValid)
             {
-               _reliefRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID,id);
+                //try
+                //{
+                    _reliefRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID, id);
+                //}
+                //catch(Exception ex)
+                //{
+                    
+                //}
             }
 
             return Json(new[] { commodity }.ToDataSourceResult(request, ModelState));
@@ -508,6 +515,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 RequistionDate = regionalRequest.RequistionDate,
                 StatusID = regionalRequest.Status,
                 Ration=regionalRequest.Ration.RefrenceNumber,
+                RationID=regionalRequest.RationID,
                 Year = regionalRequest.Year,
                 
                 
