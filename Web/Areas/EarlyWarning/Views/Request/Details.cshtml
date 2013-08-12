@@ -58,9 +58,15 @@
                     </td>
                     <td>
                         <p>
+                           <b> Ration:</b>
+                            <a href="@Url.Action("Details","Ration",new {id=modelRequest.RationID})">@modelRequest.Ration</a> 
+                        </p>
+                    </td>
+                    <td>
+                        <p>
                             <b>Status
                                    :</b>
-                            @modelRequest.Status
+                           @modelRequest.Status
                         </p>
                     </td>
                 </tr>
@@ -68,7 +74,7 @@
                     <td>
                         <table>
                             <tr>
-                                <td><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
+                                <td><a target="_balnk" href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
 
 
                                 </td>

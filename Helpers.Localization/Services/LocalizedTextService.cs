@@ -63,7 +63,12 @@ namespace LanguageHelpers.Localization.Services
             {
                 return list[0].TranslatedText;
             }
-            return key + "-" + languageCode;
+            return key;
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
         }
     }
 }

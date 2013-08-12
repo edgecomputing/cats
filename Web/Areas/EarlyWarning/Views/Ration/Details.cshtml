@@ -1,4 +1,5 @@
-﻿@using Cats.Areas.EarlyWarning.Models
+﻿@using System.Collections
+@using Cats.Areas.EarlyWarning.Models
 @using Cats.Helpers
 @using Cats.Models
 @using Kendo.Mvc.UI
@@ -29,25 +30,25 @@
 
 <h4 class="well">Rations</h4>
 <div class="well">
-    @Html.DisplayNameFor(model => model.ReferenceNumber):
+    <b> @Html.DisplayNameFor(model => model.ReferenceNumber):</b>
     @Html.DisplayFor(model => model.ReferenceNumber)
 
-    @Html.DisplayNameFor(model => model.CreatedBy)
-    @Html.DisplayFor(model => model.CreatedBy)
+  @*  @Html.DisplayNameFor(model => model.CreatedBy)
+    @Html.DisplayFor(model => model.CreatedBy)*@
     @if (cal.ToLower() == "ec")
     {
-        @Html.DisplayNameFor(model => model.CreatedDateEC)<b>:</b>
+       <b> @Html.DisplayNameFor(model => model.CreatedDateEC):</b>
         @Html.DisplayFor(model => model.CreatedDateEC)
     }
     else
     {
-        @Html.DisplayNameFor(model => model.CreatedDate)<b>:</b>
+        <b>@Html.DisplayNameFor(model => model.CreatedDate):</b>
         @Html.DisplayFor(model => model.CreatedDate)
     }
 
 
-    @Html.DisplayNameFor(model => model.IsDefaultRation):
-    @Html.DisplayFor(model => model.IsDefaultRation)
+ @*   @Html.DisplayNameFor(model => model.IsDefaultRation):
+    @Html.DisplayFor(model => model.IsDefaultRation)*@
 
 
     <p>
@@ -72,6 +73,7 @@
           columns.Bound(p => p.RationID).Width(100).Visible(false);
           columns.Bound(p => p.RationDetailID).Visible(false);
           columns.Bound(p => p.Amount).Width(100);
+          columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>) ViewData["UnitMeasures"], "UnitID", "Name").Width(100);
           columns.Command(command =>
                               {
                                   command.Destroy();

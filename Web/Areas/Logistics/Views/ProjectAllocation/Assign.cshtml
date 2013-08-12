@@ -126,7 +126,7 @@
         <div class="row">
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Requested Amount", new { @class = "control-label" }) 
+                    @Translator.Translate("Requested Amount") 
                     <div class="controls">
                         <input type="text" class="icon-file-text-alt" id="Requested" name="Requested" value="@ViewBag.RequetedAmount" readonly="readonly" />    
                     </div>
@@ -136,7 +136,7 @@
             
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Hub", new { @class = "control-label" }) 
+                    @Translator.Translate("Hub") 
                     <div class="controls">
                         @Html.Hidden("hub")
                         <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly" />
@@ -148,7 +148,8 @@
         <div class="row">
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Reamining", new { @class = "control-label" }) 
+                    @Translator.Translate("Reamining")
+                    
                     <div class="controls">
                         @Html.Hidden("reamaining")
                         <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
@@ -158,7 +159,7 @@
              
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Date", new { @class = "control-label" }) 
+                    @Translator.Translate("Date") 
                     <div class="controls">
                         <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
                     </div>
