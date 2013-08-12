@@ -536,6 +536,19 @@ namespace Cats.Data.UnitWork
 
 
 
+        private IGenericRepository<Unit> unitRepository;
+
+        public IGenericRepository<Unit> UnitRepository
+        {
+
+            get { return this.unitRepository ?? (this.unitRepository = new GenericRepository<Unit>(_context)); }
+
+        }
+
+
+
+      
+
       
 
 

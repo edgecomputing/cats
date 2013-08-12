@@ -28,6 +28,23 @@ namespace Cats.Models
         [Display(Name = "Region ID")]
         public int RegionID { get; set; }
 
+        //Ration
+        [Display(Name = "Ration")]
+        public virtual Ration Ration { get; set; }
+
+        //RationID
+        [Display(Name = "Ration ID")]
+        public int RationID { get; set; }
+
+        /*
+        //Status
+        [Display(Name = "Status")]
+        public virtual WorkflowStatus Status { get; set; }
+
+        //StatusID
+        [Display(Name = "Status ID")]
+        public int StatusID { get; set; }
+        */
         public string ShortName
         {
             get { return this.Year + "-" + this.Region.Name; }

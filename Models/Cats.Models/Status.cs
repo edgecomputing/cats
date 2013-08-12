@@ -18,6 +18,8 @@ namespace Cats.Models
         #region Navigation Properties
 
         public virtual ICollection<Bid> Bids { get; set; }
+       
+        
         #endregion
     }
 }

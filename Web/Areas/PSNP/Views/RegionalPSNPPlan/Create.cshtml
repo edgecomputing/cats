@@ -4,6 +4,10 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section LeftBar
+{
+    @Html.Partial("_PSNPLeftBar");
+}
 
 <h2>Create</h2>
 <div class="form-horizontal">
@@ -12,33 +16,43 @@
 
     <fieldset>
         <legend>Regional PSNP Plan</legend>
+
+        
+
         <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.Year)
-            </div>
+            @Html.LabelFor(model => model.Year, new { @class = "control-label"})
             <div class="controls">
-                @Html.EditorFor(model => model.Year)
-                @Html.ValidationMessageFor(model => model.Year)
+                 @Html.TextBoxFor(model => model.Year, new { @class = "input-xlarge", @placeholder = "Year" })    
+                 @Html.ValidationMessageFor(model => model.Year)
             </div>
         </div>
+
         <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.Duration)
-            </div>
+            @Html.LabelFor(model => model.Region, new { @class = "control-label"})
             <div class="controls">
-                @Html.EditorFor(model => model.Duration)
-                @Html.ValidationMessageFor(model => model.Duration)
+                @Html.DropDownList("RegionID")   
+                 @Html.ValidationMessageFor(model => model.Region)
             </div>
         </div>
+
         <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.RegionID)
-            </div>
+            @Html.LabelFor(model => model.Ration, new { @class = "control-label"})
             <div class="controls">
-                @Html.EditorFor(model => model.RegionID)
-                @Html.ValidationMessageFor(model => model.RegionID)
+                 @Html.DropDownList("RationID")
+                 @Html.ValidationMessageFor(model => model.Ration)
             </div>
         </div>
+
+       <div class="control-group">
+            @Html.LabelFor(model => model.Duration, new { @class = "control-label"})
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Duration, new { @class = "input-xlarge", @placeholder = "Duration" })    
+                 @Html.ValidationMessageFor(model => model.Duration)
+            </div>
+        </div>     
+
+
+
         <p>
             
             <input type="submit" value="Create" class="btn btn-info"/>
@@ -47,9 +61,3 @@
     </fieldset>
 }
 </div>
-
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

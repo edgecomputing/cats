@@ -17,6 +17,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IRationService _rationService;
         private readonly IRationDetailService _rationDetailService;
         private readonly ICommodityService _commodityService;
+        
 
         public RationController(IRationService rationService, ICommodityService commodityService, IRationDetailService rationDetailService)
         {
@@ -46,6 +47,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                              item.Name
                                          });
             ViewData["commodities"] = commdities;
+            ViewData["UnitMeasures"] = _commodityService.GetAllUnit();
             return View(rationViewModel);
         }
         private RationDetailViewModel BindRationDetailViewModel(RationDetail rationDetail)
@@ -59,6 +61,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 rationViewModel.CommodityID = rationDetail.CommodityID;
                 rationViewModel.RationID = rationDetail.RationID;
                 rationViewModel.RationDetailID = rationDetail.RationDetailID;
+                rationViewModel.UnitID = rationDetail.UnitID.HasValue?rationDetail.UnitID.Value:-1;
+                // rationViewModel.UnitID = rationDetail.UnitID;
             }
             return rationViewModel;
         }
@@ -173,7 +177,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                  RationID = rationDetailViewModel.RationID,
                                  CommodityID = rationDetailViewModel.CommodityID,
                                  Amount = rationDetailViewModel.CommodityID,
-
+                                 UnitID=rationDetailViewModel.UnitID
+                                 
                              };
             return ration;
         }

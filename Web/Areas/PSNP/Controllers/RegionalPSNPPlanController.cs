@@ -11,16 +11,27 @@ using Cats.Data;
 using Cats.Services.PSNP;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Services.EarlyWarning;
+
 
 namespace Cats.Areas.PSNP
 {
     public class RegionalPSNPPlanController : Controller
     {
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
+        private readonly IAdminUnitService _adminUnitService;
+        private readonly IRationService _rationService;
 
-        public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam)
+
+        public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam
+                                            ,IRationService rationServiceParam
+                                           , IAdminUnitService adminUnitServiceParam
+                                    )
         {
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
+            this._rationService = rationServiceParam;
+            this._adminUnitService = adminUnitServiceParam;
+
         }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
@@ -32,9 +43,17 @@ namespace Cats.Areas.PSNP
                         Duration = plan.Duration,
                         RegionID = plan.RegionID,
                         Year = plan.Year,
-                        RegionName = plan.Region.Name
+                        RegionName = plan.Region.Name,
+                        RationName=plan.Ration.RefrenceNumber
+                       
 
                     });
+        }
+        public void LoadLookups()
+        {
+
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
         }
         //
         // GET: /PSNP/RegionalPSNPPlan/
@@ -69,6 +88,7 @@ namespace Cats.Areas.PSNP
 
         public ActionResult Create()
         {
+            LoadLookups();
             return View();
         }
 
@@ -84,7 +104,7 @@ namespace Cats.Areas.PSNP
 
                 return RedirectToAction("Index");
             }
-
+            LoadLookups();
             return View(regionalpsnpplan);
         }
 
@@ -93,6 +113,7 @@ namespace Cats.Areas.PSNP
 
         public ActionResult Edit(int id = 0)
         {
+            LoadLookups();
             RegionalPSNPPlan regionalpsnpplan = _regionalPSNPPlanService.FindById(id);
             if (regionalpsnpplan == null)
             {
@@ -112,6 +133,7 @@ namespace Cats.Areas.PSNP
                 _regionalPSNPPlanService.UpdateRegionalPSNPPlan(regionalpsnpplan);
                 return RedirectToAction("Index");
             }
+            LoadLookups();
             return View(regionalpsnpplan);
         }
 

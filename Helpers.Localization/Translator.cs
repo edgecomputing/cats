@@ -18,7 +18,7 @@ namespace LanguageHelpers.Localization
          private Translator()
             { 
              _dataservice = new Services.LocalizedTextService(new UnitOfWork());
-             //db = new BekaMvcTestsContext(); 
+           
             }
          public static Translator Instance { get { return _instance; } }
          public static void LoadTexts()
@@ -36,7 +36,7 @@ namespace LanguageHelpers.Localization
              
              return _instance._Translate(TextKey, CurrentLanguage);
          }
-         public string Translate(string TextKey, string LanguageCode)
+         public static string Translate(string TextKey, string LanguageCode)
          {
              return _instance._Translate(TextKey, LanguageCode);
          }
