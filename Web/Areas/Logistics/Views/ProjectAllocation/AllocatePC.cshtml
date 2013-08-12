@@ -1,5 +1,5 @@
 ﻿@model IList<Cats.Models.RequisitionViewModel>
-
+@using LanguageHelpers.Localization
 @{
     
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -46,22 +46,22 @@
            </fieldset>
 	    
            <div class="control-group">
-               <label class="control-label">Requisition No</label>
+               <label class="control-label">@Translator.Translate("Requisition No")</label>
                    <input type="text"  id="ReqNo" name="ReqNo" readonly="readonly">
            </div>
           
            <div class="control-group">
-               <label class="control-label">Hub</label>
+               <label class="control-label">@Translator.Translate("Hub")</label>
               
                <input type="text" id="hub" name="hub"  readonly="readonly"/>
            </div>
            <div class="control-group">
-               <label class="control-label">Requested Amount</label>
+               <label class="control-label">@Translator.Translate("Requested Amount")</label>
              
                <input type="text" id="ReqAmount" name="ReqAmount"  readonly="readonly"/>
            </div>
            <div class="control-group">
-               <label class="control-label">Requested Date</label>
+               <label class="control-label">@Translator.Translate("Requested Date")</label>
                  
                    <input type="text" id="ReqDate" name="ReqDate"  readonly="readonly"/>
            </div>
@@ -92,19 +92,19 @@
                    <tr>
         
                        <th>
-                           @Html.Label("Commodity")
+                           @Translator.Translate("Commodity")
                        </th>
                        <th>
-                           @Html.Label("Region")
+                           @Translator.Translate("Region")
                        </th>
                        <th>
-                           @Html.Label("Zone")
+                           @Translator.Translate("Zone")
                        </th>
                        <th>
-                           @Html.Label("Beneficiaries")
+                           @Translator.Translate("Beneficiaries")
                        </th>
                        <th>
-                             @Html.Label("Requisition ID")
+                             @Translator.Translate("Requisition ID")
                        </th>
         
                    </tr>

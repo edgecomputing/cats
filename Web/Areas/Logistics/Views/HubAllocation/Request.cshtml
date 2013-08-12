@@ -7,8 +7,8 @@
 
 @Html.Grid(Model).Columns(columns =>
            {
-                 columns.Add(foo => foo.ReliefRequisition.RequisitionNo).Titled("Requisition No.").SetWidth(110);
-                 columns.Add(foo => foo.Commodity.Name).Titled("Commodity").Sortable(true);
+                 columns.Add(foo => foo.ReliefRequisition.RequisitionNo).SetWidth(110);
+                 columns.Add(foo => foo.Commodity.Name).Sortable(true);
                  columns.Add(foo => foo.Amount).Sortable(true);
         
            }).WithPaging(20)
@@ -18,9 +18,9 @@
     <div style="width:500px;">
         @Html.Grid(Model).Columns(columns => 
                     {
-                        columns.Add(c => c.Commodity.Name).Titled("Client ID");
-                        columns.Add(c => c.Amount).Titled("Name").Filterable(true);
-                        columns.Add(c => c.ReliefRequisition.RequisitionNo).Titled("Email").SetFilterWidgetType("a");
+                        columns.Add(c => c.Commodity.Name);
+                        columns.Add(c => c.Amount)Filterable(true);
+                        columns.Add(c => c.ReliefRequisition.RequisitionNo).SetFilterWidgetType("a");
                     }).WithPaging(3).Sortable(true)
     </div>
 

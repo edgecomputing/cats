@@ -1,6 +1,6 @@
 ﻿@using Cats.Services.Security
 @model IList<Cats.Models.RequisitionViewModel>
-
+@using LanguageHelpers.Localization
 
 @{
     
@@ -131,32 +131,32 @@
                 <tr>
                     
                     <th>
-                        @Html.Label("Select Request")
+                        @Translator.Translate("Select Request")
                     </th>
                     <th>
-                        @Html.Label("Commodity")
+                        @Translator.Translate("Commodity")
                     </th>
                     <th>
-                        @Html.Label("Region")
+                        @Translator.Translate("Region")
                     </th>
                     <th>
-                        @Html.Label("Zone")
+                        @Translator.Translate("Zone")
                     </th>
        
                     <th>
-                        @Html.Label("Requisition No")
+                        @Translator.Translate("Requisition No")
                     </th>
                    
        
                     <th>
-                        @Html.Label("Amount")
+                        @Translator.Translate("Amount")
                     </th>
                 
                     <th>
-                        @Html.Label("Beneficiaries")
+                        @Translator.Translate("Beneficiaries")
                     </th>
                     <th>
-                        @Html.Label("Requisition ID")
+                        @Translator.Translate("Requisition ID")
                     </th>
         
                 </tr>

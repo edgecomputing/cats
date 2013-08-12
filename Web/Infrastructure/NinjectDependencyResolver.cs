@@ -88,6 +88,11 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
 
             kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
+
+            kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
+            kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
+            
+
             kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
 
         }

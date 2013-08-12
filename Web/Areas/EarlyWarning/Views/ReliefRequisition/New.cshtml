@@ -61,69 +61,6 @@
             @Html.ValidationMessageFor(model => model.ApprovedDate)
         </div>
 
- @*  <table>
-    <tr>
-        <th>
-           Zone
-        </th>
-        <th>
-            Woreda
-        </th>
-        <th>
-            FDP
-        </th>
-        <th>
-           Beneficieries
-        </th>
-        <th>
-            Grain
-        </th>
-        <th>
-            CSB
-        </th>
-        <th>
-            Oil
-        </th>
-        <th>
-            Commoidty4
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model.ReliefRequisitionDetails) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Zone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Woreda)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fdpid)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.Beneficiaries)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.Commodity1)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.Commodity2)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.Commodity3)
-        </td>
-         <td>
-            @Html.EditorFor(modelItem => item.Commodity3)
-        </td>
-        <td>
-           
-        </td>
-    </tr>
-}
-
-</table>
-*@
 
         <p>
             <input type="submit" value="Create" />

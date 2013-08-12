@@ -72,6 +72,12 @@ namespace Cats.Services.EarlyWarning
 
         #endregion
 
+        public int GetUserProfileId(string userName)
+        {
+            var userProfile  = _unitOfWork.UserProfileRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+            if (userProfile == null) return -1;
+            return userProfile.UserProfileID;
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

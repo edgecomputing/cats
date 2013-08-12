@@ -1,0 +1,125 @@
+﻿
+@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@{
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+    var cal = user.Calendar; 
+}
+
+<fieldset>
+    <legend>
+        Generate Template
+    </legend>
+</fieldset> 
+
+
+
+
+
+@(Html.Kendo().Grid<GiftCertificateViewModel>()
+  
+    .Name("giftCert").Columns(columns =>
+                            {
+
+                                columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+
+                                columns.Bound(p => p.GiftCertificateID).Width("100");
+                                columns.Bound(p => p.ReferenceNo).Width("100");
+                                columns.Bound(p => p.CommodityName).Width("100");
+                                columns.Bound(p => p.Donor).Width("200");
+                                columns.Bound(p => p.GiftDate).Width("100").Format("{0:MM/dd/yyyy}");
+                                columns.Bound(p => p.ETA).Width("100").Format("{0:MM/dd/yyyy}");  
+                               
+                                columns.Bound(p => p.SINumber).Width("100");
+                                columns.Bound(p => p.Program).Width("100");
+                                columns.Command(p => p.Custom("Print").Click("onPrint"));
+                             
+
+                            })
+     
+      .Pageable()
+      .Sortable()
+      .DataSource(datasource=>datasource.Ajax()
+      .Model(model => model.Id(p => p.GiftCertificateID))
+      .Read(read => read.Action("GetListOfCertificate", "GiftCertificate"))
+     
+      
+      )
+     
+     
+        
+      
+      )
+
+<div id="modalWindow">
+    <h5>Print gift Certificate?</h5>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Print confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+<script>
+
+    function onPrint(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "GiftCertificate/GenerateTemplate/" + dataItem.GiftCertificateID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+  @*<br/>
+<div class="control-group">      
+    <div class="controls">
+        <input type="submit" value="Create Template" class="btn btn-success" />
+    </div>
+</div>*@
+@*@using (Html.BeginForm("GenerateTemplate", "GiftCertificate", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
+{
+    
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label("Reference No:")
+                </div>
+                <div class="controls">
+                    @Html.TextBox("RefNo")
+            
+                </div>
+        
+            </div>
+            <div class="control-group">      
+                <div class="controls">
+                    <input type="submit" value="Create Template" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }*@
+
+

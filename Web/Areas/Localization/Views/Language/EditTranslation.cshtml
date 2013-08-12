@@ -8,6 +8,7 @@
 {
    @Html.Partial("LanguageLeftBar");
 }
+<div>
 <div class="well"><h3>Edit</h3></div>
     @using (Html.BeginForm())
     {
@@ -42,9 +43,10 @@
                     @Html.LabelFor(m => m.Value)
                 </div>
                 <div class="controls">
-                    <input id="amharicText" name="amharicText" style="font-family: Visual Geez Unicode;" 
+                    @* <input id="amharicText" name="amharicText" style="font-family: Visual Geez Unicode;" 
                            onkeypress="return AmharicPhoneticKeyPress(event,this);" maxlength="100" type="text" value="@Model.Value">
-                    @Html.HiddenFor(m => m.Value)
+                   *@  
+                    @Html.TextBoxFor(m => m.Value)
                     @Html.ValidationMessageFor(m=>m.Value)
                 </div>
         
@@ -59,15 +61,22 @@
         </div>
     }
 
-<script src="@Url.Content("~/Scripts/js/amharictyping.js")" type="text/javascript"></script>
-@*<script src="@Url.Content("~/Scripts/js/jquery.jgeez.min.js")" type="text/javascript"></script>
-<script type="text/javascript">
+@*<script src="@Url.Content("~/Scripts/js/amharictyping.js")" type="text/javascript"></script>*@
+<script src="@Url.Content("~/Scripts/js/jquery.jgeez.min.js")" type="text/javascript"></script>
+@*<script type="text/javascript">
     $(function () {
         var name = $('#Value');
         name.addClass("amharic");
         name.jGeez();
     });
 </script>*@
- 
+<script type="text/javascript">
+    $(function () {
+        var name = $('#Value');
+        name.jGeez();
+    });
 
+</script>
+ 
+</div>
 

@@ -116,7 +116,13 @@
     {
         foreach (System.Data.DataColumn column in Model.Columns)
         {
-            columns.Bound(column.ColumnName);
+            if (column.DataType == typeof(decimal))
+            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:n2}"); }
+            else
+            {
+                columns.Bound(column.ColumnName);
+            }
+
         }
     })
     .Pageable()

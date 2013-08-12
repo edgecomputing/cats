@@ -9,18 +9,22 @@ namespace Cats.Models.MetaData
 {
     public class HRDMetaData
     {
-        
+        [Display(Name = "Year")]
         public int Year { get; set; }
 
         [Required(ErrorMessage = "Please Select Month")]
+        [Display(Name = "Month")]
         public int Month { get; set; }
 
          [Required(ErrorMessage = "Please Enter Created Date")]
-        public DateTime CreatedDate { get; set; }
+         [Display(Name = "Created Date")]
+         public DateTime CreatedDate { get; set; }
 
          [Required(ErrorMessage = "Please Enter Published Date")]
-        public DateTime PublishedDate { get; set; }
+         [Display(Name = "Published Date")]
+         public DateTime PublishedDate { get; set; }
         //public int StatusID { get; set; }
+         [Display(Name = "Ration")]
         [Required(ErrorMessage = "Please Select Ration")]
         public int RationID { get; set; }
 
