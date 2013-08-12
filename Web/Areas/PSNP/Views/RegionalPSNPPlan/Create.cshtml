@@ -6,46 +6,49 @@
 }
 
 <h2>Create</h2>
-
+<div class="form-horizontal">
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>RegionalPSNPPlan</legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Year)
+        <legend>Regional PSNP Plan</legend>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Year)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Year)
+                @Html.ValidationMessageFor(model => model.Year)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Year)
-            @Html.ValidationMessageFor(model => model.Year)
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Duration)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Duration)
+                @Html.ValidationMessageFor(model => model.Duration)
+            </div>
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Duration)
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.RegionID)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.RegionID)
+                @Html.ValidationMessageFor(model => model.RegionID)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Duration)
-            @Html.ValidationMessageFor(model => model.Duration)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.RegionID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.RegionID)
-            @Html.ValidationMessageFor(model => model.RegionID)
-        </div>
-
         <p>
-            <input type="submit" value="Create" />
+            
+            <input type="submit" value="Create" class="btn btn-info"/>
+            <a href="@Url.Action("Index", "RegionalPSNPPlan")" class="btn btn-danger">Back to List</a> 
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

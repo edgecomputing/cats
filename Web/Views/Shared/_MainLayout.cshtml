@@ -105,14 +105,23 @@
     <script src="~/Content/assets/js/jquery.validate.min.js"></script>
     <script src="~/Content/assets/js/jquery.validate.js"></script>
 
+
+            <link href="/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+        
+        <script type="text/javascript" src="/Scripts/Beka.EthDate/Beka.EthDate.js"> </script>
+        <script type="text/javascript" src="/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"> </script>
+
     @{
-        var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-        var unitPreference = user.Profile.Calendar.ToString();
+      var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+     var unitPreference = user.Profile.Calendar.ToString();
+  
+
 
 
         if (unitPreference != "EC")
         {
 
+       
             <script>
                 $(function() {
                     $(".cats-datepicker").datepicker();
@@ -122,6 +131,7 @@
         }
         else
         {
+            
         <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css" />
         
         <script type="text/javascript" src="/Scripts/js/jquery.mb.browser.js"> </script>
@@ -137,7 +147,7 @@
 
             $(function () {
 
-
+                $(".cats-datepicker2").ethcal_datepicker();
 
                 $(".cats-datepicker").calendarsPicker({
 

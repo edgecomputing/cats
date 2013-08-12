@@ -12,20 +12,14 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Fdp { get; set; }
         public string Zone { get; set; }
         public string Wereda { get; set; }
-        public decimal Grain { get; set; }
-        public decimal Pulse { get; set; }
-        public decimal Oil { get; set; }
-        public decimal CSB { get; set; }
+      
         public int Beneficiaries { get; set; }
 
         public RequestDetailEditInput Input { get; set; }
         public class RequestDetailEditInput
         {
             public int Number { get; set; }
-            public decimal Grain { get; set; }
-            public decimal Pulse { get; set; }
-            public decimal Oil { get; set; }
-            public decimal CSB { get; set; }
+           
             public int Beneficiaries { get; set; }
         }
     }

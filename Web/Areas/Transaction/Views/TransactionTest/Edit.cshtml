@@ -12,7 +12,9 @@
     <fieldset>
         <legend>Transaction</legend>
 
-        @Html.HiddenFor(model => model.TransactionID)
+        @Html.HiddenFor(model => model.AccountTransactionID)
+         @Html.HiddenFor(model => model.TransactionGroupID)
+
 
         <div class="editor-label">
             @Html.LabelFor(model => model.PartitionID)

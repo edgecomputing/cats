@@ -13,10 +13,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Woreda { get; set; }
         public int Fdpid { get; set; }
         public string FDP { get; set; }
-        public decimal Grain { get; set; }
-        public decimal Pulse { get; set; }
-        public decimal Oil { get; set; }
-        public decimal CSB { get; set; }
+      
         public int Beneficiaries { get; set; }
     }
 }

@@ -2,7 +2,9 @@
 @using Cats.Models.Security;
 @using Cats.Services.Security
 <<<<<<< HEAD
+=======
 @using LanguageHelpers.Localization
+>>>>>>> fd7c4043039af87da38f96d249b68dbc7e6e7741
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,12 +13,4 @@
     //var lang = user.Profile.LanguageCode;
     //Translator.LoadTexts();
     //Translator.CurrentLanguage = lang;
-=======
-@*@using Helpers.Localization*@
-
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-   
-   
->>>>>>> a641f872d30791b069c87919707de399487406a9
 }

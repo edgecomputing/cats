@@ -66,23 +66,23 @@ namespace Cats.Models.PSNP
 
         //BeneficiaryCount
         [Display(Name = "No of Beneficiary")]
-        public int BeneficiaryCount { get; set; }
+        public Nullable<int> BeneficiaryCount { get; set; }
 
         //FoodRatio
         [Display(Name = "Food Ratio")]
-        public int FoodRatio { get; set; }
+        public Nullable<int> FoodRatio { get; set; }
 
         //CashRatio
         [Display(Name = "Cash Ratio")]
-        public int CashRatio { get; set; }
+        public Nullable<int> CashRatio { get; set; }
 
         //Item3Ratio
         [Display(Name = "Item3 Ratio")]
-        public int Item3Ratio { get; set; }
+        public Nullable<int> Item3Ratio { get; set; }
 
         //Item4Ratio
         [Display(Name = "Item4 Ratio")]
-        public int Item4Ratio { get; set; }
+        public Nullable<int> Item4Ratio { get; set; }
     }
     public class RegionalPSNPPlanDetailViewModel
     {

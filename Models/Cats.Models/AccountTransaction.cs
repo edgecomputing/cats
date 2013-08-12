@@ -18,7 +18,7 @@ namespace Cats.Models
 
         //PartitionID
         [Display(Name = "PartitionID")]
-        public int PartitionID { get; set; }
+        public Nullable<int> PartitionID { get; set; }
 
         //LedgerID
         [Display(Name = "LedgerID")]
@@ -30,31 +30,31 @@ namespace Cats.Models
 
         //AccountID
         [Display(Name = "AccountID")]
-        public int AccountID { get; set; }
+        public Nullable<int> AccountID { get; set; }
 
         //HubID
         [Display(Name = "HubID")]
-        public int HubID { get; set; }
+        public Nullable<int> HubID { get; set; }
 
         //StoreID
         [Display(Name = "StoreID")]
-        public int StoreID { get; set; }
+        public Nullable<int> StoreID { get; set; }
 
         //Stack
         [Display(Name = "Stack")]
-        public int Stack { get; set; }
+        public Nullable<int> Stack { get; set; }
 
         //ProjectCodeID
         [Display(Name = "ProjectCodeID")]
-        public int ProjectCodeID { get; set; }
+        public Nullable<int> ProjectCodeID { get; set; }
 
         //ShippingInstructionID
         [Display(Name = "ShippingInstructionID")]
-        public int ShippingInstructionID { get; set; }
+        public Nullable<int> ShippingInstructionID { get; set; }
 
         //ProgramID
         [Display(Name = "ProgramID")]
-        public int ProgramID { get; set; }
+        public Nullable<int> ProgramID { get; set; }
 
         //ParentCommodityID
         [Display(Name = "ParentCommodityID")]
@@ -66,7 +66,7 @@ namespace Cats.Models
 
         //CommodityGradeID
         [Display(Name = "CommodityGradeID")]
-        public int CommodityGradeID { get; set; }
+        public Nullable<int> CommodityGradeID { get; set; }
 
         //QuantityInMT
         [Display(Name = "QuantityInMT")]
@@ -74,11 +74,11 @@ namespace Cats.Models
 
         //QuantityInUnit
         [Display(Name = "QuantityInUnit")]
-        public Decimal QuantityInUnit { get; set; }
+        public Nullable<Decimal> QuantityInUnit { get; set; }
 
         //UnitID
         [Display(Name = "UnitID")]
-        public int UnitID { get; set; }
+        public Nullable<int> UnitID { get; set; }
 
         //TransactionDate
         [Display(Name = "TransactionDate")]
@@ -86,14 +86,14 @@ namespace Cats.Models
 
         //RegionID
         [Display(Name = "RegionID")]
-        public int RegionID { get; set; }
+        public Nullable<int> RegionID { get; set; }
 
         //Month
         [Display(Name = "Month")]
-        public int Month { get; set; }
+        public Nullable<int> Month { get; set; }
 
         //Round
         [Display(Name = "Round")]
-        public int Round { get; set; }
+        public Nullable<int> Round { get; set; }
     }
 }

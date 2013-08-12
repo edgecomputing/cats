@@ -17,15 +17,15 @@
                     <td>
 
                         <p>
-                            <b>@Html.LabelFor(model => model.ReferenceNumber) :</b>
+                        <b>@Html.LabelFor(model => model.ReferenceNumber) :</b>
                         @Html.DisplayFor(model => model.ReferenceNumber)
 
 
                     </td>
                     <td>
                         <p>
-                            <b>@Html.DisplayNameFor(model => model.Region)
-                                :</b>
+                        <b>@Html.DisplayNameFor(model => model.Region)
+                            :</b>
                         @Html.DisplayFor(model => model.Region)
 
                     </td>
@@ -56,11 +56,18 @@
                     <td>
                         <p>
                             <b>Status
-                                   :</b>
+                                :</b>
                             @Html.DisplayFor(model => model.Status)
                         </p>
                     </td>
                 </tr>
+                <tr><td>
+                        <p>
+                            <b>@Html.DisplayNameFor(model => model.RationID)
+                                :</b>
+                            @Html.DisplayFor(model => model.RationID)
+                        </p>
+                    </td></tr>
                 <tr>
                     <td>
                         <table>
@@ -84,12 +91,13 @@
 
 }
 <h5 class="well-small">Commodities Allocation</h5>
+<div style="width: 400px">
 @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
       .Name("commodityGrid")
           .Columns(columns =>
           {
               columns.ForeignKey(p => p.CommodityID, (IEnumerable<Commodity>)ViewData["AvailableCommodities"], "CommodityID", "Name");
-              columns.Command(command => command.Destroy());
+              columns.Command(command => command.Destroy()).Width(100);
           }
 
       )
@@ -105,16 +113,18 @@
               .DataSource(dataSource => dataSource
              .Ajax()
             .PageSize(5)
+            
             .Model(model => model.Id(p => p.CommodityID))
             .Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
             .Read(read => read.Action("Commodity_Read", "Request", new { id = ViewBag.RequestID }))
                 .Update(update => update.Action("Commodity_Update", "Request"))
             .Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID })))
       )
-
+</div>
 
 
 <h5 class="well-small">Number of Beneficiaries</h5>
+
 @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
       .Name("grid")
       .Columns(columns =>
@@ -123,11 +133,8 @@
           columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
           columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
           columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-          columns.Bound(p => p.Beneficiaries).Width(100);
-          //columns.Bound(p => p.Grain).Width(100);
-          //columns.Bound(p => p.Pulse).Width(100);
-          //columns.Bound(p => p.CSB).Width(100);
-          //columns.Bound(p => p.Oil).Width(100);
+          columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
+         
 
       })
       .ToolBar(toolbar => toolbar.Save())
@@ -156,45 +163,6 @@
       ))
 <script type="text/javascript">
 
-    //function onDataBound(e) {
-    //    rowNumber = 0;
-    //    var grid = $("#grid").data("kendoGrid");
-    //    $(grid.tbody).on("change", "td", function (e) {
-    //        var row = $(this).closest("tr");
-    //        var rowIdx = $("tr", grid.tbody).index(row);
-    //        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
-    //        var benficiery = firstItem.get('Beneficiaries');
-
-
-
-    //        $.getJSON('/Request/GetRation', function (data) {
-
-
-    //            $.each(data, function (key, val) {
-    //                if (val.Name == "CSB") {
-    //                    firstItem.set('CSB', val.Value * benficiery);
-
-    //                }
-    //                else if (val.Name == "Grain") {
-    //                    firstItem.set('Grain', val.Value * benficiery);
-
-    //                } else if (val.Name == "Oil") {
-    //                    firstItem.set('Oil', val.Value * benficiery);
-
-    //                } else if (val.Name == "Pulse") {
-    //                    firstItem.set('Pulse', val.Value * benficiery);
-
-    //                }
-
-
-    //            });
-
-
-    //        });
-
-
-    //    });
-    //}
-
+  
 
 </script>

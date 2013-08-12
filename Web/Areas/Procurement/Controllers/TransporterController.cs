@@ -191,7 +191,7 @@ namespace Cats.Areas.Procurement.Controllers
                          DateTime ExperienceFrom;
                          DateTime ExperienceTo;
 
-                         try
+                       /*  try
                          {
                              ExperienceFrom = DateTime.Parse(strExperienceFrom);
                              ExperienceTo = DateTime.Parse(strExperienceTo);
@@ -202,7 +202,7 @@ namespace Cats.Areas.Procurement.Controllers
                              getGregorianDate EthData = new getGregorianDate();
                              ExperienceFrom = EthData.ReturnGregorianDate(strExperienceFrom);
                              ExperienceTo = EthData.ReturnGregorianDate(strExperienceTo);
-                         }
+                         }*/
                          if (ModelState.IsValid)
                          {
                              if (transporter.TransporterID == 0)
@@ -211,8 +211,8 @@ namespace Cats.Areas.Procurement.Controllers
                              }
                              else
                              {
-                                 transporter.ExperienceFrom = ExperienceFrom;
-                                 transporter.ExperienceTo = ExperienceTo;
+                              //   transporter.ExperienceFrom = ExperienceFrom;
+                             //    transporter.ExperienceTo = ExperienceTo;
                                  transportService.EditTransporter(transporter);
                              }
                              return RedirectToAction("Index");

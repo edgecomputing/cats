@@ -24,13 +24,13 @@
              {
                  columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
                  columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
-                 columns.Bound(p => p.CreatedBy);
+                // columns.Bound(p => p.CreatedBy);
                  if (cal.ToLower() == "ec")
                  { columns.Bound(p => p.CreatedDateEC); }
                  else
                  { columns.Bound(p => p.CreatedDate); }
 
-                 columns.Bound(p => p.IsDefaultRation);
+               //  columns.Bound(p => p.IsDefaultRation);
              }).Events(ev => ev.DataBound("resetRowNumber"))
              .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration")))
 @section Scripts

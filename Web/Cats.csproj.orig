@@ -57,6 +57,11 @@
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\lib\Microsoft Office Interop word\Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -150,17 +155,16 @@
     <Compile Include="App_Start\WebApiConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
-
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
-
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
@@ -169,6 +173,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
+    <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
@@ -211,7 +216,6 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
-    <Compile Include="Areas\PSNP\Controllers\Default1Controller.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
@@ -221,6 +225,8 @@
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
+    <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
+    <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
@@ -228,6 +234,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\ElmahErrorAttribute.cs" />
     <Compile Include="Helpers\EthiopianDate.cs" />
     <Compile Include="Helpers\getGregorianDate.cs" />
@@ -541,6 +548,9 @@
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+    <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
+    <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gridmvc.js" />
@@ -564,7 +574,6 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
@@ -626,12 +635,10 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NewNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
-
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Details.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Approval.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
@@ -640,27 +647,32 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Approved.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Delete.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Details.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Create.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Edit.cshtml" />
-    <Content Include="Areas\PSNP\Views\Default1\Delete.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Edit.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Delete.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
-
+    <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Web.config" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
-
-
-    <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
-
-
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\GenerateTemplate.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Index.cshtml" />
+    <Content Include="Areas\Transaction\Views\Web.config" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Index.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Details.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Create.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Edit.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Delete.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -672,6 +684,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
@@ -682,6 +695,7 @@
     <Content Include="Content\site.js" />
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\jquery.jgeez.min.js" />
     <Content Include="Scripts\js\jquery.mb.browser.js" />
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="Scripts\kendo.web.min.js" />
@@ -859,9 +873,15 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Templates\gift_Certificate.dotx" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
+=======
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
+>>>>>>> 68d2737d189c4150fd1e3684deb66fd82ab42e71
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -869,6 +889,8 @@
     <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
+    <Folder Include="Areas\Transaction\Models\" />
+    <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
@@ -878,6 +900,10 @@
     <ProjectReference Include="..\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
       <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
       <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
@@ -919,6 +945,27 @@
   <ItemGroup>
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
+    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
