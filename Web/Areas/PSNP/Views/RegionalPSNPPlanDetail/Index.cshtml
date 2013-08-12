@@ -1,50 +1,135 @@
-﻿@model IEnumerable<Cats.Models.PSNP.RegionalPSNPPlanDetailViewModel>
-@using Kendo.Mvc.UI
+﻿@using Kendo.Mvc.UI;
+@using Cats.Models.PSNP;
+
+@model IEnumerable<Cats.Models.PSNP.PSNPPlanDetailView>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Plan</h2>
-
+@{
+    List<int> regionalBenCount = new List<int>();
+    for(int r =0;r< ViewBag.PsnpPlan.Duration;r++)
+    {
+        regionalBenCount.Add(0);
+    }
+    foreach (PSNPPlanDetailView fdp in Model)
+    {
+        for (int r = 0; r < fdp.FoodRatio; r++)
+        {
+            regionalBenCount[r]+=(int)fdp.BeneficiaryCount;
+        }
+    }
+}
+@if (ViewBag.psnpPlan != null)
+{
+    int i = 0;
+    <div class="well">
+    <p><b>PSNP Plan</b>: <span>@ViewBag.PsnpPlan.Region.Name Region - </span>  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</p>
+    <table style="width:100%">
+        <tr>
+            @foreach (var r in regionalBenCount)
+            {
+                i++; 
+                <td>Round - @i</td>
+                
+            }
+        </tr>
+        <tr>
+            @foreach (var r in regionalBenCount)
+            {
+                <td>@r</td>
+               
+            }
+        </tr>
+    </table>
+    
+    </div>
+<!--
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@(Html.Kendo().Grid(Model)    
-    .Name("Grid")
-    .Columns(columns => {
-        columns.Bound(p => p.RegionalPSNPPlanID);
-        columns.Bound(p => p.PlanedFDPID);
+    -->
+}
 
-        columns.Bound(p => p.PlanedFDPName).Groupable(false);
+@(Html.Kendo().Grid(Model)
+    .Name("grid")
+    .Columns(columns =>
+    {
+        /* columns.Bound(p => p.RegionalPSNPPlanDetailID);
+         columns.Bound(p => p.RegionalPSNPPlanID);
+        
+         columns.Bound(p => p.FDPID);*/
+
+        columns.Bound(p => p.ZoneName);
+
+        columns.Bound(p => p.WoredaName);
+        columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount);
         columns.Bound(p => p.FoodRatio);
-        
+        columns.Bound(p => p.CashRatio);
+
         columns.Command(command =>
         {
-           // command.Custom("Edit").Click("editRecord");
-           // command.Custom("Detail").Click("detailRecord");
+            // command.Custom("Edit").Click("editRecord");
+            // command.Custom("Detail").Click("detailRecord");
             command.Custom("Delete").Click("deleteRecord");
         });
     })
     .DataSource(dataSource => dataSource
-        
+
         .Ajax()
-        .PageSize(20)
+        //      .PageSize(20)
+        .Batch(true)
         .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
-        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail"))
-        .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail")) 
+        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
+        .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
         .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
         .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
         )
-    .Editable(editable => editable.Mode(GridEditMode.InCell))    
-    .Pageable()
+    .HtmlAttributes(new { style = "width:100%; height:450px;" })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .ToolBar(toolbar => toolbar.Save().SaveText("Save").CancelText("Cancel"))
+        // .Pageable()
     .Sortable()
-    .Scrollable() 
+    .Scrollable()
     .Filterable()
     .Groupable()
+
 )
 <script>
-    function deleteRecord() {
+    var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })"
+    function deleteRecord(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var id=dataItem.RegionalPSNPPlanDetailID;
+        if(confirm("Are you sure you want to delete this record? " + id)==true)
+        {
+            var post_values={id:id};
+            
+            $.post(
+                    deleteURL
+                    ,post_values
+                    ,function (data)
+                    {
+                        $("#grid").data("kendoGrid").dataSource.read();
+                    }
+                 );
+
+        }
     }
+    function filterInfo() {
+        return {id:@ViewBag.PsnpPlan.RegionalPSNPPlanID};
+    }
+    function saverecords()
+    {
+        $("#grid").data("kendoGrid").dataSource.update();
+    }
+    function reloadrecords()
+    {
+        $("#grid").data("kendoGrid").dataSource.read();
+    }
+
 </script>

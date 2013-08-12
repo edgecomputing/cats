@@ -19,5 +19,6 @@ namespace Cats.Services.Transaction
         AccountTransaction FindById(Guid id);
         List<AccountTransaction> GetAllAccountTransaction();
         List<AccountTransaction> FindBy(Expression<Func<AccountTransaction, bool>> predicate);
+        List<AccountTransaction> PostPSNPPlan(RegionalPSNPPlan plan, Ration ration);
     }
 }

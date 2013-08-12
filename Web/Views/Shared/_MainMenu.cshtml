@@ -4,15 +4,12 @@
 
 
 @{
+   
     var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     var lang = user.Profile.LanguageCode;
-
-    //Translator.LoadTexts();
-
     Translator.CurrentLanguage = lang;
-  
-  
+
 }
 
 <div class="navbar navbar-fixed-top navbar-inverse">
@@ -47,6 +44,7 @@
                             <li><a href="#">  Reports</a></li>
                         </ul>
                     </li>
+                    <li><a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })">PSNP</a></li>    
                     }
 
                     @if(role=="LG" || role=="SU")

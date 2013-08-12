@@ -54,5 +54,135 @@ namespace Cats.Services.Transaction
             return _unitOfWork.AccountTransactionRepository.FindBy(predicate);
 
         }
+        public IEnumerable<AccountTransaction> PostTransaction(IEnumerable<AccountTransaction> entries)
+        {
+            Guid transactionGroupID = Guid.NewGuid();
+            DateTime TransactionDate = DateTime.Now;
+            foreach (AccountTransaction entry in entries)
+            {
+                entry.TransactionDate = TransactionDate;
+                entry.TransactionGroupID = transactionGroupID;
+                entry.AccountTransactionID = Guid.NewGuid();
+                _unitOfWork.AccountTransactionRepository.Add(entry);
+                
+            }
+            _unitOfWork.Save();
+            return entries;
+        }
+
+        public List<AccountTransaction> PostHRDPlan(HRD hrd, Ration ration)
+        {
+            List<AccountTransaction> entries = new List<AccountTransaction>();
+            List<int> regionalBenCount = new List<int>();
+            ration = hrd.Ration;
+            int RegionID=0;
+            for (int r = 0; r < 12; r++)
+            {
+                regionalBenCount.Add(0);
+            }
+            foreach (HRDDetail fdp in hrd.HRDDetails)
+            {
+                for (int r = 0; r < fdp.DurationOfAssistance; r++)
+                {
+                    regionalBenCount[r] += (int)fdp.NumberOfBeneficiaries;
+                    RegionID = fdp.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID;
+                }
+            }
+            for (int r = 0; r < 12; r++)
+            {
+                int noben = regionalBenCount[r];
+                if (noben > 0)
+                {
+                    foreach (RationDetail rd in ration.RationDetails)
+                    {
+                        decimal amount = rd.Amount * noben;
+
+                        AccountTransaction entry2 = new AccountTransaction
+                        {
+                            RegionID = RegionID,
+                            CommodityID = rd.CommodityID,
+                            Round = r + 1,
+                            ProgramID = 2,
+                            QuantityInUnit = -amount,
+                            UnitID = 1,
+                            QuantityInMT = -amount,
+                            LedgerID = 200
+                        };
+                        AccountTransaction entry1 = new AccountTransaction
+                        {
+                            RegionID = RegionID,
+                            CommodityID = rd.CommodityID,
+                            Round = r + 1,
+                            ProgramID = 2,
+                            QuantityInUnit = amount,
+                            UnitID = 1,
+                            QuantityInMT = amount,
+                            LedgerID = 100
+                        };
+                        entries.Add(entry1);
+                        entries.Add(entry2);
+
+                    }
+                }
+            }
+            return entries;
+        }        
+        public List<AccountTransaction> PostPSNPPlan(RegionalPSNPPlan plan, Ration ration)
+        {
+            List<AccountTransaction> entries = new List<AccountTransaction>();
+            List<int> regionalBenCount = new List<int>();
+            for (int r = 0; r < plan.Duration; r++)
+            {
+                regionalBenCount.Add(0);
+            }
+            foreach (RegionalPSNPPlanDetail fdp in plan.RegionalPSNPPlanDetails)
+            {
+                for (int r = 0; r < fdp.FoodRatio; r++)
+                {
+                    regionalBenCount[r] += (int)fdp.BeneficiaryCount;
+                }
+            }
+            for (int r = 0; r < plan.Duration; r++)
+            {
+                int noben = regionalBenCount[r];
+                if (noben > 0)
+                {
+                    foreach (RationDetail rd in ration.RationDetails)
+                    {
+                        decimal amount = rd.Amount * noben;
+                       
+                        AccountTransaction entry2 = new AccountTransaction
+                        {
+                            RegionID = plan.RegionID,
+                            CommodityID = rd.CommodityID,
+                            Round = r + 1,
+                            ProgramID = 2,
+                            QuantityInUnit = -amount,
+                            UnitID=1,
+                            QuantityInMT = -amount,
+                            LedgerID = 200
+                        };
+                        AccountTransaction entry1 = new AccountTransaction
+                        {
+                            RegionID = plan.RegionID,
+                            CommodityID = rd.CommodityID,
+                            Round = r + 1,
+                            ProgramID = 2,
+                            QuantityInUnit = amount,
+                            UnitID = 1,
+                            QuantityInMT = amount,
+                            LedgerID = 100
+                        };
+                        entries.Add(entry1);
+                        entries.Add(entry2);
+
+                    }
+                }
+            }
+            PostTransaction(entries);
+            return entries;
+            
+        }
+    
     }
 }

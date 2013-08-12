@@ -235,12 +235,8 @@
         <div class="control-group">
             <label class="control-label" for="ExperienceFrom">Experience From</label>
             <div class="controls">
-                <input class="cats-datepicker" type="text" id="strExperienceFrom" name="strExperienceFrom" value="@Model.ExperienceFrom"/> 
-                @{
-                    var eth=EthiopianDate.GregorianToEthiopian(DateTime.Now);
-                    }
-                @Html.HiddenFor(model => model.ExperienceFrom, new { @class = "input-xlarge", @placeholder = "0" }) 
-                 
+
+                 @Html.TextBoxFor(model => model.ExperienceFrom, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
                 @Html.ValidationMessageFor(model => model.ExperienceFrom)
             </div>
         </div>
@@ -249,8 +245,8 @@
         <div class="control-group">
             <label class="control-label" for="ExperienceTo">Experience To</label>
             <div class="controls">
-                <input class="cats-datepicker" type="text" id="strExperienceTo" name="strExperienceTo" value="@Model.ExperienceTo"/>        
-                @Html.HiddenFor(model => model.ExperienceTo, new { @class = "input-xlarge", @placeholder = "0" })    
+                <!--<input class="cats-datepicker" type="text" id="strExperienceTo" name="strExperienceTo" value="@Model.ExperienceTo"/>   -->     
+                @Html.TextBoxFor(model => model.ExperienceTo, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
                 @Html.ValidationMessageFor(model => model.ExperienceTo)
             </div>
         </div>        

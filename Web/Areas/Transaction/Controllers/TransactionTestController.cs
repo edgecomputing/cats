@@ -8,6 +8,9 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Data;
 using Cats.Services.Transaction;
+using Cats.Services.PSNP;
+using Cats.Services.EarlyWarning;
+
 namespace Cats.Areas.Transaction.Controllers
 {
     public class TransactionTestController : Controller
@@ -15,9 +18,22 @@ namespace Cats.Areas.Transaction.Controllers
        // private CatsContext db = new CatsContext();
       //  private 
         private readonly IAccountTransactionService _accountTransactionService;
-        public TransactionTestController(IAccountTransactionService accountTransactionServiceParam)
+        private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
+        private readonly IRationService _rationService;
+
+        public TransactionTestController(IAccountTransactionService accountTransactionServiceParam
+                                        , IRegionalPSNPPlanService regionalPSNPPlanServiceParam
+                                        ,IRationService rationServiceParam)
         {
             _accountTransactionService = accountTransactionServiceParam;
+            _regionalPSNPPlanService = regionalPSNPPlanServiceParam;
+            _rationService = rationServiceParam;
+        }
+        public void loadLookups()
+        {
+            ViewBag.RegionalPSNPPlanID = new SelectList(_regionalPSNPPlanService.GetAllRegionalPSNPPlan(), "RegionalPSNPPlanID", "ShortName");
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
+
         }
         //
         // GET: /Transaction/Transaction/
@@ -25,9 +41,26 @@ namespace Cats.Areas.Transaction.Controllers
         public ActionResult Index()
         {
             IEnumerable<Cats.Models.AccountTransaction> list = (IEnumerable<Cats.Models.AccountTransaction>)_accountTransactionService.GetAllAccountTransaction();
-
+            loadLookups();
             return View(list);
             
+        }
+        public ActionResult PostHRD(int RegionalPSNPPlanID, int RationID)
+        {
+           // IEnumerable<Cats.Models.AccountTransaction> list = (IEnumerable<Cats.Models.AccountTransaction>)_accountTransactionService.GetAllAccountTransaction();
+            loadLookups();
+
+
+
+            RegionalPSNPPlan plan= _regionalPSNPPlanService.FindById(RegionalPSNPPlanID);
+            Ration ration = _rationService.FindById(RationID);
+
+            List<Cats.Models.AccountTransaction> list = _accountTransactionService.PostPSNPPlan(plan, ration);
+            ViewBag.SelectedPSNPPlan = plan;
+            ViewBag.SelectedRation = ration;
+           // IEnumerable<RationDetail> rationdetails = ration.RationDetails;
+            return View(list);
+
         }
 
         //
@@ -61,6 +94,8 @@ namespace Cats.Areas.Transaction.Controllers
             if (ModelState.IsValid)
             {
                 transaction.AccountTransactionID = Guid.NewGuid();
+                transaction.TransactionGroupID = Guid.NewGuid();
+
                 _accountTransactionService.AddAccountTransaction(transaction);
 
                 return RedirectToAction("Index");

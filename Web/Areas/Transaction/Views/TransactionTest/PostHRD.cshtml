@@ -1,0 +1,140 @@
+﻿@using Cats.Models;
+@model IEnumerable<Cats.Models.AccountTransaction>
+
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<h2>HRD Transaction</h2>
+<div class="well">
+    @using (Html.BeginForm("PostHRD", "TransactionTest", FormMethod.Post))
+    {
+   <splan>PSNP Plan </splan>@Html.DropDownList("RegionalPSNPPlanID", String.Empty) 
+   <splan>Ration</splan>  @Html.DropDownList("RationID", String.Empty) 
+    <input type="submit" />
+    }
+</div>
+
+@{
+    Cats.Models.RegionalPSNPPlan plan = (RegionalPSNPPlan)ViewBag.SelectedPSNPPlan;
+    Cats.Models.Ration ration = (Ration)ViewBag.SelectedRation;
+    List<int> regionalBenCount = new List<int>();
+    for (int r = 0; r < plan.Duration; r++)
+    {
+        regionalBenCount.Add(0);
+    }
+    foreach (RegionalPSNPPlanDetail fdp in plan.RegionalPSNPPlanDetails)
+    {
+        for (int r = 0; r < fdp.FoodRatio; r++)
+        {
+            regionalBenCount[r]+=(int)fdp.BeneficiaryCount;
+        }
+    }
+    int i = 0;
+}
+
+    <table style="width:100%">
+        <tr>
+            <td></td>
+            @foreach (var r in regionalBenCount)
+            {
+                i++; 
+                <td>Round - @i</td>
+                
+            }
+        </tr>
+        <tr>
+            <td></td>
+            @foreach (var r in regionalBenCount)
+            {
+                <td>@r</td>
+               
+            }
+        </tr>
+        @foreach (RationDetail rd in ration.RationDetails)
+            {
+    <tr>
+        <td>@rd.Commodity.Name</td>
+         @foreach (var r in regionalBenCount)
+            {
+                var amount = rd.Amount * r;
+                <td>@amount</td>
+               
+            }
+    </tr>
+                
+                
+                
+            }
+    </table>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityInUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LedgerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommodityID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegionID)
+        </th>
+         <th>
+            @Html.DisplayNameFor(model => model.Round)
+        </th>                       
+        <th>
+            @Html.DisplayNameFor(model => model.ProgramID)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.UnitID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionDate)
+        </th>
+
+
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityInUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LedgerID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommodityID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Round)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProgramID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransactionDate)
+        </td>
+        <!--
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AccountTransactionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AccountTransactionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AccountTransactionID })
+        </td>-->
+    </tr>
+}
+
+</table>

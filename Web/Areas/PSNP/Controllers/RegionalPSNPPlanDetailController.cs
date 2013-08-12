@@ -43,7 +43,7 @@ namespace Cats.Areas.PSNP.Controllers
                 foreach (RegionalPSNPPlanDetail pd in list)
                 {
 
-                 //   fdp.FoodRatio = 1;
+                    //   fdp.FoodRatio = 1;
                     if (fdp.FDPID == pd.PlanedFDPID)
                     {
                         fdp.RegionalPSNPPlanDetailID = pd.RegionalPSNPPlanDetailID;
@@ -67,16 +67,16 @@ namespace Cats.Areas.PSNP.Controllers
             return (from fdp in list
                     where (fdp.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID)
                     select new PSNPPlanDetailView
-                   {
-                       FDPID = fdp.FDPID,
-                       FDPName = fdp.Name,
-                       WoredaID = fdp.AdminUnit.AdminUnitID,
-                       WoredaName = fdp.AdminUnit.Name,
-                       ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
-                       ZoneName = fdp.AdminUnit.AdminUnit2.Name,
-                       BeneficiaryCount = 0,
-                       RegionalPSNPPlanID = planID
-                   }
+                    {
+                        FDPID = fdp.FDPID,
+                        FDPName = fdp.Name,
+                        WoredaID = fdp.AdminUnit.AdminUnitID,
+                        WoredaName = fdp.AdminUnit.Name,
+                        ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
+                        ZoneName = fdp.AdminUnit.AdminUnit2.Name,
+                        BeneficiaryCount = 0,
+                        RegionalPSNPPlanID = planID
+                    }
                     );
 
 
@@ -86,16 +86,16 @@ namespace Cats.Areas.PSNP.Controllers
             return (from pd in view
 
                     select new RegionalPSNPPlanDetail
-                   {
-                       RegionalPSNPPlanID = pd.RegionalPSNPPlanID,
-                       PlanedFDPID = pd.FDPID,
-                       RegionalPSNPPlanDetailID = pd.RegionalPSNPPlanDetailID,
-                       BeneficiaryCount = pd.BeneficiaryCount,
-                       CashRatio = pd.CashRatio,
-                       FoodRatio = pd.FoodRatio,
-                       Item3Ratio = pd.Item3Ratio,
-                       Item4Ratio = pd.Item4Ratio
-                   });
+                    {
+                        RegionalPSNPPlanID = pd.RegionalPSNPPlanID,
+                        PlanedFDPID = pd.FDPID,
+                        RegionalPSNPPlanDetailID = pd.RegionalPSNPPlanDetailID,
+                        BeneficiaryCount = (int)pd.BeneficiaryCount,
+                        CashRatio = (int)pd.CashRatio,
+                        FoodRatio = (int)pd.FoodRatio,
+                        Item3Ratio = (int)pd.Item3Ratio,
+                        Item4Ratio = (int)pd.Item4Ratio
+                    });
         }
         public ActionResult Index(int id = 0)
         {
@@ -132,6 +132,7 @@ namespace Cats.Areas.PSNP.Controllers
         }
         public ActionResult EditAjax([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<PSNPPlanDetailView> items)
         {
+            
             foreach (PSNPPlanDetailView item in items)
             {
                 if (item.BeneficiaryCount > 0)
@@ -140,9 +141,9 @@ namespace Cats.Areas.PSNP.Controllers
                     if (item.RegionalPSNPPlanDetailID >= 1)
                     {
                         bm = _regionalPSNPPlanDetailService.FindById(item.RegionalPSNPPlanDetailID);
-                        bm.BeneficiaryCount = item.BeneficiaryCount;
-                        bm.FoodRatio = item.FoodRatio;
-                        bm.CashRatio = item.CashRatio;
+                        bm.BeneficiaryCount = (int)item.BeneficiaryCount;
+                        bm.FoodRatio = (int)item.FoodRatio;
+                        bm.CashRatio = (int)item.CashRatio;
                         _regionalPSNPPlanDetailService.UpdateRegionalPSNPPlanDetail(bm);
                     }
                     else
@@ -150,10 +151,10 @@ namespace Cats.Areas.PSNP.Controllers
                         bm = new RegionalPSNPPlanDetail();
                         bm.RegionalPSNPPlanID = item.RegionalPSNPPlanID;
                         bm.PlanedFDPID = item.FDPID;
-                        bm.BeneficiaryCount = item.BeneficiaryCount;
-                        bm.FoodRatio = item.FoodRatio;
-                        bm.CashRatio = item.CashRatio;
-                        
+                        bm.BeneficiaryCount = (int)item.BeneficiaryCount;
+                        bm.FoodRatio = (int)item.FoodRatio;
+                        bm.CashRatio = (int)item.CashRatio;
+
                         _regionalPSNPPlanDetailService.AddRegionalPSNPPlanDetail(bm);
                     }
                 }
@@ -166,7 +167,7 @@ namespace Cats.Areas.PSNP.Controllers
                 }
             }
             return Json(ModelState.ToDataSourceResult());
-           
+
         }
         public ActionResult DeleteAjax(int id = 0)
         {

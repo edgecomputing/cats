@@ -22,6 +22,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<HubAllocation> HubAllocationRepository { get;}
         IGenericRepository<ProjectCode> ProjectCodeRepository { get; }
 
+        IGenericRepository<UserDashboard> UserDashboardRepository { get; }
         IGenericRepository<BidWinner> BidWinnerRepository { get; } 
 
         IGenericRepository<ProjectCodeAllocation> ProjectCodeAllocationRepository { get; }
@@ -54,6 +55,32 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
 
+        IGenericRepository<TransportBidQuotation> TransportBidQuotationRepository { get; }
+        IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
+
+        IGenericRepository<Ration> RationRepository { get; }
+
+        IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository { get; }
+        IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository { get; }
+
+        IGenericRepository<RationDetail> RationDetailRepository { get; } 
+        IGenericRepository<HRD> HRDRepository { get; }
+        IGenericRepository<HRDDetail> HRDDetailRepository { get; }
+
+        IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository { get; }
+        IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
+        
+        
+
+
+
+        IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; }
+<<<<<<< HEAD
+        IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }      
+=======
+>>>>>>> c918ec4388f8c66e9dbd2e4c197f8be41a30a76c
+
+        IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
         void Save();
 
     }

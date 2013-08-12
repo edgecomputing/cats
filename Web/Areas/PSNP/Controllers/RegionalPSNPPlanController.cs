@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.PSNP;
 using Cats.Data;
@@ -20,9 +19,9 @@ namespace Cats.Areas.PSNP
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
 
         public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam)
-            {
+        {
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
-            }
+        }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
         {
@@ -82,7 +81,7 @@ namespace Cats.Areas.PSNP
             if (ModelState.IsValid)
             {
                 _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
-               
+
                 return RedirectToAction("Index");
             }
 
@@ -137,15 +136,6 @@ namespace Cats.Areas.PSNP
         {
             _regionalPSNPPlanService.DeleteById(id);
             return RedirectToAction("Index");
-        }
-        public FileResult Print()
-        {
-            var reportPath = Server.MapPath("~/Report/PSNP/AnnualPlan.rdlc");
-            var reportData = _regionalPSNPPlanService.GetAnnualPlanRpt();
-            var dataSourceName = "annualplan";
-            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
-
-            return File(result.RenderBytes, result.MimeType);
         }
 
         protected override void Dispose(bool disposing)
