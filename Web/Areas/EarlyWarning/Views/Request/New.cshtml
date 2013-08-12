@@ -96,7 +96,7 @@
                     @Html.LabelFor(model => model.Remark)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Remark)
+                    @Html.EditorFor(model => model.Remark)
                     @Html.ValidationMessageFor(model => model.Remark)
                 </div>
             </div>
@@ -109,6 +109,14 @@
 
 
     </div>
-    
-   
+  
 }
+  
+     <script src="@Url.Content("~/Scripts/jquery.jgeez.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var name = $('#Remark');
+            name.jGeez();
+        });
+
+    </script>

@@ -17,8 +17,8 @@
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.LanguageID);
-        columns.Bound(p => p.LanguageCode);
+        //columns.Bound(p => p.LanguageID);
+            columns.Bound(p => p.LanguageCode).ClientTemplate("<a href='" + Url.Action("Details", "Language") + " '>#=LanguageCode#</a>  ");
         columns.Bound(p => p.Name);
             
         columns.Command(p => p.Custom("Edit").Click("languageEdit"));

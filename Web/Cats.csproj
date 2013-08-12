@@ -680,7 +680,6 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\js\amharictyping.js" />
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
@@ -691,7 +690,7 @@
     <Content Include="Content\site.js" />
     <None Include="Scripts\kendo.web-vsdoc.js" />
     <None Include="Scripts\kendo.web.min.intellisense.js" />
-    <Content Include="Scripts\js\jquery.jgeez.min.js" />
+    <Content Include="Scripts\jquery.jgeez.min.js" />
     <Content Include="Scripts\js\jquery.mb.browser.js" />
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="Scripts\kendo.web.min.js" />
@@ -873,6 +872,8 @@
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Templates\gift_Certificate.dotx" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
