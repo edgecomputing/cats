@@ -130,7 +130,7 @@ namespace Cats.Areas.Localization.Controllers
                     detail.LocalizedTextId = translation.LocalizedTextId;
                     detail.LanguageCode = translation.LanguageCode;
                     detail.TextKey = translation.TextKey;
-                    detail.Value = translation.Value;
+                    detail.TranslatedText = translation.TranslatedText;
                     
                     _localizedTextService.UpdateLocalizedText(detail);
                 }

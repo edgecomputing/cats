@@ -166,7 +166,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            // hrd.HRDDetails = new List<HRDDetail>();
             ViewBag.Year = DateTime.Today.Year;
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber",hrd.RationID=1);
-            ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader(), "NAHeaderId",
+            ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m=>m.NeedAApproved==true), "NAHeaderId",
                                                       "NeedACreatedDate");
             ViewData["Month"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);

@@ -21,7 +21,7 @@
         //columns.Bound(p => p.LocalizedTextId);
         columns.Bound(p => p.LanguageCode).Width(50);
         columns.Bound(p => p.TextKey).Width(400);
-        columns.Bound(p => p.Value).Width(400);
+        columns.Bound(p => p.TranslatedText).Width(400);
 
 
         columns.Command(p => p.Custom("Edit").Click("translationEdit"));

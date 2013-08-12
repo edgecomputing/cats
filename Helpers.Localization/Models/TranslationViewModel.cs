@@ -11,6 +11,6 @@ namespace LanguageHelpers.Localization.Models
        public int LocalizedTextId { get; set; }
        public string LanguageCode { get; set; }
        public string TextKey { get; set; }
-       public string Value { get; set; }
+       public string TranslatedText { get; set; }
     }
 }

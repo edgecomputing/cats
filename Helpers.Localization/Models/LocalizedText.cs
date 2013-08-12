@@ -20,6 +20,6 @@ namespace LanguageHelpers.Localization.Models
         public string TextKey { get; set; }
 
         [UIHint("AmharicTextBox")]
-        public string Value { get; set; }
+        public string TranslatedText { get; set; }
     }
 }
