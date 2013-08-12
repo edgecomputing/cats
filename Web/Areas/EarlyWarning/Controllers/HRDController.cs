@@ -249,7 +249,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
-                var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+
+                var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);// UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                 //var commodities = _commodityService.GetCommonCommodity();
                     //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
