@@ -5,7 +5,12 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section LeftBar
+{
+   
+    @Html.Partial("_PSNPLeftBar");
+   
+}
 <h2>Index</h2>
 
 <p>
@@ -19,7 +24,9 @@
     .Columns(columns => {
         columns.Bound(p => p.RegionName).Groupable(false).Width(200);
         columns.Bound(p => p.Year).Width(200);
-        columns.Bound(p => p.Duration);
+ //       columns.Bound(p => p.Duration);
+        columns.Bound(p => p.RationName);
+//        columns.Bound(p => p.StatusName);
         columns.Command(command =>
         {
             command.Custom("Edit").Click("editRecord");

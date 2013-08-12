@@ -4,51 +4,62 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section LeftBar
+{
+    @Html.Partial("_PSNPLeftBar");
+}
 
 <h2>Edit</h2>
-
+<div class="form-horizontal">
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>RegionalPSNPPlan</legend>
+        <legend>Regional PSNP Plan</legend>
 
         @Html.HiddenFor(model => model.RegionalPSNPPlanID)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Year)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Year)
-            @Html.ValidationMessageFor(model => model.Year)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Duration)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Duration)
-            @Html.ValidationMessageFor(model => model.Duration)
+        <div class="control-group">
+            @Html.LabelFor(model => model.Year, new { @class = "control-label"})
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Year, new { @class = "input-xlarge", @placeholder = "Year" })    
+                 @Html.ValidationMessageFor(model => model.Year)
+            </div>
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.RegionID)
+        <div class="control-group">
+            @Html.LabelFor(model => model.Region, new { @class = "control-label"})
+            <div class="controls">
+                
+                @Html.DropDownList("RegionID")  
+                 @Html.ValidationMessageFor(model => model.Region)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.RegionID)
-            @Html.ValidationMessageFor(model => model.RegionID)
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Ration, new { @class = "control-label"})
+            <div class="controls">
+                   @Html.DropDownList("RationID")     
+                    
+                 @Html.ValidationMessageFor(model => model.Ration)
+            </div>
         </div>
+
+       <div class="control-group">
+            @Html.LabelFor(model => model.Duration, new { @class = "control-label"})
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Duration, new { @class = "input-xlarge", @placeholder = "Duration" })    
+                 @Html.ValidationMessageFor(model => model.Duration)
+            </div>
+        </div>     
+
+
 
         <p>
-            <input type="submit" value="Save" />
+            
+            <input type="submit" value="Save" class="btn btn-info"/>
+            <a href="@Url.Action("Index", "RegionalPSNPPlan")" class="btn btn-danger">Back to List</a> 
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

@@ -12,5 +12,6 @@ namespace Cats.Models
         public int WorkflowID { get; set; }
         public string Description { get; set; }
         public virtual Workflow Workflow { get; set; }
+       // RegionalPSNPPlan
     }
 }

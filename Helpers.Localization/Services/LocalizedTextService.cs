@@ -63,7 +63,7 @@ namespace LanguageHelpers.Localization.Services
             {
                 return list[0].Value;
             }
-            return key + "-" + languageCode;
+            return key;// +"-" + languageCode;
         }
     }
 }

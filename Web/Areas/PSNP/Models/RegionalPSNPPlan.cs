@@ -28,6 +28,13 @@ namespace Cats.Models.PSNP
         [Display(Name = "Region ID")]
         public int RegionID { get; set; }
 
+        //Ration
+        [Display(Name = "Ration")]
+        public string RationName { get; set; }
+
+        //Status
+        [Display(Name = "Status")]
+        public string StatusName { get; set; }
     }
 
     public class PSNPPlanDetailView
