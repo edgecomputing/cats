@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -111,7 +112,18 @@ namespace Cats.Tests.ControllersTests
                         return regionalRequests.FindAll(
                                t => t.RegionID == region && t.RequistionDate.Month == month && t.Status == status).ToList();
                     });
-            mockRegionalRequestService.Setup(t => t.Get(It.IsAny<Expression<Func<RegionalRequest, bool>>>(), null, It.IsAny<string>())).Returns(regionalRequests.AsQueryable());
+            mockRegionalRequestService.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<RegionalRequest, bool>>>(),
+                      It.IsAny<Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>>>(),
+                      It.IsAny<string>())).Returns(
+                          (Expression<Func<RegionalRequest, bool>> filter,
+                           Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> sort, string includes)
+                          =>
+                              {
+                                  return regionalRequests.AsQueryable().Where(filter);
+                                      ;
+                              });
             mockRegionalRequestService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
                 (int requestId) => regionalRequests.Find(t => t.RegionalRequestID == requestId));
             mockRegionalRequestService.Setup(t => t.ApproveRequest(It.IsAny<int>())).Returns((int reqId) =>
@@ -214,11 +226,11 @@ namespace Cats.Tests.ControllersTests
         #region Tests
 
         [Test]
-        public void Should_List_Submitted_Requests()
+        public void ShouldListOnlySubmittedRequests()
         {
-            var view = _requestController.SubmittedRequest();
+            var view = _requestController.SubmittedRequest((int)RegionalRequestStatus.Approved);
 
-            Assert.AreEqual(1, ((IEnumerable<RegionalRequestViewModel>)view.Model).Count());
+            Assert.AreEqual(0, ((IEnumerable<RegionalRequestViewModel>)view.Model).Count());
         }
 
         [Test]
@@ -341,6 +353,70 @@ namespace Cats.Tests.ControllersTests
             //Assert
             Assert.IsInstanceOf<RegionalRequestViewModel>(result.Model);
         }
+      [Test]
+        public void ShouldPrepareReginalRequestForEdit()
+      {
+          //Act
+          var result = (ViewResult)_requestController.Edit(1);
+
+          //Assert
+
+          Assert.IsInstanceOf<RegionalRequest>(result.Model);
+      }
+        [Test]
+        public void ShouldRaiseHttpNotFound()
+        {
+            //Act
+            var result = _requestController.Edit(10);
+
+            //Assert
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+        [Test]
+        public void ShouldUpdateRegionalRequest()
+        {
+            //Arrange
+
+            var request = new RegionalRequest
+                                      {
+                                          ProgramId = 1
+                                          ,
+                                          Month = 1
+                                          ,
+                                          RegionID = 2
+                                          ,
+                                          RegionalRequestID = 1
+                                          ,
+                                          RequistionDate = DateTime.Parse("7/3/2013")
+                                          ,
+                                          Year = DateTime.Today.Year
+                                          ,
+                                          Status = 1,
+                                      };
+
+
+            //Act
+            var result = _requestController.Edit(request);
+            var result2 =(ViewResult) _requestController.Edit(1);
+            //Assert
+
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            Assert.AreEqual(2, ((RegionalRequest)result2.Model).RegionID);
+
+        }
+
+        //[Test]
+        //public void SholdDisplayRequestDetails()
+        //{
+        //    //Act
+        //    var result = _requestController.Details(1);
+        //    var resultMainRequest = _requestController.ViewData["Request_main_data"];
+
+        //    //Assert
+        //    Assert.IsInstanceOf<DataTable>(result);
+        //    Assert.IsInstanceOf<RegionalRequestViewModel>(resultMainRequest);
+           
+        //}
         #endregion
-    }
+        }
 }
