@@ -25,6 +25,19 @@ namespace Cats.Tests.ControllersTests
         [SetUp]
         public void Init()
         {
+            var requestDetailCommodity = new List<RequestDetailCommodity>()
+                                             {
+                                                 new RequestDetailCommodity
+                                                     {
+                                                         CommodityID = 1,
+                                                         Amount = 20,
+                                                         RequestCommodityID = 1,
+                                                         RegionalRequestDetailID = 1,
+                                                         Commodity=new Commodity(){CommodityID=1,Name="CSB"}
+                                                         
+                                                     },
+                                                
+                                             };
             var regionalRequests = new List<RegionalRequest>()
                                        {
                                            new RegionalRequest
@@ -64,38 +77,32 @@ namespace Cats.Tests.ControllersTests
                                                                                         {
                                                                                             Beneficiaries = 100
                                                                                             ,
-                                                                                            Fdpid = 1
+                                                                                            Fdpid = 1,
+                                                                                            Fdp = new FDP{FDPID=1,Name="FDP1",AdminUnit=new AdminUnit{AdminUnitID=1,Name="Admin1",AdminUnit2=new AdminUnit{AdminUnitID=2,Name="Admin2"}}}
                                                                                             ,
                                                                                             RegionalRequestID = 1
                                                                                             ,
-                                                                                            RegionalRequestDetailID = 1
+                                                                                            RegionalRequestDetailID = 1,
+                                                                                            RequestDetailCommodities=requestDetailCommodity
                                                                                         },
                                                                                     new RegionalRequestDetail
                                                                                         {
                                                                                             Beneficiaries = 100
                                                                                             ,
-                                                                                            Fdpid = 2
+                                                                                            Fdpid = 2,
+                                                                                            Fdp = new FDP{FDPID=2,Name="FDP1",AdminUnit=new AdminUnit{AdminUnitID=1,Name="Admin1",AdminUnit2=new AdminUnit{AdminUnitID=2,Name="Admin2"}}}
                                                                                             ,
                                                                                             RegionalRequestID = 1
                                                                                             ,
-                                                                                            RegionalRequestDetailID = 2
+                                                                                            RegionalRequestDetailID = 2,
+                                                                                             RequestDetailCommodities=requestDetailCommodity
                                                                                         }
                                                                                 }
                                                }
 
                                        };
-            var requestDetailCommodity = new List<RequestDetailCommodity>()
-                                             {
-                                                 new RequestDetailCommodity
-                                                     {
-                                                         CommodityID = 1,
-                                                         Amount = 20,
-                                                         RequestCommodityID = 1,
-                                                         RegionalRequestDetailID = 1
-                                                     },
-                                                
-                                             };
-            regionalRequests[0].RegionalRequestDetails.First().RequestDetailCommodities = requestDetailCommodity;
+
+         //   regionalRequests[0].RegionalRequestDetails.First().RequestDetailCommodities = requestDetailCommodity;
             var adminUnit = new List<AdminUnit>()
                                 {
                                     new AdminUnit
@@ -120,10 +127,10 @@ namespace Cats.Tests.ControllersTests
                           (Expression<Func<RegionalRequest, bool>> filter,
                            Func<IQueryable<RegionalRequest>, IOrderedQueryable<RegionalRequest>> sort, string includes)
                           =>
-                              {
-                                  return regionalRequests.AsQueryable().Where(filter);
-                                      ;
-                              });
+                          {
+                              return regionalRequests.AsQueryable().Where(filter);
+                              ;
+                          });
             mockRegionalRequestService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
                 (int requestId) => regionalRequests.Find(t => t.RegionalRequestID == requestId));
             mockRegionalRequestService.Setup(t => t.ApproveRequest(It.IsAny<int>())).Returns((int reqId) =>
@@ -209,8 +216,7 @@ namespace Cats.Tests.ControllersTests
 
 
             var commodityService = new Mock<ICommodityService>();
-            commodityService.Setup(t => t.GetAllCommodity()).Returns(new List<Commodity>()
-                                                                         {new Commodity {CommodityID = 1, Name = "CSB"}});
+            commodityService.Setup(t => t.GetAllCommodity()).Returns(new List<Commodity>() { new Commodity { CommodityID = 1, Name = "CSB" } });
             _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, mockAdminUnitService.Object, programService.Object, commodityService.Object, requestDetailService.Object, workflowService.Object, rationService.Object);
 
         }
@@ -353,16 +359,16 @@ namespace Cats.Tests.ControllersTests
             //Assert
             Assert.IsInstanceOf<RegionalRequestViewModel>(result.Model);
         }
-      [Test]
+        [Test]
         public void ShouldPrepareReginalRequestForEdit()
-      {
-          //Act
-          var result = (ViewResult)_requestController.Edit(1);
+        {
+            //Act
+            var result = (ViewResult)_requestController.Edit(1);
 
-          //Assert
+            //Assert
 
-          Assert.IsInstanceOf<RegionalRequest>(result.Model);
-      }
+            Assert.IsInstanceOf<RegionalRequest>(result.Model);
+        }
         [Test]
         public void ShouldRaiseHttpNotFound()
         {
@@ -397,7 +403,7 @@ namespace Cats.Tests.ControllersTests
 
             //Act
             var result = _requestController.Edit(request);
-            var result2 =(ViewResult) _requestController.Edit(1);
+            var result2 = (ViewResult)_requestController.Edit(1);
             //Assert
 
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
@@ -405,18 +411,18 @@ namespace Cats.Tests.ControllersTests
 
         }
 
-        //[Test]
-        //public void SholdDisplayRequestDetails()
-        //{
-        //    //Act
-        //    var result = _requestController.Details(1);
-        //    var resultMainRequest = _requestController.ViewData["Request_main_data"];
+        [Test]
+        public void ShouldDisplayRequestDetails()
+        {
+            //Act
+            var result = (ViewResult)_requestController.Details(1);
+            var resultMainRequest = _requestController.ViewData["Request_main_data"];
 
-        //    //Assert
-        //    Assert.IsInstanceOf<DataTable>(result);
-        //    Assert.IsInstanceOf<RegionalRequestViewModel>(resultMainRequest);
-           
-        //}
-        #endregion
+            //Assert
+            Assert.IsInstanceOf<DataTable>(result.Model);
+            Assert.IsInstanceOf<RegionalRequestViewModel>(resultMainRequest);
+
         }
+        #endregion
+    }
 }
