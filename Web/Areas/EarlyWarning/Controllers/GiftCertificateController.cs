@@ -121,9 +121,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                              myMergeField.Select();
                              wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString());
                             break;
-                        case "Tax":
+                        case "money":
                              myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].EstimatedTax.ToString());
+                             wordApp.Selection.TypeText(Math.Truncate( giftCert[0].EstimatedTax).ToString());
+                            break;
+                        case "cent":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText( (giftCert[0].EstimatedTax - (Math.Truncate(giftCert[0].EstimatedTax))).ToString());
                             break;
                         
                     }
