@@ -94,6 +94,7 @@ namespace Cats.Services.EarlyWarning
            return 0;
        }
 
+        
         public void Dispose()
         {
             _unitOfWork.Dispose();

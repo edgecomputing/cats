@@ -88,7 +88,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
 
-            return Json(result.ToDataSourceResult(request, ModelState));
+            return Json(result.ToDataSourceResult(request));
 
         }
 
@@ -212,11 +212,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult NeedAssessmentsToBeApproved([DataSourceRequest] DataSourceRequest request)
         {
             var needAssessment = _needAssessmentDetailService.GetDraft();
-            List<NeedAssessmentViewModel> result = new List<NeedAssessmentViewModel>();
+            List<NeedAssessmentHeaderViewModel> result = new List<NeedAssessmentHeaderViewModel>();
 
             foreach (NeedAssessmentDetail t in needAssessment)
             {
-                var tempViewModel = new NeedAssessmentViewModel {NaHeaderId = t.NeedAssessmentHeader.NAHeaderId};
+                var tempViewModel = new NeedAssessmentHeaderViewModel {NaHeaderId = t.NeedAssessmentHeader.NAHeaderId};
 
                 tempViewModel.NAId = t.NAId;
 
@@ -243,6 +243,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
            return RedirectToAction("NeedAssessmentToBeApproved", "NeedAssessment");
         }
 
+        public ActionResult ShowDetail([DataSourceRequest] DataSourceRequest request,int detailId)
+        {
+
+           
+            return Json(GetNeedAssessments().Where(id=>id.NaHeaderId == detailId).ToDataSourceResult(request));
+
+        }
+
+       
         public ActionResult Approved()
         {
             return View();
@@ -270,6 +279,50 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
 
             return Json(result.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+        }
+
+        private  List<NeedAssessmentViewModel> GetNeedAssessments()
+        {
+            var needAssessment = _needAssessmentDetailService.GetDraft();
+            List<NeedAssessmentViewModel> result = new List<NeedAssessmentViewModel>();
+
+
+
+
+            foreach (NeedAssessmentDetail t in needAssessment)
+            {
+                var tempViewModel = new NeedAssessmentViewModel { NaHeaderId = t.NeedAssessmentHeader.NAHeaderId };
+
+                tempViewModel.NAId = t.NAId;
+
+                var vPoorNoOfM = t.VPoorNoOfM;
+                if (vPoorNoOfM != null) tempViewModel.VPoorNoOfM = (int)vPoorNoOfM;
+                var vPoorNoOfB = t.VPoorNoOfB;
+                if (vPoorNoOfB != null) tempViewModel.VPoorNoOfB = (int)vPoorNoOfB;
+                var poorNoOfM = t.PoorNoOfM;
+                if (poorNoOfM != null) tempViewModel.PoorNoOfM = (int)poorNoOfM;
+                var poorNoOfB = t.PoorNoOfB;
+                if (poorNoOfB != null) tempViewModel.PoorNoOfB = (int)poorNoOfB;
+                var middleNoOfM = t.MiddleNoOfM;
+                if (middleNoOfM != null) tempViewModel.MiddleNoOfM = (int)middleNoOfM;
+                var middleNoOfB = t.MiddleNoOfB;
+                if (middleNoOfB != null) tempViewModel.MiddleNoOfB = (int)middleNoOfB;
+                var bOffNoOfM = t.BOffNoOfM;
+                if (bOffNoOfM != null) tempViewModel.BOffNoOfM = (int)bOffNoOfM;
+                if (t.BOffNoOfB != null) tempViewModel.BOffNoOfB = (int)t.BOffNoOfB;
+                if (t.Zone != null) tempViewModel.ZoneName = t.AdminUnit.Name;
+                if (t.District != null) tempViewModel.DistrictName = t.AdminUnit1.Name;
+
+                tempViewModel.NeedACreatedDate = t.NeedAssessmentHeader.NeedACreatedDate;
+                tempViewModel.NeedAApproved = t.NeedAssessmentHeader.NeedAApproved;
+                tempViewModel.NeedACreatedBy = t.NeedAssessmentHeader.NeddACreatedBy;
+
+                result.Add(tempViewModel);
+
+
+
+            }
+            return result.ToList();
         }
     }
 }

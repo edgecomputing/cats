@@ -164,6 +164,7 @@
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentHeaderViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />

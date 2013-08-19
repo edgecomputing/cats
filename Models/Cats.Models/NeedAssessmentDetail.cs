@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Cats.Models
@@ -10,6 +11,7 @@ namespace Cats.Models
     {
         public int NAId { get; set; }
         public int NAHeaderId { get; set; }
+        
         public Nullable<int> VPoorNoOfM { get; set; }
         public Nullable<int> VPoorNoOfB { get; set; }
         public Nullable<int> PoorNoOfM { get; set; }

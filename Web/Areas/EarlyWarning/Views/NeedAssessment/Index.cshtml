@@ -49,6 +49,7 @@
                                 }).Title("Commands").Width("200");
 
                             })
+                           
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Sortable()
@@ -60,6 +61,7 @@
       .Destroy(destroy=>destroy.Action("Delete","NeedAssessment"))
       )
       .ToolBar((toolbar=>toolbar.Create()))
+      
      
         
       
