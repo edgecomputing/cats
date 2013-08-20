@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var index = 0;
 }
 @section LeftBar
 {
@@ -41,6 +42,7 @@
 
     @foreach (RegionalPSNPPlan item in Model)
     {
+        index++;
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ShortName)
@@ -70,7 +72,7 @@
             </td>
             <td>
                 <div class="btn-group">
-                <button class="btn edit_button">Workflow</button>
+                <button class="btn edit_button" id="action_@index">Workflow</button>
                 <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     @foreach (FlowTemplate actions in item.Status.InitialStateFlowTemplates)
@@ -98,3 +100,40 @@
 </table>
 
 </div>
+
+@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml");
+<script>
+    var lastTarget;
+    $('.edit_button').click(function (event) {
+        var $target = $(event.target);
+        var htm = "<form id='frm_current'>" + $("#div_form_template").clone().html() + "</form>";
+
+        if (lastTarget) {
+            if ($target.attr("id") == lastTarget.attr("id")) {
+                return;
+            }
+            else {
+                lastTarget.popover('destroy');
+            }
+        }
+
+        $target.popover({placement:"left", html: true, trigger: "manual", title: "Edit Title", content: htm });
+        $target.popover('show');
+        lastTarget = $target;
+        $("#button_save").click(function (event) {
+            alert(lastTarget);
+            if (lastTarget) {
+                lastTarget.popover('destroy');
+            }
+        }
+      );
+        $("#button_cancel").click(function (event) {
+            var $target = $(event.target);
+            if (lastTarget) {
+                lastTarget.popover('destroy');
+            }
+        }
+           );
+        return;
+    });   
+</script>

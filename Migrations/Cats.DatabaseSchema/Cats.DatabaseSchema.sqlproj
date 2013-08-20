@@ -199,6 +199,10 @@
     <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
     <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
     <Build Include="dbo\Tables\AccountTransaction.sql" />
+    <Build Include="dbo\Tables\StateTemplate.sql" />
+    <Build Include="dbo\Tables\ProcessTemplate.sql" />
+    <Build Include="dbo\Tables\ProcessStatus.sql" />
+    <Build Include="dbo\Tables\FlowTemplate.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

@@ -896,6 +896,7 @@
     <Content Include="Templates\gift_Certificate.dotx" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
+    <Content Include="Views\Shared\_promotWorkflow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
