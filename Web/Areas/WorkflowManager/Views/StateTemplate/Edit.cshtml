@@ -1,0 +1,25 @@
+﻿@using Cats.Models
+@model StateTemplate
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>State Detail : @Model.Name</div>
+<div>
+    Process:@Model.ParentProcessTemplate.Name
+</div>
+
+<div>
+    <div>Next Process</div>
+    <ul>
+        @foreach (FlowTemplate item in Model.InitialStateFlowTemplates)
+        {
+            <li> @Html.ActionLink(item.Name, "Edit", new { id=item.FinalStateID }) </li>
+        }
+    </ul>
+</div>
+
+

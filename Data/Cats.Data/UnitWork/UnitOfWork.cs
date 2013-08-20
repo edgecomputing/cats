@@ -29,6 +29,23 @@ namespace Cats.Data.UnitWork
         {
             this._context = new CatsContext();
         }
+       
+        private IGenericRepository<ProcessTemplate> _ProcessTemplateRepository;
+        public IGenericRepository<ProcessTemplate> ProcessTemplateRepository
+        {
+            get { return this._ProcessTemplateRepository ?? (this._ProcessTemplateRepository = new GenericRepository<ProcessTemplate>(_context)); }
+        }
+
+        private IGenericRepository<StateTemplate> _StateTemplateRepository;
+        public IGenericRepository<StateTemplate> StateTemplateRepository
+        {
+            get { return this._StateTemplateRepository ?? (this._StateTemplateRepository = new GenericRepository<StateTemplate>(_context)); }
+        }
+        private IGenericRepository<FlowTemplate> _FlowTemplateRepository;
+        public IGenericRepository<FlowTemplate> FlowTemplateRepository
+        {
+            get { return this._FlowTemplateRepository ?? (this._FlowTemplateRepository = new GenericRepository<FlowTemplate>(_context)); }
+        }
 
         // TODO: Consider adding separate properties for each repositories.
 

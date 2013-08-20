@@ -57,6 +57,7 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="Detail.cs" />
+    <Compile Include="FlowTemplate.cs" />
     <Compile Include="GiftCertificate.cs" />
     <Compile Include="GiftCertificateDetail.cs" />
     <Compile Include="HRDCommodityDetail.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Mapping\CommodityMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />
+    <Compile Include="Mapping\FlowTemplateMap.cs" />
     <Compile Include="Mapping\GiftCertificateDetailMap.cs" />
     <Compile Include="Mapping\GiftCertificateMap.cs" />
     <Compile Include="Mapping\HRDCommodityDetailMap.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\NeedAssessmentDetail.cs" />
     <Compile Include="Mapping\NeedAssessmentHeaderMap.cs" />
+    <Compile Include="Mapping\ProcessTemplateMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
     <Compile Include="Mapping\ProjectCodeMap.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="Mapping\RequestDetailCommodityMap.cs" />
     <Compile Include="Mapping\SeasonMap.cs" />
     <Compile Include="Mapping\ShippingInstructionMap.cs" />
+    <Compile Include="Mapping\StateTemplateMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
     <Compile Include="Mapping\TransactionMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
@@ -137,6 +141,7 @@
     <Compile Include="Partial\HRD.cs" />
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />
+    <Compile Include="ProcessTemplate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectCode.cs" />
     <Compile Include="ProjectCodeAllocation.cs" />
@@ -154,6 +159,7 @@
     <Compile Include="RequisitionViewModel.cs" />
     <Compile Include="Season.cs" />
     <Compile Include="ShippingInstruction.cs" />
+    <Compile Include="StateTemplate.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionGroup.cs" />
@@ -192,6 +198,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Partials\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Helpers.Localization\LanguageHelpers.Localization.csproj">
+      <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
+      <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

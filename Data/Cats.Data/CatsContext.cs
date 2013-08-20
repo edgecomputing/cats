@@ -80,12 +80,20 @@ namespace Cats.Data
         public DbSet<Unit> Units { get; set; }
         public DbSet<Season> Seasons { get; set; } 
 
+        public DbSet<ProcessTemplate> ProcessTemplates { get; set; }
+        public DbSet<StateTemplate> StateTemplates { get; set; }
+        public DbSet<FlowTemplate> FlowTemplates { get; set; } 
+
         //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //TODO: Add mapping information for each Poco model.
+            modelBuilder.Configurations.Add(new ProcessTemplateMap());
+            modelBuilder.Configurations.Add(new StateTemplateMap());
+            modelBuilder.Configurations.Add(new FlowTemplateMap());
+
             modelBuilder.Configurations.Add(new RegionalRequestMap());
             modelBuilder.Configurations.Add(new RegionalRequestDetailMap());
             modelBuilder.Configurations.Add(new ReliefRequisitionMap());

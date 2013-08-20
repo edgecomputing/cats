@@ -198,6 +198,7 @@
     <Build Include="dbo\Tables\HRD_2.sql" />
     <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
     <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
+    <Build Include="dbo\Tables\AccountTransaction.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

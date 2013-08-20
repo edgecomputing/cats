@@ -1,5 +1,7 @@
 ﻿@using Kendo.Mvc.UI
-@model IEnumerable<Cats.Models.PSNP.RegionalPSNPPlanViewModel>
+@using Cats.Models.PSNP
+@using Cats.Models
+@model IEnumerable<RegionalPSNPPlan>
 
 @{
     ViewBag.Title = "Index";
@@ -14,59 +16,85 @@
 <h2>Index</h2>
 
 <p>
-   <!--
-        @Html.ActionLink("Create New", "Create")
-    -->
      <a href="@Url.Action("Create", "RegionalPSNPPlan")" class="btn btn-success">New PSNP Plan</a>
 </p>
-@(Html.Kendo().Grid(Model)    
-    .Name("Grid")
-    .Columns(columns => {
-        columns.Bound(p => p.RegionName).Groupable(false).Width(200);
-        columns.Bound(p => p.Year).Width(200);
- //       columns.Bound(p => p.Duration);
-        columns.Bound(p => p.RationName);
-//        columns.Bound(p => p.StatusName);
-        columns.Command(command =>
+
+<div>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            Program
+        </th>
+        <th>Status
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (RegionalPSNPPlan item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region.Name)
+            </td>
+            <td>
+              PSNP
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+
+                @if (item.Status.AllowedAccessLevel > 1)
+                {
+                    <a class="btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Edit</a>
+                    
+                }
+            </td><td>
+                @if (item.Status.AllowedAccessLevel >= 1)
+                {
+                    <a class="btn edit_button" href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Detail</a>
+                   
+                }
+            </td>
+            <td>
+                <div class="btn-group">
+                <button class="btn edit_button">Workflow</button>
+                <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    @foreach (FlowTemplate actions in item.Status.InitialStateFlowTemplates)
         {
-            command.Custom("Edit").Click("editRecord");
-            command.Custom("Detail Plan").Click("detailEdit");
-            command.Custom("Approve").Click("approveRecord");
-            command.Custom("Delete").Click("deleteRecord");
-        });
-    })
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(20)
-        .Model(model => model.Id(p => p.RegionalPSNPPlanID))
-        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlan"))
-        )
-    .Pageable()
-    .Sortable()
-    .Scrollable() 
-    .Filterable()
-    .Groupable()
-)
-    <script>
-        function approveRecord(e) {
+            <li class="edit_button"> @Html.ActionLink(actions.Name, "promotWorkflow", new {id=item.RegionalPSNPPlanID, nextState=actions.FinalStateID }) </li>
         }
-        function editRecord(e) {
-            e.preventDefault();
+                    <li class="divider"></li>
+@if (item.Status.AllowedAccessLevel > 1)
+                {
+                    <li>@Html.ActionLink("Edit", "#")</li>
+                }
+                @if (item.Status.AllowedAccessLevel >= 1)
+                {
+                    <li>@Html.ActionLink("Details", "#")</li>
+                }
+                  
+                </ul>
+              </div>
 
-
-            var edit_url = '@Url.Action("Edit", "RegionalPSNPPlan", new { Area = "PSNP",id="" })'
-        //alert(edit_url);
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = edit_url + "/" + dataItem.RegionalPSNPPlanID;
+                
+            </td>
+        </tr>
     }
-    function detailEdit(e) {
-        var edit_url = '@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id="0" })'
-            //alert(edit_url);
-            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-            window.location = edit_url + "" + dataItem.RegionalPSNPPlanID;
-        }
-        function deleteRecord(e) {
-        }
 
-</script>
+</table>
 
+</div>
