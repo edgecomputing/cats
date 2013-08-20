@@ -10,6 +10,7 @@ namespace Cats.Models.ViewModels.HRD
         public int HRDID { get; set; }
         public int Year { get; set; }
         public string Season { get; set; }
+        public int SeasonID { get; set; }
         public string Ration { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime PublishedDate { get; set; }

@@ -34,9 +34,9 @@ namespace Cats.Models.Mapping
             this.HasOptional(t => t.NeedAssessment)
                 .WithMany(t => t.Hrds)
                 .HasForeignKey(d => d.NeedAssessmentID);
-            this.HasOptional(t => t.Season)
-                .WithMany(t => t.Hrds)
-                .HasForeignKey(d => d.SeasonID);
+            //this.HasOptional(t => t.Season)
+            //    .WithMany(t => t.Hrds)
+            //    .HasForeignKey(d => d.SeasonID);
             this.HasOptional(t => t.UserProfile)
                 .WithMany(t => t.Hrds)
                 .HasForeignKey(d => d.CreatedBY);

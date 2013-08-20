@@ -179,7 +179,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber",hrd.RationID=1);
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m=>m.NeedAApproved==true), "NAHeaderId",
                                                       "NeedACreatedDate");
-            ViewData["Month"] = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+            ViewData["SeasonID"] = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
              var commodities = _commodityService.GetAllCommodity();
 

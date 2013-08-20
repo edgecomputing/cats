@@ -10,7 +10,7 @@ namespace Cats.Models
     {
         public int HRDID { get; set; }
         public int Year { get; set; }
-        public int SeasonID { get; set; }
+        public Nullable<int> SeasonID { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime PublishedDate { get; set; }
         public Nullable<int> CreatedBY { get; set; }
