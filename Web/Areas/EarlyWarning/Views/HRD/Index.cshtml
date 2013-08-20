@@ -31,6 +31,7 @@
                 {
                     p.Custom("Edit").Click("hrdEdit");
                     p.Custom("Approve").Click("hrdEdit");
+                    p.Custom("Summary").Click("showSummary");
 
                 });
             //{
@@ -60,10 +61,10 @@
 
 
 <script>
-    function showDetails(e) {
+    function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/HRDDetail/" + dataItem.HRDID;
+        window.location = "HRD/RegionalSummary/?hrdID=" + dataItem.HRDID;
 
     }
     
