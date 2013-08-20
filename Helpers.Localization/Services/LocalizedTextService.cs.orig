@@ -63,14 +63,16 @@ namespace LanguageHelpers.Localization.Services
             {
                 return list[0].TranslatedText;
             }
-            LocalizedText newtxt = new LocalizedText { LanguageCode = languageCode, TextKey = key, TranslatedText = key };
-            AddLocalizedText(newtxt);
-            return key + "-" + languageCode;
+<<<<<<< HEAD
+            return key;// +"-" + languageCode;
+=======
+            return key;
         }
 
         public void Dispose()
         {
             _unitOfWork.Dispose();
+>>>>>>> 99770f4d8e011987d8f11b15183e4f00f6d9c6c7
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@using Kendo.Mvc.UI;
 @using Cats.Models.PSNP;
-
+@using LanguageHelpers.Localization
 @model IEnumerable<Cats.Models.PSNP.PSNPPlanDetailView>
 
 @{
@@ -57,7 +57,7 @@
     -->
 }
 
-@(Html.Kendo().Grid(Model)
+@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
     .Name("grid")
     .Columns(columns =>
     {
@@ -78,7 +78,7 @@
         {
             // command.Custom("Edit").Click("editRecord");
             // command.Custom("Detail").Click("detailRecord");
-            command.Custom("Delete").Click("deleteRecord");
+            command.Custom("Delete").Click("deleteRecord").Text(Translator.Translate("Delete"));
         });
     })
     .DataSource(dataSource => dataSource
@@ -104,12 +104,12 @@
     
     .HtmlAttributes(new { style = "width:100%; height:450px;" })
     .Editable(editable => editable.Mode(GridEditMode.InCell))
-    .ToolBar(toolbar => toolbar.Save().SaveText("Save").CancelText("Cancel"))
+    .ToolBar(toolbar => toolbar.Save().SaveText(Translator.Translate("Save")).CancelText(Translator.Translate("Cancel")))
         // .Pageable()
     .Sortable()
     .Scrollable()
     .Filterable()
-    .Groupable()
+   // .Groupable()
 
 )
 <script>

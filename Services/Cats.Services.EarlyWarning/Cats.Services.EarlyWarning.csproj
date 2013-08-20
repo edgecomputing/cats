@@ -47,6 +47,7 @@
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
     <Compile Include="FDPService.cs" />
+    <Compile Include="FlowTemplateService.cs" />
     <Compile Include="GiftCertificateDetailService.cs" />
     <Compile Include="GiftCetificateService.cs" />
     <Compile Include="HRDDetailService.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="ICommodityService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IFDPService.cs" />
+    <Compile Include="IFlowTemplateService.cs" />
     <Compile Include="IGiftCertificateDetailService.cs" />
     <Compile Include="IGiftCertificateService.cs" />
     <Compile Include="IHRDDetailService.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="IHubService.cs" />
     <Compile Include="INeedAssessmentDetailService.cs" />
     <Compile Include="INeedAssessmentHeaderService.cs" />
+    <Compile Include="IProcessTemplateService.cs" />
     <Compile Include="IProgramService.cs" />
     <Compile Include="IProjectCodeAllocationService.cs" />
     <Compile Include="IProjectCodeService.cs" />
@@ -76,10 +79,12 @@
     <Compile Include="IReliefRequisitionDetailService.cs" />
     <Compile Include="IReliefRequisitionService.cs" />
     <Compile Include="IShippingInstructionService.cs" />
+    <Compile Include="IStateTemplateService.cs" />
     <Compile Include="ITransactionService.cs" />
     <Compile Include="IWorkflowStatusService.cs" />
     <Compile Include="NeedAssessmentDetailService.cs" />
     <Compile Include="NeedAssessmentHeaderService.cs" />
+    <Compile Include="ProcessTemplateService.cs" />
     <Compile Include="ProgramService.cs" />
     <Compile Include="ProjectCodeAllocationService.cs" />
     <Compile Include="ProjectCodeService.cs" />
@@ -91,6 +96,7 @@
     <Compile Include="ReliefRequisitionDetailService.cs" />
     <Compile Include="ReliefRequisitionService.cs" />
     <Compile Include="ShippingInstructionService.cs" />
+    <Compile Include="StateTemplateService.cs" />
     <Compile Include="TransactionService.cs" />
     <Compile Include="WorkflowStatusService.cs" />
   </ItemGroup>

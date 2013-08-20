@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using LanguageHelpers.Localization.DataAnnotations;
 namespace Cats.Models
 {
     public class RegionalPSNPPlan
@@ -10,10 +10,12 @@ namespace Cats.Models
 
         //RegionalPSNPPlanID
         [Display(Name = "ID")]
+        
         public int RegionalPSNPPlanID { get; set; }
 
         //Year
         [Display(Name = "Year")]
+        [Required_]
         public int Year { get; set; }
 
         //Duration

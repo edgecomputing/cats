@@ -36,18 +36,23 @@ namespace Cats.Areas.PSNP
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
         {
-            return (from plan in list
-                    select new RegionalPSNPPlanViewModel
-                    {
-                        RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
-                        Duration = plan.Duration,
-                        RegionID = plan.RegionID,
-                        Year = plan.Year,
-                        RegionName = plan.Region.Name,
-                        RationName=plan.Ration.RefrenceNumber
-                       
+            try
+            {
+                return (from plan in list
+                        select new RegionalPSNPPlanViewModel
+                        {
+                            RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
+                            Duration = plan.Duration,
+                            RegionID = plan.RegionID,
+                            Year = plan.Year,
+                            RegionName = plan.Region.Name,
+                            RationName = plan.Ration.RefrenceNumber
 
-                    });
+
+                        });
+            }
+            catch(Exception e){}
+            return new List<RegionalPSNPPlanViewModel>();
         }
         public void LoadLookups()
         {

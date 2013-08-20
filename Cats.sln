@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.PSNP", "Cats.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LanguageHelpers", "LanguageHelpers", "{4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.Localization", "Helpers.Localization\Helpers.Localization.csproj", "{29C71652-546B-4362-BF05-A187E781D6BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageHelpers.Localization", "Helpers.Localization\LanguageHelpers.Localization.csproj", "{29C71652-546B-4362-BF05-A187E781D6BD}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema.Localization", "Cats.DatabaseSchema.Localization\Cats.DatabaseSchema.Localization.sqlproj", "{B7E6BCE4-9807-450B-873C-73FBC7762D1A}"
 EndProject

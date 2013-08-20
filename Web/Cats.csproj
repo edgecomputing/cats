@@ -234,6 +234,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\ElmahErrorAttribute.cs" />
     <Compile Include="Helpers\EthiopianDate.cs" />
@@ -912,9 +913,9 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers.Localization\Helpers.Localization.csproj">
+    <ProjectReference Include="..\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
-      <Name>Helpers.Localization</Name>
+      <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
