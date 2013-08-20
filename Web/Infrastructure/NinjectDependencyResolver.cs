@@ -38,6 +38,10 @@ namespace Cats.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            kernel.Bind<IProcessTemplateService>().To<ProcessTemplateService>();
+            kernel.Bind<IStateTemplateService>().To<StateTemplateService>();
+            kernel.Bind<IFlowTemplateService>().To<FlowTemplateService>();
+
             kernel.Bind<IRegionalRequestService>().To<RegionalRequestService>();
             kernel.Bind<IFDPService>().To<FDPService>();
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
