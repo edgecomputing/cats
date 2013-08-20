@@ -9,11 +9,13 @@ namespace Cats.Models.ViewModels.HRD
 
         public int HRDID { get; set; }
         public int Year { get; set; }
-        public string Month { get; set; }
+        public string Season { get; set; }
         public string Ration { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime PublishedDate { get; set; }
         public string CreatedBy { get; set; }
+        public string Status { get; set; }
+        public Nullable<int> StatusID { get; set; }
         public List<HRDDetailViewModel> HRDDetails { get; set; }
 
        

@@ -46,6 +46,7 @@
     <Compile Include="AdminUnitTypeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="ISeasonService.cs" />
     <Compile Include="FDPService.cs" />
     <Compile Include="GiftCertificateDetailService.cs" />
     <Compile Include="GiftCetificateService.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="RegionalRequestService.cs" />
     <Compile Include="ReliefRequisitionDetailService.cs" />
     <Compile Include="ReliefRequisitionService.cs" />
+    <Compile Include="SeasonService.cs" />
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="TransactionService.cs" />
     <Compile Include="WorkflowStatusService.cs" />

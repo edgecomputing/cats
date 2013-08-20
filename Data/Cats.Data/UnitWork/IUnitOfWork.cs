@@ -86,7 +86,8 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }
         IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
-        IGenericRepository<Unit> UnitRepository { get; } 
+        IGenericRepository<Unit> UnitRepository { get; }
+        IGenericRepository<Season> SeasonRepository { get; } 
 
         void Save();
 

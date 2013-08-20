@@ -24,7 +24,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<HRDDetail> hrdDetailRepository;
         private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
         private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
-        //private IGenericRepository<AccountTransaction> accountTransactionRepository;
+        private IGenericRepository<Season> seasonRepository;
         public UnitOfWork()
         {
             this._context = new CatsContext();
@@ -542,6 +542,14 @@ namespace Cats.Data.UnitWork
         {
 
             get { return this.unitRepository ?? (this.unitRepository = new GenericRepository<Unit>(_context)); }
+
+        }
+
+
+        public IGenericRepository<Season> SeasonRepository
+        {
+
+            get { return this.seasonRepository ?? (this.seasonRepository = new GenericRepository<Season>(_context)); }
 
         }
 

@@ -11,7 +11,9 @@ namespace Cats.Models.Constant
       REGIONAL_REQUEST=1,
       RELIEF_REQUISITION=2,
       TRANSPORT_REQUISITION=3,
-      TRANSPORT_ORDER=4
+      TRANSPORT_ORDER=4,
+      HRD=5
+
       
   }
 
@@ -48,5 +50,11 @@ namespace Cats.Models.Constant
         Approved=2,
         Signed=3,
         Closed=4
+    }
+    public enum HRDStatus
+    {
+        Draft=1,
+        Approved=2,
+        Published=3
     }
 }

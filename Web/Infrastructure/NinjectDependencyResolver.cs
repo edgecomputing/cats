@@ -94,6 +94,7 @@ namespace Cats.Infrastructure
             
 
             kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
+            kernel.Bind<ISeasonService>().To<SeasonService>();
 
         }
     }
