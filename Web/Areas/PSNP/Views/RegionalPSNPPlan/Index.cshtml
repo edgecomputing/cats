@@ -15,6 +15,9 @@
 }
 <h2>Index</h2>
 
+<p>
+     <a href="@Url.Action("Create", "RegionalPSNPPlan")" class="btn btn-success">New PSNP Plan</a>
+</p>
 
 <div>
 
@@ -31,6 +34,7 @@
         </th>
         <th>Status
         </th>
+        <th></th>
         <th></th>
         <th></th>
     </tr>
@@ -54,21 +58,24 @@
 
                 @if (item.Status.AllowedAccessLevel > 1)
                 {
-                    @Html.ActionLink("Edit", "#")
+                    <a class="btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Edit</a>
+                    
                 }
-                @if (item.Status.AllowedAccessLevel == 1)
+            </td><td>
+                @if (item.Status.AllowedAccessLevel >= 1)
                 {
-                    @Html.ActionLink("Details", "#")
+                    <a class="btn edit_button" href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Detail</a>
+                   
                 }
             </td>
             <td>
                 <div class="btn-group">
-                <button class="btn btn-primary">Workflow</button>
-                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <button class="btn edit_button">Workflow</button>
+                <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     @foreach (FlowTemplate actions in item.Status.InitialStateFlowTemplates)
         {
-            <li> @Html.ActionLink(actions.Name, "promotWorkflow", new {id=item.RegionalPSNPPlanID, nextState=actions.FinalStateID }) </li>
+            <li class="edit_button"> @Html.ActionLink(actions.Name, "promotWorkflow", new {id=item.RegionalPSNPPlanID, nextState=actions.FinalStateID }) </li>
         }
                     <li class="divider"></li>
 @if (item.Status.AllowedAccessLevel > 1)
@@ -90,18 +97,4 @@
 
 </table>
 
-
-
-
-
-
-
-
-
 </div>
-<p>
-   <!--
-        @Html.ActionLink("Create New", "Create")
-    -->
-     <a href="@Url.Action("Create", "RegionalPSNPPlan")" class="btn btn-success">New PSNP Plan</a>
-</p>
