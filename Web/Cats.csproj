@@ -688,6 +688,7 @@
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\Edit.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

@@ -33,7 +33,7 @@ namespace Cats.Models
         /*********** StateTemplate.cs **************/
         public virtual ICollection<FlowTemplate> FinalStateFlowTemplates { get; set; }
 
-       // public virtual ICollection<Request> CurrentStateRequests { get; set; }
+        public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
     }
     public class StateTemplatePOCO
     {

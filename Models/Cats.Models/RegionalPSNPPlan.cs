@@ -38,15 +38,15 @@ namespace Cats.Models
         [Display(Name = "Ration ID")]
         public int RationID { get; set; }
 
-        /*
+       
         //Status
         [Display(Name = "Status")]
-        public virtual WorkflowStatus Status { get; set; }
+        public virtual StateTemplate Status { get; set; }
 
         //StatusID
         [Display(Name = "Status ID")]
         public int StatusID { get; set; }
-        */
+       
         public string ShortName
         {
             get { return this.Year + "-" + this.Region.Name; }

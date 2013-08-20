@@ -22,9 +22,9 @@ namespace Cats.Models.Mapping
                    .WithMany(t => t.RegionalPSNPPlans)
                    .HasForeignKey(d => d.RationID);
 
-           /* this.HasRequired(t => t.Status)
+            this.HasRequired(t => t.Status)
            .WithMany(t => t.RegionalPSNPPlans)
-           .HasForeignKey(d => d.StatusID);*/
+           .HasForeignKey(d => d.StatusID);
         }
     }
 }

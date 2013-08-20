@@ -67,7 +67,8 @@ namespace Cats.Areas.PSNP
         {
             IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
 
-            return View(toViewModel(list));
+            return View(list);
+            //return View(toViewModel(list));
 
         }
         public ActionResult GetListAjax([DataSourceRequest] DataSourceRequest request)
@@ -87,7 +88,13 @@ namespace Cats.Areas.PSNP
             }
             return View(regionalpsnpplan);
         }
-
+        public ActionResult promotWorkflow(int id, int nextState)
+        {
+            RegionalPSNPPlan item = _regionalPSNPPlanService.FindById(id);
+            item.StatusID = nextState;
+            _regionalPSNPPlanService.UpdateRegionalPSNPPlan(item);
+            return RedirectToAction("Index");
+        }
         //
         // GET: /PSNP/RegionalPSNPPlan/Create
 
@@ -97,12 +104,14 @@ namespace Cats.Areas.PSNP
             return View();
         }
 
+
         //
         // POST: /PSNP/RegionalPSNPPlan/Create
 
         [HttpPost]
         public ActionResult Create(RegionalPSNPPlan regionalpsnpplan)
         {
+            regionalpsnpplan.StatusID = 1;
             if (ModelState.IsValid)
             {
                 _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
