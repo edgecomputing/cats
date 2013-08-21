@@ -311,5 +311,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrd);
         }
 
+        public ActionResult Compare()
+        {
+            return View();
+        }
+
     }
 }
