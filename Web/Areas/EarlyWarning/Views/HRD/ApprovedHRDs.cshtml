@@ -30,19 +30,10 @@
             columns.Command(p =>
                 {
                     p.Custom("Edit").Click("hrdEdit");
-                    p.Custom("Approve").Click("approveHRD");
+                    p.Custom("Publish").Click("showSummary");
                     p.Custom("Summary").Click("showSummary");
 
-                });
-            //{
-            //   // p.Custom("ViewDetails").Click("showDetails");
-            //    p.Custom("Edit").Click("hrdEdit");
-            //});
-            //columns.Command(p =>
-            //{
-            //    p.Custom("Edit").Click("hrdEdit");
-            //    p.Custom("ViewDetails").Click("showDetails");
-            //});
+                });     
 
         })
     .Pageable()
@@ -52,7 +43,7 @@
           .Ajax()
           .PageSize(8)
             .Model(model => model.Id(p => p.HRDID))
-            .Read(read => read.Action("HRD_Read", "HRD"))
+            .Read(read => read.Action("ApprovedHRD_Read", "HRD"))
  
      )
    
@@ -64,7 +55,7 @@
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/RegionalSummary/?hrdID=" + dataItem.HRDID;
+        window.location = "RegionalSummary/?hrdID=" + dataItem.HRDID;
 
     }
     

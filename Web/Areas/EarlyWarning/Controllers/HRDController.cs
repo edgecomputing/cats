@@ -66,11 +66,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+        public ActionResult ApprovedHRDs()
+        {
+            return View();
+        }
 
         public ActionResult HRD_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var hrds = _hrdService.GetAllHRD().OrderByDescending(m => m.HRDID);
+            var hrds = _hrdService.Get(m=>m.Status==1).OrderByDescending(m => m.HRDID);
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
@@ -89,6 +93,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public ActionResult ApprovedHRD_Read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            var hrds = _hrdService.Get(m => m.Status == 2).OrderByDescending(m => m.HRDID);
+            var hrdsToDisplay = GetHrds(hrds).ToList();
+            return Json(hrdsToDisplay.ToDataSourceResult(request));
+        }
+
         //gets hrd information
         private IEnumerable<HRDViewModel> GetHrds(IEnumerable<HRD> hrds)
         {
@@ -109,33 +122,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     });
         }
 
-        ////gets hrd Detail Information
-        //private IEnumerable<HRDDetailViewModel> GetHRDSummary(HRD hrd)
-        //{
-        //    var hrdDetails = hrd.HRDDetails;
-        //    var rationDetails = _rationService.FindById(hrd.RationID).RationDetails;
-        //    return (from hrdDetail in hrdDetails
-        //            select new HRDDetailViewModel()
-        //            {
-        //                    HRDDetailID = hrdDetail.HRDDetailID,
-        //                    HRDID = hrdDetail.HRDID,
-        //                    WoredaID = hrdDetail.WoredaID,
-        //                    Zone = hrdDetail.AdminUnit.AdminUnit2.Name,
-        //                    Region = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.Name,
-        //                    Woreda = hrdDetail.AdminUnit.Name,
-        //                    NumberOfBeneficiaries = (int) GetTotalBeneficiaries(hrdDetail.HRDID, hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID),
-        //                    //hrdDetail.NumberOfBeneficiaries.CompareTo(hrdDetail.AdminUnit.AdminUnit2.AdminUnitID),
-        //                    StartingMonth = hrdDetail.StartingMonth,
-        //                    DurationOfAssistance = hrdDetail.DurationOfAssistance,
-        //                    Cereal = (decimal)((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.015),
-        //                    Pulse = (decimal)((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.00045),
-        //                    BlendedFood = (decimal)((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.0015),
-        //                    Oil = (decimal)((hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * 0.00045)
-
-
-        //                });
-        //}
-
         private double GetTotalBeneficiaries(int hrdID, int regionId)
         {
             var hrdDetails = _hrdService.FindById(hrdID).HRDDetails;
@@ -146,41 +132,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return (double)totalBeneficiary;
         }
-        public ActionResult RegionalSummary_Read([DataSourceRequest] DataSourceRequest request ,int id=0)
-        {
-
-            var details = _hrdDetailService.Get(hrdDetail => hrdDetail.HRDID == id);
-            var hrd = details.First().HRD;
-            var cerealCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 1).Amount;
-            var blendFoodCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 3).Amount;
-            var pulseCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 2).Amount;
-            var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 4).Amount;
-
-
-            var groupedTotal = from detail in details
-                               group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
-                               select new
-                               {
-                                   
-                                   Region = regionalDetail.Key,
-                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
-                                   Duration = regionalDetail.Sum(m => m.DurationOfAssistance)
-                               };
-
-            var viewModel = from total in groupedTotal
-                            select new RegionalSummaryViewModel
-                            {
-                                HRDID = id,
-                                RegionName = total.Region.Name,
-                                NumberOfBeneficiaries = total.NumberOfBeneficiaries,
-                                Cereal = cerealCoefficient * total.NumberOfBeneficiaries ,
-                                BlededFood = blendFoodCoefficient * total.NumberOfBeneficiaries ,
-                                Oil = oilCoefficient * total.NumberOfBeneficiaries,
-                                Pulse = pulseCoefficient * total.NumberOfBeneficiaries 
-                            };
-            //return View(viewModel);
-            return Json(viewModel.ToDataSourceResult(request));
-        }
+       
         public ActionResult RegionalSummary(int hrdID=0)
         {
             var details =_hrdDetailService.Get(hrdDetail =>hrdDetail.HRDID == hrdID);
@@ -210,6 +162,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                     Oil = oilCoefficient * total.NumberOfBeneficiaries*total.Duration,
                                     Pulse = pulseCoefficient * total.NumberOfBeneficiaries * total.Duration
                                 };
+            ViewData["viewModel"] = viewModel;
             return View(viewModel);
         }
 
@@ -376,6 +329,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
 
             return View(hrd);
+        }
+
+        public ActionResult ApproveHRD(int id)
+        {
+            var hrd = _hrdService.FindById(id);
+            hrd.Status = 2;
+            _hrdService.EditHRD(hrd);
+            return RedirectToAction("Index");
         }
 
     }
