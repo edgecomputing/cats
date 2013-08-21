@@ -10,20 +10,23 @@ namespace Cats.Models
     public partial class NeedAssessmentDetail
     {
         public int NAId { get; set; }
-        public int NAHeaderId { get; set; }
-        
-        public Nullable<int> VPoorNoOfM { get; set; }
-        public Nullable<int> VPoorNoOfB { get; set; }
-        public Nullable<int> PoorNoOfM { get; set; }
-        public Nullable<int> PoorNoOfB { get; set; }
-        public Nullable<int> MiddleNoOfM { get; set; }
-        public Nullable<int> MiddleNoOfB { get; set; }
-        public Nullable<int> BOffNoOfM { get; set; }
-        public Nullable<int> BOffNoOfB { get; set; }
-        public Nullable<int> Zone { get; set; }
-        public Nullable<int> District { get; set; }
-        public virtual AdminUnit AdminUnit { get; set; }
-        public virtual AdminUnit AdminUnit1 { get; set; }
+        public Nullable<int> NeedAId { get; set; }
+        public Nullable<int> Woreda { get; set; }
+        public Nullable<int> ProjectedMale { get; set; }
+        public Nullable<int> ProjectedFemale { get; set; }
+        public Nullable<int> RegularPSNP { get; set; }
+        public Nullable<int> PSNP { get; set; }
+        public Nullable<int> NonPSNP { get; set; }
+        public Nullable<int> Contingencybudget { get; set; }
+        public Nullable<int> TotalBeneficiaries { get; set; }
+        public Nullable<int> PSNPFromWoredasMale { get; set; }
+        public Nullable<int> PSNPFromWoredasFemale { get; set; }
+        public Nullable<int> PSNPFromWoredasDOA { get; set; }
+        public Nullable<int> NonPSNPFromWoredasMale { get; set; }
+        public Nullable<int> NonPSNPFromWoredasFemale { get; set; }
+        public Nullable<int> NonPSNPFromWoredasDOA { get; set; }
+        public string Remark { get; set; }
+        public virtual AdminUnitType AdminUnitType { get; set; }
         public virtual NeedAssessmentHeader NeedAssessmentHeader { get; set; }
     }
 }

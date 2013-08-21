@@ -5,16 +5,16 @@ using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
-    public interface INeedAssessmentService
+    public partial interface INeedAssessmentService
     {
 
-        bool AddNeedAssessment(NeedAssement needAssessment);
-        bool DeleteNeedAssessment(NeedAssement needAssessment);
+        bool AddNeedAssessment(NeedAssessment needAssessment);
+        bool DeleteNeedAssessment(NeedAssessment needAssessment);
         bool DeleteById(int id);
-        bool EditNeedAssessment(NeedAssement needAssessment);
-        NeedAssement FindById(int id);
-        List<NeedAssement> GetAllNeedAssessment();
-        List<NeedAssement> FindBy(Expression<Func<NeedAssement, bool>> predicate);
+        bool EditNeedAssessment(NeedAssessment needAssessment);
+        NeedAssessment FindById(int id);
+        List<NeedAssessment> GetAllNeedAssessment();
+        List<NeedAssessment> FindBy(Expression<Func<NeedAssessment, bool>> predicate);
 
 
     }

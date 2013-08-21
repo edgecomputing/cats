@@ -12,26 +12,26 @@ namespace Cats.Services.EarlyWarning
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public NeedAssessmentService()
+        public NeedAssessmentService(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = new UnitOfWork();
+            this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddNeedAssessment(NeedAssement needAssessment)
+        public bool AddNeedAssessment(NeedAssessment needAssessment)
         {
             _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditNeedAssessment(NeedAssement needAssessment)
+        public bool EditNeedAssessment(NeedAssessment needAssessment)
         {
             _unitOfWork.NeedAssessmentRepository.Edit(needAssessment);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteNeedAssessment(NeedAssement needAssessment)
+        public bool DeleteNeedAssessment(NeedAssessment needAssessment)
         {
             if (needAssessment == null) return false;
             _unitOfWork.NeedAssessmentRepository.Delete(needAssessment);
@@ -46,15 +46,15 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Save();
             return true;
         }
-        public List<NeedAssement> GetAllNeedAssessment()
+        public List<NeedAssessment> GetAllNeedAssessment()
         {
             return _unitOfWork.NeedAssessmentRepository.GetAll();
         }
-        public NeedAssement FindById(int id)
+        public NeedAssessment FindById(int id)
         {
             return _unitOfWork.NeedAssessmentRepository.FindById(id);
         }
-        public List<NeedAssement> FindBy(Expression<Func<NeedAssement, bool>> predicate)
+        public List<NeedAssessment> FindBy(Expression<Func<NeedAssessment, bool>> predicate)
         {
             return _unitOfWork.NeedAssessmentRepository.FindBy(predicate);
         }
@@ -69,5 +69,4 @@ namespace Cats.Services.EarlyWarning
     }
 }
 
- 
-      
+

@@ -157,7 +157,7 @@
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
-    <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentOldController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />

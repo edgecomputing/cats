@@ -8,19 +8,12 @@ namespace Cats.Models
 {
     public partial class NeedAssessmentHeader
     {
-        public NeedAssessmentHeader()
-        {
-            this.NeedAssessmentDetails = new List<NeedAssessmentDetail>();
-            this.Hrds=new List<HRD>();
-        }
-
         public int NAHeaderId { get; set; }
-        public Nullable<System.DateTime> NeedACreatedDate { get; set; }
-        public Nullable<int> NeddACreatedBy { get; set; }
-        public Nullable<bool> NeedAApproved { get; set; }
+        public Nullable<int> NeedAID { get; set; }
+        public Nullable<int> Zone { get; set; }
         public string Remark { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
+        public virtual AdminUnitType AdminUnitType { get; set; }
+        public virtual NeedAssessment NeedAssessment { get; set; }
         public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails { get; set; }
-        public virtual ICollection<HRD> Hrds  { get; set; }
     }
 }

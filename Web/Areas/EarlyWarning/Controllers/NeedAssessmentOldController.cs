@@ -13,14 +13,14 @@ using Cats.Areas.EarlyWarning.Models;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
-    public class NeedAssessmentController : Controller
+    public class NeedAssessmentOldController : Controller
     {
         //service declarations
         private readonly INeedAssessmentHeaderService _needAssessmentHeaderService;
         private readonly INeedAssessmentDetailService _needAssessmentDetailService;
         private readonly IAdminUnitService _adminUnitService;
         //service injection
-        public NeedAssessmentController(INeedAssessmentHeaderService needAssessmentHeader,
+        public NeedAssessmentOldController(INeedAssessmentHeaderService needAssessmentHeader,
                                         IAdminUnitService adminUnitService,
                                         INeedAssessmentDetailService needAssessmentDetailService)
         {

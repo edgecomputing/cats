@@ -89,8 +89,9 @@
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
-    <Compile Include="Mapping\NeedAssessmentDetail.cs" />
+    <Compile Include="Mapping\NeedAssessmentDetailMap.cs" />
     <Compile Include="Mapping\NeedAssessmentHeaderMap.cs" />
+    <Compile Include="Mapping\NeedAssessmentMap.cs" />
     <Compile Include="Mapping\ProcessTemplateMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="MetaData\TransportOrder.cs" />
     <Compile Include="MetaData\TransportRequisitionMeta.cs" />
     <Compile Include="MetaData\TransportRequisitionDetailMeta.cs" />
+    <Compile Include="NeedAssessment.cs" />
     <Compile Include="NeedAssessmentDetail.cs" />
     <Compile Include="NeedAssessmentHeader.cs" />
     <Compile Include="Partial\Bid.cs" />
