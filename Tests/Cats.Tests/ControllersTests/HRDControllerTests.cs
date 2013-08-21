@@ -70,6 +70,8 @@ namespace Cats.Tests.ControllersTests
 
 
             var adminUnitService = new Mock<IAdminUnitService>();
+            adminUnitService.Setup(t => t.GetRegions()).Returns(new List<AdminUnit>()
+                                                                    {new AdminUnit() {AdminUnitID = 1, Name = "Region"}});
          
             var rationService = new Mock<IRationService>();
             var rationDetailService = new Mock<IRationDetailService>();
@@ -111,7 +113,7 @@ namespace Cats.Tests.ControllersTests
             //Assert
 
             Assert.IsInstanceOf<ViewResult>(result);
-            Assert.IsInstanceOf<List<HRDCompareViewModel>>(((ViewResult)result).Model);
+           
         }
 
         #endregion
