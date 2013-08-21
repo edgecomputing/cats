@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 
 namespace Cats.ViewModelBinder
@@ -9,26 +10,39 @@ namespace Cats.ViewModelBinder
     public class HRDViewModelBinder
     {
 
-        public static List<HRDCompareViewModel> BindHRDCompareViewModel(HRD hrd)
+        public static List<HRDCompareViewModel> BindHRDCompareViewModel(HRD hrdOriginal,HRD hrdRefrence,int filterRegion)
         {
-            if (hrd == null) return null;
-            if (!hrd.HRDDetails.Any()) return null;
+            if (hrdOriginal == null) return null;
+            if (!hrdOriginal.HRDDetails.Any()) return null;
             var hrdCompareViewModels = new List<HRDCompareViewModel>();
-            foreach (var hrdDetail in hrd.HRDDetails)
+            foreach (var hrdDetail in hrdOriginal.HRDDetails.Where(t=>t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==filterRegion))
             {
                 var hrdCompareViewModel = new HRDCompareViewModel();
-                hrdCompareViewModel.Year = hrd.Year;
-                hrdCompareViewModel.SeasonId = hrd.SeasonID.HasValue ? hrd.SeasonID.Value : 0;
-                hrdCompareViewModel.Season = hrd.SeasonID.HasValue ? hrd.Season.Name : string.Empty;
-                hrdCompareViewModel.RationId = hrd.RationID;
+                hrdCompareViewModel.Year = hrdOriginal.Year;
+                hrdCompareViewModel.SeasonId = hrdOriginal.SeasonID.HasValue ? hrdOriginal.SeasonID.Value : 0;
+                hrdCompareViewModel.Season = hrdOriginal.SeasonID.HasValue ? hrdOriginal.Season.Name : string.Empty;
+                hrdCompareViewModel.RationId = hrdOriginal.RationID;
                 hrdCompareViewModel.DurationOfAssistance = hrdDetail.DurationOfAssistance;
+                hrdCompareViewModel.BeginingMonth = hrdDetail.StartingMonth;
                 hrdCompareViewModel.Beneficiaries = hrdDetail.NumberOfBeneficiaries;
-                hrdCompareViewModel.RegionId = hrdDetail.AdminUnit.AdminUnit2.AdminUnitID;
-                hrdCompareViewModel.Region = hrdDetail.AdminUnit.AdminUnit2.Name;
-                hrdCompareViewModel.ZoneId = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID;
-                hrdCompareViewModel.Zone = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.Name;
+                hrdCompareViewModel.ZoneId = hrdDetail.AdminUnit.AdminUnit2.AdminUnitID;
+                hrdCompareViewModel.Zone = hrdDetail.AdminUnit.AdminUnit2.Name;
+                hrdCompareViewModel.RegionId = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID;
+                hrdCompareViewModel.Region = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.Name;
                 hrdCompareViewModel.WoredaId = hrdDetail.WoredaID;
                 hrdCompareViewModel.Woreda = hrdDetail.AdminUnit.Name;
+
+                 if(hrdRefrence!=null)
+                 {
+                     var hrdReferenceDetail =
+                         hrdRefrence.HRDDetails.FirstOrDefault(t => t.WoredaID == hrdDetail.WoredaID);
+                     if(hrdReferenceDetail!=null)
+                     {
+                         hrdCompareViewModel.RefrenceDuration = hrdReferenceDetail.DurationOfAssistance;
+                         hrdCompareViewModel.BeginingMonthReference = hrdReferenceDetail.StartingMonth;
+                         hrdCompareViewModel.BeneficiariesRefrence = hrdDetail.NumberOfBeneficiaries;
+                     }
+                 }
                 hrdCompareViewModels.Add(hrdCompareViewModel);
 
             }

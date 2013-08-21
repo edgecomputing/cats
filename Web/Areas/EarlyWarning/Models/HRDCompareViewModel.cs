@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Cats.ViewModelBinder
+namespace Cats.Areas.EarlyWarning.Models
 {
     public class HRDCompareViewModel
     {
@@ -14,11 +14,15 @@ namespace Cats.ViewModelBinder
         public string Season { get; set; }
         public int  WoredaId { get; set; }
         public string Woreda { get; set; }
-        public int  Beneficiaries { get; set; }
         public int RegionId { get; set; }
         public int ZoneId { get; set; }
         public string Region { get; set; }
         public string Zone { get; set; }
         public int DurationOfAssistance { get; set; }
+        public int Beneficiaries { get; set; }
+        public int BeginingMonth { get; set; }
+        public int RefrenceDuration { get; set; }
+        public int BeneficiariesRefrence { get; set; }
+        public int BeginingMonthReference { get; set; }
     }
 }
