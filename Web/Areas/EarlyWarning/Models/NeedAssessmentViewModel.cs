@@ -9,35 +9,43 @@ namespace Cats.Areas.EarlyWarning.Models
     public class NeedAssessmentViewModel
     {
 
-        
-        public int NAId { get; set; }
-        public int NaHeaderId { get; set; }
-        [Display(Name = "No. Months")]
-        public int VPoorNoOfM { get; set; }
-         [Display(Name = "Beneficiaries")]
-        public int VPoorNoOfB { get; set; }
-         [Display(Name = "No. Months")]
-        public int PoorNoOfM { get; set; }
-         [Display(Name = "Beneficiaries")]
-        public int PoorNoOfB { get; set; }
-         [Display(Name = "No. Months")]
-        public int MiddleNoOfM { get; set; }
-         [Display(Name = "Beneficiaries")]
-        public int MiddleNoOfB { get; set; }
-         [Display(Name = "No. Months")]
-        public int BOffNoOfM { get; set; }
-         [Display(Name = "Beneficiaries")]
-        public int BOffNoOfB { get; set; }
         public int Zone { get; set; }
-        public int District { get; set; }
+        public int Woreda { get; set; }
+        public int Region { get; set; }
 
         public string ZoneName { get; set; }
-        public string DistrictName { get; set; }
+        public string WoredaName { get; set; }
+        public string RegionName { get; set; }
 
-        public Nullable<System.DateTime> NeedACreatedDate { get; set; }
+        public int NeedAID { get; set; }
+       
+        public string Season { get; set; }
+        public System.DateTime NeedADate { get; set; }
         public Nullable<int> NeedACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }
+        public Nullable<int> NeedAApprovedBy { get; set; }
         public string Remark { get; set; }
+
+        //from hearder
+        public int NAHeaderId { get; set; }
+        
+        //from detail
+        public Nullable<int> ProjectedMale { get; set; }
+        public Nullable<int> ProjectedFemale { get; set; }
+        public Nullable<int> RegularPSNP { get; set; }
+        public Nullable<int> PSNP { get; set; }
+        public Nullable<int> NonPSNP { get; set; }
+        public Nullable<int> Contingencybudget { get; set; }
+        public Nullable<int> TotalBeneficiaries { get; set; }
+        public Nullable<int> PSNPFromWoredasMale { get; set; }
+        public Nullable<int> PSNPFromWoredasFemale { get; set; }
+        public Nullable<int> PSNPFromWoredasDOA { get; set; }
+        public Nullable<int> NonPSNPFromWoredasMale { get; set; }
+        public Nullable<int> NonPSNPFromWoredasFemale { get; set; }
+        public Nullable<int> NonPSNPFromWoredasDOA { get; set; }
+        
+       
+       
 
         public string CreaterUser { get; set; }
 
