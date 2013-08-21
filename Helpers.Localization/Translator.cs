@@ -18,7 +18,7 @@ namespace LanguageHelpers.Localization
          private Translator()
             { 
              _dataservice = new Services.LocalizedTextService(new UnitOfWork());
-           
+             _dataservice.GetAllLocalizedText();   
             }
          public static Translator Instance { get { return _instance; } }
          public static void LoadTexts()

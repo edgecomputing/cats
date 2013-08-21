@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Helpers;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.Extensions;
@@ -24,11 +25,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IRationDetailService _rationDetailService;
         private INeedAssessmentDetailService _needAssessmentDetailService;
         private INeedAssessmentHeaderService _needAssessmentService;
+        private IWorkflowStatusService _workflowStatusService;
+        private ISeasonService _seasonService;
 
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService, 
                              IRationService rationservice,IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService,ICommodityService commodityService,
-                             INeedAssessmentDetailService needAssessmentDetailService,INeedAssessmentHeaderService needAssessmentService)
+                             INeedAssessmentDetailService needAssessmentDetailService,INeedAssessmentHeaderService needAssessmentService,
+                             IWorkflowStatusService workflowStatusService,ISeasonService seasonService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -38,12 +42,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _rationDetailService = rationDetailService;
             _needAssessmentDetailService = needAssessmentDetailService;
             _needAssessmentService = needAssessmentService;
+            _workflowStatusService = workflowStatusService;
+            _seasonService = seasonService;
+
         }
 
         public ActionResult Index()
         {
 
             var hrd = _hrdService.GetAllHRD();
+            //ViewBag.Status = _workflowStatusService.GetStatusName();
             return View(hrd);
         }
         public ActionResult HRDDetail(int id = 0)
@@ -87,12 +95,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     select new HRDViewModel()
                     {
                         HRDID = hrd.HRDID,
-                        Month = RequestHelper.MonthName(hrd.Month),
+                        Season = hrd.Season.Name,
                         Year = hrd.Year,
                         Ration = hrd.Ration.RefrenceNumber,
                         CreatedDate = hrd.CreatedDate,
                         CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
-                        PublishedDate = hrd.PublishedDate
+                        PublishedDate = hrd.PublishedDate,
+                        StatusID = hrd.Status,
+                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD,hrd.Status.Value)
+                   
 
                     });
         }
@@ -168,7 +179,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber",hrd.RationID=1);
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m=>m.NeedAApproved==true), "NAHeaderId",
                                                       "NeedACreatedDate");
-            ViewData["Month"] = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            ViewData["SeasonID"] = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
              var commodities = _commodityService.GetAllCommodity();
 
@@ -246,6 +257,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             hrd.CreatedDate = dateCreated;
             hrd.PublishedDate = DatePublished;
+            hrd.Status = 1;
 
             if (ModelState.IsValid)
             {
@@ -276,7 +288,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Edit(int id)
         {
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
-            ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name", hrd.Month);
+            ViewBag.Month = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name", hrd.SeasonID);
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber",hrd.RationID);
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader(), "NAHeaderId",
                                                      "NeedACreatedDate",hrd.NeedAssessmentID);

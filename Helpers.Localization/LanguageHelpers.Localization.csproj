@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAnnotations\LocalizedRequiredAttribute.cs" />
     <Compile Include="Data\Repository\GenericRepository.cs" />
     <Compile Include="Data\Repository\IGenericRepository.cs" />
     <Compile Include="Data\LocalizationContext.cs" />
@@ -65,16 +66,6 @@
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\LocalizedTextService.cs" />
     <Compile Include="Translator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
-      <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
-      <Name>Cats.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
-      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
-      <Name>Cats.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -77,7 +77,12 @@ namespace Cats.Data
         public DbSet<RequestDetailCommodity> RequestDetailCommodities { get; set; }
 
         public DbSet<GiftCertificate> GiftCertificate { get; set; }
-        public DbSet<Unit> Units { get; set; } 
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Season> Seasons { get; set; } 
+
+        public DbSet<ProcessTemplate> ProcessTemplates { get; set; }
+        public DbSet<StateTemplate> StateTemplates { get; set; }
+        public DbSet<FlowTemplate> FlowTemplates { get; set; } 
 
         //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
@@ -85,6 +90,10 @@ namespace Cats.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //TODO: Add mapping information for each Poco model.
+            modelBuilder.Configurations.Add(new ProcessTemplateMap());
+            modelBuilder.Configurations.Add(new StateTemplateMap());
+            modelBuilder.Configurations.Add(new FlowTemplateMap());
+
             modelBuilder.Configurations.Add(new RegionalRequestMap());
             modelBuilder.Configurations.Add(new RegionalRequestDetailMap());
             modelBuilder.Configurations.Add(new ReliefRequisitionMap());
@@ -143,6 +152,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new GiftCertificateDetailMap());
 
             modelBuilder.Configurations.Add(new UnitMap());
+
+            modelBuilder.Configurations.Add(new SeasonMap());
 
             //modelBuilder.Configurations.Add(new AccountTransactionMap());
             //modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());

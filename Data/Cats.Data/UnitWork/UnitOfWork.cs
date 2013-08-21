@@ -24,10 +24,27 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<HRDDetail> hrdDetailRepository;
         private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
         private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
-        //private IGenericRepository<AccountTransaction> accountTransactionRepository;
+        private IGenericRepository<Season> seasonRepository;
         public UnitOfWork()
         {
             this._context = new CatsContext();
+        }
+       
+        private IGenericRepository<ProcessTemplate> _ProcessTemplateRepository;
+        public IGenericRepository<ProcessTemplate> ProcessTemplateRepository
+        {
+            get { return this._ProcessTemplateRepository ?? (this._ProcessTemplateRepository = new GenericRepository<ProcessTemplate>(_context)); }
+        }
+
+        private IGenericRepository<StateTemplate> _StateTemplateRepository;
+        public IGenericRepository<StateTemplate> StateTemplateRepository
+        {
+            get { return this._StateTemplateRepository ?? (this._StateTemplateRepository = new GenericRepository<StateTemplate>(_context)); }
+        }
+        private IGenericRepository<FlowTemplate> _FlowTemplateRepository;
+        public IGenericRepository<FlowTemplate> FlowTemplateRepository
+        {
+            get { return this._FlowTemplateRepository ?? (this._FlowTemplateRepository = new GenericRepository<FlowTemplate>(_context)); }
         }
 
         // TODO: Consider adding separate properties for each repositories.
@@ -542,6 +559,14 @@ namespace Cats.Data.UnitWork
         {
 
             get { return this.unitRepository ?? (this.unitRepository = new GenericRepository<Unit>(_context)); }
+
+        }
+
+
+        public IGenericRepository<Season> SeasonRepository
+        {
+
+            get { return this.seasonRepository ?? (this.seasonRepository = new GenericRepository<Season>(_context)); }
 
         }
 

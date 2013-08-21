@@ -1,0 +1,158 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Models.PSNP
+@using Cats.Models
+@model IEnumerable<RegionalPSNPPlan>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+   
+    @Html.Partial("_PSNPLeftBar");
+   
+}
+<h2>Index</h2>
+
+
+<div>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            Program
+        </th>
+        <th>Status
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (RegionalPSNPPlan item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region)
+            </td>
+            <td>
+              PSNP
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+
+                @if (item.Status.AllowedAccessLevel > 1)
+                {
+                    @Html.ActionLink("Edit", "#")
+                }
+                @if (item.Status.AllowedAccessLevel == 1)
+                {
+                    @Html.ActionLink("Details", "#")
+                }
+            </td>
+            <td>
+                <div class="btn-group">
+                <button class="btn btn-primary">Workflow</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    @foreach (FlowTemplate actions in item.Status.InitialStateFlowTemplates)
+        {
+            <li> @Html.ActionLink(actions.Name, "promotWorkflow", new {requestID=item.RegionalPSNPPlanID, nextState=actions.FinalStateID }) </li>
+        }
+                    <li class="divider"></li>
+@if (item.Status.AllowedAccessLevel > 1)
+                {
+                    <li>@Html.ActionLink("Edit", "#")</li>
+                }
+                @if (item.Status.AllowedAccessLevel >= 1)
+                {
+                    <li>@Html.ActionLink("Details", "#")</li>
+                }
+                  
+                </ul>
+              </div>
+
+                
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+
+
+
+</div>
+<p>
+   <!--
+        @Html.ActionLink("Create New", "Create")
+    -->
+     <a href="@Url.Action("Create", "RegionalPSNPPlan")" class="btn btn-success">New PSNP Plan</a>
+</p>
+@(Html.Kendo().Grid<RegionalPSNPPlanViewModel>()    
+    .Name("Grid")
+    .Columns(columns => {
+        columns.Bound(p => p.RegionName).Groupable(false).Width(200);
+        columns.Bound(p => p.Year).Width(200);
+ //       columns.Bound(p => p.Duration);
+        columns.Bound(p => p.RationName);
+//        columns.Bound(p => p.StatusName);
+        columns.Command(command =>
+        {
+            command.Custom("Edit").Click("editRecord");
+            command.Custom("Detail Plan").Click("detailEdit");
+            command.Custom("Approve").Click("approveRecord");
+            command.Custom("Delete").Click("deleteRecord");
+        });
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Model(model => model.Id(p => p.RegionalPSNPPlanID))
+        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlan"))
+        )
+    .Pageable()
+    .Sortable()
+    .Scrollable() 
+    .Filterable()
+    .Groupable()
+)
+    <script>
+        function approveRecord(e) {
+        }
+        function editRecord(e) {
+            e.preventDefault();
+
+
+            var edit_url = '@Url.Action("Edit", "RegionalPSNPPlan", new { Area = "PSNP",id="" })'
+        //alert(edit_url);
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = edit_url + "/" + dataItem.RegionalPSNPPlanID;
+    }
+    function detailEdit(e) {
+        var edit_url = '@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id="0" })'
+            //alert(edit_url);
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            window.location = edit_url + "" + dataItem.RegionalPSNPPlanID;
+        }
+        function deleteRecord(e) {
+        }
+
+</script>
+

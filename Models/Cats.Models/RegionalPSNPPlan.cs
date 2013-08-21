@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using LanguageHelpers.Localization.DataAnnotations;
 namespace Cats.Models
 {
     public class RegionalPSNPPlan
@@ -10,10 +10,12 @@ namespace Cats.Models
 
         //RegionalPSNPPlanID
         [Display(Name = "ID")]
+        
         public int RegionalPSNPPlanID { get; set; }
 
         //Year
         [Display(Name = "Year")]
+        [Required_]
         public int Year { get; set; }
 
         //Duration
@@ -36,15 +38,15 @@ namespace Cats.Models
         [Display(Name = "Ration ID")]
         public int RationID { get; set; }
 
-        /*
+       
         //Status
         [Display(Name = "Status")]
-        public virtual WorkflowStatus Status { get; set; }
+        public virtual StateTemplate Status { get; set; }
 
         //StatusID
         [Display(Name = "Status ID")]
         public int StatusID { get; set; }
-        */
+       
         public string ShortName
         {
             get { return this.Year + "-" + this.Region.Name; }

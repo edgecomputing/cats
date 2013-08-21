@@ -8,8 +8,9 @@
    var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     var lang = user.Profile.LanguageCode;
-    Translator.CurrentLanguage = lang;
-  
+    
+  //  Translator.CurrentLanguage = lang;
+ //   Translator.LoadTexts();
 }
 
 <div class="navbar navbar-fixed-top navbar-inverse">

@@ -228,6 +228,10 @@
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
     <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\FlowTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\ProcessTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
@@ -235,6 +239,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\ElmahErrorAttribute.cs" />
     <Compile Include="Helpers\EthiopianDate.cs" />
@@ -675,6 +680,16 @@
     <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\_PSNPLeftBar.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\Web.config" />
+    <Content Include="Areas\WorkflowManager\Views\FlowTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\FlowTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Design.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\Edit.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -891,6 +906,8 @@
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
+    <Folder Include="Areas\WorkflowManager\Models\" />
+    <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
@@ -913,9 +930,9 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers.Localization\Helpers.Localization.csproj">
+    <ProjectReference Include="..\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
-      <Name>Helpers.Localization</Name>
+      <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>

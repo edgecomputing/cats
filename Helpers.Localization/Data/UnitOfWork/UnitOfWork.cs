@@ -9,7 +9,7 @@ namespace LanguageHelpers.Localization.Data.UnitOfWork
     /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
-        #region Ctors and private vars
+        #region Constructors and private vars
 
         private readonly LocalizationContext _context;
         private IGenericRepository<LocalizedText> localizedTextRepository;
