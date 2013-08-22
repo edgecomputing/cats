@@ -174,9 +174,8 @@
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
-    <Compile Include="Areas\GiftCertificate\GiftCertificateAreaRegistration.cs" />
-    <Compile Include="Areas\GiftCertificate\Models\GiftCertificateDetailsViewModel.cs" />
-    <Compile Include="Areas\GiftCertificate\Models\GiftCertificateViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateDetailsViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
@@ -924,8 +923,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\GiftCertificate\Controllers\" />
-    <Folder Include="Areas\GiftCertificate\Views\Shared\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />

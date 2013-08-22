@@ -105,7 +105,9 @@
     <Compile Include="ControllersTests\BeneficiaryAllocationControllerTests.cs" />
     <Compile Include="ControllersTests\BidControllerTest.cs" />
     <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />
+    <Compile Include="ControllersTests\GiftCertificateControllerTests.cs" />
     <Compile Include="ControllersTests\HRDControllerTest.cs" />
+    <Compile Include="ControllersTests\HRDControllerTests.cs" />
     <Compile Include="ControllersTests\RationControllerTest.cs" />
     <Compile Include="ControllersTests\RequestControllerTests.cs" />
     <Compile Include="ControllersTests\TransportOrderControllerTests.cs" />

@@ -163,6 +163,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return giftCertList.ToList();
         }
 
+        public virtual ActionResult NotUnique(string siNumber, int giftCertificateID)
+        {
+            return View();
+        }
 
     }
 }
