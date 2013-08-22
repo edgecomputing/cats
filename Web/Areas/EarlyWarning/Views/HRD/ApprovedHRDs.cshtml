@@ -24,13 +24,13 @@
         columns.Bound(p => p.Year);
         columns.Bound(p => p.CreatedBy);  
         columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");
-        columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+        //columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 
             columns.Command(p =>
                 {
                     p.Custom("Edit").Click("hrdEdit");
-                    p.Custom("Publish").Click("showSummary");
+                    p.Custom("Publish").Click("publishHRD");
                     p.Custom("Summary").Click("showSummary");
 
                 });     
@@ -70,11 +70,11 @@
 </script>
 
 <script>
-    function approveHRD(e) {
+    function publishHRD(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/ApproveHRD/" + dataItem.HRDID;
+        window.location = "PublishHRD/" + dataItem.HRDID;
     }
 </script>
 
@@ -82,7 +82,7 @@
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
+            $.each(e.errors, function (key, value) {da
                 if ('errors' in value) {
                     $.each(value.errors, function () {
                         message += this + "\n";

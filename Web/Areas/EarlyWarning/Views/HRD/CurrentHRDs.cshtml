@@ -1,14 +1,15 @@
-﻿@using Kendo.Mvc.UI
+﻿
+@using Kendo.Mvc.UI
 @model List<Cats.Models.HRD>
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "CurrentHRDs";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 <div class="well">
-    <h4 class="page-header">List of HRD</h4>
+    <h4 class="page-header">List of published HRD</h4>
     <div align="right">
-        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
+        <a href="Create" class="btn btn-success">Create New HRD</a>
     </div>
 </div>
 @section LeftBar{
@@ -24,25 +25,15 @@
         columns.Bound(p => p.Year);
         columns.Bound(p => p.CreatedBy);  
         columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");
-       // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+        columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 
             columns.Command(p =>
                 {
                     p.Custom("Edit").Click("hrdEdit");
-                    p.Custom("Approve").Click("approveHRD");
                     p.Custom("Summary").Click("showSummary");
 
-                });
-            //{
-            //   // p.Custom("ViewDetails").Click("showDetails");
-            //    p.Custom("Edit").Click("hrdEdit");
-            //});
-            //columns.Command(p =>
-            //{
-            //    p.Custom("Edit").Click("hrdEdit");
-            //    p.Custom("ViewDetails").Click("showDetails");
-            //});
+                });     
 
         })
     .Pageable()
@@ -52,7 +43,7 @@
           .Ajax()
           .PageSize(8)
             .Model(model => model.Id(p => p.HRDID))
-            .Read(read => read.Action("HRD_Read", "HRD"))
+            .Read(read => read.Action("CurrentHRD_Read", "HRD"))
  
      )
    
@@ -64,7 +55,7 @@
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/RegionalSummary/?hrdID=" + dataItem.HRDID;
+        window.location = "RegionalSummary/?hrdID=" + dataItem.HRDID;
 
     }
     
@@ -74,16 +65,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/Edit/" + dataItem.HRDID;
-    }
-</script>
-
-<script>
-    function approveHRD(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/ApproveHRD/" + dataItem.HRDID;
+        window.location = "Edit/" + dataItem.HRDID;
     }
 </script>
 

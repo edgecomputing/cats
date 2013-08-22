@@ -72,6 +72,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
+        public ActionResult CurrentHRDs()
+        {
+            return View();
+        }
         public ActionResult HRD_Read([DataSourceRequest] DataSourceRequest request)
         {
 
@@ -99,6 +103,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             var hrds = _hrdService.Get(m => m.Status == 2).OrderByDescending(m => m.HRDID);
+            var hrdsToDisplay = GetHrds(hrds).ToList();
+            return Json(hrdsToDisplay.ToDataSourceResult(request));
+        }
+        //get published hrds information
+        public ActionResult CurrentHRD_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var hrds = _hrdService.Get(m => m.Status == 3).OrderBy(m => m.PublishedDate);
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
@@ -270,13 +281,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(HRD hrd, string create, string published)
+        public ActionResult Create(HRD hrd, string create)
         {
             DateTime dateCreated = DateTime.Now;
             DateTime DatePublished = DateTime.Now;
 
             dateCreated = GetGregorianDate(create);
-            DatePublished = GetGregorianDate(published);
+            //DatePublished = GetGregorianDate(published);
 
             hrd.CreatedDate = dateCreated;
             hrd.PublishedDate = DatePublished;
@@ -340,6 +351,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             hrd.Status = 2;
             _hrdService.EditHRD(hrd);
             return RedirectToAction("Index");
+        }
+        public ActionResult PublishHRD(int id)
+        {
+            var hrd = _hrdService.FindById(id);
+            hrd.Status = 3;
+            hrd.PublishedDate = DateTime.Now;
+            _hrdService.EditHRD(hrd);
+            return RedirectToAction("ApprovedHRDs");
         }
 
         public ActionResult Compare()

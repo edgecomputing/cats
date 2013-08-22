@@ -694,6 +694,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\RegionalSummary.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
