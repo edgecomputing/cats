@@ -75,6 +75,7 @@ namespace Cats.Services.EarlyWarning
                                                          NeedACreaterName = need.UserProfile1.UserName,
                                                          NeedAApprovedBy = need.NeedAApprovedBy, 
                                                          NeedACreatedBy = need.NeddACreatedBy,
+                                                         TypeOfNeedAssessment = need.TypeOfNeedAssessment
                                                      });
         }
 
