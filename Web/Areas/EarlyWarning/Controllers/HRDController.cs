@@ -141,7 +141,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var blendFoodCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 2).Amount;
             var pulseCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 3).Amount;
             var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID==4).Amount;
-            
+
+            ViewBag.SeasonID = hrd.Season.Name;
+            ViewBag.Year = hrd.Year;
             
             var groupedTotal = from detail in details
                                group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
