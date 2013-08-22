@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cats.Areas.EarlyWarning.Models;
+using Cats.Areas.GiftCertificate.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
 using System.Web.Mvc;

@@ -1,8 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Models
 {
@@ -12,7 +10,7 @@ namespace Cats.Models
         {
             this.ReceiptAllocations = new List<ReceiptAllocation>();
         }
-
+        [Key]
         public int GiftCertificateDetailID { get; set; }
         public int PartitionID { get; set; }
         public int TransactionGroupID { get; set; }
