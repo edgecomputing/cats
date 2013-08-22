@@ -1,5 +1,9 @@
 ﻿@using Cats.Models.Constant
 
+@*@model IEnumerable<Cats.Models.ReliefRequisition>*@
+@model IEnumerable<Cats.Models.RegionalRequest>
+
+
 <div class="row">
 
     <div class="span5">
@@ -133,6 +137,128 @@
         </div>
         <!-- /widget -->
 
+        <div class="widget stacked widget-table action-table">
+
+            <div class="widget-header">
+                <i class="icon-bookmark"></i>
+                <h3>Monthly Requests</h3>
+            </div>
+            <!-- /widget-header -->
+
+            <div class="widget-content">
+
+                @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.RegionalRequestViewModel>()
+                    .Name("singleSort")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(o => o.ReferenceNumber).Width(200);
+                        columns.Bound(p => p.Program).Width(200);
+                        columns.Bound(p => p.Remark).Format("{0:dd/MM/yyyy}");
+                    })
+                    .Pageable(pageable => pageable.ButtonCount(5))
+                    .Sortable(sortable => sortable.AllowUnsort(false))
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .PageSize(5)
+                        .Model(model =>
+                            {
+                                model.Field(r => r.ReferenceNumber).Editable(false);
+                                model.Field(r => r.Program).Editable(false);
+                                model.Field(r => r.Remark).Editable(false);
+                            })
+                          .Read(read => read.Action("Request_Read", "Request"))
+                          //.Update(update => update.Action("Requisition_Update", "ReliefRequisition"))
+                          //.Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
+            ).Pageable()
+                 )
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <td>
+                                @Html.DisplayNameFor(model => model.ReferenceNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Program)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Month)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Remark)
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <div class="news-item-detail" id="request">
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Program.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Month)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Remark)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Request/Details", new { id = item.RegionalRequestID })
+                                    </td>
+                                </tr>
+                            }
+                        </div>
+                    </tbody>
+
+                    <!--<tr>
+                            <td>
+                                @*@Html.DisplayNameFor(model => model.ReferenceNumber)*@
+                                Reference Number
+                            </td>
+                            <td>
+                                @*@Html.DisplayNameFor(model => model.Program)*@
+                                Program
+                            </td>
+                            <td>
+                                @*@Html.DisplayNameFor(model => model.Month)*@
+                                Month
+                            </td>
+                            <td>
+                                @*@Html.DisplayNameFor(model => model.RequestedDate)*@
+                                Date
+                            </td>
+                            <td>
+                                @*@Html.DisplayNameFor(model => model.Remark)*@
+                                Remark
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <div class="news-item-detail" id="request">
+                            
+                        </div>
+                    </tbody>
+                           -->
+                </table>
+
+            </div>
+            <!-- /widget-content -->
+
+        </div>
+        <!-- /widget -->
 
 
     </div>
@@ -146,7 +272,7 @@
                 <ul class="news-items">
                     <li>
                         <div class="news-item-detail">
-                            <a href="@Url.Action("ApprovedRequesitions", "HubAllocation",new{Area="Logistics"})" class="news-item-title">Pending Request allocations</a>
+                            <a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })" class="news-item-title">Pending Request allocations</a>
                             <p class="news-item-preview">Please review and approve this urgent request.</p>
                             <p class="news-item-foot">July-24 [Early Warning Expert]</p>
                         </div>
@@ -176,7 +302,7 @@
     </div>
 
 
-@*    <div class="span3">
+    @*    <div class="span3">
         <div class="widget stacked">
             <div class="widget-header">
                 <i class="icon-globe"></i>
