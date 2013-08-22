@@ -109,7 +109,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //get published hrds information
         public ActionResult CurrentHRD_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var hrds = _hrdService.Get(m => m.Status == 3).OrderBy(m => m.PublishedDate);
+            DateTime latestDate = _hrdService.Get(m => m.Status == 3).Max(m => m.PublishedDate);
+            var hrds = _hrdService.FindBy(m =>m.Status==3 && m.PublishedDate == latestDate);
+                //.OrderBy(m => m.PublishedDate);
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
@@ -148,7 +150,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult RegionalSummary(int hrdID=0)
         {
             var details =_hrdDetailService.Get(hrdDetail =>hrdDetail.HRDID == hrdID);
-            var hrd = details.First().HRD;
+            var hrd = _hrdService.FindById(hrdID);
+                //details.First().HRD;
             var cerealCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID ==1).Amount ;
             var blendFoodCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 2).Amount;
             var pulseCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 3).Amount;
