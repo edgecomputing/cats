@@ -22,13 +22,12 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships
-            this.HasOptional(t => t.AdminUnitType)
+            this.HasOptional(t => t.AdminUnit)
                 .WithMany(t => t.NeedAssessmentHeaders)
                 .HasForeignKey(d => d.Zone);
             this.HasOptional(t => t.NeedAssessment)
                 .WithMany(t => t.NeedAssessmentHeaders)
                 .HasForeignKey(d => d.NeedAID);
-
         }
     }
 }

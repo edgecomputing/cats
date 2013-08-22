@@ -26,7 +26,7 @@ namespace Cats.Models
         public Nullable<int> NonPSNPFromWoredasFemale { get; set; }
         public Nullable<int> NonPSNPFromWoredasDOA { get; set; }
         public string Remark { get; set; }
-        public virtual AdminUnitType AdminUnitType { get; set; }
+        public virtual AdminUnit AdminUnit { get; set; }
         public virtual NeedAssessmentHeader NeedAssessmentHeader { get; set; }
     }
 }

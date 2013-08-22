@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace Cats.Models
@@ -12,6 +13,7 @@ namespace Cats.Models
             this.NeedAssessmentHeaders = new List<NeedAssessmentHeader>();
         }
 
+        [Key]
         public int NeedAID { get; set; }
         public int Region { get; set; }
         public string Season { get; set; }
@@ -20,7 +22,7 @@ namespace Cats.Models
         public Nullable<bool> NeedAApproved { get; set; }
         public Nullable<int> NeedAApprovedBy { get; set; }
         public string Remark { get; set; }
-        public virtual AdminUnitType AdminUnitType { get; set; }
+        public virtual AdminUnit AdminUnit { get; set; }
         public virtual ICollection<HRD> HRDs { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }

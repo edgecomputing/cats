@@ -138,6 +138,8 @@
     <Compile Include="NeedAssessment.cs" />
     <Compile Include="NeedAssessmentDetail.cs" />
     <Compile Include="NeedAssessmentHeader.cs" />
+    <Compile Include="NeedAssessmentHeaderViewModel.cs" />
+    <Compile Include="NeedAssessmentViewModel.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
     <Compile Include="Partial\HRD.cs" />

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
-namespace Cats.Areas.EarlyWarning.Models
+namespace Cats.Models
 {
     public class NeedAssessmentViewModel
     {

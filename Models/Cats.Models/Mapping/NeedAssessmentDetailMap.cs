@@ -33,7 +33,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships
-            this.HasOptional(t => t.AdminUnitType)
+            this.HasOptional(t => t.AdminUnit)
                 .WithMany(t => t.NeedAssessmentDetails)
                 .HasForeignKey(d => d.Woreda);
             this.HasOptional(t => t.NeedAssessmentHeader)

@@ -1,4 +1,4 @@
-﻿@using Cats.Areas.EarlyWarning.Models
+﻿@using Cats.Models
 @using Cats.Helpers
 @using Kendo.Mvc.UI
 
@@ -24,46 +24,69 @@
 
 @{var record = 0;}
 
-@(Html.Kendo().Grid<NeedAssessmentViewModel>()
+@(Html.Kendo().Grid<NeedAssessmentHeaderViewModel>()
   
     .Name("NA").Columns(columns =>
                             {
 
                                 columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-                                columns.ForeignKey(p => p.Zone, (System.Collections.IEnumerable)ViewData["zone"], "AdminUnitID", "Name").Width(120);
-                                columns.ForeignKey(p => p.District, (System.Collections.IEnumerable)ViewData["woreda"], "AdminUnitID", "Name").Width(120);;
                                 
                                 
-                                columns.Bound(p => p.VPoorNoOfM).Title("no. Months").Width("100");
-                                columns.Bound(p => p.VPoorNoOfB).Title("Beneficiaries").Width("100");
-                                columns.Bound(p => p.PoorNoOfM).Title("no. Months").Width("100");
-                                columns.Bound(p => p.PoorNoOfB).Title("Beneficiaries").Width("100");
-                                columns.Bound(p => p.MiddleNoOfM).Title("no. Months").Width("100");
-                                columns.Bound(p => p.MiddleNoOfB).Title("Beneficiaries").Width("100");
-                                columns.Bound(p => p.BOffNoOfM).Title("no. Months").Width("100");
-                                columns.Bound(p => p.BOffNoOfB).Title("Beneficiaries").Width("100");
-                                columns.Command(commands =>
-                                {
-                                    commands.Edit();
-                                    commands.Destroy();
-                                }).Title("Commands").Width("200");
+                                columns.Bound(p => p.RegionName).Title("Region").Width("100");
+                                columns.Bound(p => p.Season).Title("Season").Width("100");
+                                columns.Bound(p => p.NeedADate).Title("Need Assessment Date").Width("100").Format("{0:MM/dd/yyyy}") ;
+                                columns.Bound(p => p.NeedACreaterName).Title("Created By").Width("100");
+                               
+                               
 
                             })
                            
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Sortable()
+      .ClientDetailTemplateId("templateZones")
       .DataSource(datasource=>datasource.Ajax()
-      .Model(model => model.Id(p => p.NAId))
-      .Read(read => read.Action("Read", "NeedAssessment"))
-      .Update(update=>update.Action("Edit","NeedAssessment"))
-      .Create(create=>create.Action("Create","NeedAssessment"))
-      .Destroy(destroy=>destroy.Action("Delete","NeedAssessment"))
-      )
-      .ToolBar((toolbar=>toolbar.Create()))
+      .Model(model => model.Id(p => p.NeedAID))
+      .Read(read => read.Action("NeedAssessmentRead", "NeedAssessment"))
       
-     
-        
+      )
+      
       
       )
   
+
+<script id="templateZones" type="text/kendo-tmpl">
+    
+                    @(Html.Kendo().Grid<NeedAssessmentViewModel>()
+                          .Name("NeedAssessment_#=NeedAID#")
+                          .Columns(columns => columns.Bound(p => p.ZoneName).Title("Zone").Width("100").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Zone"}))
+                          .Columns(columns => columns.Bound(p => p.WoredaName).Title("Woreda").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Woreda"}))
+                          .Columns(columns => columns.Bound(p => p.ProjectedMale).Title("Projecgted Male").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Projecgted Male"}))
+                          .Columns(columns => columns.Bound(p => p.ProjectedFemale).Title("Projected Female").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Projected Female"}))
+                          .Columns(columns => columns.Bound(p => p.RegularPSNP).Title("Regular PSNP").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Regular PSNP"}))
+                          .Columns(columns => columns.Bound(p => p.PSNP).Title("PSNP").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP"}))
+                          .Columns(columns => columns.Bound(p => p.NonPSNP).Title("Non PSNP").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP"}))
+                          .Columns(columns => columns.Bound(p => p.Contingencybudget).Title("Contingency budget").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Contingency budget"}))
+                          .Columns(columns => columns.Bound(p => p.TotalBeneficiaries).Title("Total Beneficiaries").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Total Beneficiaries"}))
+                          .Columns(columns => columns.Bound(p => p.PSNPFromWoredasMale).Title("PSNP From Woredas Male").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP From Woredas Male"}))
+                          .Columns(columns => columns.Bound(p => p.PSNPFromWoredasFemale).Title("PSNP From Woredas Female").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP From Woredas Female"}))
+                          .Columns(columns => columns.Bound(p => p.PSNPFromWoredasDOA).Title("PSNP From Woredas DOA").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP From Woredas DOA"}))
+                          .Columns(columns => columns.Bound(p => p.NonPSNPFromWoredasMale).Title("Non PSNP From Woredas Male").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP From Woredas Male"}))
+                          .Columns(columns => columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP From Woredas Female"}))
+                          .Columns(columns => columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP From Woredas DOA"}))
+
+                          .DataSource(dataSource => dataSource
+                                                        .Ajax()
+                                                        .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new { region = "#=Region#" }))
+                          )
+                          .Pageable()
+                          .Sortable()
+                          .Groupable()
+                         
+                        
+                          .ToClientTemplate())
+                
+</script>
+
+
+

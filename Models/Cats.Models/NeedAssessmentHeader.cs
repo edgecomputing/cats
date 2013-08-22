@@ -12,7 +12,7 @@ namespace Cats.Models
         public Nullable<int> NeedAID { get; set; }
         public Nullable<int> Zone { get; set; }
         public string Remark { get; set; }
-        public virtual AdminUnitType AdminUnitType { get; set; }
+        public virtual AdminUnit AdminUnit { get; set; }
         public virtual NeedAssessment NeedAssessment { get; set; }
         public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails { get; set; }
     }

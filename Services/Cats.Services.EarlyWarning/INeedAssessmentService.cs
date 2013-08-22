@@ -15,8 +15,10 @@ namespace Cats.Services.EarlyWarning
         NeedAssessment FindById(int id);
         List<NeedAssessment> GetAllNeedAssessment();
         List<NeedAssessment> FindBy(Expression<Func<NeedAssessment, bool>> predicate);
+        IEnumerable<NeedAssessmentHeaderViewModel>  ReturnViewModel();
 
-
+        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentHeaderViewModel(int region);
+        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int zone);
     }
 }
 

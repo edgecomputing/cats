@@ -9,9 +9,7 @@ namespace Cats.Models
         public AdminUnitType()
         {
             this.AdminUnits = new List<AdminUnit>();
-            this.NeedAssessments = new List<NeedAssessment>();
-            this.NeedAssessmentDetails = new List<NeedAssessmentDetail>();
-            this.NeedAssessmentHeaders = new List<NeedAssessmentHeader>();
+            
         }
 
         [Key]
@@ -20,8 +18,6 @@ namespace Cats.Models
         public string NameAM { get; set; }
         public int SortOrder { get; set; }
         public virtual ICollection<AdminUnit> AdminUnits { get; set; }
-        public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
-        public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails { get; set; }
-        public virtual ICollection<NeedAssessmentHeader> NeedAssessmentHeaders { get; set; }
+        
     }
 }

@@ -31,7 +31,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships
-            this.HasRequired(t => t.AdminUnitType)
+            this.HasRequired(t => t.AdminUnit)
                 .WithMany(t => t.NeedAssessments)
                 .HasForeignKey(d => d.Region);
             this.HasOptional(t => t.UserProfile)

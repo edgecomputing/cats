@@ -17,8 +17,9 @@ namespace Cats.Models
             this.BidWinners=new List<BidWinner>();
 
 
+            this.NeedAssessments = new List<NeedAssessment>();
             this.NeedAssessmentDetails = new List<NeedAssessmentDetail>();
-            this.NeedAssessmentDetails1 = new List<NeedAssessmentDetail>();
+            this.NeedAssessmentHeaders = new List<NeedAssessmentHeader>();
 
             this.HrdDetails=new List<HRDDetail>();
 
@@ -35,8 +36,9 @@ namespace Cats.Models
         public virtual AdminUnitType AdminUnitType { get; set; }
         public virtual ICollection<BidDetail> BidDetails { get; set; }
         public virtual ICollection<FDP> FDPs { get; set; }
+        public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails { get; set; }
-        public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails1 { get; set; }
+        public virtual ICollection<NeedAssessmentHeader> NeedAssessmentHeaders { get; set; }
         public ICollection<RegionalRequest> RegionalRequests { get; set; }
         public ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
