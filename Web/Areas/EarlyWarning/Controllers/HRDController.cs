@@ -9,6 +9,7 @@ using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
+using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
@@ -341,5 +342,36 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Compare()
+        {
+            var hrds = _hrdService.Get(null,null,"Season");
+            var hrds1 =
+                (from item in hrds
+                 select new {item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year)}).ToList();
+            ViewBag.firstHrd =new SelectList(hrds1,"HRDID","Name");
+            ViewBag.secondHrd = new SelectList(hrds1, "HRDID", "Name");
+            ViewBag.redionId = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Compare(int firstHrd, int secondHrd, int redionId)
+        {
+            var hrdFirst = _hrdService.Get(t=>t.HRDID==firstHrd, null,
+                                      "Season,HRDDetails,HRDDetails.AdminUnit,HRDDetails.AdminUnit.AdminUnit2,HRDDetails.AdminUnit.AdminUnit2.AdminUnit2").FirstOrDefault();
+            var hrdSecond = _hrdService.Get(t => t.HRDID == secondHrd).FirstOrDefault();
+            var hrdsViewModel = HRDViewModelBinder.BindHRDCompareViewModel(hrdFirst, hrdSecond,redionId );
+
+
+            var hrds = _hrdService.Get(null, null, "Season");
+            var hrds1 =
+                (from item in hrds
+                 select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList();
+            ViewBag.firstHrd = new SelectList(hrds1, "HRDID", "Name");
+            ViewBag.secondHrd = new SelectList(hrds1, "HRDID", "Name");
+            ViewBag.redionId = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+            return View(hrdsViewModel);
+        }
     }
 }

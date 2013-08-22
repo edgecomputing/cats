@@ -1,0 +1,59 @@
+﻿@model IEnumerable<HRDCompareViewModel>
+@using Cats.Areas.EarlyWarning.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Compare";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Compare</h2>
+<div class="form-horizontal">
+     
+    @using(Html.BeginForm("Compare","HRD")){
+    <div class="control-group">
+        <div class="control-label">
+            Select HRD:
+        </div>
+        <div class="controls">
+            @Html.DropDownList("firstHrd",string.Empty)
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            Select Second HRD:
+        </div>
+        <div class="controls">
+            @Html.DropDownList("secondHrd",string.Empty)
+        </div>
+    </div>
+      <div class="control-group">
+        <div class="control-label">
+            Select Region:
+        </div>
+        <div class="controls">
+            @Html.DropDownList("redionId",string.Empty)
+        </div>
+    </div>
+    <div class="control-group">
+       
+        <div class="controls">
+            <input class="btn btn-info" type="submit" title="Compare"/>
+        </div>
+    </div>
+   }
+</div>
+@(Html.Kendo().Grid(Model).Name("grid").Columns(columns=>
+                                                       {
+                                                           //columns.Bound(t => t.Region);
+                                                           columns.Bound(t => t.Zone);
+                                                           columns.Bound(t => t.Woreda);
+                                                           columns.Bound(t => t.DurationOfAssistance).Title("Duration");
+                                                           columns.Bound(t => t.RefrenceDuration).Title("Duration Ref");
+                                                           columns.Bound(t => t.BeginingMonth).Title("Beg. Month"); 
+                                                           columns.Bound(t => t.BeginingMonthReference).Title("Beg. Month Ref");
+                                                           columns.Bound(t => t.Beneficiaries);
+                                                           columns.Bound(t => t.BeneficiariesRefrence).Title("Beneficiaries Ref");
+                                                         
+                                                           
+                                                          
+                                                       }))
