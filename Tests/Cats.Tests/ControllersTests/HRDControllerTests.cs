@@ -10,6 +10,7 @@ using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.ViewModelBinder;
+using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 
@@ -105,7 +106,7 @@ namespace Cats.Tests.ControllersTests
         #region Tests
 
         [Test]
-        public void ShouldCompareTwoHRD()
+        public void ShouldDisplayCompareTwoHRD()
         {
             //ACT
             var result = _hrdController.Compare();
@@ -114,6 +115,18 @@ namespace Cats.Tests.ControllersTests
 
             Assert.IsInstanceOf<ViewResult>(result);
            
+        }
+        [Test]
+        public void ShouldCompareTwoHRD()
+        {
+            //ACT
+            var request = new DataSourceRequest();
+            var result = _hrdController.Compare_HRD(request,1,1,1);
+
+            //Assert
+
+            Assert.IsInstanceOf<JsonResult>(result);
+
         }
 
         #endregion
