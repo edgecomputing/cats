@@ -21,6 +21,7 @@ namespace Cats.Models
         public Nullable<int> NeddACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }
         public Nullable<int> NeedAApprovedBy { get; set; }
+        public string TypeOfNeedAssessment { get; set; }
         public string Remark { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual ICollection<HRD> HRDs { get; set; }

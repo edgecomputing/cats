@@ -14,5 +14,6 @@ namespace Cats.Models
         public Nullable<bool> NeedAApproved { get; set; }
         public Nullable<int> NeedAApprovedBy { get; set; }
         public string NeedAApproverName { get; set; }
+        public string TypeOfNeedAssessment { get; set; }
     }
 }

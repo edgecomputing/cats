@@ -11,6 +11,9 @@
     [RationID]         INT      NULL,
     [NeedAssessmentID] INT      NULL,
     CONSTRAINT [PK_HRD] PRIMARY KEY CLUSTERED ([HRDID] ASC),
+    CONSTRAINT [FK_HRD_NeedAssessment] FOREIGN KEY ([NeedAssessmentID]) REFERENCES [EarlyWarning].[NeedAssessment] ([NeedAID]),
     CONSTRAINT [FK_HRD_UserProfile] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID])
 );
+
+
 
