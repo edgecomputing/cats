@@ -1,59 +1,70 @@
-﻿@model IEnumerable<HRDCompareViewModel>
-@using Cats.Areas.EarlyWarning.Models
+﻿@using Cats.Areas.EarlyWarning.Models
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Compare";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section LeftBar{
 
-<h2>Compare</h2>
+    @Html.Partial("_HRDLeftBar");
+}
+<h4>Select HRD to Compare</h4>
 <div class="form-horizontal">
-     
-    @using(Html.BeginForm("Compare","HRD")){
-    <div class="control-group">
-        <div class="control-label">
-            Select HRD:
-        </div>
-        <div class="controls">
-            @Html.DropDownList("firstHrd",string.Empty)
-        </div>
-    </div>
-    <div class="control-group">
-        <div class="control-label">
-            Select Second HRD:
-        </div>
-        <div class="controls">
-            @Html.DropDownList("secondHrd",string.Empty)
-        </div>
-    </div>
-      <div class="control-group">
-        <div class="control-label">
-            Select Region:
-        </div>
-        <div class="controls">
-            @Html.DropDownList("redionId",string.Empty)
-        </div>
-    </div>
-    <div class="control-group">
+    <table>
+        <tr>
+            <td>HRD:
+                 @Html.DropDownList("firstHrd", string.Empty)
+            </td>
+            <td>HRD To Compare:
        
-        <div class="controls">
-            <input class="btn btn-info" type="submit" title="Compare"/>
-        </div>
-    </div>
-   }
+            @Html.DropDownList("secondHrd", string.Empty)
+            </td>
+            <td>Region:
+       
+            @Html.DropDownList("regionId", string.Empty)
+            </td>
+        </tr>
+    </table>
+
 </div>
-@(Html.Kendo().Grid(Model).Name("grid").Columns(columns=>
+@(Html.Kendo().Grid<HRDCompareViewModel>().Name("grid").Columns(columns =>
                                                        {
-                                                           //columns.Bound(t => t.Region);
                                                            columns.Bound(t => t.Zone);
                                                            columns.Bound(t => t.Woreda);
                                                            columns.Bound(t => t.DurationOfAssistance).Title("Duration");
-                                                           columns.Bound(t => t.RefrenceDuration).Title("Duration Ref");
-                                                           columns.Bound(t => t.BeginingMonth).Title("Beg. Month"); 
-                                                           columns.Bound(t => t.BeginingMonthReference).Title("Beg. Month Ref");
+                                                           columns.Bound(t => t.RefrenceDuration).Title("Duration Ref").HtmlAttributes(new { style = "background-color:lightgray" });
+                                                           columns.Bound(t => t.BeginingMonth).Title("Beg. Month");
+                                                           columns.Bound(t => t.BeginingMonthReference).Title("Beg. Month Ref").HtmlAttributes(new { style = "background-color:lightgray" }); ;
                                                            columns.Bound(t => t.Beneficiaries);
-                                                           columns.Bound(t => t.BeneficiariesRefrence).Title("Beneficiaries Ref");
-                                                         
-                                                           
-                                                          
-                                                       }))
+                                                           columns.Bound(t => t.BeneficiariesRefrence).Title("Beneficiaries Ref").HtmlAttributes(new { style = "background-color:lightgray" }); ;
+
+                                                       }).DataSource(datasource => datasource.Ajax().Read(read => read.Action("Compare_HRD", "HRD").Data("filterData")))
+                                                       .Groupable())
+<script type="text/javascript">
+
+    function filterData() {
+
+        return {
+            firstHrd: $("#firstHrd").val(),
+            secondHrd: $("#secondHrd").val(),
+            regionId: $("#regionId").val()
+        };
+    }
+
+    $(document).ready(function () {
+        $("#firstHrd").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $("#secondHrd").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+        $("#regionId").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+    });
+</script>

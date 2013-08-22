@@ -372,18 +372,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
                  select new {item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year)}).ToList();
             ViewBag.firstHrd =new SelectList(hrds1,"HRDID","Name");
             ViewBag.secondHrd = new SelectList(hrds1, "HRDID", "Name");
-            ViewBag.redionId = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+            ViewBag.regionId = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
 
             return View();
         }
 
+       
         [HttpPost]
-        public ActionResult Compare(int firstHrd, int secondHrd, int redionId)
+        public ActionResult Compare_HRD([DataSourceRequest] DataSourceRequest request,int? firstHrd, int? secondHrd, int? regionId)
         {
-            var hrdFirst = _hrdService.Get(t=>t.HRDID==firstHrd, null,
+            int hrd1Id = firstHrd ?? 0;
+            int hrd2Id = secondHrd ?? 0;
+            int regionid = regionId ?? 0;
+
+            var hrdFirst = _hrdService.Get(t => t.HRDID == hrd1Id, null,
                                       "Season,HRDDetails,HRDDetails.AdminUnit,HRDDetails.AdminUnit.AdminUnit2,HRDDetails.AdminUnit.AdminUnit2.AdminUnit2").FirstOrDefault();
-            var hrdSecond = _hrdService.Get(t => t.HRDID == secondHrd).FirstOrDefault();
-            var hrdsViewModel = HRDViewModelBinder.BindHRDCompareViewModel(hrdFirst, hrdSecond,redionId );
+            var hrdSecond = _hrdService.Get(t => t.HRDID == hrd2Id).FirstOrDefault();
+            var hrdsViewModel = HRDViewModelBinder.BindHRDCompareViewModel(hrdFirst, hrdSecond, regionid).OrderBy(t=>t.Zone);
 
 
             var hrds = _hrdService.Get(null, null, "Season");
@@ -393,7 +398,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.firstHrd = new SelectList(hrds1, "HRDID", "Name");
             ViewBag.secondHrd = new SelectList(hrds1, "HRDID", "Name");
             ViewBag.redionId = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
-            return View(hrdsViewModel);
+            return Json(hrdsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+           
         }
     }
 }
