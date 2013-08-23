@@ -28,7 +28,7 @@
         columns.Bound(p => p.Cereal);
         columns.Bound(p => p.BlededFood);
         columns.Bound(p => p.Pulse);
-        columns.Bound(p => p.Oil);
+        columns.Bound(p => p.Oil).ClientFooterTemplate("Total").Format("{0:N}");
         columns.Bound(p => p.Total).ClientFooterTemplate("Total <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
             
         })
@@ -36,7 +36,7 @@
     .Sortable()
     .Filterable()
     .DataSource(dataSource => dataSource
-          .Ajax()
+          .Server()
            .Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
           .PageSize(12)
               .Model(model => model.Id(p => p.HRDID))

@@ -167,6 +167,7 @@ namespace Cats.Tests.ControllersTests
 
             Assert.IsNotNull(result);
         }
+     
         //[Test]
         //public void CanEditHRD()
         //{
@@ -179,11 +180,11 @@ namespace Cats.Tests.ControllersTests
         //[Test]
         //public void CanApproveDraftHRDs()
         //{
-        ////    var result = (ViewResult)_hrdController.ApproveHRD(1);
+        //    var result = (ViewResult)_hrdController.ApproveHRD(1);
 
-        ////    Assert.IsNotNull(result);
-        ////    Assert.IsInstanceOf<HRD>(result.Model);
-            
+        //    Assert.IsNotNull(result);
+        //    //    Assert.IsInstanceOf<HRD>(result.Model);
+
         //}
 
         #endregion
