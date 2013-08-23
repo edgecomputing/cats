@@ -56,6 +56,8 @@
     <Compile Include="BidWinner.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
+    <Compile Include="Contribution.cs" />
+    <Compile Include="ContributionDetail.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="FlowTemplate.cs" />
     <Compile Include="GiftCertificate.cs" />
@@ -81,6 +83,9 @@
     <Compile Include="Mapping\BidWinnerMap.cs" />
     <Compile Include="Mapping\CommodityMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
+    <Compile Include="Mapping\ContributionDetailMap.cs" />
+    <Compile Include="Mapping\ContributionMap.cs" />
+    <Compile Include="Mapping\DonorMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />
     <Compile Include="Mapping\FlowTemplateMap.cs" />
     <Compile Include="Mapping\GiftCertificateDetailMap.cs" />

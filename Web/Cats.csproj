@@ -155,6 +155,7 @@
     <Compile Include="App_Start\WebApiConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -694,6 +695,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\EditDetail.cshtml" />

@@ -25,6 +25,9 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
         private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
         private IGenericRepository<Season> seasonRepository;
+        private IGenericRepository<Contribution> contributionRepository;
+        private IGenericRepository<ContributionDetail> contibutionDetailRepository;
+        private IGenericRepository<Donor> donorRepository; 
         public UnitOfWork()
         {
             this._context = new CatsContext();
@@ -581,11 +584,31 @@ namespace Cats.Data.UnitWork
 
         }
 
+        public IGenericRepository<Contribution> ContributionRepository
+        {
+            get
+            {
+                return this.contributionRepository ??(this.contributionRepository = new GenericRepository<Contribution>(_context));
+            }
+        }
 
+        public IGenericRepository<ContributionDetail> ContributionDetailRepository
+        {
+            get
+            {
+                return this.contibutionDetailRepository ??
+                       (this.contibutionDetailRepository = new GenericRepository<ContributionDetail>(_context));
+            }
+        }
+
+        public IGenericRepository<Donor> DonorRepository
+        {
+            get { return this.donorRepository ?? (this.donorRepository = new GenericRepository<Donor>(_context)); }
+        }
 
       
 
-      
+       
 
 
 

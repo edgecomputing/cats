@@ -8,6 +8,11 @@ namespace Cats.Models
 {
     public partial class HRD
     {
+
+        public HRD()
+        {
+            this.Contributions=new List<Contribution>();
+        }
         public int HRDID { get; set; }
         public int Year { get; set; }
         public Nullable<int> SeasonID { get; set; }
@@ -23,6 +28,7 @@ namespace Cats.Models
         public virtual UserProfile UserProfile { get; set; }
         public virtual NeedAssessment NeedAssessment { get; set; }
         public virtual Season Season { get; set; }
+        public virtual ICollection<Contribution> Contributions { get; set; } 
 
     }
 }
