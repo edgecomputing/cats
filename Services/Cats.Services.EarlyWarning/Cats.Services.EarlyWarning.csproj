@@ -46,6 +46,7 @@
     <Compile Include="AdminUnitTypeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="ContributionDetailService.cs" />
     <Compile Include="INeedAssessmentService.cs" />
     <Compile Include="ContributionService.cs" />
     <Compile Include="DonorService.cs" />
