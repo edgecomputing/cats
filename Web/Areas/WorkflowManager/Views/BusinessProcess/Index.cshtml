@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Cats.Models.BusinessProcess>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+
+ @Html.Partial("_listKendo")
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>

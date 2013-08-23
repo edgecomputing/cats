@@ -1,8 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Models
 {
@@ -12,7 +10,7 @@ namespace Cats.Models
         {
             this.GiftCertificateDetails = new List<GiftCertificateDetail>();
         }
-
+        [Key]
         public int GiftCertificateID { get; set; }
         public System.DateTime GiftDate { get; set; }
         public int DonorID { get; set; }

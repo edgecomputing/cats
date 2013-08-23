@@ -1,0 +1,20 @@
+﻿@model Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel
+@using Cats.Helpers
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = Translator.Translate("Gift Certificate");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>@Translator.Translate("New Gift Certificate")</h2>
+<p>
+    @Translator.Translate("Use this form to create new or edit gift certificates.") <span class="required">*</span> @Translator.Translate("marks required fields.")
+</p>
+@{ViewBag.IsInEditMode = false; }
+
+@Html.Partial("_EditPartial")
+
+<div>
+    @Html.ActionLink(Translator.Translate("Back to List"), "Index")
+</div>
+<div class="clear"></div>  

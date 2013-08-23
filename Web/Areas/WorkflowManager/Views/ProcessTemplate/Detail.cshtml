@@ -1,0 +1,158 @@
+﻿@using Cats.Models
+@model ProcessTemplate
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <button class="btn btn-primary" id="btn-save">save</button>
+    Design; @Model.Name</div>
+
+
+<div style="position: fixed; top: 100px; bottom: 50px; left: 50px; right: 250px; border: solid 1px #CCC;">
+    @{
+        int pos = 0;
+        foreach (StateTemplate st in Model.ParentProcessTemplateStateTemplates)
+        {
+            string pospx = pos + "px";
+            pos += 50;
+        <div id="state_@st.StateTemplateID" data-top="@pos" data-left="50" class="state statetype-@st.StateType" >
+
+            <div class="content">@st.StateTemplateID  @st.Name : @st.StateType</div>
+            <div class="connector left-connector"></div>
+            <div class="connector right-connector"></div>
+            <div class="connector top-connector"></div>
+            <div class="connector bottom-connector"></div>
+        </div>
+        }
+
+        pos = 0;
+            foreach (StateTemplate st in Model.ParentProcessTemplateStateTemplates)
+            {
+                foreach (FlowTemplate fw in st.InitialStateFlowTemplates)
+                {
+                    string pospx = pos + "px";
+                    pos += 50;   
+            <div id="flow_@fw.FlowTemplateID" class="flow_data flow" style="left:600px; top:@pospx" data-name="@fw.Name" data-flowid="@fw.FlowTemplateID" data-initial="@fw.InitialStateID" data-final="@fw.FinalStateID">
+               <div class="content">@fw.Name</div> 
+
+            </div>
+                }
+            }
+
+    }
+    <div class="right_bar" id="right_bar">
+        
+        <div id="debug"></div>
+    </div>
+
+</div>
+<link href="@Url.Content("~/Content/workflow/workflowDesigner.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Content/workflow/workflow.js")"></script>
+<script src="@Url.Content("~/Content/jquery/jquery-1.8.0.js")"></script>
+<script src="@Url.Content("~/Content/jquery/jquery-ui-1.8.23.custom.js")"></script>
+
+<script>
+    var processId=@Model.ProcessTemplateID;
+    var state_positions_str = localStorage["workflow_diagram" + processId];
+
+    var state_positions = {};
+    var flow_data={};
+    if(state_positions_str){
+        // try{
+        eval("try {state_positions=" + state_positions_str + ";}\n catch(e){}");
+
+    }
+
+    $(function () {
+        $("#btn-save").click(function () { save(); });
+        $(".state").draggable();
+        $(".state").each(
+            function () {
+                $this = $(this);
+                if (!state_positions[$this.attr("id")]) {
+                    state_positions[$this.attr("id")] = { top: $this.data("top"), left: $this.data("left") };
+                }
+                var sp=state_positions[$this.attr("id")];
+               // sp.left=Math.floor(sp.left/150)*150;
+               // sp.top=Math.floor(sp.top/50)*50;
+            }
+            );
+        $(".state").each(
+            function () {
+                $this = $(this);
+                this.style.left = state_positions[this.id].left + "px";
+                this.style.top = state_positions[this.id].top + "px";
+                //  $this.html($this.html() + state_positions[this.id].top);
+
+            });
+        init_flow_data();
+        show_flow();
+    });
+    function init_flow_data()
+    {
+        $(".flow_data").each(
+            function () {
+                $this = $(this);
+                var fid=$this.data("flowid");
+                var ins=$this.data("initial");
+                var fs=$this.data("final");
+                var nm=$this.data("name");
+                flow_data["flow_" + fid]={initial:ins,final:fs,name:nm,id:fid};
+            });
+                
+           
+            
+    }
+    function get_state_pos()
+    {
+        $(".state").each(
+            function () {
+                $this = $(this);
+               
+                state_positions[this.id].top=this.offsetTop;
+                state_positions[this.id].left = this.offsetLeft;
+
+            });
+    }
+    function show_flow()
+    {
+        get_state_pos();
+        var htm="<br/>";
+        for(var i in flow_data)
+        {
+            htm+=flow_data[i].name;
+            var ins=flow_data[i].initial;
+            var fs=flow_data[i].final;
+            var id=flow_data[i].id;
+            var dx=state_positions["state_" + ins].left-state_positions["state_" + fs].left;
+            var dy=state_positions["state_" + ins].top-state_positions["state_" + fs].top;
+            var xpos=dx>0?"left":"right";
+            var ypos=dy>0?"top":"bottom";
+            htm+=": " + xpos + " , " + ypos + "<br/>";
+            var elem=document.getElementById("flow_" + id);
+            var ddy=ypos=="bottom"?-30:40;
+            var ddx=xpos=="left"?-30:40;
+            ddy=0;
+            //elem.style.top=(state_positions["state_" + ins].top - dy/2)+"px";
+            elem.style.left=(state_positions["state_" + ins].left -dx/2)+"px";
+            elem.style.top=(state_positions["state_" + fs].top +ddy)+"px";
+        }
+        $("#debug").html(htm);
+    }
+    function save() {
+        get_state_pos();
+        var comma = "";
+        var htm = "{";
+        for (var i in state_positions) {
+            htm += comma + i + ":{left:" + state_positions[i].left + " , top:" + state_positions[i].top + "}\n";
+            comma=" ,"
+        }
+        htm += "}";
+        localStorage["workflow_diagram" + processId]=htm;
+        $("#debug").html(htm);
+        show_flow();
+    }
+</script>

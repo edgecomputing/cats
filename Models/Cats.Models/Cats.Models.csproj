@@ -54,10 +54,16 @@
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
     <Compile Include="BidWinner.cs" />
+    <Compile Include="BusinessProcess.cs" />
+    <Compile Include="BusinessProcessState.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
+
     <Compile Include="Contribution.cs" />
     <Compile Include="ContributionDetail.cs" />
+
+    <Compile Include="Constant\Master.cs" />
+
     <Compile Include="Detail.cs" />
     <Compile Include="FlowTemplate.cs" />
     <Compile Include="GiftCertificate.cs" />
@@ -81,6 +87,8 @@
     <Compile Include="Mapping\BidDetailMap.cs" />
     <Compile Include="Mapping\BidMap.cs" />
     <Compile Include="Mapping\BidWinnerMap.cs" />
+    <Compile Include="Mapping\BusinessProcessMap.cs" />
+    <Compile Include="Mapping\BusinessProcessStateMap.cs" />
     <Compile Include="Mapping\CommodityMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
     <Compile Include="Mapping\ContributionDetailMap.cs" />
@@ -147,6 +155,7 @@
     <Compile Include="NeedAssessmentViewModel.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
+    <Compile Include="Constant\CommoditySource.cs" />
     <Compile Include="Partial\HRD.cs" />
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />
