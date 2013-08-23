@@ -273,6 +273,8 @@
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+    <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -707,6 +709,7 @@
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\EarlyWarning\Views\HRD\Print.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsc">
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
@@ -719,6 +722,12 @@
     <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xss">
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Content>
+=======
+    <Content Include="Areas\EarlyWarning\Views\HRD\RegionalSummary.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
+>>>>>>> 21a150617856506050db4baee0eb8db1a25f4a0c
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

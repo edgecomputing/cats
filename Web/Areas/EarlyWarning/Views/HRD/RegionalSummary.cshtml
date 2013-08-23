@@ -1,0 +1,82 @@
+﻿@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Models.ViewModels.RegionalSummaryViewModel>
+
+
+@{
+    ViewBag.Title = "RegionalSummary";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+<div class="well">
+    <h3>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h3>
+    <div align="right">
+        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
+    </div>
+</div>
+@section LeftBar{
+
+    @Html.Partial("_HRDLeftBar");
+}
+@(Html.Kendo(). Grid((IEnumerable<Cats.Models.ViewModels.RegionalSummaryViewModel>)ViewData["viewModel"])
+//.Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
+          
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.RegionName);
+        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("Total :").Format("{0:0.00}"); 
+        columns.Bound(p => p.Cereal);
+        columns.Bound(p => p.BlededFood);
+        columns.Bound(p => p.Pulse);
+        columns.Bound(p => p.Oil).ClientFooterTemplate("Total").Format("{0:N}");
+        columns.Bound(p => p.Total).ClientFooterTemplate("Total <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+            
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Server()
+           .Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
+          .PageSize(12)
+              .Model(model => model.Id(p => p.HRDID))
+            //.Read(read => read.Action("RegionalSummary_Read", "HRD"))
+ 
+     )
+   
+      )
+
+
+<table class="table table-bordered table-condensed table-striped">
+    <thead>
+        <th>Region</th>
+        <th>Beneficiaries</th>
+        <th>Cereal</th>
+         <th>Bleended Food</th>
+        <th>Pulse</th>
+        <th>Oil</th>
+        <th>Total</th>
+    </thead>
+    @foreach (RegionalSummaryViewModel row in Model)
+    {
+        <tr>
+            <td>@row.RegionName</td>
+            <td>@row.NumberOfBeneficiaries</td>
+            <td>@row.Cereal</td>
+            <td>@row.BlededFood</td>
+            <td>@row.Pulse</td>
+            <td>@row.Oil</td>
+            <td>@row.Total</td>
+        </tr>
+        
+    }
+    <tr>
+        <td>Grand Total</td>
+        <td>@Model.Sum(m=>m.NumberOfBeneficiaries)</td>
+        <td>@Model.Sum(m=>m.Cereal)</td>
+        <td>@Model.Sum(m=>m.BlededFood)</td>
+        <td>@Model.Sum(m=>m.Oil)</td>
+        <td>@Model.Sum(m=>m.Pulse)</td>
+        <td>@Model.Sum(m=>m.Total)</td>
+    </tr>
+</table>
