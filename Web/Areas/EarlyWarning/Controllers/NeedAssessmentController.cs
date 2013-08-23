@@ -1,16 +1,33 @@
-﻿using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
+
+using Cats.Models;
+
 using Cats.Services.EarlyWarning;
+
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+
 namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class NeedAssessmentController : Controller
     {
         private readonly INeedAssessmentService _needAssessmentService;
-
-        public NeedAssessmentController(INeedAssessmentService needAssessmentService)
+        private readonly IAdminUnitService _adminUnitService;
+        private readonly INeedAssessmentHeaderService _needAssessmentHeaderService;
+        private readonly INeedAssessmentDetailService _needAssessmentDetailService;
+        public NeedAssessmentController(INeedAssessmentService needAssessmentService, 
+                                        IAdminUnitService adminUnitService, 
+                                        INeedAssessmentHeaderService needAssessmentHeaderService, 
+                                        INeedAssessmentDetailService needAssessmentDetailService)
         {
             _needAssessmentService = needAssessmentService;
+            _adminUnitService = adminUnitService;
+            _needAssessmentHeaderService = needAssessmentHeaderService;
+            _needAssessmentDetailService = needAssessmentDetailService;
         }
 
         //
@@ -51,6 +68,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                               "Name");
+            ViewBag.Zones = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 3), "AdminUnitID",
+                                             "Name");
+            ViewBag.woredas = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 4), "AdminUnitID",
+                                             "Name");
             return View();
         }
 
@@ -58,12 +81,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
         // POST: /EarlyWarning/NeedAssessment/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(FormCollection collection,NeedAssessmentDetail needDetail,string season)
         {
             try
             {
                 // TODO: Add insert logic here
 
+              NeedAssessment needAssessment = new NeedAssessment();
+              NeedAssessmentHeader needAssessmentHeader=new NeedAssessmentHeader();
+
+              var dateCreated = DateTime.Now  ;
+              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
+              var zone = collection["ZoneID"];
+              var woreda = collection["WoredaID"];
+              
+
+
+
+                if (ModelState.IsValid)
+                {
+                    needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
+                    needAssessment.NeedADate = dateCreated;
+                    needAssessment.Season = needDetail.NeedAssessmentHeader.NeedAssessment.Season;
+
+                    needAssessmentHeader.Zone = int.Parse(zone.ToString(CultureInfo.InvariantCulture));
+                    needDetail.Woreda = int.Parse(woreda.ToString(CultureInfo.InvariantCulture)); ;
+                    _needAssessmentService.AddNeedAssessment(needAssessment, needAssessmentHeader, needDetail);
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -77,19 +121,39 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Edit(int id)
         {
+            
+            var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name",needAssessment.Region);
+        
+           
+            return View(needAssessment);
+        }
+        public ActionResult EditDetail(int id)
+        {
             return View();
         }
-
         //
         // POST: /EarlyWarning/NeedAssessment/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, FormCollection collection,NeedAssessment needAssessment)
         {
             try
             {
                 // TODO: Add update logic here
 
+                NeedAssessment _needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
+
+                var region = collection["RegionID"];
+
+                _needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
+                _needAssessment.Season = needAssessment.Season;
+                _needAssessment.TypeOfNeedAssessment = needAssessment.TypeOfNeedAssessment;
+                _needAssessment.Remark = needAssessment.Remark;
+                _needAssessment.NeedADate = needAssessment.NeedADate;
+
+                _needAssessmentService.EditNeedAssessment(_needAssessment);
                 return RedirectToAction("Index");
             }
             catch
@@ -98,12 +162,42 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
         }
 
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult NeedAssessmentUpdate([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")]IEnumerable<NeedAssessmentViewModel> needAssessmentDetails)
+        {
+            if (needAssessmentDetails != null && ModelState.IsValid)
+            {
+                foreach (var details in needAssessmentDetails)
+                {
+                    //_needAssessmentDetailService.EditNeedAssessmentDetail(details);
+                }
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+
         //
         // GET: /EarlyWarning/NeedAssessment/Delete/5
 
         public ActionResult Delete(int id)
         {
-            return View();
+            var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
+            AdminUnit region = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == needAssessment.Region).Single();
+            string createdBy = null;
+            if (needAssessment.NeddACreatedBy != null)
+            {
+               
+                createdBy = _needAssessmentHeaderService.GetUserProfileName((int) needAssessment.NeddACreatedBy);
+            }
+
+            ViewData["regionToDelete"] = region.Name;
+            ViewData["createdBy"] = createdBy;
+
+
+            return View(needAssessment);
         }
 
         //
@@ -115,12 +209,29 @@ namespace Cats.Areas.EarlyWarning.Controllers
             try
             {
                 // TODO: Add delete logic here
-
+                var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
+                _needAssessmentService.DeleteNeedAssessment(needAssessment);
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteDetail(NeedAssessmentViewModel needAssessmentViewModel, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == needAssessmentViewModel.NAId).Single();
+                _needAssessmentService.DeleteNeedAssessment(needAssessment);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
             }
         }
     }

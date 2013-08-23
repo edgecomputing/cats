@@ -8,7 +8,7 @@ namespace Cats.Services.EarlyWarning
     public partial interface INeedAssessmentService
     {
 
-        bool AddNeedAssessment(NeedAssessment needAssessment);
+        bool AddNeedAssessment(NeedAssessment needAssessment, NeedAssessmentHeader header, NeedAssessmentDetail detail);
         bool DeleteNeedAssessment(NeedAssessment needAssessment);
         bool DeleteById(int id);
         bool EditNeedAssessment(NeedAssessment needAssessment);

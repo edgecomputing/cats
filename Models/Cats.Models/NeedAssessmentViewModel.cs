@@ -26,6 +26,7 @@ namespace Cats.Models
         public int NAHeaderId { get; set; }
         
         //from detail
+        public int NAId { get; set; }
         public Nullable<int> ProjectedMale { get; set; }
         public Nullable<int> ProjectedFemale { get; set; }
         public Nullable<int> RegularPSNP { get; set; }

@@ -4,6 +4,7 @@ namespace Cats.Models
 {
     public class NeedAssessmentHeaderViewModel
     {
+        public int NAId { get; set; }
         public int NeedAID { get; set; }
         public int Region { get; set; }
         public string RegionName { get; set; }

@@ -8,6 +8,11 @@ namespace Cats.Models
 {
     public partial class NeedAssessmentHeader
     {
+        public NeedAssessmentHeader()
+        {
+            this.NeedAssessmentDetails = new List<NeedAssessmentDetail>();
+        }
+
         public int NAHeaderId { get; set; }
         public Nullable<int> NeedAID { get; set; }
         public Nullable<int> Zone { get; set; }

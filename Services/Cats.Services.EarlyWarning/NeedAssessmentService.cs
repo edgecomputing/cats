@@ -18,9 +18,12 @@ namespace Cats.Services.EarlyWarning
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddNeedAssessment(NeedAssessment needAssessment)
+        public bool AddNeedAssessment(NeedAssessment needAssessment,NeedAssessmentHeader header, NeedAssessmentDetail detail)
         {
+            
             _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
+            _unitOfWork.NeedAssessmentHeaderRepository.Add(header);
+            _unitOfWork.NeedAssessmentDetailRepository.Add(detail);
             _unitOfWork.Save();
             return true;
 
@@ -64,36 +67,38 @@ namespace Cats.Services.EarlyWarning
         public IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModel()
         {
             var needAssessment = _unitOfWork.NeedAssessmentRepository.GetAll().ToList();
-            return needAssessment.Select(need => new NeedAssessmentHeaderViewModel()
-                                                     {
-                                                         Region = need.Region, 
-                                                         RegionName = need.AdminUnit.Name, 
-                                                         Season = need.Season, 
-                                                         NeedADate = need.NeedADate, 
-                                                         NeedAApproved = need.NeedAApproved,
-                                                         NeedAApproverName = need.UserProfile.UserName, 
-                                                         NeedACreaterName = need.UserProfile1.UserName,
-                                                         NeedAApprovedBy = need.NeedAApprovedBy, 
-                                                         NeedACreatedBy = need.NeddACreatedBy,
-                                                         TypeOfNeedAssessment = need.TypeOfNeedAssessment
-                                                     });
+            return needAssessment.Select(need =>  new NeedAssessmentHeaderViewModel()
+                                                                              {
+                                                                                  NeedAID = need.NeedAID,
+                                                                                  Region = need.Region, 
+                                                                                  RegionName = need.AdminUnit.Name, 
+                                                                                  Season = need.Season, 
+                                                                                  NeedADate = (DateTime) need.NeedADate, 
+                                                                                  NeedAApproved = need.NeedAApproved,
+                                                                                  NeedAApproverName = need.UserProfile.UserName, 
+                                                                                  NeedACreaterName = need.UserProfile1.UserName,
+                                                                                  NeedAApprovedBy = need.NeedAApprovedBy, 
+                                                                                  NeedACreatedBy = need.NeddACreatedBy,
+                                                                                  TypeOfNeedAssessment = need.TypeOfNeedAssessment
+                                                                              });
         }
 
         public IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentHeaderViewModel(int regionId)
         {
             List<NeedAssessmentHeader> needAssessment = _unitOfWork.NeedAssessmentHeaderRepository.Get(r => r.NeedAssessment.Region == regionId).ToList();
-            return needAssessment.Select(need => new NeedAssessmentViewModel()
-                                                     {
-                                                         Region = need.NeedAssessment.Region, 
-                                                         ZoneName = need.AdminUnit.Name, 
-                                                         WoredaName = need.AdminUnit.Name, 
-                                                         RegionName = need.AdminUnit.Name, 
-                                                         Season = need.NeedAssessment.Season, 
-                                                         NeedADate = need.NeedAssessment.NeedADate, 
-                                                         NeedAApproved = need.NeedAssessment.NeedAApproved, 
-                                                         NeedAApprovedBy = need.NeedAssessment.NeedAApprovedBy, 
-                                                         NeedACreatedBy = need.NeedAssessment.NeddACreatedBy,
-                                                     });
+            return needAssessment.Select(need => need.NeedAssessment.NeedADate != null ? new NeedAssessmentViewModel()
+                                                                                             {
+                                                                                                 NeedAID = (int) need.NeedAID,
+                                                                                                 Region = need.NeedAssessment.Region, 
+                                                                                                 ZoneName = need.AdminUnit.Name, 
+                                                                                                 WoredaName = need.AdminUnit.Name, 
+                                                                                                 RegionName = need.AdminUnit.Name, 
+                                                                                                 Season = need.NeedAssessment.Season, 
+                                                                                                 NeedADate = (DateTime) need.NeedAssessment.NeedADate, 
+                                                                                                 NeedAApproved = need.NeedAssessment.NeedAApproved, 
+                                                                                                 NeedAApprovedBy = need.NeedAssessment.NeedAApprovedBy, 
+                                                                                                 NeedACreatedBy = need.NeedAssessment.NeddACreatedBy,
+                                                                                             } : null);
         }
 
         public IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int region)
@@ -101,6 +106,7 @@ namespace Cats.Services.EarlyWarning
             List<NeedAssessmentDetail> needAssessment = _unitOfWork.NeedAssessmentDetailRepository.Get(r => r.NeedAssessmentHeader.NeedAssessment.Region == region).ToList();
             return needAssessment.Select(need => new NeedAssessmentViewModel()
                                                      {
+                                                       
                                                          ZoneName = need.AdminUnit.Name, 
                                                          WoredaName = need.AdminUnit.Name,
                                                          ProjectedMale = need.ProjectedMale, 

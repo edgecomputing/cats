@@ -23,7 +23,8 @@ namespace Cats.Services.EarlyWarning
             string includeProperties = "");
 
         int GetUserProfileId(string userName);
-
+        string GetUserProfileName(int userProfileId);
+        List<UserProfile> GetUsers();
     }
 }
 

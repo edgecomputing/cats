@@ -1,4 +1,5 @@
-﻿@using Cats.Models
+﻿@using System.Collections
+@using Cats.Models
 @using Cats.Helpers
 @using Kendo.Mvc.UI
 
@@ -15,7 +16,12 @@
 {
    @Html.Partial("_NeedAssessmentPartial");
 }
-
+<div class="well">
+    <h4 class="page-header">Create new Need Assessment</h4>
+    <div align="right">
+        <a href="NeedAssessment/Create" class="btn btn-success">Create New Assessment</a>
+    </div>
+</div>
 <fieldset>
     <legend>
         Beneficiary numbers and duration of assisstance
@@ -30,15 +36,23 @@
                             {
 
                                 columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-                                
-                                
+
+                                columns.Bound(p => p.NeedAID).Title("ID").Width("100");
+                               
                                 columns.Bound(p => p.RegionName).Title("Region").Width("100");
                                 columns.Bound(p => p.Season).Title("Season").Width("100");
                                 columns.Bound(p => p.NeedADate).Title("Need Assessment Date").Width("100").Format("{0:MM/dd/yyyy}") ;
+                                //columns.ForeignKey(p => p.StartingMonth, (IEnumerable)ViewData["Region"], "Id", "Name").Width(10);
                                 columns.Bound(p => p.NeedACreaterName).Title("Created By").Width("100");
                                 columns.Bound(p => p.TypeOfNeedAssessment).Title("Type Of Need Assessment").Width("100");
-                               
-
+                                columns.Command(command =>
+                                {
+                                   
+                                    command.Custom("Edit").Click("EditRecord");
+                                    command.Custom("Delete").Click("deleteRecord");
+                                    
+                                }).Width(330);
+                                
                             })
                            
       .Editable(editable => editable.Mode(GridEditMode.InLine))
@@ -48,7 +62,7 @@
       .DataSource(datasource=>datasource.Ajax()
       .Model(model => model.Id(p => p.NeedAID))
       .Read(read => read.Action("NeedAssessmentRead", "NeedAssessment"))
-      
+    
       )
       
       
@@ -59,34 +73,66 @@
     
                     @(Html.Kendo().Grid<NeedAssessmentViewModel>()
                           .Name("NeedAssessment_#=NeedAID#")
-                          .Columns(columns => columns.Bound(p => p.ZoneName).Title("Zone").Width("100").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Zone"}))
-                          .Columns(columns => columns.Bound(p => p.WoredaName).Title("Woreda").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Woreda"}))
-                          .Columns(columns => columns.Bound(p => p.ProjectedMale).Title("Projecgted Male").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Projecgted Male"}))
-                          .Columns(columns => columns.Bound(p => p.ProjectedFemale).Title("Projected Female").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Projected Female"}))
-                          .Columns(columns => columns.Bound(p => p.RegularPSNP).Title("Regular PSNP").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Regular PSNP"}))
-                          .Columns(columns => columns.Bound(p => p.PSNP).Title("PSNP").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP"}))
-                          .Columns(columns => columns.Bound(p => p.NonPSNP).Title("Non PSNP").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP"}))
-                          .Columns(columns => columns.Bound(p => p.Contingencybudget).Title("Contingency budget").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Contingency budget"}))
-                          .Columns(columns => columns.Bound(p => p.TotalBeneficiaries).Title("Total Beneficiaries").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Total Beneficiaries"}))
-                          .Columns(columns => columns.Bound(p => p.PSNPFromWoredasMale).Title("PSNP From Woredas Male").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP From Woredas Male"}))
-                          .Columns(columns => columns.Bound(p => p.PSNPFromWoredasFemale).Title("PSNP From Woredas Female").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP From Woredas Female"}))
-                          .Columns(columns => columns.Bound(p => p.PSNPFromWoredasDOA).Title("PSNP From Woredas DOA").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="PSNP From Woredas DOA"}))
-                          .Columns(columns => columns.Bound(p => p.NonPSNPFromWoredasMale).Title("Non PSNP From Woredas Male").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP From Woredas Male"}))
-                          .Columns(columns => columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP From Woredas Female"}))
-                          .Columns(columns => columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new {style="overflow: visible; white-space: normal;", title="Non PSNP From Woredas DOA"}))
-
-                          .DataSource(dataSource => dataSource
+                          .Columns(columns =>
+                                       {
+                                           columns.Bound(p => p.ZoneName).Title("Zone").Width("100").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Zone"});
+                                           columns.Bound(p => p.WoredaName).Title("Woreda").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Woreda"});
+                                           columns.Bound(p => p.ProjectedMale).Title("Projecgted Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Projecgted Male"});
+                                           columns.Bound(p => p.ProjectedFemale).Title("Projected Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Projected Female"});
+                                           columns.Bound(p => p.RegularPSNP).Title("Regular PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Regular PSNP"});
+                                           columns.Bound(p => p.PSNP).Title("PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP"});
+                                           columns.Bound(p => p.NonPSNP).Title("Non PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP"});
+                                           columns.Bound(p => p.Contingencybudget).Title("Contingency budget").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Contingency budget"});
+                                           columns.Bound(p => p.TotalBeneficiaries).Title("Total Beneficiaries").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Total Beneficiaries"});
+                                           columns.Bound(p => p.PSNPFromWoredasMale).Title("PSNP From Woredas Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Male"});
+                                           columns.Bound(p => p.PSNPFromWoredasFemale).Title("PSNP From Woredas Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Female"});
+                                           columns.Bound(p => p.PSNPFromWoredasDOA).Title("PSNP From Woredas DOA").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas DOA"});
+                                           columns.Bound(p => p.NonPSNPFromWoredasMale).Title("Non PSNP From Woredas Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Male"});
+                                           columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Female"});
+                                           columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas DOA"});
+                                           columns.Command(command => command.Destroy()).Width(330);
+                                       })
+                                         .ToolBar(toolBar => toolBar.Save())
+                                         .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                         
+                                         .DataSource(dataSource => dataSource
                                                         .Ajax()
+                                                        .Batch(true)
+                                                        .ServerOperation(false)
+                                                        .PageSize(5)
+                                                        .Model(model => model.Id(p => p.NAId))
                                                         .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new { region = "#=Region#" }))
+                                                        .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
+                                                        .Destroy(destroy=>destroy.Action("DeleteDetail","NeedAssessment"))
                           )
                           .Pageable()
                           .Sortable()
                           .Groupable()
-                         
+                        
                         
                           .ToClientTemplate())
                 
 </script>
 
 
+<script>
 
+    function EditRecord(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "NeedAssessment/Edit/" + dataItem.NeedAID;
+       
+    }
+    function deleteRecord(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "NeedAssessment/Delete/" + dataItem.NeedAID;
+        window.location = url;
+    }
+</script>
+
+<script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>
