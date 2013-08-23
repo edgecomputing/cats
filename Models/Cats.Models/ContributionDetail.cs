@@ -14,9 +14,10 @@ namespace Cats.Models
         public string PledgeReferenceNo { get; set; }
         public Nullable<DateTime> PledgeDate { get; set; }
         public decimal Quantity { get; set; }
+
+
         public virtual Commodity Commodity { get; set; }
         public virtual Contribution Contribution { get; set; }
-        public virtual ContributionDetail ContributionDetail1 { get; set; }
-        public virtual ContributionDetail ContributionDetail2 { get; set; }
+
     }
 }

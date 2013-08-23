@@ -19,7 +19,7 @@ namespace Cats.Infrastructure
 
         public NinjectDependencyResolver()
         {
-            this.kernel = new StandardKernel();
+            kernel = new StandardKernel();
             AddBindings();
         }
 
@@ -99,6 +99,10 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
             kernel.Bind<ISeasonService>().To<SeasonService>();
+
+            kernel.Bind<IContributionService>().To<ContributionService>();
+            kernel.Bind<IContributionDetailService>().To<ContributionDetailService>();
+            kernel.Bind<IDonorService>().To<DonorService>();
 
         }
     }

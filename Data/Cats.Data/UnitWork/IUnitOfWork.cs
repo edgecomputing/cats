@@ -94,6 +94,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Season> SeasonRepository { get; }
         IGenericRepository<Contribution> ContributionRepository { get; }
         IGenericRepository<ContributionDetail> ContributionDetailRepository { get; }
+        IGenericRepository<Donor> DonorRepository { get; } 
 
         void Save();
 
