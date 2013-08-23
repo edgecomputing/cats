@@ -1,0 +1,64 @@
+﻿@model Cats.Models.NeedAssessment
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Need Assessment</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Region)
+    </div>
+    <div class="display-field">
+        @ViewData["regionToDelete"] 
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Season)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Season)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NeedADate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NeedADate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NeddACreatedBy)
+    </div>
+    <div class="display-field">
+        @ViewData["createdBy"]
+    </div>
+
+    
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TypeOfNeedAssessment)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TypeOfNeedAssessment)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Remark)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Remark)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    
+    
+}

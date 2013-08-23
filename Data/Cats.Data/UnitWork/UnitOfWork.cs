@@ -485,6 +485,17 @@ namespace Cats.Data.UnitWork
         }
       //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
 
+
+        private IGenericRepository<NeedAssessment> needAssessmentRepository;
+        public IGenericRepository<NeedAssessment> NeedAssessmentRepository
+        {
+            get
+            {
+                return this.needAssessmentRepository ?? (this.needAssessmentRepository = new GenericRepository<NeedAssessment>(_context));
+            }
+        }
+
+
         private IGenericRepository<NeedAssessmentHeader> needAssessmentHeaderRepository;
         public IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository
         {

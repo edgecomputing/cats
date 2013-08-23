@@ -26,7 +26,7 @@ namespace Cats.Models
         public virtual Ration Ration { get; set; }
         public virtual ICollection<HRDDetail> HRDDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }
-        public virtual NeedAssessmentHeader NeedAssessment { get; set; }
+        public virtual NeedAssessment NeedAssessment { get; set; }
         public virtual Season Season { get; set; }
         public virtual ICollection<Contribution> Contributions { get; set; } 
 

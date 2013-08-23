@@ -46,7 +46,7 @@
     <Compile Include="AdminUnitTypeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
-    <Compile Include="ContributionDetailService.cs" />
+    <Compile Include="INeedAssessmentService.cs" />
     <Compile Include="ContributionService.cs" />
     <Compile Include="DonorService.cs" />
     <Compile Include="IContributionDetailService.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="IWorkflowStatusService.cs" />
     <Compile Include="NeedAssessmentDetailService.cs" />
     <Compile Include="NeedAssessmentHeaderService.cs" />
+    <Compile Include="NeedAssessmentService.cs" />
     <Compile Include="ProcessTemplateService.cs" />
     <Compile Include="ProgramService.cs" />
     <Compile Include="ProjectCodeAllocationService.cs" />

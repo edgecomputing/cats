@@ -4,35 +4,43 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Mapping
 {
-    public class NeedAssessmentMap:EntityTypeConfiguration<NeedAssement>
+    public class NeedAssessmentMap:EntityTypeConfiguration<NeedAssessment>
     {
         public NeedAssessmentMap()
         {
             // Primary Key
-            this.HasKey(t => t.NAId);
+            this.HasKey(t => t.NeedAID);
 
             // Properties
+            this.Property(t => t.Season)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            this.Property(t => t.Remark)
+                .HasMaxLength(500);
+
             // Table & Column Mappings
-            this.ToTable("NeedAssement", "EarlyWarning");
-            this.Property(t => t.NAId).HasColumnName("NAId");
-            this.Property(t => t.VPoorNoOfM).HasColumnName("VPoorNoOfM");
-            this.Property(t => t.VPoorNoOfB).HasColumnName("VPoorNoOfB");
-            this.Property(t => t.PoorNoOfM).HasColumnName("PoorNoOfM");
-            this.Property(t => t.PoorNoOfB).HasColumnName("PoorNoOfB");
-            this.Property(t => t.MiddleNoOfM).HasColumnName("MiddleNoOfM");
-            this.Property(t => t.MiddleNoOfB).HasColumnName("MiddleNoOfB");
-            this.Property(t => t.BOffNoOfM).HasColumnName("BOffNoOfM");
-            this.Property(t => t.BOffNoOfB).HasColumnName("BOffNoOfB");
-            this.Property(t => t.Zone).HasColumnName("Zone");
-            this.Property(t => t.District).HasColumnName("District");
+            this.ToTable("NeedAssessment", "EarlyWarning");
+            this.Property(t => t.NeedAID).HasColumnName("NeedAID");
+            this.Property(t => t.Region).HasColumnName("Region");
+            this.Property(t => t.Season).HasColumnName("Season");
+            this.Property(t => t.NeedADate).HasColumnName("NeedADate");
+            this.Property(t => t.NeddACreatedBy).HasColumnName("NeddACreatedBy");
+            this.Property(t => t.NeedAApproved).HasColumnName("NeedAApproved");
+            this.Property(t => t.NeedAApprovedBy).HasColumnName("NeedAApprovedBy");
+            this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships
-            //this.HasOptional(t => t.AdminUnit)
-            //    .WithMany(t => t.NeedAssements)
-            //    .HasForeignKey(d => d.Zone);
-            //this.HasOptional(t => t.AdminUnit1)
-            //    .WithMany(t => t.NeedAssements1)
-            //    .HasForeignKey(d => d.District);
+            this.HasRequired(t => t.AdminUnit)
+                .WithMany(t => t.NeedAssessments)
+                .HasForeignKey(d => d.Region);
+            this.HasOptional(t => t.UserProfile)
+                .WithMany(t => t.NeedAssessments)
+                .HasForeignKey(d => d.NeddACreatedBy);
+            this.HasOptional(t => t.UserProfile1)
+                .WithMany(t => t.NeedAssessments1)
+                .HasForeignKey(d => d.NeedAApprovedBy);
+
         }
     }
 }

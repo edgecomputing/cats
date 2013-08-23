@@ -141,6 +141,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new NeedAssessmentHeaderMap());
             modelBuilder.Configurations.Add(new NeedAssessmentDetailMap());
+            modelBuilder.Configurations.Add(new NeedAssessmentMap());
 
             modelBuilder.Configurations.Add(new HRDMap());
             modelBuilder.Configurations.Add(new HRDDetailMap());

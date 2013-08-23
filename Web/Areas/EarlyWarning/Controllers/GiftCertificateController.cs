@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Services.EarlyWarning;
@@ -107,7 +108,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             break;
                         case "Year":
                              myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].GiftCertificate.GiftDate.Year.ToString());
+                             wordApp.Selection.TypeText(giftCert[0].GiftCertificate.GiftDate.Year.ToString(CultureInfo.InvariantCulture));
                             break;
                         case "Bill":
                              myMergeField.Select();
@@ -115,15 +116,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             break;
                         case "Estimated":
                              myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].EstimatedPrice.ToString());
+                             wordApp.Selection.TypeText(String.Format("{0:0,0.0}",giftCert[0].EstimatedPrice));
                             break;
                         case "AccountNo":
                              myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString());
+                             wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString(CultureInfo.InvariantCulture));
                             break;
-                        case "Tax":
+                        case "money":
                              myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].EstimatedTax.ToString());
+                             wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate( giftCert[0].EstimatedTax)));
+                            break;
+                        case "cent":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText( String.Format("{0:0,0.0}",(giftCert[0].EstimatedTax - (Math.Truncate(giftCert[0].EstimatedTax)))));
                             break;
                         
                     }
@@ -132,10 +137,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
 
             }
+            try
+            {
+
             wordDoc.SaveAs("gift_cert.doc");
             wordApp.Documents.Open("gift_cert.doc");
             //wordApp.Application.Quit();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); 
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index"); 
+            }
+            
         }
 
 
