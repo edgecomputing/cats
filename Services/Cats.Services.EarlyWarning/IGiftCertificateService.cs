@@ -6,7 +6,7 @@ using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
-    public interface IGiftCertificateService
+    public interface IGiftCertificateService:IDisposable
     {
 
         bool AddGiftCertificate(GiftCertificate giftCertificate);

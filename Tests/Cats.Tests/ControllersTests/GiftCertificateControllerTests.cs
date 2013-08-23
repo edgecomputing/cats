@@ -22,15 +22,32 @@ namespace Cats.Tests.ControllersTests
         [SetUp]
         public void Init()
         {
+           
+            var giftDetails = new List<GiftCertificateDetail>()
+                                  {
+                                      new GiftCertificateDetail
+                                          {
+                                              GiftCertificateID = 1,
+                                              AccountNumber = 1,
+                                              BillOfLoading = "1",
+                                              Detail = new Detail {DetailID = 1, Name = "WFP"},
+                                              CommodityID = 1,
+                                              Commodity = new Commodity() {CommodityID = 1, Name = "CSB"}
+                                          }
+                                  };
+            ;
             var gifts = new List<GiftCertificate>()
                             {
                                 new GiftCertificate()
-                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001"},
+                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001",DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails},
                                 new GiftCertificate()
-                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001"},
+                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001",DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails},
                                 new GiftCertificate()
-                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001"}
+                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001",DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails}
                             };
+
+
+
             var giftCertificateService = new Mock<IGiftCertificateService>();
             giftCertificateService.Setup(t => t.IsSINumberNewOrEdit(It.IsAny<string>(), It.IsAny<int>())).Returns(true);
             giftCertificateService.Setup(t => t.Get(It.IsAny<Expression<Func<GiftCertificate,bool>>>(),It.IsAny<Func<IQueryable<GiftCertificate>,IOrderedQueryable<GiftCertificate>>>(),It.IsAny<string>())).Returns(gifts);

@@ -129,7 +129,7 @@
               </text>
               
             ).Title("");
-        col.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+      
         //col.Bound(gc => gc.GiftDate).Format("{0:dd-MMM-yyyy}"); ;
         col.Bound(gc => gc.Donor).Title(Translator.Translate("Donor"));
         col.Template(@<text>
@@ -151,4 +151,5 @@
         ).Filterable().Sortable()
    )
    </div>
-  @*@item.GiftDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)*@
+@*@item.GiftDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
+  col.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);*@

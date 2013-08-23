@@ -191,6 +191,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             }
         }
+        protected override void Dispose(bool disposing)
+        {
+            _giftCertificateService.Dispose();
+            _giftCertificateDetailService.Dispose();
+        }
 
     }
 }
