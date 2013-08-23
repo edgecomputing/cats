@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-
+    @Html.ValidationSummary()
     <fieldset>
         <legend>Need Assessment </legend>
         
@@ -60,7 +60,7 @@
         </div>
 
 
-        <div class="editor-label">
+        @*<div class="editor-label">
             @Html.LabelFor(model => model.NAId)
         </div>
         <div class="editor-field">
@@ -74,7 +74,7 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.NeedAId)
             @Html.ValidationMessageFor(model => model.NeedAId)
-        </div>
+        </div>*@
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Woreda)

@@ -50,7 +50,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(_needAssessmentService.ReturnNeedAssessmentHeaderViewModel(region).ToDataSourceResult(request));
 
         }
-        public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)
+        public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)//, string season)
         {
             return Json(_needAssessmentService.ReturnNeedAssessmentDetailViewModel(region).ToDataSourceResult(request));
 
@@ -103,10 +103,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
                     needAssessment.NeedADate = dateCreated;
                     needAssessment.Season = needDetail.NeedAssessmentHeader.NeedAssessment.Season;
+                    needAssessment.NeddACreatedBy =
+                        _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+                    needAssessment.TypeOfNeedAssessment = needDetail.NeedAssessmentHeader.NeedAssessment.TypeOfNeedAssessment;
+                    needAssessment.NeedAApproved = false;
+                    needAssessment.NeedAApprovedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
 
                     needAssessmentHeader.Zone = int.Parse(zone.ToString(CultureInfo.InvariantCulture));
-                    needDetail.Woreda = int.Parse(woreda.ToString(CultureInfo.InvariantCulture)); ;
-                    _needAssessmentService.AddNeedAssessment(needAssessment, needAssessmentHeader, needDetail);
+                    needDetail.Woreda = int.Parse(woreda.ToString(CultureInfo.InvariantCulture));
+
+
+                    needDetail.NeedAssessmentHeader = needAssessmentHeader;
+                    needDetail.NeedAssessmentHeader.NeedAssessment = needAssessment;
+                    _needAssessmentService.AddNeedAssessment(needDetail);
                 }
                 return RedirectToAction("Index");
             }
