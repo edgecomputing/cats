@@ -614,7 +614,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        private IGenericRepository<Donor> donorRepository;
+     
 
         public IGenericRepository<Donor> DonorRepository
         {

@@ -101,7 +101,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ContributionDetail> ContributionDetailRepository { get; }
         IGenericRepository<Donor> DonorRepository { get; } 
 
-        IGenericRepository<Donor> DonorRepository { get; }
+ 
         IGenericRepository<Detail> DetailRepository { get; } 
 
 

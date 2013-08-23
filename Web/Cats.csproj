@@ -164,7 +164,6 @@
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
-    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -175,7 +174,6 @@
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateDetailsViewModel.cs" />
-    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
@@ -706,19 +704,16 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\EditDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
     <Content Include="Areas\GiftCertificate\Views\Web.config" />
-
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
-
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
