@@ -13,192 +13,231 @@
     <fieldset>
         <legend>Need Assessment </legend>
         
-        <div id="Region">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label("Region")
-                </div>
-                <div class="controls">
-                   @Html.Hidden("Region")
-                   @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new {id = "Region"})
-                </div>
-            </div>
-        </div>
-        <div id="Zone">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.NeedAssessmentHeader.Zone, "Zones")
-                </div>
-                <div class="controls">
-                   @Html.Hidden("Zone")
-                   @Html.DropDownList("ZoneID", ViewBag.Zones as SelectList, new {id = "Zone"})
+        <div class="form-horizontal">
+            <div id="Region">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label("Region")
+                    </div>
+                    <div class="controls">
+                        @Html.Hidden("Region")
+                        @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new {id = "Region"})
+                    </div>
                 </div>
             </div>
+            <div id="Zone">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.NeedAssessmentHeader.Zone, "Zones")
+                    </div>
+                    <div class="controls">
+                        @Html.Hidden("Zone")
+                        @Html.DropDownList("ZoneID", ViewBag.Zones as SelectList, new {id = "Zone"})
+                    </div>
+                </div>
 
-        </div>
-        <div id="Woreda">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Woreda, "Woredas")
-                </div>
-                <div class="controls">
-                    @Html.Hidden("Woreda")
-                   @Html.DropDownList("WoredaID", ViewBag.Woredas as SelectList, new {id = "Woreda"})
-                </div>
             </div>
+            <div id="Woreda">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Woreda, "Woredas")
+                    </div>
+                    <div class="controls">
+                        @Html.Hidden("Woreda")
+                        @Html.DropDownList("WoredaID", ViewBag.Woredas as SelectList, new {id = "Woreda"})
+                    </div>
+                </div>
 
 
-        </div>
+            </div>
         
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.NeedAssessmentHeader.NeedAssessment.Season, new {id ="season"})
-            @Html.ValidationMessageFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
-        </div>
-
-
-        @*<div class="editor-label">
+            
+            <div class="control-group">
+            <div class="control-label">
+                    
+                @Html.LabelFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.NeedAssessmentHeader.NeedAssessment.Season, new {id ="season"})
+                @Html.ValidationMessageFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
+            </div>
+        </div>  
+       
+        
+            @*<div class="control-label">
             @Html.LabelFor(model => model.NAId)
         </div>
-        <div class="editor-field">
+        <div class="controls">
             @Html.EditorFor(model => model.NAId)
             @Html.ValidationMessageFor(model => model.NAId)
         </div>
 
-        <div class="editor-label">
+        <div class="control-label">
             @Html.LabelFor(model => model.NeedAId)
         </div>
-        <div class="editor-field">
+        <div class="controls">
             @Html.EditorFor(model => model.NeedAId)
             @Html.ValidationMessageFor(model => model.NeedAId)
         </div>*@
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Woreda)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Woreda)
-            @Html.ValidationMessageFor(model => model.Woreda)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ProjectedMale)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ProjectedMale)
-            @Html.ValidationMessageFor(model => model.ProjectedMale)
-        </div>
-
-        <div class="editor-label">
+            <div class="form-horizontal">
+                <div class="control-group">
+                    
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Woreda)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.Woreda)
+                        @Html.ValidationMessageFor(model => model.Woreda)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                        @Html.LabelFor(model => model.ProjectedMale)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.ProjectedMale)
+                        @Html.ValidationMessageFor(model => model.ProjectedMale)
+                    </div>
+                </div>
+           
+            
+        
+    <div class="control-group">
+        <div class="control-label">
             @Html.LabelFor(model => model.ProjectedFemale)
         </div>
-        <div class="editor-field">
+        <div class="controls">
             @Html.EditorFor(model => model.ProjectedFemale)
             @Html.ValidationMessageFor(model => model.ProjectedFemale)
         </div>
+    </div>
+    
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RegularPSNP)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.RegularPSNP)
+                    @Html.ValidationMessageFor(model => model.RegularPSNP)
+                </div>
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.RegularPSNP)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.RegularPSNP)
-            @Html.ValidationMessageFor(model => model.RegularPSNP)
-        </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PSNP)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.PSNP)
+                    @Html.ValidationMessageFor(model => model.PSNP)
+                </div>
+           </div>
+            
+           <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NonPSNP)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NonPSNP)
+                    @Html.ValidationMessageFor(model => model.NonPSNP)
+                </div>
+           </div>
+            
+           
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Contingencybudget)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Contingencybudget)
+                    @Html.ValidationMessageFor(model => model.Contingencybudget)
+                </div>
+            </div>
+            
+            <div class="control-group">
+            <div class="control-label">
+                    @Html.LabelFor(model => model.TotalBeneficiaries)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.TotalBeneficiaries)
+                    @Html.ValidationMessageFor(model => model.TotalBeneficiaries)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PSNPFromWoredasMale)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.PSNPFromWoredasMale)
+                    @Html.ValidationMessageFor(model => model.PSNPFromWoredasMale)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PSNPFromWoredasFemale)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.PSNPFromWoredasFemale)
+                    @Html.ValidationMessageFor(model => model.PSNPFromWoredasFemale)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PSNPFromWoredasDOA)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.PSNPFromWoredasDOA)
+                    @Html.ValidationMessageFor(model => model.PSNPFromWoredasDOA)
+                </div>
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PSNP)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.PSNP)
-            @Html.ValidationMessageFor(model => model.PSNP)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.NonPSNP)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.NonPSNP)
-            @Html.ValidationMessageFor(model => model.NonPSNP)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Contingencybudget)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Contingencybudget)
-            @Html.ValidationMessageFor(model => model.Contingencybudget)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TotalBeneficiaries)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TotalBeneficiaries)
-            @Html.ValidationMessageFor(model => model.TotalBeneficiaries)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PSNPFromWoredasMale)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.PSNPFromWoredasMale)
-            @Html.ValidationMessageFor(model => model.PSNPFromWoredasMale)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PSNPFromWoredasFemale)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.PSNPFromWoredasFemale)
-            @Html.ValidationMessageFor(model => model.PSNPFromWoredasFemale)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PSNPFromWoredasDOA)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.PSNPFromWoredasDOA)
-            @Html.ValidationMessageFor(model => model.PSNPFromWoredasDOA)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.NonPSNPFromWoredasMale)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.NonPSNPFromWoredasMale)
-            @Html.ValidationMessageFor(model => model.NonPSNPFromWoredasMale)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.NonPSNPFromWoredasFemale)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.NonPSNPFromWoredasFemale)
-            @Html.ValidationMessageFor(model => model.NonPSNPFromWoredasFemale)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.NonPSNPFromWoredasDOA)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.NonPSNPFromWoredasDOA)
-            @Html.ValidationMessageFor(model => model.NonPSNPFromWoredasDOA)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Remark)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Remark)
-            @Html.ValidationMessageFor(model => model.Remark)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NonPSNPFromWoredasMale)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NonPSNPFromWoredasMale)
+                    @Html.ValidationMessageFor(model => model.NonPSNPFromWoredasMale)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NonPSNPFromWoredasFemale)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NonPSNPFromWoredasFemale)
+                    @Html.ValidationMessageFor(model => model.NonPSNPFromWoredasFemale)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NonPSNPFromWoredasDOA)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NonPSNPFromWoredasDOA)
+                    @Html.ValidationMessageFor(model => model.NonPSNPFromWoredasDOA)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Remark)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </div>
+            </div>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+    </div>
     </fieldset>
 }
 
