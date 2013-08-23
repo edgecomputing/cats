@@ -26,6 +26,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.ReferenceNumber).HasColumnName("RequestNumber");
             this.Property(t => t.Remark).HasColumnName("Remark");
             this.Property(t => t.Status).HasColumnName("Status");
+            this.Property(t => t.RationID).HasColumnName("RationID");
            
 
             // Relationships

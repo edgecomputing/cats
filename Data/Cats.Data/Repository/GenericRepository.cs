@@ -84,12 +84,8 @@ namespace Cats.Data.Repository
             {
                 query = query.Include(includeProperty);
             }
-
-
+         
             return query.ToList();
-
         }
-
-
     }
 }

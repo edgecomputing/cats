@@ -1,0 +1,86 @@
+﻿
+@using Kendo.Mvc.UI
+@model List<Cats.Models.HRD>
+
+@{
+    ViewBag.Title = "CurrentHRDs";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+<div class="well">
+    <h4 class="page-header">Current HRD</h4>
+    <div align="right">
+        <a href="Create" class="btn btn-success">Create New HRD</a>
+    </div>
+</div>
+@section LeftBar{
+
+    @Html.Partial("_HRDLeftBar");
+}
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
+        columns.Bound(p => p.Season);
+        columns.Bound(p => p.Year);
+        columns.Bound(p => p.CreatedBy);  
+        columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");
+        columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.Status);
+
+            columns.Command(p =>
+                {
+                    p.Custom("Edit").Click("hrdEdit");
+                    p.Custom("Summary").Click("showSummary");
+
+                });     
+
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.HRDID))
+            .Read(read => read.Action("CurrentHRD_Read", "HRD"))
+ 
+     )
+   
+      )
+
+
+
+<script>
+    function showSummary(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "RegionalSummary/" + dataItem.HRDID;
+
+    }
+    
+</script>
+<script>
+    function hrdEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "Edit/" + dataItem.HRDID;
+    }
+</script>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

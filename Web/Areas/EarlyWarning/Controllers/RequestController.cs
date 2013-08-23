@@ -474,8 +474,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-
-
             var regions = (from region in _adminUnitService.GetRegions()
                            select new
                                       {
@@ -490,11 +488,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 program.Name
                             });
             ViewData["programs"] = programs;
-
-
-
-
-
+            
             return View();
         }
 
@@ -505,8 +499,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requestViewModels = (from dtl in requests select BindRegionalRequestViewModel(dtl));
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        
         private RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest)
         {
+
             return new RegionalRequestViewModel()
             {
 
@@ -517,8 +513,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 RegionID = regionalRequest.RegionID,
                 RegionalRequestID = regionalRequest.RegionalRequestID,
                 Remark = regionalRequest.Remark,
-                RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate
-                ),
+                RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate),
                 Month = regionalRequest.Month,
                 Status = _workflowStatusService.GetStatusName(WORKFLOW.REGIONAL_REQUEST, regionalRequest.Status),
                 RequistionDate = regionalRequest.RequistionDate,
@@ -526,9 +521,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 Ration = regionalRequest.Ration.RefrenceNumber,
                 RationID = regionalRequest.RationID,
                 Year = regionalRequest.Year,
-
-
-
             };
 
         }

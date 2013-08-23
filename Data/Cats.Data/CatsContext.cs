@@ -78,10 +78,15 @@ namespace Cats.Data
 
         public DbSet<GiftCertificate> GiftCertificate { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<Season> Seasons { get; set; } 
 
         public DbSet<ProcessTemplate> ProcessTemplates { get; set; }
         public DbSet<StateTemplate> StateTemplates { get; set; }
-        public DbSet<FlowTemplate> FlowTemplates { get; set; } 
+        public DbSet<FlowTemplate> FlowTemplates { get; set; }
+
+        public DbSet<Contribution> Contributions { get; set; }
+        public DbSet<ContributionDetail> ContributionDetails { get; set; }
+        public DbSet<Donor> Donors { get; set; } 
 
         //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
@@ -140,6 +145,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new NeedAssessmentHeaderMap());
             modelBuilder.Configurations.Add(new NeedAssessmentDetailMap());
+            modelBuilder.Configurations.Add(new NeedAssessmentMap());
 
             modelBuilder.Configurations.Add(new HRDMap());
             modelBuilder.Configurations.Add(new HRDDetailMap());
@@ -155,6 +161,12 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new GiftCertificateDetailMap());
 
             modelBuilder.Configurations.Add(new UnitMap());
+
+            modelBuilder.Configurations.Add(new SeasonMap());
+
+            modelBuilder.Configurations.Add(new ContributionMap());
+            modelBuilder.Configurations.Add(new ContributionDetailMap());
+            modelBuilder.Configurations.Add(new DonorMap());
 
             //modelBuilder.Configurations.Add(new AccountTransactionMap());
             //modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());

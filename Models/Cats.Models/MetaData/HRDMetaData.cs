@@ -12,9 +12,9 @@ namespace Cats.Models.MetaData
         [Display(Name = "Year")]
         public int Year { get; set; }
 
-        [Required(ErrorMessage = "Please Select Month")]
-        [Display(Name = "Month")]
-        public int Month { get; set; }
+        [Required(ErrorMessage = "Please Select Season")]
+        [Display(Name = "Season")]
+        public int SeasonID { get; set; }
 
          [Required(ErrorMessage = "Please Enter Created Date")]
          [Display(Name = "Created Date")]

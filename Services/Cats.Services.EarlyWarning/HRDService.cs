@@ -26,7 +26,8 @@ namespace Cats.Services.EarlyWarning
         public bool DeleteHRD(HRD hrd)
         {
 
-            _unitOfWork.HRDRepository.Edit(hrd);
+            if (hrd == null) return false;
+            _unitOfWork.HRDRepository.Delete(hrd);
             _unitOfWork.Save();
             return true;
         }

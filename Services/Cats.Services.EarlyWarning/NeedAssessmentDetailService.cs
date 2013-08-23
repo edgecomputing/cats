@@ -64,36 +64,40 @@ namespace Cats.Services.EarlyWarning
 
         public List<NeedAssessmentDetail> GetDraft()
         {
-            return _unitOfWork.NeedAssessmentDetailRepository.FindBy(d => d.NeedAssessmentHeader.NeedAApproved == false);
+            return _unitOfWork.NeedAssessmentDetailRepository.FindBy(d => d.NeedAssessmentHeader.NeedAssessment.NeedAApproved == false);
         }
        public List<NeedAssessmentDetail> GetApproved()
         {
-            return _unitOfWork.NeedAssessmentDetailRepository.FindBy(d => d.NeedAssessmentHeader.NeedAApproved == true);
+            return _unitOfWork.NeedAssessmentDetailRepository.FindBy(d => d.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true);
         }
 
-       public int GetNeedAssessmentBeneficiaryNo(int id,int weredaId)
+       public int GetNeedAssessmentBeneficiaryNo(int id, int weredaId)
        {
-           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id && w.NeedAssessmentHeader.NeedAApproved == true).SingleOrDefault();
+           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.Woreda == weredaId && w.NAId == id && w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
 
            if (beneficiaryNo != null)
            {
-               var totalBeneficiaties = (int)(beneficiaryNo.VPoorNoOfB + beneficiaryNo.PoorNoOfB + beneficiaryNo.MiddleNoOfB + beneficiaryNo.BOffNoOfB);
+               var totalBeneficiaties = (int)(beneficiaryNo.PSNPFromWoredasMale + beneficiaryNo.PSNPFromWoredasFemale + beneficiaryNo.NonPSNPFromWoredasMale + beneficiaryNo.NonPSNPFromWoredasFemale);
                return totalBeneficiaties;
            }
            return 0;
        }
-       public int GetNeedAssessmentMonths(int id,int weredaId)
+       public int GetNeedAssessmentMonths(int id, int weredaId)
        {
-           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.District == weredaId && w.NAId == id && w.NeedAssessmentHeader.NeedAApproved == true).SingleOrDefault();
+           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.Woreda == weredaId && w.NAId == id && w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
 
            if (months != null)
            {
-               var totalMonths = (int)(months.VPoorNoOfM + months.PoorNoOfM + months.MiddleNoOfM + months.BOffNoOfM);
-               return totalMonths;
+               if (months.PSNPFromWoredasDOA != null)
+               {
+                   var totalMonths = (int)(months.PSNPFromWoredasDOA);
+                   return totalMonths;
+               }
            }
            return 0;
        }
 
+        
         public void Dispose()
         {
             _unitOfWork.Dispose();

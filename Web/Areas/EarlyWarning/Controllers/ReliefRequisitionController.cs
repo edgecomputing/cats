@@ -278,8 +278,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             
             
-               var requests = _reliefRequisitionService.GetAllReliefRequisition();
-        
+            var requests = _reliefRequisitionService.GetAllReliefRequisition();
             var requestViewModels = (from dtl in requests select BindReliefRequisitionViewModel(dtl));
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }

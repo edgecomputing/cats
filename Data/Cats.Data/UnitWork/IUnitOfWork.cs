@@ -67,6 +67,7 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<Ration> RationRepository { get; }
 
+        IGenericRepository<NeedAssessment> NeedAssessmentRepository { get; } 
         IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository { get; }
         IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository { get; }
 
@@ -93,7 +94,11 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }
         IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
-        IGenericRepository<Unit> UnitRepository { get; } 
+        IGenericRepository<Unit> UnitRepository { get; }
+        IGenericRepository<Season> SeasonRepository { get; }
+        IGenericRepository<Contribution> ContributionRepository { get; }
+        IGenericRepository<ContributionDetail> ContributionDetailRepository { get; }
+        IGenericRepository<Donor> DonorRepository { get; } 
 
         void Save();
 

@@ -48,6 +48,14 @@
     <Compile Include="BusinessProcessStateService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="ContributionDetailService.cs" />
+    <Compile Include="INeedAssessmentService.cs" />
+    <Compile Include="ContributionService.cs" />
+    <Compile Include="DonorService.cs" />
+    <Compile Include="IContributionDetailService.cs" />
+    <Compile Include="IContributionService.cs" />
+    <Compile Include="IDonorService.cs" />
+    <Compile Include="ISeasonService.cs" />
     <Compile Include="FDPService.cs" />
     <Compile Include="FlowTemplateService.cs" />
     <Compile Include="GiftCertificateDetailService.cs" />
@@ -88,6 +96,7 @@
     <Compile Include="IWorkflowStatusService.cs" />
     <Compile Include="NeedAssessmentDetailService.cs" />
     <Compile Include="NeedAssessmentHeaderService.cs" />
+    <Compile Include="NeedAssessmentService.cs" />
     <Compile Include="ProcessTemplateService.cs" />
     <Compile Include="ProgramService.cs" />
     <Compile Include="ProjectCodeAllocationService.cs" />
@@ -99,6 +108,7 @@
     <Compile Include="RegionalRequestService.cs" />
     <Compile Include="ReliefRequisitionDetailService.cs" />
     <Compile Include="ReliefRequisitionService.cs" />
+    <Compile Include="SeasonService.cs" />
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="StateTemplateService.cs" />
     <Compile Include="TransactionService.cs" />

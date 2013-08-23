@@ -1,0 +1,88 @@
+﻿@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+@model  Cats.Models.HRD
+
+
+@{
+    ViewBag.Title = "RegionalSummary";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+<div class="well">
+    <h3>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h3>
+    <div align="right">
+        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
+    </div>
+</div>
+@section LeftBar{
+
+    @Html.Partial("_HRDLeftBar");
+}
+@(Html.Kendo().Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
+//Grid((IEnumerable<Cats.Models.ViewModels.RegionalSummaryViewModel>)ViewData["viewModel"])
+//.Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
+          
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.RegionName).ClientFooterTemplate("<h4>Total</h4>");
+        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>");
+        columns.Bound(p => p.Cereal).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
+        columns.Bound(p => p.BlededFood).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
+        columns.Bound(p => p.Pulse).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
+        columns.Bound(p => p.Oil).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
+        columns.Bound(p => p.Total).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
+            
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+           .Aggregates(aggregates =>aggregates.Add(p => p.NumberOfBeneficiaries).Sum())
+           .Aggregates(aggregates =>aggregates.Add(p => p.Cereal).Sum())
+           .Aggregates(aggregates =>aggregates.Add(p => p.BlededFood).Sum())
+           .Aggregates(aggregates =>aggregates.Add(p => p.Pulse).Sum())
+           .Aggregates(aggregates =>aggregates.Add(p => p.Oil).Sum())
+           .Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
+          .PageSize(12)
+              .Model(model => model.Id(p => p.HRDID))
+            .Read(read => read.Action("RegionalSummary_Read", "HRD",new{id=Model.HRDID}))
+ 
+     )
+   
+      )
+
+
+@*<table class="table table-bordered table-condensed table-striped">
+    <thead>
+        <th>Region</th>
+        <th>Beneficiaries</th>
+        <th>Cereal</th>
+         <th>Bleended Food</th>
+        <th>Pulse</th>
+        <th>Oil</th>
+        <th>Total</th>
+    </thead>
+    @foreach (RegionalSummaryViewModel row in Model)
+    {
+        <tr>
+            <td>@row.RegionName</td>
+            <td>@row.NumberOfBeneficiaries</td>
+            <td>@row.Cereal</td>
+            <td>@row.BlededFood</td>
+            <td>@row.Pulse</td>
+            <td>@row.Oil</td>
+            <td>@row.Total</td>
+        </tr>
+        
+    }
+    <tr>
+        <td>Grand Total</td>
+        <td>@Model.Sum(m=>m.NumberOfBeneficiaries)</td>
+        <td>@Model.Sum(m=>m.Cereal)</td>
+        <td>@Model.Sum(m=>m.BlededFood)</td>
+        <td>@Model.Sum(m=>m.Oil)</td>
+        <td>@Model.Sum(m=>m.Pulse)</td>
+        <td>@Model.Sum(m=>m.Total)</td>
+    </tr>
+</table>*@

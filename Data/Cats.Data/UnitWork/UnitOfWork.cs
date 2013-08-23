@@ -24,7 +24,10 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<HRDDetail> hrdDetailRepository;
         private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
         private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
-        //private IGenericRepository<AccountTransaction> accountTransactionRepository;
+        private IGenericRepository<Season> seasonRepository;
+        private IGenericRepository<Contribution> contributionRepository;
+        private IGenericRepository<ContributionDetail> contibutionDetailRepository;
+        private IGenericRepository<Donor> donorRepository; 
         public UnitOfWork()
         {
             this._context = new CatsContext();
@@ -493,6 +496,17 @@ namespace Cats.Data.UnitWork
         }
       //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
 
+
+        private IGenericRepository<NeedAssessment> needAssessmentRepository;
+        public IGenericRepository<NeedAssessment> NeedAssessmentRepository
+        {
+            get
+            {
+                return this.needAssessmentRepository ?? (this.needAssessmentRepository = new GenericRepository<NeedAssessment>(_context));
+            }
+        }
+
+
         private IGenericRepository<NeedAssessmentHeader> needAssessmentHeaderRepository;
         public IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository
         {
@@ -574,10 +588,38 @@ namespace Cats.Data.UnitWork
         }
 
 
+        public IGenericRepository<Season> SeasonRepository
+        {
+
+            get { return this.seasonRepository ?? (this.seasonRepository = new GenericRepository<Season>(_context)); }
+
+        }
+
+        public IGenericRepository<Contribution> ContributionRepository
+        {
+            get
+            {
+                return this.contributionRepository ??(this.contributionRepository = new GenericRepository<Contribution>(_context));
+            }
+        }
+
+        public IGenericRepository<ContributionDetail> ContributionDetailRepository
+        {
+            get
+            {
+                return this.contibutionDetailRepository ??
+                       (this.contibutionDetailRepository = new GenericRepository<ContributionDetail>(_context));
+            }
+        }
+
+        public IGenericRepository<Donor> DonorRepository
+        {
+            get { return this.donorRepository ?? (this.donorRepository = new GenericRepository<Donor>(_context)); }
+        }
 
       
 
-      
+       
 
 
 
