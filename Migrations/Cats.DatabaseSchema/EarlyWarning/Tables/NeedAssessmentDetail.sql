@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [EarlyWarning].[NeedAssessmentDetail] (
     [NAId]                     INT            IDENTITY (1, 1) NOT NULL,
-    [NeedAId]                  INT            NULL,
+    [NeedAID]                  INT            NULL,
     [Woreda]                   INT            NULL,
     [ProjectedMale]            INT            NULL,
     [ProjectedFemale]          INT            NULL,
@@ -18,8 +18,10 @@
     [Remark]                   NVARCHAR (500) NULL,
     CONSTRAINT [PK_NeedAssement] PRIMARY KEY CLUSTERED ([NAId] ASC),
     CONSTRAINT [FK_NeedAssessmentDetail_AdminUnit] FOREIGN KEY ([Woreda]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID]),
-    CONSTRAINT [FK_NeedAssessmentDetail_NeedAssessmentHeader] FOREIGN KEY ([NeedAId]) REFERENCES [EarlyWarning].[NeedAssessmentHeader] ([NAHeaderId])
+    CONSTRAINT [FK_NeedAssessmentDetail_NeedAssessmentHeader] FOREIGN KEY ([NeedAID]) REFERENCES [EarlyWarning].[NeedAssessmentHeader] ([NAHeaderId]) ON DELETE CASCADE
 );
+
+
 
 
 

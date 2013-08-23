@@ -2,7 +2,7 @@
     [NeedAID]              INT            IDENTITY (1, 1) NOT NULL,
     [Region]               INT            NOT NULL,
     [Season]               NVARCHAR (50)  NOT NULL,
-    [NeedADate]            DATETIME       NOT NULL,
+    [NeedADate]            DATETIME2 (7)  NULL,
     [NeddACreatedBy]       INT            NULL,
     [NeedAApproved]        BIT            NULL,
     [NeedAApprovedBy]      INT            NULL,
@@ -14,6 +14,8 @@
     CONSTRAINT [FK_NeedAssessment_UserProfile1] FOREIGN KEY ([NeedAApprovedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID]),
     CONSTRAINT [IX_NeedAssessment] UNIQUE NONCLUSTERED ([Region] ASC, [Season] ASC)
 );
+
+
 
 
 GO
