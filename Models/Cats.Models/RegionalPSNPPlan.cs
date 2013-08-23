@@ -41,7 +41,7 @@ namespace Cats.Models
        
         //Status
         [Display(Name = "Status")]
-        public virtual StateTemplate Status { get; set; }
+        public virtual BusinessProcess AttachedBusinessProcess { get; set; }
 
         //StatusID
         [Display(Name = "Status ID")]

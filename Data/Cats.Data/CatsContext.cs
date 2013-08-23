@@ -85,10 +85,14 @@ namespace Cats.Data
 
         //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
+        public DbSet<BusinessProcess> BusinessProcesss { get; set; }
+        public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new BusinessProcessStateMap());
             //TODO: Add mapping information for each Poco model.
+            modelBuilder.Configurations.Add(new BusinessProcessMap());
             modelBuilder.Configurations.Add(new ProcessTemplateMap());
             modelBuilder.Configurations.Add(new StateTemplateMap());
             modelBuilder.Configurations.Add(new FlowTemplateMap());

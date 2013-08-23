@@ -29,7 +29,18 @@ namespace Cats.Data.UnitWork
         {
             this._context = new CatsContext();
         }
-       
+        private IGenericRepository<BusinessProcessState> _BusinessProcessStateRepository;
+        public IGenericRepository<BusinessProcessState> BusinessProcessStateRepository
+        {
+            get { return this._BusinessProcessStateRepository ?? (this._BusinessProcessStateRepository = new GenericRepository<BusinessProcessState>(_context)); }
+        }
+
+        private IGenericRepository<BusinessProcess> _BusinessProcessRepository;
+        public IGenericRepository<BusinessProcess> BusinessProcessRepository
+        {
+            get { return this._BusinessProcessRepository ?? (this._BusinessProcessRepository = new GenericRepository<BusinessProcess>(_context)); }
+        }
+
         private IGenericRepository<ProcessTemplate> _ProcessTemplateRepository;
         public IGenericRepository<ProcessTemplate> ProcessTemplateRepository
         {

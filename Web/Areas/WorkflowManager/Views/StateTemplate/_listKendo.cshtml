@@ -6,11 +6,12 @@
     .Columns(columns =>
     {
          
-        columns.ForeignKey(t => t.ParentProcessTemplateID, (IEnumerable<ProcessTemplate>)ViewData["ProcessTemplateList"], "ProcessTemplateID", "Name");  
+        columns.ForeignKey(t => t.ParentProcessTemplateID, (IEnumerable<ProcessTemplate>)ViewData["ProcessTemplateList"], "ProcessTemplateID", "Name");
+        
         
         columns.Bound(p => p.Name).Width(100);
-        columns.Bound(p => p.StateType).Width(100); 
-        columns.Bound(p => p.AllowedAccessLevel).Width(100); 
+        columns.ForeignKey(t => t.StateType, (IEnumerable<LookupData>)ViewData["StateTypeList"], "ID", "Name");
+        columns.ForeignKey(t => t.AllowedAccessLevel, (IEnumerable<LookupData>)ViewData["AccessLevelList"], "ID", "Name"); 
         columns.Command(
             command => { 
                 command.Edit().Text("Modify");

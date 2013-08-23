@@ -227,6 +227,7 @@
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
     <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\BusinessProcessController.cs" />
     <Compile Include="Areas\WorkflowManager\Controllers\FlowTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\Controllers\ProcessTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
@@ -643,7 +644,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Approval.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Promot.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
@@ -689,6 +690,11 @@
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Detail.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -897,6 +903,8 @@
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
     <Content Include="Views\Shared\_promotWorkflow.cshtml" />
+    <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

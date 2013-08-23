@@ -14,15 +14,16 @@
     @Html.Partial("_PSNPLeftBar");
    
 }
-<h2>Index</h2>
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "RegionalPSNPPlan")"></a>
+}
+<h3>List of PSNP Plans</h3>
 
-<p>
-     <a href="@Url.Action("Create", "RegionalPSNPPlan")" class="btn btn-success">New PSNP Plan</a>
-</p>
 
 <div>
 
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ShortName)
@@ -42,6 +43,7 @@
 
     @foreach (RegionalPSNPPlan item in Model)
     {
+        StateTemplate state = item.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
         index++;
         <tr>
             <td>
@@ -54,17 +56,17 @@
               PSNP
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status.Name)
+                @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
             </td>
             <td>
 
-                @if (item.Status.AllowedAccessLevel > 1)
+                @if (state.AllowedAccessLevel > 1)
                 {
                     <a class="btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Edit</a>
                     
                 }
             </td><td>
-                @if (item.Status.AllowedAccessLevel >= 1)
+                @if (state.AllowedAccessLevel >= 1)
                 {
                     <a class="btn edit_button" href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Detail</a>
                    
@@ -75,16 +77,18 @@
                 <button class="btn edit_button" id="action_@index">Workflow</button>
                 <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    @foreach (FlowTemplate actions in item.Status.InitialStateFlowTemplates)
+                    @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
         {
-            <li class="edit_button"> @Html.ActionLink(actions.Name, "promotWorkflow", new {id=item.RegionalPSNPPlanID, nextState=actions.FinalStateID }) </li>
-        }
+            <li class="edit_button"><a href="javascript:promot_workflow(@item.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.RegionalPSNPPlanID)" title="@actions.Name"> @actions.Name</a></li>            
+            <!--<li class="edit_button"> @Html.ActionLink(actions.Name, "promotWorkflow", new {id=item.RegionalPSNPPlanID, nextState=actions.FinalStateID }) </li>
+        -->
+                }
                     <li class="divider"></li>
-@if (item.Status.AllowedAccessLevel > 1)
+@if (state.AllowedAccessLevel > 1)
                 {
                     <li>@Html.ActionLink("Edit", "#")</li>
                 }
-                @if (item.Status.AllowedAccessLevel >= 1)
+                @if (state.AllowedAccessLevel >= 1)
                 {
                     <li>@Html.ActionLink("Details", "#")</li>
                 }
@@ -101,39 +105,14 @@
 
 </div>
 
-@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml");
+@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 <script>
-    var lastTarget;
-    $('.edit_button').click(function (event) {
-        var $target = $(event.target);
-        var htm = "<form id='frm_current'>" + $("#div_form_template").clone().html() + "</form>";
-
-        if (lastTarget) {
-            if ($target.attr("id") == lastTarget.attr("id")) {
-                return;
-            }
-            else {
-                lastTarget.popover('destroy');
-            }
-        }
-
-        $target.popover({placement:"left", html: true, trigger: "manual", title: "Edit Title", content: htm });
-        $target.popover('show');
-        lastTarget = $target;
-        $("#button_save").click(function (event) {
-            alert(lastTarget);
-            if (lastTarget) {
-                lastTarget.popover('destroy');
-            }
-        }
-      );
-        $("#button_cancel").click(function (event) {
-            var $target = $(event.target);
-            if (lastTarget) {
-                lastTarget.popover('destroy');
-            }
-        }
-           );
-        return;
-    });   
+    function promot_workflow(BusinessProcessID, nextstate,actionname) {
+        $('#ParentBusinessProcessID').val(BusinessProcessID);
+        $('#stateID').val(nextstate);
+        $('#modalPromotionLabel').html(actionname);
+        
+        $('#modalPromotion').modal()
+    }
+   
 </script>

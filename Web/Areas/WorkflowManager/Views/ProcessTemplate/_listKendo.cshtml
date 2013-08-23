@@ -8,12 +8,14 @@
         
         columns.Bound(p => p.Name).Width(100);  
         
-        columns.Bound(p => p.Description).Width(100); 
+        columns.Bound(p => p.Description).Width(100);
+        columns.Bound(p => p.ProcessTemplateID).ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
+       
         columns.Command(
             command => { 
                 command.Edit().Text("Modify");
                 command.Destroy().Text("Destroy"); 
-              //  command.Custom("Edit").Click("editRecord");
+                command.Custom("Detail").Click("detailProcess");
             }
             ).Width(300);
     })
@@ -35,3 +37,11 @@
     )
     
 )
+<script>
+    function detailProcess(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "/Procurement/Transporter/Edit/" + dataItem.TransporterID;
+        window.location = url
+    }
+</script>

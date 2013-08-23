@@ -54,6 +54,8 @@
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
     <Compile Include="BidWinner.cs" />
+    <Compile Include="BusinessProcess.cs" />
+    <Compile Include="BusinessProcessState.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="Detail.cs" />
@@ -79,6 +81,8 @@
     <Compile Include="Mapping\BidDetailMap.cs" />
     <Compile Include="Mapping\BidMap.cs" />
     <Compile Include="Mapping\BidWinnerMap.cs" />
+    <Compile Include="Mapping\BusinessProcessMap.cs" />
+    <Compile Include="Mapping\BusinessProcessStateMap.cs" />
     <Compile Include="Mapping\CommodityMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />

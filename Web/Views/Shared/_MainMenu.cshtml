@@ -8,12 +8,12 @@
    var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     var lang = user.Profile.LanguageCode;
-    
+    ViewBag.CurrentUser = user;
   //  Translator.CurrentLanguage = lang;
  //   Translator.LoadTexts();
 }
 
-<div class="navbar navbar-fixed-top navbar-inverse">
+<div class="navbar navbar-fixed-top navbar">
     <div class="navbar-inner">
         <div class="container">
             <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
