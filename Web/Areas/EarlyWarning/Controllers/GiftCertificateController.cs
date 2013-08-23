@@ -1,12 +1,15 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.GiftCertificate.Models;
+using Cats.Models.Partial;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
 using System.Web.Mvc;
+using Cats.ViewModelBinder;
 using Microsoft.Office.Interop.Word;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
@@ -27,14 +30,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
+            var gifts = _giftCertificateService.Get(null, t => t.OrderByDescending(o => o.GiftCertificateID),"GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
+            var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList());
+            return View(giftsViewModel);
 
-            return View();
         }
 
         public JsonResult GetListOfCertificate([DataSourceRequest] DataSourceRequest request)
         {
             var giftCertList = _giftCertificateDetailService.GetAllGiftCertificateDetail();
-             
+
             var result = giftCertList.ToList().Select(item => new GiftCertificateViewModel
 
                                                                   {
@@ -60,10 +65,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             //    return RedirectToAction("Index");
             //OBJECT OF MISSING "NULL VALUE"
             string path = HttpContext.ApplicationInstance.Server.MapPath("~/Templates/gift_Certificate.dotx");
-           
+
             Object oMissing = System.Reflection.Missing.Value;
 
-            Object oTemplatePath = path ;
+            Object oTemplatePath = path;
 
             List<GiftCertificateDetail> giftCert = GetGiftCertificate(id);//"L1344/SF148/2011");
 
@@ -85,7 +90,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
 
-                
+
 
                 if (fieldText.StartsWith(" MERGEFIELD"))
                 {
@@ -97,25 +102,28 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                     String fieldName = fieldText.Substring(11, endMerge - 11);
 
-                    
+
                     fieldName = fieldName.Trim();
 
-                  
+
                     switch (fieldName)
                     {
                         case "Commodity":
-                                 myMergeField.Select();
-                                 wordApp.Selection.TypeText(giftCert[0].Commodity.Name);
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert[0].Commodity.Name);
                             break;
                         case "Year":
+
                              myMergeField.Select();
                              wordApp.Selection.TypeText(giftCert[0].GiftCertificate.GiftDate.Year.ToString(CultureInfo.InvariantCulture));
+
                             break;
                         case "Bill":
-                             myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].BillOfLoading);
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert[0].BillOfLoading);
                             break;
                         case "Estimated":
+
                              myMergeField.Select();
                              wordApp.Selection.TypeText(String.Format("{0:0,0.0}",giftCert[0].EstimatedPrice));
                             break;
@@ -130,10 +138,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         case "cent":
                             myMergeField.Select();
                             wordApp.Selection.TypeText( String.Format("{0:0,0.0}",(giftCert[0].EstimatedTax - (Math.Truncate(giftCert[0].EstimatedTax)))));
+                           break;
+                        case "Tax":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert[0].EstimatedTax.ToString());
+
                             break;
-                        
+
                     }
-                   
+
 
                 }
 
@@ -163,9 +176,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return giftCertList.ToList();
         }
 
-        public virtual ActionResult NotUnique(string siNumber, int giftCertificateID)
+        public virtual ActionResult NotUnique(string siNumber, int giftCertificateId)
         {
-            return View();
+
+
+            if (_giftCertificateService.IsSINumberNewOrEdit(siNumber, giftCertificateId))
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(string.Format("{0} is invalid, there is an existing record with the same SI Number ", siNumber),
+                        JsonRequestBehavior.AllowGet);
+
+            }
         }
 
     }

@@ -244,6 +244,7 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\AmharicEditorHelper.cs" />
+    <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\ElmahErrorAttribute.cs" />
     <Compile Include="Helpers\EthiopianDate.cs" />
     <Compile Include="Helpers\getGregorianDate.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+    <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>

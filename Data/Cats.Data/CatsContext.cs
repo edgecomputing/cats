@@ -76,7 +76,8 @@ namespace Cats.Data
         //public DbSet<Product> Products { get; set; }
         public DbSet<RequestDetailCommodity> RequestDetailCommodities { get; set; }
 
-        public DbSet<GiftCertificate> GiftCertificate { get; set; }
+        public DbSet<GiftCertificate> GiftCertificates { get; set; }
+        public DbSet<GiftCertificateDetail> GiftCertificateDetails { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Season> Seasons { get; set; } 
 

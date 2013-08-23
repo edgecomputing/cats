@@ -151,6 +151,7 @@
     <Compile Include="NeedAssessmentViewModel.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
+    <Compile Include="Partial\CommoditySource.cs" />
     <Compile Include="Partial\HRD.cs" />
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />

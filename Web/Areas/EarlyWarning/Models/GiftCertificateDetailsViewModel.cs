@@ -65,6 +65,8 @@ namespace Cats.Areas.GiftCertificate.Models
         [Display(Name="Expiry Date")]
         public DateTime? ExpiryDate { get; set; }
 
+        public string CommodityName { get; set; }
+        public string FundSource { get; set; }
         public GiftCertificateDetailsViewModel()
         {
             this.YearPurchased = DateTime.Now.Year;
@@ -73,36 +75,5 @@ namespace Cats.Areas.GiftCertificate.Models
             this.DCurrencyID = 1;
             this.BillOfLoading = "";
         }
-        //Modified:Banty 24/5/2013 from EntityCollection<> to ICollection<>
-        public static List<GiftCertificateDetailsViewModel> GenerateListOfGiftCertificateDetailsViewModel(ICollection<GiftCertificateDetail> entityCollection)
-        {
-            var details = new List<GiftCertificateDetailsViewModel>();
-            foreach (var giftDetail in entityCollection)
-            {
-                details.Add(GenerateGiftCertificateDetailsViewModel(giftDetail));
-            }
-            return details;
-        }
-
-        public static GiftCertificateDetailsViewModel GenerateGiftCertificateDetailsViewModel(GiftCertificateDetail giftCertificateDetail)
-        {
-            GiftCertificateDetailsViewModel model = new GiftCertificateDetailsViewModel();
-
-            model.GiftCertificateID = giftCertificateDetail.GiftCertificateID;
-            model.CommodityID = giftCertificateDetail.CommodityID;
-            model.BillOfLoading = giftCertificateDetail.BillOfLoading;
-            model.YearPurchased = giftCertificateDetail.YearPurchased;
-            model.AccountNumber = giftCertificateDetail.AccountNumber;
-            model.WeightInMT = giftCertificateDetail.WeightInMT;
-            model.EstimatedPrice = giftCertificateDetail.EstimatedPrice;
-            model.EstimatedTax = giftCertificateDetail.EstimatedTax;
-            model.DBudgetTypeID = giftCertificateDetail.DBudgetTypeID;
-            model.DFundSourceID = giftCertificateDetail.DFundSourceID;
-            model.DCurrencyID = giftCertificateDetail.DCurrencyID;
-            model.ExpiryDate = giftCertificateDetail.ExpiryDate;
-            
-            return model;
-        }
-
     }
 }

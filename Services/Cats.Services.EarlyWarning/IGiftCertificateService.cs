@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Models;
 
@@ -15,6 +16,13 @@ namespace Cats.Services.EarlyWarning
         GiftCertificate FindById(int id);
         List<GiftCertificate> GetAllGiftCertificate();
         List<GiftCertificate> FindBy(Expression<Func<GiftCertificate, bool>> predicate);
+
+        GiftCertificate FindBySINumber(string siNumber);
+        bool IsSINumberNewOrEdit(string siNumber, int giftCertificateId);
+
+        IEnumerable<GiftCertificate> Get(Expression<Func<GiftCertificate, bool>> filter = null,
+                                         Func<IQueryable<GiftCertificate>, IOrderedQueryable<GiftCertificate>> orderBy = null,
+                                         string includeProperties = "");
 
 
     }
