@@ -125,7 +125,7 @@
          col.Template(
              @<text>
                   @Html.ActionLink( Translator.Translate("Edit"), "Edit", new { id = item.GiftCertificateID}) | 
-                  @Html.ActionLink(Translator.Translate("Print"), "Print", new { id = item.GiftCertificateID})
+                  @Html.ActionLink(Translator.Translate("Print"), "GenerateTemplate", new { id = item.GiftCertificateID})
               </text>
               
             ).Title("");
@@ -151,5 +151,40 @@
         ).Filterable().Sortable()
    )
    </div>
-@*@item.GiftDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
-  col.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);*@
+<div id="modalWindow">
+    <h5>Print gift Certificate?</h5>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Print confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+<script>
+
+    function onPrint(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "GiftCertificate/GenerateTemplate/" + dataItem.GiftCertificateID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
