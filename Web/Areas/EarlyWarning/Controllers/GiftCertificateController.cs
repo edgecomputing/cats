@@ -13,6 +13,9 @@ using Cats.ViewModelBinder;
 using Microsoft.Office.Interop.Word;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
+using Cats.Services.Common;
+using Newtonsoft.Json;
+using Master = Cats.Models.Constant.Master;
 
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -21,11 +24,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
     {
         private readonly IGiftCertificateService _giftCertificateService;
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
+        private readonly ICommonService _commonService;
 
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService)
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService,ICommonService commonService)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
+            _commonService = commonService;
         }
 
         public ActionResult Index()
@@ -191,10 +196,132 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             }
         }
+
+        public ActionResult Create()
+        {
+            PopulateLookup();
+            
+            return View(new GiftCertificateViewModel());
+        }
+        [HttpPost]
+        public ActionResult Create(GiftCertificateViewModel giftcertificate)
+        {
+            if (ModelState.IsValid)
+            {
+                var giftCertificateModel =GiftCertificateViewModelBinder.BindGiftCertificate( giftcertificate);
+
+                InsertGiftCertificate(giftcertificate, giftCertificateModel);
+                //repository.Add( giftCertificate );
+                return RedirectToAction("Index");
+            }
+
+          PopulateLookup();
+           
+            return Create(); //GiftCertificateViewModel.GiftCertificateModel(giftcertificate));
+        }
+        private void InsertGiftCertificate(GiftCertificateViewModel giftcertificate, Cats.Models.GiftCertificate giftCertificateModel)
+        {
+            List<GiftCertificateDetailsViewModel> giftCertificateDetails = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
+            var giftDetails = GiftCertificateViewModelBinder.BindListGiftCertificateDetail(giftCertificateDetails);
+            foreach (GiftCertificateDetail giftDetail in giftDetails)
+            {
+                giftCertificateModel.GiftCertificateDetails.Add(giftDetail);
+            }
+            _giftCertificateService.AddGiftCertificate(giftCertificateModel);
+        }
+
+        //generate view models from the respective json array of GiftCertificateDetails json elements
+        private List<GiftCertificateDetailsViewModel> GetSelectedGiftCertificateDetails(string jsonArray)
+        {
+            List<GiftCertificateDetailsViewModel> giftCertificateDetails = null;
+            if (!string.IsNullOrEmpty(jsonArray))
+            {
+                giftCertificateDetails = JsonConvert.DeserializeObject<List<GiftCertificateDetailsViewModel>>(jsonArray);
+            }
+            return giftCertificateDetails;
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
+            PopulateLookup(false, giftcertificate);
+            var giftCertificateViewModel = GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftcertificate);
+            return View(giftCertificateViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(GiftCertificateViewModel giftcertificate)
+        {
+            //just incase the user meses with the the hidden GiftCertificateID field
+            var giftcert = _giftCertificateService.FindById(giftcertificate.GiftCertificateID);
+
+            if (ModelState.IsValid && giftcert != null)
+            {
+
+                var giftCertificateModel =GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificate);
+                
+                _giftCertificateService.EditGiftCertificate(giftCertificateModel);
+
+                return RedirectToAction("Index");
+            }
+            PopulateLookup(false, giftcert);
+
+
+              return View(giftcertificate);
+        }
+        public ActionResult Delete(int id)
+        {
+            var giftcertificate = _giftCertificateService.FindById(id);
+            return View(giftcertificate);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            _giftCertificateService.DeleteById(id);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult IsBillOfLoadingDuplicate(string BillOfLoading)
+        {
+            return Json(_giftCertificateService.IsBillOfLoadingDuplicate(BillOfLoading), JsonRequestBehavior.AllowGet);
+        }
+        private void PopulateLookup(bool isNew=true,Cats.Models.GiftCertificate giftCertificate=null)
+        {
+            ViewData["Commodities"] = _commonService.GetCommodities(null, t => t.OrderBy(o => o.Name));
+           
+            ViewBag.DCurrencies = _commonService.GetDetails(d => d.MasterID == Master.Constants.CURRENCY, t => t.OrderBy(o => o.SortOrder));
+            ViewBag.DFundSources = _commonService.GetDetails(d => d.MasterID == Master.Constants.FUND_SOURCE, t => t.OrderBy(o => o.SortOrder));
+            ViewBag.DBudgetTypes = _commonService.GetDetails(d => d.MasterID == Master.Constants.BUDGET_TYPE, t => t.OrderBy(o => o.SortOrder));
+          
+            ViewBag.DModeOfTransports = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name");
+            var giftCertificateDetails = new List<GiftCertificateDetailsViewModel>();
+            ViewBag.GiftCertificateDetails = giftCertificateDetails;
+            if (isNew && giftCertificate == null)
+            {
+                ViewBag.DonorID = new SelectList(_commonService.GetDonors(null, t => t.OrderBy(o => o.Name)), "DonorID",
+                                                 "Name");
+                ViewBag.CommodityTypeID =
+                    new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
+                                   "CommodityTypeID", "Name");
+                ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            }
+            else
+            {
+                var giftDetails = giftCertificate.GiftCertificateDetails.FirstOrDefault();
+                ViewBag.DonorID = new SelectList(_commonService.GetDonors(null, t => t.OrderBy(o => o.Name)), "DonorID",
+                                                "Name");
+                ViewBag.CommodityTypeID =
+                    new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
+                                   "CommodityTypeID", "Name", giftDetails == null ? string.Empty : giftDetails.Commodity.CommodityTypeID.ToString());
+                ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             _giftCertificateService.Dispose();
-            _giftCertificateDetailService.Dispose();
         }
 
     }

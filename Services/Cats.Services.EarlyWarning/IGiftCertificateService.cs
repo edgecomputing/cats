@@ -19,7 +19,7 @@ namespace Cats.Services.EarlyWarning
 
         GiftCertificate FindBySINumber(string siNumber);
         bool IsSINumberNewOrEdit(string siNumber, int giftCertificateId);
-
+        bool IsBillOfLoadingDuplicate(string billOfLoading);
         IEnumerable<GiftCertificate> Get(Expression<Func<GiftCertificate, bool>> filter = null,
                                          Func<IQueryable<GiftCertificate>, IOrderedQueryable<GiftCertificate>> orderBy = null,
                                          string includeProperties = "");

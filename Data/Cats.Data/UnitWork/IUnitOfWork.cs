@@ -96,9 +96,14 @@ namespace Cats.Data.UnitWork
         IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
         IGenericRepository<Unit> UnitRepository { get; }
         IGenericRepository<Season> SeasonRepository { get; }
+
         IGenericRepository<Contribution> ContributionRepository { get; }
         IGenericRepository<ContributionDetail> ContributionDetailRepository { get; }
         IGenericRepository<Donor> DonorRepository { get; } 
+
+        IGenericRepository<Donor> DonorRepository { get; }
+        IGenericRepository<Detail> DetailRepository { get; } 
+
 
         void Save();
 

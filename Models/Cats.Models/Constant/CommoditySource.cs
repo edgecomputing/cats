@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cats.Models.Partial
+
+namespace Cats.Models.Constant
 {
     public partial class CommoditySource
     {

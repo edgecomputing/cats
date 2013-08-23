@@ -10,6 +10,7 @@ using Cats.Services.Procurement;
 using Cats.Services.Logistics;
 using Cats.Services.PSNP;
 using Cats.Services.Transaction;
+using Cats.Services.Common;
 
 namespace Cats.Infrastructure
 {
@@ -101,6 +102,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
             kernel.Bind<ISeasonService>().To<SeasonService>();
+            kernel.Bind<ICommonService>().To<CommonService>();
 
             kernel.Bind<IContributionService>().To<ContributionService>();
             kernel.Bind<IContributionDetailService>().To<ContributionDetailService>();

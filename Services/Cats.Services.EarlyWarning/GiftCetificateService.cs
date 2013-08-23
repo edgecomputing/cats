@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Models.Partial;
 
 namespace Cats.Services.EarlyWarning
@@ -88,7 +89,10 @@ namespace Cats.Services.EarlyWarning
             return ((gift == null || (gift.GiftCertificateID == giftCertificateID)) && !(inReceiptAllocation)) ;// new one or edit no problem 
         }
 
-
+        public bool IsBillOfLoadingDuplicate(string billOfLoading)
+        {
+            return _unitOfWork.GiftCertificateDetailRepository.Get(p => p.BillOfLoading == billOfLoading).Any();
+        }
         public IEnumerable<GiftCertificate> Get(Expression<Func<GiftCertificate, bool>> filter = null, Func<IQueryable<GiftCertificate>, IOrderedQueryable<GiftCertificate>> orderBy = null, string includeProperties = "")
         {
             return _unitOfWork.GiftCertificateRepository.Get(filter, orderBy, includeProperties);

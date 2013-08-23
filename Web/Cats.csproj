@@ -706,12 +706,19 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
+
     <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\EditDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
     <Content Include="Areas\GiftCertificate\Views\Web.config" />
+
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -966,6 +973,10 @@
     <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
