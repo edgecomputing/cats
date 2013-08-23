@@ -67,6 +67,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema.Localiz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Transaction", "Cats.Services.Transaction\Cats.Services.Transaction.csproj", "{9B741D92-4B67-4863-BF38-A1ADCAE40870}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportGenerator", "PdfReportGenerator\PdfReportGenerator.csproj", "{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{9B741D92-4B67-4863-BF38-A1ADCAE40870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B741D92-4B67-4863-BF38-A1ADCAE40870}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B741D92-4B67-4863-BF38-A1ADCAE40870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

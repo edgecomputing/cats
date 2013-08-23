@@ -38,6 +38,9 @@ namespace Cats
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/cats-print-script").Include("~/Scripts/cats-print-script.js"));
+            bundles.Add(new ScriptBundle("~/bundles/cats-print-css").Include("~/Content/PrintReport.js"));
         }
     }
 }
