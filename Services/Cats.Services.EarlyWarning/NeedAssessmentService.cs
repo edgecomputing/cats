@@ -100,25 +100,54 @@ namespace Cats.Services.EarlyWarning
         public IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int region)//,string season)
         {
             List<NeedAssessmentDetail> needAssessment = _unitOfWork.NeedAssessmentDetailRepository.Get(r => r.NeedAssessmentHeader.NeedAssessment.Region == region ).ToList();
-            return needAssessment.Select(need => new NeedAssessmentViewModel()
-                                                     {
-                                                       
-                                                         ZoneName = need.AdminUnit.Name, 
-                                                         WoredaName = need.AdminUnit.Name,
-                                                         ProjectedMale = need.ProjectedMale, 
-                                                         ProjectedFemale = need.ProjectedFemale, 
-                                                         RegularPSNP = need.RegularPSNP, 
-                                                         PSNP = need.PSNP, 
-                                                         NonPSNP = need.NonPSNP, 
-                                                         Contingencybudget = need.Contingencybudget,
-                                                         TotalBeneficiaries = need.TotalBeneficiaries, 
-                                                         PSNPFromWoredasMale = need.PSNPFromWoredasMale, 
-                                                         PSNPFromWoredasFemale = need.PSNPFromWoredasFemale, 
-                                                         PSNPFromWoredasDOA = need.NonPSNPFromWoredasDOA,
-                                                         NonPSNPFromWoredasMale = need.NonPSNPFromWoredasFemale,
-                                                         NonPSNPFromWoredasFemale = need.NonPSNPFromWoredasFemale, 
-                                                         NonPSNPFromWoredasDOA = need.NonPSNPFromWoredasDOA
-                                                     });
+            foreach (NeedAssessmentDetail need in needAssessment)
+                yield return new NeedAssessmentViewModel()
+                                 {
+                                     ZoneName = need.AdminUnit.Name, 
+                                     Woreda = (int) need.Woreda, 
+                                     Zone = (int) need.NeedAssessmentHeader.Zone, 
+                                     NAId = need.NAId, 
+                                     NeedAID = (int) need.NeedAId, 
+                                     WoredaName = need.AdminUnit.Name, 
+                                     ProjectedMale = need.ProjectedMale, 
+                                     ProjectedFemale = need.ProjectedFemale, 
+                                     RegularPSNP = need.RegularPSNP, 
+                                     PSNP = need.PSNP, 
+                                     NonPSNP = need.NonPSNP, 
+                                     Contingencybudget = need.Contingencybudget, 
+                                     TotalBeneficiaries = need.TotalBeneficiaries,
+                                     PSNPFromWoredasMale = need.PSNPFromWoredasMale,
+                                     PSNPFromWoredasFemale = need.PSNPFromWoredasFemale, 
+                                     PSNPFromWoredasDOA = need.NonPSNPFromWoredasDOA, 
+                                     NonPSNPFromWoredasMale = need.NonPSNPFromWoredasFemale, 
+                                     NonPSNPFromWoredasFemale = need.NonPSNPFromWoredasFemale, 
+                                     NonPSNPFromWoredasDOA = need.NonPSNPFromWoredasDOA
+                                 };
+        }
+
+        public IEnumerable<NeedAssessmentDetail> GetDetail(IEnumerable<NeedAssessmentViewModel> detailViewModel)
+        {
+            return detailViewModel.Select(viewModel => new NeedAssessmentDetail
+                                                           {
+                                                               NeedAId = viewModel.NeedAID,
+                                                               NAId = viewModel.NAId,
+                                                               Woreda = viewModel.Woreda, 
+                                                               NeedAssessmentHeader = 
+                                                               {Zone = viewModel.Zone}, 
+                                                               ProjectedMale = viewModel.ProjectedMale, 
+                                                               ProjectedFemale = viewModel.ProjectedFemale, 
+                                                               RegularPSNP = viewModel.RegularPSNP,
+                                                               PSNP = viewModel.PSNP, 
+                                                               NonPSNP = viewModel.NonPSNP, 
+                                                               Contingencybudget = viewModel.Contingencybudget, 
+                                                               TotalBeneficiaries = viewModel.TotalBeneficiaries, 
+                                                               PSNPFromWoredasMale = viewModel.PSNPFromWoredasMale, 
+                                                               PSNPFromWoredasFemale = viewModel.PSNPFromWoredasFemale,
+                                                               PSNPFromWoredasDOA = viewModel.PSNPFromWoredasDOA, 
+                                                               NonPSNPFromWoredasMale = viewModel.NonPSNPFromWoredasMale, 
+                                                               NonPSNPFromWoredasFemale = viewModel.NonPSNPFromWoredasFemale,
+                                                               NonPSNPFromWoredasDOA = viewModel.NonPSNPFromWoredasDOA
+                                                           }).ToList();
         }
 
         public void Dispose()
