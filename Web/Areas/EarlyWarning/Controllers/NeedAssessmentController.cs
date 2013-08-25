@@ -19,15 +19,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IAdminUnitService _adminUnitService;
         private readonly INeedAssessmentHeaderService _needAssessmentHeaderService;
         private readonly INeedAssessmentDetailService _needAssessmentDetailService;
+        private readonly ISeasonService _seasonService;
+ 
         public NeedAssessmentController(INeedAssessmentService needAssessmentService, 
                                         IAdminUnitService adminUnitService, 
                                         INeedAssessmentHeaderService needAssessmentHeaderService, 
-                                        INeedAssessmentDetailService needAssessmentDetailService)
+                                        INeedAssessmentDetailService needAssessmentDetailService, 
+                                        ISeasonService seasonService)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;
             _needAssessmentHeaderService = needAssessmentHeaderService;
             _needAssessmentDetailService = needAssessmentDetailService;
+            _seasonService = seasonService;
         }
 
         //
@@ -35,14 +39,70 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-           
-           
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();
         }
 
 
+        public ActionResult AddRegion()
+        {
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                               "Name");
+            ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID",
+                                              "Name");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddRegion(NeedAssessment needAssessment,FormCollection collection)
+        {
+
+             var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
+             int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
+            needAssessment.NeddACreatedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+            needAssessment.NeedAApproved = false;
+            needAssessment.NeedAApprovedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+            needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
+            needAssessment.Season = season;
+
+            var err = ModelState.SelectMany(x => x.Value.Errors.Select(z => z.Exception));
+            if (ModelState.IsValid)
+            {
+                
+                _needAssessmentService.AddNeedAssessment(needAssessment);
+                    
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult AddZone()
+        {
+
+            var regionsInNeedAssessment = _needAssessmentService.GetRegionsFromNeedAssessment();
+            ViewBag.Zones = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 3), "AdminUnitID",
+                                            "Name");
+           
+            var listOfRegions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+            var filteredRegions = from region in listOfRegions
+                        where regionsInNeedAssessment.Contains(region.Name)
+                        select region;
+            ViewBag.Regions = new SelectList(filteredRegions, "AdminUnitID",
+                                              "Name");
+            ViewData["Seasons"] = _needAssessmentService.GetSeasonFromNeedAssessment();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddZone(NeedAssessmentHeader needAssessmentHeader)
+        {
+            if (ModelState.IsValid)
+            {
+                _needAssessmentHeaderService.AddNeedAssessmentHeader(needAssessmentHeader);
+            }
+            return RedirectToAction("Index");
+        }
 
         public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request )
         {
@@ -54,9 +114,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(_needAssessmentService.ReturnNeedAssessmentHeaderViewModel(region).ToDataSourceResult(request));
 
         }
-        public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)//, string season)
+        public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int zone)//, string season)
         {
-            return Json(_needAssessmentService.ReturnNeedAssessmentDetailViewModel(region).ToDataSourceResult(request));
+            return Json(_needAssessmentService.ReturnNeedAssessmentDetailViewModel(zone).ToDataSourceResult(request));
 
         }
         //
@@ -91,35 +151,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 // TODO: Add insert logic here
 
-              NeedAssessment needAssessment = new NeedAssessment();
-              NeedAssessmentHeader needAssessmentHeader=new NeedAssessmentHeader();
-
-              var dateCreated = DateTime.Now  ;
-              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
-              var zone = collection["ZoneID"];
               var woreda = collection["WoredaID"];
-              
-
-
-
                 if (ModelState.IsValid)
                 {
-                    needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
-                    needAssessment.NeedADate = dateCreated;
-                    needAssessment.Season = needDetail.NeedAssessmentHeader.NeedAssessment.Season;
-                    needAssessment.NeddACreatedBy =
-                        _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
-                    needAssessment.TypeOfNeedAssessment = needDetail.NeedAssessmentHeader.NeedAssessment.TypeOfNeedAssessment;
-                    needAssessment.NeedAApproved = false;
-                    needAssessment.NeedAApprovedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
-
-                    needAssessmentHeader.Zone = int.Parse(zone.ToString(CultureInfo.InvariantCulture));
-                    needDetail.Woreda = int.Parse(woreda.ToString(CultureInfo.InvariantCulture));
-
-
-                    needDetail.NeedAssessmentHeader = needAssessmentHeader;
-                    needDetail.NeedAssessmentHeader.NeedAssessment = needAssessment;
-                    _needAssessmentService.AddNeedAssessment(needDetail);
+                    
+                     needDetail.Woreda = int.Parse(woreda.ToString(CultureInfo.InvariantCulture));
+                    _needAssessmentDetailService.AddNeedAssessmentDetail(needDetail);
                 }
                 return RedirectToAction("Index");
             }

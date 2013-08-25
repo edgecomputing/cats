@@ -8,7 +8,7 @@ namespace Cats.Models
         public int NeedAID { get; set; }
         public int Region { get; set; }
         public string RegionName { get; set; }
-        public string Season { get; set; }
+        public int Season { get; set; }
         public System.DateTime NeedADate { get; set; }
         public Nullable<int> NeedACreatedBy { get; set; }
         public string NeedACreaterName { get; set; }

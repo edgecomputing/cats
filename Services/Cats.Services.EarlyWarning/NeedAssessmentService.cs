@@ -18,10 +18,10 @@ namespace Cats.Services.EarlyWarning
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddNeedAssessment(NeedAssessmentDetail detail)
+        public bool AddNeedAssessment(NeedAssessment needAssessment)
         {
 
-            _unitOfWork.NeedAssessmentDetailRepository.Add(detail);
+            _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
             _unitOfWork.Save();
             return true;
 
@@ -70,7 +70,7 @@ namespace Cats.Services.EarlyWarning
                                                                                   NeedAID = need.NeedAID,
                                                                                   Region = need.Region, 
                                                                                   RegionName = need.AdminUnit.Name, 
-                                                                                  Season = need.Season, 
+                                                                                  Season  = need.Season1.SeasonID, 
                                                                                   NeedADate = (DateTime) need.NeedADate, 
                                                                                   NeedAApproved = need.NeedAApproved,
                                                                                   NeedACreaterName = need.UserProfile1.UserName,
@@ -89,7 +89,7 @@ namespace Cats.Services.EarlyWarning
                                                                                                  ZoneName = need.AdminUnit.Name, 
                                                                                                  WoredaName = need.AdminUnit.Name, 
                                                                                                  RegionName = need.AdminUnit.Name, 
-                                                                                                 Season = need.NeedAssessment.Season, 
+                                                                                                 Season = need.NeedAssessment.Season1.SeasonID, 
                                                                                                  NeedADate = (DateTime) need.NeedAssessment.NeedADate, 
                                                                                                  NeedAApproved = need.NeedAssessment.NeedAApproved, 
                                                                                                  NeedAApprovedBy = need.NeedAssessment.NeedAApprovedBy, 
@@ -97,9 +97,9 @@ namespace Cats.Services.EarlyWarning
                                                                                              } : null);
         }
 
-        public IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int region)//,string season)
+        public IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int zone)//,string season)
         {
-            List<NeedAssessmentDetail> needAssessment = _unitOfWork.NeedAssessmentDetailRepository.Get(r => r.NeedAssessmentHeader.NeedAssessment.Region == region ).ToList();
+            List<NeedAssessmentDetail> needAssessment = _unitOfWork.NeedAssessmentDetailRepository.Get(r => r.NeedAssessmentHeader.Zone == zone ).ToList();
             foreach (NeedAssessmentDetail need in needAssessment)
                 yield return new NeedAssessmentViewModel()
                                  {
@@ -150,6 +150,14 @@ namespace Cats.Services.EarlyWarning
                                                            }).ToList();
         }
 
+        public List<string> GetRegionsFromNeedAssessment()
+        {
+            return _unitOfWork.NeedAssessmentRepository.GetAll().Select(r => r.AdminUnit.Name).ToList();
+        }
+        public  List<string> GetSeasonFromNeedAssessment()
+        {
+            return _unitOfWork.NeedAssessmentRepository.GetAll().Select(r => r.Season1.Name).ToList();   
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

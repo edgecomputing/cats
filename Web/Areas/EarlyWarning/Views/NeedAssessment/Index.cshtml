@@ -18,11 +18,18 @@
    @Html.Partial("_NeedAssessmentPartial");
 }
 <div class="well">
+    
     <h4 class="page-header">Create new Need Assessment</h4>
     <div align="right">
-        <a href="NeedAssessment/Create" class="btn btn-success">Create New Assessment</a>
+        <a href="NeedAssessment/Create" class="btn btn-success">Enter New Assessment</a>
     </div>
-</div>
+    <div align="right">
+        <a href="NeedAssessment/AddRegion" class="btn btn-success">Add  Region</a>
+    </div>
+    <div align="right">
+        <a href="NeedAssessment/AddZone" class="btn btn-success">Add Zone</a>
+    </div>
+</>
 <fieldset>
     <legend>
         Beneficiary numbers and duration of assisstance
@@ -52,6 +59,7 @@
 
                                     command.Custom("Edit").Click("EditRecord");
                                     command.Custom("Delete").Click("deleteRecord");
+                                    command.Custom("Add Region").Click("OnAdd");
 
                                 }).Width(330);
 
@@ -60,7 +68,7 @@
           .Editable(editable => editable.Mode(GridEditMode.InLine))
           .Pageable()
           .Sortable()
-          .ClientDetailTemplateId("templateZones")
+          .ClientDetailTemplateId("Zone")
           .DataSource(datasource => datasource.Ajax()
           .Model(model => model.Id(p => p.NeedAID))
           .Read(read => read.Action("NeedAssessmentRead", "NeedAssessment"))
@@ -71,7 +79,7 @@
           )
   
 
-<script id="templateZones" type="text/kendo-tmpl">
+<script id="Woreda" type="text/kendo-tmpl">
     
                     @(Html.Kendo().Grid<NeedAssessmentViewModel>()
                           .Name("NeedAssessment_#=NeedAID#")
@@ -95,10 +103,10 @@
                                            columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Female"});
                                            columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas DOA"});
                                            columns.Command(command => command.Destroy()).Width(330);
+                                           columns.Command(command => command.Custom("Add Detail").Click("OnAddDetail"));
                                            
                                        })
                                         .ToolBar(toolbar => toolbar.Save())
-                                       
                                         .Editable(editable => editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation("Delete this row?"))
                                         .Pageable()
                                         .Sortable()
@@ -110,7 +118,7 @@
                                                 .Events(events => events.Error("error_handler"))
                                                         .Model(model => model.Id(p => p.NAId))
                                                         .Create("NeedAssessmentUpdate", "NeedAssessment")
-                                                        .Read("NeedAssessmentDetailRead", "NeedAssessment", new { region = "#=Region#" })
+                                                        .Read("NeedAssessmentDetailRead", "NeedAssessment", new { region = "#=Zone#" })
                                                         .Update("NeedAssessmentUpdate", "NeedAssessment")
                                                        
                                                         .Destroy(destroy => destroy.Action("DeleteDetail", "NeedAssessment", new { id = "#=NAId#" }))
@@ -122,7 +130,31 @@
                 
 </script>
 
+<script id="Zone" type="text/kendo-tmpl">
+    
+                    @(Html.Kendo().Grid<NeedAssessmentHeader>()
+                          .Name("NeedAssessment_#=NeedAID#")
+                        .Columns(columns =>
+                                     {
 
+
+
+                                         columns.Bound(p => p.AdminUnit.Name);
+                                         columns.Command(command => command.Custom("Add Zone").Click("OnAddZone"));
+                                     })// => p.Zone, (IEnumerable)ViewData["zones"], "AdminUnitID", "Name"))
+                                        .Pageable()
+                                        .Sortable()
+                                        .ClientDetailTemplateId("Woreda")
+                                         .DataSource(dataSource => dataSource
+                                              .Ajax()
+                                              .Events(events => events.Error("error_handler"))
+                                              .Model(model => model.Id(p => p.NeedAID))
+                                              .Read("NeedAssessmentHeaderRead", "NeedAssessment", new { region = "#=Region#" })
+                                                                             
+                          )
+                          .ToClientTemplate())
+                
+</script>
 <script>
 
     function EditRecord(e) {
@@ -130,6 +162,18 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "NeedAssessment/Edit/" + dataItem.NeedAID;
        
+    }
+    function OnAdd(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "NeedAssessment/AddRegion/" + dataItem.NeedAID;
+
+    }
+    function OnAddZone(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "NeedAssessment/AddZone/" + dataItem.NeedAID;
+
     }
     function deleteRecord(e) {
         e.preventDefault();

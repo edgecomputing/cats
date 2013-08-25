@@ -93,6 +93,7 @@
     <Compile Include="IShippingInstructionService.cs" />
     <Compile Include="IStateTemplateService.cs" />
     <Compile Include="ITransactionService.cs" />
+    <Compile Include="ITypeOfNeedAssessmentService.cs" />
     <Compile Include="IWorkflowStatusService.cs" />
     <Compile Include="NeedAssessmentDetailService.cs" />
     <Compile Include="NeedAssessmentHeaderService.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="StateTemplateService.cs" />
     <Compile Include="TransactionService.cs" />
+    <Compile Include="TypeOfNeedAssessmentService.cs" />
     <Compile Include="WorkflowStatusService.cs" />
   </ItemGroup>
   <ItemGroup>

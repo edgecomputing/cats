@@ -16,7 +16,7 @@ namespace Cats.Models
         [Key]
         public int NeedAID { get; set; }
         public int Region { get; set; }
-        public string Season { get; set; }
+        public int Season { get; set; }
         public DateTime? NeedADate { get; set; }
         public Nullable<int> NeddACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }
@@ -27,6 +27,8 @@ namespace Cats.Models
         public virtual ICollection<HRD> HRDs { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
+        public virtual Season Season1 { get; set; }
+        public virtual TypeOfNeedAssessment TypeOfNeedAssessment1 { get; set; }
         public virtual ICollection<NeedAssessmentHeader> NeedAssessmentHeaders { get; set; }
     }
 }

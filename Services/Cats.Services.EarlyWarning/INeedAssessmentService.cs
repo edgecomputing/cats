@@ -8,7 +8,7 @@ namespace Cats.Services.EarlyWarning
     public partial interface INeedAssessmentService
     {
 
-        bool AddNeedAssessment(NeedAssessmentDetail detail);
+        bool AddNeedAssessment(NeedAssessment needAssessment);
         bool DeleteNeedAssessment(NeedAssessment needAssessment);
         bool DeleteById(int id);
         bool EditNeedAssessment(NeedAssessment needAssessment);
@@ -18,8 +18,10 @@ namespace Cats.Services.EarlyWarning
         IEnumerable<NeedAssessmentHeaderViewModel>  ReturnViewModel();
 
         IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentHeaderViewModel(int region);
-        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int region);
+        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int zone);
         IEnumerable<NeedAssessmentDetail> GetDetail(IEnumerable<NeedAssessmentViewModel> detailViewModel);
+        List<string> GetRegionsFromNeedAssessment();
+        List<string> GetSeasonFromNeedAssessment();
     }
 }
 

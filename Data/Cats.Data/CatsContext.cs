@@ -94,6 +94,8 @@ namespace Cats.Data
         public DbSet<BusinessProcess> BusinessProcesss { get; set; }
         public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
 
+        public DbSet<TypeOfNeedAssessment> TypeOfNeedAssessment { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new BusinessProcessStateMap());
@@ -169,6 +171,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new ContributionDetailMap());
             modelBuilder.Configurations.Add(new DonorMap());
 
+            modelBuilder.Configurations.Add(new TypeOfNeedAssessmentMap());
             //modelBuilder.Configurations.Add(new AccountTransactionMap());
             //modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
 

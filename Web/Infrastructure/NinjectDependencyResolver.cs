@@ -107,6 +107,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IContributionService>().To<ContributionService>();
             kernel.Bind<IContributionDetailService>().To<ContributionDetailService>();
             kernel.Bind<IDonorService>().To<DonorService>();
+            kernel.Bind<ITypeOfNeedAssessmentService>().To<TypeOfNeedAssessmentService>();
 
         }
     }

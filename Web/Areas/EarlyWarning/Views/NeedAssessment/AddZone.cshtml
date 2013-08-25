@@ -1,0 +1,75 @@
+﻿@using System.Collections
+@model Cats.Models.NeedAssessmentHeader
+
+@{
+    ViewBag.Title = "AddZone";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>AddZone</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>NeedAssessmentHeader</legend>
+
+        
+        <div class="form-horizontal">
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NeedAssessment.Region)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("r", ViewBag.Regions as SelectList)
+                    @Html.ValidationMessageFor(model => model.NeedAssessment.Region)
+                </div>
+            </div>@*
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NeedAssessment.Season)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("k",new SelectList(ViewBag["Seasons"]))
+                    @Html.ValidationMessageFor(model => model.NeedAssessment.Season)
+                </div>
+            </div>
+            *@
+
+            <div id="Zone">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Zone, "Zones")
+                    </div>
+                    <div class="controls">
+                        @Html.Hidden("Zone")
+                        @Html.DropDownList("ZoneID", ViewBag.Zones as SelectList, new {id = "Zone"})
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="control-group">
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Remark)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </div>
+            </div>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </div>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

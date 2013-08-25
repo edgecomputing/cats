@@ -714,6 +714,8 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddZone.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
