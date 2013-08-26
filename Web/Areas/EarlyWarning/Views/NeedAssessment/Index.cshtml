@@ -16,12 +16,14 @@
 {
    @Html.Partial("_NeedAssessmentPartial");
 }
-<div class="well">
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="NeedAssessment/Create"></a>
+}
+
     <h4 class="page-header">Create new Need Assessment</h4>
-    <div align="right">
-        <a href="NeedAssessment/Create" class="btn btn-success">Create New Assessment</a>
-    </div>
-</div>
+    
+
 <fieldset>
     <legend>
         Beneficiary numbers and duration of assisstance
@@ -31,41 +33,41 @@
 @{var record = 0;}
 
 @(Html.Kendo().Grid<NeedAssessmentHeaderViewModel>()
-  
+
     .Name("NA").Columns(columns =>
-                            {
+    {
 
-                                columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+        columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
 
-                                columns.Bound(p => p.NeedAID).Title("ID").Width("100");
-                               
-                                columns.Bound(p => p.RegionName).Title("Region").Width("100");
-                                columns.Bound(p => p.Season).Title("Season").Width("100");
-                                columns.Bound(p => p.NeedADate).Title("Need Assessment Date").Width("100").Format("{0:MM/dd/yyyy}") ;
-                                //columns.ForeignKey(p => p.StartingMonth, (IEnumerable)ViewData["Region"], "Id", "Name").Width(10);
-                                columns.Bound(p => p.NeedACreaterName).Title("Created By").Width("100");
-                                columns.Bound(p => p.TypeOfNeedAssessment).Title("Type Of Need Assessment").Width("100");
-                                columns.Command(command =>
-                                {
-                                   
-                                    command.Custom("Edit").Click("EditRecord");
-                                    command.Custom("Delete").Click("deleteRecord");
-                                    
-                                }).Width(330);
-                                
-                            })
-                           
+        columns.Bound(p => p.NeedAID).Title("ID").Width("100");
+
+        columns.Bound(p => p.RegionName).Title("Region").Width("100");
+        columns.Bound(p => p.Season).Title("Season").Width("100");
+        columns.Bound(p => p.NeedADate).Title("Need Assessment Date").Width("100").Format("{0:MM/dd/yyyy}");
+        //columns.ForeignKey(p => p.StartingMonth, (IEnumerable)ViewData["Region"], "Id", "Name").Width(10);
+        columns.Bound(p => p.NeedACreaterName).Title("Created By").Width("100");
+        columns.Bound(p => p.TypeOfNeedAssessment).Title("Type Of Need Assessment").Width("100");
+        columns.Command(command =>
+        {
+
+            command.Custom("Edit").Click("EditRecord");
+            command.Custom("Delete").Click("deleteRecord");
+
+        }).Width(330);
+
+    })
+
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Sortable()
       .ClientDetailTemplateId("templateZones")
-      .DataSource(datasource=>datasource.Ajax()
+      .DataSource(datasource => datasource.Ajax()
       .Model(model => model.Id(p => p.NeedAID))
       .Read(read => read.Action("NeedAssessmentRead", "NeedAssessment"))
-    
+
       )
-      
-      
+
+
       )
   
 
