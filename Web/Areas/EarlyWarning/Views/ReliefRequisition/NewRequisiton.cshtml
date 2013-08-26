@@ -64,7 +64,7 @@
                 <tr>
                     <td>
 @*                        @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new { @style = "width:80%; border:none; !important;" })*@
-                          <input type='text'  name="input[@index].RequisitionNo" id="txtRequisitionID" value="@item.Input.RequisitionNo"/>
+                          <input type='text'  name="input[@index].RequisitionNo" id="txtRequisitionID" value="@item.Input.RequisitionNo" style = "width:80%; border:none; !important;"/>
                         @Html.ValidationMessageFor(modelItem => item.RequisitionNo)
                     </td>
                     <td>

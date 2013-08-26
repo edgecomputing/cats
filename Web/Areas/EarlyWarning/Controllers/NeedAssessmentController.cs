@@ -35,6 +35,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
+           
+           
+            ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
+            ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();
         }
 
@@ -174,13 +178,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult NeedAssessmentUpdate([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<NeedAssessmentViewModel> needAssessmentDetails)
+            [Bind(Prefix = "models")]IEnumerable<NeedAssessmentDetail> needAssessmentlDetails)
         {
-            if (needAssessmentDetails != null && ModelState.IsValid)
+           // IEnumerable<NeedAssessmentDetail> needAssessmentDetails = _needAssessmentService.GetDetail(needAssessmentViewModelDetails);
+            if (needAssessmentlDetails != null && ModelState.IsValid)
             {
-                foreach (var details in needAssessmentDetails)
+                foreach (var details in needAssessmentlDetails)
                 {
-                    //_needAssessmentDetailService.EditNeedAssessmentDetail(details);
+                    _needAssessmentDetailService.EditNeedAssessmentDetail(details);
                 }
             }
 
@@ -228,8 +233,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult DeleteDetail(NeedAssessmentViewModel needAssessmentViewModel, FormCollection collection)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DeleteDetail([DataSourceRequest] DataSourceRequest request, NeedAssessmentViewModel needAssessmentViewModel)
         {
             try
             {

@@ -60,6 +60,7 @@
     <Compile Include="CommodityType.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="ContributionDetail.cs" />
+    <Compile Include="Constant\Master.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="FlowTemplate.cs" />
     <Compile Include="GiftCertificate.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="NeedAssessmentViewModel.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
+    <Compile Include="Constant\CommoditySource.cs" />
     <Compile Include="Partial\HRD.cs" />
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />
@@ -214,7 +216,7 @@
     <Folder Include="Partials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>

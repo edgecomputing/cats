@@ -18,7 +18,8 @@ namespace Cats.Services.EarlyWarning
         IEnumerable<NeedAssessmentHeaderViewModel>  ReturnViewModel();
 
         IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentHeaderViewModel(int region);
-        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int region);//, string season);
+        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int region);
+        IEnumerable<NeedAssessmentDetail> GetDetail(IEnumerable<NeedAssessmentViewModel> detailViewModel);
     }
 }
 

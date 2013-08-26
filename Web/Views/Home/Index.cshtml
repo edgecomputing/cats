@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<Cats.Models.ReliefRequisition>*@
+﻿@using Cats.Helpers
 
 @model IEnumerable<Cats.Models.RegionalRequest>
 
@@ -10,7 +10,7 @@
 
 
 <div class=" span12 ">
-    <h3>Welcome to CATS</h3>
+    <h4>Welcome @Html.GetUserName()</h4>
 </div>
 <div class="">
     @Html.Partial("_Dashboard",Model)

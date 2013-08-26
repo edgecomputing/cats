@@ -37,6 +37,10 @@ namespace Cats.Controllers
             //return Json(req, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Error()
+        {
+            return View();
+        }
         [HttpPost]
         public ActionResult RegionalMonthlyRequests()
         {

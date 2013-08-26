@@ -612,14 +612,34 @@ namespace Cats.Data.UnitWork
             }
         }
 
+
+
+     
+
         public IGenericRepository<Donor> DonorRepository
         {
+
             get { return this.donorRepository ?? (this.donorRepository = new GenericRepository<Donor>(_context)); }
+
         }
 
+
+
+
+        private IGenericRepository<Detail> detailRepository;
+
+        public IGenericRepository<Detail> DetailRepository
+        {
+
+            get { return this.detailRepository ?? (this.detailRepository = new GenericRepository<Detail>(_context)); }
+
+        }
+
+
+        
+      
       
 
-       
 
 
 
