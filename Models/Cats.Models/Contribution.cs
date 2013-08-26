@@ -17,7 +17,7 @@ namespace Cats.Models
         public int DonorID { get; set; }
         public int HRDID { get; set; }
         public int Year { get; set; }
-        public int ImplementingAgency { get; set; }
+        //public int ImplementingAgency { get; set; }
         public virtual Donor Donor { get; set; }
         //public virtual Donor Donor1 { get; set; }
         public virtual HRD HRD { get; set; }
