@@ -1,49 +1,10 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Models
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = "NeedAssessmentToBeApproved";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
-
-
-@section LeftBar
-{
-   @Html.Partial("_NeedAssessmentPartial");
-}
-
-<fieldset>
-    <legend>
-       Need Assessment To Be Approved
-    </legend>
-</fieldset>
-
-@{var record = 0;}
-
-@(Html.Kendo().Grid<NeedAssessmentViewModel>()
-
-    .Name("NeedAssessment").Columns(columns =>
-                            {
-                                columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-                                columns.Bound(p => p.NeedACreatedDate).Format("{0:MM/dd/yyyy}");
-                                columns.Bound(p => p.CreaterUser);
-                                //columns.Bound(p => p.NeedAApproved).Template(@<text></text>).ClientTemplate("<input type='checkbox' #= NeedAApproved ? checked='checked' : '' # class='check_row'/>");
-                                columns.Command(p => p.Custom("Approve").Click("onApprove"));
-                            })
-      .Editable(editable => editable.Mode(GridEditMode.InLine))
-      .Pageable()
-      .Sortable()
-      .ColumnMenu()
-      .DataSource(datasource => datasource.Ajax()
-      .Model(model => model.Id(p => p.NAId))
-      .Read(read => read.Action("NeedAssessmentsToBeApproved", "NeedAssessment"))
-      
-      )
-      
-      )
-  
-<br/>
-
 
 <div id="modalWindow">
     <h6>Approve Need Assessment?</h6>
@@ -82,9 +43,89 @@
         });
     }
 </script>
+
+
+@section LeftBar
+{
+   @Html.Partial("_NeedAssessmentPartial");
+}
+
+<fieldset>
+    <legend>
+       Need Assessment To Be Approved
+    </legend>
+</fieldset>
+
+@{var record = 0;}
+
+@(Html.Kendo().Grid<NeedAssessmentHeaderViewModel>()
+
+    .Name("NeedAssessment").Columns(columns =>
+                            {
+                               
+                                columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
+                                columns.Bound(p => p.NeedACreatedDate).Format("{0:MM/dd/yyyy}");
+                                columns.Bound(p => p.CreaterUser);
+                               
+                                //columns.Bound(p => p.NeedAApproved).Template(@<text></text>).ClientTemplate("<input type='checkbox' #= NeedAApproved ? checked='checked' : '' # class='check_row'/>");
+                                columns.Command(p => p.Custom("Approve").Click("onApprove"));
+                            })
+                                  .Editable(editable => editable.Mode(GridEditMode.InLine))
+                                  .Pageable()
+                                  .Sortable()
+                                  .Navigatable()
+                                  .ClientDetailTemplateId("template")
+                                  .DataSource(datasource => datasource.Ajax()
+                                  .Model(model => model.Id(p => p.NaHeaderId))
+                                  .Read(read => read.Action("NeedAssessmentsToBeApproved", "NeedAssessment"))
+
+                                  )
+                                   .Events(events => events.DataBound("dataBound"))
+      )
+
+<script id="template" type="text/kendo-tmpl">
+    
+                    @(Html.Kendo().Grid<NeedAssessmentViewModel>()
+                          .Name("NeedAssessment_#=NaHeaderId#")
+                          .Columns(columns =>
+                                       {
+
+
+                                           columns.Bound(p => p.ZoneName).Title("Zone").Width("100");
+                                           columns.Bound(p => p.DistrictName).Title("Woreda").Width("100");
+                                           columns.Bound(p => p.VPoorNoOfM).Title("no. Months").Width("50");
+                                           columns.Bound(p => p.VPoorNoOfB).Title("Beneficiaries").Width("50");
+                                           columns.Bound(p => p.PoorNoOfM).Title("no. Months").Width("50");
+                                           columns.Bound(p => p.PoorNoOfB).Title("Beneficiaries").Width("50");
+                                           columns.Bound(p => p.MiddleNoOfM).Title("no. Months").Width("50");
+                                           columns.Bound(p => p.MiddleNoOfB).Title("Beneficiaries").Width("50");
+                                           columns.Bound(p => p.BOffNoOfM).Title("no. Months").Width("50");
+                                           columns.Bound(p => p.BOffNoOfB).Title("Beneficiaries").Width("50");
+
+                                       })
+
+
+                          .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Read(read => read.Action("ShowDetail", "NeedAssessment", new { detailId = "#=NaHeaderId#" }))
+                        )
+                        .Pageable()
+                        .Sortable()
+                        .ToClientTemplate())
+                
+</script>
+
+
 <script>
     function dataBound() {
         this.expandRow(this.tbody.find("tr.k-master-row").first());
     }
 </script>
+  
+<br/>
+
+
+
+
+
 

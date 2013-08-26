@@ -7,13 +7,14 @@
             var that = this;
             var htm = '<input/>';
             $(that).datepicker();
-            var eth_date = new EthDate().fromGregStr($(that).val());
 
+            var eth_date = new EthDate().fromGregStr($(that).val());
+            if (!$(that).val()) {
+                var greg_date = eth_date.toGreg();
+                $(that).val(greg_date.toLocaleDateString());
+            }
            // $(this).focus(function () { check_parse(this) });
             var eth_date_input = $(htm).insertAfter($(this))
-            
-           //     .css('opacity', 0.8)
-                .val($(that).val())
                 .val(eth_date.toString())
                 .click(function () { _ethdatepicker_show(this) })
                 
@@ -74,7 +75,7 @@
         var $header = $("<div id=\"ui-ethdatepicker-header\" class=\"ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all\"></div>").appendTo(eth_date_picker);
 
         var $body = $("<div  id='ui-ethdatepicker-body'>Body<br/>Body</div>").appendTo(eth_date_picker);
-        var $debug = $('<div>debug</div>').appendTo(eth_date_picker);
+        var $debug = $("<div style='display:none;'>debug</div>").appendTo(eth_date_picker);
 
         var $prevbtn = $('<a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="Prev"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a>').appendTo($header);
         var $nextbtn = $('<a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="Next"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a>').appendTo($header);

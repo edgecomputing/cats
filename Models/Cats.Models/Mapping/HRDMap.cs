@@ -32,7 +32,7 @@ namespace Cats.Models.Mapping
 
             // Relationships
             this.HasOptional(t => t.NeedAssessment)
-                .WithMany(t => t.Hrds)
+                .WithMany(t => t.HRDs)
                 .HasForeignKey(d => d.NeedAssessmentID);
             //this.HasOptional(t => t.Season)
             //    .WithMany(t => t.Hrds)

@@ -7,6 +7,9 @@ namespace Cats.Data.UnitWork
     public interface IUnitOfWork : IDisposable
     {
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
+
+        IGenericRepository<BusinessProcessState> BusinessProcessStateRepository { get; }
+        IGenericRepository<BusinessProcess> BusinessProcessRepository { get; }
         IGenericRepository<ProcessTemplate> ProcessTemplateRepository { get; }
         IGenericRepository<StateTemplate> StateTemplateRepository { get; }
         IGenericRepository<FlowTemplate> FlowTemplateRepository { get; }
@@ -64,6 +67,7 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<Ration> RationRepository { get; }
 
+        IGenericRepository<NeedAssessment> NeedAssessmentRepository { get; } 
         IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository { get; }
         IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository { get; }
 
@@ -91,7 +95,15 @@ namespace Cats.Data.UnitWork
         IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }
         IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
         IGenericRepository<Unit> UnitRepository { get; }
-        IGenericRepository<Season> SeasonRepository { get; } 
+        IGenericRepository<Season> SeasonRepository { get; }
+
+        IGenericRepository<Contribution> ContributionRepository { get; }
+        IGenericRepository<ContributionDetail> ContributionDetailRepository { get; }
+        IGenericRepository<Donor> DonorRepository { get; } 
+
+ 
+        IGenericRepository<Detail> DetailRepository { get; } 
+
 
         void Save();
 

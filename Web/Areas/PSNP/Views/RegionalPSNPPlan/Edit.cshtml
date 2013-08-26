@@ -9,10 +9,16 @@
 {
     @Html.Partial("_PSNPLeftBar");
 }
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_psnp"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+}
 
-<h2>@Translator.Translate("title.Edit")</h2>
+<h2>@Translator.Translate("Edit")</h2>
 <div class="form-horizontal">
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "RegionalPSNPPlan", FormMethod.Post, new { id = "frm_edit_psnp" }))
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -54,13 +60,14 @@
             </div>
         </div>     
 
-
+        <!--
 
         <p>
             
             <input type="submit" value="@Translator.Translate("Save")" class="btn btn-info"/>
             <a href="@Url.Action("Index", "RegionalPSNPPlan")" class="btn btn-danger">@Translator.Translate("Back to List") </a> 
         </p>
+            -->
     </fieldset>
 }
 </div>

@@ -34,7 +34,7 @@
                         <span class="shortcut-label">Alerts</span>
                     </a>
 
-                    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                    <a href="@Url.Action("Index","AdminDashboard",new {Area="Settings"})" class="shortcut"><i class="shortcut-icon icon-cog"></i>
                         <span class="shortcut-label">Preferences</span>
                     </a>
                     <!--
@@ -72,7 +72,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Reginal Request</td>
+                            <td>Overdue requests</td>
                             <td>Monthly request from Afar Region</td>
                             <td class="td-actions">
                                 <a href="javascript:;" class="btn btn-small btn-warning">
@@ -162,11 +162,44 @@
                 <h3>Regional Requests</h3>
             </div>
             <div class="widget-content">
+<<<<<<< HEAD
+=======
+                <ul class="news-items">
+                    <li>
+                        <div class="news-item-detail">
+                            <a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })" class="news-item-title">Pending Request allocations</a>
+                            <p class="news-item-preview">Please review and approve this urgent request.</p>
+                            @*<p class="news-item-foot">July-24 [Early Warning Expert]</p>*@
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-item-detail">
+                            <!-- @Url.Action("Allocation", "Request", new { id = 2, Area = "EarlyWarning" }) -->
+                            <a href="javascript:" class="news-item-title">Diredawa Request-Urgent</a>
+                            <p class="news-item-preview">Please review and approve this urgent request.</p>
+                            @*<p class="news-item-foot">July-24 [Early Warning Expert]</p>*@
+                        </div>
+                    </li>
+                </ul>
+>>>>>>> 888b68e0de65420d5d2aacf7acae8a8f3057169c
             </div>
         </div>
 
         <br />
+<<<<<<< HEAD
     </div>*@
+=======
+        <div class="widget stacked">
+            <div class="widget-header">
+                <i class="icon-bar-chart"></i>
+                <h3>Charts</h3>
+            </div>
+            <div class="widget-content">
+                No data available.
+            </div>
+        </div>
+    </div>
+>>>>>>> 888b68e0de65420d5d2aacf7acae8a8f3057169c
 
 </div>
 

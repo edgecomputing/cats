@@ -44,10 +44,22 @@
   <ItemGroup>
     <Compile Include="AdminUnitService.cs" />
     <Compile Include="AdminUnitTypeService.cs" />
+    <Compile Include="BusinessProcessService.cs" />
+    <Compile Include="BusinessProcessStateService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+
     <Compile Include="DashboardService.cs" />
     <Compile Include="IDashboardService.cs" />
+
+    <Compile Include="ContributionDetailService.cs" />
+    <Compile Include="INeedAssessmentService.cs" />
+    <Compile Include="ContributionService.cs" />
+    <Compile Include="DonorService.cs" />
+    <Compile Include="IContributionDetailService.cs" />
+    <Compile Include="IContributionService.cs" />
+    <Compile Include="IDonorService.cs" />
+
     <Compile Include="ISeasonService.cs" />
     <Compile Include="FDPService.cs" />
     <Compile Include="FlowTemplateService.cs" />
@@ -59,6 +71,8 @@
     <Compile Include="HubService.cs" />
     <Compile Include="IAdminUnitService.cs" />
     <Compile Include="IAdminUnitTypeService.cs" />
+    <Compile Include="IBusinessProcessService.cs" />
+    <Compile Include="IBusinessProcessStateService.cs" />
     <Compile Include="ICommodityService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IFDPService.cs" />
@@ -87,6 +101,7 @@
     <Compile Include="IWorkflowStatusService.cs" />
     <Compile Include="NeedAssessmentDetailService.cs" />
     <Compile Include="NeedAssessmentHeaderService.cs" />
+    <Compile Include="NeedAssessmentService.cs" />
     <Compile Include="ProcessTemplateService.cs" />
     <Compile Include="ProgramService.cs" />
     <Compile Include="ProjectCodeAllocationService.cs" />

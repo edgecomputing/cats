@@ -54,8 +54,13 @@
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
     <Compile Include="BidWinner.cs" />
+    <Compile Include="BusinessProcess.cs" />
+    <Compile Include="BusinessProcessState.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
+    <Compile Include="Contribution.cs" />
+    <Compile Include="ContributionDetail.cs" />
+    <Compile Include="Constant\Master.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="FlowTemplate.cs" />
     <Compile Include="GiftCertificate.cs" />
@@ -79,8 +84,13 @@
     <Compile Include="Mapping\BidDetailMap.cs" />
     <Compile Include="Mapping\BidMap.cs" />
     <Compile Include="Mapping\BidWinnerMap.cs" />
+    <Compile Include="Mapping\BusinessProcessMap.cs" />
+    <Compile Include="Mapping\BusinessProcessStateMap.cs" />
     <Compile Include="Mapping\CommodityMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
+    <Compile Include="Mapping\ContributionDetailMap.cs" />
+    <Compile Include="Mapping\ContributionMap.cs" />
+    <Compile Include="Mapping\DonorMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />
     <Compile Include="Mapping\FlowTemplateMap.cs" />
     <Compile Include="Mapping\GiftCertificateDetailMap.cs" />
@@ -89,8 +99,9 @@
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
-    <Compile Include="Mapping\NeedAssessmentDetail.cs" />
+    <Compile Include="Mapping\NeedAssessmentDetailMap.cs" />
     <Compile Include="Mapping\NeedAssessmentHeaderMap.cs" />
+    <Compile Include="Mapping\NeedAssessmentMap.cs" />
     <Compile Include="Mapping\ProcessTemplateMap.cs" />
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
@@ -134,10 +145,14 @@
     <Compile Include="MetaData\TransportOrder.cs" />
     <Compile Include="MetaData\TransportRequisitionMeta.cs" />
     <Compile Include="MetaData\TransportRequisitionDetailMeta.cs" />
+    <Compile Include="NeedAssessment.cs" />
     <Compile Include="NeedAssessmentDetail.cs" />
     <Compile Include="NeedAssessmentHeader.cs" />
+    <Compile Include="NeedAssessmentHeaderViewModel.cs" />
+    <Compile Include="NeedAssessmentViewModel.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
+    <Compile Include="Constant\CommoditySource.cs" />
     <Compile Include="Partial\HRD.cs" />
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />
@@ -201,7 +216,7 @@
     <Folder Include="Partials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>

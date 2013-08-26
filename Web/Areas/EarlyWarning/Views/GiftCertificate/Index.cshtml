@@ -1,5 +1,6 @@
 ﻿
-@using Cats.Areas.EarlyWarning.Models
+@*@using Cats.Areas.EarlyWarning.Models
+@using Cats.Areas.GiftCertificate.Models
 @using Cats.Helpers
 @using Kendo.Mvc.UI
 
@@ -93,33 +94,97 @@
             wnd.close();
         });
     }
-</script>
-  @*<br/>
-<div class="control-group">      
-    <div class="controls">
-        <input type="submit" value="Create Template" class="btn btn-success" />
-    </div>
-</div>*@
-@*@using (Html.BeginForm("GenerateTemplate", "GiftCertificate", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
-{
-    
-        <div class="well form-horizontal">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label("Reference No:")
-                </div>
-                <div class="controls">
-                    @Html.TextBox("RefNo")
-            
-                </div>
+</script>*@
+
+@using Cats.Helpers
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model IEnumerable<Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel>
+
+@{
+   
+    ViewBag.Title = Translator.Translate("Gift Certificate");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+  
+}
+<div>
+ <h2>
+     @Translator.Translate("Gift Certificates")</h2>
+<p>
+     @Translator.Translate("List of gift certificates that were submitted. Click ")@Html.ActionLink("here to create", "Create")
+     @Translator.Translate(" new gift certificate records.")
+</p>
+
+ @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
+    //.DataKeys(keys => keys.Add(co => co.GiftCertificateID))
+  
+    .Columns(col =>
+    {
         
-            </div>
-            <div class="control-group">      
-                <div class="controls">
-                    <input type="submit" value="Create Template" class="btn btn-success" />
-                </div>
-            </div>
-        </div>
-    }*@
+         col.Template(
+             @<text>
+                  @Html.ActionLink( Translator.Translate("Edit"), "Edit", new { id = item.GiftCertificateID}) | 
+                  @Html.ActionLink(Translator.Translate("Print"), "GenerateTemplate", new { id = item.GiftCertificateID})
+              </text>
+              
+            ).Title("");
+      
+        //col.Bound(gc => gc.GiftDate).Format("{0:dd-MMM-yyyy}"); ;
+        col.Bound(gc => gc.Donor).Title(Translator.Translate("Donor"));
+        col.Template(@<text>
+                        @item.GiftDate.ToCTSPreferedDateFormat(user.LanguageCode)
+                      </text>).Title(Translator.Translate("Gift Date"));
+        col.Bound(gc => gc.SINumber).Title(Translator.Translate("SI Number"));
+        col.Bound(gc => gc.ReferenceNo).Title(Translator.Translate("Reference No"));
+    }
+        ).DetailTemplate(detail=>
+            Html.Kendo().Grid( detail.GiftCertificateDetails ).Name("GCDetails" + detail.GiftCertificateID)
+            .Columns(c =>
+            {
+                c.Bound(com => com.CommodityName).Title(Translator.Translate("Commodity"));
+                c.Bound(gc => gc.WeightInMT).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Weight in MT"));
+                c.Bound(gc => gc.EstimatedPrice).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Price"));
+                c.Bound(gc => gc.EstimatedTax).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Tax"));
+                c.Bound(gc => gc.FundSource).Title(Translator.Translate("Fund Source"));
+            })
+        ).Filterable().Sortable()
+   )
+   </div>
+<div id="modalWindow">
+    <h5>Print gift Certificate?</h5>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Print confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+<script>
 
+    function onPrint(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
 
+        $("#yes").click(function () {
+
+            window.location = "GiftCertificate/GenerateTemplate/" + dataItem.GiftCertificateID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>

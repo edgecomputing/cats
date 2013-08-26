@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace Cats.Models
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.GiftCertificates = new List<GiftCertificate>();
+            this.Contributions=new List<Contribution>();
+            //this.Contributions1=new List<Contribution>();
         }
 
         public int DonorID { get; set; }
@@ -27,5 +30,7 @@ namespace Cats.Models
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
   
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+        public virtual ICollection<Contribution> Contributions { get; set; }
+        //public virtual ICollection<Contribution> Contributions1 { get; set; }
     }
 }

@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{23584698-1bd3-4c40-ad56-9bc6dec0ff19}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -199,6 +199,13 @@
     <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
     <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
     <Build Include="dbo\Tables\AccountTransaction.sql" />
+    <Build Include="dbo\Tables\StateTemplate.sql" />
+    <Build Include="EarlyWarning\Tables\NeedAssessment.sql" />
+    <Build Include="dbo\Tables\ProcessTemplate.sql" />
+    <Build Include="dbo\Tables\ProcessStatus.sql" />
+    <Build Include="dbo\Tables\FlowTemplate.sql" />
+    <Build Include="dbo\Tables\LocalizedTexts.sql" />
+    <Build Include="dbo\Tables\Languages.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

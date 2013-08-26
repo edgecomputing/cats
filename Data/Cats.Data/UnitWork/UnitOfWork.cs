@@ -25,11 +25,25 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
         private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
         private IGenericRepository<Season> seasonRepository;
+        private IGenericRepository<Contribution> contributionRepository;
+        private IGenericRepository<ContributionDetail> contibutionDetailRepository;
+        private IGenericRepository<Donor> donorRepository; 
         public UnitOfWork()
         {
             this._context = new CatsContext();
         }
-       
+        private IGenericRepository<BusinessProcessState> _BusinessProcessStateRepository;
+        public IGenericRepository<BusinessProcessState> BusinessProcessStateRepository
+        {
+            get { return this._BusinessProcessStateRepository ?? (this._BusinessProcessStateRepository = new GenericRepository<BusinessProcessState>(_context)); }
+        }
+
+        private IGenericRepository<BusinessProcess> _BusinessProcessRepository;
+        public IGenericRepository<BusinessProcess> BusinessProcessRepository
+        {
+            get { return this._BusinessProcessRepository ?? (this._BusinessProcessRepository = new GenericRepository<BusinessProcess>(_context)); }
+        }
+
         private IGenericRepository<ProcessTemplate> _ProcessTemplateRepository;
         public IGenericRepository<ProcessTemplate> ProcessTemplateRepository
         {
@@ -482,6 +496,17 @@ namespace Cats.Data.UnitWork
         }
       //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
 
+
+        private IGenericRepository<NeedAssessment> needAssessmentRepository;
+        public IGenericRepository<NeedAssessment> NeedAssessmentRepository
+        {
+            get
+            {
+                return this.needAssessmentRepository ?? (this.needAssessmentRepository = new GenericRepository<NeedAssessment>(_context));
+            }
+        }
+
+
         private IGenericRepository<NeedAssessmentHeader> needAssessmentHeaderRepository;
         public IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository
         {
@@ -570,11 +595,51 @@ namespace Cats.Data.UnitWork
 
         }
 
+        public IGenericRepository<Contribution> ContributionRepository
+        {
+            get
+            {
+                return this.contributionRepository ??(this.contributionRepository = new GenericRepository<Contribution>(_context));
+            }
+        }
+
+        public IGenericRepository<ContributionDetail> ContributionDetailRepository
+        {
+            get
+            {
+                return this.contibutionDetailRepository ??
+                       (this.contibutionDetailRepository = new GenericRepository<ContributionDetail>(_context));
+            }
+        }
 
 
+
+     
+
+        public IGenericRepository<Donor> DonorRepository
+        {
+
+            get { return this.donorRepository ?? (this.donorRepository = new GenericRepository<Donor>(_context)); }
+
+        }
+
+
+
+
+        private IGenericRepository<Detail> detailRepository;
+
+        public IGenericRepository<Detail> DetailRepository
+        {
+
+            get { return this.detailRepository ?? (this.detailRepository = new GenericRepository<Detail>(_context)); }
+
+        }
+
+
+        
+      
       
 
-      
 
 
 

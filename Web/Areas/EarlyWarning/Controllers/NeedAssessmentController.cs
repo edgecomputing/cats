@@ -2,274 +2,251 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Policy;
 using System.Web.Mvc;
+
 using Cats.Models;
-using Cats.Services.Security;
-using Kendo.Mvc.UI;
-using Kendo.Mvc.Extensions;
+
 using Cats.Services.EarlyWarning;
-using Cats.Areas.EarlyWarning.Models;
+
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class NeedAssessmentController : Controller
     {
-        //service declarations
+        private readonly INeedAssessmentService _needAssessmentService;
+        private readonly IAdminUnitService _adminUnitService;
         private readonly INeedAssessmentHeaderService _needAssessmentHeaderService;
         private readonly INeedAssessmentDetailService _needAssessmentDetailService;
-        private readonly IAdminUnitService _adminUnitService;
-        //service injection
-        public NeedAssessmentController(INeedAssessmentHeaderService needAssessmentHeader,
-                                        IAdminUnitService adminUnitService,
+        public NeedAssessmentController(INeedAssessmentService needAssessmentService, 
+                                        IAdminUnitService adminUnitService, 
+                                        INeedAssessmentHeaderService needAssessmentHeaderService, 
                                         INeedAssessmentDetailService needAssessmentDetailService)
         {
-            this._needAssessmentHeaderService = needAssessmentHeader;
-            this._adminUnitService = adminUnitService;
-            this._needAssessmentDetailService = needAssessmentDetailService;
+            _needAssessmentService = needAssessmentService;
+            _adminUnitService = adminUnitService;
+            _needAssessmentHeaderService = needAssessmentHeaderService;
+            _needAssessmentDetailService = needAssessmentDetailService;
         }
-
 
         //
         // GET: /EarlyWarning/NeedAssessment/
 
         public ActionResult Index()
         {
-            var zone = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
-            var woreda = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
-            ViewData["zone"] = zone;
-            ViewData["woreda"] = woreda;
-
+           
+           
+            ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
+            ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();
         }
 
-        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
+
+
+        public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request )
         {
-            var needAssessment = _needAssessmentDetailService.GetDraft();
-            List<NeedAssessmentViewModel> result = new List<NeedAssessmentViewModel>();
+           return Json( _needAssessmentService.ReturnViewModel().ToDataSourceResult(request));
 
+        }
+        public ActionResult NeedAssessmentHeaderRead([DataSourceRequest] DataSourceRequest request, int region)
+        {
+            return Json(_needAssessmentService.ReturnNeedAssessmentHeaderViewModel(region).ToDataSourceResult(request));
 
+        }
+        public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)//, string season)
+        {
+            return Json(_needAssessmentService.ReturnNeedAssessmentDetailViewModel(region).ToDataSourceResult(request));
 
+        }
+        //
+        // GET: /EarlyWarning/NeedAssessment/Details/5
 
-            foreach (NeedAssessmentDetail t in needAssessment)
-            {
-                var tempViewModel = new NeedAssessmentViewModel {NaHeaderId = t.NeedAssessmentHeader.NAHeaderId};
-
-                tempViewModel.NAId = t.NAId;
-
-                var vPoorNoOfM = t.VPoorNoOfM;
-                if (vPoorNoOfM != null) tempViewModel.VPoorNoOfM = (int) vPoorNoOfM;
-                var vPoorNoOfB = t.VPoorNoOfB;
-                if (vPoorNoOfB != null) tempViewModel.VPoorNoOfB = (int) vPoorNoOfB;
-                var poorNoOfM = t.PoorNoOfM;
-                if (poorNoOfM != null) tempViewModel.PoorNoOfM = (int) poorNoOfM;
-                var poorNoOfB = t.PoorNoOfB;
-                if (poorNoOfB != null) tempViewModel.PoorNoOfB = (int) poorNoOfB;
-                var middleNoOfM = t.MiddleNoOfM;
-                if (middleNoOfM != null) tempViewModel.MiddleNoOfM = (int) middleNoOfM;
-                var middleNoOfB = t.MiddleNoOfB;
-                if (middleNoOfB != null) tempViewModel.MiddleNoOfB = (int) middleNoOfB;
-                var bOffNoOfM = t.BOffNoOfM;
-                if (bOffNoOfM != null) tempViewModel.BOffNoOfM = (int) bOffNoOfM;
-                if (t.BOffNoOfB != null) tempViewModel.BOffNoOfB = (int) t.BOffNoOfB;
-                if (t.Zone != null) tempViewModel.Zone = (int) t.Zone;
-                if (t.District != null) tempViewModel.District = (int) t.District;
-                tempViewModel.NeedACreatedDate = t.NeedAssessmentHeader.NeedACreatedDate;
-                tempViewModel.NeedAApproved = t.NeedAssessmentHeader.NeedAApproved;
-                tempViewModel.NeedACreatedBy = t.NeedAssessmentHeader.NeddACreatedBy;
-
-                result.Add(tempViewModel);
-
-
-
-            }
-
-
-
-
-
-            return Json(result.ToDataSourceResult(request, ModelState));
-
+        public ActionResult Details(int id)
+        {
+            return View();
         }
 
         //
+        // GET: /EarlyWarning/NeedAssessment/Create
 
+        public ActionResult Create()
+        {
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                               "Name");
+            ViewBag.Zones = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 3), "AdminUnitID",
+                                             "Name");
+            ViewBag.woredas = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 4), "AdminUnitID",
+                                             "Name");
+            return View();
+        }
 
         //
         // POST: /EarlyWarning/NeedAssessment/Create
 
-        public ActionResult Create([DataSourceRequest] DataSourceRequest request, NeedAssessmentViewModel needAssessment)
+        [HttpPost]
+        public ActionResult Create(FormCollection collection,NeedAssessmentDetail needDetail,string season)
         {
-            NeedAssessmentHeader needheader = null;
-            if (ModelState.IsValid && needAssessment != null)
+            try
             {
-                var user = (UserIdentity) System.Web.HttpContext.Current.User.Identity;
+                // TODO: Add insert logic here
+
+              NeedAssessment needAssessment = new NeedAssessment();
+              NeedAssessmentHeader needAssessmentHeader=new NeedAssessmentHeader();
+
+              var dateCreated = DateTime.Now  ;
+              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
+              var zone = collection["ZoneID"];
+              var woreda = collection["WoredaID"];
+              
 
 
-                needheader = new NeedAssessmentHeader
-                                 {
-                                     NeedAApproved = false,
-                                     NeedACreatedDate = DateTime.Now,
-                                     NeddACreatedBy = _needAssessmentHeaderService.GetUserProfileId(user.Profile.UserName)
-                                 };
+
+                if (ModelState.IsValid)
+                {
+                    needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
+                    needAssessment.NeedADate = dateCreated;
+                    needAssessment.Season = needDetail.NeedAssessmentHeader.NeedAssessment.Season;
+                    needAssessment.NeddACreatedBy =
+                        _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+                    needAssessment.TypeOfNeedAssessment = needDetail.NeedAssessmentHeader.NeedAssessment.TypeOfNeedAssessment;
+                    needAssessment.NeedAApproved = false;
+                    needAssessment.NeedAApprovedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+
+                    needAssessmentHeader.Zone = int.Parse(zone.ToString(CultureInfo.InvariantCulture));
+                    needDetail.Woreda = int.Parse(woreda.ToString(CultureInfo.InvariantCulture));
 
 
-                needheader.NeedAssessmentDetails.Add(new NeedAssessmentDetail()
-                                                         {
-
-                                                             VPoorNoOfM = needAssessment.VPoorNoOfM,
-                                                             VPoorNoOfB = needAssessment.VPoorNoOfB,
-                                                             PoorNoOfM = needAssessment.PoorNoOfM,
-                                                             PoorNoOfB = needAssessment.PoorNoOfB,
-                                                             MiddleNoOfM = needAssessment.MiddleNoOfM,
-                                                             MiddleNoOfB = needAssessment.MiddleNoOfB,
-                                                             BOffNoOfM = needAssessment.BOffNoOfM,
-                                                             BOffNoOfB = needAssessment.BOffNoOfB,
-                                                             Zone = needAssessment.Zone,
-                                                             District = needAssessment.District
-                                                         });
-                _needAssessmentHeaderService.AddNeedAssessmentHeader(needheader);
-
+                    needDetail.NeedAssessmentHeader = needAssessmentHeader;
+                    needDetail.NeedAssessmentHeader.NeedAssessment = needAssessment;
+                    _needAssessmentService.AddNeedAssessment(needDetail);
+                }
+                return RedirectToAction("Index");
             }
-
-
-
-            return Json(new[] {needAssessment}.ToDataSourceResult(request, ModelState));
-        }
-
-
-        // POST: /EarlyWarning/NeedAssessment/Edit/5
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit([DataSourceRequest] DataSourceRequest request, NeedAssessmentViewModel needAssessment)
-        {
-
-            if (ModelState.IsValid && needAssessment != null)
+            catch
             {
-                var user = (UserIdentity) System.Web.HttpContext.Current.User.Identity;
-                NeedAssessmentDetail needHeader = null;
-
-
-                needHeader = _needAssessmentDetailService.FindBy(n => n.NAId == needAssessment.NAId).SingleOrDefault();
-                needHeader.NeedAssessmentHeader.NeedAApproved = false;
-                needHeader.NeedAssessmentHeader.NeedACreatedDate = DateTime.Now;
-                needHeader.NeedAssessmentHeader.NeddACreatedBy = user.Profile.UserAccountId;
-
-
-
-                needHeader.VPoorNoOfM = needAssessment.VPoorNoOfM;
-                needHeader.VPoorNoOfB = needAssessment.VPoorNoOfB;
-                needHeader.PoorNoOfM = needAssessment.PoorNoOfM;
-                needHeader.PoorNoOfB = needAssessment.PoorNoOfB;
-                needHeader.MiddleNoOfM = needAssessment.MiddleNoOfM;
-                needHeader.MiddleNoOfB = needAssessment.MiddleNoOfB;
-                needHeader.BOffNoOfM = needAssessment.BOffNoOfM;
-                needHeader.BOffNoOfB = needAssessment.BOffNoOfB;
-                needHeader.Zone = needAssessment.Zone;
-                needHeader.District = needAssessment.District;
-
-
-
-
-
-                _needAssessmentDetailService.EditNeedAssessmentDetail(needHeader);
-
-
-
+                return View();
             }
-            return Json(new[] {needAssessment}.ToDataSourceResult(request, ModelState));
         }
-
-
-
-
-
 
         //
-        // POST: /EarlyWarning/NeedAssessment/Delete/5
+        // GET: /EarlyWarning/NeedAssessment/Edit/5
 
-        public ActionResult Delete([DataSourceRequest] DataSourceRequest request, NeedAssessmentViewModel needAssessment)
+        public ActionResult Edit(int id)
         {
-            if (ModelState.IsValid && needAssessment != null)
+            
+            var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+                                              "Name",needAssessment.Region);
+        
+           
+            return View(needAssessment);
+        }
+        public ActionResult EditDetail(int id)
+        {
+            return View();
+        }
+        //
+        // POST: /EarlyWarning/NeedAssessment/Edit/5
+
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection,NeedAssessment needAssessment)
+        {
+            try
             {
-                var needHeader = _needAssessmentDetailService.FindById(needAssessment.NAId);
-                if (needHeader != null)
-                {
-                    _needAssessmentDetailService.DeleteNeedAssessmentDetail(needHeader);
-                }
+                // TODO: Add update logic here
 
+                NeedAssessment _needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
 
+                var region = collection["RegionID"];
+
+                _needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
+                _needAssessment.Season = needAssessment.Season;
+                _needAssessment.TypeOfNeedAssessment = needAssessment.TypeOfNeedAssessment;
+                _needAssessment.Remark = needAssessment.Remark;
+                _needAssessment.NeedADate = needAssessment.NeedADate;
+
+                _needAssessmentService.EditNeedAssessment(_needAssessment);
+                return RedirectToAction("Index");
             }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult NeedAssessmentUpdate([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")]IEnumerable<NeedAssessmentDetail> needAssessmentlDetails)
+        {
+           // IEnumerable<NeedAssessmentDetail> needAssessmentDetails = _needAssessmentService.GetDetail(needAssessmentViewModelDetails);
+            if (needAssessmentlDetails != null && ModelState.IsValid)
+            {
+                foreach (var details in needAssessmentlDetails)
+                {
+                    _needAssessmentDetailService.EditNeedAssessmentDetail(details);
+                }
+            }
+
             return Json(ModelState.ToDataSourceResult());
         }
 
 
-        public ActionResult NeedAssessmentToBeApproved()
+        //
+        // GET: /EarlyWarning/NeedAssessment/Delete/5
+
+        public ActionResult Delete(int id)
         {
-
-            return View();
-        }
-
-        public ActionResult NeedAssessmentsToBeApproved([DataSourceRequest] DataSourceRequest request)
-        {
-            var needAssessment = _needAssessmentDetailService.GetDraft();
-            List<NeedAssessmentViewModel> result = new List<NeedAssessmentViewModel>();
-
-            foreach (NeedAssessmentDetail t in needAssessment)
+            var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
+            AdminUnit region = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == needAssessment.Region).Single();
+            string createdBy = null;
+            if (needAssessment.NeddACreatedBy != null)
             {
-                var tempViewModel = new NeedAssessmentViewModel {NaHeaderId = t.NeedAssessmentHeader.NAHeaderId};
-
-                tempViewModel.NAId = t.NAId;
-
-                 
-                if (t.NeedAssessmentHeader.NeedACreatedDate != null)
-                    tempViewModel.NeedACreatedDate =  t.NeedAssessmentHeader.NeedACreatedDate.Value.Date;
-                tempViewModel.NeedAApproved = t.NeedAssessmentHeader.NeedAApproved;
-                tempViewModel.NeedACreatedBy = t.NeedAssessmentHeader.NeddACreatedBy;
-                tempViewModel.CreaterUser = t.NeedAssessmentHeader.UserProfile.UserName;
-                result.Add(tempViewModel);
-
+               
+                createdBy = _needAssessmentHeaderService.GetUserProfileName((int) needAssessment.NeddACreatedBy);
             }
 
-            return Json(result.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+            ViewData["regionToDelete"] = region.Name;
+            ViewData["createdBy"] = createdBy;
 
+
+            return View(needAssessment);
         }
 
+        //
+        // POST: /EarlyWarning/NeedAssessment/Delete/5
 
-        public ActionResult Approve(int id)
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
         {
-            var headerInfo = _needAssessmentHeaderService.FindById(id);
-            headerInfo.NeedAApproved = true;
-            _needAssessmentHeaderService.EditNeedAssessmentHeader(headerInfo);
-           return RedirectToAction("NeedAssessmentToBeApproved", "NeedAssessment");
-        }
-
-        public ActionResult Approved()
-        {
-            return View();
-        }
-
-        public ActionResult GetApproved([DataSourceRequest] DataSourceRequest request)
-        {
-            var needAssessment = _needAssessmentDetailService.GetApproved();
-            List<NeedAssessmentViewModel> result = new List<NeedAssessmentViewModel>();
-
-            foreach (NeedAssessmentDetail t in needAssessment)
+            try
             {
-                var tempViewModel = new NeedAssessmentViewModel { NaHeaderId = t.NeedAssessmentHeader.NAHeaderId };
-
-                tempViewModel.NAId = t.NAId;
-
-
-                if (t.NeedAssessmentHeader.NeedACreatedDate != null)
-                    tempViewModel.NeedACreatedDate = t.NeedAssessmentHeader.NeedACreatedDate.Value.Date;
-                tempViewModel.NeedAApproved = t.NeedAssessmentHeader.NeedAApproved;
-                tempViewModel.NeedACreatedBy = t.NeedAssessmentHeader.NeddACreatedBy;
-                tempViewModel.CreaterUser = t.NeedAssessmentHeader.UserProfile.UserName;
-                result.Add(tempViewModel);
-
+                // TODO: Add delete logic here
+                var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
+                _needAssessmentService.DeleteNeedAssessment(needAssessment);
+                return RedirectToAction("Index");
             }
+            catch
+            {
+                return View();
+            }
+        }
 
-            return Json(result.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DeleteDetail([DataSourceRequest] DataSourceRequest request, NeedAssessmentViewModel needAssessmentViewModel)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == needAssessmentViewModel.NAId).Single();
+                _needAssessmentService.DeleteNeedAssessment(needAssessment);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

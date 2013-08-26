@@ -78,6 +78,19 @@ namespace Cats.Services.EarlyWarning
             if (userProfile == null) return -1;
             return userProfile.UserProfileID;
         }
+
+        public string GetUserProfileName(int userProfileId)
+        {
+            var userProfile = _unitOfWork.UserProfileRepository.FindBy(u => u.UserProfileID == userProfileId).SingleOrDefault();
+            if (userProfile == null) return string.Empty;
+            return userProfile.UserName;
+        }
+        public List<UserProfile> GetUsers()
+        {
+            var userProfile = _unitOfWork.UserProfileRepository.GetAll();
+            if (userProfile == null) return null;
+            return  userProfile.ToList();
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

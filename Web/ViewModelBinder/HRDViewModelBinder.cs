@@ -11,10 +11,10 @@ namespace Cats.ViewModelBinder
     {
 
         public static List<HRDCompareViewModel> BindHRDCompareViewModel(HRD hrdOriginal,HRD hrdRefrence,int filterRegion)
-        {
-            if (hrdOriginal == null) return null;
-            if (!hrdOriginal.HRDDetails.Any()) return null;
-            var hrdCompareViewModels = new List<HRDCompareViewModel>();
+        { var hrdCompareViewModels = new List<HRDCompareViewModel>();
+        if (hrdOriginal == null) return hrdCompareViewModels;
+            if (!hrdOriginal.HRDDetails.Any()) return  hrdCompareViewModels;
+           
             foreach (var hrdDetail in hrdOriginal.HRDDetails.Where(t=>t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==filterRegion))
             {
                 var hrdCompareViewModel = new HRDCompareViewModel();
@@ -40,7 +40,7 @@ namespace Cats.ViewModelBinder
                      {
                          hrdCompareViewModel.RefrenceDuration = hrdReferenceDetail.DurationOfAssistance;
                          hrdCompareViewModel.BeginingMonthReference = hrdReferenceDetail.StartingMonth;
-                         hrdCompareViewModel.BeneficiariesRefrence = hrdDetail.NumberOfBeneficiaries;
+                         hrdCompareViewModel.BeneficiariesRefrence = hrdReferenceDetail.NumberOfBeneficiaries;
                      }
                  }
                 hrdCompareViewModels.Add(hrdCompareViewModel);
