@@ -26,6 +26,7 @@ namespace Cats.Models.Security
         public string Keyboard { get; set; }
         public string PreferedWeightMeasurment { get; set; }
         public string DefaultTheme { get; set; }
+        public string Role { get; set; }
         public byte[] UserSID { get; set; }
 
         public string FullName

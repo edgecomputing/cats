@@ -27,9 +27,12 @@ function EthDate(year,month,date)
 		this.date=arr[0]/1;
 		return this;
 	}
-this.fromGregStr = function (input_date) {
-	    var g = new Date(Date.parse(input_date));
-	   /* if (input_date) {
+	this.fromGregStr = function (input_date) {
+	    var g = new Date();
+	    if (input_date) {
+	         g = new Date(Date.parse(input_date));
+	    }
+	        /* if (input_date) {
 	        var arr = input_date.split("/");
 	        g.setFullYear(arr[2]/1);
 	        g.setMonth(arr[0]-1);

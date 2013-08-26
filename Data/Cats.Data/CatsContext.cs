@@ -76,7 +76,8 @@ namespace Cats.Data
         //public DbSet<Product> Products { get; set; }
         public DbSet<RequestDetailCommodity> RequestDetailCommodities { get; set; }
 
-        public DbSet<GiftCertificate> GiftCertificate { get; set; }
+        public DbSet<GiftCertificate> GiftCertificates { get; set; }
+        public DbSet<GiftCertificateDetail> GiftCertificateDetails { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Season> Seasons { get; set; } 
 
@@ -90,10 +91,14 @@ namespace Cats.Data
 
         //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
+        public DbSet<BusinessProcess> BusinessProcesss { get; set; }
+        public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new BusinessProcessStateMap());
             //TODO: Add mapping information for each Poco model.
+            modelBuilder.Configurations.Add(new BusinessProcessMap());
             modelBuilder.Configurations.Add(new ProcessTemplateMap());
             modelBuilder.Configurations.Add(new StateTemplateMap());
             modelBuilder.Configurations.Add(new FlowTemplateMap());

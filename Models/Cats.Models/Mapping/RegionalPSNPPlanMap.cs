@@ -22,7 +22,7 @@ namespace Cats.Models.Mapping
                    .WithMany(t => t.RegionalPSNPPlans)
                    .HasForeignKey(d => d.RationID);
 
-            this.HasRequired(t => t.Status)
+            this.HasRequired(t => t.AttachedBusinessProcess)
            .WithMany(t => t.RegionalPSNPPlans)
            .HasForeignKey(d => d.StatusID);
         }

@@ -32,7 +32,18 @@ namespace Cats.Data.UnitWork
         {
             this._context = new CatsContext();
         }
-       
+        private IGenericRepository<BusinessProcessState> _BusinessProcessStateRepository;
+        public IGenericRepository<BusinessProcessState> BusinessProcessStateRepository
+        {
+            get { return this._BusinessProcessStateRepository ?? (this._BusinessProcessStateRepository = new GenericRepository<BusinessProcessState>(_context)); }
+        }
+
+        private IGenericRepository<BusinessProcess> _BusinessProcessRepository;
+        public IGenericRepository<BusinessProcess> BusinessProcessRepository
+        {
+            get { return this._BusinessProcessRepository ?? (this._BusinessProcessRepository = new GenericRepository<BusinessProcess>(_context)); }
+        }
+
         private IGenericRepository<ProcessTemplate> _ProcessTemplateRepository;
         public IGenericRepository<ProcessTemplate> ProcessTemplateRepository
         {
@@ -601,14 +612,34 @@ namespace Cats.Data.UnitWork
             }
         }
 
+
+
+     
+
         public IGenericRepository<Donor> DonorRepository
         {
+
             get { return this.donorRepository ?? (this.donorRepository = new GenericRepository<Donor>(_context)); }
+
         }
 
+
+
+
+        private IGenericRepository<Detail> detailRepository;
+
+        public IGenericRepository<Detail> DetailRepository
+        {
+
+            get { return this.detailRepository ?? (this.detailRepository = new GenericRepository<Detail>(_context)); }
+
+        }
+
+
+        
+      
       
 
-       
 
 
 

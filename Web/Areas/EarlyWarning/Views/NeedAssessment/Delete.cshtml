@@ -7,52 +7,65 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h5>Are you sure you want to delete this?</h5>
 <fieldset>
     <legend>Need Assessment</legend>
+    <div class="form-horizontal">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.Region)
+            </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Region)
+            <div class="controls">
+                @ViewData["regionToDelete"] 
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.Season)
+            </div>
+            <div class="controls">
+                @Html.DisplayFor(model => model.Season)
+            </div>
+        </div>
+        
+    <div class="control-group">
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.NeedADate)
+        </div>
+        <div class="controls">
+            @Html.DisplayFor(model => model.NeedADate)
+        </div>
     </div>
-    <div class="display-field">
-        @ViewData["regionToDelete"] 
+        
+    <div class="control-group">
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.NeddACreatedBy)
+        </div>
+        <div class="controls">
+            @ViewData["createdBy"]
+        </div>
+    </div>
+        
+    <div class="control-group">
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.TypeOfNeedAssessment)
+        </div>
+        <div class="controls">
+            @Html.DisplayFor(model => model.TypeOfNeedAssessment)
+        </div>
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Season)
+    <div class="control-group">
+        <div class="control-label">
+            @Html.DisplayNameFor(model => model.Remark)
+        </div>
+        <div class="controls">
+            @Html.DisplayFor(model => model.Remark)
+        </div>
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Season)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.NeedADate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.NeedADate)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.NeddACreatedBy)
-    </div>
-    <div class="display-field">
-        @ViewData["createdBy"]
-    </div>
-
-    
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.TypeOfNeedAssessment)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.TypeOfNeedAssessment)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Remark)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Remark)
-    </div>
+    </>
 </fieldset>
 @using (Html.BeginForm()) {
     <p>

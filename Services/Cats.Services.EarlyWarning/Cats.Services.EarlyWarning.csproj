@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="AdminUnitService.cs" />
     <Compile Include="AdminUnitTypeService.cs" />
+    <Compile Include="BusinessProcessService.cs" />
+    <Compile Include="BusinessProcessStateService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
     <Compile Include="ContributionDetailService.cs" />
@@ -64,6 +66,8 @@
     <Compile Include="HubService.cs" />
     <Compile Include="IAdminUnitService.cs" />
     <Compile Include="IAdminUnitTypeService.cs" />
+    <Compile Include="IBusinessProcessService.cs" />
+    <Compile Include="IBusinessProcessStateService.cs" />
     <Compile Include="ICommodityService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IFDPService.cs" />

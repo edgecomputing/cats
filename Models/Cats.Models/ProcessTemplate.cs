@@ -17,7 +17,7 @@ namespace Cats.Models
 
         public virtual ICollection<StateTemplate> ParentProcessTemplateStateTemplates { get; set; }
         //Relationships
-
+        public virtual ICollection<BusinessProcess> ProcessTypeBusinessProcesss { get; set; }
     }
     public class ProcessTemplatePOCO
     {
@@ -34,4 +34,5 @@ namespace Cats.Models
         //Relationships
 
     }
+   
 }
