@@ -46,6 +46,8 @@
     <Compile Include="AdminUnitTypeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="DashboardService.cs" />
+    <Compile Include="IDashboardService.cs" />
     <Compile Include="ISeasonService.cs" />
     <Compile Include="FDPService.cs" />
     <Compile Include="FlowTemplateService.cs" />

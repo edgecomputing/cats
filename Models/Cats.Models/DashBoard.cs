@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-   public class DashBoard
+    public class Beneficiaries
     {
-       public int DashboardId { get; set; }
-       public string Dashboard { get; set; }
-       public string Remark { get; set; }
+        public string RegionName { get; set; }
+        public int BeneficiariesCount { get; set; }
+    }
+    public class Request
+    {
+        public string RegionName { get; set; }
+        public int RequestsCount { get; set; }
     }
 }

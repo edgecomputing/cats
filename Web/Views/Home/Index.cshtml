@@ -1,19 +1,11 @@
-﻿@*@model IEnumerable<Cats.Models.ReliefRequisition>*@
-
-@model IEnumerable<Cats.Models.RegionalRequest>
-
+﻿@*@model IEnumerable<Cats.Models.RegionalRequest>*@
 @{
     ViewBag.Title = "Index";
     ViewBag.ViewWidth = "Wide";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-
-<div class=" span12 ">
-    <h3>Welcome to CATS</h3>
-</div>
-<div class="">
-    @Html.Partial("_Dashboard",Model)
-</div>
-
-
+    <div class=" span12 ">
+        <h3>Welcome to CATS</h3>
+        @Html.Partial("_Dashboard")
+    </div>
