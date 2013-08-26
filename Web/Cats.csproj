@@ -941,14 +941,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
-      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
-      <Name>Cats.Services.PSNP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
-      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
-      <Name>Cats.Services.Transaction</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
@@ -957,7 +949,7 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
@@ -985,9 +977,17 @@
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
       <Name>Cats.Services.Procurement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
+      <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
       <Name>Cats.Services.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1000,15 +1000,6 @@
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>5</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
