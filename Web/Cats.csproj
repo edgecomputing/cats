@@ -57,8 +57,10 @@
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
@@ -266,6 +268,7 @@
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Microsoft.Office.Interop.Word.dll" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -946,7 +949,6 @@
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
-    <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1005,22 +1007,6 @@
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>5</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
