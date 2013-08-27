@@ -875,13 +875,10 @@
     <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
-<<<<<<< HEAD
     <Content Include="Templates\gift_Certificate.dotx" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
-=======
     <Content Include="Views\Shared\_MainMenu.cshtml" />
->>>>>>> 68d2737d189c4150fd1e3684deb66fd82ab42e71
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

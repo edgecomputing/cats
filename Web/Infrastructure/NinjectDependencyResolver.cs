@@ -99,6 +99,10 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
             kernel.Bind<ISeasonService>().To<SeasonService>();
+            kernel.Bind<IDonorService>().To<DonorService>();
+            kernel.Bind<IRegionalPSNPPledgeService>().To<RegionalPSNPPledgeService>();
+
+            kernel.Bind<IUnitService>().To<UnitService>();
 
         }
     }

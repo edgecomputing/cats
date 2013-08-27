@@ -54,5 +54,12 @@ namespace Cats.Services.PSNP
             return _unitOfWork.RegionalPSNPPlanDetailRepository.FindBy(predicate);
 
         }
+        public IEnumerable<RegionalPSNPPlanDetail> Get(
+           Expression<Func<RegionalPSNPPlanDetail, bool>> filter = null,
+           Func<IQueryable<RegionalPSNPPlanDetail>, IOrderedQueryable<RegionalPSNPPlanDetail>> orderBy = null,
+           string includeProperties = "")
+        {
+            return _unitOfWork.RegionalPSNPPlanDetailRepository.Get(filter, orderBy, includeProperties);
+        }
     }
 }

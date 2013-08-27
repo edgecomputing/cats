@@ -16,6 +16,7 @@ namespace Cats.Data
         public CatsContext() : base("Name=CatsContext") { }
 
         // TODO: Add properties to access set of Poco classes
+      public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public DbSet<RegionalRequest> RegionalRequests { get; set; }
         public DbSet<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public DbSet<ReliefRequisition> ReliefRequisitions { get; set; }
@@ -90,6 +91,8 @@ namespace Cats.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //TODO: Add mapping information for each Poco model.
+            modelBuilder.Configurations.Add(new RegionalPSNPPledgeMap());
+
             modelBuilder.Configurations.Add(new ProcessTemplateMap());
             modelBuilder.Configurations.Add(new StateTemplateMap());
             modelBuilder.Configurations.Add(new FlowTemplateMap());

@@ -228,6 +228,7 @@
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
@@ -709,7 +710,6 @@
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
-<<<<<<< HEAD
     <Content Include="Areas\EarlyWarning\Views\HRD\Print.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsc">
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
@@ -722,12 +722,14 @@
     <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xss">
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Content>
-=======
     <Content Include="Areas\EarlyWarning\Views\HRD\RegionalSummary.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
->>>>>>> 21a150617856506050db4baee0eb8db1a25f4a0c
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\FDPsCoveredByDonors.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\_RegionalPSNPPledgeLeftBar.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Issue.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

@@ -34,19 +34,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private ISeasonService _seasonService;
         private IUserAccountService _userAccountService;
 
-<<<<<<< HEAD
-        public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService, 
-                             IRationService rationservice,IRationDetailService rationDetailService,
-                             IHRDDetailService hrdDetailService,ICommodityService commodityService,
-                             INeedAssessmentDetailService needAssessmentDetailService,INeedAssessmentHeaderService needAssessmentService,
-                             IWorkflowStatusService workflowStatusService,ISeasonService seasonService, IUserAccountService userAccountService)
-=======
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService,
                              IRationService rationservice, IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService, ICommodityService commodityService,
                              INeedAssessmentDetailService needAssessmentDetailService, INeedAssessmentHeaderService needAssessmentService,
                              IWorkflowStatusService workflowStatusService, ISeasonService seasonService)
->>>>>>> 21a150617856506050db4baee0eb8db1a25f4a0c
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -58,7 +50,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _needAssessmentService = needAssessmentService;
             _workflowStatusService = workflowStatusService;
             _seasonService = seasonService;
-            _userAccountService = userAccountService;
         }
 
         public ActionResult Index()
@@ -360,7 +351,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrd);
         }
 
-<<<<<<< HEAD
         public ActionResult Print()
         {
             var allHrd = _hrdService.GetAllHRD();
@@ -368,7 +358,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return ViewPdf("HRD report", "Print", hrdViewModel);
         }
 
-=======
         public ActionResult ApproveHRD(int id)
         {
             var hrd = _hrdService.FindById(id);
@@ -422,6 +411,5 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(hrdsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
            
         }
->>>>>>> 21a150617856506050db4baee0eb8db1a25f4a0c
     }
 }

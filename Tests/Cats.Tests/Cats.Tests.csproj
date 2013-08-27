@@ -122,6 +122,10 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\PdfReportGenerator\PdfReportGenerator.csproj">
+      <Project>{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}</Project>
+      <Name>PdfReportGenerator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>

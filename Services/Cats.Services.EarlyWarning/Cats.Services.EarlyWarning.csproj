@@ -46,6 +46,8 @@
     <Compile Include="AdminUnitTypeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="DonorService.cs" />
+    <Compile Include="IDonorService.cs" />
     <Compile Include="ISeasonService.cs" />
     <Compile Include="FDPService.cs" />
     <Compile Include="FlowTemplateService.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="IShippingInstructionService.cs" />
     <Compile Include="IStateTemplateService.cs" />
     <Compile Include="ITransactionService.cs" />
+    <Compile Include="IUnitService.cs" />
     <Compile Include="IWorkflowStatusService.cs" />
     <Compile Include="NeedAssessmentDetailService.cs" />
     <Compile Include="NeedAssessmentHeaderService.cs" />
@@ -100,6 +103,7 @@
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="StateTemplateService.cs" />
     <Compile Include="TransactionService.cs" />
+    <Compile Include="UnitService.cs" />
     <Compile Include="WorkflowStatusService.cs" />
   </ItemGroup>
   <ItemGroup>
