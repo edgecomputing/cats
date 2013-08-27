@@ -44,22 +44,26 @@ namespace Cats.ViewModelBinder
 
         public static GiftCertificate BindGiftCertificate(GiftCertificateViewModel giftCertificateViewModel)
         {
-            GiftCertificate giftCertificate = new GiftCertificate()
-            {
-                GiftCertificateID = giftCertificateViewModel.GiftCertificateID,
-                GiftDate = giftCertificateViewModel.GiftDate,
-                SINumber = giftCertificateViewModel.SINumber,
-                DonorID = giftCertificateViewModel.DonorID,
-                ReferenceNo = giftCertificateViewModel.ReferenceNo,
-                Vessel = giftCertificateViewModel.Vessel,
-                ETA = giftCertificateViewModel.ETA,
-                IsPrinted = giftCertificateViewModel.IsPrinted,
-                DModeOfTransport = giftCertificateViewModel.DModeOfTransport,
-                ProgramID = giftCertificateViewModel.ProgramID,
-                PortName = giftCertificateViewModel.PortName
-            };
-            return giftCertificate;
 
+            return BindGiftCertificate(new GiftCertificate(), giftCertificateViewModel);
+
+        }
+        public static GiftCertificate BindGiftCertificate(GiftCertificate giftCertificate, GiftCertificateViewModel giftCertificateViewModel)
+        {
+
+            giftCertificate.GiftCertificateID = giftCertificateViewModel.GiftCertificateID;
+            giftCertificate.GiftDate = giftCertificateViewModel.GiftDate;
+            giftCertificate.SINumber = giftCertificateViewModel.SINumber;
+            giftCertificate.DonorID = giftCertificateViewModel.DonorID;
+            giftCertificate.ReferenceNo = giftCertificateViewModel.ReferenceNo;
+            giftCertificate.Vessel = giftCertificateViewModel.Vessel;
+            giftCertificate.ETA = giftCertificateViewModel.ETA;
+            giftCertificate.IsPrinted = giftCertificateViewModel.IsPrinted;
+            giftCertificate.DModeOfTransport = giftCertificateViewModel.DModeOfTransport;
+            giftCertificate.ProgramID = giftCertificateViewModel.ProgramID;
+            giftCertificate.PortName = giftCertificateViewModel.PortName;
+
+            return giftCertificate;
         }
 
         public static List<GiftCertificateDetail> BindListGiftCertificateDetail(List<GiftCertificateDetailsViewModel> giftCertificateDetailsViewModel)
@@ -70,24 +74,7 @@ namespace Cats.ViewModelBinder
         public static GiftCertificateDetail BindGiftCertificateDetail(GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
 
-            return new GiftCertificateDetail()
-                       {
-                           CommodityID = giftCertificateDetailsViewModel.CommodityID,
-                           BillOfLoading = giftCertificateDetailsViewModel.BillOfLoading,
-                           YearPurchased = giftCertificateDetailsViewModel.YearPurchased,
-                           AccountNumber = giftCertificateDetailsViewModel.AccountNumber,
-                           WeightInMT = giftCertificateDetailsViewModel.WeightInMT,
-                           EstimatedPrice = giftCertificateDetailsViewModel.EstimatedPrice,
-                           EstimatedTax = giftCertificateDetailsViewModel.EstimatedTax,
-                           DCurrencyID = giftCertificateDetailsViewModel.DCurrencyID,
-                           DFundSourceID = giftCertificateDetailsViewModel.DFundSourceID,
-                           DBudgetTypeID = giftCertificateDetailsViewModel.DBudgetTypeID,
-                           GiftCertificateDetailID = giftCertificateDetailsViewModel.GiftCertificateDetailID,
-                           GiftCertificateID=giftCertificateDetailsViewModel.GiftCertificateID,
-                           TransactionGroupID=giftCertificateDetailsViewModel.TransactionGroupID
-                          
-
-                       };
+            return BindGiftCertificateDetail(new GiftCertificateDetail(),giftCertificateDetailsViewModel);
         }
         public static GiftCertificateDetail BindGiftCertificateDetail(GiftCertificateDetail giftCertificateDetail, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
@@ -104,6 +91,9 @@ namespace Cats.ViewModelBinder
             giftCertificateDetail.DFundSourceID = giftCertificateDetailsViewModel.DFundSourceID;
             giftCertificateDetail.DBudgetTypeID = giftCertificateDetailsViewModel.DBudgetTypeID;
             giftCertificateDetail.GiftCertificateDetailID = giftCertificateDetailsViewModel.GiftCertificateDetailID;
+            giftCertificateDetail.GiftCertificateDetailID = giftCertificateDetailsViewModel.GiftCertificateDetailID;
+            giftCertificateDetail.GiftCertificateID = giftCertificateDetailsViewModel.GiftCertificateID;
+            giftCertificateDetail.TransactionGroupID = giftCertificateDetailsViewModel.TransactionGroupID;
 
             return giftCertificateDetail;
         }

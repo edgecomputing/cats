@@ -12,7 +12,136 @@
 </p>
 @{ViewBag.IsInEditMode = false; }
 
-@Html.Partial("_EditPartial")
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+           
+    @Html.HiddenFor(model => model.GiftCertificateID)
+    @Html.HiddenFor(model => model.rowCount)
+          
+    
+    <div class="field-set-title">
+        <h5>@Translator.Translate("Gift Certificate Headers")</h5>
+    </div>
+    <div class="form-horizontal">
+        <table class="borderless" style="vertical-align: top">
+            <tr>
+                <td style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.GiftDate)
+                            @Html.ValidationMessageFor(model => model.GiftDate)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("DModeOfTransport", string.Empty)
+
+                            @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("ProgramID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.ProgramID)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DonorID, Translator.Translate("Donor")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("DonorID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.DonorID)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("CommodityTypeID", string.Empty)
+
+                            @Html.ValidationMessageFor(model => model.CommodityTypeID)
+
+                        </div>
+                    </div>
+                </td>
+                <td style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.SINumber)
+                            @Html.ValidationMessageFor(model => model.SINumber)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.PortName, Translator.Translate("Port Name"))
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.PortName)
+                            @Html.ValidationMessageFor(model => model.PortName)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.ReferenceNo)
+                            @Html.ValidationMessageFor(model => model.ReferenceNo)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.Vessel)
+                            @Html.ValidationMessageFor(model => model.Vessel)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) <span class="required">*</span>
+                        </div>
+
+                        <div class="controls">
+                            @Html.EditorFor(model => model.ETA)
+                            @Html.ValidationMessageFor(model => model.ETA)
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+     <div class="clear"></div>
+    <div class="control-label"></div>
+    <div class="controls">
+        <input class="t-button" type="submit" style="width: 80px; height: 25px;" class="t-button" value="Save"/>
+         @*   onclick="submitGiftCertificateData()" *@
+        <input class="t-button" type="reset" style="width: 80px; height: 25px;" class="t-button" value="Cancel" />
+           @* onclick="cancel()"*@
+    </div>
+    <div class="clear"></div>  
+
+   }     
 
 <div>
     @Html.ActionLink(Translator.Translate("Back to List"), "Index")

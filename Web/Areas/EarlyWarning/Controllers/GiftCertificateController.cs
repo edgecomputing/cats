@@ -211,7 +211,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var giftCertificate = GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificateViewModel);
 
                 _giftCertificateService.AddGiftCertificate(giftCertificate);
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id=giftCertificate.GiftCertificateID});
             }
 
             PopulateLookup();
@@ -299,9 +299,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid && giftcert != null)
             {
 
-                var giftCertificateModel = GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificate);
+                giftcert = GiftCertificateViewModelBinder.BindGiftCertificate(giftcert, giftcertificate);
 
-                _giftCertificateService.EditGiftCertificate(giftCertificateModel);
+                _giftCertificateService.EditGiftCertificate(giftcert);
 
                 return RedirectToAction("Index");
             }

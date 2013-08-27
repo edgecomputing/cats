@@ -166,8 +166,8 @@ namespace Cats.Areas.GiftCertificate.Models
         /// <value>
         /// The row count.
         /// </value>
-        [Required]
-        [Range(1, 9999, ErrorMessage = "Please insert at least one commodity")]
+        //[Required]
+        //[Range(1, 9999, ErrorMessage = "Please insert at least one commodity")]
         public int rowCount { get; set; }
 
        
