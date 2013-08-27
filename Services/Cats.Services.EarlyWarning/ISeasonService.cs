@@ -19,5 +19,7 @@ namespace Cats.Services.EarlyWarning
                    Expression<Func<Season, bool>> filter = null,
                    Func<IQueryable<Season>, IOrderedQueryable<Season>> orderBy = null,
                    string includeProperties = "");
+
+        List<Season> GetListOfSeasonsInRegion(List<string> regions);
     }
 }

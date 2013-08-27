@@ -22,20 +22,22 @@
                     @Html.LabelFor(model => model.NeedAssessment.Region)
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("r", ViewBag.Regions as SelectList)
+                    @Html.DropDownList("RegionID", ViewBag.Regions as SelectList)
                     @Html.ValidationMessageFor(model => model.NeedAssessment.Region)
                 </div>
-            </div>@*
+            </div>
+            
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.NeedAssessment.Season)
+                    @Html.LabelFor(model => model.NeedAssessment.Season1.SeasonID)
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("k",new SelectList(ViewBag["Seasons"]))
-                    @Html.ValidationMessageFor(model => model.NeedAssessment.Season)
+                    @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new {id = "Season"})
+                    
+                    @Html.ValidationMessageFor(model => model.NeedAssessment.Season1.SeasonID)
                 </div>
             </div>
-            *@
+
 
             <div id="Zone">
                 <div class="control-group">

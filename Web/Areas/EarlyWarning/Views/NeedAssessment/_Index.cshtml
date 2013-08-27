@@ -1,0 +1,103 @@
+﻿@using Kendo.Mvc.UI
+@{
+    
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+ 
+
+@(Html.Kendo().Grid<Cats.Models.NeedAssessmentWoredaDao>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.WoredaName).Width("200").HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.ProjectedMale).Title("Projecgted Male").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Projecgted Male" });
+        columns.Bound(p => p.ProjectedFemale).Title("Projected Female").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Projected Female" });
+        columns.Bound(p => p.RegularPSNP).Title("Regular PSNP").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Regular PSNP" });
+        columns.Bound(p => p.PSNP).Title("PSNP").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "PSNP" });
+        columns.Bound(p => p.NonPSNP).Title("Non PSNP").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Non PSNP" });
+        columns.Bound(p => p.Contingencybudget).Title("Contingency budget").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Contingency budget" });
+        columns.Bound(p => p.TotalBeneficiaries).Title("Total Beneficiaries").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Total Beneficiaries" });
+        columns.Bound(p => p.PSNPFromWoredasMale).Title("PSNP From Woredas Male").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Male" });
+        columns.Bound(p => p.PSNPFromWoredasFemale).Title("PSNP From Woredas Female").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Female" });
+        columns.Bound(p => p.PSNPFromWoredasDOA).Title("PSNP From Woredas DOA").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas DOA" });
+        columns.Bound(p => p.NonPSNPFromWoredasMale).Title("Non PSNP From Woredas Male").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Male" });
+        columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Female" });
+        columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas DOA" });
+                                        
+        
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+           <div class="toolbar">
+                    <label class="category-label" for="category">Show woredas by Zone:</label>
+                        @(Html.Kendo().DropDownList()
+                            .Name("regions")
+                            .OptionLabel("All")
+                            .DataTextField("Name")
+                            .DataValueField("AdminUnitID")
+                            .AutoBind(false)
+                            .Events(e => e.Change("zoneChange"))
+                            .DataSource(ds =>
+                            {
+                                ds.Read("GetZones", "NeedAssessment", new { region = int.Parse(ViewData["region"].ToString()) });
+                            })
+                        ) 
+                        </div>
+        </text>);
+    })
+    .HtmlAttributes(new { style = "height: 430px" })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .ToolBar(toolBar => toolBar.Save())
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Batch(true)
+        .PageSize(20)
+        .ServerOperation(false)
+        
+       .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["region"].ToString())}))
+       .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
+       .Model(model =>
+                              {
+                                  model.Id(p => p.NAId);
+                                  model.Field(p => p.Woreda).Editable(false);
+                              }) 
+    )
+)
+
+<script>
+    function zoneChange() {
+        var value = this.value(),
+		 	 grid = $("#grid").data("kendoGrid");
+
+        if (value) {
+            grid.dataSource.filter({ field: "AdminUnitID", operator: "eq", value: parseInt(value) });
+        } else {
+            grid.dataSource.filter({});
+        }
+    }
+</script>
+
+<style scoped="scoped">
+    #grid .k-toolbar
+    {
+        min-height: 27px;
+        padding: 1.3em;
+    }
+    .category-label
+    {
+        vertical-align: middle;
+        padding-right: .5em;
+    }
+    #category
+    {
+        vertical-align: middle;
+    }
+    .toolbar {
+        float: right;
+    }
+</style>

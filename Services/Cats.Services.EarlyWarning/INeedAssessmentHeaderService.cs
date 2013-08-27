@@ -25,6 +25,8 @@ namespace Cats.Services.EarlyWarning
         int GetUserProfileId(string userName);
         string GetUserProfileName(int userProfileId);
         List<UserProfile> GetUsers();
+        int GetRegionPrimeryId(int regionId, int season);
+        int GetZonePrimeryId(int zoneId, int regionId);
     }
 }
 

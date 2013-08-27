@@ -147,10 +147,12 @@
     <Compile Include="MetaData\TransportRequisitionMeta.cs" />
     <Compile Include="MetaData\TransportRequisitionDetailMeta.cs" />
     <Compile Include="NeedAssessment.cs" />
+    <Compile Include="NeedAssessmentDao.cs" />
     <Compile Include="NeedAssessmentDetail.cs" />
     <Compile Include="NeedAssessmentHeader.cs" />
     <Compile Include="NeedAssessmentHeaderViewModel.cs" />
     <Compile Include="NeedAssessmentViewModel.cs" />
+    <Compile Include="NeedAssessmentWoredaDao.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
     <Compile Include="Constant\CommoditySource.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="RegionalPSNPPlanDetail.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />
+    <Compile Include="RegionsViewModel.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
     <Compile Include="RequestDetailCommodity.cs" />
@@ -207,6 +210,7 @@
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowStatus.cs" />
+    <Compile Include="ZonesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

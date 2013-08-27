@@ -645,7 +645,7 @@
     <Content Include="Areas\EarlyWarning\Views\Ration\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
@@ -716,6 +716,7 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddZone.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

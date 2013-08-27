@@ -12,9 +12,9 @@ namespace Cats.Services.EarlyWarning
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public TypeOfNeedAssessmentService()
+        public TypeOfNeedAssessmentService(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = new UnitOfWork();
+            this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
         public bool AddTypeOfNeedAssessment(TypeOfNeedAssessment typeOfNeedAssessment)
