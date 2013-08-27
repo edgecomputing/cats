@@ -933,11 +933,12 @@
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
     <Content Include="Views\Dashboard\PieRequests.cshtml" />
-    <Content Include="Views\Dashboard\BarBeneficiaries.cshtml" />
+    <Content Include="Views\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\_PieRequests.cshtml" />
     <Content Include="Views\Shared\_promotWorkflow.cshtml" />
     <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
+    <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
