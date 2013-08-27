@@ -9,10 +9,10 @@ namespace Cats.ViewModelBinder
 {
     public class GiftCertificateViewModelBinder
     {
-       public static  List<GiftCertificateViewModel> BindListGiftCertificateViewModel(List<GiftCertificate> giftCertificates)
-       {
-           return giftCertificates.Select(BindGiftCertificateViewModel).ToList();
-       }
+        public static List<GiftCertificateViewModel> BindListGiftCertificateViewModel(List<GiftCertificate> giftCertificates)
+        {
+            return giftCertificates.Select(BindGiftCertificateViewModel).ToList();
+        }
         public static GiftCertificateViewModel BindGiftCertificateViewModel(GiftCertificate giftCertificateModel)
         {
             var giftCertificateViewModel = new GiftCertificateViewModel();
@@ -28,15 +28,15 @@ namespace Cats.ViewModelBinder
             giftCertificateViewModel.PortName = giftCertificateModel.PortName;
             giftCertificateViewModel.DModeOfTransport = giftCertificateModel.DModeOfTransport;
             giftCertificateViewModel.Donor = giftCertificateModel.Donor.Name;
-            
+
             var giftCertificateDetail = giftCertificateModel.GiftCertificateDetails.FirstOrDefault();
             if (giftCertificateDetail != null)
                 giftCertificateViewModel.CommodityTypeID = giftCertificateDetail.Commodity.CommodityTypeID;
             else
                 giftCertificateViewModel.CommodityTypeID = 1;//by default 'food' 
-            giftCertificateViewModel.GiftCertificateDetails =
-               BindListOfGiftCertificateDetailsViewModel(
-                   giftCertificateModel.GiftCertificateDetails.ToList());
+            //giftCertificateViewModel.GiftCertificateDetails =
+            //   BindListOfGiftCertificateDetailsViewModel(
+            //       giftCertificateModel.GiftCertificateDetails.ToList());
 
 
             return giftCertificateViewModel;
@@ -83,10 +83,31 @@ namespace Cats.ViewModelBinder
                            DFundSourceID = giftCertificateDetailsViewModel.DFundSourceID,
                            DBudgetTypeID = giftCertificateDetailsViewModel.DBudgetTypeID,
                            GiftCertificateDetailID = giftCertificateDetailsViewModel.GiftCertificateDetailID,
+                           GiftCertificateID=giftCertificateDetailsViewModel.GiftCertificateID,
+                           TransactionGroupID=giftCertificateDetailsViewModel.TransactionGroupID
+                          
 
                        };
         }
-       
+        public static GiftCertificateDetail BindGiftCertificateDetail(GiftCertificateDetail giftCertificateDetail, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
+        {
+
+
+            giftCertificateDetail.CommodityID = giftCertificateDetailsViewModel.CommodityID;
+            giftCertificateDetail.BillOfLoading = giftCertificateDetailsViewModel.BillOfLoading;
+            giftCertificateDetail.YearPurchased = giftCertificateDetailsViewModel.YearPurchased;
+            giftCertificateDetail.AccountNumber = giftCertificateDetailsViewModel.AccountNumber;
+            giftCertificateDetail.WeightInMT = giftCertificateDetailsViewModel.WeightInMT;
+            giftCertificateDetail.EstimatedPrice = giftCertificateDetailsViewModel.EstimatedPrice;
+            giftCertificateDetail.EstimatedTax = giftCertificateDetailsViewModel.EstimatedTax;
+            giftCertificateDetail.DCurrencyID = giftCertificateDetailsViewModel.DCurrencyID;
+            giftCertificateDetail.DFundSourceID = giftCertificateDetailsViewModel.DFundSourceID;
+            giftCertificateDetail.DBudgetTypeID = giftCertificateDetailsViewModel.DBudgetTypeID;
+            giftCertificateDetail.GiftCertificateDetailID = giftCertificateDetailsViewModel.GiftCertificateDetailID;
+
+            return giftCertificateDetail;
+        }
+
         public static List<GiftCertificateDetailsViewModel> BindListOfGiftCertificateDetailsViewModel(List<GiftCertificateDetail> giftCertificateDetails)
         {
             return giftCertificateDetails.Select(BindGiftCertificateDetailsViewModel).ToList();
@@ -97,6 +118,7 @@ namespace Cats.ViewModelBinder
             var model = new GiftCertificateDetailsViewModel();
 
             model.GiftCertificateID = giftCertificateDetail.GiftCertificateID;
+            model.GiftCertificateDetailID = giftCertificateDetail.GiftCertificateDetailID;
             model.CommodityID = giftCertificateDetail.CommodityID;
             model.BillOfLoading = giftCertificateDetail.BillOfLoading;
             model.YearPurchased = giftCertificateDetail.YearPurchased;

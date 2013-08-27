@@ -26,7 +26,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
         private readonly ICommonService _commonService;
 
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService,ICommonService commonService)
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
@@ -35,7 +35,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-            var gifts = _giftCertificateService.Get(null, t => t.OrderByDescending(o => o.GiftCertificateID),"GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
+            var gifts = _giftCertificateService.Get(null, t => t.OrderByDescending(o => o.GiftCertificateID), "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
             var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList());
             return View(giftsViewModel);
 
@@ -119,8 +119,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             break;
                         case "Year":
 
-                             myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].GiftCertificate.GiftDate.Year.ToString(CultureInfo.InvariantCulture));
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert[0].GiftCertificate.GiftDate.Year.ToString(CultureInfo.InvariantCulture));
 
                             break;
                         case "Bill":
@@ -129,21 +129,21 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             break;
                         case "Estimated":
 
-                             myMergeField.Select();
-                             wordApp.Selection.TypeText(String.Format("{0:0,0.0}",giftCert[0].EstimatedPrice));
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", giftCert[0].EstimatedPrice));
                             break;
                         case "AccountNo":
-                             myMergeField.Select();
-                             wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString(CultureInfo.InvariantCulture));
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString(CultureInfo.InvariantCulture));
                             break;
                         case "money":
-                             myMergeField.Select();
-                             wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate( giftCert[0].EstimatedTax)));
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate(giftCert[0].EstimatedTax)));
                             break;
                         case "cent":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText( String.Format("{0:0,0.0}",(giftCert[0].EstimatedTax - (Math.Truncate(giftCert[0].EstimatedTax)))));
-                           break;
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", (giftCert[0].EstimatedTax - (Math.Truncate(giftCert[0].EstimatedTax)))));
+                            break;
                         case "Tax":
                             myMergeField.Select();
                             wordApp.Selection.TypeText(giftCert[0].EstimatedTax.ToString());
@@ -159,16 +159,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             try
             {
 
-            wordDoc.SaveAs("gift_cert.doc");
-            wordApp.Documents.Open("gift_cert.doc");
-            //wordApp.Application.Quit();
-            return RedirectToAction("Index"); 
+                wordDoc.SaveAs("gift_cert.doc");
+                wordApp.Documents.Open("gift_cert.doc");
+                //wordApp.Application.Quit();
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index"); 
+                return RedirectToAction("Index");
             }
-            
+
         }
 
 
@@ -200,47 +200,88 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create()
         {
             PopulateLookup();
-            
+
             return View(new GiftCertificateViewModel());
         }
         [HttpPost]
-        public ActionResult Create(GiftCertificateViewModel giftcertificate)
+        public ActionResult Create(GiftCertificateViewModel giftcertificateViewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && giftcertificateViewModel != null)
             {
-                var giftCertificateModel =GiftCertificateViewModelBinder.BindGiftCertificate( giftcertificate);
+                var giftCertificate = GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificateViewModel);
 
-                InsertGiftCertificate(giftcertificate, giftCertificateModel);
-                //repository.Add( giftCertificate );
+                _giftCertificateService.AddGiftCertificate(giftCertificate);
                 return RedirectToAction("Index");
             }
 
-          PopulateLookup();
-           
+            PopulateLookup();
+
             return Create(); //GiftCertificateViewModel.GiftCertificateModel(giftcertificate));
         }
-        private void InsertGiftCertificate(GiftCertificateViewModel giftcertificate, Cats.Models.GiftCertificate giftCertificateModel)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel, int? id)
         {
-            List<GiftCertificateDetailsViewModel> giftCertificateDetails = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
-            var giftDetails = GiftCertificateViewModelBinder.BindListGiftCertificateDetail(giftCertificateDetails);
-            foreach (GiftCertificateDetail giftDetail in giftDetails)
+            if (giftCertificateDetailsViewModel != null && ModelState.IsValid && id.HasValue)
             {
-                giftCertificateModel.GiftCertificateDetails.Add(giftDetail);
+                giftCertificateDetailsViewModel.GiftCertificateID = id.Value;
+                var giftcertifiateDtail = GiftCertificateViewModelBinder.BindGiftCertificateDetail(giftCertificateDetailsViewModel);
+                _giftCertificateDetailService.AddGiftCertificateDetail(giftcertifiateDtail);
             }
-            _giftCertificateService.AddGiftCertificate(giftCertificateModel);
-        }
 
-        //generate view models from the respective json array of GiftCertificateDetails json elements
-        private List<GiftCertificateDetailsViewModel> GetSelectedGiftCertificateDetails(string jsonArray)
+            return Json(new[] { giftCertificateDetailsViewModel }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult GiftCertificateDetail_Read([DataSourceRequest] DataSourceRequest request, int? id)
         {
-            List<GiftCertificateDetailsViewModel> giftCertificateDetails = null;
-            if (!string.IsNullOrEmpty(jsonArray))
+            if (!id.HasValue)
             {
-                giftCertificateDetails = JsonConvert.DeserializeObject<List<GiftCertificateDetailsViewModel>>(jsonArray);
+                return Json((new List<GiftCertificateDetailsViewModel>()).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
-            return giftCertificateDetails;
-        }
+            else
+            {
+                var gc = _giftCertificateService.FindById(id.Value);
+                if (gc != null)
+                {
+                    var gC =
+                        GiftCertificateViewModelBinder.BindListOfGiftCertificateDetailsViewModel(
+                            gc.GiftCertificateDetails.ToList());
 
+                    return Json(gC.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json((new List<GiftCertificateDetailsViewModel>()).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult GiftCertificateDetail_Update([DataSourceRequest]DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
+        {
+            if (giftCertificateDetailsViewModel != null && ModelState.IsValid)
+            {
+                var target = _giftCertificateDetailService.FindById(giftCertificateDetailsViewModel.GiftCertificateDetailID);
+                if (target != null)
+                {
+                    target = GiftCertificateViewModelBinder.BindGiftCertificateDetail(target, giftCertificateDetailsViewModel);
+
+                    _giftCertificateDetailService.EditGiftCertificateDetail(target);
+                }
+            }
+
+            return Json(new[] { giftCertificateDetailsViewModel }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult GiftCertificateDetail_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
+        {
+            if (giftCertificateDetailsViewModel != null)
+            {
+                _giftCertificateDetailService.DeleteById(giftCertificateDetailsViewModel.GiftCertificateDetailID);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+    
         public ActionResult Edit(int id)
         {
             var giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
@@ -258,8 +299,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid && giftcert != null)
             {
 
-                var giftCertificateModel =GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificate);
-                
+                var giftCertificateModel = GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificate);
+
                 _giftCertificateService.EditGiftCertificate(giftCertificateModel);
 
                 return RedirectToAction("Index");
@@ -267,7 +308,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             PopulateLookup(false, giftcert);
 
 
-              return View(giftcertificate);
+            return View(giftcertificate);
         }
         public ActionResult Delete(int id)
         {
@@ -287,16 +328,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             return Json(_giftCertificateService.IsBillOfLoadingDuplicate(BillOfLoading), JsonRequestBehavior.AllowGet);
         }
-        private void PopulateLookup(bool isNew=true,Cats.Models.GiftCertificate giftCertificate=null)
+        private void PopulateLookup(bool isNew = true, Cats.Models.GiftCertificate giftCertificate = null)
         {
             ViewData["Commodities"] = _commonService.GetCommodities(null, t => t.OrderBy(o => o.Name));
-           
+
             ViewBag.DCurrencies = _commonService.GetDetails(d => d.MasterID == Master.Constants.CURRENCY, t => t.OrderBy(o => o.SortOrder));
             ViewBag.DFundSources = _commonService.GetDetails(d => d.MasterID == Master.Constants.FUND_SOURCE, t => t.OrderBy(o => o.SortOrder));
             ViewBag.DBudgetTypes = _commonService.GetDetails(d => d.MasterID == Master.Constants.BUDGET_TYPE, t => t.OrderBy(o => o.SortOrder));
-          
-            ViewBag.DModeOfTransports = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name");
-            var giftCertificateDetails = new List<GiftCertificateDetailsViewModel>();
+
+             var giftCertificateDetails = new List<GiftCertificateDetailsViewModel>();
             ViewBag.GiftCertificateDetails = giftCertificateDetails;
             if (isNew && giftCertificate == null)
             {
@@ -306,18 +346,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
                                    "CommodityTypeID", "Name");
                 ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+                ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name");
+        
             }
             else
             {
                 var giftDetails = giftCertificate.GiftCertificateDetails.FirstOrDefault();
                 ViewBag.DonorID = new SelectList(_commonService.GetDonors(null, t => t.OrderBy(o => o.Name)), "DonorID",
-                                                "Name");
+                                                "Name",giftCertificate.DonorID);
                 ViewBag.CommodityTypeID =
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
                                    "CommodityTypeID", "Name", giftDetails == null ? string.Empty : giftDetails.Commodity.CommodityTypeID.ToString());
-                ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+                ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",giftCertificate.ProgramID);
+                ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name",giftCertificate.DModeOfTransport);
+        
             }
         }
+
+       
 
         protected override void Dispose(bool disposing)
         {
