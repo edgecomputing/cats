@@ -6,14 +6,16 @@
     {
          
         
-        columns.Bound(p => p.Name).Width(100);  
+        columns.Bound(p => p.Name).Width(250);  
         
-        columns.Bound(p => p.Description).Width(100); 
+        columns.Bound(p => p.Description).Width(300);
+        columns.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
+       
         columns.Command(
             command => { 
                 command.Edit().Text("Modify");
                 command.Destroy().Text("Destroy"); 
-              //  command.Custom("Edit").Click("editRecord");
+                command.Custom("Detail").Click("detailProcess");
             }
             ).Width(300);
     })
@@ -32,6 +34,19 @@
         .Read(read => read.Action("ReadKendo", "ProcessTemplate"))
         .Update(update => update.Action("EditKendo", "ProcessTemplate"))
         .Destroy(update => update.Action("DeleteKendo", "ProcessTemplate"))
+        .Model(model =>
+        {
+            //model.Id(p => p.TransportBidQuotationID);
+            model.Field(p => p.ProcessTemplateID).Editable(false);
+        })
     )
     
 )
+<script>
+    function detailProcess(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "@Url.Action("Index","ProcessTemplate",new {Area="WorkflowManager"})" + dataItem.ProcessTemplateID;
+        window.location = url
+    }
+</script>

@@ -78,7 +78,7 @@ namespace Cats.Tests.ControllersTests
 
             var needAssessment = new List<NeedAssessmentHeader>
                 {
-                    new NeedAssessmentHeader {NAHeaderId = 1,NeedACreatedDate = new DateTime(12/12/2012)}
+                    new NeedAssessmentHeader {NAHeaderId = 1, NeedAssessment = new NeedAssessment {NeedADate = new DateTime(12/12/2012)} }
                 };
 
             var needAssessmentService = new Mock<INeedAssessmentHeaderService>();
@@ -86,7 +86,7 @@ namespace Cats.Tests.ControllersTests
 
             var needAssessmentDetail = new List<NeedAssessmentDetail>
                 {
-                    new NeedAssessmentDetail {NAId = 1,NAHeaderId = 1,District = 12}
+                    ////new NeedAssessmentDetail {NAId = 1,NAHeaderId = 1,District = 12}
                 };
             var needAssessmentDetailService = new Mock<INeedAssessmentDetailService>();
             needAssessmentDetailService.Setup(m => m.GetAllNeedAssessmentDetail()).Returns(needAssessmentDetail);

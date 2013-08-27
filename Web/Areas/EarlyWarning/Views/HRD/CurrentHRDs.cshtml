@@ -55,7 +55,7 @@
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "RegionalSummary/?hrdID=" + dataItem.HRDID;
+        window.location = "RegionalSummary/" + dataItem.HRDID;
 
     }
     

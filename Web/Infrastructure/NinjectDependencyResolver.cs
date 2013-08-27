@@ -10,6 +10,7 @@ using Cats.Services.Procurement;
 using Cats.Services.Logistics;
 using Cats.Services.PSNP;
 using Cats.Services.Transaction;
+using Cats.Services.Common;
 
 namespace Cats.Infrastructure
 {
@@ -19,7 +20,7 @@ namespace Cats.Infrastructure
 
         public NinjectDependencyResolver()
         {
-            this.kernel = new StandardKernel();
+            kernel = new StandardKernel();
             AddBindings();
         }
 
@@ -37,6 +38,8 @@ namespace Cats.Infrastructure
         
         private void AddBindings()
         {
+            kernel.Bind<IBusinessProcessStateService>().To<BusinessProcessStateService>();
+            kernel.Bind<IBusinessProcessService>().To<BusinessProcessService>();
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
             kernel.Bind<IProcessTemplateService>().To<ProcessTemplateService>();
             kernel.Bind<IStateTemplateService>().To<StateTemplateService>();
@@ -84,7 +87,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<INeedAssessmentHeaderService>().To<NeedAssessmentHeaderService>();
             kernel.Bind<INeedAssessmentDetailService>().To<NeedAssessmentDetailService>();
-
+            kernel.Bind<INeedAssessmentService>().To<NeedAssessmentService>();
 
             kernel.Bind<IHRDService>().To<HRDService>();
             kernel.Bind<IHRDDetailService>().To<HRDDetailService>();
@@ -100,9 +103,15 @@ namespace Cats.Infrastructure
             kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
             kernel.Bind<ISeasonService>().To<SeasonService>();
             kernel.Bind<IDonorService>().To<DonorService>();
+            kernel.Bind<ICommonService>().To<CommonService>();
             kernel.Bind<IRegionalPSNPPledgeService>().To<RegionalPSNPPledgeService>();
 
+
+            kernel.Bind<IContributionService>().To<ContributionService>();
+            kernel.Bind<IContributionDetailService>().To<ContributionDetailService>();
+            kernel.Bind<IDonorService>().To<DonorService>();
             kernel.Bind<IUnitService>().To<UnitService>();
+
 
         }
     }

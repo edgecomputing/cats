@@ -12,6 +12,8 @@ using Cats.Services.PSNP;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Common;
+
 
 
 namespace Cats.Areas.PSNP
@@ -21,18 +23,25 @@ namespace Cats.Areas.PSNP
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly IRationService _rationService;
-
-
+        private readonly IBusinessProcessService _BusinessProcessService;
+        private readonly IBusinessProcessStateService _BusinessProcessStateService;
+        private readonly IApplicationSettingService _ApplicationSettingService;
+        
         public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam
-                                            ,IRationService rationServiceParam
-                                           , IAdminUnitService adminUnitServiceParam
-                                    )
-        {
-            this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
-            this._rationService = rationServiceParam;
-            this._adminUnitService = adminUnitServiceParam;
-
-        }
+                                          ,IRationService rationServiceParam
+                                          ,IAdminUnitService adminUnitServiceParam
+                                          ,IBusinessProcessService BusinessProcessServiceParam
+                                          ,IBusinessProcessStateService BusinessProcessStateServiceParam
+                                          ,IApplicationSettingService ApplicationSettingParam
+                                         )
+            {
+                this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
+                this._rationService = rationServiceParam;
+                this._adminUnitService = adminUnitServiceParam;
+                this._BusinessProcessService = BusinessProcessServiceParam;
+                this._BusinessProcessStateService = BusinessProcessStateServiceParam;
+                this._ApplicationSettingService = ApplicationSettingParam;
+            }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
         {
@@ -68,7 +77,6 @@ namespace Cats.Areas.PSNP
             IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
 
             return View(list);
-            //return View(toViewModel(list));
 
         }
         public ActionResult GetListAjax([DataSourceRequest] DataSourceRequest request)
@@ -76,8 +84,7 @@ namespace Cats.Areas.PSNP
             IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
             return Json(toViewModel(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        //
-        // GET: /PSNP/RegionalPSNPPlan/Details/5
+
 
         public ActionResult Details(int id = 0)
         {
@@ -88,8 +95,15 @@ namespace Cats.Areas.PSNP
             }
             return View(regionalpsnpplan);
         }
+        public ActionResult Promote(BusinessProcessState st)
+        {
+           _BusinessProcessService.PromotWorkflow(st);
+           return RedirectToAction("Index");
+
+        }
         public ActionResult promotWorkflow(int id, int nextState)
         {
+           
             RegionalPSNPPlan item = _regionalPSNPPlanService.FindById(id);
             item.StatusID = nextState;
             _regionalPSNPPlanService.UpdateRegionalPSNPPlan(item);
@@ -111,13 +125,43 @@ namespace Cats.Areas.PSNP
         [HttpPost]
         public ActionResult Create(RegionalPSNPPlan regionalpsnpplan)
         {
-            regionalpsnpplan.StatusID = 1;
+            //regionalpsnpplan.StatusID = 1;
             if (ModelState.IsValid)
             {
-                _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
+                
+                int BP_PSNP = 0;
+                try
+                {
+                     BP_PSNP = Int32.Parse(_ApplicationSettingService.FindValue("PSNPWorkflow"));
+                }
+                catch (Exception e) { }
+                if (BP_PSNP != 0)
+                {
+                    BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP, regionalpsnpplan.RegionalPSNPPlanID, "PSNP");
+                    _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
+                    BusinessProcessState createdstate = new BusinessProcessState
+                        {
+                            DatePerformed = DateTime.Now
+                            ,
+                            PerformedBy = "System"
+                            ,
+                            Comment = "Created workflow for PSNP Plan"
+                            ,
+                            ParentBusinessProcessID = bp.BusinessProcessID
+                            ,
+                            StateID = 1
+                        };
 
-                return RedirectToAction("Index");
+                    _BusinessProcessService.PromotWorkflow(createdstate);
+                    regionalpsnpplan.StatusID = bp.BusinessProcessID;
+                    _regionalPSNPPlanService.UpdateRegionalPSNPPlan(regionalpsnpplan);
+                    return RedirectToAction("Index");
+
+                }
+                ViewBag.ErrorMessage1 = "The workflow assosiated with PSNP planning doesnot exist.";
+                ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
             }
+
             LoadLookups();
             return View(regionalpsnpplan);
         }
@@ -136,8 +180,6 @@ namespace Cats.Areas.PSNP
             return View(regionalpsnpplan);
         }
 
-        //
-        // POST: /PSNP/RegionalPSNPPlan/Edit/5
 
         [HttpPost]
         public ActionResult Edit(RegionalPSNPPlan regionalpsnpplan)

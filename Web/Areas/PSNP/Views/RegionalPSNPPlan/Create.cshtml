@@ -8,56 +8,74 @@
 {
     @Html.Partial("_PSNPLeftBar");
 }
-
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_psnp"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")" title="save"></a>
+}
 <h2>Create</h2>
 <div class="form-horizontal">
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+    @if (@ViewBag.ErrorMessage1 != null)
+    {
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            @ViewBag.ErrorMessage1
+            <br />
+            @ViewBag.ErrorMessage2
 
-    <fieldset>
-        <legend>Regional PSNP Plan</legend>
-
-        
-
-        <div class="control-group">
-            @Html.LabelFor(model => model.Year, new { @class = "control-label"})
-            <div class="controls">
-                 @Html.TextBoxFor(model => model.Year, new { @class = "input-xlarge", @placeholder = "Year" })    
-                 @Html.ValidationMessageFor(model => model.Year)
-            </div>
         </div>
+    }
 
-        <div class="control-group">
-            @Html.LabelFor(model => model.Region, new { @class = "control-label"})
-            <div class="controls">
-                @Html.DropDownList("RegionID")   
-                 @Html.ValidationMessageFor(model => model.Region)
+    @using (Html.BeginForm("Create", "RegionalPSNPPlan", FormMethod.Post, new { id = "frm_create_psnp" }))
+    {
+    
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Regional PSNP Plan</legend>
+
+
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.Year, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Year, new { @class = "input-xlarge", @placeholder = "Year" })
+                    @Html.ValidationMessageFor(model => model.Year)
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            @Html.LabelFor(model => model.Ration, new { @class = "control-label"})
-            <div class="controls">
-                 @Html.DropDownList("RationID")
-                 @Html.ValidationMessageFor(model => model.Ration)
+            <div class="control-group">
+                @Html.LabelFor(model => model.Region, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.DropDownList("RegionID")
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
             </div>
-        </div>
 
-       <div class="control-group">
-            @Html.LabelFor(model => model.Duration, new { @class = "control-label"})
-            <div class="controls">
-                 @Html.TextBoxFor(model => model.Duration, new { @class = "input-xlarge", @placeholder = "Duration" })    
-                 @Html.ValidationMessageFor(model => model.Duration)
+            <div class="control-group">
+                @Html.LabelFor(model => model.Ration, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.DropDownList("RationID")
+                    @Html.ValidationMessageFor(model => model.Ration)
+                </div>
             </div>
-        </div>     
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.Duration, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Duration, new { @class = "input-xlarge", @placeholder = "Duration" })
+                    @Html.ValidationMessageFor(model => model.Duration)
+                </div>
+            </div>
 
 
-
+            <!--
         <p>
             
             <input type="submit" value="Create" class="btn btn-info"/>
             <a href="@Url.Action("Index", "RegionalPSNPPlan")" class="btn btn-danger">Back to List</a> 
         </p>
-    </fieldset>
-}
+    -->
+        </fieldset>
+    }
 </div>

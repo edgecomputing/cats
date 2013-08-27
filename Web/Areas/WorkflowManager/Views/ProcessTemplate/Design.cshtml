@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 <div>
@@ -12,13 +12,16 @@
 
 
 <div style="position: fixed; top: 100px; bottom: 50px; left: 50px; right: 250px; border: solid 1px #CCC;">
+    <canvas id="drawingCanvas">
+
+    </canvas>
     @{
         int pos = 0;
         foreach (StateTemplate st in Model.ParentProcessTemplateStateTemplates)
         {
             string pospx = pos + "px";
             pos += 50;
-        <div id="state_@st.StateTemplateID" data-top="@pos" data-left="50" class="state statetype-@st.StateType" >
+        <div id="state_@st.StateTemplateID" data-top="@pos" data-left="50" style="left:50px; top:@pospx"  class="state statetype-@st.StateType" >
 
             <div class="content">@st.StateTemplateID  @st.Name : @st.StateType</div>
             <div class="connector left-connector"></div>
@@ -49,10 +52,25 @@
     </div>
 
 </div>
+
 <link href="@Url.Content("~/Content/workflow/workflowDesigner.css")" rel="stylesheet" type="text/css" />
+<script>
+  
+
+    $(function ()
+    {
+        var canvas = document.querySelector("#drawingCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "rgb(255,0,0)";
+        ctx.fillRect(0, 0, 100, 100);
+    }
+    );
+</script>
 <script src="@Url.Content("~/Content/workflow/workflow.js")"></script>
-<script src="@Url.Content("~/Content/jquery/jquery-1.8.0.js")"></script>
-<script src="@Url.Content("~/Content/jquery/jquery-ui-1.8.23.custom.js")"></script>
+<script src="@Url.Content("~/Content/workflow/jquery-1.8.0.js")"></script>
+<script src="@Url.Content("~/Content/workflow/jquery-ui-1.8.23.custom.js")"></script>
+
+
 
 <script>
     var processId=@Model.ProcessTemplateID;
@@ -156,3 +174,4 @@
         show_flow();
     }
 </script>
+

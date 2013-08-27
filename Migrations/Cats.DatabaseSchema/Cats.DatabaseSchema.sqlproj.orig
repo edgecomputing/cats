@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{23584698-1bd3-4c40-ad56-9bc6dec0ff19}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -184,8 +184,31 @@
     <Build Include="Script.PostDeployment-Users.sql" />
     <Build Include="Procurement\Tables\BidWinner.sql" />
     <Build Include="Procurement\Tables\TransportBidQuotation.sql" />
+    <Build Include="dbo\Tables\ApplicationSetting.sql" />
+    <Build Include="dbo\Tables\CurrentRation.sql" />
+    <Build Include="dbo\Tables\ELMAH_Error.sql" />
+    <Build Include="Procurement\Tables\Bid_1.sql" />
+    <Build Include="dbo\Tables\RationDetail_1.sql" />
+    <Build Include="dbo\Tables\Ration_1.sql" />
+    <Build Include="EarlyWarning\Tables\NeedAssessmentHeader.sql" />
+    <Build Include="EarlyWarning\Tables\NeedAssessmentDetail.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPlanDetail.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPlan.sql" />
+    <Build Include="dbo\Tables\HRDDetail_2.sql" />
+    <Build Include="dbo\Tables\HRD_2.sql" />
+    <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
+    <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
+    <Build Include="dbo\Tables\AccountTransaction.sql" />
+<<<<<<< HEAD
+    <Build Include="dbo\Tables\StateTemplate.sql" />
+    <Build Include="dbo\Tables\ProcessTemplate.sql" />
+    <Build Include="dbo\Tables\ProcessStatus.sql" />
+    <Build Include="dbo\Tables\FlowTemplate.sql" />
+=======
+    <Build Include="EarlyWarning\Tables\NeedAssessment.sql" />
+>>>>>>> 6e8b1f1411b537797e6e9b12e7f6432591f2bc85
   </ItemGroup>
   <ItemGroup>
-    <None Include="Default-User.sql" />
+    <None Include="BidStatus.sql" />
   </ItemGroup>
 </Project>

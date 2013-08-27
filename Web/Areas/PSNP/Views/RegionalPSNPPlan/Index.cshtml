@@ -6,95 +6,116 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var index = 0;
 }
 @section LeftBar
 {
-   
     @Html.Partial("_PSNPLeftBar");
-   
 }
-<h2>Index</h2>
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "RegionalPSNPPlan")"></a>
 
-<p>
-     <a href="@Url.Action("Create", "RegionalPSNPPlan")" class="btn btn-success">New PSNP Plan</a>
-</p>
-
+}
+<h3>List of PSNP Plans</h3>
+<!--
+<a class="btn toolbar-btn " data-buttontype="btn_new_record"></a> btn_new_record<br /><br />
+        <a class="btn toolbar-btn " data-buttontype="btn_save"></a> btn_save<br /><br />
+        <a class="btn toolbar-btn " data-buttontype="btn_edit"> </a> btn_edit<br /><br />
+        <a class="btn toolbar-btn " data-buttontype="btn_delete"> </a> btn_delete<br /><br />
+        <a class="btn toolbar-btn " data-buttontype="btn_back_to_list"> </a> btn_back_to_list<br /><br />
+        <a class="btn toolbar-btn " data-buttontype="btn_cancel"> </a> btn_cancel<br /><br />
 <div>
-
-<table class="table table-striped">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ShortName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Region)
-        </th>
-        <th>
-            Program
-        </th>
-        <th>Status
-        </th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-
-    @foreach (RegionalPSNPPlan item in Model)
-    {
+    -->
+    <table class="table table-striped table-bordered">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShortName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Region.Name)
-            </td>
-            <td>
-              PSNP
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status.Name)
-            </td>
-            <td>
-
-                @if (item.Status.AllowedAccessLevel > 1)
-                {
-                    <a class="btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Edit</a>
-                    
-                }
-            </td><td>
-                @if (item.Status.AllowedAccessLevel >= 1)
-                {
-                    <a class="btn edit_button" href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP",id=item.RegionalPSNPPlanID })">Detail</a>
-                   
-                }
-            </td>
-            <td>
-                <div class="btn-group">
-                <button class="btn edit_button">Workflow</button>
-                <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    @foreach (FlowTemplate actions in item.Status.InitialStateFlowTemplates)
-        {
-            <li class="edit_button"> @Html.ActionLink(actions.Name, "promotWorkflow", new {id=item.RegionalPSNPPlanID, nextState=actions.FinalStateID }) </li>
-        }
-                    <li class="divider"></li>
-@if (item.Status.AllowedAccessLevel > 1)
-                {
-                    <li>@Html.ActionLink("Edit", "#")</li>
-                }
-                @if (item.Status.AllowedAccessLevel >= 1)
-                {
-                    <li>@Html.ActionLink("Details", "#")</li>
-                }
-                  
-                </ul>
-              </div>
-
-                
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>Program
+            </th>
+            <th>Status
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (RegionalPSNPPlan item in Model)
+        {
+            StateTemplate state = item.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
+            index++;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region.Name)
+                </td>
+                <td>PSNP
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
+                </td>
+                <td>
+
+                    @if (state.AllowedAccessLevel > 1)
+                    {
+                        <a class="btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })">Edit</a>
+                    
+                    }
+                </td>
+                <td>
+                    @if (state.AllowedAccessLevel >= 1)
+                    {
+                        <a class="btn edit_button" href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })">Detail</a>
+                   
+                    }
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn edit_button" id="action_@index">Workflow</button>
+                        <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                            {
+                                <li class="edit_button"><a href="javascript:promot_workflow(@item.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.RegionalPSNPPlanID)" title="@actions.Name">@actions.Name</a></li>            
+                                <!--<li class="edit_button"> @Html.ActionLink(actions.Name, "promotWorkflow", new { id = item.RegionalPSNPPlanID, nextState = actions.FinalStateID }) </li>
+        -->
+                            }
+                            <li class="divider"></li>
+                            @if (state.AllowedAccessLevel > 1)
+                            {
+                                <li>@Html.ActionLink("Edit", "#")</li>
+                            }
+                            @if (state.AllowedAccessLevel >= 1)
+                            {
+                                <li>@Html.ActionLink("Details", "#")</li>
+                            }
+
+                        </ul>
+                    </div>
+
+
+                </td>
+            </tr>
+        }
+
+    </table>
 
 </div>
+
+@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+<script>
+    function promot_workflow(BusinessProcessID, nextstate, actionname) {
+        $('#ParentBusinessProcessID').val(BusinessProcessID);
+        $('#stateID').val(nextstate);
+        $('#modalPromotionLabel').html(actionname);
+
+        $('#modalPromotion').modal()
+    }
+
+</script>

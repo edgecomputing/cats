@@ -77,22 +77,31 @@ namespace Cats.Data
         //public DbSet<Product> Products { get; set; }
         public DbSet<RequestDetailCommodity> RequestDetailCommodities { get; set; }
 
-        public DbSet<GiftCertificate> GiftCertificate { get; set; }
+        public DbSet<GiftCertificate> GiftCertificates { get; set; }
+        public DbSet<GiftCertificateDetail> GiftCertificateDetails { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Season> Seasons { get; set; } 
 
         public DbSet<ProcessTemplate> ProcessTemplates { get; set; }
         public DbSet<StateTemplate> StateTemplates { get; set; }
-        public DbSet<FlowTemplate> FlowTemplates { get; set; } 
+        public DbSet<FlowTemplate> FlowTemplates { get; set; }
+
+        public DbSet<Contribution> Contributions { get; set; }
+        public DbSet<ContributionDetail> ContributionDetails { get; set; }
+        public DbSet<Donor> Donors { get; set; } 
 
         //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
+        public DbSet<BusinessProcess> BusinessProcesss { get; set; }
+        public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new BusinessProcessStateMap());
             //TODO: Add mapping information for each Poco model.
             modelBuilder.Configurations.Add(new RegionalPSNPPledgeMap());
 
+            modelBuilder.Configurations.Add(new BusinessProcessMap());
             modelBuilder.Configurations.Add(new ProcessTemplateMap());
             modelBuilder.Configurations.Add(new StateTemplateMap());
             modelBuilder.Configurations.Add(new FlowTemplateMap());
@@ -140,6 +149,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new NeedAssessmentHeaderMap());
             modelBuilder.Configurations.Add(new NeedAssessmentDetailMap());
+            modelBuilder.Configurations.Add(new NeedAssessmentMap());
 
             modelBuilder.Configurations.Add(new HRDMap());
             modelBuilder.Configurations.Add(new HRDDetailMap());
@@ -157,6 +167,10 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new UnitMap());
 
             modelBuilder.Configurations.Add(new SeasonMap());
+
+            modelBuilder.Configurations.Add(new ContributionMap());
+            modelBuilder.Configurations.Add(new ContributionDetailMap());
+            modelBuilder.Configurations.Add(new DonorMap());
 
             //modelBuilder.Configurations.Add(new AccountTransactionMap());
             //modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());

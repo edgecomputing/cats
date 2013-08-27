@@ -11,9 +11,6 @@ namespace Cats.Models.Security.Mapping
             this.HasKey(t => new { t.UserAccountId});
 
             // Properties
-            this.Property(t => t.UserAccountId)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             this.Property(t => t.UserName)
                 .IsRequired()
                 .HasMaxLength(200);
@@ -36,7 +33,6 @@ namespace Cats.Models.Security.Mapping
                 .HasMaxLength(200);
 
             this.Property(t => t.Email)
-                .IsRequired()
                 .HasMaxLength(50);
 
             this.Property(t => t.LanguageCode)

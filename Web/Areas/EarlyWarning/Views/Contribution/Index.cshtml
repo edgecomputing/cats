@@ -1,0 +1,39 @@
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.Contribution>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section LeftBar
+{
+    @Html.Partial("_ContributionLeftBar");
+}
+<div class="well">
+    <h4 class="page-header">List of Donor Contributions</h4>
+    <div align="right">
+        <a href="Contribution/Create" class="btn btn-success">New Contribution</a>
+    </div>
+</div>
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.HRD).ClientTemplate("<a href='" + Url.Action("Details", "Contribution", new { id = "#=ContributionID#" }) + " '>#=HRD#</a>  ");
+        columns.Bound(p => p.Donor);
+        columns.Bound(p => p.Year);
+        
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.ContributionID))
+           .Read(read => read.Action("Contribution_Read", "Contribution"))
+ 
+     )
+   
+      )

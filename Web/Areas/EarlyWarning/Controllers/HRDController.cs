@@ -139,51 +139,92 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     });
         }
 
-        private double GetTotalBeneficiaries(int hrdID, int regionId)
+        public ActionResult RegionalSummary_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-            var hrdDetails = _hrdService.FindById(hrdID).HRDDetails;
-            decimal totalBeneficiary =
-            (from hrdDetail in hrdDetails
-             where hrdDetail.HRDID == hrdID && hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionId
-             select hrdDetail.NumberOfBeneficiaries).Sum();
+            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
 
-            return (double)totalBeneficiary;
+            if (hrd != null)
+            {
+                var detailsToDisplay = GetSummary(hrd).ToList();
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
         }
-       
-        public ActionResult RegionalSummary(int hrdID=0)
+
+        public ActionResult RegionalSummary(int id=0)
         {
-            var details =_hrdDetailService.Get(hrdDetail =>hrdDetail.HRDID == hrdID);
-            var hrd = _hrdService.FindById(hrdID);
-                //details.First().HRD;
-            var cerealCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID ==1).Amount ;
+            //var details = _hrdDetailService.Get(hrdDetail => hrdDetail.HRDID == id);
+            //var hrd = _hrdService.FindById(id);
+            ////details.First().HRD;
+            //var cerealCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 1).Amount;
+            //var blendFoodCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 2).Amount;
+            //var pulseCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 3).Amount;
+            //var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 4).Amount;
+
+            //ViewBag.SeasonID = hrd.Season.Name;
+            //ViewBag.Year = hrd.Year;
+
+            //var groupedTotal = from detail in details
+            //                   group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
+            //                   select new
+            //                       {
+            //                           Region = regionalDetail.Key,
+            //                           NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+            //                           Duration = regionalDetail.Sum(m => m.DurationOfAssistance)
+            //                       };
+
+            //var viewModel = from total in groupedTotal
+            //                select new RegionalSummaryViewModel
+            //                    {
+            //                        RegionName = total.Region.Name,
+            //                        NumberOfBeneficiaries = total.NumberOfBeneficiaries,
+            //                        Cereal = cerealCoefficient * total.NumberOfBeneficiaries * total.Duration,
+            //                        BlededFood = blendFoodCoefficient * total.NumberOfBeneficiaries * total.Duration,
+            //                        Oil = oilCoefficient * total.NumberOfBeneficiaries * total.Duration,
+            //                        Pulse = pulseCoefficient * total.NumberOfBeneficiaries * total.Duration
+            //                    };
+            ////ViewData["viewModel"] = viewModel;
+            //var summary = viewModel.ToList();
+            var hrd = _hrdService.Get(m => m.HRDID == id).FirstOrDefault();
+            ViewBag.SeasonID = hrd.Season.Name;
+            ViewBag.Year = hrd.Year;
+
+            
+                return View(hrd);
+            
+        }
+        private IEnumerable<RegionalSummaryViewModel> GetSummary(HRD hrd)
+        {
+            var details = hrd.HRDDetails;
+            //var hrd = _hrdService.FindById(id);
+            //details.First().HRD;
+            var cerealCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 1).Amount;
             var blendFoodCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 2).Amount;
             var pulseCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 3).Amount;
-            var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID==4).Amount;
+            var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 4).Amount;
 
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
-            
+
             var groupedTotal = from detail in details
                                group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
                                select new
-                                   {
-                                       Region = regionalDetail.Key,
-                                       NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
-                                       Duration=regionalDetail.Sum(m=>m.DurationOfAssistance)
-                                   };
-                            
-            var viewModel = from total in groupedTotal
+                               {
+                                   Region = regionalDetail.Key,
+                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+                                   Duration = regionalDetail.FirstOrDefault().DurationOfAssistance
+                               };
+            return (from total in groupedTotal
                             select new RegionalSummaryViewModel
                                 {
                                     RegionName = total.Region.Name,
                                     NumberOfBeneficiaries = total.NumberOfBeneficiaries,
                                     Cereal = cerealCoefficient * total.NumberOfBeneficiaries * total.Duration,
                                     BlededFood = blendFoodCoefficient * total.NumberOfBeneficiaries * total.Duration,
-                                    Oil = oilCoefficient * total.NumberOfBeneficiaries*total.Duration,
+                                    Oil = oilCoefficient * total.NumberOfBeneficiaries * total.Duration,
                                     Pulse = pulseCoefficient * total.NumberOfBeneficiaries * total.Duration
-                                };
-            ViewData["viewModel"] = viewModel;
-            return View(viewModel);
+                                });
+                
         }
 
         private IEnumerable<HRDDetailViewModel> GetHRDDetails(HRD hrd)
@@ -217,7 +258,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             // hrd.HRDDetails = new List<HRDDetail>();
             ViewBag.Year = DateTime.Today.Year;
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
-            ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAApproved == true), "NAHeaderId",
+            ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");
             ViewData["SeasonID"] = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);

@@ -1,0 +1,250 @@
+﻿@using Cats.Models
+@model ProcessTemplate
+
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div>
+    <button class="btn btn-primary" id="btn-save">save</button>
+    Design; @Model.Name</div>
+
+
+<div style="position: fixed; top: 100px; bottom: 50px; left: 50px; right: 250px; border: solid 1px #CCC;">
+    <canvas id="drawingCanvas"  width="1000" height="500">
+
+    </canvas>
+    @{
+        int pos = 150;
+        foreach (StateTemplate st in Model.ParentProcessTemplateStateTemplates)
+        {
+            string pospx = pos + "px";
+            pos += 50;
+        <div id="state_@st.StateTemplateID" data-top="@pos" data-left="250" class="state statetype-@st.StateType" >
+
+            <div class="content">@st.Name</div>
+            <div class="connector left-connector"></div>
+            <div class="connector right-connector"></div>
+            <div class="connector top-connector"></div>
+            <div class="connector bottom-connector"></div>
+        </div>
+        }
+
+        pos = 150;
+            foreach (StateTemplate st in Model.ParentProcessTemplateStateTemplates)
+            {
+                foreach (FlowTemplate fw in st.InitialStateFlowTemplates)
+                {
+                    string pospx = pos + "px";
+                    pos += 50;   
+            <div id="flow_@fw.FlowTemplateID" class="flow_data flow" data-left="350" style="left:600px; top:@pospx ;" data-name="@fw.Name" data-flowid="@fw.FlowTemplateID" data-initial="@fw.InitialStateID" data-final="@fw.FinalStateID">
+               <div class="content">@fw.Name</div> 
+
+            </div>
+                }
+            }
+
+    }
+    <div class="right_bar" id="right_bar">
+        
+        <div id="debug"></div>
+    </div>
+
+</div>
+<link href="@Url.Content("~/Content/workflow/workflowDesigner.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Content/workflow/workflow.js")"></script>
+<script src="@Url.Content("~/Content/workflow/jquery-1.8.0.js")"></script>
+<script src="@Url.Content("~/Content/workflow/jquery-ui-1.8.23.custom.js")"></script>
+
+<script>
+    var processId=@Model.ProcessTemplateID;
+    var state_positions_str = localStorage["workflow_diagram" + processId];
+    var flow_positions_str = localStorage["workflow_flow" + processId];
+
+    var state_positions = {};
+    var flow_positions = {};
+    var flow_data={};
+    if(state_positions_str){
+       
+        eval("try {state_positions=" + state_positions_str + ";}\n catch(e){}");
+        
+
+    }
+    if(flow_positions_str){
+       
+        eval("try {flow_positions=" + flow_positions_str + ";}\n catch(e){}");
+
+    }
+    $(function () {
+        init_flow_data();
+        $("#btn-save").click(function () { save(); });
+        $(".state").draggable();
+        $(".state").each(
+            function () {
+                $this = $(this);
+                if (!state_positions[$this.attr("id")]) {
+                    state_positions[$this.attr("id")] = { top: $this.data("top"), left: $this.data("left") };
+                }
+                var sp=state_positions[$this.attr("id")];
+               // sp.left=Math.floor(sp.left/150)*150;
+               // sp.top=Math.floor(sp.top/50)*50;
+            }
+            );
+        $(".flow").draggable();
+        $(".flow").each(
+            function () {
+                $this = $(this);
+                if (!flow_positions[$this.attr("id")]) {
+                    flow_positions[$this.attr("id")] = { top: $this.data("top"), left: $this.data("left") };
+                }
+                var sp=flow_positions[$this.attr("id")];
+                // sp.left=Math.floor(sp.left/150)*150;
+                // sp.top=Math.floor(sp.top/50)*50;
+            }
+            );
+        $(".flow").each(
+            function () {
+                $this = $(this);
+                this.style.left = flow_positions[this.id].left + "px";
+                this.style.top = flow_positions[this.id].top + "px";
+                //  $this.html($this.html() + state_positions[this.id].top);
+
+            });
+        $(".state").each(
+            function () {
+                $this = $(this);
+                this.style.left = state_positions[this.id].left + "px";
+                this.style.top = state_positions[this.id].top + "px";
+                //  $this.html($this.html() + state_positions[this.id].top);
+
+            });
+        
+        show_flow();
+    });
+    function init_flow_data()
+    {
+        $(".flow_data").each(
+            function () {
+                $this = $(this);
+                var fid=$this.data("flowid");
+                var ins=$this.data("initial");
+                var fs=$this.data("final");
+                var nm=$this.data("name");
+                flow_data["flow_" + fid]={initial:ins,final:fs,name:nm,id:fid};
+            });
+                
+           
+            
+    }
+    function get_state_pos()
+    {
+        $(".state").each(
+            function () {
+                $this = $(this);
+               
+                state_positions[this.id].top=this.offsetTop;
+                state_positions[this.id].left = this.offsetLeft;
+
+            });
+        $(".flow").each(
+            function () {
+                $this = $(this);
+               
+                flow_positions[this.id].top=this.offsetTop;
+                flow_positions[this.id].left = this.offsetLeft;
+
+            });
+    }
+    function show_flow()
+    {
+        get_state_pos();
+        var htm="<br/>";
+        var canvas = document.querySelector("#drawingCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "rgb(0,120,255)";
+        ctx.lineWidth=0.5;
+        ctx.clearRect(0,0,1000,1000);
+        /*
+        
+        ctx.beginPath();
+       
+        ctx.moveTo(10,10);
+        ctx.lineTo(100,10);
+        ctx.lineTo(100,100);
+      
+        ctx.stroke();
+        */
+        for(var i in flow_data)
+        {
+            var is=flow_data[i].initial;
+            var fs=flow_data[i].final;
+            var id=flow_data[i].id;
+            var ispos=state_positions["state_" + is];
+            var flpos=flow_positions["flow_" + id];
+            var fspos=state_positions["state_" + fs];
+
+           // var dx=state_positions["state_" + fs].left-state_positions["state_" + is].left;
+           // var dy=state_positions["state_" + fs].top-state_positions["state_" + is].top;
+            ctx.beginPath();
+            //ctx.moveTo(0 ,0);
+            ctx.moveTo(ispos.left+100,ispos.top+20);
+            ctx.lineTo(flpos.left+100,ispos.top+20);
+            ctx.lineTo(flpos.left+100,flpos.top+20);
+            // ctx.moveTo(flpos.left+100,flpos.top+20);
+            ctx.lineTo(fspos.left+100,flpos.top+20);
+            ctx.lineTo(fspos.left+100,fspos.top+20);
+            //ctx.closePath();
+            ctx.stroke();
+            htm+=fspos.left + "," + fspos.top + "<br/>";
+        }
+        $("#debug").html(htm);
+    }
+    function show_flow2()
+    {
+        get_state_pos();
+        var htm="<br/>";
+        for(var i in flow_data)
+        {
+            htm+=flow_data[i].name;
+            var ins=flow_data[i].initial;
+            var fs=flow_data[i].final;
+            var id=flow_data[i].id;
+            var dx=state_positions["state_" + ins].left-state_positions["state_" + fs].left;
+            var dy=state_positions["state_" + ins].top-state_positions["state_" + fs].top;
+            var xpos=dx>0?"left":"right";
+            var ypos=dy>0?"top":"bottom";
+            htm+=": " + xpos + " , " + ypos + "<br/>";
+            var elem=document.getElementById("flow_" + id);
+            var ddy=ypos=="bottom"?-30:40;
+            var ddx=xpos=="left"?-30:40;
+            ddy=0;
+            //elem.style.top=(state_positions["state_" + ins].top - dy/2)+"px";
+           // elem.style.left=(state_positions["state_" + ins].left -dx/2)+"px";
+            elem.style.top=(state_positions["state_" + fs].top +ddy)+"px";
+        }
+        $("#debug").html(htm);
+    }
+    function save() {
+        get_state_pos();
+        var comma = "";
+        var htm = "{";
+        for (var i in state_positions) {
+            htm += comma + i + ":{left:" + state_positions[i].left + " , top:" + state_positions[i].top + "}\n";
+            comma=" ,"
+        }
+        htm += "}";
+        localStorage["workflow_diagram" + processId]=htm;
+        var htm = "{";
+        comma = "";
+        for (var i in flow_positions) {
+            htm += comma + i + ":{left:" + flow_positions[i].left + " , top:" + flow_positions[i].top + "}\n";
+            comma=" ,"
+        }
+        htm += "}";
+        localStorage["workflow_flow" + processId]=htm;
+        
+        $("#debug").html(htm);
+        show_flow();
+    }
+</script>

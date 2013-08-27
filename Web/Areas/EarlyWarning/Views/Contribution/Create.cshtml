@@ -1,0 +1,65 @@
+﻿@model Cats.Models.Contribution
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section LeftBar
+{
+    @Html.Partial("_ContributionLeftBar");
+}
+<div class="well">
+    <h3>Create Donor Contribution</h3>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <div class="well form-horizontal">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.HRDID)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("HRDID", String.Empty)
+                @Html.ValidationMessageFor(m => m.HRDID)
+            </div>
+    </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.DonorID)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("DonorID", String.Empty)
+                @Html.ValidationMessageFor(m => m.DonorID)
+            </div>
+
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.Year)
+            </div>
+            <div class="controls">
+                @Html.Editor("Year")
+                @Html.ValidationMessageFor(m => m.Year)
+            </div>
+
+        </div>
+        @*<div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.ImplementingAgency)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("DonorID", String.Empty)
+                @Html.ValidationMessageFor(m => m.ImplementingAgency)
+            </div>
+
+        </div>*@
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+
+    </div>
+}
+
