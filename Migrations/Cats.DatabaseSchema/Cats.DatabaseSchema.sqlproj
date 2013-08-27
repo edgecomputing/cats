@@ -206,6 +206,9 @@
     <Build Include="dbo\Tables\FlowTemplate.sql" />
     <Build Include="dbo\Tables\LocalizedTexts.sql" />
     <Build Include="dbo\Tables\Languages.sql" />
+    <Build Include="dbo\Tables\Season_1.sql" />
+    <Build Include="dbo\Tables\ContributionDetail.sql" />
+    <Build Include="dbo\Tables\Contribution.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

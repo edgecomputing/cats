@@ -34,7 +34,7 @@
                         <span class="shortcut-label">Alerts</span>
                     </a>
 
-                    <a href="@Url.Action("Index","AdminDashboard",new {Area="Settings"})" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                    <a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
                         <span class="shortcut-label">Preferences</span>
                     </a>
                     <!--
@@ -134,26 +134,7 @@
             <!-- /widget-content -->
 
         </div>
-        <!-- /widget -->
-
-        <div class="widget stacked widget-table action-table">
-
-            <div class="widget-header">
-                <i class="icon-bookmark"></i>
-                <h3>Monthly Requests</h3>
-            </div>
-            <!-- /widget-header -->
-
-            <div class="widget-content">
-
-                
-
-        </div>
-        <!-- /widget-content -->
-
     </div>
-    <!-- /widget -->
-
     <!-- REGIONAL REQUESTS-->
    @* <div class="span5">
         <div class="widget stacked">
@@ -180,7 +161,14 @@
                     </li>
                 </ul>
             </div>
+<div class="span5">
+   <div class="widget stacked">
+        <div class="widget-header">
+            <i class="icon-bar-chart"></i>
+            <h3>Charts</h3>            
         </div>
+       <div class="widget-content">
+            @Html.Partial("_BarBeneficiaries")
 
         <br />
     </div>*@
@@ -194,9 +182,10 @@
             </div>
         </div>
     </div>
+            @Html.Partial("_PieRequests")
+        </div>
+       </div>
 </div>
-
-
 <div class="span7">
     <div class="widget stacked">
         <div class="widget-header">
@@ -223,17 +212,8 @@
             </ul>
         </div>
     </div>
-
     <br />
-    <div class="widget stacked">
-        <div class="widget-header">
-            <i class="icon-star"></i>
-            <h3>Monthly Requestst</h3>
-        </div>
-        <div class="widget-content">
-            @Html.Partial("_PieRequests");
-        </div>
-    </div>
+
 </div>
 
 

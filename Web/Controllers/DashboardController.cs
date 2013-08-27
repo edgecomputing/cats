@@ -35,21 +35,10 @@ namespace Cats.Controllers
             return Json(_IDashboardService.PieRegionalRequests(), JsonRequestBehavior.AllowGet);
         }
 
-        
-        public ActionResult JsonBeneficiaries()
-        {
-           // return Json(_IDashboardService.BarNoOfBeneficiaries(),JsonRequestBehavior.AllowGet);
-            var model = _IDashboardService.BarNoOfBeneficiaries();
-            return View(model);
-        }
-        
         public ActionResult BarBeneficiaries()
         {
 
-           // return Json(_IDashboardService.BarNoOfBeneficiaries(), JsonRequestBehavior.AllowGet);
-           // return PartialView("BarRequests");
-            var model = _IDashboardService.BarNoOfBeneficiaries();
-            return View(model);
+            return Json(_IDashboardService.BarNoOfBeneficiaries(), JsonRequestBehavior.AllowGet);
         }
     }
 }
