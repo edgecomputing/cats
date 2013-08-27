@@ -544,6 +544,10 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\dashboard.css" />
+    <Content Include="Content\Workflow\jquery-1.8.0.js" />
+    <Content Include="Content\Workflow\jquery-ui-1.8.23.custom.js" />
+    <Content Include="Content\Workflow\workflow.js" />
+    <Content Include="Content\Workflow\workflowDesigner.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
@@ -726,6 +730,7 @@
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\js\CatsUI.js" />
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />

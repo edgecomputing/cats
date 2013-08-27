@@ -206,6 +206,8 @@
     <Build Include="dbo\Tables\FlowTemplate.sql" />
     <Build Include="dbo\Tables\LocalizedTexts.sql" />
     <Build Include="dbo\Tables\Languages.sql" />
+    <Build Include="dbo\Tables\BusinessProcessState.sql" />
+    <Build Include="dbo\Tables\BusinessProcess.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

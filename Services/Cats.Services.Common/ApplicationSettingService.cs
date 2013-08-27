@@ -5,7 +5,7 @@ using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
 
-namespace Cats.Services.Procurement
+namespace Cats.Services.Common
 {
     public class ApplicationSettingService : IApplicationSettingService
     {

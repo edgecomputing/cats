@@ -155,6 +155,7 @@
     <Compile Include="App_Start\WebApiConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -163,7 +164,6 @@
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
-    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -227,6 +227,11 @@
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
     <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\BusinessProcessController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\FlowTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\ProcessTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
@@ -234,6 +239,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\ElmahErrorAttribute.cs" />
     <Compile Include="Helpers\EthiopianDate.cs" />
@@ -252,6 +258,8 @@
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+    <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -638,7 +646,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Approval.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Promot.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
@@ -673,6 +681,34 @@
     <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
     <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\_PSNPLeftBar.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\Web.config" />
+    <Content Include="Areas\WorkflowManager\Views\FlowTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\FlowTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Design.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\Edit.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Detail.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
+=======
+    <Content Include="Areas\EarlyWarning\Views\HRD\RegionalSummary.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\EditDetail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
+>>>>>>> 6e8b1f1411b537797e6e9b12e7f6432591f2bc85
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -873,15 +909,16 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
-<<<<<<< HEAD
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Templates\gift_Certificate.dotx" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
-=======
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
->>>>>>> 68d2737d189c4150fd1e3684deb66fd82ab42e71
+    <Content Include="Views\Shared\_promotWorkflow.cshtml" />
+    <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -891,6 +928,8 @@
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
+    <Folder Include="Areas\WorkflowManager\Models\" />
+    <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
@@ -913,9 +952,9 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers.Localization\Helpers.Localization.csproj">
+    <ProjectReference Include="..\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
-      <Name>Helpers.Localization</Name>
+      <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
