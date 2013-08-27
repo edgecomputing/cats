@@ -18,8 +18,7 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.Password)
                 .IsRequired();
 
-            this.Property(t => t.FailedAttempts)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.FailedAttempts);
 
             this.Property(t => t.FirstName)
                 .IsRequired()

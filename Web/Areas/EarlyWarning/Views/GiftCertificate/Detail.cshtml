@@ -1,53 +1,59 @@
 ﻿@model Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel
-@using System.Web.Mvc
 @using Cats.Areas.GiftCertificate.Models
 @using Cats.Helpers
 @using Cats.Models
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@{
+    ViewBag.Title = Translator.Translate("Gift Certificate");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_gift"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"></a>
+}
+<h2>@Translator.Translate(" Gift Certificate")</h2>
 
+@*<p>
+    @Translator.Translate("Use this form to create new or edit gift certificates.")  @Translator.Translate(" marks required fields.")
+</p>*@
 
-@*<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>*@
-
-@using (Html.BeginForm())
+@{ViewBag.IsInEditMode = true; }
+@using (Html.BeginForm("Edit","GiftCertificate",FormMethod.Post,new{id="frm_edit_gift"}))
 {
     @Html.ValidationSummary(true)
            
     @Html.HiddenFor(model => model.GiftCertificateID)
     @Html.HiddenFor(model => model.rowCount)
-          
-    
-    <div class="field-set-title">
-        <h5>@Translator.Translate("Gift Certificate Headers")</h5>
-    </div>
+ 
     <div class="form-horizontal">
-        <table class="borderless" style="vertical-align: top">
+        <table  style="vertical-align: top">
             <tr>
                 <td style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"))*
                         </div>
                         <div class="controls">
-                            @Html.EditorFor(model => model.GiftDate)
-                            @Html.ValidationMessageFor(model => model.GiftDate)
+                           @Html.DisplayFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
+                          
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport")) 
                         </div>
                         <div class="controls">
 
-                            @Html.DropDownList("DModeOfTransport", string.Empty)
+                            @Html.DisplayFor(model=>model.DModeOfTransportName)
 
-                            @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                           
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program")) 
                         </div>
                         <div class="controls">
 
@@ -57,7 +63,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.DonorID, Translator.Translate("Donor")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.DonorID, Translator.Translate("Donor")) 
                         </div>
                         <div class="controls">
 
@@ -67,7 +73,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) 
                         </div>
                         <div class="controls">
 
@@ -81,7 +87,7 @@
                 <td style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number")) 
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.SINumber)
@@ -99,7 +105,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) 
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.ReferenceNo)
@@ -108,7 +114,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) 
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.Vessel)
@@ -117,11 +123,11 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) 
                         </div>
 
                         <div class="controls">
-                            @Html.EditorFor(model => model.ETA)
+                         @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
                             @Html.ValidationMessageFor(model => model.ETA)
                         </div>
                     </div>
@@ -129,15 +135,7 @@
             </tr>
         </table>
     </div>
-     <div class="clear"></div>
-    <div class="control-label"></div>
-    <div class="controls">
-        <input class="t-button" type="submit" style="width: 80px; height: 25px;" class="t-button" value="Save"
-            onclick="submitGiftCertificateData()" />
-        <input class="t-button" type="reset" style="width: 80px; height: 25px;" class="t-button" value="Cancel"
-            onclick="cancel()" />
-    </div>
-    <div class="clear"></div>  
+   
 
    }     
     <div class="clear"></div>
@@ -197,86 +195,3 @@
             </tr>
         </table>
     </div>
-   
-@*<script type="text/javascript">
-    $(document).ready(function() {
-        $("#DModeOfTransports").OnChange(OnComChange);
-        $("#ProgramID").OnChange(OnComChange);
-        $("#DonorID").OnChange(OnComChange);
-        $("#CommodityTypeID").OnChange(OnComChange);
-        
-        
-    });
-    function onEdit(e) {
-        if ((e.mode == 'edit' || e.mode == 'insert') && (e.dataItem.GiftCertificateDetailID <= 0)) {
-            if($('#AccountNumber').val() == '0')
-                $('#AccountNumber').val(null);
-
-            if ($('#WeightInMT').val() == '0')
-                $('#WeightInMT').val(null);
-
-            if ($('#EstimatedPrice').val() == '0')
-                $('#EstimatedPrice').val(null);
-
-            if ($('#EstimatedTax').val() == '0')
-                $('#EstimatedTax').val(null);
-
-            
-        }
-    }
-
-    function cancel() {
-        window.location = "/GiftCertificate/";
-    }
-    function OnComChange(e) {
-        $(this).valid();
-    }
-
-    function OnSubCommodityGridLoad(e) {
-        var combo = $('#CommodityID').data('tComboBox');
-        if (combo) {
-        }
-        var control = $('#CommodityID').data('tComboBox');
-        if (control != undefined || control != null) {
-            control.dropDown._html = function (items, encode) {
-                var sb = new $.kendo.stringBuilder();
-                if (!items)
-                    return sb.string();
-
-                for (var i = 0, count = items.length; i < count; i++) {
-                    var html = " ", item = items[i];
-                    html = item.Text; // +"<small style='display: block'>" + item.Text + "</small>";
-                    var obj = { html: html, dataItem: item };
-                    if (this.onItemCreate) {
-                        this.onItemCreate(obj);
-                    }
-                    if (!(item.unselectable)) {
-                        sb.cat('<li unselectable="on" class="t-item" style="background : #ccc">').cat(obj.html).cat("</li>");
-                    } else {
-                        sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;" >').cat(obj.html).cat("</li>");
-                    }
-                }
-
-                return sb.string();
-            };
-        }
-    }
-
-    function OnComOpen(e) {
-        var combo = $('#CommodityID').data('tComboBox');
-        var combot = $('#CommodityTypeID').data('tComboBox');
-        var comboType = combot.value();
-        if (combo && combot && comboType != '') {
-            var params = { };
-            params["commodityTypeId"] = comboType;
-            $.getJSON('@Url.Action("AvailbaleCommodities", "Receive")', params, function (comodities) {
-                combo.dataBind(comodities);
-                combot.disable();
-            });
-        } else if(combo){
-            var comodities = { };
-            combo.dataBind(comodities);
-        }
-
-    }
-</script>*@
