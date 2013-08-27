@@ -73,26 +73,52 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Contribution_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ContributionDetailViewModel> details)
+        public ActionResult ContributionDetail_Create([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel details,int id)
         {
-            var results = new List<ContributionDetailViewModel>();
-
             if (details != null && ModelState.IsValid)
             {
-                foreach (var detail in details)
-                {
-                    //detail.ContributionID = results.ContributiionID;
-                    //detail.ContributionDetailID = results.ContributionDetailID;
-                    //_contributionDetailService.AddContributionDetail(detail);
-            
-                }
+                details.ContributionID = id;
+
+                _contributionDetailService.AddContributionDetail(BindContributionDetail(details));
             }
 
-            return Json(results.ToDataSourceResult(request, ModelState));
+            return Json(new[] { details }.ToDataSourceResult(request, ModelState));
+        }
+        private ContributionDetail BindContributionDetail(ContributionDetailViewModel contributionDetailViewModel)
+        {
+            if (contributionDetailViewModel == null) return null;
+            var contributionDetail = new ContributionDetail()
+            {
+                ContributionDetailID = contributionDetailViewModel.ContributionDetailID,
+                ContributiionID = contributionDetailViewModel.ContributionID,
+                CommodityID = contributionDetailViewModel.CommodityID,
+                PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber,
+                PledgeDate = contributionDetailViewModel.PledgeDate,
+                Quantity = contributionDetailViewModel.Quantity
+
+
+            };
+            return contributionDetail;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ContributionDetail_Update([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel contributionDetailViewModel)
+        {
+            if (contributionDetailViewModel != null && ModelState.IsValid)
+            {
+                var origin = _contributionDetailService.FindById(contributionDetailViewModel.ContributionDetailID);
+                origin.Quantity = contributionDetailViewModel.Quantity;
+                origin.PledgeDate = contributionDetailViewModel.PledgeDate;
+                origin.PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber;
+                origin.CommodityID = contributionDetailViewModel.CommodityID;
+                _contributionDetailService.EditContributionDetail(origin);
+            }
+            return Json(new[] { contributionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
         public ActionResult Details(int id)
         {
             var contribution = _contributionService.Get(m => m.ContributionID == id,null,"ContributionDetails").FirstOrDefault();
+            ViewData["CommodityID"] = _commodityService.GetAllCommodity();
             if(contribution!=null)
             {
                 return View(contribution);
@@ -129,7 +155,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             ContributionID = contributionDetails.ContributiionID,
                             Commodity = contributionDetails.Commodity.Name,
                             PledgeReferenceNumber = contributionDetails.PledgeReferenceNo,
-                            PledgeDate = (DateTime) contributionDetails.PledgeDate,
+                            PledgeDate = contributionDetails.PledgeDate,
                             Quantity = contributionDetails.Quantity
 
 
@@ -140,8 +166,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ContributionDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
 
-
-            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
             var contribution = _contributionService.Get(m => m.ContributionID == id, null, "ContributionDetails").FirstOrDefault();
 
             if (contribution != null)
