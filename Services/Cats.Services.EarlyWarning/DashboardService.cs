@@ -28,6 +28,13 @@ namespace Cats.Services.EarlyWarning
             return _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year && t.RegionID == RegionId);
         }
 
+        public List<RegionalRequest> Requests()
+        {
+            int year = Year();
+            int sixMonthsBack = SixMonthsBack();
+            return _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
+        }
+
         public IEnumerable<Request> PieRegionalRequests()
         {
             int year = Year();
