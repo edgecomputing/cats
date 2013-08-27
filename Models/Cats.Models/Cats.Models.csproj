@@ -222,7 +222,7 @@
     <Folder Include="Partials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>

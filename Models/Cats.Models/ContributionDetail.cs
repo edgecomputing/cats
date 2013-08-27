@@ -12,7 +12,7 @@ namespace Cats.Models
         public int ContributiionID { get; set; }
         public int CommodityID { get; set; }
         public string PledgeReferenceNo { get; set; }
-        public Nullable<DateTime> PledgeDate { get; set; }
+        public DateTime PledgeDate { get; set; }
         public decimal Quantity { get; set; }
 
 

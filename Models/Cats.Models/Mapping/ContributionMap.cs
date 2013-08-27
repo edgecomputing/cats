@@ -21,15 +21,15 @@ namespace Cats.Models.Mapping
             this.Property(t => t.DonorID).HasColumnName("DonorID");
             this.Property(t => t.HRDID).HasColumnName("HRDID");
             this.Property(t => t.Year).HasColumnName("Year");
-            this.Property(t => t.ImplementingAgency).HasColumnName("ImplementingAgency");
+            //this.Property(t => t.ImplementingAgency).HasColumnName("ImplementingAgency");
 
             // Relationships
             this.HasRequired(t => t.Donor)
                 .WithMany(t => t.Contributions)
                 .HasForeignKey(d => d.DonorID);
-            this.HasRequired(t => t.Donor)
-                .WithMany(t => t.Contributions1)
-                .HasForeignKey(d => d.ImplementingAgency);
+            //this.HasRequired(t => t.Donor)
+            //    .WithMany(t => t.Contributions1)
+            //    .HasForeignKey(d => d.ImplementingAgency);
             this.HasRequired(t => t.HRD)
                 .WithMany(t => t.Contributions)
                 .HasForeignKey(d=>d.HRDID);

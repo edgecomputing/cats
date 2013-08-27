@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
+@section LeftBar
+{
+    @Html.Partial("_ContributionLeftBar");
+}
 <div class="well">
     <h3>Create Donor Contribution</h3>
 </div>
@@ -40,7 +44,7 @@
             </div>
 
         </div>
-        <div class="control-group">
+        @*<div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(m => m.ImplementingAgency)
             </div>
@@ -49,7 +53,7 @@
                 @Html.ValidationMessageFor(m => m.ImplementingAgency)
             </div>
 
-        </div>
+        </div>*@
         <div class="control-group">
             <div class="controls">
                 <input type="submit" value="Create" class="btn btn-success" />

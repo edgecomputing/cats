@@ -1,0 +1,55 @@
+﻿@using System.Collections
+@using Kendo.Mvc.UI
+@model  Cats.Models.Contribution
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+@section LeftBar
+{
+    @Html.Partial("_ContributionLeftBar");
+}
+<div class="well">
+    <h4 class="page-header">List of Donor Contributions</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionDetailViewModel>() 
+.Name("grid").Columns(columns =>
+    {
+
+        //columns.Bound(m => m.ContributionDetailID);
+        //columns.Bound(m => m.ContributionID);
+        columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewData["CommodityID"], "CommodityID", "Name").Title("Commodity");
+        columns.Bound(m => m.PledgeReferenceNumber);
+        columns.Bound(m => m.PledgeDate).Format("{0:MM/dd/yyyy}");
+        columns.Bound(m => m.Quantity);
+
+        columns.Command(command => command.Destroy());
+    })
+    .ToolBar(toolbar =>
+        {
+            toolbar.Create();
+            toolbar.Save();
+        })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable()
+      .Groupable()
+      .Sortable()
+     // .Selectable(t=>t.Mode(GridSelectionMode.Single	))
+      .Filterable()
+      .DataSource(datasource=>datasource
+      .Ajax()
+        .Model(model =>
+            {
+                model.Id(m=>m.ContributionID);
+                model.Field(m => m.Quantity).Editable(true);
+            }
+    )
+        .Read(read => read.Action("ContributionDetail_Read", "Contribution",new{id=Model.ContributionID}))
+         .Update(update => update.Action("ContributionDetail_Update", "Contribution"))
+         .Create(create => create.Action("ContributionDetail_Create", "Contribution",new {id=Model.ContributionID}))
+         .Destroy(destroy=>destroy.Action("ContributionDetail_Destroy","Contribution"))
+    )
+    )
+
+      
