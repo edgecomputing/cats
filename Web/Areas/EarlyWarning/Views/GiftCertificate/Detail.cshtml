@@ -13,7 +13,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_gift"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"></a>
 }
-<h2>@Translator.Translate("Edit Gift Certificate")</h2>
+<h2>@Translator.Translate(" Gift Certificate")</h2>
 
 @*<p>
     @Translator.Translate("Use this form to create new or edit gift certificates.")  @Translator.Translate(" marks required fields.")
@@ -28,16 +28,16 @@
     @Html.HiddenFor(model => model.rowCount)
  
     <div class="form-horizontal">
-        <table class="borderless" style="vertical-align: top">
+        <table  style="vertical-align: top">
             <tr>
                 <td style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"))
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"))*
                         </div>
                         <div class="controls">
-                           @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
-                            @Html.ValidationMessageFor(model => model.GiftDate)
+                           @Html.DisplayFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
+                          
                         </div>
                     </div>
                     <div class="control-group">
@@ -46,9 +46,9 @@
                         </div>
                         <div class="controls">
 
-                            @Html.DropDownList("DModeOfTransport", string.Empty)
+                            @Html.DisplayFor(model=>model.DModeOfTransportName)
 
-                            @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                           
                         </div>
                     </div>
                     <div class="control-group">
@@ -195,87 +195,3 @@
             </tr>
         </table>
     </div>
-   
-<script type="text/javascript">
-    //$(document).ready(function() {
-    //    $("#DModeOfTransports").OnChange(OnComChange);
-    //    $("#ProgramID").OnChange(OnComChange);
-    //    $("#DonorID").OnChange(OnComChange);
-    //    $("#CommodityTypeID").OnChange(OnComChange);
-        
-        
-    //});
-    //function onEdit(e) {
-    //    if ((e.mode == 'edit' || e.mode == 'insert') && (e.dataItem.GiftCertificateDetailID <= 0)) {
-    //        if($('#AccountNumber').val() == '0')
-    //            $('#AccountNumber').val(null);
-
-    //        if ($('#WeightInMT').val() == '0')
-    //            $('#WeightInMT').val(null);
-
-    //        if ($('#EstimatedPrice').val() == '0')
-    //            $('#EstimatedPrice').val(null);
-
-    //        if ($('#EstimatedTax').val() == '0')
-    //            $('#EstimatedTax').val(null);
-
-            
-    //    }
-    //}
-
-    //function cancel() {
-    //    window.location = "/GiftCertificate/";
-    //}
-    //function OnComChange(e) {
-    //    $(this).valid();
-    //}
-
-    //function OnSubCommodityGridLoad(e) {
-    //    var combo = $('#CommodityID').data('tComboBox');
-    //    if (combo) {
-    //    }
-    //    var control = $('#CommodityID').data('tComboBox');
-    //    if (control != undefined || control != null) {
-    //        control.dropDown._html = function (items, encode) {
-    //            var sb = new $.kendo.stringBuilder();
-    //            if (!items)
-    //                return sb.string();
-
-    //            for (var i = 0, count = items.length; i < count; i++) {
-    //                var html = " ", item = items[i];
-    //                html = item.Text; // +"<small style='display: block'>" + item.Text + "</small>";
-    //                var obj = { html: html, dataItem: item };
-    //                if (this.onItemCreate) {
-    //                    this.onItemCreate(obj);
-    //                }
-    //                if (!(item.unselectable)) {
-    //                    sb.cat('<li unselectable="on" class="t-item" style="background : #ccc">').cat(obj.html).cat("</li>");
-    //                } else {
-    //                    sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;" >').cat(obj.html).cat("</li>");
-    //                }
-    //            }
-
-    //            return sb.string();
-    //        };
-    //    }
-    //}
-
-   @* function OnComOpen(e) {
-        var combo = $('#CommodityID').data('tComboBox');
-        var combot = $('#CommodityTypeID').data('tComboBox');
-        var comboType = combot.value();
-        if (combo && combot && comboType != '') {
-            var params = { };
-            params["commodityTypeId"] = comboType;
-            $.getJSON('@Url.Action("AvailbaleCommodities", "Receive")', params, function (comodities) {
-                combo.dataBind(comodities);
-                combot.disable();
-            });
-        } else if(combo){
-            var comodities = { };
-            combo.dataBind(comodities);
-        }
-
-    }*@
-</script>
-

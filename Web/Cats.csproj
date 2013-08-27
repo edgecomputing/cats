@@ -268,7 +268,6 @@
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Microsoft.Office.Interop.Word.dll" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -725,6 +724,7 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -956,6 +956,7 @@
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
+    <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

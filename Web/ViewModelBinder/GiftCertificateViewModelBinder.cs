@@ -9,11 +9,16 @@ namespace Cats.ViewModelBinder
 {
     public class GiftCertificateViewModelBinder
     {
-        public static List<GiftCertificateViewModel> BindListGiftCertificateViewModel(List<GiftCertificate> giftCertificates)
+        public static List<GiftCertificateViewModel> BindListGiftCertificateViewModel(List<GiftCertificate> giftCertificates, bool bindWithDetail=false)
         {
-            return giftCertificates.Select(BindGiftCertificateViewModel).ToList();
+            var giftCertificatesViewModel = new List<GiftCertificateViewModel>();
+            foreach (var giftCertificate in giftCertificates)
+            {
+                giftCertificatesViewModel.Add(BindGiftCertificateViewModel(giftCertificate,bindWithDetail));
+            }
+            return giftCertificatesViewModel.ToList();
         }
-        public static GiftCertificateViewModel BindGiftCertificateViewModel(GiftCertificate giftCertificateModel)
+        public static GiftCertificateViewModel BindGiftCertificateViewModel(GiftCertificate giftCertificateModel, bool bindWithDetail = false)
         {
             var giftCertificateViewModel = new GiftCertificateViewModel();
 
@@ -34,9 +39,12 @@ namespace Cats.ViewModelBinder
                 giftCertificateViewModel.CommodityTypeID = giftCertificateDetail.Commodity.CommodityTypeID;
             else
                 giftCertificateViewModel.CommodityTypeID = 1;//by default 'food' 
-            //giftCertificateViewModel.GiftCertificateDetails =
-            //   BindListOfGiftCertificateDetailsViewModel(
-            //       giftCertificateModel.GiftCertificateDetails.ToList());
+            if (bindWithDetail)
+            {
+                giftCertificateViewModel.GiftCertificateDetails =
+                     BindListOfGiftCertificateDetailsViewModel(
+                         giftCertificateModel.GiftCertificateDetails.ToList());
+            }
 
 
             return giftCertificateViewModel;
@@ -74,7 +82,7 @@ namespace Cats.ViewModelBinder
         public static GiftCertificateDetail BindGiftCertificateDetail(GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
 
-            return BindGiftCertificateDetail(new GiftCertificateDetail(),giftCertificateDetailsViewModel);
+            return BindGiftCertificateDetail(new GiftCertificateDetail(), giftCertificateDetailsViewModel);
         }
         public static GiftCertificateDetail BindGiftCertificateDetail(GiftCertificateDetail giftCertificateDetail, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {

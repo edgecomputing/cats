@@ -114,6 +114,8 @@ namespace Cats.Areas.GiftCertificate.Models
         [Required(ErrorMessage = "Mode Of Transport is required")]
         public Int32 DModeOfTransport { get; set; }
 
+        public string DModeOfTransportName { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the port.
         /// </summary>
@@ -160,6 +162,8 @@ namespace Cats.Areas.GiftCertificate.Models
 
         [Required]
         public int CommodityTypeID { get; set; }
+
+        public string CommodityType { get; set; }
         /// <summary>
         /// Gets or sets the row count.
         /// </summary>

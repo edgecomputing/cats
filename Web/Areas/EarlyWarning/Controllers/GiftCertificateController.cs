@@ -36,7 +36,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Index()
         {
             var gifts = _giftCertificateService.Get(null, t => t.OrderByDescending(o => o.GiftCertificateID), "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
-            var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList());
+            var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(),true);
             return View(giftsViewModel);
 
         }
@@ -327,6 +327,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult IsBillOfLoadingDuplicate(string BillOfLoading)
         {
             return Json(_giftCertificateService.IsBillOfLoadingDuplicate(BillOfLoading), JsonRequestBehavior.AllowGet);
+        }
+
+        public  ActionResult Approve(int id)
+        {
+            return View();
         }
         private void PopulateLookup(bool isNew = true, Cats.Models.GiftCertificate giftCertificate = null)
         {
