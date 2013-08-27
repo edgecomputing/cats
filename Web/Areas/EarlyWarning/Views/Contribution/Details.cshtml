@@ -5,9 +5,10 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";    
 }
+
 @section LeftBar
 {
-    @*@Html.Partial("_HRDLeftBar")*@;
+    @Html.Partial("_ContributionLeftBar");
 }
 <div class="well">
     <h4 class="page-header">List of Donor Contributions</h4>
@@ -16,12 +17,14 @@
 .Name("grid").Columns(columns =>
     {
 
-        columns.Bound(m => m.ContributionDetailID);
-        columns.Bound(m => m.ContributionID);
-        columns.ForeignKey(m => m.Commodity, (IEnumerable)ViewData["CommodityID"], "CommodityID", "Name");
+        //columns.Bound(m => m.ContributionDetailID);
+        //columns.Bound(m => m.ContributionID);
+        columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewData["CommodityID"], "CommodityID", "Name").Title("Commodity");
         columns.Bound(m => m.PledgeReferenceNumber);
         columns.Bound(m => m.PledgeDate).Format("{0:MM/dd/yyyy}");
         columns.Bound(m => m.Quantity);
+
+        columns.Command(command => command.Destroy());
     })
     .ToolBar(toolbar =>
         {
@@ -44,7 +47,8 @@
     )
         .Read(read => read.Action("ContributionDetail_Read", "Contribution",new{id=Model.ContributionID}))
          .Update(update => update.Action("ContributionDetail_Update", "Contribution"))
-         .Create(create => create.Action("ContributionDetail_Create", "Contribution"))
+         .Create(create => create.Action("ContributionDetail_Create", "Contribution",new {id=Model.ContributionID}))
+         .Destroy(destroy=>destroy.Action("ContributionDetail_Destroy","Contribution"))
     )
     )
 

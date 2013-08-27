@@ -41,10 +41,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var contribution = new Contribution();
             var hrds = _hrdService.GetAllHRD();
-            var hrdName = (from item in hrds
-                           select new {item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year)}).ToList
-                ();
-            ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
+            //var hrdName = (from item in hrds
+            //               select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList
+            //    ();
+            //ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
+            ViewBag.HRDID = new SelectList(_hrdService.GetAllHRD(), "HRDID", "Year");
             ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name");
             ViewBag.Year = DateTime.Now.Year;
             return View(contribution);
@@ -61,6 +62,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                select new ContributionDetail()
                                    {
                                        CommodityID = 1,
+                                       PledgeReferenceNo = "AB123",
                                        PledgeDate = DateTime.Now,
                                        Quantity = 0
                                    }).ToList();
@@ -115,6 +117,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return Json(new[] { contributionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ContributionDetail_Destroy([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel contributionDetailViewModel)
+        {
+            if (contributionDetailViewModel != null && ModelState.IsValid)
+            {
+                _contributionDetailService.DeleteById(contributionDetailViewModel.ContributionDetailID);
+            }
+            return Json(ModelState.ToDataSourceResult());
+        }
         public ActionResult Details(int id)
         {
             var contribution = _contributionService.Get(m => m.ContributionID == id,null,"ContributionDetails").FirstOrDefault();
@@ -131,8 +142,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     select new ContributionViewModel()
                         {
                             ContributionID = contributions.ContributionID,
-                            HRD = contributions.HRD.Season.Name +"-"+contributions.HRD.Year,
+                            HRD = contributions.HRD.Season.Name + "-" + contributions.HRD.Year,
+                            HRDID = contributions.HRDID,
                             Donor = contributions.Donor.DonorCode,
+                            DonorID = contributions.DonorID,
                             Year = contributions.Year
                              
                         });
