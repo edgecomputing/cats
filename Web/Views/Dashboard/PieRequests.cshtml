@@ -1,0 +1,50 @@
+﻿
+<script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
+<script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
+
+ <script type="text/javascript">
+     $(function () {
+         $.getJSON('@Url.Action("PieRequests","Dashboard")', {}, function (data) {
+             var json = data;
+             var jsondata = [];
+
+             for (var i in json) {
+                 // var serie = new Array(json[i].Projects, json[i].Bugs);
+                 jsondata.push([json[i].RegionName, json[i].RequestsCount]);
+             }
+
+             var chart = new Highcharts.Chart({
+                 chart: {
+                     renderTo: 'container',
+                     type: 'pie',
+                     plotBackgroundColor: null,
+                     plotBorderWidth: null,
+                     plotShadow: false
+                 },
+                 title: {
+                     text: 'Percentage of Requests per Region'
+                 },
+
+                 plotOptions: {
+                     pie: {
+                         width: 300,
+                         height:300,
+                         showInLegend: true,
+                         animation: false,
+                         //  allowPointSelect: true,
+                         cursor: 'pointer'
+                     }
+                 },
+                 legend: {
+                     enabled: true
+                 },
+                 series: [{
+                     type: 'pie',
+                      data: jsondata
+
+                 }]
+             });
+         });
+     });
+    </script>
+    

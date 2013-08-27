@@ -208,6 +208,9 @@
     <Build Include="dbo\Tables\Languages.sql" />
     <Build Include="dbo\Tables\BusinessProcessState.sql" />
     <Build Include="dbo\Tables\BusinessProcess.sql" />
+    <Build Include="dbo\Tables\Season_1.sql" />
+    <Build Include="dbo\Tables\ContributionDetail.sql" />
+    <Build Include="dbo\Tables\Contribution.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

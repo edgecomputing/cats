@@ -27,14 +27,15 @@ namespace Cats.Controllers
         // GET: /Home/
         [Authorize]
 
-        public ActionResult Index(int regionId=0)
+        public ActionResult Index(int regionId=4)
         {
 
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
             var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
-            //ViewBag.Requests = req;
-            return View(req);
+            ////ViewBag.Requests = req;
+            return View();
             //return Json(req, JsonRequestBehavior.AllowGet);
+           // return Json(req, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Error()

@@ -59,10 +59,6 @@ namespace Cats.Models.Security.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.Role)
-                .IsFixedLength()
-                .HasMaxLength(2);
-
             this.Property(t => t.UserSID)
                 .HasMaxLength(85);
 
@@ -86,7 +82,6 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.Keyboard).HasColumnName("Keyboard");
             this.Property(t => t.PreferedWeightMeasurment).HasColumnName("PreferedWeightMeasurment");
             this.Property(t => t.DefaultTheme).HasColumnName("DefaultTheme");
-            this.Property(t => t.Role).HasColumnName("Role");
             this.Property(t => t.UserSID).HasColumnName("UserSID");
         }
     }

@@ -1,3 +1,5 @@
+﻿@*@model IEnumerable<Cats.Models.RegionalRequest>*@
+
 ﻿@using Cats.Helpers
 
 @model IEnumerable<Cats.Models.RegionalRequest>
@@ -8,12 +10,16 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-
-<div class=" span12 ">
+    <div class=" span12 ">
+        <h3>Welcome to CATS</h3>
+        
     <h4>Welcome @Html.GetUserName()</h4>
-</div>
-<div class="">
-    @Html.Partial("_Dashboard",Model)
-</div>
 
+        @Html.Partial("_Dashboard")
+    </div>
+
+
+@*<div class="">
+    @Html.Partial("_Dashboard",Model)
+</div>*@
 

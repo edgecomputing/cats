@@ -60,7 +60,7 @@
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\lib\Microsoft Office Interop word\Microsoft.Office.Interop.Word.dll</HintPath>
+      <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
@@ -163,6 +163,8 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
@@ -222,7 +224,6 @@
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
-    <Compile Include="Areas\Settings\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -241,14 +243,14 @@
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
-    <Compile Include="Helpers\AmharicEditorHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs" />
+    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs" />
+    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs" />
+    <Compile Include="Infrastructure\Helpers\RequestHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
-    <Compile Include="Helpers\ElmahErrorAttribute.cs" />
-    <Compile Include="Helpers\EthiopianDate.cs" />
-    <Compile Include="Helpers\getGregorianDate.cs" />
-    <Compile Include="Helpers\RequestHelper.cs" />
-    <Compile Include="Helpers\UserAccountHelper.cs" />
-    <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\CatsContextPSNP.cs" />
     <Compile Include="Models\Month.cs" />
@@ -257,6 +259,7 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\SelectFromGrid.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -265,6 +268,7 @@
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Microsoft.Office.Interop.Word.dll" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -713,11 +717,14 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\EditDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Details.cshtml" />
     <Content Include="Areas\GiftCertificate\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -731,6 +738,11 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\js\CatsUI.js" />
+    <Content Include="Scripts\js\exporting.js" />
+    <Content Include="Scripts\js\highcharts-more.js" />
+    <Content Include="Scripts\js\highcharts-more.src.js" />
+    <Content Include="Scripts\js\highcharts.js" />
+    <Content Include="Scripts\js\highcharts.src.js" />
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
@@ -901,7 +913,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
@@ -926,9 +938,13 @@
     <Content Include="Templates\gift_Certificate.dotx" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
+    <Content Include="Views\Dashboard\PieRequests.cshtml" />
+    <Content Include="Views\Dashboard\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\_PieRequests.cshtml" />
     <Content Include="Views\Shared\_promotWorkflow.cshtml" />
     <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
+    <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -940,7 +956,6 @@
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
-    <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -999,17 +1014,6 @@
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>5</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
