@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
+using Cats.Services.Common;
 using Moq;
 using NUnit.Framework;
 using Cats.Models;
