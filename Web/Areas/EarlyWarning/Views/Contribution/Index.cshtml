@@ -5,6 +5,11 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+
+@section LeftBar
+{
+    @Html.Partial("_ContributionLeftBar");
+}
 <div class="well">
     <h4 class="page-header">List of Donor Contributions</h4>
     <div align="right">

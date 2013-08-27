@@ -48,6 +48,17 @@ namespace Cats.Areas.WorkflowManager.Controllers
             return View(list);
 
         }
+        public ActionResult Detail(int id=0)
+        {
+            ProcessTemplate item = _ProcessTemplateService.FindById(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(item);
+
+        }
+
         public ActionResult ReadKendo([DataSourceRequest] DataSourceRequest request)
         {
             IEnumerable<ProcessTemplate> list = _ProcessTemplateService.GetAll();

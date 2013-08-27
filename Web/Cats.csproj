@@ -548,6 +548,10 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\dashboard.css" />
+    <Content Include="Content\Workflow\jquery-1.8.0.js" />
+    <Content Include="Content\Workflow\jquery-ui-1.8.23.custom.js" />
+    <Content Include="Content\Workflow\workflow.js" />
+    <Content Include="Content\Workflow\workflowDesigner.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
@@ -720,6 +724,7 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -732,6 +737,7 @@
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\js\CatsUI.js" />
     <Content Include="Scripts\js\exporting.js" />
     <Content Include="Scripts\js\highcharts-more.js" />
     <Content Include="Scripts\js\highcharts-more.src.js" />

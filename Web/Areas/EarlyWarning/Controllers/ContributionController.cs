@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
@@ -41,10 +40,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var contribution = new Contribution();
             var hrds = _hrdService.GetAllHRD();
-            var hrdName = (from item in hrds
-                           select new {item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year)}).ToList
-                ();
-            ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
+            //var hrdName = (from item in hrds
+            //               select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList
+            //    ();
+            //ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
+            ViewBag.HRDID = new SelectList(_hrdService.GetAllHRD(), "HRDID", "Year");
             ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name");
             ViewBag.Year = DateTime.Now.Year;
             return View(contribution);
@@ -61,6 +61,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                select new ContributionDetail()
                                    {
                                        CommodityID = 1,
+                                       PledgeReferenceNo = "AB123",
                                        PledgeDate = DateTime.Now,
                                        Quantity = 0
                                    }).ToList();
@@ -73,26 +74,61 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Contribution_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ContributionDetailViewModel> details)
+        public ActionResult ContributionDetail_Create([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel details,int id)
         {
-            var results = new List<ContributionDetailViewModel>();
-
             if (details != null && ModelState.IsValid)
             {
-                foreach (var detail in details)
-                {
-                    //detail.ContributionID = results.ContributiionID;
-                    //detail.ContributionDetailID = results.ContributionDetailID;
-                    //_contributionDetailService.AddContributionDetail(detail);
-            
-                }
+                details.ContributionID = id;
+
+                _contributionDetailService.AddContributionDetail(BindContributionDetail(details));
             }
 
-            return Json(results.ToDataSourceResult(request, ModelState));
+            return Json(new[] { details }.ToDataSourceResult(request, ModelState));
+        }
+        private ContributionDetail BindContributionDetail(ContributionDetailViewModel contributionDetailViewModel)
+        {
+            if (contributionDetailViewModel == null) return null;
+            var contributionDetail = new ContributionDetail()
+            {
+                ContributionDetailID = contributionDetailViewModel.ContributionDetailID,
+                ContributiionID = contributionDetailViewModel.ContributionID,
+                CommodityID = contributionDetailViewModel.CommodityID,
+                PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber,
+                PledgeDate = contributionDetailViewModel.PledgeDate,
+                Quantity = contributionDetailViewModel.Quantity
+
+
+            };
+            return contributionDetail;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ContributionDetail_Update([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel contributionDetailViewModel)
+        {
+            if (contributionDetailViewModel != null && ModelState.IsValid)
+            {
+                var origin = _contributionDetailService.FindById(contributionDetailViewModel.ContributionDetailID);
+                origin.Quantity = contributionDetailViewModel.Quantity;
+                origin.PledgeDate = contributionDetailViewModel.PledgeDate;
+                origin.PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber;
+                origin.CommodityID = contributionDetailViewModel.CommodityID;
+                _contributionDetailService.EditContributionDetail(origin);
+            }
+            return Json(new[] { contributionDetailViewModel }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ContributionDetail_Destroy([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel contributionDetailViewModel)
+        {
+            if (contributionDetailViewModel != null && ModelState.IsValid)
+            {
+                _contributionDetailService.DeleteById(contributionDetailViewModel.ContributionDetailID);
+            }
+            return Json(ModelState.ToDataSourceResult());
         }
         public ActionResult Details(int id)
         {
             var contribution = _contributionService.Get(m => m.ContributionID == id,null,"ContributionDetails").FirstOrDefault();
+            ViewData["CommodityID"] = _commodityService.GetAllCommodity();
             if(contribution!=null)
             {
                 return View(contribution);
@@ -105,8 +141,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     select new ContributionViewModel()
                         {
                             ContributionID = contributions.ContributionID,
-                            HRD = contributions.HRD.Season.Name +"-"+contributions.HRD.Year,
+                            HRD = contributions.HRD.Season.Name + "-" + contributions.HRD.Year,
+                            HRDID = contributions.HRDID,
                             Donor = contributions.Donor.DonorCode,
+                            DonorID = contributions.DonorID,
                             Year = contributions.Year
                              
                         });
@@ -129,7 +167,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             ContributionID = contributionDetails.ContributiionID,
                             Commodity = contributionDetails.Commodity.Name,
                             PledgeReferenceNumber = contributionDetails.PledgeReferenceNo,
-                            PledgeDate = (DateTime) contributionDetails.PledgeDate,
+                            PledgeDate = contributionDetails.PledgeDate,
                             Quantity = contributionDetails.Quantity
 
 
@@ -140,8 +178,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ContributionDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
 
-
-            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
             var contribution = _contributionService.Get(m => m.ContributionID == id, null, "ContributionDetails").FirstOrDefault();
 
             if (contribution != null)

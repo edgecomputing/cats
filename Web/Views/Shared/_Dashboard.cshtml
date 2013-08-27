@@ -52,152 +52,74 @@
             </div>
         </div>
 
-        <div class="widget stacked widget-table action-table">
+        
 
-            <div class="widget-header">
-                <i class="icon-th-list"></i>
-                <h3>Exceptions</h3>
+    </div>
+
+    <div class="span5">
+
+        <div class="span5">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bar-chart"></i>
+                    <h3>Charts</h3>
+                </div>
+                <div class="widget-content">
+                    @Html.Partial("_BarBeneficiaries")
+                    <br />
+                    @Html.Partial("_PieRequests")
+                </div>
             </div>
-            <!-- /widget-header -->
-
-            <div class="widget-content">
-
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Activity</th>
-                            <th>Description</th>
-                            <th class="td-actions">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Overdue requests</td>
-                            <td>Monthly request from Afar Region</td>
-                            <td class="td-actions">
-                                <a href="javascript:;" class="btn btn-small btn-warning">
-                                    <i class="btn-icon-only icon-ok"></i>
-                                </a>
-
-                                <a href="javascript:;" class="btn btn-small">
-                                    <i class="btn-icon-only icon-remove"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @*                        <tr>
-                            <td>Trident</td>
-                            <td>Internet
-									Explorer 5.0</td>
-                            <td class="td-actions">
-                                <a href="javascript:;" class="btn btn-small btn-warning">
-                                    <i class="btn-icon-only icon-ok"></i>
-                                </a>
-
-                                <a href="javascript:;" class="btn btn-small">
-                                    <i class="btn-icon-only icon-remove"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Trident</td>
-                            <td>Internet
-									Explorer 5.5</td>
-                            <td class="td-actions">
-                                <a href="javascript:;" class="btn btn-small btn-warning">
-                                    <i class="btn-icon-only icon-ok"></i>
-                                </a>
-
-                                <a href="javascript:;" class="btn btn-small">
-                                    <i class="btn-icon-only icon-remove"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Trident</td>
-                            <td>Internet
-									Explorer 5.5</td>
-                            <td class="td-actions">
-                                <a href="javascript:;" class="btn btn-small btn-warning">
-                                    <i class="btn-icon-only icon-ok"></i>
-                                </a>
-
-                                <a href="javascript:;" class="btn btn-small">
-                                    <i class="btn-icon-only icon-remove"></i>
-                                </a>
-                            </td>
-                        </tr>*@
-
-                    </tbody>
-                </table>
-
-            </div>
-            <!-- /widget-content -->
-
         </div>
     </div>
-    <!-- REGIONAL REQUESTS-->
-<div class="span5" style="overflow:scroll">
-   <div class="widget stacked">
-        <div class="widget-header">
-            <i class="icon-bar-chart"></i>
-            <h3>Charts</h3>            
-        </div>
-       <div class="widget-content">
-            @Html.Partial("_BarBeneficiaries")
-
-            @Html.Partial("_PieRequests")
-        </div>
-       </div>
-</div>
-    
 </div>
 
 <div class="row">
 
-<div class="span5" style="overflow:scroll; height:250px">
-   <div class="widget stacked">
-        <div class="widget-header">
-            <i class="icon-bar-chart"></i>
-            <h3>Regional Monthly Requests For The Last 6 Months</h3>            
-        </div>
-       <div class="widget-content">
-           @Html.Action("Requests","Dashboard")
-        </div>
-       </div>
-</div>
-
-
-<div class="span7">
-    <div class="widget stacked">
-        <div class="widget-header">
-            <i class="icon-pencil"></i>
-            <h3>For Your Action</h3>
-        </div>
-        <div class="widget-content">
-            <ul class="news-items">
-                <li>
-                    <div class="news-item-detail">
-                        <a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })" class="news-item-title">Pending Request allocations</a>
-                        <p class="news-item-preview">Please review and approve this urgent request.</p>
-                        <p class="news-item-foot">July-24 [Early Warning Expert]</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="news-item-detail">
-                        <!-- @Url.Action("Allocation", "Request", new { id = 2, Area = "EarlyWarning" }) -->
-                        <a href="javascript:" class="news-item-title">Diredawa Request-Urgent</a>
-                        <p class="news-item-preview">Please review and approve this urgent request.</p>
-                        <p class="news-item-foot">July-24 [Early Warning Expert]</p>
-                    </div>
-                </li>
-            </ul>
+    <div class="span5" style="overflow: scroll; height: 250px">
+        <div class="widget stacked">
+            <div class="widget-header">
+                <i class="icon-bar-chart"></i>
+                <h3>Regional Monthly Requests For The Last 6 Months</h3>
+            </div>
+            <div class="widget-content">
+                @Html.Action("Requests", "Dashboard")
+            </div>
         </div>
     </div>
-    <br />
+
+    <div class="span7">
+        <div class="widget stacked">
+            <div class="widget-header">
+                <i class="icon-pencil"></i>
+                <h3>For Your Action</h3>
+            </div>
+            <div class="widget-content">
+                <ul class="news-items">
+                    <li>
+                        <div class="news-item-detail">
+                            <a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })" class="news-item-title">Pending Request allocations</a>
+                            <p class="news-item-preview">Please review and approve this urgent request.</p>
+                            <p class="news-item-foot">July-24 [Early Warning Expert]</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-item-detail">
+                            <!-- @Url.Action("Allocation", "Request", new { id = 2, Area = "EarlyWarning" }) -->
+                            <a href="javascript:" class="news-item-title">Diredawa Request-Urgent</a>
+                            <p class="news-item-preview">Please review and approve this urgent request.</p>
+                            <p class="news-item-foot">July-24 [Early Warning Expert]</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br />
+
+    </div>
 
 </div>
 
-    </div>
 
 
 <style>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cats.Models;
 
-namespace Cats.Services.Procurement
+namespace Cats.Services.Common
 {
     public interface IApplicationSettingService
     {
