@@ -1,0 +1,70 @@
+﻿
+<script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
+<script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
+<script type="text/javascript">
+
+@*    var json=@Html.Action("JsonBeneficiaries", "Dashboard")*@
+
+    $(function () {
+
+        // Radialize the colors
+        Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+            return {
+                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        });
+
+        // Build the chart
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Browser market shares at a specific website, 2010'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function () {
+                            return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                    
+                   ['4',5000],['5',6000]
+                 
+                 ]
+                                                             
+            }]
+        });
+    });
+
+
+</script>
+
+<html>
+    <body>
+  <div class="span12" id="container">
+
+        </div>
+        </body>
+    </html>

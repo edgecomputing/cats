@@ -1,7 +1,6 @@
-﻿@using Cats.Models.Constant
+﻿@*@using Cats.Models.Constant
 
-@*@model IEnumerable<Cats.Models.ReliefRequisition>*@
-@model IEnumerable<Cats.Models.RegionalRequest>
+@model IEnumerable<Cats.Models.RegionalRequest>*@
 
 
 <div class="row">
@@ -147,128 +146,24 @@
 
             <div class="widget-content">
 
-                @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.RegionalRequestViewModel>()
-                    .Name("singleSort")
-                    .Columns(columns =>
-                    {
-                        columns.Bound(o => o.ReferenceNumber).Width(200);
-                        columns.Bound(p => p.Program).Width(200);
-                        columns.Bound(p => p.Remark).Format("{0:dd/MM/yyyy}");
-                    })
-                    .Pageable(pageable => pageable.ButtonCount(5))
-                    .Sortable(sortable => sortable.AllowUnsort(false))
-                    .DataSource(dataSource => dataSource
-                        .Ajax()
-                        .PageSize(5)
-                        .Model(model =>
-                            {
-                                model.Field(r => r.ReferenceNumber).Editable(false);
-                                model.Field(r => r.Program).Editable(false);
-                                model.Field(r => r.Remark).Editable(false);
-                            })
-                          .Read(read => read.Action("Request_Read", "Request"))
-                          //.Update(update => update.Action("Requisition_Update", "ReliefRequisition"))
-                          //.Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
-            ).Pageable()
-                 )
-
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <td>
-                                @Html.DisplayNameFor(model => model.ReferenceNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.Program)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.Month)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.Status)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.Remark)
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <div class="news-item-detail" id="request">
-
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ReferenceNumber)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Program.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Month)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Status)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Remark)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Details", "Request/Details", new { id = item.RegionalRequestID })
-                                    </td>
-                                </tr>
-                            }
-                        </div>
-                    </tbody>
-
-                    <!--<tr>
-                            <td>
-                                @*@Html.DisplayNameFor(model => model.ReferenceNumber)*@
-                                Reference Number
-                            </td>
-                            <td>
-                                @*@Html.DisplayNameFor(model => model.Program)*@
-                                Program
-                            </td>
-                            <td>
-                                @*@Html.DisplayNameFor(model => model.Month)*@
-                                Month
-                            </td>
-                            <td>
-                                @*@Html.DisplayNameFor(model => model.RequestedDate)*@
-                                Date
-                            </td>
-                            <td>
-                                @*@Html.DisplayNameFor(model => model.Remark)*@
-                                Remark
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <div class="news-item-detail" id="request">
-                            
-                        </div>
-                    </tbody>
-                           -->
-                </table>
-
-            </div>
-            <!-- /widget-content -->
+                
 
         </div>
-        <!-- /widget -->
-
+        <!-- /widget-content -->
 
     </div>
-    <div class="span7">
+    <!-- /widget -->
+
+    <!-- REGIONAL REQUESTS-->
+   @* <div class="span5">
         <div class="widget stacked">
             <div class="widget-header">
                 <i class="icon-pencil"></i>
-                <h3>For Your Action</h3>
+                <h3>Regional Requests</h3>
             </div>
             <div class="widget-content">
+<<<<<<< HEAD
+=======
                 <ul class="news-items">
                     <li>
                         <div class="news-item-detail">
@@ -286,10 +181,14 @@
                         </div>
                     </li>
                 </ul>
+>>>>>>> 888b68e0de65420d5d2aacf7acae8a8f3057169c
             </div>
         </div>
 
         <br />
+<<<<<<< HEAD
+    </div>*@
+=======
         <div class="widget stacked">
             <div class="widget-header">
                 <i class="icon-bar-chart"></i>
@@ -300,53 +199,54 @@
             </div>
         </div>
     </div>
+>>>>>>> 888b68e0de65420d5d2aacf7acae8a8f3057169c
 
-
-    @*    <div class="span3">
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-globe"></i>
-                <h3>Latest News</h3>
-            </div>
-            <div class="widget-content">
-                <ul class="news-items">
-                    <li>
-                        <div class="news-item-detail">
-                            <a href="javascript:" class="news-item-title">CATs-First Release</a>
-                            <p class="news-item-preview">Lorem ipsum dolor sit amet,  ut labore et dolore.</p>
-                            <p class="news-item-foot">Jly-28.</p>
-                        </div>
-
-
-                        <li>
-                            <div class="news-item-detail">
-                                <a href="javascript:" class="news-item-title">Workshop at Adama</a>
-                                <p class="news-item-preview">Lorem ipsum dolor sit amet,  ut labore et dolore.</p>
-                                <p class="news-item-foot">Jun-02.</p>
-                            </div>
-
-                        </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-star"></i>
-                <h3>For Your Action</h3>
-            </div>
-            <div class="widget-content">
-                Another Widget
-                <br />
-                <br />
-                <br />
-            </div>
-        </div>
-    </div>*@
 </div>
 
+
+<div class="span7">
+    <div class="widget stacked">
+        <div class="widget-header">
+            <i class="icon-pencil"></i>
+            <h3>For Your Action</h3>
+        </div>
+        <div class="widget-content">
+            <ul class="news-items">
+                <li>
+                    <div class="news-item-detail">
+                        <a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })" class="news-item-title">Pending Request allocations</a>
+                        <p class="news-item-preview">Please review and approve this urgent request.</p>
+                        <p class="news-item-foot">July-24 [Early Warning Expert]</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="news-item-detail">
+                        <!-- @Url.Action("Allocation", "Request", new { id = 2, Area = "EarlyWarning" }) -->
+                        <a href="javascript:" class="news-item-title">Diredawa Request-Urgent</a>
+                        <p class="news-item-preview">Please review and approve this urgent request.</p>
+                        <p class="news-item-foot">July-24 [Early Warning Expert]</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <br />
+    <div class="widget stacked">
+        <div class="widget-header">
+            <i class="icon-star"></i>
+            <h3>Monthly Requestst</h3>
+        </div>
+        <div class="widget-content">
+            @Html.Partial("_PieRequests");
+        </div>
+    </div>
+</div>
+
+
 <style>
-    .widget {
+    .widget
+    {
         position: relative;
         clear: both;
         width: auto;
@@ -357,7 +257,8 @@
         /* Widget Box */
     }
 
-        .widget .widget-header {
+        .widget .widget-header
+        {
             position: relative;
             height: 40px;
             line-height: 40px;
@@ -386,7 +287,8 @@
             -webkit-background-clip: padding-box;
         }
 
-            .widget .widget-header h3 {
+            .widget .widget-header h3
+            {
                 top: 2px;
                 position: relative;
                 left: 10px;
@@ -400,7 +302,8 @@
             }
 
             .widget .widget-header [class^="icon-"],
-            .widget .widget-header [class*=" icon-"] {
+            .widget .widget-header [class*=" icon-"]
+            {
                 display: inline-block;
                 margin-left: 13px;
                 margin-right: -2px;
@@ -409,7 +312,8 @@
                 vertical-align: middle;
             }
 
-        .widget .widget-content {
+        .widget .widget-content
+        {
             padding: 20px 15px 15px;
             background: #FFF;
             border: 1px solid #D5D5D5;
@@ -418,7 +322,8 @@
             border-radius: 5px;
         }
 
-        .widget .widget-header + .widget-content {
+        .widget .widget-header + .widget-content
+        {
             border-top: none;
             -webkit-border-top-left-radius: 0;
             -webkit-border-top-right-radius: 0;
@@ -428,60 +333,72 @@
             border-top-right-radius: 0;
         }
 
-        .widget.widget-nopad .widget-content {
+        .widget.widget-nopad .widget-content
+        {
             padding: 0;
         }
 
-        .widget .widget-content {
+        .widget .widget-content
+        {
             *zoom: 1;
         }
 
             .widget .widget-content:before,
-            .widget .widget-content:after {
+            .widget .widget-content:after
+            {
                 display: table;
                 content: "";
                 line-height: 0;
             }
 
-            .widget .widget-content:after {
+            .widget .widget-content:after
+            {
                 clear: both;
             }
 
-        .widget.widget-table .widget-content {
+        .widget.widget-table .widget-content
+        {
             padding: 0;
         }
 
-        .widget.widget-table .table {
+        .widget.widget-table .table
+        {
             margin-bottom: 0;
             border: none;
         }
 
             .widget.widget-table .table tr td:first-child,
-            .widget.widget-table .table tr th:first-child {
+            .widget.widget-table .table tr th:first-child
+            {
                 border-left: none;
             }
 
-        .widget.widget-plain {
+        .widget.widget-plain
+        {
             background: transparent;
             border: none;
         }
 
-            .widget.widget-plain .widget-content {
+            .widget.widget-plain .widget-content
+            {
                 padding: 0;
                 background: transparent;
                 border: none;
             }
 
-        .widget.widget-box .widget-content {
+        .widget.widget-box .widget-content
+        {
             background: #E3E3E3;
             background: #FFF;
         }
 
-    .shortcuts {
+    .shortcuts
+    {
         text-align: center;
     }
 
-        .shortcuts .shortcut {
+        .shortcuts .shortcut
+        {
             width: 110px;
             display: inline-block;
             padding: 12px 0;
@@ -502,7 +419,8 @@
             border-radius: 5px;
         }
 
-            .shortcuts .shortcut .shortcut-icon {
+            .shortcuts .shortcut .shortcut-icon
+            {
                 width: 100%;
                 margin-top: .25em;
                 margin-bottom: .35em;
@@ -510,7 +428,8 @@
                 color: #555;
             }
 
-            .shortcuts .shortcut:hover {
+            .shortcuts .shortcut:hover
+            {
                 background: #E8E8E8;
                 background-color: #f0f0f0;
                 background-image: -moz-linear-gradient(top, #fafafa, #e1e1e1);
@@ -522,22 +441,26 @@
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#ffe1e1e1', GradientType=0);
             }
 
-                .shortcuts .shortcut:hover .shortcut-icon {
+                .shortcuts .shortcut:hover .shortcut-icon
+                {
                     color: #666;
                 }
 
-        .shortcuts .shortcut-label {
+        .shortcuts .shortcut-label
+        {
             display: block;
             font-weight: 400;
             color: #666;
         }
 
-    .stacked {
+    .stacked
+    {
         position: relative;
     }
 
         .stacked:after,
-        .stacked:before {
+        .stacked:before
+        {
             content: '';
             position: absolute;
             display: block;
@@ -553,20 +476,23 @@
             border-top: 0;
         }
 
-        .stacked:before {
+        .stacked:before
+        {
             bottom: -4px;
             left: 6px;
             right: 6px;
         }
 
-    .news-item-foot {
+    .news-item-foot
+    {
         font-size: 11px;
         font-style: italic;
         text-align: right;
         margin-top: 2px;
     }
 
-    .news-item-preview {
+    .news-item-preview
+    {
         margin-bottom: 0;
     }
 </style>
