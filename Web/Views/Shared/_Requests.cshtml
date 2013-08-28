@@ -6,7 +6,7 @@
 
 @foreach (var item in Model)
 {
-    <div class="widget-content">
+    <div class="widget-content" style="border-color:cadetblue">
         <table style="width: 100%">
             <tr>
                 <td class="data">
@@ -25,7 +25,7 @@
                     <b>Month:</b>
                 </td>
                 <td>
-                      @Html.DisplayFor(modelItem => item.MonthName)
+                    @Html.DisplayFor(modelItem => item.MonthName)
                 </td>
             </tr>
             <tr></tr>
@@ -43,7 +43,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ReferenceNumber)
                 </td>
-
                 <td>
                     <b>Status:</b>
                 </td>
@@ -51,9 +50,10 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
             </tr>
-
         </table>
     </div>
+    <br/>        
+    
 }
 
 <style>
