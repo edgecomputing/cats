@@ -1,102 +1,4 @@
-﻿
-@*@using Cats.Areas.EarlyWarning.Models
-@using Cats.Areas.GiftCertificate.Models
-@using Cats.Helpers
-@using Kendo.Mvc.UI
-
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
-}
-@{
-    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
-    var cal = user.Calendar; 
-}
-
-<fieldset>
-    <legend>
-        Generate Template
-    </legend>
-</fieldset> 
-
-
-
-
-
-@(Html.Kendo().Grid<GiftCertificateViewModel>()
-  
-    .Name("giftCert").Columns(columns =>
-                            {
-
-                                columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-
-                                columns.Bound(p => p.GiftCertificateID).Width("100");
-                                columns.Bound(p => p.ReferenceNo).Width("100");
-                                columns.Bound(p => p.CommodityName).Width("100");
-                                columns.Bound(p => p.Donor).Width("200");
-                                columns.Bound(p => p.GiftDate).Width("100").Format("{0:MM/dd/yyyy}");
-                                columns.Bound(p => p.ETA).Width("100").Format("{0:MM/dd/yyyy}");  
-                               
-                                columns.Bound(p => p.SINumber).Width("100");
-                                columns.Bound(p => p.Program).Width("100");
-                                columns.Command(p => p.Custom("Print").Click("onPrint"));
-                             
-
-                            })
-     
-      .Pageable()
-      .Sortable()
-      .DataSource(datasource=>datasource.Ajax()
-      .Model(model => model.Id(p => p.GiftCertificateID))
-      .Read(read => read.Action("GetListOfCertificate", "GiftCertificate"))
-     
-      
-      )
-     
-     
-        
-      
-      )
-
-<div id="modalWindow">
-    <h5>Print gift Certificate?</h5>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
-</div>
-<script>
-    var wnd;
-    $(document).ready(function () {
-        wnd = $("#modalWindow").kendoWindow({
-            title: "Print confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
-</script>
-<script>
-
-    function onPrint(e) {
-        e.preventDefault();
-        var grid = this;
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var row = $(e.currentTarget).closest("tr");
-        wnd.center().open();
-
-        $("#yes").click(function () {
-
-            window.location = "GiftCertificate/GenerateTemplate/" + dataItem.GiftCertificateID;
-            wnd.close();
-        });
-
-        $("#no").click(function () {
-            wnd.close();
-        });
-    }
-</script>*@
-
-@using Cats.Helpers
+﻿@using Cats.Helpers
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @model IEnumerable<Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel>
@@ -109,32 +11,38 @@
   
 }
 <div>
- <h2>
-     @Translator.Translate("Gift Certificates")</h2>
-<p>
+    <h2>
+        @Translator.Translate("Gift Certificates")</h2>
+    @section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "GiftCertificate")"></a>
+    }
+    @*<p>
      @Translator.Translate("List of gift certificates that were submitted. Click ")@Html.ActionLink("here to create", "Create")
      @Translator.Translate(" new gift certificate records.")
-</p>
+</p>*@
 
- @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
-    //.DataKeys(keys => keys.Add(co => co.GiftCertificateID))
-  
+    @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
+            //.DataKeys(keys => keys.Add(co => co.GiftCertificateID))
+
     .Columns(col =>
     {
-        
-         col.Template(
+
+        col.Template(
              @<text>
-                  @Html.ActionLink( Translator.Translate("Edit"), "Edit", new { id = item.GiftCertificateID}) | 
-                  @Html.ActionLink(Translator.Translate("Print"), "GenerateTemplate", new { id = item.GiftCertificateID})
-              </text>
-              
+                  <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"></i> </a>
+                  |          <a href="@Url.Action("GenerateTemplate", new { id = item.GiftCertificateID })"  ><i class="icon-print"></i> </a>
+                 @* <a href="@Url.Action("Approve", new { id = item.GiftCertificateID })"  > <i class="icon-mail-reply"></i>Approve</a>*@
+
+    </text>
+
             ).Title("");
-      
-        //col.Bound(gc => gc.GiftDate).Format("{0:dd-MMM-yyyy}"); ;
-        col.Bound(gc => gc.Donor).Title(Translator.Translate("Donor"));
-        col.Template(@<text>
-                        @item.GiftDate.ToCTSPreferedDateFormat(user.LanguageCode)
-                      </text>).Title(Translator.Translate("Gift Date"));
+
+         //col.Bound(gc => gc.GiftDate).Format("{0:dd-MMM-yyyy}"); ;
+         col.Bound(gc => gc.Donor).Title(Translator.Translate("Donor"));
+         col.Template(@<text>
+    @item.GiftDate.ToCTSPreferedDateFormat(user.LanguageCode)
+    </text>).Title(Translator.Translate("Gift Date"));
         col.Bound(gc => gc.SINumber).Title(Translator.Translate("SI Number"));
         col.Bound(gc => gc.ReferenceNo).Title(Translator.Translate("Reference No"));
     }
@@ -150,7 +58,7 @@
             })
         ).Filterable().Sortable()
    )
-   </div>
+</div>
 <div id="modalWindow">
     <h5>Print gift Certificate?</h5>
     <button id="yes" class="k-button">Yes</button>

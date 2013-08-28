@@ -60,7 +60,7 @@
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\lib\Microsoft Office Interop word\Microsoft.Office.Interop.Word.dll</HintPath>
+      <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
@@ -163,6 +163,8 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateDetailsViewModel.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
@@ -221,7 +224,6 @@
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
-    <Compile Include="Areas\Settings\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -233,6 +235,7 @@
     <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -240,13 +243,14 @@
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
-    <Compile Include="Helpers\AmharicEditorHelper.cs" />
-    <Compile Include="Helpers\ElmahErrorAttribute.cs" />
-    <Compile Include="Helpers\EthiopianDate.cs" />
-    <Compile Include="Helpers\getGregorianDate.cs" />
-    <Compile Include="Helpers\RequestHelper.cs" />
-    <Compile Include="Helpers\UserAccountHelper.cs" />
-    <Compile Include="Helpers\UserRoleHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs" />
+    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs" />
+    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs" />
+    <Compile Include="Infrastructure\Helpers\RequestHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs" />
+    <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\CatsContextPSNP.cs" />
     <Compile Include="Models\Month.cs" />
@@ -255,13 +259,16 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\SelectFromGrid.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+    <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Microsoft.Office.Interop.Word.dll" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -541,6 +548,10 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\dashboard.css" />
+    <Content Include="Content\Workflow\jquery-1.8.0.js" />
+    <Content Include="Content\Workflow\jquery-ui-1.8.23.custom.js" />
+    <Content Include="Content\Workflow\workflow.js" />
+    <Content Include="Content\Workflow\workflowDesigner.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\EarlyWarning\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
@@ -692,13 +703,11 @@
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
-<<<<<<< HEAD
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_listKendo.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
-=======
     <Content Include="Areas\EarlyWarning\Views\HRD\RegionalSummary.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
@@ -708,7 +717,14 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\EditDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
->>>>>>> 6e8b1f1411b537797e6e9b12e7f6432591f2bc85
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Details.cshtml" />
+    <Content Include="Areas\GiftCertificate\Views\Web.config" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -721,6 +737,15 @@
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+
+    <Content Include="Scripts\js\CatsUI.js" />
+
+    <Content Include="Scripts\js\exporting.js" />
+    <Content Include="Scripts\js\highcharts-more.js" />
+    <Content Include="Scripts\js\highcharts-more.src.js" />
+    <Content Include="Scripts\js\highcharts.js" />
+    <Content Include="Scripts\js\highcharts.src.js" />
+
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
@@ -891,7 +916,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
@@ -917,10 +942,14 @@
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Dashboard\PieRequests.cshtml" />
+    <Content Include="Views\Dashboard\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\_PieRequests.cshtml" />
     <Content Include="Views\Shared\_promotWorkflow.cshtml" />
     <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -932,20 +961,11 @@
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
-    <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
-      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
-      <Name>Cats.Services.PSNP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
-      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
-      <Name>Cats.Services.Transaction</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
@@ -954,7 +974,7 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
@@ -965,6 +985,10 @@
     <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
@@ -978,35 +1002,23 @@
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
       <Name>Cats.Services.Procurement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
+      <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
       <Name>Cats.Services.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>5</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

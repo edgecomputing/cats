@@ -199,14 +199,21 @@
     <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
     <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
     <Build Include="dbo\Tables\AccountTransaction.sql" />
-<<<<<<< HEAD
     <Build Include="dbo\Tables\StateTemplate.sql" />
+    <Build Include="EarlyWarning\Tables\NeedAssessment.sql" />
     <Build Include="dbo\Tables\ProcessTemplate.sql" />
     <Build Include="dbo\Tables\ProcessStatus.sql" />
     <Build Include="dbo\Tables\FlowTemplate.sql" />
+    <Build Include="dbo\Tables\LocalizedTexts.sql" />
+    <Build Include="dbo\Tables\Languages.sql" />
+<<<<<<< HEAD
+    <Build Include="dbo\Tables\BusinessProcessState.sql" />
+    <Build Include="dbo\Tables\BusinessProcess.sql" />
 =======
-    <Build Include="EarlyWarning\Tables\NeedAssessment.sql" />
->>>>>>> 6e8b1f1411b537797e6e9b12e7f6432591f2bc85
+    <Build Include="dbo\Tables\Season_1.sql" />
+    <Build Include="dbo\Tables\ContributionDetail.sql" />
+    <Build Include="dbo\Tables\Contribution.sql" />
+>>>>>>> b79597e3748f4b31a4902bb4f62769cac053df61
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

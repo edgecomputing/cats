@@ -28,7 +28,6 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Season> seasonRepository;
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
-        private IGenericRepository<Donor> donorRepository; 
         
         public UnitOfWork()
         {
@@ -632,13 +631,6 @@ namespace Cats.Data.UnitWork
 
 
      
-
-        public IGenericRepository<Donor> DonorRepository
-        {
-
-            get { return this.donorRepository ?? (this.donorRepository = new GenericRepository<Donor>(_context)); }
-
-        }
 
 
 

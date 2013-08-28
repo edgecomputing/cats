@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.PSNP;
 using Cats.Models.ViewModels;
@@ -73,9 +74,9 @@ namespace Cats.Areas.PSNP.Controllers
         }
 
         [HttpPost]
-        public ActionResult Issue(RegionalPSNPPledge regionalPSNPPledge)
+        public ActionResult Issue(RegionalPSNPPledge regionalPSNPPledge, string pledgeDate)
         {
-            regionalPSNPPledge.PledgeDate = DateTime.Now;
+            regionalPSNPPledge.PledgeDate = GetGregorianDate(pledgeDate);
 
             if (ModelState.IsValid)
             {
@@ -125,6 +126,21 @@ namespace Cats.Areas.PSNP.Controllers
         public ActionResult FDPsCoveredByDonors()
         {
             return View();
+        }
+
+        private DateTime GetGregorianDate(string ethiopianDate)
+        {
+            DateTime convertedGregorianDate;
+            try
+            {
+                convertedGregorianDate = DateTime.Parse(ethiopianDate);
+            }
+            catch (Exception ex)
+            {
+                var strEth = new getGregorianDate();
+                convertedGregorianDate = strEth.ReturnGregorianDate(ethiopianDate);
+            }
+            return convertedGregorianDate;
         }
     }
 }
