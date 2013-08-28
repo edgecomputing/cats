@@ -15,7 +15,7 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("Season", "EarlyWarning");
+            this.ToTable("Season");
             this.Property(t => t.SeasonID).HasColumnName("SeasonID");
             this.Property(t => t.Name).HasColumnName("Name");
         }
