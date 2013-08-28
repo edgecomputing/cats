@@ -7,6 +7,7 @@ using Cats.Helpers;
 using Cats.Models.ViewModels.Bid;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
+using Cats.Services.Common;
 using System;
 using Cats.Models;
 using Kendo.Mvc.Extensions;

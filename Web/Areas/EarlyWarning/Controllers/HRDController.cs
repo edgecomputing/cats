@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,13 +10,15 @@ using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using ReportManagement;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
-    public class HRDController : Controller
+    public class HRDController : PdfViewController
     {
         //
         // GET: /EarlyWarning/HRD/
@@ -29,6 +32,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private INeedAssessmentHeaderService _needAssessmentService;
         private IWorkflowStatusService _workflowStatusService;
         private ISeasonService _seasonService;
+        private IUserAccountService _userAccountService;
 
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService,
                              IRationService rationservice, IRationDetailService rationDetailService,
@@ -46,7 +50,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _needAssessmentService = needAssessmentService;
             _workflowStatusService = workflowStatusService;
             _seasonService = seasonService;
-
         }
 
         public ActionResult Index()
@@ -388,6 +391,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
 
             return View(hrd);
+        }
+
+        public ActionResult Print()
+        {
+            var allHrd = _hrdService.GetAllHRD();
+            var hrdViewModel = GetHrds(allHrd);
+            return ViewPdf("HRD report", "Print", hrdViewModel);
         }
 
         public ActionResult ApproveHRD(int id)

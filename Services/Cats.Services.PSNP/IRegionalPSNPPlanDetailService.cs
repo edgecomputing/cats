@@ -19,5 +19,10 @@ namespace Cats.Services.PSNP
         RegionalPSNPPlanDetail FindById(int id);
         List<RegionalPSNPPlanDetail> GetAllRegionalPSNPPlanDetail();
         List<RegionalPSNPPlanDetail> FindBy(Expression<Func<RegionalPSNPPlanDetail, bool>> predicate);
+
+        IEnumerable<RegionalPSNPPlanDetail> Get(
+                   Expression<Func<RegionalPSNPPlanDetail, bool>> filter = null,
+                   Func<IQueryable<RegionalPSNPPlanDetail>, IOrderedQueryable<RegionalPSNPPlanDetail>> orderBy = null,
+                   string includeProperties = "");
     }
 }

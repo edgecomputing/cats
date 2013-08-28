@@ -1,12 +1,14 @@
 using System;
 using Cats.Models;
 using Cats.Data.Repository;
+using Cats.Models;
 
 namespace Cats.Data.UnitWork
 {
     public interface IUnitOfWork : IDisposable
     {
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
+        IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository { get; }
 
         IGenericRepository<BusinessProcessState> BusinessProcessStateRepository { get; }
         IGenericRepository<BusinessProcess> BusinessProcessRepository { get; }

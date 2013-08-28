@@ -17,9 +17,16 @@ namespace Cats.Controllers
         }
         private readonly IDashboardService _IDashboardService;
 
-        public ActionResult Requests(int RegionId)
+        public ActionResult RequestsById(int RegionId=10)
         {
-            return Json(_IDashboardService.RegionalRequests(RegionId), JsonRequestBehavior.AllowGet);
+            var model = _IDashboardService.RegionalRequests(RegionId);
+            return PartialView("_Requests", model);
+        }
+
+        public ActionResult Requests()
+        {
+            var model = _IDashboardService.Requests();
+            return PartialView("_Requests", model);
         }
         
         public ActionResult RegionalRequestsById(int RegionId)
@@ -29,13 +36,10 @@ namespace Cats.Controllers
 
         public JsonResult PieRequests()
         {
-            
-           // var model = _IDashboardService.PieRegionalRequests();
-           // return PartialView(model);
             return Json(_IDashboardService.PieRegionalRequests(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult BarBeneficiaries()
+        public JsonResult BarBeneficiaries()
         {
 
             return Json(_IDashboardService.BarNoOfBeneficiaries(), JsonRequestBehavior.AllowGet);

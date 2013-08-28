@@ -6,154 +6,152 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 
+
 @*<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>*@
 
 @using (Html.BeginForm())
-    {
+{
     @Html.ValidationSummary(true)
            
-            @Html.HiddenFor(model => model.GiftCertificateID)
-            @Html.HiddenFor(model => model.rowCount)
-            @Html.HiddenFor(model => model.JSONInsertedGiftCertificateDetails)
-            @Html.HiddenFor(model => model.JSONUpdatedGiftCertificateDetails)
-            @Html.HiddenFor(model => model.JSONDeletedGiftCertificateDetails)
+    @Html.HiddenFor(model => model.GiftCertificateID)
+    @Html.HiddenFor(model => model.rowCount)
+          
     
-        <div class="field-set-title">
-            <h5>@Translator.Translate("Gift Certificate Headers")</h5>
-        </div>
-    <div class="field-set">
-        <table class="borderless" style="vertical-align: top">
-        <tr>
-            <td style="vertical-align: top">
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) <span class="required">*</span>
-                </div>
-                <div class="editor-field">
-                    @* @Html.Telerik().DatePickerFor(model => model.GiftDate).Format("dd-MMM-yyyy")*@
-                    @Html.EditorFor(model => model.GiftDate)
-                    @Html.ValidationMessageFor(model => model.GiftDate)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport")) <span class="required">
-                        *</span>
-                </div>
-                <div class="editor-field">
-                    @* @(Html.Kendo().ComboBoxFor(model => model.DModeOfTransport)
-                    .BindTo((SelectList)ViewBag.DModeOfTransports)
-                    .ClientEvents(ev => ev.OnChange("OnComChange"))
-                    .Filterable(filtering =>
-                    {
-                        filtering.FilterMode(AutoCompleteFilterMode.Contains);
-                    }))*@
-                    @Html.DropDownList("DModeOfTransports",string.Empty)
-
-                    @Html.ValidationMessageFor(model => model.DModeOfTransport)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program")) <span class="required">*</span>
-                </div>
-                <div class="editor-field">
-                    @*  @(Html.Kendo().ComboBoxFor(model=>model.ProgramID)
-                    .BindTo((SelectList)ViewBag.Programs)
-            .ClientEvents(ev => ev.OnChange("OnComChange")).Filterable(filtering =>
-            {
-                filtering.FilterMode(AutoCompleteFilterMode.Contains);
-            }))*@
-                    @Html.DropDownList("ProgramID",string.Empty)
-                    @Html.ValidationMessageFor(model => model.ProgramID)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.DonorID, Translator.Translate("Donor")) <span class="required">*</span>
-                </div>
-                <div class="editor-field">
-                   @* @(Html.Kendo().ComboBoxFor(model => model.DonorID)
-           .BindTo((SelectList)ViewBag.Donors)
-           .ClientEvents(ev => ev.OnChange("OnComChange")).Filterable(filtering =>
-                                                                          {
-                                                                              filtering.FilterMode(AutoCompleteFilterMode.Contains);
-                                                                          }))*@
-                    @Html.DropDownList("DonorID",string.Empty)
-                    @Html.ValidationMessageFor(model => model.DonorID)
-                </div>
-                
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) <span class="required">*</span>
-                </div>
-                <div class="editor-field">
-                    @*   @(Html.Telerik().ComboBoxFor(model => model.CommodityTypeID)
-                    .BindTo((SelectList)ViewBag.CommodityTypes)
-            .ClientEvents(ev => ev.OnChange("OnComChange").OnChange("OnComOpen")).Filterable(filtering =>
-                    {
-                        filtering.FilterMode(AutoCompleteFilterMode.Contains);
-                    })
-                    .Enable(!ViewBag.IsInEditMode))*@
-                    @Html.DropDownList("CommodityTypeID",string.Empty)
-
-                    @Html.ValidationMessageFor(model => model.CommodityTypeID)
-                    
-                </div>
-
-            </td>
-            <td style="vertical-align: top">
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number")) <span class="required">*</span>
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.SINumber)
-                    @Html.ValidationMessageFor(model => model.SINumber)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.PortName, Translator.Translate("Port Name"))
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.PortName)
-                    @Html.ValidationMessageFor(model => model.PortName)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) <span class="required">
-                        *</span>
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.ReferenceNo)
-                    @Html.ValidationMessageFor(model => model.ReferenceNo)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) <span class="required">*</span>
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Vessel)
-                    @Html.ValidationMessageFor(model => model.Vessel)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) <span class="required">*</span>
-                </div>
-
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.ETA)
-                    @Html.ValidationMessageFor(model => model.ETA)
-                </div>
-            </td>
-        </tr>
-    </table>
+    <div class="field-set-title">
+        <h5>@Translator.Translate("Gift Certificate Headers")</h5>
     </div>
-        
-        <div class="clear"></div>
-        <div class="field-set">
-                    <table>
-                              <tr>
-                                  <td>
-                
-                                      @(Html.Kendo().Grid(ViewBag.GiftCertificateDetails as IEnumerable<GiftCertificateDetailsViewModel>)
-           .Name("Grid")
-           //.DataKeys(keys =>
-           //              {
-           //                  keys.Add(p => p.GiftCertificateDetailID);
-           //              })
+    <div class="form-horizontal">
+        <table class="borderless" style="vertical-align: top">
+            <tr>
+                <td style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.GiftDate)
+                            @Html.ValidationMessageFor(model => model.GiftDate)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
 
+                            @Html.DropDownList("DModeOfTransport", string.Empty)
+
+                            @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("ProgramID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.ProgramID)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DonorID, Translator.Translate("Donor")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("DonorID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.DonorID)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("CommodityTypeID", string.Empty)
+
+                            @Html.ValidationMessageFor(model => model.CommodityTypeID)
+
+                        </div>
+                    </div>
+                </td>
+                <td style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.SINumber)
+                            @Html.ValidationMessageFor(model => model.SINumber)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.PortName, Translator.Translate("Port Name"))
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.PortName)
+                            @Html.ValidationMessageFor(model => model.PortName)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.ReferenceNo)
+                            @Html.ValidationMessageFor(model => model.ReferenceNo)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) <span class="required">*</span>
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.Vessel)
+                            @Html.ValidationMessageFor(model => model.Vessel)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) <span class="required">*</span>
+                        </div>
+
+                        <div class="controls">
+                            @Html.EditorFor(model => model.ETA)
+                            @Html.ValidationMessageFor(model => model.ETA)
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+     <div class="clear"></div>
+    <div class="control-label"></div>
+    <div class="controls">
+        <input class="t-button" type="submit" style="width: 80px; height: 25px;" class="t-button" value="Save"
+            onclick="submitGiftCertificateData()" />
+        <input class="t-button" type="reset" style="width: 80px; height: 25px;" class="t-button" value="Cancel"
+            onclick="cancel()" />
+    </div>
+    <div class="clear"></div>  
+
+   }     
+    <div class="clear"></div>
+    <div class="field-set">
+        <table>
+            <tr>
+                <td>
+
+                    @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
+           .Name("Grid")
            .ToolBar(commands =>
                         {
                             commands.Create();
+                            commands.Save();
                         })
 
            .Editable(editing => editing.Mode(GridEditMode.InCell))
@@ -181,32 +179,26 @@
 
                         })
            .DataSource(binding => binding.Ajax()
-                                       .Read("SelectGiftCertificateDetails", "GiftCertificate")
-                                       .Create("Create", "GiftCertificate")
-                                       .Destroy("Delete", "GiftCertificate")
-                                       .Model(m=>m.Id(t=>t.GiftCertificateDetailID))
+                                       .Read(read => read.Action("GiftCertificateDetail_Read", "GiftCertificate", new { id = Model.GiftCertificateID }))
+                                       .Create(create => create.Action("GiftCertificateDetail_Create", "GiftCertificate", new { id = Model.GiftCertificateID }))
+                                       .Update(update => update.Action("GiftCertificateDetail_Update", "GiftCertificate"))
+                                       .Destroy(destroy => destroy.Action("GiftCertificateDetail_Destroy", "GiftCertificate"))
+                                       .Model(m => m.Id(t => t.GiftCertificateDetailID))
 
            )
-           
+
+
            .Navigatable()
-          
+           
+
                                             )
-                                      @Html.ValidationMessageFor(model => model.rowCount)
-                                  </td>
-                              </tr>
-                          </table>
-        </div>
-       <div class="clear"></div>
-    <div class="editor-label"></div>
-    <div class="editor-field">
-        <input class="t-button" type="submit" style="width: 80px; height: 25px;" class="t-button" value="Save"
-                               onclick="submitGiftCertificateData()" />
-        <input class="t-button" type="reset" style="width: 80px; height: 25px;" class="t-button" value="Cancel"
-                               onclick="cancel()" />     
+                    @Html.ValidationMessageFor(model => model.rowCount)
+                </td>
+            </tr>
+        </table>
     </div>
-    <div class="clear"></div>  
-    }
-<script type="text/javascript">
+   
+@*<script type="text/javascript">
     $(document).ready(function() {
         $("#DModeOfTransports").OnChange(OnComChange);
         $("#ProgramID").OnChange(OnComChange);
@@ -247,7 +239,7 @@
         var control = $('#CommodityID').data('tComboBox');
         if (control != undefined || control != null) {
             control.dropDown._html = function (items, encode) {
-                var sb = new $.telerik.stringBuilder();
+                var sb = new $.kendo.stringBuilder();
                 if (!items)
                     return sb.string();
 
@@ -287,4 +279,4 @@
         }
 
     }
-</script>
+</script>*@

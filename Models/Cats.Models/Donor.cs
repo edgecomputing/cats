@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cats.Models;
 
 namespace Cats.Models
 {
@@ -30,6 +31,8 @@ namespace Cats.Models
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
   
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
+
+        public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public virtual ICollection<Contribution> Contributions { get; set; }
         //public virtual ICollection<Contribution> Contributions1 { get; set; }
     }
