@@ -40,11 +40,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var contribution = new Contribution();
             var hrds = _hrdService.GetAllHRD();
-            //var hrdName = (from item in hrds
-            //               select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList
-            //    ();
-            //ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
-            ViewBag.HRDID = new SelectList(_hrdService.GetAllHRD(), "HRDID", "Year");
+            var hrdName = (from item in hrds
+                           select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList
+                ();
+            ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
+            //ViewBag.HRDID = new SelectList(_hrdService.GetAllHRD(), "HRDID", "Year");
             ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name");
             ViewBag.Year = DateTime.Now.Year;
             return View(contribution);
@@ -54,25 +54,35 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Create(Contribution contribution)
         {
-            if (ModelState.IsValid)
+            if (contribution !=null && ModelState.IsValid)
             {
-                var donors = _donorService.FindBy(m => m.DonorID == contribution.DonorID);
-                var details = (from donor in donors
-                               select new ContributionDetail()
-                                   {
-                                       CommodityID = 1,
-                                       PledgeReferenceNo = "AB123",
-                                       PledgeDate = DateTime.Now,
-                                       Quantity = 0
-                                   }).ToList();
+                //var donors = _donorService.FindBy(m => m.DonorID == contribution.DonorID);
+                //var details = (from donor in donors
+                //               select new ContributionDetail()
+                //                   {
+                //                       CommodityID = 1,
+                //                       PledgeReferenceNo = "AB123",
+                //                       PledgeDate = DateTime.Now,
+                //                       Quantity = 0
+                //                   }).ToList();
 
-                contribution.ContributionDetails = details;
+                //contribution.ContributionDetails = details;
                 _contributionService.AddContribution(contribution);
                 return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
             }
             return View(contribution);
         }
-
+        public ActionResult Details(int id)
+        {
+            var contribution = _contributionService.Get(m => m.ContributionID == id, null, "ContributionDetails").FirstOrDefault();
+            ViewBag.DonorID = contribution.Donor.Name;
+            ViewData["CommodityID"] = _commodityService.GetAllCommodity();
+            if (contribution != null)
+            {
+                return View(contribution);
+            }
+            return RedirectToAction("Index");
+        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ContributionDetail_Create([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel details,int id)
         {
@@ -125,16 +135,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return Json(ModelState.ToDataSourceResult());
         }
-        public ActionResult Details(int id)
-        {
-            var contribution = _contributionService.Get(m => m.ContributionID == id,null,"ContributionDetails").FirstOrDefault();
-            ViewData["CommodityID"] = _commodityService.GetAllCommodity();
-            if(contribution!=null)
-            {
-                return View(contribution);
-            }
-            return RedirectToAction("Index");
-        }
+        
         private IEnumerable<ContributionViewModel> GetContribution (IEnumerable<Contribution> contribution)
         {
             return (from contributions in contribution
@@ -165,6 +166,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         {
                             ContributionDetailID = contributionDetails.ContributionDetailID,
                             ContributionID = contributionDetails.ContributiionID,
+                            CommodityID = contributionDetails.CommodityID,
                             Commodity = contributionDetails.Commodity.Name,
                             PledgeReferenceNumber = contributionDetails.PledgeReferenceNo,
                             PledgeDate = contributionDetails.PledgeDate,

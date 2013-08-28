@@ -63,6 +63,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewData["Month"] = RequestHelper.GetMonthList();
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+            ViewBag.SeasonID = hrd.Season.Name;
+            ViewBag.Year = hrd.Year;
 
             if (hrd != null)
             {
@@ -153,38 +155,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult RegionalSummary(int id=0)
         {
-            //var details = _hrdDetailService.Get(hrdDetail => hrdDetail.HRDID == id);
-            //var hrd = _hrdService.FindById(id);
-            ////details.First().HRD;
-            //var cerealCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 1).Amount;
-            //var blendFoodCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 2).Amount;
-            //var pulseCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 3).Amount;
-            //var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 4).Amount;
-
-            //ViewBag.SeasonID = hrd.Season.Name;
-            //ViewBag.Year = hrd.Year;
-
-            //var groupedTotal = from detail in details
-            //                   group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
-            //                   select new
-            //                       {
-            //                           Region = regionalDetail.Key,
-            //                           NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
-            //                           Duration = regionalDetail.Sum(m => m.DurationOfAssistance)
-            //                       };
-
-            //var viewModel = from total in groupedTotal
-            //                select new RegionalSummaryViewModel
-            //                    {
-            //                        RegionName = total.Region.Name,
-            //                        NumberOfBeneficiaries = total.NumberOfBeneficiaries,
-            //                        Cereal = cerealCoefficient * total.NumberOfBeneficiaries * total.Duration,
-            //                        BlededFood = blendFoodCoefficient * total.NumberOfBeneficiaries * total.Duration,
-            //                        Oil = oilCoefficient * total.NumberOfBeneficiaries * total.Duration,
-            //                        Pulse = pulseCoefficient * total.NumberOfBeneficiaries * total.Duration
-            //                    };
-            ////ViewData["viewModel"] = viewModel;
-            //var summary = viewModel.ToList();
+            
             var hrd = _hrdService.Get(m => m.HRDID == id).FirstOrDefault();
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
@@ -260,6 +231,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");
+
             ViewData["SeasonID"] = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
             var commodities = _commodityService.GetAllCommodity();
@@ -328,12 +300,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(HRD hrd, string create)
+        public ActionResult Create(HRD hrd)
         {
             DateTime dateCreated = DateTime.Now;
             DateTime DatePublished = DateTime.Now;
 
-            dateCreated = GetGregorianDate(create);
+            //dateCreated = GetGregorianDate(create);
             //DatePublished = GetGregorianDate(published);
 
             hrd.CreatedDate = dateCreated;
@@ -343,7 +315,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
 
-                var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);// UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+                var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
+                // UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                 //var commodities = _commodityService.GetCommonCommodity();
                 //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
@@ -371,8 +344,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
             ViewBag.Month = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name", hrd.SeasonID);
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID);
-            ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader(), "NAHeaderId",
-                                                     "NeedACreatedDate", hrd.NeedAssessmentID);
+            //ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader(), "NAHeaderId", "NeedACreatedDate", hrd.NeedAssessmentID);
 
 
             return View(hrd);

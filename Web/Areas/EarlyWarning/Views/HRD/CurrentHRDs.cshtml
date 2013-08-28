@@ -6,11 +6,12 @@
     ViewBag.Title = "CurrentHRDs";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
-<div class="well">
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+}
+<div>
     <h4 class="page-header">Current HRD</h4>
-    <div align="right">
-        <a href="Create" class="btn btn-success">Create New HRD</a>
-    </div>
 </div>
 @section LeftBar{
 

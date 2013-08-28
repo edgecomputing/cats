@@ -12,6 +12,7 @@
 }
 @section Toolbar
 {
+<<<<<<< HEAD
     <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Contribution")"></a>
 }
 
@@ -23,10 +24,12 @@
     </ul>
 }
 <div class="well">
+=======
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Contribution")"></a>
+}
+<div>
+>>>>>>> de9d081b8104f32873fd8fa9028bfa39b3133fa9
     <h4 class="page-header">List of Donor Contributions</h4>
-    <div align="right">
-        <a href="Contribution/Create" class="btn btn-success">New Contribution</a>
-    </div>
 </div>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionViewModel>()
     .Name("grid")
