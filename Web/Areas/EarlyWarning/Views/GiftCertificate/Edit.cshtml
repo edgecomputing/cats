@@ -73,6 +73,18 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
+                            @Html.LabelFor(model => model.DeclarationNumber) 
+                        </div>
+                        <div class="controls">
+
+                            @Html.EditorFor(model=>model.DeclarationNumber)
+
+                            @Html.ValidationMessageFor(model => model.DeclarationNumber)
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
                             @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) 
                         </div>
                         <div class="controls">
@@ -138,11 +150,9 @@
    
 
    }     
-    <div class="clear"></div>
-    <div class="field-set">
-        <table>
-            <tr>
-                <td>
+  
+    <div >
+        
 
                     @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
            .Name("Grid")
@@ -191,9 +201,7 @@
 
                                             )
                     @Html.ValidationMessageFor(model => model.rowCount)
-                </td>
-            </tr>
-        </table>
+               
     </div>
    
 <script type="text/javascript">

@@ -45,7 +45,7 @@
                             @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) 
                         </div>
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
+                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })    
                             @Html.ValidationMessageFor(model => model.GiftDate)
                         </div>
                     </div>
@@ -78,6 +78,18 @@
 
                             @Html.DropDownList("DonorID", string.Empty)
                             @Html.ValidationMessageFor(model => model.DonorID)
+                        </div>
+                    </div>
+                      <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DeclarationNumber) 
+                        </div>
+                        <div class="controls">
+
+                            @Html.EditorFor(model=>model.DeclarationNumber)
+
+                            @Html.ValidationMessageFor(model => model.DeclarationNumber)
+
                         </div>
                     </div>
                     <div class="control-group">
@@ -136,7 +148,7 @@
                         </div>
 
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
+                            @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })    
                             @Html.ValidationMessageFor(model => model.ETA)
                         </div>
                     </div>

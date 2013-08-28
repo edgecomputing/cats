@@ -8,7 +8,7 @@ using Cats.Models;
 
 namespace Cats.Services.Transaction
 {
-    public interface IAccountTransactionService
+    public interface IAccountTransactionService:IDisposable
     {
         bool AddAccountTransaction(AccountTransaction item);
         bool UpdateAccountTransaction(AccountTransaction item);
@@ -20,5 +20,6 @@ namespace Cats.Services.Transaction
         List<AccountTransaction> GetAllAccountTransaction();
         List<AccountTransaction> FindBy(Expression<Func<AccountTransaction, bool>> predicate);
         List<AccountTransaction> PostPSNPPlan(RegionalPSNPPlan plan, Ration ration);
+        bool PostGiftCertificate(int giftCertificateId);
     }
 }

@@ -65,6 +65,7 @@ namespace Cats.Areas.GiftCertificate.Models
         [Display(Name="Expiry Date")]
         public DateTime? ExpiryDate { get; set; }
 
+        [Display(Name="Commodiy")]
         public string CommodityName { get; set; }
         public string FundSource { get; set; }
         public GiftCertificateDetailsViewModel()

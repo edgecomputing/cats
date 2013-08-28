@@ -145,6 +145,10 @@
       <Project>{B0410B11-91E0-40EC-9F16-55FC5E2C4090}</Project>
       <Name>Cats.Services.Procurement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Web\Cats.csproj">
       <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>
       <Name>Cats</Name>

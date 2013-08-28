@@ -9,6 +9,7 @@ using Cats.Models.Partial;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
 using System.Web.Mvc;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
@@ -25,12 +26,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IGiftCertificateService _giftCertificateService;
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
         private readonly ICommonService _commonService;
+        private readonly IAccountTransactionService _accountTransactionService;
 
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService)
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,IAccountTransactionService accountTransactionService)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
             _commonService = commonService;
+            _accountTransactionService = accountTransactionService;
         }
 
         public ActionResult Index()
@@ -209,6 +212,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid && giftcertificateViewModel != null)
             {
                 var giftCertificate = GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificateViewModel);
+                giftCertificate.StatusID = 1;
 
                 _giftCertificateService.AddGiftCertificate(giftCertificate);
                 return RedirectToAction("Edit", new { id=giftCertificate.GiftCertificateID});
@@ -328,10 +332,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             return Json(_giftCertificateService.IsBillOfLoadingDuplicate(BillOfLoading), JsonRequestBehavior.AllowGet);
         }
-
-        public  ActionResult Approve(int id)
+        [HttpGet]
+       public ActionResult Approved(int id)
+       {
+           var giftCertificate = _giftCertificateService.FindById(id);
+           var giftCertificateViewModel = GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftCertificate);
+           return PartialView("_Approve", giftCertificateViewModel);
+       }
+        [HttpPost]
+       public ActionResult Approve(int GiftCertificateID)
         {
-            return View();
+            var result = _accountTransactionService.PostGiftCertificate(GiftCertificateID);
+           return Json(new { success = true });
         }
         private void PopulateLookup(bool isNew = true, Cats.Models.GiftCertificate giftCertificate = null)
         {

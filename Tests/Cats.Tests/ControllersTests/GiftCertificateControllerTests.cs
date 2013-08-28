@@ -9,6 +9,7 @@ using Cats.Areas.GiftCertificate.Models;
 using Cats.Models;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Transaction;
 using Moq;
 using NUnit.Framework;
 
@@ -81,7 +82,9 @@ namespace Cats.Tests.ControllersTests
             giftCertificateService.Setup(t => t.Get(It.IsAny<Expression<Func<GiftCertificate,bool>>>(),It.IsAny<Func<IQueryable<GiftCertificate>,IOrderedQueryable<GiftCertificate>>>(),It.IsAny<string>())).Returns(gifts);
             giftCertificateService.Setup(t => t.AddGiftCertificate(It.IsAny<GiftCertificate>())).Returns(true);
             var giftCertificateDetailService = new Mock<IGiftCertificateDetailService>();
-            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object,commonService.Object);
+            var accountTransactionService = new Mock<IAccountTransactionService>();
+            accountTransactionService.Setup(t => t.PostGiftCertificate(It.IsAny<int>())).Returns(true);
+            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, accountTransactionService.Object);
         }
 
         [TearDown]
