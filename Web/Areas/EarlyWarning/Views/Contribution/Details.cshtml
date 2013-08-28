@@ -10,7 +10,6 @@
 {
     @Html.Partial("_ContributionLeftBar");
 }
-<<<<<<< HEAD
 
 @section Breadcrumb
 {
@@ -20,13 +19,9 @@
         <li class="active">Detail</li>
     </ul>
 }
-<div class="well">
-    <h4 class="page-header">List of Donor Contributions</h4>
-=======
 <div>
     @*<h4 class="page-header">List of Donor Contributions</h4>*@
     <h4> Pledge by Donor:@ViewBag.DonorID </h4>
->>>>>>> de9d081b8104f32873fd8fa9028bfa39b3133fa9
 </div>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionDetailViewModel>() 
 .Name("grid").Columns(columns =>
