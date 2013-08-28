@@ -10,6 +10,14 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_gift"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")" title="save"></a>
 }
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li><a href="~/EarlyWarning/GiftCertificate/Index">Gift Certificate</a> <span class="divider">/</span></li>
+        <li class="active">Create Gift Certificate</li>
+    </ul>
+}
 <h2>@Translator.Translate("New Gift Certificate")</h2>
 @*<p>
     @Translator.Translate("Use this form to create new or edit gift certificates.") <span class="required">*</span> @Translator.Translate("marks required fields.")

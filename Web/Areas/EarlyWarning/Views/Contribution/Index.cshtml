@@ -10,6 +10,18 @@
 {
     @Html.Partial("_ContributionLeftBar");
 }
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Contribution")"></a>
+}
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">Contribution</li>
+    </ul>
+}
 <div class="well">
     <h4 class="page-header">List of Donor Contributions</h4>
     <div align="right">

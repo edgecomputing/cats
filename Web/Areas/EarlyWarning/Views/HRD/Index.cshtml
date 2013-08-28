@@ -5,11 +5,21 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+}
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">HRD</li>
+    </ul>
+}
 <div class="well">
-    <h4 class="page-header">List of HRD</h4>
-    <div align="right">
-        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
-    </div>
+    <h4 class="">List of HRD</h4>
 </div>
 
 <div id="modalWindow">
