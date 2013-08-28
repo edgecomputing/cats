@@ -71,17 +71,9 @@
                 </div>
                 <div class="controls">
                     @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new {id = "Season"})
-                    
-<<<<<<< HEAD
-                @Html.LabelFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
-            </div>
-            <div class="controls">
-                @Html.EditorFor(model => model.NeedAssessmentHeader.NeedAssessment.Season, new { id = "season" })
-                @Html.ValidationMessageFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
-=======
                     @Html.ValidationMessageFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
                 </div>
->>>>>>> 24802134d3b744607645494386c0b56ff3a2e3f3
+
             </div>
 
            
