@@ -6,9 +6,10 @@
     [UnitID]                  INT          NULL,
     CONSTRAINT [PK_RequestDetailCommodity] PRIMARY KEY CLUSTERED ([RequestCommodityID] ASC),
     CONSTRAINT [FK_RequestDetailCommodity_Commodity] FOREIGN KEY ([CommodityID]) REFERENCES [dbo].[Commodity] ([CommodityID]),
-    CONSTRAINT [FK_RequestDetailCommodity_RegionalRequestDetail] FOREIGN KEY ([RegionalRequestDetailID]) REFERENCES [EarlyWarning].[RegionalRequestDetail] ([RegionalRequestDetailID]),
-    CONSTRAINT [IX_RequestDetailCommodity] UNIQUE NONCLUSTERED ([RegionalRequestDetailID] ASC, [CommodityID] ASC)
+    CONSTRAINT [FK_RequestDetailCommodity_RegionalRequestDetail] FOREIGN KEY ([RegionalRequestDetailID]) REFERENCES [EarlyWarning].[RegionalRequestDetail] ([RegionalRequestDetailID])
 );
+
+
 
 
 

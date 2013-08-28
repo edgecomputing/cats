@@ -52,15 +52,22 @@
     }
 </script>
 <div class="well">
-    <h4 class="page-header">Bid For Transporters</h4>
-    <div align="right">
-        <a href="Bid/Create" class="btn btn-success">Create New Bid</a>
-    </div>
+    <h4 class="">Bid For Transporters</h4>
 </div>
-
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Bid")"></a>
+}
 @section LeftBar
 {
     @Html.Partial("_BidLeftBar")
+}
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">Manage Bid</li>
+    </ul>
 }
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.Bid.BidViewModel>()

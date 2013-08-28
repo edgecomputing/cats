@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{23584698-1bd3-4c40-ad56-9bc6dec0ff19}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -211,6 +211,23 @@
     <Build Include="dbo\Tables\Season_1.sql" />
     <Build Include="dbo\Tables\ContributionDetail.sql" />
     <Build Include="dbo\Tables\Contribution.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPledges.sql" />
+    <Build Include="dbo\Tables\TransportType_1.sql" />
+    <Build Include="dbo\Tables\RRDStatus_1.sql" />
+    <Build Include="dbo\Tables\Round_1.sql" />
+    <Build Include="dbo\Tables\OrganisationAddress_1.sql" />
+    <Build Include="dbo\Tables\Organisation_1.sql" />
+    <Build Include="dbo\Tables\DistributionPlanDetail_1.sql" />
+    <Build Include="dbo\Tables\DistributionPlan_1.sql" />
+    <Build Include="dbo\Tables\DistributionBy_1.sql" />
+    <Build Include="dbo\Tables\CommodityDistributionPlan_1.sql" />
+    <Build Include="dbo\Tables\BidCandidateTransporter_1.sql" />
+    <Build Include="dbo\Tables\AllocationRequestDetail_1.sql" />
+    <Build Include="dbo\Tables\AllocationRequest_1.sql" />
+    <Build Include="dbo\Tables\AidDistributionPlanDetail_1.sql" />
+    <Build Include="dbo\Tables\AidDistributionPlan_1.sql" />
+    <Build Include="dbo\Views\RRDInfo_1.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPledges.sql" />
     <Build Include="EarlyWarning\Tables\TypeOfNeedAssessment.sql" />
     <Build Include="EarlyWarning\Tables\Season.sql" />
   </ItemGroup>
