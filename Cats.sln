@@ -57,7 +57,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Logistics", "
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema.Security", "Migrations\Cats.DatabaseSchema.Security\Cats.DatabaseSchema.Security.sqlproj", "{6941F350-B85A-4A39-96E4-B0433388A3C1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Common", "Services\Cats.Services.Common\Cats.Services.Common.csproj", "{083D007C-DD3B-42C0-B11C-A7015A909085}"
 EndProject
@@ -70,6 +70,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Transaction", "Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj", "{9B741D92-4B67-4863-BF38-A1ADCAE40870}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportGenerator", "PdfReportGenerator\PdfReportGenerator.csproj", "{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Localization", "Helpers\Cats.Localization\Cats.Localization.csproj", "{097528F8-CFEF-4A8F-9D6C-D2366AF9583E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +167,10 @@ Global
 		{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF00196A-3B96-4BCD-8C4E-879DB8EDFE95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{097528F8-CFEF-4A8F-9D6C-D2366AF9583E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{097528F8-CFEF-4A8F-9D6C-D2366AF9583E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{097528F8-CFEF-4A8F-9D6C-D2366AF9583E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{097528F8-CFEF-4A8F-9D6C-D2366AF9583E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,5 +195,6 @@ Global
 		{6941F350-B85A-4A39-96E4-B0433388A3C1} = {207CB9FB-6834-4E29-B355-3AC124391D1E}
 		{B7E6BCE4-9807-450B-873C-73FBC7762D1A} = {207CB9FB-6834-4E29-B355-3AC124391D1E}
 		{29C71652-546B-4362-BF05-A187E781D6BD} = {4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}
+		{097528F8-CFEF-4A8F-9D6C-D2366AF9583E} = {4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}
 	EndGlobalSection
 EndGlobal
