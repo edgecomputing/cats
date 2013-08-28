@@ -14,10 +14,11 @@ namespace Cats.Services.EarlyWarning
     {
         private readonly IUnitOfWork _unitOfWork;
 
-
         public GiftCertificateService(UnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
+         
+
         }
         #region Default Service Implementation
         public bool AddGiftCertificate(GiftCertificate giftCertificate)
@@ -97,6 +98,7 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.GiftCertificateRepository.Get(filter, orderBy, includeProperties);
         }
+      
     }
 }
 
