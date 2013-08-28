@@ -106,6 +106,7 @@ namespace Cats.Services.EarlyWarning
                                                          WoredaName =  adminUnit.AdminUnit.Name,
                                                          Woreda = adminUnit.AdminUnit.AdminUnitID,
                                                          Zone = (int) adminUnit.AdminUnit.ParentID,
+                                                         ZoneName = adminUnit.NeedAssessmentHeader.AdminUnit.Name,
                                                          ProjectedMale = adminUnit.ProjectedMale,
                                                          ProjectedFemale = adminUnit.ProjectedFemale,
                                                          RegularPSNP = adminUnit.RegularPSNP,
