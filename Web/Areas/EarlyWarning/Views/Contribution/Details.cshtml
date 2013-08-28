@@ -11,7 +11,8 @@
     @Html.Partial("_ContributionLeftBar");
 }
 <div class="well">
-    <h4 class="page-header">List of Donor Contributions</h4>
+    @*<h4 class="page-header">List of Donor Contributions</h4>*@
+    <h4> pledge by Donor:@ViewBag.DonorID </h4>
 </div>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionDetailViewModel>() 
 .Name("grid").Columns(columns =>
@@ -19,10 +20,10 @@
 
         //columns.Bound(m => m.ContributionDetailID);
         //columns.Bound(m => m.ContributionID);
-        columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewData["CommodityID"], "CommodityID", "Name").Title("Commodity");
         columns.Bound(m => m.PledgeReferenceNumber);
         columns.Bound(m => m.PledgeDate).Format("{0:MM/dd/yyyy}");
-        columns.Bound(m => m.Quantity);
+        columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewData["CommodityID"], "CommodityID", "Name").Title("Commodity");
+        columns.Bound(m => m.Quantity).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}"); 
 
         columns.Command(command => command.Destroy());
     })
@@ -39,6 +40,7 @@
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
+      .Aggregates(aggregates =>aggregates.Add(p => p.Quantity).Sum())
         .Model(model =>
             {
                 model.Id(m=>m.ContributionID);

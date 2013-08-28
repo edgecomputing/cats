@@ -8,7 +8,12 @@
 {
     @Html.Partial("_ContributionLeftBar");
 }
-<div class="well">
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_contribution"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Contribution")" title="save"></a>
+}
+<div>
     <h3>Create Donor Contribution</h3>
 </div>
 @using (Html.BeginForm())

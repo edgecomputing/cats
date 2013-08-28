@@ -7,11 +7,12 @@
     ViewBag.Title = "RegionalSummary";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+}
 <div class="well">
     <h3>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h3>
-    <div align="right">
-        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
-    </div>
 </div>
 @section LeftBar{
 
