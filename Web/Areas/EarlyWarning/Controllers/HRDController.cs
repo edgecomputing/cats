@@ -54,7 +54,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-
             var hrd = _hrdService.GetAllHRD();
             //ViewBag.Status = _workflowStatusService.GetStatusName();
             return View(hrd);
@@ -125,6 +124,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IEnumerable<HRDViewModel> GetHrds(IEnumerable<HRD> hrds)
         {
             return (from hrd in hrds
+                    let statusID = hrd.Status
+                    where statusID != null
                     select new HRDViewModel()
                     {
                         HRDID = hrd.HRDID,
@@ -134,8 +135,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         CreatedDate = hrd.CreatedDate,
                         CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
                         PublishedDate = hrd.PublishedDate,
-                        StatusID = hrd.Status,
-                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value)
+                        StatusID = statusID!=0? statusID:1,
+                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, statusID.Value)
 
 
                     });
