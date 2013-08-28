@@ -15,6 +15,7 @@
         @Translator.Translate("Gift Certificates")</h2>
 @section Toolbar
 {
+
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "GiftCertificate")"></a>
 }
 @section Breadcrumb
@@ -24,46 +25,56 @@
         <li class="active">Gift Certificate</li>
     </ul>
 }
-    @*<p>
-     @Translator.Translate("List of gift certificates that were submitted. Click ")@Html.ActionLink("here to create", "Create")
-     @Translator.Translate(" new gift certificate records.")
-</p>*@
+ 
+      
+  <div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
+
 
     @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
-            //.DataKeys(keys => keys.Add(co => co.GiftCertificateID))
-
     .Columns(col =>
     {
 
         col.Template(
              @<text>
-                  <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"></i> </a>
-                  |          <a href="@Url.Action("GenerateTemplate", new { id = item.GiftCertificateID })"  ><i class="icon-print"></i> </a>
-                 @* <a href="@Url.Action("Approve", new { id = item.GiftCertificateID })"  > <i class="icon-mail-reply"></i>Approve</a>*@
-
+                 
+                        
+    @if(item.StatusID ==1)
+    {
+         <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"></i> </a>
+       
+         <a id="btnApprove" href="@Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID })"><i class="icon-plus"></i>Approve</a>
+    }
+    else
+    {
+        <a href="@Url.Action("GenerateTemplate", new { id = item.GiftCertificateID })"  ><i class="icon-print"></i> </a>
+    }
     </text>
 
             ).Title("");
 
-         //col.Bound(gc => gc.GiftDate).Format("{0:dd-MMM-yyyy}"); ;
+   
          col.Bound(gc => gc.Donor).Title(Translator.Translate("Donor"));
          col.Template(@<text>
     @item.GiftDate.ToCTSPreferedDateFormat(user.LanguageCode)
     </text>).Title(Translator.Translate("Gift Date"));
         col.Bound(gc => gc.SINumber).Title(Translator.Translate("SI Number"));
         col.Bound(gc => gc.ReferenceNo).Title(Translator.Translate("Reference No"));
+        col.Bound(gc => gc.DeclarationNumber).Title(Translator.Translate("Declaration Number"));
     }
         ).DetailTemplate(detail=>
             Html.Kendo().Grid( detail.GiftCertificateDetails ).Name("GCDetails" + detail.GiftCertificateID)
             .Columns(c =>
-            {
-                c.Bound(com => com.CommodityName).Title(Translator.Translate("Commodity"));
+                         {
+                             c.Bound(com => com.CommodityName);
                 c.Bound(gc => gc.WeightInMT).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Weight in MT"));
                 c.Bound(gc => gc.EstimatedPrice).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Price"));
                 c.Bound(gc => gc.EstimatedTax).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Tax"));
                 c.Bound(gc => gc.FundSource).Title(Translator.Translate("Fund Source"));
             })
-        ).Filterable().Sortable()
+        ).Filterable().Sortable().Pageable()
    )
 </div>
 <div id="modalWindow">
@@ -102,4 +113,46 @@
             wnd.close();
         });
     }
+</script>
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnApprove').click(function () {
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+    });
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#dialogDiv').modal('hide');
+                        // Refresh:
+                        // location.reload();
+                    } else {
+                        $('#dialogContent').html(result);
+                        bindForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+
 </script>

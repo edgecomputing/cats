@@ -33,6 +33,8 @@ namespace Cats.ViewModelBinder
             giftCertificateViewModel.PortName = giftCertificateModel.PortName;
             giftCertificateViewModel.DModeOfTransport = giftCertificateModel.DModeOfTransport;
             giftCertificateViewModel.Donor = giftCertificateModel.Donor.Name;
+            giftCertificateViewModel.StatusID = giftCertificateModel.StatusID;
+            giftCertificateViewModel.DeclarationNumber = giftCertificateModel.DeclarationNumber;
 
             var giftCertificateDetail = giftCertificateModel.GiftCertificateDetails.FirstOrDefault();
             if (giftCertificateDetail != null)
@@ -70,6 +72,7 @@ namespace Cats.ViewModelBinder
             giftCertificate.DModeOfTransport = giftCertificateViewModel.DModeOfTransport;
             giftCertificate.ProgramID = giftCertificateViewModel.ProgramID;
             giftCertificate.PortName = giftCertificateViewModel.PortName;
+            giftCertificate.DeclarationNumber = giftCertificateViewModel.DeclarationNumber;
 
             return giftCertificate;
         }

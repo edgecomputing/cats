@@ -51,6 +51,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Month).HasColumnName("Month");
 
             this.Property(t => t.Round).HasColumnName("Round");
+            this.Property(t => t.DonorID).HasColumnName("DonorID");
+            this.Property(t => t.CommoditySourceID).HasColumnName("CommoditySourceID");
+            this.Property(t => t.GiftTypeID).HasColumnName("GiftTypeID");
 
         }
     }
