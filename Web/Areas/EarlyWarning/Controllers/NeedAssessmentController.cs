@@ -279,7 +279,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     _needAssessmentDetailService.EditNeedAssessmentDetail(details);
                 }
             }
-
+           
             return Json(ModelState.ToDataSourceResult());
         }
 

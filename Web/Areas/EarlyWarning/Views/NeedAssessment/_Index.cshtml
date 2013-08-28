@@ -5,7 +5,7 @@
 }
 
  
-
+ @Html.CheckBox("save",false,new {id="batchEdit"})
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentWoredaDao>()
     .Name("grid")
     .Columns(columns =>
@@ -28,31 +28,16 @@
                                         
         
     })
-    .ToolBar(toolbar =>
-    {
-
-        toolbar.Template(@<text>
-           <div class="toolbar">
-                    <label class="category-label" for="category">Show woredas by Zone:</label>
-                        @(Html.Kendo().DropDownList()
-                            .Name("regions")
-                            .OptionLabel("All")
-                            .DataTextField("Name")
-                            .DataValueField("AdminUnitID")
-                            .AutoBind(false)
-                            .Events(e => e.Change("zoneChange"))
-                            .DataSource(ds => ds.Read("GetZones", "NeedAssessment", new { region = int.Parse(ViewData["region"].ToString()) }))
-                        ) 
-                        </div>
-        </text>);
-    })
+    
+   
+    
     .ToolBar(toolbar => toolbar.Save())
     
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()
     .Sortable()
     .Scrollable()
-   .Resizable()
+  .Groupable()
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .DataSource(dataSource => dataSource
         .Ajax()
@@ -82,6 +67,20 @@
             grid.dataSource.filter({});
         }
     }
+    
+    
+
+
+    $('#batchEdit').click(function () {
+        if (this.checked) {
+            alert("checked");
+            $("#dropdown").style.display = 'none';
+        } else {
+            alert("unchecked");
+        }
+        
+    });
+
 </script>
 
 <style scoped="scoped">
@@ -103,3 +102,23 @@
         float: right;
     }
 </style>
+
+ @*.ToolBar(toolbar =>
+    {
+       
+        toolbar.Template(@<text>
+                              <div id ="dropdown" >
+                                  <label class="category-label" for="category">Show woredas by Zone:</label>
+                                  @(Html.Kendo().DropDownList()
+                                        .Name("regions")
+                                        .OptionLabel("All")
+                                        .DataTextField("Name")
+                                        .DataValueField("AdminUnitID")
+                                        .AutoBind(false)
+                                        .Events(e => e.Change("zoneChange"))
+                                        .DataSource(ds => ds.Read("GetZones", "NeedAssessment", new { region = int.Parse(ViewData["region"].ToString()) }))
+                                        ) 
+                              </div>
+                              
+        </text>);
+    })*@

@@ -17,8 +17,8 @@ namespace Cats.Services.EarlyWarning
         List<NeedAssessmentDetail> FindBy(Expression<Func<NeedAssessmentDetail, bool>> predicate);
         List<NeedAssessmentDetail> GetDraft();
         List<NeedAssessmentDetail> GetApproved();
-        int GetNeedAssessmentMonths(int id,int weredaId);
-        int GetNeedAssessmentBeneficiaryNo(int id,int weredaId);
+        int GetNeedAssessmentMonths(string year, string season, int woredaId);
+        int GetNeedAssessmentBeneficiaryNo(string year, string season, int woredaId);
 
     }
 }
