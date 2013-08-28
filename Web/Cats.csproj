@@ -759,7 +759,13 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
+
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddZone.cshtml" />
+
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

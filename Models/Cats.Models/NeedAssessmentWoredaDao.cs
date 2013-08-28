@@ -1,31 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public class NeedAssessmentViewModel
+    public class NeedAssessmentWoredaDao
     {
-
-        public int Zone { get; set; }
-        public int Woreda { get; set; }
-        public int Region { get; set; }
-
-        public string ZoneName { get; set; }
+        public int Woreda  { get; set; }
         public string WoredaName { get; set; }
-        public string RegionName { get; set; }
+        public int Zone { get; set; }
+        public int NeedAID  { get; set; }
 
-        public int NeedAID { get; set; }
-       
-        public int Season { get; set; }
-        public System.DateTime NeedADate { get; set; }
-        public Nullable<int> NeedACreatedBy { get; set; }
-        public Nullable<bool> NeedAApproved { get; set; }
-        public Nullable<int> NeedAApprovedBy { get; set; }
-        public string Remark { get; set; }
-        public string TypeOfNeedAssessment { get; set; }
-        //from hearder
-        public int NAHeaderId { get; set; }
-        
-        //from detail
         public int NAId { get; set; }
         public Nullable<int> ProjectedMale { get; set; }
         public Nullable<int> ProjectedFemale { get; set; }
@@ -41,10 +28,7 @@ namespace Cats.Models
         public Nullable<int> NonPSNPFromWoredasFemale { get; set; }
         public Nullable<int> NonPSNPFromWoredasDOA { get; set; }
         
-       
-       
-
-        public string CreaterUser { get; set; }
-
+                                    
+                                                             
     }
 }

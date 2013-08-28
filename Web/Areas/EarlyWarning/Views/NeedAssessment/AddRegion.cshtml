@@ -1,0 +1,115 @@
+﻿@model Cats.Models.NeedAssessment
+
+@{
+    ViewBag.Title = "AddRegion";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_add_region"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>
+}
+<h2>AddRegion</h2>
+
+@using (Html.BeginForm("AddRegion", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>NeedAssessment</legend>
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Region)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new {id = "Region"})
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Season)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new {id = "Season"})
+                    
+                    @Html.ValidationMessageFor(model => model.Season)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NeedADate)
+                    
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NeedADate)
+                    @Html.ValidationMessageFor(model => model.NeedADate)
+                </div>
+            </div>
+            
+            @*div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NeddACreatedBy)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NeddACreatedBy)
+                    @Html.ValidationMessageFor(model => model.NeddACreatedBy)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NeedAApproved)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NeedAApproved)
+                    @Html.ValidationMessageFor(model => model.NeedAApproved)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.NeedAApprovedBy)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.NeedAApprovedBy)
+                    @Html.ValidationMessageFor(model => model.NeedAApprovedBy)
+                </div>
+            </div>*@
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new {id = "TypeOfNeed"})
+                    
+                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                </div>
+            </div>
+
+           
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Remark)
+                </div>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </div>
+            </div>
+
+
+            
+        </div>
+    </fieldset>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -11,6 +11,7 @@ namespace Cats.Models
        public Season()
        {
            this.Hrds=new List<HRD>();
+           this.NeedAssessments = new List<NeedAssessment>();
            
        }
 
@@ -20,6 +21,7 @@ namespace Cats.Models
         #region Navigation Properties
 
        public ICollection<HRD> Hrds { get; set; }
+       public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         #endregion
 
     }

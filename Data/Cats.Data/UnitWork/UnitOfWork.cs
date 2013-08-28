@@ -645,8 +645,16 @@ namespace Cats.Data.UnitWork
         }
 
 
-        
-      
+
+        private IGenericRepository<TypeOfNeedAssessment> typeOfNeedAssessmentRepository;
+
+        public IGenericRepository<TypeOfNeedAssessment> TypeOfNeedAssessmentRepository
+        {
+
+            get { return this.typeOfNeedAssessmentRepository ?? (this.typeOfNeedAssessmentRepository = new GenericRepository<TypeOfNeedAssessment>(_context)); }
+
+        }
+
       
 
 
