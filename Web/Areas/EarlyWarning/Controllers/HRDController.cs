@@ -323,27 +323,28 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
                 hrd.CreatedBY = userid;
-                var hrdDetails = new List<HRDDetail>();
-                foreach (var adminUnit in woredas)
-                {
+                var seasonId = hrd.SeasonID;
+                //var hrdDetails = new List<HRDDetail>();
+                //foreach (var adminUnit in woredas)
+                //{
                    
-                    var detail = new HRDDetail();
-                    detail.WoredaID = adminUnit.AdminUnitID;
-                    detail.StartingMonth = 1;
-                    detail.NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, "Meher", adminUnit.AdminUnitID);
-                    detail.DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, "Meher", adminUnit.AdminUnitID);
-                    hrdDetails.Add(detail);
-                }
-                //var hrdDetails = (from detail in woredas
-                //                  select new HRDDetail()
-                //                  {
-                //                      WoredaID = detail.AdminUnitID,
-                //                      StartingMonth = 1,
-                //                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo( hrd.Year,hrd.Season.Name,detail.AdminUnitID),
-                //                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, hrd.Season.Name, detail.AdminUnitID)
+                //    var detail = new HRDDetail();
+                //    detail.WoredaID = adminUnit.AdminUnitID;
+                //    detail.StartingMonth = 1;
+                //    detail.NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, "Meher", adminUnit.AdminUnitID);
+                //    detail.DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, "Meher", adminUnit.AdminUnitID);
+                //    hrdDetails.Add(detail);
+                //}
+                var hrdDetails = (from detail in woredas
+                                  select new HRDDetail()
+                                  {
+                                      WoredaID = detail.AdminUnitID,
+                                      StartingMonth = 1,
+                                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int) seasonId, detail.AdminUnitID),
+                                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int) seasonId, detail.AdminUnitID)
 
 
-                //                  }).ToList();
+                                  }).ToList();
 
                 hrd.HRDDetails = hrdDetails;
                 _hrdService.AddHRD(hrd);

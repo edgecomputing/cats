@@ -71,9 +71,9 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.NeedAssessmentDetailRepository.FindBy(d => d.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true);
         }
 
-       public int GetNeedAssessmentBeneficiaryNo(int year , string season, int woredaId)
+       public int GetNeedAssessmentBeneficiaryNo(int year , int season, int woredaId)
        {
-           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.NeedADate.Value.Year == year && w.NeedAssessmentHeader.NeedAssessment.Season1.Name == season && w.Woreda == woredaId &&  w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
+           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.NeedADate.Value.Year == year && w.NeedAssessmentHeader.NeedAssessment.Season == season && w.Woreda == woredaId &&  w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
 
            if (beneficiaryNo != null)
            {
@@ -82,9 +82,9 @@ namespace Cats.Services.EarlyWarning
            }
            return 0;
        }
-       public int GetNeedAssessmentMonths(int year, string season, int woredaId)
+       public int GetNeedAssessmentMonths(int year, int season, int woredaId)
        {
-           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.NeedADate.Value.Year == year && w.NeedAssessmentHeader.NeedAssessment.Season1.Name == season && w.Woreda == woredaId && w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
+           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.NeedADate.Value.Year == year && w.NeedAssessmentHeader.NeedAssessment.Season == season && w.Woreda == woredaId && w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
 
            if (months != null)
            {

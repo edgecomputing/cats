@@ -155,6 +155,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
           
 
         }
+
+        public ActionResult ApproveNeedAssessment(int id)
+        {
+            var needAssessment = _needAssessmentService.FindById(id);
+            needAssessment.NeedAApproved = true;
+            _needAssessmentService.EditNeedAssessment(needAssessment);
+            return RedirectToAction("Index");
+        }
+        public ActionResult EditNeedAssessment(int id)
+        {
+            return RedirectToAction("_Index", new { id = id });
+        }
         //
         // GET: /EarlyWarning/NeedAssessment/Details/5
 

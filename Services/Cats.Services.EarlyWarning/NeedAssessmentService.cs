@@ -65,7 +65,7 @@ namespace Cats.Services.EarlyWarning
 
         public IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModel()
         {
-            var needAssessment = _unitOfWork.NeedAssessmentRepository.GetAll().ToList();
+            var needAssessment = _unitOfWork.NeedAssessmentRepository.Get(g => g.NeedAApproved == false); //featch unapproved need assessments
             return needAssessment.Select(need =>  new NeedAssessmentHeaderViewModel()
                                                                               {
                                                                                   NeedAID = need.NeedAID,
