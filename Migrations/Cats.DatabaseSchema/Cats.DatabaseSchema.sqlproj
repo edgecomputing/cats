@@ -227,6 +227,8 @@
     <Build Include="dbo\Tables\AidDistributionPlan_1.sql" />
     <Build Include="dbo\Views\RRDInfo_1.sql" />
     <Build Include="dbo\Tables\RegionalPSNPPledges.sql" />
+    <Build Include="EarlyWarning\Tables\TypeOfNeedAssessment.sql" />
+    <Build Include="EarlyWarning\Tables\Season.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
