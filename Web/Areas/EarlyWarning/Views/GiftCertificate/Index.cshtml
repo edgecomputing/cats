@@ -26,8 +26,7 @@
     </ul>
 }
  
-        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "GiftCertificate")"></a>
-    }
+      
   <div id='dialogDiv' class='modal hide fade in'>
     <div id='dialogContent'></div>
 </div>
@@ -75,7 +74,7 @@
                 c.Bound(gc => gc.EstimatedTax).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Tax"));
                 c.Bound(gc => gc.FundSource).Title(Translator.Translate("Fund Source"));
             })
-        ).Filterable().Sortable()
+        ).Filterable().Sortable().Pageable()
    )
 </div>
 <div id="modalWindow">
