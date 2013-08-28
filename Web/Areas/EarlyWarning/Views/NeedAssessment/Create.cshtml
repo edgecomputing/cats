@@ -6,17 +6,25 @@
 }
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_psnp"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssesement")"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_needassessment"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")"></a>
 }
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li><a href="~/EarlyWarning/NeedAssessment/Index">Need Assessment</a> <span class="divider">/</span></li>
+        <li class="active">Create Need Assessment</li>
+    </ul>
+}
+<h2 class="well">Create Need Assessment</h2>
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Create", "NeedAssessment", FormMethod.Post, new { id = "frm_create_needassessment" }))
+    {
     @Html.ValidationSummary(true)
     @Html.ValidationSummary()
     <fieldset>
-        <legend>Need Assessment </legend>
+        <legend> </legend>
         
         <div class="form-horizontal">
             <div id="Region">
@@ -26,7 +34,7 @@
                     </div>
                     <div class="controls">
                         @Html.Hidden("Region")
-                        @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new {id = "Region"})
+                        @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new { id = "Region" })
                     </div>
                 </div>
             </div>
@@ -37,7 +45,7 @@
                     </div>
                     <div class="controls">
                         @Html.Hidden("Zone")
-                        @Html.DropDownList("ZoneID", ViewBag.Zones as SelectList, new {id = "Zone"})
+                        @Html.DropDownList("ZoneID", ViewBag.Zones as SelectList, new { id = "Zone" })
                     </div>
                 </div>
 
@@ -49,7 +57,7 @@
                     </div>
                     <div class="controls">
                         @Html.Hidden("Woreda")
-                        @Html.DropDownList("WoredaID", ViewBag.Woredas as SelectList, new {id = "Woreda"})
+                        @Html.DropDownList("WoredaID", ViewBag.Woredas as SelectList, new { id = "Woreda" })
                     </div>
                 </div>
 
@@ -64,8 +72,16 @@
                 <div class="controls">
                     @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new {id = "Season"})
                     
+<<<<<<< HEAD
+                @Html.LabelFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.NeedAssessmentHeader.NeedAssessment.Season, new { id = "season" })
+                @Html.ValidationMessageFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
+=======
                     @Html.ValidationMessageFor(model => model.NeedAssessmentHeader.NeedAssessment.Season)
                 </div>
+>>>>>>> 24802134d3b744607645494386c0b56ff3a2e3f3
             </div>
 
            
@@ -240,9 +256,6 @@
                     @Html.ValidationMessageFor(model => model.Remark)
                 </div>
             </div>
-            <p>
-                <input type="submit" value="Create" />
-            </p>
     </div>
     </fieldset>
 }

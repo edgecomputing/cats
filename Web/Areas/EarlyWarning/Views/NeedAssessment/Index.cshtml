@@ -6,12 +6,39 @@
 
 @section Toolbar
 {
+<<<<<<< HEAD
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "NeedAssessment")"></a>
+}
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">Need Assessment</li>
+    </ul>
+}
+
+    <h4 class="well">Create new Need Assessment</h4>
+    
+
+<fieldset>
+    <legend>
+        Beneficiary numbers and duration of assisstance
+    </legend>
+</fieldset>
+
+@{var record = 0;}
+
+@(Html.Kendo().Grid<NeedAssessmentHeaderViewModel>()
+
+    .Name("NA").Columns(columns =>
+=======
         <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddRegion", "NeedAssessment")"></a>
 }
 
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
     .Name("grid")
     .Columns(columns =>
+>>>>>>> 24802134d3b744607645494386c0b56ff3a2e3f3
     {
         columns.Bound(p => p.RegionName);
         columns.Bound(p => p.SeasonName).Visible(true).Width(100);

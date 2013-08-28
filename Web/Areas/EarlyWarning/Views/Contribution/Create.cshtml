@@ -13,10 +13,24 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_contribution"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Contribution")" title="save"></a>
 }
+<<<<<<< HEAD
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li><a href="~/EarlyWarning/Contribution/Index">Contribution</a> <span class="divider">/</span></li>
+        <li class="active">Issue Pledge</li>
+    </ul>
+}
+<div class="well">
+    <h3>Create Donor Contribution</h3>
+=======
 <div>
     <h4>Create Donor Contribution</h4>
+>>>>>>> de9d081b8104f32873fd8fa9028bfa39b3133fa9
 </div>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Contribution", FormMethod.Post, new { id = "frm_create_contribution" }))
 {
     @Html.ValidationSummary(true)
     <div class="well form-horizontal">
@@ -59,11 +73,6 @@
             </div>
 
         </div>*@
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" value="Create" class="btn btn-success" />
-            </div>
-        </div>
 
     </div>
 }

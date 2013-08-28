@@ -11,10 +11,29 @@
     @Html.Partial("_HRDLeftBar");
    
 }
+<<<<<<< HEAD
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="save"></a>
+}
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li><a href="~/EarlyWarning/HRD/Index">HRD</a> <span class="divider">/</span></li>
+        <li class="active">Create HRD</li>
+    </ul>
+}
+<div class="well"><h3>Create HRD</h3></div>
+    @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
+=======
 <div>
     <h4>Create HRD</h4>
 </div>
     @using (Html.BeginForm())
+>>>>>>> de9d081b8104f32873fd8fa9028bfa39b3133fa9
     {
         @Html.ValidationSummary(true)
 
@@ -60,11 +79,6 @@
                 </div>
         
             </div>*@
-            <div class="control-group">      
-                <div class="controls">
-                    <input type="submit" value="Create HRD" class="btn btn-success" />
-                </div>
-            </div>
 
         </div>
     }
