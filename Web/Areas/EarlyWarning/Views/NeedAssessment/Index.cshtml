@@ -38,6 +38,9 @@
                         ) 
                         </div>
         </text>);
+
+      
+    
     })
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()
@@ -58,7 +61,8 @@
 		 	 grid = $("#grid").data("kendoGrid");
 
         if (value) {
-            grid.dataSource.filter({ field: "AdminUnitID", operator: "eq", value: parseInt(value) });
+           
+            grid.dataSource.filter({ field: "Region", operator: "eq", value: parseInt(value) });
         } else {
             grid.dataSource.filter({});
         }

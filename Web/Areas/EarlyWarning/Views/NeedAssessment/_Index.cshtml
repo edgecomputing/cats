@@ -10,6 +10,7 @@
     .Name("grid")
     .Columns(columns =>
     {
+        columns.Bound(o => o.Zone).Width("200").HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(o => o.WoredaName).Width("200").HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.ProjectedMale).Title("Projecgted Male").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Projecgted Male" });
         columns.Bound(p => p.ProjectedFemale).Title("Projected Female").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Projected Female" });
@@ -29,6 +30,7 @@
     })
     .ToolBar(toolbar =>
     {
+
         toolbar.Template(@<text>
            <div class="toolbar">
                     <label class="category-label" for="category">Show woredas by Zone:</label>
@@ -39,26 +41,25 @@
                             .DataValueField("AdminUnitID")
                             .AutoBind(false)
                             .Events(e => e.Change("zoneChange"))
-                            .DataSource(ds =>
-                            {
-                                ds.Read("GetZones", "NeedAssessment", new { region = int.Parse(ViewData["region"].ToString()) });
-                            })
+                            .DataSource(ds => ds.Read("GetZones", "NeedAssessment", new { region = int.Parse(ViewData["region"].ToString()) }))
                         ) 
                         </div>
         </text>);
     })
+    .ToolBar(toolbar => toolbar.Save())
+    
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()
     .Sortable()
     .Scrollable()
-    .ToolBar(toolBar => toolBar.Save())
+   .Resizable()
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .DataSource(dataSource => dataSource
         .Ajax()
         .Batch(true)
         .PageSize(20)
-        .ServerOperation(false)
-        
+        .ServerOperation(true)
+       
        .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["region"].ToString())}))
        .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
        .Model(model =>
@@ -75,7 +76,8 @@
 		 	 grid = $("#grid").data("kendoGrid");
 
         if (value) {
-            grid.dataSource.filter({ field: "AdminUnitID", operator: "eq", value: parseInt(value) });
+           
+            grid.dataSource.filter({ field: "Zone", operator: "eq", value: parseInt(value) });
         } else {
             grid.dataSource.filter({});
         }

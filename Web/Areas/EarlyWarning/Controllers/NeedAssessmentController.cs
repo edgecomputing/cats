@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-
 using Cats.Models;
-
 using Cats.Services.EarlyWarning;
-
-using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-
+using Kendo.Mvc.Extensions;
+using Cats.Models;
 namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class NeedAssessmentController : Controller
@@ -53,13 +50,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult GetRegions()
         {
-            var regions = _adminUnitService.GetRegions();
+          IOrderedEnumerable<RegionsViewModel> regions = _needAssessmentService.GetRegions();
             return Json(regions,JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetZones(int region)
         {
-            var zones = _adminUnitService.GetZones(region);
+           
+            var zones = _needAssessmentService.GetZoness(region);
             return Json(zones, JsonRequestBehavior.AllowGet);
+
         }
         public ActionResult AddRegion()
         {

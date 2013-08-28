@@ -209,6 +209,8 @@
     <Build Include="dbo\Tables\Season_1.sql" />
     <Build Include="dbo\Tables\ContributionDetail.sql" />
     <Build Include="dbo\Tables\Contribution.sql" />
+    <Build Include="EarlyWarning\Tables\TypeOfNeedAssessment.sql" />
+    <Build Include="EarlyWarning\Tables\Season.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
