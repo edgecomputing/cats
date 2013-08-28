@@ -327,8 +327,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                   {
                                       WoredaID = detail.AdminUnitID,
                                       StartingMonth = 1,
-                                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo( hrd.Year,hrd.Season.Name,detail.AdminUnitID),
-                                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, hrd.Season.Name, detail.AdminUnitID)
+                                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo( 2013,"Belg",1),
+                                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(2013, "Belg", 1)
 
 
                                   }).ToList();
