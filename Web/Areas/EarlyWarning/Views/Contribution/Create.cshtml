@@ -14,7 +14,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Contribution")" title="save"></a>
 }
 <div>
-    <h3>Create Donor Contribution</h3>
+    <h4>Create Donor Contribution</h4>
 </div>
 @using (Html.BeginForm())
 {
@@ -22,7 +22,7 @@
     <div class="well form-horizontal">
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(m => m.HRDID)
+                @Html.LabelFor(m => m.HRDID,"HRD")
             </div>
             <div class="controls">
                 @Html.DropDownList("HRDID", String.Empty)
@@ -31,7 +31,7 @@
     </div>
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(m => m.DonorID)
+                @Html.LabelFor(m => m.DonorID,"Donor")
             </div>
             <div class="controls">
                 @Html.DropDownList("DonorID", String.Empty)

@@ -11,7 +11,9 @@
     @Html.Partial("_HRDLeftBar");
    
 }
-<div class="well"><h3>Create HRD</h3></div>
+<div>
+    <h4>Create HRD</h4>
+</div>
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
@@ -47,17 +49,7 @@
                 </div>
         
             </div>
-             <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.NeedAssessmentID,"Need Assessment")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("NeedAssessmentID",String.Empty)
-                    @Html.ValidationMessageFor(m=>m.NeedAssessmentID)
-                </div>
-        
-            </div>
-             <div class="control-group">
+            @* <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")
                 </div>
@@ -65,17 +57,6 @@
                      <input class="cats-datepicker" type="text" id="create" name="create" />
                     @Html.HiddenFor(m=>m.CreatedDate)
                     @Html.ValidationMessageFor(m => m.CreatedDate)
-                </div>
-        
-            </div>
-           @* <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.PublishedDate,"Published Date")
-                </div>
-                <div class="controls">
-                     <input class="cats-datepicker" type="text" id="published" name="published" />
-                    @Html.HiddenFor(m=>m.PublishedDate)
-                    @Html.ValidationMessageFor(m=>m.PublishedDate)
                 </div>
         
             </div>*@

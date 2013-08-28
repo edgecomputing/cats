@@ -10,9 +10,9 @@
 {
     @Html.Partial("_ContributionLeftBar");
 }
-<div class="well">
+<div>
     @*<h4 class="page-header">List of Donor Contributions</h4>*@
-    <h4> pledge by Donor:@ViewBag.DonorID </h4>
+    <h4> Pledge by Donor:@ViewBag.DonorID </h4>
 </div>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionDetailViewModel>() 
 .Name("grid").Columns(columns =>

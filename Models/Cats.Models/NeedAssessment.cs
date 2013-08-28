@@ -9,7 +9,6 @@ namespace Cats.Models
     {
         public NeedAssessment()
         {
-            this.HRDs = new List<HRD>();
             this.NeedAssessmentHeaders = new List<NeedAssessmentHeader>();
         }
 
@@ -24,7 +23,6 @@ namespace Cats.Models
         public string TypeOfNeedAssessment { get; set; }
         public string Remark { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
-        public virtual ICollection<HRD> HRDs { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
         public virtual ICollection<NeedAssessmentHeader> NeedAssessmentHeaders { get; set; }
