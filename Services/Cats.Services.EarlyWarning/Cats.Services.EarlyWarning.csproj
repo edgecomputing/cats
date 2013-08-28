@@ -31,13 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Web\Bin\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
@@ -103,7 +98,7 @@
     <Compile Include="IShippingInstructionService.cs" />
     <Compile Include="IStateTemplateService.cs" />
     <Compile Include="ITransactionService.cs" />
-    <Compile Include="ITypeOfNeedAssessmentService.cs" />
+    <Compile Include="IUnitService.cs" />
     <Compile Include="IWorkflowStatusService.cs" />
     <Compile Include="NeedAssessmentDetailService.cs" />
     <Compile Include="NeedAssessmentHeaderService.cs" />
@@ -123,7 +118,7 @@
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="StateTemplateService.cs" />
     <Compile Include="TransactionService.cs" />
-    <Compile Include="TypeOfNeedAssessmentService.cs" />
+    <Compile Include="UnitService.cs" />
     <Compile Include="WorkflowStatusService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,7 @@
+﻿table {
+    border: solid 1px darkblue;
+}
+tr.header {
+    background-color: cornflowerblue;
+    height: 200px;
+}

@@ -1,0 +1,77 @@
+﻿@using Kendo.Mvc.UI
+@model Cats.Models.RegionalPSNPPledge
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+<div class="well" style="margin-top: 30px;"><h3>Issue Pledge</h3></div>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.RegionalPSNPPlanDetailID, "Regional PSNP Plan")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionalPSNPPlanDetail",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.Donor)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.DonorID, "Donor")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("DonorID",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.DonorID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.CommodityID, "Commodity")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityID",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Quantity, "Quantity")
+                </div>
+                <div class="controls">
+                    @Html.Editor("Quantity")
+                    @Html.ValidationMessageFor(m=>m.Quantity)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.UnitID, "Unit")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("UnitID",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.UnitID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.PledgeDate,"Pledge Date")
+                </div>
+                <div class="controls">
+                     <input class="cats-datepicker" type="text" id="PledgeDate" name="PledgeDate" />
+                    @Html.HiddenFor(m=>m.PledgeDate)
+                    @Html.ValidationMessageFor(m => m.PledgeDate)
+                </div>
+            </div>
+            <div class="control-group">      
+                <div class="controls">
+                    <input type="submit" value="Issue Pledge" class="btn btn-success" />
+                </div>
+            </div>
+
+        </div>
+    }

@@ -41,11 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSettingService.cs" />
     <Compile Include="BidDetailService.cs" />
     <Compile Include="BidService.cs" />
     <Compile Include="BidWinnerService.cs" />
-    <Compile Include="IApplicationSettingService.cs" />
     <Compile Include="IBidDetailService.cs" />
     <Compile Include="IBidService.cs" />
     <Compile Include="IBidWinnerService.cs" />

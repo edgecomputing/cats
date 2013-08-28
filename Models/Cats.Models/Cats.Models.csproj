@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v11.2, Version=11.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v11.2, Version=11.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework">
       <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -111,6 +113,7 @@
     <Compile Include="Mapping\ReceiptAllocationMap.cs" />
     <Compile Include="Mapping\RegionalPSNPPlanDetailMap.cs" />
     <Compile Include="Mapping\RegionalPSNPPlanMap.cs" />
+    <Compile Include="Mapping\RegionalPSNPPledgeMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
@@ -169,6 +172,7 @@
     <Compile Include="ReceiptAllocation.cs" />
     <Compile Include="RegionalPSNPPlan.cs" />
     <Compile Include="RegionalPSNPPlanDetail.cs" />
+    <Compile Include="RegionalPSNPPledge.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />
     <Compile Include="RegionsViewModel.cs" />
@@ -197,6 +201,7 @@
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />
     <Compile Include="ViewModels\Bid\BidViewModel.cs" />
+    <Compile Include="ViewModels\FDPsCoveredByDonors.cs" />
     <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
     <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
     <Compile Include="ViewModels\RegionalSummaryViewModel.cs" />

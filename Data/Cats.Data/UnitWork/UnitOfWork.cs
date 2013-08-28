@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
+using Cats.Models;
 
 
 namespace Cats.Data.UnitWork
@@ -27,11 +28,26 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Season> seasonRepository;
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
-        private IGenericRepository<Donor> donorRepository; 
+        
         public UnitOfWork()
         {
             this._context = new CatsContext();
+            
         }
+
+        private IGenericRepository<Donor> _donorRepository;
+        public IGenericRepository<Donor> DonorRepository
+        {
+            
+            get { return this._donorRepository ?? (this._donorRepository = new GenericRepository<Donor>(_context)); }
+        }
+
+        private IGenericRepository<RegionalPSNPPledge> _regionalPSNPPledgeRepository;
+        public IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository
+        {
+            get { return this._regionalPSNPPledgeRepository ?? (this._regionalPSNPPledgeRepository = new GenericRepository<RegionalPSNPPledge>(_context)); }
+        }
+       
         private IGenericRepository<BusinessProcessState> _BusinessProcessStateRepository;
         public IGenericRepository<BusinessProcessState> BusinessProcessStateRepository
         {
@@ -615,13 +631,6 @@ namespace Cats.Data.UnitWork
 
 
      
-
-        public IGenericRepository<Donor> DonorRepository
-        {
-
-            get { return this.donorRepository ?? (this.donorRepository = new GenericRepository<Donor>(_context)); }
-
-        }
 
 
 
