@@ -25,6 +25,7 @@
         <li class="active">Create HRD</li>
     </ul>
 }
+@using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
 {
         @Html.ValidationSummary(true)
 

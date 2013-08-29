@@ -95,12 +95,27 @@
                         string separator="";
                         string url = home;
                         
-                        for (int i=1;i<page_url.Length-1;i++) 
+                        for (int i=1;i<page_url.Length;i++) 
                         {
-                            string item =page_url[i];
-                            string urlitem=item.Replace("/","");
-                            url += item;
-                            <li><span class="divider">|</span><a href="@url"> @urlitem </a> </li>
+                            if (i==1)
+                            {
+                                continue;
+                            }
+                            if(i==(page_url.Length-1))
+                            {
+                                string item1 =page_url[i];
+                                string urlitem1=item1.Replace("/","");
+                                url += item1;
+                                <li class="active"><span class="divider">|</span> @urlitem1 </li>
+                            }
+                            else
+                            {
+                                string item =page_url[i];
+                                string urlitem=item.Replace("/","");
+                                url += item;
+                                <li><span class="divider">|</span><a href="@url"> @urlitem </a> </li>
+                            }
+                            
                             
                         }
                         }
