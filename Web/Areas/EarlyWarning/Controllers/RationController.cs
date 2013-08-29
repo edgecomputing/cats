@@ -176,7 +176,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                  RationDetailID = rationDetailViewModel.RationDetailID,
                                  RationID = rationDetailViewModel.RationID,
                                  CommodityID = rationDetailViewModel.CommodityID,
-                                 Amount = rationDetailViewModel.CommodityID,
+                                 Amount = rationDetailViewModel.Amount,
                                  UnitID=rationDetailViewModel.UnitID
                                  
                              };

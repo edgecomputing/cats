@@ -68,7 +68,7 @@
       .Columns(columns =>
       {
           columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-          columns.ForeignKey(p => p.Commodity, (System.Collections.IEnumerable)ViewData["commodities"], "CommodityID", "Name").Width(50);
+          columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable)ViewData["commodities"], "CommodityID", "Name").Width(50);
           //columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
           columns.Bound(p => p.RationID).Width(100).Visible(false);
           columns.Bound(p => p.RationDetailID).Visible(false);

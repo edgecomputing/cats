@@ -993,10 +993,9 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\_BreadCrumb.cshtml" />
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Templates\gift_Certificate.dotx" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
@@ -1007,6 +1006,8 @@
     <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
