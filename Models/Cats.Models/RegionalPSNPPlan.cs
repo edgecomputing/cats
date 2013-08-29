@@ -53,6 +53,6 @@ namespace Cats.Models
         }
         public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
 
-        public ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
+        public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
     }
 }

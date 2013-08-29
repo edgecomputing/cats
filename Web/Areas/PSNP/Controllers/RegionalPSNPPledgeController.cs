@@ -103,7 +103,7 @@ namespace Cats.Areas.PSNP.Controllers
                 //coveredFDPs.Region = woredaAdminUnit.AdminUnit2.AdminUnit2.Name;
                 coveredFDPs.Commodity = _commodityService.FindById(regionalPSNPPledge.Commodity.CommodityID).Name;
                 var regionalPSNPPlan =
-                    _regionalPSNPPlanService.FindById(regionalPSNPPledge.RegionalPSNPPlan.RegionalPSNPPlanID);
+                    _regionalPSNPPlanService.FindById(regionalPSNPPledge.RegionalPSNPPlanID);
                 //var rationDetails = _rationDetailService.Get(t => t.RationID == regionalPSNPPlan.RationID);
                 //var pledge = regionalPSNPPledge;
                 //decimal neededQty = 0;

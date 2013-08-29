@@ -21,11 +21,11 @@
         <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.RegionalPSNPPlanDetailID, "Regional PSNP Plan")
+                    @Html.LabelFor(m => m.RegionalPSNPPlanID, "Regional PSNP Plan")
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("RegionalPSNPPlanDetail",String.Empty)
-                    @Html.ValidationMessageFor(m=>m.Donor)
+                    @Html.DropDownList("RegionalPSNPPlan",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.RegionalPSNPPlanID)
                 </div>
             </div>
             <div class="control-group">
