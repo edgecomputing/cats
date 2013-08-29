@@ -20,14 +20,6 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Request")" title="save"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/EarlyWarning/Request/Index">Request</a> <span class="divider">/</span></li>
-        <li class="active">Create Request</li>
-    </ul>
-}
 @using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
 {
     <div class="form-horizontal well">

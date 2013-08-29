@@ -9,14 +9,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_needassessment"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/EarlyWarning/NeedAssessment/Index">Need Assessment</a> <span class="divider">/</span></li>
-        <li class="active">Create Need Assessment</li>
-    </ul>
-}
+
 <h2 class="well">Create Need Assessment</h2>
 
 @using (Html.BeginForm("Create", "NeedAssessment", FormMethod.Post, new { id = "frm_create_needassessment" }))

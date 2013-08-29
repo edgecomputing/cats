@@ -13,14 +13,6 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_bid"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Bid")"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/Procurement/Bid/Index">Manage Bid</a> <span class="divider">/</span></li>
-        <li class="active">Create Bid</li>
-    </ul>
-}
 <div class="well"><h3>Bid Document</h3></div>
  @using (Html.BeginForm("Create", "Bid", FormMethod.Post, new { id = "frm_create_bid" }))
     {

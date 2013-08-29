@@ -12,14 +12,6 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPledge")" title="save"></a>
 }
 
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/PSNP/RegionalPSNPPledge/Index">Regional PSNP Pledge</a> <span class="divider">/</span></li>
-        <li class="active">Issue Pledge</li>
-    </ul>
-}
 
 <div class="well" style="margin-top: 30px;"><h3>Issue Pledge</h3></div>
     @using (Html.BeginForm("Issue", "RegionalPSNPPledge", FormMethod.Post, new { id = "frm_issue_pledge" }))

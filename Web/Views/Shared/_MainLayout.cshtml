@@ -97,23 +97,21 @@
                         
                         for (int i=1;i<page_url.Length;i++) 
                         {
+                            string item = page_url[i];
+                            string urlitem = item.Replace("/", "");
+                            url += item;
                             if (i==1)
                             {
                                 continue;
                             }
                             if(i==(page_url.Length-1))
                             {
-                                string item1 =page_url[i];
-                                string urlitem1=item1.Replace("/","");
-                                url += item1;
-                                <li class="active"><span class="divider">|</span> @urlitem1 </li>
+                                <li class="active"><span class="divider">></span> @urlitem </li>
                             }
                             else
                             {
-                                string item =page_url[i];
-                                string urlitem=item.Replace("/","");
-                                url += item;
-                                <li><span class="divider">|</span><a href="@url"> @urlitem </a> </li>
+                                
+                                <li><span class="divider">></span><a href="@url"> @urlitem </a> </li>
                             }
                             
                             
@@ -121,7 +119,9 @@
                         }
                             
                             <!--<li><a href="#">Home</a> <span class="divider">/</span></li>
-                            <li class="active">Rations</li>--->
+                                <li class="active">Rations</li>--->
+
+                        </ul>
                     </div>
                     <div class="span5">
                         <div class=" btn-group toolbar">

@@ -13,14 +13,6 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_psnp"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")" title="save"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/PSNP/RegionalPSNPPlan/Index">Regional PSNP Plan</a> <span class="divider">/</span></li>
-        <li class="active">Create Plan</li>
-    </ul>
-}
 <h2>Create</h2>
 <div class="form-horizontal">
     @if (@ViewBag.ErrorMessage1 != null)

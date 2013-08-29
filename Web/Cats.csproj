@@ -755,7 +755,6 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\FDPsCoveredByDonors.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\_RegionalPSNPPledgeLeftBar.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Issue.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
