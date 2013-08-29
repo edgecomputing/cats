@@ -5,12 +5,12 @@
 
 @{
    
-    UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
+    var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     var lang = user.Profile.LanguageCode;
     ViewBag.CurrentUser = user;
-  //  Translator.CurrentLanguage = lang;
- //   Translator.LoadTexts();
+                //  Translator.CurrentLanguage = lang;
+                //   Translator.LoadTexts();
 }
 
 <div class="navbar navbar-fixed-top navbar">
@@ -21,80 +21,83 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="~/">@Translator.Translate("Menu.CATS")</a>
+            <a class="brand" href="~/">CATS</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                   
-                    @if(role=="EW" || role=="SU")
-                    {
-                    <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.HRD")</a></li>
-                    <li><a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.GiftCertificate")</a></li>
-                    <li class="dropdown">
-                        <!--
+                    <!--
                         ************************************************************************************************ 
-                            PLEASE WATCH THE SPACE BETWEEN TOP MENU ITEMS AND THE CARET
+                        PLEASE WATCH THE SPACE BETWEEN TOP MENU ITEMS AND THE CARET
                         ************************************************************************************************
-                        -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Menu.Request") <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.Request.Requests")</a></li>   
-                            <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.Request.Requisitions")</a></li>
-                            <li><a href="@Url.Action("Index","Ration",new {Area="EarlyWarning"})">@Translator.Translate("Menu.Request.Rations")</a></li>
-                            <li><a href="@Url.Action("Index","NeedAssessment",new {Area="EarlyWarning"})">@Translator.Translate("Menu.Request.NeedAssessment")</a></li>
-                            <li class="divider"></li>
+                    -->
+                    <li><a href="~/">Home</a></li>
+                    @if (role == "EW" || role == "SU")
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Early Warning <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.GiftCertificate")</a></li>
+                                <li><a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.GiftCertificate.Template")</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.HRD")</a></li>
+                                <li><a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.Request.NeedAssessment")</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.Request.Requests")</a></li>
+                                <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.Request.Requisitions")</a></li>
+                                <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.Request.Rations")</a></li>
+                                <li class="divider" />
+                                <li><a href="#">@Translator.Translate("Menu.Request.Reports") </a></li>
 
-                            <li><a href="@Url.Action("Index","GiftCertificate",new {Area="EarlyWarning"})">@Translator.Translate("Menu.GiftCertificate.Template")</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">@Translator.Translate("Menu.Request.Reports") </a></li>
+                            </ul>
+                        </li>
 
-                        </ul>
-                    </li>
-                    <li><a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })">@Translator.Translate("Menu.PSNP")</a></li>    
+                        <li><a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })">PSNP</a></li>    
                     }
 
-                    @if(role=="LG" || role=="SU")
+                    @if (role == "LG" || role == "SU")
                     {
-                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Menu.Allocation") <b class="caret"></b></a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logistics <b class="caret"></b></a>
 
-                        <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">@Translator.Translate("Menu.Allocation.ResourceAllocation") </a></li>
-                            <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">@Translator.Translate("Menu.Allocation.TransportOrders") </a></li>
-                        </ul>
-                    </li>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">@Translator.Translate("Menu.Allocation.ResourceAllocation") </a></li>
+                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">@Translator.Translate("Menu.Allocation.TransportOrders") </a></li>
+                                <li class="divider" />
+                                <li><a href="#">@Translator.Translate("Menu.Stock")</a></li>
+
+                            </ul>
+                        </li>
                     }
-                    
-                    <li><a href="#">@Translator.Translate("Menu.Stock")</a></li>
-                    
-                    @if(role=="PC" || role=="SU")
+
+
+                    @if (role == "PC" || role == "SU")
                     {
-                       <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Menu.Tender") <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.ManageBids")</a></li>
-                            <li><a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.BidPlanning")</a></li>
-                            <li class="divider"></li>
-                            <li><a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.TransportSuppliers")</a></li>
-                            <li><a href="@Url.Action("Index", "RFQ", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.TransportSuppliers")RFQ</a></li>
-                            <li><a href="@Url.Action("Index", "PriceQuotation", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.PriceQuotation")</a></li>
-                            <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.DispatchLocations")</a></li>
-                        </ul>
-                    </li>
-                    }                   
-                    
-                 
-                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Menu.Reports") <b class="caret"></b></a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procurement <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.ManageBids")</a></li>
+                                <li><a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.BidPlanning")</a></li>
+                                <li class="divider" />
+                                <li><a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.TransportSuppliers")</a></li>
+                                <li><a href="@Url.Action("Index", "RFQ", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.TransportSuppliers")RFQ</a></li>
+                                <li><a href="@Url.Action("Index", "PriceQuotation", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.PriceQuotation")</a></li>
+                                <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">@Translator.Translate("Menu.Tender.DispatchLocations")</a></li>
+                            </ul>
+                        </li>
+                    }
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a target="_blank" href="@Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP" })">@Translator.Translate("Menu.Reports.NoBeneficiary")</a></li>
-                            
+
                         </ul>
                     </li>
 
-                    @if(role=="SU")
+                    @if (role == "SU")
                     {
-                        <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">@Translator.Translate("Menu.Settings")</a></li>
-                    }                    
+                        <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">Settings</a></li>
+                    }
                 </ul>
                 <ul class="nav pull-right">
                     <li class="divider-vertical"></li>
