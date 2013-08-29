@@ -1,11 +1,16 @@
 ﻿@using System.Collections
 <ul class="nav nav-list">
-    <li class="nav-header">Region:  @ViewData["RegionName"]</li>
+    <li class="nav-header icon-plus">Region:  @ViewData["RegionName"]</li>
+    <li class="divider"></li>
 
-   @foreach (var item in ViewBag.Zones)
-   {
-       <li>@item.Name</li>
-   }
+    @foreach (var item in ViewBag.Zones)
+    {
+        int id = @item.AdminUnitID;
+        <li><a href="#" OnClick="zoneChange(@id);" class="icon-inbox"> @item.Name </a></li>
+    }
    
+    <li class="divider"></li>
+    <li><a href="#" OnClick="zoneChange('');"> Show All Zones </a></li>
     
+  
 </ul>
