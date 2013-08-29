@@ -90,6 +90,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             needAssessment.NeedAApprovedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
             needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
             needAssessment.Season = season;
+            needAssessment.Year = needAssessment.NeedADate.Value.Year;
             needAssessment.TypeOfNeedAssessment = typeOfNeedID;
 
 
