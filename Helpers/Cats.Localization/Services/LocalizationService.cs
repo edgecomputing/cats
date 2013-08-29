@@ -29,7 +29,7 @@ namespace Cats.Localization.Services
             _unitOfWork.LanguageRepositroy.Add(language);
 
             try
-            {
+            {                
                 _unitOfWork.Save();
                 return true;
             }
