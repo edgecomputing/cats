@@ -66,7 +66,7 @@ namespace Cats.Areas.PSNP.Controllers
                 regionalPSNPPlanList.Add(regionalPSNPPlanName);
                 alreadyReadIDs.Add(regionalPSNPPlanDetail.RegionalPSNPPlanID);
             }
-            ViewBag.RegionalPSNPPlanDetail = new SelectList(regionalPSNPPlanList, "", "", regionalPSNPPledge.RegionalPSNPPlanDetailID = 1);
+            ViewBag.RegionalPSNPPlan = new SelectList(regionalPSNPPlanList, "", "", regionalPSNPPledge.RegionalPSNPPlanID = 1);
             ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name");
             ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
             ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name");
@@ -93,27 +93,27 @@ namespace Cats.Areas.PSNP.Controllers
             foreach (var regionalPSNPPledge in regionalPSNPPledges)
             {
                 var coveredFDPs = new FDPsCoveredByDonors();
-                var regionalPSNPPlanDetail =
-                    _regionalPSNPPlanDetailService.FindById(regionalPSNPPledge.RegionalPSNPPlanDetail.RegionalPSNPPlanDetailID);
+                
                 coveredFDPs.Donor = regionalPSNPPledge.Donor.Name;
-                var fdpObj = _fdpService.FindById(regionalPSNPPlanDetail.PlanedFDPID);
-                var woredaAdminUnit = _adminUnitService.FindById(fdpObj.AdminUnitID);
-                coveredFDPs.FDP = fdpObj.Name;
-                coveredFDPs.Woreda = woredaAdminUnit.Name;
-                coveredFDPs.Zone = woredaAdminUnit.AdminUnit2.Name;
-                coveredFDPs.Region = woredaAdminUnit.AdminUnit2.AdminUnit2.Name;
+                //var fdpObj = _fdpService.FindById(regionalPSNPPlanDetail.PlanedFDPID);
+                //var woredaAdminUnit = _adminUnitService.FindById(fdpObj.AdminUnitID);
+                //coveredFDPs.FDP = fdpObj.Name;
+                //coveredFDPs.Woreda = woredaAdminUnit.Name;
+                //coveredFDPs.Zone = woredaAdminUnit.AdminUnit2.Name;
+                //coveredFDPs.Region = woredaAdminUnit.AdminUnit2.AdminUnit2.Name;
                 coveredFDPs.Commodity = _commodityService.FindById(regionalPSNPPledge.Commodity.CommodityID).Name;
-                var regionalPSNPPlan = _regionalPSNPPlanService.FindById(regionalPSNPPlanDetail.RegionalPSNPPlanID);
-                var rationDetails = _rationDetailService.Get(t => t.RationID == regionalPSNPPlan.RationID);
-                var pledge = regionalPSNPPledge;
-                decimal neededQty = 0;
-                const string neededQtyUnit = "";
-                foreach (var rationDetail in rationDetails.Where(rationDetail => rationDetail.CommodityID == pledge.Commodity.CommodityID))
-                {
-                    neededQty = rationDetail.Amount;
-                }
-                coveredFDPs.NeededQty = neededQty.ToString(CultureInfo.InvariantCulture);
-                coveredFDPs.NeededQtyUnit = neededQtyUnit;
+                var regionalPSNPPlan =
+                    _regionalPSNPPlanService.FindById(regionalPSNPPledge.RegionalPSNPPlan.RegionalPSNPPlanID);
+                //var rationDetails = _rationDetailService.Get(t => t.RationID == regionalPSNPPlan.RationID);
+                //var pledge = regionalPSNPPledge;
+                //decimal neededQty = 0;
+                //const string neededQtyUnit = "";
+                //foreach (var rationDetail in rationDetails.Where(rationDetail => rationDetail.CommodityID == pledge.Commodity.CommodityID))
+                //{
+                //    neededQty = rationDetail.Amount;
+                //}
+                //coveredFDPs.NeededQty = neededQty.ToString(CultureInfo.InvariantCulture);
+                //coveredFDPs.NeededQtyUnit = neededQtyUnit;
                 coveredFDPs.PledgedQty = regionalPSNPPledge.Quantity.ToString(CultureInfo.InvariantCulture);
                 coveredFDPs.PledgedQtyUnit = regionalPSNPPledge.Unit.Name;
                 coveredFDPs.PledgeDate = regionalPSNPPledge.PledgeDate.ToString(CultureInfo.InvariantCulture);
@@ -122,10 +122,6 @@ namespace Cats.Areas.PSNP.Controllers
             }
 
             return Json(coveredFDPsList.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult FDPsCoveredByDonors()
-        {
-            return View();
         }
 
         private DateTime GetGregorianDate(string ethiopianDate)

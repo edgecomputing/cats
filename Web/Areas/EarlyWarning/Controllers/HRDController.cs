@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Cats.Areas.EarlyWarning.Models;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
-using Cats.Helpers;
 using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
@@ -322,7 +318,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                 //var commodities = _commodityService.GetCommonCommodity();
                 //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
-
+                var seasonID = hrd.SeasonID;
 
                 hrd.CreatedBY = userid;
                 var seasonId = hrd.SeasonID;
@@ -343,8 +339,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                       WoredaID = detail.AdminUnitID,
                                       StartingMonth = 1,
 
-
-                                  }).ToList();
+                                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int) seasonID, detail.AdminUnitID),
+                                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int) seasonID, detail.AdminUnitID)
+                                 }).ToList();
 
                 hrd.HRDDetails = hrdDetails;
                 _hrdService.AddHRD(hrd);

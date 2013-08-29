@@ -248,4 +248,7 @@
     <None Include="Cats.DatabaseSchema.sqlproj.user" />
     <None Include="Cats.DatabaseSchema.v11.suo" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Cats.DatabaseSchema.refactorlog" />
+  </ItemGroup>
 </Project>

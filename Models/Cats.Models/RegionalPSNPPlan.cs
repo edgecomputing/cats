@@ -52,5 +52,7 @@ namespace Cats.Models
             get { return this.Year + "-" + this.Region.Name; }
         }
         public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
+
+        public ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
     }
 }
