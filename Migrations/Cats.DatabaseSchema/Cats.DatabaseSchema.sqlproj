@@ -230,6 +230,7 @@
     <Build Include="dbo\Tables\RegionalPSNPPledges.sql" />
     <Build Include="EarlyWarning\Tables\TypeOfNeedAssessment.sql" />
     <Build Include="EarlyWarning\Tables\Season.sql" />
+    <Build Include="dbo\Views\vw_NeedAssessment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

@@ -56,6 +56,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return View();
         }
+        public ActionResult Approved()
+        {
+            return View();
+        }
         public ActionResult GetRegions()
         {
           IOrderedEnumerable<RegionsViewModel> regions = _needAssessmentService.GetRegions();
@@ -76,6 +80,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
+       
         [HttpPost]
         public ActionResult AddRegion(NeedAssessment needAssessment,FormCollection collection)
         {
@@ -167,7 +172,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
-       
+        public ActionResult NeedAssessmentReadApproved([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(_needAssessmentService.ReturnViewModelApproved().ToDataSourceResult(request));
+
+        }
+
+        public ActionResult DisapproveNeedAssessment(int id)
+        {
+            var needAssessment = _needAssessmentService.FindById(id);
+            needAssessment.NeedAApproved = false;
+            _needAssessmentService.EditNeedAssessment(needAssessment);
+            return RedirectToAction("Index");
+        }
 
         public ActionResult ApproveNeedAssessment(int id)
         {

@@ -20,7 +20,11 @@
 
 @{var record = 0;}
 
+@section LeftBar{
 
+    @Html.Partial("_NeedAssessmentMainLeftBar");
+}
+ 
 
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
     .Name("grid")
@@ -114,7 +118,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "EditNeedAssessment/" + dataItem.Region;
+        window.location = "NeedAssessment/EditNeedAssessment/" + dataItem.Region;
     }
 </script>
 <script>
