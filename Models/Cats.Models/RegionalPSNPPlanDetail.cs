@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cats.Models;
 
 namespace Cats.Models
 {
@@ -50,6 +51,6 @@ namespace Cats.Models
         [Display(Name = "Item4 Ratio")]
         public int Item4Ratio { get; set; }
 
-
+        public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
     }
 }

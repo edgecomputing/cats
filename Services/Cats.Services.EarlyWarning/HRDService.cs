@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
+using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
 

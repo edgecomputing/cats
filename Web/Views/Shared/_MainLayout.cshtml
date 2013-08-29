@@ -86,6 +86,7 @@
             <div class="span10">
                 <div>
                     <div class="span7">
+                        @RenderSection("Breadcrumb", required: false)
                         <ul class="breadcrumb">
                             <li><a href="~/">Home</a> </li>
                         @{
@@ -105,9 +106,7 @@
                         }
                             
                             <!--<li><a href="#">Home</a> <span class="divider">/</span></li>
-                            <li><a href="#">Request</a> <span class="divider">/</span></li>
                             <li class="active">Rations</li>--->
-                        </ul>
                     </div>
                     <div class="span5">
                         <div class=" btn-group toolbar">

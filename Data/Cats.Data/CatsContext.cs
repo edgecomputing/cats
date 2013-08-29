@@ -16,6 +16,7 @@ namespace Cats.Data
         public CatsContext() : base("Name=CatsContext") { }
 
         // TODO: Add properties to access set of Poco classes
+      public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public DbSet<RegionalRequest> RegionalRequests { get; set; }
         public DbSet<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public DbSet<ReliefRequisition> ReliefRequisitions { get; set; }
@@ -93,11 +94,16 @@ namespace Cats.Data
         public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
         public DbSet<BusinessProcess> BusinessProcesss { get; set; }
         public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
+        public DbSet<AccountTransaction> AccountTransactions { get; set; } 
+
+        public DbSet<TypeOfNeedAssessment> TypeOfNeedAssessment { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new BusinessProcessStateMap());
             //TODO: Add mapping information for each Poco model.
+            modelBuilder.Configurations.Add(new RegionalPSNPPledgeMap());
+
             modelBuilder.Configurations.Add(new BusinessProcessMap());
             modelBuilder.Configurations.Add(new ProcessTemplateMap());
             modelBuilder.Configurations.Add(new StateTemplateMap());
@@ -169,8 +175,10 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new ContributionDetailMap());
             modelBuilder.Configurations.Add(new DonorMap());
 
-            //modelBuilder.Configurations.Add(new AccountTransactionMap());
+            modelBuilder.Configurations.Add(new TypeOfNeedAssessmentMap());
             modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
+            modelBuilder.Configurations.Add(new AccountTransactionMap());
+
 
 
         }

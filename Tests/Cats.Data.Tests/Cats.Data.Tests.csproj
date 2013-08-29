@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServicesTest\EarlyWarning\AccountTransactionServiceTests.cs" />
     <Compile Include="ServicesTest\EarlyWarning\RegionalRequestServiceTest.cs" />
     <Compile Include="ServicesTest\EarlyWarning\ReleifRequisitionServiceTest.cs" />
     <Compile Include="ServicesTest\Logistics\BeneficiaryAllocationServiceTests.cs" />
@@ -80,6 +81,10 @@
     <ProjectReference Include="..\..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
       <Name>Cats.Services.Procurement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

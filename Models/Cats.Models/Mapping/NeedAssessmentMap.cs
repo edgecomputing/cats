@@ -11,10 +11,7 @@ namespace Cats.Models.Mapping
             // Primary Key
             this.HasKey(t => t.NeedAID);
 
-            // Properties
-            this.Property(t => t.Season)
-                .IsRequired()
-                .HasMaxLength(50);
+            
 
             this.Property(t => t.Remark)
                 .HasMaxLength(500);
@@ -40,6 +37,12 @@ namespace Cats.Models.Mapping
             this.HasOptional(t => t.UserProfile1)
                 .WithMany(t => t.NeedAssessments1)
                 .HasForeignKey(d => d.NeedAApprovedBy);
+            this.HasRequired(t => t.Season1)
+                .WithMany(t => t.NeedAssessments)
+                .HasForeignKey(d => d.Season);
+             this.HasOptional(t => t.TypeOfNeedAssessment1)
+                .WithMany(t => t.NeedAssessments)
+                .HasForeignKey(d => d.TypeOfNeedAssessment);
 
         }
     }

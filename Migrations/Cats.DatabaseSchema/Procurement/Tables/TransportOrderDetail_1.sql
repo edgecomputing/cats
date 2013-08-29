@@ -16,7 +16,8 @@
     CONSTRAINT [FK_TransportOrderDetail_Donor] FOREIGN KEY ([DonorID]) REFERENCES [dbo].[Donor] ([DonorID]),
     CONSTRAINT [FK_TransportOrderDetail_FDP] FOREIGN KEY ([FdpID]) REFERENCES [dbo].[FDP] ([FDPID]),
     CONSTRAINT [FK_TransportOrderDetail_Hub] FOREIGN KEY ([SourceWarehouseID]) REFERENCES [dbo].[Hub] ([HubID]),
-    CONSTRAINT [FK_TransportOrderDetail_ReliefRequisition1] FOREIGN KEY ([RequisitionID]) REFERENCES [EarlyWarning].[ReliefRequisition] ([RequisitionID]),
     CONSTRAINT [FK_TransportOrderDetail_TransportOrder] FOREIGN KEY ([TransportOrderID]) REFERENCES [Procurement].[TransportOrder] ([TransportOrderID])
 );
+
+
 

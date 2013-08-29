@@ -5,16 +5,158 @@
     ViewBag.Title = Translator.Translate("Gift Certificate");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_gift"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")" title="save"></a>
+}
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li><a href="~/EarlyWarning/GiftCertificate/Index">Gift Certificate</a> <span class="divider">/</span></li>
+        <li class="active">Create Gift Certificate</li>
+    </ul>
+}
 <h2>@Translator.Translate("New Gift Certificate")</h2>
-<p>
+@*<p>
     @Translator.Translate("Use this form to create new or edit gift certificates.") <span class="required">*</span> @Translator.Translate("marks required fields.")
-</p>
+</p>*@
 @{ViewBag.IsInEditMode = false; }
 
-@Html.Partial("_EditPartial")
+@using (Html.BeginForm("Create", "GiftCertificate", FormMethod.Post, new { id = "frm_create_gift" }))
+{
+    @Html.ValidationSummary(true)
+           
+    @Html.HiddenFor(model => model.GiftCertificateID)
+    @Html.HiddenFor(model => model.rowCount)
+          
+    
+    
+        <h5>@Translator.Translate("Gift Certificate Headers")</h5>
+  
+    <div class="form-horizontal">
+        <table class="borderless" style="vertical-align: top">
+            <tr>
+                <td style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) 
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })    
+                            @Html.ValidationMessageFor(model => model.GiftDate)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport")) 
+                        </div>
+                        <div class="controls">
 
-<div>
-    @Html.ActionLink(Translator.Translate("Back to List"), "Index")
-</div>
-<div class="clear"></div>  
+                            @Html.DropDownList("DModeOfTransport", string.Empty)
+
+                            @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program")) 
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("ProgramID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.ProgramID)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DonorID, Translator.Translate("Donor"))
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("DonorID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.DonorID)
+                        </div>
+                    </div>
+                      <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DeclarationNumber) 
+                        </div>
+                        <div class="controls">
+
+                            @Html.EditorFor(model=>model.DeclarationNumber)
+
+                            @Html.ValidationMessageFor(model => model.DeclarationNumber)
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) 
+                        </div>
+                        <div class="controls">
+
+                            @Html.DropDownList("CommodityTypeID", string.Empty)
+
+                            @Html.ValidationMessageFor(model => model.CommodityTypeID)
+
+                        </div>
+                    </div>
+                </td>
+                <td style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number"))
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.SINumber)
+                            @Html.ValidationMessageFor(model => model.SINumber)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.PortName, Translator.Translate("Port Name"))
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.PortName)
+                            @Html.ValidationMessageFor(model => model.PortName)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) 
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.ReferenceNo)
+                            @Html.ValidationMessageFor(model => model.ReferenceNo)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) 
+                        </div>
+                        <div class="controls">
+                            @Html.EditorFor(model => model.Vessel)
+                            @Html.ValidationMessageFor(model => model.Vessel)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) 
+                        </div>
+
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })    
+                            @Html.ValidationMessageFor(model => model.ETA)
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+     
+
+   }     
+

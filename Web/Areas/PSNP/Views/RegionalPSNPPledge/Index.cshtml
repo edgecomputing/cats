@@ -1,0 +1,51 @@
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.ViewModels.FDPsCoveredByDonors>
+@{
+    ViewBag.Title = "FDPsCoveredByDonors";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Issue", "RegionalPSNPPledge")"></a>
+}
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">Regional PSNP Pledge List</li>
+    </ul>
+}
+
+<div class="well" style="margin-top: 50px;">
+    <div style="width:400px;" align="left">
+        <h2>FDPs Covered By Donors</h2>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<Cats.Models.ViewModels.FDPsCoveredByDonors>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.Donor);
+        columns.Bound(p => p.FDP);
+        columns.Bound(p => p.Commodity);
+        columns.Bound(p => p.NeededQty);
+        columns.Bound(p => p.PledgedQty);
+        columns.Bound(p => p.PledgedQtyUnit);
+        columns.Bound(p => p.PledgeDate).Format("{0:MM/dd/yyyy}");
+        })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:350px;margin-top:10px;" })
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(8)
+            .Read(read => read.Action("FDPsCoveredByDonorsPostBack", "RegionalPSNPPledge"))
+ 
+    )
+   
+)

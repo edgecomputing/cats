@@ -211,6 +211,25 @@
     <Build Include="dbo\Tables\Season_1.sql" />
     <Build Include="dbo\Tables\ContributionDetail.sql" />
     <Build Include="dbo\Tables\Contribution.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPledges.sql" />
+    <Build Include="dbo\Tables\TransportType_1.sql" />
+    <Build Include="dbo\Tables\RRDStatus_1.sql" />
+    <Build Include="dbo\Tables\Round_1.sql" />
+    <Build Include="dbo\Tables\OrganisationAddress_1.sql" />
+    <Build Include="dbo\Tables\Organisation_1.sql" />
+    <Build Include="dbo\Tables\DistributionPlanDetail_1.sql" />
+    <Build Include="dbo\Tables\DistributionPlan_1.sql" />
+    <Build Include="dbo\Tables\DistributionBy_1.sql" />
+    <Build Include="dbo\Tables\CommodityDistributionPlan_1.sql" />
+    <Build Include="dbo\Tables\BidCandidateTransporter_1.sql" />
+    <Build Include="dbo\Tables\AllocationRequestDetail_1.sql" />
+    <Build Include="dbo\Tables\AllocationRequest_1.sql" />
+    <Build Include="dbo\Tables\AidDistributionPlanDetail_1.sql" />
+    <Build Include="dbo\Tables\AidDistributionPlan_1.sql" />
+    <Build Include="dbo\Views\RRDInfo_1.sql" />
+    <Build Include="dbo\Tables\RegionalPSNPPledges.sql" />
+    <Build Include="EarlyWarning\Tables\TypeOfNeedAssessment.sql" />
+    <Build Include="EarlyWarning\Tables\Season.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

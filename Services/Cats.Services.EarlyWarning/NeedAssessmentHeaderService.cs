@@ -91,6 +91,17 @@ namespace Cats.Services.EarlyWarning
             if (userProfile == null) return null;
             return  userProfile.ToList();
         }
+
+        public int GetRegionPrimeryId(int regionId, int season)
+        {
+            return _unitOfWork.NeedAssessmentRepository.FindBy(n => n.Region == regionId && n.Season == season).Select(t=>t.NeedAID).SingleOrDefault();
+        }
+        public int GetZonePrimeryId(int zoneId,int regionId)
+        {
+            return  _unitOfWork.NeedAssessmentHeaderRepository.FindBy(r => r.Zone == zoneId && r.NeedAssessment.Region == regionId).Select(t => t.NAHeaderId).Single();
+            
+        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();

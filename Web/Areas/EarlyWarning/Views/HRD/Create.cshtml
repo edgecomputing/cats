@@ -1,5 +1,4 @@
-﻿
-@using Kendo.Mvc.UI
+﻿@using Kendo.Mvc.UI
 @model Cats.Models.HRD
 
 @{
@@ -12,8 +11,27 @@
     @Html.Partial("_HRDLeftBar");
    
 }
-<div class="well"><h3>Create HRD</h3></div>
-    @using (Html.BeginForm())
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="save"></a>
+}
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li><a href="~/EarlyWarning/HRD/Index">HRD</a> <span class="divider">/</span></li>
+        <li class="active">Create HRD</li>
+    </ul>
+}
+
+<div>
+    <h4>Create HRD</h4>
+</div>
+    @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
+
     {
         @Html.ValidationSummary(true)
 
@@ -48,17 +66,7 @@
                 </div>
         
             </div>
-             <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.NeedAssessmentID,"Need Assessment")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("NeedAssessmentID",String.Empty)
-                    @Html.ValidationMessageFor(m=>m.NeedAssessmentID)
-                </div>
-        
-            </div>
-             <div class="control-group">
+            @* <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")
                 </div>
@@ -68,23 +76,7 @@
                     @Html.ValidationMessageFor(m => m.CreatedDate)
                 </div>
         
-            </div>
-           @* <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.PublishedDate,"Published Date")
-                </div>
-                <div class="controls">
-                     <input class="cats-datepicker" type="text" id="published" name="published" />
-                    @Html.HiddenFor(m=>m.PublishedDate)
-                    @Html.ValidationMessageFor(m=>m.PublishedDate)
-                </div>
-        
             </div>*@
-            <div class="control-group">      
-                <div class="controls">
-                    <input type="submit" value="Create HRD" class="btn btn-success" />
-                </div>
-            </div>
 
         </div>
     }

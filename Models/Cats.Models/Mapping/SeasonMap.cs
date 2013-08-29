@@ -9,8 +9,10 @@ namespace Cats.Models.Mapping
             // Primary Key
             this.HasKey(t => t.SeasonID);
 
-            //// Properties
-            
+            // Properties
+            this.Property(t => t.Name)
+                .IsRequired()
+                .HasMaxLength(50);
 
             // Table & Column Mappings
             this.ToTable("Season");

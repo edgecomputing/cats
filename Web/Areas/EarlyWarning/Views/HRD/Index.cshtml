@@ -5,11 +5,21 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
-<div class="well">
-    <h4 class="page-header">List of HRD</h4>
-    <div align="right">
-        <a href="HRD/Create" class="btn btn-success">Create New HRD</a>
-    </div>
+
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+}
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">HRD</li>
+    </ul>
+}
+<div>
+    <h4>List of HRD</h4>
 </div>
 
 <div id="modalWindow">
@@ -141,4 +151,4 @@
             alert(message);
         }
     }
-</script>
+</script></div>

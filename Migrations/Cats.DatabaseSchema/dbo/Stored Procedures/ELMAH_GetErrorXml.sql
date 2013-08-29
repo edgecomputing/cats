@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[ELMAH_GetErrorXml]
+﻿CREATE PROCEDURE [dbo].[ELMAH_GetErrorXml]
 (
     @Application NVARCHAR(60),
     @ErrorId UNIQUEIDENTIFIER
@@ -11,8 +10,8 @@ AS
     SELECT 
         [AllXml]
     FROM 
-        [ELMAH_Error]
+        [ErrorLog]
     WHERE
-        [ErrorId] = @ErrorId
+        [ErrorLogID] = @ErrorId
     AND
         [Application] = @Application

@@ -5,7 +5,17 @@
     ViewBag.Title = "Create Bid";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Bid")"></a>
+}
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">Manage Bid</li>
+    </ul>
+}
 <div id="modalWindow">
     <h2>Approve Bid?</h2>
     <button id="yes" class="k-button">Yes</button>
@@ -48,10 +58,7 @@ $(document).ready(function () {
     }
 </script>
 <div class="well">
-    <h4 class="page-header">Bid For Transporters</h4>
-    <div align="right">
-        <a href="Create" class="btn btn-success">Create New Bid</a>
-    </div>
+    <h4 class="">Bid For Transporters</h4>
 </div>
 
 @section LeftBar

@@ -95,5 +95,10 @@ namespace Cats.Models
         //Round
         [Display(Name = "Round")]
         public Nullable<int> Round { get; set; }
+
+        public int DonorID { get; set; }
+        public int GiftTypeID { get; set; }
+        public int CommoditySourceID { get; set; }
+
     }
 }

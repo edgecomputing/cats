@@ -33,8 +33,8 @@ namespace Cats.Models
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
         public virtual Ration Ration { get; set; }
-       
-  
+        public string MonthName { get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Month); } }
+ 
         
     }
 }

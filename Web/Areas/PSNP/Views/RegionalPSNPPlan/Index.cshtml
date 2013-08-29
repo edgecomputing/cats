@@ -86,11 +86,11 @@
 <!--                            <li class="divider"></li>
                             @if (state.AllowedAccessLevel > 1)
                             {
-                                <li>@Html.ActionLink("Edit", "#")</li>
+                                <li>@Html.ActionLink("Edit", "Edit")</li>
                             }
                             @if (state.AllowedAccessLevel >= 1)
                             {
-                                <li>@Html.ActionLink("Details", "#")</li>
+                                <li>@Html.ActionLink("Details", "Details")</li>
                             }
     -->
                         </ul>
@@ -112,7 +112,6 @@
     <div class="modal-footer">
             <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager",id="0" })">View History</a>
         </div>
-</div>
 
 @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 <script>

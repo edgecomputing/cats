@@ -15,8 +15,20 @@
     @Html.Partial("_RegionalRequestLeftBar")
 
 }
-
-@using (Html.BeginForm())
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Request")" title="save"></a>
+}
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li><a href="~/EarlyWarning/Request/Index">Request</a> <span class="divider">/</span></li>
+        <li class="active">Create Request</li>
+    </ul>
+}
+@using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
 {
     <div class="form-horizontal well">
         <fieldset>
@@ -27,7 +39,7 @@
                     @Html.LabelFor(model => model.RegionID, "Region")
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("RegionID",string.Empty)
+                    @Html.DropDownList("RegionID", string.Empty)
                     @Html.ValidationMessageFor(model => model.RegionID)
                 </div>
             </div>
@@ -99,10 +111,6 @@
                     @Html.EditorFor(model => model.Remark)
                     @Html.ValidationMessageFor(model => model.Remark)
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                <input type="submit" value="Create" class="btn btn-success"/></div>
             </div>
         </fieldset>
 

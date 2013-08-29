@@ -15,7 +15,7 @@ namespace Cats.Models
 
         public int NeedAID { get; set; }
        
-        public string Season { get; set; }
+        public int Season { get; set; }
         public System.DateTime NeedADate { get; set; }
         public Nullable<int> NeedACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }
