@@ -34,10 +34,15 @@ namespace Cats.Services.EarlyWarning
             return false;
         }
 
-        public BusinessProcess CreateBusinessProcess(int templateID, int DocumentID, string DocumentType)
+        public BusinessProcess CreateBusinessProcess(int templateID, int DocumentID, string DocumentType, BusinessProcessState StartingState)
         {
+            StateTemplate startingTemplate=_unitOfWork.StateTemplateRepository.FindBy(s => s.ParentProcessTemplateID == templateID && s.StateType == 0).Single();
             BusinessProcess bp = new BusinessProcess { ProcessTypeID = templateID, DocumentID = DocumentID, DocumentType = DocumentType };
             Add(bp);
+            StartingState.ParentBusinessProcessID = bp.BusinessProcessID;
+            StartingState.StateID = startingTemplate.StateTemplateID;
+            PromotWorkflow(StartingState);
+                            
             return bp;
         }
         public bool Add(BusinessProcess item)

@@ -51,7 +51,7 @@ namespace Cats.Areas.WorkflowManager.Controllers
         public void loadLookups()
         {
 
-            ViewData["StateTemplateList"] = _StateTemplateService.GetAll();
+            
 
             ViewData["StateTemplateList"] = _StateTemplateService.GetAll();
 
@@ -64,10 +64,19 @@ namespace Cats.Areas.WorkflowManager.Controllers
             return View(list);
 
         }
-        public ActionResult ReadKendo([DataSourceRequest] DataSourceRequest request)
+        public ActionResult ReadKendo([DataSourceRequest] DataSourceRequest request, int ProcessTemplateID=0)
         {
-            IEnumerable<FlowTemplate> list = _FlowTemplateService.GetAll();
-            return Json(toFlowTemplatePOCOList(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            IEnumerable<FlowTemplate> list;
+            if(ProcessTemplateID==0)
+            {
+              list  = _FlowTemplateService.GetAll();
+            }
+            else
+            {
+                list = _FlowTemplateService.FindBy(t=>t.InitialState.ParentProcessTemplateID==ProcessTemplateID);
+            }
+
+                return Json(toFlowTemplatePOCOList(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         //
         // GET: /Workflow/FlowTemplate/Create

@@ -48,7 +48,8 @@ namespace Cats.Areas.WorkflowManager.Controllers
                         ,
                         DocumentType = item.DocumentType
                         ,
-                        CurrentStateID = item.CurrentStateID
+                        CurrentStateID = item.CurrentStateID,
+                        CurrentStateName=item.CurrentState.BaseStateTemplate.Name
                     }
                     );
         }
@@ -132,8 +133,26 @@ namespace Cats.Areas.WorkflowManager.Controllers
 
             return View(item);
         }
+        public ActionResult Details(int id = 0)
+        {
+            BusinessProcess item = _BusinessProcessService.FindById(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
+            return View(item);
+        }
+        public ActionResult History(int id = 0)
+        {
+            BusinessProcess item = _BusinessProcessService.FindById(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
 
+            return View(item);
+        }
         //
         // POST:  /Cats/BusinessProcess/Edit/5
 
