@@ -1,0 +1,46 @@
+﻿@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+@model  List<Cats.Models.Contribution>
+
+
+@{
+    ViewBag.Title = "ContributionSummary";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Contribution")"></a>
+}
+<div>
+    <h3>Summary for  </h3>
+</div>
+@section LeftBar{
+
+    @Html.Partial("_ContributionLeftBar");
+}
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionSummaryViewModel>()
+          
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.Donor);
+            columns.Bound(p => p.Commodity);
+            columns.Bound(p => p.Ammount);
+       
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+           //.Aggregates(aggregates =>aggregates.Add(p => p.Commodity).Sum())
+           //.Aggregates(aggregates =>aggregates.Add(p => p.Ammount).Sum())
+          .PageSize(12)
+              .Model(model => model.Id(p => p.ContributionID))
+            .Read(read => read.Action("ContributionSummary_Read", "Contribution",new{id=Model.First().Year}))
+ 
+     )
+   
+      )
+
+

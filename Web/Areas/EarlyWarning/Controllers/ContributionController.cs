@@ -189,5 +189,40 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
+            var contribution = _contributionService.Get(m => m.Year == id, null, "ContributionDetails").LastOrDefault();
+
+            if (contribution != null)
+            {
+                var detailsToDisplay = GetSummary(contribution).ToList();
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult ContributionSummary(int id)
+        {
+            var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
+            return View(contribution);
+        }
+        private IEnumerable<ContributionSummaryViewModel> GetSummary(Contribution contribution)
+        {
+            var details = contribution.ContributionDetails;
+            return (from summary in details
+                    select new ContributionSummaryViewModel
+                        {
+                            ContributionID = summary.ContributiionID,
+                            HRDID = summary.Contribution.HRDID,
+                            DonorID = summary.Contribution.DonorID,
+                            Donor = summary.Contribution.Donor.DonorCode,
+                            CommodityID = summary.CommodityID,
+                            Commodity = summary.Commodity.Name,
+                            Ammount = summary.Quantity
+                                                
+                        });
+        }
     }
 }
