@@ -155,10 +155,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)//, string season)
         {
-            return Json(_needAssessmentService.ReturnNeedAssessmentDetailViewModel(region).ToDataSourceResult(request));
+            return Json(_needAssessmentService.ReturnNeedAssessmentDetailViewModel(region).ToDataSourceResult(request),JsonRequestBehavior.AllowGet);
           
 
         }
+
+       
 
         public ActionResult ApproveNeedAssessment(int id)
         {

@@ -68,14 +68,17 @@
     )
 )
 
-<script>
-    function zoneChange() {
-        var value = this.value(),
-		 	 grid = $("#grid").data("kendoGrid");
+<script>    
+ 
+   
+    function zoneChange(value) {
+       
+       
+           var grid = $("#grid").data("kendoGrid");
 
         if (value) {
            
-            grid.dataSource.filter({ field: "Zone", operator: "eq", value: parseInt(value) });
+            grid.dataSource.filter({ field: "Zone", operator: "eq", value: value });
         } else {
             grid.dataSource.filter({});
         }
