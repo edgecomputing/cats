@@ -189,38 +189,42 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+         [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? year)
         {
-            var contribution = _contributionService.Get(m => m.Year == id, null, "ContributionDetails").LastOrDefault();
+            int contributionYear = year ?? 0;
+            var contribution = _contributionService.Get(m => m.Year == contributionYear, null, "ContributionDetails");
+            //var contribution = _contributionService.GetAllContribution();
 
             if (contribution != null)
             {
                 var detailsToDisplay = GetSummary(contribution).ToList();
-                return Json(detailsToDisplay.ToDataSourceResult(request));
+                return Json(detailsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
 
 
-        public ActionResult ContributionSummary(int id)
+        public ActionResult ContributionSummary()
         {
-            var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
-            return View(contribution);
+            //var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
+            //return View(contribution);
+            ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "contributionID", "Year");
+            return View();
         }
-        private IEnumerable<ContributionSummaryViewModel> GetSummary(Contribution contribution)
+        private IEnumerable<ContributionSummaryViewModel> GetSummary(IEnumerable<Contribution> contribution)
         {
-            var details = contribution.ContributionDetails;
-            return (from summary in details
+            //var details = contribution.ContributionDetails;
+            return (from summary in contribution
                     select new ContributionSummaryViewModel
                         {
-                            ContributionID = summary.ContributiionID,
-                            HRDID = summary.Contribution.HRDID,
-                            DonorID = summary.Contribution.DonorID,
-                            Donor = summary.Contribution.Donor.DonorCode,
-                            CommodityID = summary.CommodityID,
-                            Commodity = summary.Commodity.Name,
-                            Ammount = summary.Quantity
+                            ContributionID = summary.ContributionDetails.First().ContributiionID,
+                            HRDID = summary.HRDID,
+                            DonorID = summary.DonorID,
+                            Donor = summary.Donor.DonorCode,
+                            CommodityID = summary.ContributionDetails.First().CommodityID,
+                            Commodity = summary.ContributionDetails.First().Commodity.Name,
+                            Ammount = summary.ContributionDetails.First().Quantity
                                                 
                         });
         }

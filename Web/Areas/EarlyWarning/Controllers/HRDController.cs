@@ -321,17 +321,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 hrd.CreatedBY = userid;
                 var seasonId = hrd.SeasonID;
-                //var hrdDetails = new List<HRDDetail>();
-                //foreach (var adminUnit in woredas)
-                //{
-                   
-                //    var detail = new HRDDetail();
-                //    detail.WoredaID = adminUnit.AdminUnitID;
-                //    detail.StartingMonth = 1;
-                //    detail.NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, "Meher", adminUnit.AdminUnitID);
-                //    detail.DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, "Meher", adminUnit.AdminUnitID);
-                //    hrdDetails.Add(detail);
-                //}
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {
