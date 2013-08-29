@@ -777,6 +777,7 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Print.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
