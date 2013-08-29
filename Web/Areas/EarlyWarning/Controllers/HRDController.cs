@@ -320,16 +320,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                 //var commodities = _commodityService.GetCommonCommodity();
                 //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
+                var seasonID = hrd.SeasonID;
                 hrd.CreatedBY = userid;
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {
                                       WoredaID = detail.AdminUnitID,
                                       StartingMonth = 1,
-                                      NumberOfBeneficiaries =2,
-                                      //_needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo( hrd.Year,hrd.Season.Name,detail.AdminUnitID),
-                                      DurationOfAssistance = 2
-                                      //_needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, hrd.Season.Name, detail.AdminUnitID)
+                                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int) seasonID, detail.AdminUnitID),
+                                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int) seasonID, detail.AdminUnitID)
 
 
                                   }).ToList();
