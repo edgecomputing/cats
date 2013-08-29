@@ -6,6 +6,7 @@ namespace Cats.Models
 {
     public class BusinessProcess
     {
+        
         public int BusinessProcessID { get; set; }
         //Fields
 
@@ -55,5 +56,7 @@ namespace Cats.Models
         [Display(Name = "CurrentState ID")]
         public int CurrentStateID { get; set; }
 
+        [Display(Name = "CurrentStat")]
+        public string CurrentStateName { get; set; }
     }
 }

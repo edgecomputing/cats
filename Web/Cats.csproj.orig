@@ -53,6 +53,12 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.2.0.1\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator">
+      <HintPath>..\packages\FluentMigrator.1.1.0.0\lib\40\FluentMigrator.dll</HintPath>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
@@ -176,6 +182,11 @@
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateDetailsViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
@@ -220,6 +231,7 @@
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
@@ -243,16 +255,34 @@
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
-    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs" />
-    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs" />
-    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs" />
-    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs" />
-    <Compile Include="Infrastructure\Helpers\RequestHelper.cs" />
-    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs" />
-    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="HRDDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Infrastructure\ReportHelper.cs" />
-    <Compile Include="Models\CatsContextPSNP.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -268,7 +298,6 @@
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Microsoft.Office.Interop.Word.dll" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -492,6 +521,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\slider-v.gif" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
+    <Content Include="Content\PrintReport.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -572,6 +602,7 @@
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\cats-print-script.js" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
@@ -657,7 +688,6 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Promot.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
@@ -705,13 +735,29 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Print.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsc">
+      <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
+    </Content>
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_listKendo.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
+    <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>HRDDatasetForPrint.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xss">
+      <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
+    </Content>
     <Content Include="Areas\EarlyWarning\Views\HRD\RegionalSummary.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\FDPsCoveredByDonors.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\_RegionalPSNPPledgeLeftBar.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Issue.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
@@ -719,12 +765,25 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Details.cshtml" />
-    <Content Include="Areas\GiftCertificate\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Details.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\_PSNPDetailLeftBar.cshtml" />
+=======
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddZone.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Print.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
+>>>>>>> f917e22e7e6480041f6446e54092a9b021d62c0b
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -733,19 +792,27 @@
     <Content Include="CTSDataSet.xss">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="HRDDataSet.xsc">
+      <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="HRDDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>HRDDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="HRDDataSet.xss">
+      <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
-
     <Content Include="Scripts\js\CatsUI.js" />
-
     <Content Include="Scripts\js\exporting.js" />
     <Content Include="Scripts\js\highcharts-more.js" />
     <Content Include="Scripts\js\highcharts-more.src.js" />
     <Content Include="Scripts\js\highcharts.js" />
     <Content Include="Scripts\js\highcharts.src.js" />
-
     <Content Include="Scripts\js\humanity.calendars.picker.css" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
     <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
@@ -941,15 +1008,19 @@
     <Content Include="Templates\gift_Certificate.dotx" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
-    <Content Include="Views\Dashboard\PieRequests.cshtml" />
-    <Content Include="Views\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\_PieRequests.cshtml" />
     <Content Include="Views\Shared\_promotWorkflow.cshtml" />
     <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
+<<<<<<< HEAD
+=======
+    <Content Include="Views\Shared\_Requests.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml" />
+>>>>>>> f917e22e7e6480041f6446e54092a9b021d62c0b
+    <Content Include="Views\Shared\_MainLayout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -960,7 +1031,12 @@
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
+<<<<<<< HEAD
+=======
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
+    <Folder Include="bin\" />
+    <Folder Include="Views\Dashboard\" />
+>>>>>>> f917e22e7e6480041f6446e54092a9b021d62c0b
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1016,6 +1092,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
