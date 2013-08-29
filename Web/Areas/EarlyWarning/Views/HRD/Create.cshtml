@@ -25,9 +25,7 @@
         <li class="active">Create HRD</li>
     </ul>
 }
-<div class="well"><h3>Create HRD</h3></div>
-    @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
-    {
+{
         @Html.ValidationSummary(true)
 
         <div class="well form-horizontal">

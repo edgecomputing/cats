@@ -11,6 +11,7 @@ namespace Cats.Models
         public int Woreda  { get; set; }
         public string WoredaName { get; set; }
         public int Zone { get; set; }
+        public string ZoneName {get; set; }
         public int NeedAID  { get; set; }
 
         public int NAId { get; set; }
