@@ -43,11 +43,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
-        public ActionResult _Index(int id)
+        public ActionResult _Index(int id, int typeOfNeed)
         {
+            ViewData["TypeOfNeedAssessment"] =
+                _typeOfNeedAssessmentService.FindBy(t => t.TypeOfNeedAssessmentID == typeOfNeed).Select(
+                    a => a.TypeOfNeedAssessment1).SingleOrDefault();
+
             ViewData["region"] = id;
             ViewData["RegionName"] = _adminUnitService.FindBy(r => r.AdminUnitID == id).Select(n=>n.Name).Single();
-           
+            
             ViewBag.Zones = _adminUnitService.GetZones(id).ToList();
 
             return View();
@@ -97,7 +101,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     
             }
             int regionId = needAssessment.Region;
-            return RedirectToAction("_Index", new {id = regionId});
+            int typeOfNeedAsseessment = (int) needAssessment.TypeOfNeedAssessment;
+
+            return RedirectToAction("_Index", new { id = regionId, typeOfNeed = typeOfNeedAsseessment });
         }
 
         public ActionResult AddZone()
@@ -171,8 +177,36 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult EditNeedAssessment(int id)
         {
-            return RedirectToAction("_Index", new { id = id });
+            try
+            {
+                var needAssessment = _needAssessmentService.FindBy(r => r.Region == id).Single();
+                int typeOfNeedAsseessment = (int)needAssessment.TypeOfNeedAssessment;
+                return RedirectToAction("_Index", new { id = id, typeOfNeed = typeOfNeedAsseessment });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+            
+           
         }
+
+        public ActionResult DeleteNeedAssessment(int id)
+        {
+            try
+            {
+               
+             _needAssessmentService.DeleteById(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+
+
+        }
+
         //
         // GET: /EarlyWarning/NeedAssessment/Details/5
 

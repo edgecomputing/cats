@@ -10,13 +10,7 @@
 
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddRegion", "NeedAssessment")"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li class="active">Need Assessment</li>
-    </ul>
-}
+
 
 <fieldset>
     <legend>
@@ -34,14 +28,14 @@
 
     {
         columns.Bound(p => p.RegionName);
-        columns.Bound(p => p.Season).Visible(true).Width(100);
+        columns.Bound(p => p.SeasonName).Visible(true).Width(100);
         columns.Bound(p => p.NeedADate).Format("{0:dd/mm/yyyy}");
         columns.Bound(p => p.NeedACreaterName).Width(100);
         columns.Command(p =>
         {
             p.Custom("Edit").Click("NeedAssessmentEdit");
             p.Custom("Approve").Click("approveNeedAssessment");
-          
+            p.Custom("Delete").Click("DeleteNeedAssessment");
 
         });
     })
@@ -120,7 +114,26 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "NeedAssessment/EditNeedAssessment/" + dataItem.Region;
+        window.location = "EditNeedAssessment/" + dataItem.Region;
+    }
+</script>
+<script>
+    function DeleteNeedAssessment(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wn.center().open();
+        $("#yesDelete").click(function () {
+            window.location = "NeedAssessment/DeleteNeedAssessment/" + dataItem.NeedAID;
+            wn.close();
+        });
+
+        $("#noDelete").click(function () {
+            wn.close();
+        });
+        
+       
+        
     }
 </script>
 <script>
@@ -156,4 +169,26 @@
             width: 300
         }).data("kendoWindow");
     });
+    
+
+</script>
+
+<div id="modalWindowDelete">
+    <h6>Delete Need Assessment?<br/>This will delete all the related records with this Region!</h6>
+    <button id="yesDelete" class="k-button">Yes</button>
+    <button id="noDelete" class="k-button">No</button>
+</div>
+<script>
+    var wn;
+    $(document).ready(function () {
+        wn = $("#modalWindowDelete").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+
+
 </script>

@@ -8,7 +8,14 @@
     @Html.Partial("_NeedAssessmentLeftBar");
 }
  
-@Html.ActionLink("Index","Index","NeedAssessment",new {})
+<fieldset>
+    <legend>
+        Region:  @ViewData["RegionName"] <br/>
+        Need assessment entry for: @ViewData["TypeOfNeedAssessment"]
+        <br/>
+    </legend>
+</fieldset>
+
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentWoredaDao>()
     .Name("grid")
     .Columns(columns =>
@@ -44,7 +51,7 @@
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .DataSource(dataSource => dataSource
         .Ajax()
-        
+          
         .Aggregates(aggregates =>
         {
             aggregates.Add(p => p.PSNPFromWoredasMale).Sum();
@@ -59,6 +66,10 @@
        .Group(groups => groups.Add(p => p.ZoneName))
        .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["region"].ToString())}))
        .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
+       //.Events(events => {
+       //         //events.Error("griderrorHandler");
+       //         events.RequestEnd("onRequestEnd");
+       //     })
        .Model(model =>
                               {
                                   model.Id(p => p.NAId);
@@ -89,7 +100,7 @@
 
     $('#batchEdit').click(function () {
         if (this.checked) {
-            alert("checked");
+           
             $("#dropdown").style.display = 'none';
         } else {
             alert("unchecked");
@@ -152,4 +163,19 @@
             alert(message);
         }
     }
+    
+
+    function onRequestEnd(e) {
+        debugger;
+        if (e.type == "update" && !e.response.Errors) {
+            alert("Update record is successfull");
+        }
+        alert("type:  " + e.type);
+        if (e.type == "create" && !e.response.Errors) {
+            alert("Create record is successfull");
+        }
+    }
+    
+   
 </script>
+
