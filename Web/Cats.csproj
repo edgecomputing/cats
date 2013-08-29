@@ -744,6 +744,7 @@
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_listKendo.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

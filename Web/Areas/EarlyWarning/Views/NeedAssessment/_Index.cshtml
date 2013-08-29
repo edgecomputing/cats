@@ -3,7 +3,10 @@
     
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section LeftBar{
 
+    @Html.Partial("_NeedAssessmentLeftBar");
+}
  
 @Html.ActionLink("Index","Index","NeedAssessment",new {})
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentWoredaDao>()
@@ -52,6 +55,7 @@
         .Batch(true)
         .PageSize(20)
         .ServerOperation(false)
+        .Events(events => events.Error("error_handler"))
        .Group(groups => groups.Add(p => p.ZoneName))
        .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["region"].ToString())}))
        .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
@@ -112,7 +116,7 @@
     }
 </style>
 
- @*.ToolBar(toolbar =>
+@*.ToolBar(toolbar =>
     {
        
         toolbar.Template(@<text>
@@ -131,3 +135,18 @@
                               
         </text>);
     })*@
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

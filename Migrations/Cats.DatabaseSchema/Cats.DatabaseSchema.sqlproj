@@ -233,5 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
+    <None Include="Script.TypeOfNeedAssessment.sql" />
+    <None Include="Script.Season.sql" />
   </ItemGroup>
 </Project>

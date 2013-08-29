@@ -46,6 +46,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult _Index(int id)
         {
             ViewData["region"] = id;
+            ViewData["RegionName"] = _adminUnitService.FindBy(r => r.AdminUnitID == id).Select(n=>n.Name).Single();
+           
+            ViewBag.Zones = _adminUnitService.GetZones(id).ToList();
+
             return View();
         }
         public ActionResult GetRegions()
