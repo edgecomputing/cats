@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
+using Cats.Helpers;
 using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
@@ -18,7 +21,7 @@ using ReportManagement;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
-    public class HRDController : PdfViewController
+    public class HRDController :Controller
     {
         //
         // GET: /EarlyWarning/HRD/
@@ -321,7 +324,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 //var commodities = _commodityService.GetCommonCommodity();
                 //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
                 var seasonID = hrd.SeasonID;
+
                 hrd.CreatedBY = userid;
+                var seasonId = hrd.SeasonID;
+                //var hrdDetails = new List<HRDDetail>();
+                //foreach (var adminUnit in woredas)
+                //{
+                   
+                //    var detail = new HRDDetail();
+                //    detail.WoredaID = adminUnit.AdminUnitID;
+                //    detail.StartingMonth = 1;
+                //    detail.NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, "Meher", adminUnit.AdminUnitID);
+                //    detail.DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, "Meher", adminUnit.AdminUnitID);
+                //    hrdDetails.Add(detail);
+                //}
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {
@@ -370,7 +386,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var allHrd = _hrdService.GetAllHRD();
             var hrdViewModel = GetHrds(allHrd);
-            return ViewPdf("HRD report", "Print", hrdViewModel);
+            return View();//ViewPdf("HRD report", "Print", hrdViewModel);
         }
 
         public ActionResult ApproveHRD(int id)

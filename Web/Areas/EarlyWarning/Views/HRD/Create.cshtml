@@ -11,6 +11,7 @@
     @Html.Partial("_HRDLeftBar");
    
 }
+
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
@@ -25,7 +26,10 @@
         <li class="active">Create HRD</li>
     </ul>
 }
-<div><h3>Create HRD</h3></div>
+
+<div>
+    <h4>Create HRD</h4>
+</div>
     @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
 
     {

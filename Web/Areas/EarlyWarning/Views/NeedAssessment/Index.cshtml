@@ -7,6 +7,7 @@
 
 @section Toolbar
 {
+
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddRegion", "NeedAssessment")"></a>
 }
 @section Breadcrumb
@@ -17,9 +18,6 @@
     </ul>
 }
 
-    <h4 class="well">Create new Need Assessment</h4>
-    
-
 <fieldset>
     <legend>
         Beneficiary numbers and duration of assisstance
@@ -28,15 +26,24 @@
 
 @{var record = 0;}
 
-@(Html.Kendo().Grid<NeedAssessmentHeaderViewModel>()
 
-    .Name("NA").Columns(columns =>
+
+@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+
     {
         columns.Bound(p => p.RegionName);
         columns.Bound(p => p.Season).Visible(true).Width(100);
         columns.Bound(p => p.NeedADate).Format("{0:dd/mm/yyyy}");
         columns.Bound(p => p.NeedACreaterName).Width(100);
-        
+        columns.Command(p =>
+        {
+            p.Custom("Edit").Click("NeedAssessmentEdit");
+            p.Custom("Approve").Click("approveNeedAssessment");
+          
+
+        });
     })
     .ToolBar(toolbar =>
     {
@@ -107,3 +114,46 @@
         float: right;
     }
 </style>
+
+<script>
+    function NeedAssessmentEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "NeedAssessment/EditNeedAssessment/" + dataItem.Region;
+    }
+</script>
+<script>
+
+    function approveNeedAssessment(e) {
+        e.preventDefault();
+       
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.center().open();
+        $("#yes").click(function () {
+            window.location = "NeedAssessment/ApproveNeedAssessment/" + dataItem.NeedAID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+<div id="modalWindow">
+    <h6>Approve Need Assessment?</h6>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>

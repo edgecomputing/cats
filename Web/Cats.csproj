@@ -255,18 +255,32 @@
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
-    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs" />
-    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs" />
-    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs" />
-    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs" />
-    <Compile Include="Infrastructure\Helpers\RequestHelper.cs" />
-    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs" />
-    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\CatsContextPSNP.cs" />
@@ -753,19 +767,17 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Details.cshtml" />
-    <Content Include="Areas\GiftCertificate\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddZone.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
-
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Print.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -997,6 +1009,9 @@
     <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1034,10 +1049,6 @@
     <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PdfReportGenerator\PdfReportGenerator.csproj">
-      <Project>{df00196a-3b96-4bcd-8c4e-879db8edfe95}</Project>
-      <Name>PdfReportGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>

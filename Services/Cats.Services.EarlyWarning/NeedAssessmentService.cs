@@ -65,7 +65,7 @@ namespace Cats.Services.EarlyWarning
 
         public IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModel()
         {
-            var needAssessment = _unitOfWork.NeedAssessmentRepository.GetAll().ToList();
+            var needAssessment = _unitOfWork.NeedAssessmentRepository.Get(g => g.NeedAApproved == false); //featch unapproved need assessments
             return needAssessment.Select(need =>  new NeedAssessmentHeaderViewModel()
                                                                               {
                                                                                   NeedAID = need.NeedAID,
@@ -106,6 +106,7 @@ namespace Cats.Services.EarlyWarning
                                                          WoredaName =  adminUnit.AdminUnit.Name,
                                                          Woreda = adminUnit.AdminUnit.AdminUnitID,
                                                          Zone = (int) adminUnit.AdminUnit.ParentID,
+                                                         ZoneName = adminUnit.NeedAssessmentHeader.AdminUnit.Name,
                                                          ProjectedMale = adminUnit.ProjectedMale,
                                                          ProjectedFemale = adminUnit.ProjectedFemale,
                                                          RegularPSNP = adminUnit.RegularPSNP,

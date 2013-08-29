@@ -9,17 +9,17 @@ namespace Cats.Services.EarlyWarning
 {
     public interface ITransactionService
     {
-        bool Addtransaction(Transaction transaction);
-        bool EditTransaction(Transaction transaction);
-        bool DeleteTransaction(Transaction transaction);
+        bool Addtransaction(Cats.Models.Transaction transaction);
+        bool EditTransaction(Cats.Models.Transaction transaction);
+        bool DeleteTransaction(Cats.Models.Transaction transaction);
         bool DeleteById(int id);
-        List<Transaction> GetAllTransaction();
-        Transaction FindById(int id);
-        List<Transaction> FindBy(Expression<Func<Transaction, bool>> predicate);
+        List<Cats.Models.Transaction> GetAllTransaction();
+        Cats.Models.Transaction FindById(int id);
+        List<Cats.Models.Transaction> FindBy(Expression<Func<Cats.Models.Transaction, bool>> predicate);
 
-        IEnumerable<Transaction> Get(
-            Expression<Func<Transaction, bool>> filter = null,
-            Func<IQueryable<Transaction>, IOrderedQueryable<Transaction>> orderBy = null,
+        IEnumerable<Cats.Models.Transaction> Get(
+            Expression<Func<Cats.Models.Transaction, bool>> filter = null,
+            Func<IQueryable<Cats.Models.Transaction>, IOrderedQueryable<Cats.Models.Transaction>> orderBy = null,
             string includeProperties = "");
 
         List<ProjectCode> getAllProjectByHubCommodity(int hubId, int commodityId);
