@@ -1,0 +1,141 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Models.PSNP
+@using Cats.Models
+@model IEnumerable<RegionalPSNPPlan>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var index = 0;
+}
+@section LeftBar
+{
+    @Html.Partial("_PSNPLeftBar");
+}
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "RegionalPSNPPlan")"></a>
+
+}
+<h3>List of PSNP Plans</h3>
+
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>Program
+            </th>
+            <th>Status
+            </th>
+            <th></th>
+ 
+            <th></th>
+        </tr>
+
+        @foreach (RegionalPSNPPlan item in Model)
+        {
+            StateTemplate state = item.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
+            index++;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region.Name)
+                </td>
+                <td>PSNP
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
+                </td>
+                <td>
+                    
+                    @if (state.AllowedAccessLevel >= 1)
+                    {
+                        <a data-buttontype="btn_detail"  class="btn toolbar-btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
+                   
+                    }
+                    @if (state.AllowedAccessLevel >= 2)
+                    {
+                        <a data-buttontype="btn_edit"  class="btn toolbar-btn "href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
+                    
+                    }
+                    @if (state.AllowedAccessLevel >= 3)
+                    {
+                        <a data-buttontype="btn_delete"  class="btn toolbar-btn "href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
+                    
+                    }
+                    
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn edit_button" id="action_@index">Workflow</button>
+                        <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                            {
+                                <li class="edit_button"><a href="javascript:promot_workflow(@item.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.RegionalPSNPPlanID)" title="@actions.Name">@actions.Name</a></li>            
+                            }
+                            <li class="divider"></li>
+                            <li class="edit_button"><a href="javascript:workflow_history(@item.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
+
+<!--                            <li class="divider"></li>
+                            @if (state.AllowedAccessLevel > 1)
+                            {
+                                <li>@Html.ActionLink("Edit", "Edit")</li>
+                            }
+                            @if (state.AllowedAccessLevel >= 1)
+                            {
+                                <li>@Html.ActionLink("Details", "Details")</li>
+                            }
+    -->
+                        </ul>
+                    </div>
+
+
+                </td>
+            </tr>
+        }
+
+    </table>
+
+<<<<<<< HEAD
+<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:900px;" >
+    <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="modalHistoryLabel">History</h3>
+        </div>
+    <div class="modal-body" id="modalHistoryBody">History</div>
+    <div class="modal-footer">
+            <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager",id="0" })">View History</a>
+        </div>
+</div>
+=======
+
+>>>>>>> f917e22e7e6480041f6446e54092a9b021d62c0b
+
+@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+<script>
+    var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager",id="0" })";
+    function promot_workflow(BusinessProcessID, nextstate, actionname) {
+        $('#ParentBusinessProcessID').val(BusinessProcessID);
+        $('#stateID').val(nextstate);
+        $('#modalPromotionLabel').html(actionname);
+
+        $('#modalPromotion').modal()
+    }
+    function workflow_history(BusinessProcessID) {
+        $('#modalHistory').modal();
+        $.post(history_link + BusinessProcessID, {},
+            function (data)
+            {
+                $("#modalHistoryBody").html(data);
+            }
+            );
+        
+    }
+</script>

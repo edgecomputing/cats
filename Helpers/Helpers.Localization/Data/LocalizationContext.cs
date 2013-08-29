@@ -21,10 +21,7 @@ namespace LanguageHelpers.Localization.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-           /* modelBuilder.Configurations.Add(new UserAccountMap());
-            modelBuilder.Configurations.Add(new UserPreferenceMap());
-            modelBuilder.Configurations.Add(new UserProfileMap());
-            modelBuilder.Configurations.Add(new UserInfoMap());*/
+           
         }
     }
 }

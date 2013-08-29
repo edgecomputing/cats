@@ -55,5 +55,6 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.StateTemplateRepository.FindBy(predicate);
 
         }
+
     }
 }
