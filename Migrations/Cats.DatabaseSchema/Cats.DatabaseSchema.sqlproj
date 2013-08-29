@@ -238,7 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
-    <None Include="dbo\Views\vwTransportOrder.sql.orig" />
+   <None Include="dbo\Views\vwTransportOrder.sql.orig" />
     <None Include="Security\EarlyWarning.sql.orig" />
     <None Include="Security\Logistics.sql.orig" />
     <None Include="Security\Procurement.sql.orig" />
@@ -250,5 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Cats.DatabaseSchema.refactorlog" />
+    <None Include="Script.TypeOfNeedAssessment.sql" />
+    <None Include="Script.Season.sql" />
   </ItemGroup>
 </Project>

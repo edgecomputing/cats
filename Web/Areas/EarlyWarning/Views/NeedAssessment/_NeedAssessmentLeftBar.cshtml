@@ -1,0 +1,11 @@
+﻿@using System.Collections
+<ul class="nav nav-list">
+    <li class="nav-header">Region:  @ViewData["RegionName"]</li>
+
+   @foreach (var item in ViewBag.Zones)
+   {
+       <li>@item.Name</li>
+   }
+   
+    
+</ul>
