@@ -156,6 +156,7 @@
     <Build Include="Procurement\Tables\TransportBidPlanDetail.sql" />
     <Build Include="Procurement\Tables\TransportBidPlan.sql" />
     <Build Include="Procurement\Tables\Transporter.sql" />
+    <Build Include="Procurement\Tables\TransportOrder.sql" />
     <Build Include="dbo\Views\VWWoredaHeirachy.sql" />
     <Build Include="dbo\Views\VWStoreComodityDetail.sql" />
     <Build Include="dbo\Views\VWStoreCommodity.sql" />
