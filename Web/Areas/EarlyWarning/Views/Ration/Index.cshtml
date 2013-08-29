@@ -43,7 +43,7 @@
 
                //  columns.Bound(p => p.IsDefaultRation);
              }).Events(ev => ev.DataBound("resetRowNumber"))
-             .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration")))
+             .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration")).Pageable())
 @section Scripts
 {
   
@@ -61,32 +61,32 @@
                     backdrop: 'static',
                     keyboard: true
                 }, 'show');
-                bindForm(this);
+                //bindForm(this);
             });
             return false;
         });
     });
 
-    function bindForm(dialog) {
-        $('form', dialog).submit(function () {
-            $.ajax({
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize(),
-                success: function (result) {
-                    if (result.success) {
-                        $('#dialogDiv').modal('hide');
-                        // Refresh:
-                        // location.reload();
-                    } else {
-                        $('#dialogContent').html(result);
-                        bindForm();
-                    }
-                }
-            });
-            return false;
-        });
-    }
+    //function bindForm(dialog) {
+    //    $('form', dialog).submit(function () {
+    //        $.ajax({
+    //            url: this.action,
+    //            type: this.method,
+    //            data: $(this).serialize(),
+    //            success: function (result) {
+    //                if (result.success) {
+    //                    $('#dialogDiv').modal('hide');
+    //                    // Refresh:
+    //                    // location.reload();
+    //                } else {
+    //                    $('#dialogContent').html(result);
+    //                    bindForm();
+    //                }
+    //            }
+    //        });
+    //        return false;
+    //    });
+   // }
   
 
 </script>
