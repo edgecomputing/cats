@@ -90,7 +90,7 @@ namespace Cats.Data
         public DbSet<Donor> Donors { get; set; } 
 
         //public DbSet<AccountTransaction> AccountTransactions { get; set; }
-        //public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
+        public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
         public DbSet<BusinessProcess> BusinessProcesss { get; set; }
         public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
 
@@ -170,7 +170,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new DonorMap());
 
             //modelBuilder.Configurations.Add(new AccountTransactionMap());
-            //modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
+            modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
 
 
         }

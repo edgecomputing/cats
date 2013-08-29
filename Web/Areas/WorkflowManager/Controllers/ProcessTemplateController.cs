@@ -15,11 +15,14 @@ namespace Cats.Areas.WorkflowManager.Controllers
     {
 
         private readonly IProcessTemplateService _ProcessTemplateService;
+        private readonly IStateTemplateService _StateTemplateService;
 
-
-        public ProcessTemplateController(IProcessTemplateService ProcessTemplateServiceParam
+        public ProcessTemplateController(IStateTemplateService StateTemplateServiceParam
+                                       , IProcessTemplateService ProcessTemplateServiceParam
                                        )
         {
+            this._StateTemplateService = StateTemplateServiceParam;
+
             this._ProcessTemplateService = ProcessTemplateServiceParam;
 
         }
@@ -39,7 +42,21 @@ namespace Cats.Areas.WorkflowManager.Controllers
         public void loadLookups()
         {
 
-
+            ViewData["ProcessTemplateList"] = _ProcessTemplateService.GetAll();
+            var StateTypes = new List<LookupData>  { 
+                                                            new LookupData{ ID = 0, Name = "Start" }
+                                                             ,new LookupData{ ID = 1, Name = "Intermediat" } 
+                                                             ,new LookupData{ ID = 2, Name = "End" }
+                                };
+            ViewData["StateTypeList"] = StateTypes;
+            var AccessLevels = new List<LookupData>  { 
+                                                            new LookupData{ ID = 0, Name = "None" }
+                                                             ,new LookupData{ ID = 1, Name = "View" } 
+                                                             ,new LookupData{ ID = 2, Name = "Edit" }
+                                                              ,new LookupData{ ID = 3, Name = "Delete" }
+                                };
+            ViewData["AccessLevelList"] = AccessLevels;
+            ViewData["StateTemplateList"] = _StateTemplateService.GetAll();
         }
         public ActionResult Index()
         {

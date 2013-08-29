@@ -252,7 +252,6 @@
     <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
-    <Compile Include="Models\CatsContextPSNP.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -657,7 +656,6 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
     <Content Include="Areas\PSNP\Views\Web.config" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Promot.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
@@ -725,6 +723,11 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Details.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\_PSNPDetailLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -945,6 +948,9 @@
     <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
     <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -955,7 +961,6 @@
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
-    <Folder Include="Areas\WorkflowManager\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

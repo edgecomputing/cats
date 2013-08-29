@@ -1,0 +1,142 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Models
+@(Html.Kendo().Grid<ProcessTemplate>()
+    .Name("ProcessTemplateGrid")
+    .Columns(columns =>
+    {
+
+
+        columns.Bound(p => p.Name).Width(250);
+
+        columns.Bound(p => p.Description).Width(300);
+        columns.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
+
+        columns.Command(
+            command =>
+            {
+                command.Edit().Text("Modify");
+                command.Destroy().Text("Destroy");
+                command.Custom("Detail").Click("detailProcess");
+            }
+            ).Width(300);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("New"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+        //.Sortable()
+    //.Scrollable()
+   // .HtmlAttributes(new { style = "height:430px;" })
+   .ClientDetailTemplateId("template")
+   .Events(events => events.DataBound("dataBound"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Batch(true)
+        .Model(model => model.Id(p => p.ProcessTemplateID))
+        .Create(update => update.Action("CreateKendo", "ProcessTemplate"))
+        .Read(read => read.Action("ReadKendo", "ProcessTemplate"))
+        .Update(update => update.Action("EditKendo", "ProcessTemplate"))
+        .Destroy(update => update.Action("DeleteKendo", "ProcessTemplate"))
+        .Model(model =>
+        {
+            //model.Id(p => p.TransportBidQuotationID);
+            model.Field(p => p.ProcessTemplateID).Editable(false);
+        })
+    )
+
+)
+<script id="template" type="text/kendo-tmpl">
+    
+    <div>
+    <h4>states</h4>
+    @(Html.Kendo().Grid<StateTemplate>()
+    .Name("StateTemplateGrid_#=ProcessTemplateID#")
+    .Columns(columns =>
+    {
+
+        // columns.ForeignKey(t => t.ParentProcessTemplateID, (IEnumerable<ProcessTemplate>)ViewData["ProcessTemplateList"], "ProcessTemplateID", "Name");
+
+        //  columns.Bound(p => p.ParentProcessTemplateID).Width(100);
+        columns.Bound(p => p.Name).Width(200);
+        //  columns.Bound(p => p.StateType).Width(100);
+        columns.Bound(p => p.AllowedAccessLevel).Width(100);
+        columns.ForeignKey(t => t.StateType, (IEnumerable<LookupData>)ViewData["StateTypeList"], "ID", "Name").Width(100);
+        // columns.ForeignKey(t => t.AllowedAccessLevel, (IEnumerable<LookupData>)ViewData["AccessLevelList"], "ID", "Name"); 
+        columns.Command(
+            command =>
+            {
+                command.Edit().Text("Modify");
+                command.Destroy().Text("Destroy");
+                //   command.Custom("Edit").Click("editRecord");
+            }
+            ).Width(300);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("New"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+            //  .Pageable()
+    .Sortable()
+    .Scrollable()
+            //  .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Batch(true)
+        .Model(model => model.Id(p => p.StateTemplateID))
+        .Create(update => update.Action("CreateKendo", "StateTemplate", new { ProcessTemplateID = "#=ProcessTemplateID#" }))
+        .Read(read => read.Action("ReadKendo", "StateTemplate", new { ProcessTemplateID = "#=ProcessTemplateID#" }))
+        .Update(update => update.Action("EditKendo", "StateTemplate"))
+        .Destroy(update => update.Action("DeleteKendo", "StateTemplate"))
+    )
+    .ToClientTemplate()
+)
+    <div>
+    <h4>Flows</h4>
+    </div> 
+    @(Html.Kendo().Grid<FlowTemplate>()
+    .Name("FlowTemplateGrid_#=ProcessTemplateID#")
+    .Columns(columns =>
+    {
+
+        columns.ForeignKey(t => t.InitialStateID, (IEnumerable<StateTemplate>)ViewData["StateTemplateList"], "StateTemplateID", "Name").Width(150);
+        columns.ForeignKey(t => t.FinalStateID, (IEnumerable<StateTemplate>)ViewData["StateTemplateList"], "StateTemplateID", "Name").Width(150); 
+        
+        columns.Bound(p => p.Name).Width(150); 
+        columns.Command(
+            command => { 
+                command.Edit().Text("Modify");
+                command.Destroy().Text("Destroy"); 
+             //   command.Custom("Edit").Click("editRecord");
+            }
+            ).Width(300);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("New"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+  //  .Pageable()
+    .Sortable()
+  //  .Scrollable()
+   // .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Batch(true)
+        .Model(model => model.Id(p => p.FlowTemplateID))
+        .Create(update => update.Action("CreateKendo", "FlowTemplate", new { ProcessTemplateID = "#=ProcessTemplateID#" }))
+        .Read(read => read.Action("ReadKendo", "FlowTemplate", new { ProcessTemplateID = "#=ProcessTemplateID#" }))
+        .Update(update => update.Action("EditKendo", "FlowTemplate"))
+        .Destroy(update => update.Action("DeleteKendo", "FlowTemplate"))
+    )
+    .ToClientTemplate()
+)   
+    </div>
+</script>
+<script>
+    function detailProcess(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "@Url.Action("Index", "ProcessTemplate", new { Area = "WorkflowManager" })" + dataItem.ProcessTemplateID;
+        window.location = url
+    }
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>

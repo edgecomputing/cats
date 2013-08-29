@@ -4,9 +4,23 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section LeftBar
+{
+    @Html.Partial("_workflowLeftBar")
+}
 <h2>Index</h2>
- @Html.Partial("_listKendo")
+@Html.Partial("_heirarchy")
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<style>
+    table td .gridcell
+    {
+        padding:0;
+    }
+    .gridcell
+    {
+        color:#F00;
+    }
+</style>

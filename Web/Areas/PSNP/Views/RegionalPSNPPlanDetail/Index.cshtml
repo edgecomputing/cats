@@ -9,8 +9,10 @@
 }
 @section LeftBar
 {
-    @Html.Partial("_PSNPLeftBar");
+    @Html.Partial("_PSNPDetailLeftBar")
+       
 }
+    
 @{
     List<int> regionalBenCount = new List<int>();
     for(int r =0;r< ViewBag.PsnpPlan.Duration;r++)
