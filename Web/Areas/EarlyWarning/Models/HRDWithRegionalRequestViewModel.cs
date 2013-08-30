@@ -15,6 +15,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int RequestedBeneficiaryNo { get; set; }
         public int HRDBeneficaryNo { get; set; }
         public int Difference { get; set; }
+        public int Color { get; set; }
        
 
 

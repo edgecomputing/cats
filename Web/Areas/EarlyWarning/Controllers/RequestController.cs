@@ -604,7 +604,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ReconcileRequest(int id)
         {
             var regionalRequest = _regionalRequestService.FindById(id);
-            ViewBag.RegionID = regionalRequest.RegionID;
+            ViewBag.RegionID = regionalRequest.AdminUnit.Name;
 
             return View(regionalRequest);
         }
