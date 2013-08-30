@@ -16,16 +16,17 @@ namespace Cats.Localization.Data.UnitOfWork
         private IGenericRepository<Language> languageRepo;
         private IGenericRepository<Page> pageRepo;
         private IGenericRepository<Phrase> phraseRepo;
+        private IGenericRepository<LocalizedPagePhrase> pagePhraseRepo; 
 
 
         public UnitOfWork()
         {
-            this._context = new TranslationContext();
+            this._context = new TranslationContext();            
         }
 
         #endregion
 
-        public IGenericRepository<LocalizedPhrase> LocalizationPhraseRepository
+        public IGenericRepository<LocalizedPhrase> LocalizedPhraseRepository
         {
             get { return this.localizedPhraseRepo ?? (this.localizedPhraseRepo = new GenericRepository<LocalizedPhrase>(_context)); }
 
@@ -45,6 +46,11 @@ namespace Cats.Localization.Data.UnitOfWork
         public IGenericRepository<Page> PageRepository
         {
             get { return this.pageRepo ?? (this.pageRepo = new GenericRepository<Page>(_context)); }
+        }
+
+        public IGenericRepository<LocalizedPagePhrase> PagePhraseRepository
+        {
+            get { return this.pagePhraseRepo ?? (this.pagePhraseRepo = new GenericRepository<LocalizedPagePhrase>(_context)); }
         }
 
         private bool disposed = false;

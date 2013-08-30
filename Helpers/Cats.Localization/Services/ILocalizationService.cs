@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cats.Localization.Models;
 
 namespace Cats.Localization.Services
@@ -6,6 +7,7 @@ namespace Cats.Localization.Services
     public interface ILocalizationService : IDisposable
     {
         bool AddLanguage(Language language);
+        bool AddLanguage(Language language, bool populateDefaultValues);
         bool UpdateLanguage(Language language);
         bool DeleteLanguage(Language language, bool cascadeDelete = true);
 
@@ -26,6 +28,18 @@ namespace Cats.Localization.Services
          *    with the coresponding language.
          * 
          */
+
+        List<LocalizedPagePhrase> GetPhrasesForPage(Page page, string language = "EN");
+        List<LocalizedPagePhrase> GetPhrasesForPage(string pageName, string language = "EN");
+        Dictionary<string, string> GetPhrasesDictionaryForPage(string pageName, string language);
+
+        string GetLocalizedPhrase(string phrase, string language);
+
+        bool TranslatePhrase(string phrase, string translation, string language = "EN");
+
+        bool TranslatePage(Page page, Dictionary<string,string> translations, string language="EN");
+
+
     }
 
     

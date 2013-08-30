@@ -23,6 +23,7 @@ namespace Cats.Localization.Data
         public DbSet<Phrase> Phrases { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<LocalizedPhrase> LocalizedPhrases { get; set; }
+        public DbSet<LocalizedPagePhrase> LocalizedPagePhrases { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -30,6 +31,7 @@ namespace Cats.Localization.Data
             modelBuilder.Configurations.Add(new PhraseMap());
             modelBuilder.Configurations.Add(new PageMap());
             modelBuilder.Configurations.Add(new LocalizedPhraseMap());
+            modelBuilder.Configurations.Add(new LocalizedPagePhraseMap());
         }
     }
 }
