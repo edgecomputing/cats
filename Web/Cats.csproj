@@ -170,6 +170,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\Helpers\TemplateGenerator.cs" />
     <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -296,6 +298,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -742,7 +745,7 @@
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_listKendo.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\ContributionSummary.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentMainLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
@@ -779,6 +782,7 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Print.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -965,6 +969,9 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequesitions.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\_BreadCrumb.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -996,10 +1003,8 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Templates\gift_Certificate.dotx" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
@@ -1013,6 +1018,9 @@
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
 
     <Content Include="Views\Shared\_MainLayout.cshtml" />
+
+    <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
 
   </ItemGroup>
   <ItemGroup>

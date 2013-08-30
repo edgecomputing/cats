@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.GiftCertificate.Models;
+using Cats.Infrastructure.Helpers;
 using Cats.Models.Partial;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
@@ -64,125 +65,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(result.ToDataSourceResult(request, ModelState));
         }
 
-        public void GenerateTemplate1(int id)
+        public void GenerateTemplate(int id)
         {
+            
+          var template    = new TemplateGenerator();
+          //  template.GenerateTemplate(int id, string teplateName); //here you have to send the name of the tempalte and the id of the giftcertificate
         }
-        public ActionResult GenerateTemplate(int id)
-        {
-            //if (RefNo.Trim() == "")
-            //    return RedirectToAction("Index");
-            //OBJECT OF MISSING "NULL VALUE"
-            string path = HttpContext.ApplicationInstance.Server.MapPath("~/Templates/gift_Certificate.dotx");
-
-            Object oMissing = System.Reflection.Missing.Value;
-
-            Object oTemplatePath = path;
-
-            List<GiftCertificateDetail> giftCert = GetGiftCertificate(id);//"L1344/SF148/2011");
-
-            if (giftCert.Count < 1)
-                return RedirectToAction("Index");
-
-            Application wordApp = new Application();
-            Document wordDoc = new Document();
-
-            wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
-
-            foreach (Field myMergeField in wordDoc.Fields)
-            {
-
-
-                Range rngFieldCode = myMergeField.Code;
-
-                String fieldText = rngFieldCode.Text;
+       
 
 
 
-
-
-                if (fieldText.StartsWith(" MERGEFIELD"))
-                {
-
-
-                    Int32 endMerge = fieldText.IndexOf("\\");
-
-                    Int32 fieldNameLength = fieldText.Length - endMerge;
-
-                    String fieldName = fieldText.Substring(11, endMerge - 11);
-
-
-                    fieldName = fieldName.Trim();
-
-
-                    switch (fieldName)
-                    {
-                        case "Commodity":
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].Commodity.Name);
-                            break;
-                        case "Year":
-
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].GiftCertificate.GiftDate.Year.ToString(CultureInfo.InvariantCulture));
-
-                            break;
-                        case "Bill":
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].BillOfLoading);
-                            break;
-                        case "Estimated":
-
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", giftCert[0].EstimatedPrice));
-                            break;
-                        case "AccountNo":
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString(CultureInfo.InvariantCulture));
-                            break;
-                        case "money":
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate(giftCert[0].EstimatedTax)));
-                            break;
-                        case "cent":
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", (giftCert[0].EstimatedTax - (Math.Truncate(giftCert[0].EstimatedTax)))));
-                            break;
-                        case "Tax":
-                            myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].EstimatedTax.ToString());
-
-                            break;
-
-                    }
-
-
-                }
-
-            }
-            try
-            {
-
-                wordDoc.SaveAs("gift_cert.doc");
-                wordApp.Documents.Open("gift_cert.doc");
-                //wordApp.Application.Quit();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-
-
-
-        private List<GiftCertificateDetail> GetGiftCertificate(int giftCertId)
-        {
-            var giftCertList = _giftCertificateDetailService.Get(d => d.GiftCertificate.GiftCertificateID == giftCertId,
-                                                                 null, "GiftCertificate");
-
-            return giftCertList.ToList();
-        }
+       
 
         public virtual ActionResult NotUnique(string siNumber, int giftCertificateId)
         {
