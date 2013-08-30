@@ -266,7 +266,7 @@ namespace Cats.Localization.Services
             catch (Exception exception)
             {
                 // TODO: Log error
-                throw new ApplicationException(string.Format("Unable to fetch translation for phrase {0} to language {1}.",phrase,language),exception);
+                throw new ApplicationException(string.Format("Unable to fetch translation for phrase {0} to language {1}.", phrase, language), exception);
             }
 
             return phrase;
@@ -301,10 +301,51 @@ namespace Cats.Localization.Services
             }
         }
 
-
-        public bool TranslatePage(Page page, Dictionary<string, string> translations, string language = "EN")
+        /// <summary>
+        /// Adds new entries into the localized phrases table for all phrases in the 'translation' dictionary.
+        /// It also associates the page 'page' with the list of translated phrases
+        /// </summary>
+        /// <param name="page">Name of the page to translate</param>
+        /// <param name="translations">Dictionary of translation terms [Phrase][TranslatedPhrase]</param>
+        /// <param name="language">Language to translate to</param>
+        /// <returns>Boolean flag for success/failure</returns>
+        public bool TranslatePage(string page, Dictionary<string, string> translations, string language = "EN")
         {
-            throw new NotImplementedException();
+            try
+            {
+                // TODO: Consider filtering existing translations before adding everything that came
+                //       as parameter 'translations'.
+                // WARNING: The current implemenation only considers new entries and categorically ignores
+                //          updates.
+
+                var pageToTranslate = _unitOfWork.PageRepository.Get(p => p.PageKey == page).Single();
+                TranslatePage(pageToTranslate, translations, language);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception exception)
+            {
+                // TODO: Log error
+                throw new ApplicationException(string.Format("Error translating page: {0}.", page), exception);
+            }
+        }
+        /// <summary>
+        /// Adds new entries into the localized phrases table for all phrases in the 'translation' dictionary.
+        /// It also associates the page 'page' with the list of translated phrases
+        /// </summary>
+        /// <param name="page">Page object representing the page to translate</param>
+        /// <param name="translations">Dictionary of translation terms [Phrase][TranslatedPhrase]</param>
+        /// <param name="language">Language to translate to</param>
+        private void TranslatePage(Page page, Dictionary<string, string> translations, string language = "EN")
+        {
+            // For all phrases inside 'translation', add a new translation entry by associating it
+            // with the specified language.
+            page.Phrases.ToList().ForEach(p => p.LocalizedPhrases.Add(new LocalizedPhrase
+                                                                        {
+                                                                            LanguageCode = language,
+                                                                            PhraseId = p.PhraseId,
+                                                                            TranslatedText = TranslatedTextFromDictionaryOrDefault(p.PhraseText, translations)
+                                                                        }));
         }
 
         #endregion
@@ -312,7 +353,24 @@ namespace Cats.Localization.Services
 
         #region Private Methods
 
-        IEnumerable<LocalizedPagePhrase> LocalizedPhrasesForPage(string pageName, string language)
+        /// <summary>
+        /// Checks if a corresponding translated entry exist inside translations dictionary. If no match
+        /// if found then it will return the language neutral phrase (the one passed as parameter).
+        /// </summary>
+        /// <param name="phrase">Phrase to match within the translation dictionary as key</param>
+        /// <param name="translations">Dictionary of translated terms.</param>
+        /// <returns>Corresponding translated item fro the dictionary or language neutral string</returns>
+        private string TranslatedTextFromDictionaryOrDefault(string phrase, Dictionary<string, string> translations)
+        {
+            if (translations.ContainsKey(phrase))
+            {
+                return translations[phrase];
+            }
+
+            return phrase;
+        }
+
+        private IEnumerable<LocalizedPagePhrase> LocalizedPhrasesForPage(string pageName, string language)
         {
             return _unitOfWork.PagePhraseRepository.Get(p => p.PageKey == pageName && p.LanguageCode == language);
         }

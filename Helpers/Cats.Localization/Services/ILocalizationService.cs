@@ -36,8 +36,7 @@ namespace Cats.Localization.Services
         string GetLocalizedPhrase(string phrase, string language);
 
         bool TranslatePhrase(string phrase, string translation, string language = "EN");
-
-        bool TranslatePage(Page page, Dictionary<string,string> translations, string language="EN");
+        bool TranslatePage(string page, Dictionary<string, string> translations, string language = "EN");
 
 
     }
