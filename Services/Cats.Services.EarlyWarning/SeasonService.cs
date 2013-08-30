@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cats.Data.UnitWork;
+using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -65,6 +66,17 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.SeasonRepository.Get(filter, orderBy, includeProperties);
         }
 
+        public List<Season> GetListOfSeasonsInRegion(List<string> regions )
+        {
+            var sesons =  _unitOfWork.SeasonRepository.GetAll();
+            var seasonsInRegion = _unitOfWork.NeedAssessmentRepository.GetAll().Select(s=>s.Season1.Name);
+
+            var filteredSeasons = from seasonList in sesons
+                                  where seasonsInRegion.Contains(seasonList.Name)
+                                  select seasonList;
+            
+            return filteredSeasons.ToList();
+        }
         public void Dispose()
         {
             throw new NotImplementedException();

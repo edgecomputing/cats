@@ -12,7 +12,7 @@ namespace Cats.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Translator.CurrentLanguage = Translator.defaultLanguage;
+            Translator.CurrentLanguage = Translator.defaultLanguage ?? "en";
             try
             {
                 UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
@@ -22,6 +22,7 @@ namespace Cats.Filters
                 }
             }
             catch(Exception e){}
+            
         }
     }
 }

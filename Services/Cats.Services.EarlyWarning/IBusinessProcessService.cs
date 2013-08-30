@@ -16,6 +16,6 @@ namespace Cats.Services.EarlyWarning
          List<BusinessProcess> GetAll();
          List<BusinessProcess> FindBy(Expression<Func<BusinessProcess, bool>> predicate);
          bool PromotWorkflow(BusinessProcessState state);
-         BusinessProcess CreateBusinessProcess(int templateID, int DocumentID, string DocumentType);
+         BusinessProcess CreateBusinessProcess(int templateID, int DocumentID, string DocumentType, BusinessProcessState StartingState);
     }
 }

@@ -16,5 +16,6 @@ namespace Cats.Services.EarlyWarning
         List<RegionalRequest> Requests();
         IEnumerable<RegionalBeneficiaries> RegionalRequestsBeneficiary();
         IEnumerable<ZonalBeneficiaries> ZonalBeneficiaries(int RegionId);
+        int getRegionId(string regionName);
     }
 }

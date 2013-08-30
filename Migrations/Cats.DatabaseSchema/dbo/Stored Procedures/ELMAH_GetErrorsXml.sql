@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[ELMAH_GetErrorsXml]
+﻿CREATE PROCEDURE [dbo].[ELMAH_GetErrorsXml]
 (
     @Application NVARCHAR(60),
     @PageIndex INT = 0,
@@ -18,7 +17,7 @@ AS
     SELECT 
         @TotalCount = COUNT(1) 
     FROM 
-        [ELMAH_Error]
+        [ErrorLog]
     WHERE 
         [Application] = @Application
 
@@ -35,7 +34,7 @@ AS
             @FirstTimeUTC = [TimeUtc],
             @FirstSequence = [Sequence]
         FROM 
-            [ELMAH_Error]
+            [ErrorLog]
         WHERE   
             [Application] = @Application
         ORDER BY 
@@ -56,7 +55,7 @@ AS
     SET ROWCOUNT @PageSize
 
     SELECT 
-        errorId     = [ErrorId], 
+        errorId     = [ErrorLogID], 
         application = [Application],
         host        = [Host], 
         type        = [Type],
@@ -66,7 +65,7 @@ AS
         statusCode  = [StatusCode], 
         time        = CONVERT(VARCHAR(50), [TimeUtc], 126) + 'Z'
     FROM 
-        [ELMAH_Error] error
+        [ErrorLog] error
     WHERE
         [Application] = @Application
     AND

@@ -12,12 +12,16 @@ namespace Cats.Infrastructure
     {
         public static ReportDTO PrintReport(string reportPath, object data, string dataSourceName)
         {
+            return PrintReport(reportPath, data, dataSourceName, "PDF");
+        }
+        public static ReportDTO PrintReport(string reportPath, object data, string dataSourceName, string reportType)
+        {
             var localReport = new LocalReport();
             localReport.ReportPath = reportPath;
 
             var reportDataSource = new ReportDataSource(dataSourceName, data);
             localReport.DataSources.Add(reportDataSource);
-            string reportType = "PDF";
+           // string reportType = "PDF";
             string mimeType;
             string encoding;
             string fileNameExtension;
@@ -26,7 +30,7 @@ namespace Cats.Infrastructure
             //http://msdn2.microsoft.com/en-us/library/ms155397.aspx
             string deviceInfo =
             "<DeviceInfo>" +
-            "  <OutputFormat>PDF</OutputFormat>" +
+            "  <OutputFormat>" + reportType + "</OutputFormat>" +
             "  <PageWidth>8.5in</PageWidth>" +
             "  <PageHeight>11in</PageHeight>" +
             "  <MarginTop>0.5in</MarginTop>" +

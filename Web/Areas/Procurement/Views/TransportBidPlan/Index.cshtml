@@ -12,7 +12,14 @@
 {
     @Html.Partial("_BidPlanLeftBar")
 }
-<div>
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">List of Bid Plans</li>
+    </ul>
+}
+<div class="well">
     <h4>List of Bid Plans</h4>
 </div>
 

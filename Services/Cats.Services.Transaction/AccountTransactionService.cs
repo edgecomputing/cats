@@ -183,6 +183,57 @@ namespace Cats.Services.Transaction
             return entries;
             
         }
-    
+
+
+
+        public bool PostGiftCertificate(int giftCertificateId)
+        {
+            var giftCertificate = _unitOfWork.GiftCertificateRepository.Get(t => t.GiftCertificateID == giftCertificateId, null,"GiftCertificateDetails").FirstOrDefault();
+           if(giftCertificate==null) return false;
+
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+            foreach (var giftCertificateDetail in giftCertificate.GiftCertificateDetails)
+            {
+                var transaction = new AccountTransaction();
+                transaction.AccountTransactionID = Guid.NewGuid();
+                transaction.ProgramID = giftCertificate.ProgramID;
+                transaction.DonorID = giftCertificate.DonorID;
+                transaction.CommoditySourceID = giftCertificateDetail.DFundSourceID;
+                transaction.GiftTypeID = giftCertificateDetail.DFundSourceID;
+                transaction.QuantityInMT = giftCertificateDetail.WeightInMT;
+                transaction.QuantityInUnit = giftCertificateDetail.WeightInMT;
+                transaction.TransactionGroupID = transactionGroup;
+                transaction.TransactionDate = transactionDate;
+                transaction.UnitID = 1;
+                transaction.LedgerID = 5;
+                _unitOfWork.AccountTransactionRepository.Add(transaction);
+
+                transaction = new AccountTransaction();
+                transaction.AccountTransactionID = Guid.NewGuid();
+                transaction.ProgramID = giftCertificate.ProgramID;
+                transaction.DonorID = giftCertificate.DonorID;
+                transaction.QuantityInMT = -giftCertificateDetail.WeightInMT;
+                transaction.TransactionGroupID = transactionGroup;
+                transaction.TransactionDate = transactionDate;
+                transaction.QuantityInUnit = giftCertificateDetail.WeightInMT;
+                transaction.UnitID = 1;
+                transaction.LedgerID = 4;
+
+                _unitOfWork.AccountTransactionRepository.Add(transaction);
+
+
+
+            }
+
+            giftCertificate.StatusID = 2;
+            _unitOfWork.Save();
+            return true;
+        }
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+
+        }
     }
 }

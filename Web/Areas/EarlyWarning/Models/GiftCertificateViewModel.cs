@@ -123,7 +123,8 @@ namespace Cats.Areas.GiftCertificate.Models
         /// The name of the port.
         /// </value>
         [StringLength(50)]
-        public String PortName { get; set; }
+        [Display(Name="Port Name")]
+        public string PortName { get; set; }
 
 
         //public EntityCollection<Donor> Donor { get; set; }
@@ -173,7 +174,9 @@ namespace Cats.Areas.GiftCertificate.Models
         //[Required]
         //[Range(1, 9999, ErrorMessage = "Please insert at least one commodity")]
         public int rowCount { get; set; }
-
-       
+        [Display(Name="Status")]
+        public int StatusID { get; set; }
+        [Display(Name="Declaration Number")]
+        public string DeclarationNumber { get; set; }
      }
 }

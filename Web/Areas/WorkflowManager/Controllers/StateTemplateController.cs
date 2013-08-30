@@ -68,11 +68,20 @@ namespace Cats.Areas.WorkflowManager.Controllers
             return View(list);
 
         }
-        public ActionResult ReadKendo([DataSourceRequest] DataSourceRequest request)
+        public ActionResult ReadKendo([DataSourceRequest] DataSourceRequest request, int ProcessTemplateID=0)
         {
-            IEnumerable<StateTemplate> list = _StateTemplateService.GetAll();
+            IEnumerable<StateTemplate> list;
+            if (ProcessTemplateID == 0)
+            {
+                list = _StateTemplateService.GetAll();
+            }
+            else
+            {
+                list = _StateTemplateService.FindBy(t => t.ParentProcessTemplateID == ProcessTemplateID);
+            }
             return Json(toStateTemplatePOCOList(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
         //
         // GET: /Workflow/StateTemplate/Create
         public ActionResult Create()
@@ -97,10 +106,14 @@ namespace Cats.Areas.WorkflowManager.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CreateKendo([DataSourceRequest] DataSourceRequest request, StateTemplate item)
+        public ActionResult CreateKendo([DataSourceRequest] DataSourceRequest request, StateTemplate item, int ProcessTemplateID=0)
         {
             if (item != null && ModelState.IsValid)
             {
+                if (ProcessTemplateID > 0)
+                {
+                    item.ParentProcessTemplateID = ProcessTemplateID;
+                }
                 _StateTemplateService.Add(item);
             }
 

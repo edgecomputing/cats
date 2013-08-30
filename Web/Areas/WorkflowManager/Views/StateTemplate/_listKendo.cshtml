@@ -14,8 +14,8 @@
         columns.ForeignKey(t => t.AllowedAccessLevel, (IEnumerable<LookupData>)ViewData["AccessLevelList"], "ID", "Name"); 
         columns.Command(
             command => { 
-                command.Edit().Text("Modify");
-                command.Destroy().Text("Destroy"); 
+            command.Edit().Text("Modify");
+            command.Destroy().Text("Destroy"); 
              //   command.Custom("Edit").Click("editRecord");
             }
             ).Width(300);

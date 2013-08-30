@@ -16,21 +16,21 @@ namespace Cats.Services.EarlyWarning
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool Addtransaction(Transaction transaction)
+        public bool Addtransaction(Cats.Models.Transaction transaction)
         {
             _unitOfWork.TransactionRepository.Add(transaction);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditTransaction(Transaction transaction)
+        public bool EditTransaction(Cats.Models.Transaction transaction)
         {
             _unitOfWork.TransactionRepository.Edit(transaction);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteTransaction(Transaction transaction)
+        public bool DeleteTransaction(Cats.Models.Transaction transaction)
         {
             if (transaction == null) return false;
             _unitOfWork.TransactionRepository.Delete(transaction);
@@ -45,15 +45,15 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Save();
             return true;
         }
-        public List<Transaction> GetAllTransaction()
+        public List<Cats.Models.Transaction> GetAllTransaction()
         {
             return _unitOfWork.TransactionRepository.GetAll();
         }
-        public Transaction FindById(int id)
+        public Cats.Models.Transaction FindById(int id)
         {
             return _unitOfWork.TransactionRepository.FindById(id);
         }
-        public List<Transaction> FindBy(Expression<Func<Transaction, bool>> predicate)
+        public List<Cats.Models.Transaction> FindBy(Expression<Func<Cats.Models.Transaction, bool>> predicate)
         {
             return _unitOfWork.TransactionRepository.FindBy(predicate);
         }
@@ -65,9 +65,9 @@ namespace Cats.Services.EarlyWarning
 
         }
 
-        public IEnumerable<Transaction> Get(
-         Expression<Func<Transaction, bool>> filter = null,
-         Func<IQueryable<Transaction>, IOrderedQueryable<Transaction>> orderBy = null,
+        public IEnumerable<Cats.Models.Transaction> Get(
+         Expression<Func<Cats.Models.Transaction, bool>> filter = null,
+         Func<IQueryable<Cats.Models.Transaction>, IOrderedQueryable<Cats.Models.Transaction>> orderBy = null,
          string includeProperties = "")
         {
             return _unitOfWork.TransactionRepository.Get(filter, orderBy, includeProperties);

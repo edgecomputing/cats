@@ -55,5 +55,11 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.ProcessTemplateRepository.FindBy(predicate);
 
         }
+        public StateTemplate GetStartingState(int id)
+        {
+            return _unitOfWork.StateTemplateRepository.FindBy(s=>s.ParentProcessTemplateID==id && s.StateType==0).Single();
+
+        }
+
     }
 }

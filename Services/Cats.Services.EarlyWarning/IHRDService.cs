@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Models;
+using Cats.Models.ViewModels.HRD;
 
 namespace Cats.Services.EarlyWarning
 {

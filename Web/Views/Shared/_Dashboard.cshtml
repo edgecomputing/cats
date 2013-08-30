@@ -158,19 +158,19 @@
 
 <div class="row">
 
-    <div class="span5" style="overflow: scroll; height: 250px">
+    <div class="span5" ">
         <div class="widget stacked">
             <div class="widget-header">
                 <i class="icon-bar-chart"></i>
                 <h3>Regional Monthly Requests For The Last 6 Months</h3>
             </div>
-            <div class="widget-content">
+            <div class="widget-content" style="height: 140px; overflow-y:scroll;">
                 @Html.Action("Requests", "Dashboard")
             </div>
         </div>
     </div>
 
-    <div class="span7">
+    <div class="span5">
         <div class="widget stacked">
             <div class="widget-header">
                 <i class="icon-pencil"></i>
@@ -197,7 +197,6 @@
             </div>
         </div>
         <br />
-
     </div>
 
 
@@ -220,10 +219,8 @@
 
     </div>
 
-
 <style>
-    .widget
-    {
+    .widget {
         position: relative;
         clear: both;
         width: auto;
@@ -234,8 +231,7 @@
         /* Widget Box */
     }
 
-        .widget .widget-header
-        {
+        .widget .widget-header {
             position: relative;
             height: 40px;
             line-height: 40px;
@@ -264,8 +260,7 @@
             -webkit-background-clip: padding-box;
         }
 
-            .widget .widget-header h3
-            {
+            .widget .widget-header h3 {
                 top: 2px;
                 position: relative;
                 left: 10px;
@@ -279,8 +274,7 @@
             }
 
             .widget .widget-header [class^="icon-"],
-            .widget .widget-header [class*=" icon-"]
-            {
+            .widget .widget-header [class*=" icon-"] {
                 display: inline-block;
                 margin-left: 13px;
                 margin-right: -2px;
@@ -289,8 +283,7 @@
                 vertical-align: middle;
             }
 
-        .widget .widget-content
-        {
+        .widget .widget-content {
             padding: 20px 15px 15px;
             background: #FFF;
             border: 1px solid #D5D5D5;
@@ -299,8 +292,7 @@
             border-radius: 5px;
         }
 
-        .widget .widget-header + .widget-content
-        {
+        .widget .widget-header + .widget-content {
             border-top: none;
             -webkit-border-top-left-radius: 0;
             -webkit-border-top-right-radius: 0;
@@ -310,72 +302,60 @@
             border-top-right-radius: 0;
         }
 
-        .widget.widget-nopad .widget-content
-        {
+        .widget.widget-nopad .widget-content {
             padding: 0;
         }
 
-        .widget .widget-content
-        {
+        .widget .widget-content {
             *zoom: 1;
         }
 
             .widget .widget-content:before,
-            .widget .widget-content:after
-            {
+            .widget .widget-content:after {
                 display: table;
                 content: "";
                 line-height: 0;
             }
 
-            .widget .widget-content:after
-            {
+            .widget .widget-content:after {
                 clear: both;
             }
 
-        .widget.widget-table .widget-content
-        {
+        .widget.widget-table .widget-content {
             padding: 0;
         }
 
-        .widget.widget-table .table
-        {
+        .widget.widget-table .table {
             margin-bottom: 0;
             border: none;
         }
 
             .widget.widget-table .table tr td:first-child,
-            .widget.widget-table .table tr th:first-child
-            {
+            .widget.widget-table .table tr th:first-child {
                 border-left: none;
             }
 
-        .widget.widget-plain
-        {
+        .widget.widget-plain {
             background: transparent;
             border: none;
         }
 
-            .widget.widget-plain .widget-content
-            {
+            .widget.widget-plain .widget-content {
                 padding: 0;
                 background: transparent;
                 border: none;
             }
 
-        .widget.widget-box .widget-content
-        {
+        .widget.widget-box .widget-content {
             background: #E3E3E3;
             background: #FFF;
         }
 
-    .shortcuts
-    {
+    .shortcuts {
         text-align: center;
     }
 
-        .shortcuts .shortcut
-        {
+        .shortcuts .shortcut {
             width: 110px;
             display: inline-block;
             padding: 12px 0;
@@ -396,8 +376,7 @@
             border-radius: 5px;
         }
 
-            .shortcuts .shortcut .shortcut-icon
-            {
+            .shortcuts .shortcut .shortcut-icon {
                 width: 100%;
                 margin-top: .25em;
                 margin-bottom: .35em;
@@ -405,8 +384,7 @@
                 color: #555;
             }
 
-            .shortcuts .shortcut:hover
-            {
+            .shortcuts .shortcut:hover {
                 background: #E8E8E8;
                 background-color: #f0f0f0;
                 background-image: -moz-linear-gradient(top, #fafafa, #e1e1e1);
@@ -418,26 +396,22 @@
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#ffe1e1e1', GradientType=0);
             }
 
-                .shortcuts .shortcut:hover .shortcut-icon
-                {
+                .shortcuts .shortcut:hover .shortcut-icon {
                     color: #666;
                 }
 
-        .shortcuts .shortcut-label
-        {
+        .shortcuts .shortcut-label {
             display: block;
             font-weight: 400;
             color: #666;
         }
 
-    .stacked
-    {
+    .stacked {
         position: relative;
     }
 
         .stacked:after,
-        .stacked:before
-        {
+        .stacked:before {
             content: '';
             position: absolute;
             display: block;
@@ -453,23 +427,20 @@
             border-top: 0;
         }
 
-        .stacked:before
-        {
+        .stacked:before {
             bottom: -4px;
             left: 6px;
             right: 6px;
         }
 
-    .news-item-foot
-    {
+    .news-item-foot {
         font-size: 11px;
         font-style: italic;
         text-align: right;
         margin-top: 2px;
     }
 
-    .news-item-preview
-    {
+    .news-item-preview {
         margin-bottom: 0;
     }
 </style>

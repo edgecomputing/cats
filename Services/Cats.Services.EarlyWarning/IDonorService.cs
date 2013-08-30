@@ -8,7 +8,7 @@ using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
-    public interface IDonorService:IDisposable
+    public interface IDonorService
     {
         bool AddDonor(Donor donor);
         bool DeleteDonor(Donor donor);
@@ -17,9 +17,5 @@ namespace Cats.Services.EarlyWarning
         Donor FindById(int id);
         List<Donor> GetAllDonor();
         List<Donor> FindBy(Expression<Func<Donor, bool>> predicate);
-        IEnumerable<Donor> Get(
-                   Expression<Func<Donor, bool>> filter = null,
-                   Func<IQueryable<Donor>, IOrderedQueryable<Donor>> orderBy = null,
-                   string includeProperties = "");
     }
 }

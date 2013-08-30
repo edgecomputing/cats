@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Models;
 
@@ -8,7 +9,7 @@ namespace Cats.Services.EarlyWarning
     public partial interface INeedAssessmentService
     {
 
-        bool AddNeedAssessment(NeedAssessmentDetail detail);
+        bool AddNeedAssessment(NeedAssessment needAssessment);
         bool DeleteNeedAssessment(NeedAssessment needAssessment);
         bool DeleteById(int id);
         bool EditNeedAssessment(NeedAssessment needAssessment);
@@ -17,9 +18,18 @@ namespace Cats.Services.EarlyWarning
         List<NeedAssessment> FindBy(Expression<Func<NeedAssessment, bool>> predicate);
         IEnumerable<NeedAssessmentHeaderViewModel>  ReturnViewModel();
 
-        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentHeaderViewModel(int region);
-        IEnumerable<NeedAssessmentViewModel> ReturnNeedAssessmentDetailViewModel(int region);
+        IEnumerable<NeedAssessmentDao> ReturnNeedAssessmentHeaderViewModel(int region);
+        IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(int region);
         IEnumerable<NeedAssessmentDetail> GetDetail(IEnumerable<NeedAssessmentViewModel> detailViewModel);
+        List<string> GetRegionsFromNeedAssessment();
+        List<string> GetZonesFromNeedAssessment();
+        List<string> GetSeasonFromNeedAssessment();
+        List<NeedAssessmentDao> GetListOfZones();
+        List<NeedAssessmentWoredaDao> GetListOfWoredas(int zoneId);
+         bool GenerateDefefaultData(NeedAssessment needAssessment);
+        IOrderedEnumerable<RegionsViewModel> GetRegions();
+        IOrderedEnumerable<RegionsViewModel> GetZoness(int region);
+        IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved();
     }
 }
 

@@ -25,9 +25,9 @@ namespace Cats.Tests.ControllersTests
             var hrd = new List<HRD>
                 {
                     new HRD { HRDID =1,RationID =1,SeasonID = 1, Status = 1,CreatedBY = 1,CreatedDate =new DateTime(12/12/2012),
-                              PublishedDate =new DateTime(12/12/2013),Year = 2012,NeedAssessmentID = 1},
+                              PublishedDate =new DateTime(12/12/2013),Year = 2012},
                     new HRD { HRDID =2,RationID =1,SeasonID = 2, Status = 2,CreatedBY = 2,CreatedDate =new DateTime(12/12/2012),
-                              PublishedDate =new DateTime(12/12/2013),Year = 2012,NeedAssessmentID = 2},
+                              PublishedDate =new DateTime(12/12/2013),Year = 2012},
                    
                 };
 
@@ -167,25 +167,6 @@ namespace Cats.Tests.ControllersTests
 
             Assert.IsNotNull(result);
         }
-     
-        //[Test]
-        //public void CanEditHRD()
-        //{
-        //    //var result = _hrdController.Edit(1);
-
-        //    //Assert.IsNotNull(result);
-        //    ////Assert.IsInstanceOf<HRD>(result.Model);
-        //}
-
-        //[Test]
-        //public void CanApproveDraftHRDs()
-        //{
-        //    var result = (ViewResult)_hrdController.ApproveHRD(1);
-
-        //    Assert.IsNotNull(result);
-        //    //    Assert.IsInstanceOf<HRD>(result.Model);
-
-        //}
 
         #endregion
     }

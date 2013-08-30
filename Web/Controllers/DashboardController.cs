@@ -50,9 +50,9 @@ namespace Cats.Controllers
                 return Json(_IDashboardService.RegionalRequestsBeneficiary(), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ZonalBeneficiaries(int? RegionId)
+        public JsonResult ZonalBeneficiaries(string RegionName)
         {
-            return Json(_IDashboardService.ZonalBeneficiaries(10), JsonRequestBehavior.AllowGet);
+            return Json(_IDashboardService.ZonalBeneficiaries(_IDashboardService.getRegionId(RegionName)), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Cats.Models
     public class ZonalBeneficiaries
     {
         public string Month { get; set; }
+        public string Zone { get; set; }
         public decimal Request { get; set; }
         public decimal Allocation { get; set; }
         public decimal HRD { get; set; }

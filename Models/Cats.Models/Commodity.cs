@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cats.Models;
 
 namespace Cats.Models
 {
@@ -42,6 +43,8 @@ namespace Cats.Models
         public virtual ICollection<RequestDetailCommodity> RequestDetailCommodities { get; set; }
         public virtual ICollection<GiftCertificateDetail> GiftCertificateDetails { get; set; }
         public virtual ICollection<ContributionDetail> ContributionDetails { get; set; } 
+
+        public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
  
     }
 }

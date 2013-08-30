@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v11.2, Version=11.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v11.2, Version=11.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework">
       <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -51,6 +53,7 @@
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="ApplicationSetting.cs" />
+    <Compile Include="BeneficiaryInfo.cs" />
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
     <Compile Include="BidWinner.cs" />
@@ -72,6 +75,8 @@
     <Compile Include="DispatchAllocationDetail.cs" />
     <Compile Include="Donor.cs" />
     <Compile Include="FDP.cs" />
+    <Compile Include="HRDPSNPPlan.cs" />
+    <Compile Include="HRDPSNPPlanInfo.cs" />
     <Compile Include="Hub.cs" />
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
@@ -111,6 +116,7 @@
     <Compile Include="Mapping\ReceiptAllocationMap.cs" />
     <Compile Include="Mapping\RegionalPSNPPlanDetailMap.cs" />
     <Compile Include="Mapping\RegionalPSNPPlanMap.cs" />
+    <Compile Include="Mapping\RegionalPSNPPledgeMap.cs" />
     <Compile Include="Mapping\RegionalRequestDetailMap.cs" />
     <Compile Include="Mapping\RegionalRequestMap.cs" />
     <Compile Include="Mapping\ReliefRequisitionDetailMap.cs" />
@@ -129,6 +135,7 @@
     <Compile Include="Mapping\TransportOrderMap.cs" />
     <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
+    <Compile Include="Mapping\TypeOfNeedAssessmentMap.cs" />
     <Compile Include="Mapping\UnitMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
     <Compile Include="Mapping\vwPSNPAnnualPlanMap.cs" />
@@ -146,10 +153,12 @@
     <Compile Include="MetaData\TransportRequisitionMeta.cs" />
     <Compile Include="MetaData\TransportRequisitionDetailMeta.cs" />
     <Compile Include="NeedAssessment.cs" />
+    <Compile Include="NeedAssessmentDao.cs" />
     <Compile Include="NeedAssessmentDetail.cs" />
     <Compile Include="NeedAssessmentHeader.cs" />
     <Compile Include="NeedAssessmentHeaderViewModel.cs" />
     <Compile Include="NeedAssessmentViewModel.cs" />
+    <Compile Include="NeedAssessmentWoredaDao.cs" />
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
     <Compile Include="Constant\CommoditySource.cs" />
@@ -166,8 +175,10 @@
     <Compile Include="ReceiptAllocation.cs" />
     <Compile Include="RegionalPSNPPlan.cs" />
     <Compile Include="RegionalPSNPPlanDetail.cs" />
+    <Compile Include="RegionalPSNPPledge.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />
+    <Compile Include="RegionsViewModel.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
     <Compile Include="RequestDetailCommodity.cs" />
@@ -186,12 +197,14 @@
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
+    <Compile Include="TypeOfNeedAssessment.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UserDashboard.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />
     <Compile Include="ViewModels\Bid\BidViewModel.cs" />
+    <Compile Include="ViewModels\FDPsCoveredByDonors.cs" />
     <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
     <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
     <Compile Include="ViewModels\RegionalSummaryViewModel.cs" />
@@ -205,6 +218,7 @@
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowStatus.cs" />
+    <Compile Include="ZonesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

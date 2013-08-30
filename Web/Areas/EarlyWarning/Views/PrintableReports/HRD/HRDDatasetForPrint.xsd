@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="HRDDataset" targetNamespace="http://tempuri.org/HRDDataset.xsd" xmlns:mstns="http://tempuri.org/HRDDataset.xsd" xmlns="http://tempuri.org/HRDDataset.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="HRDDataset" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="HRDDataset" msprop:Generator_UserDSName="HRDDataset">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="AllHRDTable" msprop:Generator_TableClassName="AllHRDTableDataTable" msprop:Generator_TableVarName="tableAllHRDTable" msprop:Generator_TablePropName="AllHRDTable" msprop:Generator_RowDeletingName="AllHRDTableRowDeleting" msprop:Generator_RowChangingName="AllHRDTableRowChanging" msprop:Generator_RowEvHandlerName="AllHRDTableRowChangeEventHandler" msprop:Generator_RowDeletedName="AllHRDTableRowDeleted" msprop:Generator_UserTableName="AllHRDTable" msprop:Generator_RowChangedName="AllHRDTableRowChanged" msprop:Generator_RowEvArgName="AllHRDTableRowChangeEvent" msprop:Generator_RowClassName="AllHRDTableRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Rationo" msprop:Generator_ColumnVarNameInTable="columnRationo" msprop:Generator_ColumnPropNameInRow="Rationo" msprop:Generator_ColumnPropNameInTable="RationoColumn" msprop:Generator_UserColumnName="Rationo" type="xs:string" minOccurs="0" />
+              <xs:element name="Season" msprop:Generator_ColumnVarNameInTable="columnSeason" msprop:Generator_ColumnPropNameInRow="Season" msprop:Generator_ColumnPropNameInTable="SeasonColumn" msprop:Generator_UserColumnName="Season" type="xs:string" minOccurs="0" />
+              <xs:element name="Year" msprop:Generator_ColumnVarNameInTable="columnYear" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_UserColumnName="Year" type="xs:string" minOccurs="0" />
+              <xs:element name="CreatedBy" msprop:Generator_ColumnVarNameInTable="columnCreatedBy" msprop:Generator_ColumnPropNameInRow="CreatedBy" msprop:Generator_ColumnPropNameInTable="CreatedByColumn" msprop:Generator_UserColumnName="CreatedBy" type="xs:string" minOccurs="0" />
+              <xs:element name="CreatedDate" msprop:Generator_ColumnVarNameInTable="columnCreatedDate" msprop:Generator_ColumnPropNameInRow="CreatedDate" msprop:Generator_ColumnPropNameInTable="CreatedDateColumn" msprop:Generator_UserColumnName="CreatedDate" type="xs:string" minOccurs="0" />
+              <xs:element name="PublishedDate" msprop:Generator_ColumnVarNameInTable="columnPublishedDate" msprop:Generator_ColumnPropNameInRow="PublishedDate" msprop:Generator_ColumnPropNameInTable="PublishedDateColumn" msprop:Generator_UserColumnName="PublishedDate" type="xs:string" minOccurs="0" />
+              <xs:element name="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn" msprop:Generator_UserColumnName="Status" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

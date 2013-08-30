@@ -3,6 +3,10 @@
     [StartDate] DATETIME       NOT NULL,
     [EndDate]   DATETIME       NOT NULL,
     [BidNumber] NVARCHAR (255) NOT NULL,
-    CONSTRAINT [PK_Bid] PRIMARY KEY CLUSTERED ([BidID] ASC)
+    [StatusID]  INT            NOT NULL,
+    CONSTRAINT [PK_Bid] PRIMARY KEY CLUSTERED ([BidID] ASC),
+    CONSTRAINT [FK_Bid_Status] FOREIGN KEY ([StatusID]) REFERENCES [Procurement].[Status] ([StatusID])
 );
+
+
 
