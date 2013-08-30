@@ -14,6 +14,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Woreda  { get; set; }
         public int RequestedBeneficiaryNo { get; set; }
         public int HRDBeneficaryNo { get; set; }
+        public int Difference { get; set; }
        
 
 

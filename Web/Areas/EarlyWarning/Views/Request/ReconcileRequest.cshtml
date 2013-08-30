@@ -1,0 +1,44 @@
+﻿
+@using Kendo.Mvc.UI
+@model Cats.Models.RegionalRequest
+
+@{
+    ViewBag.Title = "CurrentHRDs";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+}
+<div>
+    <h5 class="page-header">Request and HRD Comparison for Region :@ViewBag.RegionID </h5>
+</div>
+@section LeftBar{
+
+    @Html.Partial("_RegionalRequestLeftBar");
+}
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.HRDWithRegionalRequestViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.Woreda);
+        columns.Bound(p => p.RequestedBeneficiaryNo);
+         columns.Bound(p => p.HRDBeneficaryNo);
+            columns.Bound(p => p.Difference);
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(12)
+            .Model(model => model.Id(p => p.RegionalRequestID))
+            .Read(read => read.Action("ReconcileRequest_Read", "Request",new{id=Model.RegionalRequestID}))
+ 
+     )
+   
+      )
+
+
+
+

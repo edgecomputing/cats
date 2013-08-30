@@ -79,6 +79,8 @@
 
 
                                 </td>
+                                <td> <a href="@Url.Action("ReconcileRequest", "Request", new { Area = "EarlyWarning" ,id=modelRequest.RegionalRequestID})">Reconcile With HRD </a>
+                                    </td>
                                 @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
                                 {
                                     <td>

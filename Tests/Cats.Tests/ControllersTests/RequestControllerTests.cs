@@ -217,7 +217,53 @@ namespace Cats.Tests.ControllersTests
 
             var commodityService = new Mock<ICommodityService>();
             commodityService.Setup(t => t.GetAllCommodity()).Returns(new List<Commodity>() { new Commodity { CommodityID = 1, Name = "CSB" } });
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, mockAdminUnitService.Object, programService.Object, commodityService.Object, requestDetailService.Object, workflowService.Object, rationService.Object);
+
+            var hrds = new List<HRD>
+                          {
+                              new HRD()
+                                  {
+                                      Year = 2013,
+                                      Season = new Season() {Name = "Mehere", SeasonID = 1},
+                                      RationID = 1,
+                                      HRDDetails =
+                                          new List<HRDDetail>()
+                                              {
+                                                  new HRDDetail()
+                                                      {
+                                                          DurationOfAssistance = 2,
+                                                          HRDDetailID = 1,
+                                                          NumberOfBeneficiaries = 300,
+                                                          WoredaID = 1,
+                                                          AdminUnit =
+                                                              new AdminUnit()
+                                                                  {
+                                                                      Name = "Woreda",
+                                                                      AdminUnitID = 2,
+                                                                      AdminUnit2 =
+                                                                          new AdminUnit()
+                                                                              {
+                                                                                  Name = "Zone",
+                                                                                  AdminUnitID = 3,
+                                                                                  AdminUnit2 =
+                                                                                      new AdminUnit()
+                                                                                          {
+                                                                                              Name = "Region",
+                                                                                              AdminUnitID = 6
+                                                                                          }
+                                                                              }
+                                                                  }
+                                                      }
+                                              }
+                                  }
+                          };
+            var hrdService = new Mock<IHRDService>();
+            hrdService.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<HRD, bool>>>(), It.IsAny<Func<IQueryable<HRD>, IOrderedQueryable<HRD>>>(),
+                      It.IsAny<string>())).Returns(hrds);
+
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, mockAdminUnitService.Object, programService.Object, commodityService.Object,
+                requestDetailService.Object, workflowService.Object, rationService.Object, hrdService.Object);
 
         }
 
