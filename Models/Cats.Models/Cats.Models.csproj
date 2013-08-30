@@ -53,6 +53,7 @@
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="ApplicationSetting.cs" />
+    <Compile Include="BeneficiaryInfo.cs" />
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
     <Compile Include="BidWinner.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="DispatchAllocationDetail.cs" />
     <Compile Include="Donor.cs" />
     <Compile Include="FDP.cs" />
+    <Compile Include="HRDPSNPPlan.cs" />
+    <Compile Include="HRDPSNPPlanInfo.cs" />
     <Compile Include="Hub.cs" />
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />

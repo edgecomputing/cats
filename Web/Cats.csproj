@@ -744,6 +744,7 @@
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\ContributionSummary.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentMainLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -778,6 +779,7 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Print.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

@@ -2,20 +2,23 @@
     [NeedAID]              INT            IDENTITY (1, 1) NOT NULL,
     [Region]               INT            NOT NULL,
     [Season]               INT            NOT NULL,
+    [Year]                 INT            NULL,
+    [TypeOfNeedAssessment] INT            NULL,
     [NeedADate]            DATETIME2 (7)  NULL,
     [NeddACreatedBy]       INT            NULL,
     [NeedAApproved]        BIT            NULL,
     [NeedAApprovedBy]      INT            NULL,
-    [TypeOfNeedAssessment] INT            NULL,
     [Remark]               NVARCHAR (500) NULL,
     CONSTRAINT [PK_NeedAssessment] PRIMARY KEY CLUSTERED ([NeedAID] ASC),
     CONSTRAINT [FK_NeedAssessment_AdminUnit] FOREIGN KEY ([Region]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID]),
-    CONSTRAINT [FK_NeedAssessment_Season] FOREIGN KEY ([Season]) REFERENCES [EarlyWarning].[Season] ([SeasonID]),
+    CONSTRAINT [FK_NeedAssessment_Season] FOREIGN KEY ([Season]) REFERENCES [dbo].[Season] ([SeasonID]),
     CONSTRAINT [FK_NeedAssessment_TypeOfNeedAssessment] FOREIGN KEY ([TypeOfNeedAssessment]) REFERENCES [EarlyWarning].[TypeOfNeedAssessment] ([TypeOfNeedAssessmentID]),
     CONSTRAINT [FK_NeedAssessment_UserProfile] FOREIGN KEY ([NeddACreatedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID]),
     CONSTRAINT [FK_NeedAssessment_UserProfile1] FOREIGN KEY ([NeedAApprovedBy]) REFERENCES [dbo].[UserProfile] ([UserProfileID]),
-    CONSTRAINT [IX_NeedAssessment] UNIQUE NONCLUSTERED ([Region] ASC, [Season] ASC)
+    CONSTRAINT [IX_NeedAssessment] UNIQUE NONCLUSTERED ([Region] ASC, [Season] ASC, [Year] ASC, [TypeOfNeedAssessment] ASC)
 );
+
+
 
 
 
