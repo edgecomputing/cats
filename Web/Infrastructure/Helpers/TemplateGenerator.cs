@@ -13,37 +13,10 @@ namespace Cats.Infrastructure.Helpers
     public class TemplateGenerator
     {
        private readonly UnitOfWork _unitofwork = new UnitOfWork();
-        public bool GenerateTemplate(int id,string templateType)
+       public bool GenerateTemplate(int id, string templateName)
         {
-            string templateName = string.Empty;
+            //string templateName = string.Empty;
            
-
-            switch (templateType)
-            {
-                case "First Template For Fedral Ministry of  Finance":
-                    templateName = "Federal Ministry of Finance";
-                    break;
-                case "Template With Details":
-                    templateName = "Federal Ministry of Finance Detail";
-                    break;
-                case "Amharic First Template":
-                    templateName = "ERCA";
-                    break;
-                case "Amharic Template Attachment":
-                    templateName = "DRMFSS";
-                    break;
-                case "Amharic letter template with detail":
-                    templateName = "Amharic letter template with detail";
-                    break;
-                case "የአማርኛ ደብዳቤ ቁጥር 1":
-                    templateName = "ERCA";
-                    break;
-                case "የአማርኛ ደብዳቤ ቁጥር 2":
-                    templateName = "ERCA";
-                    break;
-               
-            }
-
 
             string path = HttpContext.Current.Server.MapPath("~/Templates/" + templateName + ".dotx");
 
@@ -159,8 +132,6 @@ namespace Cats.Infrastructure.Helpers
                             wordApp.Selection.TypeText(giftCert[0].YearPurchased.ToString());
                             break;
                        
-
-
                     }
 
 

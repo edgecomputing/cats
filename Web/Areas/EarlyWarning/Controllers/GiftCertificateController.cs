@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.GiftCertificate.Models;
+using Cats.Infrastructure.Helpers;
 using Cats.Models.Partial;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
@@ -64,8 +65,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(result.ToDataSourceResult(request, ModelState));
         }
 
-        public void GenerateTemplate1(int id)
+        public void GenerateTemplate(int id)
         {
+            
+          var template    = new TemplateGenerator();
+          //  template.GenerateTemplate(int id, string teplateName); //here you have to send the name of the tempalte and the id of the giftcertificate
         }
        
 
