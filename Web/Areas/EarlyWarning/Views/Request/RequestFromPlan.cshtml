@@ -1,0 +1,28 @@
+﻿@using Cats.Models
+@model Cats.Models.HRDPSNPPlanInfo
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Request From Plan</h2>
+@Html.HiddenFor(model => model.HRDPSNPPlan.ProgramID)
+@Html.HiddenFor(model => model.HRDPSNPPlan.RegionID)
+@Html.HiddenFor(model => model.HRDPSNPPlan.Month)
+@Html.HiddenFor(model => model.HRDPSNPPlan.Year)
+
+@(Html.Kendo().Grid(Model.BeneficiaryInfos).Name("grid")
+.Columns(col=>
+             {
+                 
+                 col.Bound(m => m.FDPID);
+                 col.Bound(m => m.Beneficiaries);
+                 col.Command(command => command.Destroy());
+
+
+             }).Pageable()
+             .DataSource(datasource=>datasource.Server()
+             .Model(model=>model.Id(p=>p.FDPID))
+             .Update(update=>update.Action("RequestFromPlan_Update","Request"))
+             .Destroy(destroy=>destroy.Action("RequestFromPlan_Destroy","Request"))))

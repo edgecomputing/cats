@@ -9,6 +9,7 @@ using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
 using Moq;
@@ -214,10 +215,11 @@ namespace Cats.Tests.ControllersTests
             var requestDetailService = new Mock<IRegionalRequestDetailService>();
             requestDetailService.Setup(t => t.Get(It.IsAny<Expression<Func<RegionalRequestDetail, bool>>>(), null, It.IsAny<string>())).Returns(regionalRequests.First().RegionalRequestDetails);
 
-
+            var commonService = new Mock<ICommonService>();
+            
             var commodityService = new Mock<ICommodityService>();
             commodityService.Setup(t => t.GetAllCommodity()).Returns(new List<Commodity>() { new Commodity { CommodityID = 1, Name = "CSB" } });
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, mockAdminUnitService.Object, programService.Object, commodityService.Object, requestDetailService.Object, workflowService.Object, rationService.Object);
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object,commonService.Object);
 
         }
 
@@ -327,7 +329,7 @@ namespace Cats.Tests.ControllersTests
                 };
 
             //Act
-            _requestController.New(newRegionalRequest, "1-1-2005");
+            _requestController.New(new HRDPSNPPlan());
             var request = new DataSourceRequest();
             var result = (JsonResult)_requestController.Request_Read(request);
             //Assert

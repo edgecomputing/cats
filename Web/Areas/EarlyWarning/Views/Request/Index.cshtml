@@ -28,6 +28,9 @@
         <li class="active">Request</li>
     </ul>
 }
+@using Cats.Areas.EarlyWarning.Models
+@using Cats.Models.Constant
+@using Kendo.Mvc.UI
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("grid")
     .Columns(columns =>

@@ -24,7 +24,7 @@ namespace Cats
             AreaRegistration.RegisterAllAreas();
 
             DependencyResolver.SetResolver(new NinjectDependencyResolver());
-
+            
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
