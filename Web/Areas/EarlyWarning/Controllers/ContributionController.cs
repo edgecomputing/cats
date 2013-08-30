@@ -189,5 +189,44 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? year)
+        {
+            var contributionYear = year ?? 0;
+            var contribution = _contributionService.Get(m => m.Year == contributionYear, null, "ContributionDetails");
+            //var contribution = _contributionService.GetAllContribution();
+
+            if (contribution != null)
+            {
+                var detailsToDisplay = GetSummary(contribution).ToList();
+                return Json(detailsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult ContributionSummary()
+        {
+            //var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
+            //return View(contribution);
+            ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "Year", "Year");
+            return View();
+        }
+        private IEnumerable<ContributionSummaryViewModel> GetSummary(IEnumerable<Contribution> contribution)
+        {
+            //var details = contribution.ContributionDetails;
+            return (from summary in contribution
+                    select new ContributionSummaryViewModel
+                        {
+                            ContributionID = summary.ContributionDetails.First().ContributiionID,
+                            HRDID = summary.HRDID,
+                            DonorID = summary.DonorID,
+                            Donor = summary.Donor.DonorCode,
+                            CommodityID = summary.ContributionDetails.First().CommodityID,
+                            Commodity = summary.ContributionDetails.First().Commodity.Name,
+                            Ammount = summary.ContributionDetails.First().Quantity
+                                                
+                        });
+        }
     }
 }

@@ -80,6 +80,23 @@ namespace Cats.Services.EarlyWarning
                                                                                   TypeOfNeedAssessment = need.TypeOfNeedAssessment1.TypeOfNeedAssessmentID
                                                                               });
         }
+        public IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved()
+        {
+            var needAssessment = _unitOfWork.NeedAssessmentRepository.Get(g => g.NeedAApproved == true); //featch unapproved need assessments
+            return needAssessment.Select(need => new NeedAssessmentHeaderViewModel()
+            {
+                NeedAID = need.NeedAID,
+                Region = need.Region,
+                RegionName = need.AdminUnit.Name,
+                Season = need.Season1.SeasonID,
+                SeasonName = need.Season1.Name,
+                NeedADate = (DateTime)need.NeedADate,
+                NeedAApproved = need.NeedAApproved,
+                NeedACreaterName = need.UserProfile1.UserName,
+                NeedACreatedBy = need.NeddACreatedBy,
+                TypeOfNeedAssessment = need.TypeOfNeedAssessment1.TypeOfNeedAssessmentID
+            });
+        }
 
         public IEnumerable<NeedAssessmentDao> ReturnNeedAssessmentHeaderViewModel(int regionId)
         {

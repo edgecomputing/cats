@@ -30,14 +30,14 @@
          {
              columns.Bound(p => p.Region).Width(5).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
-             columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" }); 
-             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary").HtmlAttributes(new { align="Right"});
+             columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
              columns.Bound(p => p.DurationOfAssistance).Width(5).Title("Duration").HtmlAttributes(new { align = "Right" });
              columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(10);
              columns.Bound(p => p.Cereal).Format("{0:N}").HtmlAttributes(new { align = "Right" });
              columns.Bound(p => p.BlendedFood).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
              columns.Bound(p => p.Oil).Format("{0:N}").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.Pulse).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.Pulse).Format("{0:N}").HtmlAttributes(new {align = "Right"});
              columns.Bound(p => p.Total).Format("{0:N}").HtmlAttributes(new { align = "Right" });
 
 
@@ -57,9 +57,9 @@
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
-      .PageSize(15)
+       .PageSize(15)
       .Events(events => events.Error("error_handler"))
-      //.Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
+       .Aggregates(aggregates => aggregates.Add(p => p.Total).Sum())
        .Model(model =>
                               {
                                   model.Id(p => p.HRDID);

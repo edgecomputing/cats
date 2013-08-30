@@ -11,14 +11,18 @@
     @Html.Partial("_HRDLeftBar");
    
 }
+
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="save"></a>
 }
+<div>
+    <h4>Create HRD</h4>
+</div>
+    @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
 
-@using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
-{
+    {
         @Html.ValidationSummary(true)
 
         <div class="well form-horizontal">
