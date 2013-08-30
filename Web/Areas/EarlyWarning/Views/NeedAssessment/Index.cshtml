@@ -1,8 +1,10 @@
-﻿@using Cats.Models
+﻿@using Cats.Helpers
 @using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Translator.Translate(" Beneficiary numbers and duration of assisstance");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 }
 
 @section Toolbar
@@ -31,10 +33,13 @@
     .Columns(columns =>
 
     {
-        columns.Bound(p => p.RegionName);
-        columns.Bound(p => p.SeasonName).Visible(true).Width(100);
-        columns.Bound(p => p.NeedADate).Format("{0:dd/mm/yyyy}");
-        columns.Bound(p => p.NeedACreaterName).Width(100);
+        columns.Bound(p => p.RegionName).Title("Region");
+        columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
+        columns.Template(@<text>
+    @item.NeedADate.ToCTSPreferedDateFormat(user.LanguageCode)
+    </text>).Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+
+        columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Command(p =>
         {
             p.Custom("Edit").Click("NeedAssessmentEdit");

@@ -276,6 +276,7 @@
     <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\Helpers\TemplateGenerator.cs" />
     <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
