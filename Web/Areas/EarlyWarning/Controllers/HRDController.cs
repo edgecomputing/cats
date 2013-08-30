@@ -180,7 +180,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                {
                                    Region = regionalDetail.Key,
                                    NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
-                                   Duration = regionalDetail.FirstOrDefault().DurationOfAssistance
+                                   Duration = regionalDetail.First().DurationOfAssistance
                                };
             return (from total in groupedTotal
                             select new RegionalSummaryViewModel

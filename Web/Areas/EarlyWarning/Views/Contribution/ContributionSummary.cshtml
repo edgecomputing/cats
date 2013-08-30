@@ -16,14 +16,14 @@
 
     @Html.Partial("_ContributionLeftBar");
 }
-<h4>Select year to view summary</h4>
 <div class="form-horizontal">
     <table>
         <tr>
             <td>
-                Select Year to View Contribution Summary    
+                Select Year to View Contribution Summary  :    
             </td>
-            <td> < Year:
+            
+            <td> 
                 @Html.DropDownList("Year", string.Empty)
             </td>
         </tr>
@@ -31,17 +31,22 @@
 
 </div>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionSummaryViewModel>()
-          
+
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.Donor);
+            columns.Bound(p => p.Donor);
             columns.Bound(p => p.Commodity);
-            columns.Bound(p => p.Ammount);
-       
+            columns.Bound(p => p.Ammount).ClientGroupFooterTemplate("Total: #=sum#");
+
         })
-    .DataSource(datasource => datasource.Ajax().Read(read => read.Action("ContributionSummary_Read", "Contribution").Data("filterData")))
-                                                       .Groupable())
+        .Pageable()
+    .DataSource(datasource => datasource.Ajax()
+        .Aggregates(aggregates => aggregates.Add(p => p.Ammount).Sum())
+        .Group(group => group.Add(m => m.Donor))
+        .PageSize(8)
+     .Read(read => read.Action("ContributionSummary_Read", "Contribution").Data("filterData")))
+      .Groupable())
    @* //.Pageable()
    // .Sortable()
    // .Filterable()
@@ -66,12 +71,13 @@
     function filterData() {
 
         return {
-            year: $("#year").val()          
+            year: $("#Year").val()
+          
         };
     }
 
     $(document).ready(function () {
-        $("#year").change(function () {
+        $("#Year").change(function () {
             var grid = $("#grid").data("kendoGrid");
             grid.dataSource.read();
         });

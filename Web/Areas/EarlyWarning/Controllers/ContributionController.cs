@@ -189,10 +189,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
-         [AcceptVerbs(HttpVerbs.Post)]
+        [HttpPost]
         public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? year)
         {
-            int contributionYear = year ?? 0;
+            var contributionYear = year ?? 0;
             var contribution = _contributionService.Get(m => m.Year == contributionYear, null, "ContributionDetails");
             //var contribution = _contributionService.GetAllContribution();
 
@@ -209,7 +209,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             //var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
             //return View(contribution);
-            ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "contributionID", "Year");
+            ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "Year", "Year");
             return View();
         }
         private IEnumerable<ContributionSummaryViewModel> GetSummary(IEnumerable<Contribution> contribution)
