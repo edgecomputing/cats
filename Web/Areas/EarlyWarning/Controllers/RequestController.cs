@@ -157,8 +157,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO:Get PSNPHRDPlann info
-               var psnphrdPlanInfo = new HRDPSNPPlanInfo();
+
+                var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
 
                return View("RequestFromPlan", psnphrdPlanInfo);
             }
@@ -173,7 +173,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         [HttpPost]
         public ActionResult RequestFromPlan(HRDPSNPPlanInfo psnphrdPlanInfo)
-        {// CretaeRegionalRequest(psnphrdPlanInfo);
+        {
+            CretaeRegionalRequest(psnphrdPlanInfo);
             return RedirectToAction("Index");
         }
 

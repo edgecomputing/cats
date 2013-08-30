@@ -9,9 +9,9 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<div class="well">
+
     <h4 class="page-header">Regional Monthly Requests</h4>
-</div>
+
 @section LeftBar
 {
     @Html.Partial("_RegionalRequestLeftBar")
@@ -21,13 +21,7 @@
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("New", "Request")"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li class="active">Request</li>
-    </ul>
-}
+
 @using Cats.Areas.EarlyWarning.Models
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
