@@ -16,4 +16,21 @@ namespace Cats.Models
         public string RegionName { get; set; }
         public int RequestsCount { get; set; }
     }
+
+    public class RegionalBeneficiaries
+    {
+        public string RegionName { get; set; }
+        public decimal Request { get; set; }
+        public decimal Allocation { get; set; }
+        public decimal HRD { get; set; }
+    }
+
+    public class ZonalBeneficiaries
+    {
+        public string Month { get; set; }
+        public decimal Request { get; set; }
+        public decimal Allocation { get; set; }
+        public decimal HRD { get; set; }
+
+    }
 }
