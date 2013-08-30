@@ -108,7 +108,7 @@
                                     .Read(read => read.Action("RationDetail_Read", "Ration", new { id = Model.RationID }))
                                     .Update(update => update.Action("RationDetail_Update", "Ration"))
                                     .Destroy(update => update.Action("RationDetail_Destroy", "Ration"))
-          ))
+          ).Pageable())
 
 @section Scripts
 {

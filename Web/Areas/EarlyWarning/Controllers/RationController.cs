@@ -132,7 +132,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     ration.CreatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
                     ration.CreatedDate = DateTime.Today;
                     _rationService.AddRation(ration);
-                    return Json(new { success = true });
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {

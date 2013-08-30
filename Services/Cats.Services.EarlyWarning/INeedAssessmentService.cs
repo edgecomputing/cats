@@ -29,6 +29,7 @@ namespace Cats.Services.EarlyWarning
          bool GenerateDefefaultData(NeedAssessment needAssessment);
         IOrderedEnumerable<RegionsViewModel> GetRegions();
         IOrderedEnumerable<RegionsViewModel> GetZoness(int region);
+        IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved();
     }
 }
 
