@@ -585,15 +585,36 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-        #endregion
+        #endregion 
 
+
+        public ActionResult ReconcileRequest(int id)
+        {
+            var regionalRequest = _regionalRequestService.FindById(id);
+            var details = regionalRequest.RegionalRequestDetails;
+
+            var WoredaGrouped = (from detail in details
+                                 group detail by detail.Fdp.AdminUnit
+                                     into WoredaDetail
+                                     select new
+                                     {
+                                         Woreda = WoredaDetail.Key,
+                                         NoOfBeneficiaries = WoredaDetail.Sum(m => m.Beneficiaries)
+                                     });
+            var requested = (from woredaDetail in WoredaGrouped
+                             select new HRDWithRegionalRequestViewModel
+                             {
+                                 Woreda = woredaDetail.Woreda.Name,
+                                 RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries
+
+
+                             });
+
+            return View(requested);
+        }
+
+        
     }
-
-
-
-
-
-
 
 
 }
