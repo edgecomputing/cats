@@ -19,8 +19,6 @@
     @Html.Partial("_HRDLeftBar");
 }
 @(Html.Kendo().Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
-//Grid((IEnumerable<Cats.Models.ViewModels.RegionalSummaryViewModel>)ViewData["viewModel"])
-//.Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
           
     .Name("grid")
     .Columns(columns =>
@@ -54,36 +52,3 @@
       )
 
 
-@*<table class="table table-bordered table-condensed table-striped">
-    <thead>
-        <th>Region</th>
-        <th>Beneficiaries</th>
-        <th>Cereal</th>
-         <th>Bleended Food</th>
-        <th>Pulse</th>
-        <th>Oil</th>
-        <th>Total</th>
-    </thead>
-    @foreach (RegionalSummaryViewModel row in Model)
-    {
-        <tr>
-            <td>@row.RegionName</td>
-            <td>@row.NumberOfBeneficiaries</td>
-            <td>@row.Cereal</td>
-            <td>@row.BlededFood</td>
-            <td>@row.Pulse</td>
-            <td>@row.Oil</td>
-            <td>@row.Total</td>
-        </tr>
-        
-    }
-    <tr>
-        <td>Grand Total</td>
-        <td>@Model.Sum(m=>m.NumberOfBeneficiaries)</td>
-        <td>@Model.Sum(m=>m.Cereal)</td>
-        <td>@Model.Sum(m=>m.BlededFood)</td>
-        <td>@Model.Sum(m=>m.Oil)</td>
-        <td>@Model.Sum(m=>m.Pulse)</td>
-        <td>@Model.Sum(m=>m.Total)</td>
-    </tr>
-</table>*@
