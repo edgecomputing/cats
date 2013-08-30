@@ -12,6 +12,6 @@ namespace Cats.Models
        public int ProgramID      { get; set; }
        public int Month { get; set; }
        public int RegionID { get; set; }
-      
+       public int SeasonID { get; set; }
     }
 }
