@@ -106,7 +106,8 @@ namespace Cats.Data.UnitWork
  
         IGenericRepository<Detail> DetailRepository { get; }
 
-        IGenericRepository<TypeOfNeedAssessment> TypeOfNeedAssessmentRepository { get; } 
+        IGenericRepository<TypeOfNeedAssessment> TypeOfNeedAssessmentRepository { get; }
+        IGenericRepository<LetterTemplate> LetterTemplateRepository { get; } 
         void Save();
 
     }

@@ -35,9 +35,7 @@
     {
         columns.Bound(p => p.RegionName).Title("Region");
         columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
-        columns.Template(@<text>
-    @item.NeedADate.ToCTSPreferedDateFormat(user.LanguageCode)
-    </text>).Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+        columns.Bound(p=>p.NeedADate).Format("{0:dd/mm/yyyy}").Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
 
         columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Command(p =>
@@ -123,6 +121,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = null;
         window.location = "NeedAssessment/EditNeedAssessment/" + dataItem.Region;
     }
 </script>
@@ -153,6 +152,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wnd.center().open();
         $("#yes").click(function () {
+            window.location = null;
             window.location = "NeedAssessment/ApproveNeedAssessment/" + dataItem.NeedAID;
             wnd.close();
         });

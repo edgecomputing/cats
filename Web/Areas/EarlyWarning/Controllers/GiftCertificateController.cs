@@ -28,13 +28,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
         private readonly ICommonService _commonService;
         private readonly IAccountTransactionService _accountTransactionService;
-
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,IAccountTransactionService accountTransactionService)
+        private readonly ILetterTemplateService _letterTemplateService;
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,IAccountTransactionService accountTransactionService, ILetterTemplateService letterTemplateService)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
             _commonService = commonService;
             _accountTransactionService = accountTransactionService;
+            _letterTemplateService = letterTemplateService;
         }
 
         public ActionResult Index()
@@ -65,11 +66,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(result.ToDataSourceResult(request, ModelState));
         }
 
-        public void GenerateTemplate(int id)
+        public ActionResult GenerateTemplate(int id)
         {
+            return RedirectToAction("LetterTemplate", new {giftceritificateId = id});
             
-          var template    = new TemplateGenerator();
-          //  template.GenerateTemplate(int id, string teplateName); //here you have to send the name of the tempalte and the id of the giftcertificate
+         
         }
        
 
@@ -273,8 +274,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
         }
 
-       
+        public ActionResult LetterTemplate(int giftceritificateId)
+        {
+            ViewData["giftcertficateId"] = giftceritificateId;
+            return View();
+        }
 
+       public ActionResult ShowLetterTemplates([DataSourceRequest] DataSourceRequest request)
+       {
+           return Json(_letterTemplateService.GetAllLetterTemplates().ToDataSourceResult(request));
+
+       }
+        public ActionResult ShowTemplate(string fileName, int giftCertificateId)
+        {
+            var template = new TemplateGenerator();
+            template.GenerateTemplate(giftCertificateId,  fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
+            return RedirectToAction("Index");
+        }
         protected override void Dispose(bool disposing)
         {
             _giftCertificateService.Dispose();

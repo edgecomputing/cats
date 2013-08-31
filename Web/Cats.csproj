@@ -746,6 +746,7 @@
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\ContributionSummary.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentMainLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\LetterTemplate.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

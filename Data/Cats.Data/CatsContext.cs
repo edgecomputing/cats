@@ -97,7 +97,7 @@ namespace Cats.Data
         public DbSet<AccountTransaction> AccountTransactions { get; set; } 
 
         public DbSet<TypeOfNeedAssessment> TypeOfNeedAssessment { get; set; }
-
+        public DbSet<LetterTemplate> LetterTemplate { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new BusinessProcessStateMap());
@@ -178,7 +178,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TypeOfNeedAssessmentMap());
             modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
             modelBuilder.Configurations.Add(new AccountTransactionMap());
-
+            modelBuilder.Configurations.Add(new LetterTemplateMap());
 
 
         }

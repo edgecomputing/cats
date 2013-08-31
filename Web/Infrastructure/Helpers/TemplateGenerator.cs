@@ -18,7 +18,7 @@ namespace Cats.Infrastructure.Helpers
             //string templateName = string.Empty;
            
 
-            string path = HttpContext.Current.Server.MapPath("~/Templates/" + templateName + ".dotx");
+            string path = HttpContext.Current.Server.MapPath("~/Templates/" + templateName + ".dot");
 
             Object oMissing = System.Reflection.Missing.Value;
 
@@ -26,11 +26,12 @@ namespace Cats.Infrastructure.Helpers
 
            
             var giftCert = GetGiftCertificate(id);
-            var sourceOfFund =_unitofwork.DetailRepository.FindBy(s => s.DetailID == giftCert[0].DFundSourceID).Single();
-            var currency =  _unitofwork.DetailRepository.FindBy(s => s.DetailID == giftCert[0].DCurrencyID).Single();
-            var budgetType =  _unitofwork.DetailRepository.FindBy(s => s.DetailID == giftCert[0].DBudgetTypeID).Single();
-            if (giftCert.Count < 1)
+            if (giftCert==null)
                 return false;
+            var sourceOfFund =_unitofwork.DetailRepository.FindBy(s => s.DetailID == giftCert.DFundSourceID).Select(p=>p.Name).Single();
+            var currency =  _unitofwork.DetailRepository.FindBy(s => s.DetailID == giftCert.DCurrencyID).Select(p=>p.Name).Single();
+            var budgetType = _unitofwork.DetailRepository.FindBy(s => s.DetailID == giftCert.DBudgetTypeID).Select(p => p.Name).Single();
+            
 
             Application wordApp = new Application();
             Document wordDoc = new Document();
@@ -55,57 +56,62 @@ namespace Cats.Infrastructure.Helpers
 
                     switch (fieldName)
                     {
-                        case "Commodity":
+
+                        case "ReferenceNo":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].Commodity.Name);
+                            wordApp.Selection.TypeText(giftCert.Commodity.Name);
+                            break;
+                    case "Commodity":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert.Commodity.Name);
                             break;
                         case "Year":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].GiftCertificate.GiftDate.Year.ToString(CultureInfo.InvariantCulture));
+                            wordApp.Selection.TypeText(giftCert.GiftCertificate.GiftDate.Year.ToString(CultureInfo.InvariantCulture));
                             break;
                         case "Bill":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].BillOfLoading);
+                            wordApp.Selection.TypeText(giftCert.BillOfLoading);
                             break;
                         case "Estimated":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", giftCert[0].EstimatedPrice));
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", giftCert.EstimatedPrice));
                             break;
                         case "AccountNo":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString(CultureInfo.InvariantCulture));
+                            wordApp.Selection.TypeText(giftCert.AccountNumber.ToString(CultureInfo.InvariantCulture));
                             break;
                         case "money":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate(giftCert[0].EstimatedTax)));
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate(giftCert.EstimatedTax)));
                             break;
                         case "cent":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", (giftCert[0].EstimatedTax - (Math.Truncate(giftCert[0].EstimatedTax)))));
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", (giftCert.EstimatedTax - (Math.Truncate(giftCert.EstimatedTax)))));
                             break;
                         case "Tax":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].EstimatedTax.ToString());
+                            wordApp.Selection.TypeText(giftCert.EstimatedTax.ToString());
                             break;
                         case "ETA":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].GiftCertificate.ETA.ToString());
+                            wordApp.Selection.TypeText(giftCert.GiftCertificate.ETA.ToString());
                             break;
-                        case "Currency":
+                        case "currency":
                              myMergeField.Select();
                             wordApp.Selection.TypeText(currency.ToString());
                             break;
                         case "AccountNumber":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].AccountNumber.ToString());
+                            wordApp.Selection.TypeText(giftCert.AccountNumber.ToString());
                             break;
                         case "BillFloading":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].BillOfLoading.ToString());
+                            wordApp.Selection.TypeText(giftCert.BillOfLoading.ToString());
                             break;
                         case "Donor":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].GiftCertificate.Donor.Name.ToString());
+                            wordApp.Selection.TypeText(giftCert.GiftCertificate.Donor.Name.ToString());
                             break;
                         case "BudgetType":
                              myMergeField.Select();
@@ -117,19 +123,31 @@ namespace Cats.Infrastructure.Helpers
                             break;
                         case "EstimatedPrice":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].EstimatedPrice.ToString());
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate(double.Parse(giftCert.EstimatedPrice.ToString()))));
                             break;
                         case "EstimatedTax":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].EstimatedTax.ToString());
+                            wordApp.Selection.TypeText(String.Format("{0:0,0.0}", Math.Truncate(double.Parse(giftCert.EstimatedTax.ToString()))));
                             break;
-                        case "WeightINMT":
+                        case "WeightInMT":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].WeightInMT.ToString());
+                            wordApp.Selection.TypeText(giftCert.WeightInMT.ToString());
                             break;
                         case "YearPurchased":
                              myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert[0].YearPurchased.ToString());
+                            wordApp.Selection.TypeText(giftCert.YearPurchased.ToString());
+                            break;
+                        case "Vessle":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert.GiftCertificate.Vessel.ToString());
+                            break;
+                        case "GiftDate":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert.YearPurchased.ToString());
+                            break;
+                        case "SINumber":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(giftCert.GiftCertificate.SINumber.ToString());
                             break;
                        
                     }
@@ -153,12 +171,12 @@ namespace Cats.Infrastructure.Helpers
 
         }
 
-        private List<GiftCertificateDetail> GetGiftCertificate(int giftCertId)
+        private GiftCertificateDetail GetGiftCertificate(int giftCertId)
         {
             var giftCertList = _unitofwork.GiftCertificateDetailRepository.Get(d => d.GiftCertificate.GiftCertificateID == giftCertId,
-                                                                 null, "GiftCertificate");
+                                                                 null, "GiftCertificate").SingleOrDefault();
 
-            return giftCertList.ToList();
+            return giftCertList;
         }
     }
 
