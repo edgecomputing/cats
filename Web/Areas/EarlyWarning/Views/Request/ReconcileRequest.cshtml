@@ -25,11 +25,11 @@
         columns.Bound(p => p.RequestedBeneficiaryNo);
          columns.Bound(p => p.HRDBeneficaryNo);
             columns.Bound(p => p.Difference);
-            columns.Bound(p => p.Color).ClientTemplate("# if(HRDBeneficaryNo<RequestedBeneficiaryNo) {#" +
+            columns.Bound(p => p.Color).ClientTemplate("# if(HRDBeneficaryNo < RequestedBeneficiaryNo) {#" +
                 "<div style='background-color: Red;'>" +
                 "<#} else {#" +
                 "<div style='background-color: Green;'>" +
-                "<#}#>").Title("Status")             
+                "<#}#").Title("Status")             
                 .Width(80);
                   
                   })

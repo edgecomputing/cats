@@ -625,7 +625,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                      {
                                          Woreda = WoredaDetail.Key,
                                          NoOfBeneficiaries = WoredaDetail.Sum(m => m.Beneficiaries),
-                                         hrdBeneficiary=hrdDetail.First().NumberOfBeneficiaries
+                                         hrdBeneficiary=hrdDetail.First(m=>m.AdminUnit.AdminUnitID==WoredaDetail.Key.AdminUnitID).NumberOfBeneficiaries
                                      });
                        return  (from woredaDetail in WoredaGrouped
                              select new HRDWithRegionalRequestViewModel
