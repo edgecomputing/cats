@@ -35,10 +35,16 @@ namespace Cats.Infrastructure.Helpers
 
             Application wordApp = new Application();
             Document wordDoc = new Document();
+            try
+            {
+                wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
+            }catch
 
-            wordDoc = wordApp.Documents.Add(ref oTemplatePath, ref oMissing, ref oMissing, ref oMissing);
+            {
+                
 
-            foreach (Field myMergeField in wordDoc.Fields)
+            }
+           foreach (Field myMergeField in wordDoc.Fields)
             {
                 Range rngFieldCode = myMergeField.Code;
                 String fieldText = rngFieldCode.Text;
@@ -143,7 +149,7 @@ namespace Cats.Infrastructure.Helpers
                             break;
                         case "GiftDate":
                             myMergeField.Select();
-                            wordApp.Selection.TypeText(giftCert.YearPurchased.ToString());
+                            wordApp.Selection.TypeText(giftCert.GiftCertificate.GiftDate.ToString());
                             break;
                         case "SINumber":
                             myMergeField.Select();
