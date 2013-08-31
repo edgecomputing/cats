@@ -41,8 +41,18 @@ namespace Cats.Controllers
 
         public JsonResult BarBeneficiaries()
         {
-
             return Json(_IDashboardService.BarNoOfBeneficiaries(), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult BarRegionalReqDetailCommodity()
+        {
+                return Json(_IDashboardService.RegionalRequestsBeneficiary(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ZonalBeneficiaries(string RegionName)
+        {
+            return Json(_IDashboardService.ZonalBeneficiaries(_IDashboardService.getRegionId(RegionName)), JsonRequestBehavior.AllowGet);
         }
     }
 }

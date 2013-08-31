@@ -34,17 +34,46 @@ namespace Cats.Services.Common
         {
             return _unitOfWork.ProgramRepository.Get(filter, orderBy, includeProperties);
         }
+        public IEnumerable<Models.Ration> GetRations(System.Linq.Expressions.Expression<Func<Models.Ration, bool>> filter = null, Func<IQueryable<Models.Ration>, IOrderedQueryable<Models.Ration>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.RationRepository.Get(filter, orderBy, includeProperties);
+        }
+
+        public IEnumerable<Models.AdminUnit> GetAminUnits(System.Linq.Expressions.Expression<Func<Models.AdminUnit, bool>> filter = null, Func<IQueryable<Models.AdminUnit>, IOrderedQueryable<Models.AdminUnit>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.AdminUnitRepository.Get(filter, orderBy, includeProperties);
+        }
+       
+
 
      
-
 
         public IEnumerable<Models.Detail> GetDetails(System.Linq.Expressions.Expression<Func<Models.Detail, bool>> filter = null, Func<IQueryable<Models.Detail>, IOrderedQueryable<Models.Detail>> orderBy = null, string includeProperties = "")
         {
             return _unitOfWork.DetailRepository.Get(filter, orderBy, includeProperties);
         }
+       
+        public string GetStatusName(Models.Constant.WORKFLOW workflow, int statusId)
+        {
+            var workflowStatus =
+                _unitOfWork.WorkflowStatusRepository.Get(t => t.WorkflowID == (int)workflow && t.StatusID == statusId).
+                    FirstOrDefault();
+            return workflowStatus != null ? workflowStatus.Description :
+             string.Empty;
+        }
+        public List<Models.WorkflowStatus> GetStatus(Models.Constant.WORKFLOW workflow)
+        {
+            return _unitOfWork.WorkflowStatusRepository.Get(t => t.WorkflowID == (int)workflow).ToList();
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();
+        }
+
+
+        public IEnumerable<Models.Season> GetSeasons(System.Linq.Expressions.Expression<Func<Models.Season, bool>> filter = null, Func<IQueryable<Models.Season>, IOrderedQueryable<Models.Season>> orderBy = null, string includeProperties = "")
+        {
+          return  _unitOfWork.SeasonRepository.GetAll();
         }
     }
 }
