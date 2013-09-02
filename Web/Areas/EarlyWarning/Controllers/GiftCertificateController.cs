@@ -40,7 +40,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-            var gifts = _giftCertificateService.Get(), "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
+            var gifts = _giftCertificateService.Get(null,null, "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
             var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(),true);
             return View(giftsViewModel);
 
