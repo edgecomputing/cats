@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Cats.Models
 {
     [MetadataType(typeof(RegionalRequestMeta))]
-   public partial class RegionalRequest
+    public partial class RegionalRequest
     {
 
     }

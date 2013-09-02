@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -9,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Cats.Data.Repository
 {
-    public class GenericRepository<T> :
+   public class GenericRepository<T> :
    IGenericRepository<T>
         where T : class
     {
@@ -17,7 +15,9 @@ namespace Cats.Data.Repository
         {
             _context = context;
         }
+
         private CatsContext _context;
+
         public CatsContext db
         {
             get { return _context; }
@@ -62,7 +62,8 @@ namespace Cats.Data.Repository
         {
             return _context.Set<T>().Find(id);
         }
-        public virtual T FindById(Guid id)
+   
+       public virtual T FindById(Guid id)
         {
             return _context.Set<T>().Find(id);
         }
@@ -71,6 +72,7 @@ namespace Cats.Data.Repository
           Expression<Func<T, bool>> filter = null,
           Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
           string includeProperties = "")
+       
         {
             IQueryable<T> query = _context.Set<T>();
 
@@ -84,7 +86,6 @@ namespace Cats.Data.Repository
             {
                 query = query.Include(includeProperty);
             }
-         
             return query.ToList();
         }
     }
