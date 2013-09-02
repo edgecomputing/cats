@@ -190,9 +190,6 @@ namespace Cats.Services.EarlyWarning
             {
                 Woreda = adminUnit.AdminUnitID,
                 WoredaName = adminUnit.Name
-
-
-
             }).ToList();
         }
      

@@ -28,17 +28,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IFDPService _fdpService;
         private IRegionalRequestDetailService _regionalRequestDetailService;
         private ICommonService _commonService;
+        private IHRDService _hrdService;
 
         public RequestController(IRegionalRequestService reliefRequistionService
                                  , IFDPService fdpService,
                                  IRegionalRequestDetailService reliefRequisitionDetailService,
-                                ICommonService commonService
+                                ICommonService commonService,IHRDService hrdService
             )
         {
            _regionalRequestService = reliefRequistionService;
            _fdpService = fdpService;
             _regionalRequestDetailService = reliefRequisitionDetailService;
             _commonService = commonService;
+            this._hrdService = hrdService;
         }
 
 
@@ -387,15 +389,59 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
      
        
-        #endregion
+        #endregion 
 
+        public ActionResult ReconcileRequest_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
+            var regionalRequest = _regionalRequestService.Get(m => m.RegionalRequestID == id, null, "RegionalRequestDetails").FirstOrDefault();
+
+            if (regionalRequest != null)
+            {
+                var detailsToDisplay = GetRequestWithHRD(regionalRequest).ToList();
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ReconcileRequest(int id)
+        {
+            var regionalRequest = _regionalRequestService.FindById(id);
+            ViewBag.RegionID = regionalRequest.AdminUnit.Name;
+
+            return View(regionalRequest);
+        }
+
+        private IEnumerable<HRDWithRegionalRequestViewModel> GetRequestWithHRD(RegionalRequest regionalRequest)
+        {
+            //var regionalRequest = _regionalRequestService.FindById(id);
+            var details = regionalRequest.RegionalRequestDetails;
+
+            DateTime latestDate = _hrdService.Get(m => m.Status == 3).Max(m => m.PublishedDate);
+            var hrd = _hrdService.FindBy(m =>m.Status==3 && m.PublishedDate == latestDate);
+            var hrdDetail = hrd.First().HRDDetails;
+
+            var WoredaGrouped = (from detail in details
+                                 group detail by detail.Fdp.AdminUnit
+                                     into WoredaDetail
+                                     select new
+                                     {
+                                         Woreda = WoredaDetail.Key,
+                                         NoOfBeneficiaries = WoredaDetail.Sum(m => m.Beneficiaries),
+                                         hrdBeneficiary=hrdDetail.First(m=>m.AdminUnit.AdminUnitID==WoredaDetail.Key.AdminUnitID).NumberOfBeneficiaries
+                                     });
+                       return  (from woredaDetail in WoredaGrouped
+                             select new HRDWithRegionalRequestViewModel
+                             {
+                                 Woreda = woredaDetail.Woreda.Name,
+                                 RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
+                                 HRDBeneficaryNo = woredaDetail.hrdBeneficiary,
+                                 Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries
+                                
+
+                             });
+           
+        }
     }
-
-
-
-
-
-
 
 
 }
