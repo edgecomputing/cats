@@ -43,7 +43,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
-        public ActionResult _Index(int id, int typeOfNeed)
+        public ActionResult Edit(int id, int typeOfNeed)
         {
             ViewData["TypeOfNeedAssessment"] =
                 _typeOfNeedAssessmentService.FindBy(t => t.TypeOfNeedAssessmentID == typeOfNeed).Select(
@@ -109,33 +109,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             int regionId = needAssessment.Region;
             int typeOfNeedAsseessment = (int) needAssessment.TypeOfNeedAssessment;
 
-            return RedirectToAction("_Index", new { id = regionId, typeOfNeed = typeOfNeedAsseessment });
+            return RedirectToAction("Edit", new { id = regionId, typeOfNeed = typeOfNeedAsseessment });
         }
 
-        public ActionResult AddZone()
-        {
-
-            
-            
-
-            ViewBag.Zones = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 3), "AdminUnitID","Name");
-
-            var regionsInNeedAssessment = _needAssessmentService.GetRegionsFromNeedAssessment();
-            var listOfRegions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            var filteredRegions = from region in listOfRegions
-                        where regionsInNeedAssessment.Contains(region.Name)
-                        select region;
-
-            var seasonsInNeedAssessment = _seasonService.GetListOfSeasonsInRegion(regionsInNeedAssessment);
-            ViewBag.Season = new SelectList(seasonsInNeedAssessment, "SeasonID",
-                                               "Name");
-
-            ViewBag.Regions = new SelectList(filteredRegions, "AdminUnitID","Name");
-           
-
-            return View();
-        }
-
+      
         [HttpPost]
         public ActionResult AddZone(NeedAssessmentHeader needAssessmentHeader,FormCollection collection)
         {
@@ -199,7 +176,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 var needAssessment = _needAssessmentService.FindBy(r => r.Region == id).Single();
                 int typeOfNeedAsseessment = (int)needAssessment.TypeOfNeedAssessment;
-                return RedirectToAction("_Index", new { id = id, typeOfNeed = typeOfNeedAsseessment });
+                return RedirectToAction("Edit", new { id = id, typeOfNeed = typeOfNeedAsseessment });
             }
             catch (Exception)
             {
@@ -225,116 +202,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
-        //
-        // GET: /EarlyWarning/NeedAssessment/Details/5
+       
 
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+       
 
-        //
-        // GET: /EarlyWarning/NeedAssessment/Create
+       
 
-        public ActionResult Create()
-        {
-
-            var regionsInNeedAssessment = _needAssessmentService.GetRegionsFromNeedAssessment();
-            var listOfRegions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
-            var filteredRegions = from region in listOfRegions
-                                  where regionsInNeedAssessment.Contains(region.Name)
-                                  select region;
-
-            var zonesInNeedAssessment = _needAssessmentService.GetZonesFromNeedAssessment();
-            var listOfZones = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
-            var filteredZones = from zone in listOfZones
-                                 where zonesInNeedAssessment.Contains(zone.Name)
-                                 select zone;
-
-            var seasonsInNeedAssessment = _seasonService.GetListOfSeasonsInRegion(regionsInNeedAssessment);
-            ViewBag.Season = new SelectList(seasonsInNeedAssessment, "SeasonID","Name");
-            ViewBag.Regions = new SelectList(filteredRegions, "AdminUnitID", "Name");
-
-            ViewBag.Zones = new SelectList(filteredZones, "AdminUnitID","Name");
-            ViewBag.woredas = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 4), "AdminUnitID","Name");
-            return View();
-        }
-
-        //
-        // POST: /EarlyWarning/NeedAssessment/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection,NeedAssessmentDetail needDetail,string season)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-              var woreda = collection["WoredaID"];
-              var zone = int.Parse(collection["ZoneID"].ToString(CultureInfo.InvariantCulture));
-              var region = int.Parse(collection["RegionID"].ToString(CultureInfo.InvariantCulture));
-
-                if (ModelState.IsValid)
-                {
-                    
-                     needDetail.Woreda = int.Parse(woreda.ToString(CultureInfo.InvariantCulture));
-                     needDetail.NeedAId = _needAssessmentHeaderService.GetZonePrimeryId(zone, region);
-                    
-                    _needAssessmentDetailService.AddNeedAssessmentDetail(needDetail);
-                }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /EarlyWarning/NeedAssessment/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            
-            var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
-            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
-                                              "Name",needAssessment.Region);
-        
-           
-            return View(needAssessment);
-        }
-        public ActionResult EditDetail(int id)
-        {
-            return View();
-        }
-        //
-        // POST: /EarlyWarning/NeedAssessment/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection,NeedAssessment needAssessment)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                NeedAssessment _needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
-
-                var region = collection["RegionID"];
-
-                _needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
-                _needAssessment.Season = needAssessment.Season;
-                _needAssessment.TypeOfNeedAssessment = needAssessment.TypeOfNeedAssessment;
-                _needAssessment.Remark = needAssessment.Remark;
-                _needAssessment.NeedADate = needAssessment.NeedADate;
-
-                _needAssessmentService.EditNeedAssessment(_needAssessment);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
+       
 
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -354,45 +229,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-        //
-        // GET: /EarlyWarning/NeedAssessment/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
-            AdminUnit region = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == needAssessment.Region).Single();
-            string createdBy = null;
-            if (needAssessment.NeddACreatedBy != null)
-            {
-               
-                createdBy = _needAssessmentHeaderService.GetUserProfileName((int) needAssessment.NeddACreatedBy);
-            }
-
-            ViewData["regionToDelete"] = region.Name;
-            ViewData["createdBy"] = createdBy;
-
-
-            return View(needAssessment);
-        }
-
-        //
-        // POST: /EarlyWarning/NeedAssessment/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-                var needAssessment = _needAssessmentService.FindBy(e => e.NeedAID == id).Single();
-                _needAssessmentService.DeleteNeedAssessment(needAssessment);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult DeleteDetail([DataSourceRequest] DataSourceRequest request, NeedAssessmentViewModel needAssessmentViewModel)
