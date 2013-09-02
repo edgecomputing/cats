@@ -18,7 +18,7 @@ namespace Cats.Areas.PSNP
             context.MapRoute(
                 "PSNP_default",
                 "PSNP/{controller}/{action}/{id}",
-                new {controller="Home", action = "Index", id = UrlParameter.Optional }
+                new {action = "Index", id = UrlParameter.Optional }
             );
         }
     }
