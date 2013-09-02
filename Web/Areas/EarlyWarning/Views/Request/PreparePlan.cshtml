@@ -12,7 +12,8 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("RequestFromPlan", "Request")" title="save"></a>
 }
-@using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
+<div style="display:none;">
+@using (Html.BeginForm("RequestFromPlan", "Request", FormMethod.Post, new { id = "frm_create_request" }))
 {
 @Html.HiddenFor(model => model.HRDPSNPPlan.ProgramID)
 @Html.HiddenFor(model => model.HRDPSNPPlan.RegionID)
@@ -25,6 +26,7 @@
         <br />
     }
 }
+    </div>
 @(Html.Kendo().Grid(Model.BeneficiaryInfos).Name("grid")
 .Columns(col=>
              {

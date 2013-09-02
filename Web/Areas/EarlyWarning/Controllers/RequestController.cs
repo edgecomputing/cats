@@ -87,6 +87,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                      Beneficiaries=item.Beneficiaries,
                                                                      Fdpid=item.FDPID
                                                                  }).ToList();
+            _regionalRequestService.AddRegionalRequest(regionalRequest);
 
             return regionalRequest;
         }
@@ -159,12 +160,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
 
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-
-               return View("RequestFromPlan", psnphrdPlanInfo);
+              //  RedirectToAction("PreparePlan");
+                return View("PreparePlan", psnphrdPlanInfo);
             }
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             PopulateLookup();
             return View(hrdpsnpPlan);
+        }
+        public ActionResult PreparePlan(HRDPSNPPlanInfo psnphrdPlanInfo)
+        {
+            //CretaeRegionalRequest(psnphrdPlanInfo);
+            return View(psnphrdPlanInfo);
         }
         [HttpGet]
         public ActionResult RequestFromPlan()
@@ -175,6 +181,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult RequestFromPlan(HRDPSNPPlanInfo psnphrdPlanInfo)
         {
             CretaeRegionalRequest(psnphrdPlanInfo);
+            ViewBag.message = "Request Created";
             return RedirectToAction("Index");
         }
 

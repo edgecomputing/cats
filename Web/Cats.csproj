@@ -786,6 +786,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
