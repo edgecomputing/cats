@@ -82,6 +82,8 @@
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
     <Compile Include="InternalMovement.cs" />
+    <Compile Include="LetterTemplate.cs" />
+    <Compile Include="LetterTemplateViewModel.cs" />
     <Compile Include="Mapping\AccountTransactionMap.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
+    <Compile Include="Mapping\LetterTemplateMap.cs" />
     <Compile Include="Mapping\NeedAssessmentDetailMap.cs" />
     <Compile Include="Mapping\NeedAssessmentHeaderMap.cs" />
     <Compile Include="Mapping\NeedAssessmentMap.cs" />
