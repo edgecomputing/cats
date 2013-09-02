@@ -1,4 +1,5 @@
 ﻿@using Cats.Models.ViewModels
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @model  Cats.Models.HRD
 
@@ -18,6 +19,11 @@
 
     @Html.Partial("_HRDLeftBar");
 }
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
 @(Html.Kendo().Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
           
     .Name("grid")
@@ -25,10 +31,10 @@
         {
         columns.Bound(p => p.RegionName).ClientFooterTemplate("<h4>Total</h4>");
         columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Cereal).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.BlededFood).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Pulse).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Oil).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Cereal).Title("Cereal " +@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.BlededFood).Title("BlendedFood " +@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Pulse).Title("Pulse "+@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Oil).Title("Oil " +@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.Total).ClientFooterTemplate("<h4>Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
             
         })
