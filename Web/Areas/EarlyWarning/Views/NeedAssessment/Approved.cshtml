@@ -57,7 +57,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wnd.center().open();
         $("#yes").click(function () {
-            window.location = "NeedAssessment/DisapproveNeedAssessment/" + dataItem.NeedAID;
+            window.location = "@Url.Action("DisapproveNeedAssessment","NeedAssessment")" + "?id=" +  dataItem.NeedAID;
             wnd.close();
         });
 

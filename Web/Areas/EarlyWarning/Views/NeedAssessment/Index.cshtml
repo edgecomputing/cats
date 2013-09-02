@@ -16,7 +16,7 @@
 
 <fieldset>
     <legend>
-        Beneficiary numbers and duration of assisstance
+       Beneficiary numbers and duration of assisstance
     </legend>
 </fieldset>
 
@@ -122,7 +122,7 @@
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = null;
-        window.location = "NeedAssessment/EditNeedAssessment/" + dataItem.Region;
+        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.Region;  
     }
 </script>
 <script>
@@ -132,7 +132,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wn.center().open();
         $("#yesDelete").click(function () {
-            window.location = "NeedAssessment/DeleteNeedAssessment/" + dataItem.NeedAID;
+            window.location = "@Url.Action("DeleteNeedAssessment","NeedAssessment")" + "?id="  + dataItem.NeedAID;
             wn.close();
         });
 
@@ -151,7 +151,7 @@
         wnd.center().open();
         $("#yes").click(function () {
             window.location = null;
-            window.location = "NeedAssessment/ApproveNeedAssessment/" + dataItem.NeedAID;
+            window.location =  "@Url.Action("ApproveNeedAssessment","NeedAssessment")" + "?id=" + dataItem.NeedAID;
             wnd.close();
         });
 
