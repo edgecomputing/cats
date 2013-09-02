@@ -1010,6 +1010,12 @@
     <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
+
+    <Content Include="Views\Shared\_MainLayout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

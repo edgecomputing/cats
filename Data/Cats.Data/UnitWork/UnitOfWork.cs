@@ -7,17 +7,15 @@ using Cats.Models;
 
 namespace Cats.Data.UnitWork
 {
-    public class UnitOfWork : IUnitOfWork 
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly CatsContext _context;
 
         // TODO: Add private properties to for each repository
-      
-      
-      
+
         private IGenericRepository<Bid> bidRepository;
-        private IGenericRepository<BidDetail> bidDetailRepository; 
-        private IGenericRepository<Status> statusRepository; 
+        private IGenericRepository<BidDetail> bidDetailRepository;
+        private IGenericRepository<Status> statusRepository;
         private IGenericRepository<BidWinner> bidWinnerRepository;
         private IGenericRepository<TransportOrderDetail> transportOrderDetailRepository;
         private IGenericRepository<RationDetail> rationDetailRepository;
@@ -28,17 +26,17 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Season> seasonRepository;
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
-        
+
         public UnitOfWork()
         {
             this._context = new CatsContext();
-            
+
         }
 
         private IGenericRepository<Donor> _donorRepository;
         public IGenericRepository<Donor> DonorRepository
         {
-            
+
             get { return this._donorRepository ?? (this._donorRepository = new GenericRepository<Donor>(_context)); }
         }
 
@@ -47,7 +45,7 @@ namespace Cats.Data.UnitWork
         {
             get { return this._regionalPSNPPledgeRepository ?? (this._regionalPSNPPledgeRepository = new GenericRepository<RegionalPSNPPledge>(_context)); }
         }
-       
+
         private IGenericRepository<BusinessProcessState> _BusinessProcessStateRepository;
         public IGenericRepository<BusinessProcessState> BusinessProcessStateRepository
         {
@@ -126,27 +124,21 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<DispatchAllocation> DispatchAllocationRepository
         {
             get { return this.dispatchAllocationRepository ?? (this.dispatchAllocationRepository = new GenericRepository<DispatchAllocation>(_context)); }
-
         }
 
+        
         private IGenericRepository<RegionalRequest> regionalRequestRepository;
-
         public IGenericRepository<RegionalRequest> RegionalRequestRepository
         {
-
             get { return this.regionalRequestRepository ?? (this.regionalRequestRepository = new GenericRepository<RegionalRequest>(_context)); }
-
         }
 
 
 
         private IGenericRepository<RegionalRequestDetail> regionalRequestDetailRepository;
-
         public IGenericRepository<RegionalRequestDetail> RegionalRequestDetailRepository
         {
-
             get { return this.regionalRequestDetailRepository ?? (this.regionalRequestDetailRepository = new GenericRepository<RegionalRequestDetail>(_context)); }
-
         }
 
 
@@ -228,9 +220,6 @@ namespace Cats.Data.UnitWork
         }
 
 
-
-      
-
         private IGenericRepository<Program> programRepository;
 
         public IGenericRepository<Program> ProgramRepository
@@ -310,7 +299,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-   //     private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+        //     private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
 
         //private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
 
@@ -339,7 +328,7 @@ namespace Cats.Data.UnitWork
         }
 
         public void Save()
-        {            
+        {
             _context.SaveChanges();
         }
 
@@ -397,7 +386,7 @@ namespace Cats.Data.UnitWork
 
             get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
         }
-        
+
 
 
         private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;
@@ -411,7 +400,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        
+
 
 
 
@@ -464,7 +453,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-        public IGenericRepository<HRD> HRDRepository    
+        public IGenericRepository<HRD> HRDRepository
         {
 
             get { return this.hrdRepository ?? (this.hrdRepository = new GenericRepository<HRD>(_context)); }
@@ -499,9 +488,9 @@ namespace Cats.Data.UnitWork
 
 
 
-      
-      
-      //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+
+
+        //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
 
 
         public IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository
@@ -510,7 +499,7 @@ namespace Cats.Data.UnitWork
             get { return this.regionalPSNPPlanDetailRepository ?? (this.regionalPSNPPlanDetailRepository = new GenericRepository<RegionalPSNPPlanDetail>(_context)); }
 
         }
-      //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
+        //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
 
 
         private IGenericRepository<NeedAssessment> needAssessmentRepository;
@@ -574,7 +563,6 @@ namespace Cats.Data.UnitWork
             }
         }
 
-
         private IGenericRepository<GiftCertificateDetail> giftCertificateDetailRepository;
         public IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository
         {
@@ -591,8 +579,6 @@ namespace Cats.Data.UnitWork
             get { return this.vwPSNPAnnualPlanRepository ?? (this.vwPSNPAnnualPlanRepository = new GenericRepository<vwPSNPAnnualPlan>(_context)); }
 
         }
-
-
 
         private IGenericRepository<Unit> unitRepository;
 
@@ -615,7 +601,7 @@ namespace Cats.Data.UnitWork
         {
             get
             {
-                return this.contributionRepository ??(this.contributionRepository = new GenericRepository<Contribution>(_context));
+                return this.contributionRepository ?? (this.contributionRepository = new GenericRepository<Contribution>(_context));
             }
         }
 
@@ -628,15 +614,7 @@ namespace Cats.Data.UnitWork
             }
         }
 
-
-
-     
-
-
-
-
         private IGenericRepository<Detail> detailRepository;
-
         public IGenericRepository<Detail> DetailRepository
         {
 
@@ -644,10 +622,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-
-
         private IGenericRepository<TypeOfNeedAssessment> typeOfNeedAssessmentRepository;
-
         public IGenericRepository<TypeOfNeedAssessment> TypeOfNeedAssessmentRepository
         {
 
@@ -655,10 +630,12 @@ namespace Cats.Data.UnitWork
 
         }
 
-      
-
-
-
-
+        
+        //Need Assesssment Summary (for Dashboard) Repository
+        private IGenericRepository<NeedAssessmentSummary> needAssessmentSummaryRepository;
+        public IGenericRepository<NeedAssessmentSummary> NeedAssessmetSummaryRepository
+        {
+            get { return this.needAssessmentSummaryRepository ?? (this.needAssessmentSummaryRepository = new GenericRepository<NeedAssessmentSummary>(_context)); }
+        }
     }
 }

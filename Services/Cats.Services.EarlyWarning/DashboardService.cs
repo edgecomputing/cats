@@ -14,6 +14,7 @@ namespace Cats.Services.EarlyWarning
         {
             this._IUnitOfWork = new UnitOfWork();
         }
+
         private readonly IUnitOfWork _IUnitOfWork;
 
         public List<RegionalRequest> RegionalRequestsByRegionID(int RegionId)
@@ -40,7 +41,7 @@ namespace Cats.Services.EarlyWarning
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
             var regionalRequests = _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
-            return (from _regionalRequests in regionalRequests group _regionalRequests by _regionalRequests.AdminUnit.Name into RegionalRequests select new Request() { RegionName=  RegionalRequests.Key, RequestsCount = RegionalRequests.Count() });
+            return (from _regionalRequests in regionalRequests group _regionalRequests by _regionalRequests.AdminUnit.Name into RegionalRequests select new Request() { RegionName = RegionalRequests.Key, RequestsCount = RegionalRequests.Count() });
         }
 
         public IEnumerable<Beneficiaries> BarNoOfBeneficiaries()
@@ -48,14 +49,14 @@ namespace Cats.Services.EarlyWarning
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
             var noOfBeneficiaries = _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
-            return (from _noOfBeneficiaries in noOfBeneficiaries group _noOfBeneficiaries by _noOfBeneficiaries.AdminUnit.Name into NoOfBeneficiaries select new Beneficiaries()  {RegionName = NoOfBeneficiaries.Key, BeneficiariesCount = NoOfBeneficiaries.Sum(t => t.RegionalRequestDetails.Sum(m => m.Beneficiaries)) }).ToList();
+            return (from _noOfBeneficiaries in noOfBeneficiaries group _noOfBeneficiaries by _noOfBeneficiaries.AdminUnit.Name into NoOfBeneficiaries select new Beneficiaries() { RegionName = NoOfBeneficiaries.Key, BeneficiariesCount = NoOfBeneficiaries.Sum(t => t.RegionalRequestDetails.Sum(m => m.Beneficiaries)) }).ToList();
         }
 
         public int SixMonthsBack()
         {
             return DateTime.Now.AddMonths(-1 * 6).Month;
         }
-        
+
         public int Year()
         {
             int _Year = DateTime.Now.Year;

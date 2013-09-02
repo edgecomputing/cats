@@ -15,9 +15,10 @@ namespace Cats.Models.Mapping
             // Primary Key
           //  this.HasKey(t => new { t.TransportOrderID, t.TransportOrderNo, t.OrderDate, t.RequestedDispatchDate, t.OrderExpiryDate, t.BidDocumentNo, t.TransporterID, t.TransportOrderDetailID, t.FdpID, t.SourceWarehouseID, t.QuantityQtl, t.TariffPerQtl, t.RequisitionID, t.CommodityID, t.FDPName, t.HubName, t.CommodityName });
             this.HasKey(t => new {t.TransportOrderDetailID, t.TransportOrderID});
+            
             // Properties
             this.Property(t => t.TransportOrderID);
-
+            
             this.Property(t => t.TransportOrderNo)
                 .IsRequired()
                 .HasMaxLength(50);

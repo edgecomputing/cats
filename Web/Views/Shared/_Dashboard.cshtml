@@ -1,7 +1,5 @@
-﻿@*@using Cats.Models.Constant
-
-@model IEnumerable<Cats.Models.RegionalRequest>*@
-
+﻿<script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
+<script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
 
 <div class="row">
 
@@ -201,6 +199,19 @@
 
 </div>
 
+<div class="row">
+        <div class="span5">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bar-chart"></i>
+                    <h3>Need Assessment Bar Graph</h3>
+                </div>
+                <div class="widget-content">
+                    @Html.Partial("_BarNeedAssessment")
+                </div>
+            </div>
+        </div>
+</div>
 
 <style>
     .widget {

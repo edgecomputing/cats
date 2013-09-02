@@ -16,7 +16,7 @@ namespace Cats.Data
         public CatsContext() : base("Name=CatsContext") { }
 
         // TODO: Add properties to access set of Poco classes
-      public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
+        public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public DbSet<RegionalRequest> RegionalRequests { get; set; }
         public DbSet<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public DbSet<ReliefRequisition> ReliefRequisitions { get; set; }
@@ -97,6 +97,8 @@ namespace Cats.Data
         public DbSet<AccountTransaction> AccountTransactions { get; set; } 
 
         public DbSet<TypeOfNeedAssessment> TypeOfNeedAssessment { get; set; }
+
+        public DbSet<NeedAssessmentSummary> NeedAssessmentSummary { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -179,12 +181,9 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
             modelBuilder.Configurations.Add(new AccountTransactionMap());
 
-
+            modelBuilder.Configurations.Add(new NeedAssessmentSummaryMap());
 
         }
-
-
-        
 
     }
 }

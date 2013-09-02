@@ -1,12 +1,9 @@
-﻿
-<script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
-<script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
-<script type="text/javascript">
-   
-    
+﻿<script type="text/javascript">
 
     $(function () {
-        $.getJSON('@Url.Action("BarBeneficiaries", "Dashboard")', {}, function (data) {
+
+        $.getJSON('@Url.Action("BarBeneficiaries", "Dashboard")', function (data) {
+
             var json = data;
             var jsondata = [];
 
@@ -14,11 +11,6 @@
                 // var serie = new Array(json[i].Projects, json[i].Bugs);
                 jsondata.push([json[i].RegionName, json[i].BeneficiariesCount]);
             }
-
-
-            json
-
-
 
             var chart = new Highcharts.Chart({
                 chart: {
@@ -31,7 +23,6 @@
 
                 xAxis: {
                     categories: []
-
                 },
                 yAxis: {
                     min: 0,
@@ -58,16 +49,15 @@
                 }]
             });
         });
+
     });
 
 </script>
 
 
 <div class="chart-wrapper">
-    <div class="chart-inner">
+    <div class="chart-inner" style="min-width: 310px; height: 400px; margin: 0 auto">
         <div id="container_" style="width: 100%; height: 100%;">
-          
-
         </div>
     </div>
 </div>
