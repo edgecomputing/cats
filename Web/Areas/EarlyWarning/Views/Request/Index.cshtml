@@ -25,6 +25,7 @@
 @using Cats.Areas.EarlyWarning.Models
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
+@ViewBag.message
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("grid")
     .Columns(columns =>

@@ -27,11 +27,14 @@ namespace Cats.Services.EarlyWarning
 
         public bool AddRegionalRequest(RegionalRequest regionalRequest)
         {
-            regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
+           // regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-
+            regionalRequest.RationID = 3;//TODO:SET DEFAULT Ration
+            regionalRequest.RequistionDate = DateTime.Today;
+            regionalRequest.ReferenceNumber = DateTime.Today.ToLongTimeString();
             _unitOfWork.RegionalRequestRepository.Add(regionalRequest);
             _unitOfWork.Save();
+            regionalRequest.ReferenceNumber = "ref-00" + regionalRequest.RegionalRequestID;
             return true;
 
         }
