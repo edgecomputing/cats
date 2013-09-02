@@ -1031,11 +1031,9 @@
     <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
-=======
 
->>>>>>> 139f633a45a9441aefcdf31508ef6441008261cf
+    <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
