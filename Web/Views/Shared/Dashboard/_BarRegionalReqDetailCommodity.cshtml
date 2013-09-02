@@ -1,0 +1,339 @@
+﻿
+<script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
+<script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
+<script type="text/javascript">
+   
+    $('document').ready(function () {
+        Regional();
+    });
+
+     function Regional() {
+         //  $.getJSON('@Url.Action("BarRegionalReqDetailCommodity", "Dashboard")',{}, function (data) {
+         $.getJSON('/Dashboard/BarRegionalReqDetailCommodity', {}, function (data) {
+            var json = data
+            var jsondata = [];
+            var _jsondata = [];
+            var jsonHRD = [];
+            var catagories = [];
+
+
+            for (var i in json) {
+                jsondata.push([json[i].RegionName, json[i].Request]);
+                _jsondata.push([json[i].RegionName, json[i].Allocation]);
+                jsonHRD.push([json[i].RegionName, json[i].HRD]);
+                catagories.push([json[i].RegionName]);
+            }
+           
+           
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: '_container',
+                    type: 'bar',
+                },
+                title: {
+                    text: null
+                },
+
+                xAxis: {
+                    categories: catagories
+
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'No of Beneficiaries',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+
+                exporting:{
+                    enabled: false
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',                   
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    bar: {
+                        point: {
+                            events: {
+                                click: function () {
+                                    
+                                    Draw(this.category);
+
+                                }
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 100,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: '#FFFFFF',
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: " Requests",
+                    data: jsondata,
+                },
+                    {
+    
+                        name:"Allocations",
+                        data: _jsondata,
+                        
+                    },
+                        {
+                            name: "HRD",
+                            data: jsonHRD
+                            
+                }]
+            });
+        });
+    };
+
+
+    // Another Function
+
+    function Draw(region) {
+
+        $.getJSON('@Url.Action("ZonalBeneficiaries", "Dashboard")' + "?RegionName=" + region, {}, function (data) {
+            var json = data
+            var jsonReq = [];
+            var jsonAllo = [];
+            var jsonHRD = [];
+
+
+            for (var i in json) {
+
+                jsonReq.push([json[i].Month, json[i].Request]);
+                jsonAllo.push([json[i].Month, json[i].Allocation]);
+                jsonHRD.push([json[i].Month, json[i].HRD]);
+            }
+
+
+
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: '_container',
+                    type: 'bar',
+                },
+                title: {
+                    text: null
+                },
+
+                subtitle: region + " Region Allocation, HRD & Request By Month",
+
+                xAxis: {
+                    categories: []
+
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'No of Beneficiaries',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+
+                exporting: {
+                    enabled: false
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    bar: {
+                        point: {
+                            events: {
+                                click: function () {
+                                    /////
+                                    DrawZones(json);
+
+                                }
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 100,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: '#FFFFFF',
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: " Requests",
+                    data: jsonReq
+                },
+                    {
+                        name: "Allocations",
+                        data: jsonAllo,
+                    },
+                        {
+                            name: "HRD",
+                            data: jsonHRD
+                        },
+                ]
+            });
+        });
+     };
+
+
+    // Function
+
+    function DrawZones(data) {
+
+             var json = data
+             var jsonReq = [];
+             var jsonAllo = [];
+             var jsonHRD = [];
+
+             for (var i in json) {
+
+                 jsonReq.push([json[i].Zone, json[i].Request]);
+                 jsonAllo.push([json[i].Zone, json[i].Allocation]);
+                 jsonHRD.push([json[i].Zone, json[i].HRD]);
+             }
+
+             var chart = new Highcharts.Chart({
+                 chart: {
+                     renderTo: '_container',
+                     type: 'bar',
+                 },
+                 title: {
+                     text: null
+                 },
+
+                 xAxis: {
+                     categories: []
+
+                 },
+                 yAxis: {
+                     min: 0,
+                     title: {
+                         text: 'No of Beneficiaries',
+                         align: 'high'
+                     },
+                     labels: {
+                         overflow: 'justify'
+                     }
+                 },
+
+                 exporting: {
+                     enabled: false
+                 },
+
+                 tooltip: {
+                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                     footerFormat: '</table>',
+                     shared: true,
+                     useHTML: true
+                 },
+                 plotOptions: {
+                     bar: {
+                         point: {
+                             events: {
+                                 click: function () {
+                                     //
+
+                                 }
+                             }
+                         },
+                         dataLabels: {
+                             enabled: true
+                         }
+                     }
+                 },
+                 legend: {
+                     layout: 'vertical',
+                     align: 'right',
+                     verticalAlign: 'top',
+                     x: -40,
+                     y: 100,
+                     floating: true,
+                     borderWidth: 1,
+                     backgroundColor: '#FFFFFF',
+                     shadow: true
+                 },
+                 credits: {
+                     enabled: false
+                 },
+                 series: [{
+                     name: " Requests",
+                     data: jsonReq
+                 },
+                     {
+                         name: "Allocations",
+                         data: jsonAllo,
+                     },
+                         {
+                             name: "HRD",
+                             data: jsonHRD
+                         },
+                 ]
+             });
+     };
+
+
+
+</script>
+
+
+<div class="chart-wrapper">
+    <div class="chart-inner"><a onclick="Regional()">Refresh</a>
+        <div id="_container" style="width:100%; height:100%">
+          
+        </div>
+    </div>
+</div>
+
+<style>
+    .chart-wrapper
+    {
+        position: relative;
+        padding-bottom: 40%;
+        width: 100%;
+        float: left;
+    }
+
+    .chart-inner
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+</style>

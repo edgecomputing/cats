@@ -5,7 +5,7 @@
 
 @{
    
-    var user = (UserIdentity)HttpContext.Current.User.Identity;
+    UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     var lang = user.Profile.LanguageCode;
     ViewBag.CurrentUser = user;
@@ -24,7 +24,7 @@
             <a class="brand" href="~/">@Translator.Translate("Menu.CATS")</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="~/">@Translator.Translate("Menu.Home")</a></li>
+                   
                     @if(role=="EW" || role=="SU")
                     {
                     <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })">@Translator.Translate("Menu.HRD")</a></li>

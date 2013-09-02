@@ -173,6 +173,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -781,6 +782,10 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1016,6 +1021,13 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
+
+    <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
