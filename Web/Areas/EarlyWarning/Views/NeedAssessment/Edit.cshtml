@@ -66,10 +66,8 @@
        .Group(groups => groups.Add(p => p.ZoneName))
        .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["region"].ToString())}))
        .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
-       //.Events(events => {
-       //         //events.Error("griderrorHandler");
-       //         events.RequestEnd("onRequestEnd");
-       //     })
+       .Events(e=>e.RequestEnd("onRequestEnd"))
+       
        .Model(model =>
                               {
                                   model.Id(p => p.NAId);
