@@ -25,7 +25,7 @@
         });
         return this.filter('input:text')
 					.css('opacity', 0.5)
-					.css('display', 'none')
+					//.css('display', 'none')
 
     }
     var test_coutn = 0;

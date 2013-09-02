@@ -34,11 +34,11 @@
              columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
              columns.Bound(p => p.DurationOfAssistance).Width(5).Title("Duration").HtmlAttributes(new { align = "Right" });
              columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(10);
-             columns.Bound(p => p.Cereal).Format("{0:N}").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.BlendedFood).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.Oil).Format("{0:N}").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.Pulse).Format("{0:N}").HtmlAttributes(new {align = "Right"});
-             columns.Bound(p => p.Total).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.Cereal).Title("Cereal " + @unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.BlendedFood).Title("BleendedFood " +@unit).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.Oil).Title("Oil " +@unit ).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.Pulse).Title("Pulse "+@unit).Format("{0:N}").HtmlAttributes(new {align = "Right"});
+             columns.Bound(p => p.Total).Title("Total" +@unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
 
 
              //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 

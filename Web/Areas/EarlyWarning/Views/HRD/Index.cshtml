@@ -87,8 +87,7 @@
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/RegionalSummary/" + dataItem.HRDID;
-
+        window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;  
     }
     
 </script>
@@ -97,7 +96,8 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/Edit/" + dataItem.HRDID;
+        window.location = "@Url.Action("Edit", "HRD")" + "/" + dataItem.HRDID;  
+                
     }
 </script>
 <script>
@@ -111,7 +111,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "HRD/ApproveHRD/" + dataItem.HRDID;
+            window.location = "@Url.Action("ApproveHRD", "HRD")" + "/" + dataItem.HRDID;  
             wnd.close();
         });
 

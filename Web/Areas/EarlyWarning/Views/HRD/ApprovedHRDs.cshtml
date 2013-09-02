@@ -56,8 +56,7 @@
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "RegionalSummary/" + dataItem.HRDID;
-
+        window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;  
     }
     
 </script>
@@ -66,7 +65,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "Edit/" + dataItem.HRDID;
+        window.location = "@Url.Action("Edit", "HRD")" + "/" + dataItem.HRDID;         
     }
 </script>
 
@@ -75,7 +74,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "PublishHRD/" + dataItem.HRDID;
+        window.location = "@Url.Action("PublishHRD", "HRD")" + "/" + dataItem.HRDID;       
     }
 </script>
 
