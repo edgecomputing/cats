@@ -1,4 +1,5 @@
 ﻿@using Cats.Models.ViewModels
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @model  List<Cats.Models.Contribution>
 
@@ -15,6 +16,12 @@
 @section LeftBar{
 
     @Html.Partial("_ContributionLeftBar");
+}
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
 }
 <div class="form-horizontal">
     <table>
@@ -38,7 +45,7 @@
         {
             columns.Bound(p => p.Donor);
             columns.Bound(p => p.Commodity);
-            columns.Bound(p => p.Ammount).ClientGroupFooterTemplate("Total: #=sum#");
+            columns.Bound(p => p.Ammount).Title("Amount " +@unit).ClientGroupFooterTemplate("Total: #=sum#");
 
         })
         .Pageable()
