@@ -1,25 +1,21 @@
 ﻿<div class="chart-wrapper">
-
     @(Html.Kendo().DropDownList()
-                    .Name("Years")
+                    .Name("CurrentYear")
                     .DataSource(d => d.Read("getYears", "Dashboard"))
-                    .Events(e => e.Change("yearChanged"))
+                    .Events(e => e.Select("refresh"))
                     )
-
-    <div class="chart-inner">
+  <div class="chart-inner">
         <div id="containerNA" style="width: 100%; height: 100%;">
         </div>
     </div>
 </div>
 
-<script>
-    
-</script>
-
 <script type="text/javascript">
-
+   
     $('document').ready(function () {
-        drawBar('2013');
+        var CurrentDate = new Date();
+        CurrentDate.getFullYear();
+        drawBar(CurrentDate);
     });
 
     function drawBar(year) {
@@ -63,10 +59,12 @@
                         shared: true,
                         useHTML: true
                     },
-                    plotOptions: {
+                    exporting: false,
+                        plotOptions: {
                         column: {
                             pointPadding: 0.2,
                             borderWidth: 0
+                            
                         }
                     },
                     series: [
@@ -83,8 +81,8 @@
         //end of function
     };
 
-    function yearChanged() {
-        drawBar(this.value())
+    function refresh() {
+        drawBar(this.value());
     }
 
 </script>
