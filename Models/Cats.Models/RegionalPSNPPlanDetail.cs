@@ -51,6 +51,5 @@ namespace Cats.Models
         [Display(Name = "Item4 Ratio")]
         public int Item4Ratio { get; set; }
 
-        public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
     }
 }

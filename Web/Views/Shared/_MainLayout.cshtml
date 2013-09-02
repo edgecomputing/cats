@@ -87,6 +87,7 @@
                 <div>
                     <div class="span7">
                         @RenderSection("Breadcrumb", required: false)
+<<<<<<< HEAD
                         <ul class="breadcrumb">
                             <li><a href="~/">Home</a> </li>
                         @{
@@ -122,13 +123,16 @@
                                 <li class="active">Rations</li>--->
 
                         </ul>
+=======
+                         @Html.Partial("_BreadCrumb")
+>>>>>>> cda1451e56861b28e3596bf1f394f16b24bd14f0
                     </div>
                     <div class="span5">
                         <div class=" btn-group toolbar">
                             @RenderSection("Toolbar", required: false)
                         </div>
                         @Html.Partial("_ToolbarCommon")
-                   </div>
+                    </div>
                 </div>
 
                 <div style="clear: both;">

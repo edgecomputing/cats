@@ -1,0 +1,34 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "LetterTemplate";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<fieldset>
+    <legend>
+        Letter template
+    </legend>
+</fieldset> 
+
+@(Html.Kendo().Grid<Cats.Models.LetterTemplateViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new { fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>#=LetterTemplateID#</a>  ");
+        columns.Bound(p => p.Name);
+        columns.Bound(p => p.FileName);
+      
+      
+           })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(5)
+            .Model(model => model.Id(p => p.LetterTemplateID))
+            .Read(read => read.Action("ShowLetterTemplates", "GiftCertificate"))
+ 
+     )
+   
+      )

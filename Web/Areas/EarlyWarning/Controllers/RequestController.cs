@@ -8,8 +8,10 @@ using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Workflow = Cats.Models.Constant.WORKFLOW;
@@ -24,76 +26,37 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         private IRegionalRequestService _regionalRequestService;
         private IFDPService _fdpService;
-        private IAdminUnitService _adminUnitService;
-        private IProgramService _programService;
-        private ICommodityService _commodityService;
-        private IRegionalRequestDetailService _reliefRequestDetailService;
-        private IWorkflowStatusService _workflowStatusService;
-        private IRationService _rationService;
+        private IRegionalRequestDetailService _regionalRequestDetailService;
+        private ICommonService _commonService;
 
         public RequestController(IRegionalRequestService reliefRequistionService
-                                 , IFDPService fdpService
-                                 , IAdminUnitService adminUnitService,
-                                 IProgramService programService,
-                                 ICommodityService commodityService,
+                                 , IFDPService fdpService,
                                  IRegionalRequestDetailService reliefRequisitionDetailService,
-                                 IWorkflowStatusService workflowStatusService,
-            IRationService rationService)
+                                ICommonService commonService
+            )
         {
-            this._regionalRequestService = reliefRequistionService;
-            this._adminUnitService = adminUnitService;
-            this._commodityService = commodityService;
-            this._fdpService = fdpService;
-            this._programService = programService;
-            this._reliefRequestDetailService = reliefRequisitionDetailService;
-            this._workflowStatusService = workflowStatusService;
-            this._rationService = rationService;
+           _regionalRequestService = reliefRequistionService;
+           _fdpService = fdpService;
+            _regionalRequestDetailService = reliefRequisitionDetailService;
+            _commonService = commonService;
         }
 
 
 
-        private IEnumerable<RegionalRequestViewModel> BuildRegionalRequestViewModel(
-            IEnumerable<RegionalRequest> requests)
-        {
-            //TODO:While Displaying date make sure displayed based on user language preference
-            var result = (from request in requests
-                          select new RegionalRequestViewModel()
-                                     {
-                                         Program = request.Program.Name,
-                                         ProgramId = request.ProgramId,
-                                         ReferenceNumber = request.ReferenceNumber,
-                                         Region = request.AdminUnit.Name,
-                                         RegionID = request.RegionID,
-                                         RegionalRequestID = request.RegionalRequestID,
-                                         Year = request.Year,
-                                         Remark = request.Remark,
-                                         StatusID = request.Status,
-                                         Month = request.Month,
-                                         RequistionDate = request.RequistionDate,
-                                         Status =
-                                             _workflowStatusService.GetStatusName(Workflow.REGIONAL_REQUEST,
-                                                                                  request.Status),
-                                         RequestDateEt = EthiopianDate.GregorianToEthiopian(request.RequistionDate)
-
-
-                                     });
-            return result;
-        }
-
-
-
+      
 
         public ViewResult SubmittedRequest(int id)
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID",
+            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID",
                                               "Name");
-            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
+            ViewBag.Status = new SelectList(_commonService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
                                             "Description");
 
             var requests = _regionalRequestService.Get(t => t.Status == id, null, "AdminUnit,Program");
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
 
-            return View(BuildRegionalRequestViewModel(requests));
+            return View(RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses));
         }
 
 
@@ -102,35 +65,46 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult New()
         {
-
-
-            var relifRequisition = new RegionalRequest();
-            var fdpList = _fdpService.GetAllFDP();
-            var releifDetails = (from fdp in fdpList
-                                 select new RegionalRequestDetail()
-                                            {
-                                                Beneficiaries = 0,
-                                                Fdpid = fdp.FDPID,
-
-                                            }).ToList();
-            relifRequisition.RegionalRequestDetails = releifDetails;
-            PopulateLookup(relifRequisition);
-            return View(relifRequisition);
+            
+            PopulateLookup();
+            ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
+         
+            return View();
         }
+        private RegionalRequest CretaeRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo)
+        {
+            var regionalRequest = new RegionalRequest();
+            regionalRequest.Status = (int)RegionalRequestStatus.Draft;
+            regionalRequest.RequistionDate = DateTime.Today;
+            regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
+            regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
+            regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
+            regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
 
+            regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
+                                                      select new RegionalRequestDetail()
+                                                                 {
+                                                                     Beneficiaries=item.Beneficiaries,
+                                                                     Fdpid=item.FDPID
+                                                                 }).ToList();
+
+            return regionalRequest;
+        }
         private void PopulateLookup()
         {
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.ProgramId = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
+            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
-            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
+            ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
+           
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
-            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", regionalRequest.RegionID);
-            ViewBag.ProgramId = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", regionalRequest.ProgramId);
+            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", regionalRequest.RegionID);
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", regionalRequest.ProgramId);
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name", regionalRequest.Month);
-            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", regionalRequest.RationID);
+            ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber", regionalRequest.RationID);
+           
         }
         //
         // GET: /ReliefRequisitoin/Details/5
@@ -161,13 +135,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (regionalRequest != null && ModelState.IsValid)
             {
                 var target = _regionalRequestService.FindById(regionalRequest.RegionalRequestID);
-                target.ProgramId = regionalRequest.ProgramId;
-                target.ReferenceNumber = regionalRequest.ReferenceNumber;
-                target.RegionID = regionalRequest.RegionID;
-                target.Year = regionalRequest.Year;
-                target.RequistionDate = regionalRequest.RequistionDate;
-                target.Remark = regionalRequest.Remark;
-                target.Month = regionalRequest.Month;
+                target = RequestViewModelBinder.BindRegionalRequest(regionalRequest, target);
 
                 _regionalRequestService.EditRegionalRequest(target);
                 return RedirectToAction("Allocation", "Request", new { id = regionalRequest.RegionalRequestID });
@@ -185,43 +153,30 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        public ActionResult New(RegionalRequest regionalRequest, string requestDate)
+        public ActionResult New(HRDPSNPPlan hrdpsnpPlan)
         {
-            DateTime date;
-            try
-            {
-                date = DateTime.Parse(requestDate);
-            }
-            catch (Exception)
-            {
-                var strEth = new getGregorianDate();
-                date = strEth.ReturnGregorianDate(requestDate);
-                //throw;
-            }
-            regionalRequest.RequistionDate = date;
-
             if (ModelState.IsValid)
             {
-                //TODO:Filter with selected region
-                var fdpList = _fdpService.FindBy(t => t.AdminUnit.AdminUnit2.ParentID == regionalRequest.RegionID);
-                var releifDetails = (from fdp in fdpList
-                                     select new RegionalRequestDetail()
-                                                {
-                                                    Beneficiaries = 0,
-                                                    Fdpid = fdp.FDPID
 
+                var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
 
-                                                }).ToList();
-                regionalRequest.RegionalRequestDetails = releifDetails;
-                regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-                _regionalRequestService.AddRegionalRequest(regionalRequest);
-                return RedirectToAction("Index", "Request");
+               return View("RequestFromPlan", psnphrdPlanInfo);
             }
-
+            ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             PopulateLookup();
-            return View(regionalRequest);
+            return View(hrdpsnpPlan);
         }
-
+        [HttpGet]
+        public ActionResult RequestFromPlan()
+        {// CretaeRegionalRequest(psnphrdPlanInfo);
+            return RedirectToAction("New");
+        }
+        [HttpPost]
+        public ActionResult RequestFromPlan(HRDPSNPPlanInfo psnphrdPlanInfo)
+        {
+            CretaeRegionalRequest(psnphrdPlanInfo);
+            return RedirectToAction("Index");
+        }
 
         #region Regional Request Detail
 
@@ -231,12 +186,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RequestID = id;
             var request =
                 _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
-            var requestModelView = BindRegionalRequestViewModel(request);
-            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id);
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses);
+            var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
             var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
 
             ViewData["AllocatedCommodities"] = (from itm in requestDetailCommodities select new Commodity() { CommodityID = itm.CommodityID });
-            ViewData["AvailableCommodities"] = _commodityService.GetAllCommodity();
+            ViewData["AvailableCommodities"] = _commonService.GetCommodities();
 
             return View(requestModelView);
         }
@@ -252,10 +208,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 return HttpNotFound();
             }
-            var requestModelView = BindRegionalRequestViewModel(request);
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses);
 
-            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
-            var dt = TransposeData(requestDetails);
+            var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
+            var dt = RequestViewModelBinder.TransposeData(requestDetails);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
         }
@@ -263,89 +220,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             ViewBag.RequestID = id;
-            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
-            var dt = TransposeData(requestDetails);
+            var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
+            var dt = RequestViewModelBinder.TransposeData(requestDetails);
             return Json(dt.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        private DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails)
-        {
-            var dt = new DataTable("Transpose");
-            //var colRequstDetailID = new DataColumn("RequstDetailID", typeof(int));
-            //colRequstDetailID.ExtendedProperties["ID"] = -1;
-            //dt.Columns.Add(colRequstDetailID);
-
-            var colZone = new DataColumn("Zone", typeof(string));
-            colZone.ExtendedProperties["ID"] = -1;
-            dt.Columns.Add(colZone);
-
-            var colWoreda = new DataColumn("Woreda", typeof(string));
-            colWoreda.ExtendedProperties["ID"] = -1;
-            dt.Columns.Add(colWoreda);
-
-            var colFDP = new DataColumn("FDP", typeof(string));
-            colFDP.ExtendedProperties["ID"] = -1;
-            dt.Columns.Add(colFDP);
-
-            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(decimal));
-            colNoBeneficiary.ExtendedProperties["ID"] = -1;
-            dt.Columns.Add(colNoBeneficiary);
-            var requestdetail = requestDetails.FirstOrDefault();
-            if (requestdetail != null)
-            {
-                foreach (var ds in requestdetail.RequestDetailCommodities)
-                {
-                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
-                    col.ExtendedProperties.Add("ID", ds.CommodityID);
-                    dt.Columns.Add(col);
-                }
-
-                //int rowID = 0;
-                //bool addRow = false;
-                //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
-                foreach (var requestDetail in requestDetails)
-                {
-                    var dr = dt.NewRow();
-                    //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
-                    dr[colNoBeneficiary] = requestDetail.Beneficiaries;
-                    dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
-                    dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;
-                    dr[colFDP] = requestDetail.Fdp.Name;
-
-
-                    foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
-                    {
-
-                        DataColumn col = null;
-                        foreach (DataColumn column in dt.Columns)
-                        {
-                            if (requestDetailCommodity.CommodityID.ToString() ==
-                                column.ExtendedProperties["ID"].ToString())
-                            {
-                                col = column;
-                                break;
-                            }
-                        }
-                        if (col != null)
-                        {
-                            dr[col.ColumnName] = requestDetailCommodity.Amount;
-
-                        }
-                    }
-                    dt.Rows.Add(dr);
-                }
-            }
-            //var dta = (from DataRow row in dt.Rows select new
-            //                                                  {
-
-            //                                                  }).ToList();
-
-            return dt;
-        }
+  
 
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
-            var requestDetails = _reliefRequestDetailService.FindBy(t => t.RegionalRequestID == id);
+            var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == id);
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
             return Json(requestDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -378,7 +262,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetailViewModel != null && ModelState.IsValid)
             {
-                _reliefRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
+                _regionalRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
             }
 
             return Json(new[] { regionalRequestDetailViewModel }.ToDataSourceResult(request, ModelState));
@@ -389,11 +273,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetail != null && ModelState.IsValid)
             {
-                var target = _reliefRequestDetailService.FindById(regionalRequestDetail.RegionalRequestDetailID);
+                var target = _regionalRequestDetailService.FindById(regionalRequestDetail.RegionalRequestDetailID);
                 if (target != null)
                 {
                     target.Beneficiaries = regionalRequestDetail.Beneficiaries;
-                    _reliefRequestDetailService.EditRegionalRequestDetail(target);
+                    _regionalRequestDetailService.EditRegionalRequestDetail(target);
                 }
             }
 
@@ -406,7 +290,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetail != null)
             {
-                _reliefRequestDetailService.DeleteById(regionalRequestDetail.RegionalRequestDetailID);
+                _regionalRequestDetailService.DeleteById(regionalRequestDetail.RegionalRequestDetailID);
             }
 
             return Json(ModelState.ToDataSourceResult());
@@ -415,11 +299,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Commodity_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
-            var requestDetails = _reliefRequestDetailService.Get(t => t.RegionalRequestID == id);
+            var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
             var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
 
             var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID, RequestDetailCommodityID = itm.RequestCommodityID });
-            ViewData["AvailableCommodities"] = _commodityService.GetAllCommodity();
+            ViewData["AvailableCommodities"] = _commonService.GetCommodities();
 
             return Json(commodities.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -432,7 +316,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 //try
                 //{
-                _reliefRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID, id);
+                _regionalRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID, id);
                 //}
                 //catch(Exception ex)
                 //{
@@ -448,7 +332,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (commodity != null && ModelState.IsValid)
             {
-                var target = _reliefRequestDetailService.UpdateRequestDetailCommodity(commodity.CommodityID,
+                var target = _regionalRequestDetailService.UpdateRequestDetailCommodity(commodity.CommodityID,
                                                                                       commodity.RequestDetailCommodityID);
             }
 
@@ -461,7 +345,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (commodity != null)
             {
-                _reliefRequestDetailService.DeleteRequestDetailCommodity(commodity.CommodityID, id);
+                _regionalRequestDetailService.DeleteRequestDetailCommodity(commodity.CommodityID, id);
             }
 
             return Json(ModelState.ToDataSourceResult());
@@ -474,19 +358,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-            var regions = (from region in _adminUnitService.GetRegions()
-                           select new
-                                      {
-                                          region.AdminUnitID,
-                                          region.Name
-                                      });
+            var regions = _commonService.GetAminUnits(t=>t.AdminUnitTypeID==2);
             ViewData["adminunits"] = regions;
-            var programs = (from program in _programService.GetAllProgram()
-                            select new
-                            {
-                                program.ProgramID,
-                                program.Name
-                            });
+            var programs = _commonService.GetPrograms();
             ViewData["programs"] = programs;
             
             return View();
@@ -496,95 +370,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             var requests = _regionalRequestService.GetAllRegionalRequest();
-            var requestViewModels = (from dtl in requests select BindRegionalRequestViewModel(dtl));
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         
-        private RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest)
-        {
+       
+      
 
-            return new RegionalRequestViewModel()
-            {
-
-                ProgramId = regionalRequest.ProgramId,
-                Program = regionalRequest.Program.Name,
-                Region = regionalRequest.AdminUnit.Name,
-                ReferenceNumber = regionalRequest.ReferenceNumber,
-                RegionID = regionalRequest.RegionID,
-                RegionalRequestID = regionalRequest.RegionalRequestID,
-                Remark = regionalRequest.Remark,
-                RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate),
-                Month = regionalRequest.Month,
-                Status = _workflowStatusService.GetStatusName(WORKFLOW.REGIONAL_REQUEST, regionalRequest.Status),
-                RequistionDate = regionalRequest.RequistionDate,
-                StatusID = regionalRequest.Status,
-                Ration = regionalRequest.Ration.RefrenceNumber,
-                RationID = regionalRequest.RationID,
-                Year = regionalRequest.Year,
-            };
-
-        }
-        private RegionalRequest BindRegionalRequest(RegionalRequestViewModel regionalRequestViewModel)
-        {
-            return new RegionalRequest()
-            {
-                ProgramId = regionalRequestViewModel.ProgramId,
-                ReferenceNumber = regionalRequestViewModel.ReferenceNumber,
-                RegionID = regionalRequestViewModel.RegionID,
-                RegionalRequestID = regionalRequestViewModel.RegionalRequestID,
-                Remark = regionalRequestViewModel.Remark,
-                Month = regionalRequestViewModel.Month,
-                RequistionDate = regionalRequestViewModel.RequistionDate,
-                Status = regionalRequestViewModel.StatusID,
-                Year = regionalRequestViewModel.Year
-            };
-        }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Request_Create([DataSourceRequest] DataSourceRequest request, RegionalRequestViewModel regionalRequestViewModel)
-        {
-            if (regionalRequestViewModel != null && ModelState.IsValid)
-            {
-                var regionalRequest = BindRegionalRequest(regionalRequestViewModel);
-                _regionalRequestService.AddRegionalRequest(regionalRequest);
-            }
-
-            return Json(new[] { regionalRequestViewModel }.ToDataSourceResult(request, ModelState));
-        }
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Request_Update([DataSourceRequest] DataSourceRequest request, RegionalRequestViewModel regionalRequest)
-        {
-            if (regionalRequest != null && ModelState.IsValid)
-            {
-                var target = _regionalRequestService.FindById(regionalRequest.RegionalRequestID);
-                if (target != null)
-                {
-                    target.ProgramId = regionalRequest.ProgramId;
-                    target.ReferenceNumber = regionalRequest.ReferenceNumber;
-                    target.RegionID = regionalRequest.RegionID;
-                    target.Remark = regionalRequest.Remark;
-                    target.Month = regionalRequest.Month;
-                    target.RequistionDate = regionalRequest.RequistionDate;
-                    target.Status = regionalRequest.StatusID;
-                    target.Year = regionalRequest.Year;
-                    _regionalRequestService.EditRegionalRequest(target);
-                }
-            }
-
-            return Json(new[] { regionalRequest }.ToDataSourceResult(request, ModelState));
-        }
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Request_Destroy([DataSourceRequest] DataSourceRequest request,
-                                                  RegionalRequest regionalRequest)
-        {
-            if (regionalRequest != null)
-            {
-                _reliefRequestDetailService.DeleteById(regionalRequest.RegionalRequestID);
-            }
-
-            return Json(ModelState.ToDataSourceResult());
-        }
+     
+       
         #endregion
 
     }
