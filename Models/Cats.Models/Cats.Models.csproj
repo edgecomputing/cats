@@ -198,6 +198,7 @@
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
     <Compile Include="TypeOfNeedAssessment.cs" />
+    <Compile Include="UIWidget.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UserDashboard.cs" />
     <Compile Include="UserProfile.cs" />

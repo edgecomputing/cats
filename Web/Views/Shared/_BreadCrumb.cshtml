@@ -109,7 +109,7 @@
 
 </div>
 -->
-<ul class="breadcrumb">
+<ul class="breadcrumb" data-role="main">
     <li><a href="~/">Home</a> </li>
     @{
         string home = Url.Action("Index", "Home", new { Area = "" });
@@ -132,11 +132,11 @@
                 
             if (i < heirarchy_len)
             {
-				<li><span class="divider">></span><a href="@url">@Translator.Translate(urlitem) </a> </li>
+				<li><span class="divider icon-chevron-right"></span><a href="@url">@Translator.Translate(urlitem) </a> </li>
             }
             else
             {
-				<li class="active"><span class="divider"> > </span> @Translator.Translate(urlitem)</li>
+				<li class="active"><span class="divider icon-chevron-right"></span> @Translator.Translate(urlitem)</li>
                
             }
 

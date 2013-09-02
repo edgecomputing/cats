@@ -231,6 +231,7 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
@@ -783,6 +784,8 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1014,14 +1017,15 @@
     <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
     <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\_Requests.cshtml" />
-
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
-
     <Content Include="Views\Shared\_MainLayout.cshtml" />
-
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
-
+    <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1032,10 +1036,7 @@
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
-
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
-
-
     <Folder Include="bin\" />
     <Folder Include="Views\Dashboard\" />
   </ItemGroup>
