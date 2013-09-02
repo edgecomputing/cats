@@ -24,7 +24,8 @@
             </td>
             
             <td> 
-                @Html.DropDownList("Year", string.Empty)
+                @*@Html.DropDownList("Year", string.Empty)*@
+                @Html.DropDownList("Year", Enumerable.Range(2010, DateTime.Now.Year).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString()}), "--Select Year --")
             </td>
         </tr>
     </table>

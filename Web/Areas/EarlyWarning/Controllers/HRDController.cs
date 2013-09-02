@@ -313,14 +313,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
 
                 var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
-                // UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
-                //var commodities = _commodityService.GetCommonCommodity();
-                //_commodityService.Get(m=>m.CommodityID==1 && m.CommodityID==2 && m.CommodityID==4 && m.CommodityID==8);
                 var seasonID = hrd.SeasonID;
 
                 hrd.CreatedBY = userid;
-                var seasonId = hrd.SeasonID;
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {
@@ -334,10 +330,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 hrd.HRDDetails = hrdDetails;
                 _hrdService.AddHRD(hrd);
+                return RedirectToAction("Index");
 
             }
 
-            return RedirectToAction("Index");
+            return View(hrd);
         }
         //HRD/Edit/2
         public ActionResult Edit(int id)

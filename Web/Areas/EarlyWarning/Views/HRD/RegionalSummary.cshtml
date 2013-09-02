@@ -24,12 +24,12 @@
     .Columns(columns =>
         {
         columns.Bound(p => p.RegionName).ClientFooterTemplate("<h4>Total</h4>");
-        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>");
-        columns.Bound(p => p.Cereal).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
-        columns.Bound(p => p.BlededFood).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
-        columns.Bound(p => p.Pulse).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
-        columns.Bound(p => p.Oil).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
-        columns.Bound(p => p.Total).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
+        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Cereal).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.BlededFood).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Pulse).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Oil).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Total).ClientFooterTemplate("<h4>Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
             
         })
     .Pageable()
