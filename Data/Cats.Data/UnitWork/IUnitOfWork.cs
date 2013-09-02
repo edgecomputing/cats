@@ -110,7 +110,7 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<NeedAssessmentSummary> NeedAssessmetSummaryRepository { get;}
 
-        IGenericRepository<LetterTemplate> LetterTemplateRepository { get; } 
+        IGenericRepository<LetterTemplate_> LetterTemplateRepository { get; } 
 
         void Save();
 

@@ -103,10 +103,19 @@ namespace Cats.Infrastructure.Helpers
                              myMergeField.Select();
                             wordApp.Selection.TypeText(giftCert.GiftCertificate.ETA.ToString());
                             break;
-                        case "currency":
+                        case "Currency":
                              myMergeField.Select();
                             wordApp.Selection.TypeText(currency.ToString());
                             break;
+                        case "currency":
+                            myMergeField.Select();
+                            wordApp.Selection.TypeText(currency.ToString());
+                            break;
+                        case "WeightINMT":
+                             myMergeField.Select();
+                            wordApp.Selection.TypeText(currency.ToString());
+                            break;
+                            
                         case "AccountNumber":
                              myMergeField.Select();
                             wordApp.Selection.TypeText(giftCert.AccountNumber.ToString());
@@ -164,9 +173,9 @@ namespace Cats.Infrastructure.Helpers
             }
             try
             {
-
-                wordDoc.SaveAs("gift_cert.doc");
-                wordApp.Documents.Open("gift_cert.doc");
+                var filename = "letterTemplate";// Guid.NewGuid().ToString();
+                wordDoc.SaveAs( filename + ".doc");
+                wordApp.Documents.Open(filename + ".doc");
                
                 return true;
             }
@@ -179,8 +188,9 @@ namespace Cats.Infrastructure.Helpers
 
         private GiftCertificateDetail GetGiftCertificate(int giftCertId)
         {
+
             var giftCertList = _unitofwork.GiftCertificateDetailRepository.Get(d => d.GiftCertificate.GiftCertificateID == giftCertId,
-                                                                 null, "GiftCertificate").SingleOrDefault();
+                                                                 null, "GiftCertificate").FirstOrDefault();
 
             return giftCertList;
         }
