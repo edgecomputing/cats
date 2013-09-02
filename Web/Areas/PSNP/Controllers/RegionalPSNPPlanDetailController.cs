@@ -19,15 +19,18 @@ namespace Cats.Areas.PSNP.Controllers
         private readonly IRegionalPSNPPlanDetailService _regionalPSNPPlanDetailService;
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
         private readonly IFDPService _FDPService;
+        private readonly IRegionalRequestService _reqService;
 
         public RegionalPSNPPlanDetailController(
                             IRegionalPSNPPlanDetailService regionalPSNPPlanDetailServiceParam,
                             IRegionalPSNPPlanService regionalPSNPPlanServiceParam,
+                            IRegionalRequestService regionalRequestServiceParam,
                             IFDPService FDPServiceParam)
         {
             this._regionalPSNPPlanDetailService = regionalPSNPPlanDetailServiceParam;
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
             this._FDPService = FDPServiceParam;
+            this._reqService = regionalRequestServiceParam;
         }
         public void loadLookups()
         {
@@ -52,10 +55,7 @@ namespace Cats.Areas.PSNP.Controllers
                         fdp.FoodRatio = pd.FoodRatio;
                         fdp.Item3Ratio = pd.Item3Ratio;
                         fdp.Item4Ratio = pd.Item4Ratio;
-
                     }
-
-
                 }
                 ret.Add(fdp);
             }

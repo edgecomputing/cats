@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
       using Cats.Models;
+      using Cats.Models.Constant;
 
 namespace Cats.Services.Common
 {
@@ -27,10 +28,25 @@ namespace Cats.Services.Common
             Expression<Func<Donor, bool>> filter = null,
             Func<IQueryable<Donor>, IOrderedQueryable<Donor>> orderBy = null,
             string includeProperties = "");
+        IEnumerable<AdminUnit> GetAminUnits(
+            Expression<Func<AdminUnit, bool>> filter = null,
+            Func<IQueryable<AdminUnit>, IOrderedQueryable<AdminUnit>> orderBy = null,
+            string includeProperties = "");
+        IEnumerable<Ration> GetRations(
+           Expression<Func<Ration, bool>> filter = null,
+           Func<IQueryable<Ration>, IOrderedQueryable<Ration>> orderBy = null,
+           string includeProperties = "");
 
         IEnumerable<Program> GetPrograms(
             Expression<Func<Program, bool>> filter = null,
             Func<IQueryable<Program>, IOrderedQueryable<Program>> orderBy = null,
+            string includeProperties = "");
+        string GetStatusName(WORKFLOW workflow, int statusId);
+        List<WorkflowStatus> GetStatus(WORKFLOW workflow);
+
+        IEnumerable<Season> GetSeasons(
+            Expression<Func<Season, bool>> filter = null,
+            Func<IQueryable<Season>, IOrderedQueryable<Season>> orderBy = null,
             string includeProperties = "");
     }
 }

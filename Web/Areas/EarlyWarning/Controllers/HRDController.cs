@@ -187,10 +187,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 {
                                     RegionName = total.Region.Name,
                                     NumberOfBeneficiaries = total.NumberOfBeneficiaries,
-                                    Cereal = cerealCoefficient * total.NumberOfBeneficiaries * total.Duration,
-                                    BlededFood = blendFoodCoefficient * total.NumberOfBeneficiaries * total.Duration,
-                                    Oil = oilCoefficient * total.NumberOfBeneficiaries * total.Duration,
-                                    Pulse = pulseCoefficient * total.NumberOfBeneficiaries * total.Duration
+                                    Cereal = cerealCoefficient * total.Duration,
+                                    BlededFood = blendFoodCoefficient * total.Duration,
+                                    Oil = oilCoefficient * total.Duration,
+                                    Pulse = pulseCoefficient * total.Duration
                                 });
                 
         }

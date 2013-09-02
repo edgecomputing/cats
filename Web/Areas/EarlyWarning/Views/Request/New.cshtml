@@ -1,5 +1,5 @@
 ﻿@using System.Collections
-@model  Cats.Models.RegionalRequest
+@model  Cats.Models.HRDPSNPPlan
 
 
 @{
@@ -7,8 +7,8 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<div class="well">
-    <h3> New Regional Request</h3>
+<div >
+    <h6>New Regional Request</h6>
 </div>
 @section LeftBar
 {
@@ -20,20 +20,24 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Request")" title="save"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/EarlyWarning/Request/Index">Request</a> <span class="divider">/</span></li>
-        <li class="active">Create Request</li>
-    </ul>
-}
+
 @using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
 {
     <div class="form-horizontal well">
-        <fieldset>
-            <legend></legend>
-               @Html.HiddenFor(model => model.RegionalRequestID)
+       
+          
+            
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.SeasonID, "Season")
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("SeasonID", string.Empty)
+                        @Html.ValidationMessageFor(model => model.SeasonID)
+                    </div>
+                </div>
+          
+
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.RegionID, "Region")
@@ -46,25 +50,25 @@
 
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ProgramId, "Program")
+                    @Html.LabelFor(model => model.ProgramID, "Program")
                 </div>
                 <div class="controls">
                     @Html.DropDownList("ProgramID", String.Empty)
-                    @Html.ValidationMessageFor(model => model.ProgramId)
+                    @Html.ValidationMessageFor(model => model.ProgramID)
                 </div>
             </div>
-            
+
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.Month, "Month")
                 </div>
                 <div class="controls">
-                     @Html.DropDownList("Month", String.Empty)
-                     @Html.ValidationMessageFor(model => model.Month)
+                    @Html.DropDownList("Month", String.Empty)
+                    @Html.ValidationMessageFor(model => model.Month)
                 </div>
             </div>
 
-            
+
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.Year)
@@ -74,57 +78,11 @@
                     @Html.ValidationMessageFor(model => model.Year)
                 </div>
             </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.ReferenceNumber)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.ReferenceNumber)
-                    @Html.ValidationMessageFor(model => model.ReferenceNumber)
-                </div>
-            </div>
-               <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.RationID, "Ration")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("RationID", String.Empty)
-                    @Html.ValidationMessageFor(model => model.RationID)
-                </div>
-            </div>
-              <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.RequistionDate)
-                   
-                </div>
-                <div class="controls">
-                    @Html.HiddenFor(model => model.RequistionDate)
-                     <input class="cats-datepicker" type="text" id="requestDate" name="requestDate"/>
-                    @Html.ValidationMessageFor(model => model.RequistionDate)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Remark)
-                </div>
-                <div class="controls">
-                    @Html.EditorFor(model => model.Remark)
-                    @Html.ValidationMessageFor(model => model.Remark)
-                </div>
-            </div>
-        </fieldset>
 
+
+      
 
 
     </div>
   
 }
-   <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.min.js")" type="text/javascript"></script>
-     <script src="@Url.Content("~/Scripts/jquery.jgeez.min.js")" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function () {
-            var name = $('#Remark');
-            name.jGeez();
-        });
-
-    </script>
