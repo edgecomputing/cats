@@ -52,8 +52,10 @@ namespace Cats.Controllers
         public JsonResult BarNeedAssessment(string regionName="Dire Dawa") {
             return Json(_INeedAssessmentSummaryService.NeedAssessmentByRegion(regionName), JsonRequestBehavior.AllowGet);
         }
+        
+       // int y = DateTime.Now.Year;
 
-        public JsonResult BarNeedAssessmentbY(int year)
+        public JsonResult BarNeedAssessmentbY(int year = 2013)
         {
             return Json(_INeedAssessmentSummaryService.NeedAssessmentByYear(year), JsonRequestBehavior.AllowGet);
         }
