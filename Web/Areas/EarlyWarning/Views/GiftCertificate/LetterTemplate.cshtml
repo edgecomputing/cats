@@ -10,7 +10,7 @@
           .Name("gridselect")
           .Columns(columns =>
                        {
-                           columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new {fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString())}) + " '>#=LetterTemplateID#</a>  ");
+                           columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new {fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString())}) + " '>Select</a>  ");
                            columns.Bound(p => p.Name);
                            columns.Bound(p => p.FileName);
 
