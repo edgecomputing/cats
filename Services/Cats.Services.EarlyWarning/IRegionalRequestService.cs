@@ -27,6 +27,8 @@ namespace Cats.Services.EarlyWarning
 
         List<int?> GetZonesFoodRequested(int requestId);
         List<RegionalRequest> GetSubmittedRequest(int region, int month,int status);
+        HRDPSNPPlanInfo PlanToRequest(HRDPSNPPlan plan);
+
         bool ApproveRequest(int id);
    }
 }

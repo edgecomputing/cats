@@ -156,6 +156,53 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Save();
             return true;
         }
+        public HRDPSNPPlanInfo  PlanToRequest(HRDPSNPPlan plan)
+        {
+            HRDPSNPPlanInfo result = new HRDPSNPPlanInfo();
+            List<BeneficiaryInfo> beneficiaryInfos = new List<BeneficiaryInfo>();
+            result.HRDPSNPPlan = plan;
+            if (plan.ProgramID == 2)
+            {
+                RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.Year == plan.Year).FirstOrDefault();
+                if (psnpplan != null)
+                {
+                    beneficiaryInfos = PSNPToRequest(psnpplan);
+                }
+            }
+            else if (plan.ProgramID == 1)
+            {
+                HRD hrd=_unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
+                List<HRDDetail> hrddetail =
+                (from woreda in hrd.HRDDetails
+                 where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.NumberOfBeneficiaries>0
+                 select woreda).ToList();
+                beneficiaryInfos = HRDToRequest(hrddetail);
+            }
+            result.BeneficiaryInfos = beneficiaryInfos;
+                return result;
+
+        }
+        List<BeneficiaryInfo> HRDToRequest(List<HRDDetail> plandetail)
+        {
+            List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
+            foreach (HRDDetail d in plandetail)
+            {
+               List<FDP> WoredaFDPs= _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == d.AdminUnit.AdminUnitID);
+               ICollection<BeneficiaryInfo> woredabeneficiaries =
+                (from FDP fdp  in WoredaFDPs
+                 select new BeneficiaryInfo{FDPID=fdp.FDPID,Beneficiaries=0}).ToList();
+               benficiaries.AddRange(woredabeneficiaries);
+            }
+            return benficiaries;
+        }
+        List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan)
+        {
+            List<BeneficiaryInfo> benficiaries =
+                (from RegionalPSNPPlanDetail pd  in plan.RegionalPSNPPlanDetails
+                 select new BeneficiaryInfo{FDPID=pd.PlanedFDP.FDPID,Beneficiaries=pd.BeneficiaryCount}).ToList();
+            return benficiaries;
+
+        }
     }
 
 }

@@ -58,8 +58,20 @@ namespace Cats.Controllers
             return Json(_INeedAssessmentSummaryService.NeedAssessmentByYear(year), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getYears() {
+        public JsonResult getYears()
+        {
             return Json(_INeedAssessmentSummaryService.GetYears(), JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult BarRegionalReqDetailCommodity()
+        {
+                return Json(_IDashboardService.RegionalRequestsBeneficiary(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ZonalBeneficiaries(string RegionName)
+        {
+            return Json(_IDashboardService.ZonalBeneficiaries(_IDashboardService.getRegionId(RegionName)), JsonRequestBehavior.AllowGet);
         }
     }
 }

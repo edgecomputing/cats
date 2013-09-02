@@ -179,18 +179,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                select new
                                {
                                    Region = regionalDetail.Key,
-                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
-                                   Duration = regionalDetail.FirstOrDefault().DurationOfAssistance
+                                   NumberOfBeneficiaries = regionalDetail.Sum(m =>m.NumberOfBeneficiaries),
+                                   Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
                                };
             return (from total in groupedTotal
                             select new RegionalSummaryViewModel
                                 {
                                     RegionName = total.Region.Name,
                                     NumberOfBeneficiaries = total.NumberOfBeneficiaries,
-                                    Cereal = cerealCoefficient * total.NumberOfBeneficiaries * total.Duration,
-                                    BlededFood = blendFoodCoefficient * total.NumberOfBeneficiaries * total.Duration,
-                                    Oil = oilCoefficient * total.NumberOfBeneficiaries * total.Duration,
-                                    Pulse = pulseCoefficient * total.NumberOfBeneficiaries * total.Duration
+                                    Cereal = cerealCoefficient * total.Duration,
+                                    BlededFood = blendFoodCoefficient * total.Duration,
+                                    Oil = oilCoefficient * total.Duration,
+                                    Pulse = pulseCoefficient * total.Duration
                                 });
                 
         }
@@ -321,17 +321,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 hrd.CreatedBY = userid;
                 var seasonId = hrd.SeasonID;
-                //var hrdDetails = new List<HRDDetail>();
-                //foreach (var adminUnit in woredas)
-                //{
-                   
-                //    var detail = new HRDDetail();
-                //    detail.WoredaID = adminUnit.AdminUnitID;
-                //    detail.StartingMonth = 1;
-                //    detail.NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, "Meher", adminUnit.AdminUnitID);
-                //    detail.DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, "Meher", adminUnit.AdminUnitID);
-                //    hrdDetails.Add(detail);
-                //}
                 var hrdDetails = (from detail in woredas
                                   select new HRDDetail()
                                   {

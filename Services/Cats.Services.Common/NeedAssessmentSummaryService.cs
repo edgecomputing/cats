@@ -24,14 +24,14 @@ namespace Cats.Services.Common
             return (from _need in regionNeedAssessment orderby _need.Year select _need).ToList();
         }
 
-        public List<NAS> NeedAssessmentByYear(int year)
+        public List<NeedASummary> NeedAssessmentByYear(int year)
         {
             var yearNeedAssessment = _unitOfWork.NeedAssessmetSummaryRepository.FindBy(r => r.Year == year );
 
             var q = from y in yearNeedAssessment
                     orderby y.RegionName
                     group y by y.RegionName into No
-                    select new NAS()
+                    select new NeedASummary()
                         {
                             RegionName = No.Key,                          //from r in y  
                             Belg_Beneficiaries = No.Where(t => t.Season == "Belg").Sum(t => t.TotalBeneficiaries),

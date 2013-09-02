@@ -17,19 +17,28 @@ namespace Cats.Models
         public int RequestsCount { get; set; }
     }
 
-    public class NAS
+    public class NeedASummary
     {
-
-        public NAS() { }
-
-        //public NAS(string region, string belgB, int meherB ) {
-        //    this.RegionName = region;
-        //    this.Belg_Beneficiaries = belgB;
-        //    this.Meher_Beneficiaries = meherB;
-        //}
-
         public string RegionName { get; set; }
         public int Belg_Beneficiaries { get; set; }
         public int Meher_Beneficiaries { get; set; }
+    }
+
+    public class RegionalBeneficiaries
+    {
+        public string RegionName { get; set; }
+        public decimal Request { get; set; }
+        public decimal Allocation { get; set; }
+        public decimal HRD { get; set; }
+    }
+
+    public class ZonalBeneficiaries
+    {
+        public string Month { get; set; }
+        public string Zone { get; set; }
+        public decimal Request { get; set; }
+        public decimal Allocation { get; set; }
+        public decimal HRD { get; set; }
+
     }
 }

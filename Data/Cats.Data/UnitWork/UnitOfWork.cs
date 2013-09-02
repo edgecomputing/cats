@@ -572,7 +572,14 @@ namespace Cats.Data.UnitWork
             }
         }
 
-
+        private IGenericRepository<LetterTemplate> letterTemplateRepository;
+        public IGenericRepository<LetterTemplate> LetterTemplateRepository
+        {
+            get
+            {
+                return this.letterTemplateRepository ?? (this.letterTemplateRepository = new GenericRepository<LetterTemplate>(_context));
+            }
+        }
         public IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository
         {
 

@@ -113,6 +113,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ITypeOfNeedAssessmentService>().To<TypeOfNeedAssessmentService>();
 
             kernel.Bind<IUnitService>().To<UnitService>();
+            kernel.Bind<ILetterTemplateService>().To<LetterTemplateService>();
 ;
         }
     }

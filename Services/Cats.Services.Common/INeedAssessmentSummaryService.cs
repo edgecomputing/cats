@@ -11,7 +11,7 @@ namespace Cats.Services.Common
     {
         List<NeedAssessmentSummary> NeedAssessmentByRegion(string regionName);
 
-        List<NAS> NeedAssessmentByYear(int year);
+        List<NeedASummary> NeedAssessmentByYear(int year);
 
         List<int> GetYears();
     }

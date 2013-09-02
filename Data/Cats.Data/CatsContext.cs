@@ -98,7 +98,11 @@ namespace Cats.Data
 
         public DbSet<TypeOfNeedAssessment> TypeOfNeedAssessment { get; set; }
 
+
         public DbSet<NeedAssessmentSummary> NeedAssessmentSummary { get; set; }
+
+
+        public DbSet<LetterTemplate> LetterTemplate { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -181,7 +185,11 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
             modelBuilder.Configurations.Add(new AccountTransactionMap());
 
+
             modelBuilder.Configurations.Add(new NeedAssessmentSummaryMap());
+
+            modelBuilder.Configurations.Add(new LetterTemplateMap());
+
 
         }
 
