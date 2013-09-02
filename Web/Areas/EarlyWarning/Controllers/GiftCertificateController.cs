@@ -40,7 +40,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-            var gifts = _giftCertificateService.Get(null, t => t.OrderByDescending(o => o.GiftCertificateID), "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
+            var gifts = _giftCertificateService.Get(), "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
             var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(),true);
             return View(giftsViewModel);
 
@@ -237,7 +237,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
        public ActionResult Approve(int GiftCertificateID)
         {
             var result = _accountTransactionService.PostGiftCertificate(GiftCertificateID);
-           return Json(new { success = true });
+            return RedirectToAction("Index");
         }
         private void PopulateLookup(bool isNew = true, Cats.Models.GiftCertificate giftCertificate = null)
         {
