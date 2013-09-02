@@ -102,7 +102,7 @@ namespace Cats.Data
         public DbSet<NeedAssessmentSummary> NeedAssessmentSummary { get; set; }
 
 
-        public DbSet<LetterTemplate> LetterTemplate { get; set; }
+        public DbSet<LetterTemplate_> LetterTemplate { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
