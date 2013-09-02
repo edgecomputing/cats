@@ -144,7 +144,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             ContributionID = contributions.ContributionID,
                             HRD = contributions.HRD.Season.Name + "-" + contributions.HRD.Year,
                             HRDID = contributions.HRDID,
-                            Donor = contributions.Donor.DonorCode,
+                            Donor = contributions.Donor.Name,
                             DonorID = contributions.DonorID,
                             Year = contributions.Year
                              
@@ -209,24 +209,28 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             //var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
             //return View(contribution);
-            ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "Year", "Year");
+            ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "Year", "Year").Distinct();
             return View();
         }
         private IEnumerable<ContributionSummaryViewModel> GetSummary(IEnumerable<Contribution> contribution)
         {
             //var details = contribution.ContributionDetails;
-            return (from summary in contribution
-                    select new ContributionSummaryViewModel
+            return (from summary in contribution 
+                    from detail in summary.ContributionDetails
+                    select new ContributionSummaryViewModel()
                         {
-                            ContributionID = summary.ContributionDetails.First().ContributiionID,
+                            ContributionID = detail.ContributiionID,
                             HRDID = summary.HRDID,
                             DonorID = summary.DonorID,
-                            Donor = summary.Donor.DonorCode,
-                            CommodityID = summary.ContributionDetails.First().CommodityID,
-                            Commodity = summary.ContributionDetails.First().Commodity.Name,
-                            Ammount = summary.ContributionDetails.First().Quantity
-                                                
+                            Donor = summary.Donor.Name,
+                            CommodityID = detail.CommodityID,
+                            Commodity = detail.Commodity.Name,
+                            Ammount = detail.Quantity
                         });
         }
+
+
+    
+        }
     }
-}
+

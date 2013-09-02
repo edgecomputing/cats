@@ -40,7 +40,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            _fdpService = fdpService;
             _regionalRequestDetailService = reliefRequisitionDetailService;
             _commonService = commonService;
-            this._hrdService = hrdService;
+            _hrdService = hrdService;
         }
 
 
