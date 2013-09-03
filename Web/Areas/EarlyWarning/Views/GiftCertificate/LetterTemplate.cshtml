@@ -1,34 +1,65 @@
 ﻿@using Kendo.Mvc.UI
-@{
-    ViewBag.Title = "LetterTemplate";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
-}
 
-<fieldset>
-    <legend>
-        Letter template
-    </legend>
-</fieldset> 
 
-@(Html.Kendo().Grid<Cats.Models.LetterTemplateViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-        {
-            columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new { fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>#=LetterTemplateID#</a>  ");
-        columns.Bound(p => p.Name);
-        columns.Bound(p => p.FileName);
-      
-      
-           })
-    .Pageable()
-    .Sortable()
-    .Filterable()
-    .DataSource(dataSource => dataSource
-          .Ajax()
-          .PageSize(5)
-            .Model(model => model.Id(p => p.LetterTemplateID))
-            .Read(read => read.Action("ShowLetterTemplates", "GiftCertificate"))
- 
-     )
-   
-      )
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Print Gift Certificate")</h3>
+    </div>
+
+    @(Html.Kendo().Grid<Cats.Models.LetterTemplateViewModel>()
+          .Name("gridselect")
+          .Columns(columns =>
+                       {
+                           columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new {fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString())}) + " '>Select</a>  ");
+                           columns.Bound(p => p.Name);
+                           columns.Bound(p => p.FileName);
+
+
+                       })
+          .Pageable()
+          .Sortable()
+          .Filterable()
+
+          .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(5)
+                                        .Model(model => model.Id(p => p.LetterTemplateID))
+                                        .Read(read => read.Action("ShowLetterTemplates", "GiftCertificate"))
+
+          ).Selectable(select => select.Mode(GridSelectionMode.Single)))
+
+
+
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        @*<button  id="btnprintgift" class="btn btn-primary " type="submit">Print</button>*@
+    </div>
+
+
+
+<script type="text/javascript">
+    //$(document).ready(function() {
+    //$('#btnprintgift').click(function() {
+  @*  function printgiftCertificate() {
+  
+    
+            var entityGrid = $("#gridselect").data("kendoGrid");
+            var selectedItem = entityGrid.dataItem(entityGrid.select());
+            FileName = selectedItem.data("FileName");
+        alert(FileName);
+            var giftId = '@Html.ViewData["giftcertficateId"]';
+            alert(giftId);
+              $.ajax({
+                url: 'EarlyWarning/GiftCertificate/ShowTemplate',
+                data: { fileName: FileName, giftCertificateId: giftId },
+                success: function () {
+                    alert('Added');
+                }
+            });
+        }*@
+
+        
+
+       
+    //});
+</script>

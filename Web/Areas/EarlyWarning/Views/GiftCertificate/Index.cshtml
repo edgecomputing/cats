@@ -42,7 +42,7 @@
     }
     else
     {
-        <a href="@Url.Action("GenerateTemplate", new { id = item.GiftCertificateID })"  ><i class="icon-print"></i> </a>
+        <a class="btn-Print-gift" href="@Url.Action("GenerateTemplate", new { id = item.GiftCertificateID })"  ><i class="icon-print"></i> </a>
     }
     </text>
 
@@ -67,10 +67,10 @@
                 c.Bound(gc => gc.EstimatedTax).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Tax"));
                 c.Bound(gc => gc.FundSource).Title(Translator.Translate("Fund Source"));
             })
-        ).Filterable().Sortable().Pageable()
+        ).Filterable().Sortable().Pageable().Sortable()
    )
 </div>
-<div id="modalWindow">
+@*<div id="modalWindow">
     <h5>Print gift Certificate?</h5>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
@@ -106,7 +106,7 @@
             wnd.close();
         });
     }
-</script>
+</script>*@
 
 <script type="text/javascript">
     $(function () {
@@ -120,32 +120,42 @@
                     backdrop: 'static',
                     keyboard: true
                 }, 'show');
-                bindForm(this);
+                //bindForm(this);
+            });
+            return false;
+        });
+        $('.btn-Print-gift').click(function () {
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
             });
             return false;
         });
     });
 
-    function bindForm(dialog) {
-        $('form', dialog).submit(function () {
-            $.ajax({
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize(),
-                success: function (result) {
-                    if (result.success) {
-                        $('#dialogDiv').modal('hide');
-                        // Refresh:
-                        // location.reload();
-                    } else {
-                        $('#dialogContent').html(result);
-                        bindForm();
-                    }
-                }
-            });
-            return false;
-        });
-    }
+    //function bindForm(dialog) {
+    //    $('form', dialog).submit(function () {
+    //        $.ajax({
+    //            url: this.action,
+    //            type: this.method,
+    //            data: $(this).serialize(),
+    //            success: function (result) {
+    //                if (result.success) {
+    //                    $('#dialogDiv').modal('hide');
+    //                    // Refresh:
+    //                    // location.reload();
+    //                } else {
+    //                    $('#dialogContent').html(result);
+    //                    bindForm();
+    //                }
+    //            }
+    //        });
+    //        return false;
+    //    });
+    //}
 
 
 </script>

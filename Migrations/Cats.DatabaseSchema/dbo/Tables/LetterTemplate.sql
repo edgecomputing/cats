@@ -3,8 +3,11 @@
     [Name]             NVARCHAR (50) NOT NULL,
     [Parameters]       XML           NULL,
     [Template]         NTEXT         NOT NULL,
+    [FileName]         VARCHAR (50)  NULL,
     CONSTRAINT [PK_LetterTemplate] PRIMARY KEY CLUSTERED ([LetterTemplateID] ASC)
 );
+
+
 
 
 GO

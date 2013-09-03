@@ -21,13 +21,11 @@
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("New", "Request")"></a>
 }
-<<<<<<< HEAD
-=======
 
 @using Cats.Areas.EarlyWarning.Models
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
->>>>>>> cda1451e56861b28e3596bf1f394f16b24bd14f0
+@ViewBag.message
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("grid")
     .Columns(columns =>

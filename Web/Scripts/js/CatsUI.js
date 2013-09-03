@@ -1,17 +1,13 @@
 ﻿$(function () {
     init_toolbar_button();
-    
+    hide_double_breadcrumb();
 
 });
 function init_datepicker() {
     $(".cats-datepicker2").ethcal_datepicker();
 
-    $(".cats-datepicker").calendarsPicker({
-
-        calendar: $.calendars.instance('ethiopian', 'am')
-        //disableInput: true
-    }).attr('style', 'background-color : #fff');
-    $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
+   // $(".cats-datepicker").calendarsPicker({calendar: $.calendars.instance('ethiopian', 'am') }).attr('style', 'background-color : #fff');
+    //$.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
 }
 function init_toolbar_button() {
     var button_styles = {
@@ -42,9 +38,15 @@ function init_toolbar_button() {
         }
 
     })
-    /*for (var i in button_styles) {
-        var bs = button_styles[i];
-        $("." + i).append("<i class=\"" + bs.icon + "\">").attr("title", bs.tooltip);
-    }*/
     $(".toolbar-btn").tooltip();
+}
+function hide_double_breadcrumb() {
+    $(".breadcrumb").each(function()
+    {
+        var $that = $(this);
+        if ($that.data("role") != "main") {
+            $that.hide();
+        }
+    });
+
 }

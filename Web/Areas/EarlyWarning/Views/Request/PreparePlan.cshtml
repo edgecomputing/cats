@@ -1,0 +1,63 @@
+﻿@using Cats.Models
+@model Cats.Models.HRDPSNPPlanInfo
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Request From Plan</h2>
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("RequestFromPlan", "Request")" title="save"></a>
+}
+<div style="display:none;">
+@using (Html.BeginForm("RequestFromPlan", "Request", FormMethod.Post, new { id = "frm_create_request" }))
+{
+@Html.HiddenFor(model => model.HRDPSNPPlan.ProgramID)
+@Html.HiddenFor(model => model.HRDPSNPPlan.RegionID)
+@Html.HiddenFor(model => model.HRDPSNPPlan.Month)
+@Html.HiddenFor(model => model.HRDPSNPPlan.Year)
+    for (int i = 0; i < Model.BeneficiaryInfos.Count; i++)
+    {
+        @Html.TextBoxFor(model=>model.BeneficiaryInfos[i].FDPID)
+        @Html.TextBoxFor(model=>model.BeneficiaryInfos[i].Beneficiaries)
+        <br />
+    }
+}
+    </div>
+@(Html.Kendo().Grid(Model.BeneficiaryInfos).Name("grid")
+.Columns(col=>
+             {
+                 
+                 col.Bound(m => m.FDPID);
+                 col.Bound(m => m.Beneficiaries);
+                // col.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
+                 col.Command(
+                     command => command.Destroy()
+                     ).ClientFooterTemplate("<a href=''>000</a>");
+                 
+
+             }).Pageable()
+             .DataSource(datasource=>datasource.Server()
+             .Model(model=>model.Id(p=>p.FDPID))
+             .Update(update=>update.Action("RequestFromPlan_Update","Request"))
+             .Destroy(destroy=>destroy.Action("RequestFromPlan_Destroy","Request"))))
+
+<script>
+    $(function ()
+    {
+        $("tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
+        $("thead tr").prepend("<th class='k-header'><i class='icon-ok'></i></th>");
+        $("tbody .checker").click(
+            function (event) { $(this).parent().toggleClass("k-state-selected"); });
+        }
+        );
+</script>
+<style>
+    .table-compact
+    {
+      
+    }
+</style>

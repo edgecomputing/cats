@@ -141,6 +141,7 @@
     <Compile Include="Mapping\TypeOfNeedAssessmentMap.cs" />
     <Compile Include="Mapping\UnitMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
+    <Compile Include="Mapping\NeedAssessmentSummaryMap.cs" />
     <Compile Include="Mapping\vwPSNPAnnualPlanMap.cs" />
     <Compile Include="Mapping\vwTransportOrderMap.cs" />
     <Compile Include="Mapping\WorkflowMap.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
     <Compile Include="TypeOfNeedAssessment.cs" />
+    <Compile Include="UIWidget.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UserDashboard.cs" />
     <Compile Include="UserProfile.cs" />
@@ -219,6 +221,7 @@
     <Compile Include="ViewModels\SINumber.cs" />
     <Compile Include="vwPSNPAnnualPlan.cs" />
     <Compile Include="vwTransportOrder.cs" />
+    <Compile Include="NeedAssessmentSummary.cs" />
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowStatus.cs" />
     <Compile Include="ZonesViewModel.cs" />

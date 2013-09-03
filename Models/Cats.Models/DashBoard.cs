@@ -17,6 +17,13 @@ namespace Cats.Models
         public int RequestsCount { get; set; }
     }
 
+    public class NeedASummary
+    {
+        public string RegionName { get; set; }
+        public int Belg_Beneficiaries { get; set; }
+        public int Meher_Beneficiaries { get; set; }
+    }
+
     public class RegionalBeneficiaries
     {
         public string RegionName { get; set; }

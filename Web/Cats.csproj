@@ -173,6 +173,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -695,7 +696,6 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Edit.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentToBeApproved.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Approved.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Delete.cshtml" />
@@ -748,6 +748,9 @@
     <Content Include="Areas\EarlyWarning\Views\Contribution\ContributionSummary.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentMainLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\LetterTemplate.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -764,10 +767,6 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\_RegionalPSNPPledgeLeftBar.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Issue.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Create.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\EditDetail.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
@@ -775,14 +774,18 @@
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddZone.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Print.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1016,8 +1019,20 @@
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
+
+    <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

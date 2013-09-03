@@ -5,17 +5,22 @@ using System.Web;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
 using Cats.Models.ViewModels;
+using Cats.Services.Common;
 
 
 namespace Cats.Controllers
 {
     public class DashboardController : Controller
     {
+        private readonly IDashboardService _IDashboardService;
+        private readonly  INeedAssessmentSummaryService _INeedAssessmentSummaryService;
+        
         public DashboardController()
         {
             this._IDashboardService = new Cats.Services.EarlyWarning.DashboardService();
+            this._INeedAssessmentSummaryService = new Cats.Services.Common.NeedAssessmentSummaryService();
         }
-        private readonly IDashboardService _IDashboardService;
+       
 
         public ActionResult RequestsById(int RegionId=10)
         {
@@ -44,6 +49,22 @@ namespace Cats.Controllers
             return Json(_IDashboardService.BarNoOfBeneficiaries(), JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult BarNeedAssessment(string regionName="Dire Dawa") {
+            return Json(_INeedAssessmentSummaryService.NeedAssessmentByRegion(regionName), JsonRequestBehavior.AllowGet);
+        }
+        
+       // int y = DateTime.Now.Year;
+
+        public JsonResult BarNeedAssessmentbY(int year = 2013)
+        {
+            return Json(_INeedAssessmentSummaryService.NeedAssessmentByYear(year), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getYears()
+        {
+            return Json(_INeedAssessmentSummaryService.GetYears(), JsonRequestBehavior.AllowGet);
+
+        }
 
         public JsonResult BarRegionalReqDetailCommodity()
         {

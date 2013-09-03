@@ -44,7 +44,8 @@
                     
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.NeedADate)
+                    
+                    @Html.TextBoxFor(model => model.NeedADate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(model => model.NeedADate)
                 </div>
             </div>

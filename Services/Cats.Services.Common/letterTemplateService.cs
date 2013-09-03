@@ -18,21 +18,21 @@ namespace Cats.Services.Common
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddLetterTemplate(LetterTemplate letterTemplate)
+        public bool AddLetterTemplate(LetterTemplate_ letterTemplate)
         {
             _unitOfWork.LetterTemplateRepository.Add(letterTemplate);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditLetterTemplate(LetterTemplate letterTemplate)
+        public bool EditLetterTemplate(LetterTemplate_ letterTemplate)
         {
             _unitOfWork.LetterTemplateRepository.Edit(letterTemplate);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteLetterTemplate(LetterTemplate letterTemplate)
+        public bool DeleteLetterTemplate(LetterTemplate_ letterTemplate)
         {
             if (letterTemplate == null) return false;
             _unitOfWork.LetterTemplateRepository.Delete(letterTemplate);
@@ -47,15 +47,15 @@ namespace Cats.Services.Common
             _unitOfWork.Save();
             return true;
         }
-        public List<LetterTemplate> GetAllLetterTemplate()
+        public List<LetterTemplate_> GetAllLetterTemplate()
         {
             return _unitOfWork.LetterTemplateRepository.GetAll();
         }
-        public LetterTemplate FindById(int id)
+        public LetterTemplate_ FindById(int id)
         {
             return _unitOfWork.LetterTemplateRepository.FindById(id);
         }
-        public List<LetterTemplate> FindBy(Expression<Func<LetterTemplate, bool>> predicate)
+        public List<LetterTemplate_> FindBy(Expression<Func<LetterTemplate_, bool>> predicate)
         {
             return _unitOfWork.LetterTemplateRepository.FindBy(predicate);
         }
@@ -68,8 +68,6 @@ namespace Cats.Services.Common
             return lettetTemplates.Select(lettetTemplate => new LetterTemplateViewModel
                                                                 {
                                                                     Name = lettetTemplate.Name, 
-                                                                    Template = lettetTemplate.Template, 
-                                                                    Parameters = lettetTemplate.Parameters, 
                                                                     LetterTemplateID = lettetTemplate.LetterTemplateID,
                                                                     FileName = lettetTemplate.FileName
                                                                 }).ToList();

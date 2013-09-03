@@ -1,6 +1,10 @@
 ﻿@using Cats.Helpers;
 @using Cats.Services.Security
-
+@{
+    UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
+    
+    string theme = "default";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +14,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    <!-- Le styles 
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">-->
+    <link href="~/Content/themes/@theme/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 
@@ -19,7 +24,7 @@
     <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
 
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.uniform.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
     <!--
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
 	
@@ -176,9 +181,9 @@
     <script type="text/javascript" src="/Scripts/js/CatsUI.js"> </script>
 
     @{
-        var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-        var unitPreference = user.Profile.Calendar.ToString();
-        if (unitPreference != "EC")
+       // var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+        var calendarPreference = user.Profile.Calendar.ToString();
+        if (calendarPreference != "EC")
         {
         <script>
             $(function () {

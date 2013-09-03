@@ -197,8 +197,7 @@
     <Build Include="EarlyWarning\Tables\TypeOfNeedAssessment.sql" />
     <Build Include="EarlyWarning\Tables\Season.sql" />
     <Build Include="dbo\Views\vw_NeedAssessment.sql" />
-    <Build Include="dbo\Tables\AidDistributionPlan.sql" />
-    <Build Include="dbo\Tables\AidDistributionPlanDetail.sql" />
+	<Build Include="dbo\Tables\AidDistributionPlanDetail.sql" />
     <Build Include="dbo\Tables\AllocationRequestDetail.sql" />
     <Build Include="dbo\Tables\AllocationRequest.sql" />
     <Build Include="dbo\Tables\BidCandidateTransporter.sql" />

@@ -1,6 +1,7 @@
 ﻿@using Cats.Helpers
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+
 @{
     ViewBag.Title = Translator.Translate(" Beneficiary numbers and duration of assisstance");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -16,7 +17,7 @@
 
 <fieldset>
     <legend>
-        Beneficiary numbers and duration of assisstance
+       Beneficiary numbers and duration of assisstance
     </legend>
 </fieldset>
 
@@ -36,7 +37,6 @@
         columns.Bound(p => p.RegionName).Title("Region");
         columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
         columns.Bound(p=>p.NeedADate).Format("{0:dd/mm/yyyy}").Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
-
         columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Command(p =>
         {
@@ -122,7 +122,7 @@
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = null;
-        window.location = "NeedAssessment/EditNeedAssessment/" + dataItem.Region;
+        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.Region;  
     }
 </script>
 <script>
@@ -132,17 +132,15 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wn.center().open();
         $("#yesDelete").click(function () {
-            window.location = "NeedAssessment/DeleteNeedAssessment/" + dataItem.NeedAID;
+            window.location = "@Url.Action("DeleteNeedAssessment","NeedAssessment")" + "?id="  + dataItem.NeedAID;
             wn.close();
         });
 
         $("#noDelete").click(function () {
             wn.close();
         });
-        
-       
-        
     }
+
 </script>
 <script>
 
@@ -153,7 +151,7 @@
         wnd.center().open();
         $("#yes").click(function () {
             window.location = null;
-            window.location = "NeedAssessment/ApproveNeedAssessment/" + dataItem.NeedAID;
+            window.location =  "@Url.Action("ApproveNeedAssessment","NeedAssessment")" + "?id=" + dataItem.NeedAID;
             wnd.close();
         });
 

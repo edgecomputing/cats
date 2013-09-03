@@ -48,7 +48,6 @@ namespace ReportManagement
                 outputMemoryStream.Position = 0;
                 outputMemoryStream.Read(renderedBuffer, 0, renderedBuffer.Length);
             }
-
             return renderedBuffer;
         }
     }
