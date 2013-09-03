@@ -8,6 +8,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.PSNP;
 using Cats.Models.ViewModels;
+using Cats.Models.ViewModels.Bid;
 using Cats.Services.EarlyWarning;
 using Cats.Services.PSNP;
 using Cats.Services.Security;
@@ -48,9 +49,33 @@ namespace Cats.Areas.PSNP.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<Cats.Models.RegionalPSNPPlan> list = _regionalPSNPPlanService.GetAllRegionalPSNPPlan();
+
+            return View(list);
         }
 
+        public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            var bids = _regionalPSNPPlanService.GetAllRegionalPSNPPlan();
+            var bidsToDisplay = GetBids(bids).ToList();
+            return Json(bidsToDisplay.ToDataSourceResult(request));
+        }
+
+        private IEnumerable<RegionalPSNPPlanViewModel> GetBids(IEnumerable<RegionalPSNPPlan> regionalPSNPPlans)
+        {
+            return (from regionalPSNPPlan in regionalPSNPPlans
+                    select new ViewModel()
+                    {
+                        BidID = regionalPSNPPlan.,
+                        BidNumber = regionalPSNPPlan.BidNumber,
+                        StartDate = regionalPSNPPlan.StartDate,
+                        EndDate = regionalPSNPPlan.EndDate,
+                        OpeningDate = regionalPSNPPlan.OpeningDate,
+                        Status = regionalPSNPPlan.Status.Name,
+                        StatusID = regionalPSNPPlan.StatusID
+                    });
+        }
         public ActionResult Issue()
         {
             var regionalPSNPPledge = new RegionalPSNPPledge();
