@@ -23,8 +23,8 @@
         //columns.Bound(m => m.ContributionID);
         columns.Bound(m => m.PledgeReferenceNumber);
         columns.Bound(m => m.PledgeDate).Format("{0:MM/dd/yyyy}");
-        columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewData["CommodityID"], "CommodityID", "Name").Title("Commodity");
-        columns.Bound(m => m.Quantity).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}"); 
+        columns.ForeignKey(m => m.CurrencyID, (IEnumerable)ViewBag.CurrencyID, "CurrencyID", "Code").Title("Currency");
+        columns.Bound(m => m.Amount).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}"); 
 
         columns.Command(command => command.Destroy());
     })
@@ -41,11 +41,11 @@
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
-      .Aggregates(aggregates =>aggregates.Add(p => p.Quantity).Sum())
+      .Aggregates(aggregates =>aggregates.Add(p => p.Amount).Sum())
         .Model(model =>
             {
                 model.Id(m=>m.ContributionID);
-                model.Field(m => m.Quantity).Editable(true);
+                model.Field(m => m.Amount).Editable(true);
             }
     )
         .Read(read => read.Action("ContributionDetail_Read", "Contribution",new{id=Model.ContributionID}))
