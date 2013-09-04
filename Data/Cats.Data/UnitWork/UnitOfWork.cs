@@ -641,5 +641,10 @@ namespace Cats.Data.UnitWork
         {
             get { return this.currencyRepository ?? (this.currencyRepository = new GenericRepository<Currency>(_context)); }
         }
+        private IGenericRepository<TransactionGroup> transactionGroupRepository;
+        public IGenericRepository<TransactionGroup> TransactionGroupRepository
+        {
+            get { return this.transactionGroupRepository ?? (this.transactionGroupRepository = new GenericRepository<TransactionGroup>(_context)); }
+        }
     }
 }
