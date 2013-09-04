@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Services.Security;
+using LanguageHelpers.Localization.Services;
 using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Logistics;
+using Cats.Services.PSNP;
+using Cats.Services.Transaction;
+using Cats.Services.Common;
 
 namespace Cats.Infrastructure
 {
@@ -18,7 +20,7 @@ namespace Cats.Infrastructure
 
         public NinjectDependencyResolver()
         {
-            this.kernel = new StandardKernel();
+            kernel = new StandardKernel();
             AddBindings();
         }
 
@@ -36,7 +38,13 @@ namespace Cats.Infrastructure
         
         private void AddBindings()
         {
+            kernel.Bind<IBusinessProcessStateService>().To<BusinessProcessStateService>();
+            kernel.Bind<IBusinessProcessService>().To<BusinessProcessService>();
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            kernel.Bind<IProcessTemplateService>().To<ProcessTemplateService>();
+            kernel.Bind<IStateTemplateService>().To<StateTemplateService>();
+            kernel.Bind<IFlowTemplateService>().To<FlowTemplateService>();
+
             kernel.Bind<IRegionalRequestService>().To<RegionalRequestService>();
             kernel.Bind<IFDPService>().To<FDPService>();
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
@@ -74,12 +82,43 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransportBidQuotationService>().To<TransportBidQuotationService>();
             kernel.Bind<IApplicationSettingService>().To<ApplicationSettingService>();
             kernel.Bind<IRationService>().To<RationService>();
-<<<<<<< HEAD
+            kernel.Bind<IRationDetailService>().To<RationDetailService>();
+
+
+            kernel.Bind<INeedAssessmentHeaderService>().To<NeedAssessmentHeaderService>();
+            kernel.Bind<INeedAssessmentDetailService>().To<NeedAssessmentDetailService>();
+            kernel.Bind<INeedAssessmentService>().To<NeedAssessmentService>();
+
             kernel.Bind<IHRDService>().To<HRDService>();
             kernel.Bind<IHRDDetailService>().To<HRDDetailService>();
+            kernel.Bind<IRegionalPSNPPlanService>().To<RegionalPSNPPlanService>();
+            kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
+
+            kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
+
+            kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
+            kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
+            
+
+            kernel.Bind<ISeasonService>().To<SeasonService>();
+            kernel.Bind<IDonorService>().To<DonorService>();
+            kernel.Bind<ICommonService>().To<CommonService>();
+            kernel.Bind<IRegionalPSNPPledgeService>().To<RegionalPSNPPledgeService>();
+
+
+            kernel.Bind<IContributionService>().To<ContributionService>();
+            kernel.Bind<IContributionDetailService>().To<ContributionDetailService>();
+
+            kernel.Bind<ITypeOfNeedAssessmentService>().To<TypeOfNeedAssessmentService>();
+
+            kernel.Bind<IUnitService>().To<UnitService>();
+            kernel.Bind<ILetterTemplateService>().To<LetterTemplateService>();
+<<<<<<< HEAD
+            kernel.Bind<ICurrencyService>().To<CurrencyService>();
+;
 =======
-            kernel.Bind<IRationDetailService>().To<RationDetailService>();
->>>>>>> 0ae0967b6a88ce563ddd1b9a4a0ec773177037ca
+            kernel.Bind<ILog>().To<Log>();
+>>>>>>> f021c77844319e7c1b2acf8abac5af3d151059ad
         }
     }
 }
