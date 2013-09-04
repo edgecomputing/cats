@@ -1,7 +1,8 @@
-﻿@model Cats.Models.NeedAssessment
+﻿@using LanguageHelpers.Localization
+@model Cats.Models.NeedAssessment
 
 @{
-    ViewBag.Title = "AddRegion";
+    ViewBag.Title = Translator.Translate("Add New Need Assessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section Toolbar
@@ -9,14 +10,14 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_add_region"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>
 }
-<h2>AddRegion</h2>
+
 
 @using (Html.BeginForm("AddRegion", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
 {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>NeedAssessment</legend>
+        <legend>@Translator.Translate("Add New Need Assessment")</legend>
         <div class="form-horizontal">
             <div class="control-group">
                 <div class="control-label">
@@ -50,35 +51,7 @@
                 </div>
             </div>
             
-            @*div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.NeddACreatedBy)
-                </div>
-                <div class="controls">
-                    @Html.EditorFor(model => model.NeddACreatedBy)
-                    @Html.ValidationMessageFor(model => model.NeddACreatedBy)
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.NeedAApproved)
-                </div>
-                <div class="controls">
-                    @Html.EditorFor(model => model.NeedAApproved)
-                    @Html.ValidationMessageFor(model => model.NeedAApproved)
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.NeedAApprovedBy)
-                </div>
-                <div class="controls">
-                    @Html.EditorFor(model => model.NeedAApprovedBy)
-                    @Html.ValidationMessageFor(model => model.NeedAApprovedBy)
-                </div>
-            </div>*@
+           
             
             <div class="control-group">
                 <div class="control-label">

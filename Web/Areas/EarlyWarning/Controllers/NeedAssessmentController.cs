@@ -113,23 +113,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
       
-        [HttpPost]
-        public ActionResult AddZone(NeedAssessmentHeader needAssessmentHeader,FormCollection collection)
-        {
-            var zone = int.Parse(collection["ZoneID"].ToString(CultureInfo.InvariantCulture));
-            var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
-            int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
-
-            needAssessmentHeader.Zone = zone;
-            needAssessmentHeader.NeedAID = _needAssessmentHeaderService.GetRegionPrimeryId(int.Parse(region),season);
-
-
-            if (ModelState.IsValid)
-            {
-                _needAssessmentHeaderService.AddNeedAssessmentHeader(needAssessmentHeader);
-            }
-            return RedirectToAction("Index");
-        }
+       
 
         public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request )
         {
