@@ -193,7 +193,7 @@ namespace Cats.Services.EarlyWarning
                List<FDP> WoredaFDPs= _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == d.AdminUnit.AdminUnitID);
                ICollection<BeneficiaryInfo> woredabeneficiaries =
                 (from FDP fdp  in WoredaFDPs
-                 select new BeneficiaryInfo{FDPID=fdp.FDPID,Beneficiaries=0}).ToList();
+                 select new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0 }).ToList();
                benficiaries.AddRange(woredabeneficiaries);
             }
             return benficiaries;
@@ -202,7 +202,7 @@ namespace Cats.Services.EarlyWarning
         {
             List<BeneficiaryInfo> benficiaries =
                 (from RegionalPSNPPlanDetail pd  in plan.RegionalPSNPPlanDetails
-                 select new BeneficiaryInfo{FDPID=pd.PlanedFDP.FDPID,Beneficiaries=pd.BeneficiaryCount}).ToList();
+                 select new BeneficiaryInfo { FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name,Beneficiaries = pd.BeneficiaryCount }).ToList();
             return benficiaries;
 
         }

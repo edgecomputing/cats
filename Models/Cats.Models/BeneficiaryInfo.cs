@@ -9,6 +9,7 @@ namespace Cats.Models
    public  class BeneficiaryInfo
     {
        public int FDPID { get; set; }
+       public string FDPName { get; set; }
        public int  Beneficiaries { get; set; }
 
     }
