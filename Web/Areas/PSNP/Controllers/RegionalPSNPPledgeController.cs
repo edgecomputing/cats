@@ -49,33 +49,61 @@ namespace Cats.Areas.PSNP.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Cats.Models.RegionalPSNPPlan> list = _regionalPSNPPlanService.GetAllRegionalPSNPPlan();
-
-            return View(list);
+            ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name");
+            ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
+            ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name");
+            return View();
         }
 
-        public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult RegionalPSNPPlan_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var bids = _regionalPSNPPlanService.GetAllRegionalPSNPPlan();
-            var bidsToDisplay = GetBids(bids).ToList();
-            return Json(bidsToDisplay.ToDataSourceResult(request));
+            var regionalPSNPPlans = _regionalPSNPPlanService.GetAllRegionalPSNPPlan();
+            var regionalPSNPPlansToDisplay = GetRegionalPSNPPlans(regionalPSNPPlans).ToList();
+            return Json(regionalPSNPPlansToDisplay.ToDataSourceResult(request));
         }
 
-        private IEnumerable<RegionalPSNPPlanViewModel> GetBids(IEnumerable<RegionalPSNPPlan> regionalPSNPPlans)
+        private IEnumerable<Cats.Models.ViewModels.PSNP.RegionalPSNPPlanViewModel> GetRegionalPSNPPlans(IEnumerable<RegionalPSNPPlan> regionalPSNPPlans)
         {
             return (from regionalPSNPPlan in regionalPSNPPlans
-                    select new ViewModel()
+                    let name = regionalPSNPPlan.Region.Name
+                    where name != null
+                    select new Cats.Models.ViewModels.PSNP.RegionalPSNPPlanViewModel()
+                        {
+                            RegionalPSNPPlanID = regionalPSNPPlan.RegionalPSNPPlanID,
+                            Year = regionalPSNPPlan.Year,
+                            Duration = regionalPSNPPlan.Duration,
+                            RegionID = regionalPSNPPlan.RegionID,
+                            Region = name,
+                            RationID = regionalPSNPPlan.RationID,
+                            StatusID = regionalPSNPPlan.StatusID,
+                        });
+        }
+
+        public ActionResult RegionalPSNPPlanDetail_Read(int regionalPSNPPlanID, [DataSourceRequest] DataSourceRequest request)
+        {
+            var regionalPSNPPlanDetails = _regionalPSNPPlanDetailService.GetAllRegionalPSNPPlanDetail();
+            var regionalPSNPPlanDetailsToDisplay = GetregionalPSNPPlanDetails(regionalPSNPPlanDetails).ToList();
+            return Json(regionalPSNPPlanDetailsToDisplay.Where(p => p.RegionalPSNPPlanID == regionalPSNPPlanID).ToDataSourceResult(request));
+        }
+
+        private IEnumerable<Cats.Models.ViewModels.PSNP.RegionalPSNPPlanDetailViewModel> GetregionalPSNPPlanDetails(IEnumerable<RegionalPSNPPlanDetail> regionalPSNPPlanDetails)
+        {
+            return (from regionalPSNPPlanDetail in regionalPSNPPlanDetails
+                    select new Cats.Models.ViewModels.PSNP.RegionalPSNPPlanDetailViewModel()
                     {
-                        BidID = regionalPSNPPlan.,
-                        BidNumber = regionalPSNPPlan.BidNumber,
-                        StartDate = regionalPSNPPlan.StartDate,
-                        EndDate = regionalPSNPPlan.EndDate,
-                        OpeningDate = regionalPSNPPlan.OpeningDate,
-                        Status = regionalPSNPPlan.Status.Name,
-                        StatusID = regionalPSNPPlan.StatusID
+                        RegionalPSNPPlanDetailID = regionalPSNPPlanDetail.RegionalPSNPPlanDetailID,
+                        RegionalPSNPPlanID = regionalPSNPPlanDetail.RegionalPSNPPlanID,
+                        PlannedFDPID = regionalPSNPPlanDetail.PlanedFDPID,
+                        PlannedFDP = regionalPSNPPlanDetail.PlanedFDP.Name,
+                        BeneficiaryCount = regionalPSNPPlanDetail.BeneficiaryCount,
+                        FoodRatio = regionalPSNPPlanDetail.FoodRatio,
+                        CashRatio = regionalPSNPPlanDetail.CashRatio,
+                        Item3Ratio = regionalPSNPPlanDetail.Item3Ratio,
+                        Item4Ratio = regionalPSNPPlanDetail.Item4Ratio
                     });
         }
+
         public ActionResult Issue()
         {
             var regionalPSNPPledge = new RegionalPSNPPledge();
@@ -101,7 +129,7 @@ namespace Cats.Areas.PSNP.Controllers
         [HttpPost]
         public ActionResult Issue(RegionalPSNPPledge regionalPSNPPledge, string pledgeDate)
         {
-            regionalPSNPPledge.PledgeDate = GetGregorianDate(pledgeDate);
+            regionalPSNPPledge.PledgeDate = DateTime.Now;
 
             if (ModelState.IsValid)
             {

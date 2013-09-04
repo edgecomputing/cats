@@ -212,6 +212,8 @@
     <Compile Include="ViewModels\FDPsCoveredByDonors.cs" />
     <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
     <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
+    <Compile Include="ViewModels\PSNP\RegionalPSNPPlanDetailViewModel.cs" />
+    <Compile Include="ViewModels\PSNP\RegionalPSNPPlanViewModel.cs" />
     <Compile Include="ViewModels\RegionalSummaryViewModel.cs" />
     <Compile Include="ViewModels\ReliefRequisitionNew.cs" />
     <Compile Include="ViewModels\RequisitionHub.cs" />

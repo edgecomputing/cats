@@ -69,8 +69,8 @@
                     @Html.LabelFor(m => m.PledgeDate,"Pledge Date")
                 </div>
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="PledgeDate" name="PledgeDate" />
-                    @Html.HiddenFor(m=>m.PledgeDate)
+                    <input class="cats-datepicker" type="text" id="PledgeDate" name="PledgeDate" />
+                    <input id="PledgeDate" type="hidden" value="" name="PledgeDate" data-val-required="The PledgeDate field is required." data-val-date="The field PledgeDate must be a date." data-val="true">
                     @Html.ValidationMessageFor(m => m.PledgeDate)
                 </div>
             </div>
