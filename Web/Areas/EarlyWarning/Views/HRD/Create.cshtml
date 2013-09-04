@@ -23,9 +23,13 @@
     @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
 
     {
-        @Html.ValidationSummary(true)
 
         <div class="well form-horizontal">
+            <div>
+                 <span class="field-validation-error">
+                        @ViewBag.Error
+                    </span>
+            </div>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.Year)

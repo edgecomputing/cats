@@ -26,14 +26,10 @@ namespace Cats.Models.Mapping
             //this.Property(t => t.IsWorkingVersion).HasColumnName("IsWorkingVersion");
             //this.Property(t => t.IsPublished).HasColumnName("IsPublished");
             this.Property(t => t.PublishedDate).HasColumnName("PublishedDate");
-            //this.Property(t => t.NeedAssessmentID).HasColumnName("NeedAssessmentID");
             //this.Property(t => t.RationID).HasColumnName("RationID");
             this.Property(t => t.Status).HasColumnName("Status");
 
             // Relationships
-            //this.HasOptional(t => t.NeedAssessment)
-            //    .WithMany(t => t.HRDs)
-            //    .HasForeignKey(d => d.NeedAssessmentID);
             //this.HasOptional(t => t.Season)
             //    .WithMany(t => t.Hrds)
             //    .HasForeignKey(d => d.SeasonID);
