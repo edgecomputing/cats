@@ -18,7 +18,7 @@
 
     <fieldset>
         <legend>@Translator.Translate("Add New Need Assessment")</legend>
-        <div class="form-horizontal">
+        <div class="form-horizontal  ">
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.Region)
@@ -48,7 +48,7 @@
                     
                     @Html.TextBoxFor(model => model.NeedADate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(model => model.NeedADate)
-                </div>
+                </div> 
             </div>
             
            

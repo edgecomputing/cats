@@ -593,9 +593,7 @@
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
@@ -622,12 +620,6 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
@@ -859,10 +851,8 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Allocation.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
     <Content Include="Areas\Settings\Views\Web.config" />
     <Content Include="Areas\Settings\Views\AdminDashboard\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AdminLeftBar.cshtml" />
