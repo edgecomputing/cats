@@ -10,9 +10,12 @@
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
   
 }
+@section LeftBar
+{
+@Html.Partial("_giftLeftBar")}
 <div>
-    <h2>
-        @Translator.Translate("Gift Certificates")</h2>
+    <h4>
+        @Translator.Translate("Gift Certificates")</h4>
 @section Toolbar
 {
 

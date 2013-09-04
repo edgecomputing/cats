@@ -787,6 +787,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1026,15 +1027,12 @@
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
