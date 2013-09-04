@@ -18,7 +18,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
     {
         #region SetUp / TearDown
 
-        private AccountTransactionService _accountTransactionService; 
+        private TransactionService _accountTransactionService; 
         [SetUp]
         public void Init()
         {
@@ -66,13 +66,16 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                       It.IsAny<Func<IQueryable<GiftCertificate>, IOrderedQueryable<GiftCertificate>>>(),
                       It.IsAny<string>())).Returns(giftCertificates);
 
-            var accountTransactionRepository = new Mock<IGenericRepository<AccountTransaction>>();
-            accountTransactionRepository.Setup(t => t.Add(It.IsAny<AccountTransaction>())).Returns(true);
+            var transactionRepository = new Mock<IGenericRepository<Models.Transaction>>();
+            transactionRepository.Setup(t => t.Add(It.IsAny<Models.Transaction>())).Returns(true);
+            var transactionGroupRepository = new Mock<IGenericRepository<TransactionGroup>>();
+            transactionGroupRepository.Setup(t => t.Add(It.IsAny<TransactionGroup>())).Returns(true);
 
             unitOfWork.Setup(t => t.GiftCertificateRepository).Returns(giftCertificateRepositoy.Object);
-            unitOfWork.Setup(t => t.AccountTransactionRepository).Returns(accountTransactionRepository.Object);
+            unitOfWork.Setup(t => t.TransactionRepository).Returns(transactionRepository.Object);
+            unitOfWork.Setup(t => t.TransactionGroupRepository).Returns(transactionGroupRepository.Object);
             unitOfWork.Setup(t => t.Save());
-            _accountTransactionService=new AccountTransactionService(unitOfWork.Object);
+            _accountTransactionService=new TransactionService(unitOfWork.Object);
         }
 
         [TearDown]

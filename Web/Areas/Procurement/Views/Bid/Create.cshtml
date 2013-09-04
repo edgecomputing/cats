@@ -13,22 +13,13 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_bid"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Bid")"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/Procurement/Bid/Index">Manage Bid</a> <span class="divider">/</span></li>
-        <li class="active">Create Bid</li>
-    </ul>
-}
-<div class="well"><h3>Bid Document</h3></div>
+<div><h4>Bid Document</h4></div>
  @using (Html.BeginForm("Create", "Bid", FormMethod.Post, new { id = "frm_create_bid" }))
     {
          @Html.ValidationSummary(true)
        
         <div class="form-horizontal well">
         <fieldset>
-            <legend> New Bid </legend>
             <div class="control-group ">
                 <div class="control-label">
                     @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
@@ -84,22 +75,7 @@
                     @Html.ValidationMessageFor(model => model.OpeningDate)
                     
                 </div>
-            </div>
-            @*<div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.StatusID, "Status")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("StatusID",String.Empty)
-                    @Html.ValidationMessageFor(model => model.StatusID)
-                </div>
-
-            </div>  *@
-            <div class="control-group">      
-                <div class="controls">
-                    <input type="submit" value="Create Bid" class="btn btn-success" />
-                </div>
-            </div>
+            </div>      
         </fieldset>
             
             </div>

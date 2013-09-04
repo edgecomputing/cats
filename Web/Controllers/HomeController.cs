@@ -11,10 +11,8 @@ namespace Cats.Controllers
     
     public class HomeController : Controller
     {
-
         private IRegionalRequestService _regionalRequestService;
         private IReliefRequisitionService _reliefRequistionService; 
-       
         private IUnitOfWork _unitOfWork = new UnitOfWork();
              
 

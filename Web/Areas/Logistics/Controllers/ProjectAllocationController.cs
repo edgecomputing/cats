@@ -7,7 +7,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
-
+using Cats.Services.Transaction;
 
 
 namespace Cats.Areas.Logistics.Controllers
@@ -59,6 +59,9 @@ namespace Cats.Areas.Logistics.Controllers
             this._transactionService = transactionservice;
         }
 
+        public ActionResult Index() {
+            return View();
+        }
        
         [HttpPost]
         public ActionResult HubAllocationDetail(Cats.Models.HubAllocation hubAllocation)

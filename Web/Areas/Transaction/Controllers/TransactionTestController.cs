@@ -17,11 +17,11 @@ namespace Cats.Areas.Transaction.Controllers
     {
        // private CatsContext db = new CatsContext();
       //  private 
-        private readonly IAccountTransactionService _accountTransactionService;
+        private readonly ITransactionService _accountTransactionService;
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
         private readonly IRationService _rationService;
 
-        public TransactionTestController(IAccountTransactionService accountTransactionServiceParam
+        public TransactionTestController(ITransactionService accountTransactionServiceParam
                                         , IRegionalPSNPPlanService regionalPSNPPlanServiceParam
                                         ,IRationService rationServiceParam)
         {
@@ -40,14 +40,14 @@ namespace Cats.Areas.Transaction.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Cats.Models.AccountTransaction> list = (IEnumerable<Cats.Models.AccountTransaction>)_accountTransactionService.GetAllAccountTransaction();
+            IEnumerable<Cats.Models.Transaction> list = (IEnumerable<Cats.Models.Transaction>)_accountTransactionService.GetAllTransaction();
             loadLookups();
             return View(list);
             
         }
         public ActionResult PostHRD(int RegionalPSNPPlanID, int RationID)
         {
-           // IEnumerable<Cats.Models.AccountTransaction> list = (IEnumerable<Cats.Models.AccountTransaction>)_accountTransactionService.GetAllAccountTransaction();
+           // IEnumerable<Cats.Models.Transaction> list = (IEnumerable<Cats.Models.Transaction>)_accountTransactionService.GetAllTransaction();
             loadLookups();
 
 
@@ -55,7 +55,7 @@ namespace Cats.Areas.Transaction.Controllers
             RegionalPSNPPlan plan= _regionalPSNPPlanService.FindById(RegionalPSNPPlanID);
             Ration ration = _rationService.FindById(RationID);
 
-            List<Cats.Models.AccountTransaction> list = _accountTransactionService.PostPSNPPlan(plan, ration);
+            List<Cats.Models.Transaction> list = _accountTransactionService.PostPSNPPlan(plan, ration);
             ViewBag.SelectedPSNPPlan = plan;
             ViewBag.SelectedRation = ration;
            // IEnumerable<RationDetail> rationdetails = ration.RationDetails;
@@ -89,18 +89,18 @@ namespace Cats.Areas.Transaction.Controllers
         // POST: /Transaction/Transaction/Create
 
         [HttpPost]
-        public ActionResult Create(Cats.Models.AccountTransaction transaction)
+        public ActionResult Create(Cats.Models.Transaction transaction)
         {
             if (ModelState.IsValid)
             {
-                transaction.AccountTransactionID = Guid.NewGuid();
+                transaction.TransactionID = Guid.NewGuid();
                 transaction.TransactionGroupID = Guid.NewGuid();
 
-                _accountTransactionService.AddAccountTransaction(transaction);
+                _accountTransactionService.AddTransaction(transaction);
 
                 return RedirectToAction("Index");
               
-                return RedirectToAction("Index");
+              
             }
 
             return View(transaction);
@@ -111,7 +111,7 @@ namespace Cats.Areas.Transaction.Controllers
 
         public ActionResult Edit(Guid id)
         {
-            AccountTransaction transaction = _accountTransactionService.FindById(id);
+            Models.Transaction transaction = _accountTransactionService.FindById(id);
             
             if (transaction == null)
             {
@@ -124,12 +124,12 @@ namespace Cats.Areas.Transaction.Controllers
         // POST: /Transaction/Transaction/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(Cats.Models.AccountTransaction transaction)
+        public ActionResult Edit(Cats.Models.Transaction transaction)
         {
             if (ModelState.IsValid)
             {
 
-                _accountTransactionService.UpdateAccountTransaction(transaction);
+                _accountTransactionService.UpdateTransaction(transaction);
                 return RedirectToAction("Index");
             }
             return View(transaction);
@@ -140,7 +140,7 @@ namespace Cats.Areas.Transaction.Controllers
 
         public ActionResult Delete(Guid id )
         {
-            Cats.Models.AccountTransaction transaction = _accountTransactionService.FindById(id);
+            Cats.Models.Transaction transaction = _accountTransactionService.FindById(id);
             if (transaction == null)
             {
                 return HttpNotFound();

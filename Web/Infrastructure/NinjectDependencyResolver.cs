@@ -100,7 +100,6 @@ namespace Cats.Infrastructure
             kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
             
 
-            kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
             kernel.Bind<ISeasonService>().To<SeasonService>();
             kernel.Bind<IDonorService>().To<DonorService>();
             kernel.Bind<ICommonService>().To<CommonService>();

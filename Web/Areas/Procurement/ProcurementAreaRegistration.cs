@@ -19,6 +19,13 @@ namespace Cats.Areas.Procurement
                 "Procurement/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+
+            context.MapRoute(
+                "Procurement_start",
+                "Procurement/",
+                new { controller="Home",action ="Index"},
+                new []{"Cats.Areas.Procurement.Controllers"} 
+                );
         }
     }
 }

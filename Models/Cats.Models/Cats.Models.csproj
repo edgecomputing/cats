@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountTransaction.cs" />
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="ApplicationSetting.cs" />
@@ -87,7 +86,6 @@
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
     <Compile Include="LetterTemplateViewModel.cs" />
-    <Compile Include="Mapping\AccountTransactionMap.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\ApplicationSettingMap.cs" />
@@ -152,6 +150,7 @@
     <Compile Include="Master.cs" />
     <Compile Include="MetaData\BidDetailMetaData.cs" />
     <Compile Include="MetaData\BidMetaData.cs" />
+    <Compile Include="MetaData\ContributionMetaData.cs" />
     <Compile Include="MetaData\HRDMetaData.cs" />
     <Compile Include="MetaData\RegionalRequestDetailMeta.cs" />
     <Compile Include="MetaData\RegionalRequestMeta.cs" />
@@ -169,6 +168,7 @@
     <Compile Include="Partial\Bid.cs" />
     <Compile Include="Partial\BidDetail.cs" />
     <Compile Include="Constant\CommoditySource.cs" />
+    <Compile Include="Partial\Contribution.cs" />
     <Compile Include="Partial\HRD.cs" />
     <Compile Include="Partial\RegionalRequest.cs" />
     <Compile Include="Partial\RegionalRequestDetail.cs" />
