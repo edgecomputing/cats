@@ -17,12 +17,12 @@ namespace Cats.Models
         [System.ComponentModel.DataAnnotations.Key]
         public int NeedAID { get; set; }
 
-        [Required]
+       
         public int Region { get; set; }
-        [Required]
+      
         public Nullable <int> Season { get; set; }
         public Nullable<int> Year { get; set; }
-        [Required]
+       
         public DateTime? NeedADate { get; set; }
         public Nullable<int> NeddACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }
