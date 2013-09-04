@@ -59,6 +59,9 @@ namespace Cats.Areas.Logistics.Controllers
             this._transactionService = transactionservice;
         }
 
+        public ActionResult Index() {
+            return View();
+        }
        
         [HttpPost]
         public ActionResult HubAllocationDetail(Cats.Models.HubAllocation hubAllocation)

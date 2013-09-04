@@ -51,7 +51,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var giftCertList = _giftCertificateDetailService.GetAllGiftCertificateDetail();
 
             var result = giftCertList.ToList().Select(item => new GiftCertificateViewModel
-
                                                                   {
                                                                       CommodityName = item.Commodity.Name,
                                                                       GiftDate = item.GiftCertificate.GiftDate,
@@ -72,11 +71,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
          
         }
-       
-
-
-
-       
+     
 
         public virtual ActionResult NotUnique(string siNumber, int giftCertificateId)
         {

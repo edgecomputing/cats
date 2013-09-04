@@ -16,10 +16,17 @@ namespace Cats.Areas.PSNP
         {
 
             context.MapRoute(
-                "PSNP_default",
-                "PSNP/{controller}/{action}/{id}",
-                new {action = "Index", id = UrlParameter.Optional }
+                 "PSNP_default",
+                 "PSNP/{controller}/{action}/{id}",
+                 new {action = "Index", id = UrlParameter.Optional }
             );
+
+            context.MapRoute(
+                name: "PSNP_Start",
+                url:  "PSNP/",
+                defaults:  new { controller="Home", action="Index"},
+                namespaces:  new []{"Cats.Areas.PSNP.Controllers"} 
+                );
         }
     }
 }
