@@ -56,7 +56,7 @@ namespace Cats.Services.Common
         }
         public string FindValue(string name)
         {
-            List<ApplicationSetting> ret = FindBy(t => t.SettingName == "PSNPWorkflow");
+            List<ApplicationSetting> ret = FindBy(t => t.SettingName == name);
             if (ret.Count == 1)
             {
                 return ret[0].SettingValue;
