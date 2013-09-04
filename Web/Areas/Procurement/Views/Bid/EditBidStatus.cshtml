@@ -8,12 +8,16 @@
 {
      @Html.Partial("_BidLeftBar")
 }
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_bid"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Bid")"></a>
+}
+<div><h4>Bid Document</h4></div>
 
-<div class="well"><h3>Bid Document</h3></div>
-
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Create", "Bid", FormMethod.Post, new { id = "frm_edit_bid" }))
     {
-         @Html.ValidationSummary(true,"unsuccessful")
+         @Html.ValidationSummary(true)
         <div class="form-horizontal well">
         <fieldset>
             <legend> Edit Bid </legend>
@@ -80,15 +84,7 @@
                 <div class="controls"> @Html.DropDownList("StatusID",String.Empty)
                 @Html.ValidationMessageFor(model => model.StatusID)</div>
                
-            </div>
-            
-            <div class="control-group">
-            <div class="controls">
-                <input type="submit" value="Save Changes" class="btn btn-success" />
-                <a class="btn btn-success" href="@Url.Action("Index", "Bid", new { Area = "Procurement"})">Cancel</a>
-            </div>
-            </div>
-               
+            </div>     
         </fieldset>
             </div>
     }

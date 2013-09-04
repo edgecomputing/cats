@@ -1,7 +1,8 @@
 ﻿@using Cats.Models
 @using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Translator.Translate("Approved Need Assessment(s) List");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -9,7 +10,7 @@
 
 <fieldset>
     <legend>
-        Approved Need Assessment(s) List
+         @Translator.Translate("Approved Need Assessment(s) List");
     </legend>
 </fieldset>
 

@@ -10,6 +10,7 @@ namespace Cats.Models.MetaData
     public class HRDMetaData
     {
         [Display(Name = "Year")]
+        [Required(ErrorMessage = "Please Enter Year")]
         public int Year { get; set; }
 
         [Required(ErrorMessage = "Please Select Season")]
