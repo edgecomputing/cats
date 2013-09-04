@@ -20,6 +20,11 @@
     [TransactionDate]       DATETIME         NOT NULL,
     [RegionID]              INT              NULL,
     [Month]                 INT              NULL,
-    [Round]                 INT              NULL
+    [Round]                 INT              NULL,
+    [DonorID]               INT              NULL,
+    [CommoditySourceID]     INT              NULL,
+    [GiftTypeID]            INT              NULL
 );
+
+
 

@@ -16,7 +16,14 @@
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("CreateRequisiton", "ReliefRequisition")"></a>
 }
-<h2 class="well">Requistions</h2>
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li><a href="~/">Home</a> <span class="divider">/</span></li>
+        <li class="active">Relief Requisition</li>
+    </ul>
+}
+<h4 >Requistions</h4>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
     columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
@@ -78,113 +85,9 @@ else
                 model.Field(r => r.Status).Editable(false);
             })
     
-        .Read(read => read.Action("Requisition_Read", "ReliefRequisition"))
+        .Read(read => read.Action("Requisition_Read", "ReliefRequisition",new{id=ViewBag.Status}))
         .Update(update => update.Action("Requisition_Update", "ReliefRequisition"))
         .Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
     ).Pageable()
 )
 
-@*<table class="table table-bordered table-condensed table-striped">
-    <tr>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.RequisitionNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CommodityID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RegionID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ZoneID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Round)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProgramID)
-        </th>
-        
-      
-        <th>
-            @Html.DisplayNameFor(model => model.RequestedDate)
-        </th>
-      
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-         <td>
-                <a href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">@Html.DisplayFor(modelItem => item.RequisitionNo)</a>
-            </td>
-        
-         <td>
-            @Html.DisplayFor(modelItem => item.Commodity.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AdminUnit1.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AdminUnit.Name )
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Round)
-        </td>
-       
-        <td>
-            @Html.DisplayFor(modelItem => item.Program.Name)
-        </td>
-      
-        <td>
-            @Html.DisplayFor(modelItem => item.RequestedDate,new {@class="cats-datepicker"})
-        </td>
-      
-        <td>
-           @{
-               //var statusName = item.Status.ToString();
-        var showme = item.Status == 1 ? "" : "hidden";
-                }
-               @{
-            string status=string.Empty;
-
-            switch (item.Status)
-            {
-                case (int)ReliefRequisitionStatus.Draft:
-                    status = "Draft";
-                    break;
-                case (int)ReliefRequisitionStatus.Approved:
-                    status = "Approved";
-                    break;
-                case (int)ReliefRequisitionStatus.HubAssigned:
-                    status = "HubAssigned";
-                    break;
-                case (int)ReliefRequisitionStatus.ProjectCodeAssigned:
-                    status = "ProjectCodeAssigned";
-                    break;
-                case (int)ReliefRequisitionStatus.TransportOrderCreated:
-                    status = "TransportOrderCreated";
-                    break;
-                case (int)ReliefRequisitionStatus.TransportRequisitionCreated:
-                    status = "TransportRequisitionCreated";
-                    break;
-            }
-                
-                    }
-                    @status
-        </td>
-        
-        <td>
-           
-             <a class="btn btn-warning @showme" href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">Edit</a>
-            <a class="btn btn-success @showme" href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })">Send</a>
-        </td>
-    </tr>
-}
-
-</table>*@

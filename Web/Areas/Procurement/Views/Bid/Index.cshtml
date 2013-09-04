@@ -51,8 +51,8 @@
   
     }
 </script>
-<div class="well">
-    <h4 class="">Bid For Transporters</h4>
+<div>
+    <h4>Bid For Transporters</h4>
 </div>
 @section Toolbar
 {
@@ -61,13 +61,6 @@
 @section LeftBar
 {
     @Html.Partial("_BidLeftBar")
-}
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li class="active">Manage Bid</li>
-    </ul>
 }
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.Bid.BidViewModel>()

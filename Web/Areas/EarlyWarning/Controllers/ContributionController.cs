@@ -70,6 +70,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _contributionService.AddContribution(contribution);
                 return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
             }
+
+
+            ViewBag.HRDID = new SelectList(_hrdService.GetAllHRD(), "HRDID", "Year",contribution.HRDID);
+            ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name",contribution.DonorID);
+            ViewBag.Year = contribution.Year;
             return View(contribution);
         }
         public ActionResult Details(int id)

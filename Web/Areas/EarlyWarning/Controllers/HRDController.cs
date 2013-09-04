@@ -51,6 +51,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
+
             var hrd = _hrdService.GetAllHRD();
             //ViewBag.Status = _workflowStatusService.GetStatusName();
             return View(hrd);
@@ -121,10 +122,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IEnumerable<HRDViewModel> GetHrds(IEnumerable<HRD> hrds)
         {
             return (from hrd in hrds
-                    let statusID = hrd.Status
-                    where statusID != null
-                    select new HRDViewModel()
-                    {
+                    select new HRDViewModel
+                        {
                         HRDID = hrd.HRDID,
                         Season = hrd.Season.Name,
                         Year = hrd.Year,
@@ -132,8 +131,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         CreatedDate = hrd.CreatedDate,
                         CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
                         PublishedDate = hrd.PublishedDate,
-                        StatusID = statusID!=0? statusID:1,
-                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, statusID.Value)
+                        StatusID = hrd.Status,
+                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value)
 
 
                     });
@@ -230,7 +229,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");
 
-            ViewData["SeasonID"] = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
             var commodities = _commodityService.GetAllCommodity();
 
@@ -312,35 +311,46 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
+                try
+                {
+                    var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
+                    var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
+                    var seasonID = hrd.SeasonID;
 
-                var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
-                var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
-                var seasonID = hrd.SeasonID;
+                    hrd.CreatedBY = userid;
+                    var hrdDetails = (from detail in woredas
+                                      select new HRDDetail
+                                          {
+                                          WoredaID = detail.AdminUnitID,
+                                          StartingMonth = 1,
+                                          NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int)seasonID, detail.AdminUnitID),
+                                          DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int)seasonID, detail.AdminUnitID)
 
-                hrd.CreatedBY = userid;
-                var hrdDetails = (from detail in woredas
-                                  select new HRDDetail()
-                                  {
-                                      WoredaID = detail.AdminUnitID,
-                                      StartingMonth = 1,
 
-                                      NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int) seasonID, detail.AdminUnitID),
-                                      DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int) seasonID, detail.AdminUnitID)
-                                 }).ToList();
+                                      }).ToList();
 
-                hrd.HRDDetails = hrdDetails;
-                _hrdService.AddHRD(hrd);
-                return RedirectToAction("Index");
+                    hrd.HRDDetails = hrdDetails;
+                    _hrdService.AddHRD(hrd);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception exception)
+                {
+
+                    ViewBag.Error = "HRD for this season and year already Exists";
+                }
 
             }
 
+            ViewBag.Year = hrd.Year;
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
+            ViewBag.SeasonID= new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             return View(hrd);
         }
         //HRD/Edit/2
         public ActionResult Edit(int id)
         {
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
-            ViewBag.Month = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name", hrd.SeasonID);
+            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name", hrd.SeasonID);
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID);
             //ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader(), "NAHeaderId", "NeedACreatedDate", hrd.NeedAssessmentID);
 

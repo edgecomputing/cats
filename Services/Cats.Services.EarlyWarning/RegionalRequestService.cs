@@ -29,7 +29,7 @@ namespace Cats.Services.EarlyWarning
         {
            // regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-            regionalRequest.RationID = 3;//TODO:SET DEFAULT Ration
+            regionalRequest.RationID = 2;//TODO:SET DEFAULT Ration
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.ReferenceNumber = DateTime.Today.ToLongTimeString();
             _unitOfWork.RegionalRequestRepository.Add(regionalRequest);

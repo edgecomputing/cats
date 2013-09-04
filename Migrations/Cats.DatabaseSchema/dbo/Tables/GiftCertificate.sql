@@ -1,20 +1,24 @@
 ﻿CREATE TABLE [dbo].[GiftCertificate] (
-    [GiftCertificateID] INT           IDENTITY (1, 1) NOT NULL,
-    [GiftDate]          DATETIME      NOT NULL,
-    [DonorID]           INT           NOT NULL,
-    [SINumber]          NVARCHAR (50) NOT NULL,
-    [ReferenceNo]       NVARCHAR (50) NOT NULL,
-    [Vessel]            NVARCHAR (50) NULL,
-    [ETA]               DATE          NOT NULL,
-    [IsPrinted]         BIT           NOT NULL,
-    [ProgramID]         INT           NOT NULL,
-    [DModeOfTransport]  INT           NOT NULL,
-    [PortName]          NVARCHAR (50) NULL,
+    [GiftCertificateID] INT            IDENTITY (1, 1) NOT NULL,
+    [GiftDate]          DATETIME       NOT NULL,
+    [DonorID]           INT            NOT NULL,
+    [SINumber]          NVARCHAR (50)  NOT NULL,
+    [ReferenceNo]       NVARCHAR (50)  NOT NULL,
+    [Vessel]            NVARCHAR (50)  NULL,
+    [ETA]               DATE           NOT NULL,
+    [IsPrinted]         BIT            NOT NULL,
+    [ProgramID]         INT            NOT NULL,
+    [DModeOfTransport]  INT            NOT NULL,
+    [PortName]          NVARCHAR (50)  NULL,
+    [DeclarationNumber] NVARCHAR (100) NOT NULL,
+    [StatusID]          INT            NOT NULL,
     CONSTRAINT [PK_GiftCertificate] PRIMARY KEY CLUSTERED ([GiftCertificateID] ASC),
     CONSTRAINT [FK_GiftCertificate_Detail] FOREIGN KEY ([DModeOfTransport]) REFERENCES [dbo].[Detail] ([DetailID]),
     CONSTRAINT [FK_GiftCertificate_Donor] FOREIGN KEY ([DonorID]) REFERENCES [dbo].[Donor] ([DonorID]),
     CONSTRAINT [FK_GiftCertificate_Program] FOREIGN KEY ([ProgramID]) REFERENCES [dbo].[Program] ([ProgramID])
 );
+
+
 
 
 GO
