@@ -13,7 +13,7 @@ using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
-
+using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 
@@ -25,9 +25,7 @@ namespace Cats.Tests.ControllersTests
         #region SetUp / TearDown
 
         private ReliefRequisitionController _reliefRequisitionController;
-        //  private ICommodityService _commodityService;
-        private List<ReliefRequisitionNew> _input;
-
+      
         [SetUp]
         public void Init()
         {
@@ -138,9 +136,19 @@ namespace Cats.Tests.ControllersTests
             mockReliefRequistionService.Setup(t => t.GetRequisitionByRequestId(It.IsAny<int>())).Returns((int requestId) => input.FindAll(t => t.RegionalRequestId == requestId));
             var workflowStatusService = new Mock<IWorkflowStatusService>();
             workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Draft");
+            workflowStatusService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(new List<WorkflowStatus>()
+                                                                                            {
+                                                                                                new WorkflowStatus()
+                                                                                                    {
+                                                                                                        Description =
+                                                                                                            "Draft",
+                                                                                                        StatusID = 1,
+                                                                                                        WorkflowID = 2
+                                                                                                    }
+                                                                                            });
             _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object);
 
-            _input = input;
+          //  _input = input;
 
 
 
@@ -166,12 +174,13 @@ namespace Cats.Tests.ControllersTests
 
 
             //Act
-            var view = _reliefRequisitionController.Index();
+            var request = new DataSourceRequest();
+            var view = _reliefRequisitionController.Requisition_Read(request,1);
 
 
             //Asert
-            Assert.IsInstanceOf<ViewResult>(view);
-            Assert.AreEqual(((IEnumerable<ReliefRequisitionViewModel>)view.Model).Count(), 2);
+            Assert.IsInstanceOf<JsonResult>(view);
+           // Assert.AreEqual(((IEnumerable<ReliefRequisitionViewModel>)view.Model).Count(), 2);
 
 
 

@@ -9,6 +9,7 @@ using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
+using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
@@ -24,7 +25,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
 
 
-        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService,IWorkflowStatusService workflowStatusService,IReliefRequisitionDetailService reliefRequisitionDetailService)
+        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, IReliefRequisitionDetailService reliefRequisitionDetailService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -32,48 +33,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
-        public ViewResult Index(int id=0)
+        public ViewResult Index(int id = 0)
         {
-            ViewBag.StausID=id;
-            var releifRequistions = id==0 ? _reliefRequisitionService.GetAllReliefRequisition().ToList(): _reliefRequisitionService.Get(t=>t.Status==id).ToList();
-            var requisitionToRender = BuilReliefRequisitionViewModel(releifRequistions.FindAll(t=>t.Status.HasValue)).ToList();
-            return View(requisitionToRender);
+            ViewBag.Status = id;
+
+            return View();
         }
-        private IEnumerable<ReliefRequisitionViewModel> BuilReliefRequisitionViewModel(IEnumerable<ReliefRequisition> reliefRequisitions )
-        {
-            return (from requisition in reliefRequisitions
-                    select new ReliefRequisitionViewModel
-                               {
-                                  // ApprovedBy = requisition.ApprovedBy,
-                                   ApprovedDate = requisition.ApprovedDate,
-                                 //  ApprovedDateEt =requisition.ApprovedDate.HasValue ? EthiopianDate.GregorianToEthiopian(requisition.ApprovedDate.Value):"",
-                                   Commodity = requisition.Commodity.Name,
-                                   CommodityID = requisition.CommodityID,
-                                   Program = requisition.Program.Name,
-                                   ProgramID = requisition.ProgramID,
-                                   Region = requisition.AdminUnit1.Name,
-                                   RegionID = requisition.RegionID,
-                                   RegionalRequestID = requisition.RegionalRequestID,
-                                 //  RequestedBy = requisition.RequestedBy,
-                                   RequestedDate = requisition.RequestedDate,
-                                  RequestedDateEt = requisition.RequestedDate.HasValue? EthiopianDate.GregorianToEthiopian(requisition.RequestedDate.Value):"",
-                                   RequisitionID = requisition.RequisitionID,
-                                   RequisitionNo = requisition.RequisitionNo,
-                                   Round = requisition.Round,
-                                   Status =
-                                       _workflowStatusService.GetStatusName(WORKFLOW.RELIEF_REQUISITION,
-                                                                            requisition.Status.Value),
-                                   ZoneID = requisition.ZoneID,
-                                   Zone = requisition.AdminUnit.Name,
-                                   StatusID = requisition.Status
-                               });
-        }
+
         [HttpGet]
         public ActionResult CreateRequisiton(int id)
         {
             var input = _reliefRequisitionService.CreateRequisition(id);
 
-            return RedirectToAction("NewRequisiton", "ReliefRequisition",new {id=id});
+            return RedirectToAction("NewRequisiton", "ReliefRequisition", new { id = id });
 
 
         }
@@ -92,32 +64,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requId = 0;
             if (ModelState.IsValid)
             {
-                 requId = input.FirstOrDefault().Number;
-                foreach (var reliefRequisitionNewInput in input)
-                {
+                var requisitionNumbers = input.ToDictionary(t => t.Number, t => t.RequisitionNo);
+                _reliefRequisitionService.AssignRequisitonNo(requisitionNumbers);
 
-                    _reliefRequisitionService.AssignRequisitonNo(reliefRequisitionNewInput.Number,
-                                                                 reliefRequisitionNewInput.RequisitionNo);
-
-                }
-
-                _reliefRequisitionService.Save();
-              
             }
             return RedirectToAction("Index", "ReliefRequisition");
         }
         [HttpGet]
         public ActionResult Allocation(int id)
         {
-           
+
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();
-            if(requisition==null)
+            if (requisition == null)
             {
                 HttpNotFound();
             }
-            var requisitionViewModel = BindReliefRequisitionViewModel(requisition);
+            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION));
 
             return View(requisitionViewModel);
         }
@@ -125,52 +89,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
-            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id,null,"ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
-            var requisitionDetailViewModels = (from dtl in requisitionDetails select BindReliefRequisitionDetailViewModel(dtl));
+            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
+            var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails);
             return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        private ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail)
-        {
-            return new ReliefRequisitionDetailViewModel()
-            {
-               Zone= reliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name ,
-               Woreda=reliefRequisitionDetail.FDP.AdminUnit.Name ,
-               FDP=reliefRequisitionDetail.FDP.Name ,
-               Donor=reliefRequisitionDetail.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "",
-               Commodity=reliefRequisitionDetail.Commodity.Name ,
-               BenficiaryNo=reliefRequisitionDetail.BenficiaryNo,
-               Amount=reliefRequisitionDetail.Amount,
-               RequisitionID=reliefRequisitionDetail.RequisitionID ,
-               RequisitionDetailID=reliefRequisitionDetail.RequisitionDetailID,
-               CommodityID=reliefRequisitionDetail.CommodityID,
-               FDPID=reliefRequisitionDetail.FDPID,
-               DonorID = reliefRequisitionDetail.DonorID
-
-            };
-
-        }
-        private ReliefRequisitionDetail BindReliefRequisitionDetail(ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
-        {
-            return new ReliefRequisitionDetail()
-            {
 
 
-                BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo,
-                Amount = reliefRequisitionDetailViewModel.Amount,
-                RequisitionID = reliefRequisitionDetailViewModel.RequisitionID,
-                RequisitionDetailID = reliefRequisitionDetailViewModel.RequisitionDetailID,
-                CommodityID = reliefRequisitionDetailViewModel.CommodityID,
-                FDPID = reliefRequisitionDetailViewModel.FDPID,
-                DonorID = reliefRequisitionDetailViewModel.DonorID,
-               
-            };
-        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Allocation_Create([DataSourceRequest] DataSourceRequest request, ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
         {
             if (reliefRequisitionDetailViewModel != null && ModelState.IsValid)
             {
-                _reliefRequisitionDetailService.AddReliefRequisitionDetail(BindReliefRequisitionDetail(reliefRequisitionDetailViewModel));
+                _reliefRequisitionDetailService.AddReliefRequisitionDetail(RequisitionViewModelBinder.BindReliefRequisitionDetail(reliefRequisitionDetailViewModel));
             }
 
             return Json(new[] { reliefRequisitionDetailViewModel }.ToDataSourceResult(request, ModelState));
@@ -186,7 +116,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Amount = reliefRequisitionDetailViewModel.Amount;
                     target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
-                  
+
                     _reliefRequisitionDetailService.EditReliefRequisitionDetail(target);
                 }
             }
@@ -209,22 +139,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
         [HttpPost]
-     public    ActionResult RequistionDetailEdit(IEnumerable<ReleifRequisitionDetailEdit.ReleifRequisitionDetailEditInput> input )
+        public ActionResult RequistionDetailEdit(IEnumerable<ReleifRequisitionDetailEdit.ReleifRequisitionDetailEditInput> input)
         {
-            var requId = 0;
+            // var requId = 0;
             if (ModelState.IsValid)
             {
-                requId = input.FirstOrDefault().Number;
-              
-                foreach (var requisitionDetailEditInput in input.ToList())
-                {
+                var allocaitons = input.ToDictionary(t => t.Number, t => t.Amount);
 
-                    _reliefRequisitionService.EditAllocatedAmount(requisitionDetailEditInput.Number,
-                                                                 requisitionDetailEditInput.Amount);
-
-                }
-
-                _reliefRequisitionService.Save();
+                _reliefRequisitionService.EditAllocatedAmount(allocaitons);
 
             }
             return RedirectToAction("Index", "ReliefRequisition");
@@ -234,11 +156,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Edit(int id)
         {
             var relifRequisition = _reliefRequisitionService.FindById(id);
-            if(relifRequisition==null)
+            if (relifRequisition == null)
             {
                 HttpNotFound();
             }
-            
+
 
 
             return View(relifRequisition);
@@ -246,10 +168,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Edit(ReliefRequisition reliefrequisition)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _reliefRequisitionService.EditReliefRequisition(reliefrequisition);
-               return  RedirectToAction("Index", "ReliefRequisition");
+                return RedirectToAction("Index", "ReliefRequisition");
             }
             return View(reliefrequisition);
         }
@@ -258,7 +180,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult SendToLogistics(int id)
         {
             var requistion = _reliefRequisitionService.FindById(id);
-            if(requistion==null)
+            if (requistion == null)
             {
                 HttpNotFound();
             }
@@ -274,44 +196,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return RedirectToAction("Index", "ReliefRequisition");
         }
 
-        public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-            
-            
-            var requests = _reliefRequisitionService.GetAllReliefRequisition();
-            var requestViewModels = (from dtl in requests select BindReliefRequisitionViewModel(dtl));
+
+
+            var requests = _reliefRequisitionService.Get(t => t.Status == id);
+            var requestViewModels = RequisitionViewModelBinder.BindReliefRequisitionListViewModel(requests,
+                                                                                                  _workflowStatusService
+                                                                                                      .GetStatus(
+                                                                                                          WORKFLOW.
+                                                                                                              RELIEF_REQUISITION));
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        private ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition)
-        {
-            return new ReliefRequisitionViewModel()
-            {
 
-                ProgramID = reliefRequisition.ProgramID,
-                Program = reliefRequisition.Program.Name,
-                Region = reliefRequisition.AdminUnit.Name,
-                RequisitionNo = reliefRequisition.RequisitionNo,
-                RegionID = reliefRequisition.RegionID,
-                RegionalRequestID = reliefRequisition.RegionalRequestID,
-               
-                RequestedDateEt = EthiopianDate.GregorianToEthiopian(reliefRequisition.RequestedDate.Value
-                ),
-                Round = reliefRequisition.Round,
-                Status = _workflowStatusService.GetStatusName(WORKFLOW.REGIONAL_REQUEST, reliefRequisition.Status.Value ),
-                RequestedDate = reliefRequisition.RequestedDate,
-                StatusID = reliefRequisition.Status,
-                RequisitionID = reliefRequisition.RequisitionID ,
-                CommodityID = reliefRequisition.CommodityID ,
-                ZoneID=reliefRequisition.ZoneID ,
-                Zone=reliefRequisition.AdminUnit.Name ,
-                Commodity=reliefRequisition.Commodity.Name ,
-                
-
-
-
-            };
-
-        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Requisition_Update([DataSourceRequest] DataSourceRequest request, ReliefRequisitionViewModel reliefRequisitionViewModel)
         {
@@ -340,15 +237,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-       
+
         public ActionResult Details(int id)
         {
             var requisition = _reliefRequisitionService.FindById(id);
-            if(requisition==null)
+            if (requisition == null)
             {
                 return HttpNotFound();
             }
-            var requisitionViewModel = BindReliefRequisitionViewModel(requisition);
+            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION));
             return View(requisitionViewModel);
         }
     }

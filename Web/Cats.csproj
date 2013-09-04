@@ -299,6 +299,7 @@
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
