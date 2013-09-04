@@ -20,7 +20,7 @@ namespace Cats.Areas.GiftCertificate.Models
         /// <value>
         /// The gift certificate ID.
         /// </value>
-        [Required(ErrorMessage = "Gift Certificate is required")]
+        //[Required(ErrorMessage = "Gift Certificate is required")]
         public Int32 GiftCertificateID { get; set; }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Cats.Areas.GiftCertificate.Models
         /// </value>
         //[Required]
         //[Range(1, 9999, ErrorMessage = "Please insert at least one commodity")]
-        public int rowCount { get; set; }
+        public int? rowCount { get; set; }
         [Display(Name="Status")]
         public int StatusID { get; set; }
         [Display(Name="Declaration Number")]

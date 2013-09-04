@@ -38,9 +38,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _letterTemplateService = letterTemplateService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int id=1)
         {
-            var gifts = _giftCertificateService.Get(null,null, "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
+            var gifts = _giftCertificateService.Get(t=>t.StatusID==id,null, "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
             var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(),true);
             return View(giftsViewModel);
 

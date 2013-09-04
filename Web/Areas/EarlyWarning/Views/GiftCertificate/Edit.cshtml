@@ -14,10 +14,10 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"></a>
 }
 <h2>@Translator.Translate("Edit Gift Certificate")</h2>
+@section LeftBar
+{
+@Html.Partial("_giftLeftBar")}
 
-@*<p>
-    @Translator.Translate("Use this form to create new or edit gift certificates.")  @Translator.Translate(" marks required fields.")
-</p>*@
 
 @{ViewBag.IsInEditMode = true; }
 @using (Html.BeginForm("Edit","GiftCertificate",FormMethod.Post,new{id="frm_edit_gift"}))
@@ -36,7 +36,7 @@
                             @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"))
                         </div>
                         <div class="controls">
-                           @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
+                           @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })  
                             @Html.ValidationMessageFor(model => model.GiftDate)
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                         </div>
 
                         <div class="controls">
-                         @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
+                         @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })  
                             @Html.ValidationMessageFor(model => model.ETA)
                         </div>
                     </div>
