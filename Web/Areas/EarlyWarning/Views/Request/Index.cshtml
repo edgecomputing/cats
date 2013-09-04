@@ -22,9 +22,6 @@
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("New", "Request")"></a>
 }
 
-@using Cats.Areas.EarlyWarning.Models
-@using Cats.Models.Constant
-@using Kendo.Mvc.UI
 @ViewBag.message
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("grid")
@@ -82,7 +79,7 @@ else
                 model.Field(r => r.RequestDateEt).Editable(false);
             })
         .Create(update => update.Action("Request_Create", "Request"))
-        .Read(read => read.Action("Request_Read", "Request"))
+        .Read(read => read.Action("Request_Read", "Request",new{id=ViewBag.Status}))
         .Update(update => update.Action("Request_Update", "Request"))
         .Destroy(update => update.Action("Request_Destroy", "Request"))
     ).Pageable()

@@ -13,7 +13,7 @@
 @section LeftBar
 {
 @Html.Partial("_giftLeftBar")}
-<div>
+
     <h4>
         @Translator.Translate("Gift Certificates")</h4>
 @section Toolbar
@@ -27,7 +27,7 @@
     <div id='dialogContent'></div>
 </div>
 
-
+<div>
 
     @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
     .Columns(col =>
@@ -73,44 +73,6 @@
         ).Filterable().Sortable().Pageable().Sortable()
    )
 </div>
-@*<div id="modalWindow">
-    <h5>Print gift Certificate?</h5>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
-</div>
-<script>
-    var wnd;
-    $(document).ready(function () {
-        wnd = $("#modalWindow").kendoWindow({
-            title: "Print confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
-</script>
-<script>
-
-    function onPrint(e) {
-        e.preventDefault();
-        var grid = this;
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var row = $(e.currentTarget).closest("tr");
-        wnd.center().open();
-
-        $("#yes").click(function () {
-
-            window.location = "GiftCertificate/GenerateTemplate/" + dataItem.GiftCertificateID;
-            wnd.close();
-        });
-
-        $("#no").click(function () {
-            wnd.close();
-        });
-    }
-</script>*@
-
 <script type="text/javascript">
     $(function () {
 
@@ -139,26 +101,5 @@
         });
     });
 
-    //function bindForm(dialog) {
-    //    $('form', dialog).submit(function () {
-    //        $.ajax({
-    //            url: this.action,
-    //            type: this.method,
-    //            data: $(this).serialize(),
-    //            success: function (result) {
-    //                if (result.success) {
-    //                    $('#dialogDiv').modal('hide');
-    //                    // Refresh:
-    //                    // location.reload();
-    //                } else {
-    //                    $('#dialogContent').html(result);
-    //                    bindForm();
-    //                }
-    //            }
-    //        });
-    //        return false;
-    //    });
-    //}
-
-
+  
 </script>
