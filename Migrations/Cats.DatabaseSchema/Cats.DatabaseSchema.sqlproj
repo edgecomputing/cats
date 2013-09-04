@@ -232,6 +232,7 @@
     <Build Include="EarlyWarning\Tables\Season.sql" />
     <Build Include="dbo\Views\vw_NeedAssessment.sql" />
     <Build Include="dbo\Tables\LetterTemplate_.sql" />
+    <Build Include="dbo\Tables\Currency.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />

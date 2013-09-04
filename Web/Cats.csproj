@@ -194,6 +194,7 @@
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
@@ -206,6 +207,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
@@ -233,6 +235,7 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
@@ -251,6 +254,7 @@
     <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -301,6 +305,7 @@
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -642,7 +647,6 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
-    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
@@ -750,6 +754,8 @@
     </Content>
     <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
@@ -783,10 +789,13 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
-    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
+    <Content Include="Areas\Logistics\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

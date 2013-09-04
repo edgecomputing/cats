@@ -24,20 +24,15 @@
 @using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
 {
     <div class="form-horizontal well">
-       
-          
-            
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(model => model.SeasonID, "Season")
-                    </div>
-                    <div class="controls">
-                        @Html.DropDownList("SeasonID", string.Empty)
-                        @Html.ValidationMessageFor(model => model.SeasonID)
-                    </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ProgramID, "Program")
                 </div>
-          
-
+                <div class="controls">
+                    @Html.DropDownList("ProgramID", null, new { @id = "cmb_programId" })
+                    @Html.ValidationMessageFor(model => model.ProgramID)
+                </div>
+            </div>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.RegionID, "Region")
@@ -48,15 +43,6 @@
                 </div>
             </div>
 
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.ProgramID, "Program")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("ProgramID", String.Empty)
-                    @Html.ValidationMessageFor(model => model.ProgramID)
-                </div>
-            </div>
 
             <div class="control-group">
                 <div class="control-label">
@@ -79,10 +65,35 @@
                 </div>
             </div>
 
-
-      
-
-
+            <div class="control-group" id="div_season">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.SeasonID, "Season")
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("SeasonID", string.Empty)
+                        @Html.ValidationMessageFor(model => model.SeasonID)
+                    </div>
+            </div>
     </div>
   
 }
+<script>
+    $(function () {
+      
+        $("#cmb_programId").change(function () {
+            //$this = $(this);
+            // $this.attr(label, "");
+            var div_season = $("#div_season");
+            var prog = this.options[this.selectedIndex].innerHTML;
+
+            if (prog == "Relief") {
+                div_season.show();
+            }
+            else if (prog == "PSNP") {
+                div_season.hide();
+            }
+            
+        });
+        $("#cmb_programId").change();
+    });
+</script>

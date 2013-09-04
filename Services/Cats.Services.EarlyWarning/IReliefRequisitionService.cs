@@ -36,11 +36,11 @@ namespace Cats.Services.EarlyWarning
           string includeProperties = "");
 
         IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId);
-       bool AssignRequisitonNo(int requisitonId,string requisitonNo);
-        bool Save();
+        bool AssignRequisitonNo(Dictionary< int,string> requisitionNumbers );
+        //bool Save();
 
         IEnumerable<ReliefRequisitionNew> GetRequisitionByRequestId(int requestId);
-        bool EditAllocatedAmount(int requsitionDetailId, decimal allocatedAmount);
+        bool EditAllocatedAmount(Dictionary<int,decimal> allocations );
 
     }
 }

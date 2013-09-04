@@ -97,15 +97,14 @@ namespace Cats.Areas.PSNP.Controllers
                         Item4Ratio = (int)pd.Item4Ratio
                     });
         }
-        public ActionResult Index(int id = 0)
+        public ActionResult Index(int id = 1)
         {
-
             IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
             IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
             RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
+            
             if (plan != null)
             {
-
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
                 IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(plan.Region.AdminUnitID, id);
