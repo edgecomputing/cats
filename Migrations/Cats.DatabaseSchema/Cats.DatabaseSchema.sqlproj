@@ -198,7 +198,6 @@
     <Build Include="dbo\Tables\HRD_2.sql" />
     <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
     <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
-    <Build Include="dbo\Tables\AccountTransaction.sql" />
     <Build Include="dbo\Tables\StateTemplate.sql" />
     <Build Include="EarlyWarning\Tables\NeedAssessment.sql" />
     <Build Include="dbo\Tables\ProcessTemplate.sql" />

@@ -73,6 +73,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
 
             unitOfWork.Setup(t => t.GiftCertificateRepository).Returns(giftCertificateRepositoy.Object);
             unitOfWork.Setup(t => t.TransactionRepository).Returns(transactionRepository.Object);
+            unitOfWork.Setup(t => t.TransactionGroupRepository).Returns(transactionGroupRepository.Object);
             unitOfWork.Setup(t => t.Save());
             _accountTransactionService=new TransactionService(unitOfWork.Object);
         }
