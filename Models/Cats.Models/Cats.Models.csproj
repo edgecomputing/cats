@@ -64,6 +64,7 @@
     <Compile Include="Contribution.cs" />
     <Compile Include="ContributionDetail.cs" />
     <Compile Include="Constant\Master.cs" />
+    <Compile Include="Currency.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="FlowTemplate.cs" />
     <Compile Include="GiftCertificate.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Mapping\CommodityTypeMap.cs" />
     <Compile Include="Mapping\ContributionDetailMap.cs" />
     <Compile Include="Mapping\ContributionMap.cs" />
+    <Compile Include="Mapping\CurrencyMap.cs" />
     <Compile Include="Mapping\DonorMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />
     <Compile Include="Mapping\FlowTemplateMap.cs" />

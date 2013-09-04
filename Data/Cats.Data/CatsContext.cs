@@ -103,6 +103,7 @@ namespace Cats.Data
 
 
         public DbSet<LetterTemplate_> LetterTemplate { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -189,6 +190,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new NeedAssessmentSummaryMap());
 
             modelBuilder.Configurations.Add(new LetterTemplateMap());
+            modelBuilder.Configurations.Add(new CurrencyMap());
 
 
         }
