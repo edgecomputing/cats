@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountTransaction.cs" />
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="ApplicationSetting.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
     <Compile Include="LetterTemplateViewModel.cs" />
-    <Compile Include="Mapping\AccountTransactionMap.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\ApplicationSettingMap.cs" />

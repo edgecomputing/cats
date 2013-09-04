@@ -42,12 +42,12 @@
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
-        columns.Bound(p => p.Season);
-        columns.Bound(p => p.Year);
-        columns.Bound(p => p.CreatedBy);  
-        columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");
-       // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
+            columns.Bound(p => p.Season);
+            columns.Bound(p => p.Year);
+            columns.Bound(p => p.CreatedBy);
+            columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");
+            // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 
             columns.Command(p =>
@@ -76,9 +76,9 @@
           .PageSize(8)
             .Model(model => model.Id(p => p.HRDID))
             .Read(read => read.Action("HRD_Read", "HRD"))
- 
+
      )
-   
+
       )
 
 
@@ -87,17 +87,17 @@
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;  
+        window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;
     }
-    
+
 </script>
 <script>
     function hrdEdit(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("Edit", "HRD")" + "/" + dataItem.HRDID;  
-                
+        window.location = "@Url.Action("Edit", "HRD")" + "/" + dataItem.HRDID;
+
     }
 </script>
 <script>
@@ -111,7 +111,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("ApproveHRD", "HRD")" + "/" + dataItem.HRDID;  
+            window.location = "@Url.Action("ApproveHRD", "HRD")" + "/" + dataItem.HRDID;
             wnd.close();
         });
 

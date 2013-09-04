@@ -94,7 +94,6 @@ namespace Cats.Data.UnitWork
 
 
 
-        IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }
         IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
         IGenericRepository<Unit> UnitRepository { get; }
         IGenericRepository<Season> SeasonRepository { get; }
@@ -110,7 +109,8 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<NeedAssessmentSummary> NeedAssessmetSummaryRepository { get;}
 
-        IGenericRepository<LetterTemplate_> LetterTemplateRepository { get; } 
+        IGenericRepository<LetterTemplate_> LetterTemplateRepository { get; }
+        IGenericRepository<TransactionGroup> TransactionGroupRepository { get; } 
 
         void Save();
 

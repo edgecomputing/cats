@@ -40,6 +40,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.PortName).HasColumnName("PortName");
             this.Property(t => t.StatusID).HasColumnName("StatusID");
             this.Property(t => t.DeclarationNumber).HasColumnName("DeclarationNumber");
+            this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
 
             // Relationships
             this.HasRequired(t => t.Detail)

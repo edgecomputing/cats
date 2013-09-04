@@ -1,0 +1,73 @@
+﻿@using Cats.Helpers
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.ViewWidth = "Wide";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<link href="~/Content/DashboardWidget.css" rel="stylesheet">
+
+<html>
+<body>
+    <div class="row">
+        <div class="span5">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bookmark"></i>
+                    <h3>Welcome to Procurement</h3>
+                </div>
+                <div class="widget-content">
+
+                    <div class="shortcuts">
+                        <a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                            <span class="shortcut-label">Bid</span>
+                        </a>
+
+                        <a href="@Url.Action("BidWinner", "BidWinner", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                            <span class="shortcut-label">Bid Winner</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                            <span class="shortcut-label">Dispatch Locations</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "PriceQuotation", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+                            <span class="shortcut-label">Price Quotation</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "RFQ", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-bell"></i>
+                            <span class="shortcut-label">RFQ</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                            <span class="shortcut-label">Transport Bid Plan</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                            <span class="shortcut-label">Transporter</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                            <span class="shortcut-label">Transport Order</span>
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="span5">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bookmark"></i>
+                    <h3>Other Contents</h3>
+                </div>
+                <div class="widget-content">
+                    <h4>Other Contents go here</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
