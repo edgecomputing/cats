@@ -68,6 +68,8 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
 
             var transactionRepository = new Mock<IGenericRepository<Models.Transaction>>();
             transactionRepository.Setup(t => t.Add(It.IsAny<Models.Transaction>())).Returns(true);
+            var transactionGroupRepository = new Mock<IGenericRepository<TransactionGroup>>();
+            transactionGroupRepository.Setup(t => t.Add(It.IsAny<TransactionGroup>())).Returns(true);
 
             unitOfWork.Setup(t => t.GiftCertificateRepository).Returns(giftCertificateRepositoy.Object);
             unitOfWork.Setup(t => t.TransactionRepository).Returns(transactionRepository.Object);

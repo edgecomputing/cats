@@ -58,6 +58,8 @@ namespace Cats.Services.Transaction
         {
             Guid transactionGroupID = Guid.NewGuid();
             DateTime TransactionDate = DateTime.Now;
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup
+                                                           {PartitionID = 0, TransactionGroupID = transactionGroupID});
             foreach (Models.Transaction entry in entries)
             {
                 entry.TransactionDate = TransactionDate;
@@ -228,6 +230,7 @@ namespace Cats.Services.Transaction
             }
            
             giftCertificate.StatusID = 2;
+            giftCertificate.TransactionGroupID = transactionGroup;
             _unitOfWork.Save();
             return true;
         }
