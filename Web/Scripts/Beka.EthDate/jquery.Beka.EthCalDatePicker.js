@@ -24,8 +24,8 @@
             $(this).data("eth_date_input", eth_date_input);
         });
         return this.filter('input:text')
-					.css('opacity', 0.5)
-					//.css('display', 'none')
+            .css('opacity', 0.5)
+            .css('display', 'none');
 
     }
     var test_coutn = 0;

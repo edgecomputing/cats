@@ -1,6 +1,7 @@
 ﻿@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 @{
-    
+    ViewBag.Title = Translator.Translate("Edit NeedAssessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section LeftBar{
@@ -10,8 +11,8 @@
  
 <fieldset>
     <legend>
-        Region:  @ViewData["RegionName"] <br/>
-        Need assessment entry for: @ViewData["TypeOfNeedAssessment"]
+        <h5>@Translator.Translate("Region"):  @ViewData["RegionName"]</h5> 
+       <h5> @Translator.Translate("Need assessment entry for"): @ViewData["TypeOfNeedAssessment"]</h5>
         <br/>
     </legend>
 </fieldset>
@@ -168,7 +169,7 @@
         if (e.type == "update" && !e.response.Errors) {
             alert("Update record is successfull");
         }
-        alert("type:  " + e.type);
+        
         if (e.type == "create" && !e.response.Errors) {
             alert("Create record is successfull");
         }

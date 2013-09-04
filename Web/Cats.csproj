@@ -190,7 +190,6 @@
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
-    <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
@@ -706,10 +705,6 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Web.config" />
-    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
-    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
-    <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
-    <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\GenerateTemplate.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Index.cshtml" />
     <Content Include="Areas\Transaction\Views\Web.config" />
@@ -1026,15 +1021,12 @@
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

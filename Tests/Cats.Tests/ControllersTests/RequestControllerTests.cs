@@ -401,7 +401,7 @@ namespace Cats.Tests.ControllersTests
             request.Page = 1;
             request.PageSize = 5;
 
-            var result = (JsonResult)_requestController.Request_Read(request);
+            var result = (JsonResult)_requestController.Request_Read(request,-1);
 
             //Assert
             Assert.IsNotNull(result);

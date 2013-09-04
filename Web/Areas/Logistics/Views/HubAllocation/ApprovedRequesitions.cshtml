@@ -8,7 +8,7 @@
     var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
 @{
-    ViewBag.Title = "ApprovedRequesitions";
+    ViewBag.Title = Translator.Translate("Approved Requesitions");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
    
 }
@@ -20,7 +20,7 @@
 
 <fieldset>
     <legend>
-        Approved Requesitions
+       @Translator.Translate("Approved Requesitions")
     </legend>
 </fieldset>
 
@@ -222,7 +222,7 @@
     </div>
     <br />
     <button type="submit" class="btn btn-success">
-  <i class="icon-user icon-white"></i> Assign hub
+  <i class="icon-user icon-white"></i> @Translator.Translate("Assign Hub")
 </button>
     
     
