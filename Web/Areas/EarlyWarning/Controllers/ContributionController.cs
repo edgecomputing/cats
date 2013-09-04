@@ -126,7 +126,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 origin.Amount = contributionDetailViewModel.Amount;
                 origin.PledgeDate = contributionDetailViewModel.PledgeDate;
                 origin.PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber;
-                //origin.CommodityID = contributionDetailViewModel.CommodityID;
+                origin.CurrencyID = contributionDetailViewModel.CurrencyID;
                 _contributionDetailService.EditContributionDetail(origin);
             }
             return Json(new[] { contributionDetailViewModel }.ToDataSourceResult(request, ModelState));

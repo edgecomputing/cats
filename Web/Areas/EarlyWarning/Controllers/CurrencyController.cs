@@ -100,5 +100,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return Json(new[] { currencyViewModel }.ToDataSourceResult(request, ModelState));
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Currency_Destroy([DataSourceRequest] DataSourceRequest request, CurrencyViewModel currencyViewModel)
+        {
+            if (currencyViewModel != null && ModelState.IsValid)
+            {
+                _currencyService.DeleteById(currencyViewModel.CurrencyID);
+            }
+            return Json(ModelState.ToDataSourceResult());
+        }
     }
 }
