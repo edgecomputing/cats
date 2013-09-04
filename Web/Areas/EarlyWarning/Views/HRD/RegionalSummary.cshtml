@@ -13,7 +13,7 @@
         <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
 }
 <div>
-    <h3>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h3>
+    <h4>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h4>
 </div>
 @section LeftBar{
 
@@ -29,13 +29,13 @@
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.RegionName).ClientFooterTemplate("<h4>Total</h4>");
-        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Cereal).Title("Cereal " +@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.BlededFood).Title("BlendedFood " +@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Pulse).Title("Pulse "+@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Oil).Title("Oil " +@unit).ClientFooterTemplate("<h4> Sub Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Total).ClientFooterTemplate("<h4>Total  #=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.RegionName).ClientFooterTemplate("Total");
+        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Cereal).Title("Cereal " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.BlededFood).Title("BlendedFood " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Pulse).Title("Pulse "+@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Oil).Title("Oil " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.Total).ClientFooterTemplate("Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
             
         })
     .Pageable()

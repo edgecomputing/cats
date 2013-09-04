@@ -12,8 +12,13 @@
     @Html.Partial("_HRDLeftBar");
    
 }
-<div class="well"><h3>Edit HRD</h3></div>
-    @using (Html.BeginForm())
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Edit_hrd"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="save Changes"></a>
+}
+<div><h4>Edit HRD</h4></div>
+    @using (Html.BeginForm("Edit", "HRD", FormMethod.Post, new { id = "frm_Edit_hrd" }))
     {
         @Html.ValidationSummary(true)
         @Html.HiddenFor(m=>m.HRDID)
@@ -33,7 +38,7 @@
                     @Html.LabelFor(m => m.SeasonID)
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("Month",String.Empty)
+                    @Html.DropDownList("SeasonID",String.Empty)
                     @Html.ValidationMessageFor(m=>m.SeasonID)
                 </div>
         
@@ -48,23 +53,13 @@
                 </div>
         
             </div>
-            @* <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.NeedAssessmentID,"Need Assessment")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("NeedAssessmentID",String.Empty)
-                    @Html.ValidationMessageFor(m=>m.NeedAssessmentID)
-                </div>
-        
-            </div>*@
              <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")
                 </div>
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="create" name="create" value="@Model.CreatedDate"/>
-                    @Html.HiddenFor(m=>m.CreatedDate)
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" value="@Model.CreatedDate"/>*@
+                    @Html.TextBoxFor(m=>m.CreatedDate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(m => m.CreatedDate)
                 </div>
         
@@ -80,12 +75,6 @@
                 </div>
         
             </div>*@
-            <div class="control-group">      
-                <div class="controls">
-                    <input type="submit" value="Save Changes" class="btn btn-success" />
-                </div>
-            </div>
-
         </div>
     }
  
