@@ -33,8 +33,14 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult New()
         {
-            return View();
+            var model = new UserViewModel();
+            List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
+
+            model.Applications = Applications;
+            return View(model);
         }
+
+
 
         [HttpPost]
         public ActionResult New(UserViewModel userInfo)
@@ -50,26 +56,45 @@ namespace Cats.Areas.Settings.Controllers
                 messages.Add("Password cannot be empyt");
             if (userInfo.Password != userInfo.PasswordConfirm)
                 messages.Add("Passwords do not match");
+           
 
             if (messages.Count > 0)
                 return View();
             
             // If the supplied information is correct then persist it to the database
             var user = new UserAccount();
+
             user.UserName = userInfo.UserName;                        
             user.Password = userService.HashPassword(userInfo.Password);
 
             user.Disabled = false;
             user.LoggedIn = false;
 
-            user.UserProfile.FirstName = userInfo.FullName;
+            List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
+            Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
+            List<string> Roles;
+           foreach(var application in app)
+           {
+               Roles = new List<string>();
+               foreach (var role in application.Roles)
+               {
+                   if (role.IsChecked == true)
+                       Roles.Add(role.RoleName);
+               }
+               if (Roles.Count > 0)
+                   roles.Add(application.ApplicationName, Roles);
+           }
+
+            user.UserProfile.FirstName = "";
             user.UserPreference.LanguageCode = "EN";
             user.UserPreference.Keyboard = "AM";
             user.UserPreference.PreferedWeightMeasurment = "MT";
             user.UserPreference.Calendar = "GC";
             user.UserPreference.DefaultTheme = "Default";
 
-            userService.Add(user);
+            userService.Add(user, roles);
+
+            //// ADD User Role
 
             return View();
 
