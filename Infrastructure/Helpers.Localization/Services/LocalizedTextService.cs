@@ -58,14 +58,23 @@ namespace LanguageHelpers.Localization.Services
         }
         public string Translate(string key, string languageCode)
         {
-            List<LocalizedText> list = FindBy(f => f.TextKey == key && f.LanguageCode==languageCode).ToList();
-            if (list.Count >= 1)
+            try
             {
-                return list[0].TranslatedText;
+                List<LocalizedText> list = FindBy(f => f.TextKey == key && f.LanguageCode == languageCode).ToList();
+                if (list.Count >= 1)
+                {
+                    return list[0].TranslatedText;
+                }
             }
-            LocalizedText newtxt = new LocalizedText { LanguageCode = languageCode, TextKey = key, TranslatedText = key };
+            catch (Exception exception)
+            {
+                return key;
+            }
+            
+            // The requested key do not exist for the language 'languageCode' so add it to translated text tables
+            var newtxt = new LocalizedText { LanguageCode = languageCode, TextKey = key, TranslatedText = key };
            // AddLocalizedText(newtxt);
-            return key;// +"-" + languageCode;
+            return key;
         }
 
         public void Dispose()
