@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using log4net;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -12,7 +13,7 @@ namespace Cats.Services.EarlyWarning
     public class NeedAssessmentService : INeedAssessmentService
     {
         private readonly IUnitOfWork _unitOfWork;
-
+        private static readonly ILog Log = LogManager.GetLogger(typeof(NeedAssessmentService));
 
         public NeedAssessmentService(IUnitOfWork unitOfWork)
         {
@@ -43,6 +44,7 @@ namespace Cats.Services.EarlyWarning
         }
         public bool DeleteById(int id)
         {
+            //Log.Error("Delete by id");
             var entity = _unitOfWork.NeedAssessmentRepository.FindById(id);
             if (entity == null) return false;
             _unitOfWork.NeedAssessmentRepository.Delete(entity);

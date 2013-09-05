@@ -47,8 +47,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
            
-            _log.debug("this is the the second second new debug");
-           
+            _log.debug("checking for ...this is from need asssessment.");
+           _log.error("this is an error messsage from need assessment");
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();
