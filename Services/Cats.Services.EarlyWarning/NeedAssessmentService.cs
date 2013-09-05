@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
@@ -26,10 +26,18 @@ namespace Cats.Services.EarlyWarning
         #region Default Service Implementation
         public bool AddNeedAssessment(NeedAssessment needAssessment)
         {
-
-            _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
-            _unitOfWork.Save();
-            return true;
+            try
+            {
+                _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (System.Data.ConstraintException ex)
+            {
+                Logger.Error("",new Exception(ex.InnerException.Message.ToString(CultureInfo.InvariantCulture)));
+                throw new Exception(ex.ToString());
+            }
+           
 
         }
         public bool EditNeedAssessment(NeedAssessment needAssessment)
