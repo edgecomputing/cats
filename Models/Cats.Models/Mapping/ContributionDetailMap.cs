@@ -21,19 +21,19 @@ namespace Cats.Models.Mapping
            // Table & Column Mappings
            this.ToTable("ContributionDetail");
            this.Property(t => t.ContributionDetailID).HasColumnName("ContributionDetailID");
-           this.Property(t => t.ContributiionID).HasColumnName("ContributiionID");
-           this.Property(t => t.CommodityID).HasColumnName("CommodityID");
+           this.Property(t => t.ContributionID).HasColumnName("ContributionID");
+           this.Property(t => t.CurrencyID).HasColumnName("CurrencyID");
            this.Property(t => t.PledgeReferenceNo).HasColumnName("PledgeReferenceNo");
            this.Property(t => t.PledgeDate).HasColumnName("PledgeDate");
-           this.Property(t => t.Quantity).HasColumnName("Quantity");
+           this.Property(t => t.Amount).HasColumnName("Amount");
 
            // Relationships
-           this.HasRequired(t => t.Commodity)
+           this.HasRequired(t => t.Currency)
                .WithMany(t => t.ContributionDetails)
-               .HasForeignKey(d => d.CommodityID);
+               .HasForeignKey(d => d.CurrencyID);
            this.HasRequired(t => t.Contribution)
                .WithMany(t => t.ContributionDetails)
-               .HasForeignKey(d => d.ContributiionID);
+               .HasForeignKey(d => d.ContributionID);
 
        }
     }

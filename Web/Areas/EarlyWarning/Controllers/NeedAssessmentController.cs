@@ -7,7 +7,10 @@ using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-using Cats.Models;
+
+using log4net.Config;
+using Cats.Services.Common;
+
 namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class NeedAssessmentController : Controller
@@ -18,12 +21,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly INeedAssessmentDetailService _needAssessmentDetailService;
         private readonly ISeasonService _seasonService;
         private readonly ITypeOfNeedAssessmentService _typeOfNeedAssessmentService;
+        private readonly ILog _log;
+
+     
 
         public NeedAssessmentController(INeedAssessmentService needAssessmentService, 
                                         IAdminUnitService adminUnitService, 
                                         INeedAssessmentHeaderService needAssessmentHeaderService, 
                                         INeedAssessmentDetailService needAssessmentDetailService, 
-                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService)
+                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService, ILog log)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;
@@ -31,6 +37,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _needAssessmentDetailService = needAssessmentDetailService;
             _seasonService = seasonService;
             _typeOfNeedAssessmentService = typeOfNeedAssessmentService;
+            _log = log;
         }
 
         //
@@ -38,6 +45,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
+
+           
+            _log.debug("this is the the second second new debug");
+           
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();
