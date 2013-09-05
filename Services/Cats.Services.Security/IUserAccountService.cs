@@ -5,13 +5,15 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Models.Security;
+using Cats.Models.Security.ViewModels;
 
 namespace Cats.Services.Security
 {
     public interface IUserAccountService
     {
         // CRUD Operations
-        bool Add(UserAccount user);
+        bool Add(UserAccount entity, Dictionary<string, List<string>> roles);
+        bool Add(UserAccount entity, string store, string application);
         bool Delete(UserAccount user);
         bool DeleteById(int id);
         bool Save(UserAccount user);
@@ -39,5 +41,8 @@ namespace Cats.Services.Security
         UserInfo GetUserInfo(int userId);
         string[] GetUserPermissions(int userId, string store, string application);
 
+        string[] GetRoles(string application);
+        List<Application> GetApplications(string store);
+        List<Role> GetRolesList(string application);
     }
 }

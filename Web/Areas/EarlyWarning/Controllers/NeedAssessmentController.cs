@@ -7,7 +7,7 @@ using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-
+using log4net;
 using log4net.Config;
 using Cats.Services.Common;
 
@@ -21,7 +21,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly INeedAssessmentDetailService _needAssessmentDetailService;
         private readonly ISeasonService _seasonService;
         private readonly ITypeOfNeedAssessmentService _typeOfNeedAssessmentService;
-        private readonly ILog _log;
+        public ILog _log;
 
      
 
@@ -29,7 +29,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                         IAdminUnitService adminUnitService, 
                                         INeedAssessmentHeaderService needAssessmentHeaderService, 
                                         INeedAssessmentDetailService needAssessmentDetailService, 
-                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService, ILog log)
+                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService,ILog log)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;
@@ -45,10 +45,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-
-           
-            _log.debug("this is the the second second new debug");
-           
+         
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();
@@ -95,7 +92,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult AddRegion(NeedAssessment needAssessment,FormCollection collection)
         {
+            try
+            {
 
+
+             ViewBag.Error = "";
              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
              int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
              int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
@@ -121,6 +122,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             int typeOfNeedAsseessment = (int) needAssessment.TypeOfNeedAssessment;
 
             return RedirectToAction("Edit", new { id = regionId, typeOfNeed = typeOfNeedAsseessment });
+            }
+
+            catch (Exception exception)
+            {
+                ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+                ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+                ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
+                ViewBag.Error = "An error has occured: This region has already been registered with the information you are trying to input. Please choose a different Region, Seasnon, Year or Type of Need Assessment.";
+                return View();
+            }
         }
 
       
