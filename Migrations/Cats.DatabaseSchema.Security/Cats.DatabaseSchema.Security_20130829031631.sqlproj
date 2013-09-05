@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Cats.DatabaseSchema.Security</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{6941f350-b85a-4a39-96e4-b0433388a3c1}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Cats.DatabaseSchema.Security</RootNamespace>
+    <AssemblyName>Cats.DatabaseSchema.Security</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\netsqlazman_BizRulesTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ItemsHierarchyTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_LogTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_Settings.sql" />
+    <Build Include="dbo\Tables\netsqlazman_StoresTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_AuthorizationAttributesTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ApplicationGroupMembersTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ItemsTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ApplicationGroupsTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ApplicationAttributesTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ApplicationPermissionsTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_StoreGroupMembersTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ApplicationsTable.sql" />
+    <Build Include="dbo\Tables\UserProfile.sql" />
+    <Build Include="dbo\Tables\netsqlazman_StoreAttributesTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_StorePermissionsTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_StoreGroupsTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_AuthorizationsTable.sql" />
+    <Build Include="dbo\Tables\netsqlazman_ItemAttributesTable.sql" />
+    <Build Include="dbo\Views\netsqlazman_StoreGroupMembersView.sql" />
+    <Build Include="dbo\Views\netsqlazman_AuthorizationView.sql" />
+    <Build Include="dbo\Views\netsqlazman_ApplicationGroupMembersView.sql" />
+    <Build Include="dbo\Views\netsqlazman_ItemsHierarchyView.sql" />
+    <Build Include="dbo\Views\netsqlazman_BizRuleView.sql" />
+    <Build Include="dbo\Views\netsqlazman_ItemAttributesView.sql" />
+    <Build Include="dbo\Views\netsqlazman_AuthorizationAttributesView.sql" />
+    <Build Include="dbo\Views\netsqlazman_DatabaseUsers.sql" />
+    <Build Include="dbo\Views\netsqlazman_ApplicationsView.sql" />
+    <Build Include="dbo\Views\netsqlazman_StoreAttributesView.sql" />
+    <Build Include="dbo\Views\netsqlazman_ApplicationAttributesView.sql" />
+    <Build Include="Security\NetSqlAzMan_Readers.sql" />
+    <Build Include="Security\NetSqlAzMan_Users.sql" />
+    <Build Include="Security\NetSqlAzMan_Managers.sql" />
+    <Build Include="Security\NetSqlAzMan_Administrators.sql" />
+    <Build Include="Security\BUILTIN_Administrators.sql" />
+    <Build Include="dbo\Functions\netsqlazman_DBVersion.sql" />
+    <Build Include="dbo\Functions\netsqlazman_MergeAuthorizations.sql" />
+    <Build Include="dbo\Functions\netsqlazman_IAmAdmin.sql" />
+    <Build Include="dbo\Functions\netsqlazman_CheckApplicationPermissions.sql" />
+    <Build Include="dbo\Functions\netsqlazman_CheckStorePermissions.sql" />
+    <Build Include="dbo\Functions\netsqlazman_GetNameFromSid.sql" />
+    <Build Include="dbo\Functions\netsqlazman_AuthorizationAttributes.sql" />
+    <Build Include="dbo\Functions\netsqlazman_GetDBUsers.sql" />
+    <Build Include="dbo\Functions\netsqlazman_Applications.sql" />
+    <Build Include="dbo\Functions\netsqlazman_Stores.sql" />
+    <Build Include="dbo\Functions\netsqlazman_ApplicationGroups.sql" />
+    <Build Include="dbo\Functions\netsqlazman_ApplicationPermissions.sql" />
+    <Build Include="dbo\Functions\netsqlazman_StoreAttributes.sql" />
+    <Build Include="dbo\Functions\netsqlazman_StorePermissions.sql" />
+    <Build Include="dbo\Functions\netsqlazman_ApplicationAttributes.sql" />
+    <Build Include="dbo\Functions\netsqlazman_StoreGroups.sql" />
+    <Build Include="dbo\Functions\netsqlazman_Items.sql" />
+    <Build Include="dbo\Functions\netsqlazman_Authorizations.sql" />
+    <Build Include="dbo\Functions\netsqlazman_ItemAttributes.sql" />
+    <Build Include="dbo\Functions\netsqlazman_StoreGroupMembers.sql" />
+    <Build Include="dbo\Functions\netsqlazman_BizRules.sql" />
+    <Build Include="dbo\Functions\netsqlazman_ItemsHierarchy.sql" />
+    <Build Include="dbo\Functions\netsqlazman_ApplicationGroupMembers.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreGroupMemberUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_BizRuleUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_AuthorizationAttributeInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationGroupMemberDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationGroupMemberUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_BuildUserPermissionCache.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_CheckAccess.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_AuthorizationAttributeDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_AuthorizationAttributeUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ExecuteLDAPQuery.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_IsAMemberOfGroup.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_DirectCheckAccess.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_helplogins.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_BizRuleInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_GrantStoreAccess.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_RevokeStoreAccess.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_BizRuleDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreGroupDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreGroupInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreGroupUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationGroupInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationPermissionInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_RevokeApplicationAccess.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationPermissionDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_GrantApplicationAccess.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreAttributeInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StorePermissionInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StorePermissionDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationAttributeInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_CreateDelegate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_AuthorizationInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_GetStoreGroupSidMembers.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationGroupDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationGroupUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemAttributeInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreGroupMemberInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreAttributeUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreAttributeDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationAttributeDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationAttributeUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemsHierarchyInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemsHierarchyDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ReloadBizRule.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ClearBizRule.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ApplicationGroupMemberInsert.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_DeleteDelegate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_AuthorizationUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_AuthorizationDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_GetApplicationGroupSidMembers.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemAttributeUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_ItemAttributeDelete.sql" />
+    <Build Include="dbo\Stored Procedures\netsqlazman_StoreGroupMemberDelete.sql" />
+    <Build Include="Security\BUILTIN_Administrators_1.sql" />
+    <Build Include="Security\NetSqlAzMan_Administrators_1.sql" />
+    <Build Include="Security\NetSqlAzMan_Managers_1.sql" />
+    <Build Include="Security\NetSqlAzMan_Readers_1.sql" />
+    <Build Include="Security\NetSqlAzMan_Users_1.sql" />
+    <Build Include="dbo\Tables\UserPreference.sql" />
+    <Build Include="dbo\Tables\UserAccount.sql" />
+    <Build Include="dbo\Views\UserInfo.sql" />
+    <None Include="Default-User.sql" />
+  </ItemGroup>
+</Project>

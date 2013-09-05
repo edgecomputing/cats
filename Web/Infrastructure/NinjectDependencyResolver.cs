@@ -95,12 +95,12 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
 
             kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
+            kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
 
             kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
             kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
             
 
-            kernel.Bind<IAccountTransactionService>().To<AccountTransactionService>();
             kernel.Bind<ISeasonService>().To<SeasonService>();
             kernel.Bind<IDonorService>().To<DonorService>();
             kernel.Bind<ICommonService>().To<CommonService>();
@@ -114,7 +114,10 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IUnitService>().To<UnitService>();
             kernel.Bind<ILetterTemplateService>().To<LetterTemplateService>();
-;
+            kernel.Bind<ILog>().To<Log>();
+            kernel.Bind<ICurrencyService>().To<CurrencyService>();
+
+            kernel.Bind<ILanguageService>().To<LanguageService>();
         }
     }
 }

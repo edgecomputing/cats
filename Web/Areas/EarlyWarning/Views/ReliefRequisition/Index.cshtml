@@ -23,7 +23,9 @@
         <li class="active">Relief Requisition</li>
     </ul>
 }
-<h4 >Requistions</h4>
+
+<h4 class="well">Requistions</h4>
+
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
     columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);

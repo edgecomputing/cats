@@ -24,6 +24,7 @@ namespace Cats.Models
         public string PortName { get; set; }
         public int StatusID { get; set; }
         public string DeclarationNumber { get; set; }
+        public Nullable<Guid> TransactionGroupID { get; set; }
         public virtual Detail Detail { get; set; }
         public virtual Donor Donor { get; set; }
         public virtual Program Program { get; set; }

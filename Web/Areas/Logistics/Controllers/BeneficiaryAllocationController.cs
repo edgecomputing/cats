@@ -29,7 +29,6 @@ namespace Cats.Areas.Logistics.Controllers
         // GET: /Logistics/BeneficiaryAllocation/
         public ActionResult Index()
         {
-
             ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             ViewBag.RequisitionID = new SelectList(_reliefRequisitionService.Get(t => t.Status == 4).ToList(), "RequisitionID", "RequisitionNo");
             return View();
@@ -38,18 +37,11 @@ namespace Cats.Areas.Logistics.Controllers
         public JsonResult BeneficiaryAllocations_Read([DataSourceRequest]DataSourceRequest request)
 
         {
-          
             IQueryable<BeneficiaryAllocation> beneficiaryAllocation = _beneficiaryAllocationService.GetBenficiaryAllocation().AsQueryable();
-
-
-
-
             DataSourceResult result = beneficiaryAllocation.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
-            
-
-           
         }
+
         [HttpPost]
         public ActionResult Index(int RegionID, int FilterZone, int RequisitionID=0)
         {
