@@ -350,7 +350,6 @@ namespace Cats.Localization.Services
 
         #endregion
 
-
         #region Private Methods
 
         /// <summary>
