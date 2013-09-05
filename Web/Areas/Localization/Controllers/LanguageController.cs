@@ -16,10 +16,10 @@ namespace Cats.Areas.Localization.Controllers
         private ILanguageService _languageService;
         private ILocalizedTextService _localizedTextService;
 
-        public LanguageController()
+        public LanguageController(ILanguageService languageService, ILocalizedTextService localizedTextService)
         {
-            _languageService = new LanguageService(new UnitOfWork());
-            _localizedTextService=new LocalizedTextService(new UnitOfWork());
+            _languageService = languageService;
+            _localizedTextService = localizedTextService;
         }
 
         public ActionResult Index()

@@ -272,26 +272,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs">
+    <Compile Include="Helpers\AmharicEditorHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs">
+    <Compile Include="Helpers\ElmahErrorAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs">
+    <Compile Include="Helpers\EthiopianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs">
+    <Compile Include="Helpers\getGregorianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
+    <Compile Include="Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\TemplateGenerator.cs" />
-    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
+    <Compile Include="Helpers\TemplateGenerator.cs" />
+    <Compile Include="Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs">
+    <Compile Include="Helpers\UserRoleHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\ReportHelper.cs" />
