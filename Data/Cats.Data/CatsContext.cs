@@ -53,7 +53,7 @@ namespace Cats.Data
         public DbSet<vwTransportOrder> vwTransportOrders { get; set; }
         
         public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
-        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<ReceiptAllocation> ReceiptAllocation { get; set; } 
 
 
@@ -90,11 +90,9 @@ namespace Cats.Data
         public DbSet<ContributionDetail> ContributionDetails { get; set; }
         public DbSet<Donor> Donors { get; set; } 
 
-        //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
         public DbSet<BusinessProcess> BusinessProcesss { get; set; }
         public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
-        public DbSet<AccountTransaction> AccountTransactions { get; set; } 
 
         public DbSet<TypeOfNeedAssessment> TypeOfNeedAssessment { get; set; }
 
@@ -103,6 +101,7 @@ namespace Cats.Data
 
 
         public DbSet<LetterTemplate_> LetterTemplate { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -183,12 +182,12 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new TypeOfNeedAssessmentMap());
             modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
-            modelBuilder.Configurations.Add(new AccountTransactionMap());
 
 
             modelBuilder.Configurations.Add(new NeedAssessmentSummaryMap());
 
             modelBuilder.Configurations.Add(new LetterTemplateMap());
+            modelBuilder.Configurations.Add(new CurrencyMap());
 
 
         }

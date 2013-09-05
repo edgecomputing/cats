@@ -26,6 +26,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Season> seasonRepository;
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
+        private IGenericRepository<Currency> currencyRepository; 
 
         public UnitOfWork()
         {
@@ -126,7 +127,7 @@ namespace Cats.Data.UnitWork
             get { return this.dispatchAllocationRepository ?? (this.dispatchAllocationRepository = new GenericRepository<DispatchAllocation>(_context)); }
         }
 
-        
+
         private IGenericRepository<RegionalRequest> regionalRequestRepository;
         public IGenericRepository<RegionalRequest> RegionalRequestRepository
         {
@@ -530,15 +531,6 @@ namespace Cats.Data.UnitWork
             }
         }
 
-        private IGenericRepository<AccountTransaction> accountTransactionRepository;
-        public IGenericRepository<AccountTransaction> AccountTransactionRepository
-        {
-            get
-            {
-                return this.accountTransactionRepository ?? (this.accountTransactionRepository = new GenericRepository<AccountTransaction>(_context));
-            }
-        }
-        //IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }  
 
         private IGenericRepository<vwPSNPAnnualPlan> vwPSNPAnnualPlanRepository;
 
@@ -637,12 +629,22 @@ namespace Cats.Data.UnitWork
 
         }
 
-        
+
         //Need Assesssment Summary (for Dashboard) Repository
         private IGenericRepository<NeedAssessmentSummary> needAssessmentSummaryRepository;
         public IGenericRepository<NeedAssessmentSummary> NeedAssessmetSummaryRepository
         {
             get { return this.needAssessmentSummaryRepository ?? (this.needAssessmentSummaryRepository = new GenericRepository<NeedAssessmentSummary>(_context)); }
+        }
+
+        public IGenericRepository<Currency> CurrencyRepository
+        {
+            get { return this.currencyRepository ?? (this.currencyRepository = new GenericRepository<Currency>(_context)); }
+        }
+        private IGenericRepository<TransactionGroup> transactionGroupRepository;
+        public IGenericRepository<TransactionGroup> TransactionGroupRepository
+        {
+            get { return this.transactionGroupRepository ?? (this.transactionGroupRepository = new GenericRepository<TransactionGroup>(_context)); }
         }
     }
 }

@@ -48,23 +48,23 @@
    {
        <div>
            <fieldset>
-               <legend>Hub Allocation</legend>
+               <legend>@Translator.Translate("Hub Allocation")</legend>
            </fieldset>
 	    <div class="form-horizontal">
            <div class="control-group">
-               <label class="control-label">Allocation Date</label>
+               <label class="control-label">@Translator.Translate("Allocation Date")</label>
                <div class="controls">
                    <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
                </div>
            </div>
            <div class="control-group ">
-               <label class="control-label">Allocation Reference No</label>
+               <label class="control-label"> @Translator.Translate("Allocation Reference No")</label>
                <div class="controls">
                    <input type="text" class="input-xlarge" id="rNumber" name="rNumber" placeholder="Reference Number">
                </div>
            </div>
            <div class="control-group">
-               <label class="control-label">Hubs</label>
+               <label class="control-label">@Translator.Translate("Hubs")</label>
                <div class="controls">
 	                
                    @Html.Hidden("Selected")
@@ -196,7 +196,7 @@
        <br/>
        <div>
            <button type="submit" class="btn btn-success">
-               <i class="icon-user icon-white"></i> Assign hub
+               <i class="icon-user icon-white"></i> @Translator.Translate("Assign Hub")
            </button>
        </div>
    }

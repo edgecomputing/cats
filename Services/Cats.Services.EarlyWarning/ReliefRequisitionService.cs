@@ -236,20 +236,30 @@ namespace Cats.Services.EarlyWarning
 
 
 
-        public bool Save()
+        //public bool Save()
+        //{
+        //    _unitOfWork.Save();
+        //    return true;
+        //}
+
+
+
+
+
+        public bool AssignRequisitonNo(Dictionary<int , string> requisitionNumbers )
         {
+
+            foreach (var requisitonNumber in requisitionNumbers)
+            {
+                var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitonNumber.Key);
+                requisition.RequisitionNo = requisitonNumber.Value;
+              
+
+            }
+
             _unitOfWork.Save();
-            return true;
-        }
-
-
-
-
-
-        public bool AssignRequisitonNo(int requisitonId, string requisitonNo)
-        {
-            var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitonId);
-            requisition.RequisitionNo = requisitonNo;
+           
+           
            
             return true;
         }
@@ -286,11 +296,20 @@ namespace Cats.Services.EarlyWarning
         }
 
 
-        public bool EditAllocatedAmount(int requsitionDetailId, decimal allocatedAmount)
+        public bool EditAllocatedAmount(Dictionary<int,decimal> allocations )
         {
-            var requisitionDetail = _unitOfWork.ReliefRequisitionDetailRepository.FindById(requsitionDetailId);
-            if(requisitionDetail ==null ) return false;
-            requisitionDetail.Amount = allocatedAmount;
+
+            foreach (var alloction in allocations)
+            {
+                var requisitionDetail = _unitOfWork.ReliefRequisitionDetailRepository.FindById(alloction.Key);
+                if (requisitionDetail == null) return false;
+                requisitionDetail.Amount = alloction.Value;
+
+             
+            }
+
+           _unitOfWork.Save();
+
             return true;
         }
     }

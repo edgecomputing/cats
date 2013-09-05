@@ -27,20 +27,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IGiftCertificateService _giftCertificateService;
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
         private readonly ICommonService _commonService;
-        private readonly IAccountTransactionService _accountTransactionService;
+        private readonly ITransactionService _transactionService;
         private readonly ILetterTemplateService _letterTemplateService;
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,IAccountTransactionService accountTransactionService, ILetterTemplateService letterTemplateService)
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
             _commonService = commonService;
-            _accountTransactionService = accountTransactionService;
+            _transactionService = transactionService;
             _letterTemplateService = letterTemplateService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int id=1)
         {
-            var gifts = _giftCertificateService.Get(null,null, "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
+            var gifts = _giftCertificateService.Get(t=>t.StatusID==id,null, "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
             var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(),true);
             return View(giftsViewModel);
 
@@ -51,7 +51,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var giftCertList = _giftCertificateDetailService.GetAllGiftCertificateDetail();
 
             var result = giftCertList.ToList().Select(item => new GiftCertificateViewModel
-
                                                                   {
                                                                       CommodityName = item.Commodity.Name,
                                                                       GiftDate = item.GiftCertificate.GiftDate,
@@ -72,11 +71,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
          
         }
-       
-
-
-
-       
+     
 
         public virtual ActionResult NotUnique(string siNumber, int giftCertificateId)
         {
@@ -211,7 +206,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Delete(int id)
         {
             var giftcertificate = _giftCertificateService.FindById(id);
-            return View(giftcertificate);
+            return View(GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftcertificate));
         }
 
 
@@ -236,7 +231,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
        public ActionResult Approve(int GiftCertificateID)
         {
-            var result = _accountTransactionService.PostGiftCertificate(GiftCertificateID);
+            var result = _transactionService.PostGiftCertificate(GiftCertificateID);
             return RedirectToAction("Index");
         }
         private void PopulateLookup(bool isNew = true, Cats.Models.GiftCertificate giftCertificate = null)

@@ -33,12 +33,18 @@ namespace Cats.Models.Mapping
             this.Property(t => t.QuantityInUnit).HasColumnName("QuantityInUnit");
             this.Property(t => t.UnitID).HasColumnName("UnitID");
             this.Property(t => t.TransactionDate).HasColumnName("TransactionDate");
+            this.Property(t => t.GiftTypeID).HasColumnName("RegionID");
+            this.Property(t => t.GiftTypeID).HasColumnName("Month");
+            this.Property(t => t.GiftTypeID).HasColumnName("Round");
+            this.Property(t => t.DonorID).HasColumnName("DonorID");
+            this.Property(t => t.CommoditySourceID).HasColumnName("CommoditySourceID");
+            this.Property(t => t.GiftTypeID).HasColumnName("GiftTypeID");
 
             // Relationships
-            //this.HasRequired(t => t.Account)
+            //this.HasOptional(t => t.Account)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.AccountID);
-            //this.HasRequired(t => t.Commodity)
+            //this.HasOptional(t => t.Commodity)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.ParentCommodityID);
             //this.HasRequired(t => t.Commodity1)
@@ -47,10 +53,10 @@ namespace Cats.Models.Mapping
             //this.HasOptional(t => t.CommodityGrade)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.CommodityGradeID);
-            //this.HasRequired(t => t.Hub)
+            //this.HasOptional(t => t.Hub)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.HubID);
-            //this.HasRequired(t => t.HubOwner)
+            //this.HasOptional(t => t.HubOwner)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.HubOwnerID);
             //this.HasRequired(t => t.Ledger)
@@ -59,21 +65,22 @@ namespace Cats.Models.Mapping
             //this.HasRequired(t => t.Program)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.ProgramID);
-            //this.HasRequired(t => t.ProjectCode)
+            //this.HasOptional(t => t.ProjectCode)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.ProjectCodeID);
-            //this.HasRequired(t => t.ShippingInstruction)
+            //this.HasOptional(t => t.ShippingInstruction)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.ShippingInstructionID);
-            //this.HasRequired(t => t.Store)
+            //this.HasOptional(t => t.Store)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.StoreID);
-            //this.HasOptional(t => t.TransactionGroup)
-            //    .WithMany(t => t.Transactions)
-            //    .HasForeignKey(d => d.TransactionGroupID);
-            //this.HasRequired(t => t.Unit)
-            //    .WithMany(t => t.Transactions)
-            //    .HasForeignKey(d => d.UnitID);
+            this.HasRequired(t => t.TransactionGroup)
+                .WithMany(t => t.Transactions)
+                .HasForeignKey(d => d.TransactionGroupID);
+            this.HasRequired(t => t.Unit)
+                .WithMany(t => t.Transactions)
+                .HasForeignKey(d => d.UnitID);
+
         }
     }
 }

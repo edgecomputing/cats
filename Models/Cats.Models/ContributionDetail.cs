@@ -9,14 +9,15 @@ namespace Cats.Models
    public partial class ContributionDetail
     {
         public int ContributionDetailID { get; set; }
-        public int ContributiionID { get; set; }
-        public int CommodityID { get; set; }
+        public int ContributionID { get; set; }
+        //public int CommodityID { get; set; }
         public string PledgeReferenceNo { get; set; }
         public DateTime PledgeDate { get; set; }
-        public decimal Quantity { get; set; }
+        public decimal Amount { get; set; }
+        public int CurrencyID { get; set; }
 
 
-        public virtual Commodity Commodity { get; set; }
+        public virtual Currency Currency { get; set; }
         public virtual Contribution Contribution { get; set; }
 
     }

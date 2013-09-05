@@ -30,6 +30,7 @@
 @(Html.Kendo().Grid(Model.BeneficiaryInfos).Name("grid")
 .Columns(col=>
              {
+                 col.Bound(m => m.FDPName);
                  
                  col.Bound(m => m.FDPID);
                  col.Bound(m => m.Beneficiaries);

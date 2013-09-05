@@ -29,7 +29,7 @@ namespace Cats.Services.EarlyWarning
         {
            // regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-            regionalRequest.RationID = 3;//TODO:SET DEFAULT Ration
+            regionalRequest.RationID = 2;//TODO:SET DEFAULT Ration
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.ReferenceNumber = DateTime.Today.ToLongTimeString();
             _unitOfWork.RegionalRequestRepository.Add(regionalRequest);
@@ -193,7 +193,7 @@ namespace Cats.Services.EarlyWarning
                List<FDP> WoredaFDPs= _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == d.AdminUnit.AdminUnitID);
                ICollection<BeneficiaryInfo> woredabeneficiaries =
                 (from FDP fdp  in WoredaFDPs
-                 select new BeneficiaryInfo{FDPID=fdp.FDPID,Beneficiaries=0}).ToList();
+                 select new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0 }).ToList();
                benficiaries.AddRange(woredabeneficiaries);
             }
             return benficiaries;
@@ -202,7 +202,7 @@ namespace Cats.Services.EarlyWarning
         {
             List<BeneficiaryInfo> benficiaries =
                 (from RegionalPSNPPlanDetail pd  in plan.RegionalPSNPPlanDetails
-                 select new BeneficiaryInfo{FDPID=pd.PlanedFDP.FDPID,Beneficiaries=pd.BeneficiaryCount}).ToList();
+                 select new BeneficiaryInfo { FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name,Beneficiaries = pd.BeneficiaryCount }).ToList();
             return benficiaries;
 
         }
