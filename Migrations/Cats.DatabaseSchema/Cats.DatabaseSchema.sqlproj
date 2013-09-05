@@ -244,12 +244,16 @@
     <Build Include="dbo\Views\vw_NeedAssessment.sql" />
     <Build Include="dbo\Tables\LetterTemplate_.sql" />
     <Build Include="dbo\Tables\Currency.sql" />
+
+    <Build Include="dbo\Tables\Log_1.sql" />
+
     <Build Include="Localization\Tables\PagePhrase.sql" />
     <Build Include="Localization\Tables\Page.sql" />
     <Build Include="Localization\Tables\LocalizedPhrase.sql" />
     <Build Include="Localization\Tables\Phrase.sql" />
     <Build Include="Localization\Tables\Language.sql" />
     <Build Include="Security\Localization.sql" />
+
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
