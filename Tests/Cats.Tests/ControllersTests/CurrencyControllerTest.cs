@@ -61,6 +61,15 @@ namespace Cats.Tests.ControllersTests
 
            //Assert.AreEqual(1, (((DataSourceResult)result.Data).Total));
        }
+       [Test]
+       public void CanDeleteCurrency()
+       {
+           var id = 1;
+           var result = (RedirectToRouteResult)_currencyController.Delete(id);
+
+           Assert.IsNotNull(result);
+           //Assert.IsInstanceOf<ContributionDetail>(result.Model);
+       }
        #endregion
    }
 }
