@@ -1,4 +1,4 @@
-﻿using LanguageHelpers.Localization.Data.UnitOfWork;
+﻿using LanguageHelpers.Localization.Data;
 using System.Web;
 namespace LanguageHelpers.Localization
 {

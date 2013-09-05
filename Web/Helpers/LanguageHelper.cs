@@ -10,7 +10,7 @@ namespace Cats.Helpers
 {
     public static class LanguageHelper
     {
-        public static string Translate(this HtmlHelper html,string phrase, string language="EN")
+        public static string Translate(this HtmlHelper html, string phrase, string language = "EN")
         {
             var currentLanguage = language;
 
@@ -19,7 +19,7 @@ namespace Cats.Helpers
             //       user, we must check for possible errors.
             try
             {
-                var user = (UserIdentity)HttpContext.Current.User.Identity;                
+                var user = (UserIdentity)HttpContext.Current.User.Identity;
                 currentLanguage = user.Profile.LanguageCode;
             }
             catch (Exception)
@@ -32,7 +32,8 @@ namespace Cats.Helpers
                 return phrase;
 
             // For other languages try to get the corresponding translation
-            var service = DependencyResolver.Current.GetService<ILocalizedTextService>();
+            var service = (ILocalizedTextService)DependencyResolver.Current.GetService(typeof(ILocalizedTextService));
+            
             return service.Translate(phrase, language);
         }
 

@@ -2,7 +2,7 @@
 using LanguageHelpers.Localization.Models;
 using LanguageHelpers.Localization.Data.Repository;
 
-namespace LanguageHelpers.Localization.Data.UnitOfWork
+namespace LanguageHelpers.Localization.Data
 {
     /// <summary>
     /// UnitOfWork class to manage persistence and retrival of modles associated with

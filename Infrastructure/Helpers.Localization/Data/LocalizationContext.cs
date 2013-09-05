@@ -13,7 +13,7 @@ namespace LanguageHelpers.Localization.Data
             Database.SetInitializer<LocalizationContext>(null);
         }
 
-        public LocalizationContext() : base("Name=LocalizationContext") { }
+        public LocalizationContext() : base("Name=CatsContext") { }
 
         // TODO: Add properties to access set of Poco classes
         public DbSet<LocalizedText> LocalizedTexts { get; set; }

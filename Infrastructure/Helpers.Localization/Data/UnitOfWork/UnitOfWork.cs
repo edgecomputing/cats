@@ -2,7 +2,7 @@
 using LanguageHelpers.Localization.Data.Repository;
 using LanguageHelpers.Localization.Models;
 
-namespace LanguageHelpers.Localization.Data.UnitOfWork
+namespace LanguageHelpers.Localization.Data
 {
     /// <summary>
     /// UnitOfwork implementation for security module    

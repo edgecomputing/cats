@@ -5,7 +5,7 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using LanguageHelpers.Localization.Models;
 using LanguageHelpers.Localization.Services;
-using LanguageHelpers.Localization.Data.UnitOfWork;
+using LanguageHelpers.Localization.Data;
 
 namespace Cats.Areas.Localization.Controllers
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
-using LanguageHelpers.Localization.Data.UnitOfWork;
+using LanguageHelpers.Localization.Data;
 using LanguageHelpers.Localization.Models;
 
 

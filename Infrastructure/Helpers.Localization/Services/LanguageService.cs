@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LanguageHelpers.Localization.Data.UnitOfWork;
+using LanguageHelpers.Localization.Data;
 using LanguageHelpers.Localization.Models;
 
 namespace LanguageHelpers.Localization.Services
