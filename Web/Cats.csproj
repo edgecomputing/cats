@@ -165,6 +165,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
@@ -753,8 +755,11 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

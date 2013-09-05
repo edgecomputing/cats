@@ -38,21 +38,21 @@ namespace Cats.Tests.ControllersTests
                     new ContributionDetail
                         {
                             ContributionDetailID = 1,
-                            ContributiionID = 1,
-                            CommodityID = 1,
+                            ContributionID = 1,
+                            CurrencyID = 1,
                             PledgeDate = new DateTime(12/12/12),
                             PledgeReferenceNo = "ADE123",
-                            Quantity = 100
+                            Amount = 100
                         },
 
                          new ContributionDetail
                         {
                             ContributionDetailID = 2,
-                            ContributiionID = 1,
-                            CommodityID = 2,
+                            ContributionID = 1,
+                            CurrencyID = 2,
                             PledgeDate = new DateTime(12/12/12),
                             PledgeReferenceNo = "ADE123",
-                            Quantity = 100
+                            Amount = 100
                         }
                 };
 
@@ -80,16 +80,16 @@ namespace Cats.Tests.ControllersTests
             var hrdService = new Mock<IHRDService>();
             hrdService.Setup(m => m.GetAllHRD()).Returns(hrd);
 
-            var commodity = new List<Commodity>
+            var currency = new List<Currency>
                 {
-                    new Commodity {CommodityID = 1,Name = "CSB"},
-                    new Commodity {CommodityID = 2,Name = "Pulse"}
+                    new Currency {CurrencyID = 1,Code = "USD",Name = "US Dollar"},
+                    new Currency {CurrencyID = 2,Code = "Birr",Name = "Ethiopian Birr"}
                 };
-            var commodityService = new Mock<ICommodityService>();
-            commodityService.Setup(m => m.GetAllCommodity()).Returns(commodity);
+            var currencyService = new Mock<ICurrencyService>();
+            currencyService.Setup(m => m.GetAllCurrency()).Returns(currency);
 
             _contributionController=new ContributionController(contributionService.Object,contributionDetailService.Object,
-                                   donorService.Object,commodityService.Object,hrdService.Object);
+                                   donorService.Object,currencyService.Object,hrdService.Object);
 
         }
 

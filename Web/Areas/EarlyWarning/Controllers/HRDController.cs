@@ -336,7 +336,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 catch (Exception exception)
                 {
 
-                    ViewBag.Error = "HRD for this season and year already Exists";
+                    ViewBag.Error = "HRD for this Season and Year already Exists";
                 }
 
             }

@@ -25,11 +25,6 @@
     {
 
         <div class="well form-horizontal">
-            <div>
-                 <span class="field-validation-error">
-                        @ViewBag.Error
-                    </span>
-            </div>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.Year)
@@ -37,6 +32,12 @@
                 <div class="controls">
                     @Html.Editor("Year")
                     @Html.ValidationMessageFor(m=>m.Year)
+                    @if(@ViewBag.Error!=null)
+                    {
+                    <span class="alert alert-error">
+                        @ViewBag.Error
+                    </span>
+                    }
                 </div>
         
             </div>
