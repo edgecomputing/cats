@@ -74,23 +74,37 @@
                         @Html.ValidationMessageFor(model => model.SeasonID)
                     </div>
             </div>
+            <div class="control-group" id="div_donor">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DonorID, "Donor")
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("DonorID", string.Empty)
+                        @Html.ValidationMessageFor(model => model.DonorID)
+                    </div>
+            </div>
     </div>
   
 }
 <script>
+   
+
     $(function () {
       
         $("#cmb_programId").change(function () {
             //$this = $(this);
             // $this.attr(label, "");
             var div_season = $("#div_season");
+            var div_donor = $("#div_donor");
             var prog = this.options[this.selectedIndex].innerHTML;
 
             if (prog == "Relief") {
                 div_season.show();
+                div_donor.hide();
             }
             else if (prog == "PSNP") {
                 div_season.hide();
+                div_donor.show();
             }
             
         });
