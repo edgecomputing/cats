@@ -5,7 +5,7 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using LanguageHelpers.Localization.Models;
 using LanguageHelpers.Localization.Services;
-using LanguageHelpers.Localization.Data.UnitOfWork;
+using LanguageHelpers.Localization.Data;
 
 namespace Cats.Areas.Localization.Controllers
 {
@@ -16,10 +16,10 @@ namespace Cats.Areas.Localization.Controllers
         private ILanguageService _languageService;
         private ILocalizedTextService _localizedTextService;
 
-        public LanguageController()
+        public LanguageController(ILanguageService languageService, ILocalizedTextService localizedTextService)
         {
-            _languageService = new LanguageService(new UnitOfWork());
-            _localizedTextService=new LocalizedTextService(new UnitOfWork());
+            _languageService = languageService;
+            _localizedTextService = localizedTextService;
         }
 
         public ActionResult Index()

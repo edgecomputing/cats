@@ -10,19 +10,10 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_gift"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")" title="save"></a>
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/EarlyWarning/GiftCertificate/Index">Gift Certificate</a> <span class="divider">/</span></li>
-        <li class="active">Create Gift Certificate</li>
-    </ul>
-}
-@section LeftBar
-{
-@Html.Partial("_giftLeftBar")}
-
 <h4>@Translator.Translate("New Gift Certificate")</h4>
+@*<p>
+    @Translator.Translate("Use this form to create new or edit gift certificates.") <span class="required">*</span> @Translator.Translate("marks required fields.")
+</p>*@
 @{ViewBag.IsInEditMode = false; }
 
 @using (Html.BeginForm("Create", "GiftCertificate", FormMethod.Post, new { id = "frm_create_gift" }))
@@ -34,7 +25,8 @@
           
     
     
-      
+        <h5>@Translator.Translate("Gift Certificate Headers")</h5>
+  
     <div class="form-horizontal">
         <table class="borderless" style="vertical-align: top">
             <tr>

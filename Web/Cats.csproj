@@ -266,31 +266,32 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs">
+    <Compile Include="Helpers\AmharicEditorHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs">
+    <Compile Include="Helpers\ElmahErrorAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs">
+    <Compile Include="Helpers\EthiopianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs">
+    <Compile Include="Helpers\getGregorianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
+    <Compile Include="Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\TemplateGenerator.cs" />
-    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
+    <Compile Include="Helpers\TemplateGenerator.cs" />
+    <Compile Include="Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs">
+    <Compile Include="Helpers\UserRoleHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\ReportHelper.cs" />
@@ -1070,7 +1071,7 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
@@ -1120,6 +1121,24 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PILOT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
