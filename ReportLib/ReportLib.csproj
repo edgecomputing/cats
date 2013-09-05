@@ -40,13 +40,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Telerik.Reporting, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
+    <Reference Include="Telerik.ReportViewer.WebForms, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HRDPrint.cs">
+    <Compile Include="HRDPrintable.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HRDPrint.Designer.cs">
-      <DependentUpon>HRDPrint.cs</DependentUpon>
+    <Compile Include="HRDPrintable.Designer.cs">
+      <DependentUpon>HRDPrintable.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -63,9 +64,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="HRDPrint.resx">
-      <DependentUpon>HRDPrint.cs</DependentUpon>
+    <EmbeddedResource Include="HRDPrintable.resx">
+      <DependentUpon>HRDPrintable.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Migrations\Cats.DatabaseSchema\Cats.DatabaseSchema.sqlproj">
+      <Project>{23584698-1bd3-4c40-ad56-9bc6dec0ff19}</Project>
+      <Name>Cats.DatabaseSchema</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

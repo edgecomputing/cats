@@ -56,6 +56,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             //ViewBag.Status = _workflowStatusService.GetStatusName();
             return View(hrd);
         }
+
+        public ActionResult HRDPrintOut()
+        {
+            return View("HRDPrintOut");
+        }
+
         public ActionResult HRDDetail(int id = 0)
         {
             ViewData["Month"] = RequestHelper.GetMonthList();

@@ -8,11 +8,11 @@ namespace ReportLib
     using Telerik.Reporting.Drawing;
 
     /// <summary>
-    /// Summary description for HRDPrint.
+    /// Summary description for HRDPrintable.
     /// </summary>
-    public partial class HRDPrint : Telerik.Reporting.Report
+    public partial class HRDPrintable : Telerik.Reporting.Report
     {
-        public HRDPrint()
+        public HRDPrintable()
         {
             //
             // Required for telerik Reporting designer support

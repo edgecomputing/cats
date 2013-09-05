@@ -139,6 +139,8 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Reporting, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
+    <Reference Include="Telerik.ReportViewer.WebForms, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be, processorArchitecture=MSIL" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
@@ -747,6 +749,7 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDPrintOut.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -968,6 +971,7 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequesitions.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\HRDPrintReportViewer.aspx" />
     <Content Include="Views\Shared\_BreadCrumb.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1064,6 +1068,10 @@
     <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReportLib\ReportLib.csproj">
+      <Project>{2db02a2c-8e7b-4a3c-9a4c-af7736a66990}</Project>
+      <Name>ReportLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
