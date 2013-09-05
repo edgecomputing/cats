@@ -14,8 +14,7 @@
     CONSTRAINT [PK_BidWinner] PRIMARY KEY CLUSTERED ([BidWinnerID] ASC),
     CONSTRAINT [FK_BidWinner_Bid] FOREIGN KEY ([BidWinnerID]) REFERENCES [dbo].[Bid] ([BidID]),
     CONSTRAINT [FK_BidWinner_Commodity] FOREIGN KEY ([CommodityID]) REFERENCES [dbo].[Commodity] ([CommodityID]),
-    CONSTRAINT [FK_BidWinner_Transporter] FOREIGN KEY ([TransportOrderID]) REFERENCES [Procurement].[Transporter] ([TransporterID]),
-    CONSTRAINT [FK_BidWinner_TransportOrder] FOREIGN KEY ([TransportOrderID]) REFERENCES [Procurement].[TransportOrder] ([TransportOrderID])
+    CONSTRAINT [FK_BidWinner_Transporter] FOREIGN KEY ([TransportOrderID]) REFERENCES [Procurement].[Transporter] ([TransporterID])
 );
 
 
