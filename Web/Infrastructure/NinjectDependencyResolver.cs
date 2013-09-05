@@ -11,6 +11,8 @@ using Cats.Services.Logistics;
 using Cats.Services.PSNP;
 using Cats.Services.Transaction;
 using Cats.Services.Common;
+using log4net;
+
 
 namespace Cats.Infrastructure
 {
@@ -113,8 +115,9 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IUnitService>().To<UnitService>();
             kernel.Bind<ILetterTemplateService>().To<LetterTemplateService>();
-            kernel.Bind<ILog>().To<Log>();
+            //kernel.Bind<ILog>().To<Log>();
             kernel.Bind<ICurrencyService>().To<CurrencyService>();
+            kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
         }
     }
 }

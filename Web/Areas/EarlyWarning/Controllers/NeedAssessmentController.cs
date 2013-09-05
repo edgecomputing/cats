@@ -7,7 +7,7 @@ using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-
+using log4net;
 using log4net.Config;
 using Cats.Services.Common;
 
@@ -21,7 +21,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly INeedAssessmentDetailService _needAssessmentDetailService;
         private readonly ISeasonService _seasonService;
         private readonly ITypeOfNeedAssessmentService _typeOfNeedAssessmentService;
-        private readonly ILog _log;
+        public ILog _log;
 
      
 
@@ -29,7 +29,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                         IAdminUnitService adminUnitService, 
                                         INeedAssessmentHeaderService needAssessmentHeaderService, 
                                         INeedAssessmentDetailService needAssessmentDetailService, 
-                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService, ILog log)
+                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService,ILog log)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;
@@ -45,10 +45,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-
-           
-            _log.debug("checking for ...this is from need asssessment.");
-           _log.error("this is an error messsage from need assessment");
+          _log.Debug("debugging");
+            _log.Info("ifo");
+            _log.Warn("w");
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();

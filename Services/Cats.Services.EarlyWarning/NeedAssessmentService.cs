@@ -7,18 +7,22 @@ using Cats.Data.UnitWork;
 using Cats.Models;
 using log4net;
 
+
 namespace Cats.Services.EarlyWarning
 {
 
     public class NeedAssessmentService : INeedAssessmentService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private static readonly ILog Log = LogManager.GetLogger(typeof(NeedAssessmentService));
 
-        public NeedAssessmentService(IUnitOfWork unitOfWork)
+        public ILog Logger;
+
+        public NeedAssessmentService(IUnitOfWork unitOfWork, ILog logger)
         {
             this._unitOfWork = unitOfWork;
+            Logger = logger;
         }
+
         #region Default Service Implementation
         public bool AddNeedAssessment(NeedAssessment needAssessment)
         {
@@ -44,7 +48,7 @@ namespace Cats.Services.EarlyWarning
         }
         public bool DeleteById(int id)
         {
-            //Log.Error("Delete by id");
+            
             var entity = _unitOfWork.NeedAssessmentRepository.FindById(id);
             if (entity == null) return false;
             _unitOfWork.NeedAssessmentRepository.Delete(entity);
@@ -53,6 +57,7 @@ namespace Cats.Services.EarlyWarning
         }
         public List<NeedAssessment> GetAllNeedAssessment()
         {
+          
             return _unitOfWork.NeedAssessmentRepository.GetAll();
         }
         public NeedAssessment FindById(int id)
@@ -67,6 +72,7 @@ namespace Cats.Services.EarlyWarning
 
         public IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModel()
         {
+           Logger.Warn("warining");
             var needAssessment = _unitOfWork.NeedAssessmentRepository.Get(g => g.NeedAApproved == false); //featch unapproved need assessments
             return needAssessment.Select(need =>  new NeedAssessmentHeaderViewModel()
                                                                               {

@@ -233,6 +233,7 @@
     <Build Include="dbo\Views\vw_NeedAssessment.sql" />
     <Build Include="dbo\Tables\LetterTemplate_.sql" />
     <Build Include="dbo\Tables\Currency.sql" />
+    <Build Include="dbo\Tables\Log_1.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
