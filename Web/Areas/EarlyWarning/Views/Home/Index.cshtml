@@ -8,65 +8,64 @@
 
 
 <link href="~/Content/DashboardWidget.css" rel="stylesheet">
-
 <html>
 <body>
-    <div class="Row">
-    <div class="span5">
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-bookmark"></i>
-                <h3>Welcome to EarlyWarning</h3>
-            </div>
-            <div class="widget-content">
-
-                <div class="shortcuts">
-                    <a href="@Url.Action("Index", "Contribution", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                        <span class="shortcut-label">Contribution</span>
-                    </a>
-
-                    <a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                        <span class="shortcut-label">Gift Certificate</span>
-                    </a>
-
-                    <a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                        <span class="shortcut-label">HRD</span>
-                    </a>
-
-                    <a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
-                        <span class="shortcut-label">Need Assessment</span>
-                    </a>
-
-                    <a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-bell"></i>
-                        <span class="shortcut-label">Ration</span>
-                    </a>
-
-                    <a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                        <span class="shortcut-label">Relief Requisition</span>
-                    </a>
-
-                    <a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                        <span class="shortcut-label">Request</span>
-                    </a>
-
+    <div class="span12">
+    <div class="row">
+        
+        <div class="span6">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bookmark"></i>
+                    <h3>Welcome to Logistics</h3>
                 </div>
+                <div class="widget-content">
+                    <div class="shortcuts">
+                        <a href="@Url.Action("Index", "Contribution", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                            <span class="shortcut-label">Contribution</span>
+                        </a>
 
+                        <a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                            <span class="shortcut-label">Gift Certificate</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                            <span class="shortcut-label">HRD</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+                            <span class="shortcut-label">Need Assessment</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-bell"></i>
+                            <span class="shortcut-label">Ration</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                            <span class="shortcut-label">Relief Requisition</span>
+                        </a>
+
+                        <a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                            <span class="shortcut-label">Request</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="span5">
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-bookmark"></i>
-                <h3>Other Contents</h3>
-            </div>
-            <div class="widget-content">
-               <h4>Other Contents go here</h4> 
+
+        <div class="span6">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bookmark"></i>
+                    <h3>Other Contents</h3>
+                </div>
+                <div class="widget-content">
+                    <h4>Other Contents go here</h4>
+                </div>
             </div>
         </div>
+        
     </div>
-</div>
-
+        <div class="span12">
 </body>
 </html>

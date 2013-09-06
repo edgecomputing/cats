@@ -10,51 +10,43 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_gift"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")" title="save"></a>
 }
-<h4>@Translator.Translate("New Gift Certificate")</h4>
-@*<p>
-    @Translator.Translate("Use this form to create new or edit gift certificates.") <span class="required">*</span> @Translator.Translate("marks required fields.")
-</p>*@
+<h4>@Html.Translate("New Gift Certificate")</h4>
+
 @{ViewBag.IsInEditMode = false; }
 
-@using (Html.BeginForm("Create", "GiftCertificate", FormMethod.Post, new { id = "frm_create_gift" }))
+@using (Html.BeginForm("Create", "GiftCertificate", FormMethod.Post, new { id = "frm_create_gift", @class = "form-horizontal" }))
 {
     @Html.ValidationSummary(true)
            
     @Html.HiddenFor(model => model.GiftCertificateID)
     @Html.HiddenFor(model => model.rowCount)
-          
-    
-    
-        <h5>@Translator.Translate("Gift Certificate Headers")</h5>
-  
-    <div class="form-horizontal">
+               
+       
         <table class="borderless" style="vertical-align: top">
             <tr>
                 <td style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
-                            
-                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) 
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"))
                         </div>
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })    
+                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker", @placeholder = DateTime.Now.ToShortDateString() })
                             @Html.ValidationMessageFor(model => model.GiftDate)
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport")) 
+                            @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport"))
                         </div>
                         <div class="controls">
 
                             @Html.DropDownList("DModeOfTransport", string.Empty)
-
                             @Html.ValidationMessageFor(model => model.DModeOfTransport)
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program")) 
+                            @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program"))
                         </div>
                         <div class="controls">
 
@@ -72,13 +64,13 @@
                             @Html.ValidationMessageFor(model => model.DonorID)
                         </div>
                     </div>
-                      <div class="control-group">
+                    <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.DeclarationNumber) 
+                            @Html.LabelFor(model => model.DeclarationNumber)
                         </div>
                         <div class="controls">
 
-                            @Html.EditorFor(model=>model.DeclarationNumber)
+                            @Html.EditorFor(model => model.DeclarationNumber)
 
                             @Html.ValidationMessageFor(model => model.DeclarationNumber)
 
@@ -86,7 +78,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type")) 
+                            @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type"))
                         </div>
                         <div class="controls">
 
@@ -118,7 +110,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) 
+                            @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number"))
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.ReferenceNo)
@@ -127,7 +119,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) 
+                            @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel"))
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.Vessel)
@@ -136,19 +128,18 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) 
+                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA"))
                         </div>
 
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })    
+                            @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })
                             @Html.ValidationMessageFor(model => model.ETA)
                         </div>
                     </div>
                 </td>
             </tr>
         </table>
-    </div>
      
 
-   }     
+}
 

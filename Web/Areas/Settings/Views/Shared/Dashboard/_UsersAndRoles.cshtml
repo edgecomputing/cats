@@ -1,0 +1,33 @@
+﻿<div class="widget stacked">
+    <div id="usersHeader" class="widget-header">
+        <i class=""></i>
+        <h3>Users and Roles</h3>
+    </div>
+
+    <div id="usersContent" class="widget-content">
+
+        <div class="">
+            <a href="@Url.Action("Index", "Users", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                <span class="shortcut-label">Users</span>
+            </a>
+            <br />
+            <a href="@Url.Action("", "", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                <span class="shortcut-label">Groups</span>
+            </a>
+            <br />
+            <a href="@Url.Action("New", "Users", new { Area = "Settings" })" ><i class="shortcut-icon icon-inbox"></i>
+                <span class="shortcut-label"> Create New User</span>
+            </a>
+            <br />
+            <a href="@Url.Action("", "", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+                <span class="shortcut-label">Edit User</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#usersHeader").click(function () {
+        $("#usersContent").slideToggle("slow", "linear");
+    });
+</script>
