@@ -22,7 +22,18 @@ namespace Cats.Helpers
                 return "Guest User";
             }                       
         }
-
+        public static string UserLanguagePreference(this HtmlHelper helper)
+        {
+            try
+            {
+                var user = (UserIdentity)HttpContext.Current.User.Identity;
+                return GetUser(user.Name).LanguageCode;
+            }
+            catch (Exception)
+            {
+                return "Guest User";
+            }
+        }
         public static UserInfo GetUser(string userName)
         {
             var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof (IUserAccountService));
