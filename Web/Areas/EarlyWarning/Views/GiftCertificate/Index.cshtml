@@ -69,7 +69,7 @@
                 c.Bound(gc => gc.EstimatedTax).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Tax"));
                 c.Bound(gc => gc.FundSource).Title(Translator.Translate("Fund Source"));
             })
-        ).Filterable().Sortable().Pageable().Sortable()
+        ).Filterable().Sortable().Sortable().Scrollable().HtmlAttributes(new { style = "width:100%; height:550px;" })
    )
 </div>
 <script type="text/javascript">

@@ -9,8 +9,8 @@
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     var lang = user.Profile.LanguageCode;
     ViewBag.CurrentUser = user;
-                //  Translator.CurrentLanguage = lang;
-                //   Translator.LoadTexts();
+                        //  Translator.CurrentLanguage = lang;
+                        //   Translator.LoadTexts();
 }
 
 <div class="navbar navbar-fixed-top navbar">
@@ -37,11 +37,12 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })">@Html.Translate("Gift Certificate")</a></li>
                                 <li class="divider"></li>
-                                <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })">@Html.Translate("HRD")</a></li>
                                 <li><a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })">@Html.Translate("Needs Assessment")</a></li>
+                                <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })">@Html.Translate("HRD")</a></li>
                                 <li class="divider"></li>
                                 <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">@Html.Translate("Requests")</a></li>
                                 <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })">@Html.Translate("Requisitions")</a></li>
+                                <li class="divider"></li>
                                 <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })">@Html.Translate("Rations")</a></li>
                                 <li class="divider" />
                                 <li><a href="#">@Translator.Translate("Reports") </a></li>
