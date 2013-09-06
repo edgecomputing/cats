@@ -7,26 +7,27 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 }
+@{var record = 0;}
 
+@section LeftBar{
+
+    @Html.Partial("_NeedAssessmentMainLeftBar")
+}
 @section Toolbar
 {
 
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddRegion", "NeedAssessment")"></a>
+     
 }
 
 
 <fieldset>
     <legend>
-       @Translator.Translate("Beneficiary numbers and duration of assisstance");
+       @Translator.Translate("Beneficiary numbers and duration of assisstance")
     </legend>
 </fieldset>
 
-@{var record = 0;}
 
-@section LeftBar{
-
-    @Html.Partial("_NeedAssessmentMainLeftBar");
-}
  
 
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
@@ -81,7 +82,6 @@
         .Read("NeedAssessmentRead", "NeedAssessment")
     )
 )
-
 <script>
     function regionsChange() {
         var value = this.value(),
@@ -95,7 +95,7 @@
         }
     }
 </script>
-
+    
 <style scoped="scoped">
     #grid .k-toolbar
     {
