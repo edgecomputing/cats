@@ -15,18 +15,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IContributionService _contributionService;
         private readonly IContributionDetailService _contributionDetailService;
         private readonly IDonorService _donorService;
-        private readonly ICommodityService _commodityService;
+        private readonly ICurrencyService _currencyService;
         private readonly IHRDService _hrdService;
         // GET: /EarlyWarning/Contribution/
         public ContributionController(IContributionService contributionService,
                                       IContributionDetailService contributionDetailService,
-                                      IDonorService donorService, ICommodityService commodityService,
+                                      IDonorService donorService, ICurrencyService currencyService,
                                       IHRDService hrdService)
         {
             _contributionService = contributionService;
             _contributionDetailService = contributionDetailService;
             _donorService = donorService;
-            _commodityService = commodityService;
+            _currencyService = currencyService;
             _hrdService = hrdService;
         }
 
@@ -56,17 +56,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (contribution !=null && ModelState.IsValid)
             {
-                //var donors = _donorService.FindBy(m => m.DonorID == contribution.DonorID);
-                //var details = (from donor in donors
-                //               select new ContributionDetail()
-                //                   {
-                //                       CommodityID = 1,
-                //                       PledgeReferenceNo = "AB123",
-                //                       PledgeDate = DateTime.Now,
-                //                       Quantity = 0
-                //                   }).ToList();
-
-                //contribution.ContributionDetails = details;
                 _contributionService.AddContribution(contribution);
                 return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
             }
@@ -81,7 +70,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var contribution = _contributionService.Get(m => m.ContributionID == id, null, "ContributionDetails").FirstOrDefault();
             ViewBag.DonorID = contribution.Donor.Name;
-            ViewData["CommodityID"] = _commodityService.GetAllCommodity();
+            ViewBag.CurrencyID = _currencyService.GetAllCurrency();
             if (contribution != null)
             {
                 return View(contribution);
@@ -106,11 +95,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var contributionDetail = new ContributionDetail()
             {
                 ContributionDetailID = contributionDetailViewModel.ContributionDetailID,
-                ContributiionID = contributionDetailViewModel.ContributionID,
-                CommodityID = contributionDetailViewModel.CommodityID,
+                ContributionID = contributionDetailViewModel.ContributionID,
+                CurrencyID = contributionDetailViewModel.CurrencyID,
                 PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber,
                 PledgeDate = contributionDetailViewModel.PledgeDate,
-                Quantity = contributionDetailViewModel.Quantity
+                Amount = contributionDetailViewModel.Amount
 
 
             };
@@ -123,11 +112,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (contributionDetailViewModel != null && ModelState.IsValid)
             {
                 var origin = _contributionDetailService.FindById(contributionDetailViewModel.ContributionDetailID);
-                origin.Quantity = contributionDetailViewModel.Quantity;
-                origin.PledgeDate = contributionDetailViewModel.PledgeDate;
-                origin.PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber;
-                origin.CommodityID = contributionDetailViewModel.CommodityID;
-                _contributionDetailService.EditContributionDetail(origin);
+                if (origin != null)
+                {
+                    origin.ContributionID = contributionDetailViewModel.ContributionID;
+                    origin.PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber;
+                    origin.PledgeDate = contributionDetailViewModel.PledgeDate;
+                    origin.Amount = contributionDetailViewModel.Amount;
+                    origin.CurrencyID = contributionDetailViewModel.CurrencyID;
+                    _contributionDetailService.EditContributionDetail(origin);
+                }
             }
             return Json(new[] { contributionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
@@ -170,12 +163,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     select new ContributionDetailViewModel()
                         {
                             ContributionDetailID = contributionDetails.ContributionDetailID,
-                            ContributionID = contributionDetails.ContributiionID,
-                            CommodityID = contributionDetails.CommodityID,
-                            Commodity = contributionDetails.Commodity.Name,
+                            ContributionID = contributionDetails.ContributionID,
+                            CurrencyID = contributionDetails.CurrencyID,
+                            Currency = contributionDetails.Currency.Name,
                             PledgeReferenceNumber = contributionDetails.PledgeReferenceNo,
                             PledgeDate = contributionDetails.PledgeDate,
-                            Quantity = contributionDetails.Quantity
+                            Amount = contributionDetails.Amount
 
 
                         });
@@ -224,15 +217,26 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     from detail in summary.ContributionDetails
                     select new ContributionSummaryViewModel()
                         {
-                            ContributionID = detail.ContributiionID,
+                            ContributionID = detail.ContributionID,
                             HRDID = summary.HRDID,
                             DonorID = summary.DonorID,
                             Donor = summary.Donor.Name,
-                            CommodityID = detail.CommodityID,
-                            Commodity = detail.Commodity.Name,
-                            Ammount = detail.Quantity
+                            CurrencyID = detail.CurrencyID,
+                            Currency = detail.Currency.Name,
+                            Ammount = detail.Amount
                         });
         }
+
+   public ActionResult Delete(int id)
+   {
+       var contributionDetail = _contributionDetailService.FindById(id);
+       if(contributionDetail!=null)
+       {
+           _contributionDetailService.DeleteContributionDetail(contributionDetail);
+           return RedirectToAction("Details","Contribution",new {id=contributionDetail.ContributionID});
+       }
+       return RedirectToAction("Index");
+   }
 
 
     

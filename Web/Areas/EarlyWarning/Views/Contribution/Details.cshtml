@@ -15,6 +15,24 @@
     <h4> Pledge by Donor:@ViewBag.DonorID </h4>
 
 </div>
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Contribution?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionDetailViewModel>() 
 .Name("grid").Columns(columns =>
     {
@@ -23,10 +41,11 @@
         //columns.Bound(m => m.ContributionID);
         columns.Bound(m => m.PledgeReferenceNumber);
         columns.Bound(m => m.PledgeDate).Format("{0:MM/dd/yyyy}");
-        columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewData["CommodityID"], "CommodityID", "Name").Title("Commodity");
-        columns.Bound(m => m.Quantity).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}"); 
+        columns.Bound(m => m.Amount).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
+        columns.ForeignKey(m => m.CurrencyID, (IEnumerable)ViewBag.CurrencyID, "CurrencyID", "Code").Title("Currency");
 
-        columns.Command(command => command.Destroy());
+       // columns.Command(command => command.Destroy());
+        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
     .ToolBar(toolbar =>
         {
@@ -41,18 +60,41 @@
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
-      .Aggregates(aggregates =>aggregates.Add(p => p.Quantity).Sum())
+      .Aggregates(aggregates =>aggregates.Add(p => p.Amount).Sum())
         .Model(model =>
             {
                 model.Id(m=>m.ContributionID);
-                model.Field(m => m.Quantity).Editable(true);
+                model.Field(m => m.ContributionDetailID);
+                //model.Field(m => m.Amount).Editable(true);
+                //model.Field(m => m.PledgeDate).Editable(true);
+                //model.Field(m => m.PledgeReferenceNumber).Editable(true);
+                //model.Field(m => m.CurrencyID).Editable(true);
             }
     )
         .Read(read => read.Action("ContributionDetail_Read", "Contribution",new{id=Model.ContributionID}))
          .Update(update => update.Action("ContributionDetail_Update", "Contribution"))
          .Create(create => create.Action("ContributionDetail_Create", "Contribution",new {id=Model.ContributionID}))
-         .Destroy(destroy=>destroy.Action("ContributionDetail_Destroy","Contribution"))
+         //.Destroy(destroy=>destroy.Action("ContributionDetail_Destroy","Contribution"))
     )
     )
 
-      
+      <script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "Contribution")" + "/" + dataItem.ContributionDetailID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>

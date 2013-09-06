@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Cats.Data.Security;
 using Cats.Models.Security;
 using NetSqlAzMan.Interfaces;
+using NetSqlAzMan.Providers;
+using Cats.Models.Security.ViewModels;
 
 namespace Cats.Services.Security
 {
@@ -23,6 +25,7 @@ namespace Cats.Services.Security
         #region Private vars and Constructors
 
         private readonly IUnitOfWork _unitOfWork;
+        private NetSqlAzManRoleProvider provider = new NetSqlAzManRoleProvider();
 
         public UserAccountService(IUnitOfWork unitOfWork)
         {
@@ -33,14 +36,37 @@ namespace Cats.Services.Security
 
         #region Default Service Implementation
 
-        public bool Add(UserAccount entity)
+        public bool Add(UserAccount entity, Dictionary<string,List<string>> roles)
         {
-            // Add the user account first and latter set default preference and profiles for user
-            _unitOfWork.UserRepository.Add(entity);
-            _unitOfWork.Save();
+            try
+            {
+                // Add the user account first and latter set default preference and profiles for user
+                _unitOfWork.UserRepository.Add(entity);
+                _unitOfWork.Save();
+                foreach (var Role in roles)
+                    AddUserToRoles(entity.UserName, Role.Value.ToArray(), "CATS", Role.Key);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (ApplicationException ex)
+            {
+                throw new ApplicationException(string.Format("An error occurred while saving. Detail: {0} ", ex.Message));
+            }
+        }
 
-            
-            return true;
+        
+        public bool Add(UserAccount entity, string store, string application)
+        {
+            try
+            {
+                AddUserToRoles(entity.UserName, entity.Roles, store, application);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (ApplicationException ex)
+            {
+                throw new ApplicationException(string.Format("An error occurred while saving. Detail: {0} ", ex.Message));
+            }
         }
 
         public bool Save(UserAccount entity)
@@ -297,7 +323,6 @@ namespace Cats.Services.Security
         public string[] GetUserPermissions(int userId, string store, string application)
         {
             // throw new NotImplementedException();
-            List<string> UserPermissions = new List<string>();
             string userSid = userId.ToString("X");
             string zeroes = string.Empty;
             for (int start = 0; start < 8 - userSid.Length; start++)
@@ -305,13 +330,65 @@ namespace Cats.Services.Security
             NetSqlAzMan.Cache.StorageCache storage = new NetSqlAzMan.Cache.StorageCache(System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString);
             storage.BuildStorageCache(store, application);
             NetSqlAzMan.Cache.AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, zeroes + userSid, DateTime.Now);
-            foreach (NetSqlAzMan.Cache.AuthorizedItem item in items)
+
+            return (from t in items where t.Authorization == AuthorizationType.Allow select t.Name).ToArray();
+        }
+
+        public string[] GetRoles(string application)
+        {
+            provider.ApplicationName = application;
+            return  provider.GetAllRoles();
+        }
+
+        public List<Role> GetRolesList(string application)
+        {
+            var roles = new List<Role>();
+            foreach (string role in GetRoles(application))
             {
-                if (item.Authorization == AuthorizationType.Allow)
-                    UserPermissions.Add(item.Name);
+                roles.Add(new Role() { RoleName = role });
             }
-            //  NetSqlAzMan.Providers.NetSqlAzManRoleProvider provider = new NetSqlAzMan.Providers.NetSqlAzManRoleProvider();
-            return UserPermissions.ToArray();
+            return roles;
+        }
+
+
+        public List<Application> GetApplications(string store)
+        {
+            var apps = new List<Cats.Models.Security.ViewModels.Application>();
+
+            provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, ""));
+            Dictionary<string, IAzManApplication> Application = provider.GetStorage().Stores["CATS"].Applications;
+
+            // Get all applications together with their corresponding roles
+            foreach (var app in Application)
+            {
+                // Get all roles for the current application
+                apps.Add(new Models.Security.ViewModels.Application { ApplicationName = app.Value.Name,Roles=GetRolesList(app.Value.Name) });
+            }
+
+            return apps;
+        }
+
+
+        public void AddUserToRoles(string userName, string[] Roles, string store, string application)
+        {
+            string[] UserName = new string[] { userName };
+           // provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, application));
+            provider.ApplicationName = application;
+            provider.AddUsersToRoles(UserName, Roles);
+        }
+
+        private System.Collections.Specialized.NameValueCollection ConfigureAuthorizationRoleProvider(string store, string application)
+        {
+            var config = new System.Collections.Specialized.NameValueCollection();
+
+            config["connectionStringName"] = "SecurityContext";
+            config["storeName"] = store;
+            config["applicationName"] = application;
+            config["userLookupType"] = "LDAP";
+            config["defaultDomain"] = "";
+            config["UseWCFCacheService"] = "false";
+
+            return config;
         }
 
         public string GenerateString(Random rng, int length)

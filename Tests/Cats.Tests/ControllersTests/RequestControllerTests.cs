@@ -270,12 +270,13 @@ namespace Cats.Tests.ControllersTests
                                   }
                           };
             var hrdService = new Mock<IHRDService>();
+            var appService = new Mock<IApplicationSettingService>();
             hrdService.Setup(
                 t =>
                 t.Get(It.IsAny<Expression<Func<HRD, bool>>>(), It.IsAny<Func<IQueryable<HRD>, IOrderedQueryable<HRD>>>(),
                       It.IsAny<string>())).Returns(hrds);
 
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object,requestDetailService.Object, commonService.Object, hrdService.Object);
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object);
 
         }
 

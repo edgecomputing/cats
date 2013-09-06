@@ -28,5 +28,7 @@ namespace Cats.Models.Security
         public string DefaultTheme { get; set; }
         public virtual UserPreference UserPreference { get; set; }
         public virtual UserProfile UserProfile { get; set; }
+        public string Role { get; set; }
+        public string[] Roles { get; set; }
     }
 }

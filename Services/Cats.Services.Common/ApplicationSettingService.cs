@@ -56,7 +56,7 @@ namespace Cats.Services.Common
         }
         public string FindValue(string name)
         {
-            List<ApplicationSetting> ret = FindBy(t => t.SettingName == "PSNPWorkflow");
+            List<ApplicationSetting> ret = FindBy(t => t.SettingName == name);
             if (ret.Count == 1)
             {
                 return ret[0].SettingValue;
@@ -77,7 +77,26 @@ namespace Cats.Services.Common
             AddApplicationSetting(apset);
 
         }
+        private int getIntValue(string name)
+        {
+            int val = 0;
+            try
+            {
+                val = Int32.Parse(FindValue(name));
             }
+            catch (Exception e) { }
+            return val;
+        }
+        public int getPSNPWorkflow()
+        {
+            return getIntValue("PSNPWorkflow");
+        }
+        public int getDefaultRation()
+        {
+            return getIntValue("DefaultRation");
+        }
+            
+    }
 
         
 

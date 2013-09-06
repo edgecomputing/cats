@@ -11,6 +11,8 @@ using Cats.Infrastructure;
 using Cats.Services.Security;
 using Cats.Helpers;
 using LanguageHelpers.Localization.DataAnnotations;
+using log4net.Core;
+
 namespace Cats
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -20,6 +22,7 @@ namespace Cats
     {
         protected void Application_Start()
         {
+           
             GlobalConfiguration.Configuration.Filters.Add(new ElmahErrorAttribute());
             AreaRegistration.RegisterAllAreas();
 
@@ -30,7 +33,9 @@ namespace Cats
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ModelMetadataProviders.Current = new LocalizedDataAnnotationsModelMetadataProvider();
-            
+
+            log4net.Config.XmlConfigurator.Configure();
+            DependencyResolver.Current.GetService<ILogger>();
 
         }
 

@@ -18,7 +18,7 @@ namespace Cats.Models
             this.RationDetails=new List<RationDetail>();
             this.HRDCommodityDetails=new List<HRDCommodityDetail>();
             this.GiftCertificateDetails = new List<GiftCertificateDetail>();
-            this.ContributionDetails=new List<ContributionDetail>();
+            
         }
 
         public int CommodityID { get; set; }
@@ -42,7 +42,6 @@ namespace Cats.Models
         public virtual ICollection<HRDCommodityDetail> HRDCommodityDetails  { get; set; }
         public virtual ICollection<RequestDetailCommodity> RequestDetailCommodities { get; set; }
         public virtual ICollection<GiftCertificateDetail> GiftCertificateDetails { get; set; }
-        public virtual ICollection<ContributionDetail> ContributionDetails { get; set; } 
 
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
  
