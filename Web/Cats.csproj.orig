@@ -62,9 +62,6 @@
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -89,7 +86,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
@@ -143,8 +139,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Reporting, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
-    <Reference Include="Telerik.ReportViewer.WebForms, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be, processorArchitecture=MSIL" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
@@ -168,7 +162,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
-    <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -179,7 +172,6 @@
     <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
-    <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
@@ -198,9 +190,9 @@
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
-    <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
@@ -213,7 +205,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
-    <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
@@ -241,14 +232,12 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
-    <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
-    <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -261,7 +250,6 @@
     <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
-    <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -270,32 +258,31 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
-    <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\AmharicEditorHelper.cs">
+    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\ElmahErrorAttribute.cs">
+    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\EthiopianDate.cs">
+    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\getGregorianDate.cs">
+    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\RequestHelper.cs">
+    <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\TemplateGenerator.cs" />
-    <Compile Include="Helpers\UserAccountHelper.cs">
+    <Compile Include="Infrastructure\Helpers\TemplateGenerator.cs" />
+    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\UserRoleHelper.cs">
+    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\ReportHelper.cs" />
@@ -313,7 +300,6 @@
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
-    <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -655,6 +641,7 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
+    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
@@ -668,7 +655,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
@@ -719,6 +706,10 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Web.config" />
+    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\GenerateTemplate.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Index.cshtml" />
     <Content Include="Areas\Transaction\Views\Web.config" />
@@ -760,11 +751,6 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -797,24 +783,13 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
+=======
     <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
-    <Content Include="Areas\Logistics\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
-    <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Commodity.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Locations_FDPs.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_TransactionAndJournals.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_BusineesProcess.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_UsersAndRoles.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
+>>>>>>> d467d5ee7f1cb6f5aef511271953649b74bcf6bf
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1017,7 +992,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
@@ -1025,21 +1000,21 @@
     <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\Currency.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\Date.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\DateTime.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\GridForeignKey.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\Integer.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\Number.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\String.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\Time.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\AdminUnitEditor.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\ProgramEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Integer.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
     <Content Include="Views\Shared\_Dashboard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Templates\gift_Certificate.dotx" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\AmharicTextArea.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\AmharicTextBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
     <Content Include="Views\Shared\_PieRequests.cshtml" />
     <Content Include="Views\Shared\_promotWorkflow.cshtml" />
     <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
@@ -1048,16 +1023,21 @@
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
-    <Content Include="Views\Shared\Dashboard\EditorTemplates\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
+
     <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
+
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
-    <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1084,7 +1064,7 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
@@ -1128,31 +1108,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
-    <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PILOT|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

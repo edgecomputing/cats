@@ -71,18 +71,13 @@
         columns.Bound(p => p.FoodRatio);
         columns.Bound(p => p.CashRatio);
 
-        columns.Command(command =>
-        {
-            // command.Custom("Edit").Click("editRecord");
-            // command.Custom("Detail").Click("detailRecord");
-            command.Custom("Delete").Click("deleteRecord").Text(Translator.Translate("Delete"));
-        });
+        
     })
     .DataSource(dataSource => dataSource
 
         .Ajax()
         //      .PageSize(20)
-        .Batch(true)
+      //  .Batch(true)
         .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
         .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
         .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
@@ -99,13 +94,14 @@
         })
         )
     
-    .HtmlAttributes(new { style = "width:100%; height:450px;" })
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
-    .ToolBar(toolbar => toolbar.Save().SaveText(Translator.Translate("Save")).CancelText(Translator.Translate("Cancel")))
+    .HtmlAttributes(new { style = "width:100%; height:550px;" })
+ //   .Editable(editable => editable.Mode(GridEditMode.InCell))
+ //   .ToolBar(toolbar => toolbar.Save().SaveText(Translator.Translate("Save")).CancelText(Translator.Translate("Cancel")))
         // .Pageable()
     .Sortable()
     .Scrollable()
     .Filterable()
+    .HtmlAttributes(new { style = "width:100%; height:550px;" })
    // .Groupable()
 
 )

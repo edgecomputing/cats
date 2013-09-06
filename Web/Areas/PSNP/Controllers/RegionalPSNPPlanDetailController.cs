@@ -97,12 +97,35 @@ namespace Cats.Areas.PSNP.Controllers
                         Item4Ratio = (int)pd.Item4Ratio
                     });
         }
-        public ActionResult Index(int id = 1)
+        public ActionResult Index(int id = 0)
         {
+            if (id == 0)
+            {
+                return RedirectToAction("Index", "RegionalPSNPPlan");
+            }
             IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
             IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
             RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
             
+            if (plan != null)
+            {
+                ViewBag.PsnpPlan = plan;
+                filledData = plan.RegionalPSNPPlanDetails;
+                IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(plan.Region.AdminUnitID, id);
+                allFDPData = toViewModel(filledData, allFDPs);
+            }
+            return View(allFDPData);
+        }
+        public ActionResult Edit(int id = 0)
+        {
+            if (id == 0)
+            {
+                return RedirectToAction("Index", "RegionalPSNPPlan");
+            }
+            IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
+            IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
+            RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
+
             if (plan != null)
             {
                 ViewBag.PsnpPlan = plan;
@@ -213,7 +236,7 @@ namespace Cats.Areas.PSNP.Controllers
 
         //
         // GET: /PSNP/RegionalPSNPPlanDetail/Edit/5
-
+        /*
         public ActionResult Edit(int id = 0)
         {
             RegionalPSNPPlanDetail regionalpsnpplandetail = _regionalPSNPPlanDetailService.FindById(id);
@@ -224,7 +247,7 @@ namespace Cats.Areas.PSNP.Controllers
             loadLookups();
             return View(regionalpsnpplandetail);
         }
-
+        */
         //
         // POST: /PSNP/RegionalPSNPPlanDetail/Edit/5
 

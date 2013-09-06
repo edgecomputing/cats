@@ -18,7 +18,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public Nullable<int> Round { get; set; }
         public string RequisitionNo { get; set; }
         public Nullable<int> RequestedBy { get; set; }
-        public Nullable<System.DateTime> RequestedDate { get; set; }
+        public DateTime RequestedDate { get; set; }
         [Display(Name = "Request Date (ET)")]
         public string RequestedDateEt { get; set; }
         public Nullable<int> ApprovedBy { get; set; }
