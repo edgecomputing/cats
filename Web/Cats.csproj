@@ -240,6 +240,7 @@
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
+    <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -658,7 +659,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-    <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
@@ -791,6 +792,16 @@
     <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Commodity.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Locations_FDPs.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_TransactionAndJournals.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_BusineesProcess.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_UsersAndRoles.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1036,6 +1047,7 @@
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
+    <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

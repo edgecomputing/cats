@@ -9,18 +9,7 @@
 
 <link href="~/Content/DashboardWidget.css" rel="stylesheet">
 
-<html>
-<body>
-    <div class="Row">
-    <div class="span5">
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-bookmark"></i>
-                <h3>Welcome to EarlyWarning</h3>
-            </div>
-            <div class="widget-content">
-
-                <div class="shortcuts">
+                
                     <a href="@Url.Action("Index", "Contribution", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
                         <span class="shortcut-label">Contribution</span>
                     </a>
@@ -48,25 +37,3 @@
                     <a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
                         <span class="shortcut-label">Request</span>
                     </a>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-    
-    <div class="span5">
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-bookmark"></i>
-                <h3>Other Contents</h3>
-            </div>
-            <div class="widget-content">
-               <h4>Other Contents go here</h4> 
-            </div>
-        </div>
-    </div>
-</div>
-
-</body>
-</html>

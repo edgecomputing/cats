@@ -13,28 +13,15 @@
     @Html.Partial("_AdminLeftBar")
 }
 
-<div class="well summary">
-    <h2> Administration Dashboard </h2>
+<div class="Span12">
+    <h4> Administration Dashboard </h4>
     <ul>
-        <!--
-            <li>
-                <a href="#"><span class="count">3</span> Projects</a>
-            </li>
-            <li>
-                <a href="#"><span class="count">27</span> Tasks</a>
-            </li>
-            <li>
-                <a href="#"><span class="count">7</span> Messages</a>
-            </li>
-            <li class="last">
-                <a href="#"><span class="count">5</span> Files</a>
-            </li>
-            -->
-    </ul>
+        @Html.Partial("_DynamicAdminDashboard")
+        </ul>
 </div>
 
-<ul class="pager">
+@*<ul class="pager">
     <li class="next">
         <a href="#">More &rarr;</a>
     </li>
-</ul>
+</ul>*@

@@ -2,7 +2,7 @@
     @(Html.Kendo().DropDownList()
                     .Name("CurrentYear")
                     .DataSource(d => d.Read("getYears", "Dashboard"))
-                    .Events(e => e.Select("refresh"))
+                    .Events(e => e.Change("refresh"))
                     )
   <div class="chart-inner">
         <div id="containerNA" style="width: 100%; height: 100%;">
