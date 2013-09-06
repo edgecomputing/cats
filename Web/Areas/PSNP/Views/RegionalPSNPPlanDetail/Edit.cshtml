@@ -1,86 +1,146 @@
-﻿@model Cats.Models.RegionalPSNPPlanDetail
+﻿@using Kendo.Mvc.UI;
+@using Cats.Models;
+@using Cats.Models.PSNP;
+@using LanguageHelpers.Localization
+@model IEnumerable<Cats.Models.PSNP.PSNPPlanDetailView>
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
-<h2>Edit</h2>
-
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>RegionalPSNPPlanDetail</legend>
-
-        @Html.HiddenFor(model => model.RegionalPSNPPlanDetailID)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.RegionalPSNPPlanID, "RegionalPSNPPlan")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("RegionalPSNPPlanID", String.Empty)
-            @Html.ValidationMessageFor(model => model.RegionalPSNPPlanID)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PlanedFDPID, "PlanedFDP")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("PlanedFDPID", String.Empty)
-            @Html.ValidationMessageFor(model => model.PlanedFDPID)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.BeneficiaryCount)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.BeneficiaryCount)
-            @Html.ValidationMessageFor(model => model.BeneficiaryCount)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.FoodRatio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.FoodRatio)
-            @Html.ValidationMessageFor(model => model.FoodRatio)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CashRatio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.CashRatio)
-            @Html.ValidationMessageFor(model => model.CashRatio)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Item3Ratio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Item3Ratio)
-            @Html.ValidationMessageFor(model => model.Item3Ratio)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Item4Ratio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Item4Ratio)
-            @Html.ValidationMessageFor(model => model.Item4Ratio)
-        </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
+@section LeftBar
+{
+    @Html.Partial("_PSNPDetailLeftBar")
+       
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    
+@{
+    List<int> regionalBenCount = new List<int>();
+    for(int r =0;r< ViewBag.PsnpPlan.Duration;r++)
+    {
+        regionalBenCount.Add(0);
+    }
+    foreach (PSNPPlanDetailView fdp in Model)
+    {
+        for (int r = 0; r < fdp.FoodRatio; r++)
+        {
+            regionalBenCount[r]+=(int)fdp.BeneficiaryCount;
+        }
+    }
 }
+@if (ViewBag.psnpPlan != null)
+{
+    int i = 0;
+    <div>
+    <p><b>PSNP Plan</b>: <span>@ViewBag.PsnpPlan.Region.Name Region - </span>  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</p>
+   
+        <!-- <table style="width:100%">
+        <tr>
+            @foreach (var r in regionalBenCount)
+            {
+                i++; 
+                <td>Round - @i</td>
+                
+            }
+        </tr>
+        <tr>
+            @foreach (var r in regionalBenCount)
+            {
+                <td>@r</td>
+               
+            }
+        </tr>
+    </table>-->
+    
+    </div>
+}
+@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        /* columns.Bound(p => p.RegionalPSNPPlanDetailID);
+         columns.Bound(p => p.RegionalPSNPPlanID);
+        
+         columns.Bound(p => p.FDPID);*/
+
+        columns.Bound(p => p.ZoneName);
+
+        columns.Bound(p => p.WoredaName);
+        columns.Bound(p => p.FDPName);
+        columns.Bound(p => p.BeneficiaryCount);
+        columns.Bound(p => p.FoodRatio);
+        columns.Bound(p => p.CashRatio);
+
+        columns.Command(command =>
+        {
+            // command.Custom("Edit").Click("editRecord");
+            // command.Custom("Detail").Click("detailRecord");
+            command.Custom("Delete").Click("deleteRecord").Text(Translator.Translate("Delete"));
+        });
+    })
+    .DataSource(dataSource => dataSource
+
+        .Ajax()
+        //      .PageSize(20)
+        .Batch(true)
+        .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
+        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
+        .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+        .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+        .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
+        .Model(model =>
+        {
+            //model.Id(p => p.TransportBidQuotationID);
+            model.Field(p => p.ZoneName).Editable(false);
+            model.Field(p => p.WoredaName).Editable(false);
+            model.Field(p => p.FDPName).Editable(false);
+           // model.Field(p => p.DestinationZone).Editable(false);
+            //model.Field(p => p.DestinationName).Editable(false);
+        })
+        )
+    
+    .HtmlAttributes(new { style = "width:100%; height:450px;" })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .ToolBar(toolbar => toolbar.Save().SaveText(Translator.Translate("Save")).CancelText(Translator.Translate("Cancel")))
+        // .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+   // .Groupable()
+
+)
+<script>
+    var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })"
+    function deleteRecord(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var id=dataItem.RegionalPSNPPlanDetailID;
+        if(confirm("Are you sure you want to delete this record? " + id)==true)
+        {
+            var post_values={id:id};
+            
+            $.post(
+                    deleteURL
+                    ,post_values
+                    ,function (data)
+                    {
+                        $("#grid").data("kendoGrid").dataSource.read();
+                    }
+                 );
+
+        }
+    }
+    function filterInfo() {
+        return {id:@ViewBag.PsnpPlan.RegionalPSNPPlanID};
+    }
+    function saverecords()
+    {
+        $("#grid").data("kendoGrid").dataSource.update();
+    }
+    function reloadrecords()
+    {
+        $("#grid").data("kendoGrid").dataSource.read();
+    }
+
+</script>
