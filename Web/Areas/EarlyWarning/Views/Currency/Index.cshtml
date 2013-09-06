@@ -13,6 +13,24 @@
 {
     @Html.Partial("_CurrencyLeftBar");
 }
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Currency?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
 <div>
     <h4>List of Currencies</h4>
 </div>
@@ -23,7 +41,8 @@
         columns.Bound(p => p.CurrencyCode);
         columns.Bound(p => p.CurrencyName);
         
-       columns.Command(command => command.Destroy());
+       //columns.Command(command => command.Destroy());
+       columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
     .ToolBar(toolbar =>
         {
@@ -41,8 +60,28 @@
            .Read(read => read.Action("Currency_Read", "Currency"))
            .Update(update => update.Action("Currency_Update", "Currency"))
            .Create(create => create.Action("Currency_Create", "Currency"))
-           .Destroy(destroy=>destroy.Action("Currency_Destroy","Currency"))
+           //.Destroy(destroy=>destroy.Action("Currency_Destroy","Currency"))
  
      )
    
       )
+<script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "Currency")" + "/" + dataItem.CurrencyID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>

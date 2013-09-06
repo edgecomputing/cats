@@ -141,13 +141,8 @@ namespace Cats.Areas.PSNP
             //regionalpsnpplan.StatusID = 1;
             if (ModelState.IsValid)
             {
-                
-                int BP_PSNP = 0;
-                try
-                {
-                     BP_PSNP = Int32.Parse(_ApplicationSettingService.FindValue("PSNPWorkflow"));
-                }
-                catch (Exception e) { }
+
+                int BP_PSNP = _ApplicationSettingService.getPSNPWorkflow();
                 if (BP_PSNP != 0)
                 {
                     BusinessProcessState createdstate = new BusinessProcessState
@@ -159,27 +154,6 @@ namespace Cats.Areas.PSNP
                     BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP, regionalpsnpplan.RegionalPSNPPlanID, "PSNP", createdstate);
                     regionalpsnpplan.StatusID = bp.BusinessProcessID;
                     _regionalPSNPPlanService.UpdateRegionalPSNPPlan(regionalpsnpplan);
-                    /*
-                    BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP, regionalpsnpplan.RegionalPSNPPlanID, "PSNP");
-                    _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
-                    
-                    BusinessProcessState createdstate = new BusinessProcessState
-                        {
-                            DatePerformed = DateTime.Now
-                            ,
-                            PerformedBy = "System"
-                            ,
-                            Comment = "Created workflow for PSNP Plan"
-                            ,
-                            ParentBusinessProcessID = bp.BusinessProcessID
-                            ,
-                            StateID = 1
-                        };
-
-                    _BusinessProcessService.PromotWorkflow(createdstate);
-                    regionalpsnpplan.StatusID = bp.BusinessProcessID;
-                    _regionalPSNPPlanService.UpdateRegionalPSNPPlan(regionalpsnpplan);
-                     * */
                     return RedirectToAction("Index");
 
                 }

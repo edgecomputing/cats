@@ -10,7 +10,8 @@
 }
 @section Toolbar
 {
-        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+     <a  class="btn toolbar-btn" target="_blank" href="@Url.Action("PrintSummary", "HRD",new{id=Model.HRDID})" title="Print"><i class="icon-print"></i></a>
 }
 <div>
     <h4>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h4>

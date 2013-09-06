@@ -8,15 +8,17 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var index = 0;
 }
+
 @section LeftBar
 {
     @Html.Partial("_PSNPLeftBar");
 }
+
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "RegionalPSNPPlan")"></a>
-
 }
+
 <h4>List of PSNP Plans</h4>
 
     <table class="table table-striped table-bordered">
