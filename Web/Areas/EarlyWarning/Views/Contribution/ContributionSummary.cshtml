@@ -31,8 +31,10 @@
             </td>
             
             <td> 
-                @*@Html.DropDownList("Year", string.Empty)*@
-                @Html.DropDownList("Year", Enumerable.Range(2010, DateTime.Now.Year).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString()}), "--Select Year --")
+                @Html.DropDownList("HRDID", string.Empty)
+                @*@Html.DropDownList("Year", Enumerable.Range(2010, DateTime.Now.Year).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString()}), "--Select Year --")
+                *@ 
+
             </td>
         </tr>
     </table>
@@ -55,37 +57,19 @@
         .PageSize(8)
      .Read(read => read.Action("ContributionSummary_Read", "Contribution").Data("filterData")))
       .Groupable())
-   @* //.Pageable()
-   // .Sortable()
-   // .Filterable()
-    
-    
-    
-    //.DataSource(dataSource => dataSource
-         // .Ajax()
-           //.Aggregates(aggregates =>aggregates.Add(p => p.Commodity).Sum())
-           //.Aggregates(aggregates =>aggregates.Add(p => p.Ammount).Sum())
-      //.Group(group=>group.Add(m=>m.Donor))
-         // .PageSize(12)
-              //.Model(model => model.Id(p => p.ContributionID))
-                //.Read(read => read.Action("ContributionSummary_Read", "Contribution", new { id = Model.First().Year }))
-              //  .Read(read => read.Action("ContributionSummary_Read","Contribution").Data("filterData"))
-       //  )
-   
-    //  )*@
 
 <script type="text/javascript">
 
     function filterData() {
 
         return {
-            year: $("#Year").val()
+            id: $("#HRDID").val()
           
         };
     }
 
     $(document).ready(function () {
-        $("#Year").change(function () {
+        $("#HRDID").change(function () {
             var grid = $("#grid").data("kendoGrid");
             grid.dataSource.read();
         });

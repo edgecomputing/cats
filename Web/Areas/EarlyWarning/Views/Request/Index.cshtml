@@ -1,6 +1,8 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 
 
 
@@ -34,8 +36,9 @@
                      columns.Bound(request => request.Month);
                      columns.Bound(request => request.Program);
                      columns.Bound(request => request.RequestDateEt);
-                     columns.Bound(requst => requst.ReferenceNumber);
-                     columns.Bound(request => request.Status).Template(
+                     
+                    
+    columns.Bound(request => request.Status).Template(
 
 
                          @<text>

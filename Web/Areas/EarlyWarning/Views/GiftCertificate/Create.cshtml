@@ -20,8 +20,14 @@
            
     @Html.HiddenFor(model => model.GiftCertificateID)
     @Html.HiddenFor(model => model.rowCount)
-               
-       
+
+          
+    
+    
+      
+  
+    <div class="form-horizontal span8">
+
         <table class="borderless" style="vertical-align: top">
             <tr>
                 <td style="vertical-align: top">
@@ -30,7 +36,9 @@
                             @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"))
                         </div>
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker", @placeholder = DateTime.Now.ToShortDateString() })
+
+                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
+
                             @Html.ValidationMessageFor(model => model.GiftDate)
                         </div>
                     </div>
@@ -132,7 +140,9 @@
                         </div>
 
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker", @placeholder = "0" })
+
+                            @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
+
                             @Html.ValidationMessageFor(model => model.ETA)
                         </div>
                     </div>
@@ -140,6 +150,6 @@
             </tr>
         </table>
      
-
+        </div>
 }
 

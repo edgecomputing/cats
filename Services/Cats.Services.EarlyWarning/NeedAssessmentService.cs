@@ -131,7 +131,7 @@ namespace Cats.Services.EarlyWarning
 
         public IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(int region)//,string season)
         {
-            var woredas =_unitOfWork.NeedAssessmentDetailRepository.FindBy(z => z.NeedAssessmentHeader.AdminUnit.ParentID == region);
+            var woredas =_unitOfWork.NeedAssessmentDetailRepository.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID==region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
             return woredas.Select(adminUnit => new NeedAssessmentWoredaDao
             {
                                                          NAId = adminUnit.NAId,

@@ -17,7 +17,11 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
-
+@section Toolbar
+{
+    
+    <a data-buttontype=""  class="btn toolbar-btn " data-submittedform="frm_hub_allocation" href="@Url.Action("hubAllocation", "HubAllocation")">Assign hub</a>
+}
 <fieldset>
     <legend>
        @Translator.Translate("Approved Requesitions")
@@ -27,7 +31,7 @@
 <script>
     $(document).ready(function () {
 
-        $('#frm').validate(
+        $('#frm_hub_allocation').validate(
             {
                 
                 submitHandler: function (form) {
@@ -88,25 +92,7 @@
 </script>
 
 
-@*<script>
-    // this object will store all checked records
-    var checked = {};
 
-    function onLoad() {
-        // handle the click event of all checkboxes
-        $(this).delegate(":checkbox", "click", function () {
-            // store the checked state of the record (this.value is set to the value of the  OrderID property of the data item)
-            checked[this.value] = this.checked;
-        });
-    }
-
-    function onRowDataBound(e) {
-        if (checked[e.dataItem.i]) {
-            // if the record was checked update the checked state of the checkbox
-            $(e.row).find(":checkbox").attr("checked", true);
-        }
-    }
-</script>*@
 
 
 <div class="alert alert-block" id="Notification" style="display: none" >
@@ -116,7 +102,7 @@
 </div>
 
 
-@using (Html.BeginForm("hubAllocation", "HubAllocation", FormMethod.Post, new { name = "frm", id = "frm" }))
+@using (Html.BeginForm("hubAllocation", "HubAllocation", FormMethod.Post, new { name = "frm_hub_allocation", id = "frm_hub_allocation" }))
 {
     
        
@@ -220,10 +206,7 @@
  </tbody>
         </table>
     </div>
-    <br />
-    <button type="submit" class="btn btn-success">
-  <i class="icon-user icon-white"></i> @Translator.Translate("Assign Hub")
-</button>
+   
     
     
         }

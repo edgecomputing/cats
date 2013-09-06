@@ -22,14 +22,16 @@ namespace Cats.Models
       
         public Nullable <int> Season { get; set; }
         public Nullable<int> Year { get; set; }
-       
+
+        [DisplayName("Date")]
         public DateTime? NeedADate { get; set; }
         public Nullable<int> NeddACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }
         public Nullable<int> NeedAApprovedBy { get; set; }
         
-        [DisplayName("Type of Need Assessfment")]
-        public Nullable<int> TypeOfNeedAssessment { get; set; }
+       
+        public int? TypeOfNeedAssessment { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual UserProfile UserProfile { get; set; }
