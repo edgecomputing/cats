@@ -112,7 +112,7 @@
         vertical-align: middle;
     }
     .toolbar {
-        float: right;
+        float: right;+
     }
 </style>
 
@@ -122,7 +122,7 @@
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = null;
-        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.Region;  
+        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;  
     }
 </script>
 <script>
