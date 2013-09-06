@@ -31,6 +31,7 @@ namespace Cats.Models
         
        
         public int? TypeOfNeedAssessment { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual UserProfile UserProfile { get; set; }
