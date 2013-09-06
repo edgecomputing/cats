@@ -28,36 +28,23 @@
     var cal = user.Calendar; 
 }
 
-<h4 class="well">Rations</h4>
-<div class="well">
-    <b> @Html.DisplayNameFor(model => model.ReferenceNumber):</b>
-    @Html.DisplayFor(model => model.ReferenceNumber)
+<h4 class="page-header">Rations</h4>
+<div>
+    @Html.DisplayNameFor(model => model.ReferenceNumber):
+    <b>@Html.DisplayFor(model => model.ReferenceNumber)</b>
+</div>
+<div>
 
-  @*  @Html.DisplayNameFor(model => model.CreatedBy)
-    @Html.DisplayFor(model => model.CreatedBy)*@
     @if (cal.ToLower() == "ec")
     {
-       <b> @Html.DisplayNameFor(model => model.CreatedDateEC):</b>
-        @Html.DisplayFor(model => model.CreatedDateEC)
+        @Html.DisplayNameFor(model => model.CreatedDateEC)
+        <b>@Html.DisplayFor(model => model.CreatedDateEC)</b>
     }
     else
     {
         <b>@Html.DisplayNameFor(model => model.CreatedDate):</b>
         @Html.DisplayFor(model => model.CreatedDate)
     }
-
-
- @*   @Html.DisplayNameFor(model => model.IsDefaultRation):
-    @Html.DisplayFor(model => model.IsDefaultRation)*@
-
-
-    <p>
-
-
-        @*<a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back </a>*@
-        @*<a id="btnEdit" href="@Url.Action("Edit", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><i class="icon-edit"></i>Edit </a>*@
-    </p>
-
 </div>
 
 
@@ -69,15 +56,13 @@
       {
           columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
           columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable)ViewData["commodities"], "CommodityID", "Name").Width(50);
-          //columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
           columns.Bound(p => p.RationID).Width(100).Visible(false);
           columns.Bound(p => p.RationDetailID).Visible(false);
           columns.Bound(p => p.Amount).Width(100);
-          columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>) ViewData["UnitMeasures"], "UnitID", "Name").Width(100);
+          columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>)ViewData["UnitMeasures"], "UnitID", "Name").Width(100);
           columns.Command(command =>
                               {
                                   command.Destroy();
-                                  //command.Edit();
                               }).Width(100);
       })
           .ToolBar(toolbar =>
