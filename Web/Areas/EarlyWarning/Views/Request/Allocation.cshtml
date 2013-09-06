@@ -8,6 +8,9 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+@section Toolbar    {
+     <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
+}
 <h5 class="well">Regional Request Resource Allocation</h5>
 <div class="row-fluid">
     <div>
@@ -68,17 +71,7 @@
                             @Html.DisplayFor(model => model.RationID)
                         </p>
                     </td></tr>
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })"><i class="icon-chevron-left"></i>Back</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+               
             </table>
 
         </div>

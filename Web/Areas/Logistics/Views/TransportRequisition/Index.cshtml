@@ -9,7 +9,11 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
-<h4>Transport Requisition</h4>
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Requisitions","TransportRequisition",new {Area="Logistics"})"></a>
+}
+<h4 class="page-header">Transport Requisition</h4>
 @(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
 

@@ -10,7 +10,25 @@
 @{
     var modelRequest = (RegionalRequestViewModel)ViewData["Request_main_data"];
 }
- <h4> Regional Request Allocaiton</h4>
+@section Toolbar
+{
+
+    <a class="btn toolbar-btn " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" data-buttontype="btn_back_to_list"></a>
+    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+    {
+        <a class="btn toolbar-btn " href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype="btn_edit"></a>
+        <a class="btn toolbar-btn " href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"  data-buttontype="">Allocation</a>
+        <a class="btn toolbar-btn " href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })" data-buttontype="">Approve</a>
+    }
+    <a class="btn toolbar-btn " href="@Url.Action("ReconcileRequest", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype="">Reconcile</a>
+    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+    {
+        <a class="btn toolbar-btn "   href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype=""><i class="icon-plus"></i>Requisiton</a>
+    }
+
+
+}
+<h4 class="page-header">Regional Request Allocaiton</h4>
 <div class="
     ">
     <div>
@@ -59,52 +77,19 @@
                     </td>
                     <td>
                         <p>
-                           <b> Ration:</b>
-                            <a href="@Url.Action("Details","Ration",new {id=modelRequest.RationID})">@modelRequest.Ration</a> 
+                            <b>Ration:</b>
+                            <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">@modelRequest.Ration</a>
                         </p>
                     </td>
                     <td>
                         <p>
                             <b>Status
                                    :</b>
-                           @modelRequest.Status
+                            @modelRequest.Status
                         </p>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td><a target="_balnk" href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
-
-
-                                </td>
-                                <td> <a href="@Url.Action("ReconcileRequest", "Request", new { Area = "EarlyWarning" ,id=modelRequest.RegionalRequestID})">Reconcile With HRD </a>
-                                    </td>
-                                @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
-                                {
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { Controller = "Request", Area = "EarlyWarning", id = modelRequest.RegionalRequestID })
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Approve", "ApproveRequest", new { id = modelRequest.RegionalRequestID })
-                                    </td>
-                               
-                                    <td>
-                                        <a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Modify Allocation</a>
-
-                                    </td> }
-                                @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
-                                {
-                                    <td>
-                                        <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Create Requisition</a>
-
-                                    </td>
-                                }
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+            
             </table>
 
         </div>

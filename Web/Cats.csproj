@@ -814,6 +814,7 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_UsersAndRoles.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

@@ -1,10 +1,13 @@
-﻿@using Cats.Models.Constant
+﻿
+@using Cats.Helpers
+@using Cats.Models.Constant
 @using Kendo.Mvc.UI
 
 
 @{
     ViewBag.Title = "Requistions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 }
 
 @section LeftBar
@@ -14,7 +17,7 @@
 }
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("CreateRequisiton", "ReliefRequisition")"></a>
+    
 }
 @section Breadcrumb
 {
@@ -24,9 +27,12 @@
     </ul>
 }
 
-<h4 class="well">Requistions</h4>
+@{
+    
+}
+<h4 class="page-header">Requistions</h4>
 
-<h4 >Requistions</h4>
+
 
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
@@ -37,8 +43,9 @@
     columns.Bound(requisition => requisition.Zone);
     columns.Bound(requisition => requisition.Round);
     columns.Bound(requisiton => requisiton.Program);
-
-    columns.Bound(requisition => requisition.RequestedDateEt);
+    
+    columns.Bound(t => t.RequestedDate);
+   
     columns.Bound(requisition => requisition.Status).Template(
 
 

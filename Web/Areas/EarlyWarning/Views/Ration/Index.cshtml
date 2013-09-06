@@ -12,7 +12,7 @@
 
 @section LeftBar
 {
-   @Html.Partial("_rationLeftBar");
+   @Html.Partial("_rationLeftBar")
 }
 @section Toolbar
 {
@@ -23,7 +23,7 @@
     <div id='dialogContent'></div>
 </div>
 
-<h4 class="well">Rations</h4>
+<h4 class="page-header">Rations</h4>
 @(Html.Kendo().Grid<RationViewModel>().Name("grid")
 .Columns(columns =>
              {
