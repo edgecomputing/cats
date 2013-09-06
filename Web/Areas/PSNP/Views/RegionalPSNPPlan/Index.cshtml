@@ -10,7 +10,7 @@
 }
 @section LeftBar
 {
-    @Html.Partial("_PSNPLeftBar");
+    @Html.Partial("_PSNPLeftBar")
 }
 @section Toolbar
 {
@@ -112,10 +112,11 @@
     <div class="modal-footer">
             <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager",id="0" })">View History</a>
         </div>
-
+</div>
 @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 <script>
     var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager",id="0" })";
+
     function promot_workflow(BusinessProcessID, nextstate, actionname) {
         $('#ParentBusinessProcessID').val(BusinessProcessID);
         $('#stateID').val(nextstate);

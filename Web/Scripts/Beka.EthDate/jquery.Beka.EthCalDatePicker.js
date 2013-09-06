@@ -24,8 +24,8 @@
             $(this).data("eth_date_input", eth_date_input);
         });
         return this.filter('input:text')
-            .css('opacity', 0.5);
-          //  .css('display', 'none');
+            .css('opacity', 0.5)
+            .css('display', 'none');
 
     }
     var test_coutn = 0;
@@ -92,6 +92,16 @@
         $month.data("date_picker", eth_date_pickerdata);
         $year.data("date_picker", eth_date_pickerdata);
 
+        var month_yr_changed = function (date_picker) {
+            
+            var m = date_picker.ui.month.val() / 1 + 1;
+           // alert(m);
+            var yr = date_picker.ui.year.val();
+            var selected_month = new EthDate(yr, m, 1);
+            date_picker.selected_month = selected_month;
+            _ethdatepicker_show_month(date_picker, selected_month);
+        };
+
         $month.change(function () { 
             var dp = $(this).data("date_picker");
             month_yr_changed($(this).data("date_picker"));
@@ -104,12 +114,7 @@
 
         });
         $year.change(function () {month_yr_changed($(this).data("date_picker"));});
-        var month_yr_changed = function (date_picker) {
-            var m = date_picker.ui.month.val() / 1 + 1;
-            var yr = date_picker.ui.year.val();
-            var selected_month = new EthDate(yr, m, 1);
-            date_picker.selected_month = selected_month;
-        };
+        
     }
     var _write_month_option=function()
     {
