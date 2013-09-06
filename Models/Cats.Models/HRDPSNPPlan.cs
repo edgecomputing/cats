@@ -27,5 +27,8 @@ namespace Cats.Models
         public int RegionID { get; set; }
 
 
+        [Display(Name = "Donor")]
+        public int? DonorID { get; set; }
+        
     }
 }

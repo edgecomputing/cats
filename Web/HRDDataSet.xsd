@@ -97,6 +97,23 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="HRDSummaryByRegion" msprop:Generator_TableClassName="HRDSummaryByRegionDataTable" msprop:Generator_TableVarName="tableHRDSummaryByRegion" msprop:Generator_RowChangedName="HRDSummaryByRegionRowChanged" msprop:Generator_TablePropName="HRDSummaryByRegion" msprop:Generator_RowDeletingName="HRDSummaryByRegionRowDeleting" msprop:Generator_RowChangingName="HRDSummaryByRegionRowChanging" msprop:Generator_RowEvHandlerName="HRDSummaryByRegionRowChangeEventHandler" msprop:Generator_RowDeletedName="HRDSummaryByRegionRowDeleted" msprop:Generator_RowClassName="HRDSummaryByRegionRow" msprop:Generator_UserTableName="HRDSummaryByRegion" msprop:Generator_RowEvArgName="HRDSummaryByRegionRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RegionName" msprop:Generator_ColumnVarNameInTable="columnRegionName" msprop:Generator_ColumnPropNameInRow="RegionName" msprop:Generator_ColumnPropNameInTable="RegionNameColumn" msprop:Generator_UserColumnName="RegionName" type="xs:string" minOccurs="0" />
+              <xs:element name="HRDID" msprop:Generator_ColumnVarNameInTable="columnHRDID" msprop:Generator_ColumnPropNameInRow="HRDID" msprop:Generator_ColumnPropNameInTable="HRDIDColumn" msprop:Generator_UserColumnName="HRDID" type="xs:string" minOccurs="0" />
+              <xs:element name="NumberOfBeneficiaries" msprop:Generator_ColumnVarNameInTable="columnNumberOfBeneficiaries" msprop:Generator_ColumnPropNameInRow="NumberOfBeneficiaries" msprop:Generator_ColumnPropNameInTable="NumberOfBeneficiariesColumn" msprop:Generator_UserColumnName="NumberOfBeneficiaries" type="xs:string" minOccurs="0" />
+              <xs:element name="DurationOfAssistance" msprop:Generator_ColumnVarNameInTable="columnDurationOfAssistance" msprop:Generator_ColumnPropNameInRow="DurationOfAssistance" msprop:Generator_ColumnPropNameInTable="DurationOfAssistanceColumn" msprop:Generator_UserColumnName="DurationOfAssistance" type="xs:string" minOccurs="0" />
+              <xs:element name="Cereal" msprop:Generator_ColumnVarNameInTable="columnCereal" msprop:Generator_ColumnPropNameInRow="Cereal" msprop:Generator_ColumnPropNameInTable="CerealColumn" msprop:Generator_UserColumnName="Cereal" type="xs:string" minOccurs="0" />
+              <xs:element name="BlededFood" msprop:Generator_ColumnVarNameInTable="columnBlededFood" msprop:Generator_ColumnPropNameInRow="BlededFood" msprop:Generator_ColumnPropNameInTable="BlededFoodColumn" msprop:Generator_UserColumnName="BlededFood" type="xs:string" minOccurs="0" />
+              <xs:element name="Pulse" msprop:Generator_ColumnVarNameInTable="columnPulse" msprop:Generator_ColumnPropNameInRow="Pulse" msprop:Generator_ColumnPropNameInTable="PulseColumn" msprop:Generator_UserColumnName="Pulse" type="xs:string" minOccurs="0" />
+              <xs:element name="Oil" msprop:Generator_ColumnVarNameInTable="columnOil" msprop:Generator_ColumnPropNameInRow="Oil" msprop:Generator_ColumnPropNameInTable="OilColumn" msprop:Generator_UserColumnName="Oil" type="xs:string" minOccurs="0" />
+              <xs:element name="Total" msprop:Generator_ColumnVarNameInTable="columnTotal" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" msprop:Generator_UserColumnName="Total" type="xs:string" minOccurs="0" />
+              <xs:element name="Season" msprop:Generator_ColumnVarNameInTable="columnSeason" msprop:Generator_ColumnPropNameInRow="Season" msprop:Generator_ColumnPropNameInTable="SeasonColumn" msprop:Generator_UserColumnName="Season" type="xs:string" minOccurs="0" />
+              <xs:element name="Year" msprop:Generator_ColumnVarNameInTable="columnYear" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_UserColumnName="Year" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">

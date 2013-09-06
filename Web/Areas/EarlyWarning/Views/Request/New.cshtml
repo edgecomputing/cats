@@ -105,6 +105,15 @@
                 @Html.ValidationMessageFor(model => model.Remark)
             </div>
         </div>
+            <div class="control-group" id="div_donor">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DonorID, "Donor")
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("DonorID", string.Empty)
+                        @Html.ValidationMessageFor(model => model.DonorID)
+                    </div>
+            </div>
     </div>
   
 }
@@ -114,6 +123,9 @@
     $(function () {
         var name = $('#Remark');
         name.jGeez();
+            var div_donor = $("#div_donor");
+                div_donor.hide();
+                div_donor.show();
     });
 
 </script>

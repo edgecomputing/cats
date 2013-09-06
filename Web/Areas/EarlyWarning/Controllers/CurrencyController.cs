@@ -106,9 +106,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (currencyViewModel != null && ModelState.IsValid)
             {
-                _currencyService.DeleteById(currencyViewModel.CurrencyID);
+                var currency = _currencyService.FindById(currencyViewModel.CurrencyID);
+                _currencyService.DeleteCurrency(currency);
             }
             return Json(ModelState.ToDataSourceResult());
+        }
+        public ActionResult Delete(int id)
+        {
+            var currency = _currencyService.FindById(id);
+            if(currency!=null)
+            {
+                _currencyService.DeleteCurrency(currency);
+                return RedirectToAction("Index");
+            }
+          return RedirectToAction("Index");
         }
     }
 }

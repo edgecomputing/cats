@@ -79,10 +79,11 @@
     <Compile Include="UserInfo.cs" />
     <Compile Include="UserPreference.cs" />
     <Compile Include="UserProfile.cs" />
+    <Compile Include="ViewModels\Application.cs" />
+    <Compile Include="ViewModels\Role.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MetaData\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

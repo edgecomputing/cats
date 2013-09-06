@@ -112,7 +112,13 @@ namespace Cats.Tests.ControllersTests
         //    // Assert.AreEqual(1, (((DataSourceResult)result.Data).Total));
 
         //}
-
+        [Test]
+        public void CanShowIndex()
+        {
+            ActionResult actual = _contributionController.Index();
+            ViewResult result = actual as ViewResult;
+            Assert.IsNotNull(result);
+        }
         [Test]
         public void CanReadContributionDetail()
         {
@@ -122,9 +128,24 @@ namespace Cats.Tests.ControllersTests
             var result = (RedirectToRouteResult)_contributionController.ContributionDetail_Read(contributionDetail, id);
 
             Assert.IsNotNull(result);
+
         }
-
+        [Test]
+        public void CanDeleteContribution()
+        {
+            var id = 1;
+            var result = (RedirectToRouteResult)_contributionController.Delete(id);
+            
+            Assert.IsNotNull(result);
+            //Assert.IsInstanceOf<ContributionDetail>(result.Model);
+        }
         #endregion
-
+        //[Test]
+        //public void CanShowContributionDetails()
+        //{
+        //    var id = 1;
+        //    var result = (RedirectToRouteResult)_contributionController.Details(id);
+        //    Assert.IsNotNull(result);
+        //}
     }
 }

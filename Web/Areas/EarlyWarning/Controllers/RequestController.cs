@@ -29,19 +29,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IRegionalRequestDetailService _regionalRequestDetailService;
         private ICommonService _commonService;
         private IHRDService _hrdService;
-
-        public RequestController(IRegionalRequestService reliefRequistionService
-                                 , IFDPService fdpService,
-                                 IRegionalRequestDetailService reliefRequisitionDetailService,
-                                ICommonService commonService,IHRDService hrdService
-            )
-        {
-           _regionalRequestService = reliefRequistionService;
-           _fdpService = fdpService;
-            _regionalRequestDetailService = reliefRequisitionDetailService;
-            _commonService = commonService;
-            _hrdService = hrdService;
-        }
+        private IApplicationSettingService _applicationSettingService;
+        public RequestController(IRegionalRequestService reliefRequistionService,
+                                IFDPService fdpService,
+                                IRegionalRequestDetailService reliefRequisitionDetailService,
+                                ICommonService commonService,
+                                IHRDService hrdService,
+                                IApplicationSettingService ApplicationSettingService
+                                )
+            {
+                _regionalRequestService = reliefRequistionService;
+                _fdpService = fdpService;
+                _regionalRequestDetailService = reliefRequisitionDetailService;
+                _commonService = commonService;
+                _hrdService = hrdService;
+                _applicationSettingService = ApplicationSettingService;
+            }
 
 
 
@@ -50,11 +53,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ViewResult SubmittedRequest(int id)
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID",
-                                              "Name");
+            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID","Name");
             ViewBag.Status = new SelectList(_commonService.GetStatus(Workflow.REGIONAL_REQUEST), "StatusID",
                                             "Description");
-
+            
             var requests = _regionalRequestService.Get(t => t.Status == id, null, "AdminUnit,Program");
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
 
@@ -82,6 +84,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
             regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
+            regionalRequest.DonorID = hrdpsnpPlanInfo.HRDPSNPPlan.DonorID;
+            regionalRequest.RationID = _applicationSettingService.getDefaultRation();
 
             regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
                                                       select new RegionalRequestDetail()
@@ -99,7 +103,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
-           
+            ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
