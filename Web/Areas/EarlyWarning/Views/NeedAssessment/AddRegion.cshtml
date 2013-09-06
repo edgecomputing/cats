@@ -88,7 +88,7 @@
                     @Html.LabelFor(model => model.Remark)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.Remark)
+                    @Html.EditorFor(model => model.Remark,new {c})
                     @Html.ValidationMessageFor(model => model.Remark)
                 </div>
             </div>
