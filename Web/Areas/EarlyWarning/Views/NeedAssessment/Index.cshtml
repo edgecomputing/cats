@@ -75,7 +75,7 @@
     .Scrollable()
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(20)
+        .PageSize(30)
         .ServerOperation(false)
         .Model(model => model.Id(p => p.NeedAID))
         .Read("NeedAssessmentRead", "NeedAssessment")

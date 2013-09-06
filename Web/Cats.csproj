@@ -1047,9 +1047,7 @@
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
-    <Content Include="Views\Shared\_MainLayout.cshtml">
-      <SubType>Code</SubType>
-    </Content>
+
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
