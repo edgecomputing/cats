@@ -69,9 +69,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Migrations\Cats.DatabaseSchema\Cats.DatabaseSchema.sqlproj">
-      <Project>{23584698-1bd3-4c40-ad56-9bc6dec0ff19}</Project>
-      <Name>Cats.DatabaseSchema</Name>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
+      <Name>Cats.Services.PSNP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

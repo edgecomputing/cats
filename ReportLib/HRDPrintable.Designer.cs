@@ -9,7 +9,6 @@ namespace ReportLib
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HRDPrintable));
             Telerik.Reporting.TableGroup tableGroup1 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup2 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup3 = new Telerik.Reporting.TableGroup();
@@ -21,6 +20,7 @@ namespace ReportLib
             Telerik.Reporting.TableGroup tableGroup9 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup10 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup11 = new Telerik.Reporting.TableGroup();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HRDPrintable));
             Telerik.Reporting.Drawing.StyleRule styleRule1 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.StyleRule styleRule2 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.StyleRule styleRule3 = new Telerik.Reporting.Drawing.StyleRule();
@@ -33,28 +33,21 @@ namespace ReportLib
             Telerik.Reporting.Drawing.DescendantSelector descendantSelector4 = new Telerik.Reporting.Drawing.DescendantSelector();
             Telerik.Reporting.Drawing.StyleRule styleRule7 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.DescendantSelector descendantSelector5 = new Telerik.Reporting.Drawing.DescendantSelector();
-            this.pageHeaderSection1 = new Telerik.Reporting.PageHeaderSection();
-            this.detail = new Telerik.Reporting.DetailSection();
-            this.pageFooterSection1 = new Telerik.Reporting.PageFooterSection();
-            this.HRDPrintDataSource = new Telerik.Reporting.SqlDataSource();
-            this.crosstab1 = new Telerik.Reporting.Crosstab();
             this.textBox1 = new Telerik.Reporting.TextBox();
             this.textBox2 = new Telerik.Reporting.TextBox();
-            this.textBox3 = new Telerik.Reporting.TextBox();
-            this.textBox4 = new Telerik.Reporting.TextBox();
-            this.textBox5 = new Telerik.Reporting.TextBox();
-            this.textBox6 = new Telerik.Reporting.TextBox();
-            this.textBox7 = new Telerik.Reporting.TextBox();
             this.textBox8 = new Telerik.Reporting.TextBox();
-            this.textBox9 = new Telerik.Reporting.TextBox();
+            this.textBox7 = new Telerik.Reporting.TextBox();
+            this.textBox6 = new Telerik.Reporting.TextBox();
+            this.textBox5 = new Telerik.Reporting.TextBox();
             this.textBox10 = new Telerik.Reporting.TextBox();
+            this.textBox4 = new Telerik.Reporting.TextBox();
+            this.textBox9 = new Telerik.Reporting.TextBox();
+            this.textBox3 = new Telerik.Reporting.TextBox();
             this.textBox14 = new Telerik.Reporting.TextBox();
-            this.textBox15 = new Telerik.Reporting.TextBox();
-            this.textBox16 = new Telerik.Reporting.TextBox();
-            this.textBox17 = new Telerik.Reporting.TextBox();
-            this.textBox18 = new Telerik.Reporting.TextBox();
-            this.textBox19 = new Telerik.Reporting.TextBox();
-            this.textBox20 = new Telerik.Reporting.TextBox();
+            this.pageHeaderSection1 = new Telerik.Reporting.PageHeaderSection();
+            this.htmlTextBox1 = new Telerik.Reporting.HtmlTextBox();
+            this.detail = new Telerik.Reporting.DetailSection();
+            this.crosstab1 = new Telerik.Reporting.Crosstab();
             this.textBox21 = new Telerik.Reporting.TextBox();
             this.textBox29 = new Telerik.Reporting.TextBox();
             this.textBox30 = new Telerik.Reporting.TextBox();
@@ -63,10 +56,94 @@ namespace ReportLib
             this.textBox33 = new Telerik.Reporting.TextBox();
             this.textBox34 = new Telerik.Reporting.TextBox();
             this.textBox11 = new Telerik.Reporting.TextBox();
-            this.htmlTextBox1 = new Telerik.Reporting.HtmlTextBox();
+            this.textBox15 = new Telerik.Reporting.TextBox();
+            this.textBox16 = new Telerik.Reporting.TextBox();
+            this.textBox17 = new Telerik.Reporting.TextBox();
+            this.textBox18 = new Telerik.Reporting.TextBox();
+            this.textBox19 = new Telerik.Reporting.TextBox();
+            this.textBox20 = new Telerik.Reporting.TextBox();
+            this.HRDPrintDataSource = new Telerik.Reporting.SqlDataSource();
+            this.pageFooterSection1 = new Telerik.Reporting.PageFooterSection();
             this.textBox12 = new Telerik.Reporting.TextBox();
             this.textBox13 = new Telerik.Reporting.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            // 
+            // textBox1
+            // 
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.81743502616882324D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox1.StyleName = "Civic.TableGroup";
+            this.textBox1.Value = "=Fields.Commodity";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.3355814218521118D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox2.StyleName = "Civic.GrandTotal";
+            this.textBox2.Value = "Total";
+            // 
+            // textBox8
+            // 
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.0548666715621948D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox8.StyleName = "Civic.TableGroup";
+            this.textBox8.Value = "=Fields.StartingMonth";
+            // 
+            // textBox7
+            // 
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.66595488786697388D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox7.StyleName = "Civic.TableGroup";
+            this.textBox7.Value = "=Fields.Duration";
+            // 
+            // textBox6
+            // 
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.86192387342453D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox6.StyleName = "Civic.TableGroup";
+            this.textBox6.Value = "=Fields.Beneficiaries";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.99297100305557251D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox5.StyleName = "Civic.TableGroup";
+            this.textBox5.Value = "=Fields.WoredaName";
+            // 
+            // textBox10
+            // 
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(3.5757169723510742D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox10.StyleName = "Civic.SubTotal";
+            this.textBox10.Value = "Sub Total";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.80123871564865112D), Telerik.Reporting.Drawing.Unit.Inch(0.40000000596046448D));
+            this.textBox4.StyleName = "Civic.TableGroup";
+            this.textBox4.Value = "=Fields.ZoneName";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(4.376955509185791D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox9.StyleName = "Civic.SubTotal";
+            this.textBox9.Value = "Sub Total";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.7074887752532959D), Telerik.Reporting.Drawing.Unit.Inch(0.60000002384185791D));
+            this.textBox3.StyleName = "Civic.TableGroup";
+            this.textBox3.Value = "=Fields.RegionName";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(5.084444522857666D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox14.StyleName = "Civic.GrandTotal";
+            this.textBox14.Value = "Grand Total";
             // 
             // pageHeaderSection1
             // 
@@ -75,28 +152,24 @@ namespace ReportLib
             this.htmlTextBox1});
             this.pageHeaderSection1.Name = "pageHeaderSection1";
             // 
+            // htmlTextBox1
+            // 
+            this.htmlTextBox1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D), Telerik.Reporting.Drawing.Unit.Inch(0.099999986588954926D));
+            this.htmlTextBox1.Name = "htmlTextBox1";
+            this.htmlTextBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(9.299921989440918D), Telerik.Reporting.Drawing.Unit.Inch(0.40000009536743164D));
+            this.htmlTextBox1.Style.Color = System.Drawing.Color.CadetBlue;
+            this.htmlTextBox1.Style.Font.Bold = true;
+            this.htmlTextBox1.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(16D);
+            this.htmlTextBox1.Style.TextAlign = Telerik.Reporting.Drawing.HorizontalAlign.Center;
+            this.htmlTextBox1.Value = "<p class=\"MsoNormal\" style=\"margin: 0in 0in 10pt\"></p><p>Humanitarian Requisition" +
+    " Document Print Out</p><p></p>";
+            // 
             // detail
             // 
             this.detail.Height = Telerik.Reporting.Drawing.Unit.Inch(2.1999213695526123D);
             this.detail.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.crosstab1});
             this.detail.Name = "detail";
-            // 
-            // pageFooterSection1
-            // 
-            this.pageFooterSection1.Height = Telerik.Reporting.Drawing.Unit.Inch(0.7000001072883606D);
-            this.pageFooterSection1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.textBox12,
-            this.textBox13});
-            this.pageFooterSection1.Name = "pageFooterSection1";
-            // 
-            // HRDPrintDataSource
-            // 
-            this.HRDPrintDataSource.ConnectionString = "Data Source=.;Initial Catalog=CTS;Integrated Security=True;MultipleActiveResultSe" +
-    "ts=True";
-            this.HRDPrintDataSource.Name = "HRDPrintDataSource";
-            this.HRDPrintDataSource.ProviderName = "System.Data.SqlClient";
-            this.HRDPrintDataSource.SelectCommand = resources.GetString("HRDPrintDataSource.SelectCommand");
             // 
             // crosstab1
             // 
@@ -129,14 +202,6 @@ namespace ReportLib
             this.crosstab1.Corner.SetCellContent(0, 5, this.textBox20);
             this.crosstab1.DataSource = this.HRDPrintDataSource;
             this.crosstab1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.textBox1,
-            this.textBox2,
-            this.textBox15,
-            this.textBox16,
-            this.textBox17,
-            this.textBox18,
-            this.textBox19,
-            this.textBox20,
             this.textBox21,
             this.textBox29,
             this.textBox30,
@@ -145,6 +210,14 @@ namespace ReportLib
             this.textBox33,
             this.textBox34,
             this.textBox11,
+            this.textBox1,
+            this.textBox2,
+            this.textBox15,
+            this.textBox16,
+            this.textBox17,
+            this.textBox18,
+            this.textBox19,
+            this.textBox20,
             this.textBox3,
             this.textBox4,
             this.textBox5,
@@ -194,125 +267,6 @@ namespace ReportLib
             this.crosstab1.RowGroups.Add(tableGroup11);
             this.crosstab1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(7.2374610900878906D), Telerik.Reporting.Drawing.Unit.Inch(1D));
             this.crosstab1.StyleName = "Civic.TableNormal";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.81743502616882324D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox1.StyleName = "Civic.TableGroup";
-            this.textBox1.Value = "=Fields.Commodity";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.3355814218521118D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox2.StyleName = "Civic.GrandTotal";
-            this.textBox2.Value = "Total";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.7074887752532959D), Telerik.Reporting.Drawing.Unit.Inch(0.60000002384185791D));
-            this.textBox3.StyleName = "Civic.TableGroup";
-            this.textBox3.Value = "=Fields.RegionName";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.80123871564865112D), Telerik.Reporting.Drawing.Unit.Inch(0.40000000596046448D));
-            this.textBox4.StyleName = "Civic.TableGroup";
-            this.textBox4.Value = "=Fields.ZoneName";
-            // 
-            // textBox5
-            // 
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.99297100305557251D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox5.StyleName = "Civic.TableGroup";
-            this.textBox5.Value = "=Fields.WoredaName";
-            // 
-            // textBox6
-            // 
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.86192387342453D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox6.StyleName = "Civic.TableGroup";
-            this.textBox6.Value = "=Fields.Beneficiaries";
-            // 
-            // textBox7
-            // 
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.66595488786697388D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox7.StyleName = "Civic.TableGroup";
-            this.textBox7.Value = "=Fields.Duration";
-            // 
-            // textBox8
-            // 
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.0548666715621948D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox8.StyleName = "Civic.TableGroup";
-            this.textBox8.Value = "=Fields.StartingMonth";
-            // 
-            // textBox9
-            // 
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(4.376955509185791D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox9.StyleName = "Civic.SubTotal";
-            this.textBox9.Value = "Sub Total";
-            // 
-            // textBox10
-            // 
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(3.5757169723510742D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox10.StyleName = "Civic.SubTotal";
-            this.textBox10.Value = "Sub Total";
-            // 
-            // textBox14
-            // 
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(5.084444522857666D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox14.StyleName = "Civic.GrandTotal";
-            this.textBox14.Value = "Grand Total";
-            // 
-            // textBox15
-            // 
-            this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.7074887752532959D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox15.StyleName = "Civic.TableHeader";
-            this.textBox15.Value = "Region Name";
-            // 
-            // textBox16
-            // 
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.80123871564865112D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox16.StyleName = "Civic.TableHeader";
-            this.textBox16.Value = "Zone Name";
-            // 
-            // textBox17
-            // 
-            this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.99297100305557251D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox17.StyleName = "Civic.TableHeader";
-            this.textBox17.Value = "Woreda Name";
-            // 
-            // textBox18
-            // 
-            this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.86192387342453D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox18.StyleName = "Civic.TableHeader";
-            this.textBox18.Value = "Beneficiaries";
-            // 
-            // textBox19
-            // 
-            this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.66595488786697388D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox19.StyleName = "Civic.TableHeader";
-            this.textBox19.Value = "Duration";
-            // 
-            // textBox20
-            // 
-            this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.0548666715621948D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
-            this.textBox20.StyleName = "Civic.TableHeader";
-            this.textBox20.Value = "Starting Month";
             // 
             // textBox21
             // 
@@ -370,17 +324,63 @@ namespace ReportLib
             this.textBox11.StyleName = "Civic.GrandTotal";
             this.textBox11.Value = "=Sum(Fields.Amount)";
             // 
-            // htmlTextBox1
+            // textBox15
             // 
-            this.htmlTextBox1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D), Telerik.Reporting.Drawing.Unit.Inch(0.099999986588954926D));
-            this.htmlTextBox1.Name = "htmlTextBox1";
-            this.htmlTextBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(9.299921989440918D), Telerik.Reporting.Drawing.Unit.Inch(0.40000009536743164D));
-            this.htmlTextBox1.Style.Color = System.Drawing.Color.CadetBlue;
-            this.htmlTextBox1.Style.Font.Bold = true;
-            this.htmlTextBox1.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(16D);
-            this.htmlTextBox1.Style.TextAlign = Telerik.Reporting.Drawing.HorizontalAlign.Center;
-            this.htmlTextBox1.Value = "<p class=\"MsoNormal\" style=\"margin: 0in 0in 10pt\"></p><p>Humanitarian Requisition" +
-    " Document Print Out</p><p></p>";
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.7074887752532959D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox15.StyleName = "Civic.TableHeader";
+            this.textBox15.Value = "Region Name";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.80123871564865112D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox16.StyleName = "Civic.TableHeader";
+            this.textBox16.Value = "Zone Name";
+            // 
+            // textBox17
+            // 
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.99297100305557251D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox17.StyleName = "Civic.TableHeader";
+            this.textBox17.Value = "Woreda Name";
+            // 
+            // textBox18
+            // 
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.86192387342453D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox18.StyleName = "Civic.TableHeader";
+            this.textBox18.Value = "Beneficiaries";
+            // 
+            // textBox19
+            // 
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.66595488786697388D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox19.StyleName = "Civic.TableHeader";
+            this.textBox19.Value = "Duration";
+            // 
+            // textBox20
+            // 
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.0548666715621948D), Telerik.Reporting.Drawing.Unit.Inch(0.20000001788139343D));
+            this.textBox20.StyleName = "Civic.TableHeader";
+            this.textBox20.Value = "Starting Month";
+            // 
+            // HRDPrintDataSource
+            // 
+            this.HRDPrintDataSource.ConnectionString = "Data Source=192.168.1.248;Initial Catalog=CATS;User ID=sa;Password=P@ssw0rd;Multi" +
+    "pleActiveResultSets=True";
+            this.HRDPrintDataSource.Name = "HRDPrintDataSource";
+            this.HRDPrintDataSource.ProviderName = "System.Data.SqlClient";
+            this.HRDPrintDataSource.SelectCommand = resources.GetString("HRDPrintDataSource.SelectCommand");
+            // 
+            // pageFooterSection1
+            // 
+            this.pageFooterSection1.Height = Telerik.Reporting.Drawing.Unit.Inch(0.7000001072883606D);
+            this.pageFooterSection1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
+            this.textBox12,
+            this.textBox13});
+            this.pageFooterSection1.Name = "pageFooterSection1";
             // 
             // textBox12
             // 

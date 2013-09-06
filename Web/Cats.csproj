@@ -1048,6 +1048,7 @@
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_RegionalMonthlyRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
