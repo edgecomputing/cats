@@ -19,20 +19,9 @@
 {
     
 }
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li class="active">Relief Requisition</li>
-    </ul>
-}
 
-@{
-    
-}
+
 <h4 class="page-header">Requistions</h4>
-
-
 
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {

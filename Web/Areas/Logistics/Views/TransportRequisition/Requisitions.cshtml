@@ -11,8 +11,14 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
-<h2>Hub and Project/SI Code assigned Requisitions.</h2>
-@using (Html.BeginForm("Requisitions", "TransportRequisition", FormMethod.Post))
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "TransportRequisition")" title="cancel"></a>
+}
+
+<h4 class="page-header">Hub and Project/SI Code assigned Requisitions.</h4>
+@using (Html.BeginForm("Requisitions", "TransportRequisition", FormMethod.Post, new { id = "frm_create_request" }))
 {
 
     <div class="k-content">
@@ -96,9 +102,7 @@
 </tbody>
         </table>
         </div>
-    <p>
-        <input class="btn btn-success" type="submit" value="Create Transport Request" />
-    </p>
+   
 }
 
 

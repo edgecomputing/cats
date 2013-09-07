@@ -31,7 +31,7 @@
     .Columns(columns =>
         {
         columns.Bound(p => p.RegionName).ClientFooterTemplate("Total");
-        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N0}', sum)#").HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.Cereal).Title("Cereal " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.BlededFood).Title("BlendedFood " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.Pulse).Title("Pulse "+@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
