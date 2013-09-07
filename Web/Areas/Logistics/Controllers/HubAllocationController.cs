@@ -123,7 +123,7 @@ namespace Cats.Areas.Logistics.Controllers
             ICollection<RequisitionViewModel> listOfRequsitions = new List<RequisitionViewModel>();
             RequisitionViewModel[] _requisitionDetail;
 
-            if (requisitionDetail == null) return HttpNotFound();
+            if (requisitionDetail == null) return View();
 
            _requisitionDetail = requisitionDetail.ToArray();
 
@@ -147,6 +147,8 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult InserRequisition(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form,
                                              string datepicker, string rNumber)
         {
+            if (rNumber.Trim() == string.Empty)
+                return RedirectToAction("ApprovedRequesitions", "HubAllocation");
             if (ModelState.IsValid && requisitionDetail !=null )
             {
                 string hub = form["hub"].ToString(CultureInfo.InvariantCulture); //retrives Hub id from the view
