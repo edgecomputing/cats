@@ -1,5 +1,4 @@
-﻿@using LanguageHelpers.Localization
-<style>
+﻿<style>
     .wizard a {
     padding: 10px 12px 10px;
     margin-right: 5px;
@@ -132,11 +131,11 @@
                 
             if (i < heirarchy_len)
             {
-				<li><span class="divider icon-chevron-right"></span><a href="@url">@Translator.Translate(urlitem) </a> </li>
+				<li><span class="divider icon-chevron-right"></span><a href="@url">@Html.Translate(urlitem) </a> </li>
             }
             else
             {
-				<li class="active"><span class="divider icon-chevron-right"></span> @Translator.Translate(urlitem)</li>
+				<li class="active"><span class="divider icon-chevron-right"></span> @Html.Translate(urlitem)</li>
                
             }
 

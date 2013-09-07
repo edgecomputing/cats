@@ -55,10 +55,10 @@
                     @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
                 </td>
                 <td>
-                    <a data-buttontype="btn_print"  class="btn toolbar-btn " href="@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"><i class="icon-print"></i></a>    
+                    <a data-buttontype="btn_print"  class="btn toolbar-btn " href="@Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"><i class="icon-print"></i></a>    
                     @if (state.AllowedAccessLevel >= 1)
                     {
-                        <a data-buttontype="btn_detail"  class="btn toolbar-btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
+                        <a data-buttontype="btn_detail"  class="btn toolbar-btn " href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
                    
                     }
                     @if (state.AllowedAccessLevel >= 2)
