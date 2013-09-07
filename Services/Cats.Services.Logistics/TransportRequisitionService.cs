@@ -123,8 +123,7 @@ namespace Cats.Services.Logistics
             {
                 var requisitionToDispatch = new RequisitionToDispatch();
                 var hubAllocation =
-                    _unitOfWork.HubAllocationRepository.Get(t => t.RequisitionID == requisition.RequisitionID, null,
-                                                            "Hub").FirstOrDefault();
+                    _unitOfWork.HubAllocationRepository.Get(t => t.RequisitionID == requisition.RequisitionID,null,"Hub").FirstOrDefault();
                 var status = _unitOfWork.WorkflowStatusRepository.Get(
                     t => t.StatusID == requisition.Status && t.WorkflowID == (int)WORKFLOW.RELIEF_REQUISITION).FirstOrDefault();
 
