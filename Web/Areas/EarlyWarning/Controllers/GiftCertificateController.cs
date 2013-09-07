@@ -40,6 +40,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index(int id=1)
         {
+            ViewBag.Title = id == 1 ? "Draft Gift Certificates" : "Approved Gift Certificates";
             var gifts = _giftCertificateService.Get(t=>t.StatusID==id,null, "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
             var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(),true);
             return View(giftsViewModel);
@@ -92,8 +93,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create()
         {
             PopulateLookup();
-
-            return View(new GiftCertificateViewModel());
+            var gift = new GiftCertificateViewModel();
+            gift.GiftDate = DateTime.Today;
+            gift.ETA = DateTime.Today;
+            return View(gift);
         }
         [HttpPost]
         public ActionResult Create(GiftCertificateViewModel giftcertificateViewModel)

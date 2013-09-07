@@ -57,10 +57,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _typeOfNeedAssessmentService.FindBy(t => t.TypeOfNeedAssessmentID == typeOfNeed).Select(
                     a => a.TypeOfNeedAssessment1).SingleOrDefault();
 
-            ViewData["region"] = id;
-            ViewData["RegionName"] = _adminUnitService.FindBy(r => r.AdminUnitID == id).Select(n=>n.Name).Single();
-            
-            ViewBag.Zones = _adminUnitService.GetZones(id).ToList();
+            var region = _needAssessmentService.FindBy(t => t.NeedAID == id).SingleOrDefault();
+            if (region != null) ViewData["region"] = region.Region;
+            ViewData["Id"] = id;
+            if (region != null) ViewData["RegionName"] = region.AdminUnit.Name;
+
+            if (region != null) ViewBag.Zones = _adminUnitService.GetZones(region.Region).ToList();
 
             return View();
         }
@@ -118,7 +120,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
               
                     
             }
-            int regionId = needAssessment.Region;
+            int regionId = needAssessment.NeedAID;
             int typeOfNeedAsseessment = (int) needAssessment.TypeOfNeedAssessment;
 
             return RedirectToAction("Edit", new { id = regionId, typeOfNeed = typeOfNeedAsseessment });
@@ -180,7 +182,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             try
             {
-                var needAssessment = _needAssessmentService.FindBy(r => r.Region == id).Single();
+                var needAssessment = _needAssessmentService.FindBy(r => r.NeedAID == id).Single();
                 int typeOfNeedAsseessment = (int)needAssessment.TypeOfNeedAssessment;
                 return RedirectToAction("Edit", new { id = id, typeOfNeed = typeOfNeedAsseessment });
             }

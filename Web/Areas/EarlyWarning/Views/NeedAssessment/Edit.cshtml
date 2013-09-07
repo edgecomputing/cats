@@ -65,7 +65,7 @@
         .ServerOperation(false)
         .Events(events => events.Error("error_handler"))
        .Group(groups => groups.Add(p => p.ZoneName))
-       .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["region"].ToString())}))
+       .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["Id"].ToString())}))
        .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
        .Events(e=>e.RequestEnd("onRequestEnd"))
        

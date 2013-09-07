@@ -35,6 +35,7 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.RegionalRequestRepository.Add(regionalRequest);
             _unitOfWork.Save();
             regionalRequest.ReferenceNumber = "ref-00" + regionalRequest.RegionalRequestID;
+            _unitOfWork.Save();
             return true;
 
         }

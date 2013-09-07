@@ -8,12 +8,17 @@
 @section LeftBar{
     @Html.Partial("_TransportOrderLeftBar");
 }
-<h2>Transport Requisitions</h2>
+<h4 class="page-header">Transport Requisitions</h4>
 @if(ViewBag.ErrorText!=string.Empty)
 {
     <div class="alert-error">@ViewBag.ErrorText</div>
 }
-@using (Html.BeginForm("TransportRequisitions", "TransportOrder", FormMethod.Post))
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_order"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "TransportOrder")" title="cancel"></a>
+}
+@using (Html.BeginForm("TransportRequisitions", "TransportOrder", FormMethod.Post, new { id = "frm_create_order" }))
 {
 
     <div class="k-content">
@@ -96,9 +101,7 @@
 </table>
     
     </div>
-    <p>
-        <input class="btn btn-success" type="submit" value="Create Transport Order" />
-    </p>
+   
 }
 <script>
 

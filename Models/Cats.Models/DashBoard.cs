@@ -41,4 +41,12 @@ namespace Cats.Models
         public decimal HRD { get; set; }
 
     }
+
+    public class RegionalMonthlyRequest {
+        public string RegionName { get; set; }
+        public string Month { get; set; }
+        public string ReferenceNumber { get; set; }
+        public int Year { get; set; }
+        public int daysAgo { get; set; }
+    }
 }
