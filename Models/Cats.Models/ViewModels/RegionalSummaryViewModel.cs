@@ -19,6 +19,6 @@ namespace Cats.Models.ViewModels
         public decimal BlededFood { get; set; }
         public decimal Pulse { get; set; }
         public decimal Oil { get; set; }
-        public decimal Total { get { return Cereal + Pulse + Oil; } }
+        public decimal Total { get { return Cereal + Pulse + Oil + BlededFood; } }
     }
 }
