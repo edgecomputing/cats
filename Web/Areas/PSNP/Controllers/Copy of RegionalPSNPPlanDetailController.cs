@@ -14,14 +14,14 @@ using Kendo.Mvc.UI;
 using Cats.Models.PSNP;
 namespace Cats.Areas.PSNP.Controllers
 {
-    public class RegionalPSNPPlanDetailController : Controller
+    public class RegionalPSNPPlanDetailController2 : Controller
     {
         private readonly IRegionalPSNPPlanDetailService _regionalPSNPPlanDetailService;
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
         private readonly IFDPService _FDPService;
         private readonly IRegionalRequestService _reqService;
 
-        public RegionalPSNPPlanDetailController(
+        public RegionalPSNPPlanDetailController2(
                             IRegionalPSNPPlanDetailService regionalPSNPPlanDetailServiceParam,
                             IRegionalPSNPPlanService regionalPSNPPlanServiceParam,
                             IRegionalRequestService regionalRequestServiceParam,
@@ -99,15 +99,21 @@ namespace Cats.Areas.PSNP.Controllers
         }
         public ActionResult Index(int id = 0)
         {
-            RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
-            if (plan == null)
+            if (id == 0)
             {
                 return RedirectToAction("Index", "RegionalPSNPPlan");
             }
-            
+            IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
             IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
+            RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
             
-            ViewBag.PsnpPlan = plan;
+            if (plan != null)
+            {
+                ViewBag.PsnpPlan = plan;
+                filledData = plan.RegionalPSNPPlanDetails;
+                IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(plan.Region.AdminUnitID, id);
+                allFDPData = toViewModel(filledData, allFDPs);
+            }
             return View(allFDPData);
         }
         public ActionResult Edit(int id = 0)
@@ -130,32 +136,18 @@ namespace Cats.Areas.PSNP.Controllers
             return View(allFDPData);
         }
 
-        public ActionResult GetDataListAjax([DataSourceRequest] DataSourceRequest request, int id = 0)
+        public ActionResult GetListAjax2([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
             IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
             IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
             RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
             if (plan != null)
             {
-                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.Region.AdminUnitID);
+
+                ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                allFDPData = from fdp in allFDPs
-                             join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
-                             
-                             select new PSNPPlanDetailView
-                             {
-                                 FDPID = fdp.FDPID,
-                                 FDPName = fdp.Name,
-                                 WoredaID = fdp.AdminUnit.AdminUnitID,
-                                 WoredaName = fdp.AdminUnit.Name,
-                                 ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
-                                 ZoneName = fdp.AdminUnit.AdminUnit2.Name,
-                                 RegionalPSNPPlanDetailID = plandetail.RegionalPSNPPlanDetailID,
-                                 BeneficiaryCount = plandetail.BeneficiaryCount,
-                                 RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
-                                 FoodRatio=plandetail.FoodRatio,
-                                 CashRatio=plandetail.CashRatio
-                             };
+                IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(plan.Region.AdminUnitID, id);
+                allFDPData = toViewModel(filledData, allFDPs);
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -169,11 +161,12 @@ namespace Cats.Areas.PSNP.Controllers
 
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==plan.Region.AdminUnitID);
+                IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
+                //IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(plan.Region.AdminUnitID, id);
                 allFDPData = from fdp in allFDPs
                              join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
                              into fdpBeneficiary
-                             from fdb in fdpBeneficiary.DefaultIfEmpty(new RegionalPSNPPlanDetail { RegionalPSNPPlanID = plan.RegionalPSNPPlanID })
+                             from fdb in fdpBeneficiary.DefaultIfEmpty(new RegionalPSNPPlanDetail()) 
                              select new PSNPPlanDetailView
                              {
                                  FDPID = fdp.FDPID,
@@ -184,9 +177,7 @@ namespace Cats.Areas.PSNP.Controllers
                                  ZoneName = fdp.AdminUnit.AdminUnit2.Name,
                                  RegionalPSNPPlanDetailID = fdb.RegionalPSNPPlanDetailID,
                                  BeneficiaryCount = fdb.BeneficiaryCount,
-                                 RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
-                                 FoodRatio = fdb.FoodRatio,
-                                 CashRatio = fdb.CashRatio
+                                 RegionalPSNPPlanID = fdb.RegionalPSNPPlanID
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -236,6 +227,97 @@ namespace Cats.Areas.PSNP.Controllers
         {
             _regionalPSNPPlanDetailService.DeleteById(id);
             return Json("{}");
+        }
+        //
+        // GET: /PSNP/RegionalPSNPPlanDetail/Details/5
+
+        public ActionResult Details(int id = 0)
+        {
+            RegionalPSNPPlanDetail regionalpsnpplandetail = _regionalPSNPPlanDetailService.FindById(id);
+            if (regionalpsnpplandetail == null)
+            {
+                return HttpNotFound();
+            }
+            return View(regionalpsnpplandetail);
+        }
+
+        //
+        // GET: /PSNP/RegionalPSNPPlanDetail/Create
+
+        public ActionResult Create()
+        {
+            loadLookups();
+            return View();
+        }
+
+        //
+        // POST: /PSNP/RegionalPSNPPlanDetail/Create
+
+        [HttpPost]
+        public ActionResult Create(RegionalPSNPPlanDetail regionalpsnpplandetail)
+        {
+            if (ModelState.IsValid)
+            {
+                _regionalPSNPPlanDetailService.AddRegionalPSNPPlanDetail(regionalpsnpplandetail);
+                return RedirectToAction("Index");
+            }
+
+            loadLookups();
+            return View(regionalpsnpplandetail);
+        }
+
+        //
+        // GET: /PSNP/RegionalPSNPPlanDetail/Edit/5
+        /*
+        public ActionResult Edit(int id = 0)
+        {
+            RegionalPSNPPlanDetail regionalpsnpplandetail = _regionalPSNPPlanDetailService.FindById(id);
+            if (regionalpsnpplandetail == null)
+            {
+                return HttpNotFound();
+            }
+            loadLookups();
+            return View(regionalpsnpplandetail);
+        }
+        */
+        //
+        // POST: /PSNP/RegionalPSNPPlanDetail/Edit/5
+
+        [HttpPost]
+        public ActionResult Edit(RegionalPSNPPlanDetail regionalpsnpplandetail)
+        {
+            if (ModelState.IsValid)
+            {
+
+                _regionalPSNPPlanDetailService.UpdateRegionalPSNPPlanDetail(regionalpsnpplandetail);
+                return RedirectToAction("Index");
+            }
+            loadLookups();
+            return View();
+        }
+
+        //
+        // GET: /PSNP/RegionalPSNPPlanDetail/Delete/5
+
+        public ActionResult Delete(int id = 0)
+        {
+            RegionalPSNPPlanDetail regionalpsnpplandetail = _regionalPSNPPlanDetailService.FindById(id);
+            if (regionalpsnpplandetail == null)
+            {
+                return HttpNotFound();
+            }
+            return View();
+        }
+
+        //
+        // POST: /PSNP/RegionalPSNPPlanDetail/Delete/5
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            _regionalPSNPPlanDetailService.DeleteById(id);
+
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

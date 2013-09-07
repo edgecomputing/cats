@@ -7,61 +7,38 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var duration = 0;
+    var RegionalPSNPPlanID = 0;
 }
 @section LeftBar
 {
     @Html.Partial("_PSNPDetailLeftBar")
        
 }
+ @section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
+         <a class="btn toolbar-btn " data-buttontype="btn_reload" href="javascript:reloadrecords()"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
     
-@{
-    List<int> regionalBenCount = new List<int>();
-    for(int r =0;r< ViewBag.PsnpPlan.Duration;r++)
-    {
-        regionalBenCount.Add(0);
-    }
-    foreach (PSNPPlanDetailView fdp in Model)
-    {
-        for (int r = 0; r < fdp.FoodRatio; r++)
-        {
-            regionalBenCount[r]+=(int)fdp.BeneficiaryCount;
-        }
-    }
 }
+   
+
 @if (ViewBag.psnpPlan != null)
 {
-    int i = 0;
+    duration = ViewBag.PsnpPlan.Duration;
+    RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
     <div>
     <p><b>PSNP Plan</b>: <span>@ViewBag.PsnpPlan.Region.Name Region - </span>  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</p>
    
-        <!-- <table style="width:100%">
-        <tr>
-            @foreach (var r in regionalBenCount)
-            {
-                i++; 
-                <td>Round - @i</td>
-                
-            }
-        </tr>
-        <tr>
-            @foreach (var r in regionalBenCount)
-            {
-                <td>@r</td>
-               
-            }
-        </tr>
-    </table>-->
-    
     </div>
 }
+
 @(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
     .Name("grid")
     .Columns(columns =>
     {
-        /* columns.Bound(p => p.RegionalPSNPPlanDetailID);
-         columns.Bound(p => p.RegionalPSNPPlanID);
-        
-         columns.Bound(p => p.FDPID);*/
 
         columns.Bound(p => p.ZoneName);
 
@@ -71,17 +48,10 @@
         columns.Bound(p => p.FoodRatio);
         columns.Bound(p => p.CashRatio);
 
-        columns.Command(command =>
-        {
-            // command.Custom("Edit").Click("editRecord");
-            // command.Custom("Detail").Click("detailRecord");
-            command.Custom("Delete").Click("deleteRecord").Text(Translator.Translate("Delete"));
-        });
     })
     .DataSource(dataSource => dataSource
 
         .Ajax()
-        //      .PageSize(20)
         .Batch(true)
         .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
         .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
@@ -90,19 +60,15 @@
         .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
         .Model(model =>
         {
-            //model.Id(p => p.TransportBidQuotationID);
             model.Field(p => p.ZoneName).Editable(false);
             model.Field(p => p.WoredaName).Editable(false);
             model.Field(p => p.FDPName).Editable(false);
-           // model.Field(p => p.DestinationZone).Editable(false);
-            //model.Field(p => p.DestinationName).Editable(false);
         })
         )
     
     .HtmlAttributes(new { style = "width:100%; height:450px;" })
     .Editable(editable => editable.Mode(GridEditMode.InCell))
-    .ToolBar(toolbar => toolbar.Save().SaveText(Translator.Translate("Save")).CancelText(Translator.Translate("Cancel")))
-        // .Pageable()
+   .Events(events => events.DataBound("onDataBound"))
     .Sortable()
     .Scrollable()
     .Filterable()
@@ -110,6 +76,27 @@
 
 )
 <script>
+    $(function()
+    {
+        var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
+        $("#toolbar_button_print").attr("href",printurl);
+    });
+    function onDataBound(e) 
+    {
+        
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            var duration="@duration"
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var FoodRatio = firstItem.get('FoodRatio');
+            if(FoodRatio>0)
+            {
+                firstItem.set('CashRatio',duration -FoodRatio);
+            }
+        });
+     }
     var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })"
     function deleteRecord(e) {
         e.preventDefault();
@@ -136,11 +123,14 @@
     }
     function saverecords()
     {
-        $("#grid").data("kendoGrid").dataSource.update();
+        $("#grid").data("kendoGrid").saveChanges();
     }
     function reloadrecords()
     {
         $("#grid").data("kendoGrid").dataSource.read();
     }
-
+    function cancelChanges()
+    {
+        $("#grid").data("kendoGrid").dataSource.cancelChanges();
+    }
 </script>

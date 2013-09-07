@@ -241,6 +241,7 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\Copy of RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
@@ -1047,7 +1048,6 @@
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
-
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
