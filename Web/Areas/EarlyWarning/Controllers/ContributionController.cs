@@ -56,6 +56,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (contribution !=null && ModelState.IsValid)
             {
+                contribution.Year = DateTime.Now.Year;
                 _contributionService.AddContribution(contribution);
                 return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
             }

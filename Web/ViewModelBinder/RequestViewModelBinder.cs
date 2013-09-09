@@ -62,6 +62,7 @@ namespace Cats.ViewModelBinder
             request.RequistionDate = regionalRequestViewModel.RequistionDate;
             request.Status = regionalRequestViewModel.StatusID;
             request.Year = regionalRequestViewModel.Year;
+          //  request.DonorID=
             return request;
         }
                 public static RegionalRequest BindRegionalRequest(RegionalRequest origin,RegionalRequest request =null)

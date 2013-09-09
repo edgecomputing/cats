@@ -44,7 +44,7 @@ namespace Cats.Models
        // public virtual ICollection<NeedAssessmentHeader> NeedAssessmentHeaders { get; set; }
         //public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         //public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
-        public virtual ICollection<HubAllocation> HubAllocations { get; set; }
+       // public virtual ICollection<HubAllocation> HubAllocations { get; set; }
         public virtual ICollection<HRD> Hrds { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments1 { get; set; }

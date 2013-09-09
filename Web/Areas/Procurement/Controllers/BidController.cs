@@ -149,20 +149,20 @@ namespace Cats.Areas.Procurement.Controllers
 
         //[HttpPost]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(Bid bid,string start,string open,string end)
+        public ActionResult Create(Bid bid)
         {
 
-            DateTime startingdate = DateTime.Now;
-            DateTime EndDate = DateTime.Now;
-            DateTime OpeningDate = DateTime.Now;
+           // DateTime startingdate = DateTime.Now;
+            //DateTime EndDate = DateTime.Now;
+            //DateTime OpeningDate = DateTime.Now;
 
-            startingdate = GetGregorianDate(start);
-            EndDate = GetGregorianDate(start);
-            OpeningDate = GetGregorianDate(start);
+            //startingdate = GetGregorianDate(start);
+            //EndDate = GetGregorianDate(start);
+           // OpeningDate = GetGregorianDate(start);
             
-            bid.StartDate = startingdate.Date;
-            bid.EndDate = EndDate.Date;
-            bid.OpeningDate = OpeningDate.Date;
+           // bid.StartDate = startingdate.Date;
+           // bid.EndDate = EndDate.Date;
+           // bid.OpeningDate = OpeningDate.Date;
 
             if (ModelState.IsValid)
             {
@@ -262,13 +262,11 @@ namespace Cats.Areas.Procurement.Controllers
             return View(bid);
         }
         [HttpPost]
-        //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditBidStatus(Bid bid)
         {
             if (ModelState.IsValid)
             {
                 _bidService.EditBid(bid);
-                RouteValueDictionary routeValues = this.GridRouteValues();
                 return RedirectToAction("Index");
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
