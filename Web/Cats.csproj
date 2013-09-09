@@ -800,6 +800,7 @@
     <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\EditUserRoles.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

@@ -30,5 +30,13 @@ namespace Cats.Models.Security
         public virtual UserProfile UserProfile { get; set; }
         public string Role { get; set; }
         public string[] Roles { get; set; }
+
+        public UserAccount()
+        {
+            this.UserPreference = new UserPreference();
+            this.UserProfile = new UserProfile();
+        }
+        
+        
     }
 }
