@@ -56,17 +56,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (contribution !=null && ModelState.IsValid)
             {
-                //var donors = _donorService.FindBy(m => m.DonorID == contribution.DonorID);
-                //var details = (from donor in donors
-                //               select new ContributionDetail()
-                //                   {
-                //                       CommodityID = 1,
-                //                       PledgeReferenceNo = "AB123",
-                //                       PledgeDate = DateTime.Now,
-                //                       Quantity = 0
-                //                   }).ToList();
-
-                //contribution.ContributionDetails = details;
+                contribution.Year = DateTime.Now.Year;
                 _contributionService.AddContribution(contribution);
                 return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
             }
@@ -107,7 +97,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 ContributionDetailID = contributionDetailViewModel.ContributionDetailID,
                 ContributionID = contributionDetailViewModel.ContributionID,
-                //CommodityID = contributionDetailViewModel.CommodityID,
+                CurrencyID = contributionDetailViewModel.CurrencyID,
                 PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber,
                 PledgeDate = contributionDetailViewModel.PledgeDate,
                 Amount = contributionDetailViewModel.Amount
@@ -123,11 +113,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (contributionDetailViewModel != null && ModelState.IsValid)
             {
                 var origin = _contributionDetailService.FindById(contributionDetailViewModel.ContributionDetailID);
-                origin.Amount = contributionDetailViewModel.Amount;
-                origin.PledgeDate = contributionDetailViewModel.PledgeDate;
-                origin.PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber;
-                origin.CurrencyID = contributionDetailViewModel.CurrencyID;
-                _contributionDetailService.EditContributionDetail(origin);
+                if (origin != null)
+                {
+                    origin.ContributionID = contributionDetailViewModel.ContributionID;
+                    origin.PledgeReferenceNo = contributionDetailViewModel.PledgeReferenceNumber;
+                    origin.PledgeDate = contributionDetailViewModel.PledgeDate;
+                    origin.Amount = contributionDetailViewModel.Amount;
+                    origin.CurrencyID = contributionDetailViewModel.CurrencyID;
+                    _contributionDetailService.EditContributionDetail(origin);
+                }
             }
             return Json(new[] { contributionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
@@ -195,10 +189,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? year)
+        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? id)
         {
-            var contributionYear = year ?? 0;
-            var contribution = _contributionService.Get(m => m.Year == contributionYear, null, "ContributionDetails");
+            var hrdID = id ?? 0;
+            var contribution = _contributionService.Get(m => m.HRDID == hrdID, null, "ContributionDetails");
             //var contribution = _contributionService.GetAllContribution();
 
             if (contribution != null)
@@ -214,6 +208,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             //var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
             //return View(contribution);
+            var hrds = _hrdService.GetAllHRD();
+            var hrdName = (from item in hrds
+                           select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList
+                ();
+            ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
             ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "Year", "Year").Distinct();
             return View();
         }
@@ -233,6 +232,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Ammount = detail.Amount
                         });
         }
+
+   public ActionResult Delete(int id)
+   {
+       var contributionDetail = _contributionDetailService.FindById(id);
+       if(contributionDetail!=null)
+       {
+           _contributionDetailService.DeleteContributionDetail(contributionDetail);
+           return RedirectToAction("Details","Contribution",new {id=contributionDetail.ContributionID});
+       }
+       return RedirectToAction("Index");
+   }
 
 
     

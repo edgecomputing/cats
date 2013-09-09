@@ -11,8 +11,8 @@
 
     <!-- Le styles -->
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
-    <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet"/>
-    <link href="~/Content/Site.css" rel="stylesheet"/>
+    <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
 
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
@@ -23,13 +23,12 @@
     <script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
-        
+
     <script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
     <script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
 
     <style type="text/css">
-        body
-        {
+        body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
@@ -52,26 +51,27 @@
     @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
 <body>
-    
+
     @Html.Partial("_MainMenu")
 
     <div class="container-fluid">
         <div class="row">
             @{
                 var bodyspan = "span12";
-                }
-            @if(ViewBag.ViewWidth != "Wide")
+            }
+
+            @if (ViewBag.ViewWidth != "Wide")
             {
                 bodyspan = "span10";
-            <div class="span2 column-divider">
-                <div class="sidebar-nav">
-                    Left
+                <div class="span2 column-divider">
+                    <div class="sidebar-nav">
+                        Left
                     <ul class="nav nav-list">
                         @RenderSection("LeftBar", required: false)
                     </ul>
+                    </div>
+                    <!--/.well -->
                 </div>
-                <!--/.well -->
-            </div>
             }
             <!--/span-->
             <div class="@bodyspan">
@@ -92,7 +92,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     @RenderSection("Scripts", required: false)
 
-
     <script src="~/Content/assets/js/bootstrap-transition.js"></script>
     <script src="~/Content/assets/js/bootstrap-alert.js"></script>
     <script src="~/Content/assets/js/bootstrap-modal.js"></script>
@@ -106,22 +105,20 @@
     <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
     <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
     <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
-    
+
     <script src="~/Content/assets/js/jquery.validate.min.js"></script>
     <script src="~/Content/assets/js/jquery.validate.js"></script>
-
-
 
     @{
         var calendarPerference = 1;
         if (calendarPerference == 2)
         {
 
-            <script>
-                $(function() {
-                   // $(".cats-datepicker").datepicker();
-                });
-            </script>
+        <script>
+            $(function () {
+                // $(".cats-datepicker").datepicker();
+            });
+        </script>
 
         }
         else
@@ -141,14 +138,14 @@
 
 
 
-                 $(".cats-datepicker").calendarsPicker({
+                $(".cats-datepicker").calendarsPicker({
 
-                     calendar: $.calendars.instance('ethiopian', 'am')
-                     //disableInput: true
-                 }).attr('style', 'background-color : #fff');
-                 $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
-             });
-         </script>                                                                                                
+                    calendar: $.calendars.instance('ethiopian', 'am')
+                    //disableInput: true
+                }).attr('style', 'background-color : #fff');
+                $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
+            });
+        </script>                                                                                                
 
                                                                                                                                    
     

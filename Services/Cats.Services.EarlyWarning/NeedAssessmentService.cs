@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using log4net;
+
 
 namespace Cats.Services.EarlyWarning
 {
@@ -13,18 +15,29 @@ namespace Cats.Services.EarlyWarning
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        public ILog Logger;
 
-        public NeedAssessmentService(IUnitOfWork unitOfWork)
+        public NeedAssessmentService(IUnitOfWork unitOfWork, ILog logger)
         {
             this._unitOfWork = unitOfWork;
+            Logger = logger;
         }
+
         #region Default Service Implementation
         public bool AddNeedAssessment(NeedAssessment needAssessment)
         {
-
-            _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
-            _unitOfWork.Save();
-            return true;
+            try
+            {
+                _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (System.Data.ConstraintException ex)
+            {
+                Logger.Error("",new Exception(ex.InnerException.Message.ToString(CultureInfo.InvariantCulture)));
+                throw new Exception(ex.ToString());
+            }
+           
 
         }
         public bool EditNeedAssessment(NeedAssessment needAssessment)
@@ -43,6 +56,7 @@ namespace Cats.Services.EarlyWarning
         }
         public bool DeleteById(int id)
         {
+            
             var entity = _unitOfWork.NeedAssessmentRepository.FindById(id);
             if (entity == null) return false;
             _unitOfWork.NeedAssessmentRepository.Delete(entity);
@@ -51,6 +65,7 @@ namespace Cats.Services.EarlyWarning
         }
         public List<NeedAssessment> GetAllNeedAssessment()
         {
+          
             return _unitOfWork.NeedAssessmentRepository.GetAll();
         }
         public NeedAssessment FindById(int id)
@@ -65,6 +80,7 @@ namespace Cats.Services.EarlyWarning
 
         public IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModel()
         {
+           Logger.Warn("warining");
             var needAssessment = _unitOfWork.NeedAssessmentRepository.Get(g => g.NeedAApproved == false); //featch unapproved need assessments
             return needAssessment.Select(need =>  new NeedAssessmentHeaderViewModel()
                                                                               {
@@ -115,7 +131,7 @@ namespace Cats.Services.EarlyWarning
 
         public IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(int region)//,string season)
         {
-            var woredas =_unitOfWork.NeedAssessmentDetailRepository.FindBy(z => z.NeedAssessmentHeader.AdminUnit.ParentID == region);
+            var woredas =_unitOfWork.NeedAssessmentDetailRepository.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID==region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
             return woredas.Select(adminUnit => new NeedAssessmentWoredaDao
             {
                                                          NAId = adminUnit.NAId,

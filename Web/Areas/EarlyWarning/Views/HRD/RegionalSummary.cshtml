@@ -10,7 +10,8 @@
 }
 @section Toolbar
 {
-        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+     <a  class="btn toolbar-btn" target="_blank" href="@Url.Action("PrintSummary", "HRD",new{id=Model.HRDID})" title="Print"><i class="icon-print"></i></a>
 }
 <div>
     <h4>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h4>
@@ -30,7 +31,7 @@
     .Columns(columns =>
         {
         columns.Bound(p => p.RegionName).ClientFooterTemplate("Total");
-        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N0}', sum)#").HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.Cereal).Title("Cereal " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.BlededFood).Title("BlendedFood " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.Pulse).Title("Pulse "+@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });

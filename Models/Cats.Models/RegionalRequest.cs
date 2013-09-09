@@ -27,12 +27,15 @@ namespace Cats.Models
         public string Remark { get; set; }
         public int Status { get; set; }
         public int RationID { get; set; }
+        public int? DonorID { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
         public virtual Ration Ration { get; set; }
+        public virtual  Donor Donor { get; set; }
+
         public string MonthName { get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Month); } }
     }
 }

@@ -8,9 +8,15 @@
 {
     @Html.Partial("_BidPlanLeftBar")
 }
-<h2>Edit</h2>
-
-@using (Html.BeginForm()) {
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_bid"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("index", "TransportBidPlan")" title="save"></a>
+}
+<h3>Edit</h3>
+<div class="form-horizontal">
+@using (Html.BeginForm("Edit", "TransportBidPlan", FormMethod.Post, new { id = "frm_edit_bid" }))
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -18,41 +24,26 @@
 
         @Html.HiddenFor(model => model.TransportBidPlanID)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Year)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Year)
-            @Html.ValidationMessageFor(model => model.Year)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.YearHalf)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.YearHalf)
-            @Html.ValidationMessageFor(model => model.YearHalf)
+        <div class="control-group">
+            <label class="control-label" for="Name"> @Html.LabelFor(model => model.Year)</label>
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Year, new { @class = "input-xlarge", @placeholder = "Year" })    
+                 @Html.ValidationMessageFor(model => model.Year)
+            </div>
         </div>
 
-        <!--
+        <div class="control-group">
+            <label class="control-label" for="YearHalf"> @Html.LabelFor(model => model.YearHalf)</label>
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.YearHalf, new { @class = "input-xlarge", @placeholder = "Year Half" })    
+                 @Html.ValidationMessageFor(model => model.YearHalf)
+            </div>
+        </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ProgramID, "Program")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("ProgramID", String.Empty)
-            @Html.ValidationMessageFor(model => model.ProgramID)
-        </div>
-            -->
-        <p>
-            <input type="submit" value="Save" />
-        </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

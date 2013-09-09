@@ -89,6 +89,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
@@ -142,6 +143,8 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Reporting, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
+    <Reference Include="Telerik.ReportViewer.WebForms, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be, processorArchitecture=MSIL" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
@@ -245,6 +248,7 @@
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
+    <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -664,7 +668,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-    <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
@@ -800,7 +804,21 @@
     <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
+
     <Content Include="Areas\Settings\Views\Users\EditUserRoles.cshtml" />
+
+    <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Commodity.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Locations_FDPs.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_TransactionAndJournals.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_BusineesProcess.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_UsersAndRoles.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1034,9 +1052,6 @@
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
-    <Content Include="Views\Shared\_MainLayout.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
@@ -1046,6 +1061,7 @@
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
+    <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1116,6 +1132,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
+    <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>

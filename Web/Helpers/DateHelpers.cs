@@ -11,7 +11,7 @@ namespace Cats.Helpers
     {
         public static string ToCTSPreferedDateFormat(this DateTime date, string lang)
         {
-            if (lang == "en")
+            if (lang.ToLower() == "en")
             {
                 IFormatProvider provider = new CultureInfo("en-GB");
                 return date.ToString("dd-MMM-yyyy", provider);
@@ -24,6 +24,7 @@ namespace Cats.Helpers
             }
 
         }
+
         public static string FormatDateFromString(this HtmlHelper helper, string dateAsString)
         {
             DateTime theRealDate = Convert.ToDateTime((dateAsString));

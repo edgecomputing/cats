@@ -29,12 +29,13 @@ namespace Cats.Services.EarlyWarning
         {
            // regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-            regionalRequest.RationID = 2;//TODO:SET DEFAULT Ration
+           // regionalRequest.RationID = 2;//TODO:SET DEFAULT Ration
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.ReferenceNumber = DateTime.Today.ToLongTimeString();
             _unitOfWork.RegionalRequestRepository.Add(regionalRequest);
             _unitOfWork.Save();
             regionalRequest.ReferenceNumber = "ref-00" + regionalRequest.RegionalRequestID;
+            _unitOfWork.Save();
             return true;
 
         }
@@ -175,11 +176,14 @@ namespace Cats.Services.EarlyWarning
             else if (plan.ProgramID == 1)
             {
                 HRD hrd=_unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
-                List<HRDDetail> hrddetail =
-                (from woreda in hrd.HRDDetails
-                 where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.NumberOfBeneficiaries>0
-                 select woreda).ToList();
-                beneficiaryInfos = HRDToRequest(hrddetail);
+                if (hrd != null)
+                {
+                    List<HRDDetail> hrddetail =
+                    (from woreda in hrd.HRDDetails
+                     where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.NumberOfBeneficiaries > 0
+                     select woreda).ToList();
+                    beneficiaryInfos = HRDToRequest(hrddetail);
+                }
             }
             result.BeneficiaryInfos = beneficiaryInfos;
                 return result;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Helpers;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
@@ -378,7 +379,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrdViewModel = GetHrds(allHrd);
             return View();//ViewPdf("HRD report", "Print", hrdViewModel);
         }
+        public ActionResult PrintSummary(int? id)
+        {
+            if (id == null)
+            {
+                RedirectToAction("Index");
+            }
+            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails,Season").FirstOrDefault();
 
+            if (hrd == null) RedirectToAction("Index");
+            var season = hrd.Season.Name;
+            var year = hrd.Year;
+            var reportPath = Server.MapPath("~/Report/HRD/HRDSummaryByRegion.rdlc");
+            var reportData = (from item in GetSummary(hrd).ToList() select new { item.BlededFood, item.Cereal, item.DurationOfAssistance, item.HRDID, item.NumberOfBeneficiaries, item.Oil, item.Pulse, item.RegionName, item.Total, Season = season, Year = year });
+             
+            var dataSourceName = "hrdsummarybyregion";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+
+            return File(result.RenderBytes, result.MimeType);
+        }
         public ActionResult ApproveHRD(int id)
         {
             var hrd = _hrdService.FindById(id);
