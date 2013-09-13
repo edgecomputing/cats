@@ -270,6 +270,7 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -804,9 +805,7 @@
     <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\EditUserRoles.cshtml" />
-
     <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
@@ -818,7 +817,6 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
-
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1063,8 +1061,9 @@
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\Dashboard\_RegionalMonthlyRequests.cshtml" />
-    <Content Include="Views\Shared\Dashboard\_RequisitionsBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

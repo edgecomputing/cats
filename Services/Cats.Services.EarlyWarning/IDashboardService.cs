@@ -12,6 +12,7 @@ namespace Cats.Services.EarlyWarning
         List<RegionalRequest> RegionalRequestsByRegionID(int RegionId);
         List<RegionalRequest> RegionalRequests(int RegionId);
         IEnumerable<Request> PieRegionalRequests();
+        IEnumerable<ReliefRequisition> RequisitionBasedOnStatus();
         IEnumerable<Beneficiaries> BarNoOfBeneficiaries();
         List<RegionalRequest> Requests();
         IEnumerable<RegionalBeneficiaries> RegionalRequestsBeneficiary();

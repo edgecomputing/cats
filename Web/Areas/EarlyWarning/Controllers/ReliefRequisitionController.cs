@@ -249,14 +249,5 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(requisitionViewModel);
         }
 
-        public ActionResult GetAllRequisitions([DataSourceRequest] DataSourceRequest request)
-        {
-            var requisition =
-                _reliefRequisitionService.GetAllReliefRequisition();
-            var requisitionViewModel = RequisitionViewModelBinder.BindRequisitionViewModel(requisition);
-
-
-            return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
     }
 }
