@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace Cats.Models
+namespace Cats.Areas.EarlyWarning.Models
 {
-    public class InKindContributionDetail
+    public class InKindContributionDetailViewModel
     {
         public int InKindContributionDetailID { get; set; }
         public int ContributionID { get; set; }
-        public string ReferenceNumber { get; set; }
+        public string ReferencNumber { get; set; }
         public DateTime ContributionDate { get; set; }
+        public string Commodity { get; set; }
         public int CommodityID { get; set; }
         public decimal Amount { get; set; }
 
-        public virtual Contribution Contribution { get; set; }
-        public virtual Commodity Commodity { get; set; }
     }
 }
