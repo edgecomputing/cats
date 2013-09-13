@@ -1,0 +1,117 @@
+﻿@model Cats.Areas.Settings.Models.UserViewModel
+
+@{
+    ViewBag.Title = "Edit User Roles";
+}
+
+@section MainMenu
+{
+    @Html.Partial("_AdminMenuBar")
+}
+
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+
+<h4>Edit User Roles</h4>
+
+<h4 class="page-header">Edit User Roles</h4>
+
+@using (Html.BeginForm("EditUserRoles", "Users", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <!-- Text input-->
+    <div class="control-group">
+        <label class="control-label">User name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required" })
+        </div>
+    </div>
+
+        
+    <!-- START -->
+    
+    <div class="control-group">
+        <label class="control-label">Select Role:</label>
+        <div class="controls">
+
+            @*<div class="container">*@
+
+                <!-------->
+                <div id="content">
+
+                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                        @for (int i = 0; i < Model.Applications.Count; i++)
+                        {
+
+                            if (i == 0)
+                            { 
+                            <li class="active"><a href="#@i-1" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
+                            }
+                            else
+                            {
+                            <li><a href="#@i" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
+                            }
+                        }
+
+                    </ul>
+
+                    <div id="tab-content" class="tab-content">
+
+                       
+                            @for(int j = 0; j < Model.Applications.Count; j++)
+                            {
+                                if(j == 0)
+                                {
+                                <div class="tab-pane active" id="@j-1">
+                                @for (int l = 0; l < Model.Applications[j].Roles.Count; l++)
+                                {
+                                       
+                                <div>
+                                    @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
+                                    @Html.HiddenFor(m => m.Applications[j].Roles[l].RoleName, new { @class = "input-xlarge" })
+                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[l].IsChecked, new { @class = "input-xlarge" })
+                                    @Html.DisplayFor(m => Model.Applications[j].Roles[l].RoleName, new { @class = "input-xlarge" })
+                                </div> 
+
+                                }
+                             </div> 
+                            }
+                            else
+                            {
+                                <div class="tab-pane" id="@j">
+                                @for(int k = 0 ; k < Model.Applications[j].Roles.Count; k++)
+                                {
+                                       
+                                <div>
+                                    @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
+                                    @Html.HiddenFor(m=> m.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
+                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new { @class = "input-xlarge" })
+                                    @Html.DisplayFor(m => Model.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
+                                </div> 
+
+                                }
+                             </div>    
+                            }
+                            }
+                        
+
+                    </div>
+
+
+                </div>
+            @*</div>*@
+        </div>
+    </div>
+    
+    <!-- END -->
+
+    <!-- Button (Double) -->
+    <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+            <input type="submit" name="editUserRole" class="btn btn-primary" value="Edit User Role" />
+            <a href="@Url.Action("Index", "Users")" class="btn">Cancel</a>
+        </div>
+    </div>
+}

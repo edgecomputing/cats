@@ -58,11 +58,9 @@
                     @Html.LabelFor(m => m.CreatedDate,"Created Date")
                 </div>
                 <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="create" name="create" value="@Model.CreatedDate"/>*@
                     @Html.TextBoxFor(m=>m.CreatedDate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(m => m.CreatedDate)
                 </div>
-        
             </div>
         </div>
     }

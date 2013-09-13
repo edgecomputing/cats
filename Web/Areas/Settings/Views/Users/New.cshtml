@@ -22,7 +22,7 @@
     <div class="control-group">
         <label class="control-label">User name:</label>
         <div class="controls">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required", @id="UserName" })
         </div>
     </div>
 
@@ -51,39 +51,13 @@
     </div>
     
     
-    <!-- Application -->@*
-    
-   using(Ajax.BeginForm("New","Users",new {application = "Finance"}, new AjaxOptions{HttpMethod="get",InsertionMode=InsertionMode.Replace,UpdateTargetId="Roles"}))
-   {
-    <div class="control-group">
-        <label class="control-label">Applications:</label>
-        <div class="controls">
-            @Html.DropDownListFor(m => m.SelectedValue, Model.Applications, new { @class = "input-xlarge", @required = "required",@id="Application" })
-        </div>
-    </div>
-    
-    <!-- User Roles -->
-    <div class="control-group">
-        <label class="control-label" id="Roles">Roles:</label>
-        
-            @foreach (string roles in Model.Roles)
-            {
-                <div class="controls">
-                @Html.CheckBoxFor(m => m.IsSelected, new { @class = "input-xlarge", @required = "required" })
-                @Html.DisplayFor(m=>roles,new { @class = "input-xlarge", @required = "required" })
-                </div> 
-            }
-       
-    </div>
-   } *@
-    
     <!-- START -->
     
     <div class="control-group">
         <label class="control-label">Select Role:</label>
         <div class="controls">
 
-            <div class="container">
+            @*<div class="container">*@
 
                 <!-------->
                 <div id="content">
@@ -148,7 +122,7 @@
 
 
                 </div>
-            </div>
+            @*</div>*@
         </div>
     </div>
     
@@ -164,10 +138,12 @@
     </div>
 }
 
+
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
     });
+
 </script>
 
 

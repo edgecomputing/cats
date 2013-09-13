@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Areas.Settings.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Models.Security.ViewModels;
 
 namespace Cats.Areas.Settings.Controllers
 {
@@ -78,23 +79,22 @@ namespace Cats.Areas.Settings.Controllers
                Roles = new List<string>();
                foreach (var role in application.Roles)
                {
-                   if (role.IsChecked == true)
+                   if (role.IsChecked)
                        Roles.Add(role.RoleName);
                }
                if (Roles.Count > 0)
                    roles.Add(application.ApplicationName, Roles);
            }
 
-            user.UserProfile.FirstName = "";
-            user.UserPreference.LanguageCode = "EN";
-            user.UserPreference.Keyboard = "AM";
-            user.UserPreference.PreferedWeightMeasurment = "MT";
-            user.UserPreference.Calendar = "GC";
-            user.UserPreference.DefaultTheme = "Default";
+           user.UserProfile.FirstName = "";
+           user.UserPreference.LanguageCode = "EN";
+           user.UserPreference.Keyboard = "AM";
+           user.UserPreference.PreferedWeightMeasurment = "MT";
+           user.UserPreference.Calendar = "GC";
+           user.UserPreference.DefaultTheme = "Default";
 
             userService.Add(user, roles);
 
-            //// ADD User Role
 
             return View();
 
@@ -110,6 +110,44 @@ namespace Cats.Areas.Settings.Controllers
         {
             var users = userService.GetAll();
             return Json(users.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult EditUserRoles(string UserName)
+        {
+            var model = new UserViewModel();
+            model.UserName = UserName;
+            List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetUserPermissions(UserName);
+
+            model.Applications = Applications;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditUserRoles(UserViewModel userInfo)
+        {
+            //// 
+            
+            List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
+            Dictionary<string, List<Role>> roles = new Dictionary<string, List<Role>>();
+            var Roles = new List<Role>();
+            foreach (var application in app)
+            {
+                foreach (var role in application.Roles)
+                {
+                    if (role.IsChecked)
+                        Roles = new List<Role>() { new Role() { RoleName = role.RoleName } };
+                }
+                if (Roles.Count > 0)
+                    roles.Add(application.ApplicationName, Roles);
+            }
+
+            var user = new UserAccount();
+
+            user.UserName = userInfo.UserName;
+            userService.EditUserRole(userInfo.UserName, userInfo.UserName, roles);
+
+            return View();
         }
     }
 }

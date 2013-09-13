@@ -7,10 +7,9 @@
     UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     List<UIWidget> widgets = new List<UIWidget> { 
-        new UIWidget{ Title = "Quick Shortcuts", Icon = "icon-bookmark", Source = "Dashboard/_Shortcuts" },   
+        new UIWidget{ Title = "Quick Shortcuts", Icon = "icon-bookmark", Source = "Dashboard/_Shortcuts" },
         new UIWidget{ Title = "For Your Action", Icon = "icon-bullhorn", Source = "Dashboard/_Alerts" },
         new UIWidget{ Title = "Beneficiaries Chart", Icon = "icon-bar-chart", Source = "Dashboard/_BarBeneficiaries" },
-        new UIWidget{ Title = "Requisitions based on status", Icon = "icon-bookmark", Source = "Dashboard/_RequisitionsBasedonStatus" },
         new UIWidget{ Title = "Regional Monthly Requests", Icon = "icon-bar-chart", Source = "Dashboard/_PieRequests" },
         new UIWidget{ Title = "Beneficiaries Comparison for the Last 6 Months", Icon = "icon-bookmark", Source = "Dashboard/_BarRegionalReqDetailCommodity" },
         new UIWidget{ Title=  "Need Assessment Summary", Icon ="icon-bar-chart", Source="Dashboard/_BarNeedAssessment" },
@@ -22,36 +21,69 @@
 
 <link href="~/Content/DashboardWidget.css" rel="stylesheet">
 <div class="row-fluid">
-    @for (int c=0;c<cols;c++)
+    @for (int c = 0; c < cols; c++)
     {
         
-    <div class="span6">
-    @foreach (UIWidget widget in  widgets)
-    {
-        int even = (i / cols);
-        i++;
-       // @even
-        if(even!=c)
-        {    
-        <div>
-         <div class="widget stacked">
-            <div class="widget-header">
-                <i class="@widget.Icon"></i>
-                <h3> @widget.Title</h3>
-            </div>
-            <div class="widget-content">
-                @if(widget.Source=="")
-                {
-                }
-                else
-                {
-                    @Html.Partial(widget.Source)
-                }
-            </div>
+        <div class="span6">
+            @foreach (UIWidget widget in widgets)
+            {
+                int cc = i % cols;
+                i++;
+                if (cc == c)
+                {//    
+                <div class="widget stacked">
+                    <div class="widget-header">
+                        <i class="@widget.Icon"></i>
+                        <h3>@widget.Title</h3>
+                    </div>
+                    <div class="widget-content">
+                        @if (widget.Source == "")
+                        {
+                            <div class="shortcuts">
+                                <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                                    <span class="shortcut-label">Apps</span>
+                                </a>
+
+                                <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                                    <span class="shortcut-label">Reports</span>
+                                </a>
+
+                                <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                                    <span class="shortcut-label">Inbox</span>
+                                </a>
+
+                                <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+                                    <span class="shortcut-label">Tasks</span>
+                                </a>
+
+                                <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-bell"></i>
+                                    <span class="shortcut-label">Alerts</span>
+                                </a>
+
+                                <a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                                    <span class="shortcut-label">Preferences</span>
+                                </a>
+                                <!--
+						    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-calendar"></i>
+							    <span class="shortcut-label">My Calendar</span>								
+						    </a>
+ 
+                                                       						
+						    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-bookmark"></i>
+							    <span class="shortcut-label">Bookmarks</span>								
+						    </a>
+                            -->
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.Partial(widget.Source)
+                        }
+                    </div>
+                </div>
+       
+                }//
+            }
         </div>
-            </div>
-        }
-    }
-</div>
     }
 </div>

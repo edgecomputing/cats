@@ -27,7 +27,7 @@ namespace Cats.ViewModelBinder
                 ),
                 Round = reliefRequisition.Round,
                 Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.RELIEF_REQUISITION && t.StatusID== reliefRequisition.Status.Value).Description ,
-                RequestedDate = reliefRequisition.RequestedDate,
+                RequestedDate = reliefRequisition.RequestedDate.Value,
                 StatusID = reliefRequisition.Status,
                 RequisitionID = reliefRequisition.RequisitionID,
                 CommodityID = reliefRequisition.CommodityID,
@@ -50,7 +50,7 @@ namespace Cats.ViewModelBinder
                 {
                     var reliefRequisitionViewModel = new ReliefRequisitionViewModel();
                     reliefRequisitionViewModel.RequisitionNo = reliefRequisition.RequisitionNo;
-                    reliefRequisitionViewModel.RequestedDate = reliefRequisition.RequestedDate;
+                    reliefRequisitionViewModel.RequestedDate = (DateTime)reliefRequisition.RequestedDate;
                     reliefRequisitionViewModel.Status = reliefRequisition.Status.ToString();
                     reliefRequisitionViewModels.Add(reliefRequisitionViewModel);
 

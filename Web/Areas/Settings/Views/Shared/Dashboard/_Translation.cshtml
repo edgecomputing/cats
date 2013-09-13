@@ -1,0 +1,25 @@
+﻿<div class="widget stacked">
+    <div id="trdHeader" class="widget-header">
+        <i class=""></i>
+        <h3>Translation</h3>
+    </div>
+    <div id="trdContent" class="widget-content">
+        <div class="">
+            <a href="@Url.Action("Index", "Language", new { Area = "Localization" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                <span class="shortcut-label">Languages</span>
+            </a>
+            <br/>
+            <a href="@Url.Action("Details", "Language", new { Area = "Localization" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                <span class="shortcut-label">Translation Terms</span>
+            </a>
+            <br/>
+           
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#trdHeader").click(function () {
+        $("#trdContent").slideToggle("slow", "linear");
+    });
+</script>

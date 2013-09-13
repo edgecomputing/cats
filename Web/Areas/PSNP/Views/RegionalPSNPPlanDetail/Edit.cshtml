@@ -1,86 +1,136 @@
-﻿@model Cats.Models.RegionalPSNPPlanDetail
+﻿@using Kendo.Mvc.UI;
+@using Cats.Models;
+@using Cats.Models.PSNP;
+@using LanguageHelpers.Localization
+@model IEnumerable<Cats.Models.PSNP.PSNPPlanDetailView>
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var duration = 0;
+    var RegionalPSNPPlanID = 0;
+}
+@section LeftBar
+{
+    @Html.Partial("_PSNPDetailLeftBar")
+       
+}
+ @section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
+         <a class="btn toolbar-btn " data-buttontype="btn_reload" href="javascript:reloadrecords()"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+    
+}
+   
+
+@if (ViewBag.psnpPlan != null)
+{
+    duration = ViewBag.PsnpPlan.Duration;
+    RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
+    <div>
+    <p><b>PSNP Plan</b>: <span>@ViewBag.PsnpPlan.Region.Name Region - </span>  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</p>
+   
+    </div>
 }
 
-<h2>Edit</h2>
+@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
+    .Name("grid")
+    .Columns(columns =>
+    {
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+        columns.Bound(p => p.ZoneName);
 
-    <fieldset>
-        <legend>RegionalPSNPPlanDetail</legend>
+        columns.Bound(p => p.WoredaName);
+        columns.Bound(p => p.FDPName);
+        columns.Bound(p => p.BeneficiaryCount);
+        columns.Bound(p => p.FoodRatio);
+        columns.Bound(p => p.CashRatio);
 
-        @Html.HiddenFor(model => model.RegionalPSNPPlanDetailID)
+    })
+    .DataSource(dataSource => dataSource
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.RegionalPSNPPlanID, "RegionalPSNPPlan")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("RegionalPSNPPlanID", String.Empty)
-            @Html.ValidationMessageFor(model => model.RegionalPSNPPlanID)
-        </div>
+        .Ajax()
+        .Batch(true)
+        .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
+        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
+        .Create(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+        .Update(update => update.Action("EditAjax", "RegionalPSNPPlanDetail"))
+        .Destroy(update => update.Action("DeleteAjax", "RegionalPSNPPlanDetail"))
+        .Model(model =>
+        {
+            model.Field(p => p.ZoneName).Editable(false);
+            model.Field(p => p.WoredaName).Editable(false);
+            model.Field(p => p.FDPName).Editable(false);
+        })
+        )
+    
+    .HtmlAttributes(new { style = "width:100%; height:450px;" })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+   .Events(events => events.DataBound("onDataBound"))
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+   // .Groupable()
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PlanedFDPID, "PlanedFDP")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("PlanedFDPID", String.Empty)
-            @Html.ValidationMessageFor(model => model.PlanedFDPID)
-        </div>
+)
+<script>
+    $(function()
+    {
+        var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
+        $("#toolbar_button_print").attr("href",printurl);
+    });
+    function onDataBound(e) 
+    {
+        
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            var duration="@duration"
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var FoodRatio = firstItem.get('FoodRatio');
+            if(FoodRatio>0)
+            {
+                firstItem.set('CashRatio',duration -FoodRatio);
+            }
+        });
+     }
+    var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })"
+    function deleteRecord(e) {
+        e.preventDefault();
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.BeneficiaryCount)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.BeneficiaryCount)
-            @Html.ValidationMessageFor(model => model.BeneficiaryCount)
-        </div>
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var id=dataItem.RegionalPSNPPlanDetailID;
+        if(confirm("Are you sure you want to delete this record? " + id)==true)
+        {
+            var post_values={id:id};
+            
+            $.post(
+                    deleteURL
+                    ,post_values
+                    ,function (data)
+                    {
+                        $("#grid").data("kendoGrid").dataSource.read();
+                    }
+                 );
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.FoodRatio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.FoodRatio)
-            @Html.ValidationMessageFor(model => model.FoodRatio)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CashRatio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.CashRatio)
-            @Html.ValidationMessageFor(model => model.CashRatio)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Item3Ratio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Item3Ratio)
-            @Html.ValidationMessageFor(model => model.Item3Ratio)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Item4Ratio)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Item4Ratio)
-            @Html.ValidationMessageFor(model => model.Item4Ratio)
-        </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        }
+    }
+    function filterInfo() {
+        return {id:@RegionalPSNPPlanID};
+    }
+    function saverecords()
+    {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+    function reloadrecords()
+    {
+        $("#grid").data("kendoGrid").dataSource.read();
+    }
+    function cancelChanges()
+    {
+        $("#grid").data("kendoGrid").dataSource.cancelChanges();
+    }
+</script>

@@ -22,9 +22,9 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.HRD).ClientTemplate("<a href='" + Url.Action("Details", "Contribution", new { id = "#=ContributionID#" }) + " '>#=HRD#</a>  ");
-        columns.Bound(p => p.Donor);
-        columns.Bound(p => p.Year);
+            columns.Bound(p => p.Donor).ClientTemplate("<a href='" + Url.Action("Details", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  ");
+        columns.Bound(p => p.HRD);
+        //columns.Bound(p => p.Year);
         
         })
     .Pageable()

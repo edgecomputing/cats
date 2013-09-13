@@ -19,6 +19,12 @@ namespace Cats.Areas.Settings
                 "Settings/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+
+            context.MapRoute(
+                name:"Settings_start",
+                url:  "Settings/",
+                defaults: new { controller = "Home", action = "Index" },
+                namespaces: new[] { "Cats.Areas.Settings.Controllers" });
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Cats.Models
 {
@@ -12,7 +13,7 @@ namespace Cats.Models
         {
             this.NeedAssessments = new List<NeedAssessment>();
         }
-
+          [DisplayName("Type of Need Assessfment")]
         public int TypeOfNeedAssessmentID { get; set; }
         public string TypeOfNeedAssessment1 { get; set; }
         public string Remark { get; set; }

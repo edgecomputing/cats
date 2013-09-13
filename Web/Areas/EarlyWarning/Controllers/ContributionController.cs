@@ -56,6 +56,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (contribution !=null && ModelState.IsValid)
             {
+                contribution.Year = DateTime.Now.Year;
                 _contributionService.AddContribution(contribution);
                 return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
             }
@@ -188,10 +189,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? year)
+        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? id)
         {
-            var contributionYear = year ?? 0;
-            var contribution = _contributionService.Get(m => m.Year == contributionYear, null, "ContributionDetails");
+            var hrdID = id ?? 0;
+            var contribution = _contributionService.Get(m => m.HRDID == hrdID, null, "ContributionDetails");
             //var contribution = _contributionService.GetAllContribution();
 
             if (contribution != null)
@@ -207,6 +208,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             //var contribution = _contributionService.GetAllContribution().Where(m=>m.Year==id).ToList();
             //return View(contribution);
+            var hrds = _hrdService.GetAllHRD();
+            var hrdName = (from item in hrds
+                           select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList
+                ();
+            ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
             ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "Year", "Year").Distinct();
             return View();
         }

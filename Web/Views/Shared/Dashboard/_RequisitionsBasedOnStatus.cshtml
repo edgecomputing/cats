@@ -25,7 +25,8 @@
             success: function (strData) {
                 var result = JSON.parse(strData);
                 var content = '<table class="table table-striped table-bordered"><thead><tr><th>Requisition No.</th><th>Requested By</th><th>Requested Date</th><th>Status</th></tr></thead><tbody>';
-                for (var i = 0; i < result.count; i++){
+                alert('Requisition No. :' + result[i].RequisitionNo);
+                for (var i = 0; i < result.count; i++) {
                     content = '<tr>' + result[i].RequisitionNo + '<td></td>';
                     content = '<td></td>';
                     content = '<td></td>';
