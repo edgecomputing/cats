@@ -804,9 +804,7 @@
     <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\EditUserRoles.cshtml" />
-
     <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
@@ -818,7 +816,6 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
-
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1080,6 +1077,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.AzManHelpers\Cats.AzManHelpers.csproj">
+      <Project>{9f4820fd-5c72-4247-ad11-5166659c736a}</Project>
+      <Name>Cats.AzManHelpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
