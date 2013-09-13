@@ -8,8 +8,7 @@ using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using log4net;
-using log4net.Config;
-using Cats.Services.Common;
+using Cats.Helpers;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -21,7 +20,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly INeedAssessmentDetailService _needAssessmentDetailService;
         private readonly ISeasonService _seasonService;
         private readonly ITypeOfNeedAssessmentService _typeOfNeedAssessmentService;
-        public ILog _log;
+        private readonly ILog _log;
 
      
 
@@ -128,6 +127,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             catch (Exception exception)
             {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception,_log);
+
                 ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
                 ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
                 ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
