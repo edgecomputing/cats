@@ -6,6 +6,11 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
      
 }
+@section Toolbar
+{
+    
+    <a class="btn toolbar-btn " data-submittedform="frmHub" onclick="check()" >Assign hub</a>
+}
 
 @{
     
@@ -14,7 +19,7 @@
 }
   
 <script>
-    $(document).ready(function(){
+    $(document).ready(function check(){
  
         $('#frmHub').validate(
             {
@@ -32,7 +37,7 @@
                 },
                 success: function(element) {
                     element
-                        .text('OK!').addClass('valid')
+                         .addClass('valid')
                         .closest('.control-group').removeClass('error').addClass('success');
                 }
             });
@@ -54,7 +59,7 @@
            <div class="control-group">
                <label class="control-label">@Translator.Translate("Allocation Date")</label>
                <div class="controls">
-                   <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
+                   <input type="text" class="cats-datepicker2" id="datepicker" name="datepicker" >
                </div>
            </div>
            <div class="control-group ">
@@ -194,11 +199,7 @@
     
        </div>
        <br/>
-       <div>
-           <button type="submit" class="btn btn-success">
-               <i class="icon-user icon-white"></i> @Translator.Translate("Assign Hub")
-           </button>
-       </div>
+       
    }
 
     

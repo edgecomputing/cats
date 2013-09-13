@@ -248,5 +248,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION));
             return View(requisitionViewModel);
         }
+
     }
 }

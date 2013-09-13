@@ -26,7 +26,8 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Season> seasonRepository;
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
-        private IGenericRepository<Currency> currencyRepository; 
+        private IGenericRepository<Currency> currencyRepository;
+        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository; 
 
         public UnitOfWork()
         {
@@ -645,6 +646,11 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<TransactionGroup> TransactionGroupRepository
         {
             get { return this.transactionGroupRepository ?? (this.transactionGroupRepository = new GenericRepository<TransactionGroup>(_context)); }
+        }
+
+        public IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository
+        {
+            get { return this.inKindContributionDetailRepository ?? (this.inKindContributionDetailRepository = new GenericRepository<InKindContributionDetail>(_context)); }
         }
     }
 }

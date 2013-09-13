@@ -21,6 +21,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.DonorID).HasColumnName("DonorID");
             this.Property(t => t.HRDID).HasColumnName("HRDID");
             this.Property(t => t.Year).HasColumnName("Year");
+            this.Property(t => t.ContributionType).HasColumnName("ContributionType");
             //this.Property(t => t.ImplementingAgency).HasColumnName("ImplementingAgency");
 
             // Relationships

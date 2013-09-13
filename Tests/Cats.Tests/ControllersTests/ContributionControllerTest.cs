@@ -88,8 +88,16 @@ namespace Cats.Tests.ControllersTests
             var currencyService = new Mock<ICurrencyService>();
             currencyService.Setup(m => m.GetAllCurrency()).Returns(currency);
 
+            var commodity = new List<Commodity>
+                {
+                    new Commodity {CommodityID = 1, Name = "CSB"},
+                    new Commodity {CommodityID = 2, Name = "Pulse"},
+                };
+            var commodityService = new Mock<ICommodityService>();
+            commodityService.Setup(m => m.GetAllCommodity()).Returns(commodity);
+
             _contributionController=new ContributionController(contributionService.Object,contributionDetailService.Object,
-                                   donorService.Object,currencyService.Object,hrdService.Object);
+                                   donorService.Object,currencyService.Object,hrdService.Object,commodityService.Object);
 
         }
 

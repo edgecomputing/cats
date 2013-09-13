@@ -41,16 +41,22 @@
             </div>
 
         </div>
-       @* <div class="control-group">
+
+       <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(m => m.Year)
+                @Html.LabelFor(m => m.ContributionType)
             </div>
             <div class="controls">
-                @Html.Editor("Year")
-                @Html.ValidationMessageFor(m => m.Year)
+                 @Html.DropDownList("ContributionType", new List<SelectListItem>
+
+                 {
+                    new SelectListItem{ Text="In-Cash", Value = "In-Cash" },
+                    new SelectListItem{ Text="In-Kind", Value = "In-Kind" }
+                 }) 
+                @Html.ValidationMessageFor(m => m.ContributionType)
             </div>
 
-        </div>*@
+        </div>
       
     </div>
 }

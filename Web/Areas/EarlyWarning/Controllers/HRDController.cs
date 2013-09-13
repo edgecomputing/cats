@@ -52,11 +52,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-
             var hrd = _hrdService.GetAllHRD();
+            ModelState.AddModelError("Errors", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Sample Error Message.')");
+            ModelState.AddModelError("Warning", "Sample Warning Message. Use in Your Controller: ModelState.AddModelError('Warning', 'Sample Warning Message.')");
+            ModelState.AddModelError("Info", "Sample Info Message. Use in Your Controller: ModelState.AddModelError('Info', 'Sample Info Message.')");
+            ModelState.AddModelError("Success", "Sample success Message. Use in Your Controller: ModelState.AddModelError('Success', 'Sample Success Message.')");
             //ViewBag.Status = _workflowStatusService.GetStatusName();
             return View(hrd);
         }
+
+        public ActionResult HRDPrintOut()
+        {
+            return View("HRDPrintOut");
+        }
+
         public ActionResult HRDDetail(int id = 0)
         {
             ViewData["Month"] = RequestHelper.GetMonthList();
