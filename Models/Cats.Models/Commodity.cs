@@ -18,6 +18,7 @@ namespace Cats.Models
             this.RationDetails=new List<RationDetail>();
             this.HRDCommodityDetails=new List<HRDCommodityDetail>();
             this.GiftCertificateDetails = new List<GiftCertificateDetail>();
+            this.InKindContributionDetails=new List<InKindContributionDetail>();
             
         }
 
@@ -44,6 +45,8 @@ namespace Cats.Models
         public virtual ICollection<GiftCertificateDetail> GiftCertificateDetails { get; set; }
 
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
+
+        public virtual ICollection<InKindContributionDetail> InKindContributionDetails{ get; set; }
  
     }
 }

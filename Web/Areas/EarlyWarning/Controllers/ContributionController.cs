@@ -12,22 +12,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class ContributionController : Controller
     {
-        private readonly IContributionService _contributionService;
-        private readonly IContributionDetailService _contributionDetailService;
-        private readonly IDonorService _donorService;
-        private readonly ICurrencyService _currencyService;
-        private readonly IHRDService _hrdService;
+        private  IContributionService _contributionService;
+        private  IContributionDetailService _contributionDetailService;
+        private  IDonorService _donorService;
+        private  ICurrencyService _currencyService;
+        private  IHRDService _hrdService;
+        private ICommodityService _commodityService;
         // GET: /EarlyWarning/Contribution/
         public ContributionController(IContributionService contributionService,
                                       IContributionDetailService contributionDetailService,
                                       IDonorService donorService, ICurrencyService currencyService,
-                                      IHRDService hrdService)
+                                      IHRDService hrdService,ICommodityService commodityService)
         {
             _contributionService = contributionService;
             _contributionDetailService = contributionDetailService;
             _donorService = donorService;
             _currencyService = currencyService;
             _hrdService = hrdService;
+            _commodityService = commodityService;
         }
 
         public ActionResult Index()
@@ -58,6 +60,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 contribution.Year = DateTime.Now.Year;
                 _contributionService.AddContribution(contribution);
+                if (contribution.ContributionType == "In-Kind")
+                    return RedirectToAction("InkindDetails", "Contribution", new {id = contribution.ContributionID});
+               
                 return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
             }
 
@@ -77,6 +82,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 return View(contribution);
             }
             return RedirectToAction("Index");
+        }
+        public ActionResult InkindDetails(int id)
+        {
+            var contribution = _contributionService.Get(m => m.ContributionID == id, null, "InkindContributionDetails").FirstOrDefault();
+            ViewBag.DonorID = contribution.Donor.Name;
+            ViewBag.CommodityID = _commodityService.GetAllCommodity();
+            if (contribution != null)
+            {
+                return View(contribution);
+            }
+            return RedirectToAction("Index");
+
         }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ContributionDetail_Create([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel details,int id)
@@ -176,6 +193,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
+        private IEnumerable<InKindContributionDetailViewModel> GetInKindContributionDetail(Contribution contribution)
+        {
+            var inkindContributionDetails = contribution.InKindContributionDetails;
+            return (from inkindContributionDetail in inkindContributionDetails
+                    select new InKindContributionDetailViewModel()
+                        {
+                            InKindContributionDetailID = inkindContributionDetail.InKindContributionDetailID,
+                            ContributionID = inkindContributionDetail.ContributionID,
+                            ReferencNumber = inkindContributionDetail.ReferenceNumber,
+                            ContributionDate = inkindContributionDetail.ContributionDate,
+                            Commodity = inkindContributionDetail.Commodity.Name,
+                            CommodityID = inkindContributionDetail.CommodityID,
+                            Amount = inkindContributionDetail.Amount
+
+                        });
+
+
+        }
+
         public ActionResult ContributionDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
 
@@ -184,6 +220,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (contribution != null)
             {
                 var detailsToDisplay = GetContributionDetail(contribution).ToList();
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult InkindContributionDetail_Read([DataSourceRequest] DataSourceRequest request,int id=0)
+        {
+            var contribution = _contributionService.Get(m => m.ContributionID == id, null, "InKindContributionDetails").FirstOrDefault();
+
+            if (contribution != null)
+            {
+                var detailsToDisplay = GetInKindContributionDetail(contribution).ToList();
                 return Json(detailsToDisplay.ToDataSourceResult(request));
             }
             return RedirectToAction("Index");

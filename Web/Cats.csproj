@@ -182,6 +182,7 @@
     <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
+    <Compile Include="Helpers\Log.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -767,6 +769,7 @@
     <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

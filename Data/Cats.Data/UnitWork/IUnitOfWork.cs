@@ -111,7 +111,9 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<LetterTemplate_> LetterTemplateRepository { get; }
         IGenericRepository<Currency> CurrencyRepository { get; } 
-        IGenericRepository<TransactionGroup> TransactionGroupRepository { get; } 
+        IGenericRepository<TransactionGroup> TransactionGroupRepository { get; }
+
+        IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository { get; } 
         void Save();
 
     }

@@ -76,12 +76,14 @@
     <Compile Include="ICurrencyService.cs" />
     <Compile Include="IDashboardService.cs" />
     <Compile Include="ContributionDetailService.cs" />
+    <Compile Include="IInkindContributionDetailService.cs" />
     <Compile Include="INeedAssessmentService.cs" />
     <Compile Include="ContributionService.cs" />
     <Compile Include="DonorService.cs" />
     <Compile Include="IContributionDetailService.cs" />
     <Compile Include="IContributionService.cs" />
     <Compile Include="IDonorService.cs" />
+    <Compile Include="InKindContributionDetailService.cs" />
     <Compile Include="ISeasonService.cs" />
     <Compile Include="FDPService.cs" />
     <Compile Include="FlowTemplateService.cs" />
