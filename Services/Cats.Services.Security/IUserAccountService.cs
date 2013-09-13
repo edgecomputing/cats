@@ -39,10 +39,12 @@ namespace Cats.Services.Security
         UserAccount GetUserDetail(string userName);
         UserInfo GetUserInfo(string userName);
         UserInfo GetUserInfo(int userId);
-        string[] GetUserPermissions(int userId, string store, string application);
+        List<Role> GetUserPermissions(string UserName, string store, string application);
 
         string[] GetRoles(string application);
         List<Application> GetApplications(string store);
         List<Role> GetRolesList(string application);
+        void EditUserRole(string owner, string userName, Dictionary<string, List<Role>> applications);
+        List<Application> GetUserPermissions(string UserName);
     }
 }
