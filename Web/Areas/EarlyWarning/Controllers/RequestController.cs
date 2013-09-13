@@ -142,7 +142,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (regionalRequest != null && ModelState.IsValid)
             {
                 var target = _regionalRequestService.FindById(regionalRequest.RegionalRequestID);
-                target = RequestViewModelBinder.BindRegionalRequest(regionalRequest, target);
+                RequestViewModelBinder.BindRegionalRequest(regionalRequest, target);
 
                 _regionalRequestService.EditRegionalRequest(target);
                 return RedirectToAction("Allocation", "Request", new { id = regionalRequest.RegionalRequestID });

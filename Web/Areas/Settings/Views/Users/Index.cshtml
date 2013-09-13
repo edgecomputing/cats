@@ -26,8 +26,8 @@
     .Columns(columns =>
     {
         columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
-            
-            
+
+
             "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserAccountId#" }) + " '>#=UserName#</a> "
             );
         columns.Bound(u => u.FullName).Title("Full Name");
@@ -36,6 +36,11 @@
         columns.Bound(u => u.LanguageCode).Title("UI Language");
         columns.Bound(u => u.Keyboard).Title("Keyboard Language");
         columns.Bound(u => u.Calendar).Title("Calendar Preference");
+        columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
+
+
+           "<a href='" + Url.Action("EditUserRoles", "Users", new { UserName = "#=UserName#" }) + " '>Edit Role</a> "
+           );
     })
     .Pageable()
     .Sortable()
@@ -44,6 +49,7 @@
         .Ajax()
         .Read(read => read.Action("UsersList", "Users"))
     )
+   
 )
 
 
@@ -59,4 +65,7 @@
         <li class="divider"></li>
         <li><a href="#">Delete</a></li>
     </ul>
+
 </div>*@
+
+

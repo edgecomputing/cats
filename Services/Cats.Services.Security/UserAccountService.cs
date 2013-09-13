@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Cats.Data.Security;
 using Cats.Models.Security;
 using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
 using Cats.Models.Security.ViewModels;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Services.Security
 {
@@ -26,6 +26,7 @@ namespace Cats.Services.Security
 
         private readonly IUnitOfWork _unitOfWork;
         private NetSqlAzManRoleProvider provider = new NetSqlAzManRoleProvider();
+        private IAzManStorage Store = new NetSqlAzMan.SqlAzManStorage(System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString);
 
         public UserAccountService(IUnitOfWork unitOfWork)
         {
@@ -320,19 +321,39 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userName">User name identifying the current user</param>
         /// <returns>Array of strings containing all of the permissions from .NetSqlAzMan store</returns>
-        public string[] GetUserPermissions(int userId, string store, string application)
+        public List<Role> GetUserPermissions(string userName, string store, string application)
         {
             // throw new NotImplementedException();
-            string userSid = userId.ToString("X");
-            string zeroes = string.Empty;
-            for (int start = 0; start < 8 - userSid.Length; start++)
-                zeroes += "0";
-            NetSqlAzMan.Cache.StorageCache storage = new NetSqlAzMan.Cache.StorageCache(System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString);
+            //string userSid = userId.ToString("X");
+            //string zeroes = string.Empty;
+            //for (int start = 0; start < 8 - userSid.Length; start++)
+            //    zeroes += "0";
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString;
+            IAzManStorage AzManStore = new NetSqlAzMan.SqlAzManStorage(connectionString);
+            NetSqlAzMan.Cache.StorageCache storage = new NetSqlAzMan.Cache.StorageCache(connectionString);
             storage.BuildStorageCache(store, application);
-            NetSqlAzMan.Cache.AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, zeroes + userSid, DateTime.Now);
+            NetSqlAzMan.Cache.AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, AzManStore.GetDBUser(userName).CustomSid.StringValue, DateTime.Now);
 
-            return (from t in items where t.Authorization == AuthorizationType.Allow select t.Name).ToArray();
+            return (from t in items where t.Authorization == AuthorizationType.Allow select new Role { RoleName = t.Name }).ToList();
         }
+
+        public List<Application> GetUserPermissions(string UserName)
+        {
+            var apps = new List<Cats.Models.Security.ViewModels.Application>();
+
+            Dictionary<string, IAzManApplication> Application = provider.GetStorage().Stores["CATS"].Applications;
+            foreach (var app in Application)
+            {
+                apps.Add(new Application() { ApplicationName = app.Value.Name, Roles = GetUserPermissions(UserName, "CATS", app.Value.Name) });
+            }
+            return apps;
+        }
+        
+        /// <summary>
+        /// Get all roles associated with the application provided
+        /// </summary>
+        /// <param name="application"> The application name</param>
+        /// <returns>Array of strings containing all of the roles in the application from .NetSqlAzMan store</returns>
 
         public string[] GetRoles(string application)
         {
@@ -362,19 +383,32 @@ namespace Cats.Services.Security
             foreach (var app in Application)
             {
                 // Get all roles for the current application
-                apps.Add(new Models.Security.ViewModels.Application { ApplicationName = app.Value.Name,Roles=GetRolesList(app.Value.Name) });
+                apps.Add(new Models.Security.ViewModels.Application { ApplicationName = app.Value.Name, Roles = GetRolesList(app.Value.Name) });
             }
 
             return apps;
         }
 
+        
 
         public void AddUserToRoles(string userName, string[] Roles, string store, string application)
         {
             string[] UserName = new string[] { userName };
-           // provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, application));
             provider.ApplicationName = application;
             provider.AddUsersToRoles(UserName, Roles);
+        }
+
+        public void EditUserRole(string owner, string userName, Dictionary<string, List<Role>> applications)
+        {
+            foreach (var apps in applications)
+            {
+                List<Role> UserPermissions = GetUserPermissions(Store.GetDBUser(userName).CustomSid.StringValue, "CATS", apps.Key);
+                UserPermissions = UserPermissions.Except(apps.Value).ToList();
+                foreach (var item in apps.Value.ToArray())
+                    Store["CATS"][apps.Key][item.RoleName].CreateAuthorization(Store.GetDBUser(userName).CustomSid, WhereDefined.Database, Store.GetDBUser(userName).CustomSid, WhereDefined.Database, AuthorizationType.Allow, DateTime.Now, DateTime.Now);
+                foreach (var permission in UserPermissions)
+                    Store["CATS"][apps.Key][permission.RoleName].CreateAuthorization(Store.GetDBUser(userName).CustomSid, WhereDefined.Database, Store.GetDBUser(userName).CustomSid, WhereDefined.Database, AuthorizationType.Deny, DateTime.Now, DateTime.Now);
+            }
         }
 
         private System.Collections.Specialized.NameValueCollection ConfigureAuthorizationRoleProvider(string store, string application)

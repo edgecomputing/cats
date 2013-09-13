@@ -82,7 +82,7 @@ namespace Cats.Services.Security
             /* Retrive the list of all authorized Tasks and Operations from NetSqlAzMan database
              * and persist it with the roles arraylist collection
              */
-            roles.AddRange(service.GetUserPermissions(userInfo.UserAccountId, store, application));
+            roles.AddRange(service.GetUserPermissions(userInfo.UserName, "CATS", application));
         }
         #endregion
     }

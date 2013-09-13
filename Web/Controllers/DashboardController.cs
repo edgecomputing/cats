@@ -88,5 +88,10 @@ namespace Cats.Controllers
         {
             return Json(_IDashboardService.ZonalBeneficiaries(_IDashboardService.getRegionId(RegionName)), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult ZonalMonthlyBeneficiaries(string RegionName, string ZoneName)
+        {
+            return Json(_IDashboardService.ZonalMonthlyBeneficiaries(RegionName, ZoneName), JsonRequestBehavior.AllowGet);
+        }
     }
 }
