@@ -11,6 +11,7 @@ namespace Cats.Models
         public Contribution()
         {
             this.ContributionDetails = new List<ContributionDetail>();
+            this.InKindContributionDetails=new List<InKindContributionDetail>();
         }
 
         public int ContributionID { get; set; }
@@ -22,5 +23,6 @@ namespace Cats.Models
         //public virtual Donor Donor1 { get; set; }
         public virtual HRD HRD { get; set; }
         public virtual ICollection<ContributionDetail> ContributionDetails { get; set; }
+       public virtual ICollection<InKindContributionDetail> InKindContributionDetails{ get; set; }
     }
 }
