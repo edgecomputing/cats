@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Security;
+using Cats.Helpers;
 using Cats.Models.Security;
 using Cats.Services.Security;
 using System.Linq;
@@ -50,11 +53,11 @@ namespace Cats.Areas.Settings.Controllers
 
             // Check business rule and validations
             if (userInfo.UserName == string.Empty)
-                messages.Add("User name cannot be empyt");
+                messages.Add("User name cannot be empty");
             if (userInfo.FullName == string.Empty)
-                messages.Add("Full name cannot be empyt");
+                messages.Add("Full name cannot be empty");
             if (userInfo.Password == string.Empty)
-                messages.Add("Password cannot be empyt");
+                messages.Add("Password cannot be empty");
             if (userInfo.Password != userInfo.PasswordConfirm)
                 messages.Add("Passwords do not match");
            
@@ -147,6 +150,42 @@ namespace Cats.Areas.Settings.Controllers
             user.UserName = userInfo.UserName;
             userService.EditUserRole(userInfo.UserName, userInfo.UserName, roles);
 
+            return View();
+        }   
+        public ActionResult ChangePassword()
+        {
+            //var userInfo=userService.FindById(id);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                bool changePasswordSucceeded;
+                try
+                {
+                    var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+                    //changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+                    changePasswordSucceeded = userService.ChangePassword(userid, model.NewPassword);
+                }
+                catch (Exception)
+                {
+                    changePasswordSucceeded = false;
+                }
+                if(changePasswordSucceeded)
+                {
+                    return RedirectToAction("ChangePasswordSuccess");
+                }
+               
+                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+               
+            }
+            return View();
+        }
+        public ActionResult ChangePasswordSuccess()
+        {
             return View();
         }
     }
