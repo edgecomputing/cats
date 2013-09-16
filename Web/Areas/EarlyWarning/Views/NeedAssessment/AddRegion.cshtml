@@ -11,24 +11,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>
 }
 
-@{
-    if (ViewBag.Error!=null)
-    {
-        <div class="container">  
-            <div class="row">  
-                <div class="span6">  
-                    <div class="alert alert-error">  
-                        <a class="close" data-dismiss="alert">×</a>  
-                        <strong>@Translator.Translate("Error")!</strong> @Translator.Translate(@ViewBag.Error).  
-                    </div>  
-                </div>  
-            </div>  
-        </div> 
 
-         
-       
-    }
-}
 @using (Html.BeginForm("AddRegion", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
 {
     @Html.ValidationSummary(true)
