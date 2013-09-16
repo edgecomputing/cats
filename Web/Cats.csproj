@@ -268,6 +268,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Custom_Exceptions\IncorrectLoginException.cs" />
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
@@ -399,6 +400,8 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
+    <Content Include="Content\images\Regions%27flags.png" />
+    <Content Include="Content\images\Regionsflags_small.png" />
     <Content Include="Content\kendo\2013.1.319\Black\editor.png" />
     <Content Include="Content\kendo\2013.1.319\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2013.1.319\Black\loading-image.gif" />
@@ -804,9 +807,7 @@
     <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\EditUserRoles.cshtml" />
-
     <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
@@ -818,7 +819,6 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
-
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -839,6 +839,8 @@
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\ICanHaz-no-mustache.js" />
+    <Content Include="Scripts\ICanHaz.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
@@ -1075,7 +1077,6 @@
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
-    <Folder Include="Views\Dashboard\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

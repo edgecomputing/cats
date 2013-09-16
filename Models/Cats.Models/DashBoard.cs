@@ -43,6 +43,8 @@ namespace Cats.Models
     }
 
     public class RegionalMonthlyRequest {
+        public int RequestID { get; set; }
+        public int RegionId { get; set; }
         public string RegionName { get; set; }
         public string Month { get; set; }
         public string ReferenceNumber { get; set; }
