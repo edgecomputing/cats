@@ -12,22 +12,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class ContributionController : Controller
     {
-        private readonly IContributionService _contributionService;
-        private readonly IContributionDetailService _contributionDetailService;
-        private readonly IDonorService _donorService;
-        private readonly ICurrencyService _currencyService;
-        private readonly IHRDService _hrdService;
+        private IContributionService _contributionService;
+        private IContributionDetailService _contributionDetailService;
+        private IDonorService _donorService;
+        private ICurrencyService _currencyService;
+        private IHRDService _hrdService;
+        private ICommodityService _commodityService;
+        private IInkindContributionDetailService _inkindContributionDetailService;
         // GET: /EarlyWarning/Contribution/
         public ContributionController(IContributionService contributionService,
                                       IContributionDetailService contributionDetailService,
                                       IDonorService donorService, ICurrencyService currencyService,
-                                      IHRDService hrdService)
+                                      IHRDService hrdService, ICommodityService commodityService,
+                                      IInkindContributionDetailService inkindContributionDetailService)
         {
             _contributionService = contributionService;
             _contributionDetailService = contributionDetailService;
             _donorService = donorService;
             _currencyService = currencyService;
             _hrdService = hrdService;
+            _commodityService = commodityService;
+            _inkindContributionDetailService = inkindContributionDetailService;
         }
 
         public ActionResult Index()
@@ -54,16 +59,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Create(Contribution contribution)
         {
-            if (contribution !=null && ModelState.IsValid)
+            if (contribution != null && ModelState.IsValid)
             {
                 contribution.Year = DateTime.Now.Year;
                 _contributionService.AddContribution(contribution);
-                return RedirectToAction("Details","Contribution",new {id=contribution.ContributionID});
+                if (contribution.ContributionType == "In-Kind")
+                    return RedirectToAction("InkindDetails", "Contribution", new { id = contribution.ContributionID });
+
+                return RedirectToAction("Details", "Contribution", new { id = contribution.ContributionID });
             }
 
 
-            ViewBag.HRDID = new SelectList(_hrdService.GetAllHRD(), "HRDID", "Year",contribution.HRDID);
-            ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name",contribution.DonorID);
+            ViewBag.HRDID = new SelectList(_hrdService.GetAllHRD(), "HRDID", "Year", contribution.HRDID);
+            ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name", contribution.DonorID);
             ViewBag.Year = contribution.Year;
             return View(contribution);
         }
@@ -78,8 +86,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+        public ActionResult InkindDetails(int id)
+        {
+            var contribution = _contributionService.Get(m => m.ContributionID == id, null, "InkindContributionDetails").FirstOrDefault();
+            ViewBag.DonorID = contribution.Donor.Name;
+            ViewBag.CommodityID = _commodityService.GetAllCommodity();
+            if (contribution != null)
+            {
+                return View(contribution);
+            }
+            return RedirectToAction("Index");
+
+        }
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult ContributionDetail_Create([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel details,int id)
+        public ActionResult ContributionDetail_Create([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel details, int id)
         {
             if (details != null && ModelState.IsValid)
             {
@@ -107,6 +127,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return contributionDetail;
         }
 
+        private InKindContributionDetail BindInKindContributionDetail(InKindContributionDetailViewModel inKindContributionDetailViewModel)
+        {
+            if (inKindContributionDetailViewModel == null) return null;
+            var inkindContributionDetail = new InKindContributionDetail()
+                {
+                    InKindContributionDetailID = inKindContributionDetailViewModel.InKindContributionDetailID,
+                    ContributionID = inKindContributionDetailViewModel.ContributionID,
+                    ReferenceNumber = inKindContributionDetailViewModel.ReferencNumber,
+                    ContributionDate = inKindContributionDetailViewModel.ContributionDate,
+                    CommodityID = inKindContributionDetailViewModel.CommodityID,
+                    Amount = inKindContributionDetailViewModel.Amount
+
+                };
+            return inkindContributionDetail;
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ContributionDetail_Update([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel contributionDetailViewModel)
         {
@@ -126,6 +162,39 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(new[] { contributionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
         [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult InKindContributionDetail_Create([DataSourceRequest] DataSourceRequest request, InKindContributionDetailViewModel inKindDetails, int id)
+        {
+            if (inKindDetails != null && ModelState.IsValid)
+            {
+                inKindDetails.ContributionID = id;
+
+                _inkindContributionDetailService.AddInKindContributionDetail(BindInKindContributionDetail(inKindDetails));
+            }
+
+            return Json(new[] { inKindDetails }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult InKindContributionDetail_Update([DataSourceRequest] DataSourceRequest request, InKindContributionDetailViewModel inKindContributionDetailViewModel)
+        {
+            if (inKindContributionDetailViewModel != null && ModelState.IsValid)
+            {
+                var origin = _inkindContributionDetailService.FindById(inKindContributionDetailViewModel.InKindContributionDetailID);
+                if (origin != null)
+                {
+                    origin.InKindContributionDetailID = inKindContributionDetailViewModel.InKindContributionDetailID;
+                    origin.ContributionID = inKindContributionDetailViewModel.ContributionID;
+                    origin.ReferenceNumber = inKindContributionDetailViewModel.ReferencNumber;
+                    origin.ContributionDate = inKindContributionDetailViewModel.ContributionDate;
+                    origin.CommodityID = inKindContributionDetailViewModel.CommodityID;
+                    origin.Amount = inKindContributionDetailViewModel.Amount;
+                    _inkindContributionDetailService.EditInKindContributionDetail(origin);
+                }
+
+            }
+            return Json(new[] { inKindContributionDetailViewModel }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ContributionDetail_Destroy([DataSourceRequest] DataSourceRequest request, ContributionDetailViewModel contributionDetailViewModel)
         {
             if (contributionDetailViewModel != null && ModelState.IsValid)
@@ -134,8 +203,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return Json(ModelState.ToDataSourceResult());
         }
-        
-        private IEnumerable<ContributionViewModel> GetContribution (IEnumerable<Contribution> contribution)
+
+        private IEnumerable<ContributionViewModel> GetContribution(IEnumerable<Contribution> contribution)
         {
             return (from contributions in contribution
                     select new ContributionViewModel()
@@ -145,8 +214,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             HRDID = contributions.HRDID,
                             Donor = contributions.Donor.Name,
                             DonorID = contributions.DonorID,
-                            Year = contributions.Year
-                             
+                            Year = contributions.Year,
+                            ContributionType = contributions.ContributionType
+
                         });
         }
         public ActionResult Contribution_Read([DataSourceRequest] DataSourceRequest request)
@@ -176,6 +246,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
+        private IEnumerable<InKindContributionDetailViewModel> GetInKindContributionDetail(Contribution contribution)
+        {
+            var inkindContributionDetails = contribution.InKindContributionDetails;
+            return (from inkindContributionDetail in inkindContributionDetails
+                    select new InKindContributionDetailViewModel()
+                        {
+                            InKindContributionDetailID = inkindContributionDetail.InKindContributionDetailID,
+                            ContributionID = inkindContributionDetail.ContributionID,
+                            ReferencNumber = inkindContributionDetail.ReferenceNumber,
+                            ContributionDate = inkindContributionDetail.ContributionDate,
+                            Commodity = inkindContributionDetail.Commodity.Name,
+                            CommodityID = inkindContributionDetail.CommodityID,
+                            Amount = inkindContributionDetail.Amount
+
+                        });
+
+
+        }
+
         public ActionResult ContributionDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
 
@@ -188,8 +277,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+        public ActionResult InkindContributionDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
+            var contribution = _contributionService.Get(m => m.ContributionID == id, null, "InKindContributionDetails").FirstOrDefault();
+
+            if (contribution != null)
+            {
+                var detailsToDisplay = GetInKindContributionDetail(contribution).ToList();
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
         [HttpPost]
-        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int ? id)
+        public ActionResult ContributionSummary_Read([DataSourceRequest] DataSourceRequest request, int? id)
         {
             var hrdID = id ?? 0;
             var contribution = _contributionService.Get(m => m.HRDID == hrdID, null, "ContributionDetails");
@@ -213,13 +313,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                            select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList
                 ();
             ViewBag.HRDID = new SelectList(hrdName, "HRDID", "Name");
-            ViewBag.Year =new SelectList(_contributionService.GetAllContribution(), "Year", "Year").Distinct();
+            ViewBag.Year = new SelectList(_contributionService.GetAllContribution(), "Year", "Year").Distinct();
             return View();
         }
         private IEnumerable<ContributionSummaryViewModel> GetSummary(IEnumerable<Contribution> contribution)
         {
             //var details = contribution.ContributionDetails;
-            return (from summary in contribution 
+            return (from summary in contribution
                     from detail in summary.ContributionDetails
                     select new ContributionSummaryViewModel()
                         {
@@ -233,19 +333,39 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         });
         }
 
-   public ActionResult Delete(int id)
-   {
-       var contributionDetail = _contributionDetailService.FindById(id);
-       if(contributionDetail!=null)
-       {
-           _contributionDetailService.DeleteContributionDetail(contributionDetail);
-           return RedirectToAction("Details","Contribution",new {id=contributionDetail.ContributionID});
-       }
-       return RedirectToAction("Index");
-   }
-
-
-    
+        public ActionResult Delete(int id)
+        {
+            var contributionDetail = _contributionDetailService.FindById(id);
+            if (contributionDetail != null)
+            {
+                _contributionDetailService.DeleteContributionDetail(contributionDetail);
+                return RedirectToAction("Details", "Contribution", new { id = contributionDetail.ContributionID });
+            }
+            return RedirectToAction("Index");
         }
+
+        public ActionResult DeleteInKind(int id)
+        {
+            var inKindContributionDetail = _inkindContributionDetailService.FindById(id);
+            if(inKindContributionDetail != null)
+            {
+                _inkindContributionDetailService.DeleteInKindContributionDetail(inKindContributionDetail);
+                return RedirectToAction("InkindDetails", "Contribution", new {id = inKindContributionDetail.ContributionID});
+            }
+            return RedirectToAction("Index");
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult InKindContributionDetail_Destroy([DataSourceRequest] DataSourceRequest request, InKindContributionDetailViewModel inKindContributionDetailViewModel)
+        {
+            if (inKindContributionDetailViewModel != null && ModelState.IsValid)
+            {
+                _inkindContributionDetailService.DeleteById(inKindContributionDetailViewModel.InKindContributionDetailID);
+            }
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+
     }
+}
 

@@ -14,13 +14,13 @@ namespace Cats.Controllers
     {
         private readonly IDashboardService _IDashboardService;
         private readonly  INeedAssessmentSummaryService _INeedAssessmentSummaryService;
-        
+        private readonly IReliefRequisitionService _reliefRequisitionService;
+
         public DashboardController()
         {
             this._IDashboardService = new Cats.Services.EarlyWarning.DashboardService();
             this._INeedAssessmentSummaryService = new Cats.Services.Common.NeedAssessmentSummaryService();
         }
-       
 
         public ActionResult RequestsById(int RegionId=10)
         {
@@ -33,20 +33,16 @@ namespace Cats.Controllers
            return Json(_IDashboardService.Requests(),JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult rr() {
-            return Json(_IDashboardService.Requests(),JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult Requests()
         {
             var model = _IDashboardService.Requests();
             return PartialView("_Requests", model);
         }
 
-        public JsonResult Re() {
+        public JsonResult RegionalMonthlyRequests() {
             return Json(_IDashboardService.RMRequests(), JsonRequestBehavior.AllowGet);
         }
-        
+
         public ActionResult RegionalRequestsById(int RegionId)
         {
             return Json(_IDashboardService.RegionalRequestsByRegionID(RegionId), JsonRequestBehavior.AllowGet);
@@ -55,6 +51,11 @@ namespace Cats.Controllers
         public JsonResult PieRequests()
         {
             return Json(_IDashboardService.PieRegionalRequests(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ReliefRequisitionBasedOnStatus()
+        {
+            return Json(_IDashboardService.RequisitionBasedOnStatus(), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult BarBeneficiaries()

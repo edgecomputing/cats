@@ -44,7 +44,10 @@ namespace Cats.Services.EarlyWarning
             var requests =  _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
             return (from r in requests 
                     select new RegionalMonthlyRequest 
-                    { RegionName = r.AdminUnit.Name,
+                    {
+                      RequestID = r.RegionalRequestID,
+                      RegionId = r.RegionID,
+                      RegionName = r.AdminUnit.Name,
                       ReferenceNumber = r.ReferenceNumber,
                       Year = r.Year,
                       Month = r.MonthName,
@@ -58,6 +61,12 @@ namespace Cats.Services.EarlyWarning
             var regionalRequests = _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
             return (from _regionalRequests in regionalRequests group _regionalRequests by _regionalRequests.AdminUnit.Name 
                         into RegionalRequests select new Request() { RegionName = RegionalRequests.Key, RequestsCount = RegionalRequests.Count() });
+        }
+
+        public IEnumerable<ReliefRequisition> RequisitionBasedOnStatus()
+        {
+            var requisitions = _IUnitOfWork.ReliefRequisitionRepository.GetAll();
+            return requisitions;
         }
 
         public IEnumerable<Beneficiaries> BarNoOfBeneficiaries()

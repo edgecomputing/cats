@@ -12,14 +12,6 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPledge")" title="save"></a>
 }
 
-@section Breadcrumb
-{
-    <ul class="breadcrumb">
-        <li><a href="~/">Home</a> <span class="divider">/</span></li>
-        <li><a href="~/PSNP/RegionalPSNPPledge/Index">Regional PSNP Pledge</a> <span class="divider">/</span></li>
-        <li class="active">Issue Pledge</li>
-    </ul>
-}
 
 <div class="well" style="margin-top: 30px;"><h3>Issue Pledge</h3></div>
     @using (Html.BeginForm("Issue", "RegionalPSNPPledge", FormMethod.Post, new { id = "frm_issue_pledge" }))
@@ -29,11 +21,11 @@
         <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.RegionalPSNPPlanDetailID, "Regional PSNP Plan")
+                    @Html.LabelFor(m => m.RegionalPSNPPlanID, "Regional PSNP Plan")
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("RegionalPSNPPlanDetail",String.Empty)
-                    @Html.ValidationMessageFor(m=>m.Donor)
+                    @Html.DropDownList("RegionalPSNPPlan",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.RegionalPSNPPlanID)
                 </div>
             </div>
             <div class="control-group">
@@ -77,8 +69,8 @@
                     @Html.LabelFor(m => m.PledgeDate,"Pledge Date")
                 </div>
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="PledgeDate" name="PledgeDate" />
-                    @Html.HiddenFor(m=>m.PledgeDate)
+                    <input class="cats-datepicker" type="text" id="PledgeDate" name="PledgeDate" />
+                    <input id="PledgeDate" type="hidden" value="" name="PledgeDate" data-val-required="The PledgeDate field is required." data-val-date="The field PledgeDate must be a date." data-val="true">
                     @Html.ValidationMessageFor(m => m.PledgeDate)
                 </div>
             </div>

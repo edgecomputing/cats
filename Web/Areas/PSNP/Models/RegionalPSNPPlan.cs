@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cats.Models.PSNP
 {
@@ -64,6 +65,7 @@ namespace Cats.Models.PSNP
         public string RegionName { get; set; }
 
         //RegionalPSNPPlanDetailID
+        
         [Display(Name = "ID")]
         public int RegionalPSNPPlanDetailID { get; set; }
 

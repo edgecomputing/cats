@@ -156,6 +156,7 @@
     <Build Include="Procurement\Tables\TransportBidPlanDetail.sql" />
     <Build Include="Procurement\Tables\TransportBidPlan.sql" />
     <Build Include="Procurement\Tables\Transporter.sql" />
+    <Build Include="Procurement\Tables\TransportOrder.sql" />
     <Build Include="dbo\Views\VWWoredaHeirachy.sql" />
     <Build Include="dbo\Views\VWStoreComodityDetail.sql" />
     <Build Include="dbo\Views\VWStoreCommodity.sql" />
@@ -164,21 +165,7 @@
     <Build Include="dbo\Views\VWDispatch.sql" />
     <Build Include="dbo\Views\VWBeneficiary.sql" />
     <Build Include="Security\Procurement.sql" />
-    <Build Include="Security\NT AUTHORITY_IUSR_2.sql" />
-    <Build Include="Security\RoleMemberships_1.sql" />
-    <Build Include="Logistics\Tables\TransportRequisitionDetail.sql" />
-    <Build Include="Procurement\Tables\TransportOrderDetail_1.sql" />
-    <Build Include="Procurement\Tables\TransportOrder_1.sql" />
-    <Build Include="Procurement\Tables\Bid_1.sql" />
-    <Build Include="Logistics\Tables\ProjectCodeAllocation_4.sql" />
-    <Build Include="Logistics\Tables\HubAllocation_3.sql" />
-    <Build Include="dbo\Views\vwTransportOrder_1.sql" />
-    <Build Include="Procurement\Tables\TransportOrderDetail_1.sql" />
-    <Build Include="Procurement\Tables\TransportOrder_1.sql" />
-    <Build Include="Procurement\Tables\Bid_1.sql" />
-    <Build Include="Logistics\Tables\ProjectCodeAllocation_4.sql" />
-    <Build Include="Logistics\Tables\HubAllocation_3.sql" />
-    <Build Include="dbo\Views\vwTransportOrder_1.sql" />
+   <Build Include="Logistics\Tables\TransportRequisitionDetail.sql" />
     <Build Include="dbo\Tables\WorkflowStatus.sql" />
     <Build Include="dbo\Tables\Workflow.sql" />
     <Build Include="Script.PostDeployment-Users.sql" />
@@ -187,16 +174,11 @@
     <Build Include="dbo\Tables\ApplicationSetting.sql" />
     <Build Include="dbo\Tables\CurrentRation.sql" />
     <Build Include="dbo\Tables\ELMAH_Error.sql" />
-    <Build Include="Procurement\Tables\Bid_1.sql" />
-    <Build Include="dbo\Tables\RationDetail_1.sql" />
-    <Build Include="dbo\Tables\Ration_1.sql" />
-    <Build Include="EarlyWarning\Tables\NeedAssessmentHeader.sql" />
+   <Build Include="EarlyWarning\Tables\NeedAssessmentHeader.sql" />
     <Build Include="EarlyWarning\Tables\NeedAssessmentDetail.sql" />
     <Build Include="dbo\Tables\RegionalPSNPPlanDetail.sql" />
     <Build Include="dbo\Tables\RegionalPSNPPlan.sql" />
-    <Build Include="dbo\Tables\HRDDetail_2.sql" />
-    <Build Include="dbo\Tables\HRD_2.sql" />
-    <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
+   <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
     <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
     <Build Include="dbo\Tables\AccountTransaction.sql" />
     <Build Include="dbo\Tables\StateTemplate.sql" />
@@ -206,14 +188,10 @@
     <Build Include="dbo\Tables\FlowTemplate.sql" />
     <Build Include="dbo\Tables\LocalizedTexts.sql" />
     <Build Include="dbo\Tables\Languages.sql" />
-<<<<<<< HEAD
-    <Build Include="dbo\Tables\BusinessProcessState.sql" />
+   <Build Include="dbo\Tables\BusinessProcessState.sql" />
     <Build Include="dbo\Tables\BusinessProcess.sql" />
-=======
-    <Build Include="dbo\Tables\Season_1.sql" />
-    <Build Include="dbo\Tables\ContributionDetail.sql" />
+   <Build Include="dbo\Tables\ContributionDetail.sql" />
     <Build Include="dbo\Tables\Contribution.sql" />
->>>>>>> b79597e3748f4b31a4902bb4f62769cac053df61
   </ItemGroup>
   <ItemGroup>
     <None Include="BidStatus.sql" />
