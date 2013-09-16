@@ -8,6 +8,7 @@ using Cats.Models.ViewModels;
 using Cats.Services.Security;
 
 
+
 namespace Cats.Controllers
 {
     [Authorize]
@@ -44,10 +45,11 @@ namespace Cats.Controllers
                     return RedirectToLocal(returnUrl);
                 }
             }
+
             catch (Exception exception)
             {
                 ViewBag.HasError = true;
-                ViewBag.ErrorMessage = exception.Message;
+                ViewBag.ErrorMessage = exception.ToString();
                 ModelState.AddModelError("", exception.Message);
             }
 

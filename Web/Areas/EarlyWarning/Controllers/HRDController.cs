@@ -57,6 +57,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ModelState.AddModelError("Warning", "Sample Warning Message. Use in Your Controller: ModelState.AddModelError('Warning', 'Your Warning Message.')");
             ModelState.AddModelError("Info", "Sample Info Message. Use in Your Controller: ModelState.AddModelError('Info', 'Your Info Message.')");
             ModelState.AddModelError("Success", "Sample success Message. Use in Your Controller: ModelState.AddModelError('Success', 'Your Success Message.')");
+            //ModelState.AddModelError("Success", "Successfully viewed");
             //ViewBag.Status = _workflowStatusService.GetStatusName();
             return View(hrd);
         }
