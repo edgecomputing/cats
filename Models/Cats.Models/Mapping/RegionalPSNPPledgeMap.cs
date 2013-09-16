@@ -15,7 +15,7 @@ namespace Cats.Models.Mapping
             // Table & Column Mappings
             this.ToTable("RegionalPSNPPledges");
             this.Property(t => t.RegionalPSNPPledgeID).HasColumnName("RegionalPSNPPledgeID");
-            this.Property(t => t.RegionalPSNPPlanDetailID).HasColumnName("RegionalPSNPPlanDetailID");
+            this.Property(t => t.RegionalPSNPPlanID).HasColumnName("RegionalPSNPPlanID");
             this.Property(t => t.DonorID).HasColumnName("DonorID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.Quantity).HasColumnName("Quantity");
@@ -29,13 +29,12 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Donor)
                 .WithMany(t => t.RegionalPSNPPledges)
                 .HasForeignKey(d => d.DonorID);
-            this.HasRequired(t => t.RegionalPSNPPlanDetail)
+            this.HasRequired(t => t.RegionalPSNPPlan)
                 .WithMany(t => t.RegionalPSNPPledges)
-                .HasForeignKey(d => d.RegionalPSNPPlanDetailID);
+                .HasForeignKey(d => d.RegionalPSNPPlanID);
             this.HasRequired(t => t.Unit)
                 .WithMany(t => t.RegionalPSNPPledges)
                 .HasForeignKey(d => d.UnitID);
-
         }
     }
 }

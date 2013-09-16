@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="eba9a758-00b5-44b5-bdcf-71e0ada2f4ec" ChangeDateTime="08/29/2013 08:02:45">
+    <Property Name="ElementName" Value="[dbo].[RegionalPSNPPledges].[RegionalPSNPPlanDetailID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RegionalPSNPPledges]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RegionalPSNPPlanID" />
+  </Operation>
+</Operations>

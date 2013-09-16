@@ -6,7 +6,6 @@
     [StartingRound]               INT NOT NULL,
     [Duration]                    INT NOT NULL,
     CONSTRAINT [PK_AidDistributionPlanRequestDetail] PRIMARY KEY CLUSTERED ([AidDistributionPlanDetailID] ASC),
-    CONSTRAINT [FK_AidDistributionPlanDetail_AdminUnit] FOREIGN KEY ([AdminUnitID]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID]),
-    CONSTRAINT [FK_AidDistributionPlanRequestDetail_AidDistributionPlanRequest] FOREIGN KEY ([AidDistributionPlanID]) REFERENCES [dbo].[AidDistributionPlan] ([AidDistributionPlanID])
+    CONSTRAINT [FK_AidDistributionPlanDetail_AdminUnit] FOREIGN KEY ([AdminUnitID]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID])
 );
 
