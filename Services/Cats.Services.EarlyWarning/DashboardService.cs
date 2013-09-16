@@ -63,6 +63,12 @@ namespace Cats.Services.EarlyWarning
                         into RegionalRequests select new Request() { RegionName = RegionalRequests.Key, RequestsCount = RegionalRequests.Count() });
         }
 
+        public IEnumerable<ReliefRequisition> RequisitionBasedOnStatus()
+        {
+            var requisitions = _IUnitOfWork.ReliefRequisitionRepository.GetAll();
+            return requisitions;
+        }
+
         public IEnumerable<Beneficiaries> BarNoOfBeneficiaries()
         {
             int year = Year();

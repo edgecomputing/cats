@@ -41,6 +41,23 @@ namespace Cats.ViewModelBinder
             };
 
         }
+
+        public static List<ReliefRequisitionViewModel> BindRequisitionViewModel(List<ReliefRequisition> reliefRequisitions)
+        {
+                var reliefRequisitionViewModels = new List<ReliefRequisitionViewModel>();
+            
+                foreach (var reliefRequisition in reliefRequisitions)
+                {
+                    var reliefRequisitionViewModel = new ReliefRequisitionViewModel();
+                    reliefRequisitionViewModel.RequisitionNo = reliefRequisition.RequisitionNo;
+                    reliefRequisitionViewModel.RequestedDate = (DateTime)reliefRequisition.RequestedDate;
+                    reliefRequisitionViewModel.Status = reliefRequisition.Status.ToString();
+                    reliefRequisitionViewModels.Add(reliefRequisitionViewModel);
+
+                }
+                return reliefRequisitionViewModels;
+        }
+        
         public static ReliefRequisitionDetail BindReliefRequisitionDetail(ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
         {
             return new ReliefRequisitionDetail()

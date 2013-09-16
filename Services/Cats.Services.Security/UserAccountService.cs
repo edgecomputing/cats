@@ -385,7 +385,6 @@ namespace Cats.Services.Security
                 // Get all roles for the current application
                 apps.Add(new Models.Security.ViewModels.Application { ApplicationName = app.Value.Name, Roles = GetRolesList(app.Value.Name) });
             }
-
             return apps;
         }
 

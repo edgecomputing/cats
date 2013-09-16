@@ -14,7 +14,8 @@ namespace Cats.Controllers
     {
         private readonly IDashboardService _IDashboardService;
         private readonly  INeedAssessmentSummaryService _INeedAssessmentSummaryService;
-        
+        private readonly IReliefRequisitionService _reliefRequisitionService;
+
         public DashboardController()
         {
             this._IDashboardService = new Cats.Services.EarlyWarning.DashboardService();
@@ -50,6 +51,11 @@ namespace Cats.Controllers
         public JsonResult PieRequests()
         {
             return Json(_IDashboardService.PieRegionalRequests(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ReliefRequisitionBasedOnStatus()
+        {
+            return Json(_IDashboardService.RequisitionBasedOnStatus(), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult BarBeneficiaries()

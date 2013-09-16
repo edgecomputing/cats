@@ -13,6 +13,6 @@ namespace Cats.Areas.EarlyWarning.Models
         public int HRDID { get; set; }
         public string Donor { get; set; }
         public int DonorID { get; set; }
-
+        public string ContributionType { get; set; }
     }
 }

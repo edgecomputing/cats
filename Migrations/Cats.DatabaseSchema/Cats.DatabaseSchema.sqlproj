@@ -1,10 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
-    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">10.0</VisualStudioVersion>
-  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -42,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
     <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugSymbols>true</DebugSymbols>
@@ -54,30 +50,8 @@
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
-  <PropertyGroup />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UAT|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PILOT|AnyCPU' ">
-    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <OutputPath>bin\Pilot</OutputPath>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
@@ -93,8 +67,6 @@
     <Folder Include="Security\" />
     <Folder Include="Procurement\" />
     <Folder Include="Procurement\Tables\" />
-    <Folder Include="Localization\" />
-    <Folder Include="Localization\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Setting.sql" />
@@ -208,54 +180,5 @@
     <Build Include="Logistics\Tables\ProjectCodeAllocation_4.sql" />
     <Build Include="Logistics\Tables\HubAllocation_3.sql" />
     <Build Include="dbo\Views\vwTransportOrder_1.sql" />
-    <Build Include="dbo\Tables\WorkflowStatus.sql" />
-    <Build Include="dbo\Tables\Workflow.sql" />
-    <Build Include="Script.PostDeployment-Users.sql" />
-    <Build Include="Procurement\Tables\BidWinner.sql" />
-    <Build Include="Procurement\Tables\TransportBidQuotation.sql" />
-    <Build Include="dbo\Tables\ApplicationSetting.sql" />
-    <Build Include="dbo\Tables\CurrentRation.sql" />
-    <Build Include="dbo\Tables\ELMAH_Error.sql" />
-    <Build Include="Procurement\Tables\Bid_1.sql" />
-    <Build Include="dbo\Tables\RationDetail_1.sql" />
-    <Build Include="dbo\Tables\Ration_1.sql" />
-    <Build Include="EarlyWarning\Tables\NeedAssessmentHeader.sql" />
-    <Build Include="EarlyWarning\Tables\NeedAssessmentDetail.sql" />
-    <Build Include="dbo\Tables\RegionalPSNPPlanDetail.sql" />
-    <Build Include="dbo\Tables\RegionalPSNPPlan.sql" />
-    <Build Include="dbo\Tables\HRDDetail_2.sql" />
-    <Build Include="dbo\Tables\HRD_2.sql" />
-    <Build Include="EarlyWarning\Tables\RequestDetailCommodity.sql" />
-    <Build Include="dbo\Views\vwPSNPAnnualPlan.sql" />
-    <Build Include="dbo\Tables\AccountTransaction.sql" />
-    <Build Include="dbo\Tables\StateTemplate.sql" />
-    <Build Include="EarlyWarning\Tables\NeedAssessment.sql" />
-    <Build Include="dbo\Tables\ProcessTemplate.sql" />
-    <Build Include="dbo\Tables\ProcessStatus.sql" />
-    <Build Include="dbo\Tables\FlowTemplate.sql" />
-    <Build Include="dbo\Tables\LocalizedTexts.sql" />
-    <Build Include="dbo\Tables\Languages.sql" />
-    <Build Include="dbo\Tables\BusinessProcessState.sql" />
-    <Build Include="dbo\Tables\BusinessProcess.sql" />
-    <Build Include="dbo\Tables\Season_1.sql" />
-    <Build Include="dbo\Tables\ContributionDetail.sql" />
-    <Build Include="dbo\Tables\Contribution.sql" />
-    <Build Include="EarlyWarning\Tables\TypeOfNeedAssessment.sql" />
-    <Build Include="EarlyWarning\Tables\Season.sql" />
-    <Build Include="dbo\Views\vw_NeedAssessment.sql" />
-    <Build Include="dbo\Tables\LetterTemplate_.sql" />
-    <Build Include="dbo\Tables\Currency.sql" />
-    <Build Include="dbo\Tables\Log_1.sql" />
-    <Build Include="Localization\Tables\PagePhrase.sql" />
-    <Build Include="Localization\Tables\Page.sql" />
-    <Build Include="Localization\Tables\LocalizedPhrase.sql" />
-    <Build Include="Localization\Tables\Phrase.sql" />
-    <Build Include="Localization\Tables\Language.sql" />
-    <Build Include="Security\Localization.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BidStatus.sql" />
-    <None Include="Script.TypeOfNeedAssessment.sql" />
-    <None Include="Script.Season.sql" />
   </ItemGroup>
 </Project>

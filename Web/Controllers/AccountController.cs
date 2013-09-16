@@ -7,19 +7,21 @@ using System.Web.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.Security;
 
+
 namespace Cats.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
         private IUserAccountService service;
-
+        
         public AccountController(IUserAccountService userAccountService)
         {
             service = userAccountService;
         }
-
+        
         [AllowAnonymous]
+
         public ActionResult Login()
         {
             ViewBag.HasError = false;
@@ -38,6 +40,7 @@ namespace Cats.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     // TODO: Review user permission code
                     //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
+                    service.GetUserPermissions(model.UserName, "CATS", "Finance");
                     return RedirectToLocal(returnUrl);
                 }
             }
@@ -53,6 +56,7 @@ namespace Cats.Controllers
         }
         
         [Authorize]
+
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();

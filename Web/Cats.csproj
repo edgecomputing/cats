@@ -143,8 +143,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Reporting, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
-    <Reference Include="Telerik.ReportViewer.WebForms, Version=7.0.13.228, Culture=neutral, PublicKeyToken=a9d7983dfcc261be, processorArchitecture=MSIL" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
@@ -182,6 +180,7 @@
     <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -271,7 +270,9 @@
     <Compile Include="Custom_Exceptions\IncorrectLoginException.cs" />
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
+    <Compile Include="Helpers\Log.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -763,11 +764,13 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDPrintOut.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -781,7 +784,6 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\FDPsCoveredByDonors.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\_RegionalPSNPPledgeLeftBar.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Issue.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
@@ -1007,6 +1009,7 @@
     <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequesitions.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\HRDPrintReportViewer.aspx" />
     <Content Include="Views\Shared\_BreadCrumb.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1063,8 +1066,14 @@
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_RegionalMonthlyRequests.cshtml" />
     <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
+
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
+
+    <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1101,6 +1110,10 @@
     <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReportLib\ReportLib.csproj">
+      <Project>{2db02a2c-8e7b-4a3c-9a4c-af7736a66990}</Project>
+      <Name>ReportLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
