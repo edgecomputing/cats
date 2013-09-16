@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.Security;
-using Cats.AzManHelpers;
 
 
 namespace Cats.Controllers
