@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
 @model List<Cats.Models.Contribution>
 
 @{
@@ -22,10 +23,14 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.Donor).ClientTemplate("<a href='" + Url.Action("Details", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  ");
+            columns.Bound(p => p.Donor).ClientTemplate("# if (ContributionType == 'In-Kind') { #" +
+            "<a href='" + Url.Action("InkindDetails", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  "+
+            "# } else { #" +
+                   "<a href='" + Url.Action("Details", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  " +
+                "# } #");
         columns.Bound(p => p.HRD);
-        columns.Bound(p => p.ContributionType);
-        
+            columns.Bound(p => p.ContributionType);
+
         })
     .Pageable()
     .Sortable()
