@@ -96,8 +96,16 @@ namespace Cats.Tests.ControllersTests
             var commodityService = new Mock<ICommodityService>();
             commodityService.Setup(m => m.GetAllCommodity()).Returns(commodity);
 
+            var inkindContributionDetail = new List<InKindContributionDetail>
+                {
+                    new InKindContributionDetail { InKindContributionDetailID = 1,ContributionID = 1,ReferenceNumber = "123456",ContributionDate = new DateTime(12/12/12),CommodityID = 1,Amount = 120}
+                };
+            var inKindContributionDetailService = new Mock<IInkindContributionDetailService>();
+            inKindContributionDetailService.Setup(m => m.GetAllInKindContributionDetail()).Returns(inkindContributionDetail);
+
             _contributionController=new ContributionController(contributionService.Object,contributionDetailService.Object,
-                                   donorService.Object,currencyService.Object,hrdService.Object,commodityService.Object);
+                                   donorService.Object,currencyService.Object,hrdService.Object,commodityService.Object,
+                                   inKindContributionDetailService.Object);
 
         }
 

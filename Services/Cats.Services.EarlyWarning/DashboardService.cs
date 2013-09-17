@@ -44,7 +44,10 @@ namespace Cats.Services.EarlyWarning
             var requests =  _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
             return (from r in requests 
                     select new RegionalMonthlyRequest 
-                    { RegionName = r.AdminUnit.Name,
+                    {
+                      RequestID = r.RegionalRequestID,
+                      RegionId = r.RegionID,
+                      RegionName = r.AdminUnit.Name,
                       ReferenceNumber = r.ReferenceNumber,
                       Year = r.Year,
                       Month = r.MonthName,

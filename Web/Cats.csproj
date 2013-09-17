@@ -401,6 +401,8 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
+    <Content Include="Content\images\Regions%27flags.png" />
+    <Content Include="Content\images\Regionsflags_small.png" />
     <Content Include="Content\kendo\2013.1.319\Black\editor.png" />
     <Content Include="Content\kendo\2013.1.319\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2013.1.319\Black\loading-image.gif" />
@@ -841,6 +843,8 @@
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\ICanHaz-no-mustache.js" />
+    <Content Include="Scripts\ICanHaz.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
@@ -1066,6 +1070,7 @@
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\Dashboard\_RegionalMonthlyRequests.cshtml" />
     <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
   </ItemGroup>
@@ -1080,7 +1085,6 @@
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
-    <Folder Include="Views\Dashboard\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1097,6 +1101,10 @@
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Exceptions\Cats.Exceptions.csproj">
+      <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
+      <Name>Cats.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>

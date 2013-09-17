@@ -41,17 +41,17 @@
         //columns.Bound(m => m.ContributionID);
         columns.Bound(m => m.ReferencNumber);
         columns.Bound(m => m.ContributionDate).Format("{0:MM/dd/yyyy}");
-        columns.Bound(m => m.Amount).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
         columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewBag.CommodityID, "CommodityID", "Name").Title("Commodity");
+        columns.Bound(m => m.Amount).ClientFooterTemplate("<h4>#=kendo.format('{0:N0}', sum)#</h4>").Format("{0:N0}");
 
        // columns.Command(command => command.Destroy());
         columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
-    //.ToolBar(toolbar =>
-    //    {
-    //        toolbar.Create();
-    //        toolbar.Save();
-    //    })
+        .ToolBar(toolbar =>
+            {
+                toolbar.Create();
+                toolbar.Save();
+            })
     .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Pageable()
       .Sortable()
@@ -71,9 +71,9 @@
             }
     )
         .Read(read => read.Action("InKindContributionDetail_Read", "Contribution",new{id=Model.ContributionID}))
-        // .Update(update => update.Action("ContributionDetail_Update", "Contribution"))
-       //  .Create(create => create.Action("ContributionDetail_Create", "Contribution",new {id=Model.ContributionID}))
-         //.Destroy(destroy=>destroy.Action("ContributionDetail_Destroy","Contribution"))
+        .Update(update => update.Action("InKindContributionDetail_Update", "Contribution"))
+        .Create(create => create.Action("InKindContributionDetail_Create", "Contribution", new { id = Model.ContributionID }))
+         .Destroy(destroy=>destroy.Action("ContributionDetail_Destroy","Contribution"))
     )
     )
 
@@ -88,7 +88,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("Delete", "Contribution")" + "/" + dataItem.ContributionDetailID;
+            window.location = "@Url.Action("DeleteInKind", "Contribution")" + "/" + dataItem.InKindContributionDetailID;
             wnd.close();
         });
 
