@@ -1,9 +1,0 @@
-﻿@using Cats.Web.Hub.Helpers
-@model Decimal
-           
-@{
-    if(Model != null)
-    {
-        @Model.ToPreferedWeightMeasurment(@Html.GetCurrentUser().PreferedWeightMeasurment);
-    }
-}
