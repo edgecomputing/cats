@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Models.Hub;
 using Cats.Services.Hub;
-using Cats.Web.Hub.Reports;
+//using Cats.Web.Hub.Reports;
 using Cats.Web.Hub;
 
 namespace Cats.Web.Hub.Controllers.Reports
@@ -65,41 +65,41 @@ namespace Cats.Web.Hub.Controllers.Reports
              return View();
          }
 
-         public ActionResult Dispatch()
-         {
-             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-             ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
-             var report = new DispatchReport();
-             ViewBag.Report = report;
-             report.DataSource = ViewBag.Stock;
-             report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
-             report.ReportDate.Text = string.Format("Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
-             return View();
-         }
+         //public ActionResult Dispatch()
+         //{
+         //    UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+         //    ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
+         //    var report = new DispatchReport();
+         //    ViewBag.Report = report;
+         //    report.DataSource = ViewBag.Stock;
+         //    report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
+         //    report.ReportDate.Text = string.Format("Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
+         //    return View();
+         //}
 
-         public ActionResult DispatchPartial()
-         {
-             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-             ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
-             var report = new DispatchReport();
-             ViewBag.Report = report;
-             report.DataSource = ViewBag.Stock;
-             report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
-             report.ReportDate.Text = string.Format( "Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
-             return PartialView();
-         }
+         //public ActionResult DispatchPartial()
+         //{
+         //    UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+         //    ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
+         //    var report = new DispatchReport();
+         //    ViewBag.Report = report;
+         //    report.DataSource = ViewBag.Stock;
+         //    report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
+         //    report.ReportDate.Text = string.Format( "Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
+         //    return PartialView();
+         //}
 
-         public ActionResult ReportViewerExportTo()
-         {
-             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-             ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
-             var report = new DispatchReport();
-             ViewBag.Report = report;
-             report.DataSource = ViewBag.Stock;
-             report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
-             report.ReportDate.Text = string.Format("Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
-             //TODO: Deal with this.
-             return null;
-         }
+         //public ActionResult ReportViewerExportTo()
+         //{
+         //    UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+         //    ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
+         //    var report = new DispatchReport();
+         //    ViewBag.Report = report;
+         //    report.DataSource = ViewBag.Stock;
+         //    report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
+         //    report.ReportDate.Text = string.Format("Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
+         //    //TODO: Deal with this.
+         //    return null;
+         //}
     }
 }

@@ -42,18 +42,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Charts.v10.2.Core, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Data.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.PivotGrid.v10.2.Core, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxEditors.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxPivotGrid.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPivotGrid.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPrinting.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v10.2.Web, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraRichEdit.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
@@ -343,7 +331,6 @@
     <Compile Include="Controllers\ReleaseNotesController.cs" />
     <Compile Include="Controllers\ReplicationController.cs" />
     <Compile Include="Controllers\Reports\BinCardController.cs" />
-    <Compile Include="Controllers\Reports\ReportsController.cs" />
     <Compile Include="Controllers\Reports\StackCardController.cs" />
     <Compile Include="Controllers\Reports\StockManagementController.cs" />
     <Compile Include="Controllers\Reports\StockStatusController.cs" />
@@ -388,84 +375,6 @@
     <Compile Include="Library\RoleProvider.cs" />
     <Compile Include="Library\UrlHelperWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\DispatchReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\DispatchReport.Designer.cs">
-      <DependentUpon>DispatchReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\DistributionReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\DistributionReport.designer.cs">
-      <DependentUpon>DistributionReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\DistributionReportPivot.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\DistributionReportPivot.designer.cs">
-      <DependentUpon>DistributionReportPivot.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\DonationReportByProgram.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\DonationReportByProgram.designer.cs">
-      <DependentUpon>DonationReportByProgram.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\FreeStockReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\FreeStockReport.Designer.cs">
-      <DependentUpon>FreeStockReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\FreeStockReportByProgram.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\FreeStockReportByProgram.Designer.cs">
-      <DependentUpon>FreeStockReportByProgram.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\MasterReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\MasterReport.Designer.cs">
-      <DependentUpon>MasterReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\MasterReportBound.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\MasterReportBound.Designer.cs">
-      <DependentUpon>MasterReportBound.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\OffLoadingReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\OffLoadingReport.Designer.cs">
-      <DependentUpon>OffLoadingReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\ReceiveReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\ReceiveReport.designer.cs">
-      <DependentUpon>ReceiveReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\ReceiveReportByBudgetYear.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\ReceiveReportByBudgetYear.designer.cs">
-      <DependentUpon>ReceiveReportByBudgetYear.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\rptDeliveryReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\rptDeliveryReport.designer.cs">
-      <DependentUpon>rptDeliveryReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\TransferReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\TransferReport.designer.cs">
-      <DependentUpon>TransferReport.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
@@ -1576,45 +1485,6 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\DispatchReport.resx">
-      <DependentUpon>DispatchReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\DistributionReport.resx">
-      <DependentUpon>DistributionReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\DistributionReportPivot.resx">
-      <DependentUpon>DistributionReportPivot.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\DonationReportByProgram.resx">
-      <DependentUpon>DonationReportByProgram.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\FreeStockReport.resx">
-      <DependentUpon>FreeStockReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\FreeStockReportByProgram.resx">
-      <DependentUpon>FreeStockReportByProgram.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\MasterReport.resx">
-      <DependentUpon>MasterReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\MasterReportBound.resx">
-      <DependentUpon>MasterReportBound.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\OffLoadingReport.resx">
-      <DependentUpon>OffLoadingReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReceiveReport.resx">
-      <DependentUpon>ReceiveReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReceiveReportByBudgetYear.resx">
-      <DependentUpon>ReceiveReportByBudgetYear.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptDeliveryReport.resx">
-      <DependentUpon>rptDeliveryReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\TransferReport.resx">
-      <DependentUpon>TransferReport.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
