@@ -1,0 +1,14 @@
+﻿@model Cats.Models.Hub.AdminUnitModel
+
+@Html.DropDownListFor(m => m.SelectedAdminUnitTypeId, new SelectList(Model.AdminUnitTypes, "AdminUnitTypeID", "Name"))
+
+@Html.DropDownListFor(m=>m.SelectedRegionId, Enumerable.Empty<SelectListItem>())
+
+
+@Html.DropDownListFor(m=>m.SelectedZoneId, Enumerable.Empty<SelectListItem>())
+
+@Html.EditorFor(m=>m.UnitName)
+
+
+
+

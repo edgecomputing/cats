@@ -1,0 +1,15 @@
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hub.Hub>
+
+@{
+    ViewBag.Title = Html.Translate("Hubs");
+}
+
+<h2>@Html.Translate("List of Hubs")</h2>
+
+<p>
+    @Html.DialogFormLink(Html.Translate("Create New"),Url.Action( "Create"),Html.Translate("Create New Hub"),"list",Url.Action("ListPartial"))
+</p>
+<div id="list">
+    @Html.Partial("ListPartial")
+</div>

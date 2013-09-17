@@ -1,0 +1,45 @@
+﻿@using Cats.Web.Hub.Helpers
+@model Cats.Models.Hub.ViewModels.UserPreferenceViewModel
+
+<div style="padding:20px; padding-top:0px;">
+    @using (Html.BeginForm("ChangeUserSettings", "Account", FormMethod.Post))
+                                      {
+                                         <h4>@Html.Translate("Please set your preferences here.")</h4>
+                                          <div>
+                                              <span style="display: inline-block;vertical-align: top;width:150px">
+                                                 @Html.Translate("Prefered Theme")
+                                              </span>
+                                              <span>
+                                                  @Html.Telerik().ComboBox().Name("ThemePreference").BindTo(new SelectList(Model.ThemePreferences,"StringID","Name")).Value(Model.ThemePreference)
+                                              </span>
+                                          </div>
+                                          <div>
+                                              <span style="display: inline-block;vertical-align: top;width:150px">
+                                                 @Html.Translate("Language")
+                                              </span>
+                                              <span>
+                                                  @Html.Telerik().ComboBox().Name("Language").BindTo(new SelectList(Model.Languages, "StringID", "Name")).Value(Model.Language)
+                                              </span>
+                                          </div>
+                                          <div>
+                                              <span style="display: inline-block;vertical-align: top;width:150px">
+                                                  @Html.Translate("Date Type")
+                                              </span>
+                                              <span>
+                                                  @Html.Telerik().ComboBox().Name("DateFormatPreference").BindTo(new SelectList(Model.DateFormatPreferences, "StringID", "Name")).Value(Model.DateFormatPreference)
+                                              </span>
+                                          </div>
+                                          <div>
+                                              <span style="display: inline-block;vertical-align: top;width:150px">
+                                                  @Html.Translate("Weight Preference")
+                                              </span>
+                                              <span>
+                                                  @Html.Telerik().ComboBox().Name("WeightPrefernce").BindTo(new SelectList(Model.WeightPerferences, "StringID", "Name")).Value(Model.WeightPrefernce)
+                                              </span>
+                                          </div>
+                                          <div class="form-actions">
+                                            <span style="display: inline-block;vertical-align: top;width:150px"></span><span>  <button type="submit" class="t-button t-state-default">
+                                                @Html.Translate("Save Settings")</button></span>
+                                          </div>
+                                      }
+</div>

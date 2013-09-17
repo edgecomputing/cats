@@ -1,0 +1,47 @@
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hub.Dispatch>
+
+@{
+    ViewBag.Title = Html.Translate("Dispatches");
+}
+
+@Html.Partial("DisplayHub")
+
+<p>
+    @Html.Translate("List of dispatches in your current warehouse. Please click ") 
+    @Html.ActionLink(Html.Translate("here to create new"), "Create", new { type = 1 }) @Html.Translate("dispatch record.")
+</p>
+
+@(Html.Telerik().Grid(Model).Name("DispatchesGrid")
+    .DataKeys(keys => keys.Add(d => d.DispatchID))
+    .Columns(col =>
+        {
+            col.Bound(dis=>dis.GIN).Template(
+                @<text>
+                @Html.ActionLink(item.GIN.ToString(), "Create", new { ginNo = item.GIN, type = item.Type })
+                </text>  
+                ).Title("GIN");
+            col.Bound(dis=>dis.DispatchDate).Template(@<text>
+                         @item.DispatchDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
+                      </text>).Title(Html.Translate("Dispatched Date")); 
+            col.Bound(dis => dis.RequisitionNo);
+            col.Bound(dis => dis.FDP.Name).Title("FDP");
+            col.Bound(dis => dis.Hub.Name).Title("Hub");
+            //col.Bound(dis => dis.Store.Name).Title("Store");
+            //col.Bound(dis => dis.StackNumber);
+        })
+        .DetailView(detail => detail.Template(d =>
+            Html.Telerik().Grid(d.DispatchDetails).Name("DispatchedDetails_" + d.DispatchID)
+            .Columns(c =>
+                {
+                    c.Bound(com => com.Commodity.Name).Title(Html.Translate("Commodity"));
+                    c.Bound(com => com.Description);
+                    c.Bound(com => com.Unit.Name).Title(Html.Translate("Unit"));
+                    c.Bound(com => com.RequestedQunatityInUnit).Title(Html.Translate("Requested Qty (Unit)"));
+                    c.Bound(com => com.DispatchedQuantityInUnit).Title(Html.Translate("Dispatched Qty (Unit)"));
+                    c.Bound(com => com.RequestedQuantityInMT).Title(Html.Translate("Requested Qty (MT)"));
+                    c.Bound(com => com.DispatchedQuantityInMT).Title(Html.Translate("Dispatched Qty (MT)"));
+                })
+            )).Pageable()
+            .Filterable()
+)

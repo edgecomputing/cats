@@ -1,0 +1,34 @@
+﻿@model Cats.Models.Hub.LetterTemplate
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Delete");
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("Letter Template")</legend>
+
+    <div class="display-label">@Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Template")</div>
+    <div class="display-field">
+        @Html.Raw(Model.Template)
+    </div>
+
+    <div class="display-label">@Html.Translate("Parameters")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Parameters)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+    {
+    <p>
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index")
+    </p>
+}

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Cats.Models.Hub.Receive>
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.Examples
+@{
+    ViewBag.Title = Html.Translate("Receipt Logs");
+}
+
+@Html.Partial("DisplayHub")
+
+@(Html.Telerik().Grid(Model).Name("ReceiveGrid")
+    .DataKeys(keys => keys.Add(d => d.ReceiveID))
+    .Sortable(sorting => sorting
+           .OrderBy(sortOrder => sortOrder.Add(o => o.ReceiptDate).Descending())
+    )
+    .Columns(col =>
+        {
+            col.Bound(dis => dis.GRN).Template(
+                @<text>
+                @Html.ActionLink(item.GRN.ToString(), "Create", new { receiveId = item.ReceiveID })
+                </text>
+            ).Title("GRN");
+            col.Template(@<text>
+                         @item.ReceiptDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
+                      </text>); 
+            col.Bound(dis => dis.ReceiveDetails.FirstOrDefault().TransactionGroup.Transactions.FirstOrDefault().ShippingInstruction.Value).Title(Html.Translate("SI Number"));
+            col.Bound(dis => dis.Hub.Name).Title(Html.Translate("Hub"));
+        })
+        .DetailView(detail => detail.Template(d =>
+            Html.Telerik().Grid(d.ReceiveDetails).Name("Receivedcommodity_" + d.ReceiveID)
+            .Columns(c =>
+                {
+                    c.Bound(com => com.Commodity.Name).Title(Html.Translate("Commodity"));
+                    c.Bound(com => com.Description);
+                    c.Bound(com => com.Unit.Name).Title(Html.Translate("Unit"));
+                    c.Bound(com => com.SentQuantityInUnit).Title(Html.Translate("Sent Qty (Unit)")).HtmlAttributes(new { align = "right" }); ;
+                    c.Bound(com => com.QuantityInUnit).Title("Received Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
+                    c.Bound(com => com.SentQuantityInMT).Title(Html.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }); ;
+                    c.Bound(com => com.QuantityInMT).Title(Html.Translate("Received Qty (MT)")).HtmlAttributes(new { align = "right" }); ;
+                })
+                ))
+                .Pageable(paging =>
+                paging.PageSize(20)
+                    .Style(GridPagerStyles.NextPreviousAndNumeric)
+                    .Position(GridPagerPosition.Bottom)
+        )
+                .Pageable()
+                .Filterable()
+      )

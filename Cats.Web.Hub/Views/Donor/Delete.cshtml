@@ -1,0 +1,39 @@
+﻿@model Cats.Models.Hub.Donor
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Delete");
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("Donor")</legend>
+
+    <div class="display-label">@Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("IsResponsibleDonor")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsResponsibleDonor)
+    </div>
+
+    <div class="display-label">@Html.Translate("IsSourceDonor")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsSourceDonor)
+    </div>
+
+    <div class="display-label">@Html.Translate("LongName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LongName)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+    {
+    <p>
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index")
+    </p>
+}

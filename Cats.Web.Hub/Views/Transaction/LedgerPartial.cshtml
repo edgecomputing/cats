@@ -1,0 +1,19 @@
+﻿@model List<Cats.Models.Hub.Transaction>
+@using Cats.Web.Hub.Helpers
+@{
+    Html.Telerik().Grid(Model).Columns(col =>
+    {
+        col.Bound(c => c.TransactionGroupID).Title(Html.Translate("Trnx Group"));
+        col.Bound(c => c.Commodity1.Name).Title(Html.Translate("Commodity"));
+        col.Bound(c => c.Ledger.Name).Title(Html.Translate("Ledger"));
+        col.Bound(c => c.HubOwner.Name).Title(Html.Translate("Owner"));
+        col.Bound(c => c.Account.EntityName).Title(Html.Translate("Account"));
+        col.Bound(c => c.Account.EntityType).Title(Html.Translate("Account Type"));
+        col.Bound(c => c.Program.Name).Title(Html.Translate("Program"));
+        col.Bound(c => c.ProjectCode.Value).Title(Html.Translate("Project Code"));
+        col.Bound(c => c.ShippingInstruction.Value).Title(Html.Translate("SI/Batch"));
+        col.Bound(c => c.QuantityInMT).Title(Html.Translate("Quantity in MT"));
+        col.Bound(c => c.QuantityInUnit).Title(Html.Translate("Quantity in Unit"));
+
+    }).Name("TranactionGrid").Footer(false).Filterable().Render();
+ }

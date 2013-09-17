@@ -1,0 +1,111 @@
+﻿@model Cats.Models.Hub.ReceiptAllocation
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Close Allocation");
+}
+
+<h3>@Html.Translate("Are you sure you want to Close this receipt Allocation?")</h3>
+
+    <div class="display-label">@Html.Translate("ETA")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ETA)
+    </div>
+
+    <div class="display-label">@Html.Translate("Project Number")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProjectNumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("Commodity")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Commodity.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("SINumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SINumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("QuantityInMT")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QuantityInMT)
+    </div>
+
+    <div class="display-label">@Html.Translate("Hub")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Hub.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Donor")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Donor.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Program")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Program.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Commodity Source")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommoditySource.Name)
+    </div>
+
+@using (Html.BeginForm())
+    {
+    <br />
+    <p style="clear: both">
+        <input type="submit" style="width: 80px; height: 25px; horiz-align: center" class="t-button" value="@Html.Translate("Close")"
+            onclick="return CloseReceiveAllocationForm(this)" />
+        <input type="reset" style="width: 80px; height: 25px; horiz-align: center" class="t-button t-close" 
+        value="@Html.Translate("Cancel")"
+            onclick="cancel()" />
+    </p>
+    <script type="text/javascript">
+        
+        function CloseReceiveAllocationForm(button) {
+
+            var form = $(button).closest("form");
+            if (form.valid()) {
+                $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+                    //rebind the GRID
+                    //var gr = $('#ReceiveAllocationGrid'+response).data('tGrid');
+                    //gr.rebind();
+                    //$.getJSON(updateUrl);
+                    //$('#ReceiptDialog').data('tWindow').close();
+
+                    if (response != null) {
+                        //var id = parseInt(response);
+                        var Params = { CommodityType: response.CommodityTypeID, closedToo: false };
+                        //if (response.gridId != null) {
+                        if (response.gridId == 1
+                             || response.gridId == 2
+                                 || response.gridId == 3) {
+                            var gr = $('#ReceiveAllocationGrid' + response.gridId).data('tGrid');
+                            if (gr != null) {
+                                $("#CommodityTypeSelector-" + response.gridId + '-input').val("");
+                                var typeCombo = $("#CommodityTypeSelector-" + response.gridId).data('tComboBox');
+                                if (typeCombo != null) {
+                                    typeCombo.value(response.CommodityTypeID);
+
+                                }
+                                gr.rebind(Params);
+                            }
+                            $('#ReceiptDialog').data('tWindow').close();
+                        }
+                        //}
+                    }
+                }
+                });
+            }
+            return false;
+        }
+
+    </script>
+    
+@*    <p>
+        <input type="submit" value="Close" /> |
+        @Html.ActionLink("Go Back", "Index","Receive")
+    </p>*@
+}

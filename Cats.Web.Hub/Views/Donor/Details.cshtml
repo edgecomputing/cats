@@ -1,0 +1,35 @@
+﻿@model Cats.Models.Hub.Donor
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Details");
+}
+
+<h2>@Html.Translate("Details")</h2>
+
+<fieldset>
+    <legend>@Html.Translate("Donor")</legend>
+
+    <div class="display-label">@Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("IsResponsibleDonor")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsResponsibleDonor)
+    </div>
+
+    <div class="display-label">@Html.Translate("IsSourceDonor")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsSourceDonor)
+    </div>
+
+    <div class="display-label">@Html.Translate("LongName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LongName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.DonorID }) |
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</p>

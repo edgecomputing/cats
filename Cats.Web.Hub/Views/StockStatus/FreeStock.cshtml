@@ -1,0 +1,26 @@
+﻿@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Free Stock Report");
+}
+ @Html.Partial("DisplayHub") 
+<p>
+    @Html.Translate("This report presents the total free stock in the current Hub. Note that Free stock is the uncommited stock in the hub. It doesnot represent what is at hand in the hub.")
+</p>
+
+@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StatusReportBySI_Result>)
+.Name("Stock")
+.Columns(col =>
+             {
+
+                 col.Bound(c => c.CommodityName);
+                 col.Bound(c => c.ProjectCode);
+                 col.Bound(c => c.SINumber);
+                 col.Bound(c => c.CommitedBalance);
+                 col.Bound(c => c.TotalStockOnHand).Format("{0:#,##0.##0}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Total Stock On Hand"));
+                 col.Bound(c => c.UncommitedStock).Format("{0:#,##0.##0}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Uncommited Stock"));
+                 
+             })
+.Pageable(p=>p.PageSize(20))
+.Filterable()
+
+)

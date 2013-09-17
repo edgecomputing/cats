@@ -1,0 +1,52 @@
+﻿@model Cats.Models.Hub.PrintCertificateModel
+@using Cats.Web.Hub.Helpers           
+@{
+    ViewBag.Title = Html.Translate("LetterPreview");
+}
+<script src=@Url.Content("~/Scripts/jquery.printElement.min.js") type="text/javascript"></script>
+<h2>Letter Preview and Print </h2>
+<p>
+    @Html.Translate("Please use this form to select, preview and print your gift certificate Letters.")
+    @Html.HiddenFor(model => model.SelectedCertificateId)
+    <table class="borderless">
+        <tr>
+            <td>
+                @Html.Translate("Select Template")
+            </td>
+            <td>
+                <div>
+                    @Html.Telerik().ComboBox().BindTo((SelectList)ViewBag.Templates).Name("TemplateChoices").ClientEvents(e => e.OnChange("OnTemplateChanged")).HtmlAttributes(new { style = "width:300px;" }).AutoFill(true).Placeholder(Html.Translate("Please select a template"))
+                </div>
+            </td>
+            <td>
+                <a href="#" onclick="$('#letter').printElement({overrideElementCSS:['@Url.Content("~/Content/print.css")']}); return false;">
+                    @Html.Translate("Print Letter")</a>
+            </td>
+        </tr>
+    </table>
+</p>
+<hr />
+<div id="letter">
+        @Html.Partial("LetterBodyPartial")
+</div>
+
+<script type="text/javascript">
+    function OnTemplateChanged(e) {
+        if (e.value != "") {
+            var certificate = $('#SelectedCertificateId').val();
+            loadLetter(certificate, e.value);
+        }
+    }
+    
+    $(function () {
+        $('#SelctedTemplateId').change(function () {
+            var template = $(this).val();
+            var certificate = $('#SelectedCertificateId').val();
+            loadLetter(certificate, template);
+        });
+    });
+
+    function loadLetter(certificateId, templateId) {
+        $('#letter').load('/LetterTemplate/LetterBody?certificateId=' + certificateId + '&templateId=' + templateId)
+    }
+</script>
