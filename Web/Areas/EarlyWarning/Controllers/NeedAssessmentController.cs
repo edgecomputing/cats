@@ -44,7 +44,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
-         
+
+            //var previousModelState = TempData["ModelState"] as ModelStateDictionary;
+            //if (previousModelState != null)
+            //{
+            //    foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
+            //        if (!ModelState.ContainsKey(kvp.Key))
+            //            ModelState.Add(kvp.Key, kvp.Value);
+            //}
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             return View();
@@ -201,9 +208,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             try
             {
-               
-             _needAssessmentService.DeleteById(id);
-                return RedirectToAction("Index");
+              
+                var needAssessment = _needAssessmentService.FindBy(r => r.NeedAID == id).Single();
+                if (!_needAssessmentService.IsNeedAssessmentUsedInHrd((int)needAssessment.Season, (int)needAssessment.Year))
+                {
+                    _needAssessmentService.DeleteById(id);
+                    //ModelState.AddModelError("Success", "Need Requirment is deleted.");
+                    //TempData["ModelState"] = ModelState;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //ModelState.AddModelError("Errors","Need Requirment can not be deleted. Need Requirment is already used in HRD.");
+                    //TempData["ModelState"] = ModelState;
+                    return RedirectToAction("Index");
+                }
+
             }
             catch (Exception)
             {
@@ -213,16 +233,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
-       
-
-       
-
-       
-
-       
-       
-
-
+  
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult NeedAssessmentUpdate([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")]IEnumerable<NeedAssessmentDetail> needAssessmentlDetails)
