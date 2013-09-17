@@ -29,6 +29,7 @@ namespace Cats.Data
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
         public DbSet<Hub> Hubs { get; set; }
+        public DbSet<HubOwner> HubOwners { get; set; }
         public DbSet<DispatchAllocation> DispatchAllocations { get; set; }
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
@@ -103,7 +104,9 @@ namespace Cats.Data
 
         public DbSet<LetterTemplate_> LetterTemplate { get; set; }
         public DbSet<Currency> Currencies { get; set; }
-        public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; } 
+        public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; }
+
+        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -136,6 +139,8 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new ProjectCodeAllocationMap());
 
+            modelBuilder.Configurations.Add(new HubMap());
+            modelBuilder.Configurations.Add(new HubOwnerMap());
             modelBuilder.Configurations.Add(new HubAllocationMap());
             modelBuilder.Configurations.Add(new ProjectCodeMap());
             modelBuilder.Configurations.Add(new ShippingInstructionMap());

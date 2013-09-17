@@ -8,6 +8,8 @@ namespace Cats.Data.UnitWork
     public interface IUnitOfWork : IDisposable
     {
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
+
+        IGenericRepository<HubOwner> HubOwnerRepository { get; }
         IGenericRepository<Log> LogRepository { get; }
         IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository { get; }
 

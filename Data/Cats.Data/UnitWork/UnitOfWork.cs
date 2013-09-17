@@ -254,7 +254,11 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
-
+        private IGenericRepository<HubOwner> hubOwnerRepository;
+        public IGenericRepository<HubOwner> HubOwnerRepository
+        {
+            get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+        }
 
 
 
