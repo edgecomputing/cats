@@ -81,4 +81,3 @@ namespace Cats.Services.EarlyWarning
         }
     }
 }
-

@@ -11,6 +11,8 @@ using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
 using Cats.Models.Security.ViewModels;
 using NetSqlAzMan.Cache;
+using Cats.Models.Exceptions;
+
 
 namespace Cats.Services.Security
 {
@@ -167,8 +169,10 @@ namespace Cats.Services.Security
             }
             else
             {
-                throw new ApplicationException("The supplied user name and password do not match.");
+               //throw new ApplicationException("The supplied user name and password do not match.");
+               throw new unmatchingUsernameAndPasswordException();
             }
+
             return false;
         }
 
@@ -387,7 +391,6 @@ namespace Cats.Services.Security
             }
             return apps;
         }
-
         
 
         public void AddUserToRoles(string userName, string[] Roles, string store, string application)
@@ -438,10 +441,7 @@ namespace Cats.Services.Security
         {
             return (char)(rng.Next('A', 'Z' + 1));
         }
-
         #endregion
 
     }
 }
-
-

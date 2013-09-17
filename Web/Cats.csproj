@@ -248,6 +248,7 @@
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Settings\Controllers\LogController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
@@ -267,7 +268,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Custom_Exceptions\IncorrectLoginException.cs" />
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
@@ -821,6 +821,8 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Log\List.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1068,12 +1070,9 @@
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\Dashboard\_RegionalMonthlyRequests.cshtml" />
     <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1102,6 +1101,10 @@
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Exceptions\Cats.Exceptions.csproj">
+      <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
+      <Name>Cats.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>

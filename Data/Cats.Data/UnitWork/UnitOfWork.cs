@@ -35,6 +35,12 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<Log> _logRepository;
+        public IGenericRepository<Log> LogRepository
+        {
+            get { return this._logRepository ?? (this._logRepository = new GenericRepository<Log>(_context)); }
+        }
+
         private IGenericRepository<Donor> _donorRepository;
         public IGenericRepository<Donor> DonorRepository
         {
