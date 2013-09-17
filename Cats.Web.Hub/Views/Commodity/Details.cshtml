@@ -1,0 +1,40 @@
+﻿@model Cats.Models.Hub.Commodity
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Details");
+}
+
+<h2>
+    @Html.Translate("Details")</h2>
+
+<fieldset>
+    <legend>@Html.Translate("Commodity")</legend>
+
+    <div class="display-label">
+        @Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.Translate("LongName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LongName)
+    </div>
+
+    <div class="display-label">
+        @Html.Translate("CommodityType")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommodityType.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.Translate("ParentCommodity")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Commodity2.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink( Html.Translate("Edit"), "Edit", new { id = Model.CommodityID }) |
+    @Html.ActionLink( Html.Translate("Back to List"), "Index")
+</p>

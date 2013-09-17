@@ -1,0 +1,53 @@
+﻿@using Cats.Web.Hub.Helpers
+@using Cats.Web.Hub.Reports
+@using DevExpress.Web.Mvc.Internal
+@using DevExpress.Web.Mvc.UI
+@{
+    ViewBag.Title = Html.Translate("Distribution Report");
+}
+
+<p>@Html.Translate("This report shows the Distribution Report.")</p>
+ 
+
+@Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.Report }) 
+    @Html.DevExpress().GetScripts( 
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
+	    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor }, 
+	    new Script { ExtensionSuite = ExtensionSuite.GridView }, 
+	    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+	    new Script { ExtensionSuite = ExtensionSuite.Editors }, 
+        new Script { ExtensionSuite = ExtensionSuite.Chart },
+        new Script{ExtensionSuite=ExtensionSuite.Report }
+    )
+
+
+  <script type="text/javascript">
+      function CallFilterCallBack(s, e) {
+         
+          //  e.customArgs["AreaId"] = $('#AreaId').val();
+          e.customArgs["ProgramId"] = $('#ProgramId').val();
+          e.customArgs["PeriodId"] = $('#PeriodId').val();
+          e.customArgs["StartDate"] = $('#StartDate').val();
+          e.customArgs["EndDate"] = $('#EndDate').val();
+          e.customArgs["AreaId"] = $('#AreaId').val();
+
+          //e.customArgs["CommodityId"] = $('#CommodityId').val();
+          //e.customArgs["ProjectCodeId"] = $('#ProjectCodeId').val();
+          //e.customArgs["ShippingInstructionId"] = $('#ShippingInstructionId').val();
+      }
+ </script>
+<div>
+    @Html.Partial("DistributionReportFilters", (Cats.Models.Hub.ViewModels.Report.DistributionViewModel)ViewBag.Filters)
+    <div class="contentPanel">
+             @Html.DevExpress().ReportToolbar(
+            settings =>
+            {
+                settings.Name = "ReportToolbar";
+                settings.ReportViewerName = "ReportViewer1";
+            }
+        ).GetHtml()
+       @Html.Partial("DistributionReportPartial")
+    </div>
+</div>
+
+

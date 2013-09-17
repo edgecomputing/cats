@@ -1,0 +1,98 @@
+﻿@using Cats.Web.Hub.Helpers
+@model Cats.Models.Hub.DispatchAllocation
+
+@{
+    ViewBag.Title = Html.Translate("Close Allocation");
+}
+
+<h3>@Html.Translate("Are you sure you want to Close this Dispatch Allocation?")</h3>
+
+
+@*    <div class="display-label">Hub</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Hub.HubNameWithOwner)
+    </div>*@
+
+    <div class="display-label">Year</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Year)
+    </div>
+
+    <div class="display-label">Month</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Month)
+    </div>
+
+    <div class="display-label">Round</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Round)
+</div>
+
+    <div class="display-label">Commodity</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Commodity.Name)
+    </div>
+
+    <div class="display-label">Allocated Amount in Quintals</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Amount )
+    </div>
+    
+    <div class="display-label">Remaining Quantity in Quintals</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RemainingQuantityInQuintals )
+    </div>
+
+<div class="display-label">Program</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Program.Name)
+    </div>
+
+
+    <div class="display-label">RequisitionNo</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RequisitionNo)
+    </div>
+
+    <div class="display-label">BidRefNo</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BidRefNo)
+    </div>
+
+    <div class="display-label">FDPID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FDP.Name)
+    </div>
+
+    <div class="display-label">ShippingInstruction</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShippingInstruction.Value)
+    </div>
+
+    <div class="display-label">ProjectCode</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProjectCode.Value)
+    </div>
+
+
+@using (Html.BeginForm())
+    {
+    <br />
+    <p style="clear: both">
+        <input type="submit" style="width: 80px; height: 25px; horiz-align: center" class="t-button" value="@Html.Translate("Close")"
+            onclick="return CloseDispatchAllocationForm(this)" />
+        <input type="reset" style="width: 80px; height: 25px; horiz-align: center" class="t-button t-close" 
+        value="@Html.Translate("Cancel")"
+            onclick="cancel()" />
+    </p>
+    <script type="text/javascript">
+
+
+
+    </script>
+    
+@*    <p>
+        <input type="submit" value="Close" /> |
+        @Html.ActionLink("Go Back", "Index","Receive")
+    </p>*@
+}

@@ -1,0 +1,52 @@
+﻿@using Cats.Web.Hub.Helpers
+@model Decimal?
+
+
+@{
+    var id = ViewData.TemplateInfo.HtmlFieldPrefix;// GetFullHtmlFieldId(string.Empty);
+    var qtId = id + "_qt";
+}
+@if (@Html.GetCurrentUser().PreferedWeightMeasurment.ToUpperInvariant() == "QN")
+{
+    
+    @(Html.Hidden("", null, new { @id = id , @type = "hidden", @style = "visible:hidden;" }))
+    <input type="text" value="" name="@qtId" id="@qtId" class="Food" />
+                               
+    <script type="text/javascript">
+        $('#@qtId').change(function () {
+            $('#@id').val(parseFloat($(this).val() / 10));
+        });
+        
+        $('#@qtId').keyup(function () {
+            $('#@id').val(parseFloat($(this).val() / 10));
+        });
+
+        $(function () {
+            var jsValue = '@Model';
+            $(function () {
+                if (jsValue == '') {
+                    $('#@id').val(null);
+                } else {
+                    $('#@id').val(parseFloat(jsValue));
+                    $('#@qtId').val(parseFloat($('#@id').val() * 10));
+                }
+            });
+
+
+        });
+
+    </script>                                                                                                                                                                                        
+}
+else
+{
+    @(Html.TextBox("", null, new { @id = id, @name = @id, @class="Food" })) 
+    <script type="text/javascript">
+        var jsValue = '@Model';
+        $(function() {
+            if (jsValue == '')
+                $('#@id').val(null);
+            else
+                $('#@id').val(parseFloat(jsValue));
+        });
+    </script>     
+}

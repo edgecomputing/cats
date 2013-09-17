@@ -1,0 +1,75 @@
+﻿@using System.Collections
+
+@using Cats.Models.Hub
+@using Telerik.Web.Mvc.Examples
+@using Cats.Web.Hub.Helpers
+@model Cats.Models.Hub.RPT_MonthlyGiftSummary_Result
+
+<div>
+<h2>@Html.Translate("Monthly Gift Certificate Chart")</h2>
+<p>
+    @Html.Translate("This page shows the amount of commodity DRMFSS has received a gift certificate for.")
+</p>
+
+@Html.Telerik().TabStrip().Name("Tab").Items(items =>
+{
+
+    items.Add().Text(Html.Translate("ETA")).Content(@<text>
+                    @(Html.Telerik().Chart((List<RPT_MonthlyGiftSummary_Result>)ViewBag.MonthlySummaryETA)
+                    .Name("chartETA")
+                    .Title(t => t.Text(Html.Translate("Monthly Estimated Time of Arrival of Commodities (Based on Gift Certificate)")))
+                    .Series(series =>
+                    {
+
+                        series.Column("C1").Name("Cereal");
+                        series.Column("C2").Name("Pulse");
+                        series.Column("C3").Name("Blended Food");
+                        series.Column("C4").Name("Oil");
+                    })
+                     .CategoryAxis(axis => axis
+                       .Categories(s => s.MonthName))
+                       .ValueAxis(axis => axis
+                           .Numeric().Labels(labels => labels.Format("{0:#,##0.00 MT}"))
+                       )
+                       .Tooltip(tooltip => tooltip
+                           .Visible(true)
+                           .Format("{0:#,##0.00 MT}")
+                       ).HtmlAttributes(new { style = "width: 1100px; height: 500px;text-align:center;" }))
+                     </text>);
+
+
+    items.Add().Text(Html.Translate("Gift Date")).Content(@<text>
+
+    @(Html.Telerik().Chart((List<RPT_MonthlyGiftSummary_Result>)ViewBag.MonthlySummary)
+        .Name("chart")
+        .Title(t => t.Text(Html.Translate("Monthly Summary of Gift Certificates")))
+        .Series(series =>
+        {
+
+            series.Column("C1").Name("Cereal");
+            series.Column("C2").Name("Pulse");
+            series.Column("C3").Name("Blended Food");
+            series.Column("C4").Name("Oil");
+
+
+        })
+                 .CategoryAxis(axis => axis
+                   .Categories(s => s.MonthName))
+                   .ValueAxis(axis => axis
+                       .Numeric().Labels(labels => labels.Format("{0:#,##0.00 MT}"))
+                   )
+                   .Tooltip(tooltip => tooltip
+                       .Visible(true)
+                       .Format("{0:#,##0.00 MT}")
+                           ).HtmlAttributes(new { style = "width: 1100px; height: 500px;text-align:center;" }))
+</text>);
+
+
+
+
+
+}).SelectedIndex(0)
+<p>
+   <b>@Html.Translate("Note:")</b> @Html.Translate("All Amounts shown in this chart reprsent the weight of commodities donated in Metric Tones (MT).")
+</p>
+</div>

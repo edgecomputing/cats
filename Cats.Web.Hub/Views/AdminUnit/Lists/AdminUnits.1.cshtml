@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Cats.Models.Hub.AdminUnit>
+@using Cats.Web.Hub.Helpers
+
+<table id="units">
+    <tr>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DialogFormLink(item.Name,@Url.Action("Edit", new {id = item.AdminUnitID}), Html.Translate("Edit Content"), "units", "AdminUnits") 
+        </td>
+        
+        <td>
+            @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id=item.AdminUnitID })
+        </td>
+    </tr>
+}
+
+</table>

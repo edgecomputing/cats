@@ -1,0 +1,10 @@
+﻿<div class="editor-field"><label>Shipping Instruction</label></div></td>
+<div>@(Html.Telerik().ComboBox()
+                            .Name("ShippingInstructionId")
+                            .AutoFill(false)
+                            .SelectedIndex(0)
+                            .BindTo((SelectList)ViewBag.ShippingInstruction)
+                            .ClientEvents(ev => ev.OnChange("onReportFileterChange"))
+                )
+                </div>
+    

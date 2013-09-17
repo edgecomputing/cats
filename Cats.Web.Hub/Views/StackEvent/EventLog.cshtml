@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Cats.Models.Hub.ViewModels.StackEventLogViewModel>
+
+
+<div style="min-height: 500px; padding-top:20px;">
+
+    <div style="margin-bottom:20px;">
+        <input type="button" value="Add New Event" class="t-button"  id="addNewEvent"/>
+    </div>
+
+@{ Html.Telerik().Window()
+            .Name("AddNewEventWindow")
+            .Title("Add new event")
+            .LoadContentFrom("EditStackEvent", "StackEvent")
+            .Width(400)
+            .Draggable(true)
+            .Modal(true)
+            .Visible(false)
+            .Render();
+    }
+
+
+
+@(Html.Telerik().Grid(Model)
+            .Name("EventGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.EventDate);
+                columns.Bound(o => o.StackEventType);
+                columns.Bound(o => o.Description);
+                columns.Bound(o => o.Recommendation);
+                columns.Bound(o => o.FollowUpDate);
+            })
+            .DataBinding(dataBinding => 
+            {
+                dataBinding.Ajax().Select("EventLogGrid", "StackEvent");
+            })
+            .ClientEvents(ev => ev.OnDataBinding("dataBinding"))
+            .Pageable(paging => paging.Enabled(true))
+            .Footer(true)
+)
+
+</div>
+
+
+
+<script type="text/javascript">
+    $("#addNewEvent").click(function (e) {
+        e.preventDefault();
+        $('#AddNewEventWindow').data('tWindow').center().open();
+        var storeValue = $('#StoreId').data('tComboBox');
+        var stackValue = $('#StackId').data('tComboBox');
+        $('#StoreIdTwo').val(storeValue.value());
+        $('#StoreTwoName').val(storeValue.text());
+
+        $('#StackNumberTwo').val(stackValue.value());
+        $('#StackTwoName').val(stackValue.text());
+
+    });
+
+
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#addNewEvent").attr("disabled", "disabled");
+    });
+ </script>

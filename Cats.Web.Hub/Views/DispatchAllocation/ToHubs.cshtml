@@ -1,0 +1,75 @@
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hub.OtherDispatchAllocation>
+@{
+    ViewBag.Title = Html.Translate("Dispatch to Hubs (Transfer / Swap)");
+}
+
+@Html.Partial("DisplayHub")
+
+ @{
+            Html.Telerik().Window()
+                    .Name("ManageTransfer")
+                    .Title(Html.Translate("Edit/New Transfer"))
+                    .Content(@<text>
+                                  <div id="transfer-div"></div>
+                                </text>)
+                    .Width(800)
+                    .Height(350)
+                    .Draggable(true)
+                    .Modal(true)
+                    .Visible(false)
+                    .Render();
+}
+
+<p> 
+@Html.Translate("Please use this form to manage transfers and swaps going out to other hubs. Click") <a href="javascript:createNewTransfer();">
+    @Html.Translate("to record new transfer")</a>
+</p>
+
+<!-- Show the grid here. -->
+@(Html.Telerik().Grid(Model).Name("OtherDispatchAllocation")
+        .DataKeys(keys => keys.Add(co => co.OtherDispatchAllocationID))
+
+    .Columns(col =>
+    {
+
+        col.Template(
+            @<text>
+                  <a href="javascript:editTransfer(  '@item.OtherDispatchAllocationID'  )">@Html.Translate("Edit")</a>
+            </text>
+           ).Title("");
+        col.Bound(gc => gc.ReferenceNumber);
+        col.Template(@<text>
+                         @item.AgreementDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
+                      </text>).Title(Html.Translate("Agreement Date"));
+        col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In MT")).HtmlAttributes(new { align = "right" }); ;
+        col.Bound(gc => gc.Commodity.Name).Title(Html.Translate("Commodity"));
+        col.Template(@<text>
+                         @item.EstimatedDispatchDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
+                      </text>).Title(Html.Translate("Arival Date"));
+        col.Bound(gc => gc.ShippingInstruction.Value).Title(Html.Translate("SI Number"));
+        col.Bound(gc => gc.ProjectCode.Value).Title(Html.Translate("Project Code"));
+        col.Bound(gc => gc.IsClosed);
+    }).Filterable().Sortable())
+    
+<script type="text/javascript">
+    function createNewTransfer() {
+        $('#ManageTransfer').data('tWindow').center().open();
+        $('#transfer-div').load('CreateTransfer', onDialogLoaded);
+    }
+
+    function onDialogLoaded() {
+
+    }
+
+    function cancel() {
+        $('#ManageTransfer').data('tWindow').close();
+        $('#transfer-div').html("");
+    }
+
+    function editTransfer(id) {
+        $('#ManageTransfer').data('tWindow').center().open();
+        $('#transfer-div').load('EditTransfer/' + id , onDialogLoaded);
+    }
+
+</script>

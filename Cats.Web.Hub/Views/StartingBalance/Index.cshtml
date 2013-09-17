@@ -1,0 +1,97 @@
+﻿@using Cats.Models.Hub.ViewModels
+@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hub.ViewModels.StartingBalanceViewModel>
+
+@{
+    ViewBag.Title = "Starting Balances";
+}
+
+@Html.Partial("DisplayHub")
+
+
+@{
+            Html.Telerik().Window()
+                    .Name("StartingBalance")
+                    .Title(Html.Translate("Edit/New StartingBalance"))
+                    .Content(@<text>
+                                  <div style="padding: 10px;" id="create-edit-form"></div>
+                                </text>)
+                    .Width(800)
+                    .Height(380)
+                    .Draggable(true)
+                    .Modal(true)
+                    .Visible(false)
+                    .Render();
+}
+
+<p>
+<a href="#" onclick="CreateStartingBalance()">@Html.Translate("Create New Starting Balance")</a> 
+</p>
+<p>
+@*    @Html.ActionLink("Create New Starting Balance", "Create")*@
+</p>
+
+@(Html.Telerik().Grid<StartingBalanceViewModelDto>()
+            .Name("StartingBalanceGrid")
+            .Columns(columns => 
+            {
+                columns.Bound(o => o.CommodityName);
+                columns.Bound(o => o.SINumber);
+                columns.Bound(o => o.DonorName);
+                columns.Bound(o => o.ProjectCode);
+                columns.Bound(o => o.ProgramName);
+                columns.Bound(o => o.StoreName);
+                columns.Bound(o => o.StackNumber);
+                columns.Bound(o => o.UnitName);
+                columns.Bound(o => o.QuantityInUnit).Format("{0:N3}").HtmlAttributes(new { align = "right" }); 
+                columns.Bound(o => o.QuantityInMT).Format("{0:N3}").HtmlAttributes(new { align = "right" }); 
+                
+            })
+           // .ClientEvents(ev => ev.OnDataBinding("dataBinding"))
+            .DataBinding(dataBinding => dataBinding.Ajax().Select("GetListOfStartingBalances", "StartingBalance"))
+            .Sortable(sorting => sorting.Enabled(true))
+            //.Pageable(paging => paging.Enabled(true))
+            .Filterable()
+            .Footer(true)
+)
+<script type="text/javascript">
+
+    function CreateStartingBalance() {
+        $('#StartingBalance').data('tWindow').center().open();
+        $('#StartingBalance').data('tWindow').title('@Html.Translate("New StartingBalance")');
+        var url = '@Url.Action("Create", "StartingBalance")';
+        $('#create-edit-form').load(url);
+
+    }
+    
+    function submitStartingBalanceForm(button) {
+
+        var form = $(button).closest("form");
+        // var theNewSi = null;//$('#SINumber').val();
+
+        if (form.valid()) {
+            $(button).attr('disabled', 'disabled');
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: $(form).serialize(),
+                success: function (response) {
+                    //rebind the GRID 
+                    $(button).removeAttr('disabled');
+                    if (response != null && response == true) {
+                        $('#StartingBalance').data('tWindow').close();
+                        var gr = $('#StartingBalanceGrid').data('tGrid');
+                        gr.rebind();
+                        
+                    }
+                }
+            });
+        }
+    }
+
+
+    function cancelStartingBalanceForm() {
+        $('#StartingBalance').data('tWindow').close();
+        $('#create-edit-form').html("");
+    }
+</script>
