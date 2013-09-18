@@ -37,9 +37,9 @@ namespace Cats.Services.EarlyWarning
                 Logger.Error("",new Exception(ex.InnerException.Message.ToString(CultureInfo.InvariantCulture)));
                 throw new Exception(ex.ToString());
             }
-           
 
         }
+
         public bool EditNeedAssessment(NeedAssessment needAssessment)
         {
             _unitOfWork.NeedAssessmentRepository.Edit(needAssessment);

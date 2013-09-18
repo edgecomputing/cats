@@ -3,7 +3,7 @@
 
 <script id="requests" type="text/html">
     <hr />
-    <div style="float: left; height: 70px;">
+    <div class="contanier" style="float: left; height: 70px;">
 
         <div class="content">
             <div class="flag {{regionFlag}}"></div>
@@ -34,7 +34,21 @@
     $(document).ready(function () {
 
         $.getJSON('/Dashboard/RegionalMonthlyRequests', function (data) {
-            var regionFlags = { region3: "flag-amhara", region2: "flag-afar", region7: "flag-gambella" };
+
+            var regionFlags = {
+                region1: "flag-federal",
+                region2: "flag-afar",
+                region3: "flag-amhara",
+                region4: "flag-benishangul",
+                region5: "flag-tigray",
+                region6: "flag-diredawa",
+                region7: "flag-gambella",
+                region8: "flag-harar",
+                region9: "flag-oromiya",
+                region10: "flag-SNNPR",
+                region11: "flag-somali"
+            };
+
             $.each(data, function (i, details) {
 
                 var user_data = {

@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.Security;
-
+using log4net;
+using Cats.Helpers;
 
 
 namespace Cats.Controllers
@@ -15,10 +16,14 @@ namespace Cats.Controllers
     public class AccountController : Controller
     {
         private IUserAccountService service;
-        
-        public AccountController(IUserAccountService userAccountService)
+        private readonly ILog _log;
+
+
+        public AccountController(IUserAccountService userAccountService,ILog log)
         {
             service = userAccountService;
+            _log = log;
+           
         }
         
         [AllowAnonymous]
@@ -48,6 +53,9 @@ namespace Cats.Controllers
 
             catch (Exception exception)
             {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception, _log);
+
                 ViewBag.HasError = true;
                 ViewBag.ErrorMessage = exception.ToString();
                 ModelState.AddModelError("", exception.Message);
