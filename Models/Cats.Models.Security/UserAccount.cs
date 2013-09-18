@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,13 +29,15 @@ namespace Cats.Models.Security
         public string DefaultTheme { get; set; }
         public virtual UserPreference UserPreference { get; set; }
         public virtual UserProfile UserProfile { get; set; }
+        [NotMapped]
         public string Role { get; set; }
+        [NotMapped]
         public string[] Roles { get; set; }
 
         public UserAccount()
         {
-            this.UserPreference = new UserPreference();
-            this.UserProfile = new UserProfile();
+            //this.UserPreference = new UserPreference();
+            //this.UserProfile = new UserProfile();
         }
         
         
