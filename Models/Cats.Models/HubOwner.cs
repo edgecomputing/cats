@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public partial class HubOwner
+    public class HubOwner
     {
         public HubOwner()
         {

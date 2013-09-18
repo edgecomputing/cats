@@ -6,6 +6,7 @@
 @{
     UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+    
     List<UIWidget> widgets = new List<UIWidget> { 
         new UIWidget{ Title = "Quick Shortcuts", Icon = "icon-bookmark", Source = "Dashboard/_Shortcuts" },
         new UIWidget{ Title = "For Your Action", Icon = "icon-bullhorn", Source = "Dashboard/_MonthlyRequests" },

@@ -102,6 +102,7 @@
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
+    <Compile Include="HubOwner.cs" />
     <Compile Include="InKindContributionDetail.cs" />
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
@@ -129,6 +130,8 @@
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
+    <Compile Include="Mapping\HubMap.cs" />
+    <Compile Include="Mapping\HubOwnerMap.cs" />
     <Compile Include="Mapping\InKindContributionDetailMap.cs" />
     <Compile Include="Mapping\LetterTemplateMap.cs" />
     <Compile Include="Mapping\LogMap.cs" />

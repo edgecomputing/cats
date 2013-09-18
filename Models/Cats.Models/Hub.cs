@@ -29,6 +29,10 @@ namespace Cats.Models
         public virtual ICollection<ReceiptAllocation> ReceiptAllocations1 { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
-        
+        public virtual ICollection<BidWinner> BidWinners { get; set; }
+
+        public virtual ICollection<TransportBidPlanDetail> TransportBidPlanSources { get; set; }
+
+        public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
     }
 }

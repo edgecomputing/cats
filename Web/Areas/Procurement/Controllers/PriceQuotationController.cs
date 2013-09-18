@@ -113,7 +113,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                                                                          //  SourceWarehouse = rg.Source,
                                                                          SourceName = rg.Source.Name,
-                                                                         SourceID = rg.Source.HubId,
+                                                                         SourceID = rg.Source.HubID,
                                                                          DestinationZone = rg.Destination.AdminUnit2.Name,
                                                                          RegionName = rg.Destination.AdminUnit2.AdminUnit2.Name,
                                                                          RegionID = rg.Destination.AdminUnit2.AdminUnit2.AdminUnitID,
