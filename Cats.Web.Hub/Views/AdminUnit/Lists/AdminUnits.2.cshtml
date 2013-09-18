@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Cats.Models.Hub.AdminUnit>
+@using Cats.Web.Hub.Helpers
+<div id="regionList">
+    <p>
+    @Html.DialogFormLink("Create New Region", Url.Action("CreateRegion"), "Create New Region", "regionList", "AdminUnit/AdminUnits/2?id=2")
+    </p>
+ @(Html.Telerik().Grid(Model).Name("regions")
+    .Columns(col =>
+        {
+            col.Template
+                (
+                @<text>
+                    @Html.DialogFormLink(item.Name, Url.Action("Edit", new { id = item.AdminUnitID }), Html.Translate("Edit Region"), "regionList", Url.Action("AdminUnits") + "?id=3")
+                </text>
+                ).ClientTemplate(
+                "<a href='/AdminUnit/Edit/<#= AdminUnitID #>'" +
+                "data-update-url='/AdminUnit/AdminUnits/2?id=3'"+
+                "data-update-target-id='regionList' data-dialog-title='Edit Region'" +
+                "class='dialogLink'>" +
+                "<#= Name #>"+
+                "</a>"
+                ).Title("Name");
+            col.Bound(model => model.NameAM).Title(Html.Translate("Name (Amharic)"));
+            col.Template
+                (
+                    @<text>
+                    @Html.ActionLink("Delete","Delete",new {id = item.AdminUnitID})
+                    </text>
+                ).ClientTemplate(
+                "<a href='/AdminUnit/Delete/<#= AdminUnitID #>'>Delete" +
+                "</a>"
+                );
+        }).Pageable(page=>page.PageSize(50))
+        )
+</div>

@@ -1,0 +1,65 @@
+﻿@model List<Cats.Models.Hub.Transaction>
+ @using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = "Ledger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(function () {
+        $('#goButton').click(OnGoClicked);
+    });
+
+    function OnGoClicked() {
+        var ledgerID = $("#LedgerID").val();
+        var commodityID = $("#CommodityID").val();
+        var accountID = $("#AccountID").val();
+
+        // check if none of these is undefined. and make the ajax reqeust to refresh the table.
+        if (ledgerID == "") {
+            alert("Please select the ledger");
+            return;
+        }
+        if (commodityID == "") {
+            alert("Please select the commodity");
+            return;
+        }
+
+        if (accountID == "") {
+            alert("Please select an account");
+            return;
+        }
+        // Now make the ajax call, it is well deserved.
+        var url = "LedgerPartial?ledger=" + ledgerID + "&commodity=" + commodityID + "&account=" + accountID
+        $('#ledgerArea').load(url);
+    }
+</script>
+<h2>@Html.Translate("Ledger")</h2>
+
+<p>
+   @Html.Translate(" The ledger page allows you to see balances in any of the ledgers and the accounts. This allows you to see how any given account is affected by transactions. ")
+    <br />
+   @Html.Translate(" Please select the filter criteria's on top to proceed.")
+</p>
+
+<table class="borderless">
+    <tr>
+        <td>@Html.Translate("Ledger")</td>
+        <td>
+            @Html.Telerik().ComboBox().Name("LedgerID").BindTo(new SelectList((List<Cats.Models.Hub.Ledger>)ViewBag.Ledgers, "LedgerID", "Name")).HtmlAttributes(new {style="width: 300px;" }).CascadeTo("AccountID")
+        </td>
+        <td>Commodity</td>
+        <td>
+            @Html.Telerik().ComboBox().Name("CommodityID").BindTo(new SelectList((List<Cats.Models.Hub.Commodity>)ViewBag.Commodities,"CommodityID","Name")).SelectedIndex(0)
+        </td>
+        <td>Account</td>
+        <td>
+            @Html.Telerik().ComboBox().Name("AccountID").DataBinding(bind => bind.Ajax().Select("GetAccounts", "Transaction").Enabled(true))
+        </td>
+        <td>
+            <input type="button" id="goButton" value="@Html.Translate("Go")" class="t-button" />
+        </td>
+    </tr>
+</table>
+<div id="ledgerArea">
+    @Html.Partial("LedgerPartial")
+</div>

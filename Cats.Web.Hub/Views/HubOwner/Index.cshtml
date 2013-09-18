@@ -1,0 +1,40 @@
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hub.HubOwner>
+
+@{
+    ViewBag.Title = Html.Translate("Hub Owners");
+}
+
+<h2>@Html.Translate("List of Warehouse Owners")</h2>
+
+<p>
+    @Html.DialogFormLink(Html.Translate("Create New"), Url.Action("Create"),Html.Translate("Create New Hub Owner"),"list",Url.Action("Update"))    
+</p>
+<div id="list">
+<table width="60%">
+    <tr>
+    <th></th>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        <th></th>
+    </tr>
+    @{
+        var i = 1;
+    }
+@foreach (var item in Model) {
+    <tr>
+    <td>@i</td>
+        <td>@Html.DialogFormLink(@Html.DisplayFor(modelItem => item.Name).ToString(), Url.Action("Edit/" + item.HubOwnerID), Html.Translate("Edit hub owners"), "list", Url.Action("Update"))</td>                
+
+        <td>
+       @*     @Html.ActionLink("Edit", "Edit", new { id=item.WarehouseOwnerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.WarehouseOwnerID }) |*@
+            @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id=item.HubOwnerID })
+        </td>
+    </tr>
+    i = i + 1;
+}
+
+</table>
+</div>

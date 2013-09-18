@@ -1,0 +1,121 @@
+﻿@model Cats.Models.Hub.Receive
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Edit");
+}
+
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+    {
+    @Html.ValidationSummary(true)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"))
+        </div>
+        <div class="editor-field">
+            @Html.Telerik().DatePickerFor(model => model.GiftDate)
+            @Html.ValidationMessageFor(model => model.GiftDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"))
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("DonorID", String.Empty)
+            @Html.ValidationMessageFor(model => model.DonorID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"))
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SINumber)
+            @Html.ValidationMessageFor(model => model.SINumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"))
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ReferenceNo)
+            @Html.ValidationMessageFor(model => model.ReferenceNo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Vessel)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Vessel)
+            @Html.ValidationMessageFor(model => model.Vessel)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ETA)
+        </div>
+    <div class="editor-field">
+        @Html.Telerik().DatePickerFor(model => model.ETA)
+        @Html.ValidationMessageFor(model => model.ETA)
+    </div>
+    <div class="clear"></div>
+    <table>
+        <tr>
+            <td>
+                
+    @(Html.Telerik().Grid(ViewBag.ReceiveCommodities as IEnumerable<Cats.Models.Hub.GiftCertificateDetail>)
+               .Name("Grid")
+
+               .DataKeys(keys =>
+               {
+                   keys.Add(p => p.GiftCertificateDetailID);
+               })
+
+               .ToolBar(commands =>
+               {
+                   commands.Insert().ButtonType(GridButtonType.Text);
+               })
+
+                    .Editable(editing => editing.Mode(GridEditMode.InCell))
+                    .Columns(columns =>
+                    {
+                        columns.ForeignKey(o => o.CommodityID, (System.Collections.IEnumerable)ViewData["CommodityID"], "CommodityID", "Name").Width(10).Title("Commodity Name");
+                        columns.Bound(o => o.BillOfLaoading).Width(150);
+
+                        columns.Bound(o => o.YearPurchased).Width(100).Title(Html.Translate("Year Purchased")).Width(80).HtmlAttributes(new { align = "right" });
+                        columns.Bound(o => o.AccountNumber).Width(10).Title(Html.Translate("Account Number")).Width(80).HtmlAttributes(new { align = "right" });
+                        columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Quantity (MT)")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
+                        columns.Bound(o => o.EstimatedPrice).Title(Html.Translate("Estimated Price")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
+                        columns.Bound(o => o.EstimatedTax).Title(Html.Translate("Estimated Tax")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
+                        columns.ForeignKey(o => o.DCurrencyID, (System.Collections.IEnumerable)ViewData["DCurrencyID"], "DetailID", "Name").Width(10).Title("Currency");
+                        columns.ForeignKey(o => o.DFundSourceID, (System.Collections.IEnumerable)ViewData["DFundSourceID"], "DetailID", "Name").Width(10).Title("Fund Source");
+                        columns.ForeignKey(o => o.DBudgetTypeID, (System.Collections.IEnumerable)ViewData["DBudgetTypeID"], "DetailID", "Name").Width(10).Title("Fund Type");
+                        columns.Command(commands => commands.Delete().ButtonType(GridButtonType.Image).HtmlAttributes(new { align = "center" })).Width(100).Title("Commands");
+
+
+                    })
+                   .DataBinding(binding => binding.Ajax()
+                                               .Select("SelectGiftCertificateDetails", "GiftCertificate", new { GCID = Model.GiftCertificateID })
+                                               .Insert("Create", "GiftCertificate")
+                                               .Delete("Delete", "GiftCertificate").OperationMode(GridOperationMode.Client)
+
+                   )
+               .ClientEvents(e => e.OnEdit("onEdit")).KeyboardNavigation(configurator => configurator.EditOnTab(true))
+          );
+
+            </td>
+        </tr>
+    </table>
+       <div class="clear"></div>
+    <div class="editor-label"></div>
+    <div class="editor-field">
+        <input class="t-button" type="submit" value="@Html.Translate("Save")" />
+    </div>
+    <div class="clear"></div>  
+    }
+
+<div>
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</div>

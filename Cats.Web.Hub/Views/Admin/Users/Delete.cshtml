@@ -1,0 +1,89 @@
+﻿@model Cats.Models.Hub.UserProfile
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("UserProfile")</legend>
+
+    <div class="display-label">@Html.Translate("UserName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">@Html.Translate("Password")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Password)
+    </div>
+
+    <div class="display-label">@Html.Translate("FirstName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstName)
+    </div>
+
+    <div class="display-label">@Html.Translate("LastName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastName)
+    </div>
+
+    <div class="display-label">@Html.Translate("GrandFatherName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GrandFatherName)
+    </div>
+
+    <div class="display-label">@Html.Translate("ActiveInd")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ActiveInd)
+    </div>
+
+    <div class="display-label">@Html.Translate("LogginDate")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LogginDate)
+    </div>
+
+    <div class="display-label">@Html.Translate("LogOutDate")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LogOutDate)
+    </div>
+
+    <div class="display-label">@Html.Translate("FailedAttempts")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FailedAttempts)
+    </div>
+
+    <div class="display-label">@Html.Translate("LockedInInd")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LockedInInd)
+    </div>
+
+    <div class="display-label">@Html.Translate("LanguageCode")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LanguageCode)
+    </div>
+
+    <div class="display-label">@Html.Translate("MobileNumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MobileNumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("Email")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">@Html.Translate("LoggedInInd")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LoggedInInd)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+    {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index")
+    </p>
+}
