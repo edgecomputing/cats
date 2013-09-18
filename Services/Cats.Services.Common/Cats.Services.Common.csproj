@@ -72,10 +72,12 @@
     <Compile Include="ILogReadService.cs" />
     <Compile Include="INeedAssessmentSummaryService.cs" />
     <Compile Include="ILetterTemplateService.cs" />
+    <Compile Include="IUserDashboardPreferenceService.cs" />
     <Compile Include="letterTemplateService.cs" />
     <Compile Include="LogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NeedAssessmentSummaryService.cs" />
+    <Compile Include="UserDashboardPreferenceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">

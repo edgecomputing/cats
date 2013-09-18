@@ -16,6 +16,8 @@ namespace Cats.Data
         public CatsContext() : base("Name=CatsContext") { }
 
         // TODO: Add properties to access set of Poco classes
+        public DbSet<DashboardWidget> DashboardWidgets { get; set; }
+        public DbSet<UserDashboardPreference> UserDashboardPreferences { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public DbSet<RegionalRequest> RegionalRequests { get; set; }
@@ -110,6 +112,8 @@ namespace Cats.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new DashboardWidgetMap());
+            modelBuilder.Configurations.Add(new UserDashboardPreferenceMap());
             modelBuilder.Configurations.Add(new BusinessProcessStateMap());
             //TODO: Add mapping information for each Poco model.
             modelBuilder.Configurations.Add(new RegionalPSNPPledgeMap());

@@ -126,6 +126,8 @@ namespace Cats.Infrastructure
             kernel.Bind<ILanguageService>().To<LanguageService>();
             kernel.Bind<ILogReadService>().To<LogReadService>();
 
+            kernel.Bind<IUserDashboardPreferenceService>().To<UserDashboardPreferenceService>();
+
         }
     }
 }

@@ -35,6 +35,18 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
+        public IGenericRepository<DashboardWidget> DashboardWidgetRepository
+        {
+            get { return this._dashboardWidgetRepository ?? (this._dashboardWidgetRepository = new GenericRepository<DashboardWidget>(_context)); }
+        }
+
+        private IGenericRepository<UserDashboardPreference> _userDashboardPreferenceRepository;
+        public IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository
+        {
+            get { return this._userDashboardPreferenceRepository ?? (this._userDashboardPreferenceRepository = new GenericRepository<UserDashboardPreference>(_context)); }
+        }
+
         private IGenericRepository<Log> _logRepository;
         public IGenericRepository<Log> LogRepository
         {
