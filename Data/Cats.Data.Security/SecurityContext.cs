@@ -18,6 +18,7 @@ namespace Cats.Data.Security
         public DbSet<UserPreference> UserPreferences { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserInfo> UsersInfos { get; set; }
+        public DbSet<ForgetPasswordRequest> ForgetPasswordRequests { get; set;}
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -25,6 +26,7 @@ namespace Cats.Data.Security
             modelBuilder.Configurations.Add(new UserPreferenceMap());
             modelBuilder.Configurations.Add(new UserProfileMap());
             modelBuilder.Configurations.Add(new UserInfoMap());
+            modelBuilder.Configurations.Add(new ForgetPasswordRequestMap());
         }
     }
 }

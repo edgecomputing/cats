@@ -14,6 +14,7 @@ namespace Cats.Data.Security
         IGenericRepository<UserInfo> UserInfoRepository { get; }
         IGenericRepository<UserProfile> UserProfileRepository { get; }
         IGenericRepository<UserPreference> UserPreferenceRepository { get; }
+        IGenericRepository<ForgetPasswordRequest> ForgetPasswordRequestRepository { get; } 
         void Save();
     }
 }
