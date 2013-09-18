@@ -1,10 +1,9 @@
 ﻿<script type="text/javascript">
    
-    
-
     $(function () {
         // $.getJSON('@Url.Action("BarBeneficiaries", "Dashboard")', {}, function (data) {
-        $.getJSON('/Dashboard/BarBeneficiaries', {}, function (data) {
+        $.getJSON('/Dashboard/BarBeneficiaries', {},
+            function (data) {
             var json = data;
             var jsondata = [];
 

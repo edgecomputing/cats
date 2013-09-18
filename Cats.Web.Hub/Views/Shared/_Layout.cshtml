@@ -1,0 +1,233 @@
+@using Cats.Models.Hub.ViewModels
+@using Cats.Web.Hub.Helpers
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <title>@Html.Translate("Commodity Tracking System : ")@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/css/south-street/jquery-ui-1.8.18.custom.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+    @{
+        var UserProfile = @Html.GetCurrentUser(); 
+            var theme = "vista";
+            if(Request.IsAuthenticated && UserProfile != null){
+                theme = UserProfile.DefaultTheme;
+            } 
+        }
+        @(Html.Telerik().StyleSheetRegistrar()
+            .DefaultGroup(group => group
+                .Add("telerik.common.css")
+                .Add("telerik." + @theme + ".css")
+                .Combined(true))
+              )
+
+       
+</head>
+<body>
+    <div id="page" class="page">
+        
+        <div>
+            <section id="main">
+                <div class="header-top">
+                    <div id="title">
+                        <h1 style="padding-left:5px;">
+                            @Html.Translate("Commodity Tracking System")</h1>
+                    </div>
+                    <span id="logindisplay" style="padding-top:20px;">
+                        @{
+                            try
+                            {
+                                @Html.Partial("_LogOnPartial", UserProfile)           
+                            }
+                            catch
+                            {
+
+                            }
+                        
+                       }
+                        
+                        
+                        @* @Html.Partial("_Language")*@
+                        @{
+                            if (UserProfile != null)
+                            {
+                                <a href="javascript:OpenSettingsPopup();"> @Html.Translate("Settings") </a>
+                                
+                                Html.Telerik().Window()
+                                    .Name("Window")
+                                    .Title(Html.Translate("Change Preferences"))
+                                    .Content(@<text>
+                                                  @Html.Partial("../Admin/Users/Preferences", new UserPreferenceViewModel(UserProfile))
+                                              </text>)
+                                    .Width(400)
+                                    .Draggable(true)
+                                    .Modal(true)
+                                    .Visible(false)
+                                    .Render();
+
+                            }
+                        }
+                            
+
+                        <br />
+
+                    </span>
+                </div>
+
+
+                @{ Html.Telerik().
+                       Menu()
+                        .Name("Menu").
+                Orientation(MenuOrientation.Horizontal)
+                .Items(menu =>
+                {
+                    menu.Add()
+                        .Text(Html.Translate("Home")).Url("~/");
+                    if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Gift Certificate"))
+                        {
+                            menu.Add()
+                                .Text(Html.Translate("Gift Certiificates"))
+                                .Items(item =>
+                                {
+                                    item.Add().Text(Html.Translate("Add New Gift Certificate")).Url("~/GiftCertificate/Create");
+                                    item.Add().Text(Html.Translate("Manage Gift Certificate")).Url("~/GiftCertificate");
+                                    item.Add().Text(Html.Translate("Manage Letter Templates")).Url("~/LetterTemplate");
+                                    item.Add().Text(Html.Translate("Reports")).Items(itm =>
+                                    {
+                                        itm.Add().Text(Html.Translate("Monthly Summary")).Url("~/GiftCertificate/MonthlySummary");
+                                        itm.Add().Text(Html.Translate("Monthly Chart")).Url("~/GiftCertificate/ChartView");
+                                    });
+                                });
+                        }
+                        if (User.IsInRole("Data Entry"))
+                        {
+
+                            menu.Add()
+                                .Text(Html.Translate(" Starting Balance")).Url("~/StartingBalance");
+                                  
+                            menu.Add()
+                                .Text(Html.Translate("Receipts")).Url("~/Receive");
+
+
+                            menu.Add()
+                                .Text(Html.Translate("Dispatch")).Url("~/Dispatch");
+
+                            menu.Add()
+                            .Text(Html.Translate("Warehouse Activities"))
+                            .Items(item =>
+                            {
+                                item.Add().Text(Html.Translate("Internal Movements")).Url("~/InternalMovement");
+                                item.Add().Text(Html.Translate("Losses and Adjustments")).Url("~/LossesAndAdjustments");
+                                item.Add().Text(Html.Translate("Stack Events")).Url("~/StackEvent/Index");
+                            });
+                        }
+                        menu.Add()
+                           .Text(Html.Translate("Reports"))
+                           .Items(item =>
+                           {
+                               if (User.IsInRole("Gift Certificate"))
+                               {
+                                   item.Add().Text(Html.Translate("Gift Certificate")).Items(itm =>
+                                   {
+                                       itm.Add().Text(Html.Translate("Monthly Gift Certificate Summary")).Url("~/GiftCertificate/MonthlySummary");
+                                       itm.Add().Text(Html.Translate("Monthly Gift Certificate Chart")).Url("~/GiftCertificate/ChartView");
+                                   });
+                               }
+                               item.Add().Text(Html.Translate("Bin Card")).Url("~/BinCard");
+                              // item.Add().Text("Search SI").Url("~/StackCard");
+                               item.Add().Text(Html.Translate("Store Report")).Url("~/StockStatus");
+                               item.Add().Text(Html.Translate("Free Stock")).Url("~/StockStatus/FreeStock");
+                               item.Add().Text(Html.Translate("Receipt Status")).Url("~/StockStatus/Receipts");
+                               item.Add().Text(Html.Translate("Dispatch Status")).Url("~/StockStatus/Dispatch");
+                               
+                               item.Add().Text(Html.Translate("Transportation Reports")).Url("~/TransportationReport");
+
+                           });
+
+
+
+                        menu.Add()
+                         .Text(Html.Translate("Admin")).Url("~/Admin/Home");
+                    }
+                    if (Request.IsAuthenticated)
+                    {
+                        menu.Add()
+                            .Text(Html.Translate("Change Password"))
+                            .Url("~/Account/ChangePassword");
+                    }
+                    menu.Add()
+                         .Text(Html.Translate("Help"))
+                         .Items(item =>
+                         {
+                             item.Add().Text(Html.Translate("About")).Url("~/About");
+                             item.Add().Text(Html.Translate("Release Notes")).Url("~/ReleaseNotes");
+                             item.Add().Text(Html.Translate("Help")).Url("~/Help");
+                         });
+                }).Effects(fx => fx.Slide()
+                         .Opacity()
+                         .OpenDuration(200)
+                         .CloseDuration(300)
+                     )
+                    .Render();
+                }
+                
+                
+
+                @(Html.Telerik().ScriptRegistrar()
+                    .jQuery(true)
+                    .DefaultGroup(group => group.Compress(true)
+                    .Combined(false).CacheDurationInDays(365))
+                    .jQueryValidation(false)
+                )
+                    <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/jquery-ui-1.8.11.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/DialogForm.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/Cascade.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/jquery.jgeez.min.js")" type="text/javascript"></script>
+                    <div id="body" style="padding:5px;min-height:500px;">
+                            @RenderBody()
+                    </div>
+                <div id="ajaxBusy" style="display:none;">
+                    <div >
+                        <img alt="Loading data" id="busyimage" src="/images/ajax-loaderbig.gif" />
+                    </div>
+                    <div id="ajax-content"></div>
+                </div>
+
+            </section>
+        </div>
+        <div style="clear:both;"></div>
+        @Html.CTSVersion()
+    </div>
+
+     
+</body>
+
+<script type="text/javascript">
+
+    function OpenSettingsPopup() {
+        $('#Window').data('tWindow').center().open();
+    }
+    // Do the animation when the ajax starts
+    $(document).ajaxStart(function () {
+        var positionL = $('#body').offset().left;
+        var positionT = $('#body').offset().top;
+        var positionWidth = $('#body').width();
+        var positionHeight = $('#body').height();
+        $('#ajaxBusy').css({ left: positionL, top: positionT , width:positionWidth,height:positionHeight });
+        $('#ajaxBusy').show();
+    }).ajaxStop(function () {
+        // When the Ajax finishes, hide the busy sign.
+        $('#ajaxBusy').hide();
+    });
+
+
+
+</script>
+</html>

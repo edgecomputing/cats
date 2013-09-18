@@ -223,3 +223,22 @@
     .news-item-preview {
         margin-bottom: 0;
     }
+
+    .flag {
+	    width: 60px;
+	    height: 30px;
+        background: url("../Content/images/Regionsflags_small.png") no-repeat;
+        float:right;
+    }
+
+    .flag.flag-somali {background-position: 0 0}
+    .flag.flag-tigray {background-position: -60px 0}
+    .flag.flag-gambella {background-position: -120px 0}
+    
+    .flag.flag-benishangul {background-position: 0 -30px}
+    .flag.flag-harrar {background-position: -60px -30px}
+    .flag.flag-debub{background-position: -120px -30px}
+
+    .flag.flag-oromiya {background-position: 0 -60px}
+    .flag.flag-amhara {background-position: -60px -60px}
+    .flag.flag-afar {background-position: -120px -60px;}

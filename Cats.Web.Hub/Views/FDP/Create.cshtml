@@ -1,0 +1,67 @@
+﻿@model Cats.Models.Hub.AdminUnitModel
+@using Cats.Web.Hub.Helpers
+<div>
+<script src="@Url.Content("~/Scripts/Cascade.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+    {
+    @Html.ValidationSummary(true)
+<div id="Region">
+    <div class="editor-label">
+        @Html.Translate("Region")
+    </div>
+    <div class="editor-field">
+        @*@Html.DropDownListFor(m => m.SelectedRegionId, new SelectList(Model.Regions, "Id", "Name", Model.SelectedRegionId))        *@
+        @Html.DisplayFor(m => m.SelectedRegionName)
+        @Html.HiddenFor(m => m.SelectedRegionId)
+    </div>
+</div>
+<div id="Zone">
+    <div class="editor-label">
+        @Html.Translate("Zone")
+    </div>
+    <div class="editor-field">
+    @*@Html.DropDownListFor(m=>m.SelectedZoneId, Enumerable.Empty<SelectListItem>())*@
+    @Html.DisplayFor(m => m.SelectedZoneName)
+        @Html.HiddenFor(m => m.SelectedZoneId)
+    </div>
+
+</div>
+<div id="Woreda">
+    <div class="editor-label">
+        @Html.Translate("Woreda")
+    </div>
+    <div class="editor-field">
+    @*@Html.DropDownListFor(m=>m.SelectedWoredaId, Enumerable.Empty<SelectListItem>())*@
+         @Html.DisplayFor(m => m.SelectedWoredaName)
+        @Html.HiddenFor(m => m.SelectedWoredaId)
+    </div>
+
+</div>
+<div id="UnitName">
+<div class="editor-label">
+@Html.Translate("FDP Name")
+</div>
+    <div class="editor-field"> @Html.EditorFor(m => m.UnitName)</div>
+</div>
+
+<div id="UnitName">
+<div class="editor-label">
+    @Html.Translate("FDP Name(Amharic)")
+</div>
+    <div class="editor-field"> @Html.EditorFor(m => m.UnitNameAM)</div>
+</div>
+    }
+
+
+     <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.jgeez.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        var name = $('#NameAM');
+        name.jGeez();
+    });
+        
+</script>
+</div>

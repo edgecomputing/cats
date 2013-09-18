@@ -47,6 +47,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
          
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
+            //ModelState.AddModelError("Success", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
             return View();
         }
 
@@ -134,6 +135,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
                 ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
                 ViewBag.Error = "An error has occured: This region has already been registered with the information you are trying to input. Please choose a different Region, Seasnon, Year or Type of Need Assessment.";
+                ModelState.AddModelError("Errors", ViewBag.Error);
                 return View();
             }
         }

@@ -1,0 +1,25 @@
+﻿@model Cats.Models.Hub.FDP
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Details");
+}
+
+<h2>@Html.Translate("Details")</h2>   
+
+<fieldset>
+    <legend>@Html.Translate("FDP")</legend>
+
+    <div class="display-label">@Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("AdminUnit")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AdminUnit.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.FDPID }) |
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</p>

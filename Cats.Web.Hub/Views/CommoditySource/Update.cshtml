@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Cats.Models.Hub.CommoditySource>
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Index");
+}
+
+<table width="60%">
+    <tr>
+        <th style="width: 20px">
+        </th>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        <th></th>
+    </tr>
+     @{
+         var i = 1;
+    }
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@i</td>
+        <td>
+            @Html.DialogFormLink(@Html.DisplayFor(modelItem => item.Name).ToString(), Url.Action("Edit/" + item.CommoditySourceID), Html.Translate("Edit Commodity Type"), "unitlist", Url.Action("Update"))
+        </td>
+        <td>
+        
+            @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id = item.CommoditySourceID })
+        </td>
+    </tr>
+    i++;
+}
+</table>

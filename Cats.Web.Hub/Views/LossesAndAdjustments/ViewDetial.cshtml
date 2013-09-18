@@ -1,0 +1,69 @@
+﻿@model Cats.Models.Hub.ViewModels.LossAndAdjustmentLogViewModel
+
+
+<table class="borderless fromTable" style="vertical-align:middle">
+        
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.Date)</td>
+            <td>@Html.EditorFor(model => model.Date)</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.MemoNumber)</td>
+            <td>@Html.TextBoxFor(model => model.MemoNumber, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td  style="width:200px;">@Html.LabelFor(model => model.CommodityName)</td>
+            <td>@Html.TextBoxFor(model => model.CommodityName, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model=> model.ProjectCodeName)</td>
+            <td>@Html.TextBoxFor(model => model.ProjectCodeName, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.ShippingInstructionName)</td>
+            <td>@Html.TextBoxFor(model => model.ShippingInstructionName, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.Store)</td>
+            <td>@Html.TextBoxFor(model => model.Store, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.StoreMan)</td>
+            <td>@Html.TextBoxFor(model => model.StoreMan, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.Unit)</td>
+            <td>@Html.TextBoxFor(model => model.Unit, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.QuantityInUnit)</td>
+            <td>@Html.TextBoxFor(model => model.QuantityInUnit, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.QuantityInMt)</td>
+            <td>@Html.TextBoxFor(model => model.QuantityInMt, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.Reason)</td>
+            <td>@Html.TextBoxFor(model => model.Reason, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.Description)</td>
+            <td>@Html.TextBoxFor(model => model.Description, new { @readonly = "readonly" })</td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.ApprovedBy)</td>
+            <td>@Html.TextBoxFor(model => model.ApprovedBy, new { @readonly = "readonly" })</td>
+        </tr>
+</table>
+<div style="margin-left:100px; margin-top:20px;">
+    <input class="t-button" type="button" onclick="onOkClick()" value="Ok" />
+</div>
+<script type="text/javascript">
+    function onOkClick() {
+        var window = $('#lossAdjsutmenttWindow').data('tWindow');
+        if (window != null) {
+            window.close();
+        }
+    }
+</script>

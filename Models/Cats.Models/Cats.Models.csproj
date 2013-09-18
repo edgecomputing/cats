@@ -106,6 +106,7 @@
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
     <Compile Include="LetterTemplateViewModel.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Mapping\AdminUnitMap.cs" />
     <Compile Include="Mapping\AdminUnitTypeMap.cs" />
     <Compile Include="Mapping\ApplicationSettingMap.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\InKindContributionDetailMap.cs" />
     <Compile Include="Mapping\LetterTemplateMap.cs" />
+    <Compile Include="Mapping\LogMap.cs" />
     <Compile Include="Mapping\NeedAssessmentDetailMap.cs" />
     <Compile Include="Mapping\NeedAssessmentHeaderMap.cs" />
     <Compile Include="Mapping\NeedAssessmentMap.cs" />

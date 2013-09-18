@@ -69,9 +69,11 @@
     <Compile Include="CommonService.cs" />
     <Compile Include="IApplicationSettingService.cs" />
     <Compile Include="ICommonService.cs" />
+    <Compile Include="ILogReadService.cs" />
     <Compile Include="INeedAssessmentSummaryService.cs" />
     <Compile Include="ILetterTemplateService.cs" />
     <Compile Include="letterTemplateService.cs" />
+    <Compile Include="LogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NeedAssessmentSummaryService.cs" />
   </ItemGroup>

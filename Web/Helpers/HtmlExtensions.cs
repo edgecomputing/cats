@@ -21,28 +21,28 @@ namespace Cats.Helpers
                         {
                             html
                                 += "<div class='cats_error'>"
-                                + e.ErrorMessage
+                                + LanguageHelpers.Localization.Translator.Translate(e.ErrorMessage)
                                 + "</div>";
                         }
                         else if (item.Key == "Warning")
                         {
                             html
                                 += "<div class='cats_warning'>"
-                                + e.ErrorMessage
+                                + LanguageHelpers.Localization.Translator.Translate(e.ErrorMessage)
                                 + "</div>";
                         }
                         else if (item.Key == "Info")
                         {
                             html
                                 += "<div class='cats_info'>"
-                                + e.ErrorMessage
+                                + LanguageHelpers.Localization.Translator.Translate(e.ErrorMessage)
                                 + "</div>";
                         }
                         else if (item.Key == "Success")
                         {
                             html
                                 += "<div class='cats_success'>"
-                                + e.ErrorMessage
+                                + LanguageHelpers.Localization.Translator.Translate(e.ErrorMessage)
                                 + "</div>";
                         }
                     }                    

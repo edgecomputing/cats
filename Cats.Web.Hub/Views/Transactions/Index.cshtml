@@ -1,0 +1,46 @@
+﻿@model Cats.Models.Hub.RPT_DISPACHFORMOTHX_Result
+@using System.Globalization
+@using Telerik.Web.Mvc
+@using System.Web.Mvc
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.Examples
+@using Telerik.Web.Mvc.UI
+
+@{
+    ViewBag.Title = Html.Translate("Transactions");
+}
+
+@Html.Partial("DisplayWarehouse") 
+
+@using (Html.BeginForm()) {
+    
+    
+    <div class="editor-label">
+        @Html.Translate("Select Month")
+    </div>    
+    <div class="editor-field">
+        @Html.Editor("date", string.Empty)
+    </div>
+    
+    <br style="clear: both"/>    
+    <p>
+        <button class="t-button" type="submit" >@Html.Translate("show Results")</button>       
+     </p>       
+}
+
+@(Html.Telerik().Grid(ViewBag.Transactions as IEnumerable<Cats.Models.Hub.RPT_DISPACHFORMOTHX_Result>)
+.Name("BinCards")
+.Columns(col => {
+
+    col.Bound(c => c.Month).Template(
+           @<text>
+             @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Convert.ToInt32(item.Month))
+            </text>);        
+    col.Bound(c=> c.Records_Found).Title(Html.Translate("Number of Dispatchs"));
+
+})
+//.DataBinding(dataBinding => dataBinding.Ajax().Select("Index", "BinCard"))
+.Pageable()
+.Filterable()
+
+)

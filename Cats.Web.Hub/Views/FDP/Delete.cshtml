@@ -1,0 +1,29 @@
+﻿@model Cats.Models.Hub.FDP
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Delete");
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("FDP")</legend>
+
+    <div class="display-label">@Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("AdminUnit")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AdminUnit.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index")
+    </p>
+}
