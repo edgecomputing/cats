@@ -29,14 +29,16 @@ namespace Cats.Web.Hub
         /// <summary>
         /// Gets the user profile.
         /// </summary>
-        public UserProfile UserProfile { get
+        public UserProfile UserProfile
+        {
+            get
             {
-                if(userProfile == null)
+                if (userProfile == null)
                 {
                     userProfile = GetCurrentUserProfile();
                 }
                 return userProfile;
-            }  
+            }
         }
         
         
