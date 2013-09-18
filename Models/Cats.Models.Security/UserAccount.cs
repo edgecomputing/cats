@@ -36,8 +36,8 @@ namespace Cats.Models.Security
 
         public UserAccount()
         {
-            this.UserPreference = new UserPreference();
-            this.UserProfile = new UserProfile();
+            //this.UserPreference = new UserPreference();
+            //this.UserProfile = new UserProfile();
         }
         
         

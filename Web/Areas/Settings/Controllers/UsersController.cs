@@ -155,37 +155,79 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult ChangePassword()
         {
             //var userInfo=userService.FindById(id);
-            return View();
+            var model = new ChangePasswordModel();
+            return View(model);
         }
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
-            
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var oldpassword = userService.HashPassword(model.OldPassword);
             if (ModelState.IsValid)
             {
                 bool changePasswordSucceeded;
-                try
+
+                if (userService.GetUserDetail(userid).Password == oldpassword)
                 {
-                    var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
-                    //changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
-                    changePasswordSucceeded = userService.ChangePassword(userid, model.NewPassword);
+                    try
+                    {
+
+                        //changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+                        changePasswordSucceeded = userService.ChangePassword(userid, model.NewPassword);
+                    }
+                    catch (Exception)
+                    {
+                        changePasswordSucceeded = false;
+                    }
+                    if (changePasswordSucceeded)
+                        ModelState.AddModelError("Sucess", "Password Successfully Changed.");
+                        //return RedirectToAction("ChangePasswordSuccess");
+                    else
+                        ModelState.AddModelError("Errors","The new password is invalid.");
+
                 }
-                catch (Exception)
-                {
-                    changePasswordSucceeded = false;
-                }
-                if(changePasswordSucceeded)
-                {
-                    return RedirectToAction("ChangePasswordSuccess");
-                }
-               
-                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-               
+                else ModelState.AddModelError("Errors","The current password is incorrect ");
             }
-            return View();
+            return View(model);
         }
-        public ActionResult ChangePasswordSuccess()
+        //public ActionResult ChangePasswordSuccess()
+        //{
+        //    return View();
+        //}
+        public ActionResult ISValidUserName(string userName)
         {
+            if (!string.IsNullOrEmpty(userName))
+            {
+                var user = userService.GetUserDetail(userName);
+                if (user != null)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(string.Format("The User name or Email address you provided doesnot exist. please try again."),
+                        JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ForgetPasswordRequest()
+        {
+            //var UserName = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserName;
+           // userService.ResetPassword(UserName);
+            var model = new ForgetPasswordRequestModel();
+            return View(model);
+           // return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public ActionResult ForgetPasswordRequest(ForgetPasswordRequestModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = userService.GetUserDetail(model.UserName);
+                if(user!=null)
+                {
+                    userService.ResetPassword(user.UserName);
+
+                }
+                ModelState.AddModelError("Errors", "Invalid User Name "+ model.UserName);
+            }
             return View();
         }
     }

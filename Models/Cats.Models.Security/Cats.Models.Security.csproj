@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ForgetPasswordRequest.cs" />
     <Compile Include="Mapping\UserAccountMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
     <Compile Include="Mapping\UserPreferenceMap.cs" />

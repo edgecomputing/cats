@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -225,7 +227,10 @@ namespace Cats.Services.Security
                 try
                 {
                     _unitOfWork.Save();
+
                     // TODO: Consider sending the new password through email for the user!
+                    SendPasswordToMail(userName, user.Email);
+
                 }
                 catch (Exception e)
                 {
@@ -234,7 +239,42 @@ namespace Cats.Services.Security
             }
             return randomPassword;
         }
+        //sends new password to the given user
+        public void SendPasswordToMail(string userName,string email)
+        {
+            var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+            if (user != null)
+            {
+                try
+                {
+                    MailMessage msg = new MailMessage();
+                    msg.From = new MailAddress("abebefisseha5@gmail.com");
+                    msg.To.Add(email);
+                    msg.Subject = "New Password";
+                    msg.Body = "Your new Password is:"+user.Password;
+                    msg.Priority = MailPriority.High;
 
+                    SmtpClient client = new SmtpClient();
+
+                    client.Credentials = new NetworkCredential();
+                        //new NetworkCredential("fish", "fish", "smtp.gmail.com");
+                    client.Host = "smtp.gmail.com";
+                    client.Port = 587;
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.EnableSsl = true;
+                    client.UseDefaultCredentials = false;
+
+                    client.Send(msg);
+
+                    //SendMail mail = new SendMail(msg.From, msg.To, msg.Subject, msg.Body, null, true, client.Host, userName, password, client.Port);
+                }
+                catch (Exception e)
+                {
+
+                    throw e;
+                }
+            }
+        }
         /// <summary>
         /// Flips/Reverts the status of a user account. If an account is active it will
         /// disable it but if it is already disabled then it will activiate it by setting
@@ -298,7 +338,8 @@ namespace Cats.Services.Security
         /// <returns>User object corresponding to the user identified by UserName</returns>
         public UserAccount GetUserDetail(string userName)
         {
-            return _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+            //return _unitOfWork.UserRepository.Get(u => u.UserName == userName, null, "UserProfile,UserPreference").SingleOrDefault();
+            return _unitOfWork.UserRepository.Get(u => u.UserName == userName).SingleOrDefault();
         }
 
         /// <summary>
