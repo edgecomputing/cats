@@ -23,7 +23,7 @@ namespace Cats.Models.Security.Mapping
             // Table & Column Mappings
             this.ToTable("ForgetPasswordRequest");
             this.Property(t => t.ForgetPasswordRequestID).HasColumnName("ForgetPasswordRequestID");
-            this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
+            this.Property(t => t.UserAccountID).HasColumnName("UserAccountID");
             this.Property(t => t.GeneratedDate).HasColumnName("GeneratedDate");
             this.Property(t => t.ExpieryDate).HasColumnName("ExpieryDate");
             this.Property(t => t.Completed).HasColumnName("Completed");

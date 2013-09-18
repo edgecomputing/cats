@@ -71,11 +71,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ForgetPasswordRequest.cs" />
+    <Compile Include="Mapping\ForgetPasswordRequestMap.cs" />
+    <Compile Include="Mapping\SettingMap.cs" />
     <Compile Include="Mapping\UserAccountMap.cs" />
     <Compile Include="Mapping\UserInfoMap.cs" />
     <Compile Include="Mapping\UserPreferenceMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setting.cs" />
     <Compile Include="UserAccount.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="UserPreference.cs" />

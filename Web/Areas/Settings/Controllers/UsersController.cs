@@ -17,10 +17,14 @@ namespace Cats.Areas.Settings.Controllers
     public class UsersController : Controller
     {
         private IUserAccountService userService;
+        private IForgetPasswordRequestService _forgetPasswordRequestService;
+        private ISettingService _settingService;
 
-        public UsersController(IUserAccountService service)
+        public UsersController(IUserAccountService service,IForgetPasswordRequestService forgetPasswordRequestService,ISettingService settingService)
         {
             userService = service;
+            _forgetPasswordRequestService = forgetPasswordRequestService;
+            _settingService = settingService;
         }
 
         public ActionResult UsersList([DataSourceRequest] DataSourceRequest request)
@@ -223,12 +227,84 @@ namespace Cats.Areas.Settings.Controllers
                 var user = userService.GetUserDetail(model.UserName);
                 if(user!=null)
                 {
-                    userService.ResetPassword(user.UserName);
+                    var forgetPasswordRequest = new ForgetPasswordRequest()
+                        {
+                            Completed = false,
+                            ExpieryDate = DateTime.Now.AddMonths(2),
+                            GeneratedDate = DateTime.Now,
+                            RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
+                            UserAccountID = user.UserAccountId
+                        };
+                    if (_forgetPasswordRequestService.AddForgetPasswordRequest(forgetPasswordRequest))
+                    {
 
+                        string to = user.Email;
+                        string subject = "Password Change Request";
+                        string link = "localhost"+ Request.Url.Port + "/Settings/Users/ForgetPassword/?key=" + forgetPasswordRequest.RequestKey;
+                        string body = string.Format(@"Dear {1}
+                                                            <br /><br />
+                                                        A password reset request has been submitted for your Email account. If you submitted this password reset request, please follow the following link. 
+                                                        <br /><br />
+                                                        <a href='{0}'>Please Follow this Link</a> <br />
+                                                        <br /><br />
+                                                        Please ignore this message if the password request was not submitted by you. This request will expire in 24 hours.
+                                                        <br /><br />
+                                                       Thank you,<br />
+                                                       Administrator.
+                                                        ", link, user.UserName);
+
+                        try
+                        {
+                            // Read the configuration table for smtp settings.
+
+                            string from = _settingService.GetSettingValue("SMTP_EMAIL_FROM");
+                            string smtp = _settingService.GetSettingValue("SMTP_ADDRESS");
+                            int port = Convert.ToInt32(_settingService.GetSettingValue("SMTP_PORT"));
+                            string userName = _settingService.GetSettingValue("SMTP_USER_NAME");
+                            string password = _settingService.GetSettingValue("SMTP_PASSWORD");
+                            // send the email using the utilty method in the shared dll.
+                            SendMail mail = new SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
+
+                            ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
+                            //return RedirectToAction("ConfirmPasswordChange");
+                        }
+                        catch (Exception e)
+                        {
+                            ViewBag.ErrorMessage = "The user name or email address you provided is not correct. Please try again.";
+                        }
+                    }
+
+                    ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
                 }
-                ModelState.AddModelError("Errors", "Invalid User Name "+ model.UserName);
+               // ModelState.AddModelError("Errors", "Invalid User Name "+ model.UserName);
             }
             return View();
+        }
+
+        public ActionResult ForgetPassword(string key)
+        {
+            ForgetPasswordRequest req = _forgetPasswordRequestService.GetValidRequest(key);
+            if (req != null)
+            {
+                ForgotPasswordModel model = new Models.ForgotPasswordModel();
+                model.UserAccountID = req.UserAccountID;
+                return View(model);
+            }
+            return new EmptyResult();
+        }
+        [HttpPost]
+        public ActionResult ForgetPassword(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (userService.ChangePassword(model.UserAccountID, model.Password))
+                {
+                    _forgetPasswordRequestService.InvalidateRequest(model.UserAccountID);
+                }
+
+                return RedirectToAction("Index");
+            }
+            return View( model);
         }
     }
 }
