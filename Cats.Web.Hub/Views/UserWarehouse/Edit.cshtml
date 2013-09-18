@@ -1,11 +1,11 @@
-﻿@model Cats.Models.Hub.UserWarehouse
+﻿@model Cats.Models.Hub.UserHub
 @using Cats.Web.Hub.Helpers
 
 @using (Html.BeginForm())
     {
     @Html.ValidationSummary(true)
 
-        @Html.HiddenFor(model => model.UserWarehouseID)
+        @Html.HiddenFor(model => model.UserHubID)
 
     <table>
         <tr><td>
@@ -19,11 +19,11 @@
         </td>
         </tr><tr><td>
         <div class="editor-label">
-            @Html.LabelFor(model => model.WarehouseID, Html.Translate("Warehouse"))
+            @Html.LabelFor(model => model.UserHubID, Html.Translate("Warehouse"))
         </div></td><td>
         <div class="editor-field">
             @Html.DropDownList("WarehouseID")
-            @Html.ValidationMessageFor(model => model.WarehouseID)
+            @Html.ValidationMessageFor(model => model.UserHubID)
         </div>
         </td></tr><tr><td>
         <div class="editor-label">
