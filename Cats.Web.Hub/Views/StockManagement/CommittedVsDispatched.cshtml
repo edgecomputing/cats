@@ -1,0 +1,102 @@
+﻿@model Cats.Models.Hub.ViewModels.Report.CommittedVsDispatchedViewModel
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("CommittedVsDispatched");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="../../Scripts/ReportFileter.js" type="text/javascript"></script>
+<script src="../../Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+<link href="../../Content/TestStyle.css" rel="stylesheet" type="text/css" />
+@Html.Partial("DisplayHub") 
+
+
+@using (Ajax.BeginForm("CommittedVsDispatchedReport", "StockManagement", new AjaxOptions { UpdateTargetId = "content", InsertionMode = InsertionMode.Replace }))
+    {
+
+    <div>
+        <div class="filterPanel">
+            <ul>
+                <li>
+                    <label>@Html.Translate("Period")</label>
+                </li>
+                 <li>
+                    <div>
+                        @Html.EditorFor(model => model.SelectedDate)
+                    </div>
+                </li>
+                 <li>
+                    <label>@Html.Translate("Codes")</label>
+                </li>
+                 <li>
+                    <div>@(Html.Telerik().ComboBox()
+                                .Name("CodesId")
+                                .AutoFill(false)
+                                .SelectedIndex(0)
+                                .BindTo(new SelectList(Model.Cods, "CodesId", "CodesName"))
+                                .ClientEvents(e => e.OnChange("onCodesReportFileterChange"))
+                        )
+                    </div>
+                </li>
+                <li>
+                    <div id="codeDetail"></div>
+                </li>
+                 <li>
+                    <label>@Html.Translate("Commodity Type")</label>
+                </li>
+                 <li>
+                    <div>@(Html.Telerik().ComboBox()
+                                .Name("CommodityTypeId")
+                                .AutoFill(false)
+                                .SelectedIndex(0)
+                                .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeId", "CommodityTypeName"))
+                                .ClientEvents(e => e.OnChange("onReportFileterChange"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                )
+                </div>
+                </li>
+                 <li>
+                    <label>@Html.Translate("Program") </label>
+                </li>
+                 <li>
+                    <div>@(Html.Telerik().ComboBox()
+                                .Name("ProgramId")
+                                .AutoFill(false)
+                                .SelectedIndex(0)
+                                .BindTo(new SelectList(Model.Programs, "ProgramId", "ProgramName"))
+                                .ClientEvents(e => e.OnChange("onReportFileterChange"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                                .Placeholder("All")
+                )
+                </div>
+                </li>
+                 <li>
+                    <label>@Html.Translate("Store") </label>
+                </li>
+                 <li>
+                    <div>@(Html.Telerik().ComboBox()
+                                .Name("StoreId")
+                                .AutoFill(false)
+                                .SelectedIndex(0)
+                                .BindTo(new SelectList(Model.Stores, "StoreId", "StoreName"))
+                                .ClientEvents(e => e.OnChange("onReportFileterChange"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                    )
+                    </div>
+                </li>
+                @Html.Partial("AreaPartial")
+            </ul>
+        </div>
+        <div class="contentPanel">
+            <div id="content"></div>
+        </div>
+    </div>
+   
+    <input id="showReport" style="display:none" type="submit" value="@Html.Translate("Show")"/>
+}
+
+
+

@@ -1,0 +1,87 @@
+﻿@using System.Web.Mvc.Html
+@model Cats.Models.Hub.Commodity
+@using Cats.Web.Hub.Helpers           
+
+
+@using (Html.BeginForm())
+    {
+    @Html.ValidationSummary(true)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name) <span class="required">*</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NameAM, Html.Translate("Name (Amharic)"))
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NameAM)
+            @Html.ValidationMessageFor(model => model.NameAM)
+        </div>
+    
+         <div class="editor-label">
+            @Html.LabelFor(model => model.CommodityCode, Html.Translate("Commodity Code"))
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CommodityCode)<br/>
+            @Html.ValidationMessageFor(model => model.CommodityCode)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LongName, Html.Translate("Long Name"))
+        </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.LongName)
+        @Html.ValidationMessageFor(model => model.LongName)
+    </div>
+
+        if ((bool)ViewBag.isParent)
+        {
+         
+        
+           <div class="editor-label">
+                @Html.LabelFor(model => model.CommodityTypeID, @Html.Translate("Commodity Type"))
+            </div>
+            <div class="editor-field">
+              
+                @Html.TextBox("txtCommodityType", (string)ViewBag.CommodityType, new { disabled = "disabled" })
+         </div>
+        
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ParentID, Html.Translate("Parent Commodity"))
+        </div>
+
+        <div class="editor-field">
+            @Html.TextBox("txtParentCommodity", (string)ViewBag.ParentCommodity, new { disabled = "disabled" })
+        </div>
+        @Html.HiddenFor(model => model.CommodityTypeID)
+        
+        }
+        else
+        {
+        
+          <div class="editor-label">
+                @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"))
+            </div>
+            <div class="editor-field">
+                @Html.DropDownList("CommodityTypeID", (IEnumerable<SelectListItem>)ViewBag.CommodityTypeID)
+                @Html.ValidationMessageFor(model => model.CommodityTypeID)
+            </div>
+        }
+    
+    @Html.HiddenFor(model => model.ParentID)
+       
+       
+}
+ <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.jgeez.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var name = $('#NameAM');
+            name.jGeez();
+        });
+    </script>

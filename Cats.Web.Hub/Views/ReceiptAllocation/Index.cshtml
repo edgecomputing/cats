@@ -1,0 +1,280 @@
+﻿@model IEnumerable<Cats.Models.Hub.ReceiptAllocation>
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.Examples
+@{
+    ViewBag.Title = Html.Translate("Receipt Allocations From ") + ViewBag.CommoditySourceTypeText;
+}
+@{
+    int allocationType = ViewBag.CommoditySourceType;
+}
+<div>
+    <h2>
+        @Html.Partial("DisplayHub")</h2>
+    <p>
+        @Html.Translate("Manage receipt allocations here. Please select the ")
+        @Html.Translate("SI Number form the list box on the left to continue.")
+    </p>
+    <p>
+        @if (allocationType == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+        {
+            <text>@Html.Translate("Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
+               @Html.Translate(" From Local Purchase")</a></text>
+        }
+        else if (allocationType == Cats.Models.Hub.CommoditySource.Constants.LOAN)
+        {
+            <text>@Html.Translate("Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
+                From Loan</a></text>
+        }
+        else if (allocationType == Cats.Models.Hub.CommoditySource.Constants.OTHER)
+        {
+            <text>@Html.Translate("Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
+               @Html.Translate(" From Other Sources")</a></text>
+        }
+        else if (allocationType == Cats.Models.Hub.CommoditySource.Constants.TRANSFER)
+        {
+            <text>@Html.Translate(" Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
+                @Html.Translate("From Transfer ")</a></text>
+        }
+    </p>
+    <div id="si-balance">
+        @*@Html.Action("GetSIBalances", "ReceiptAllocation")*@
+    </div>
+    @{
+        Html.Telerik().Window()
+                .Name("ReceiptDialog")
+                .Title(Html.Translate("Edit/New Recipt Allocation"))
+                .Content(@<text>
+        <div style="padding: 10px;" id="create-edit-form">
+        </div>
+        </text>)
+                .Width(800)
+                .Height(360)
+                .Draggable(true)
+                .Modal(true)
+                .Visible(false)
+                .Render();
+    }
+    @using (Html.BeginForm("CommitAllocation", "ReceiptAllocation"))
+    {
+        <table width="100%">
+            <tr>
+                <td valign="top" width="15%" style="min-width: 200px">
+                    <div style="vertical-align: top; height: 200px;">
+                        @Html.Translate("SI / Number ")
+                        <br />
+                        <br />
+                        @Html.DropDownList("SINumbers", new SelectList(""), new { size = "20", style = "width:100%" })
+                        <br />
+                        <input type="checkbox" id="chk-uncommited" checked="checked" />
+                       @Html.Translate(" Show Un Commited Only")
+                    </div>
+                    @Html.Hidden("Balance")
+                </td>
+                <td valign="top" width="85%" style="min-width: 500px">
+                    <div id="balance-view">
+                    </div>
+                    <div id="create-link" style="display: none;">
+                        <a href="#" onclick="createPartialForm()">@Html.Translate("New Receipt Allocation")</a>
+                    </div>
+                    <br />
+                    <div id="theGrid">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<script type="text/javascript">
+
+    var showlCreateonCancel = false;
+
+    $(function () {
+
+        loadSINumbers();
+        var si = '@ViewBag.SI';
+        if (si != '') {
+            // select the default si
+            $('#SINumbers').find('option[value="' + si + '"]').attr('selected', 'selected');
+        }
+        var req = $('#SINumbers').change(function () {
+            loadGridData();
+        });
+
+        $('#chk-uncommited').change(function () {
+            loadSINumbers();
+            //should set SI to call the line below
+            //loadGridData();
+        });
+    });
+
+    function onCommitClick() {
+        if ($('.checkedRecords:checked').size() == 0) {
+            alert("Please Select at least one row before commiting");
+            return false;
+        }
+        return true;
+    }
+
+    function cancel() {
+        $('#create-edit-form').hide();
+        if (showlCreateonCancel != null && showlCreateonCancel) {
+            $('#create-link').show();
+        }
+        $('#ReceiptDialog').data('tWindow').close();
+        //loadGridData();
+    }
+
+    function loadSINumbers() {
+        var url = '@Url.Action("GetAvailableSINumbersAsText", "ReceiptAllocation")';
+
+        var checked = null;
+
+        if ($('#chk-uncommited').attr('checked') == 'checked') {
+            checked = 'false';
+        } else {
+            checked = 'true';
+        }
+        var params = {};
+        params['AllSIs'] = checked;
+        params['commoditySoureType'] = '@allocationType';
+
+        $.getJSON(url, params, function (result) {
+            var req = $('#SINumbers');
+            req.html('');
+            var markup = '';
+            for (var x = 0; x < result.length; x++) {
+                markup += '<option data-attr="' + result[x].Collection + '" value="' + result[x].Id + '">' + result[x].Name + '</option>';
+            }
+            $(req).html(markup);
+
+        });
+    }
+
+    function createCleanPartialForm() {
+        $('#ReceiptDialog').data('tWindow').center().open();
+        $('#create-link').hide();
+        showlCreateonCancel = true;
+        $('#create-edit-form').show();
+        //var req = $('#SINumbers :selected');
+        var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
+        $('#create-edit-form').load(url, { type: '@allocationType' }); //{ SInumber: "" });
+        //don't show the grid when new is created
+        $('#theGrid').html("");
+        //remove the selected SI thing or save the last selection and re-instate it during a cancel
+        var selection = $('#SINumbers :selected');
+        selection.removeAttr("selected");
+
+    }
+
+    function createPartialForm() {
+        $('#ReceiptDialog').data('tWindow').center().open();
+        $('#create-link').hide();
+        showlCreateonCancel = true;
+        //$('#create-edit-form').show();
+        //var value = $('#SINumbers').val();
+        var req = $('#SINumbers :selected');
+        var params = {};
+        //params['SInumber'] = value;
+        var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
+        $('#create-edit-form').load(url, { SInumber: req.text(), type: '@allocationType' }); //value });
+        $('#create-edit-form').show();
+
+    }
+
+    function editPartialForm(item) {
+        $('#ReceiptDialog').data('tWindow').center().open();
+        //$('#create-link').hide();
+        showlCreateonCancel = false;
+        var id = parseInt($(item).attr("allocationId"));
+        var url = '@Url.Action("Edit", "ReceiptAllocation")';
+        url = url + '?allocationId=' + id;
+        $('#create-edit-form').load(url);
+        $('#create-edit-form').show();
+    }
+
+    function loadGridData() {
+        var SINumber = $('#SINumbers');
+        var req = $('#SINumbers :selected');
+        $('#theGrid').load('@Url.Action("AllocationList", "ReceiptAllocation")', { SINumber: SINumber.val(), type: '@allocationType' });
+
+        // $('#create-link').show();
+        $('#create-edit-form').hide();
+        $.getJSON('@Url.Action("GetBalance", "ReceiptAllocation")', { siNumber: SINumber.val() }, function (balance) {
+            if ($(req).attr("data-attr") === "0") { //show the balance 
+                $('#Balance').val(balance.balance);
+                updateBalance(balance);
+            } else if ($(req).attr("data-attr") === "1") { //write a message that it's not found in GCD
+                $('#create-link').show();
+                //$('#balance-view').html("<span>The alloctions list below do not have a respective Gift Certificate </span>");
+            }
+        });
+    }
+
+    function updateBalance(balance) {
+        var txt = "<table><tr><td style='width:200px'>Commodity</td><td style='width:200px'><b>" + balance.commodity + "</b></td><td style='width:200px'>Total on Gift Certificate</td><td style='width:200px'><b>" + balance.total + "</b><td style='width:200px'>Unallocated In MT</td><td style='width:200px'><b>" + balance.balance + "</b></td></tr></table>";
+        $('#balance-view').html(txt);
+        var btn = $('#commit-btn');
+        if (balance.balance < 0) {
+            btn.hide();
+            $('#balance-view').css('color', 'red');
+            $('#create-link').hide();
+        }
+        else if (balance.balance == 0) {
+            $('#create-link').hide();
+        }
+        else {
+            btn.show();
+            $('#create-link').show();
+            $('#balance-view').css('color', '#696969');
+        }
+    }
+
+//    function submitReceiveAllocationForm(button) {
+//        var form = $(button).closest("form");
+//        var theNewSi = $('#SINumber').val();
+//        if (form.valid()) {
+//            $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+//                //rebind the GRID
+//                var gr = $('#ReceiveAllocationGrid' + response).data('tGrid');
+//                gr.rebind();
+//                $('#ReceiptDialog').data('tWindow').close();
+
+//                var req = $('#SINumbers :selected').text();
+//                if (req == undefined || req == "") {
+//                    loadSINumbers();
+//                    $('#SINumbers').find('option[value="' + theNewSi + '"]').attr('selected', 'selected');
+//                }
+//                loadGridData();
+//                $('#ReceiptDialog').data('tWindow').close();
+//            }
+//            });
+//        }
+//        return false;
+//    }
+
+
+
+    function OnComChange(e) {
+        console.warn("event fired on change  ");
+        if (e.target != undefined) {
+            $(e.target).valid();
+        }
+        $(this).valid();
+    }
+
+    //    function totalChanged(item) {
+    //        var amt = parseFloat($(item).attr("data-ammount"));
+    //        var balance = parseFloat($('#Balance').val());
+    //        if ($(item).is(':checked')) {
+    //            var cal = (balance ) - amt;
+    //        } else {
+    //            var cal = (balance) + amt;
+    //        }
+    //        $('#Balance').val(cal);
+    //        updateBalance(cal);
+    //        return false;
+    //    }
+
+
+
+</script>

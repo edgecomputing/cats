@@ -1,0 +1,90 @@
+﻿@model Cats.Models.Hub.Dispatch
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Details");
+}
+
+<h2>@Html.Translate("Details")</h2>
+
+<fieldset>
+    <legend>@Html.Translate("Dispatch")</legend>
+
+    <div class="display-label">@Html.Translate("FDPID")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FDPID)
+    </div>
+
+    <div class="display-label">@Html.Translate("Warehouse")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Warehouse.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Store")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Store.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("StackNumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StackNumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("UserProfileID")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserProfileID)
+    </div>
+
+    <div class="display-label">@Html.Translate("DispatchDate")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DispatchDate)
+    </div>
+
+    <div class="display-label">@Html.Translate("CreatedDate")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedDate)
+    </div>
+
+    <div class="display-label">@Html.Translate("RequisitionNo")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RequisitionNo)
+    </div>
+
+    <div class="display-label">@Html.Translate("GIN")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GIN)
+    </div>
+
+    <div class="display-label">@Html.Translate("BidNumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BidNumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("Transporter")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transporter.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("DriverName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DriverName)
+    </div>
+
+    <div class="display-label">@Html.Translate("PlateNo_Prime")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PlateNo_Prime)
+    </div>
+
+    <div class="display-label">@Html.Translate("PlateNo_Trailer")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PlateNo_Trailer)
+    </div>
+
+    <div class="display-label">@Html.Translate("Period")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Period.PeriodID)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.DispatchID }) |
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</p>

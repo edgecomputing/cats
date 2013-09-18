@@ -1,0 +1,25 @@
+﻿@using Cats.Web.Hub.Helpers
+@using DevExpress.Web.Mvc.UI
+@{
+    ViewBag.Title = Html.Translate("Dispatch vs Allocation");
+}
+
+ @Html.Partial("DisplayHub") 
+<p>@Html.Translate("This report shows total dispatch fulfillment against request on RRD.")</p>
+
+<div style="float:right">
+    <a href="#">Print</a> | <a href="#">Export PDF</a> | <a href="#">Export Excel</a>
+</div>
+@Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.Report }) 
+    @Html.DevExpress().GetScripts( 
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
+	    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor }, 
+	    new Script { ExtensionSuite = ExtensionSuite.GridView }, 
+	    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+	    new Script { ExtensionSuite = ExtensionSuite.Editors }, 
+        new Script { ExtensionSuite = ExtensionSuite.Chart },
+	    new Script { ExtensionSuite = ExtensionSuite.Report } 
+    )
+ <div style="display: table-cell;horiz-align:center;text-align: center;">
+    @Html.Partial("DispatchPartial")
+ </div>

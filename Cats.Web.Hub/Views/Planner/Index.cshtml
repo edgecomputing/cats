@@ -1,0 +1,59 @@
+﻿@using Cats.Web.Hub.Helpers
+
+<div>
+    <h2>@Html.Translate("Planning Tools")</h2>
+
+    <p>
+        @Html.Translate("Please use these tools to record receipt and dispatch plans.")
+    </p>
+    <table class="borderless" style="vertical-align: top;" width="100%">
+        <tr>
+            <td style="width: 50%;height: 50px;">
+                @Html.ActionLink(Html.Translate("Plan Receipts from Donors"), "Index", "ReceiptAllocation", new{ type = Cats.Models.Hub.CommoditySource.Constants.DONATION},null)
+                <br />
+                @Html.Translate("Plan receipts from donors")
+            </td>
+            <td style="width: 50%;height: 50px;">
+                @Html.ActionLink(Html.Translate("Plan Receipts from Transfer from Other Hubs"), "Index", "ReceiptAllocation", new { type = Cats.Models.Hub.CommoditySource.Constants.TRANSFER }, null)
+                <br />
+                @Html.Translate("Plan receipts from Other hubs as part of transfers")
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%;height: 50px;">
+                @Html.ActionLink(Html.Translate("Plan Receipts from Local Purchases"), "Index", "ReceiptAllocation", new { type = Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE }, null)
+                <br />
+                @Html.Translate("Plan receipts from local purchases")
+            </td>
+            <td style="width: 50%;height: 50px;">
+                @Html.ActionLink(Html.Translate("Plan Receipts from Repayment, Loans and Swaps"), "Index", "ReceiptAllocation", new { type = Cats.Models.Hub.CommoditySource.Constants.LOAN }, null)
+                <br />
+                @Html.Translate("Plan receipts from loans from other hub owners")
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%;height: 50px;"> </td>
+            <td style="width: 50%;height: 50px;"></td>
+        </tr>
+        <tr>
+            <td style="width: 50%;height: 50px;">
+                @Html.ActionLink(Html.Translate("Plan Dispatchs for FDPs"),"Index","DispatchAllocation")
+                <br />
+                @Html.Translate("Plan dispatches for Final Distribution points")
+            </td>
+            <td style="width: 50%;height: 50px;">
+                @Html.ActionLink(Html.Translate("Plan Dispatchs for other Hubs"),"ToHubs","DispatchAllocation")
+                <br />
+                @Html.Translate("Plan dispatches to other hubs as part of transfer")
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%;height: 50px;">
+                @Html.ActionLink(Html.Translate("Plan Dispatches for Other Hub Owners"),"ToOtherOwners","DispatchAllocation")
+                <br />
+                @Html.Translate("Plan dispatches to other hub owners")
+            </td>
+            <td style="width: 50%;height: 50px;"></td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,16 @@
+﻿@model Cats.Models.Hub.ViewModels.InternalMovementViewModel
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Record New Internal Transfer");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="../../Scripts/jquery.validate.unobtrusive.bQuery.js" type="text/javascript"></script>
+@Html.Partial("DisplayHub")
+<p>
+    @Html.Translate("Please use this form to record transfer of commodities from one store to the other.")
+</p>
+@Html.Partial("EditPartial")
+
+
+
+

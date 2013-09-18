@@ -1,0 +1,327 @@
+﻿@model IEnumerable<System.String>
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Dispatch Allocations");
+    var mesure = @Html.GetCurrentUser().PreferedWeightMeasurment;
+
+    int multipyBy = 10;
+    //if (mesure.ToUpperInvariant() == "MT")
+    //{
+    //    multipyBy = 1;
+    //}
+ }
+
+@{
+            Html.Telerik().Window()
+                    .Name("DispatchAllocationDialog")
+                    .Title(Html.Translate("Edit/New Dispatch Allocation"))
+                    .Content(@<text>
+                                  <div style="padding: 10px;" id="create-edit-form"></div>
+                                </text>)
+                    .Width(800)
+                    .Height(350)
+                    .Draggable(true)
+                    .Modal(true)
+                    .Visible(false)
+                    .Render();
+    }
+
+<div>
+@Html.Partial("DisplayHub")
+    <p>
+        @Html.Translate("Please use this page to manage dispatch allocations.") 
+        @Html.Translate("Please select the requisition number on the left to") 
+        @Html.Translate("begin commiting stock to the dispatch allocation.")
+    </p>
+    
+
+    
+    @using (Html.BeginForm("CommitAllocation", "DispatchAllocation"))
+             {
+    <table width="100%">
+         <tr>
+             <td valign="top"  width="200px">
+                 <div class="field-set">
+                 Select a Requisition No
+                 @Html.DropDownList("Requisitions", new SelectList(Model), new { size = "20", style = "width:100%" })
+                 <input type="checkbox" id="chk-uncommited" checked="checked" />
+                 @Html.Translate("Show Uncommited only")
+                 </div>
+             </td>
+
+             <td valign="top" width="220px">
+                       
+                     @Html.Hidden("SINumber", -1)
+                     @Html.Hidden("ProjectCode", -1)
+                     @Html.Hidden("Balance")
+                     @Html.Hidden("Total")
+                     @Html.Hidden("Sitext", "")
+                     @Html.Hidden("ProjectCodeText", "")
+             
+                     <table class="borderless">
+                         <tr>
+                             <td>
+                                 @Html.Translate("Commodity")
+                             </td>
+                             <td>
+
+                                 @(Html.Telerik().ComboBox().Name("CommodityID-Selector")
+                                        .ClientEvents(ev => ev.OnChange("onCommodityChange")))
+                               
+                             </td>
+                         </tr>
+                   
+                         <tr>
+                             <td colspan="2">
+                                 <div id="si-balance" class="field-set-title">
+                                    <p>
+                                         @Html.Translate("Please select a requisition number on the left to commit stock.")
+                                    </p>
+                                 </div>
+                                
+                                 
+                             </td>
+                         </tr>
+                         <tr>
+                             <td></td>
+                             <td style="text-align: right;">
+                                 
+                             </td>
+                         </tr>
+                     </table>
+                 </td>
+                 <td valign="top">
+                     <div id="alloc-filters">
+                         <div id="recNo-filter">                
+                         </div>
+                         <div id="child-Filters">
+                         </div>
+                     </div>
+                     <div id="selection-header" class="field-set-title" style="padding: 5px;"></div>
+                     <div id="alloc-grid">
+                         <p>
+                             @Html.Translate("Please select a requisition number on the left to commit stock.")</p>
+                     </div>
+                        <div class="clear"></div>
+                         <div id="balance-view" style="float: right">
+                         </div>
+                        <div class="clear"></div>
+                     <input id="commit-btn" style="float: right" class="t-button" type="submit" value="@Html.Translate("Commit")" onclick="return onCommitClick();" />
+                 </td>
+                 
+            
+                 </tr>
+                 </table>
+             }        <p>
+           @Html.Translate(" You can use the ") <a href='#' onclick="return createFDPAllocation()">@Html.Translate("create dispatch allocation")</a> @*@Html.ActionLink(, "Create", "DispatchAllocation", new { @onclick = "return createFDPAllocation()" })*@ @Html.Translate("screen if the dispatch allocation has not been pushed from the transportation system.") 
+            
+        </p>
+        
+  
+ </div>
+    
+    <script type="text/javascript">
+        var siValue;
+        // Hook the show uncommited only checkbox
+        $(function () {
+            // Hook the check box event
+            $('#chk-uncommited').change(function () {
+                populateRequistions();
+                reloadGrid();
+            });
+            // Populate the requistions for the first time, when the screen loads.
+            //populateRequistions();
+            var req = $('#Requisitions').change(function () {
+                populateByReqNo();
+            });
+
+        });
+
+        function populateRequistions() {
+            var url = '/DispatchAllocation/AvailableRequistions?UnCommited=';
+            if ($('#chk-uncommited').attr('checked') == 'checked') {
+                url += 'true';
+            } else {
+                url += 'false';
+            }
+            $.getJSON(url, function (result) {
+                var req = $('#Requisitions');
+                req.html('');
+                var markup = '';
+                for (var x = 0; x < result.length; x++) {
+                    markup += '<option value="' + result[x] + '">' + result[x] + '</option>';
+
+                }
+                $(req).html(markup);
+
+            });
+        }
+
+        function populateByReqNo() {
+            // reset the value of the commodity combo box.
+            $('#CommodityID-Selector').data('tComboBox').value('');
+            // get the selected requistion 
+            var req = $('#Requisitions :selected');
+            
+            // load the header
+            $('#selection-header').load("/DispatchAllocation/SelectionHeader?requisition="+req.text() );
+            
+            // Load available SIs
+            $('#si-balance').load('/DispatchAllocation/SiBalances?requisition=' + req.text());
+
+            // Clear out the balance view
+            $('#balance-view').html('');
+            
+            // Disable the commit button until the Project code with balance is selected.
+
+            $.getJSON('/DispatchAllocation/GetCommodities/', { RequisitionNo: req.text() }, function (coms) {
+                var c = coms;
+                var commodity = $('#CommodityID-Selector').data('tComboBox');
+                commodity.dataBind(coms);
+                if (coms.length > 0) {
+                    commodity.value(coms[0].Value);
+                    onCommodityChange();
+                }
+            });
+         
+            //reloadGrid();
+        }
+
+        function createFDPAllocation() {
+            $('#DispatchAllocationDialog').data('tWindow').center().open();
+            $('#DispatchAllocationDialog').data('tWindow').title('@Html.Translate("Edit/New Dispatch Allocation To FDP")');
+            var url = '@Url.Action("Create", "DispatchAllocation")';
+            $('#create-edit-form').load(url);
+            $('#create-edit-form').show();
+        }
+
+
+//        function loadForm(link) {
+//            $('#alloc-grid').load(link.href, function () {
+//                $.validator.unobtrusive.parse('#createForm');
+//            });
+//            
+//            return false;
+//        }
+//        function onSIChange(e) {
+//            var commodity = $('#CommodityID-Selector').data('tComboBox');
+//            siValue = e.value;
+//            var siText = $("#Sitext").val();
+//            //var siValueText = $(obj).attr('data-si-text');
+//            //$("#Sitext").val(siValueText);    
+
+//            $.getJSON('/DispatchAllocation/GetBalance/', { siNumber: e.value, commodityId: commodity.value(), siNumberText : siText }, function (balance) {
+//                $('#Balance').val(balance * @multipyBy);
+//                $('#Total').val(balance * @multipyBy);
+//                updateBalance(balance * @multipyBy);
+//            });
+//        }
+        function updateBalance(balance) {
+            balance = balance;
+            var total = (Number($('#Total').val()));
+
+            var si = $('.selected');
+            if (si) {
+                var text = "<div style='text-align:right'>Selected SI : <b>" + $(si).attr('data-sinumber') + "</b><br />Available on SI : <b>" + formatNumber(total.toFixed(3)) + "</b><br />Balance : <b>" + formatNumber(balance.toFixed(3)) + "</b></div>"
+                $('#balance-view').html(text);
+            } else {
+                var text = "<div style='text-align:right'>Selected SI : <b>" + "N/A" + "</b><br />Available on SI : <b>" + formatNumber(total.toFixed(3)) + "</b><br />Balance : <b>" + formatNumber(balance.toFixed(3)) + "</b></div>"
+                $('#balance-view').html(text);
+            }
+            var btn = $('#commit-btn');
+            if (balance < 0) {
+                //btn.attr('disabled','disabled');
+                btn.hide();
+                $('#balance-view').css('color','red');
+            } else {
+                btn.show();
+                //btn.removeAttr('disabled');
+                $('#balance-view').css('color','#696969');
+            }
+        }
+        function reloadGrid() {
+            var commodity = $('#CommodityID-Selector').data('tComboBox');
+            var req = $('#Requisitions :selected');
+            var params = {};
+            params["RquisitionNo"] = req.text();
+            params["CommodityID"] = commodity.value();
+            if ($('#chk-uncommited').attr('checked') == 'checked') {
+                params["Uncommited"] = true;
+            } else {
+            params["Uncommited"] = false;
+        }
+            $('#alloc-grid').load('/DispatchAllocation/GetAllocations/', params);
+        }
+
+        function onCommodityChange(e) {
+            // Reload the grid
+            reloadGrid();
+            // reload possible SI numbers for the selected commodities
+           var commodity = $('#CommodityID-Selector').data('tComboBox');
+            $.getJSON('/DispatchAllocation/GetAvailableSINumbers/', { CommodityID: commodity.value() }, onSINumbersLoaded);
+        }
+
+        function onSINumbersLoaded(result) {
+//            var siNumber = $('#SINumber').data('tComboBox');
+//            siNumber.dataBind(result);
+        }
+
+        function totalChanged(item) {
+            var amt = parseFloat($(item).attr("data-ammount"));
+            var balance = parseFloat($('#Balance').val());
+            if ($(item).is(':checked')) {
+                var cal = (balance ) - amt;
+            } else {
+                var cal = (balance) + amt;
+            }
+            $('#Balance').val(cal);
+            updateBalance(cal);
+            return false;
+        }
+        function onCommitClick(){
+            if ($('.checkedRecords:checked').size() == 0) {
+                alert("Please Select at least one row before commiting");
+                return false;
+            }
+            var si = $('.selected');
+            if (!si || !$(si).attr('data-sinumber-id')) {
+                alert("Please Select Project Number before commiting");
+                return false;
+            }
+            return true;
+        }
+        function checkCombos(button) {
+            var fdp = $('#FDPID').data('tComboBox');
+            var month = $('#Month').data('tComboBox');
+            if (fdp) {
+                fdp.enable();
+            }
+            if (month) {
+                month.enable();
+            }
+            return submitForm(button);
+        }
+
+        function submitForm(button) {
+            var form = $(button).closest("form");
+            if (form.valid()) {
+                $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+                    $('#DispatchAllocationDialog').data('tWindow').close();
+                    reloadGrid();
+                    populateRequistions();
+                }
+                
+                });
+        }
+        return false;
+    }
+
+
+    function cancel() {
+        $('#DispatchAllocationDialog').data('tWindow').close();
+        $('#create-edit-form').html("");
+    }
+    </script>
+
+    
+    

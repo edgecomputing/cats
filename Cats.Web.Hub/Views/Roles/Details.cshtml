@@ -1,0 +1,27 @@
+﻿@model Cats.Models.Hub.RoleModel
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Details");
+}
+
+<h2>@Html.Translate("Details")</h2>
+
+    <div class="display-label">@Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Description")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">@Html.Translate("Sort Order")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SortOrder)
+    </div>
+
+<p>
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.RoleID }) |
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</p>

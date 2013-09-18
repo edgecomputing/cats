@@ -1,0 +1,18 @@
+﻿table, td, tr
+{
+    border:none;
+}
+th
+{
+    font-size:0.8em;
+}
+td
+{
+    font-size:0.8em;
+    text-align:center;
+}
+body
+{
+    font-size:0.7em;
+}
+

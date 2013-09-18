@@ -1,0 +1,39 @@
+﻿@model Cats.Models.Hub.Contact
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Delete");
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("Contact")</legend>
+
+    <div class="display-label">@Html.Translate("First Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstName)
+    </div>
+
+    <div class="display-label">@Html.Translate("Last Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastName)
+    </div>
+
+    <div class="display-label">@Html.Translate("Phone Number")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PhoneNo)
+    </div>
+
+    <div class="display-label">@Html.Translate("FDP")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FDP.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+    {
+    <p>
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index", new { fdpId = Convert.ToInt32(ViewBag.FDPID) })
+    </p>
+}
