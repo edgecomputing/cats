@@ -119,6 +119,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommodityTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HubOwnerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -578,6 +579,12 @@
     <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\HubOwner\Create.cshtml" />
+    <Content Include="Views\HubOwner\Delete.cshtml" />
+    <Content Include="Views\HubOwner\Details.cshtml" />
+    <Content Include="Views\HubOwner\Edit.cshtml" />
+    <Content Include="Views\HubOwner\Index.cshtml" />
+    <Content Include="Views\HubOwner\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -614,21 +621,21 @@
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
-      <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
-      <Name>Cats.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
+      <Name>Cats.Models.Hub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
       <Name>Cats.Models.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
-      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
-      <Name>Cats.Models</Name>
+    <ProjectReference Include="..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
+      <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
+      <Name>Cats.Services.Administration</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>

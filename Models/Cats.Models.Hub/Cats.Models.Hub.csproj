@@ -60,7 +60,9 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityGrade.cs" />
     <Compile Include="CommoditySource.cs" />
-    <Compile Include="CommodityType.cs" />
+    <Compile Include="CommodityType.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Contact.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="Dispatch.cs" />
