@@ -70,13 +70,13 @@ namespace Cats.Areas.Settings.Controllers
                 return View();
             
             // If the supplied information is correct then persist it to the database
-            var user = new UserAccount();
+            var user = new User();
 
             user.UserName = userInfo.UserName;                        
             user.Password = userService.HashPassword(userInfo.Password);
 
             user.Disabled = false;
-            user.LoggedIn = false;
+            user.UserProfile.LockedInInd = false;
 
             List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
             Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
@@ -94,11 +94,11 @@ namespace Cats.Areas.Settings.Controllers
            }
 
            user.UserProfile.FirstName = "";
-           user.UserPreference.LanguageCode = "EN";
-           user.UserPreference.Keyboard = "AM";
-           user.UserPreference.PreferedWeightMeasurment = "MT";
-           user.UserPreference.Calendar = "GC";
-           user.UserPreference.DefaultTheme = "Default";
+           user.UserProfile.LanguageCode = "EN";
+           user.UserProfile.Keyboard = "AM";
+           user.UserProfile.PreferedWeightMeasurment = "MT";
+           user.UserProfile.DatePreference = "GC";
+           user.UserProfile.DefaultTheme = "Default";
 
             userService.Add(user, roles);
 
@@ -149,7 +149,7 @@ namespace Cats.Areas.Settings.Controllers
                     roles.Add(application.ApplicationName, Roles);
             }
 
-            var user = new UserAccount();
+            var user = new User();
 
             user.UserName = userInfo.UserName;
             userService.EditUserRole(userInfo.UserName, userInfo.UserName, roles);
@@ -165,7 +165,7 @@ namespace Cats.Areas.Settings.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
-            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserId;
             var oldpassword = userService.HashPassword(model.OldPassword);
             if (ModelState.IsValid)
             {
@@ -233,7 +233,7 @@ namespace Cats.Areas.Settings.Controllers
                             ExpieryDate = DateTime.Now.AddMonths(2),
                             GeneratedDate = DateTime.Now,
                             RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
-                            UserAccountID = user.UserAccountId
+                            UserAccountID = user.UserId
                         };
                     if (_forgetPasswordRequestService.AddForgetPasswordRequest(forgetPasswordRequest))
                     {

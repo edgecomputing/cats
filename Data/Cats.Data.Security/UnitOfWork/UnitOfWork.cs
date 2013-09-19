@@ -23,16 +23,15 @@ namespace Cats.Data.Security
         #endregion
 
         #region UnitOfWork public properties
-        private IGenericRepository<UserAccount> userRepo;
+        private IGenericRepository<User> userRepo;
         private IGenericRepository<UserInfo> userInfoRepo;
         private IGenericRepository<UserProfile> userProfileRepo;
-        private IGenericRepository<UserPreference> userPreferenceRepo;
         private IGenericRepository<ForgetPasswordRequest> forgetPasswordRequestRepo;
         private IGenericRepository<Setting> settingRepo; 
 
-        public IGenericRepository<UserAccount> UserRepository
+        public IGenericRepository<User> UserRepository
         {
-            get { return this.userRepo ?? (this.userRepo = new GenericRepository<UserAccount>(_context)); }
+            get { return this.userRepo ?? (this.userRepo = new GenericRepository<User>(_context)); }
 
         }
 
@@ -46,10 +45,6 @@ namespace Cats.Data.Security
             get { return userProfileRepo ?? (this.userProfileRepo = new GenericRepository<UserProfile>(_context)); }
         }
 
-        public IGenericRepository<UserPreference> UserPreferenceRepository
-        {
-            get { return userPreferenceRepo ?? (this.userPreferenceRepo = new GenericRepository<UserPreference>(_context)); }
-        }
         public IGenericRepository<ForgetPasswordRequest> ForgetPasswordRequestRepository
         {
             get { return forgetPasswordRequestRepo ?? (this.forgetPasswordRequestRepo = new GenericRepository<ForgetPasswordRequest>(_context)); }

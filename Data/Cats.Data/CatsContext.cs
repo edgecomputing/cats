@@ -13,7 +13,7 @@ namespace Cats.Data
             Database.SetInitializer<CatsContext>(null);
         }
 
-        public CatsContext() : base("Name=CatsContext") { }
+        public CatsContext() : base("Name=CATSFIELD") { }
 
         // TODO: Add properties to access set of Poco classes
         public DbSet<Log> Logs { get; set; }

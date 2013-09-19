@@ -41,7 +41,7 @@ namespace Cats.Services.Security
 
         #region Default Service Implementation
 
-        public bool Add(UserAccount entity, Dictionary<string,List<string>> roles)
+        public bool Add(User entity, Dictionary<string,List<string>> roles)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Cats.Services.Security
         }
 
         
-        public bool Add(UserAccount entity, string store, string application)
+        public bool Add(User entity, string store, string application)
         {
             try
             {
@@ -74,14 +74,14 @@ namespace Cats.Services.Security
             }
         }
 
-        public bool Save(UserAccount entity)
+        public bool Save(User entity)
         {
             _unitOfWork.UserRepository.Edit(entity);
             _unitOfWork.Save();
             return true;
         }
 
-        public bool Delete(UserAccount entity)
+        public bool Delete(User entity)
         {
             if (entity == null) return false;
             _unitOfWork.UserRepository.Delete(entity);
@@ -98,7 +98,7 @@ namespace Cats.Services.Security
             return true;
         }
 
-        public List<UserAccount> GetAll()
+        public List<User> GetAll()
         {
             return _unitOfWork.UserRepository.GetAll();
         }
@@ -108,12 +108,12 @@ namespace Cats.Services.Security
             return _unitOfWork.UserInfoRepository.GetAll();
         }
 
-        public UserAccount FindById(int id)
+        public User FindById(int id)
         {
             return _unitOfWork.UserRepository.FindById(id);
         }
 
-        public List<UserAccount> FindBy(Expression<Func<UserAccount, bool>> predicate)
+        public List<User> FindBy(Expression<Func<User, bool>> predicate)
         {
             return _unitOfWork.UserRepository.FindBy(predicate);
         }
@@ -126,7 +126,7 @@ namespace Cats.Services.Security
 
         #region Security Module Logic
 
-        public bool Authenticate(UserAccount userInfo)
+        public bool Authenticate(User userInfo)
         {
             return Authenticate(userInfo.UserName, userInfo.Password);
         }
@@ -193,11 +193,11 @@ namespace Cats.Services.Security
             return ChangePassword(user, password);
         }
 
-        public bool ChangePassword(UserAccount userInfo, string password)
+        public bool ChangePassword(User userInfo, string password)
         {
             try
             {
-                var user = _unitOfWork.UserRepository.FindBy(u => u.UserAccountId == userInfo.UserAccountId).SingleOrDefault();
+                var user = _unitOfWork.UserRepository.FindBy(u => u.UserId == userInfo.UserId).SingleOrDefault();
                 if (user != null)
                 {
                     user.Password = HashPassword(password);
@@ -230,7 +230,7 @@ namespace Cats.Services.Security
             var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
             if (user != null)
             {
-                info = _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == user.UserAccountId).SingleOrDefault();
+                info = _unitOfWork.UserInfoRepository.FindBy(u => u.UserId == user.UserId).SingleOrDefault();
                 user.Password = HashPassword(randomPassword);
                 try
                 {
@@ -300,9 +300,9 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userId">Unique id identifying the user</param>
         /// <returns>User object corresponding to the user identified by UserId</returns>
-        public UserAccount GetUserDetail(int userId)
+        public User GetUserDetail(int userId)
         {
-            return _unitOfWork.UserRepository.FindBy(u => u.UserAccountId == userId).SingleOrDefault();
+            return _unitOfWork.UserRepository.FindBy(u => u.UserId == userId).SingleOrDefault();
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userName">User name identifying the user</param>
         /// <returns>User object corresponding to the user identified by UserName</returns>
-        public UserAccount GetUserDetail(string userName)
+        public User GetUserDetail(string userName)
         {
             //return _unitOfWork.UserRepository.Get(u => u.UserName == userName, null, "UserProfile,UserPreference").SingleOrDefault();
             return _unitOfWork.UserRepository.Get(u => u.UserName == userName).SingleOrDefault();
@@ -328,7 +328,7 @@ namespace Cats.Services.Security
 
         public UserInfo GetUserInfo(int userId)
         {
-            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == userId).SingleOrDefault();
+            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserId == userId).SingleOrDefault();
         }
         /// <summary>
         /// Retrive a complete Authorization for the current user and populate the string array
@@ -354,7 +354,7 @@ namespace Cats.Services.Security
 
         public List<Application> GetUserPermissions(string UserName)
         {
-            var apps = new List<Cats.Models.Security.ViewModels.Application>();
+            var apps = new List<Application>();
 
             Dictionary<string, IAzManApplication> Application = provider.GetStorage().Stores["CATS"].Applications;
             foreach (var app in Application)
@@ -398,7 +398,7 @@ namespace Cats.Services.Security
             foreach (var app in Application)
             {
                 // Get all roles for the current application
-                apps.Add(new Models.Security.ViewModels.Application { ApplicationName = app.Value.Name, Roles = GetRolesList(app.Value.Name) });
+                apps.Add(new Application { ApplicationName = app.Value.Name, Roles = GetRolesList(app.Value.Name) });
             }
             return apps;
         }

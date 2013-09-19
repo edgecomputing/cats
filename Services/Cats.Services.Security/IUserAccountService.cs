@@ -12,22 +12,22 @@ namespace Cats.Services.Security
     public interface IUserAccountService
     {
         // CRUD Operations
-        bool Add(UserAccount entity, Dictionary<string, List<string>> roles);
-        bool Add(UserAccount entity, string store, string application);
-        bool Delete(UserAccount user);
+        bool Add(User entity, Dictionary<string, List<string>> roles);
+        bool Add(User entity, string store, string application);
+        bool Delete(User user);
         bool DeleteById(int id);
-        bool Save(UserAccount user);
-        UserAccount FindById(int id);
-        List<UserAccount> GetAll();
+        bool Save(User user);
+        User FindById(int id);
+        List<User> GetAll();
         List<UserInfo> GetUsers();
-        List<UserAccount> FindBy(Expression<Func<UserAccount, bool>> predicate);
+        List<User> FindBy(Expression<Func<User, bool>> predicate);
 
         // User Account Business Logic
         bool Authenticate(UserInfo userInfo);
-        bool Authenticate(UserAccount userInfo);
+        bool Authenticate(User userInfo);
         bool Authenticate(string userName, string password);
         bool ChangePassword(string userName, string password);
-        bool ChangePassword(UserAccount userInfo, string password);
+        bool ChangePassword(User userInfo, string password);
         bool ChangePassword(int userId, string password);
         string ResetPassword(UserInfo userInfo);
         string ResetPassword(string userName);
@@ -35,8 +35,8 @@ namespace Cats.Services.Security
 
         // Utility methods
         string HashPassword(string password);
-        UserAccount GetUserDetail(int userId);
-        UserAccount GetUserDetail(string userName);
+        User GetUserDetail(int userId);
+        User GetUserDetail(string userName);
         UserInfo GetUserInfo(string userName);
         UserInfo GetUserInfo(int userId);
         List<Role> GetUserPermissions(string UserName, string store, string application);

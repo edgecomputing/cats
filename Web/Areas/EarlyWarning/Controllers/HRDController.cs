@@ -373,7 +373,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Edit(HRD hrd)
         {
-            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserId;
             hrd.CreatedBY = userid;
             if (ModelState.IsValid)
             {

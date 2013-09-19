@@ -103,7 +103,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     var orign = _rationService.FindById(rationViewModel.RationID);
                     orign.IsDefaultRation = rationViewModel.IsDefaultRation;
 
-                    orign.UpdatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+                    orign.UpdatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserId;
                     orign.UpdatedDate = DateTime.Today;
                     _rationService.EditRation(orign);
                     return Json(new { success = true });
@@ -129,7 +129,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 try
                 {
-                    ration.CreatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+                    ration.CreatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserId;
                     ration.CreatedDate = DateTime.Today;
                     _rationService.AddRation(ration);
                     return RedirectToAction("Index");

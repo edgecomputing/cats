@@ -12,10 +12,9 @@ namespace Cats.Data.Security
             Database.SetInitializer<SecurityContext>(null);
         }
 
-        public SecurityContext() : base("Name=SecurityContext") { }
+        public SecurityContext() : base("Name=CATSFIELD") { }
 
-        public DbSet<UserAccount> UserAccounts { get; set; }
-        public DbSet<UserPreference> UserPreferences { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserInfo> UsersInfos { get; set; }
         public DbSet<ForgetPasswordRequest> ForgetPasswordRequests { get; set;}
@@ -23,8 +22,7 @@ namespace Cats.Data.Security
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new UserAccountMap());
-            modelBuilder.Configurations.Add(new UserPreferenceMap());
+            modelBuilder.Configurations.Add(new UserMap());
             modelBuilder.Configurations.Add(new UserProfileMap());
             modelBuilder.Configurations.Add(new UserInfoMap());
             modelBuilder.Configurations.Add(new ForgetPasswordRequestMap());
