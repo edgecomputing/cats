@@ -8,13 +8,13 @@ namespace Cats.Services.Common
     public interface ILetterTemplateService
     {
 
-        bool AddLetterTemplate(LetterTemplate_ letterTemplate);
-        bool DeleteLetterTemplate(LetterTemplate_ letterTemplate);
+        bool AddLetterTemplate(LetterTemplate letterTemplate);
+        bool DeleteLetterTemplate(LetterTemplate letterTemplate);
         bool DeleteById(int id);
-        bool EditLetterTemplate(LetterTemplate_ letterTemplate);
-        LetterTemplate_ FindById(int id);
-        List<LetterTemplate_> GetAllLetterTemplate();
-        List<LetterTemplate_> FindBy(Expression<Func<LetterTemplate_, bool>> predicate);
+        bool EditLetterTemplate(LetterTemplate letterTemplate);
+        LetterTemplate FindById(int id);
+        List<LetterTemplate> GetAllLetterTemplate();
+        List<LetterTemplate> FindBy(Expression<Func<LetterTemplate, bool>> predicate);
         List<LetterTemplateViewModel> GetAllLetterTemplates();
 
     }

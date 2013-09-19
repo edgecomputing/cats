@@ -68,6 +68,8 @@
     <Compile Include="ApplicationSettingService.cs" />
     <Compile Include="CommonService.cs" />
     <Compile Include="DashboardWidgetService.cs" />
+    <Compile Include="DocumentService.cs" />
+    <Compile Include="IDocumentService.cs" />
     <Compile Include="IApplicationSettingService.cs" />
     <Compile Include="ICommonService.cs" />
     <Compile Include="IDashboardWidgetService.cs" />

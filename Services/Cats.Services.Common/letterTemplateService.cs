@@ -18,21 +18,21 @@ namespace Cats.Services.Common
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddLetterTemplate(LetterTemplate_ letterTemplate)
+        public bool AddLetterTemplate(LetterTemplate letterTemplate)
         {
             _unitOfWork.LetterTemplateRepository.Add(letterTemplate);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditLetterTemplate(LetterTemplate_ letterTemplate)
+        public bool EditLetterTemplate(LetterTemplate letterTemplate)
         {
             _unitOfWork.LetterTemplateRepository.Edit(letterTemplate);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteLetterTemplate(LetterTemplate_ letterTemplate)
+        public bool DeleteLetterTemplate(LetterTemplate letterTemplate)
         {
             if (letterTemplate == null) return false;
             _unitOfWork.LetterTemplateRepository.Delete(letterTemplate);
@@ -47,15 +47,15 @@ namespace Cats.Services.Common
             _unitOfWork.Save();
             return true;
         }
-        public List<LetterTemplate_> GetAllLetterTemplate()
+        public List<LetterTemplate> GetAllLetterTemplate()
         {
             return _unitOfWork.LetterTemplateRepository.GetAll();
         }
-        public LetterTemplate_ FindById(int id)
+        public LetterTemplate FindById(int id)
         {
             return _unitOfWork.LetterTemplateRepository.FindById(id);
         }
-        public List<LetterTemplate_> FindBy(Expression<Func<LetterTemplate_, bool>> predicate)
+        public List<LetterTemplate> FindBy(Expression<Func<LetterTemplate, bool>> predicate)
         {
             return _unitOfWork.LetterTemplateRepository.FindBy(predicate);
         }
