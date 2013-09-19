@@ -34,7 +34,7 @@ namespace Cats.Web.Administration.Infrastructure
         
         private void AddBindings()
         {
-            kernel.Bind<Data.UnitWork.IUnitOfWork>().To<Data.UnitWork.IUnitOfWork>();
+            kernel.Bind<Data.UnitWork.IUnitOfWork>().To<Data.UnitWork.UnitOfWork>();
             kernel.Bind<Data.Security.IUnitOfWork>().To<Data.Security.UnitOfWork>();
             kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
           
