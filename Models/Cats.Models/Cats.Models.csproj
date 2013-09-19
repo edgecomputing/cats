@@ -154,6 +154,7 @@
     <Compile Include="Mapping\ShippingInstructionMap.cs" />
     <Compile Include="Mapping\StateTemplateMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
+    <Compile Include="Mapping\StoreMap.cs" />
     <Compile Include="Mapping\TransactionMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="ShippingInstruction.cs" />
     <Compile Include="StateTemplate.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="Store.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionGroup.cs" />
     <Compile Include="TransportBidPlan.cs" />
