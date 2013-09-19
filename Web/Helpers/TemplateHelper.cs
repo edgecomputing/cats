@@ -11,11 +11,11 @@ using Cats.Documents;
 
 namespace Cats.Helpers
 {
-    public class TemplateGenerator
+    public class TemplateHelper
     {
         private readonly IUnitOfWork _unitofwork;
 
-        public TemplateGenerator(IUnitOfWork unitOfWork)
+        public TemplateHelper(IUnitOfWork unitOfWork)
         {
             _unitofwork = unitOfWork;
         }
