@@ -61,10 +61,12 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="AuditSevice.cs" />
     <Compile Include="CommodityGradeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommoditySourceService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="IAuditService.cs" />
     <Compile Include="ICommodityGradeService.cs" />
     <Compile Include="ICommodityService.cs" />
     <Compile Include="DonorService.cs" />

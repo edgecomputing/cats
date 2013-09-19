@@ -1,0 +1,30 @@
+﻿
+
+
+@using Cats.Models
+@using Cats.Web.Adminstration.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Index</h2>
+@(Html.Kendo().Grid<AuditLogViewModel>().Columns(columns=>
+                                                     {
+                                                         columns.Bound(t => t.Action);
+                                                         columns.Bound(t => t.AuditID);
+                                                         columns.Bound(t => t.ColumnName);
+                                                         columns.Bound(t => t.HubID);
+                                                         columns.Bound(t => t.LogDate);
+                                                         columns.Bound(t => t.LoginID);
+                                                         columns.Bound(t => t.NewValue);
+                                                         columns.Bound(t => t.OldValue);
+                                                         
+
+                                                     }).DataSource(datasource=>datasource.Ajax()
+    .Read("AuditLog_Read","AuditLog")
+    .Destroy("AuditLog_Delete","AuditLog")
+    .Model(m=>m.Id(t=>t.AuditID))))
+    
+  
