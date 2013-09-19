@@ -127,6 +127,7 @@
     <Compile Include="Controllers\CommodityTypeController.cs" />
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HubController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -654,6 +655,10 @@
     <ProjectReference Include="..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
       <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
       <Name>Cats.Services.Administration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
