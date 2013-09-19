@@ -1,6 +1,5 @@
-﻿
-@using Kendo.Mvc.UI
-@model List<Cats.Models.Program>
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.Unit>
 
 @{
     ViewBag.Title = "Index";
@@ -15,7 +14,7 @@
    
 }
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Program?</h4>
+    <h4>Are You Sure You Want to Delete this Unit?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
@@ -33,15 +32,14 @@
 </script>
 
 <div>
-    <h4>List of Programs</h4>
+    <h4>List of Units</h4>
 </div>
-@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.ProgramViewModel>()
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.UnitViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.ProgramName);
-        columns.Bound(p => p.Description);
-        columns.Bound(p => p.LongName);
+        columns.Bound(p => p.UnitID);
+        columns.Bound(p => p.UnitName);
        //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
@@ -57,11 +55,11 @@
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(8)
-            .Model(model => model.Id(p => p.ProgramID))
-           .Read(read => read.Action("Program_Read", "Program"))
-           .Update(update => update.Action("Program_Update", "program"))
-           .Create(create => create.Action("Program_Create", "program"))
-           .Destroy(destroy => destroy.Action("Program_Destroy", "program"))
+            .Model(model => model.Id(p => p.UnitID))
+           .Read(read => read.Action("Unit_Read", "Unit"))
+           .Update(update => update.Action("Unit_Update", "Unit"))
+           .Create(create => create.Action("Unit_Create", "Unit"))
+           .Destroy(destroy => destroy.Action("Unit_Destroy", "Unit"))
  
      )
    
@@ -77,7 +75,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("Delete", "Program")" + "/" + dataItem.ProgramID;
+            window.location = "@Url.Action("Delete", "Unit")" + "/" + dataItem.UnitID;
             wnd.close();
         });
 

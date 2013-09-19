@@ -45,6 +45,7 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<IDonorService>().To<DonorService>();
             kernel.Bind<ICommodityTypeService>().To<CommodityTypeService>();
             kernel.Bind<IProgramService>().To<ProgramService>();
+            kernel.Bind<IUnitService>().To<UnitService>();
 
 
 
