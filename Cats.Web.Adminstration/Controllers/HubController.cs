@@ -8,11 +8,20 @@ namespace Cats.Web.Adminstration.Controllers
 {
     public class HubController : Controller
     {
+        private readonly IHubService _hubService;
+        private readonly IHubOwnerService _hubOwnerService;
+
+        public HubController(IHubService hubService, IHubOwnerService hubOwnerService)
+        {
+            _hubService = hubService;
+            _hubOwnerService = hubOwnerService;
+        }
         //
         // GET: /Hub/
 
         public ActionResult Index()
         {
+
             return View();
         }
 
