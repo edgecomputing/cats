@@ -1,7 +1,6 @@
 using System;
 using Cats.Models;
 using Cats.Data.Repository;
-using Cats.Models;
 
 namespace Cats.Data.UnitWork
 {
@@ -115,7 +114,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<TransactionGroup> TransactionGroupRepository { get; }
 
         IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository { get; }
-        IGenericRepository<CommodityGrade> CommodityGradeRepository { get; } 
+        IGenericRepository<CommodityGrade> CommodityGradeRepository { get; }
+        IGenericRepository<CommoditySource> CommoditySourceRepository { get; }
         void Save();
 
     }

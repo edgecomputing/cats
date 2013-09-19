@@ -85,7 +85,7 @@ namespace Cats.Services.EarlyWarning
             var gift = FindBySINumber(siNumber);
             bool inReceiptAllocation =
                 _unitOfWork.ReceiptAllocationReository.Get(
-                    t => t.SINumber == siNumber && t.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE).Any();
+                    t => t.SINumber == siNumber && t.CommoditySourceID == CommoditySourceConst.Constants.LOCALPURCHASE).Any();
 
             return ((gift == null || (gift.GiftCertificateID == giftCertificateID)) && !(inReceiptAllocation)) ;// new one or edit no problem 
         }

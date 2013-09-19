@@ -81,6 +81,8 @@
     <Compile Include="BusinessProcessState.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityGrade.cs" />
+    <Compile Include="CommoditySource.cs" />
+    <Compile Include="Mapping\CommoditySourceMap.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="ContributionDetail.cs" />
