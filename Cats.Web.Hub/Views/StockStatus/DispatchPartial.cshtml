@@ -1,0 +1,12 @@
+﻿@using DevExpress.Web.Mvc.UI
+@Html.DevExpress().ReportViewer(
+    settings => {
+        settings.Name = "ReportViewer1";
+        settings.Report = ViewBag.Report;
+                    settings.Width = 1095;
+                    settings.Attributes.CssStyle.Add("width","1096px");
+        settings.CallbackRouteValues = new { Controller = "StockStatus", Action = "DispatchPartial" };
+        settings.ExportRouteValues = new { Controller = "StockStatus", Action = "ReportViewerExportTo" };
+                    settings.Attributes.CssStyle.Add("background-image","/images/watermark.png"); 
+    }
+).GetHtml()

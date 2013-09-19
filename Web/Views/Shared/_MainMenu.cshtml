@@ -116,7 +116,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="@Url.Action("Preference", "Home")">@Html.Translate("Preference")</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">@Html.Translate("Change Password")</a></li>
+                            <li><a href="@Url.Action("ChangePassword","Users",new {Area="Settings"})">@Html.Translate("Change Password")</a></li>
                             <li><a href="@Url.RouteUrl("Logout")">@Html.Translate("Logout")</a></li>
                         </ul>
                     </li>

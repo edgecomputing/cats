@@ -1,0 +1,26 @@
+﻿@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Receipts vs Receipt Allocation");
+}
+
+ @Html.Partial("DisplayHub") 
+<p>
+    @Html.Translate("This report shows total received commodities against receipt allocation.")
+</p>
+
+@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StatusReportBySI_Result>)
+.Name("Stock")
+.Columns(col =>
+             {
+
+                 col.Bound(c => c.CommodityName);
+                 col.Bound(c => c.SINumber);
+                 col.Bound(c => c.AllocatedToHub).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Total Allocated"));
+                 col.Bound(c => c.ReceivedBalance).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Total Received"));
+                 col.Bound(c => c.PercentageReceived).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Percentage Received"));
+                 col.Bound(c => c.TotalStockOnHand).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("In Hub Balance"));
+             })
+.Pageable()
+.Filterable()
+
+)

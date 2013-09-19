@@ -74,9 +74,9 @@ namespace Cats.Services.EarlyWarning
             var filteredSeasons = from seasonList in sesons
                                   where seasonsInRegion.Contains(seasonList.Name)
                                   select seasonList;
-            
             return filteredSeasons.ToList();
         }
+
         public void Dispose()
         {
             throw new NotImplementedException();

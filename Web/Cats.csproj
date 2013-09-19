@@ -250,6 +250,9 @@
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\LogController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
@@ -273,6 +276,8 @@
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Helpers\MD5Hashing.cs" />
+    <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -821,8 +826,11 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPassword.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

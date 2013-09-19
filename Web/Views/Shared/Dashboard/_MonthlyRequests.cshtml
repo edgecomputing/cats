@@ -3,7 +3,7 @@
 
 <script id="requests" type="text/html">
     <hr />
-    <div style="float: left; height: 70px;">
+    <div class="contanier" style="float: left; height: 70px;">
 
         <div class="content">
             <div class="flag {{regionFlag}}"></div>
@@ -15,14 +15,13 @@
             days ago,{{month}}
         </div>
         
-       
-
         <div class="content">
             <a data-buttontype="btn_detail"  class="btn toolbar-btn " 
                 href="@Url.Action("Details", "Request", new { Area = "EarlyWarning" })/{{RequestID}}">
                 <i class="icon-folder-open"></i>
             </a>
         </div>
+
          <div
             class="content">
             {{reference}}
@@ -34,7 +33,21 @@
     $(document).ready(function () {
 
         $.getJSON('/Dashboard/RegionalMonthlyRequests', function (data) {
-            var regionFlags = { region3: "flag-amhara", region2: "flag-afar", region7: "flag-gambella" };
+
+            var regionFlags = {
+                region1: "flag-federal",
+                region2: "flag-afar",
+                region3: "flag-amhara",
+                region4: "flag-benishangul",
+                region5: "flag-tigray",
+                region6: "flag-diredawa",
+                region7: "flag-gambella",
+                region8: "flag-harar",
+                region9: "flag-oromiya",
+                region10: "flag-SNNPR",
+                region11: "flag-somali"
+            };
+
             $.each(data, function (i, details) {
 
                 var user_data = {

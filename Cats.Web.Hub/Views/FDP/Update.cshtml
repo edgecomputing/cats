@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Cats.Models.Hub.FDP>
+@using Cats.Web.Hub.Helpers
+
+<table width="100%" id="list">
+    <tr>
+        <th style="width: 20px"></th>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        <th>
+            @Html.Translate("Region")
+        </th>
+        <th>@Html.Translate("Zone")</th>
+        <th>@Html.Translate("Woreda")</th>
+        <th></th>
+    </tr>
+     @{
+         var i = 1;
+    }
+@foreach (var item in Model) {
+    <tr>
+        <td>@i</td>
+        <td>
+            @Html.DialogFormLink(item.Name, Url.Action("Edit", new { id = item.FDPID }), Html.Translate("Edit FDP"), "list", Url.Action("Update"))
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem=>item.AdminUnit.AdminUnit2.AdminUnit2.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdminUnit.AdminUnit2.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdminUnit.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.FDPID })
+        </td>
+    </tr>
+    i++;
+}
+
+</table>

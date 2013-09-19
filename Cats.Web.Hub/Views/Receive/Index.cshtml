@@ -1,0 +1,193 @@
+﻿@model IEnumerable<Cats.Models.Hub.Receive>
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.Examples
+@{
+    ViewBag.Title = Html.Translate("Expected Receipts");
+
+    string quanityColumnHeader = "MT";
+    if (@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
+    {
+        quanityColumnHeader = "Quintals";
+    }
+}
+
+@Html.Partial("DisplayHub")
+
+<p>
+    @Html.Translate("This page lists receipts and receipt allocations for the selected Hub. Please use the filters on the column headers to select any recipt plan.")
+    @Html.Translate("If you would like to see previously recorded receipts, please click")  @Html.ActionLink(@Html.Translate("Receipt Log"), "Log") 
+</p>
+@{
+            Html.Telerik().Window()
+                    .Name("ReceiptDialog")
+                    .Title(Html.Translate("Edit/New Receipt Plan"))
+                    .Content(@<text>
+                                  <div style="padding: 10px;" id="create-edit-form"></div>
+                                </text>)
+                    .Width(800)
+                    .Height(350)
+                    .Draggable(true)
+                    .Modal(true)
+                    .Visible(false)
+                    .Render();
+}
+
+        <div class="field-set-title">
+            <h2>
+                From Donation</h2>
+                 <a href="#" onclick="CreateNewPlan(@Cats.Models.Hub.CommoditySource.Constants.DONATION)">@Html.Translate("Make a new Plan")</a> 
+            <span style="float: right">
+                @Html.ActionLink(Html.Translate("Record a new receipt"), "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.DONATION },null)    
+            </span>
+        </div>
+
+    
+        <div class="field-set">
+            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.DONATION })
+        </div>
+<br />
+ 
+        <div class="field-set-title">
+            <h2>
+                @Html.Translate("From Loan, Swap,  Repayment Or Transfer")</h2>
+                <a href="#" onclick="CreateNewPlan(@Cats.Models.Hub.CommoditySource.Constants.LOAN )">@Html.Translate("Make a new Plan")</a> 
+            <span style="float:right">
+                Record a new receipt 
+                @Html.ActionLink("From Loan", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOAN }, null)<span>  </span>
+                @Html.ActionLink("From Repayment", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.REPAYMENT }, null)<span>  </span>
+                @Html.ActionLink("From Swap", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.SWAP }, null)<span>  </span>
+                @Html.ActionLink("From Transfer", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.TRANSFER }, null)<span>  </span>
+            </span>
+        </div>
+
+
+        <div class="field-set" style="vertical-align: top">
+            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOAN })
+         </div>
+<br />
+        <div class="field-set-title">
+            <h2>
+                @Html.Translate("Local purchase")</h2> 
+                <a href="#" onclick="CreateNewPlan('@Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE')">Make a new Plan</a> 
+                <span style="float: right">
+                    @Html.ActionLink("Record a new receipt", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE },null)
+                </span>
+        </div>
+        <div class="field-set">
+            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE })
+        </div>
+ <p>
+   @Html.Translate("Please click ") @Html.ActionLink(@Html.Translate("New Recipt"), "Create") @Html.Translate("here if you would like to record a receipt that is not listed in the plans above")
+</p>
+<script type="text/javascript">
+    
+    function CreateNewPlan(type)
+    {
+        $('#ReceiptDialog').data('tWindow').center().open();
+        if(type == 1)
+            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Receipt Plan From Donation")');
+        if (type == 2)
+            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Loan, Swap, Repayment Or Other")');
+        if (type == 3)
+            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Local Purchase")');
+       // $('#create-link').hide();
+       // $('#create-edit-form').show();
+        var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
+        $('#create-edit-form').load(url, { type: type },function () {
+            //if($('#SINumber').val() != "")
+            {
+        }    
+        });
+
+    }
+    function editPlan(item, type) {
+        
+        $('#ReceiptDialog').data('tWindow').center().open();
+        if (type == 1)
+            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Receipt Plan From Donation")');
+        else if (type == 3)
+            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Local Purchase")');
+        else
+            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Loan, Swap, Repayment Or Other")');
+
+
+        //$('#create-link').hide();
+        var id =item;
+        var url = '@Url.Action("Edit", "ReceiptAllocation")';
+        url = url + '?allocationId=' + id;
+        $('#create-edit-form').load(url);
+        $('#create-edit-form').show();
+    }
+
+    function ClosePlanById(receiveAlloctionID) {
+        
+        $('#ReceiptDialog').data('tWindow').center().open();
+        var url = '@Url.Action("Close", "ReceiptAllocation")';
+        url = url + '?id=' + receiveAlloctionID;
+        $('#create-edit-form').load(url, function () {
+//            if ($('#SINumber').val() != "") {
+//            }
+        });
+    
+    }
+
+    function OnComChange(e) {
+
+    }
+    function cancel() {
+        $('#ReceiptDialog').data('tWindow').close();
+        $('#create-edit-form').html("");
+    }
+
+    function OnBinding(e) {
+        var combo = $('#CommodityID').data('tComboBox');
+        if (combo) {
+        }
+        var control = $('#CommodityID').data('tComboBox');
+        if (control != undefined || control != null) {
+            control.dropDown._html = function (items, encode) {
+                var sb = new $.telerik.stringBuilder();
+                if (!items)
+                    return sb.string();
+
+                for (var i = 0, count = items.length; i < count; i++) {
+                    var html = " ", item = items[i];
+                    html = item.Text; // +"<small style='display: block'>" + item.Text + "</small>";
+                    var obj = { html: html, dataItem: item };
+                    if (this.onItemCreate) {
+                        this.onItemCreate(obj);
+                        }
+                    if (!(item.unselectable)) {
+                        sb.cat('<li unselectable="on" class="t-item" style="background : #ccc">').cat(obj.html).cat("</li>");
+                    } else {
+                        sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;" >').cat(obj.html).cat("</li>");
+                    }
+                }
+
+                return sb.string();
+            };
+            control.value(control.previousValue);
+        }
+    }
+
+    function OnComTypeChange(e) {
+
+        if (e.value != null) {
+
+            if(e.value == 1)
+            {
+                $('.nonFood').hide();
+                $('.Food').show();
+            }
+         else {
+
+            $('.nonFood').show();
+            $('.Food').hide();
+
+        }
+      }
+   }
+
+ 
+</script>
+

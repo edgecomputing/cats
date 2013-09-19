@@ -1,0 +1,45 @@
+﻿@model Cats.Models.Hub.ReceiptAllocationViewModel
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+
+@{
+    ViewBag.Title = Html.Translate("New / Edit Receipt Allocation");
+}
+@{
+    int allocationType = ViewBag.CommoditySourceType ?? 1 ;
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+    @using (Html.BeginForm("Edit", "ReceiptAllocation"))
+    {
+        <div id="ReceiptAllocationForm">
+            @Html.Partial("EditPartial")
+        </div>
+    }
+
+<script type="text/javascript">
+//    $('#SINumber').change(function () {
+//        var value = $(this).val();
+//        var params = {};
+//        params['SInumber'] = value;
+//        if ($(this).val() != "") {
+//            var url = '@Url.Action("LoadBySIPartial","ReceiptAllocation")';
+//            $('#ReceiptAllocationForm').load(url, { SInumber: value });
+//        }
+//        $.validator.unobtrusive.parse('#receiveAlloc');
+//    });
+    $(function () {
+        $.validator.unobtrusive.parse('#receiveAlloc');
+        $.validator.unobtrusive.parse('form');
+    });
+    var theElement;
+    function OnComChange(e) {
+        //  console.warn("event fired on cha(nge  ");
+        theElement = e;
+        if (e.target != undefined) {
+            $(e.target).valid();
+        }
+        $(this).valid();
+    }
+</script> 

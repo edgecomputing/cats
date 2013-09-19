@@ -38,12 +38,6 @@ namespace Cats
             DependencyResolver.Current.GetService<ILogger>();
 
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
@@ -55,5 +49,7 @@ namespace Cats
                 HttpContext.Current.User = principal;
             }
         }
+       
+       
     }
 }

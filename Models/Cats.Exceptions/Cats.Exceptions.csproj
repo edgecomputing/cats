@@ -41,9 +41,16 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\disabledUserException.cs" />
+    <Compile Include="Security\disablingUserException.cs" />
+    <Compile Include="Security\passwordChangeException.cs" />
+    <Compile Include="Security\unabletoResetPasswordException.cs" />
     <Compile Include="Security\unmatchingUsernameAndPasswordException.cs" />
+    <Compile Include="Security\userNotFoundException.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="EarlyWarning\" />
+    <Folder Include="PSNP\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
