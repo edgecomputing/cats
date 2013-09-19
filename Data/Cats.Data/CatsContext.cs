@@ -103,7 +103,8 @@ namespace Cats.Data
 
         public DbSet<LetterTemplate_> LetterTemplate { get; set; }
         public DbSet<Currency> Currencies { get; set; }
-        public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; } 
+        public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; }
+        public DbSet<HubOwner> HubOwner { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -193,7 +194,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new InKindContributionDetailMap());
 
-
+            modelBuilder.Configurations.Add(new HubOwnerMap());
         }
 
     }

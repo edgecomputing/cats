@@ -1,6 +1,7 @@
 ﻿
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models;
+
 using Cats.Services.Administration;
 
 namespace  Cats.Web.Adminstration.Controllers

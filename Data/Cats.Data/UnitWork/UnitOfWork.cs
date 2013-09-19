@@ -2,7 +2,8 @@
 using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
-using Cats.Models;
+
+
 
 
 namespace Cats.Data.UnitWork
@@ -32,6 +33,16 @@ namespace Cats.Data.UnitWork
         public UnitOfWork()
         {
             this._context = new CatsContext();
+
+        }
+
+        private IGenericRepository<HubOwner> _HubOwnerRepository = null;
+        public IGenericRepository<HubOwner> HubOwnerRepository
+        {
+
+
+            get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+
 
         }
 

@@ -114,7 +114,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Currency> CurrencyRepository { get; } 
         IGenericRepository<TransactionGroup> TransactionGroupRepository { get; }
 
-        IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository { get; } 
+        IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository { get; }
+        IGenericRepository<HubOwner> HubOwnerRepository { get; } 
         void Save();
 
     }

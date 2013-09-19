@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cats.Models.Hub;
+using Cats.Models;
+
 
 namespace Cats.Services.Administration
 {
