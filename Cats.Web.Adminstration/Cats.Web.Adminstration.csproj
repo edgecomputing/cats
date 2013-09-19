@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuditLogController.cs" />
     <Compile Include="Controllers\CommodityController.cs" />
     <Compile Include="Controllers\CommodityGradeController.cs" />
     <Compile Include="Controllers\CommoditySourceController.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ViewModels\AuditLogViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityGradeViewModel.cs" />
     <Compile Include="Models\ViewModels\CommoditySourceViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityTypeViewModel.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Models\ViewModels\DonorModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelBinder\AuditLogViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityGradeViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommoditySourceViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityTypeViewModelBinder.cs" />
@@ -601,6 +604,7 @@
     <Content Include="Views\CommodityGrade\Index.cshtml" />
     <Content Include="Views\CommoditySource\Index.cshtml" />
     <Content Include="Views\Hub\Index.cshtml" />
+    <Content Include="Views\AuditLog\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,16 +10,16 @@ namespace Cats.Services.Administration
 {
     public interface IHubService : IDisposable
     {
-        bool AddHub(Models.Hub.Hub hub);
-        bool DeleteHub(Models.Hub.Hub hub);
+        bool AddHub(Models.Hub hub);
+        bool DeleteHub(Models.Hub hub);
         bool DeleteById(int id);
-        bool EditHub(Models.Hub.Hub hub);
-        Models.Hub.Hub FindById(int id);
-        List<Models.Hub.Hub> GetAllHub();
-        List<Models.Hub.Hub> FindBy(Expression<Func<Models.Hub.Hub, bool>> predicate);
+        bool EditHub(Models.Hub hub);
+        Models.Hub FindById(int id);
+        List<Models.Hub> GetAllHub();
+        List<Models.Hub> FindBy(Expression<Func<Models.Hub, bool>> predicate);
         
-        List<Models.Hub.Hub> GetAllWithoutId(int hubId);
-        List<Models.Hub.Hub> GetOthersHavingSameOwner(Models.Hub.Hub hub);
-        List<Models.Hub.Hub> GetOthersWithDifferentOwner(Models.Hub.Hub hub);
+        List<Models.Hub> GetAllWithoutId(int hubId);
+        List<Models.Hub> GetOthersHavingSameOwner(Models.Hub hub);
+        List<Models.Hub> GetOthersWithDifferentOwner(Models.Hub hub);
     }
 }

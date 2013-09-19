@@ -1,6 +1,20 @@
-﻿@{
+﻿@using Cats.Models
+@using Cats.Web.Adminstration.Models
+@using Kendo.Mvc.UI
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 <h2>Index</h2>
+@(Html.Kendo().Grid<Hub>().Columns(columns=>
+    {
+        columns.Bound(t => t.Name);
+        columns.ForeignKey(t => t.HubOwnerID, (IEnumerable<HubOwner>)ViewData["HubOwners"], "HubOwnerID", "Name");
+
+    }).DataSource(datasource=>datasource.Ajax()
+    .Read("Hub_Read","Hub")
+    .Create("Hub_Update","Hub")
+    .Update("Hub_Update","Hub")
+    .Destroy("Hub_Delete","Hub"))
+)

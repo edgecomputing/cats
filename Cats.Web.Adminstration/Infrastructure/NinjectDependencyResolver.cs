@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Cats.Services.Administration;
 using Cats.Services.Hub;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;

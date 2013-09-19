@@ -50,10 +50,6 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
-      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
-      <Name>Cats.Models.Hub</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
@@ -65,16 +61,21 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="AuditSevice.cs" />
     <Compile Include="CommodityGradeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommoditySourceService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="HubOwnerService.cs" />
+    <Compile Include="HubService.cs" />
+    <Compile Include="IAuditService.cs" />
     <Compile Include="ICommodityGradeService.cs" />
     <Compile Include="ICommodityService.cs" />
     <Compile Include="DonorService.cs" />
     <Compile Include="ICommoditySourceService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IDonorService.cs" />
+    <Compile Include="IHubOwnerService.cs" />
     <Compile Include="IHubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

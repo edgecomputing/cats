@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Models;
+using Cats.Services.Administration;
+using Cats.Web.Adminstration.Models.ViewModels;
+using Cats.Web.Adminstration.ViewModelBinder;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Web.Adminstration.Controllers
 {
@@ -21,94 +27,49 @@ namespace Cats.Web.Adminstration.Controllers
 
         public ActionResult Index()
         {
-
+            ViewData["HubOwners"] = _hubOwnerService.GetAllHubOwner();
             return View();
         }
 
-        //
-        // GET: /Hub/Details/5
-
-        public ActionResult Details(int id)
+        public ActionResult Hub_Read([DataSourceRequest]DataSourceRequest request)
         {
-            return View();
+            var hubs = _hubService.GetAllHub();
+            return Json(hubs.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        //
-        // GET: /Hub/Create
-
-        public ActionResult Create()
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Hub_Create([DataSourceRequest] DataSourceRequest request, Hub hub)
         {
-            return View();
-        }
-
-        //
-        // POST: /Hub/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            if (hub != null && ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                _hubService.AddHub(hub);
             }
-            catch
-            {
-                return View();
-            }
+            return Json(new[] { hub }.ToDataSourceResult(request, ModelState));
         }
 
-        //
-        // GET: /Hub/Edit/5
-
-        public ActionResult Edit(int id)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Update([DataSourceRequest] DataSourceRequest request, Hub hub)
         {
-            return View();
+            if (hub != null && ModelState.IsValid)
+            {
+                var target = _hubService.FindById(hub.HubID);
+                _hubService.EditHub(target);
+            }
+
+            return Json(new[] { hub }.ToDataSourceResult(request, ModelState));
         }
 
-        //
-        // POST: /Hub/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commodity_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  Hub hub)
         {
-            try
+            if (hub != null)
             {
-                // TODO: Add update logic here
+                _hubService.DeleteById(hub.HubID);
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(ModelState.ToDataSourceResult());
         }
-
-        //
-        // GET: /Hub/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Hub/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

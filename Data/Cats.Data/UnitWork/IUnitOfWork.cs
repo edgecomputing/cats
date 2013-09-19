@@ -120,6 +120,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository { get; }
         IGenericRepository<CommodityGrade> CommodityGradeRepository { get; }
         IGenericRepository<CommoditySource> CommoditySourceRepository { get; }
+        IGenericRepository<Audit> AuditRepository { get; } 
         void Save();
 
     }
