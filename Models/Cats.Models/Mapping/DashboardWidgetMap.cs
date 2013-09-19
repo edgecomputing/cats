@@ -15,10 +15,7 @@ namespace Cats.Models.Mapping
             // Primary Key
             this.HasKey(t => t.DashboardWidgetID);
 
-            // Properties
-            this.Property(t => t.DashboardWidgetID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
+            // Propertie
             this.Property(t => t.Title)
                 .IsRequired()
                 .HasMaxLength(255);

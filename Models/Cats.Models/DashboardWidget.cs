@@ -8,7 +8,7 @@ namespace Cats.Models
 {
     public partial class DashboardWidget
     {
-        public DashboardWidget(int dashboardWidgetID)
+        public DashboardWidget()
         {
             this.UserDashboardPreferences = new List<UserDashboardPreference>();
         }

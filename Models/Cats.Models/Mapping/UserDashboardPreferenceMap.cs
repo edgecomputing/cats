@@ -16,12 +16,7 @@ namespace Cats.Models.Mapping
             this.HasKey(t => t.UserDashboardPreferenceID);
 
             // Properties
-            this.Property(t => t.UserDashboardPreferenceID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
-            this.Property(t => t.OrderNo)
-                .IsFixedLength()
-                .HasMaxLength(10);
+            this.Property(t => t.OrderNo);
 
             // Table & Column Mappings
             this.ToTable("UserDashboardPreference");

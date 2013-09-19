@@ -127,7 +127,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ILogReadService>().To<LogReadService>();
 
             kernel.Bind<IUserDashboardPreferenceService>().To<UserDashboardPreferenceService>();
-
+            kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();
         }
     }
 }

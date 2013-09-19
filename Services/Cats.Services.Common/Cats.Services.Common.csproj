@@ -67,8 +67,10 @@
   <ItemGroup>
     <Compile Include="ApplicationSettingService.cs" />
     <Compile Include="CommonService.cs" />
+    <Compile Include="DashboardWidgetService.cs" />
     <Compile Include="IApplicationSettingService.cs" />
     <Compile Include="ICommonService.cs" />
+    <Compile Include="IDashboardWidgetService.cs" />
     <Compile Include="ILogReadService.cs" />
     <Compile Include="INeedAssessmentSummaryService.cs" />
     <Compile Include="ILetterTemplateService.cs" />
