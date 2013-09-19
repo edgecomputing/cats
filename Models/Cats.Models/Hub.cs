@@ -13,6 +13,7 @@ namespace Cats.Models
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.HubAllocations = new List<HubAllocation>();
             this.BidWinners=new List<BidWinner>();
+            this.Stores=new List<Store>();
         }
         public int HubId { get; set; }
         public string Name { get; set; }
@@ -24,6 +25,7 @@ namespace Cats.Models
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }
         public virtual ICollection<BidWinner> BidWinners  { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
+        public virtual ICollection<Store> Stores { get; set; }
 
     }
 }
