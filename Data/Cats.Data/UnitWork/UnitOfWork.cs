@@ -658,5 +658,11 @@ namespace Cats.Data.UnitWork
         {
             get { return this.inKindContributionDetailRepository ?? (this.inKindContributionDetailRepository = new GenericRepository<InKindContributionDetail>(_context)); }
         }
+
+        private IGenericRepository<CommodityGrade> commodityGradeRepository;
+        public IGenericRepository<CommodityGrade> CommodityGradeRepository
+        {
+            get { return this.commodityGradeRepository ?? (this.commodityGradeRepository = new GenericRepository<CommodityGrade>(_context)); }
+        }
     }
 }
