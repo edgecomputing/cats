@@ -1,6 +1,6 @@
 ﻿
 @using Kendo.Mvc.UI
-@model LanguageHelpers.Localization.Models.Language
+@model LanguageHelpers.Localization.Models.LocalizedText
 
 @{
     ViewBag.Title = "Create";
@@ -9,10 +9,10 @@
 @section LeftBar
 {
    
-@Html.Partial("LanguageLeftBar");
-     
+@Html.Partial("_TranslationLeftBar");
+   
 }
-<div class="well"><h4>Create new Language</h4></div>
+<div class="well"><h3>Create new Language</h3></div>
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
@@ -23,24 +23,32 @@
                     @Html.LabelFor(m => m.LanguageCode)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.LanguageCode)
-                    <span class="field-validation-error">
-                        @ViewBag.Error
-                    </span>
+                    @Html.DropDownList("LanguageCode",String.Empty)
                     @Html.ValidationMessageFor(m=>m.LanguageCode)
                 </div>
         
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.LanguageName)
+                    @Html.LabelFor(m => m.TextKey)
                 </div>
                 <div class="controls">
-                   @Html.TextBoxFor(m => m.LanguageName)
-                    @Html.ValidationMessageFor(m=>m.LanguageName)
+                   @Html.TextAreaFor(m => m.TextKey)
+                    @Html.ValidationMessageFor(m=>m.TextKey)
                 </div>
         
-            </div>            
+            </div>
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Value)
+                </div>
+                <div class="controls">
+                   @Html.TextAreaFor(m => m.Value)
+                    @Html.ValidationMessageFor(m=>m.Value)
+                </div>
+        
+            </div>
+            
             <div class="control-group">      
                 <div class="controls">
                     <input type="submit" value="Create" class="btn btn-success" />

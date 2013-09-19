@@ -10,7 +10,7 @@
 </div>
 @section LeftBar{
     
-    @Html.Partial("_TranslationLeftBar");
+    @Html.Partial("LanguageLeftBar");
     
 }
 @(Html.Kendo().Grid<LanguageHelpers.Localization.Models.LocalizedText>()
@@ -20,7 +20,7 @@
         columns.Bound(p => p.LocalizedTextId);
         columns.Bound(p => p.LanguageCode);
         columns.Bound(p => p.TextKey);
-        columns.Bound(p => p.Value);
+        columns.Bound(p => p.TranslatedText);
             
         columns.Command(p => p.Custom("Edit").Click("translationEdit"));
        

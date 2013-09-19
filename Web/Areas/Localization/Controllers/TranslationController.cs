@@ -4,7 +4,8 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using LanguageHelpers.Localization.Models;
 using LanguageHelpers.Localization.Services;
-using LanguageHelpers.Localization.Data.UnitOfWork;
+using LanguageHelpers.Localization.Data;
+
 
 namespace Cats.Areas.Localization.Controllers
 {
@@ -13,18 +14,16 @@ namespace Cats.Areas.Localization.Controllers
         //
         // GET: /Localization/Translation/
         private ILocalizedTextService _localizedTextService;
-        public TranslationController()
+
+        public TranslationController(ILocalizedTextService localizedTextService)
         {
-          //  ILocalizedTextService localizedTextService
-            _localizedTextService = new LocalizedTextService(new UnitOfWork());
+            _localizedTextService = localizedTextService;
         }
 
         public ActionResult Localization_Read([DataSourceRequest] DataSourceRequest request)
         {
-
             //var loccalization = _localizedTextService.FindBy(m=>m.LanguageCode=="EN");
             var loccalization = _localizedTextService.GetAllLocalizedText();
-            ;
             var localToDisplay = loccalization.ToList();
             return Json(localToDisplay.ToDataSourceResult(request));
         }
@@ -38,7 +37,6 @@ namespace Cats.Areas.Localization.Controllers
         {
             var localizedText = new LocalizedText();
             ViewBag.LanguageCode = new SelectList(_localizedTextService.GetAllLocalizedText(), "LanguageCode", "LanguageCode").Distinct().ToList();
-
             return View(localizedText);
         }
 
@@ -70,6 +68,16 @@ namespace Cats.Areas.Localization.Controllers
             }
             return View(localizedText);
         }
+
+        public ActionResult Details()
+        {
+            //var language = _languageService.FindById(id);
+            var localized = _localizedTextService.FindBy(m => m.LanguageCode == "AM").FirstOrDefault();
+            return View(localized);
+        }
+
+
+
 
     }
 }

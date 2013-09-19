@@ -197,6 +197,7 @@
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -318,6 +319,78 @@
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Cats.Core.dll" />
+    <Content Include="bin\Cats.Core.pdb" />
+    <Content Include="bin\Cats.Data.Security.dll" />
+    <Content Include="bin\Cats.Data.Security.pdb" />
+    <Content Include="bin\Cats.dll" />
+    <Content Include="bin\Cats.Exceptions.dll" />
+    <Content Include="bin\Cats.Exceptions.pdb" />
+    <Content Include="bin\Cats.Models.dll" />
+    <Content Include="bin\Cats.Models.pdb" />
+    <Content Include="bin\Cats.Models.Security.dll" />
+    <Content Include="bin\Cats.Models.Security.pdb" />
+    <Content Include="bin\Cats.pdb" />
+    <Content Include="bin\Cats.Services.Common.dll" />
+    <Content Include="bin\Cats.Services.Common.pdb" />
+    <Content Include="bin\Cats.Services.EarlyWarning.dll" />
+    <Content Include="bin\Cats.Services.EarlyWarning.pdb" />
+    <Content Include="bin\Cats.Services.Logistics.dll" />
+    <Content Include="bin\Cats.Services.Logistics.pdb" />
+    <Content Include="bin\Cats.Services.Procurement.dll" />
+    <Content Include="bin\Cats.Services.Procurement.pdb" />
+    <Content Include="bin\Cats.Services.PSNP.dll" />
+    <Content Include="bin\Cats.Services.PSNP.pdb" />
+    <Content Include="bin\Cats.Services.Security.dll" />
+    <Content Include="bin\Cats.Services.Security.pdb" />
+    <Content Include="bin\Cats.Services.Transaction.dll" />
+    <Content Include="bin\Cats.Services.Transaction.pdb" />
+    <Content Include="bin\Elmah.dll" />
+    <Content Include="bin\Elmah.Mvc.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\FluentAssertions.dll" />
+    <Content Include="bin\FluentAssertions.pdb" />
+    <Content Include="bin\FluentAssertions.xml" />
+    <Content Include="bin\FluentMigrator.dll" />
+    <Content Include="bin\FluentMigrator.pdb" />
+    <Content Include="bin\FluentMigrator.xml" />
+    <Content Include="bin\Helpers.Localization.dll" />
+    <Content Include="bin\Helpers.Localization.pdb" />
+    <Content Include="bin\Kendo.Mvc.dll" />
+    <Content Include="bin\Kendo.Mvc.xml" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\log4net.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\NetSqlAzMan.dll" />
+    <Content Include="bin\NetSqlAzMan.xml" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Ninject.dll" />
+    <Content Include="bin\Ninject.pdb" />
+    <Content Include="bin\Ninject.xml" />
+    <Content Include="bin\ReportLib.dll" />
+    <Content Include="bin\ReportLib.pdb" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Providers.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
@@ -735,7 +808,7 @@
     <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Shared\LanguageLeftBar.cshtml" />
     <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\_PSNPLeftBar.cshtml" />
@@ -823,6 +896,13 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\oldCreate.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
+    <Content Include="Cats.csproj.orig" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1077,14 +1157,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Localization\Models\" />
-    <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
-    <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

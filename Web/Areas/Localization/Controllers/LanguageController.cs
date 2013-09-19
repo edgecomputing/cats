@@ -29,7 +29,6 @@ namespace Cats.Areas.Localization.Controllers
         
         public ActionResult Language_Read([DataSourceRequest] DataSourceRequest request)
         {
-
             var language = _languageService.GetAllLanguage();
             var languageToDisplay = language.ToList();
             return Json(languageToDisplay.ToDataSourceResult(request));
@@ -55,19 +54,19 @@ namespace Cats.Areas.Localization.Controllers
                 catch (Exception exception)
                 {
                     ViewBag.Error = "Language Code Must Be Unique Please Try again";
-                    
-                    
+                    ModelState.AddModelError("Error", "Language Code Must Be Unique.");
                 }
                 return View(language);
-                
             }
             return View(language);
         }
+
         public ActionResult Edit(int id)
         {
             var language = _languageService.FindById(id);
             return View(language);
         }
+
         [HttpPost]
         public ActionResult Edit(Language language)
         {
