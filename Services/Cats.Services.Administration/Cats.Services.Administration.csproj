@@ -65,6 +65,8 @@
     <Compile Include="DonorService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IDonorService.cs" />
+    <Compile Include="IProgramService.cs" />
+    <Compile Include="ProgramService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
