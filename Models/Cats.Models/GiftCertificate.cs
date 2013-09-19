@@ -29,5 +29,14 @@ namespace Cats.Models
         public virtual Donor Donor { get; set; }
         public virtual Program Program { get; set; }
         public virtual ICollection<GiftCertificateDetail> GiftCertificateDetails { get; set; }
+
+        public Dictionary<string,string> ToDictionary()
+        {
+            var dictionary = new Dictionary<string, string>();
+            dictionary.Add("GiftCertificateID",this.GiftCertificateID.ToString());
+
+
+            return dictionary;
+        }
     }
 }

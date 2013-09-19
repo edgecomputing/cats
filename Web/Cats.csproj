@@ -1111,6 +1111,10 @@
       <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
       <Name>Cats.Localization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Cats.Documents\Cats.Documents.csproj">
+      <Project>{48791f08-2497-4328-b7de-2cbe5a81c836}</Project>
+      <Name>Cats.Documents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
