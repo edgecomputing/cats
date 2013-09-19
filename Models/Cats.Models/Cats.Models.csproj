@@ -90,6 +90,7 @@
     <Compile Include="ContributionDetail.cs" />
     <Compile Include="Constant\Master.cs" />
     <Compile Include="Currency.cs" />
+    <Compile Include="DashboardWidget.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="FlowTemplate.cs" />
     <Compile Include="GiftCertificate.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
+    <Compile Include="HubOwner.cs" />
     <Compile Include="InKindContributionDetail.cs" />
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Mapping\ContributionDetailMap.cs" />
     <Compile Include="Mapping\ContributionMap.cs" />
     <Compile Include="Mapping\CurrencyMap.cs" />
+    <Compile Include="Mapping\DashboardWidgetMap.cs" />
     <Compile Include="Mapping\DonorMap.cs" />
     <Compile Include="Mapping\FDPMap.cs" />
     <Compile Include="Mapping\FlowTemplateMap.cs" />
@@ -135,6 +138,8 @@
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
+    <Compile Include="Mapping\HubMap.cs" />
+    <Compile Include="Mapping\HubOwnerMap.cs" />
     <Compile Include="Mapping\InKindContributionDetailMap.cs" />
     <Compile Include="Mapping\LetterTemplateMap.cs" />
     <Compile Include="Mapping\LogMap.cs" />
@@ -171,6 +176,8 @@
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
     <Compile Include="Mapping\TypeOfNeedAssessmentMap.cs" />
     <Compile Include="Mapping\UnitMap.cs" />
+    <Compile Include="Mapping\UserDashboardPreferenceMap.cs" />
+    <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
     <Compile Include="Mapping\NeedAssessmentSummaryMap.cs" />
     <Compile Include="Mapping\vwPSNPAnnualPlanMap.cs" />
@@ -237,7 +244,9 @@
     <Compile Include="TypeOfNeedAssessment.cs" />
     <Compile Include="UIWidget.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="UserDashboard.cs" />
+    <Compile Include="UserDashboardPreference.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />

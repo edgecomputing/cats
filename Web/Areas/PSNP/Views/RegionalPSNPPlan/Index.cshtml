@@ -55,10 +55,10 @@
                     @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
                 </td>
                 <td>
-                    <a data-buttontype="btn_print"  class="btn toolbar-btn " href="@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"><i class="icon-print"></i></a>    
+                    <a data-buttontype="btn_print"  class="btn toolbar-btn " href="@Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"><i class="icon-print"></i></a>    
                     @if (state.AllowedAccessLevel >= 1)
                     {
-                        <a data-buttontype="btn_detail"  class="btn toolbar-btn " href="@Url.Action("index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
+                        <a data-buttontype="btn_detail"  class="btn toolbar-btn " href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"></a>
                    
                     }
                     @if (state.AllowedAccessLevel >= 2)
@@ -105,35 +105,34 @@
 
     </table>
 
-<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:900px;" >
+<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
     <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="modalHistoryLabel">Loading</h3>
+            <h4 id="modalHistoryLabel">Activity History</h4>
         </div>
     <div class="modal-body" id="modalHistoryBody">History</div>
-    <div class="modal-footer">
-            <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager",id="0" })">View In New Window</a>
-        </div>
+@*    <div class="modal-footer">
+            <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })">View In New Window</a>
+        </div>*@
 </div>
 @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 <script>
-    var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager",id="0" })";
+    var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
 
     function promot_workflow(BusinessProcessID, nextstate, actionname) {
         $('#ParentBusinessProcessID').val(BusinessProcessID);
         $('#stateID').val(nextstate);
         $('#modalPromotionLabel').html(actionname);
 
-        $('#modalPromotion').modal()
+        $('#modalPromotion').modal();
     }
     function workflow_history(BusinessProcessID) {
         $('#modalHistory').modal();
         $.post(history_link + BusinessProcessID, {},
-            function (data)
-            {
+            function (data) {
                 $("#modalHistoryBody").html(data);
             }
             );
-        
+
     }
 </script></div>

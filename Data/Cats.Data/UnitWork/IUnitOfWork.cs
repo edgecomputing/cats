@@ -7,6 +7,10 @@ namespace Cats.Data.UnitWork
     public interface IUnitOfWork : IDisposable
     {
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
+
+        IGenericRepository<DashboardWidget> DashboardWidgetRepository { get; }
+        IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository { get; }
+        IGenericRepository<HubOwner> HubOwnerRepository { get; }
         IGenericRepository<Log> LogRepository { get; }
         IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository { get; }
 
@@ -109,7 +113,7 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<NeedAssessmentSummary> NeedAssessmetSummaryRepository { get;}
 
-        IGenericRepository<LetterTemplate_> LetterTemplateRepository { get; }
+        IGenericRepository<LetterTemplate> LetterTemplateRepository { get; }
         IGenericRepository<Currency> CurrencyRepository { get; } 
         IGenericRepository<TransactionGroup> TransactionGroupRepository { get; }
 

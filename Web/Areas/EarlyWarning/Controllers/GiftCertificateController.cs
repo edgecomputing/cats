@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.GiftCertificate.Models;
-using Cats.Infrastructure.Helpers;
+using Cats.Helpers;
 using Cats.Models.Partial;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
@@ -285,8 +285,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
        }
         public ActionResult ShowTemplate(string fileName, int giftCertificateId)
         {
-            var template = new TemplateGenerator();
-            template.GenerateTemplate(giftCertificateId,  fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
+            // TODO: Make sure to use DI to get the template generator instance
+            //var template = new TemplateGenerator();
+            //template.GenerateTemplate(giftCertificateId,  fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)
