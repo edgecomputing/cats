@@ -2,18 +2,19 @@
 @using Cats.Models
 @using Cats.Services.Security
 @using LanguageHelpers.Localization
-
+@model IEnumerable<DashboardWidget>
 @{
-    UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
-    var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
-    List<UIWidget> widgets = new List<UIWidget> { 
-        new UIWidget{ Title = "Quick Shortcuts", Icon = "icon-bookmark", Source = "Dashboard/_Shortcuts" },
-        new UIWidget{ Title = "For Your Action", Icon = "icon-bullhorn", Source = "Dashboard/_MonthlyRequests" },
-        new UIWidget{ Title = "Beneficiaries Chart", Icon = "icon-bar-chart", Source = "Dashboard/_BarBeneficiaries" },
-        new UIWidget{ Title = "Regional Monthly Requests", Icon = "icon-bar-chart", Source = "Dashboard/_PieRequests" },
-        new UIWidget{ Title = "Beneficiaries Comparison for the Last 6 Months", Icon = "icon-bookmark", Source = "Dashboard/_BarRegionalReqDetailCommodity" },
-        new UIWidget{ Title=  "Need Assessment Summary", Icon ="icon-bar-chart", Source="Dashboard/_BarNeedAssessment" },
-        };
+    //UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
+    //var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+    
+    //List<UIWidget> widgets = new List<UIWidget> { 
+    //    new UIWidget{ Title = "Quick Shortcuts", Icon = "icon-bookmark", Source = "Dashboard/_Shortcuts" },
+    //    new UIWidget{ Title = "For Your Action", Icon = "icon-bullhorn", Source = "Dashboard/_MonthlyRequests" },
+    //    new UIWidget{ Title = "Beneficiaries Chart", Icon = "icon-bar-chart", Source = "Dashboard/_BarBeneficiaries" },
+    //    new UIWidget{ Title = "Regional Monthly Requests", Icon = "icon-bar-chart", Source = "Dashboard/_PieRequests" },
+    //    new UIWidget{ Title = "Beneficiaries Comparison for the Last 6 Months", Icon = "icon-bookmark", Source = "Dashboard/_BarRegionalReqDetailCommodity" },
+    //    new UIWidget{ Title=  "Need Assessment Summary", Icon ="icon-bar-chart", Source="Dashboard/_BarNeedAssessment" },
+    //    };
     var cols = 2;
     int i = 0;                      
 }
@@ -22,9 +23,8 @@
 <div class="row-fluid">
     @for (int c = 0; c < cols; c++)
     {
-        
         <div class="span6">
-            @foreach (UIWidget widget in widgets)
+            @foreach (var widget in Model)
             {
                 int cc = i % cols;
                 i++;

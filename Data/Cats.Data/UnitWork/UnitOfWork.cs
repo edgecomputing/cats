@@ -35,6 +35,18 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
+        public IGenericRepository<DashboardWidget> DashboardWidgetRepository
+        {
+            get { return this._dashboardWidgetRepository ?? (this._dashboardWidgetRepository = new GenericRepository<DashboardWidget>(_context)); }
+        }
+
+        private IGenericRepository<UserDashboardPreference> _userDashboardPreferenceRepository;
+        public IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository
+        {
+            get { return this._userDashboardPreferenceRepository ?? (this._userDashboardPreferenceRepository = new GenericRepository<UserDashboardPreference>(_context)); }
+        }
+
         private IGenericRepository<Log> _logRepository;
         public IGenericRepository<Log> LogRepository
         {
@@ -254,7 +266,11 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
-
+        private IGenericRepository<HubOwner> hubOwnerRepository;
+        public IGenericRepository<HubOwner> HubOwnerRepository
+        {
+            get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+        }
 
 
 
@@ -571,12 +587,12 @@ namespace Cats.Data.UnitWork
             }
         }
 
-        private IGenericRepository<LetterTemplate_> letterTemplateRepository;
-        public IGenericRepository<LetterTemplate_> LetterTemplateRepository
+        private IGenericRepository<LetterTemplate> letterTemplateRepository;
+        public IGenericRepository<LetterTemplate> LetterTemplateRepository
         {
             get
             {
-                return this.letterTemplateRepository ?? (this.letterTemplateRepository = new GenericRepository<LetterTemplate_>(_context));
+                return this.letterTemplateRepository ?? (this.letterTemplateRepository = new GenericRepository<LetterTemplate>(_context));
             }
         }
         public IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository
@@ -658,5 +674,24 @@ namespace Cats.Data.UnitWork
         {
             get { return this.inKindContributionDetailRepository ?? (this.inKindContributionDetailRepository = new GenericRepository<InKindContributionDetail>(_context)); }
         }
+
+        private IGenericRepository<CommodityGrade> commodityGradeRepository;
+        public IGenericRepository<CommodityGrade> CommodityGradeRepository
+        {
+            get { return this.commodityGradeRepository ?? (this.commodityGradeRepository = new GenericRepository<CommodityGrade>(_context)); }
+        }
+        private IGenericRepository<CommoditySource> commoditySourceRepository;
+        public IGenericRepository<CommoditySource> CommoditySourceRepository
+        {
+            get { return this.commoditySourceRepository ?? (this.commoditySourceRepository = new GenericRepository<CommoditySource>(_context)); }
+        }
+
+        private IGenericRepository<Audit> auditRepository;
+        public IGenericRepository<Audit> AuditRepository
+        {
+            get { return this.auditRepository ?? (this.auditRepository = new GenericRepository<Audit>(_context)); }
+        }
+
+        
     }
 }

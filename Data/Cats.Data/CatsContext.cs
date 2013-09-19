@@ -16,6 +16,8 @@ namespace Cats.Data
         public CatsContext() : base("Name=CATSFIELD") { }
 
         // TODO: Add properties to access set of Poco classes
+        public DbSet<DashboardWidget> DashboardWidgets { get; set; }
+        public DbSet<UserDashboardPreference> UserDashboardPreferences { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public DbSet<RegionalRequest> RegionalRequests { get; set; }
@@ -29,6 +31,7 @@ namespace Cats.Data
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
         public DbSet<Hub> Hubs { get; set; }
+        public DbSet<HubOwner> HubOwners { get; set; }
         public DbSet<DispatchAllocation> DispatchAllocations { get; set; }
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
@@ -101,12 +104,18 @@ namespace Cats.Data
         public DbSet<NeedAssessmentSummary> NeedAssessmentSummary { get; set; }
 
 
-        public DbSet<LetterTemplate_> LetterTemplate { get; set; }
+        public DbSet<LetterTemplate> LetterTemplate { get; set; }
         public DbSet<Currency> Currencies { get; set; }
-        public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; } 
+        public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; }
+
+        public DbSet<CommodityGrade> CommodityGrades { get; set; }
+        public DbSet<CommoditySource> CommoditySources { get; set; }
+        public DbSet<Audit> Audits { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new DashboardWidgetMap());
+            modelBuilder.Configurations.Add(new UserDashboardPreferenceMap());
             modelBuilder.Configurations.Add(new BusinessProcessStateMap());
             //TODO: Add mapping information for each Poco model.
             modelBuilder.Configurations.Add(new RegionalPSNPPledgeMap());
@@ -136,6 +145,8 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new ProjectCodeAllocationMap());
 
+            modelBuilder.Configurations.Add(new HubMap());
+            modelBuilder.Configurations.Add(new HubOwnerMap());
             modelBuilder.Configurations.Add(new HubAllocationMap());
             modelBuilder.Configurations.Add(new ProjectCodeMap());
             modelBuilder.Configurations.Add(new ShippingInstructionMap());
@@ -192,8 +203,9 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new CurrencyMap());
 
             modelBuilder.Configurations.Add(new InKindContributionDetailMap());
-
-
+            modelBuilder.Configurations.Add(new CommodityGradeMap());
+            modelBuilder.Configurations.Add(new CommoditySourceMap());
+            modelBuilder.Configurations.Add(new AuditMap());
         }
 
     }

@@ -14,6 +14,7 @@ using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
+
 namespace Cats.Areas.EarlyWarning.Controllers
 {
     public class HRDController :Controller
