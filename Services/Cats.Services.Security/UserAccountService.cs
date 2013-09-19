@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -232,7 +234,10 @@ namespace Cats.Services.Security
                 try
                 {
                     _unitOfWork.Save();
+
                     // TODO: Consider sending the new password through email for the user!
+                   // SendPasswordToMail(userName, user.Email);
+
                 }
                 catch (Exception e)
                 {
@@ -242,8 +247,7 @@ namespace Cats.Services.Security
             }
             return randomPassword;
         }
-
-        /// <summary>
+       /// <summary>
         /// Flips/Reverts the status of a user account. If an account is active it will
         /// disable it but if it is already disabled then it will activiate it by setting
         /// its value to 'enabled'.
@@ -307,7 +311,8 @@ namespace Cats.Services.Security
         /// <returns>User object corresponding to the user identified by UserName</returns>
         public UserAccount GetUserDetail(string userName)
         {
-            return _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+            //return _unitOfWork.UserRepository.Get(u => u.UserName == userName, null, "UserProfile,UserPreference").SingleOrDefault();
+            return _unitOfWork.UserRepository.Get(u => u.UserName == userName).SingleOrDefault();
         }
 
         /// <summary>
