@@ -8,6 +8,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using Cats.Web.Administration.Helpers;
 using Cats.Services.Security;
+using Cats.Web.Administration.Infrastructure;
 
 namespace Cats.Web.Adminstration
 {
@@ -18,7 +19,7 @@ namespace Cats.Web.Adminstration
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
+            DependencyResolver.SetResolver(new NinjectDependencyResolver());
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
