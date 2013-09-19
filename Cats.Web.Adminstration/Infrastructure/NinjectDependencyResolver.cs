@@ -34,7 +34,7 @@ namespace Cats.Web.Administration.Infrastructure
         
         private void AddBindings()
         {
-            kernel.Bind<Data.UnitWork.IUnitOfWork>().To<Data.UnitWork.IUnitOfWork>();
+            kernel.Bind<Data.UnitWork.IUnitOfWork>().To<Data.UnitWork.UnitOfWork>();
             kernel.Bind<Data.Security.IUnitOfWork>().To<Data.Security.UnitOfWork>();
             kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
           
@@ -47,7 +47,10 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<IProgramService>().To<ProgramService>();
             kernel.Bind<IUnitService>().To<UnitService>();
             kernel.Bind<IStoreService>().To<StoreService>();
-
+            kernel.Bind<ICommodityGradeService>().To<CommodityGradeService>();
+            kernel.Bind<ICommoditySourceService>().To<CommoditySourceService>();
+            kernel.Bind<ICommodityService>().To<CommodityService>();
+            kernel.Bind<IAuditService>().To<AuditService>();
         }
     }
 }

@@ -6,26 +6,36 @@ using System.Web;
 
 namespace Cats.Models
 {
-    public class Hub
+    public partial class Hub
     {
         public Hub()
         {
+            this.DispatchAllocations = new List<DispatchAllocation>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.HubAllocations = new List<HubAllocation>();
-            this.BidWinners=new List<BidWinner>();
+            this.ReceiptAllocations = new List<ReceiptAllocation>();
             this.Stores=new List<Store>();
+            this.ReceiptAllocations1 = new List<ReceiptAllocation>();
+            this.Transactions = new List<Transaction>();
+            this.TransportOrderDetails = new List<TransportOrderDetail>();
+            this.HubOwner = new HubOwner();
         }
-        public int HubId { get; set; }
+
+        public int HubID { get; set; }
         public string Name { get; set; }
-        public int HubOwnerId { get; set; }
+        public int HubOwnerID { get; set; }
+        public HubOwner HubOwner { get; set; }
+        public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
+        public virtual ICollection<HubAllocation> HubAllocations { get; set; }
+        public virtual ICollection<ReceiptAllocation> ReceiptAllocations { get; set; }
+        public virtual ICollection<ReceiptAllocation> ReceiptAllocations1 { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
+        public virtual ICollection<BidWinner> BidWinners { get; set; }
 
         public virtual ICollection<TransportBidPlanDetail> TransportBidPlanSources { get; set; }
 
-        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
-        public virtual ICollection<HubAllocation> HubAllocations { get; set; }
-        public virtual ICollection<BidWinner> BidWinners  { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
-
     }
 }

@@ -74,6 +74,7 @@
     .DataSource(
         dataSource => dataSource
         .Ajax()
+        .Group(g=>g.Add(m=>m.ZoneName))
         .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
         .Read(read => read.Action("GetDataListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
         )
@@ -83,7 +84,7 @@
     .Scrollable()
     .Filterable()
     .HtmlAttributes(new { style = "width:100%; height:550px;" })
-   // .Groupable()
+    .Groupable()
 
 )
 <script>
