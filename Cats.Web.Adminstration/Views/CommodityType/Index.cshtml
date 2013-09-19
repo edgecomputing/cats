@@ -6,12 +6,30 @@
 }
 
 <h2>Index</h2>
-@(Html.Kendo().Grid<CommodityTypeViewModel>().Columns(columns=>
+@(Html.Kendo().Grid<CommodityTypeViewModel>()
+.Name("grid")
+.Columns(columns=>
         {
             columns.Bound(c => c.Name);
             columns.Bound(c => c.CommodityTypeId);
-        }).DataSource(datasource=>datasource.Ajax()
+            columns.Command(c => c.Destroy());
+        }).ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
+     .Model(m=>m.Id(t=>t.CommodityTypeId))
     .Read("CommodityType_Read","CommodityType")
-    .Create("CommodityType_Update","CommodityType")
+    .Create("CommodityType_Create","CommodityType")
     .Update("CommodityType_Update","CommodityType")
-    .Destroy("CommodityType_Delete","CommodityType")))
+    .Destroy("CommodityType_Delete","CommodityType")
+    )
+    )

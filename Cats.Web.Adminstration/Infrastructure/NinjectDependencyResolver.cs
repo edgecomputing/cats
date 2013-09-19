@@ -44,9 +44,10 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<ILanguageService>().To<LanguageService>();
             kernel.Bind<IDonorService>().To<DonorService>();
             kernel.Bind<ICommodityTypeService>().To<CommodityTypeService>();
-
-
-
+            kernel.Bind<ICommodityGradeService>().To<CommodityGradeService>();
+            kernel.Bind<ICommoditySourceService>().To<CommoditySourceService>();
+            kernel.Bind<ICommodityService>().To<CommodityService>();
+            kernel.Bind<IAuditService>().To<AuditService>();
         }
     }
 }

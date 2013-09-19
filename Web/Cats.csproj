@@ -278,6 +278,7 @@
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\SendMail.cs" />
+    <Compile Include="Helpers\TemplateHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -298,7 +299,6 @@
     <Compile Include="Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\TemplateGenerator.cs" />
     <Compile Include="Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>

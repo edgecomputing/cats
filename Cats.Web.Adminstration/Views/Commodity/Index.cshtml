@@ -17,7 +17,19 @@
                                                           columns.ForeignKey(t => t.ParentID, (IEnumerable <Commodity>) ViewData["Commodities"], "CommodityID", "Name");
                                                           columns.Bound(t => t.NameAM);
 
-                                                      }).DataSource(datasource=>datasource.Ajax()
+                                                      }).ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
     .Read("Commodity_Read","Commodity")
     .Create("Commodity_Update","Commodity")
     .Update("Commodity_Update","Commodity")
