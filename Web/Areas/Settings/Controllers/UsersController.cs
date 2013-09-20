@@ -232,7 +232,7 @@ namespace Cats.Areas.Settings.Controllers
                             Completed = false,
                             ExpieryDate = DateTime.Now.AddMonths(2),
                             GeneratedDate = DateTime.Now,
-                            RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
+                            //RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
                             UserAccountID = user.UserAccountId
                         };
                     if (_forgetPasswordRequestService.AddForgetPasswordRequest(forgetPasswordRequest))
@@ -249,10 +249,9 @@ namespace Cats.Areas.Settings.Controllers
                                                         <br /><br />
                                                         Please ignore this message if the password request was not submitted by you. This request will expire in 24 hours.
                                                         <br /><br />
-                                                       Thank you,<br />
-                                                       Administrator.
+                                                        Thank you,<br />
+                                                        Administrator.
                                                         ", link, user.UserName);
-
                         try
                         {
                             // Read the configuration table for smtp settings.

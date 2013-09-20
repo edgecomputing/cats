@@ -784,12 +784,12 @@
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
-<<<<<<< HEAD
+
     <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
-=======
+
     <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
->>>>>>> d467d5ee7f1cb6f5aef511271953649b74bcf6bf
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

@@ -9,40 +9,41 @@
     <h4>Language Registration</h4>
 </div>
 @section LeftBar{
-    
-    @Html.Partial("LanguageLeftBar");
+
+    @Html.Partial("LanguageLeftBar")
     
 }
 @(Html.Kendo().Grid<LanguageHelpers.Localization.Models.Language>()
     .Name("grid")
     .Columns(columns =>
         {
-        //columns.Bound(p => p.LanguageID);
-            columns.Bound(p => p.LanguageCode).ClientTemplate("<a href='" + Url.Action("Details", "Language") + " '>#=LanguageCode#</a>  ");
+            //columns.Bound(p => p.LanguageID);
+            columns.Bound(p => p.LanguageCode).ClientTemplate("<a href='" + Url.Action("Index", "Language") + " '>#=LanguageCode#</a>  ");
         columns.Bound(p => p.LanguageName);
-            
-        columns.Command(p => p.Custom("Edit").Click("languageEdit"));
-       
-
+            columns.Command(p => p.Custom("Edit").Click("languageEdit"));
+           // columns.Command(p => p.Custom("Delete").Click("LanguageDelete"));
         })
     .Pageable()
     .Sortable()
     .Filterable()
-    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    //.Editable(editable => editable.Mode(GridEditMode.InLine))
+    
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(12)
-            .Model(model => model.Id(p => p.LanguageID))
+            .Model(model =>
+            {
+                model.Id(p => p.LanguageID);
+                model.Field(p => p.LanguageCode);
+                model.Field(p => p.LanguageName);
+            })
                 .Read(read => read.Action("Language_Read", "Language"))
-               
- 
      )
-   
-      )
+   )
+
 <script>
     function languageEdit(e) {
         e.preventDefault();
-
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "Language/Edit/" + dataItem.LanguageID;
     }

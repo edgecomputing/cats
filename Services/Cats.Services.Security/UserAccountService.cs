@@ -58,7 +58,6 @@ namespace Cats.Services.Security
                 throw new ApplicationException(string.Format("An error occurred while saving. Detail: {0} ", ex.Message));
             }
         }
-
         
         public bool Add(UserAccount entity, string store, string application)
         {

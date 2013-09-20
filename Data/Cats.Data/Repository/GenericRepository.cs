@@ -36,8 +36,7 @@ namespace Cats.Data.Repository
             IQueryable<T> query = _context.Set<T>().Where(predicate);
             return query.ToList();
         }
-
-
+       
         public virtual bool Add(T entity)
         {
             _context.Set<T>().Add(entity);

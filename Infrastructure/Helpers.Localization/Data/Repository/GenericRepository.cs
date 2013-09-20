@@ -17,7 +17,9 @@ namespace LanguageHelpers.Localization.Data.Repository
         {
             _context = context;
         }
+
         private LocalizationContext _context;
+
         public LocalizationContext db
         {
             get { return _context; }

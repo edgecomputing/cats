@@ -26,10 +26,8 @@
     .Columns(columns =>
     {
         columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
-
-
-            "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserAccountId#" }) + " '>#=UserName#</a> "
-            );
+        "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserAccountId#" }) + " '>#=UserName#</a> "
+        );
         columns.Bound(u => u.FullName).Title("Full Name");
         columns.Bound(u => u.Disabled).Title("Disabled Account");
         columns.Bound(u => u.LoggedIn).Title("Currently Logged In");

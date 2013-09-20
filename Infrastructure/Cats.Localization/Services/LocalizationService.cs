@@ -26,7 +26,7 @@ namespace Cats.Localization.Services
 
         public bool AddLanguage(Language language)
         {
-            _unitOfWork.LanguageRepositroy.Add(language);
+            _unitOfWork.LanguageRepository.Add(language);
 
             try
             {
@@ -75,7 +75,7 @@ namespace Cats.Localization.Services
         public bool UpdateLanguage(Language language)
         {
             if (null == language) return false;
-            _unitOfWork.LanguageRepositroy.Edit(language);
+            _unitOfWork.LanguageRepository.Edit(language);
             try
             {
                 _unitOfWork.Save();

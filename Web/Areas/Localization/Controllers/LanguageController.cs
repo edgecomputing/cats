@@ -7,6 +7,7 @@ using LanguageHelpers.Localization.Models;
 using LanguageHelpers.Localization.Services;
 using LanguageHelpers.Localization.Data;
 
+
 namespace Cats.Areas.Localization.Controllers
 {
     public class LanguageController : Controller
@@ -14,12 +15,14 @@ namespace Cats.Areas.Localization.Controllers
         //
         // GET: /Localization/Language/
         private ILanguageService _languageService;
-        private ILocalizedTextService _localizedTextService;
+        //private ILocalizedTextService _localizedTextService;
 
-        public LanguageController(ILanguageService languageService, ILocalizedTextService localizedTextService)
+        //public LanguageController() { }
+
+        public LanguageController(ILanguageService languageService)
         {
             _languageService = languageService;
-            _localizedTextService = localizedTextService;
+            //_localizedTextService = localizedTextService;
         }
 
         public ActionResult Index()
@@ -29,11 +32,19 @@ namespace Cats.Areas.Localization.Controllers
         
         public ActionResult Language_Read([DataSourceRequest] DataSourceRequest request)
         {
-
             var language = _languageService.GetAllLanguage();
-            var languageToDisplay = language.ToList();
-            return Json(languageToDisplay.ToDataSourceResult(request));
+            var languageToDisplay = language;
+           // return Json(languageToDisplay.ToDataSourceResult(request));
+
+            //if (language != null)
+            //{
+                var detailsToDisplay = language.ToList();
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            //}
+            //return RedirectToAction("Index");
+
         }
+        
         public ActionResult Create()
         {
             var language = new Language();
@@ -55,19 +66,19 @@ namespace Cats.Areas.Localization.Controllers
                 catch (Exception exception)
                 {
                     ViewBag.Error = "Language Code Must Be Unique Please Try again";
-                    
-                    
+                    ModelState.AddModelError("Error", "Language Code Must Be Unique.");
                 }
                 return View(language);
-                
             }
             return View(language);
         }
+
         public ActionResult Edit(int id)
         {
             var language = _languageService.FindById(id);
             return View(language);
         }
+
         [HttpPost]
         public ActionResult Edit(Language language)
         {
@@ -78,67 +89,6 @@ namespace Cats.Areas.Localization.Controllers
            }
             return View(language);
         }
-        public ActionResult Translation_Read([DataSourceRequest] DataSourceRequest request)
-        {
-
-
-            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
-            //var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
-            //var language = _languageService.FindById(id);
-            var localized = _localizedTextService.FindBy(m => m.LanguageCode =="AM");
-
-            if (localized != null)
-            {
-                var detailsToDisplay = localized.ToList();
-                return Json(detailsToDisplay.ToDataSourceResult(request));
-            }
-            return RedirectToAction("Index");
-        }
-         public ActionResult EditTranslation(int id)
-        {
-            var localizedText = _localizedTextService.FindById(id);
-            ViewBag.LanguageCode = new SelectList(_localizedTextService.GetAllLocalizedText(), "LocalizedTextId", "LanguageCode", localizedText.LocalizedTextId);
-          
-            return View(localizedText);
-        }
-        [HttpPost]
-         public ActionResult EditTranslation(LocalizedText localizedText)
-        {
-            //localizedText.Value = amharicText;
-            if(ModelState.IsValid)
-            {
-                _localizedTextService.UpdateLocalizedText(localizedText);
-                return RedirectToAction("Details");
-            }
-            return View(localizedText);
-        }
-        public ActionResult Details()
-        {
-            //var language = _languageService.FindById(id);
-            var localized = _localizedTextService.FindBy(m => m.LanguageCode == "AM").FirstOrDefault();
-            return View(localized);
-        }
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Translation_Update([DataSourceRequest] DataSourceRequest request, TranslationViewModel translation)
-        {
-            if (translation != null && ModelState.IsValid)
-            {
-                var detail = _localizedTextService.FindById(translation.LocalizedTextId);
-                if (detail != null)
-                {
-                    detail.LocalizedTextId = translation.LocalizedTextId;
-                    detail.LanguageCode = translation.LanguageCode;
-                    detail.TextKey = translation.TextKey;
-                   // detail.value = translation.TranslatedText;
-                    
-                    _localizedTextService.UpdateLocalizedText(detail);
-                }
-
-            }
-            return Json(new[] { translation }.ToDataSourceResult(request, ModelState));
-            //return Json(ModelState.ToDataSourceResult());
-        }
-
+        
     }
 }

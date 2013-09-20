@@ -31,12 +31,12 @@ namespace Cats.Localization.Models.Mapping
             this.Property(t => t.TranslatedText).HasColumnName("TranslatedText");
 
             // Relationships
-            this.HasRequired(t => t.Language)
-                .WithMany(t => t.LocalizedPhrases)
-                .HasForeignKey(d => d.LanguageCode);
-            this.HasRequired(t => t.Phrase)
-                .WithMany(t => t.LocalizedPhrases)
-                .HasForeignKey(d => d.PhraseId);
+            this.HasRequired(t => t.Language);
+               // .WithMany(t => t.LocalizedPhrases)
+                //.HasForeignKey(d => d.LanguageCode);
+            this.HasRequired(t => t.Phrase);
+               // .WithMany(t => t.LocalizedPhrases)
+                //.HasForeignKey(d => d.PhraseId);
 
         }
     }
