@@ -8,7 +8,7 @@ namespace Cats.Models.Security.Mapping
         public UserInfoMap()
         {
             // Primary Key
-            this.HasKey(t => t.UserId);
+            this.HasKey(t => t.UserProfileID);
 
             // Properties
             this.Property(t => t.UserName)
@@ -58,16 +58,12 @@ namespace Cats.Models.Security.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.FullName)
-                .IsRequired()
-                .HasMaxLength(200);
 
             //this.Property(t => t.UserSID)
             //    .HasMaxLength(85);
 
             // Table & Column Mappings
             this.ToTable("UserInfo");
-            this.Property(t => t.UserId).HasColumnName("UserId");
             this.Property(t => t.UserName).HasColumnName("UserName");
             this.Property(t => t.Password).HasColumnName("Password");
             this.Property(t => t.Disabled).HasColumnName("Disabled");
@@ -86,8 +82,8 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.PreferedWeightMeasurment).HasColumnName("PreferedWeightMeasurment");
             this.Property(t => t.DefaultTheme).HasColumnName("DefaultTheme");
             this.Property(t => t.ActiveInd).HasColumnName("ActiveInd");
-            this.Property(t => t.FullName).HasColumnName("FullName");
             this.Property(t => t.LockedInInd).HasColumnName("LockedInInd");
+            this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
            // this.Property(t => t.UserSID).HasColumnName("UserSID");
         }
     }

@@ -36,6 +36,7 @@ namespace Cats.Models.Hub
         public string DefaultTheme { get; set; }
 
         public bool Disabled { get; set; }
+        public string[] Roles { get; set; }
 
         public string FullName { get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); } }
 

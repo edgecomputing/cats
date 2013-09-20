@@ -8,7 +8,6 @@ namespace Cats.Models.Security
 {
     public partial class UserInfo
     {
-        public int UserId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public bool Disabled { get; set; }
@@ -29,12 +28,11 @@ namespace Cats.Models.Security
         public bool ActiveInd { get; set; }
         public bool LockedInInd { get; set; }
       //  public byte[] UserSID { get; set; }
-        public string FullName { get; set; }
+        public int UserProfileID { get; set; }
 
-
-        //public string FullName
-        //{
-        //    get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); }
-        //}
+        public string FullName
+        {
+            get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); }
+        }
     }
 }

@@ -37,6 +37,8 @@ namespace Cats.Models.Security
         public string DefaultTheme { get; set; }
         public string Keyboard { get; set; }
         public Nullable<int> CaseTeam { get; set; }
+        public Nullable<bool> Disabled { get; set; }
+        public string[] Roles { get; set; }
 
       //  public bool Disabled { get; set; }
 

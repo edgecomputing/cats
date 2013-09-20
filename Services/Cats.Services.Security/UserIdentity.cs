@@ -51,7 +51,7 @@ namespace Cats.Services.Security
 
         #region Constructor(s)
 
-        public UserIdentity(User user)
+        public UserIdentity(UserProfile user)
         {
             this.userName = user.UserName;
             this.authenticated = true;
