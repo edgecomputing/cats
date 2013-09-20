@@ -20,7 +20,7 @@ namespace LanguageHelpers.Localization.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new LanguageMap());
-           // modelBuilder.Configurations.Add(new LocalizedTextMap());
+            modelBuilder.Configurations.Add(new LocalizedTextMap());
         }
     }
 }
