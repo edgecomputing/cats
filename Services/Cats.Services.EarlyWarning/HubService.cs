@@ -68,7 +68,7 @@ namespace Cats.Services.EarlyWarning
         {
             var hubId = _unitOfWork.HubRepository.Get(h => h.Name == hub).SingleOrDefault();
             if (hubId == null) return -1;
-            return hubId.HubId;
+            return hubId.HubID;
 
         }
         

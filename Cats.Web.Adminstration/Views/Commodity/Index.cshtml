@@ -1,0 +1,36 @@
+﻿@using Cats.Models
+@using Cats.Web.Adminstration.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Index</h2>
+@(Html.Kendo().Grid<CommodityViewModel>().Columns(columns=>
+                                                      {
+                                                          columns.Bound(t => t.CommodityID);
+                                                          columns.Bound(t => t.CommodityCode);
+                                                          columns.Bound(t => t.Name);
+                                                          columns.Bound(t => t.LongName);
+                                                          columns.ForeignKey(t => t.CommodityTypeID, (IEnumerable<CommodityType>) ViewData["CommodityTypes"], "CommdoityTypeID", "Name");
+                                                          columns.ForeignKey(t => t.ParentID, (IEnumerable <Commodity>) ViewData["Commodities"], "CommodityID", "Name");
+                                                          columns.Bound(t => t.NameAM);
+
+                                                      }).ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
+    .Read("Commodity_Read","Commodity")
+    .Create("Commodity_Update","Commodity")
+    .Update("Commodity_Update","Commodity")
+    .Destroy("Commodity_Delete","Commodity")))

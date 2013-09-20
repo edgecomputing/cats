@@ -121,8 +121,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuditLogController.cs" />
+    <Compile Include="Controllers\CommodityController.cs" />
+    <Compile Include="Controllers\CommodityGradeController.cs" />
+    <Compile Include="Controllers\CommoditySourceController.cs" />
     <Compile Include="Controllers\CommodityTypeController.cs" />
+    <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProgramController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -137,10 +145,22 @@
     <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ViewModels\AuditLogViewModel.cs" />
+    <Compile Include="Models\ViewModels\CommodityGradeViewModel.cs" />
+    <Compile Include="Models\ViewModels\CommoditySourceViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityTypeViewModel.cs" />
+    <Compile Include="Models\ViewModels\CommodityViewModel.cs" />
+    <Compile Include="Models\ViewModels\DonorModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
+    <Compile Include="Models\ViewModels\ProgramViewModel.cs" />
+    <Compile Include="Models\ViewModels\StoreViewModel.cs" />
+    <Compile Include="Models\ViewModels\UnitViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelBinder\AuditLogViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\CommodityGradeViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\CommoditySourceViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityTypeViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\CommodityViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -583,7 +603,18 @@
     <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Donor\Index.cshtml" />
     <Content Include="Views\CommodityType\Index.cshtml" />
+    <Content Include="Views\Program\Index.cshtml" />
+    <Content Include="Views\CommodityGrade\Index.cshtml" />
+    <Content Include="Views\CommoditySource\Index.cshtml" />
+    <Content Include="Views\HubOwner\Create.cshtml" />
+    <Content Include="Views\HubOwner\Delete.cshtml" />
+    <Content Include="Views\HubOwner\Details.cshtml" />
+    <Content Include="Views\HubOwner\Edit.cshtml" />
+    <Content Include="Views\HubOwner\Index.cshtml" />
+    <Content Include="Views\HubOwner\Update.cshtml" />
+    <Content Include="Views\AuditLog\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -627,6 +658,10 @@
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
+      <Name>Cats.Models.Hub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>

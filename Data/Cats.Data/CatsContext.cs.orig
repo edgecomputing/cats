@@ -16,7 +16,10 @@ namespace Cats.Data
         public CatsContext() : base("Name=CatsContext") { }
 
         // TODO: Add properties to access set of Poco classes
-      public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
+        public DbSet<DashboardWidget> DashboardWidgets { get; set; }
+        public DbSet<UserDashboardPreference> UserDashboardPreferences { get; set; }
+        public DbSet<Log> Logs { get; set; }
+        public DbSet<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public DbSet<RegionalRequest> RegionalRequests { get; set; }
         public DbSet<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public DbSet<ReliefRequisition> ReliefRequisitions { get; set; }
@@ -28,6 +31,7 @@ namespace Cats.Data
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
         public DbSet<Hub> Hubs { get; set; }
+        public DbSet<HubOwner> HubOwners { get; set; }
         public DbSet<DispatchAllocation> DispatchAllocations { get; set; }
         public DbSet<DispatchAllocationDetail> DispatchDetail { get; set; }
         public DbSet<Bid> Bids { get; set; } 
@@ -53,7 +57,7 @@ namespace Cats.Data
         public DbSet<vwTransportOrder> vwTransportOrders { get; set; }
         
         public DbSet<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
-        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<ReceiptAllocation> ReceiptAllocation { get; set; } 
 
 
@@ -90,20 +94,32 @@ namespace Cats.Data
         public DbSet<ContributionDetail> ContributionDetails { get; set; }
         public DbSet<Donor> Donors { get; set; } 
 
-        //public DbSet<AccountTransaction> AccountTransactions { get; set; }
         public DbSet<vwPSNPAnnualPlan> vwPSNPAnnualPlans { get; set; }
         public DbSet<BusinessProcess> BusinessProcesss { get; set; }
         public DbSet<BusinessProcessState> BusinessProcessStates { get; set; }
-        public DbSet<AccountTransaction> AccountTransactions { get; set; } 
 
         public DbSet<TypeOfNeedAssessment> TypeOfNeedAssessment { get; set; }
 
+
+        public DbSet<NeedAssessmentSummary> NeedAssessmentSummary { get; set; }
+
+
+        public DbSet<LetterTemplate> LetterTemplate { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; }
+<<<<<<< HEAD
+        public DbSet<HubOwner> HubOwner { get; set; }
+=======
+>>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new DashboardWidgetMap());
+            modelBuilder.Configurations.Add(new UserDashboardPreferenceMap());
             modelBuilder.Configurations.Add(new BusinessProcessStateMap());
             //TODO: Add mapping information for each Poco model.
             modelBuilder.Configurations.Add(new RegionalPSNPPledgeMap());
-
+            modelBuilder.Configurations.Add(new LogMap());
             modelBuilder.Configurations.Add(new BusinessProcessMap());
             modelBuilder.Configurations.Add(new ProcessTemplateMap());
             modelBuilder.Configurations.Add(new StateTemplateMap());
@@ -129,6 +145,8 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new ProjectCodeAllocationMap());
 
+            modelBuilder.Configurations.Add(new HubMap());
+            modelBuilder.Configurations.Add(new HubOwnerMap());
             modelBuilder.Configurations.Add(new HubAllocationMap());
             modelBuilder.Configurations.Add(new ProjectCodeMap());
             modelBuilder.Configurations.Add(new ShippingInstructionMap());
@@ -175,21 +193,24 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new ContributionDetailMap());
             modelBuilder.Configurations.Add(new DonorMap());
 
-<<<<<<< HEAD
-            //modelBuilder.Configurations.Add(new AccountTransactionMap());
-            modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
-=======
             modelBuilder.Configurations.Add(new TypeOfNeedAssessmentMap());
-
-            modelBuilder.Configurations.Add(new AccountTransactionMap());
-
->>>>>>> f917e22e7e6480041f6446e54092a9b021d62c0b
+            modelBuilder.Configurations.Add(new vwPSNPAnnualPlanMap());
 
 
+            modelBuilder.Configurations.Add(new NeedAssessmentSummaryMap());
+
+            modelBuilder.Configurations.Add(new LetterTemplateMap());
+            modelBuilder.Configurations.Add(new CurrencyMap());
+
+            modelBuilder.Configurations.Add(new InKindContributionDetailMap());
+<<<<<<< HEAD
+
+            modelBuilder.Configurations.Add(new HubOwnerMap());
+=======
+            modelBuilder.Configurations.Add(new CommodityGradeMap());
+            modelBuilder.Configurations.Add(new CommoditySourceMap());
+>>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
         }
-
-
-        
 
     }
 }

@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Mapping
 {
-    public class LetterTemplateMap : EntityTypeConfiguration<LetterTemplate_>
+    public class LetterTemplateMap : EntityTypeConfiguration<LetterTemplate>
     {
         public LetterTemplateMap()
         {
@@ -22,12 +22,13 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("LetterTemplate_");
+            this.ToTable("LetterTemplate");
             this.Property(t => t.LetterTemplateID).HasColumnName("LetterTemplateID");
             this.Property(t => t.Name).HasColumnName("Name");
             //this.Property(t => t.Parameters).HasColumnName("Parameters");
             //this.Property(t => t.Template).HasColumnName("Template");
             this.Property(t => t.FileName).HasColumnName("FileName");
+            this.Property(t => t.TemplateType).HasColumnName("TemplateType");
         }
     }
 }

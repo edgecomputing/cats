@@ -1,4 +1,4 @@
-﻿@model Cats.Models.Hub.UserWarehouse
+﻿@model Cats.Models.Hub.UserHub
 @using Cats.Web.Hub.Helpers
 @{
     ViewBag.Title = "Details";
@@ -16,7 +16,7 @@
 
     <div class="display-label">@Html.Translate("Warehouse")</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Warehouse.Name)
+        @Html.DisplayFor(model => model.Hub.Name)
     </div>
 
     <div class="display-label">@Html.Translate("IsDefault")</div>
@@ -25,6 +25,6 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.UserWarehouseID }) |
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.UserHubID }) |
     @Html.ActionLink(Html.Translate("Back to List"), "Index")
 </p>

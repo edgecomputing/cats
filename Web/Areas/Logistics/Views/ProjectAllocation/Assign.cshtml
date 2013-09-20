@@ -11,96 +11,15 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
+@section Toolbar
+{
     
-    <script>
-        function message() {
-            var theForm = document.forms['frmHub'];
-            
-            var objOne = document.getElementById("PCCode");
-            if (objOne.selectedIndex == 0) {
-                alert("hhh");
-                return false;
-            }
-            else {
-                theForm.submit();
-                return true;
-            }
-        }
-    </script>
-<script>
-    $(document).ready(function () {
+    <a class="btn toolbar-btn " data-submittedform="frmHub"  >Assign hub</a>
+    
+}
+    
+   
 
-        $('#frmHub').validate(
-            {
-                rules: {
-                    datepicker: {
-                        required: true
-                    },
-                    PCodeqty: {
-                        number: true,
-                        min: 0
-                        
-                    },
-                    SICodeqty: {
-                        number: true,
-                        min: 0
-                    }
-                   
-                },
-                submitHandler: function(form) {
-
-                    var siQty = 0;
-                    var pcQty=0;
-                    
-
-                    pcQty = parseInt($("#PCodeqty").val());
-                    siQty = parseInt($("#SICodeqty").val());
-                    
-
-                    if ($("#PCodeqty").val()=='') {
-                        pcQty = 0;
-                        
-                    }
-                    if ($("#SICodeqty").val()=='') {
-                        siQty = 0;
-                        
-
-                    }
-
-                    
-                    
-                    var total = pcQty + siQty;
-                    //alert(pcQty + "," + siQty + "," + total + "," + parseInt($("#Remaining").val()));
-
-                    
-                    if (total > parseInt($("#Remaining").val())) {
-                        var error = document.getElementById("Notification");
-                        if (error.style.display == "none") {
-                            error.style.display = "block";
-                        }
-                       
-                       
-                             return false;
-                    }
-                    else form.submit();
-                    return true;
-                },
-                
-                highlight: function (element) {
-                    $(element).closest('.control-group').removeClass('success').addClass('error');
-                },
-                success: function (element) {
-                    element
-                        .closest('.control-group').removeClass('error').addClass('success');
-                }
-            });
-        
-       
-        
-       
-
-    }); 
-      </script>
 
 
 
@@ -126,7 +45,8 @@
         <div class="row">
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Requested Amount") 
+                     <label class="control-label">
+                    @Translator.Translate("Requested Amount") </label>
                     <div class="controls">
                         <input type="text" class="icon-file-text-alt" id="Requested" name="Requested" value="@ViewBag.RequetedAmount" readonly="readonly" />    
                     </div>
@@ -136,7 +56,8 @@
             
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Hub") 
+                     <label class="control-label">
+                    @Translator.Translate("Hub") </label>
                     <div class="controls">
                         @Html.Hidden("hub")
                         <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly" />
@@ -148,7 +69,8 @@
         <div class="row">
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Reamining")
+                     <label class="control-label">
+                    @Translator.Translate("Reamining")</label>
                     
                     <div class="controls">
                         @Html.Hidden("reamaining")
@@ -159,9 +81,10 @@
              
             <div class="span4">
                 <div class="control-group">
-                    @Translator.Translate("Date") 
+                     <label class="control-label">
+                    @Translator.Translate("Date") </label>
                     <div class="controls">
-                        <input type="text" class="cats-datepicker" id="datepicker" name="datepicker" >
+                        <input type="text" class="cats-datepicker2" id="datepicker" name="datepicker" >
                     </div>
                 </div>
             </div>
@@ -214,12 +137,7 @@
        
     </div>
     
-    <br/>
     
-    <input hidden=""/>
-     <button type="submit" class="btn btn-primary">
-  <i class="icon-user icon-white"></i> Assign
-</button>
 }
 
 <script  >
@@ -237,39 +155,39 @@
 
 </script>
 
-< <script type="text/javascript">
-      $(document).ready(function () {
-          //Dropdownlist Selectedchange event
-          var SItext;
-          var ProjectCodetext;
-          $('#ShippingInstructionID').change(function () {
-              // Get Dropdownlist seleted item text
-                SItext = $("#ShippingInstructionID option:selected").text();
-              alert(text);
-              // Get Dropdownlist selected item value
-              var sIvalue = $("#ShippingInstructionID").val();
-              alert(sIvalue);
+ <script type="text/javascript">
+     $(document).ready(function () {
+         //Dropdownlist Selectedchange event
+         var SItext;
+         var ProjectCodetext;
+         $('#ShippingInstructionID').change(function () {
+             // Get Dropdownlist seleted item text
+             SItext = $("#ShippingInstructionID option:selected").text();
+             alert(text);
+             // Get Dropdownlist selected item value
+             var sIvalue = $("#ShippingInstructionID").val();
+             alert(sIvalue);
               
 
              
-          })
+         })
           
-          $('#ProjectCodeID').change(function () {
-              // Get Dropdownlist seleted item text
-               ProjectCodetext = $("#ProjectCodeID option:selected").text();
-              alert(text);
-              // Get Dropdownlist selected item value
-              var projectCodevalue = $("#ProjectCodeID").val();
-              alert(projectCodevalue);
+         $('#ProjectCodeID').change(function () {
+             // Get Dropdownlist seleted item text
+             ProjectCodetext = $("#ProjectCodeID option:selected").text();
+             alert(text);
+             // Get Dropdownlist selected item value
+             var projectCodevalue = $("#ProjectCodeID").val();
+             alert(projectCodevalue);
 
 
              
-          })
+         })
           
-          if (SItext == "Select SI" && ProjectCodetext == "Selected Project code") {
-              alert("Please select Project code or SI ")
-              return false;
-          }
-          return true
-      });
-</script>
+         if (SItext == "Select SI" && ProjectCodetext == "Selected Project code") {
+             alert("Please select Project code or SI ")
+             return false;
+         }
+         return true
+     });
+ </script>

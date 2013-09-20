@@ -1,0 +1,87 @@
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.Unit>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    
+}
+@section LeftBar
+{
+   
+}
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Unit?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div>
+    <h4>List of Units</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.UnitViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.UnitID);
+        columns.Bound(p => p.UnitName);
+       //columns.Command(command => command.Destroy());
+       columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+    })
+    .ToolBar(toolbar =>
+        {
+            toolbar.Create();
+            toolbar.Save();
+        })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.UnitID))
+           .Read(read => read.Action("Unit_Read", "Unit"))
+           .Update(update => update.Action("Unit_Update", "Unit"))
+           .Create(create => create.Action("Unit_Create", "Unit"))
+           .Destroy(destroy => destroy.Action("Unit_Destroy", "Unit"))
+ 
+     )
+   
+      )
+<script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "Unit")" + "/" + dataItem.UnitID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+

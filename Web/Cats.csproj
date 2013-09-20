@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocX">
+      <HintPath>..\lib\DocX.dll</HintPath>
+    </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
@@ -278,6 +281,7 @@
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\SendMail.cs" />
+    <Compile Include="Helpers\TemplateHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -298,7 +302,6 @@
     <Compile Include="Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\TemplateGenerator.cs" />
     <Compile Include="Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1083,6 +1086,7 @@
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Home\Preference.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1094,6 +1098,10 @@
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
+    <Folder Include="Report\EarlyWarning\" />
+    <Folder Include="Report\HRD\" />
+    <Folder Include="Report\Procurment\" />
+    <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1106,6 +1114,14 @@
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
+      <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
+      <Name>Cats.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Cats.Documents\Cats.Documents.csproj">
+      <Project>{48791f08-2497-4328-b7de-2cbe5a81c836}</Project>
+      <Name>Cats.Documents</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
@@ -1158,10 +1174,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
-    <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
-    <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
-    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
-    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

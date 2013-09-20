@@ -1,4 +1,4 @@
-﻿@model Cats.Models.Hub.UserWarehouse
+﻿@model Cats.Models.Hub.UserHub
 @using Cats.Web.Hub.Helpers
 @{
     ViewBag.Title = Html.Translate("Create");
@@ -24,11 +24,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.WarehouseID, Html.Translate("Warehouse"))
+            @Html.LabelFor(model => model.UserHubID, Html.Translate("Warehouse"))
         </div>
         <div class="editor-field">
             @Html.DropDownList("WarehouseID")
-            @Html.ValidationMessageFor(model => model.WarehouseID)
+            @Html.ValidationMessageFor(model => model.UserHubID)
         </div>
 
         <div class="editor-label">
