@@ -31,10 +31,11 @@ namespace Cats.Web.Adminstration.Controllers
             return View();
         }
 
-        public ActionResult Hub_Read([DataSourceRequest]DataSourceRequest request)
+        public JsonResult Hub_Read([DataSourceRequest]DataSourceRequest request)
         {
             var hubs = _hubService.GetAllHub();
-            return Json(hubs.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            var hubsViewModel = HubViewModelBinder.BindListHubViewModel(hubs);
+            return Json(hubsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

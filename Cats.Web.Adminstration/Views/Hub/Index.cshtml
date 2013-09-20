@@ -1,5 +1,6 @@
 ﻿@using Cats.Models
 @using Cats.Web.Adminstration.Models
+@using Cats.Web.Adminstration.Models.ViewModels
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Index";
@@ -7,14 +8,33 @@
 }
 
 <h2>Index</h2>
-@(Html.Kendo().Grid<Hub>().Columns(columns=>
-    {
-        columns.Bound(t => t.Name);
-        columns.ForeignKey(t => t.HubOwnerID, (IEnumerable<HubOwner>)ViewData["HubOwners"], "HubOwnerID", "Name");
+@(Html.Kendo().Grid<HubViewModel>()
+      .Name("grid")
+      .Columns(columns =>
+      {
+          columns.Bound(p => p.HubName).Width(100).Visible(false);
+      })
+          .ToolBar(toolbar =>
+          {
+              toolbar.Save();
+              toolbar.Create();
+          })
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable()
+      .Sortable()
+      .Scrollable()
+      .Selectable(t => t.Mode(GridSelectionMode.Single))
+      .Navigatable()
+      .HtmlAttributes(new { style = "height:430px;" })
+      .Events(ev => ev.DataBound("resetRowNumber"))
+      .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(20)
+                                    .Model(
 
-    }).DataSource(datasource=>datasource.Ajax()
-    .Read("Hub_Read","Hub")
-    .Create("Hub_Update","Hub")
-    .Update("Hub_Update","Hub")
-    .Destroy("Hub_Delete","Hub"))
-)
+        model => model.Id(p => p.HubID))
+                                    .Create(read => read.Action("Hub_Read", "Hub", new { id = Model.HubID }))
+                                    //.Read(create => create.Action("Hub_Create", "Hub", new { id = Model.HubID }))
+                                    //.Update(update => update.Action("Hub_Update", "Hub"))
+                                    //.Destroy(delete => delete.Action("Hub_Delete", "Hub"))
+).Pageable())

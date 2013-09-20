@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Cats.Services.Administration;
-using Cats.Services.Hub;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
 using Ninject;
@@ -49,9 +48,13 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<ILanguageService>().To<LanguageService>();
             kernel.Bind<IDonorService>().To<DonorService>();
             kernel.Bind<ICommodityTypeService>().To<CommodityTypeService>();
+            kernel.Bind<ICommodityGradeService>().To<CommodityGradeService>();
 
             kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<IHubOwnerService>().To<HubOwnerService>();
+            kernel.Bind<ICommoditySourceService>().To<CommoditySourceService>();
+            kernel.Bind<ICommodityService>().To<CommodityService>();
+            kernel.Bind<IAuditService>().To<AuditService>();
 
         }
     }

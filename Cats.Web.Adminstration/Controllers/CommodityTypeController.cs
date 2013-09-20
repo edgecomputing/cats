@@ -20,11 +20,7 @@ namespace Cats.Web.Adminstration.Controllers
         {
             _commodityTypeService = commodityTypeService;
         }
-        //TODO:Remove this code
-       public CommodityTypeController()
-       {
-           _commodityTypeService=new CommodityTypeService(new UnitOfWork());
-       }
+        
        
         public ActionResult Index()
         {
