@@ -14,7 +14,20 @@
                                                                columns.Bound(t => t.Name);
                                                                columns.Bound(t => t.Description);
 
-                                                           }).DataSource(datasource=>datasource.Ajax()
+                                                           })
+                                                           .ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
     .Read("CommodityGrade_Read","CommodityGrade")
     .Create("CommodityGrade_Update","CommodityGrade")
     .Update("CommodityGrade_Update","CommodityGrade")

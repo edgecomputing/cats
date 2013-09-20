@@ -60,7 +60,9 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityGrade.cs" />
     <Compile Include="CommoditySource.cs" />
-    <Compile Include="CommodityType.cs" />
+    <Compile Include="CommodityType.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Contact.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="Dispatch.cs" />
@@ -103,7 +105,9 @@
     <Compile Include="Mapping\GiftCertificateDetailMap.cs" />
     <Compile Include="Mapping\GiftCertificateMap.cs" />
     <Compile Include="Mapping\HubMap.cs" />
-    <Compile Include="Mapping\HubOwnerMap.cs" />
+    <Compile Include="Mapping\HubOwnerMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Mapping\HubSettingMap.cs" />
     <Compile Include="Mapping\HubSettingValueMap.cs" />
     <Compile Include="Mapping\InternalMovementMap.cs" />

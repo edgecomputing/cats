@@ -23,13 +23,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ILog _log;
 
      
+
         public NeedAssessmentController(INeedAssessmentService needAssessmentService, 
                                         IAdminUnitService adminUnitService, 
                                         INeedAssessmentHeaderService needAssessmentHeaderService, 
                                         INeedAssessmentDetailService needAssessmentDetailService, 
-                                        ISeasonService seasonService,
-                                        ITypeOfNeedAssessmentService typeOfNeedAssessmentService,
-                                        ILog log)
+                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService,ILog log)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;
@@ -45,6 +44,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
+
+            //var previousModelState = TempData["ModelState"] as ModelStateDictionary;
+            //if (previousModelState != null)
+            //{
+            //    foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
+            //        if (!ModelState.ContainsKey(kvp.Key))
+            //            ModelState.Add(kvp.Key, kvp.Value);
+            //}
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             //ModelState.AddModelError("Success", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
@@ -63,18 +70,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (region != null) ViewData["RegionName"] = region.AdminUnit.Name;
 
             if (region != null) ViewBag.Zones = _adminUnitService.GetZones(region.Region).ToList();
+
             return View();
         }
-
         public ActionResult Approved()
         {
             return View();
         }
-
         public ActionResult GetRegions()
         {
           IOrderedEnumerable<RegionsViewModel> regions = _needAssessmentService.GetRegions();
-          return Json(regions,JsonRequestBehavior.AllowGet);
+            return Json(regions,JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetZones(int region)
         {
@@ -98,6 +104,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             try
             {
 
+
              ViewBag.Error = "";
              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
              int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
@@ -111,12 +118,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             needAssessment.Season = season;
             needAssessment.Year = needAssessment.NeedADate.Value.Year;
             needAssessment.TypeOfNeedAssessment = typeOfNeedID;
+
+
          
             if (ModelState.IsValid)
             {
                 _needAssessmentService.GenerateDefefaultData(needAssessment);
+              
+                    
             }
-
             int regionId = needAssessment.NeedAID;
             int typeOfNeedAsseessment = (int) needAssessment.TypeOfNeedAssessment;
 
@@ -138,6 +148,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
       
+       
+
         public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request )
         {
            return Json( _needAssessmentService.ReturnViewModel().ToDataSourceResult(request));
@@ -197,9 +209,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             try
             {
-               
-             _needAssessmentService.DeleteById(id);
-                return RedirectToAction("Index");
+              
+                var needAssessment = _needAssessmentService.FindBy(r => r.NeedAID == id).Single();
+                if (!_needAssessmentService.IsNeedAssessmentUsedInHrd((int)needAssessment.Season, (int)needAssessment.Year))
+                {
+                    _needAssessmentService.DeleteById(id);
+                    //ModelState.AddModelError("Success", "Need Requirment is deleted.");
+                    //TempData["ModelState"] = ModelState;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //ModelState.AddModelError("Errors","Need Requirment can not be deleted. Need Requirment is already used in HRD.");
+                    //TempData["ModelState"] = ModelState;
+                    return RedirectToAction("Index");
+                }
+
             }
             catch (Exception)
             {
@@ -209,16 +234,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
-       
-
-       
-
-       
-
-       
-       
-
-
+  
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult NeedAssessmentUpdate([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")]IEnumerable<NeedAssessmentDetail> needAssessmentlDetails)

@@ -62,9 +62,9 @@
           .PageSize(8)
             .Model(model => model.Id(p => p.DonorID))
            .Read(read => read.Action("Donor_Read", "Donor"))
-           .Update(update => update.Action("Currency_Update", "Currency"))
-           .Create(create => create.Action("Currency_Create", "Currency"))
-           //.Destroy(destroy=>destroy.Action("Currency_Destroy","Currency"))
+           .Update(update => update.Action("Donor_Update", "Donor"))
+           .Create(create => create.Action("Donor_Create", "Donor"))
+           .Destroy(destroy => destroy.Action("Donor_Destroy", "Donor"))
  
      )
    
@@ -80,7 +80,7 @@
 
         $("#yes").click(function () {
 
-            @*window.location = "@Url.Action("Delete", "Currency")" + "/" + dataItem.CurrencyID;*@
+            window.location = "@Url.Action("Delete", "Donor")" + "/" + dataItem.DonorID;
             wnd.close();
         });
 

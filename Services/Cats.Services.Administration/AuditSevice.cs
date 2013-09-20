@@ -10,11 +10,11 @@ using Cats.Models;
 
 namespace Cats.Services.Administration
 {
-    public class AuditSevice : IAuditService
+    public class AuditService : IAuditService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public AuditSevice(IUnitOfWork unitOfWork)
+        public AuditService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

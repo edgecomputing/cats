@@ -13,7 +13,7 @@ namespace Cats.Models
         {
             this.NeedAssessments = new List<NeedAssessment>();
         }
-          [DisplayName("Type of Need Assessfment")]
+          [DisplayName("Type of Need Requirement")]
         public int TypeOfNeedAssessmentID { get; set; }
         public string TypeOfNeedAssessment1 { get; set; }
         public string Remark { get; set; }

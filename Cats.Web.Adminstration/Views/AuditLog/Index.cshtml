@@ -22,9 +22,22 @@
                                                          columns.Bound(t => t.OldValue);
                                                          
 
-                                                     }).DataSource(datasource=>datasource.Ajax()
+                                                     })
+                                                     .ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
+            .Model(m=>m.Id(t=>t.AuditID))
     .Read("AuditLog_Read","AuditLog")
     .Destroy("AuditLog_Delete","AuditLog")
-    .Model(m=>m.Id(t=>t.AuditID))))
+    ))
     
-  

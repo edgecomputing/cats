@@ -78,6 +78,15 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult AllocateProjectCode()
         {
+
+            var previousModelState = TempData["ModelState"] as ModelStateDictionary;
+            if (previousModelState != null)
+            {
+                foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
+                    if (!ModelState.ContainsKey(kvp.Key))
+                        ModelState.Add(kvp.Key, kvp.Value);
+            }
+
             var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(3);
             if (reliefRequisitions != null)
             {
@@ -172,7 +181,13 @@ namespace Cats.Areas.Logistics.Controllers
             var siCode=-1;
 
             if (Remaining < PCodeqty + SICodeqty)
+            {
+                ModelState.AddModelError("Errors","Amount entered is greater than the remaining quantity ");
+                TempData["ModelState"] = ModelState;
                 return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
+
+            }
+              
 
             var requisitionId = requisitionViewModel.RequisitionId;
 
@@ -183,6 +198,8 @@ namespace Cats.Areas.Logistics.Controllers
             }
             catch 
             {
+                ModelState.AddModelError("Errors", "Not a valid input. ");
+                TempData["ModelState"] = ModelState;
                 return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
             }
            
@@ -203,7 +220,17 @@ namespace Cats.Areas.Logistics.Controllers
 
             if (Remaining == PCodeqty + SICodeqty)
                 isLastAssignment = true;
-            _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation,requisitionId,isLastAssignment);
+            try
+            {
+                _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation, requisitionId, isLastAssignment);
+
+            }
+            catch
+            {
+                
+               
+            }
+           
             return RedirectToAction("AllocateProjectCode","ProjectAllocation");
 
         }

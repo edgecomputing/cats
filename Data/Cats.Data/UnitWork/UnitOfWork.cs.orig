@@ -4,26 +4,107 @@ using Cats.Models;
 using Cats.Data.Repository;
 
 
+
+
 namespace Cats.Data.UnitWork
 {
-    public class UnitOfWork : IUnitOfWork 
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly CatsContext _context;
 
         // TODO: Add private properties to for each repository
-      
-      
-      
+
         private IGenericRepository<Bid> bidRepository;
-        private IGenericRepository<BidDetail> bidDetailRepository; 
-        private IGenericRepository<Status> statusRepository; 
+        private IGenericRepository<BidDetail> bidDetailRepository;
+        private IGenericRepository<Status> statusRepository;
         private IGenericRepository<BidWinner> bidWinnerRepository;
         private IGenericRepository<TransportOrderDetail> transportOrderDetailRepository;
-        
+        private IGenericRepository<RationDetail> rationDetailRepository;
+        private IGenericRepository<HRD> hrdRepository;
+        private IGenericRepository<HRDDetail> hrdDetailRepository;
+        private IGenericRepository<RegionalPSNPPlan> regionalPSNPPlanRepository;
+        private IGenericRepository<RegionalPSNPPlanDetail> regionalPSNPPlanDetailRepository;
+        private IGenericRepository<Season> seasonRepository;
+        private IGenericRepository<Contribution> contributionRepository;
+        private IGenericRepository<ContributionDetail> contibutionDetailRepository;
+        private IGenericRepository<Currency> currencyRepository;
+        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository; 
 
         public UnitOfWork()
         {
             this._context = new CatsContext();
+
+        }
+
+<<<<<<< HEAD
+        private IGenericRepository<HubOwner> _HubOwnerRepository = null;
+        public IGenericRepository<HubOwner> HubOwnerRepository
+        {
+
+
+            get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+
+
+=======
+        private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
+        public IGenericRepository<DashboardWidget> DashboardWidgetRepository
+        {
+            get { return this._dashboardWidgetRepository ?? (this._dashboardWidgetRepository = new GenericRepository<DashboardWidget>(_context)); }
+        }
+
+        private IGenericRepository<UserDashboardPreference> _userDashboardPreferenceRepository;
+        public IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository
+        {
+            get { return this._userDashboardPreferenceRepository ?? (this._userDashboardPreferenceRepository = new GenericRepository<UserDashboardPreference>(_context)); }
+>>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
+        }
+
+        private IGenericRepository<Log> _logRepository;
+        public IGenericRepository<Log> LogRepository
+        {
+            get { return this._logRepository ?? (this._logRepository = new GenericRepository<Log>(_context)); }
+        }
+
+        private IGenericRepository<Donor> _donorRepository;
+        public IGenericRepository<Donor> DonorRepository
+        {
+
+            get { return this._donorRepository ?? (this._donorRepository = new GenericRepository<Donor>(_context)); }
+        }
+
+        private IGenericRepository<RegionalPSNPPledge> _regionalPSNPPledgeRepository;
+        public IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository
+        {
+            get { return this._regionalPSNPPledgeRepository ?? (this._regionalPSNPPledgeRepository = new GenericRepository<RegionalPSNPPledge>(_context)); }
+        }
+
+        private IGenericRepository<BusinessProcessState> _BusinessProcessStateRepository;
+        public IGenericRepository<BusinessProcessState> BusinessProcessStateRepository
+        {
+            get { return this._BusinessProcessStateRepository ?? (this._BusinessProcessStateRepository = new GenericRepository<BusinessProcessState>(_context)); }
+        }
+
+        private IGenericRepository<BusinessProcess> _BusinessProcessRepository;
+        public IGenericRepository<BusinessProcess> BusinessProcessRepository
+        {
+            get { return this._BusinessProcessRepository ?? (this._BusinessProcessRepository = new GenericRepository<BusinessProcess>(_context)); }
+        }
+
+        private IGenericRepository<ProcessTemplate> _ProcessTemplateRepository;
+        public IGenericRepository<ProcessTemplate> ProcessTemplateRepository
+        {
+            get { return this._ProcessTemplateRepository ?? (this._ProcessTemplateRepository = new GenericRepository<ProcessTemplate>(_context)); }
+        }
+
+        private IGenericRepository<StateTemplate> _StateTemplateRepository;
+        public IGenericRepository<StateTemplate> StateTemplateRepository
+        {
+            get { return this._StateTemplateRepository ?? (this._StateTemplateRepository = new GenericRepository<StateTemplate>(_context)); }
+        }
+        private IGenericRepository<FlowTemplate> _FlowTemplateRepository;
+        public IGenericRepository<FlowTemplate> FlowTemplateRepository
+        {
+            get { return this._FlowTemplateRepository ?? (this._FlowTemplateRepository = new GenericRepository<FlowTemplate>(_context)); }
         }
 
         // TODO: Consider adding separate properties for each repositories.
@@ -75,27 +156,21 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<DispatchAllocation> DispatchAllocationRepository
         {
             get { return this.dispatchAllocationRepository ?? (this.dispatchAllocationRepository = new GenericRepository<DispatchAllocation>(_context)); }
-
         }
 
-        private IGenericRepository<RegionalRequest> regionalRequestRepository;
 
+        private IGenericRepository<RegionalRequest> regionalRequestRepository;
         public IGenericRepository<RegionalRequest> RegionalRequestRepository
         {
-
             get { return this.regionalRequestRepository ?? (this.regionalRequestRepository = new GenericRepository<RegionalRequest>(_context)); }
-
         }
 
 
 
         private IGenericRepository<RegionalRequestDetail> regionalRequestDetailRepository;
-
         public IGenericRepository<RegionalRequestDetail> RegionalRequestDetailRepository
         {
-
             get { return this.regionalRequestDetailRepository ?? (this.regionalRequestDetailRepository = new GenericRepository<RegionalRequestDetail>(_context)); }
-
         }
 
 
@@ -177,9 +252,6 @@ namespace Cats.Data.UnitWork
         }
 
 
-
-      
-
         private IGenericRepository<Program> programRepository;
 
         public IGenericRepository<Program> ProgramRepository
@@ -206,7 +278,11 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
-
+        private IGenericRepository<HubOwner> hubOwnerRepository;
+        public IGenericRepository<HubOwner> HubOwnerRepository
+        {
+            get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+        }
 
 
 
@@ -259,7 +335,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-   //     private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
+        //     private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
 
         //private IGenericRepository<RequisitionViewModel> requisitionViewModelRepository;
 
@@ -288,7 +364,7 @@ namespace Cats.Data.UnitWork
         }
 
         public void Save()
-        {            
+        {
             _context.SaveChanges();
         }
 
@@ -323,7 +399,16 @@ namespace Cats.Data.UnitWork
 
         }
 
-       
+
+        private IGenericRepository<UserDashboard> userDashboardRepository;
+
+        public IGenericRepository<UserDashboard> UserDashboardRepository
+        {
+
+            get { return this.userDashboardRepository ?? (this.userDashboardRepository = new GenericRepository<UserDashboard>(_context)); }
+
+        }
+
         public IGenericRepository<TransportOrderDetail> TransportOrderDetailRepository
         {
 
@@ -337,7 +422,7 @@ namespace Cats.Data.UnitWork
 
             get { return this.bidWinnerRepository ?? (this.bidWinnerRepository = new GenericRepository<BidWinner>(_context)); }
         }
-        
+
 
 
         private IGenericRepository<vwTransportOrder> vwTransportOrderRepository;
@@ -351,7 +436,7 @@ namespace Cats.Data.UnitWork
 
 
 
-        
+
 
 
 
@@ -377,9 +462,242 @@ namespace Cats.Data.UnitWork
             get { return this.workflowStatusRepository ?? (this.workflowStatusRepository = new GenericRepository<WorkflowStatus>(_context)); }
 
         }
-      
-      
 
-      
+        private IGenericRepository<ApplicationSetting> applicationSettingRepository;
+
+        public IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+        {
+
+            get { return this.applicationSettingRepository ?? (this.applicationSettingRepository = new GenericRepository<ApplicationSetting>(_context)); }
+
+        }
+
+
+        private IGenericRepository<Ration> rationRepository;
+
+        public IGenericRepository<Ration> RationRepository
+        {
+
+            get { return this.rationRepository ?? (this.rationRepository = new GenericRepository<Ration>(_context)); }
+
+        }
+
+        public IGenericRepository<RationDetail> RationDetailRepository
+        {
+
+            get { return this.rationDetailRepository ?? (this.rationDetailRepository = new GenericRepository<RationDetail>(_context)); }
+
+        }
+
+        public IGenericRepository<HRD> HRDRepository
+        {
+
+            get { return this.hrdRepository ?? (this.hrdRepository = new GenericRepository<HRD>(_context)); }
+
+        }
+
+        public IGenericRepository<HRDDetail> HRDDetailRepository
+        {
+
+            get { return this.hrdDetailRepository ?? (this.hrdDetailRepository = new GenericRepository<HRDDetail>(_context)); }
+
+        }
+        public IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository
+        {
+
+
+            get { return this.regionalPSNPPlanRepository ?? (this.regionalPSNPPlanRepository = new GenericRepository<RegionalPSNPPlan>(_context)); }
+
+        }
+
+
+
+
+        private IGenericRepository<RequestDetailCommodity> requestDetailCommodityRepository;
+
+        public IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository
+        {
+
+            get { return this.requestDetailCommodityRepository ?? (this.requestDetailCommodityRepository = new GenericRepository<RequestDetailCommodity>(_context)); }
+
+        }
+
+
+
+
+
+        //  IGenericRepository<ApplicationSetting> ApplicationSettingRepository
+
+
+        public IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository
+        {
+
+            get { return this.regionalPSNPPlanDetailRepository ?? (this.regionalPSNPPlanDetailRepository = new GenericRepository<RegionalPSNPPlanDetail>(_context)); }
+
+        }
+        //  IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
+
+
+        private IGenericRepository<NeedAssessment> needAssessmentRepository;
+        public IGenericRepository<NeedAssessment> NeedAssessmentRepository
+        {
+            get
+            {
+                return this.needAssessmentRepository ?? (this.needAssessmentRepository = new GenericRepository<NeedAssessment>(_context));
+            }
+        }
+
+
+        private IGenericRepository<NeedAssessmentHeader> needAssessmentHeaderRepository;
+        public IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository
+        {
+            get
+            {
+                return this.needAssessmentHeaderRepository ?? (this.needAssessmentHeaderRepository = new GenericRepository<NeedAssessmentHeader>(_context));
+            }
+        }
+
+        private IGenericRepository<NeedAssessmentDetail> needAssessmentDetailRepository;
+        public IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository
+        {
+            get
+            {
+                return this.needAssessmentDetailRepository ?? (this.needAssessmentDetailRepository = new GenericRepository<NeedAssessmentDetail>(_context));
+            }
+        }
+
+
+        private IGenericRepository<vwPSNPAnnualPlan> vwPSNPAnnualPlanRepository;
+
+
+        private IGenericRepository<UserProfile> userProfileRepository;
+        public IGenericRepository<UserProfile> UserProfileRepository
+        {
+            get
+            {
+                return this.userProfileRepository ?? (this.userProfileRepository = new GenericRepository<UserProfile>(_context));
+            }
+        }
+
+
+
+        private IGenericRepository<GiftCertificate> giftCertificateRepository;
+        public IGenericRepository<GiftCertificate> GiftCertificateRepository
+        {
+            get
+            {
+                return this.giftCertificateRepository ?? (this.giftCertificateRepository = new GenericRepository<GiftCertificate>(_context));
+            }
+        }
+
+        private IGenericRepository<GiftCertificateDetail> giftCertificateDetailRepository;
+        public IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository
+        {
+            get
+            {
+                return this.giftCertificateDetailRepository ?? (this.giftCertificateDetailRepository = new GenericRepository<GiftCertificateDetail>(_context));
+            }
+        }
+
+        private IGenericRepository<LetterTemplate> letterTemplateRepository;
+        public IGenericRepository<LetterTemplate> LetterTemplateRepository
+        {
+            get
+            {
+                return this.letterTemplateRepository ?? (this.letterTemplateRepository = new GenericRepository<LetterTemplate>(_context));
+            }
+        }
+        public IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository
+        {
+
+            get { return this.vwPSNPAnnualPlanRepository ?? (this.vwPSNPAnnualPlanRepository = new GenericRepository<vwPSNPAnnualPlan>(_context)); }
+
+        }
+
+        private IGenericRepository<Unit> unitRepository;
+
+        public IGenericRepository<Unit> UnitRepository
+        {
+
+            get { return this.unitRepository ?? (this.unitRepository = new GenericRepository<Unit>(_context)); }
+
+        }
+
+
+        public IGenericRepository<Season> SeasonRepository
+        {
+
+            get { return this.seasonRepository ?? (this.seasonRepository = new GenericRepository<Season>(_context)); }
+
+        }
+
+        public IGenericRepository<Contribution> ContributionRepository
+        {
+            get
+            {
+                return this.contributionRepository ?? (this.contributionRepository = new GenericRepository<Contribution>(_context));
+            }
+        }
+
+        public IGenericRepository<ContributionDetail> ContributionDetailRepository
+        {
+            get
+            {
+                return this.contibutionDetailRepository ??
+                       (this.contibutionDetailRepository = new GenericRepository<ContributionDetail>(_context));
+            }
+        }
+
+        private IGenericRepository<Detail> detailRepository;
+        public IGenericRepository<Detail> DetailRepository
+        {
+
+            get { return this.detailRepository ?? (this.detailRepository = new GenericRepository<Detail>(_context)); }
+
+        }
+
+        private IGenericRepository<TypeOfNeedAssessment> typeOfNeedAssessmentRepository;
+        public IGenericRepository<TypeOfNeedAssessment> TypeOfNeedAssessmentRepository
+        {
+
+            get { return this.typeOfNeedAssessmentRepository ?? (this.typeOfNeedAssessmentRepository = new GenericRepository<TypeOfNeedAssessment>(_context)); }
+
+        }
+
+
+        //Need Assesssment Summary (for Dashboard) Repository
+        private IGenericRepository<NeedAssessmentSummary> needAssessmentSummaryRepository;
+        public IGenericRepository<NeedAssessmentSummary> NeedAssessmetSummaryRepository
+        {
+            get { return this.needAssessmentSummaryRepository ?? (this.needAssessmentSummaryRepository = new GenericRepository<NeedAssessmentSummary>(_context)); }
+        }
+
+        public IGenericRepository<Currency> CurrencyRepository
+        {
+            get { return this.currencyRepository ?? (this.currencyRepository = new GenericRepository<Currency>(_context)); }
+        }
+        private IGenericRepository<TransactionGroup> transactionGroupRepository;
+        public IGenericRepository<TransactionGroup> TransactionGroupRepository
+        {
+            get { return this.transactionGroupRepository ?? (this.transactionGroupRepository = new GenericRepository<TransactionGroup>(_context)); }
+        }
+
+        public IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository
+        {
+            get { return this.inKindContributionDetailRepository ?? (this.inKindContributionDetailRepository = new GenericRepository<InKindContributionDetail>(_context)); }
+        }
+
+        private IGenericRepository<CommodityGrade> commodityGradeRepository;
+        public IGenericRepository<CommodityGrade> CommodityGradeRepository
+        {
+            get { return this.commodityGradeRepository ?? (this.commodityGradeRepository = new GenericRepository<CommodityGrade>(_context)); }
+        }
+        private IGenericRepository<CommoditySource> commoditySourceRepository;
+        public IGenericRepository<CommoditySource> CommoditySourceRepository
+        {
+            get { return this.commoditySourceRepository ?? (this.commoditySourceRepository = new GenericRepository<CommoditySource>(_context)); }
+        }
+
+        
     }
 }

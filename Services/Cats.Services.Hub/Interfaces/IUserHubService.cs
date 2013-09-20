@@ -18,7 +18,10 @@ namespace Cats.Services.Hub
        UserHub FindById(int id);
        List<UserHub> GetAllUserHub();
        List<UserHub> FindBy(Expression<Func<UserHub, bool>> predicate);
-       
+       IEnumerable<UserHub> Get(
+                   Expression<Func<UserHub, bool>> filter = null,
+                   Func<IQueryable<UserHub>, IOrderedQueryable<UserHub>> orderBy = null,
+                   string includeProperties = "");
     }
 }
 
