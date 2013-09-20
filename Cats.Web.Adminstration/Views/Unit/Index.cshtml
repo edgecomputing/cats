@@ -38,7 +38,7 @@
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.UnitID);
+        //columns.Bound(p => p.UnitID);
         columns.Bound(p => p.UnitName);
        //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));

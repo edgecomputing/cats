@@ -1,0 +1,37 @@
+﻿@{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+}
+<span>
+    <textarea id='@id' type='text' class='amharic' cols="60" rows="3" jgeez-englishbutton='englishplain-@id'
+                                                    jgeez-geezbutton='geezplain-@id' name='@id' >@Model</textarea>
+    <span style='margin-top: 15px;'>
+        <a id='geezplain-@id' class='t-button icon-button geeztext' onclick="makeAmharicStyle('@id')">አማ</a>
+        <a id='englishplain-@id' class='t-button icon-button' onclick="clearAmharicStyle('@id')" >EN</a>
+    </span>
+    <script type='text/javascript'>
+        $(function () {
+            $('#@id').jGeez(
+                    {
+                        'englishbutton': 'englishplain-@id',
+                        'geezbutton': 'geezplain-@id'
+                    }
+                );
+        });
+    </script>
+</span>
+@{
+    if (!ViewData.Keys.Contains("amharic"))
+    {
+    @*<script src='/Scripts/jquery.jgeez.min.js' type='text/javascript'></script>*@
+    <script type='text/javascript'>
+        function clearAmharicStyle(element) {
+            $('#' + element).removeClass('amharic');
+        }
+
+        function makeAmharicStyle(element) {
+            $('#' + element).addClass('amharic');
+        }
+    </script>
+        ViewData["amharic"] = true;
+    }
+}
