@@ -12,7 +12,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Transaction;
 using Moq;
 using NUnit.Framework;
-
+using Cats.Data.UnitWork;
 namespace Cats.Tests.ControllersTests
 {
     [TestFixture]
@@ -85,7 +85,10 @@ namespace Cats.Tests.ControllersTests
             var transactionService = new Mock<ITransactionService>();
             var letterTemplateService = new Mock<ILetterTemplateService>();
             transactionService.Setup(t => t.PostGiftCertificate(It.IsAny<int>())).Returns(true);
-           // _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, transactionService.Object, letterTemplateService.Object);
+
+            UnitOfWork _unitOfWork = new UnitOfWork();
+            
+            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, transactionService.Object, letterTemplateService.Object,_unitOfWork);
         }
 
         [TearDown]
