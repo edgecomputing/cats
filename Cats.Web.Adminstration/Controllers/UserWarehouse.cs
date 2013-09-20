@@ -9,7 +9,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Web.Adminstration.Controllers
 {
-    [Authorize]
+    
     public class UserWarehouseController : Controller
     {
         private readonly IUserHubService _userHubService;
@@ -28,15 +28,15 @@ namespace Cats.Web.Adminstration.Controllers
 
         public ViewResult Index()
         {
-          
+            ViewData["UserProfile"] = _userProfileService.GetAllUserProfile();
+            ViewData["Hub"] = _hubService.GetAllHub();
             return View();
         }
 
         
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            ViewData["UserProfile"] = new SelectList(_userProfileService.GetAllUserProfile(), "UserProfileID", "UserName");
-            ViewData["Hub"] = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
+           
             return Json(_userHubService.GetAllUserHub().ToDataSourceResult(request));
         }
 

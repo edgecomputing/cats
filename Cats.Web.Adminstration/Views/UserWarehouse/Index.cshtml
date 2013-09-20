@@ -39,7 +39,7 @@
     .Name("grid")
     .Columns(columns =>
         {
-            
+
             columns.ForeignKey(p => p.UserProfileID, (System.Collections.IEnumerable)ViewData["UserProfile"], "UserProfileID", "UserName").Title("User").Width(150);
             columns.ForeignKey(p => p.HubID, (System.Collections.IEnumerable)ViewData["Hub"], "HubID", "Name").Title("Hub").Width(150);
  
