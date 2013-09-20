@@ -251,6 +251,7 @@
     <Compile Include="User.cs" />
     <Compile Include="UserDashboard.cs" />
     <Compile Include="UserDashboardPreference.cs" />
+    <Compile Include="UserHub.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />

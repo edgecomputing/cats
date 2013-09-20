@@ -125,7 +125,8 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<CommoditySource> CommoditySourceRepository { get; }
         IGenericRepository<Audit> AuditRepository { get; }
-        IGenericRepository<CommodityGrade> CommodityGradeRepository { get; } 
+        IGenericRepository<CommodityGrade> CommodityGradeRepository { get; }
+        IGenericRepository<UserHub> UserHubRepository { get; }
         void Save();
 
     }

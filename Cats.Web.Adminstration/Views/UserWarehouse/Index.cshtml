@@ -1,6 +1,6 @@
 ﻿
 @using Kendo.Mvc.UI
-@model List<Cats.Models.HubOwner>
+@model List<Cats.Models.UserHub>
 
 @{
     ViewBag.Title = "Index";
@@ -15,7 +15,7 @@
     @*@Html.Partial("_CurrencyLeftBar")*@;
 }
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Hub Owner?</h4>
+    <h4>Are You Sure You Want to Delete this User Hub?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
@@ -33,18 +33,16 @@
 </script>
 
 <div>
-    <h4>List of Hub Owners</h4>
+    <h4>List of users in Hub</h4>
 </div>
-@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.HubOwnerViewModel>()
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.HubUserViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-        
-        columns.Bound(p => p.Name);
-        columns.Bound(p => p.LongName);
-      
-        
-       //columns.Command(command => command.Destroy());
+            
+            columns.ForeignKey(p => p.UserProfileID, (System.Collections.IEnumerable)ViewData["UserProfile"], "UserProfileID", "UserName").Title("User").Width(150);
+            columns.ForeignKey(p => p.HubID, (System.Collections.IEnumerable)ViewData["Hub"], "HubID", "Name").Title("Hub").Width(150);
+ 
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
     .ToolBar(toolbar =>
@@ -59,11 +57,11 @@
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(8)
-            .Model(model => model.Id(p => p.HubOwnerID))
-           .Read(read => read.Action("Read", "HubOwner"))
-           .Update(update => update.Action("HubOwnerUpdate", "HubOwner"))
-           .Create(create => create.Action("HubOwnerCreate", "HubOwner"))
-           .Destroy(destroy => destroy.Action("HubOwnerDestroy", "HubOwner"))
+            .Model(model => model.Id(p => p.UserHubID))
+           .Read(read => read.Action("Read", "Read"))
+           .Update(update => update.Action("HubOwnerUpdate", "Read"))
+           .Create(create => create.Action("UserHubCreate", "Read"))
+           .Destroy(destroy => destroy.Action("HubOwnerDestroy", "Read"))
  
      )
    
@@ -79,7 +77,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("Delete", "HubOwner")" + "/" + dataItem.DonorID;
+            window.location = "@Url.Action("Delete", "UserWarehouse")" + "/" + dataItem.UserHubID;
             wnd.close();
         });
 
@@ -88,3 +86,4 @@
         });
     }
 </script>
+
