@@ -5,28 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cats.Localization.Models.Mapping
+namespace LanguageHelpers.Localization.Models
 {
     public class LanguageMap : EntityTypeConfiguration<Language>
     {
         public LanguageMap()
         {
             // Primary Key
-            this.HasKey(t => t.LanguageCode);
+            this.HasKey(t => t.LanguageID);
 
             // Properties
             this.Property(t => t.LanguageCode)
                 .IsRequired()
                 .IsFixedLength()
                 .HasMaxLength(2);
-
             this.Property(t => t.LanguageName)
                 .IsRequired()
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            //this.ToTable("Languages", "Localization");
             this.ToTable("Languages");
+            this.Property(t => t.LanguageID).HasColumnName("LanguageID");
             this.Property(t => t.LanguageCode).HasColumnName("LanguageCode");
             this.Property(t => t.LanguageName).HasColumnName("LanguageName");
         }

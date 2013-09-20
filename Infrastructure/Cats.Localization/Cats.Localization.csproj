@@ -74,24 +74,58 @@
   <ItemGroup>
     <Compile Include="AuthorizeUserAttribute.cs" />
     <Compile Include="AzManHelper.cs" />
-    <Compile Include="Data\Repository\GenericRepository.cs" />
-    <Compile Include="Data\Repository\IGenericRepository.cs" />
-    <Compile Include="Data\TranslationContext.cs" />
-    <Compile Include="Data\UnitOfWork\IUnitOfWork.cs" />
-    <Compile Include="Data\UnitOfWork\UnitOfWork.cs" />
-    <Compile Include="Models\Language.cs" />
-    <Compile Include="Models\LocalizedPagePhrase.cs" />
-    <Compile Include="Models\LocalizedPhrase.cs" />
-    <Compile Include="Models\Mapping\LanguageMap.cs" />
-    <Compile Include="Models\Mapping\LocalizedPagePhraseMap.cs" />
-    <Compile Include="Models\Mapping\LocalizedPhraseMap.cs" />
-    <Compile Include="Models\Mapping\PageMap.cs" />
-    <Compile Include="Models\Mapping\PhraseMap.cs" />
-    <Compile Include="Models\Page.cs" />
-    <Compile Include="Models\Phrase.cs" />
+    <Compile Include="Data\Repository\GenericRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Repository\IGenericRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\TranslationContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\UnitOfWork\IUnitOfWork.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\UnitOfWork\UnitOfWork.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Language.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\LocalizedPagePhrase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\LocalizedPhrase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Mapping\LanguageMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Mapping\LocalizedPagePhraseMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Mapping\LocalizedPhraseMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Mapping\PageMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Mapping\PhraseMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Page.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Phrase.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ILocalizationService.cs" />
-    <Compile Include="Services\LocalizationService.cs" />
+    <Compile Include="Services\ILocalizationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\LocalizationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

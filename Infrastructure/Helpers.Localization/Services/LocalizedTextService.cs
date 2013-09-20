@@ -16,6 +16,7 @@ namespace LanguageHelpers.Localization.Services
         {
             this._unitOfWork = unitOfWork;
         }
+
         public bool AddLocalizedText(LocalizedText item)
         {
             _unitOfWork.LocalizedTextRepository.Add(item);
@@ -29,6 +30,7 @@ namespace LanguageHelpers.Localization.Services
             _unitOfWork.Save();
             return true;
         }
+
         public bool DeleteLocalizedText(LocalizedText item)
         {
             if (item == null) return false;
@@ -36,14 +38,15 @@ namespace LanguageHelpers.Localization.Services
             _unitOfWork.Save();
             return true;
         }
+
         public bool DeleteById(int id)
         {
             var item = _unitOfWork.LocalizedTextRepository.FindById(id);
             return DeleteLocalizedText(item);
         }
+
         public LocalizedText FindById(int id)
         {
-
             return _unitOfWork.LocalizedTextRepository.FindById(id);
         }
         public List<LocalizedText> GetAllLocalizedText()

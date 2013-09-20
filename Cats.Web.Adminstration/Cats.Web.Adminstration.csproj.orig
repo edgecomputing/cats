@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuditLogController.cs" />
     <Compile Include="Controllers\CommodityController.cs" />
     <Compile Include="Controllers\CommodityGradeController.cs" />
     <Compile Include="Controllers\CommoditySourceController.cs" />
@@ -128,6 +129,13 @@
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HubOwnerController.cs" />
+    <Compile Include="Controllers\ProgramController.cs" />
+<<<<<<< HEAD
+    <Compile Include="Controllers\UserWarehouse.cs" />
+=======
+    <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
+>>>>>>> 0bcdcfde771f9a0e470f0ca29ed0ab70f1fa9283
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -142,13 +150,20 @@
     <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\ViewModels\AuditLogViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityGradeViewModel.cs" />
     <Compile Include="Models\ViewModels\CommoditySourceViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityViewModel.cs" />
     <Compile Include="Models\ViewModels\DonorModel.cs" />
+    <Compile Include="Models\ViewModels\HubOwneViewModel.cs" />
+    <Compile Include="Models\ViewModels\HubUserViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
+    <Compile Include="Models\ViewModels\ProgramViewModel.cs" />
+    <Compile Include="Models\ViewModels\StoreViewModel.cs" />
+    <Compile Include="Models\ViewModels\UnitViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelBinder\AuditLogViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityGradeViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommoditySourceViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityTypeViewModelBinder.cs" />
@@ -595,20 +610,22 @@
     <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-<<<<<<< HEAD
+    <Content Include="Views\Donor\Index.cshtml" />
+    <Content Include="Views\CommodityType\Index.cshtml" />
+    <Content Include="Views\Program\Index.cshtml" />
+    <Content Include="Views\CommodityGrade\Index.cshtml" />
+    <Content Include="Views\CommoditySource\Index.cshtml" />
     <Content Include="Views\HubOwner\Create.cshtml" />
     <Content Include="Views\HubOwner\Delete.cshtml" />
     <Content Include="Views\HubOwner\Details.cshtml" />
     <Content Include="Views\HubOwner\Edit.cshtml" />
     <Content Include="Views\HubOwner\Index.cshtml" />
     <Content Include="Views\HubOwner\Update.cshtml" />
+    <Content Include="Views\AuditLog\Index.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\UserWarehouse\Index.cshtml" />
 =======
-    <Content Include="Views\Donor\Index.cshtml" />
-    <Content Include="Views\CommodityType\Index.cshtml" />
-    <Content Include="Views\Commodity\Index.cshtml" />
-    <Content Include="Views\CommodityGrade\Index.cshtml" />
-    <Content Include="Views\CommoditySource\Index.cshtml" />
->>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
+>>>>>>> 0bcdcfde771f9a0e470f0ca29ed0ab70f1fa9283
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -644,6 +661,10 @@
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
+      <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
+      <Name>Cats.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
