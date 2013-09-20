@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocX">
+      <HintPath>..\lib\DocX.dll</HintPath>
+    </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
@@ -1094,6 +1097,10 @@
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
+    <Folder Include="Report\EarlyWarning\" />
+    <Folder Include="Report\HRD\" />
+    <Folder Include="Report\Procurment\" />
+    <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1166,10 +1173,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
-    <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
-    <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
-    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
-    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

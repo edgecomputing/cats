@@ -118,14 +118,12 @@ namespace Cats.Data.UnitWork
         IGenericRepository<TransactionGroup> TransactionGroupRepository { get; }
 
         IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository { get; }
-
-      
-
-        IGenericRepository<Store> StoreRepository { get; } 
-
+<<<<<<< HEAD
+        IGenericRepository<HubOwner> HubOwnerRepository { get; } 
+=======
+        IGenericRepository<CommodityGrade> CommodityGradeRepository { get; }
         IGenericRepository<CommoditySource> CommoditySourceRepository { get; }
-        IGenericRepository<Audit> AuditRepository { get; }
-        IGenericRepository<CommodityGrade> CommodityGradeRepository { get; } 
+>>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
         void Save();
 
     }

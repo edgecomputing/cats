@@ -73,8 +73,6 @@
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="ApplicationSetting.cs" />
-    <Compile Include="Audit.cs" />
-    <Compile Include="Mapping\AuditMap.cs" />
     <Compile Include="BeneficiaryInfo.cs" />
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
@@ -84,9 +82,6 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityGrade.cs" />
     <Compile Include="CommoditySource.cs" />
-    <Compile Include="HubOwner.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mapping\CommoditySourceMap.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="Contribution.cs" />
@@ -111,6 +106,7 @@
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
+    <Compile Include="HubOwner.cs" />
     <Compile Include="InKindContributionDetail.cs" />
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
@@ -140,7 +136,10 @@
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
+<<<<<<< HEAD
+=======
     <Compile Include="Mapping\HubMap.cs" />
+>>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
     <Compile Include="Mapping\HubOwnerMap.cs" />
     <Compile Include="Mapping\InKindContributionDetailMap.cs" />
     <Compile Include="Mapping\LetterTemplateMap.cs" />
@@ -167,7 +166,6 @@
     <Compile Include="Mapping\ShippingInstructionMap.cs" />
     <Compile Include="Mapping\StateTemplateMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
-    <Compile Include="Mapping\StoreMap.cs" />
     <Compile Include="Mapping\TransactionMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
@@ -234,7 +232,6 @@
     <Compile Include="ShippingInstruction.cs" />
     <Compile Include="StateTemplate.cs" />
     <Compile Include="Status.cs" />
-    <Compile Include="Store.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionGroup.cs" />
     <Compile Include="TransportBidPlan.cs" />

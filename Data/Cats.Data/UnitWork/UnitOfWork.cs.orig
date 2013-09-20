@@ -28,8 +28,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
         private IGenericRepository<Currency> currencyRepository;
-        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository;
-        private IGenericRepository<Store> storeRepository; 
+        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository; 
 
         public UnitOfWork()
         {
@@ -37,6 +36,7 @@ namespace Cats.Data.UnitWork
 
         }
 
+<<<<<<< HEAD
         private IGenericRepository<HubOwner> _HubOwnerRepository = null;
         public IGenericRepository<HubOwner> HubOwnerRepository
         {
@@ -45,8 +45,7 @@ namespace Cats.Data.UnitWork
             get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
 
 
-        }
-
+=======
         private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
         public IGenericRepository<DashboardWidget> DashboardWidgetRepository
         {
@@ -57,6 +56,7 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository
         {
             get { return this._userDashboardPreferenceRepository ?? (this._userDashboardPreferenceRepository = new GenericRepository<UserDashboardPreference>(_context)); }
+>>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
         }
 
         private IGenericRepository<Log> _logRepository;
@@ -278,11 +278,11 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
-        //private IGenericRepository<HubOwner> hubOwnerRepository;
-        //public IGenericRepository<HubOwner> HubOwnerRepository
-        //{
-        //    get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
-        //}
+        private IGenericRepository<HubOwner> hubOwnerRepository;
+        public IGenericRepository<HubOwner> HubOwnerRepository
+        {
+            get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+        }
 
 
 
@@ -686,10 +686,6 @@ namespace Cats.Data.UnitWork
         {
             get { return this.inKindContributionDetailRepository ?? (this.inKindContributionDetailRepository = new GenericRepository<InKindContributionDetail>(_context)); }
         }
-        public IGenericRepository<Store> StoreRepository
-        {
-            get { return this.storeRepository ?? (this.storeRepository = new GenericRepository<Store>(_context)); }
-        }
 
         private IGenericRepository<CommodityGrade> commodityGradeRepository;
         public IGenericRepository<CommodityGrade> CommodityGradeRepository
@@ -702,11 +698,6 @@ namespace Cats.Data.UnitWork
             get { return this.commoditySourceRepository ?? (this.commoditySourceRepository = new GenericRepository<CommoditySource>(_context)); }
         }
 
-        private IGenericRepository<Audit> auditRepository;
-        public IGenericRepository<Audit> AuditRepository
-        {
-            get { return this.auditRepository ?? (this.auditRepository = new GenericRepository<Audit>(_context)); }
-        }
         
     }
 }
