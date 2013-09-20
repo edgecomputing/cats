@@ -109,6 +109,10 @@ namespace Cats.Data
         public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; }
        
 
+        public DbSet<Store> Stores { get; set; }
+
+        public DbSet<Audit> Audits { get; set; } 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new DashboardWidgetMap());
@@ -202,7 +206,9 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new InKindContributionDetailMap());
             modelBuilder.Configurations.Add(new CommodityGradeMap());
             modelBuilder.Configurations.Add(new CommoditySourceMap());
-           
+
+            modelBuilder.Configurations.Add(new AuditMap());
+
         }
 
     }

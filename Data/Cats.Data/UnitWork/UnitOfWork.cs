@@ -28,7 +28,8 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
         private IGenericRepository<Currency> currencyRepository;
-        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository; 
+        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository;
+        private IGenericRepository<Store> storeRepository; 
 
         public UnitOfWork()
         {
@@ -685,6 +686,10 @@ namespace Cats.Data.UnitWork
         {
             get { return this.inKindContributionDetailRepository ?? (this.inKindContributionDetailRepository = new GenericRepository<InKindContributionDetail>(_context)); }
         }
+        public IGenericRepository<Store> StoreRepository
+        {
+            get { return this.storeRepository ?? (this.storeRepository = new GenericRepository<Store>(_context)); }
+        }
 
         private IGenericRepository<CommodityGrade> commodityGradeRepository;
         public IGenericRepository<CommodityGrade> CommodityGradeRepository
@@ -697,6 +702,11 @@ namespace Cats.Data.UnitWork
             get { return this.commoditySourceRepository ?? (this.commoditySourceRepository = new GenericRepository<CommoditySource>(_context)); }
         }
 
+        private IGenericRepository<Audit> auditRepository;
+        public IGenericRepository<Audit> AuditRepository
+        {
+            get { return this.auditRepository ?? (this.auditRepository = new GenericRepository<Audit>(_context)); }
+        }
         
     }
 }

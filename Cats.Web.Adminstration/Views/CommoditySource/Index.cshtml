@@ -14,7 +14,19 @@
                                                                 columns.Bound(t => t.CommoditySourceID);
                                                                 columns.Bound(t => t.Name);
 
-                                                            }).DataSource(datasource=>datasource.Ajax()
+                                                            }).ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
     .Read("CommoditySource_Read","CommoditySource")
     .Create("CommoditySource_Update","CommoditySource")
     .Update("CommoditySource_Update","CommoditySource")

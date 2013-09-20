@@ -1,6 +1,6 @@
-﻿
+﻿@using System.Collections
 @using Kendo.Mvc.UI
-@model List<Cats.Models.Donor>
+@model List<Cats.Models.Store>
 
 @{
     ViewBag.Title = "Index";
@@ -8,14 +8,14 @@
 }
 @section Toolbar
 {
-    @*<a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Currency")"></a>*@
+    
 }
 @section LeftBar
 {
-    @*@Html.Partial("_CurrencyLeftBar")*@;
+   
 }
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Donor?</h4>
+    <h4>Are You Sure You Want to Delete this Store?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
@@ -33,18 +33,19 @@
 </script>
 
 <div>
-    <h4>List of Currencies</h4>
+    <h4>List of Programs</h4>
 </div>
-@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.DonorModel>()
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.StoreViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.DonorCode);
         columns.Bound(p => p.Name);
-        columns.Bound(p => p.LongName);
-        columns.Bound(p => p.IsResponsibleDonor);
-        columns.Bound(p => p.IsSourceDonor);
-        
+        columns.Bound(p => p.Number);
+        columns.ForeignKey(m => m.HubID, (IEnumerable)ViewBag.HubID, "HubID", "Name").Title("Hub Name");   
+        columns.Bound(p => p.IsActive);
+        columns.Bound(p => p.IsTemporary);
+        columns.Bound(p => p.StackCount);
+            columns.Bound(p => p.StoreManName);
        //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
@@ -60,16 +61,16 @@
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(8)
-            .Model(model => model.Id(p => p.DonorID))
-           .Read(read => read.Action("Donor_Read", "Donor"))
-           .Update(update => update.Action("Donor_Update", "Donor"))
-           .Create(create => create.Action("Donor_Create", "Donor"))
-           .Destroy(destroy => destroy.Action("Donor_Destroy", "Donor"))
+            .Model(model => model.Id(p => p.StoreID))
+           .Read(read => read.Action("Store_Read", "Store"))
+           .Update(update => update.Action("Store_Update", "Store"))
+           .Create(create => create.Action("Store_Create", "Store"))
+           .Destroy(destroy => destroy.Action("Store_Destroy", "Store"))
  
      )
    
       )
-<script>
+  <script>
 
     function OnDelete(e) {
         e.preventDefault();
@@ -80,7 +81,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("Delete", "Donor")" + "/" + dataItem.DonorID;
+            window.location = "@Url.Action("Delete", "Store")" + "/" + dataItem.StoreID;
             wnd.close();
         });
 
@@ -89,3 +90,4 @@
         });
     }
 </script>
+

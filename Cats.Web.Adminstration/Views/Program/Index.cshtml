@@ -1,6 +1,5 @@
-﻿
-@using Kendo.Mvc.UI
-@model List<Cats.Models.Donor>
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.Program>
 
 @{
     ViewBag.Title = "Index";
@@ -8,14 +7,14 @@
 }
 @section Toolbar
 {
-    @*<a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Currency")"></a>*@
+    
 }
 @section LeftBar
 {
-    @*@Html.Partial("_CurrencyLeftBar")*@;
+   
 }
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Donor?</h4>
+    <h4>Are You Sure You Want to Delete this Program?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
@@ -33,18 +32,15 @@
 </script>
 
 <div>
-    <h4>List of Currencies</h4>
+    <h4>List of Programs</h4>
 </div>
-@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.DonorModel>()
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.ProgramViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.DonorCode);
-        columns.Bound(p => p.Name);
+        columns.Bound(p => p.ProgramName);
+        columns.Bound(p => p.Description);
         columns.Bound(p => p.LongName);
-        columns.Bound(p => p.IsResponsibleDonor);
-        columns.Bound(p => p.IsSourceDonor);
-        
        //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
@@ -60,11 +56,11 @@
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(8)
-            .Model(model => model.Id(p => p.DonorID))
-           .Read(read => read.Action("Donor_Read", "Donor"))
-           .Update(update => update.Action("Donor_Update", "Donor"))
-           .Create(create => create.Action("Donor_Create", "Donor"))
-           .Destroy(destroy => destroy.Action("Donor_Destroy", "Donor"))
+            .Model(model => model.Id(p => p.ProgramID))
+           .Read(read => read.Action("Program_Read", "Program"))
+           .Update(update => update.Action("Program_Update", "program"))
+           .Create(create => create.Action("Program_Create", "program"))
+           .Destroy(destroy => destroy.Action("Program_Destroy", "program"))
  
      )
    
@@ -80,7 +76,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("Delete", "Donor")" + "/" + dataItem.DonorID;
+            window.location = "@Url.Action("Delete", "Program")" + "/" + dataItem.ProgramID;
             wnd.close();
         });
 
@@ -89,3 +85,4 @@
         });
     }
 </script>
+

@@ -1,6 +1,5 @@
-﻿
-@using Kendo.Mvc.UI
-@model List<Cats.Models.Donor>
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.Unit>
 
 @{
     ViewBag.Title = "Index";
@@ -8,14 +7,14 @@
 }
 @section Toolbar
 {
-    @*<a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Currency")"></a>*@
+    
 }
 @section LeftBar
 {
-    @*@Html.Partial("_CurrencyLeftBar")*@;
+   
 }
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this Donor?</h4>
+    <h4>Are You Sure You Want to Delete this Unit?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
@@ -33,18 +32,14 @@
 </script>
 
 <div>
-    <h4>List of Currencies</h4>
+    <h4>List of Units</h4>
 </div>
-@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.DonorModel>()
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.UnitViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.DonorCode);
-        columns.Bound(p => p.Name);
-        columns.Bound(p => p.LongName);
-        columns.Bound(p => p.IsResponsibleDonor);
-        columns.Bound(p => p.IsSourceDonor);
-        
+        columns.Bound(p => p.UnitID);
+        columns.Bound(p => p.UnitName);
        //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
@@ -60,11 +55,11 @@
     .DataSource(dataSource => dataSource
           .Ajax()
           .PageSize(8)
-            .Model(model => model.Id(p => p.DonorID))
-           .Read(read => read.Action("Donor_Read", "Donor"))
-           .Update(update => update.Action("Donor_Update", "Donor"))
-           .Create(create => create.Action("Donor_Create", "Donor"))
-           .Destroy(destroy => destroy.Action("Donor_Destroy", "Donor"))
+            .Model(model => model.Id(p => p.UnitID))
+           .Read(read => read.Action("Unit_Read", "Unit"))
+           .Update(update => update.Action("Unit_Update", "Unit"))
+           .Create(create => create.Action("Unit_Create", "Unit"))
+           .Destroy(destroy => destroy.Action("Unit_Destroy", "Unit"))
  
      )
    
@@ -80,7 +75,7 @@
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("Delete", "Donor")" + "/" + dataItem.DonorID;
+            window.location = "@Url.Action("Delete", "Unit")" + "/" + dataItem.UnitID;
             wnd.close();
         });
 
@@ -89,3 +84,4 @@
         });
     }
 </script>
+
