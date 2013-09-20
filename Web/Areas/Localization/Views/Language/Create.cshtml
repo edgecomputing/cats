@@ -12,7 +12,7 @@
 @Html.Partial("LanguageLeftBar");
      
 }
-<div class="well"><h3>Create new Language</h3></div>
+<div class="well"><h4>Create new Language</h4></div>
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
@@ -33,14 +33,15 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Name)
+                    @Html.LabelFor(m => m.LanguageName)
                 </div>
                 <div class="controls">
-                   @Html.TextBoxFor(m => m.Name)
-                    @Html.ValidationMessageFor(m=>m.Name)
+                   @Html.TextBoxFor(m => m.LanguageName)
+                    @Html.ValidationMessageFor(m=>m.LanguageName)
                 </div>
         
-            </div>            
+            </div>     
+                   
             <div class="control-group">      
                 <div class="controls">
                     <input type="submit" value="Create" class="btn btn-success" />

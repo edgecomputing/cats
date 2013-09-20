@@ -9,7 +9,6 @@ using Cats.Services.Security;
 using log4net;
 using Cats.Helpers;
 
-
 namespace Cats.Controllers
 {
     [Authorize]
@@ -44,6 +43,11 @@ namespace Cats.Controllers
                 if (service.Authenticate(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+
+                    // Will be refactored
+                    Session["User"] = service.GetUserDetail(model.UserName);
+                    ////
+
                     // TODO: Review user permission code
                     //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
                     service.GetUserPermissions(model.UserName, "CATS", "Finance");
@@ -58,6 +62,7 @@ namespace Cats.Controllers
 
                 ViewBag.HasError = true;
                 ViewBag.ErrorMessage = exception.ToString();
+                
                 ModelState.AddModelError("", exception.Message);
             }
 

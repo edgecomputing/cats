@@ -1,24 +1,18 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.GiftCertificate.Models;
-using Cats.Helpers;
-using Cats.Models.Partial;
 using Cats.Services.EarlyWarning;
-using Cats.Models;
 using System.Web.Mvc;
 using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using Cats.Services.Common;
-using Newtonsoft.Json;
 using Master = Cats.Models.Constant.Master;
-using Microsoft.Office.Interop.Word;
-
+using Cats.Helpers;
+using Cats.Data.UnitWork;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -29,13 +23,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ICommonService _commonService;
         private readonly ITransactionService _transactionService;
         private readonly ILetterTemplateService _letterTemplateService;
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService)
+        private readonly IUnitOfWork _unitofwork;
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService, IUnitOfWork unitofwork)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
             _commonService = commonService;
             _transactionService = transactionService;
             _letterTemplateService = letterTemplateService;
+            _unitofwork = unitofwork;
         }
 
         public ActionResult Index(int id=1)
@@ -287,8 +283,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ShowTemplate(string fileName, int giftCertificateId)
         {
             // TODO: Make sure to use DI to get the template generator instance
-            //var template = new TemplateGenerator();
-            //template.GenerateTemplate(giftCertificateId,  fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
+            var template = new TemplateHelper(_unitofwork);
+            template.GenerateTemplate(giftCertificateId, 1,fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

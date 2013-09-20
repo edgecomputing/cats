@@ -84,6 +84,9 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityGrade.cs" />
     <Compile Include="CommoditySource.cs" />
+    <Compile Include="HubOwner.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Mapping\CommoditySourceMap.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="Contribution.cs" />
@@ -108,7 +111,6 @@
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
-    <Compile Include="HubOwner.cs" />
     <Compile Include="InKindContributionDetail.cs" />
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Mapping\ShippingInstructionMap.cs" />
     <Compile Include="Mapping\StateTemplateMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
+    <Compile Include="Mapping\StoreMap.cs" />
     <Compile Include="Mapping\TransactionMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
@@ -231,6 +234,7 @@
     <Compile Include="ShippingInstruction.cs" />
     <Compile Include="StateTemplate.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="Store.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionGroup.cs" />
     <Compile Include="TransportBidPlan.cs" />
@@ -247,6 +251,7 @@
     <Compile Include="User.cs" />
     <Compile Include="UserDashboard.cs" />
     <Compile Include="UserDashboardPreference.cs" />
+    <Compile Include="UserHub.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />

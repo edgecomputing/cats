@@ -19,6 +19,13 @@ namespace Cats.Areas.Localization
                 "Localization/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+
+            context.MapRoute(
+                name: "Localization_start",
+                url: "Localization/",
+                defaults: new { controller = "Home", action = "Index" },
+                namespaces: new[] { "Cats.Areas.Localization.Controllers" }
+               );
         }
     }
 }

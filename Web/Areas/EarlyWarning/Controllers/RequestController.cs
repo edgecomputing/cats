@@ -47,9 +47,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
 
 
-
-      
-
         public ViewResult SubmittedRequest(int id)
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
@@ -147,8 +144,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _regionalRequestService.EditRegionalRequest(target);
                 return RedirectToAction("Allocation", "Request", new { id = regionalRequest.RegionalRequestID });
             }
-
-
+            
             PopulateLookup(regionalRequest);
             return View(regionalRequest);
         }

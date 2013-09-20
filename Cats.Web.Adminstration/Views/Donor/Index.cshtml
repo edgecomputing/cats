@@ -6,14 +6,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
-@section Toolbar
-{
-    @*<a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Currency")"></a>*@
-}
-@section LeftBar
-{
-    @*@Html.Partial("_CurrencyLeftBar")*@;
-}
+
 <div id="modalWindow">
     <h4>Are You Sure You Want to Delete this Donor?</h4>
     <button id="yes" class="k-button">Yes</button>
@@ -33,7 +26,7 @@
 </script>
 
 <div>
-    <h4>List of Currencies</h4>
+    <h4>List of Donors</h4>
 </div>
 @(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.DonorModel>()
     .Name("grid")
@@ -62,9 +55,9 @@
           .PageSize(8)
             .Model(model => model.Id(p => p.DonorID))
            .Read(read => read.Action("Donor_Read", "Donor"))
-           .Update(update => update.Action("Currency_Update", "Currency"))
-           .Create(create => create.Action("Currency_Create", "Currency"))
-           //.Destroy(destroy=>destroy.Action("Currency_Destroy","Currency"))
+           .Update(update => update.Action("Donor_Update", "Donor"))
+           .Create(create => create.Action("Donor_Create", "Donor"))
+           .Destroy(destroy => destroy.Action("Donor_Destroy", "Donor"))
  
      )
    
@@ -80,7 +73,7 @@
 
         $("#yes").click(function () {
 
-            @*window.location = "@Url.Action("Delete", "Currency")" + "/" + dataItem.CurrencyID;*@
+            window.location = "@Url.Action("Delete", "Donor")" + "/" + dataItem.DonorID;
             wnd.close();
         });
 

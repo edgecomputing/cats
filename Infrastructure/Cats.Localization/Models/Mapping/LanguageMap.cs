@@ -25,7 +25,8 @@ namespace Cats.Localization.Models.Mapping
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("Language", "Localization");
+            //this.ToTable("Languages", "Localization");
+            this.ToTable("Languages");
             this.Property(t => t.LanguageCode).HasColumnName("LanguageCode");
             this.Property(t => t.LanguageName).HasColumnName("LanguageName");
         }

@@ -237,7 +237,8 @@ namespace Cats.Data.Hub
 
             IGenericRepository<UserRole> UserRoleRepository { get; }
 		  IReportRepository ReportRepository { get; }
-		    IGenericRepository<ErrorLog> ErrorLogRepository { get; } 
+		    IGenericRepository<ErrorLog> ErrorLogRepository { get; }
+          
         }
 }
 

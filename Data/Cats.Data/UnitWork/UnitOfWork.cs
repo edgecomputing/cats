@@ -2,7 +2,8 @@
 using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
-using Cats.Models;
+
+
 
 
 namespace Cats.Data.UnitWork
@@ -27,11 +28,22 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Contribution> contributionRepository;
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
         private IGenericRepository<Currency> currencyRepository;
-        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository; 
+        private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository;
+        private IGenericRepository<Store> storeRepository; 
 
         public UnitOfWork()
         {
             this._context = new CatsContext();
+
+        }
+
+        private IGenericRepository<HubOwner> _HubOwnerRepository = null;
+        public IGenericRepository<HubOwner> HubOwnerRepository
+        {
+
+
+            get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+
 
         }
 
@@ -58,6 +70,14 @@ namespace Cats.Data.UnitWork
         {
 
             get { return this._donorRepository ?? (this._donorRepository = new GenericRepository<Donor>(_context)); }
+        }
+
+
+        private IGenericRepository<UserHub> _userHubRepository;
+        public IGenericRepository<UserHub> UserHubRepository
+        {
+
+            get { return this._userHubRepository ?? (this._userHubRepository = new GenericRepository<UserHub>(_context)); }
         }
 
         private IGenericRepository<RegionalPSNPPledge> _regionalPSNPPledgeRepository;
@@ -178,10 +198,7 @@ namespace Cats.Data.UnitWork
         {
             get { return this.statusRepository ?? (this.statusRepository = new GenericRepository<Status>(_context)); }
         }
-
-
-
-
+        
         private IGenericRepository<AdminUnit> adminUnitRepository;
 
         public IGenericRepository<AdminUnit> AdminUnitRepository
@@ -190,10 +207,7 @@ namespace Cats.Data.UnitWork
             get { return this.adminUnitRepository ?? (this.adminUnitRepository = new GenericRepository<AdminUnit>(_context)); }
 
         }
-
-
-
-
+        
         private IGenericRepository<AdminUnitType> adminUnitTypeRepository;
 
         public IGenericRepository<AdminUnitType> AdminUnitTypeRepository
@@ -203,9 +217,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-
-
-
+                
         private IGenericRepository<Commodity> commodityRepository;
 
         public IGenericRepository<Commodity> CommodityRepository
@@ -266,11 +278,11 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
-        private IGenericRepository<HubOwner> hubOwnerRepository;
-        public IGenericRepository<HubOwner> HubOwnerRepository
-        {
-            get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
-        }
+        //private IGenericRepository<HubOwner> hubOwnerRepository;
+        //public IGenericRepository<HubOwner> HubOwnerRepository
+        //{
+        //    get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+        //}
 
 
 
@@ -674,6 +686,10 @@ namespace Cats.Data.UnitWork
         {
             get { return this.inKindContributionDetailRepository ?? (this.inKindContributionDetailRepository = new GenericRepository<InKindContributionDetail>(_context)); }
         }
+        public IGenericRepository<Store> StoreRepository
+        {
+            get { return this.storeRepository ?? (this.storeRepository = new GenericRepository<Store>(_context)); }
+        }
 
         private IGenericRepository<CommodityGrade> commodityGradeRepository;
         public IGenericRepository<CommodityGrade> CommodityGradeRepository
@@ -691,7 +707,6 @@ namespace Cats.Data.UnitWork
         {
             get { return this.auditRepository ?? (this.auditRepository = new GenericRepository<Audit>(_context)); }
         }
-
         
     }
 }

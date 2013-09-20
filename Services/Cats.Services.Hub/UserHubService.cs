@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Models;
 using Cats.Models.Hub;
-
+  
 
 namespace Cats.Services.Hub
 {
@@ -63,6 +64,11 @@ namespace Cats.Services.Hub
             return _unitOfWork.UserHubRepository.FindBy(predicate);
         }
         #endregion
+
+        public IEnumerable<UserHub> Get(System.Linq.Expressions.Expression<Func<UserHub, bool>> filter = null, Func<IQueryable<UserHub>, IOrderedQueryable<UserHub>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.UserHubRepository.Get(filter, orderBy, includeProperties);
+        }
 
         public void Dispose()
         {
