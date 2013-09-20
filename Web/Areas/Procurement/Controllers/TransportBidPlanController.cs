@@ -191,7 +191,7 @@ namespace Cats.Areas.Procurement.Controllers
                ( from hub in hubs
                     select new WarehouseProgramViewModel
                     {
-                        WarehouseID = hub.HubId,
+                        WarehouseID = hub.HubID,
                         WarehouseName = hub.Name,
                         PSNP=0,
                         Relief=0,

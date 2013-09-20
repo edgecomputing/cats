@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -145,19 +147,22 @@ namespace Cats.Services.Security
                 user = GetUserInfo(userName);
 
                 if (null == user)
-                    throw new ApplicationException("The requested user could not be found.");
+                    //throw new ApplicationException("The requested user could not be found.");
+                    throw new userNotFoundException();
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("The requested user could not be found.", ex);
+                //throw new ApplicationException("The requested user could not be found.", ex);
+                throw new userNotFoundException("",ex);
             }
 
             // If the user account is disabled then we dont need to allow login instead we need to throw an exception
             // stating that the account is disabled.
             if (user.Disabled == true)
-                throw new ApplicationException(
-                    "The user account is currently disabled. Please contact your administrator.");
-
+                
+                throw new disabledUserException();
+                //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
+                
             // Check if the passwords match
             if (user.Password == HashPassword(password))
             {
@@ -202,7 +207,8 @@ namespace Cats.Services.Security
             }
             catch (Exception e)
             {
-                throw new ApplicationException("Error changing password", e);
+                //throw new ApplicationException("Error changing password", e);
+                throw new passwordChangeException(e);
             }
             return false;
         }
@@ -229,17 +235,20 @@ namespace Cats.Services.Security
                 try
                 {
                     _unitOfWork.Save();
+
                     // TODO: Consider sending the new password through email for the user!
+                   // SendPasswordToMail(userName, user.Email);
+
                 }
                 catch (Exception e)
                 {
-                    throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", info.FullName, e.Message), e);
+                    //throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", info.FullName, e.Message), e);
+                    throw new unabletoResetPasswordException(info.UserName);
                 }
             }
             return randomPassword;
         }
-
-        /// <summary>
+       /// <summary>
         /// Flips/Reverts the status of a user account. If an account is active it will
         /// disable it but if it is already disabled then it will activiate it by setting
         /// its value to 'enabled'.
@@ -261,6 +270,7 @@ namespace Cats.Services.Security
             catch (Exception exception)
             {
                 throw new ApplicationException("Error disabling/enabling user account", exception);
+               
             }
 
             return false;
@@ -302,7 +312,8 @@ namespace Cats.Services.Security
         /// <returns>User object corresponding to the user identified by UserName</returns>
         public UserAccount GetUserDetail(string userName)
         {
-            return _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+            //return _unitOfWork.UserRepository.Get(u => u.UserName == userName, null, "UserProfile,UserPreference").SingleOrDefault();
+            return _unitOfWork.UserRepository.Get(u => u.UserName == userName).SingleOrDefault();
         }
 
         /// <summary>

@@ -1,5 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Cats.Models.Mapping
 {
@@ -23,6 +27,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.HubOwnerID).HasColumnName("HubOwnerID");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.LongName).HasColumnName("LongName");
+
         }
     }
 }

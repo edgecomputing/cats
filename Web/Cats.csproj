@@ -253,6 +253,9 @@
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\LogController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
@@ -276,6 +279,9 @@
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Helpers\MD5Hashing.cs" />
+    <Compile Include="Helpers\SendMail.cs" />
+    <Compile Include="Helpers\TemplateHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -296,7 +302,6 @@
     <Compile Include="Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\TemplateGenerator.cs" />
     <Compile Include="Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -824,8 +829,11 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPassword.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1076,6 +1084,7 @@
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Home\Preference.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1088,6 +1097,10 @@
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
+    <Folder Include="Report\EarlyWarning\" />
+    <Folder Include="Report\HRD\" />
+    <Folder Include="Report\Procurment\" />
+    <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1100,6 +1113,14 @@
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
+      <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
+      <Name>Cats.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Cats.Documents\Cats.Documents.csproj">
+      <Project>{48791f08-2497-4328-b7de-2cbe5a81c836}</Project>
+      <Name>Cats.Documents</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
@@ -1152,10 +1173,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
-    <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
-    <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
-    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
-    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

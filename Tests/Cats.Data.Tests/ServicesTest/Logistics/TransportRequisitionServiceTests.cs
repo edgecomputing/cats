@@ -89,7 +89,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                                           RequisitionID = 1,
                                                                           Hub = new Hub
                                                                                     {
-                                                                                        HubId = 1,
+                                                                                        HubID = 1,
                                                                                         Name = "Test Hub",
 
                                                                                     }
@@ -187,7 +187,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                      Hub=new Hub
                                                              {
                                                                  Name="Hub 1",
-                                                                 HubId=1,
+                                                                 HubID=1,
 
                                                              }
                                                  }

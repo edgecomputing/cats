@@ -85,7 +85,7 @@ namespace Cats.Tests.ControllersTests
             var transactionService = new Mock<ITransactionService>();
             var letterTemplateService = new Mock<ILetterTemplateService>();
             transactionService.Setup(t => t.PostGiftCertificate(It.IsAny<int>())).Returns(true);
-            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, transactionService.Object, letterTemplateService.Object);
+           // _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, transactionService.Object, letterTemplateService.Object);
         }
 
         [TearDown]

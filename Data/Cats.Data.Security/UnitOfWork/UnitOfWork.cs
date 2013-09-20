@@ -27,6 +27,8 @@ namespace Cats.Data.Security
         private IGenericRepository<UserInfo> userInfoRepo;
         private IGenericRepository<UserProfile> userProfileRepo;
         private IGenericRepository<UserPreference> userPreferenceRepo;
+        private IGenericRepository<ForgetPasswordRequest> forgetPasswordRequestRepo;
+        private IGenericRepository<Setting> settingRepo; 
 
         public IGenericRepository<UserAccount> UserRepository
         {
@@ -47,6 +49,14 @@ namespace Cats.Data.Security
         public IGenericRepository<UserPreference> UserPreferenceRepository
         {
             get { return userPreferenceRepo ?? (this.userPreferenceRepo = new GenericRepository<UserPreference>(_context)); }
+        }
+        public IGenericRepository<ForgetPasswordRequest> ForgetPasswordRequestRepository
+        {
+            get { return forgetPasswordRequestRepo ?? (this.forgetPasswordRequestRepo = new GenericRepository<ForgetPasswordRequest>(_context)); }
+        }
+        public IGenericRepository<Setting> SettingRepository
+        {
+            get { return settingRepo ?? (this.settingRepo = new GenericRepository<Setting>(_context)); }
         }
     
         #endregion

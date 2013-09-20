@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Constant
 {
-    public partial class CommoditySource
+    public partial class CommoditySourceConst
     {
         public class Constants
         {

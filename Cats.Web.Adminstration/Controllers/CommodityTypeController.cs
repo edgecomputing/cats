@@ -3,103 +3,75 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Cats.Data.UnitWork;
+using Cats.Services.Administration;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Cats.Web.Adminstration.ViewModelBinder;
+using Cats.Web.Adminstration.Models.ViewModels;
 namespace Cats.Web.Adminstration.Controllers
 {
     public class CommodityTypeController : Controller
     {
+        private readonly ICommodityTypeService _commodityTypeService;
         //
         // GET: /CommodityType/
-
+        public CommodityTypeController(ICommodityTypeService commodityTypeService)
+        {
+            _commodityTypeService = commodityTypeService;
+        }
+        //TODO:Remove this code
+       public CommodityTypeController()
+       {
+           _commodityTypeService=new CommodityTypeService(new UnitOfWork());
+       }
+       
         public ActionResult Index()
         {
             return View();
         }
-
-        //
-        // GET: /CommodityType/Details/5
-
-        public ActionResult Details(int id)
+        public ActionResult CommodityType_Read([DataSourceRequest]DataSourceRequest request)
         {
-            return View();
+            var commodityTypes = _commodityTypeService.GetAllCommodityType();
+            var commodityTypesViewModel = CommodityTypeViewModelBinder.BindListCommodityTypeViewModel(commodityTypes);
+            return Json(commodityTypesViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        //
+        // Post: /CommodityType/CommodityType_Create
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CommodityType_Create([DataSourceRequest] DataSourceRequest request, CommodityTypeViewModel commodityTypeViewModel)
+        {
+            if (commodityTypeViewModel != null && ModelState.IsValid)
+            {
+                var commodityType = CommodityTypeViewModelBinder.BindCommodityType(commodityTypeViewModel);
+                _commodityTypeService.AddCommodityType(commodityType);
+            }
+            return Json(new[] {commodityTypeViewModel}.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CommodityType_Update([DataSourceRequest] DataSourceRequest request, CommodityTypeViewModel commodityTypeViewModel)
+        {
+            if (commodityTypeViewModel != null && ModelState.IsValid)
+            {
+                var target = _commodityTypeService.FindById(commodityTypeViewModel.CommodityTypeId);
+                var commodityType = CommodityTypeViewModelBinder.BindCommodityType(commodityTypeViewModel,target);
+                _commodityTypeService.EditCommodityType(commodityType);
+            }
+
+            return Json(new[] { commodityTypeViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        //
-        // GET: /CommodityType/Create
 
-        public ActionResult Create()
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CommodityType_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  CommodityTypeViewModel commodityTypeViewModel)
         {
-            return View();
-        }
-
-        //
-        // POST: /CommodityType/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            if (commodityTypeViewModel != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                _commodityTypeService.DeleteById(commodityTypeViewModel.CommodityTypeId);
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        //
-        // GET: /CommodityType/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /CommodityType/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /CommodityType/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /CommodityType/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(ModelState.ToDataSourceResult());
         }
     }
 }

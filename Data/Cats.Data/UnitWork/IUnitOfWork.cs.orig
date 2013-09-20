@@ -7,6 +7,19 @@ namespace Cats.Data.UnitWork
     public interface IUnitOfWork : IDisposable
     {
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
+
+        IGenericRepository<DashboardWidget> DashboardWidgetRepository { get; }
+        IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository { get; }
+        IGenericRepository<HubOwner> HubOwnerRepository { get; }
+        IGenericRepository<Log> LogRepository { get; }
+        IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository { get; }
+
+        IGenericRepository<BusinessProcessState> BusinessProcessStateRepository { get; }
+        IGenericRepository<BusinessProcess> BusinessProcessRepository { get; }
+        IGenericRepository<ProcessTemplate> ProcessTemplateRepository { get; }
+        IGenericRepository<StateTemplate> StateTemplateRepository { get; }
+        IGenericRepository<FlowTemplate> FlowTemplateRepository { get; }
+
         IGenericRepository<RegionalRequest> RegionalRequestRepository { get; }
         IGenericRepository<RegionalRequestDetail> RegionalRequestDetailRepository { get; }
         IGenericRepository<AdminUnit> AdminUnitRepository { get; }
@@ -60,12 +73,16 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<Ration> RationRepository { get; }
 
+        IGenericRepository<NeedAssessment> NeedAssessmentRepository { get; } 
         IGenericRepository<NeedAssessmentHeader> NeedAssessmentHeaderRepository { get; }
         IGenericRepository<NeedAssessmentDetail> NeedAssessmentDetailRepository { get; }
 
         IGenericRepository<RationDetail> RationDetailRepository { get; } 
         IGenericRepository<HRD> HRDRepository { get; }
         IGenericRepository<HRDDetail> HRDDetailRepository { get; }
+
+
+        IGenericRepository<UserProfile> UserProfileRepository { get; } 
 
         IGenericRepository<RegionalPSNPPlan> RegionalPSNPPlanRepository { get; }
         IGenericRepository<RegionalPSNPPlanDetail> RegionalPSNPPlanDetailRepository { get; } 
@@ -75,12 +92,38 @@ namespace Cats.Data.UnitWork
 
 
         IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; }
-<<<<<<< HEAD
-        IGenericRepository<AccountTransaction> AccountTransactionRepository { get; }      
-=======
->>>>>>> c918ec4388f8c66e9dbd2e4c197f8be41a30a76c
+
+        IGenericRepository<GiftCertificate> GiftCertificateRepository { get; }
+        IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository { get; }
+
+
 
         IGenericRepository<vwPSNPAnnualPlan> VwPSNPAnnualPlanRepository { get; }
+        IGenericRepository<Unit> UnitRepository { get; }
+        IGenericRepository<Season> SeasonRepository { get; }
+
+        IGenericRepository<Contribution> ContributionRepository { get; }
+        IGenericRepository<ContributionDetail> ContributionDetailRepository { get; }
+        IGenericRepository<Donor> DonorRepository { get; } 
+
+ 
+        IGenericRepository<Detail> DetailRepository { get; }
+
+        IGenericRepository<TypeOfNeedAssessment> TypeOfNeedAssessmentRepository { get; }
+
+        IGenericRepository<NeedAssessmentSummary> NeedAssessmetSummaryRepository { get;}
+
+        IGenericRepository<LetterTemplate> LetterTemplateRepository { get; }
+        IGenericRepository<Currency> CurrencyRepository { get; } 
+        IGenericRepository<TransactionGroup> TransactionGroupRepository { get; }
+
+        IGenericRepository<InKindContributionDetail> InKindContributionDetailRepository { get; }
+<<<<<<< HEAD
+        IGenericRepository<HubOwner> HubOwnerRepository { get; } 
+=======
+        IGenericRepository<CommodityGrade> CommodityGradeRepository { get; }
+        IGenericRepository<CommoditySource> CommoditySourceRepository { get; }
+>>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
         void Save();
 
     }

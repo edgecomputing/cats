@@ -97,6 +97,19 @@
     <title>@ViewBag.Title</title>
     @*    @Styles.Render("~/Content/css")*@
     @*@Scripts.Render("~/bundles/modernizr")*@
+    <script>
+        
+        $(function () {
+            
+            var timer = 3000;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+            }, 3000);
+            //alert(timer);
+            
+        });
+    </script>
 </head>
 <body>
 
@@ -145,10 +158,7 @@
                         @Html.Partial("_ToolbarCommon")
                     </div>
                 </div>
-                <div style="clear: both;">
-                    @RenderSection("Errors", required:false)
-                    @Html.CustomValidationSummary()                    
-                </div>
+                <div style="clear: both;" class="message-window">@RenderSection("Errors", required:false)@Html.CustomValidationSummary()</div>
                 <div style="clear: both;">
                     @RenderBody()
                 </div>

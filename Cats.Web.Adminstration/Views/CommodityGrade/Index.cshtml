@@ -1,0 +1,25 @@
+﻿
+@using Cats.Models
+@using Cats.Web.Adminstration.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Index</h2>
+@(Html.Kendo().Grid<CommodityGradeViewModel>().Columns(columns=>
+                                                           {
+                                                               columns.Bound(t => t.CommodityGradeID);
+                                                               columns.Bound(t => t.Name);
+                                                               columns.Bound(t => t.Description);
+
+                                                           }).DataSource(datasource=>datasource.Ajax()
+    .Read("CommodityGrade_Read","CommodityGrade")
+    .Create("CommodityGrade_Update","CommodityGrade")
+    .Update("CommodityGrade_Update","CommodityGrade")
+    .Destroy("CommodityGrade_Delete","CommodityGrade")
+    .Model(m=>m.Id(model=>model.CommodityGradeID))))
+    
+  
+
