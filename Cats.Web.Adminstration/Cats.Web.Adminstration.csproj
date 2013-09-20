@@ -153,6 +153,8 @@
     <Compile Include="Models\ViewModels\DonorModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ProgramViewModel.cs" />
+    <Compile Include="Models\ViewModels\StoreViewModel.cs" />
+    <Compile Include="Models\ViewModels\UnitViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelBinder\AuditLogViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityGradeViewModelBinder.cs" />
@@ -606,16 +608,13 @@
     <Content Include="Views\Program\Index.cshtml" />
     <Content Include="Views\CommodityGrade\Index.cshtml" />
     <Content Include="Views\CommoditySource\Index.cshtml" />
-
     <Content Include="Views\HubOwner\Create.cshtml" />
     <Content Include="Views\HubOwner\Delete.cshtml" />
     <Content Include="Views\HubOwner\Details.cshtml" />
     <Content Include="Views\HubOwner\Edit.cshtml" />
     <Content Include="Views\HubOwner\Index.cshtml" />
     <Content Include="Views\HubOwner\Update.cshtml" />
-
     <Content Include="Views\AuditLog\Index.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
