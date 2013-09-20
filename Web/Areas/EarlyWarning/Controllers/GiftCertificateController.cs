@@ -96,6 +96,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var gift = new GiftCertificateViewModel();
             gift.GiftDate = DateTime.Today;
             gift.ETA = DateTime.Today;
+            gift.CommodityTypeID = 1;
             return View(gift);
         }
         [HttpPost]
@@ -253,7 +254,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                  "Name");
                 ViewBag.CommodityTypeID =
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
-                                   "CommodityTypeID", "Name");
+                                   "CommodityTypeID", "Name",1);
                 ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
                 ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name");
         
@@ -265,7 +266,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                 "Name",giftCertificate.DonorID);
                 ViewBag.CommodityTypeID =
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
-                                   "CommodityTypeID", "Name", giftDetails == null ? string.Empty : giftDetails.Commodity.CommodityTypeID.ToString());
+                                   "CommodityTypeID", "Name", giftDetails == null ? "1" : giftDetails.Commodity.CommodityTypeID.ToString());
                 ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",giftCertificate.ProgramID);
                 ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name",giftCertificate.DModeOfTransport);
         
