@@ -9,7 +9,6 @@ using Cats.Services.Security;
 using log4net;
 using Cats.Helpers;
 
-
 namespace Cats.Controllers
 {
     [Authorize]
@@ -63,6 +62,7 @@ namespace Cats.Controllers
 
                 ViewBag.HasError = true;
                 ViewBag.ErrorMessage = exception.ToString();
+                
                 ModelState.AddModelError("", exception.Message);
             }
 

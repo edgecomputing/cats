@@ -14,18 +14,19 @@ namespace Cats.Web.Adminstration.Controllers
     public class StoreController : Controller
     {
         private IStoreService _storeService;
-        //private IHubService _hubService;
+        private IHubService _hubService;
 
-        public StoreController(IStoreService storeService)
+        public StoreController(IStoreService storeService,IHubService hubService)
         {
             _storeService = storeService;
+            _hubService = hubService;
         }
         // GET: /Store/
 
         public ActionResult Index()
         {
             var store = _storeService.GetAllStore();
-           // ViewBag.HubID = _hubService.GetAllHub();
+            ViewBag.HubID = _hubService.GetAllHub();
             return View(store);
         }
         public ActionResult Store_Read([DataSourceRequest] DataSourceRequest request)

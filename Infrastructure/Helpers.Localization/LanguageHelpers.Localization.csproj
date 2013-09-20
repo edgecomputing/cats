@@ -77,6 +77,8 @@
     <Compile Include="Data\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Data\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="DataAnnotations\LocalizedDataAnnotationsModelMetadataProvider.cs" />
+    <Compile Include="Mapping\LanguageMap.cs" />
+    <Compile Include="Mapping\LocalizedTextMap.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\LocalizedText.cs" />
     <Compile Include="Models\TranslationViewModel.cs" />

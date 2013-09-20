@@ -200,6 +200,7 @@
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -281,7 +282,6 @@
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
-    <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="Helpers\TemplateHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
@@ -744,9 +744,8 @@
     <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
+    <Content Include="Areas\Localization\Views\Shared\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\EditTranslation.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\_PSNPLeftBar.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\Web.config" />
@@ -831,12 +830,16 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
     <Content Include="Areas\Settings\Views\Users\ForgetPassword.cshtml" />
     <Content Include="Areas\Settings\Views\UserPreference\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
+    <Content Include="Cats.csproj.orig">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1092,7 +1095,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Localization\Models\" />
-    <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="Areas\Transaction\Models\" />
@@ -1109,6 +1111,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Web.Hub\Cats.Web.Hub.csproj">
+      <Project>{c0555fd5-d03e-43bb-9827-ca695f665059}</Project>
+      <Name>Cats.Web.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>

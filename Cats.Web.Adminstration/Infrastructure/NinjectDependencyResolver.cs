@@ -57,6 +57,8 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<ICommoditySourceService>().To<CommoditySourceService>();
             kernel.Bind<ICommodityService>().To<CommodityService>();
             kernel.Bind<IAuditService>().To<AuditService>();
+            kernel.Bind<IHubService>().To<HubService>();
+
 
         }
     }

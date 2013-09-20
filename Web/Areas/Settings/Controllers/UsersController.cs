@@ -10,6 +10,8 @@ using Cats.Areas.Settings.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Models.Security.ViewModels;
+using Cats.Web.Hub.Infrastructure;
+
 
 namespace Cats.Areas.Settings.Controllers
 {
@@ -232,9 +234,13 @@ namespace Cats.Areas.Settings.Controllers
                             Completed = false,
                             ExpieryDate = DateTime.Now.AddMonths(2),
                             GeneratedDate = DateTime.Now,
+
                             RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
                             UserAccountID = user.UserProfileID
-                        };
+
+                            //RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
+                            //UserAccountID = user.UserAccountId
+                       };
                     if (_forgetPasswordRequestService.AddForgetPasswordRequest(forgetPasswordRequest))
                     {
 
@@ -249,10 +255,9 @@ namespace Cats.Areas.Settings.Controllers
                                                         <br /><br />
                                                         Please ignore this message if the password request was not submitted by you. This request will expire in 24 hours.
                                                         <br /><br />
-                                                       Thank you,<br />
-                                                       Administrator.
+                                                        Thank you,<br />
+                                                        Administrator.
                                                         ", link, user.UserName);
-
                         try
                         {
                             // Read the configuration table for smtp settings.
@@ -263,7 +268,7 @@ namespace Cats.Areas.Settings.Controllers
                             string userName = _settingService.GetSettingValue("SMTP_USER_NAME");
                             string password = _settingService.GetSettingValue("SMTP_PASSWORD");
                             // send the email using the utilty method in the shared dll.
-                            SendMail mail = new SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
+                            Cats.Helpers.SendMail mail = new Helpers.SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
 
                             ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
                             //return RedirectToAction("ConfirmPasswordChange");

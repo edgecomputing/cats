@@ -1,14 +1,14 @@
 ﻿@using Kendo.Mvc.UI
-@model  LanguageHelpers.Localization.Models.LocalizedText
-
+    @model  LanguageHelpers.Localization.Models.LocalizedText
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<div class="well">
-    <h4 class="page-header">Localization</h4>
+<div>
+    <h4 >Translation Terms</h4>
 </div>
+
 @section LeftBar{
     
     @Html.Partial("LanguageLeftBar");
@@ -22,12 +22,9 @@
         columns.Bound(p => p.LanguageCode).Width(50);
         columns.Bound(p => p.TextKey).Width(400);
         columns.Bound(p => p.TranslatedText).Width(400);
-
-
         columns.Command(p => p.Custom("Edit").Click("translationEdit"));
-       
-
         })
+        
     .Pageable()
     .Sortable()
     .Filterable()
@@ -47,12 +44,11 @@
  
      )
    
-      )
+     )
 
 <script>
     function translationEdit(e) {
         e.preventDefault();
-
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "EditTranslation/" + dataItem.LocalizedTextId;
     }

@@ -58,9 +58,9 @@
           .PageSize(8)
             .Model(model => model.Id(p => p.ProgramID))
            .Read(read => read.Action("Program_Read", "Program"))
-           .Update(update => update.Action("Program_Update", "program"))
-           .Create(create => create.Action("Program_Create", "program"))
-           .Destroy(destroy => destroy.Action("Program_Destroy", "program"))
+           .Update(update => update.Action("Program_Update", "Program"))
+           .Create(create => create.Action("Program_Create", "Program"))
+           .Destroy(destroy => destroy.Action("Program_Destroy", "Program"))
  
      )
    
