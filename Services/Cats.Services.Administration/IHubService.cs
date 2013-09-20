@@ -15,7 +15,9 @@ namespace Cats.Services.Administration
         Hub FindById(int id);
         int GetHubId(string hub);
         List<Hub> GetAllHub();
-        List<Hub> FindBy(Expression<Func<Hub, bool>> predicate);
+        //List<Hub> FindBy(Expression<Func<Hub, bool>> predicate);
+        //List<Hub> GetAllHub();
+        //List<Hub> FindBy(Expression<Func<Hub, bool>> predicate);
 
 
     }

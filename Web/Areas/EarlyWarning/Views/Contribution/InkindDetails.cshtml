@@ -42,7 +42,7 @@
         columns.Bound(m => m.ReferencNumber);
         columns.Bound(m => m.ContributionDate).Format("{0:MM/dd/yyyy}");
         columns.ForeignKey(m => m.CommodityID, (IEnumerable)ViewBag.CommodityID, "CommodityID", "Name").Title("Commodity");
-        columns.Bound(m => m.Amount).ClientFooterTemplate("<h4>#=kendo.format('{0:N0}', sum)#</h4>").Format("{0:N0}");
+        columns.Bound(m => m.Amount).ClientFooterTemplate("<h4>#=kendo.format('{0:N0}', sum)#</h4>").Format("{0:N0}").HtmlAttributes(new { align = "Right" }); 
 
        // columns.Command(command => command.Destroy());
         columns.Command(command => command.Custom("Delete").Click("OnDelete"));
