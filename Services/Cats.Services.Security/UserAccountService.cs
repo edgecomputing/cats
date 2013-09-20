@@ -41,12 +41,12 @@ namespace Cats.Services.Security
 
         #region Default Service Implementation
 
-        public bool Add(UserAccount entity, Dictionary<string,List<string>> roles)
+        public bool Add(UserProfile entity, Dictionary<string,List<string>> roles)
         {
             try
             {
                 // Add the user account first and latter set default preference and profiles for user
-                _unitOfWork.UserRepository.Add(entity);
+                _unitOfWork.UserProfileRepository.Add(entity);
                 _unitOfWork.Save();
                 foreach (var Role in roles)
                     AddUserToRoles(entity.UserName, Role.Value.ToArray(), "CATS", Role.Key);
@@ -59,7 +59,7 @@ namespace Cats.Services.Security
             }
         }
         
-        public bool Add(UserAccount entity, string store, string application)
+        public bool Add(UserProfile entity, string store, string application)
         {
             try
             {
@@ -73,33 +73,33 @@ namespace Cats.Services.Security
             }
         }
 
-        public bool Save(UserAccount entity)
+        public bool Save(UserProfile entity)
         {
-            _unitOfWork.UserRepository.Edit(entity);
+            _unitOfWork.UserProfileRepository.Edit(entity);
             _unitOfWork.Save();
             return true;
         }
 
-        public bool Delete(UserAccount entity)
+        public bool Delete(UserProfile entity)
         {
             if (entity == null) return false;
-            _unitOfWork.UserRepository.Delete(entity);
+            _unitOfWork.UserProfileRepository.Delete(entity);
             _unitOfWork.Save();
             return true;
         }
 
         public bool DeleteById(int id)
         {
-            var entity = _unitOfWork.UserRepository.FindById(id);
+            var entity = _unitOfWork.UserProfileRepository.FindById(id);
             if (entity == null) return false;
-            _unitOfWork.UserRepository.Delete(entity);
+            _unitOfWork.UserProfileRepository.Delete(entity);
             _unitOfWork.Save();
             return true;
         }
 
-        public List<UserAccount> GetAll()
+        public List<UserProfile> GetAll()
         {
-            return _unitOfWork.UserRepository.GetAll();
+            return _unitOfWork.UserProfileRepository.GetAll();
         }
 
         public List<UserInfo> GetUsers()
@@ -107,14 +107,14 @@ namespace Cats.Services.Security
             return _unitOfWork.UserInfoRepository.GetAll();
         }
 
-        public UserAccount FindById(int id)
+        public UserProfile FindById(int id)
         {
-            return _unitOfWork.UserRepository.FindById(id);
+            return _unitOfWork.UserProfileRepository.FindById(id);
         }
 
-        public List<UserAccount> FindBy(Expression<Func<UserAccount, bool>> predicate)
+        public List<UserProfile> FindBy(Expression<Func<UserProfile, bool>> predicate)
         {
-            return _unitOfWork.UserRepository.FindBy(predicate);
+            return _unitOfWork.UserProfileRepository.FindBy(predicate);
         }
 
         public void Dispose()
@@ -125,7 +125,7 @@ namespace Cats.Services.Security
 
         #region Security Module Logic
 
-        public bool Authenticate(UserAccount userInfo)
+        public bool Authenticate(UserProfile userInfo)
         {
             return Authenticate(userInfo.UserName, userInfo.Password);
         }
@@ -192,11 +192,11 @@ namespace Cats.Services.Security
             return ChangePassword(user, password);
         }
 
-        public bool ChangePassword(UserAccount userInfo, string password)
+        public bool ChangePassword(UserProfile userInfo, string password)
         {
             try
             {
-                var user = _unitOfWork.UserRepository.FindBy(u => u.UserAccountId == userInfo.UserAccountId).SingleOrDefault();
+                var user = _unitOfWork.UserProfileRepository.FindBy(u => u.UserProfileID == userInfo.UserProfileID).SingleOrDefault();
                 if (user != null)
                 {
                     user.Password = HashPassword(password);
@@ -226,10 +226,10 @@ namespace Cats.Services.Security
             var randomPassword = GenerateString(random, 8);
 
             // Reset the current user's password attribute to the new one            
-            var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+            var user = _unitOfWork.UserProfileRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
             if (user != null)
             {
-                info = _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == user.UserAccountId).SingleOrDefault();
+                info = _unitOfWork.UserInfoRepository.FindBy(u => u.UserProfileID == user.UserProfileID).SingleOrDefault();
                 user.Password = HashPassword(randomPassword);
                 try
                 {
@@ -258,7 +258,7 @@ namespace Cats.Services.Security
         {
             try
             {
-                var user = _unitOfWork.UserRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+                var user = _unitOfWork.UserProfileRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
                 if (user != null)
                 {
                     user.Disabled = !user.Disabled;
@@ -299,9 +299,9 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userId">Unique id identifying the user</param>
         /// <returns>User object corresponding to the user identified by UserId</returns>
-        public UserAccount GetUserDetail(int userId)
+        public UserProfile GetUserDetail(int userId)
         {
-            return _unitOfWork.UserRepository.FindBy(u => u.UserAccountId == userId).SingleOrDefault();
+            return _unitOfWork.UserProfileRepository.FindBy(u => u.UserProfileID == userId).SingleOrDefault();
         }
 
         /// <summary>
@@ -309,10 +309,10 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userName">User name identifying the user</param>
         /// <returns>User object corresponding to the user identified by UserName</returns>
-        public UserAccount GetUserDetail(string userName)
+        public UserProfile GetUserDetail(string userName)
         {
             //return _unitOfWork.UserRepository.Get(u => u.UserName == userName, null, "UserProfile,UserPreference").SingleOrDefault();
-            return _unitOfWork.UserRepository.Get(u => u.UserName == userName).SingleOrDefault();
+            return _unitOfWork.UserProfileRepository.Get(u => u.UserName == userName).SingleOrDefault();
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace Cats.Services.Security
 
         public UserInfo GetUserInfo(int userId)
         {
-            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserAccountId == userId).SingleOrDefault();
+            return _unitOfWork.UserInfoRepository.FindBy(u => u.UserProfileID == userId).SingleOrDefault();
         }
         /// <summary>
         /// Retrive a complete Authorization for the current user and populate the string array
@@ -353,7 +353,7 @@ namespace Cats.Services.Security
 
         public List<Application> GetUserPermissions(string UserName)
         {
-            var apps = new List<Cats.Models.Security.ViewModels.Application>();
+            var apps = new List<Application>();
 
             Dictionary<string, IAzManApplication> Application = provider.GetStorage().Stores["CATS"].Applications;
             foreach (var app in Application)
@@ -397,7 +397,7 @@ namespace Cats.Services.Security
             foreach (var app in Application)
             {
                 // Get all roles for the current application
-                apps.Add(new Models.Security.ViewModels.Application { ApplicationName = app.Value.Name, Roles = GetRolesList(app.Value.Name) });
+                apps.Add(new Application { ApplicationName = app.Value.Name, Roles = GetRolesList(app.Value.Name) });
             }
             return apps;
         }
@@ -451,6 +451,17 @@ namespace Cats.Services.Security
         {
             return (char)(rng.Next('A', 'Z' + 1));
         }
+
+        /// <summary>
+        /// Gets list of all user preferences
+        /// </summary>
+        /// <returns> List of all user preferences </returns>
+
+        public List<UserProfile> GetUserPreferences()
+        {
+            return _unitOfWork.UserProfileRepository.GetAll();
+        }
+
         #endregion
 
     }

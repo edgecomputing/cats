@@ -39,7 +39,7 @@ namespace Cats.Controllers
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
             var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
             ////ViewBag.Requests = req;
-            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
 
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
             var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
@@ -51,7 +51,7 @@ namespace Cats.Controllers
 
         public ActionResult Preference()
         {
-            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
             var selectedDashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
@@ -64,7 +64,7 @@ namespace Cats.Controllers
 
         public JsonResult SavePreference([DataSourceRequest] DataSourceRequest request, List<int> selectedDashboardIDs)
         {
-            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
             var selectedDashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();

@@ -12,22 +12,24 @@ namespace Cats.Services.Security
     public interface IUserAccountService
     {
         // CRUD Operations
-        bool Add(UserAccount entity, Dictionary<string, List<string>> roles);
-        bool Add(UserAccount entity, string store, string application);
-        bool Delete(UserAccount user);
+        bool Add(UserProfile entity, Dictionary<string, List<string>> roles);
+        bool Add(UserProfile entity, string store, string application);
+        bool Delete(UserProfile user);
         bool DeleteById(int id);
-        bool Save(UserAccount user);
-        UserAccount FindById(int id);
-        List<UserAccount> GetAll();
+        bool Save(UserProfile user);
+        UserProfile FindById(int id);
+        List<UserProfile> GetAll();
         List<UserInfo> GetUsers();
-        List<UserAccount> FindBy(Expression<Func<UserAccount, bool>> predicate);
+        List<UserProfile> FindBy(Expression<Func<UserProfile, bool>> predicate);
+
+        List<UserProfile> GetUserPreferences();
 
         // User Account Business Logic
         bool Authenticate(UserInfo userInfo);
-        bool Authenticate(UserAccount userInfo);
+        bool Authenticate(UserProfile userInfo);
         bool Authenticate(string userName, string password);
         bool ChangePassword(string userName, string password);
-        bool ChangePassword(UserAccount userInfo, string password);
+        bool ChangePassword(UserProfile userInfo, string password);
         bool ChangePassword(int userId, string password);
         string ResetPassword(UserInfo userInfo);
         string ResetPassword(string userName);
@@ -35,8 +37,8 @@ namespace Cats.Services.Security
 
         // Utility methods
         string HashPassword(string password);
-        UserAccount GetUserDetail(int userId);
-        UserAccount GetUserDetail(string userName);
+        UserProfile GetUserDetail(int userId);
+        UserProfile GetUserDetail(string userName);
         UserInfo GetUserInfo(string userName);
         UserInfo GetUserInfo(int userId);
         List<Role> GetUserPermissions(string UserName, string store, string application);

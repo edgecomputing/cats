@@ -96,11 +96,13 @@
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsSecurity;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=catsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
 =======
+
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsSecurity;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
->>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+
+>>>>>>> 01c527cbee4a998ecaa717f2e4126804a0313bf5
   </connectionStrings>
 
 
