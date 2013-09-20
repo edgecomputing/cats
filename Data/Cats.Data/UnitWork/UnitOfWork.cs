@@ -166,10 +166,7 @@ namespace Cats.Data.UnitWork
         {
             get { return this.statusRepository ?? (this.statusRepository = new GenericRepository<Status>(_context)); }
         }
-
-
-
-
+        
         private IGenericRepository<AdminUnit> adminUnitRepository;
 
         public IGenericRepository<AdminUnit> AdminUnitRepository
@@ -178,10 +175,7 @@ namespace Cats.Data.UnitWork
             get { return this.adminUnitRepository ?? (this.adminUnitRepository = new GenericRepository<AdminUnit>(_context)); }
 
         }
-
-
-
-
+        
         private IGenericRepository<AdminUnitType> adminUnitTypeRepository;
 
         public IGenericRepository<AdminUnitType> AdminUnitTypeRepository
@@ -191,9 +185,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-
-
-
+                
         private IGenericRepository<Commodity> commodityRepository;
 
         public IGenericRepository<Commodity> CommodityRepository

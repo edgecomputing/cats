@@ -9,42 +9,64 @@
 }
 @section LeftBar
 {
-   
-@Html.Partial("LanguageLeftBar");
+
+    @Html.Partial("LanguageLeftBar");
      
 }
-<div class="well"><h4>Create new Translation</h4></div>
-@using (Html.BeginForm()) {
+<div class="well">
+    <h4>Create new Translation</h4>
+</div>
+
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <div class="well form-horizontal">
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.LanguageCode)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.LanguageCode)
-            @Html.ValidationMessageFor(model => model.LanguageCode)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TextKey)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TextKey)
-            @Html.ValidationMessageFor(model => model.TextKey)
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.LanguageCode)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.LanguageCode)
+                <span class="field-validation-error">
+                    @ViewBag.Error
+                </span>
+                @Html.ValidationMessageFor(model => model.LanguageCode)
+            </div>
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TranslatedText)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TranslatedText)
-            @Html.ValidationMessageFor(model => model.TranslatedText)
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.TextKey)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.TextKey)
+                <span class="field-validation-error">
+                    @ViewBag.Error
+                </span>
+                @Html.ValidationMessageFor(model => model.TextKey)
+            </div>
         </div>
 
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.TranslatedText)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.TranslatedText)
+                <span class="field-validation-error">
+                    @ViewBag.Error
+                </span>
+                @Html.ValidationMessageFor(model => model.TranslatedText)
+            </div>
+        
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
     </div>
 }
