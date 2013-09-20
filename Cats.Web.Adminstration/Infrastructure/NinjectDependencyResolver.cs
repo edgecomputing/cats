@@ -47,9 +47,9 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
             kernel.Bind<ILanguageService>().To<LanguageService>();
             kernel.Bind<IDonorService>().To<DonorService>();
-          //  kernel.Bind<IHubOwnerService>().To<HubOwnerService>();
+            kernel.Bind<IHubOwnerService>().To<HubOwnerService>();
             kernel.Bind<ICommodityTypeService>().To<CommodityTypeService>();
-
+            kernel.Bind<IUserHubService>().To<UserHubService>();
             kernel.Bind<IProgramService>().To<ProgramService>();
             kernel.Bind<IUnitService>().To<UnitService>();
             kernel.Bind<IStoreService>().To<StoreService>();
@@ -57,7 +57,8 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<ICommoditySourceService>().To<CommoditySourceService>();
             kernel.Bind<ICommodityService>().To<CommodityService>();
             kernel.Bind<IAuditService>().To<AuditService>();
-
+            kernel.Bind<IHubService>().To<HubService>();
+            kernel.Bind<IUserProfileService>().To<UserProfileService>();
         }
     }
 }

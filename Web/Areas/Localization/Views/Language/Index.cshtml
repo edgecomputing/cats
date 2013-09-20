@@ -5,8 +5,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-<div class="well">
-    <h4>Available Languages</h4>
+<div>
+    <h4>Language Registration</h4>
 </div>
 @section LeftBar{
 
@@ -19,7 +19,7 @@
         {
             //columns.Bound(p => p.LanguageID);
             columns.Bound(p => p.LanguageCode).ClientTemplate("<a href='" + Url.Action("Index", "Language") + " '>#=LanguageCode#</a>  ");
-            columns.Bound(p => p.LanguageName);
+        columns.Bound(p => p.LanguageName);
             columns.Command(p => p.Custom("Edit").Click("languageEdit"));
            // columns.Command(p => p.Custom("Delete").Click("LanguageDelete"));
         })

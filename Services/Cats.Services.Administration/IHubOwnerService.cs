@@ -16,7 +16,7 @@ namespace Cats.Services.Administration
         HubOwner FindById(int id);
         List<HubOwner> GetAllHubOwner();
         List<HubOwner> FindBy(Expression<Func<HubOwner, bool>> predicate);
-
+         
 
     }
 }

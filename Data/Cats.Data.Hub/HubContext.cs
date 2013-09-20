@@ -14,7 +14,7 @@ namespace Cats.Data.Hub
         }
 
         public HubContext()
-            : base("Name=HubContext")
+            : base("Name=CatsContext")
         {
         }
 

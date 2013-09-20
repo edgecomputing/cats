@@ -47,7 +47,7 @@
         {
             columns.Bound(p => p.Donor);
             columns.Bound(p => p.Currency);
-            columns.Bound(p => p.Ammount).Title("Amount " +@unit).ClientGroupFooterTemplate("Total: #=sum#");
+            columns.Bound(p => p.Ammount).Title("Amount ").ClientGroupFooterTemplate("Total: #=sum#");
 
         })
         .Pageable()

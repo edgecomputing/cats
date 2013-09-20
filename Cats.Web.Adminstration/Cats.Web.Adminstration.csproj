@@ -128,7 +128,9 @@
     <Compile Include="Controllers\CommodityTypeController.cs" />
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HubOwnerController.cs" />
     <Compile Include="Controllers\ProgramController.cs" />
+    <Compile Include="Controllers\UserWarehouse.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Global.asax.cs">
@@ -151,6 +153,8 @@
     <Compile Include="Models\ViewModels\CommodityTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityViewModel.cs" />
     <Compile Include="Models\ViewModels\DonorModel.cs" />
+    <Compile Include="Models\ViewModels\HubOwneViewModel.cs" />
+    <Compile Include="Models\ViewModels\HubUserViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ProgramViewModel.cs" />
     <Compile Include="Models\ViewModels\StoreViewModel.cs" />
@@ -615,6 +619,24 @@
     <Content Include="Views\HubOwner\Index.cshtml" />
     <Content Include="Views\HubOwner\Update.cshtml" />
     <Content Include="Views\AuditLog\Index.cshtml" />
+    <Content Include="Views\Commodity\Index.cshtml" />
+    <Content Include="Views\UserWarehouse\Index.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Unit\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Integer.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

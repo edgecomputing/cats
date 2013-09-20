@@ -30,10 +30,10 @@
         );
         columns.Bound(u => u.FullName).Title("Full Name");
         columns.Bound(u => u.Disabled).Title("Disabled Account");
-        columns.Bound(u => u.LoggedIn).Title("Currently Logged In");
+        columns.Bound(u => u.LoggedInInd).Title("Currently Logged In");
         columns.Bound(u => u.LanguageCode).Title("UI Language");
         columns.Bound(u => u.Keyboard).Title("Keyboard Language");
-        columns.Bound(u => u.Calendar).Title("Calendar Preference");
+        columns.Bound(u => u.DatePreference).Title("Calendar Preference");
         columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
 
 

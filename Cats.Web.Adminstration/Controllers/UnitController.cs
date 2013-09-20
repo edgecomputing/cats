@@ -101,7 +101,7 @@ namespace Cats.Web.Adminstration.Controllers
             if (unit!=null)
             {
                 _unitService.DeleteUnit(unit);
-                RedirectToAction("Index");
+               return  RedirectToAction("Index");
             }
             return View();
         }
