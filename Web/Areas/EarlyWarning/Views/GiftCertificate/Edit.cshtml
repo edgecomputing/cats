@@ -191,7 +191,10 @@
                                        .Create(create => create.Action("GiftCertificateDetail_Create", "GiftCertificate", new { id = Model.GiftCertificateID }))
                                        .Update(update => update.Action("GiftCertificateDetail_Update", "GiftCertificate"))
                                        .Destroy(destroy => destroy.Action("GiftCertificateDetail_Destroy", "GiftCertificate"))
-                                       .Model(m => m.Id(t => t.GiftCertificateDetailID))
+                                       .Model(m =>  {
+                                                      m.Id(t => t.GiftCertificateDetailID);
+                                                      m.Field(t=>t.CommodityID).DefaultValue(-1);
+                                                  })
 
            )
 

@@ -161,7 +161,7 @@ namespace Cats.Areas.GiftCertificate.Models
         /// </value>
         public string JSONUpdatedGiftCertificateDetails { get; set; }
 
-        [Required]
+        //[Required]
         public int CommodityTypeID { get; set; }
 
         public string CommodityType { get; set; }

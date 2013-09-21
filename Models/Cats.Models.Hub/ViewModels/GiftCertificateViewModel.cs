@@ -155,7 +155,7 @@ namespace Cats.Models.Hub
         /// </value>
         public string JSONUpdatedGiftCertificateDetails { get; set; }
 
-        [Required]
+       // [Required]
         public int CommodityTypeID { get; set; }
         /// <summary>
         /// Gets or sets the row count.
