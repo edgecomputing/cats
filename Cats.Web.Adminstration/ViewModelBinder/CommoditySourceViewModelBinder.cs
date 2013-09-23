@@ -26,12 +26,12 @@ namespace Cats.Web.Adminstration.ViewModelBinder
         }
         public static CommoditySource BindCommoditySource(CommoditySourceViewModel commoditySourceViewModel, CommoditySource commoditySource = null)
         {
-            return commoditySource ?? new CommoditySource()
-            {
-                CommoditySourceID=commoditySourceViewModel.CommoditySourceID,
-                Name=commoditySourceViewModel.Name
+            var target = commoditySource ?? new CommoditySource();
+            
+                target.CommoditySourceID = commoditySourceViewModel.CommoditySourceID;
+                target.Name = commoditySourceViewModel.Name;
 
-            };
+            return target;
         }
     }
 }

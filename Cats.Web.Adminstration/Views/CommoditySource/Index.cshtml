@@ -8,11 +8,12 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Index</h2>
-@(Html.Kendo().Grid<CommoditySourceViewModel>().Columns(columns=>
+<h4 class="page-header">Commodity Source</h4>
+@(Html.Kendo().Grid<CommoditySourceViewModel>().Name("grid").Columns(columns=>
                                                             {
-                                                                columns.Bound(t => t.CommoditySourceID);
+                                                              //  columns.Bound(t => t.CommoditySourceID);
                                                                 columns.Bound(t => t.Name);
+                                                                columns.Command(t => t.Destroy()).Width(100);
 
                                                             }).ToolBar(toolbar =>
                          {
@@ -28,9 +29,9 @@
                     .Ajax()
             .PageSize(10)
     .Read("CommoditySource_Read","CommoditySource")
-    .Create("CommoditySource_Update","CommoditySource")
+    .Create("CommoditySource_Create","CommoditySource")
     .Update("CommoditySource_Update","CommoditySource")
-    .Destroy("CommoditySource_Delete","CommoditySource")
+    .Destroy("CommoditySource_Destroy","CommoditySource")
     .Model(m=>m.Id(t=>t.CommoditySourceID)))
     )
     

@@ -26,7 +26,14 @@ namespace Cats.Web.Adminstration.Controllers
         {
             return View();
         }
-         [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CommoditySource_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            var commoditySources = _commoditySourceService.GetAllCommoditySource();
+            var commoditysourcesViewModel =
+                CommoditySourceViewModelBinder.BindListCommoditySourceViewModel(commoditySources);
+            return Json(commoditysourcesViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CommoditySource_Create([DataSourceRequest] DataSourceRequest request, CommoditySourceViewModel commoditySourceViewModel)
         {
             if (commoditySourceViewModel != null && ModelState.IsValid)

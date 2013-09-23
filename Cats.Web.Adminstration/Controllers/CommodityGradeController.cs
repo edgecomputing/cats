@@ -24,7 +24,12 @@ namespace Cats.Web.Adminstration.Controllers
         {
             return View();
         }
-
+        public ActionResult CommodityGrade_Read([DataSourceRequest]DataSourceRequest request)
+        {
+            var commodityGrades = _commodityGradeService.GetAllCommodityGrade();
+            var commodityGradesViewModel = CommodityGradeViewModelBinder.BindListCommodityGradeViewModel(commodityGrades);
+            return Json(commodityGradesViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CommodityGrade_Create([DataSourceRequest] DataSourceRequest request,
                                                   CommodityGradeViewModel commodityGradeViewModel)
