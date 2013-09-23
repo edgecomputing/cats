@@ -1,7 +1,10 @@
-﻿@model IEnumerable<Cats.Models.Hub.Ledger>
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hub.Ledger>
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    @*@Html.LedgerLink("Create", Url.Action("Info"), Html.Translate("Create New"), Url.Action("Index"))*@
+
 </p>
 <table style="width:100%">
     <tr>

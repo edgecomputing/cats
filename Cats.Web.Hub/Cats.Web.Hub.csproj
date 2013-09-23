@@ -1326,6 +1326,7 @@
     <Content Include="Views\Ledger\Edit.cshtml" />
     <Content Include="Views\Ledger\Delete.cshtml" />
     <Content Include="Views\Ledger\Create.cshtml" />
+    <Content Include="Views\Ledger\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

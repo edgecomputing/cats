@@ -6,8 +6,8 @@
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Ledger</legend>
+   
+        
 
         @Html.HiddenFor(model => model.LedgerID)
 
@@ -23,14 +23,15 @@
             @Html.LabelFor(model => model.LedgerType.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.LedgerType.Name)
+            @Html.DropDownList("ledgerTypes")
+            @*@Html.EditorFor(model => model.LedgerType.Name)*@
             @Html.ValidationMessageFor(model => model.LedgerType.Name)
         </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
+        <div>
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </div>
 }
 
 <div>
