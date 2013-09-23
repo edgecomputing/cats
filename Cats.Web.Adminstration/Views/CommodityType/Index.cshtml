@@ -1,18 +1,19 @@
 ﻿@using Cats.Web.Adminstration.Models.ViewModels
 @using Kendo.Mvc.UI
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Commodity Type";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h4 class="page-header">Commodity Type</h4>
+
 @(Html.Kendo().Grid<CommodityTypeViewModel>()
 .Name("grid")
 .Columns(columns=>
         {
             columns.Bound(c => c.Name);
-            columns.Bound(c => c.CommodityTypeId);
-            columns.Command(c => c.Destroy());
+           // columns.Bound(c => c.CommodityTypeId);
+            columns.Command(c => c.Destroy()).Width(100);
         }).ToolBar(toolbar =>
                          {
                              toolbar.Save();
@@ -30,6 +31,6 @@
     .Read("CommodityType_Read","CommodityType")
     .Create("CommodityType_Create","CommodityType")
     .Update("CommodityType_Update","CommodityType")
-    .Destroy("CommodityType_Delete","CommodityType")
+    .Destroy("CommodityType_Destroy","CommodityType")
     )
     )
