@@ -117,7 +117,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         //get published hrds information
         public ActionResult CurrentHRD_Read([DataSourceRequest] DataSourceRequest request)
-        {
+        {            
             DateTime latestDate = _hrdService.Get(m => m.Status == 3).Max(m => m.PublishedDate);
             var hrds = _hrdService.FindBy(m =>m.Status==3 && m.PublishedDate == latestDate);
                 //.OrderBy(m => m.PublishedDate);
@@ -413,10 +413,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult PublishHRD(int id)
         {
-            var hrd = _hrdService.FindById(id);
-            hrd.Status = 3;
-            hrd.PublishedDate = DateTime.Now;
-            _hrdService.EditHRD(hrd);
+            _hrdService.PublishHrd(id);
             return RedirectToAction("ApprovedHRDs");
         }
 
