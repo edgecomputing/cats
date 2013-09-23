@@ -22,9 +22,9 @@ namespace Cats.Web.Adminstration.ViewModelBinder
                        };
         }
 
-        public static List<CommodityGradeViewModel> BindListCommodityGradeViewModel(List<CommodityGrade> commodities)
+        public static List<CommodityGradeViewModel> BindListCommodityGradeViewModel(List<CommodityGrade> commodityGrades)
         {
-            return commodities.Select(BindCommodityGradeViewModel).ToList();
+            return commodityGrades.Select(BindCommodityGradeViewModel).ToList();
         }
         public static CommodityGrade BindCommodityGrade(CommodityGradeViewModel commodityGradeViewModel, CommodityGrade commodityGrade = null)
         {

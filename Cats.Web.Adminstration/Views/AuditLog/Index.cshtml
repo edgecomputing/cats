@@ -2,6 +2,7 @@
 
 
 @using Cats.Models
+@using Cats.Web.Administration.Helpers
 @using Cats.Web.Adminstration.Models.ViewModels
 @using Kendo.Mvc.UI
 @{
@@ -9,26 +10,21 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Index</h2>
-@(Html.Kendo().Grid<AuditLogViewModel>().Columns(columns=>
-                                                     {
+<h4>Audit Log</h4>
+@(Html.Kendo().Grid<AuditLogViewModel>().Name("grid").Columns(columns=>
+                                                     {     columns.Bound(t => t.AuditID);
+                                                     columns.Bound(t => t.ColumnName);
+                                                     columns.Bound(t => t.TableName);
                                                          columns.Bound(t => t.Action);
-                                                         columns.Bound(t => t.AuditID);
-                                                         columns.Bound(t => t.ColumnName);
-                                                         columns.Bound(t => t.HubID);
-                                                         columns.Bound(t => t.LogDate);
-                                                         columns.Bound(t => t.LoginID);
+                                                        columns.Bound(t => t.LogDate);
                                                          columns.Bound(t => t.NewValue);
                                                          columns.Bound(t => t.OldValue);
+                                                         columns.Bound(t => t.LoginID);
+                                                         //columns.Command(t => t.Destroy());
                                                          
-
                                                      })
-                                                     .ToolBar(toolbar =>
-                         {
-                             toolbar.Save();
-                             toolbar.Create();
-                         })
-             .Editable(edit => edit.Mode(GridEditMode.InCell))
+                        
+             .Editable(edit => edit.Mode(GridEditMode.InLine))
              .Pageable()
             .Selectable(t => t.Mode(GridSelectionMode.Single))
              .Navigatable()

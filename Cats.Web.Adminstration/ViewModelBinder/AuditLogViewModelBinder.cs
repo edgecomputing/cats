@@ -16,7 +16,7 @@ namespace Cats.Web.Adminstration.ViewModelBinder
             return new AuditLogViewModel()
             {
                 Action=auditLog.Action,
-                AuditID=auditLog.AuditID,
+                AuditID=auditLog.AuditID.ToString(),
                 ColumnName=auditLog.ColumnName,
                 HubID=auditLog.HubID,
                 LogDate=auditLog.DateTime,
@@ -25,7 +25,7 @@ namespace Cats.Web.Adminstration.ViewModelBinder
                 OldValue = auditLog.OldValue
                 ,
                 TableName = auditLog.TableName,
-                
+                //UserName = users.Find(t=>t.UserProfileID==auditLog.LoginID).UserName
 
 
 
@@ -33,9 +33,9 @@ namespace Cats.Web.Adminstration.ViewModelBinder
             };
         }
 
-        public static List<AuditLogViewModel> BindListAuditLogViewModel(List<Audit> commodities)
+        public static List<AuditLogViewModel> BindListAuditLogViewModel(List<Audit> audits)
         {
-            return commodities.Select(BindAuditLogViewModel).ToList();
+            return audits.Select(audit => BindAuditLogViewModel(audit)).ToList();
         }
     }
 }
