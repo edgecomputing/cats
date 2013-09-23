@@ -7,11 +7,6 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
-@{
-    
-    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-    var calendar = user.Profile.Calendar;
-}
 
 @section Toolbar
 {

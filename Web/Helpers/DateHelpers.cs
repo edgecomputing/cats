@@ -30,6 +30,7 @@ namespace Cats.Helpers
             DateTime theRealDate = Convert.ToDateTime((dateAsString));
             return ToCTSPreferedDateFormat(theRealDate, "am");
         }
+
         public static Decimal ToPreferedWeightMeasurment(this Decimal quantity, string weightMeasurment)
         {
 

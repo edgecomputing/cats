@@ -39,5 +39,21 @@ namespace Cats.Helpers
             var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof (IUserAccountService));
             return service.GetUserInfo(userName);
         }
+
+        public static string UserCalendarPreference(this HtmlHelper helper)
+        {
+            var preference = "EN";
+            var user = GetUser(HttpContext.Current.User.Identity.Name);
+            try
+            {
+                preference = user.DatePreference;
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log exception hrere
+            }
+
+            return preference.ToUpper();
+        }
     }
 }
