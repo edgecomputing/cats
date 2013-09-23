@@ -23,10 +23,6 @@
 
     </ul>
 }
-@{
-    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
-    var cal = user.Calendar; 
-}
 
 <h4 class="page-header">Rations</h4>
 <div>
@@ -35,7 +31,7 @@
 </div>
 <div>
 
-    @if (cal.ToLower() == "ec")
+    @if (Html.UserCalendarPreference()=="EC")
     {
         @Html.DisplayNameFor(model => model.CreatedDateEC)
         <b>@Html.DisplayFor(model => model.CreatedDateEC)</b>

@@ -7,9 +7,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EDAB4613
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{9721BDEF-6292-44C0-96B5-4CA68038D70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Tests", "Tests\Cats.Tests\Cats.Tests.csproj", "{7711C8B7-E894-4305-AE96-3255A184344C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{3AE65677-72B6-4B81-B374-9CC70B68A9BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{0809144E-2611-4126-A5A0-1FB24F7EFC23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CE32461E-5478-4B6E-B80B-0160001FC77E}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{207CB9FB-6834-4E29-B355-3AC124391D1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{F069A766-0B41-4152-AAC9-EDF3D9C064A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document Generator", "Document Generator", "{5C3F75A2-1748-4DDE-955E-214166AA17AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Tests", "Tests\Cats.Tests\Cats.Tests.csproj", "{7711C8B7-E894-4305-AE96-3255A184344C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats", "Web\Cats.csproj", "{F8991E39-B399-4BAF-8515-F62B28A604BE}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -20,16 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.EarlyWarning"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Data.Tests", "Tests\Cats.Data.Tests\Cats.Data.Tests.csproj", "{5F5B36B6-9E48-4235-8B0E-BD1EAE91E667}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{0809144E-2611-4126-A5A0-1FB24F7EFC23}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.DatabaseMigrations", "Migrations\Cats.Migration\Cats.DatabaseMigrations.csproj", "{3181270A-8BF3-4640-988E-2AA1DCBE83FF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CE32461E-5478-4B6E-B80B-0160001FC77E}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Procurement", "services\Cats.Services.Procurement\Cats.Services.Procurement.csproj", "{B0410B11-91E0-40EC-9F16-55FC5E2C4090}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -49,15 +57,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Security.Tests", "Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Security", "Services\Cats.Services.Security\Cats.Services.Security.csproj", "{0E706780-A5B2-488C-A502-49526946DEB5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{207CB9FB-6834-4E29-B355-3AC124391D1E}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema", "Migrations\Cats.DatabaseSchema\Cats.DatabaseSchema.sqlproj", "{23584698-1BD3-4C40-AD56-9BC6DEC0FF19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Logistics", "Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj", "{EEF1DDEB-A6E9-493D-975D-C551A73A79B9}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Cats.DatabaseSchema.Security", "Migrations\Cats.DatabaseSchema.Security\Cats.DatabaseSchema.Security.sqlproj", "{6941F350-B85A-4A39-96E4-B0433388A3C1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4CF6331E-8FC5-4ED9-86AB-6AEA571C0272}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Common", "Services\Cats.Services.Common\Cats.Services.Common.csproj", "{083D007C-DD3B-42C0-B11C-A7015A909085}"
 EndProject
@@ -66,8 +70,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.PSNP", "Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj", "{8EDA6B56-C5C9-4744-A356-1AF76AD96159}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Transaction", "Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj", "{9B741D92-4B67-4863-BF38-A1ADCAE40870}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{F069A766-0B41-4152-AAC9-EDF3D9C064A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportLib", "ReportLib\ReportLib.csproj", "{2DB02A2C-8E7B-4A3C-9A4C-AF7736A66990}"
 EndProject
@@ -90,8 +92,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Web.Adminstration.Tests", "Tests\Cats.Web.Adminstration.Tests\Cats.Web.Adminstration.Tests.csproj", "{6B42CA40-4BE0-4122-8050-7DF94A5BD40C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Administration", "Services\Cats.Services.Administration\Cats.Services.Administration.csproj", "{2F5BAA46-25C9-4B3B-AAF6-7DF39E9A696A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document Generator", "Document Generator", "{5C3F75A2-1748-4DDE-955E-214166AA17AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Documents", "Infrastructure\Cats.Documents\Cats.Documents.csproj", "{48791F08-2497-4328-B7DE-2CBE5A81C836}"
 EndProject

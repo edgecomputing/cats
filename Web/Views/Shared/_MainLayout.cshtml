@@ -205,12 +205,12 @@
 
     @{
        // var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-        var calendarPreference = user.Profile.Calendar.ToString();
-        if (calendarPreference != "EC")
+        var calendarPreference = user.Profile.DatePreference;           
+        if (calendarPreference.ToUpper() != "AM")
         {
         <script>
             $(function () {
-                $(".cats-datepicker").datepicker();
+                $(".cats-datepicker2").datepicker();
             });
         </script>
         }
