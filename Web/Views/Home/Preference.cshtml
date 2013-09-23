@@ -1,4 +1,7 @@
-﻿@using Cats.Models
+﻿@model Cats.Areas.Settings.Models.UserPreferenceViewModel
+@using Kendo.Mvc.UI
+@using Cats.Areas.Settings.Models
+@using Cats.Models
 @{
     ViewBag.Title = "Preference";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -112,7 +115,99 @@
                 </tr>
             </table>
         </div>
-        <div id="tabs-2"></div>
+        <div id="tabs-2">
+          @using (Html.BeginForm("Edit", "UserPreference", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+              <table>
+                  <tr>
+              <td>
+                <strong>Language</strong>
+              </td>
+
+                      <td>
+    @(Html.Kendo().DropDownList()
+          .Name("Language")
+          .DataTextField("Language")
+          .BindTo(Model.Language)
+          .SelectedIndex(Model.Language.IndexOf(Model.CurrentPreference.Language.First())))
+
+
+</td>
+          </tr>
+                  
+                  <tr>
+                      <td>
+                        <strong>Keyboard</strong>
+                      </td>
+
+                      <td>
+    @(Html.Kendo().DropDownList()
+              .Name("Keyboard")
+              .DataTextField("KeyboardLanguage")
+              .BindTo(Model.KeyboardLanguage)
+              .SelectedIndex(Model.KeyboardLanguage.IndexOf(Model.CurrentPreference.KeyboardLanguage.First())))
+              
+                          </td>
+              </tr>
+
+
+                  <tr>
+                      <td>
+                         <strong>Prefered Weight Measurement Unit </strong>
+                      </td>
+                      
+                      <td>
+
+    @(Html.Kendo().DropDownList()
+              .Name("PreferedWeightMeasurement")
+              .DataTextField("PreferedWeightMeasurement")
+              .BindTo(Model.PreferedWeightMeasurement)
+              .SelectedIndex(Model.PreferedWeightMeasurement.IndexOf(Model.CurrentPreference.PreferedWeightMeasurement.First())))
+
+
+                          </td>
+              </tr>
+              
+                  <tr>
+
+                      <td>
+
+                         <strong>Date Preference</strong>
+                      </td>
+
+                      <td>
+
+    @(Html.Kendo().DropDownList()
+          .Name("DatePreference")
+          .DataTextField("DatePreference")
+          .BindTo(Model.DatePreference)
+          .SelectedIndex(Model.DatePreference.IndexOf(Model.CurrentPreference.DatePreference.First())))
+              
+
+                          </td>
+              </tr>
+
+                  <tr>
+
+                      <td>
+                          <strong>Default Theme</strong>
+                      </td>
+
+                      <td>
+    @(Html.Kendo().DropDownList()
+              .Name("DefaultTheme")
+              .DataTextField("DefaultTheme")
+              .BindTo(Model.DefaultTheme)
+              .SelectedIndex(Model.DefaultTheme.IndexOf(Model.CurrentPreference.DefaultTheme.First())))
+              
+                          </td>
+              </tr>
+    </table><br />
+    <input type="submit" name="Edit" class="btn btn-primary" value="Edit Preference" />
+    <a href="@Url.Action("Index","UserPreference")" class="btn">Cancel</a>
+
+}
+        </div>
         <div id="tabs-3"></div>
     </div>
     
