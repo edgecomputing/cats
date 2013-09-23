@@ -30,7 +30,7 @@ namespace LanguageHelpers.Localization.Data
 
         public IGenericRepository<Language> LanguageRepository
         {
-            get { return this.LanguageRepository ?? (this.languageRepository = new GenericRepository<Language>(_context)); }
+            get { return this.languageRepository ?? (this.languageRepository = new GenericRepository<Language>(_context)); }
         }
 
         private bool disposed = false;

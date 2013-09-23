@@ -72,8 +72,9 @@ namespace Cats.Web.Adminstration.Controllers
                 HubID = model.HubID,
                 IsActive = model.IsActive,
                 IsTemporary = model.IsTemporary,
-                StackCount = model.StackCount
-
+                StackCount = model.StackCount,
+                StoreManName = model.StoreManName
+                
             };
             return store;
         }
@@ -89,6 +90,7 @@ namespace Cats.Web.Adminstration.Controllers
                 origin.IsActive = model.IsActive;
                 origin.IsTemporary = model.IsTemporary;
                 origin.StackCount = model.StackCount;
+                origin.StoreManName = model.StoreManName;
                 _storeService.EditStore(origin);
             }
             return Json(new[] {model}.ToDataSourceResult(request, ModelState));
