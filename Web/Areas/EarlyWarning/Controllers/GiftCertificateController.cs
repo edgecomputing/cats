@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Cats.Areas.GiftCertificate.Models;
 using Cats.Services.EarlyWarning;
@@ -92,6 +93,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var gift = new GiftCertificateViewModel();
             gift.GiftDate = DateTime.Today;
             gift.ETA = DateTime.Today;
+            gift.CommodityTypeID = 1;
             return View(gift);
         }
         [HttpPost]
@@ -249,7 +251,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                  "Name");
                 ViewBag.CommodityTypeID =
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
-                                   "CommodityTypeID", "Name");
+                                   "CommodityTypeID", "Name",1);
                 ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
                 ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name");
         
@@ -261,7 +263,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                 "Name",giftCertificate.DonorID);
                 ViewBag.CommodityTypeID =
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
-                                   "CommodityTypeID", "Name", giftDetails == null ? string.Empty : giftDetails.Commodity.CommodityTypeID.ToString());
+                                   "CommodityTypeID", "Name", giftDetails == null ? "1" : giftDetails.Commodity.CommodityTypeID.ToString());
                 ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",giftCertificate.ProgramID);
                 ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name",giftCertificate.DModeOfTransport);
         
@@ -279,12 +281,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
            return Json(_letterTemplateService.GetAllLetterTemplates().ToDataSourceResult(request));
 
        }
-        public ActionResult ShowTemplate(string fileName, int giftCertificateId)
+        public void ShowTemplate(string fileName, int giftCertificateId)
         {
             // TODO: Make sure to use DI to get the template generator instance
-            var template = new TemplateHelper(_unitofwork);
-            template.GenerateTemplate(giftCertificateId, 1,fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
-            return RedirectToAction("Index");
+            try
+            {
+                var template = new TemplateHelper(_unitofwork);
+                string filePath = template.GenerateTemplate(giftCertificateId, 1, fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
+                Response.ContentType = "application/text";
+                Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
+                Response.TransmitFile(filePath);
+            }
+            catch 
+            {
+                
+            }
+           
         }
         protected override void Dispose(bool disposing)
         {

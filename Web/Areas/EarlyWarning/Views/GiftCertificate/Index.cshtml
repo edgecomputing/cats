@@ -38,9 +38,9 @@
                         
     @if(item.StatusID ==1)
     {
-         <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"></i> </a>
-       
-         <a id="btnApprove" href="@Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID })"><i class="icon-plus"></i>Approve</a>
+        <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"></i> Edit</a>
+        <i> </i>
+         <a id="btnApprove" class="btn-Approve-Gift" href="@Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID })"><i class="icon-ok"></i> Approve </a>
     }
     else
     {
@@ -78,7 +78,7 @@
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
-        $('#btnApprove').click(function () {
+        $('.btn-Approve-Gift').click(function () {
             $('#dialogContent').load(this.href, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',

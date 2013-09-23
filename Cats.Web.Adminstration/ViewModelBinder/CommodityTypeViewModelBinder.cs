@@ -16,20 +16,18 @@ namespace Cats.Web.Adminstration.ViewModelBinder
                            Name = commodityType.Name,
                            CommodityTypeId = commodityType.CommodityTypeID
                        };
-        } 
-
-        public static List<CommodityTypeViewModel> BindListCommodityTypeViewModel(List<CommodityType> commodityTypes )
-        {
-           return commodityTypes.Select(BindCommodityTypeViewModel).ToList();
         }
-        public static CommodityType BindCommodityType(CommodityTypeViewModel commodityTypeViewModel,CommodityType commodityType=null)
+
+        public static List<CommodityTypeViewModel> BindListCommodityTypeViewModel(List<CommodityType> commodityTypes)
         {
-            return commodityType?? new CommodityType()
-            {
-                CommodityTypeID=commodityTypeViewModel.CommodityTypeId,
-                Name = commodityTypeViewModel.Name
-                
-            };
-        } 
+            return commodityTypes.Select(BindCommodityTypeViewModel).ToList();
+        }
+        public static CommodityType BindCommodityType(CommodityTypeViewModel commodityTypeViewModel, CommodityType commodityType = null)
+        {
+            var target = commodityType ?? new CommodityType();
+            target.CommodityTypeID = commodityTypeViewModel.CommodityTypeId;
+            target.Name = commodityTypeViewModel.Name;
+            return target;
+        }
     }
 }

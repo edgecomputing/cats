@@ -71,9 +71,9 @@ namespace Cats.Areas.Localization.Controllers
             return View(localizedText);
         }
 
-        public ActionResult Details(string languageCode)
+        public ActionResult Details()
         {
-            var localized = _localizedTextService.FindBy(m => m.LanguageCode == languageCode).FirstOrDefault();
+            var localized = _localizedTextService.FindBy(m => m.LanguageCode == "AM").FirstOrDefault();
             return View(localized);
         }
 
@@ -92,7 +92,7 @@ namespace Cats.Areas.Localization.Controllers
             if (ModelState.IsValid)
             {
                 _localizedTextService.UpdateLocalizedText(localizedText);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
             return View(localizedText);
         }
@@ -118,7 +118,8 @@ namespace Cats.Areas.Localization.Controllers
 
         public ActionResult Translation_Read([DataSourceRequest] DataSourceRequest request)
         {
-            
+            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
+            //var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
             //var language = _languageService.FindById(id);
             var localized = _localizedTextService.FindBy(m => m.LanguageCode == "AM");
 

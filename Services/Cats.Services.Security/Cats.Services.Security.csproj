@@ -87,6 +87,10 @@
     <Compile Include="UserPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
+      <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
+      <Name>Cats.Data.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>

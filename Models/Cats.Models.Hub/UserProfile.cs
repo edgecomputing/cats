@@ -34,6 +34,12 @@ namespace Cats.Models.Hub
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
+
+        public bool Disabled { get; set; }
+        public string[] Roles { get; set; }
+
+        public string FullName { get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); } }
+
         public virtual ICollection<Adjustment> Adjustments { get; set; }
         public virtual ICollection<Receive> Receives { get; set; }
         public virtual ICollection<SessionAttempt> SessionAttempts { get; set; }

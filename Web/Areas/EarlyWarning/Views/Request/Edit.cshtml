@@ -20,6 +20,7 @@
     <div class="form-horizontal well">
         <fieldset>
             <legend></legend>
+            @Html.HiddenFor(m=>m.RegionalRequestID)
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.RegionID, "Region")
@@ -86,7 +87,7 @@
                 </div>
                 <div class="controls">
                     @Html.HiddenFor(model => model.RequistionDate)
-                     <input class="cats-datepicker" type="text" id="requestDate" name="requestDate"/>
+                     <input class="cats-datepicker2" type="text" id="requestDate" name="requestDate"/>
                     @Html.ValidationMessageFor(model => model.RequistionDate)
                 </div>
             </div>

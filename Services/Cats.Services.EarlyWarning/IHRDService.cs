@@ -23,5 +23,7 @@ namespace Cats.Services.EarlyWarning
                    Expression<Func<HRD, bool>> filter = null,
                    Func<IQueryable<HRD>, IOrderedQueryable<HRD>> orderBy = null,
                    string includeProperties = "");
+
+        void PublishHrd(int hrdId);
     }
 }

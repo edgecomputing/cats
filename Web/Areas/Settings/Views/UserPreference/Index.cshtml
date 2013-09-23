@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Cats.Areas.Settings.Models.UserPreferenceViewModel>
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "_Layout";
+}
+
+<h4>User Preference</h4>
+
+    @(Html.Kendo().DropDownListFor(t=>t.First().Language))
+    @(Html.Kendo().DropDownListFor(t=>t.First().PreferedWeightMeasurement))
+    @(Html.Kendo().DropDownListFor(t=>t.First().KeyboardLanguage))
+    @(Html.Kendo().DropDownListFor(t=>t.First().DefaultTheme))
+    @(Html.Kendo().DropDownListFor(t=>t.First().DatePreference))
+    @Html.ActionLink("Edit", "Edit")

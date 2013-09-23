@@ -44,8 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocX">
-      <HintPath>..\lib\DocX.dll</HintPath>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
     </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
@@ -69,11 +69,6 @@
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -253,10 +248,12 @@
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\LogController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UserPreferenceController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\UserPreferenceViewModel.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
@@ -830,6 +827,8 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPassword.cshtml" />
+    <Content Include="Areas\Settings\Views\UserPreference\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
@@ -1108,6 +1107,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Web.Hub\Cats.Web.Hub.csproj">
+      <Project>{c0555fd5-d03e-43bb-9827-ca695f665059}</Project>
+      <Name>Cats.Web.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>

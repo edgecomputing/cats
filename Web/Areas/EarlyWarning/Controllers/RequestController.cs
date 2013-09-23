@@ -76,7 +76,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var regionalRequest = new RegionalRequest();
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-            regionalRequest.RequistionDate = DateTime.Today;
+            regionalRequest.RequistionDate = DateTime.Today;           
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;

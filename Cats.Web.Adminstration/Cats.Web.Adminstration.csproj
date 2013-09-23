@@ -130,6 +130,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HubOwnerController.cs" />
     <Compile Include="Controllers\ProgramController.cs" />
+    <Compile Include="Controllers\UserWarehouse.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Global.asax.cs">
@@ -152,6 +153,8 @@
     <Compile Include="Models\ViewModels\CommodityTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityViewModel.cs" />
     <Compile Include="Models\ViewModels\DonorModel.cs" />
+    <Compile Include="Models\ViewModels\HubOwneViewModel.cs" />
+    <Compile Include="Models\ViewModels\HubUserViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\ProgramViewModel.cs" />
     <Compile Include="Models\ViewModels\StoreViewModel.cs" />
@@ -588,7 +591,9 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -617,6 +622,7 @@
     <Content Include="Views\HubOwner\Update.cshtml" />
     <Content Include="Views\AuditLog\Index.cshtml" />
     <Content Include="Views\Commodity\Index.cshtml" />
+    <Content Include="Views\UserWarehouse\Index.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Unit\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_MainLayout.cshtml" />

@@ -1,8 +1,13 @@
 ﻿
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Cats.Models;
-
+using Cats.Web.Administration.Models.ViewModels;
 using Cats.Services.Administration;
+using Cats.Web.Adminstration.Models.ViewModels;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace  Cats.Web.Adminstration.Controllers
 {
@@ -20,68 +25,96 @@ namespace  Cats.Web.Adminstration.Controllers
 
         public virtual ActionResult Index()
         {
-            return View(_hubOwnerService.GetAllHubOwner());
+            return View();
         }
 
-        public virtual ActionResult Update()
-        {
-            return PartialView(_hubOwnerService.GetAllHubOwner());
-        }
-        
-        //
-        // GET: /HubOwners/Details/5
 
-        public virtual ViewResult Details(int id)
+        public ActionResult Read([DataSourceRequest] DataSourceRequest reques)
         {
-            HubOwner HubOwner = _hubOwnerService.FindById(id);
-            return View(HubOwner);
+
+            return Json(GetHubOwner().ToDataSourceResult(reques));
         }
 
-        //
-        // GET: /HubOwners/Create
 
-        public virtual ActionResult Create()
+
+        private IEnumerable<HubOwnerViewModel> GetHubOwner()
         {
-            return PartialView();
-        } 
-
-        //
-        // POST: /HubOwners/Create
-
-        [HttpPost]
-        public virtual ActionResult Create(HubOwner HubOwner)
-        {
-            if (ModelState.IsValid)
+            var result = _hubOwnerService.GetAllHubOwner();
+            var viewModelList = new List<HubOwnerViewModel>();
+            foreach (var hubOwner in result)
             {
-                _hubOwnerService.AddHubOwner(HubOwner);
-                return Json(new { success = true }); 
+                var ownerViewModel = new HubOwnerViewModel();
+                ownerViewModel.Name = hubOwner.Name;
+                ownerViewModel.LongName = hubOwner.LongName;
+                ownerViewModel.HubOwnerID = hubOwner.HubOwnerID;
+                viewModelList.Add(ownerViewModel);
             }
 
-            return PartialView(HubOwner);
-        }
-        
-        //
-        // GET: /HubOwners/Edit/5
-
-        public virtual ActionResult Edit(int id)
-        {
-            HubOwner HubOwner = _hubOwnerService.FindById(id);
-            return PartialView(HubOwner);
+            return viewModelList;
         }
 
-        //
-        // POST: /HubOwners/Edit/5
-
-        [HttpPost]
-        public virtual ActionResult Edit(HubOwner HubOwner)
+        private HubOwner BindHubOwner(HubOwnerViewModel hubOwnerViewModel)
         {
-            if (ModelState.IsValid)
+            if (hubOwnerViewModel == null) return null;
+            var hubOwner = new HubOwner()
+                               {
+                                   Name = hubOwnerViewModel.Name,
+                                   LongName = hubOwnerViewModel.LongName,
+                                   HubOwnerID = hubOwnerViewModel.HubOwnerID,
+
+                               };
+            return hubOwner;
+        }
+            
+            
+            [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult HubOwnerCreate([DataSourceRequest] DataSourceRequest request, HubOwnerViewModel hubOwner)
+        {
+            if (hubOwner != null && ModelState.IsValid)
             {
-                _hubOwnerService.EditHubOwner(HubOwner);
-                return Json(new { success = true }); 
+
+
+                _hubOwnerService.AddHubOwner(BindHubOwner(hubOwner));
             }
-            return PartialView(HubOwner);
+
+            return Json(new[] { hubOwner }.ToDataSourceResult(request, ModelState));
         }
+
+
+
+            [AcceptVerbs(HttpVerbs.Post)]
+            public ActionResult HubOwnerUpdate([DataSourceRequest] DataSourceRequest request, HubOwnerViewModel hubOwner)
+            {
+                if (hubOwner != null && ModelState.IsValid)
+                {
+                    var result = _hubOwnerService.FindById(hubOwner.HubOwnerID);
+                    if (result!=null)
+                    {
+                        result.Name = hubOwner.Name;
+                        result.LongName = hubOwner.LongName;
+                        _hubOwnerService.EditHubOwner(result);
+                    }
+                }
+                return Json(new[] { hubOwner }.ToDataSourceResult(request, ModelState)); 
+            }
+
+
+            [AcceptVerbs(HttpVerbs.Post)]
+            public ActionResult HubOwnerDestroy([DataSourceRequest] DataSourceRequest request, HubOwnerViewModel hubOwner)
+            {
+                if (hubOwner != null && ModelState.IsValid)
+                {
+                    var result = _hubOwnerService.FindById(hubOwner.HubOwnerID);
+                    if (result != null)
+                    {
+                        _hubOwnerService.DeleteHubOwner(result);
+                    }
+                }
+                return Json(ModelState.ToDataSourceResult());
+            }
+
+
+       
 
         //
         // GET: /HubOwners/Delete/5
@@ -89,17 +122,10 @@ namespace  Cats.Web.Adminstration.Controllers
         public virtual ActionResult Delete(int id)
         {
             HubOwner HubOwner = _hubOwnerService.FindById(id);
-            return View(HubOwner);
-        }
-
-        //
-        // POST: /HubOwners/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        public virtual ActionResult DeleteConfirmed(int id)
-        {
-            _hubOwnerService.DeleteById(id);
+            _hubOwnerService.DeleteHubOwner(HubOwner);
             return RedirectToAction("Index");
         }
+
+        
     }
 }

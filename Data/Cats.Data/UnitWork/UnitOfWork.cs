@@ -72,6 +72,14 @@ namespace Cats.Data.UnitWork
             get { return this._donorRepository ?? (this._donorRepository = new GenericRepository<Donor>(_context)); }
         }
 
+
+        private IGenericRepository<UserHub> _userHubRepository;
+        public IGenericRepository<UserHub> UserHubRepository
+        {
+
+            get { return this._userHubRepository ?? (this._userHubRepository = new GenericRepository<UserHub>(_context)); }
+        }
+
         private IGenericRepository<RegionalPSNPPledge> _regionalPSNPPledgeRepository;
         public IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository
         {
@@ -357,7 +365,16 @@ namespace Cats.Data.UnitWork
 
         public void Save()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+           
         }
 
         private bool disposed = false;

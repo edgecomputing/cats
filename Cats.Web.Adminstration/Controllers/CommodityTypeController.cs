@@ -51,6 +51,7 @@ namespace Cats.Web.Adminstration.Controllers
             {
                 var target = _commodityTypeService.FindById(commodityTypeViewModel.CommodityTypeId);
                 var commodityType = CommodityTypeViewModelBinder.BindCommodityType(commodityTypeViewModel,target);
+                
                 _commodityTypeService.EditCommodityType(commodityType);
             }
 

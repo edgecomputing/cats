@@ -19,6 +19,7 @@ namespace Cats.Services.Hub
         {
             this._unitOfWork = unitOfWork;
         }
+
         #region Default Service Implementation
         public bool AddLedger(Ledger entity)
         {

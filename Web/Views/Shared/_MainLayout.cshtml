@@ -204,13 +204,13 @@
     <script type="text/javascript" src="~/Scripts/js/CatsUI.js"> </script>
 
     @{
-       // var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-        var calendarPreference = user.Profile.Calendar.ToString();
-        if (calendarPreference != "EC")
+        var calendarPreference = Html.UserCalendarPreference();
+               
+        if (calendarPreference != "AM")
         {
         <script>
             $(function () {
-                $(".cats-datepicker").datepicker();
+                $(".cats-datepicker2").datepicker();
             });
         </script>
         }

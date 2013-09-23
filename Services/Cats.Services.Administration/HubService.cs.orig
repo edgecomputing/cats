@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+<<<<<<< HEAD
+using System.Linq;
+using System.Linq.Expressions;
+using Cats.Models;
+=======
+using Cats.Models;
+using System.Text;
+using System.Threading.Tasks;
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+using Cats.Data.UnitWork;
+
+namespace Cats.Services.Administration
+{
+<<<<<<< HEAD
+
+    public class HubService : IHubService
+=======
+   public class HubService:IHubService
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+    {
+        private readonly IUnitOfWork _unitOfWork;
+
+
+        public HubService(IUnitOfWork unitOfWork)
+        {
+            this._unitOfWork = unitOfWork;
+        }
+<<<<<<< HEAD
+        #region Default Service Implementation
+=======
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+        public bool AddHub(Hub hub)
+        {
+            _unitOfWork.HubRepository.Add(hub);
+            _unitOfWork.Save();
+            return true;
+<<<<<<< HEAD
+
+        }
+        public bool EditHub(Hub hub)
+        {
+            _unitOfWork.HubRepository.Edit(hub);
+            _unitOfWork.Save();
+            return true;
+
+        }
+=======
+        }
+
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+        public bool DeleteHub(Hub hub)
+        {
+            if (hub == null) return false;
+            _unitOfWork.HubRepository.Delete(hub);
+            _unitOfWork.Save();
+            return true;
+        }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+        public bool DeleteById(int id)
+        {
+            var entity = _unitOfWork.HubRepository.FindById(id);
+            if (entity == null) return false;
+            _unitOfWork.HubRepository.Delete(entity);
+            _unitOfWork.Save();
+            return true;
+        }
+<<<<<<< HEAD
+        public List<Hub> GetAllHub()
+        {
+            return _unitOfWork.HubRepository.GetAll();
+        }
+=======
+
+        public bool EditHub(Hub hub)
+        {
+            _unitOfWork.HubRepository.Edit(hub);
+            _unitOfWork.Save();
+            return true;
+        }
+
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+        public Hub FindById(int id)
+        {
+            return _unitOfWork.HubRepository.FindById(id);
+        }
+<<<<<<< HEAD
+        public List<Hub> FindBy(Expression<Func<Hub, bool>> predicate)
+        {
+            return _unitOfWork.HubRepository.FindBy(predicate);
+        }
+        #endregion
+
+        public int GetHubId(string hub)
+        {
+            var hubId = _unitOfWork.HubRepository.Get(h => h.Name == hub).SingleOrDefault();
+            if (hubId == null) return -1;
+            return hubId.HubID;
+
+        }
+        
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+
+        }
+
+    }
+}
+
+
+=======
+
+        public List<Hub> GetAllHub()
+        {
+            return _unitOfWork.HubRepository.GetAll();
+        }
+
+        public List<Hub> FindBy(System.Linq.Expressions.Expression<Func<Hub, bool>> predicate)
+        {
+            return _unitOfWork.HubRepository.FindBy(predicate);
+        }
+        public void Dispose()
+       {
+           _unitOfWork.Dispose();
+       }
+    }
+}
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
