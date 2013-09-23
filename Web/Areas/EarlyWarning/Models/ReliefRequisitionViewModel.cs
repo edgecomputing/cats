@@ -19,11 +19,11 @@ namespace Cats.Areas.EarlyWarning.Models
         public string RequisitionNo { get; set; }
         public Nullable<int> RequestedBy { get; set; }
         public DateTime RequestedDate { get; set; }
-        [Display(Name = "Request Date (ET)")]
+        [Display(Name = "Request Date")]
         public string RequestedDateEt { get; set; }
         public Nullable<int> ApprovedBy { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
-        [Display(Name = "Approved Date (ET)")]
+        [Display(Name = "Approved Date ")]
         public string ApprovedDateEt { get; set; }
         public Nullable<int> StatusID { get; set; }
         public string Status { get; set; }

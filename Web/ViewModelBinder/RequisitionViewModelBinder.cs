@@ -13,32 +13,32 @@ namespace Cats.ViewModelBinder
     {
         public static ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition,List<WorkflowStatus> statuses )
         {
-            return new ReliefRequisitionViewModel()
-            {
+            var requisition = new ReliefRequisitionViewModel();
+            
 
-                ProgramID = reliefRequisition.ProgramID,
-                Program = reliefRequisition.Program.Name,
-                Region = reliefRequisition.AdminUnit.Name,
-                RequisitionNo = reliefRequisition.RequisitionNo,
-                RegionID = reliefRequisition.RegionID,
-                RegionalRequestID = reliefRequisition.RegionalRequestID,
-
-                RequestedDateEt = EthiopianDate.GregorianToEthiopian(reliefRequisition.RequestedDate.Value
-                ),
-                Round = reliefRequisition.Round,
-                Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.RELIEF_REQUISITION && t.StatusID== reliefRequisition.Status.Value).Description ,
-                RequestedDate = reliefRequisition.RequestedDate.Value,
-                StatusID = reliefRequisition.Status,
-                RequisitionID = reliefRequisition.RequisitionID,
-                CommodityID = reliefRequisition.CommodityID,
-                ZoneID = reliefRequisition.ZoneID,
-                Zone = reliefRequisition.AdminUnit.Name,
-                Commodity = reliefRequisition.Commodity.Name,
-
-
+               requisition. ProgramID = reliefRequisition.ProgramID;
+               requisition. Program = reliefRequisition.Program.Name;
+               requisition. Region = reliefRequisition.AdminUnit.Name;
+               requisition. RequisitionNo = reliefRequisition.RequisitionNo;
+               requisition. RegionID = reliefRequisition.RegionID;
+               requisition. RegionalRequestID = reliefRequisition.RegionalRequestID;
+            if(reliefRequisition.RequestedDate.HasValue)
+               requisition.RequestedDateEt = reliefRequisition.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+                //);
+              requisition.  Round = reliefRequisition.Round;
+                requisition.Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.RELIEF_REQUISITION && t.StatusID== reliefRequisition.Status.Value).Description ;
+               requisition. RequestedDate = reliefRequisition.RequestedDate.Value;
+               requisition. StatusID = reliefRequisition.Status;
+               requisition. RequisitionID = reliefRequisition.RequisitionID;
+                requisition.CommodityID = reliefRequisition.CommodityID;
+               requisition. ZoneID = reliefRequisition.ZoneID;
+               requisition. Zone = reliefRequisition.AdminUnit.Name;
+               requisition. Commodity = reliefRequisition.Commodity.Name;
 
 
-            };
+
+            return requisition;
+
 
         }
 

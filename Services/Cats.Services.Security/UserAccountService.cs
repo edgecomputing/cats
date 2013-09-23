@@ -48,9 +48,9 @@ namespace Cats.Services.Security
                 // Add the user account first and latter set default preference and profiles for user
                 _unitOfWork.UserProfileRepository.Add(entity);
                 _unitOfWork.Save();
-                foreach (var Role in roles)
-                    AddUserToRoles(entity.UserName, Role.Value.ToArray(), "CATS", Role.Key);
-                _unitOfWork.Save();
+                //foreach (var Role in roles)
+                //    AddUserToRoles(entity.UserName, Role.Value.ToArray(), "CATS", Role.Key);
+                //_unitOfWork.Save();
                 return true;
             }
             catch (ApplicationException ex)
@@ -405,6 +405,7 @@ namespace Cats.Services.Security
 
         public void AddUserToRoles(string userName, string[] Roles, string store, string application)
         {
+            provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, ""));
             string[] UserName = new string[] { userName };
             provider.ApplicationName = application;
             provider.AddUsersToRoles(UserName, Roles);

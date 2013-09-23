@@ -13,7 +13,7 @@ namespace Cats.Services.EarlyWarning
     public class HRDService : IHRDService
     {
         private readonly IUnitOfWork _unitOfWork;
-         public HRDService(IUnitOfWork unitOfWork)
+        public HRDService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
@@ -73,6 +73,28 @@ namespace Cats.Services.EarlyWarning
                                     string includeProperties = "")
         {
             return _unitOfWork.HRDRepository.Get(filter, orderBy, includeProperties);
+        }
+
+        public void PublishHrd(int hrdId)
+        {
+            // Get the Current HRD and the one to set as current
+            var newHrd = _unitOfWork.HRDRepository.FindById(hrdId);
+            var currentHrd = this.Get(m => m.Status == 3).FirstOrDefault();
+
+            try
+            {
+                newHrd.Status = 3;
+                newHrd.PublishedDate = DateTime.Now;
+                // If the currentHrd is null it means we don't have a current HRD in the database.
+                if (null !=currentHrd)
+                    currentHrd.Status = 4;
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the current exception and throw domain specific error.
+            }
+
         }
 
         public void Dispose()

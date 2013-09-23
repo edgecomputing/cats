@@ -8,9 +8,11 @@ namespace Cats.Areas.Settings.Models
 {
     public class UserViewModel
     {
-        public int UserId { get; set; }
+        public int UserProfileID { get; set; }
         public string UserName { get; set; }
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string GrandFatherName { get; set; }
         public string Password { get; set; }
         public string PasswordConfirm { get; set; }
         public bool IsDisabled { get; set; }
