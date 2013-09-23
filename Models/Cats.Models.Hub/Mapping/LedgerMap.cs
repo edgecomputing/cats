@@ -15,6 +15,10 @@ namespace Cats.Models.Hub.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
+            this.Property(t => t.LedgerTypeID)
+                .IsRequired();
+
+                
             // Table & Column Mappings
             this.ToTable("Ledger");
             this.Property(t => t.LedgerID).HasColumnName("LedgerID");

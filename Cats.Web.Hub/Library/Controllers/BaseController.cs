@@ -16,7 +16,6 @@ namespace Cats.Web.Hub
     /// </summary>
     public class BaseController : Controller
     {
-        
         public BaseController()
         {
             this.UserProfileService = new Cats.Services.Hub.UserProfileService(_unitOfWork);
