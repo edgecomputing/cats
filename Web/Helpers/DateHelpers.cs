@@ -24,7 +24,7 @@ namespace Cats.Helpers
             }
 
         }
-
+      
         public static string FormatDateFromString(this HtmlHelper helper, string dateAsString)
         {
             DateTime theRealDate = Convert.ToDateTime((dateAsString));

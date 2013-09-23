@@ -42,6 +42,11 @@ namespace Cats.Helpers
 
         public static string UserCalendarPreference(this HtmlHelper helper)
         {
+            return UserCalendarPreference();
+        }
+
+        public static string UserCalendarPreference()
+        {
             var preference = "EN";
             var user = GetUser(HttpContext.Current.User.Identity.Name);
             try

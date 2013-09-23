@@ -53,7 +53,7 @@
    
          col.Bound(gc => gc.Donor).Title(Translator.Translate("Donor"));
          col.Template(@<text>
-    @item.GiftDate.ToCTSPreferedDateFormat(user.LanguageCode)
+    @item.GiftDate.ToCTSPreferedDateFormat(Html.UserCalendarPreference())
     </text>).Title(Translator.Translate("Gift Date"));
         col.Bound(gc => gc.SINumber).Title(Translator.Translate("SI Number"));
         col.Bound(gc => gc.ReferenceNo).Title(Translator.Translate("Reference No"));
