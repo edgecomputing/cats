@@ -48,7 +48,7 @@
     function translationEdit(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "EditTranslation/" + dataItem.LocalizedTextId;
+        window.location = "@Url.Action("EditTranslation","Translation")" +"/"+ dataItem.LocalizedTextId;
     }
 </script>
 

@@ -18,7 +18,7 @@
     .Columns(columns =>
         {
             //columns.Bound(p => p.LanguageID);
-            columns.Bound(p => p.LanguageCode).ClientTemplate("<a href='" + Url.Action("Index", "Language") + " '>#=LanguageCode#</a>  ");
+            columns.Bound(p => p.LanguageCode).ClientTemplate("<a href='" + Url.Action("Details", "Translation") + " '>#=LanguageCode#</a>  ");
         columns.Bound(p => p.LanguageName);
             columns.Command(p => p.Custom("Edit").Click("languageEdit"));
            // columns.Command(p => p.Custom("Delete").Click("LanguageDelete"));
