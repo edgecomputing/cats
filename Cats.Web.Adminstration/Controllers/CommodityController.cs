@@ -47,6 +47,7 @@ namespace Cats.Web.Adminstration.Controllers
             {
                 var commodity = CommodityViewModelBinder.BindCommodity(commodityViewModel);
                 _commodityService.AddCommodity(commodity);
+
             }
             return Json(new[] { commodityViewModel }.ToDataSourceResult(request, ModelState));
         }

@@ -1,5 +1,6 @@
-﻿@using Cats.Services.Security
-@using Kendo.Mvc.UI
+﻿@using Kendo.Mvc.UI
+@using Cats.Helpers
+
 @model List<Cats.Models.HRD>
 
 @{
@@ -7,11 +8,6 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
-@{
-    
-    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-    var calendar = user.Profile.Calendar;
-}
 
 @section Toolbar
 {
@@ -43,6 +39,7 @@
 @section LeftBar{
 
     @Html.Partial("_HRDLeftBar");
+    
 }
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
@@ -53,7 +50,7 @@
             columns.Bound(p => p.Season);
             columns.Bound(p => p.Year);
             columns.Bound(p => p.CreatedBy);
-            columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}").Title("Created Date " + @calendar);
+            columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})",Html.UserCalendarPreference()));
             // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 

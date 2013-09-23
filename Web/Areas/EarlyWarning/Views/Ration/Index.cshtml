@@ -5,10 +5,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-@{
-    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
-    var cal = user.Calendar; 
-}
+
 
 @section LeftBar
 {
@@ -30,7 +27,7 @@
                  columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
                  columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
                 // columns.Bound(p => p.CreatedBy);
-                 if (cal.ToLower() == "ec")
+                 if (Html.UserCalendarPreference() == "EC")
                  { columns.Bound(p => p.CreatedDateEC); }
                  else
                  { columns.Bound(p => p.CreatedDate); }
@@ -60,27 +57,5 @@
             return false;
         });
     });
-
-    //function bindForm(dialog) {
-    //    $('form', dialog).submit(function () {
-    //        $.ajax({
-    //            url: this.action,
-    //            type: this.method,
-    //            data: $(this).serialize(),
-    //            success: function (result) {
-    //                if (result.success) {
-    //                    $('#dialogDiv').modal('hide');
-    //                    // Refresh:
-    //                    // location.reload();
-    //                } else {
-    //                    $('#dialogContent').html(result);
-    //                    bindForm();
-    //                }
-    //            }
-    //        });
-    //        return false;
-    //    });
-   // }
-  
-
+    
 </script>

@@ -1,19 +1,12 @@
 ﻿
 @using Kendo.Mvc.UI
-@model List<Cats.Models.UserHub>
+
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
-@section Toolbar
-{
-    @*<a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Currency")"></a>*@
-}
-@section LeftBar
-{
-    @*@Html.Partial("_CurrencyLeftBar")*@;
-}
+
 <div id="modalWindow">
     <h4>Are You Sure You Want to Delete this User Hub?</h4>
     <button id="yes" class="k-button">Yes</button>
@@ -35,37 +28,7 @@
 <div>
     <h4>List of users in Hub</h4>
 </div>
-@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.HubUserViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-        {
 
-            columns.ForeignKey(p => p.UserProfileID, (System.Collections.IEnumerable)ViewData["UserProfile"], "UserProfileID", "UserName").Title("User").Width(150);
-            columns.ForeignKey(p => p.HubID, (System.Collections.IEnumerable)ViewData["Hub"], "HubID", "Name").Title("Hub").Width(150);
- 
-       columns.Command(command => command.Custom("Delete").Click("OnDelete"));
-    })
-    .ToolBar(toolbar =>
-        {
-            toolbar.Create();
-            toolbar.Save();
-        })
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
-    .Pageable()
-    .Sortable()
-    .Filterable()
-    .DataSource(dataSource => dataSource
-          .Ajax()
-          .PageSize(8)
-            .Model(model => model.Id(p => p.UserHubID))
-           .Read(read => read.Action("Read", "Read"))
-           .Update(update => update.Action("HubOwnerUpdate", "Read"))
-           .Create(create => create.Action("UserHubCreate", "Read"))
-           .Destroy(destroy => destroy.Action("HubOwnerDestroy", "Read"))
- 
-     )
-   
-      )
 <script>
 
     function OnDelete(e) {
@@ -76,7 +39,7 @@
         wnd.center().open();
 
         $("#yes").click(function () {
-
+            
             window.location = "@Url.Action("Delete", "UserWarehouse")" + "/" + dataItem.UserHubID;
             wnd.close();
         });
@@ -86,4 +49,46 @@
         });
     }
 </script>
-
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.HubUserViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+                 {
+                     columns.Bound(p => p.UserHubID);
+        columns.ForeignKey(p => p.UserProfileID, (System.Collections.IEnumerable)ViewData["UserProfile"], "UserProfileID", "UserName").Title("User").Width(150);
+        columns.ForeignKey(p => p.HubID, (System.Collections.IEnumerable)ViewData["Hub"], "HubID", "Name").Title("Hub").Width(150);
+        columns.Command(command => command.Edit()).Width(172);
+        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.UserHubID))
+        .Create(update => update.Action("Create", "UserWarehouse"))
+        .Read(read => read.Action("Read", "UserWarehouse"))
+        .Update(update => update.Action("Edit", "UserWarehouse"))
+        .Destroy(update => update.Action("Destroy", "UserWarehouse"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

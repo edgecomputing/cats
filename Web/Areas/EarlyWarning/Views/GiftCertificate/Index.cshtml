@@ -38,9 +38,9 @@
                         
     @if(item.StatusID ==1)
     {
-         <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"> Edit</i> </a>
+        <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"></i> Edit</a>
         <i> </i>
-         <a id="btnApprove" class="btn-Approve-Gift" href="@Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID })"><i class="icon-ok"> Approve</i> </a>
+         <a id="btnApprove" class="btn-Approve-Gift" href="@Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID })"><i class="icon-ok"></i> Approve </a>
     }
     else
     {
