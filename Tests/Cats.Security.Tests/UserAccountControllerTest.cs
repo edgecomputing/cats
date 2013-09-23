@@ -33,18 +33,18 @@ namespace Cats.Security.Tests
         public void Can_Get_List_Of_Users()
         {
            
-            var users = new List<UserAccount>{
-                new UserAccount()
+            var users = new List<UserProfile>{
+                new UserProfile()
                 {
-                UserAccountId=123
+                UserProfileID=123
                 ,
                 UserName="johnsmith"
                 ,
                 Password="4gEGXQVUZSYVwyDACh1byO3KRp1ywnkOJBUtDB4rYYk="
                 ,
-                Disabled=false
+                LockedInInd=false
                 ,
-                LoggedIn=true
+                LoggedInInd=true
                 ,
                 LogginDate=DateTime.Today
                 ,
@@ -62,7 +62,7 @@ namespace Cats.Security.Tests
                 ,
                 LanguageCode="EN"
                 ,
-                Calendar="EN"
+                DatePreference="EN"
                 ,
                 Keyboard="EN"
                 ,
@@ -71,17 +71,17 @@ namespace Cats.Security.Tests
                 DefaultTheme="theme"
                 }
                 ,
-                new UserAccount()
+                new UserProfile()
                 {
-                UserAccountId=124
+                UserProfileID=124
                 ,
                 UserName="muluken"
                 ,
                 Password="4gEGXQVUZSYVwyDACh1byO3KRp1ywnkOJBUtDB4rYYk="
                 ,
-                Disabled=false
+                LockedInInd=false
                 ,
-                LoggedIn=true
+                LoggedInInd=true
                 ,
                 LogginDate=DateTime.Today
                 ,
@@ -97,7 +97,7 @@ namespace Cats.Security.Tests
                 ,
                 LanguageCode="AM"
                 ,
-                Calendar="AM"
+                DatePreference="AM"
                 ,
                 Keyboard="AM"
                 ,
@@ -106,13 +106,13 @@ namespace Cats.Security.Tests
                 DefaultTheme="theme"
                 }
         };
-            var mockUserAccountRepository = new Mock<Cats.Data.Security.IGenericRepository<UserAccount>>();
+            var mockUserAccountRepository = new Mock<Cats.Data.Security.IGenericRepository<UserProfile>>();
 
             mockUserAccountRepository.Setup(t => t.GetAll()).Returns(users);
 
            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockUnitOfWork.Setup(m => m.UserRepository).Returns(mockUserAccountRepository.Object);
+            mockUnitOfWork.Setup(m => m.UserProfileRepository).Returns(mockUserAccountRepository.Object);
 
             var userAccountService = new UserAccountService(mockUnitOfWork.Object);
 
@@ -124,18 +124,18 @@ namespace Cats.Security.Tests
         [Test]
         public void Can_Get_User_By_UserId()
         {
-            var users = new List<UserAccount>{
-                new UserAccount()
+            var users = new List<UserProfile>{
+                new UserProfile()
                 {
-                UserAccountId=123
+                UserProfileID=123
                 ,
                 UserName="johnsmith"
                 ,
                 Password="4gEGXQVUZSYVwyDACh1byO3KRp1ywnkOJBUtDB4rYYk="
                 ,
-                Disabled=false
+                LockedInInd=false
                 ,
-                LoggedIn=true
+                LoggedInInd=true
                 ,
                 LogginDate=DateTime.Today
                 ,
@@ -153,7 +153,7 @@ namespace Cats.Security.Tests
                 ,
                 LanguageCode="EN"
                 ,
-                Calendar="EN"
+                DatePreference="EN"
                 ,
                 Keyboard="EN"
                 ,
@@ -162,17 +162,17 @@ namespace Cats.Security.Tests
                 DefaultTheme="theme"
                 }
                 ,
-                new UserAccount()
+                new UserProfile()
                 {
-                UserAccountId=124
+                UserProfileID=124
                 ,
                 UserName="muluken"
                 ,
                 Password="4gEGXQVUZSYVwyDACh1byO3KRp1ywnkOJBUtDB4rYYk="
                 ,
-                Disabled=false
+                LockedInInd=false
                 ,
-                LoggedIn=true
+                LoggedInInd=true
                 ,
                 LogginDate=DateTime.Today
                 ,
@@ -188,7 +188,7 @@ namespace Cats.Security.Tests
                 ,
                 LanguageCode="AM"
                 ,
-                Calendar="AM"
+                DatePreference="AM"
                 ,
                 Keyboard="AM"
                 ,
@@ -197,18 +197,18 @@ namespace Cats.Security.Tests
                 DefaultTheme="theme"
                 }
         };
-            var mockUserAccountRepository = new Mock<Cats.Data.Security.IGenericRepository<UserAccount>>();
+            var mockUserProfileRepository = new Mock<Cats.Data.Security.IGenericRepository<UserProfile>>();
 
-            mockUserAccountRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int userId) => users.FirstOrDefault(t => t.UserAccountId == userId));
+            mockUserProfileRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int userId) => users.FirstOrDefault(t => t.UserProfileID == userId));
 
            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            mockUnitOfWork.Setup(m => m.UserRepository).Returns(mockUserAccountRepository.Object);
+            mockUnitOfWork.Setup(m => m.UserProfileRepository).Returns(mockUserProfileRepository.Object);
 
             var userAccountService = new UserAccountService(mockUnitOfWork.Object);
 
             var expectedUserAccount = userAccountService.FindById(123);
-            var actualUserAccountId = users.Find(t => t.UserAccountId == 123);
+            var actualUserAccountId = users.Find(t => t.UserProfileID == 123);
 
             Assert.AreEqual(expectedUserAccount.UserName, actualUserAccountId.UserName);
            // Assert.AreSame(expectedUserAccountId, actualUserAccountId);

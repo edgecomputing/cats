@@ -14,19 +14,21 @@ namespace Cats
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name:"Error",
-                url:"Error",
-                defaults:new{controller="Home",action="Error"}
+                name: "Error",
+                url: "Error",
+                defaults: new { controller = "Home", action = "Error" }
                 );
             routes.MapRoute(
-                name:"Login",
-                url:"login",
-                defaults:new {controller="Account",action="Login"}
+                name: "Login",
+                url: "login",
+                defaults: new { controller = "Account", action = "Login", area = "" },
+                namespaces: new[] { "Cats.Controllers" }
                 );
             routes.MapRoute(
-                name:"Logout",
-                url:"logout",
-                defaults:new {controller="Account",action="Logout"}
+                name: "Logout",
+                url: "logout",
+                defaults: new { controller = "Account", action = "Logout" },
+                namespaces: new[] { "Cats.Controllers" }
                 );
             routes.MapRoute(
                 name: "Default",

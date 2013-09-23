@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Security.Mapping
 {
-  public class ForgetPasswordRequestMap:EntityTypeConfiguration<ForgetPasswordRequest>
+  public class ForgetPasswordRequestMap : EntityTypeConfiguration<ForgetPasswordRequest>
     {
 
         public ForgetPasswordRequestMap()

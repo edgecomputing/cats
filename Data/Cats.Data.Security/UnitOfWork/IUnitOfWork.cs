@@ -10,10 +10,8 @@ namespace Cats.Data.Security
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<UserAccount> UserRepository { get; }
         IGenericRepository<UserInfo> UserInfoRepository { get; }
         IGenericRepository<UserProfile> UserProfileRepository { get; }
-        IGenericRepository<UserPreference> UserPreferenceRepository { get; }
         IGenericRepository<ForgetPasswordRequest> ForgetPasswordRequestRepository { get; }
         IGenericRepository<Setting> SettingRepository { get; } 
         void Save();

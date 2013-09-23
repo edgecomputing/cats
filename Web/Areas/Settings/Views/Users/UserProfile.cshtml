@@ -51,9 +51,9 @@
 
         <div class="span4">
             <div class="control-group">
-                @Html.LabelFor(m => m.LoggedIn, "Currently logged in", new { @class = "control-label" })
+                @Html.LabelFor(m => m.LoggedInInd, "Currently logged in", new { @class = "control-label" })
                 <div class="controls">
-                    @Html.CheckBoxFor(m => m.LoggedIn,new{@disabled="disabled"})
+                    @Html.CheckBoxFor(m => m.LoggedInInd,new{@disabled="disabled"})
                 </div>
             </div>
         </div>
@@ -93,9 +93,9 @@
 
         <div class="span4">
             <div class="control-group">
-                @Html.LabelFor(m => m.Calendar, "Calendar", new { @class = "control-label" })
+                @Html.LabelFor(m => m.DatePreference, "Calendar", new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(m => m.Calendar,new{@disabled = "disabled"})
+                    @Html.TextBoxFor(m => m.DatePreference,new{@disabled = "disabled"})
                 </div>
             </div>
         </div>
