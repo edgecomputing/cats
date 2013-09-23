@@ -12,12 +12,7 @@ namespace Cats.Models.Security.Mapping
             // Primary Key
             this.HasKey(t => t.UserProfileID);
 
-            // Properties
             this.Property(t => t.UserName)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            this.Property(t => t.Password)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -56,6 +51,7 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.DefaultTheme)
                 .IsRequired()
                 .HasMaxLength(50);
+
             this.Property(t => t.Keyboard)
                 .HasMaxLength(2);
 

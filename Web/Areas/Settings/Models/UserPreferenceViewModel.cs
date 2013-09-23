@@ -12,6 +12,7 @@ namespace Cats.Areas.Settings.Models
         public List<Calendar> DatePreference { get; set; }
         public List<Keyboard> KeyboardLanguage { get; set; }
         public List<Theme> DefaultTheme { get; set; }
+        public UserPreferenceViewModel CurrentPreference { get; set; }
     }
 
     public class LanguageCode

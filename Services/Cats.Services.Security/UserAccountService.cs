@@ -405,6 +405,7 @@ namespace Cats.Services.Security
 
         public void AddUserToRoles(string userName, string[] Roles, string store, string application)
         {
+            provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, ""));
             string[] UserName = new string[] { userName };
             provider.ApplicationName = application;
             provider.AddUsersToRoles(UserName, Roles);
