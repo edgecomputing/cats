@@ -374,6 +374,7 @@
     <Compile Include="Library\MembershipWrapper.cs" />
     <Compile Include="Library\RoleProvider.cs" />
     <Compile Include="Library\UrlHelperWrapper.cs" />
+    <Compile Include="Models\Ledger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
