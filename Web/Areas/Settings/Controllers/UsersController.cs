@@ -188,12 +188,12 @@ namespace Cats.Areas.Settings.Controllers
                         //changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
                         changePasswordSucceeded = userService.ChangePassword(userid, model.NewPassword);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         changePasswordSucceeded = false;
                     }
                     if (changePasswordSucceeded)
-                        ModelState.AddModelError("Sucess", "Password Successfully Changed.");
+                        ModelState.AddModelError("Success", "Password Successfully Changed.");
                         //return RedirectToAction("ChangePasswordSuccess");
                     else
                         ModelState.AddModelError("Errors","The new password is invalid.");
@@ -203,10 +203,11 @@ namespace Cats.Areas.Settings.Controllers
             }
             return View(model);
         }
-        //public ActionResult ChangePasswordSuccess()
-        //{
-        //    return View();
-        //}
+        public ActionResult ChangePasswordSuccess()
+        {
+            ModelState.AddModelError("Sucess", "Password Successfully Changed.");
+            return View();
+        }
         public ActionResult ISValidUserName(string userName)
         {
             if (!string.IsNullOrEmpty(userName))
