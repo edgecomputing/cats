@@ -37,7 +37,7 @@ namespace Cats.Web.Adminstration.Controllers
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
            
-            return Json(_userHubService.GetAllUserHub().ToDataSourceResult(request));
+            return Json(GetUserHub().ToDataSourceResult(request));
         }
 
 
@@ -102,6 +102,7 @@ namespace Cats.Web.Adminstration.Controllers
                 var ownerViewModel = new HubUserViewModel();
 
                 ownerViewModel.HubID = hubOwner.HubID;
+                ownerViewModel.UserHubID = hubOwner.UserHubID;
                 ownerViewModel.UserProfileID = hubOwner.UserProfileID;
                                          
                                         
@@ -117,7 +118,6 @@ namespace Cats.Web.Adminstration.Controllers
             var hubOwner = new UserHub()
             {
                HubID = hubOwnerViewModel.HubID,
-               UserHubID = hubOwnerViewModel.UserHubID,
                UserProfileID = hubOwnerViewModel.UserProfileID,
                
 
@@ -129,83 +129,52 @@ namespace Cats.Web.Adminstration.Controllers
         //
         // GET: /UserWarehouse/Create
 
-        public ActionResult Create()
-        {
-            ViewBag.UserProfileID = new SelectList(_userProfileService.GetAllUserProfile(), "UserProfileID", "UserName");
-            ViewBag.WarehouseID = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
-            return View();
-        }
-
-        //
         // POST: /UserWarehouse/Create
 
-        [HttpPost]
-        public ActionResult Create(UserHub userwarehouse)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request ,HubUserViewModel userwarehouse)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && userwarehouse!=null)
             {
-                _userHubService.AddUserHub(userwarehouse);
+                _userHubService.AddUserHub(BindUserOwner(userwarehouse));
 
                
             
-                return RedirectToAction("Index");
+               return Json(new [] { userwarehouse }.ToDataSourceResult(request, ModelState));
             }
 
             ViewBag.UserProfileID = new SelectList(_userProfileService.GetAllUserProfile(), "UserProfileID", "UserName", userwarehouse.UserProfileID);
             ViewBag.WarehouseID = new SelectList(_hubService.GetAllHub(), "HubID", "Name", userwarehouse.HubID);
-            return View(userwarehouse);
+            return RedirectToAction("index");
         }
 
         //
         // GET: /UserWarehouse/Edit/5
 
-        public ActionResult Edit(int id)
-        {
-            UserHub userwarehouse = _userHubService.FindBy(u => u.UserHubID == id).Single();
-            ViewBag.UserProfileID = new SelectList(_userProfileService.GetAllUserProfile(), "UserProfileID", "UserName", userwarehouse.UserProfileID);
-            ViewBag.WarehouseID = new SelectList(_hubService.GetAllHub(), "HubID", "Name", userwarehouse.HubID);
-            return PartialView(userwarehouse);
-        }
 
         //
         // POST: /UserWarehouse/Edit/5
 
-        [HttpPost]
-        public ActionResult Edit(UserHub userwarehouse)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit([DataSourceRequest] DataSourceRequest request,HubUserViewModel userwarehouse)
         {
             if (ModelState.IsValid)
             {
-                _userHubService.EditUserHub(userwarehouse);
-                //db.UserHubs.Attach(userwarehouse);
-                //db.ObjectStateManager.ChangeObjectState(userwarehouse, EntityState.Modified);
-                ////if (userwarehouse.IsDefault == "1")
-                ////{
-                ////    var uProfile = userwarehouse.UserProfile;
-                ////    uProfile.ChangeWarehouse(userwarehouse.UserWarehouseID);
-                ////}
-                //db.SaveChanges();
-                //return RedirectToAction("Index");
+                _userHubService.EditUserHub(BindUserOwner(userwarehouse));
+               
                 return Json(new { success = true });
             }
             ViewBag.UserProfileID = new SelectList(_userProfileService.GetAllUserProfile(), "UserProfileID", "UserName", userwarehouse.UserProfileID);
             ViewBag.WarehouseID = new SelectList(_hubService.GetAllHub(), "HubID", "Name", userwarehouse.HubID);
-            return View(userwarehouse);
+            return RedirectToAction("index");
         }
 
-        //
-        // GET: /UserWarehouse/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            UserHub userwarehouse = _userHubService.FindBy(u => u.UserHubID == id).Single();
-            return View(userwarehouse);
-        }
-
+        
         //
         // POST: /UserWarehouse/Delete/5
 
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+       
+        public ActionResult Delete(int id)
         {
             UserHub userwarehouse = _userHubService.FindBy(u => u.UserHubID == id).Single();
             _userHubService.DeleteUserHub(userwarehouse);

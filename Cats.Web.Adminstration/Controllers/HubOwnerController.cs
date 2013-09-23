@@ -123,7 +123,7 @@ namespace  Cats.Web.Adminstration.Controllers
         {
             HubOwner HubOwner = _hubOwnerService.FindById(id);
             _hubOwnerService.DeleteHubOwner(HubOwner);
-            return View(HubOwner);
+            return RedirectToAction("Index");
         }
 
         
