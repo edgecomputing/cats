@@ -64,6 +64,7 @@ namespace Cats.Areas.Settings.Controllers
             user.PreferedWeightMeasurment = model.PreferedWeightMeasurement.First().PreferedWeightMeasurement;
 
             // Edit user preference
+            ModelState.AddModelError("Success", "Update Successful");
             userService.Save(user);
             return View(model);
         }

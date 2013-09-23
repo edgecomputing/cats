@@ -123,7 +123,7 @@
               <div class="control-group">
         <label class="control-label">Language:</label>
         <div class="controls">
-            @(Html.Kendo().DropDownList()
+           @(Html.Kendo().DropDownListFor(t=>t.Language)
           .Name("Language")
           .DataTextField("Language")
           .BindTo(Model.Language)
@@ -135,7 +135,7 @@
     <div class="control-group">
         <label class="control-label">Keyboard:</label>
         <div class="controls">
-           @(Html.Kendo().DropDownList()
+           @(Html.Kendo().DropDownListFor(t=>t.KeyboardLanguage)
               .Name("Keyboard")
               .DataTextField("KeyboardLanguage")
               .BindTo(Model.KeyboardLanguage)
@@ -147,7 +147,7 @@
     <div class="control-group">
         <label class="control-label">Prefered Weight Measurement Unit:</label>
         <div class="controls">
-           @(Html.Kendo().DropDownList()
+           @(Html.Kendo().DropDownListFor(t=>t.PreferedWeightMeasurement)
               .Name("PreferedWeightMeasurement")
               .DataTextField("PreferedWeightMeasurement")
               .BindTo(Model.PreferedWeightMeasurement)
@@ -160,7 +160,7 @@
     <div class="control-group">
         <label class="control-label">Date Preference:</label>
         <div class="controls">
-            @(Html.Kendo().DropDownList()
+            @(Html.Kendo().DropDownListFor(t=>t.DatePreference)
           .Name("DatePreference")
           .DataTextField("DatePreference")
           .BindTo(Model.DatePreference)
@@ -171,7 +171,7 @@
     <div class="control-group">
         <label class="control-label">Default Theme:</label>
         <div class="controls">
-            @(Html.Kendo().DropDownList()
+            @(Html.Kendo().DropDownListFor(t=>t.DefaultTheme)
               .Name("DefaultTheme")
               .DataTextField("DefaultTheme")
               .BindTo(Model.DefaultTheme)
