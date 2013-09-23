@@ -55,7 +55,7 @@
                         <p>
                             <b>@Translator.Translate("Month")
                                 :</b>
-                            @Translator.Translate(@Cats.Helpers.RequestHelper.MonthName(modelRequest.Month))
+                              @modelRequest.MonthName
                             <b>@Translator.Translate("Year"):</b> @modelRequest.Year
                         </p>
                     </td>
@@ -66,7 +66,7 @@
                         <p>
                             <b>@Html.Translate("Request Date")
                                 :</b>
-                            @modelRequest.RequistionDate
+                            @modelRequest.RequestDate
                         </p>
                     </td>
                     <td>

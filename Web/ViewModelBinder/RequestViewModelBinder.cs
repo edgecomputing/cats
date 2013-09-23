@@ -37,16 +37,19 @@ namespace Cats.ViewModelBinder
                regionalRequestViewModel. RegionID = regionalRequest.RegionID;
               regionalRequestViewModel.  RegionalRequestID = regionalRequest.RegionalRequestID;
                regionalRequestViewModel. Remark = regionalRequest.Remark;
-            regionalRequestViewModel.RequistionDate = regionalRequest.RequistionDate;
+            regionalRequestViewModel.RequestDate = regionalRequest.RequistionDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+            
+        
                 //RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate);
-              regionalRequestViewModel.  Month = regionalRequest.Month;
+              regionalRequestViewModel.  MonthName =RequestHelper.GetMonthList().Find(t=>t.Id==regionalRequest.Month).Name;
+            regionalRequest.Month = regionalRequest.Month;
                regionalRequestViewModel. Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.REGIONAL_REQUEST && t.StatusID==regionalRequest.Status).Description;
-               regionalRequestViewModel. RequistionDate = regionalRequest.RequistionDate;
+              // regionalRequestViewModel. RequistionDate = regionalRequest.RequistionDate;
               regionalRequestViewModel.  StatusID = regionalRequest.Status;
                regionalRequestViewModel. Ration = regionalRequest.Ration.RefrenceNumber;
                regionalRequestViewModel. RationID = regionalRequest.RationID;
               regionalRequestViewModel.  Year = regionalRequest.Year;
-
+             
             return regionalRequestViewModel;
         }
         public static RegionalRequest BindRegionalRequest(RegionalRequestViewModel regionalRequestViewModel,RegionalRequest request =null)
@@ -60,6 +63,7 @@ namespace Cats.ViewModelBinder
             request.Remark = regionalRequestViewModel.Remark;
             request.Month = regionalRequestViewModel.Month;
             request.RequistionDate = regionalRequestViewModel.RequistionDate;
+
             request.Status = regionalRequestViewModel.StatusID;
             request.Year = regionalRequestViewModel.Year;
           //  request.DonorID=
