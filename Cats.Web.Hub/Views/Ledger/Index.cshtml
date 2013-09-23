@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Cats.Models.Hub.Ledger>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            LedgerTypeID
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LedgerTypeID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.LedgerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.LedgerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.LedgerID })
+        </td>
+    </tr>
+}
+
+</table>
