@@ -284,11 +284,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public void ShowTemplate(string fileName, int giftCertificateId)
         {
             // TODO: Make sure to use DI to get the template generator instance
-            var template = new TemplateHelper(_unitofwork);
-           string filePath = template.GenerateTemplate(giftCertificateId, 1,fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
-           Response.ContentType = "application/text";
-           Response.AddHeader("Content-Disposition", @"filename= " + fileName  + ".docx");
-           Response.TransmitFile(filePath);
+            try
+            {
+                var template = new TemplateHelper(_unitofwork);
+                string filePath = template.GenerateTemplate(giftCertificateId, 1, fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
+                Response.ContentType = "application/text";
+                Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
+                Response.TransmitFile(filePath);
+            }
+            catch 
+            {
+                
+            }
+           
         }
         protected override void Dispose(bool disposing)
         {
