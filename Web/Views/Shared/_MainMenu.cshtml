@@ -28,8 +28,7 @@
                         ************************************************************************************************ 
                         PLEASE WATCH THE SPACE BETWEEN TOP MENU ITEMS AND THE CARET
                         ************************************************************************************************
-                    -->
-                    <li><a href="~/">@Html.Translate("Home")</a></li>
+                    -->                   
                     @if (role == "EW" || role == "SU")
                     {
                         <li class="dropdown">
@@ -46,8 +45,6 @@
                                 <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })">@Html.Translate("Rations")</a></li>
                                 <li class="divider" />
                                 <li><a href="#">@Translator.Translate("Reports") </a></li>
-
-
                             </ul>
                         </li>
 
@@ -87,14 +84,6 @@
                         </li>
                     }
 
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Reports") <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a target="_blank" href="@Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP" })">@Html.Translate("No of Beneficiary")</a></li>
-
-                        </ul>
-                    </li>
 
                     @if (role == "SU")
                     {
