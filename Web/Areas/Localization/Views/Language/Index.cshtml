@@ -13,6 +13,12 @@
     @Html.Partial("LanguageLeftBar")
     
 }
+
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Language")"></a>
+}
+
 @(Html.Kendo().Grid<LanguageHelpers.Localization.Models.Language>()
     .Name("grid")
     .Columns(columns =>

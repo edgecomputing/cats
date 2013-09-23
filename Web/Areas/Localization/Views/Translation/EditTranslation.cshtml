@@ -14,7 +14,7 @@
      <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Translation")" title="save"></a>
 }
 <div>
-<div><h3>Edit</h3></div>
+<div><h4>Edit</h4></div>
      @using (Html.BeginForm("EditTranslation", "Translation", FormMethod.Post, new { id = "frm_edit_translation" }))
     {
         @Html.ValidationSummary(true)
