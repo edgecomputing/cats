@@ -27,27 +27,27 @@ namespace Cats.ViewModelBinder
       
         public static RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest,List<WorkflowStatus> statuses )
         {
+            var regionalRequestViewModel = new RegionalRequestViewModel();
+            
 
-            return new RegionalRequestViewModel()
-            {
+                regionalRequestViewModel.ProgramId = regionalRequest.ProgramId;
+               regionalRequestViewModel. Program = regionalRequest.Program.Name;
+               regionalRequestViewModel. Region = regionalRequest.AdminUnit.Name;
+              regionalRequestViewModel.  ReferenceNumber = regionalRequest.ReferenceNumber;
+               regionalRequestViewModel. RegionID = regionalRequest.RegionID;
+              regionalRequestViewModel.  RegionalRequestID = regionalRequest.RegionalRequestID;
+               regionalRequestViewModel. Remark = regionalRequest.Remark;
+            regionalRequestViewModel.RequistionDate = regionalRequest.RequistionDate;
+                //RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate);
+              regionalRequestViewModel.  Month = regionalRequest.Month;
+               regionalRequestViewModel. Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.REGIONAL_REQUEST && t.StatusID==regionalRequest.Status).Description;
+               regionalRequestViewModel. RequistionDate = regionalRequest.RequistionDate;
+              regionalRequestViewModel.  StatusID = regionalRequest.Status;
+               regionalRequestViewModel. Ration = regionalRequest.Ration.RefrenceNumber;
+               regionalRequestViewModel. RationID = regionalRequest.RationID;
+              regionalRequestViewModel.  Year = regionalRequest.Year;
 
-                ProgramId = regionalRequest.ProgramId,
-                Program = regionalRequest.Program.Name,
-                Region = regionalRequest.AdminUnit.Name,
-                ReferenceNumber = regionalRequest.ReferenceNumber,
-                RegionID = regionalRequest.RegionID,
-                RegionalRequestID = regionalRequest.RegionalRequestID,
-                Remark = regionalRequest.Remark,
-                RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate),
-                Month = regionalRequest.Month,
-                Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.REGIONAL_REQUEST && t.StatusID==regionalRequest.Status).Description,
-                RequistionDate = regionalRequest.RequistionDate,
-                StatusID = regionalRequest.Status,
-                Ration = regionalRequest.Ration.RefrenceNumber,
-                RationID = regionalRequest.RationID,
-                Year = regionalRequest.Year,
-            };
-
+            return regionalRequestViewModel;
         }
         public static RegionalRequest BindRegionalRequest(RegionalRequestViewModel regionalRequestViewModel,RegionalRequest request =null)
         {

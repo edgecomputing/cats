@@ -35,7 +35,7 @@
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.Month);
                      columns.Bound(request => request.Program);
-                     columns.Bound(request => request.RequestDateEt);
+                     columns.Bound(request => request.RequistionDate).Title(Html.Translate("Request Date"));
                      
                     
     columns.Bound(request => request.Status).Template(
@@ -79,7 +79,7 @@ else
                 //  model.Field(r => r.Status).Editable(false);
                 model.Field(r => r.RegionalRequestID).Editable(false);
                 model.Field(r => r.StatusID).Editable(false).DefaultValue(1);
-                model.Field(r => r.RequestDateEt).Editable(false);
+                model.Field(r => r.RequistionDate).Editable(false);
             })
         .Create(update => update.Action("Request_Create", "Request"))
         .Read(read => read.Action("Request_Read", "Request",new{id=ViewBag.Status}))

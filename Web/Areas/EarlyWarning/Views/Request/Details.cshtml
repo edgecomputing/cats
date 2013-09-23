@@ -1,5 +1,6 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @model System.Data.DataTable
+@using Cats.Helpers
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 
@@ -63,9 +64,9 @@
 
                     <td>
                         <p>
-                            <b>@Html.DisplayName(modelRequest.RequestDateEt)
+                            <b>@Html.Translate("Request Date")
                                 :</b>
-                            @modelRequest.RequestDateEt
+                            @modelRequest.RequistionDate
                         </p>
                     </td>
                     <td>

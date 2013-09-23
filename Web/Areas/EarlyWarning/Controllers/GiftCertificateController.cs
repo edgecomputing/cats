@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Cats.Areas.GiftCertificate.Models;
 using Cats.Services.EarlyWarning;
@@ -280,12 +281,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
            return Json(_letterTemplateService.GetAllLetterTemplates().ToDataSourceResult(request));
 
        }
-        public ActionResult ShowTemplate(string fileName, int giftCertificateId)
+        public void ShowTemplate(string fileName, int giftCertificateId)
         {
             // TODO: Make sure to use DI to get the template generator instance
-            var template = new TemplateHelper(_unitofwork);
-            template.GenerateTemplate(giftCertificateId, 1,fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
-            return RedirectToAction("Index");
+            try
+            {
+                var template = new TemplateHelper(_unitofwork);
+                string filePath = template.GenerateTemplate(giftCertificateId, 1, fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
+                Response.ContentType = "application/text";
+                Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
+                Response.TransmitFile(filePath);
+            }
+            catch 
+            {
+                
+            }
+           
         }
         protected override void Dispose(bool disposing)
         {

@@ -33,7 +33,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
-        public ViewResult Index(int id = 0)
+        public ViewResult Index(int id = 1)
         {
             ViewBag.Status = id;
 

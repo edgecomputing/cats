@@ -7,13 +7,14 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Index</h2>
-@(Html.Kendo().Grid<CommodityGradeViewModel>().Columns(columns=>
+<h4>Commodity Grade</h4>
+@(Html.Kendo().Grid<CommodityGradeViewModel>().Name("grid").Columns(columns=>
                                                            {
-                                                               columns.Bound(t => t.CommodityGradeID);
+                                                              // columns.Bound(t => t.CommodityGradeID);
+                                                               
                                                                columns.Bound(t => t.Name);
                                                                columns.Bound(t => t.Description);
-
+                                                               columns.Command(t => t.Destroy()).Width(100);
                                                            })
                                                            .ToolBar(toolbar =>
                          {
@@ -29,9 +30,9 @@
                     .Ajax()
             .PageSize(10)
     .Read("CommodityGrade_Read","CommodityGrade")
-    .Create("CommodityGrade_Update","CommodityGrade")
+    .Create("CommodityGrade_Create","CommodityGrade")
     .Update("CommodityGrade_Update","CommodityGrade")
-    .Destroy("CommodityGrade_Delete","CommodityGrade")
+    .Destroy("CommodityGrade_Destroy","CommodityGrade")
     .Model(m=>m.Id(model=>model.CommodityGradeID))))
     
   

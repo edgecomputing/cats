@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Administration;
+using Cats.Services.Security;
 using Cats.Web.Adminstration.Models.ViewModels;
 using Cats.Web.Adminstration.ViewModelBinder;
 using Kendo.Mvc.Extensions;
@@ -17,10 +18,12 @@ namespace Cats.Web.Adminstration.Controllers
         // GET: /AuditLog/
 
         private readonly IAuditService _auditLogService;
+      
 
         public AuditLogController(IAuditService auditLogService)
         {
             _auditLogService = auditLogService;
+          
         }
 
         public ActionResult Index()
@@ -30,6 +33,7 @@ namespace Cats.Web.Adminstration.Controllers
          public ActionResult AuditLog_Read([DataSourceRequest]DataSourceRequest request)
         {
             var auditLoges = _auditLogService.GetAllAudit();
+          
             var auditLogsViewModel = AuditLogViewModelBinder.BindListAuditLogViewModel(auditLoges);
             return Json(auditLogsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -42,7 +46,9 @@ namespace Cats.Web.Adminstration.Controllers
         {
             if (auditLogViewModel != null)
             {
-                _auditLogService.DeleteById(auditLogViewModel.AuditID);
+                Guid id;
+                Guid.TryParse(auditLogViewModel.AuditID, out id);
+                _auditLogService.DeleteById(id);
             }
 
             return Json(ModelState.ToDataSourceResult());

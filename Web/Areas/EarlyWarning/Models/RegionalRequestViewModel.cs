@@ -23,7 +23,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int Month { get; set; }
         public DateTime RequistionDate { get; set; }
        // [ScaffoldColumn(false)]
-        public string RequestDateEt { get; set; }
+        //public string RequestDateEt { get; set; }
         public int Year { get; set; }
        
        
