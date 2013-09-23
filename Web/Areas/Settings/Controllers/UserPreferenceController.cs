@@ -18,16 +18,28 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult Index()
         {
-            var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-            var userPreference = new UserPreferenceViewModel
+            //var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
+            //var userPreference = new UserPreferenceViewModel
+            //{
+            //    Language = new List<LanguageCode> {new LanguageCode {Language= user.LanguageCode} },
+            //    KeyboardLanguage = new List<Keyboard> { new Keyboard{KeyboardLanguage = user.Keyboard }},
+            //    PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit> {new PreferedWeightMeasurementUnit{ PreferedWeightMeasurement = user.PreferedWeightMeasurment }},
+            //    DatePreference = new List<Calendar> {new Calendar{DatePreference = user.DatePreference }},
+            //    DefaultTheme = new List<Theme> {new Theme{ DefaultTheme = user.DefaultTheme }}
+            //};           
+            //return View(userPreference);
+            var userPreferences = userService.GetUserPreferences();
+            UserPreferenceViewModel userPreferencesModel = new UserPreferenceViewModel();
+            foreach (var preferences in userPreferences)
             {
-                Language = new List<LanguageCode> {new LanguageCode {Language= user.LanguageCode} },
-                KeyboardLanguage = new List<Keyboard> { new Keyboard{KeyboardLanguage = user.Keyboard }},
-                PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit> {new PreferedWeightMeasurementUnit{ PreferedWeightMeasurement = user.PreferedWeightMeasurment }},
-                DatePreference = new List<Calendar> {new Calendar{DatePreference = user.DatePreference }},
-                DefaultTheme = new List<Theme> {new Theme{ DefaultTheme = user.DefaultTheme }}
-            };           
-            return View(userPreference);
+                userPreferencesModel.Language.Add(new LanguageCode { Language = preferences.LanguageCode });
+                userPreferencesModel.KeyboardLanguage.Add(new Keyboard { KeyboardLanguage = preferences.Keyboard });
+                userPreferencesModel.PreferedWeightMeasurement.Add(new PreferedWeightMeasurementUnit { PreferedWeightMeasurement = preferences.PreferedWeightMeasurment });
+                userPreferencesModel.DatePreference.Add(new Calendar { DatePreference = preferences.DatePreference });
+                userPreferencesModel.DefaultTheme.Add(new Theme { DefaultTheme = preferences.DefaultTheme });
+            }
+            ViewData["userPreference"] = userPreferencesModel;
+            return View(userPreferencesModel);
         }
 
         [HttpPost]
@@ -43,6 +55,7 @@ namespace Cats.Areas.Settings.Controllers
                 userPreferencesModel.DatePreference.Add(new Calendar { DatePreference = preferences.DatePreference });
                 userPreferencesModel.DefaultTheme.Add(new Theme { DefaultTheme = preferences.DefaultTheme });
             }
+            ViewData["userPreference"] = userPreferencesModel;
             return View(userPreferencesModel);
         }
 

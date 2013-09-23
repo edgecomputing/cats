@@ -60,8 +60,10 @@ namespace Cats.Areas.Settings.Controllers
             // Check business rule and validations
             if (userInfo.UserName == string.Empty)
                 messages.Add("User name cannot be empty");
-            if (userInfo.FullName == string.Empty)
-                messages.Add("Full name cannot be empty");
+            if (userInfo.FirstName == string.Empty)
+                messages.Add("First name cannot be empty");
+            if (userInfo.LastName == string.Empty)
+                messages.Add("Last Name cannot be empty");
             if (userInfo.Password == string.Empty)
                 messages.Add("Password cannot be empty");
             if (userInfo.Password != userInfo.PasswordConfirm)
@@ -79,6 +81,7 @@ namespace Cats.Areas.Settings.Controllers
 
             user.Disabled = false;
             user.LockedInInd = false;
+            user.ActiveInd = true;
 
             List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
             Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
@@ -95,14 +98,18 @@ namespace Cats.Areas.Settings.Controllers
                    roles.Add(application.ApplicationName, Roles);
            }
 
-           user.FirstName = "";
+           user.FirstName = userInfo.FirstName;
+           user.LastName = userInfo.LastName;
+
            user.LanguageCode = "EN";
            user.Keyboard = "AM";
            user.PreferedWeightMeasurment = "MT";
            user.DatePreference = "GC";
            user.DefaultTheme = "Default";
+           user.FailedAttempts = 0;
+           user.LoggedInInd = false;
 
-            userService.Add(user, roles);
+           userService.Add(user, roles);
 
 
             return View();
@@ -138,7 +145,7 @@ namespace Cats.Areas.Settings.Controllers
             //// 
             
             List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
-            Dictionary<string, List<Role>> roles = new Dictionary<string, List<Role>>();
+            var roles = new Dictionary<string, List<Role>>();
             var Roles = new List<Role>();
             foreach (var application in app)
             {
