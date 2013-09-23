@@ -10,8 +10,7 @@ using Cats.Areas.Settings.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Models.Security.ViewModels;
-using Cats.Web.Hub.Infrastructure;
-
+using Cats.Helpers;
 
 namespace Cats.Areas.Settings.Controllers
 {
@@ -77,8 +76,10 @@ namespace Cats.Areas.Settings.Controllers
             user.UserName = userInfo.UserName;                        
             user.Password = userService.HashPassword(userInfo.Password);
 
+            // Set default values for required fields
             user.Disabled = false;
             user.LockedInInd = false;
+
 
             List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
             Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
