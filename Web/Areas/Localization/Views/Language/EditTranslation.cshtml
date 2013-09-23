@@ -8,14 +8,9 @@
 {
    @Html.Partial("LanguageLeftBar");
 }
-@section Toolbar
-{
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_translation"></a>
-     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Translation")" title="save"></a>
-}
 <div>
-<div><h4>Edit</h4></div>
-     @using (Html.BeginForm("EditTranslation", "Translation", FormMethod.Post, new { id = "frm_edit_translation" }))
+<div><h3>Edit</h3></div>
+    @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
 
@@ -56,7 +51,13 @@
                 </div>
         
             </div>
-           
+            
+            <div class="control-group">      
+                <div class="controls">
+                    <input type="submit" value="SaveChanges" class="btn btn-success" />
+                </div>
+            </div>
+
         </div>
     }
  

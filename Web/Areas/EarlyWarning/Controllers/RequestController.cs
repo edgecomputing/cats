@@ -372,7 +372,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var programs = _commonService.GetPrograms();
             ViewData["programs"] = programs;
             ViewBag.Status = id;
-            
+
+           
+
+
             return View();
         }
 

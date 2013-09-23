@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,19 +9,19 @@ using Cats.Models;
 
 namespace Cats.Models
 {
-    public class Donor
+    public partial class Donor
     {
         public Donor()
         {
-           
-          
-            this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
-            this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.GiftCertificates = new List<GiftCertificate>();
-            this.Contributions=new List<Contribution>();
+
+
+            //this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            //this.TransportOrderDetails = new List<TransportOrderDetail>();
+            //this.GiftCertificates = new List<GiftCertificate>();
+            //this.Contributions = new List<Contribution>();
             //this.Contributions1=new List<Contribution>();
         }
-
+        [Key]
         public int DonorID { get; set; }
         public string Name { get; set; }
         public string DonorCode { get; set; }
@@ -29,7 +30,7 @@ namespace Cats.Models
         public string LongName { get; set; }
         public virtual ICollection<GiftCertificate> GiftCertificates { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
-  
+
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
 
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }

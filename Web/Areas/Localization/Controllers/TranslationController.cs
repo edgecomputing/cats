@@ -92,7 +92,7 @@ namespace Cats.Areas.Localization.Controllers
             if (ModelState.IsValid)
             {
                 _localizedTextService.UpdateLocalizedText(localizedText);
-                return RedirectToAction("Details");
+                return RedirectToAction("Index");
             }
             return View(localizedText);
         }
