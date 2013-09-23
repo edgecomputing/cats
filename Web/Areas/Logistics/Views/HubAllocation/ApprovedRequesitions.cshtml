@@ -33,12 +33,12 @@
 
         $('#frm_hub_allocation').validate(
             {
-                
+
                 submitHandler: function (form) {
                     var rows = $("#kGrid").data("kendoGrid").dataSource.total();
-                   
+
                     if (rows < 1) {
-                       
+
                         var error = document.getElementById("Notification");
                         if (error.style.display == "none") {
                             error.style.display = "block";
@@ -50,8 +50,8 @@
                     return true;
                 },
 
-                
-                
+
+
             });
 
 
@@ -68,27 +68,27 @@
     $(document).ready(function () {
         var selectedIds = {};
         $("#kGrid").kendoGrid({
-            
+
             groupable: true,
             scrollable: true,
             sortable: true,
             pageable: true,
             autoBind: true,
             dataSource: {
-                pageSize:10
+                pageSize: 10
             }
-            
-          
-            
-            
-        });
-        
 
-       
-        
+
+
+
+        });
+
+
+
+
 
     });
-    
+
 </script>
 
 
@@ -148,8 +148,7 @@
                 </tr>
             </thead>
              <tbody>
-            @for(int i = 0;i < Model.Count;i++)
-
+            @for (int i = 0; i < Model.Count; i++)
             {
                
                     <tr>
@@ -158,45 +157,49 @@
             
                         </td> 
                         <td>
-                            @Html.DisplayFor(m=>m[i].Commodity)
-                            @Html.HiddenFor(m=>m[i].Commodity)
+                            @Html.DisplayFor(m => m[i].Commodity)
+                            @Html.HiddenFor(m => m[i].Commodity)
             
                         </td>
         
                         <td>
-                            @Html.DisplayFor(m=>m[i].Region)
-                            @Html.HiddenFor(m=>m[i].Region)
+                            @Html.DisplayFor(m => m[i].Region)
+                            @Html.HiddenFor(m => m[i].Region)
             
                         </td>
         
                         <td>
-                            @Html.DisplayFor(m=>m[i].Zone)
-                            @Html.HiddenFor(m=>m[i].Zone)
+                            @Html.DisplayFor(m => m[i].Zone)
+                            @Html.HiddenFor(m => m[i].Zone)
             
                         </td>
         
                         <td >
            
-                            @Html.DisplayFor(m=>m[i].RequisitionNo)
-                            @Html.HiddenFor(m=>m[i].RequisitionNo)
+                            @Html.DisplayFor(m => m[i].RequisitionNo)
+                            @Html.HiddenFor(m => m[i].RequisitionNo)
             
                         </td>
         
                        
            
                         <td>
-                            @Html.DisplayFor(m=>m[i].Amount)
-                            @Html.HiddenFor(m=>m[i].Amount)
+                            <p class="text-right">
+                             @Html.DisplayFor(m => m[i].Amount)
+                            </p>
+                            @Html.HiddenFor(m => m[i].Amount)
             
                         </td>
                         <td>
-                            @Html.DisplayFor(m=>m[i].BenficiaryNo)
-                            @Html.HiddenFor(m=>m[i].BenficiaryNo)
-            
+                            <p class="text-right">
+                                @Html.DisplayFor(m => m[i].BenficiaryNo)
+                            </p>
+
+                            @Html.HiddenFor(m => m[i].BenficiaryNo)            
                         </td>
                         <td>
-                            @Html.DisplayFor(m=>m[i].RequisitionId)
-                            @Html.HiddenFor(m=>m[i].RequisitionId)
+                            @Html.DisplayFor(m => m[i].RequisitionId)
+                            @Html.HiddenFor(m => m[i].RequisitionId)
             
                         </td>
                     </tr>
@@ -209,6 +212,6 @@
    
     
     
-        }
+}
 
 
