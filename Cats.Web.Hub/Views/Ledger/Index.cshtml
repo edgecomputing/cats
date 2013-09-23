@@ -3,31 +3,38 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table>
+<table style="width:100%">
     <tr>
+        <th>
+            No.
+        </th>
         <th>
             Name
         </th>
         <th>
-            LedgerTypeID
+            LedgerType
         </th>
         <th></th>
     </tr>
+    @{
+        var i = 1;
+    }
 
 @foreach (var item in Model) {
     <tr>
+        <td>@i</td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LedgerTypeID)
+            @Html.DisplayFor(modelItem => item.LedgerType.Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.LedgerID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.LedgerID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.LedgerID })
         </td>
     </tr>
+    i++;
 }
 
 </table>

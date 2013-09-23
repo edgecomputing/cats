@@ -45,9 +45,6 @@
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -322,6 +319,7 @@
     <Compile Include="Controllers\HubSettingController.cs" />
     <Compile Include="Controllers\InternalMovementController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\LedgerController.cs" />
     <Compile Include="Controllers\LetterTemplateController.cs" />
     <Compile Include="Controllers\LossesAndAdjustmentsController.cs" />
     <Compile Include="Controllers\PlannerController.cs" />
@@ -374,7 +372,6 @@
     <Compile Include="Library\MembershipWrapper.cs" />
     <Compile Include="Library\RoleProvider.cs" />
     <Compile Include="Library\UrlHelperWrapper.cs" />
-    <Compile Include="Models\Ledger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1325,6 +1322,10 @@
     <Content Include="Views\UserWarehouse\Edit.cshtml" />
     <Content Include="Views\UserWarehouse\Index.cshtml" />
     <Content Include="Views\UserWarehouse\Update.cshtml" />
+    <Content Include="Views\Ledger\Index.cshtml" />
+    <Content Include="Views\Ledger\Edit.cshtml" />
+    <Content Include="Views\Ledger\Delete.cshtml" />
+    <Content Include="Views\Ledger\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
