@@ -12,7 +12,7 @@ namespace LanguageHelpers.Localization.Models
         [Key]
         public int LocalizedTextId { get; set; }
 
-        public String LanguageCode { get; set; }
+        public string LanguageCode { get; set; }
 
         public string TextKey { get; set; }
 

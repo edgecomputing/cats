@@ -844,9 +844,6 @@
     </Content>
     <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
     <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ChangePasswordSuccess.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

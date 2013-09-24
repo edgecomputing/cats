@@ -203,11 +203,11 @@ namespace Cats.Areas.Settings.Controllers
             }
             return View(model);
         }
-        public ActionResult ChangePasswordSuccess()
-        {
-            ModelState.AddModelError("Sucess", "Password Successfully Changed.");
-            return View();
-        }
+        //public ActionResult ChangePasswordSuccess()
+        //{
+        //    ModelState.AddModelError("Sucess", "Password Successfully Changed.");
+        //    return View();
+        //}
         public ActionResult ISValidUserName(string userName)
         {
             if (!string.IsNullOrEmpty(userName))
