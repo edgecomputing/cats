@@ -26,7 +26,7 @@
     .Columns(columns =>
     {
         columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
-        "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserAccountId#" }) + " '>#=UserName#</a> "
+        "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserProfileID#" }) + " '>#=UserName#</a> "
         );
         columns.Bound(u => u.FullName).Title("Full Name");
         columns.Bound(u => u.Disabled).Title("Disabled Account");
@@ -43,6 +43,7 @@
     .Pageable()
     .Sortable()
     .Scrollable()
+    .HtmlAttributes(new { style = "width:100%; height:550px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
         .Read(read => read.Action("UsersList", "Users"))

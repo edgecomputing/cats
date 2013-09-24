@@ -38,7 +38,7 @@
 
 @section LeftBar{
 
-    @Html.Partial("_HRDLeftBar");
+    @Html.Partial("_HRDLeftBar")
     
 }
 
@@ -50,17 +50,17 @@
             columns.Bound(p => p.Season);
             columns.Bound(p => p.Year);
             columns.Bound(p => p.CreatedBy);
-            columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})",Html.UserCalendarPreference()));
+            columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})", Html.UserCalendarPreference()));
             // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 
             columns.Command(p =>
-                {
-                    p.Custom("Edit").Click("hrdEdit");
-                    p.Custom("Approve").Click("approveHRD");
-                    p.Custom("Summary").Click("showSummary");
+            {
+                p.Custom("Edit").Click("hrdEdit");
+                p.Custom("Approve").Click("approveHRD");
+                p.Custom("Summary").Click("showSummary");
 
-                });
+            });
             //{
             //   // p.Custom("ViewDetails").Click("showDetails");
             //    p.Custom("Edit").Click("hrdEdit");
@@ -72,18 +72,18 @@
             //});
 
         })
-    .Pageable()
-    .Sortable()
-    .Filterable()
-    .DataSource(dataSource => dataSource
-          .Ajax()
-          .PageSize(8)
-            .Model(model => model.Id(p => p.HRDID))
-            .Read(read => read.Action("HRD_Read", "HRD"))
+            .Pageable()
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(8)
+                    .Model(model => model.Id(p => p.HRDID))
+                    .Read(read => read.Action("HRD_Read", "HRD"))
 
-     )
+             )
 
-      )
+              )
 
 
 
