@@ -82,3 +82,26 @@
         });
     }
 </script>
+<script type="text/javascript">
+
+    //register custom validation rules
+    (function ($, kendo) {
+        $.extend(true, kendo.ui.validator, {
+            rules: { // custom rules
+                productnamevalidation: function (input, params) {
+                    //check for the rule attribute 
+                    if (input.filter("[data-val-productnamevalidation]").length && input.val()) {
+                        return /^[A-Z]/.test(input.val());
+                    }
+                    return true;
+                }
+            },
+            messages: { //custom rules messages
+                productnamevalidation: function (input) {
+                    // return the message text
+                    return input.attr("data-val-productnamevalidation");
+                }
+            }
+        });
+    })(jQuery, kendo);
+    </script>
