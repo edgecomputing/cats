@@ -9,7 +9,7 @@
 }
 
 @section Toolbar    {
-     <a class="btn icon-retweet" href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
+     <a class="btn icon-reply" href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
 }
 <h5 class="well">Regional Request Resource Allocation</h5>
 <div class="row-fluid">
@@ -44,9 +44,9 @@
 
                     <td>
                         <p>
-                            <b>@Html.DisplayNameFor(model => model.RequestDateEt)
+                            <b>@Html.DisplayNameFor(model => model.RequestDate)
                                 :</b>
-                            @Html.DisplayFor(model => model.RequestDateEt)
+                            @Html.DisplayFor(model => model.RequestDate)
                         </p>
                     </td>
                     <td>

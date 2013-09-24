@@ -21,7 +21,7 @@ namespace Cats.Areas.Settings.Controllers
         private IForgetPasswordRequestService _forgetPasswordRequestService;
         private ISettingService _settingService;
 
-        public UsersController(IUserAccountService service,IForgetPasswordRequestService forgetPasswordRequestService,ISettingService settingService)
+        public UsersController(IUserAccountService service, IForgetPasswordRequestService forgetPasswordRequestService, ISettingService settingService)
         {
             userService = service;
             _forgetPasswordRequestService = forgetPasswordRequestService;
@@ -31,7 +31,7 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult UsersList([DataSourceRequest] DataSourceRequest request)
         {
             var users = userService.GetUsers();
-            return Json(users.ToDataSourceResult(request),JsonRequestBehavior.AllowGet);
+            return Json(users.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Index()
@@ -43,9 +43,9 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult New()
         {
             var model = new UserViewModel();
-            List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
+            //List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
 
-            model.Applications = Applications;
+            //model.Applications = Applications;
             return View(model);
         }
 
@@ -67,15 +67,15 @@ namespace Cats.Areas.Settings.Controllers
                 messages.Add("Password cannot be empty");
             if (userInfo.Password != userInfo.PasswordConfirm)
                 messages.Add("Passwords do not match");
-           
+
 
             if (messages.Count > 0)
                 return View();
-            
+
             // If the supplied information is correct then persist it to the database
             var user = new UserProfile();
 
-            user.UserName = userInfo.UserName;                        
+            user.UserName = userInfo.UserName;
             user.Password = userService.HashPassword(userInfo.Password);
 
             // Set default values for required fields
@@ -84,33 +84,33 @@ namespace Cats.Areas.Settings.Controllers
             user.ActiveInd = true;
 
 
-            List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
+            //List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
             Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
-            List<string> Roles;
-           foreach(var application in app)
-           {
-               Roles = new List<string>();
-               foreach (var role in application.Roles)
-               {
-                   if (role.IsChecked)
-                       Roles.Add(role.RoleName);
-               }
-               if (Roles.Count > 0)
-                   roles.Add(application.ApplicationName, Roles);
-           }
+            //List<string> Roles;
+            //foreach (var application in app)
+            //{
+            //    Roles = new List<string>();
+            //    foreach (var role in application.Roles)
+            //    {
+            //        if (role.IsChecked)
+            //            Roles.Add(role.RoleName);
+            //    }
+            //    if (Roles.Count > 0)
+            //        roles.Add(application.ApplicationName, Roles);
+            //}
 
-           user.FirstName = userInfo.FirstName;
-           user.LastName = userInfo.LastName;
+            user.FirstName = userInfo.FirstName;
+            user.LastName = userInfo.LastName;
 
-           user.LanguageCode = "EN";
-           user.Keyboard = "AM";
-           user.PreferedWeightMeasurment = "MT";
-           user.DatePreference = "GC";
-           user.DefaultTheme = "Default";
-           user.FailedAttempts = 0;
-           user.LoggedInInd = false;
+            user.LanguageCode = "EN";
+            user.Keyboard = "AM";
+            user.PreferedWeightMeasurment = "MT";
+            user.DatePreference = "GC";
+            user.DefaultTheme = "Default";
+            user.FailedAttempts = 0;
+            user.LoggedInInd = false;
 
-           userService.Add(user, roles);
+            userService.Add(user, roles);
 
 
             return View();
@@ -144,7 +144,7 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult EditUserRoles(UserViewModel userInfo)
         {
             //// 
-            
+
             List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
             var roles = new Dictionary<string, List<Role>>();
             var Roles = new List<Role>();
@@ -165,7 +165,7 @@ namespace Cats.Areas.Settings.Controllers
             userService.EditUserRole(userInfo.UserName, userInfo.UserName, roles);
 
             return View();
-        }   
+        }
         public ActionResult ChangePassword()
         {
             //var userInfo=userService.FindById(id);
@@ -195,12 +195,12 @@ namespace Cats.Areas.Settings.Controllers
                     }
                     if (changePasswordSucceeded)
                         ModelState.AddModelError("Sucess", "Password Successfully Changed.");
-                        //return RedirectToAction("ChangePasswordSuccess");
+                    //return RedirectToAction("ChangePasswordSuccess");
                     else
-                        ModelState.AddModelError("Errors","The new password is invalid.");
+                        ModelState.AddModelError("Errors", "The new password is invalid.");
 
                 }
-                else ModelState.AddModelError("Errors","The current password is incorrect ");
+                else ModelState.AddModelError("Errors", "The current password is incorrect ");
             }
             return View(model);
         }
@@ -224,18 +224,18 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult ForgetPasswordRequest()
         {
             //var UserName = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserName;
-           // userService.ResetPassword(UserName);
+            // userService.ResetPassword(UserName);
             var model = new ForgetPasswordRequestModel();
             return View(model);
-           // return RedirectToAction("Index");
+            // return RedirectToAction("Index");
         }
         [HttpPost]
         public ActionResult ForgetPasswordRequest(ForgetPasswordRequestModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = userService.GetUserDetail(model.UserName);
-                if(user!=null)
+                if (user != null)
                 {
                     var forgetPasswordRequest = new ForgetPasswordRequest()
                         {
@@ -248,13 +248,13 @@ namespace Cats.Areas.Settings.Controllers
 
                             //RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
                             //UserAccountID = user.UserAccountId
-                       };
+                        };
                     if (_forgetPasswordRequestService.AddForgetPasswordRequest(forgetPasswordRequest))
                     {
 
                         string to = user.Email;
                         string subject = "Password Change Request";
-                        string link = "localhost"+ Request.Url.Port + "/Settings/Users/ForgetPassword/?key=" + forgetPasswordRequest.RequestKey;
+                        string link = "localhost" + Request.Url.Port + "/Settings/Users/ForgetPassword/?key=" + forgetPasswordRequest.RequestKey;
                         string body = string.Format(@"Dear {1}
                                                             <br /><br />
                                                         A password reset request has been submitted for your Email account. If you submitted this password reset request, please follow the following link. 
@@ -289,7 +289,7 @@ namespace Cats.Areas.Settings.Controllers
 
                     ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
                 }
-               // ModelState.AddModelError("Errors", "Invalid User Name "+ model.UserName);
+                // ModelState.AddModelError("Errors", "Invalid User Name "+ model.UserName);
             }
             return View();
         }
@@ -317,7 +317,7 @@ namespace Cats.Areas.Settings.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View( model);
+            return View(model);
         }
     }
 }
