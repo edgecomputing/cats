@@ -44,14 +44,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-
     <Reference Include="DocX">
       <HintPath>..\lib\DocX.dll</HintPath>
     </Reference>
-
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-
     </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
@@ -1095,8 +1092,10 @@
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
-    <Content Include="Views\Home\Preference.cshtml" />
     <Content Include="Views\Shared\UserPreference.cshtml" />
+    <Content Include="Views\Home\Preference.cshtml" />
+    <Content Include="Views\UserPreference\Edit.cshtml" />
+    <Content Include="Views\Shared\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
