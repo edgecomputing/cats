@@ -112,7 +112,7 @@
         foreach (System.Data.DataColumn column in Model.Columns)
         {
             if (column.DataType == typeof(decimal))
-            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:n2}"); }
+            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); }
             else
             {
                 columns.Bound(column.ColumnName);
