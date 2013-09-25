@@ -65,10 +65,8 @@ namespace Cats.Areas.Localization.Controllers
                 }
                 catch (Exception exception)
                 {
-                    ViewBag.Error = "Language Code Must Be Unique Please Try again";
-                    //ModelState.AddModelError("Error", "Language Code Must Be Unique.");
+                    ModelState.AddModelError("Errors", "Language Code Must Be Unique.");
                 }
-                return View(language);
             }
             return View(language);
         }

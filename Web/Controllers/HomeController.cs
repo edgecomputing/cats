@@ -16,7 +16,6 @@ using Cats.Services.Security;
 
 namespace Cats.Controllers
 {
-    
     public class HomeController : Controller
     {
         private IRegionalRequestService _regionalRequestService;
@@ -39,12 +38,10 @@ namespace Cats.Controllers
         [Authorize]
         public ActionResult Index(int regionId=4)
         {
-
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
             var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
             ////ViewBag.Requests = req;
             var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
-
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
             var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
@@ -130,13 +127,13 @@ namespace Cats.Controllers
         public UserPreferenceViewModel UserPreference()
         {
             var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-            var userPreference = new UserPreferenceViewModel
+            var userPreference = new UserPreferenceEditModel
             {
-                Language = new List<LanguageCode> { new LanguageCode { Language = user.LanguageCode } },
-                KeyboardLanguage = new List<Keyboard> { new Keyboard { KeyboardLanguage = user.Keyboard } },
-                PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit> { new PreferedWeightMeasurementUnit { PreferedWeightMeasurement = user.PreferedWeightMeasurment } },
-                DatePreference = new List<Cats.Areas.Settings.Models.Calendar> { new Cats.Areas.Settings.Models.Calendar { DatePreference = user.DatePreference } },
-                DefaultTheme = new List<Theme> { new Theme { DefaultTheme = user.DefaultTheme } }
+                Language = user.LanguageCode,
+                KeyboardLanguage = user.Keyboard,
+                PreferedWeightMeasurement = user.PreferedWeightMeasurment,
+                DatePreference = user.DatePreference,
+                DefaultTheme = user.DefaultTheme
             };
 
             var userPreferences = userService.GetUserPreferences();
@@ -178,20 +175,6 @@ namespace Cats.Controllers
                 CurrentPreference = userPreference
             };
             return userPreferencesModel;
-        }
-
-        public ActionResult Edit(UserPreferenceViewModel model)
-        {
-            var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-            user.DefaultTheme = model.DefaultTheme.First().DefaultTheme;
-            user.DatePreference = model.DatePreference.First().DatePreference;
-            user.Keyboard = model.KeyboardLanguage.First().KeyboardLanguage;
-            user.LanguageCode = model.Language.First().Language;
-            user.PreferedWeightMeasurment = model.PreferedWeightMeasurement.First().PreferedWeightMeasurement;
-
-            // Edit user preference
-            userService.Save(user);
-            return View(model);
         }
     }
 }

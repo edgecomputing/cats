@@ -27,6 +27,9 @@
     <script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
     <script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
 
+    <script src="~/Scripts/ICanHaz.js"></script>
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -46,7 +49,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
 
-    <title>@ViewBag.Title</title>
+    @*<title>@ViewBag.Title</title>*@
     @*    @Styles.Render("~/Content/css")*@
     @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
@@ -58,7 +61,7 @@
         <div class="row">
             @{
                 var bodyspan = "span12";
-            }
+             }
 
             @if (ViewBag.ViewWidth != "Wide")
             {
@@ -85,6 +88,7 @@
             <p>CATS &copy; DRMFSS @DateTime.Now.Year.ToString()</p>
         </footer>
     </div>
+
     <!--/.fluid-container-->
 
     <!-- Le javascript

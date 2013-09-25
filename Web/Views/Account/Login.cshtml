@@ -70,8 +70,11 @@
             <label class="checkbox">
                 @Html.CheckBoxFor(m => m.RememberMe)
                 Remember me
+                @* <a href="@Url.Action("ForgetPassword", "Users", new { Area = "Settings" })">  Forget Password</a>*@
             </label>
+           
             <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+           
         }
 
         @if (ViewBag.HasError)

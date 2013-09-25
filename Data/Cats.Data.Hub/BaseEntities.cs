@@ -235,7 +235,7 @@ namespace Cats.Data.Hub
         }
         // This is overridden to prevent someone from calling SaveChanges without specifying the user making the change
        
-        public  int SaveChanges()
+        public int SaveChanges()
         {
             //TODO:Refactor Required when doing service layer
             int UserId = 0;
@@ -302,13 +302,12 @@ namespace Cats.Data.Hub
                 {
                     AuditID = Guid.NewGuid(),
                     LoginID = userId.UserProfileID,
-                   DateTime = DateTime.Now,
+                    DateTime = DateTime.Now,
                     Action = "A", // Added
                     TableName = tableName,
                     PrimaryKey = dbEntry.CurrentValues.GetValue<object>(keyName).ToString(),  // Again, adjust this if you have a multi-column key
                     ColumnName = "*ALL",    // Or make it nullable, whatever you want
                     NewValue = dbEntry.CurrentValues.ToObject().ToString(),
-
                     HubID = userId.DefaultHub.HubID,
                     //TODO: fix this partion id
                     PartitionID = 0

@@ -14,6 +14,13 @@ namespace Cats
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Preference",
+                url: "Preference",
+                defaults: new {controller = "Home", action = "Preference"},
+                namespaces:new[]{"Cats.Controllers"}
+                );
+
+            routes.MapRoute(
                 name: "Error",
                 url: "Error",
                 defaults: new { controller = "Home", action = "Error" }

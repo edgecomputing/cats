@@ -44,14 +44,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-
     <Reference Include="DocX">
       <HintPath>..\lib\DocX.dll</HintPath>
     </Reference>
-
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-
     </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
@@ -288,6 +285,7 @@
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="Helpers\TemplateHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
@@ -330,6 +328,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
   </ItemGroup>
@@ -845,6 +844,8 @@
     <Content Include="Cats.csproj.orig">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1095,8 +1096,10 @@
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
-    <Content Include="Views\Home\Preference.cshtml" />
     <Content Include="Views\Shared\UserPreference.cshtml" />
+    <Content Include="Views\Home\Preference.cshtml" />
+    <Content Include="Views\UserPreference\Edit.cshtml" />
+    <Content Include="Views\Shared\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1117,10 +1120,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cats.Web.Hub\Cats.Web.Hub.csproj">
-      <Project>{c0555fd5-d03e-43bb-9827-ca695f665059}</Project>
-      <Name>Cats.Web.Hub</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>

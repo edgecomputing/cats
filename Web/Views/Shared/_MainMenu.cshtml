@@ -29,8 +29,7 @@
                         PLEASE WATCH THE SPACE BETWEEN TOP MENU ITEMS AND THE CARET
                         ************************************************************************************************
                     -->                   
-                    @if (role == "EW" || role == "SU")
-                    {
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Early Warning <b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -50,10 +49,9 @@
 
 
                         <li><a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })">@Html.Translate("PSNP")</a></li>    
-                    }
 
-                    @if (role == "LG" || role == "SU")
-                    {
+
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Logistics") <b class="caret"></b></a>
 
@@ -65,11 +63,7 @@
 
                             </ul>
                         </li>
-                    }
 
-
-                    @if (role == "PC" || role == "SU")
-                    {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Procurement") <b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -82,13 +76,9 @@
                                 <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">@Html.Translate("Dispatch Locations")</a></li>
                             </ul>
                         </li>
-                    }
 
-
-                    @if (role == "SU")
-                    {
                         <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">@Html.Translate("Settings")</a></li>
-                    }
+                    
                 </ul>
                 <ul class="nav pull-right">
                     <li class="divider-vertical"></li>
@@ -102,7 +92,7 @@
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.GetUserName() <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu">                            
                             <li><a href="@Url.Action("Preference", "Home",new{Area=""})">@Html.Translate("Preference")</a></li>
                             <li class="divider"></li>
                             <li><a href="@Url.Action("ChangePassword","Users",new {Area="Settings"})">@Html.Translate("Change Password")</a></li>
