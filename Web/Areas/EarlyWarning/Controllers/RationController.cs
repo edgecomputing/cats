@@ -188,7 +188,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (rationDetailViewModel != null && ModelState.IsValid)
             {
-                var origin = _rationDetailService.FindById(rationDetailViewModel.RationID);
+                var origin = _rationDetailService.FindById(rationDetailViewModel.RationDetailID);
                 origin.Amount = rationDetailViewModel.Amount;
                 _rationDetailService.EditRationDetail(origin);
             }

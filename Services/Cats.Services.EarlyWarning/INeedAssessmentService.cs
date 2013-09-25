@@ -16,11 +16,11 @@ namespace Cats.Services.EarlyWarning
         NeedAssessment FindById(int id);
         List<NeedAssessment> GetAllNeedAssessment();
         List<NeedAssessment> FindBy(Expression<Func<NeedAssessment, bool>> predicate);
-        IEnumerable<NeedAssessmentHeaderViewModel>  ReturnViewModel();
+        //IEnumerable<NeedAssessmentHeaderViewModel>  ReturnViewModel();
 
-        IEnumerable<NeedAssessmentDao> ReturnNeedAssessmentHeaderViewModel(int region);
-        IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(int region);
-        IEnumerable<NeedAssessmentDetail> GetDetail(IEnumerable<NeedAssessmentViewModel> detailViewModel);
+        //IEnumerable<NeedAssessmentDao> ReturnNeedAssessmentHeaderViewModel(int region);
+        //IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(int region);
+        //IEnumerable<NeedAssessmentDetail> GetDetail(IEnumerable<NeedAssessmentViewModel> detailViewModel);
         List<string> GetRegionsFromNeedAssessment();
         List<string> GetZonesFromNeedAssessment();
         List<string> GetSeasonFromNeedAssessment();
@@ -29,7 +29,7 @@ namespace Cats.Services.EarlyWarning
          bool GenerateDefefaultData(NeedAssessment needAssessment);
         IOrderedEnumerable<RegionsViewModel> GetRegions();
         IOrderedEnumerable<RegionsViewModel> GetZoness(int region);
-        IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved();
+        //IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved();
         bool IsNeedAssessmentUsedInHrd(int season, int year);
     }
 }
