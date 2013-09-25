@@ -83,13 +83,15 @@ namespace Cats.Web.Hub.Helpers
             return new MvcHtmlString(builder.ToString());
         }
 
-        public static MvcHtmlString LedgerLink(this HtmlHelper htmlHelper, string linkText, string dialogContenturl, string dialogTitle) {
+        public static MvcHtmlString LedgerLink(this HtmlHelper htmlHelper, string linkText, string dialogContenturl, string dialogTitle, string updateUrl)
+        {
 
             TagBuilder builder = new TagBuilder("a");
             builder.InnerHtml = @"<img src='/Images/change.png' />";
             builder.Attributes.Add("title",linkText);
             builder.Attributes.Add("href", dialogContenturl);
             builder.Attributes.Add("data-dialog-title",dialogTitle);
+            builder.Attributes.Add("data-update-url", updateUrl);
             builder.AddCssClass("hubChangeLink");
             return new MvcHtmlString(builder.ToString());
         }

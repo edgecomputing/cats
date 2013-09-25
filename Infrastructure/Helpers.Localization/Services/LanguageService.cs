@@ -18,7 +18,7 @@ namespace LanguageHelpers.Localization.Services
         public bool AddLanguage(Language language)
         {
             _unitOfWork.LanguageRepository.Add(language);
-            var texts = _unitOfWork.LocalizedTextRepository.GetAll();
+            var texts = _unitOfWork.LocalizedTextRepository.FindBy(m=>m.LanguageCode=="EN");
             foreach (var localizedText in texts)
             {
                 var newText = new LocalizedText()

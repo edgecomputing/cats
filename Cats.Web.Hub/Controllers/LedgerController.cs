@@ -21,6 +21,7 @@ namespace Cats.Web.Hub.Controllers
 
         public ActionResult Index()
         {
+           
             var ledgers = _ledgerService.GetAllLedger().OrderBy(l => l.Name).ToList();
             return View(ledgers);
 
@@ -28,7 +29,9 @@ namespace Cats.Web.Hub.Controllers
 
 
         public ActionResult Edit(int id) {
+           
             var ledger = _ledgerService.FindById(id);
+            ViewBag.ledgerTypes = new SelectList(_ledgerTypeService.GetAllLedgerType().OrderBy(l => l.Name), "LedgerTypeID", "Name", ledger.LedgerTypeID);
             return View(ledger);
         }
 
@@ -56,7 +59,7 @@ namespace Cats.Web.Hub.Controllers
         }
 
         public ActionResult Create() {
-            ViewBag.ledgerType = new SelectList(_ledgerTypeService.GetAllLedgerType().OrderBy(l => l.Name), "LedgerType", "Name");
+            ViewBag.ledgerTypes = new SelectList(_ledgerTypeService.GetAllLedgerType().OrderBy(l => l.Name), "LedgerTypeID", "Name",1);
             return View();
         }
 
@@ -69,10 +72,8 @@ namespace Cats.Web.Hub.Controllers
                 return Json(new { success = true });
             }
 
-            ViewBag.HubOwnerID = new SelectList(_ledgerService.GetAllLedger().OrderBy(l=>l.Name), "Name", "LedgerType", ledger.LedgerID);
+            //ViewBag.HubOwnerID = new SelectList(_ledgerService.GetAllLedger().OrderBy(l=>l.Name), "Name", "LedgerType", ledger.LedgerID);
             return PartialView(ledger);
         }
-
-
     }
 }

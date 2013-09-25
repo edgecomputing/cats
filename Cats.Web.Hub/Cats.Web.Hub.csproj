@@ -1323,9 +1323,6 @@
     <Content Include="Views\UserWarehouse\Index.cshtml" />
     <Content Include="Views\UserWarehouse\Update.cshtml" />
     <Content Include="Views\Ledger\Index.cshtml" />
-    <Content Include="Views\Ledger\Edit.cshtml" />
-    <Content Include="Views\Ledger\Delete.cshtml" />
-    <Content Include="Views\Ledger\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

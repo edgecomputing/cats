@@ -844,6 +844,8 @@
     <Content Include="Cats.csproj.orig">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1094,8 +1096,10 @@
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
-    <Content Include="Views\Home\Preference.cshtml" />
     <Content Include="Views\Shared\UserPreference.cshtml" />
+    <Content Include="Views\Home\Preference.cshtml" />
+    <Content Include="Views\UserPreference\Edit.cshtml" />
+    <Content Include="Views\Shared\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
