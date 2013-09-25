@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Models;
+using Cats.Models.Security;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
@@ -122,9 +126,25 @@ namespace Cats.Tests.ControllersTests
             var seasonService = new Mock<ISeasonService>();
             seasonService.Setup(m => m.GetAllSeason()).Returns(season);
 
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
+
             _hrdController = new HRDController(adminUnitService.Object, hrdService.Object, rationService.Object, rationDetailService.Object, 
                                                hrdDetailService.Object, commodityService.Object,needAssessmentDetailService.Object,needAssessmentService.Object,
-                                               workFlowStatusService.Object,seasonService.Object);
+                                               workFlowStatusService.Object,seasonService.Object,userAccountService.Object);
+            _hrdController.ControllerContext = controllerContext.Object;
+            
 
 
         }

@@ -37,7 +37,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                              IRationService rationservice, IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService, ICommodityService commodityService,
                              INeedAssessmentDetailService needAssessmentDetailService, INeedAssessmentHeaderService needAssessmentService,
-                             IWorkflowStatusService workflowStatusService, ISeasonService seasonService)
+                             IWorkflowStatusService workflowStatusService, ISeasonService seasonService,IUserAccountService userAccountService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -49,6 +49,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _needAssessmentService = needAssessmentService;
             _workflowStatusService = workflowStatusService;
             _seasonService = seasonService;
+            _userAccountService = userAccountService;
         }
 
         public ActionResult Index()
@@ -128,6 +129,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //gets hrd information
         private IEnumerable<HRDViewModel> GetHrds(IEnumerable<HRD> hrds)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from hrd in hrds
                     select new HRDViewModel
                         {
@@ -140,8 +142,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         PublishedDate = hrd.PublishedDate,
                         StatusID = hrd.Status,
                         Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value),
-                        CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                        PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
+                        CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(datePref),
+                        PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref)
 
 
                     });

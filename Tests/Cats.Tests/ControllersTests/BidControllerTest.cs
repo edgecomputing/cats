@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Principal;
+using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
+using Cats.Models.Security;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Common;
+using Cats.Services.Security;
 using Moq;
 using NUnit.Framework;
 using Cats.Models;
@@ -26,7 +30,7 @@ namespace Cats.Tests.ControllersTests
         private BidController _bidController;
         private List<Bid> _bids;
 
-        #region Setup for Test
+      
         [SetUp]
         public void SetUp()
           {
@@ -84,22 +88,24 @@ namespace Cats.Tests.ControllersTests
             this.MockAdminUnitService = mockAdminUnitService.Object;
             this.MockBidService = mockBidService.Object;
 
-            _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService,MockTransportBidPlanService,MockTransportBidPlanDetailService,MockApplicationSetting);
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
+            _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService,
+                                            MockTransportBidPlanService,MockTransportBidPlanDetailService,MockApplicationSetting,
+                                            userAccountService.Object);
 
           }
-        #endregion
-        [Test]
-        public void Bid_Controller_Constructor_Test()
-        {
-            try
-            {
-                _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService, MockTransportBidPlanService, MockTransportBidPlanDetailService,MockApplicationSetting);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
-            }
-        }
         
         [Test]
         public void Can_fetch_all_Bid_Lists()

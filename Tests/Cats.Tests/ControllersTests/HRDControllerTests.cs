@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
+using Cats.Models.Security;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Moq;
@@ -82,6 +86,20 @@ namespace Cats.Tests.ControllersTests
             var needAssesmentHeaderService = new Mock<INeedAssessmentHeaderService>();
             var workflowSatusService = new Mock<IWorkflowStatusService>();
             var seasonService = new Mock<ISeasonService>();
+
+             var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
             _hrdController = new HRDController(adminUnitService.Object, 
                 hrdService.Object, 
                 rationService.Object, 
@@ -91,7 +109,7 @@ namespace Cats.Tests.ControllersTests
                 needAssesmentDetailService.Object,
                 needAssesmentHeaderService.Object,
                 workflowSatusService.Object,
-                seasonService.Object
+                seasonService.Object,userAccountService.Object
                 );
         }
 
