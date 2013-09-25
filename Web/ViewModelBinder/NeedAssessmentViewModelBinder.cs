@@ -4,6 +4,7 @@ using System.Linq;
 using Cats.Models;
 using log4net;
 using Cats.Data.UnitWork;
+using Cats.Helpers;
 
 namespace Cats.ViewModelBinder
 {
@@ -29,7 +30,8 @@ namespace Cats.ViewModelBinder
                 NeedAApproved = need.NeedAApproved,
                 NeedACreaterName = need.UserProfile1.UserName,
                 NeedACreatedBy = need.NeddACreatedBy,
-                TypeOfNeedAssessment = need.TypeOfNeedAssessment1.TypeOfNeedAssessmentID
+                TypeOfNeedAssessment = need.TypeOfNeedAssessment1.TypeOfNeedAssessmentID,
+                Date = need.NeedADate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
             });
         }
         public static IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved()
@@ -47,7 +49,8 @@ namespace Cats.ViewModelBinder
                 NeedAApproved = need.NeedAApproved,
                 NeedACreaterName = need.UserProfile1.UserName,
                 NeedACreatedBy = need.NeddACreatedBy,
-                TypeOfNeedAssessment = need.TypeOfNeedAssessment1.TypeOfNeedAssessmentID
+                TypeOfNeedAssessment = need.TypeOfNeedAssessment1.TypeOfNeedAssessmentID,
+                Date = need.NeedADate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
             });
         }
 
