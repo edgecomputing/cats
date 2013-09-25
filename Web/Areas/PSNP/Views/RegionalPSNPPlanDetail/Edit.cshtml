@@ -44,9 +44,9 @@
 
         columns.Bound(p => p.WoredaName);
         columns.Bound(p => p.FDPName);
-        columns.Bound(p => p.BeneficiaryCount);
-        columns.Bound(p => p.FoodRatio);
-        columns.Bound(p => p.CashRatio);
+        columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.FoodRatio).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.CashRatio).Format("{0:N}").HtmlAttributes(new { align = "Right" });
 
     })
     .DataSource(dataSource => dataSource

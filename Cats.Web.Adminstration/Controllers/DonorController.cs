@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Models;
@@ -95,16 +96,16 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Donor_Destroy([DataSourceRequest] DataSourceRequest request, DonorModel model)
-        {
-            if (model != null && ModelState.IsValid)
-            {
-                var donor = _donorService.FindById(model.DonorID);
-                _donorService.DeleteDonor(donor);
-            }
-            return Json(ModelState.ToDataSourceResult());
-        }
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult Donor_Destroy([DataSourceRequest] DataSourceRequest request, DonorModel model)
+        //{
+        //    if (model != null && ModelState.IsValid)
+        //    {
+        //        var donor = _donorService.FindById(model.DonorID);
+        //        _donorService.DeleteDonor(donor);
+        //    }
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
         // GET: /Donor/Delete/5
 
         public ActionResult Delete(int id)
@@ -115,10 +116,11 @@ namespace Cats.Web.Adminstration.Controllers
                     _donorService.DeleteDonor(donor);
                     return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+               ModelState.AddModelError("Errors","Unable to delete Donor");
             }
+            return RedirectToAction("Index");
         }
     }
 }

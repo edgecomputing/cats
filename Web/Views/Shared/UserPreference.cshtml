@@ -1,0 +1,54 @@
+﻿@model Cats.Areas.Settings.Models.UserPreferenceViewModel
+@using Kendo.Mvc.UI
+@using Cats.Areas.Settings.Models;
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>User Preference</h4>
+
+@using (Html.BeginForm("Edit", "UserPreference", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+
+    @(Html.Kendo().DropDownList()
+          .Name("Language")
+          .DataValueField("Language")
+          .DataTextField("Language")
+          .BindTo(Model.Language.AsEnumerable())
+          .SelectedIndex(Model.Language.IndexOf(Model.CurrentPreference.Language.First())))
+          
+
+    @(Html.Kendo().DropDownList()
+              .Name("Keyboard")
+              .DataValueField("KeyboardLanguage")
+              .DataTextField("KeyboardLanguage")
+              .BindTo(Model.KeyboardLanguage.AsEnumerable())
+              .SelectedIndex(Model.KeyboardLanguage.IndexOf(Model.CurrentPreference.KeyboardLanguage.First())))
+
+    @(Html.Kendo().DropDownList()
+              .Name("PreferedWeightMeasurement")
+              .DataValueField("PreferedWeightMeasurement")
+              .DataTextField("PreferedWeightMeasurement")
+              .BindTo(Model.PreferedWeightMeasurement.AsEnumerable())
+              .SelectedIndex(Model.PreferedWeightMeasurement.IndexOf(Model.CurrentPreference.PreferedWeightMeasurement.First())))
+
+    @(Html.Kendo().DropDownList()
+          .Name("DatePreference")
+          .DataValueField("DatePreference")
+          .DataTextField("DatePreference")
+          .BindTo(Model.DatePreference.AsEnumerable())
+          .SelectedIndex(Model.DatePreference.IndexOf(Model.CurrentPreference.DatePreference.First())))
+
+    @(Html.Kendo().DropDownList()
+              .Name("DefaultTheme")
+              .DataValueField("DefaultTheme")
+              .DataTextField("DefaultTheme")
+              .BindTo(Model.DefaultTheme.AsEnumerable())
+              .SelectedIndex(Model.DefaultTheme.IndexOf(Model.CurrentPreference.DefaultTheme.First())))
+    
+    <input type="submit" name="Edit" class="btn btn-primary" value="Edit Preference" />
+    <a href="@Url.Action("Index","UserPreference")" class="btn">Cancel</a>
+
+}
+
+   

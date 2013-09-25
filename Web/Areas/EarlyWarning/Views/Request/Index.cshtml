@@ -4,7 +4,7 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 
-
+@model IEnumerable<RegionalRequestViewModel>
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -33,9 +33,9 @@
                      columns.Bound(request => request.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
-                     columns.Bound(request => request.Month);
+                     columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
                      columns.Bound(request => request.Program);
-                     columns.Bound(request => request.RequistionDate).Title(Html.Translate("Request Date"));
+                     columns.Bound(request => request.RequestDate);
                      
                     
     columns.Bound(request => request.Status).Template(
@@ -62,7 +62,7 @@ else
 
                  })
                  
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    //.Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
     .Sortable()
     .Scrollable()
@@ -77,13 +77,13 @@ else
                 model.Id(p => p.RegionalRequestID);
 
                 //  model.Field(r => r.Status).Editable(false);
-                model.Field(r => r.RegionalRequestID).Editable(false);
-                model.Field(r => r.StatusID).Editable(false).DefaultValue(1);
-                model.Field(r => r.RequestDateEt).Editable(false);
+               // model.Field(r => r.RegionalRequestID).Editable(false);
+              //  model.Field(r => r.StatusID).Editable(false).DefaultValue(1);
+               // model.Field(r => r.RequistionDate).Editable(false);
             })
-        .Create(update => update.Action("Request_Create", "Request"))
-        .Read(read => read.Action("Request_Read", "Request",new{id=ViewBag.Status}))
-        .Update(update => update.Action("Request_Update", "Request"))
-        .Destroy(update => update.Action("Request_Destroy", "Request"))
-    ).Pageable()
+        //.Create(update => update.Action("Request_Create", "Request"))
+       .Read(read => read.Action("Request_Read", "Request",new{id=ViewBag.Status}))
+        //.Update(update => update.Action("Request_Update", "Request"))
+       // .Destroy(update => update.Action("Request_Destroy", "Request"))
+    )
 )

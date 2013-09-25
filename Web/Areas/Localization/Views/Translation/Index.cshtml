@@ -1,11 +1,12 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Areas.Settings.Models
+@using Kendo.Mvc.UI
 @model LanguageHelpers.Localization.Models.LocalizedText
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<div class="well">
+<div>
     <h4>Translation Terms</h4>
 </div>
 
@@ -48,7 +49,7 @@
     function translationEdit(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "EditTranslation/" + dataItem.LocalizedTextId;
+        window.location = "@Url.Action("EditTranslation","Translation")" +"/"+ dataItem.LocalizedTextId;
     }
 </script>
 

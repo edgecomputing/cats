@@ -12,6 +12,16 @@ namespace Cats.Areas.Settings.Models
         public List<Calendar> DatePreference { get; set; }
         public List<Keyboard> KeyboardLanguage { get; set; }
         public List<Theme> DefaultTheme { get; set; }
+        public UserPreferenceEditModel CurrentPreference { get; set; }
+    }
+
+    public class UserPreferenceEditModel
+    {
+        public string Language { get; set; }
+        public string PreferedWeightMeasurement { get; set; }
+        public string DatePreference { get; set; }
+        public string KeyboardLanguage { get; set; }
+        public string DefaultTheme { get; set; }
     }
 
     public class LanguageCode

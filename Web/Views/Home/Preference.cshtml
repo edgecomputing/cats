@@ -1,4 +1,7 @@
-﻿@using Cats.Models
+﻿@model Cats.Areas.Settings.Models.UserPreferenceViewModel
+@using Kendo.Mvc.UI
+@using Cats.Areas.Settings.Models
+@using Cats.Models
 @{
     ViewBag.Title = "Preference";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -15,26 +18,26 @@
 </style>
 <script src="~/Scripts/jquery-ui.js"></script>
 <script>
-    $(function() {
+    $(function () {
         $("ul.droptrue").sortable({
             connectWith: "ul",
-            
+
         });
- 
-        $( "ul.dropfalse" ).sortable({
+
+        $("ul.dropfalse").sortable({
             connectWith: "ul",
             dropOnEmpty: false
         });
         $("#tabs").tabs();
         $("#sortable1, #sortable2, #sortable3").disableSelection();
-        
+
     });
-    
+
     $(".saveChanges").click(function (e) {
         saveChanges();
     });
     function saveChanges() {
-        
+
         var selectedDashboards = new Array();
         var i = 0;
         $('#sortable2 li').each(function (index, obj) {
@@ -53,7 +56,7 @@
     }
     var timer;
     function PreferenceSaveCompleted(results) {
-        if(results) {
+        if (results) {
             var msg = '<div class="cats_success">Success: Preference Saved.</div>';
             $(".message-window").html(msg).delay(800).hide().fadeIn();
             clearTimeout(timer);
@@ -112,8 +115,13 @@
                 </tr>
             </table>
         </div>
-        <div id="tabs-2"></div>
+        <div id="tabs-2">
+
+                    @Html.Partial("Edit",Model)
+        </div>
+
         <div id="tabs-3"></div>
     </div>
     
 </div>
+

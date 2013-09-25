@@ -22,9 +22,9 @@
     .Columns(columns =>
         {
         columns.Bound(p => p.Woreda);
-        columns.Bound(p => p.RequestedBeneficiaryNo);
-         columns.Bound(p => p.HRDBeneficaryNo);
-            columns.Bound(p => p.Difference);
+        columns.Bound(p => p.RequestedBeneficiaryNo).Format("{0:N0}").HtmlAttributes(new { align = "right" });
+        columns.Bound(p => p.HRDBeneficaryNo).Format("{0:N0}").HtmlAttributes(new { align = "right" });
+         columns.Bound(p => p.Difference).Format("{0:N0}").HtmlAttributes(new { align = "right" });
             columns.Bound(p => p.Color).ClientTemplate("# if(HRDBeneficaryNo < RequestedBeneficiaryNo) {#" +
                 "<div style='background-color: Red;'>" +
                 "<#} else {#" +

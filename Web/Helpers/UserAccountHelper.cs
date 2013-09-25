@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
@@ -42,6 +44,11 @@ namespace Cats.Helpers
 
         public static string UserCalendarPreference(this HtmlHelper helper)
         {
+            return UserCalendarPreference();
+        }
+
+        public static string UserCalendarPreference()
+        {
             var preference = "EN";
             var user = GetUser(HttpContext.Current.User.Identity.Name);
             try
@@ -55,5 +62,6 @@ namespace Cats.Helpers
 
             return preference.ToUpper();
         }
+
     }
 }

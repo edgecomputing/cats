@@ -22,8 +22,8 @@ namespace Cats.ViewModelBinder
                requisition. RequisitionNo = reliefRequisition.RequisitionNo;
                requisition. RegionID = reliefRequisition.RegionID;
                requisition. RegionalRequestID = reliefRequisition.RegionalRequestID;
-
-            requisition.RequestedDateEt = EthiopianDate.GregorianToEthiopian(reliefRequisition.RequestedDate.Value);
+            if(reliefRequisition.RequestedDate.HasValue)
+               requisition.RequestedDateEt = reliefRequisition.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
                 //);
               requisition.  Round = reliefRequisition.Round;
                 requisition.Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.RELIEF_REQUISITION && t.StatusID== reliefRequisition.Status.Value).Description ;
