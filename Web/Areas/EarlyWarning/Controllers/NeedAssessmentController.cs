@@ -9,6 +9,7 @@ using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using log4net;
 using Cats.Helpers;
+using Cats.ViewModelBinder;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -152,7 +153,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request )
         {
-           return Json( _needAssessmentService.ReturnViewModel().ToDataSourceResult(request));
+           return Json( NeedAssessmentViewModelBinder.ReturnViewModel().ToDataSourceResult(request));
 
         }
         public ActionResult NeedAssessmentHeaderRead([DataSourceRequest] DataSourceRequest request)
@@ -163,14 +164,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)//, string season)
         {
-            return Json(_needAssessmentService.ReturnNeedAssessmentDetailViewModel(region).ToDataSourceResult(request),JsonRequestBehavior.AllowGet);
+              var woredas = _needAssessmentDetailService.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID == region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
+            var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnNeedAssessmentDetailViewModel(woredas);
+            return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
           
 
         }
 
         public ActionResult NeedAssessmentReadApproved([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_needAssessmentService.ReturnViewModelApproved().ToDataSourceResult(request));
+            return Json(NeedAssessmentViewModelBinder.ReturnViewModelApproved().ToDataSourceResult(request));
 
         }
 

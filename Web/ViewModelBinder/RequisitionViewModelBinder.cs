@@ -11,7 +11,7 @@ namespace Cats.ViewModelBinder
 {
     public class RequisitionViewModelBinder
     {
-        public static ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition,List<WorkflowStatus> statuses )
+        public static ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition,List<WorkflowStatus> statuses,string datePref )
         {
             var requisition = new ReliefRequisitionViewModel();
             
@@ -23,7 +23,7 @@ namespace Cats.ViewModelBinder
                requisition. RegionID = reliefRequisition.RegionID;
                requisition. RegionalRequestID = reliefRequisition.RegionalRequestID;
             if(reliefRequisition.RequestedDate.HasValue)
-               requisition.RequestedDateEt = reliefRequisition.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+               requisition.RequestedDateEt = reliefRequisition.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
                 //);
               requisition.  Round = reliefRequisition.Round;
                 requisition.Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.RELIEF_REQUISITION && t.StatusID== reliefRequisition.Status.Value).Description ;
@@ -94,10 +94,10 @@ namespace Cats.ViewModelBinder
             };
 
         }
-        public static IEnumerable<ReliefRequisitionViewModel> BindReliefRequisitionListViewModel(IEnumerable<ReliefRequisition> reliefRequisitions,List<WorkflowStatus> statuses )
+        public static IEnumerable<ReliefRequisitionViewModel> BindReliefRequisitionListViewModel(IEnumerable<ReliefRequisition> reliefRequisitions,List<WorkflowStatus> statuses ,string datePref)
         {
             return (from requisition in reliefRequisitions
-                    select BindReliefRequisitionViewModel(requisition, statuses));
+                    select BindReliefRequisitionViewModel(requisition, statuses,datePref));
         }
         public static IEnumerable<ReliefRequisitionDetailViewModel> BindReliefRequisitionDetailListViewModel(IEnumerable<ReliefRequisitionDetail> reliefRequisitionDetails)
         {

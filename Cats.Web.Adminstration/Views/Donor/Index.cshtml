@@ -36,9 +36,9 @@
         columns.Bound(p => p.Name);
         columns.Bound(p => p.LongName);
         columns.Bound(p => p.IsResponsibleDonor);
-        columns.Bound(p => p.IsSourceDonor);
+        //columns.Bound(p => p.IsSourceDonor);
+            columns.Bound(p => p.IsSourceDonor).ClientTemplate("<input type='checkbox' #= IsSourceDonor ? checked='checked' : '' # ></input>");
         
-       //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
     .ToolBar(toolbar =>
