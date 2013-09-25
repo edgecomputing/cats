@@ -9,6 +9,7 @@ using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -23,13 +24,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
+        private readonly IUserAccountService _userAccountService;
 
 
-        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, IReliefRequisitionDetailService reliefRequisitionDetailService)
+        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, IReliefRequisitionDetailService reliefRequisitionDetailService,IUserAccountService userAccountService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
+            _userAccountService = userAccountService;
 
         }
 
@@ -81,7 +84,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 HttpNotFound();
             }
-            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION));
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION),datePref);
 
             return View(requisitionViewModel);
         }
@@ -201,11 +205,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
             var requests = _reliefRequisitionService.Get(t => t.Status == id);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequisitionViewModelBinder.BindReliefRequisitionListViewModel(requests,
                                                                                                   _workflowStatusService
                                                                                                       .GetStatus(
                                                                                                           WORKFLOW.
-                                                                                                              RELIEF_REQUISITION));
+                                                                                                              RELIEF_REQUISITION),datePref);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -245,7 +250,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 return HttpNotFound();
             }
-            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION));
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION), datePref);
             return View(requisitionViewModel);
         }
 
