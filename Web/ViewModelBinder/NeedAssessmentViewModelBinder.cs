@@ -70,10 +70,10 @@ namespace Cats.ViewModelBinder
             } : null);
         }
 
-        public static  IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(int region)//,string season)
+        public static IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(List<NeedAssessmentDetail> woredas)//,string season)
         {
-            IUnitOfWork _unitOfWork = new UnitOfWork();
-            var woredas = _unitOfWork.NeedAssessmentDetailRepository.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID == region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
+           // IUnitOfWork _unitOfWork = new UnitOfWork();
+           // var woredas = _unitOfWork.NeedAssessmentDetailRepository.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID == region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
             return woredas.Select(adminUnit => new NeedAssessmentWoredaDao
             {
                 NAId = adminUnit.NAId,
