@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.EarlyWarning.Models;
@@ -11,8 +13,10 @@ using Cats.Data.Repository;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Models.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
@@ -146,8 +150,21 @@ namespace Cats.Tests.ControllersTests
                                                                                                         WorkflowID = 2
                                                                                                     }
                                                                                             });
-            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object);
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
 
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object, userAccountService.Object);
+            _reliefRequisitionController.ControllerContext = controllerContext.Object; 
           //  _input = input;
 
 
