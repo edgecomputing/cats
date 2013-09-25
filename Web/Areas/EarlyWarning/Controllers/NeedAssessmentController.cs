@@ -164,7 +164,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)//, string season)
         {
-            return Json(NeedAssessmentViewModelBinder.ReturnNeedAssessmentDetailViewModel(region).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+              var woredas = _needAssessmentDetailService.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID == region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
+            var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnNeedAssessmentDetailViewModel(woredas);
+            return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
           
 
         }
