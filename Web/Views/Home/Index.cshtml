@@ -6,17 +6,10 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-
-<div class=" span12 ">
+<div style="grid-row-align:center">
     <h2>Welcome @Html.GetUserName()</h2>
-    @Html.Partial("_DashboardDynamic")
-</div>
-
+    <hr />
     
-
-
-@*<div class="">
-    @Html.Partial("_Dashboard",Model)
-</div>*@
-
-
+    @Html.Partial("_DashboardDynamic")
+    
+</div>

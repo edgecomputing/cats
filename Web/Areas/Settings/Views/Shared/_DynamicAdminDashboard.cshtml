@@ -29,9 +29,9 @@
         <div class="span6">
             @foreach (UIWidget widget in widgets)
             {
-                int cc = i % cols;
+                //int cc = i % cols;
                 i++;
-                if (cc == c)
+                if (i % cols == c)
                 { 
                 <div>
                     @if (widget.Source == "")

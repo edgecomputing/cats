@@ -14,7 +14,6 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Controllers
 {
-    
     public class HomeController : Controller
     {
         private IRegionalRequestService _regionalRequestService;
@@ -35,12 +34,10 @@ namespace Cats.Controllers
         [Authorize]
         public ActionResult Index(int regionId=4)
         {
-
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
             var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
             ////ViewBag.Requests = req;
             var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
-
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
             var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();

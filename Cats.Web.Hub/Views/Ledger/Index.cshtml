@@ -2,7 +2,7 @@
 @model IEnumerable<Cats.Models.Hub.Ledger>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
     @*@Html.LedgerLink("Create", Url.Action("Info"), Html.Translate("Create New"), Url.Action("Index"))*@
 
 </p>
@@ -33,11 +33,10 @@
             @Html.DisplayFor(modelItem => item.LedgerType.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.LedgerID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.LedgerID })
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.LedgerID })*@ |
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.LedgerID })*@
         </td>
     </tr>
     i++;
 }
-
 </table>
