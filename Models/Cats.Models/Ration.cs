@@ -19,9 +19,9 @@ namespace Cats.Models
             }
             
             public int RationID { get; set; }
-            public Nullable<System.DateTime> CreatedDate { get; set; }
+            public DateTime CreatedDate { get; set; }
             public Nullable<int> CreatedBy { get; set; }
-            public Nullable<System.DateTime> UpdatedDate { get; set; }
+            public Nullable<DateTime> UpdatedDate { get; set; }
             public Nullable<int> UpdatedBy { get; set; }
             public bool IsDefaultRation { get; set; }
             public string RefrenceNumber { get; set; }
@@ -31,5 +31,4 @@ namespace Cats.Models
             public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
            
         }
-  
 }

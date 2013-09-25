@@ -9,6 +9,7 @@ using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.ViewModelBinder;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -85,12 +86,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             rationViewModel.UpdatedBy = ration.UpdatedBy;
             rationViewModel.UpdatedDate = ration.UpdatedDate;
             rationViewModel.ReferenceNumber = ration.RefrenceNumber;
-            rationViewModel.CreatedDateEC = ration.CreatedDate.HasValue
-                                                ? EthiopianDate.GregorianToEthiopian(ration.CreatedDate.Value)
-                                                : "";
+            //rationViewModel.CreatedDateEC = ration.CreatedDate.HasValue
+            //                                    ? EthiopianDate.GregorianToEthiopian(ration.CreatedDate.Value)
+            //                                    : "";
             rationViewModel.UpdatedDateEC = ration.UpdatedDate.HasValue
                                      ? EthiopianDate.GregorianToEthiopian(ration.UpdatedDate.Value)
                                      : "";
+            rationViewModel.DateCreated = ration.CreatedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());// RequistionDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
             return rationViewModel;
         }
         [HttpPost]

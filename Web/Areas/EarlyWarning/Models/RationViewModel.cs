@@ -30,5 +30,6 @@ namespace Cats.Areas.EarlyWarning.Models
         [Display(Name="Reference Number")]
         [Required(ErrorMessage = "Refrence Number can't be empty.")]
         public string ReferenceNumber { get; set; }
+        public string DateCreated  { get; set; }
     }
 }
