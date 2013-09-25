@@ -29,8 +29,8 @@
         columns.Bound(p => p.Season);
         columns.Bound(p => p.Year);
         columns.Bound(p => p.CreatedBy);
-        columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})", Html.UserCalendarPreference()));
-        columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}").Title(string.Format("Published Date ({0})", Html.UserCalendarPreference()));
+        columns.Bound(p => p.CreatedDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})", Html.UserCalendarPreference()));
+        columns.Bound(p => p.PublishedDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Published Date ({0})", Html.UserCalendarPreference()));
             columns.Bound(p => p.Status);
 
             columns.Command(p =>

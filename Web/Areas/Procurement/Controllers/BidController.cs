@@ -12,6 +12,7 @@ using System;
 using Cats.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Helpers;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -95,7 +96,10 @@ namespace Cats.Areas.Procurement.Controllers
                         EndDate = bid.EndDate,
                         OpeningDate = bid.OpeningDate,
                         Status = bid.Status.Name,
-                        StatusID = bid.StatusID
+                        StatusID = bid.StatusID,
+                        StartDatePref = bid.StartDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                        OpeningDatePref = bid.OpeningDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                        EndDatePref = bid.EndDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
                     });
         }
         private IEnumerable<BidDetailViewModel> GetBidDetails(IEnumerable<BidDetail> bidDetails)

@@ -139,7 +139,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
                         PublishedDate = hrd.PublishedDate,
                         StatusID = hrd.Status,
-                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value)
+                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value),
+                        CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                        PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
 
 
                     });

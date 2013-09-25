@@ -13,6 +13,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int CurrencyID { get; set; }
         public string PledgeReferenceNumber { get; set; }
         public DateTime PledgeDate { get; set; }
+        public string PledgeDatePref { get; set; }
         public decimal Amount { get; set; }
     }
 }
