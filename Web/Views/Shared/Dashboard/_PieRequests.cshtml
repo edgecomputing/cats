@@ -1,11 +1,9 @@
-﻿
-<script type="text/javascript">
+﻿<script type="text/javascript">
     $(function () {
         //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
         $.getJSON('/Dashboard/PieRequests', {}, function (data) {
              var json = data;
              var jsondata = [];
-
              for (var i in json) {
                  // var serie = new Array(json[i].Projects, json[i].Bugs);
                  jsondata.push([json[i].RegionName, json[i].RequestsCount]);

@@ -14,22 +14,22 @@ namespace Cats.ViewModelBinder
     {
 
         public static IEnumerable<RegionalRequestViewModel> BindRegionalRequestListViewModel(
-          IEnumerable<RegionalRequest> requests,List<WorkflowStatus> statuses )
+          IEnumerable<RegionalRequest> requests,List<WorkflowStatus> statuses,string userPreference )
         {
             var requestsViewModel = new List<RegionalRequestViewModel>();
             foreach (var regionalRequest in requests)
             {
-                requestsViewModel.Add(BindRegionalRequestViewModel(regionalRequest,statuses));
+                requestsViewModel.Add(BindRegionalRequestViewModel(regionalRequest,statuses,userPreference));
             }
 
             return requestsViewModel;
         }
       
-        public static RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest,List<WorkflowStatus> statuses )
+        public static RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest,List<WorkflowStatus> statuses,string userPrefrence )
         {
             var regionalRequestViewModel = new RegionalRequestViewModel();
             
-
+           
                 regionalRequestViewModel.ProgramId = regionalRequest.ProgramId;
                regionalRequestViewModel. Program = regionalRequest.Program.Name;
                regionalRequestViewModel. Region = regionalRequest.AdminUnit.Name;
@@ -37,7 +37,7 @@ namespace Cats.ViewModelBinder
                regionalRequestViewModel. RegionID = regionalRequest.RegionID;
               regionalRequestViewModel.  RegionalRequestID = regionalRequest.RegionalRequestID;
                regionalRequestViewModel. Remark = regionalRequest.Remark;
-            regionalRequestViewModel.RequestDate = regionalRequest.RequistionDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+               regionalRequestViewModel.RequestDate = regionalRequest.RequistionDate.ToCTSPreferedDateFormat(userPrefrence);
             
         
                 //RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate);

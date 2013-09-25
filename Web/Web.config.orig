@@ -73,13 +73,8 @@
       </parameter>
     </appender>
   </log4net>
+
   <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CTS;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CTS;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsSecurity;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CTS;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-  <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
