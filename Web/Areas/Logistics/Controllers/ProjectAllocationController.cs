@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Cats.Helpers;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
 using Cats.Services.Transaction;
@@ -87,7 +88,7 @@ namespace Cats.Areas.Logistics.Controllers
                         ModelState.Add(kvp.Key, kvp.Value);
             }
 
-            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo(3);
+            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo((int)ReliefRequisitionStatus.HubAssigned);
             if (reliefRequisitions != null)
             {
                 var total = reliefRequisitions.Count();

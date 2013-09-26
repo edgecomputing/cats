@@ -59,7 +59,7 @@ namespace Cats.Areas.Logistics.Controllers
             var result = reliefRequisitions.ToList().Select(item => new AssignHubViewModel
                                                                         {
                                                                             Commodity = item.Commodity.Name,
-                                                                            RegionName = item.AdminUnit1.Name, 
+                                                                            RegionName = item.AdminUnit.Name, 
                                                                             ZoneName = item.AdminUnit1.Name, 
                                                                             RequisitionNo = item.RequisitionNo, 
                                                                             RequisitionId = item.RequisitionID, 
@@ -123,7 +123,11 @@ namespace Cats.Areas.Logistics.Controllers
             ICollection<RequisitionViewModel> listOfRequsitions = new List<RequisitionViewModel>();
             RequisitionViewModel[] _requisitionDetail;
 
-            if (requisitionDetail == null) return View();
+            if (requisitionDetail == null)
+            {
+                ModelState.AddModelError("Error","No Approved Requisitions.");
+                return RedirectToAction("ApprovedRequesitions");
+            }
 
            _requisitionDetail = requisitionDetail.ToArray();
 
@@ -149,11 +153,14 @@ namespace Cats.Areas.Logistics.Controllers
         {
             if (rNumber.Trim() == string.Empty)
                 return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+
+            
+
             if (ModelState.IsValid && requisitionDetail !=null )
             {
                 string hub = form["hub"].ToString(CultureInfo.InvariantCulture); //retrives Hub id from the view
                 DateTime date;
-
+              
 
                 try
                 {
