@@ -213,7 +213,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult Details(int id)
         {
-
             ViewBag.RequestID = id;
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var request =
@@ -378,10 +377,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var programs = _commonService.GetPrograms();
             ViewData["programs"] = programs;
             ViewBag.Status = id;
-
-           
-
-
             return View();
         }
 

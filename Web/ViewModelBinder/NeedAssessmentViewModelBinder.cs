@@ -10,15 +10,15 @@ namespace Cats.ViewModelBinder
 {
     public  class NeedAssessmentViewModelBinder
     {
-       
-
-       
 
 
-        public static IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModel()
+
+
+
+        public static IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModel(List<NeedAssessment> needAssessment)
         {
-              IUnitOfWork _unitOfWork= new UnitOfWork();
-            var needAssessment = _unitOfWork.NeedAssessmentRepository.Get(g => g.NeedAApproved == false); //featch unapproved need assessments
+             
+           
             return needAssessment.Select(need => new NeedAssessmentHeaderViewModel()
             {
                 NeedAID = need.NeedAID,
@@ -34,11 +34,10 @@ namespace Cats.ViewModelBinder
                 Date = need.NeedADate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
             });
         }
-        public static IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved()
+        public static IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved(List<NeedAssessment> needAssessmentMain)
         {
-            IUnitOfWork _unitOfWork = new UnitOfWork();
-            var needAssessment = _unitOfWork.NeedAssessmentRepository.Get(g => g.NeedAApproved == true); //featch unapproved need assessments
-            return needAssessment.Select(need => new NeedAssessmentHeaderViewModel()
+            
+            return needAssessmentMain.Select(need => new NeedAssessmentHeaderViewModel()
             {
                 NeedAID = need.NeedAID,
                 Region = need.Region,
@@ -72,8 +71,7 @@ namespace Cats.ViewModelBinder
 
         public static IEnumerable<NeedAssessmentWoredaDao> ReturnNeedAssessmentDetailViewModel(List<NeedAssessmentDetail> woredas)//,string season)
         {
-           // IUnitOfWork _unitOfWork = new UnitOfWork();
-           // var woredas = _unitOfWork.NeedAssessmentDetailRepository.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID == region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
+           
             return woredas.Select(adminUnit => new NeedAssessmentWoredaDao
             {
                 NAId = adminUnit.NAId,

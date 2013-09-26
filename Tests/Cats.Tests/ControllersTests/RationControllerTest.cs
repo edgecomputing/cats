@@ -14,6 +14,9 @@ using Moq;
 using NUnit.Framework;
 using System.Web.Script.Serialization;
 using System.Linq.Expressions;
+using System.Web;
+using System.Security.Principal;
+using Cats.Services.Security;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -93,7 +96,18 @@ namespace Cats.Tests.ControllersTests
             var commodityService = new Mock<ICommodityService>();
             commodityService.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) => commodities.Find(t => t.CommodityID == id));
 
-            _rationController = new RationController(rationService.Object, commodityService.Object, rationDetailService.Object);
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "xx", DatePreference = "AM" });
+
+            _rationController = new RationController(rationService.Object, commodityService.Object, rationDetailService.Object,userAccountService.Object);
+            _rationController.ControllerContext = controllerContext.Object; 
         }
 
         [TearDown]

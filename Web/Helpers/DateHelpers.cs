@@ -41,6 +41,5 @@ namespace Cats.Helpers
             return quantity;
 
         }
-
     }
 }
