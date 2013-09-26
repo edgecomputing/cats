@@ -25,24 +25,20 @@ namespace Cats.ViewModelBinder
 
             return requestsViewModel;
         }
-      
 
-      
-        public static RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest,List<WorkflowStatus> statuses,string userPrefrence )
+        public static RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest, List<WorkflowStatus> statuses, string userPrefrence)
         {
             var regionalRequestViewModel = new RegionalRequestViewModel();
-            
-           
-                regionalRequestViewModel.ProgramId = regionalRequest.ProgramId;
-               regionalRequestViewModel. Program = regionalRequest.Program.Name;
-               regionalRequestViewModel. Region = regionalRequest.AdminUnit.Name;
-              regionalRequestViewModel.  ReferenceNumber = regionalRequest.ReferenceNumber;
-               regionalRequestViewModel. RegionID = regionalRequest.RegionID;
-              regionalRequestViewModel.  RegionalRequestID = regionalRequest.RegionalRequestID;
-               regionalRequestViewModel. Remark = regionalRequest.Remark;
-               regionalRequestViewModel.RequestDate = regionalRequest.RequistionDate.ToCTSPreferedDateFormat(userPrefrence);
 
-            
+
+            regionalRequestViewModel.ProgramId = regionalRequest.ProgramId;
+            regionalRequestViewModel.Program = regionalRequest.Program.Name;
+            regionalRequestViewModel.Region = regionalRequest.AdminUnit.Name;
+            regionalRequestViewModel.ReferenceNumber = regionalRequest.ReferenceNumber;
+            regionalRequestViewModel.RegionID = regionalRequest.RegionID;
+            regionalRequestViewModel.RegionalRequestID = regionalRequest.RegionalRequestID;
+            regionalRequestViewModel.Remark = regionalRequest.Remark;
+            regionalRequestViewModel.RequestDate = regionalRequest.RequistionDate.ToCTSPreferedDateFormat(userPrefrence);
 
 
             //RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate);
