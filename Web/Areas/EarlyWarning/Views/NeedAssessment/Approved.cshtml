@@ -13,7 +13,7 @@
 
 <fieldset>
     <legend>
-         @Translator.Translate("Approved Need Requirment(s) List");
+         @Translator.Translate("Approved Need Requirment(s) List")
     </legend>
 </fieldset>
 
@@ -28,7 +28,8 @@
     {
         columns.Bound(p => p.RegionName);
         columns.Bound(p => p.SeasonName).Visible(true).Width(100);
-        columns.Bound(p => p.NeedADate).Format("{0:dd/mm/yyyy}");
+        //columns.Bound(p => p.Date).Format("{0:dd/mm/yyyy}");
+        columns.Bound(p => p.Date);
         columns.Bound(p => p.NeedACreaterName).Width(100);
         columns.Bound(p => p.NeedAApproverName).Width(100);
         columns.Command(p =>
