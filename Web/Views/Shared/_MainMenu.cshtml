@@ -57,7 +57,7 @@
 
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })">@Html.Translate("Resource Allocation") </a></li>
-                                <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">@Html.Translate("Transport Orders") </a></li>
+                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">@Html.Translate("Transport Requisition") </a></li>
                                 <li class="divider" />
                                 <li><a href="#">@Html.Translate("Stock")</a></li>
 
@@ -69,7 +69,8 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })">@Html.Translate("Manage Bids")</a></li>
                                 <li><a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })">@Html.Translate("Bid Planning")</a></li>
-                                <li class="divider" />
+                                 <li><a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })">@Html.Translate("Transport Order") </a></li>
+                               <li class="divider" />
                                 <li><a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })">@Html.Translate("Transport Suppliers")</a></li>
                                 <li><a href="@Url.Action("Index", "RFQ", new { Area = "Procurement" })">@Html.Translate("Request for Quotations (RFQ)")</a></li>
                                 <li><a href="@Url.Action("Index", "PriceQuotation", new { Area = "Procurement" })">@Html.Translate("Price Quotation")</a></li>

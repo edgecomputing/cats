@@ -31,11 +31,13 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
+            
             return View();
 
         }
         public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request)
         {
+            
             var transportRequisitions = _transportRequisitionService.GetAllTransportRequisition();
             var transportRequisitonViewModels =
                 (from itm in transportRequisitions select BindTransportRequisitionViewModel(itm));
