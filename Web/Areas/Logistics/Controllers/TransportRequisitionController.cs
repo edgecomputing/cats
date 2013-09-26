@@ -13,6 +13,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Services.Security;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -20,11 +21,13 @@ namespace Cats.Areas.Logistics.Controllers
     {
         private readonly ITransportRequisitionService _transportRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
+        private readonly IUserAccountService _userAccountService;
         
-        public TransportRequisitionController(ITransportRequisitionService transportRequisitionService,IWorkflowStatusService workflowStatusService)
+        public TransportRequisitionController(ITransportRequisitionService transportRequisitionService,IWorkflowStatusService workflowStatusService, IUserAccountService userAccountService)
         {
             this._transportRequisitionService = transportRequisitionService;
             _workflowStatusService = workflowStatusService;
+            _userAccountService = userAccountService;
         }
         //
         // GET: /Logistics/TransportRequisition/
@@ -45,18 +48,21 @@ namespace Cats.Areas.Logistics.Controllers
         
         private TransportRequisitionViewModel BindTransportRequisitionViewModel(TransportRequisition transportRequisition)
         {
+            string userPreference = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+
             TransportRequisitionViewModel transportRequisitionViewModel=null;
             if(transportRequisition !=null)
             {
                 transportRequisitionViewModel = new TransportRequisitionViewModel();
                 transportRequisitionViewModel.CertifiedBy = transportRequisition.CertifiedBy;
                 transportRequisitionViewModel.CertifiedDate = transportRequisition.CertifiedDate;
-                transportRequisitionViewModel.CertifiedDateET =
-                    EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
+                transportRequisitionViewModel.DateCertified = transportRequisition.CertifiedDate.ToCTSPreferedDateFormat(userPreference);
+                    //EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
                 transportRequisitionViewModel.Remark = transportRequisition.Remark;
                 transportRequisitionViewModel.RequestedBy = transportRequisition.RequestedBy;
                 transportRequisitionViewModel.RequestedDate = transportRequisition.RequestedDate;
-                transportRequisitionViewModel.RequestedDateET =EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
+                transportRequisitionViewModel.DateRequested = transportRequisition.RequestedDate.ToCTSPreferedDateFormat(userPreference);
+                //EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
                 transportRequisitionViewModel.Status = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION,transportRequisition.Status);
                 transportRequisitionViewModel.StatusID = transportRequisition.Status;
                 transportRequisitionViewModel.TransportRequisitionID = transportRequisition.TransportRequisitionID;

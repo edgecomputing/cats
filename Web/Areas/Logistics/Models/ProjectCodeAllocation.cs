@@ -18,6 +18,7 @@ namespace Cats.Areas.Logistics.Models
         public string Hub { get; set; }
         public System.DateTime AlloccationDate { get; set; }
         public ProjectCodeAllocationInput Input { get; set; }
+        
         public class ProjectCodeAllocationInput
         {
             public string Hub { get; set; }
