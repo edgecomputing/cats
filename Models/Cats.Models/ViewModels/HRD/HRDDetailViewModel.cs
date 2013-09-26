@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -20,7 +21,12 @@ namespace Cats.Models.ViewModels.HRD
 
         public int HRDDetailID { get; set; }
         public int HRDID { get; set; }
+
+        //[DataType(DataType.Currency)]
+        [Range(0, Double.MaxValue, ErrorMessage = "Number of Beneficiaries can not be less than 0!")]
         public int NumberOfBeneficiaries { get; set; }
+        //[DataType(DataType.Currency)]
+       [Range(0, Int32.MaxValue, ErrorMessage = "Duration of Assistance can not be less than 0!")]
         public int DurationOfAssistance { get; set; }
         public int WoredaID { get; set; }
         public string Woreda { get; set; }
