@@ -31,12 +31,12 @@
                                                        {
                                                            columns.Bound(t => t.Zone);
                                                            columns.Bound(t => t.Woreda);
-                                                           columns.Bound(t => t.DurationOfAssistance).Title("Duration");
-                                                           columns.Bound(t => t.RefrenceDuration).Title("Duration Ref").HtmlAttributes(new { style = "background-color:lightgray" });
-                                                           columns.Bound(t => t.BeginingMonth).Title("Beg. Month");
-                                                           columns.Bound(t => t.BeginingMonthReference).Title("Beg. Month Ref").HtmlAttributes(new { style = "background-color:lightgray" }); ;
-                                                           columns.Bound(t => t.Beneficiaries);
-                                                           columns.Bound(t => t.BeneficiariesRefrence).Title("Beneficiaries Ref").HtmlAttributes(new { style = "background-color:lightgray" }); ;
+                                                           columns.Bound(t => t.DurationOfAssistance).Title("Duration").HtmlAttributes(new { align = "Right" }); 
+                                                           columns.Bound(t => t.RefrenceDuration).Title("Duration Ref").HtmlAttributes(new { style = "background-color:lightgray",align="Right" });
+                                                           columns.Bound(t => t.StartingMonth).Title("Beg. Month");
+                                                           columns.Bound(t => t.StartingMonthReference).Title("Beg. Month Ref").HtmlAttributes(new { style = "background-color:lightgray"  }); ;
+                                                           columns.Bound(t => t.Beneficiaries).HtmlAttributes(new { align="Right"});
+                                                           columns.Bound(t => t.BeneficiariesRefrence).Title("Beneficiaries Ref").HtmlAttributes(new { style = "background-color:lightgray",align="Right" }); ;
 
                                                        }).DataSource(datasource => datasource.Ajax().Read(read => read.Action("Compare_HRD", "HRD").Data("filterData")))
                                                        .Groupable())

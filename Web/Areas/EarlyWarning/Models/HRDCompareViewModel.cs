@@ -21,8 +21,10 @@ namespace Cats.Areas.EarlyWarning.Models
         public int DurationOfAssistance { get; set; }
         public int Beneficiaries { get; set; }
         public int BeginingMonth { get; set; }
+        public string StartingMonth { get; set; }
         public int RefrenceDuration { get; set; }
         public int BeneficiariesRefrence { get; set; }
         public int BeginingMonthReference { get; set; }
+        public string StartingMonthReference { get; set; }
     }
 }

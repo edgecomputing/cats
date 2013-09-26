@@ -153,7 +153,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request )
         {
-           return Json( NeedAssessmentViewModelBinder.ReturnViewModel().ToDataSourceResult(request));
+            var needAssessment = _needAssessmentService.FindBy(g => g.NeedAApproved == false); //featch unapproved need assessments
+            var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnViewModel(needAssessment);
+            return Json(needAssesmentsViewModel.ToDataSourceResult(request));
 
         }
         public ActionResult NeedAssessmentHeaderRead([DataSourceRequest] DataSourceRequest request)
@@ -164,7 +166,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult NeedAssessmentDetailRead([DataSourceRequest] DataSourceRequest request, int region)//, string season)
         {
-              var woredas = _needAssessmentDetailService.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID == region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
+             var woredas = _needAssessmentDetailService.FindBy(z => z.NeedAssessmentHeader.NeedAssessment.NeedAID == region);// .NeedAssessmentHeader.AdminUnit.ParentID == region);
             var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnNeedAssessmentDetailViewModel(woredas);
             return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
           
@@ -173,7 +175,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult NeedAssessmentReadApproved([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(NeedAssessmentViewModelBinder.ReturnViewModelApproved().ToDataSourceResult(request));
+          
+            var needAssessment = _needAssessmentService.FindBy(g => g.NeedAApproved == true); //featch unapproved need assessments
+            var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnViewModelApproved(needAssessment);
+            return Json(needAssesmentsViewModel.ToDataSourceResult(request));
 
         }
 

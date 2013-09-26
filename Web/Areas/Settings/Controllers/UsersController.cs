@@ -192,6 +192,7 @@ namespace Cats.Areas.Settings.Controllers
                     catch (Exception e)
                     {
                         changePasswordSucceeded = false;
+                        //ModelState.AddModelError("Errors", e.Message);
                     }
                     if (changePasswordSucceeded)
                         ModelState.AddModelError("Success", "Password Successfully Changed.");
@@ -300,7 +301,7 @@ namespace Cats.Areas.Settings.Controllers
             ForgetPasswordRequest req = _forgetPasswordRequestService.GetValidRequest(key);
             if (req != null)
             {
-                ForgotPasswordModel model = new Models.ForgotPasswordModel();
+                ForgotPasswordModel model = new ForgotPasswordModel();
                 model.UserAccountID = req.UserAccountID;
                 return View(model);
             }
