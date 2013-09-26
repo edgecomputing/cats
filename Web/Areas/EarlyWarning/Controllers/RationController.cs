@@ -10,6 +10,7 @@ using Cats.Services.EarlyWarning;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.ViewModelBinder;
+using Cats.Services.Security;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -18,13 +19,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IRationService _rationService;
         private readonly IRationDetailService _rationDetailService;
         private readonly ICommodityService _commodityService;
+        private readonly IUserAccountService _userAccountService;
         
 
-        public RationController(IRationService rationService, ICommodityService commodityService, IRationDetailService rationDetailService)
+        public RationController(IRationService rationService, ICommodityService commodityService, IRationDetailService rationDetailService, IUserAccountService userAccountService)
         {
             this._rationService = rationService;
             this._rationDetailService = rationDetailService;
             this._commodityService = commodityService;
+            _userAccountService = userAccountService;
         }
         //
         // GET: /EarlyWarning/Ration/
@@ -75,6 +78,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private RationViewModel BindRationViewModel(Ration ration)
         {
+            var userPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             if (ration == null) return null;
             var rationViewModel = new RationViewModel();
             rationViewModel.RationID = ration.RationID;
@@ -92,7 +96,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             rationViewModel.UpdatedDateEC = ration.UpdatedDate.HasValue
                                      ? EthiopianDate.GregorianToEthiopian(ration.UpdatedDate.Value)
                                      : "";
-            rationViewModel.DateCreated = ration.CreatedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());// RequistionDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+            rationViewModel.DateCreated = ration.CreatedDate.ToCTSPreferedDateFormat(userPref);// RequistionDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
             return rationViewModel;
         }
         [HttpPost]
@@ -102,6 +106,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 try
                 {
+                   
                     var orign = _rationService.FindById(rationViewModel.RationID);
                     orign.IsDefaultRation = rationViewModel.IsDefaultRation;
 
