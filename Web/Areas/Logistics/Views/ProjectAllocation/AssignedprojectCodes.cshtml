@@ -135,32 +135,26 @@
         <tr>
             @*<th>
                 @Html.DisplayNameFor(model => model.HubAllocationID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectCodeID)
             </th>*@
             <th>
-                <p class="text-right">
-                    @Html.DisplayNameFor(model => model.Amount_FromProject)
-                </p>
-
+                @Html.DisplayName("Project code")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SINumberID)
+                    @Html.DisplayName("Project Code assigned Amount")
             </th>
             <th>
-                <p class="text-right">
-                    @Html.DisplayNameFor(model => model.Amount_FromSI)
-                </p>
-
+                @Html.DisplayName("Shipping instruction")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AllocatedBy)
+                @Html.DisplayName("Shipping instruction assigned Amount")
+                </th>
+            <th>
+                @Html.DisplayName("Allocation made by")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AlloccationDate)
+                @Html.DisplayName("Alloccation Date")
             </th>
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
@@ -169,15 +163,15 @@
     <tr>
         @*<td>
             @Html.DisplayFor(modelItem => item.HubAllocationID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectCodeID)
         </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectCode.Value)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount_FromProject)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SINumberID)
+            @Html.DisplayFor(modelItem => item.ShippingInstruction.Value)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount_FromSI)
@@ -188,10 +182,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.AlloccationDate)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectCodeAllocationID }) |
-           
-        </td>
+       
     </tr>
 }
 </tbody>
