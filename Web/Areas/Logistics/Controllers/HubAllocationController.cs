@@ -91,7 +91,13 @@ namespace Cats.Areas.Logistics.Controllers
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-
+            var previousModelState = TempData["ModelState"] as ModelStateDictionary;
+            if (previousModelState != null)
+            {
+                foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
+                    if (!ModelState.ContainsKey(kvp.Key))
+                        ModelState.Add(kvp.Key, kvp.Value);
+            }
 
             var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo((int)ReliefRequisitionStatus.Approved);
             if (reliefRequisitions != null)
@@ -125,7 +131,8 @@ namespace Cats.Areas.Logistics.Controllers
 
             if (requisitionDetail == null)
             {
-                ModelState.AddModelError("Error","No Approved Requisitions.");
+                ModelState.AddModelError("Error","No approved requisitions or no requisition is selected.");
+                TempData["ModelState"] = ModelState;
                 return RedirectToAction("ApprovedRequesitions");
             }
 

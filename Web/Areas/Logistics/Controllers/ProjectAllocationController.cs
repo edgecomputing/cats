@@ -104,16 +104,24 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Assign( int ReqId,double Remaining)
         {
+            var previousModelState = TempData["ModelState"] as ModelStateDictionary;
+            if (previousModelState != null)
+            {
+                foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
+                    if (!ModelState.ContainsKey(kvp.Key))
+                        ModelState.Add(kvp.Key, kvp.Value);
+            }
+
 
             ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == ReqId).SingleOrDefault();
             
            
             ViewBag.SI = new SelectList(_shippingInstructionService.GetAllShippingInstruction(), "ShippingInstructionID", "Value");
             ViewBag.PC = new SelectList(_projectCodeService.GetAllProjectCode(), "ProjectCodeID", "Value");
-            ViewBag.RequetedAmount = listOfRequsitions.ReliefRequisitionDetails.Sum(a => a.Amount);
+            ViewBag.RequetedAmount = Math.Round(listOfRequsitions.ReliefRequisitionDetails.Sum(a => a.Amount));
             ViewBag.Hub = _hubAllocationService.GetAllocatedHub(ReqId);
             ViewBag.ReqId = listOfRequsitions.RequisitionID;
-            ViewBag.Remaining = Remaining;
+            ViewBag.Remaining = Math.Round(Remaining);
             return View();
         }
         public ActionResult AllocatePC(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
@@ -158,7 +166,8 @@ namespace Cats.Areas.Logistics.Controllers
         {
 
             DateTime date;
-
+            bool isProjectCodeSelected = false;
+            bool isSICodeSelected = false;
 
             try
             {
@@ -172,20 +181,15 @@ namespace Cats.Areas.Logistics.Controllers
                 date = strEth.ReturnGregorianDate(datepicker);
             }
 
-
-
-
-
-
             bool isLastAssignment = false;
-            var pCode =-1;
-            var siCode=-1;
+            int? pCode =null;
+            int? siCode=null;
 
             if (Remaining < PCodeqty + SICodeqty)
             {
                 ModelState.AddModelError("Errors","Amount entered is greater than the remaining quantity ");
                 TempData["ModelState"] = ModelState;
-                return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
+                return RedirectToAction("Assign", "ProjectAllocation", new { ReqId= RequisitionId, Remaining = Remaining});
 
             }
               
@@ -195,18 +199,42 @@ namespace Cats.Areas.Logistics.Controllers
             try
             {
                 pCode = int.Parse(form["PCCode"].ToString(CultureInfo.InvariantCulture));
-                siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
+                isProjectCodeSelected = true;
             }
-            catch 
+            catch
             {
-                ModelState.AddModelError("Errors", "Not a valid input. ");
-                TempData["ModelState"] = ModelState;
-                return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
+                pCode = null;
             }
+
+
+            try
+            {
+                siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
+                isSICodeSelected = true;
+            }
+            catch
+            {
+                siCode = null;
+            }
+
+
+            if (isProjectCodeSelected == false && isSICodeSelected == false)
+            {
+                ModelState.AddModelError("Errors", "SI code or Project Code is not selected.");
+                TempData["ModelState"] = ModelState;
+                return RedirectToAction("Assign", "ProjectAllocation", new { ReqId = RequisitionId, Remaining = Remaining });
+            }
+
+            if ((isProjectCodeSelected && PCodeqty == 0) || (isSICodeSelected && SICodeqty == 0))
+            {
+                ModelState.AddModelError("Errors", "Value entered for Projecte Code/SI Code is zero or Invalid. ");
+                TempData["ModelState"] = ModelState;
+                return RedirectToAction("Assign", "ProjectAllocation", new { ReqId = RequisitionId, Remaining = Remaining });
+            }
+
            
-            
+
             var hubAllocation = _hubAllocationService.GetAllocatedHubByRequisitionNo(requisitionId);
-           
             var newProjectAllocation = new ProjectCodeAllocation
                                            {
 
@@ -228,24 +256,33 @@ namespace Cats.Areas.Logistics.Controllers
             }
             catch
             {
-                
-               
+                 
             }
-           
-            return RedirectToAction("AllocateProjectCode","ProjectAllocation");
+
+           if (isLastAssignment)
+           {
+               return RedirectToAction("AllocateProjectCode", "ProjectAllocation");
+           }
+           else
+           {
+               return RedirectToAction("AssignedprojectCodes", "ProjectAllocation",new {requisitionId= requisitionId});
+           }
+            
 
         }
 
         public ActionResult ProjectCodeAllocation()
         {
             ViewBag.HubId = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
-            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(3);
+            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID((int)ReliefRequisitionStatus.HubAssigned);
             return View(hubAllocation);
         }
         public  ActionResult Allocate()
         {
+            
+
             ViewBag.HubId = new SelectList(_hubService.GetAllHub(), "HubId", "Name");
-            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID(3);
+            var hubAllocation = _projectCodeAllocationService.GetHubAllocationByHubID((int)ReliefRequisitionStatus.HubAssigned);
             return View(hubAllocation);
         }
 
@@ -268,11 +305,11 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.AmountPCAssigned = pcAmount;
             ViewBag.AmountSIAssined = siAmount;
 
-            ViewBag.Total = pcAmount + siAmount;
-            ViewBag.Allocated = requisition.ReliefRequisitionDetails.Sum(a => a.Amount);
+            ViewBag.Total = Math.Round((decimal)pcAmount + (decimal)siAmount, 2);
+            ViewBag.Allocated = Math.Round(requisition.ReliefRequisitionDetails.Sum(a => a.Amount));
             ViewBag.ReqId = requisitionId;
             ViewBag.ReqNo = requisition.RequisitionNo;
-            ViewBag.Remaining = ViewBag.Allocated - ViewBag.Total;
+            ViewBag.Remaining = Math.Round(ViewBag.Allocated - ViewBag.Total, 2); 
             ViewBag.Hub = hubId.Hub.Name;
 
             return View(assigned);
