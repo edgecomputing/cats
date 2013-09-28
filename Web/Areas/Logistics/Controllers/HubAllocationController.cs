@@ -26,17 +26,18 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;
         private readonly IHubAllocationService _hubAllocationService;
-        
+        private readonly IUserAccountService _userAccountService;
         public HubAllocationController(
            IReliefRequisitionDetailService reliefRequisitionDetailService,
            IHubService hubService,
            IHubAllocationService hubAllocationService, 
-           IReliefRequisitionService reliefRequisitionService)
+           IReliefRequisitionService reliefRequisitionService, IUserAccountService userAccountService)
         {
             this._hubService = hubService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             this._hubAllocationService = hubAllocationService;
             this._reliefRequisitionService = reliefRequisitionService;
+            _userAccountService = userAccountService;
         }
 
     
@@ -161,7 +162,8 @@ namespace Cats.Areas.Logistics.Controllers
             if (rNumber.Trim() == string.Empty)
                 return RedirectToAction("ApprovedRequesitions", "HubAllocation");
 
-            
+            var userName = HttpContext.User.Identity.Name;
+            var user = _userAccountService.GetUserDetail(userName);
 
             if (ModelState.IsValid && requisitionDetail !=null )
             {
@@ -187,7 +189,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                     var newHubAllocation = new HubAllocation
                                                {
-                                                   AllocatedBy = 1,
+                                                   AllocatedBy = user.UserProfileID,
                                                    RequisitionID = appRequisition.RequisitionId,
                                                    AllocationDate = date,
                                                    ReferenceNo = rNumber,

@@ -149,9 +149,9 @@
             <th>
                 @Html.DisplayName("Shipping instruction assigned Amount")
                 </th>
-            <th>
+           @* <th>
                 @Html.DisplayName("Allocation made by")
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayName("Alloccation Date")
             </th>
@@ -177,9 +177,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Amount_FromSI)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.AllocatedBy)
-        </td>
+        </td>*@
         <td>
             @item.AlloccationDate.ToCTSPreferedDateFormat(Html.UserCalendarPreference())
             @*@Html.DisplayFor(modelItem => item.AlloccationDate)*@
