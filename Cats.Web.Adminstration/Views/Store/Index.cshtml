@@ -47,14 +47,15 @@
         columns.Bound(p => p.StackCount);
             columns.Bound(p => p.StoreManName);
        //columns.Command(command => command.Destroy());
-       columns.Command(command => command.Custom("Delete").Click("OnDelete"));
-    })
-    .ToolBar(toolbar =>
-        {
-            toolbar.Create();
-            toolbar.Save();
+            columns.Command(command =>
+                {
+                    command.Edit();
+                    command.Custom("Delete").Click("OnDelete");
+
+                });
         })
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .ToolBar(toolbar =>toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
     .Pageable()
     .Sortable()
     .Filterable()
