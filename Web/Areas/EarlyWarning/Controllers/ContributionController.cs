@@ -7,6 +7,7 @@ using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Helpers;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -239,7 +240,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Currency = contributionDetails.Currency.Name,
                             PledgeReferenceNumber = contributionDetails.PledgeReferenceNo,
                             PledgeDate = contributionDetails.PledgeDate,
-                            Amount = contributionDetails.Amount
+                            Amount = contributionDetails.Amount,
+                            PledgeDatePref = contributionDetails.PledgeDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
 
 
                         });

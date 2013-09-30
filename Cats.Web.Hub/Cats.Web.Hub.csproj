@@ -45,12 +45,8 @@
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.4.3.0\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -323,6 +319,7 @@
     <Compile Include="Controllers\HubSettingController.cs" />
     <Compile Include="Controllers\InternalMovementController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\LedgerController.cs" />
     <Compile Include="Controllers\LetterTemplateController.cs" />
     <Compile Include="Controllers\LossesAndAdjustmentsController.cs" />
     <Compile Include="Controllers\PlannerController.cs" />
@@ -1325,6 +1322,7 @@
     <Content Include="Views\UserWarehouse\Edit.cshtml" />
     <Content Include="Views\UserWarehouse\Index.cshtml" />
     <Content Include="Views\UserWarehouse\Update.cshtml" />
+    <Content Include="Views\Ledger\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

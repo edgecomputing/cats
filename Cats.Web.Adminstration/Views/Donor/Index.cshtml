@@ -6,14 +6,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
-@section Toolbar
-{
-    @*<a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Currency")"></a>*@
-}
-@section LeftBar
-{
-    @*@Html.Partial("_CurrencyLeftBar")*@;
-}
+
 <div id="modalWindow">
     <h4>Are You Sure You Want to Delete this Donor?</h4>
     <button id="yes" class="k-button">Yes</button>
@@ -33,7 +26,7 @@
 </script>
 
 <div>
-    <h4>List of Currencies</h4>
+    <h4>List of Donors</h4>
 </div>
 @(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.DonorModel>()
     .Name("grid")
@@ -43,9 +36,9 @@
         columns.Bound(p => p.Name);
         columns.Bound(p => p.LongName);
         columns.Bound(p => p.IsResponsibleDonor);
-        columns.Bound(p => p.IsSourceDonor);
+        //columns.Bound(p => p.IsSourceDonor);
+            columns.Bound(p => p.IsSourceDonor).ClientTemplate("<input type='checkbox' #= IsSourceDonor ? checked='checked' : '' # ></input>");
         
-       //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })
     .ToolBar(toolbar =>
@@ -62,9 +55,9 @@
           .PageSize(8)
             .Model(model => model.Id(p => p.DonorID))
            .Read(read => read.Action("Donor_Read", "Donor"))
-           .Update(update => update.Action("Currency_Update", "Currency"))
-           .Create(create => create.Action("Currency_Create", "Currency"))
-           //.Destroy(destroy=>destroy.Action("Currency_Destroy","Currency"))
+           .Update(update => update.Action("Donor_Update", "Donor"))
+           .Create(create => create.Action("Donor_Create", "Donor"))
+          // .Destroy(destroy => destroy.Action("Donor_Destroy", "Donor"))
  
      )
    
@@ -80,7 +73,7 @@
 
         $("#yes").click(function () {
 
-            @*window.location = "@Url.Action("Delete", "Currency")" + "/" + dataItem.CurrencyID;*@
+            window.location = "@Url.Action("Delete", "Donor")" + "/" + dataItem.DonorID;
             wnd.close();
         });
 
@@ -89,3 +82,26 @@
         });
     }
 </script>
+<script type="text/javascript">
+
+    //register custom validation rules
+    (function ($, kendo) {
+        $.extend(true, kendo.ui.validator, {
+            rules: { // custom rules
+                productnamevalidation: function (input, params) {
+                    //check for the rule attribute 
+                    if (input.filter("[data-val-productnamevalidation]").length && input.val()) {
+                        return /^[A-Z]/.test(input.val());
+                    }
+                    return true;
+                }
+            },
+            messages: { //custom rules messages
+                productnamevalidation: function (input) {
+                    // return the message text
+                    return input.attr("data-val-productnamevalidation");
+                }
+            }
+        });
+    })(jQuery, kendo);
+    </script>

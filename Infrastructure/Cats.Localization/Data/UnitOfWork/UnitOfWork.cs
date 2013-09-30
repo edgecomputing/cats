@@ -2,6 +2,7 @@
 using Cats.Localization.Data.Repository;
 using Cats.Localization.Models;
 
+
 namespace Cats.Localization.Data.UnitOfWork
 {
     /// <summary>
@@ -32,7 +33,7 @@ namespace Cats.Localization.Data.UnitOfWork
 
         }
 
-        public IGenericRepository<Language> LanguageRepositroy
+        public IGenericRepository<Language> LanguageRepository
         {
             get { return this.languageRepo ?? (this.languageRepo = new GenericRepository<Language>(_context)); }
 

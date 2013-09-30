@@ -9,6 +9,8 @@ using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.ViewModelBinder;
+using Cats.Services.Security;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -17,13 +19,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IRationService _rationService;
         private readonly IRationDetailService _rationDetailService;
         private readonly ICommodityService _commodityService;
+        private readonly IUserAccountService _userAccountService;
         
 
-        public RationController(IRationService rationService, ICommodityService commodityService, IRationDetailService rationDetailService)
+        public RationController(IRationService rationService, ICommodityService commodityService, IRationDetailService rationDetailService, IUserAccountService userAccountService)
         {
             this._rationService = rationService;
             this._rationDetailService = rationDetailService;
             this._commodityService = commodityService;
+            _userAccountService = userAccountService;
         }
         //
         // GET: /EarlyWarning/Ration/
@@ -74,6 +78,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private RationViewModel BindRationViewModel(Ration ration)
         {
+            var userPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             if (ration == null) return null;
             var rationViewModel = new RationViewModel();
             rationViewModel.RationID = ration.RationID;
@@ -85,12 +90,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             rationViewModel.UpdatedBy = ration.UpdatedBy;
             rationViewModel.UpdatedDate = ration.UpdatedDate;
             rationViewModel.ReferenceNumber = ration.RefrenceNumber;
-            rationViewModel.CreatedDateEC = ration.CreatedDate.HasValue
-                                                ? EthiopianDate.GregorianToEthiopian(ration.CreatedDate.Value)
-                                                : "";
+            //rationViewModel.CreatedDateEC = ration.CreatedDate.HasValue
+            //                                    ? EthiopianDate.GregorianToEthiopian(ration.CreatedDate.Value)
+            //                                    : "";
             rationViewModel.UpdatedDateEC = ration.UpdatedDate.HasValue
                                      ? EthiopianDate.GregorianToEthiopian(ration.UpdatedDate.Value)
                                      : "";
+            rationViewModel.DateCreated = ration.CreatedDate.ToCTSPreferedDateFormat(userPref);// RequistionDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
             return rationViewModel;
         }
         [HttpPost]
@@ -100,10 +106,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 try
                 {
+                   
                     var orign = _rationService.FindById(rationViewModel.RationID);
                     orign.IsDefaultRation = rationViewModel.IsDefaultRation;
 
-                    orign.UpdatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+                    orign.UpdatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
                     orign.UpdatedDate = DateTime.Today;
                     _rationService.EditRation(orign);
                     return Json(new { success = true });
@@ -129,7 +136,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 try
                 {
-                    ration.CreatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+                    ration.CreatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
                     ration.CreatedDate = DateTime.Today;
                     _rationService.AddRation(ration);
                     return RedirectToAction("Index");
@@ -188,7 +195,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (rationDetailViewModel != null && ModelState.IsValid)
             {
-                var origin = _rationDetailService.FindById(rationDetailViewModel.RationID);
+                var origin = _rationDetailService.FindById(rationDetailViewModel.RationDetailID);
                 origin.Amount = rationDetailViewModel.Amount;
                 _rationDetailService.EditRationDetail(origin);
             }

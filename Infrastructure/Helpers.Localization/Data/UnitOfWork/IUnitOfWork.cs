@@ -11,8 +11,7 @@ namespace LanguageHelpers.Localization.Data
     public interface IUnitOfWork : IDisposable
     {
          IGenericRepository<LocalizedText> LocalizedTextRepository { get; }
-        IGenericRepository<Language> LanguageRepositroy { get; } 
-
-        void Save();
+         IGenericRepository<Language> LanguageRepository { get; } 
+         void Save();
     }
 }

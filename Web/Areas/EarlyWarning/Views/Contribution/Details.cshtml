@@ -1,4 +1,5 @@
 ﻿@using System.Collections
+@using Cats.Helpers
 @using Kendo.Mvc.UI
 @model  Cats.Models.Contribution
 @{
@@ -41,6 +42,7 @@
         //columns.Bound(m => m.ContributionID);
         columns.Bound(m => m.PledgeReferenceNumber);
         columns.Bound(m => m.PledgeDate).Format("{0:MM/dd/yyyy}");
+        //columns.Bound(m => m.PledgeDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Pledge Date ({0})", Html.UserCalendarPreference()));
         columns.Bound(m => m.Amount).ClientFooterTemplate("<h4>#=kendo.format('{0:N}', sum)#</h4>").Format("{0:N}");
         columns.ForeignKey(m => m.CurrencyID, (IEnumerable)ViewBag.CurrencyID, "CurrencyID", "Code").Title("Currency");
 

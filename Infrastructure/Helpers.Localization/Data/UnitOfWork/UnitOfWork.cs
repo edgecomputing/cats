@@ -7,6 +7,7 @@ namespace LanguageHelpers.Localization.Data
     /// <summary>
     /// UnitOfwork implementation for security module    
     /// </summary>
+    /// 
     public class UnitOfWork : IUnitOfWork
     {
         #region Constructors and private vars
@@ -14,29 +15,22 @@ namespace LanguageHelpers.Localization.Data
         private readonly LocalizationContext _context;
         private IGenericRepository<LocalizedText> localizedTextRepository;
         private IGenericRepository<Language> languageRepository; 
-        // private readonly SecurityContext _context;
+        //private readonly SecurityContext _context;
               
         public UnitOfWork()
         {
             this._context = new LocalizationContext();
         }
-
         #endregion
-
-
         
         public IGenericRepository<LocalizedText> LocalizedTextRepository
         {
             get { return this.localizedTextRepository ?? (this.localizedTextRepository = new GenericRepository<LocalizedText>(_context)); }
-
         }
 
-
-
-        public IGenericRepository<Language> LanguageRepositroy
+        public IGenericRepository<Language> LanguageRepository
         {
             get { return this.languageRepository ?? (this.languageRepository = new GenericRepository<Language>(_context)); }
-
         }
 
         private bool disposed = false;
@@ -62,7 +56,7 @@ namespace LanguageHelpers.Localization.Data
         public void Save()
         {
             //TODO:Commented Out becasue of Error
-            //_context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

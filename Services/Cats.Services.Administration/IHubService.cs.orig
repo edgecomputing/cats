@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+<<<<<<< HEAD
+using System.Linq.Expressions;
+using Cats.Models;
+
+namespace Cats.Services.Administration
+{
+    public interface IHubService
+    {
+
+=======
+using System.Linq;
+using System.Linq.Expressions;
+using Cats.Models;
+using System.Threading.Tasks;
+
+namespace Cats.Services.Administration
+{
+   public interface IHubService:IDisposable
+    {
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f
+        bool AddHub(Hub hub);
+        bool DeleteHub(Hub hub);
+        bool DeleteById(int id);
+        bool EditHub(Hub hub);
+        Hub FindById(int id);
+<<<<<<< HEAD
+        int GetHubId(string hub);
+        List<Hub> GetAllHub();
+        List<Hub> FindBy(Expression<Func<Hub, bool>> predicate);
+
+
+    }
+}
+
+
+=======
+        List<Hub> GetAllHub();
+        List<Hub> FindBy(Expression<Func<Hub, bool>> predicate);
+    }
+}
+>>>>>>> ecc3648f399d2f7aec409834a2d8297d3e4c993f

@@ -10,8 +10,10 @@ using Cats.Services.Procurement;
 using Cats.Services.Common;
 using System;
 using Cats.Models;
+using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Helpers;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -25,13 +27,14 @@ namespace Cats.Areas.Procurement.Controllers
         private ITransportBidPlanService _transportBidPlanService;
         private ITransportBidPlanDetailService _transportBidPlanDetailService;
         private IApplicationSettingService _applicationSettingService;
+        private IUserAccountService _userAccountService;
 
         public BidController(IBidService bidService, IBidDetailService bidDetailService,
                              IAdminUnitService adminUnitService,
                              IStatusService statusService,
                              ITransportBidPlanService transportBidPlanService,
                              ITransportBidPlanDetailService transportBidPlanDetailService,
-                             IApplicationSettingService applicationSettingService)
+                             IApplicationSettingService applicationSettingService,IUserAccountService userAccountService)
         {
             this._bidService = bidService;
             this._bidDetailService = bidDetailService;
@@ -40,6 +43,7 @@ namespace Cats.Areas.Procurement.Controllers
             this._transportBidPlanService = transportBidPlanService;
             this._transportBidPlanDetailService = transportBidPlanDetailService;
             this._applicationSettingService = applicationSettingService;
+            _userAccountService = userAccountService;
         }
 
         public ActionResult Index()
@@ -86,6 +90,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         private IEnumerable<BidViewModel> GetBids(IEnumerable<Bid> bids)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from bid in bids
                     select new BidViewModel()
                     {
@@ -95,7 +100,10 @@ namespace Cats.Areas.Procurement.Controllers
                         EndDate = bid.EndDate,
                         OpeningDate = bid.OpeningDate,
                         Status = bid.Status.Name,
-                        StatusID = bid.StatusID
+                        StatusID = bid.StatusID,
+                        StartDatePref = bid.StartDate.ToCTSPreferedDateFormat(datePref),
+                        OpeningDatePref = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
+                        EndDatePref = bid.EndDate.ToCTSPreferedDateFormat(datePref)
                     });
         }
         private IEnumerable<BidDetailViewModel> GetBidDetails(IEnumerable<BidDetail> bidDetails)

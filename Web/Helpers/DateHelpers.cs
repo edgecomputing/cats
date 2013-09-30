@@ -24,12 +24,13 @@ namespace Cats.Helpers
             }
 
         }
-
+      
         public static string FormatDateFromString(this HtmlHelper helper, string dateAsString)
         {
             DateTime theRealDate = Convert.ToDateTime((dateAsString));
             return ToCTSPreferedDateFormat(theRealDate, "am");
         }
+
         public static Decimal ToPreferedWeightMeasurment(this Decimal quantity, string weightMeasurment)
         {
 
@@ -40,6 +41,5 @@ namespace Cats.Helpers
             return quantity;
 
         }
-
     }
 }

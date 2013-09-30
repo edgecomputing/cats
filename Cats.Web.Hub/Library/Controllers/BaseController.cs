@@ -16,14 +16,14 @@ namespace Cats.Web.Hub
     /// </summary>
     public class BaseController : Controller
     {
-        
         public BaseController()
         {
-            
+            this.UserProfileService = new Cats.Services.Hub.UserProfileService(_unitOfWork);
         }
         
         private UserProfile userProfile = null;
-        
+        private Cats.Services.Hub.IUserProfileService UserProfileService;
+        private Cats.Data.Hub.IUnitOfWork _unitOfWork = new Cats.Data.Hub.UnitOfWork();
         
         
         /// <summary>
@@ -50,9 +50,10 @@ namespace Cats.Web.Hub
         protected UserProfile GetCurrentUserProfile()
         {
                 
-                MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true);
-                MembershipProvider mem = new MembershipProvider();
-                return mem.getUser(currentUser);
+                //MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true);
+                //MembershipProvider mem = new MembershipProvider();
+                //return mem.getUser(currentUser);
+                return UserProfileService.GetUser(User.Identity.Name);
         }
 
         /// <summary>

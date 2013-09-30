@@ -5,8 +5,3 @@
     [TranslatedText]  NVARCHAR (200) NULL,
     CONSTRAINT [PK_LocalizedTexts] PRIMARY KEY CLUSTERED ([LocalizedTextId] ASC)
 );
-
-
-
-
-

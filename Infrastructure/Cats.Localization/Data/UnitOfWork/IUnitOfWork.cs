@@ -11,7 +11,7 @@ namespace Cats.Localization.Data.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IGenericRepository<LocalizedPhrase> LocalizedPhraseRepository { get; }        
-        IGenericRepository<Language> LanguageRepositroy { get; }
+        IGenericRepository<Language> LanguageRepository { get; }
         IGenericRepository<Phrase> PhraseRepository { get; }
         IGenericRepository<Page> PageRepository { get; }
         IGenericRepository<LocalizedPagePhrase> PagePhraseRepository { get; } 

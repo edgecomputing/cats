@@ -67,9 +67,9 @@
         columns.Bound(p => p.ZoneName);
         columns.Bound(p => p.WoredaName);
         columns.Bound(p => p.FDPName);
-        columns.Bound(p => p.BeneficiaryCount);
-        columns.Bound(p => p.FoodRatio);
-        columns.Bound(p => p.CashRatio);
+        columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new {align="right"});
+        columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "right" });
+        columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "right" });
     })
     .DataSource(
         dataSource => dataSource

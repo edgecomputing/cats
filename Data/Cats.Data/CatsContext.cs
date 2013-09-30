@@ -107,9 +107,10 @@ namespace Cats.Data
         public DbSet<LetterTemplate> LetterTemplate { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<InKindContributionDetail> InKindContributionDetails { get; set; }
+        public DbSet<UserHub> UserHub { get; set; }
+        
+        public DbSet<Store> Stores { get; set; }
 
-        public DbSet<CommodityGrade> CommodityGrades { get; set; }
-        public DbSet<CommoditySource> CommoditySources { get; set; }
         public DbSet<Audit> Audits { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -205,7 +206,9 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new InKindContributionDetailMap());
             modelBuilder.Configurations.Add(new CommodityGradeMap());
             modelBuilder.Configurations.Add(new CommoditySourceMap());
+
             modelBuilder.Configurations.Add(new AuditMap());
+
         }
 
     }

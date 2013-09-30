@@ -11,10 +11,11 @@ using Cats.Data.UnitWork;
 using Cats.Services.Common;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Areas.Settings.Models;
+using Cats.Services.Security;
 
 namespace Cats.Controllers
 {
-    
     public class HomeController : Controller
     {
         private IRegionalRequestService _regionalRequestService;
@@ -22,12 +23,14 @@ namespace Cats.Controllers
         private IUnitOfWork _unitOfWork = new UnitOfWork();
         private IUserDashboardPreferenceService _userDashboardPreferenceService;
         private IDashboardWidgetService _dashboardWidgetService;
+        private IUserAccountService userService;
 
-        public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService, IDashboardWidgetService dashboardWidgetService) {
+        public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService, IDashboardWidgetService dashboardWidgetService, IUserAccountService _userService) {
             _regionalRequestService = new RegionalRequestService(_unitOfWork);
             _reliefRequistionService = new ReliefRequisitionService(_unitOfWork);
             _userDashboardPreferenceService = userDashboardPreferenceService;
             _dashboardWidgetService = dashboardWidgetService;
+            this.userService = _userService;
         }
 
         //
@@ -35,12 +38,10 @@ namespace Cats.Controllers
         [Authorize]
         public ActionResult Index(int regionId=4)
         {
-
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
             var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
             ////ViewBag.Requests = req;
-            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
-
+            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
             var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
@@ -51,7 +52,7 @@ namespace Cats.Controllers
 
         public ActionResult Preference()
         {
-            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
             var selectedDashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
@@ -59,12 +60,12 @@ namespace Cats.Controllers
             var allDashboardWidgets = _dashboardWidgetService.GetAllDashboardWidget();
             var unselectedDashbaords = allDashboardWidgets.Where(dashboardWidget => !selectedDashboardWidgets.Contains(dashboardWidget)).ToList();
             ViewBag.UnselectedDashbaords = unselectedDashbaords;
-            return View();
+            return View(UserPreference());
         }
 
         public JsonResult SavePreference([DataSourceRequest] DataSourceRequest request, List<int> selectedDashboardIDs)
         {
-            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
             var selectedDashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
@@ -117,6 +118,63 @@ namespace Cats.Controllers
         {
             var request = _unitOfWork.RegionalRequestRepository.FindById(2);
             return Json(request, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public UserPreferenceViewModel UserPreference()
+        {
+            var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
+            var userPreference = new UserPreferenceEditModel
+            {
+                Language = user.LanguageCode,
+                KeyboardLanguage = user.Keyboard,
+                PreferedWeightMeasurement = user.PreferedWeightMeasurment,
+                DatePreference = user.DatePreference,
+                DefaultTheme = user.DefaultTheme
+            };
+
+            var userPreferences = userService.GetUserPreferences();
+            //UserPreferenceViewModel userPreferencesModel = new UserPreferenceViewModel
+            //{
+            //    Language = new List<LanguageCode>(),
+            //    KeyboardLanguage = new List<Keyboard>(),
+            //    PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit>(),
+            //    DatePreference = new List<Cats.Areas.Settings.Models.Calendar>(),
+            //    DefaultTheme = new List<Theme>()
+            //};
+
+             var Language = new List<LanguageCode>();
+             var KeyboardLanguage = new List<Keyboard>();
+             var PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit>();
+             var DatePreference = new List<Cats.Areas.Settings.Models.Calendar>();
+             var DefaultTheme = new List<Theme>();
+
+            foreach (var preferences in userPreferences)
+            {
+                if (!Language.Exists(t => t.Language == preferences.LanguageCode))
+                    Language.Add(new LanguageCode { Language = preferences.LanguageCode });
+                if (!KeyboardLanguage.Exists(t => t.KeyboardLanguage == preferences.Keyboard))
+                    KeyboardLanguage.Add(new Keyboard { KeyboardLanguage = preferences.Keyboard });
+                if (!PreferedWeightMeasurement.Exists(t => t.PreferedWeightMeasurement == preferences.PreferedWeightMeasurment))
+                    PreferedWeightMeasurement.Add(new PreferedWeightMeasurementUnit { PreferedWeightMeasurement = preferences.PreferedWeightMeasurment });
+                if (!DatePreference.Exists(t => t.DatePreference == preferences.DatePreference))
+                    DatePreference.Add(new Cats.Areas.Settings.Models.Calendar { DatePreference = preferences.DatePreference });
+                if (!DefaultTheme.Exists(t => t.DefaultTheme == preferences.DefaultTheme))
+                    DefaultTheme.Add(new Theme { DefaultTheme = preferences.DefaultTheme });
+            }
+            var userPreferencesModel = new UserPreferenceViewModel()
+            {
+                Language = Language,
+                KeyboardLanguage = KeyboardLanguage,
+                PreferedWeightMeasurement = PreferedWeightMeasurement,
+                DatePreference = DatePreference,
+                DefaultTheme = DefaultTheme,
+                CurrentPreference = userPreference
+            };
+            return userPreferencesModel;
         }
     }
 }

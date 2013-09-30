@@ -1,0 +1,88 @@
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.Program>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    
+}
+@section LeftBar
+{
+   
+}
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Program?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div>
+    <h4>List of Programs</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.ProgramViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.ProgramName);
+        columns.Bound(p => p.Description);
+        columns.Bound(p => p.LongName);
+       //columns.Command(command => command.Destroy());
+       columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+    })
+    .ToolBar(toolbar =>
+        {
+            toolbar.Create();
+            toolbar.Save();
+        })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.ProgramID))
+           .Read(read => read.Action("Program_Read", "Program"))
+           .Update(update => update.Action("Program_Update", "Program"))
+           .Create(create => create.Action("Program_Create", "Program"))
+           .Destroy(destroy => destroy.Action("Program_Destroy", "Program"))
+ 
+     )
+   
+      )
+<script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "Program")" + "/" + dataItem.ProgramID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+

@@ -10,6 +10,7 @@ namespace Cats.Models.Hub
         {
             this.Transactions = new List<Transaction>();
         }
+
         [Key]
         public int LedgerID { get; set; }
         public string Name { get; set; }

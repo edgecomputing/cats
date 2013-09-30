@@ -13,45 +13,50 @@ namespace Cats.ViewModelBinder
     public class RequestViewModelBinder
     {
 
+
         public static IEnumerable<RegionalRequestViewModel> BindRegionalRequestListViewModel(
-          IEnumerable<RegionalRequest> requests,List<WorkflowStatus> statuses )
+          IEnumerable<RegionalRequest> requests, List<WorkflowStatus> statuses, string userPreference)
         {
             var requestsViewModel = new List<RegionalRequestViewModel>();
             foreach (var regionalRequest in requests)
             {
-                requestsViewModel.Add(BindRegionalRequestViewModel(regionalRequest,statuses));
+                requestsViewModel.Add(BindRegionalRequestViewModel(regionalRequest, statuses, userPreference));
             }
 
             return requestsViewModel;
         }
-      
-        public static RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest,List<WorkflowStatus> statuses )
+
+        public static RegionalRequestViewModel BindRegionalRequestViewModel(RegionalRequest regionalRequest, List<WorkflowStatus> statuses, string userPrefrence)
         {
+            var regionalRequestViewModel = new RegionalRequestViewModel();
 
-            return new RegionalRequestViewModel()
-            {
 
-                ProgramId = regionalRequest.ProgramId,
-                Program = regionalRequest.Program.Name,
-                Region = regionalRequest.AdminUnit.Name,
-                ReferenceNumber = regionalRequest.ReferenceNumber,
-                RegionID = regionalRequest.RegionID,
-                RegionalRequestID = regionalRequest.RegionalRequestID,
-                Remark = regionalRequest.Remark,
-                RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate),
-                Month = regionalRequest.Month,
-                Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.REGIONAL_REQUEST && t.StatusID==regionalRequest.Status).Description,
-                RequistionDate = regionalRequest.RequistionDate,
-                StatusID = regionalRequest.Status,
-                Ration = regionalRequest.Ration.RefrenceNumber,
-                RationID = regionalRequest.RationID,
-                Year = regionalRequest.Year,
-            };
+            regionalRequestViewModel.ProgramId = regionalRequest.ProgramId;
+            regionalRequestViewModel.Program = regionalRequest.Program.Name;
+            regionalRequestViewModel.Region = regionalRequest.AdminUnit.Name;
+            regionalRequestViewModel.ReferenceNumber = regionalRequest.ReferenceNumber;
+            regionalRequestViewModel.RegionID = regionalRequest.RegionID;
+            regionalRequestViewModel.RegionalRequestID = regionalRequest.RegionalRequestID;
+            regionalRequestViewModel.Remark = regionalRequest.Remark;
+            regionalRequestViewModel.RequestDate = regionalRequest.RequistionDate.ToCTSPreferedDateFormat(userPrefrence);
 
+
+            //RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate);
+            regionalRequestViewModel.MonthName = RequestHelper.GetMonthList().Find(t => t.Id == regionalRequest.Month).Name;
+            regionalRequest.Month = regionalRequest.Month;
+            regionalRequestViewModel.Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.REGIONAL_REQUEST && t.StatusID == regionalRequest.Status).Description;
+            // regionalRequestViewModel. RequistionDate = regionalRequest.RequistionDate;
+            regionalRequestViewModel.StatusID = regionalRequest.Status;
+            regionalRequestViewModel.Ration = regionalRequest.Ration.RefrenceNumber;
+            regionalRequestViewModel.RationID = regionalRequest.RationID;
+            regionalRequestViewModel.Year = regionalRequest.Year;
+
+            return regionalRequestViewModel;
         }
-        public static RegionalRequest BindRegionalRequest(RegionalRequestViewModel regionalRequestViewModel,RegionalRequest request =null)
+
+        public static RegionalRequest BindRegionalRequest(RegionalRequestViewModel regionalRequestViewModel, RegionalRequest request = null)
         {
-            if(request==null) request = new RegionalRequest();
+            if (request == null) request = new RegionalRequest();
 
             request.ProgramId = regionalRequestViewModel.ProgramId;
             request.ReferenceNumber = regionalRequestViewModel.ReferenceNumber;
@@ -60,14 +65,15 @@ namespace Cats.ViewModelBinder
             request.Remark = regionalRequestViewModel.Remark;
             request.Month = regionalRequestViewModel.Month;
             request.RequistionDate = regionalRequestViewModel.RequistionDate;
+
             request.Status = regionalRequestViewModel.StatusID;
             request.Year = regionalRequestViewModel.Year;
-          //  request.DonorID=
+            //  request.DonorID=
             return request;
         }
-                public static RegionalRequest BindRegionalRequest(RegionalRequest origin,RegionalRequest request =null)
+        public static RegionalRequest BindRegionalRequest(RegionalRequest origin, RegionalRequest request = null)
         {
-            if(request==null) request = new RegionalRequest();
+            if (request == null) request = new RegionalRequest();
 
             request.ProgramId = origin.ProgramId;
             request.ReferenceNumber = origin.ReferenceNumber;
@@ -81,80 +87,80 @@ namespace Cats.ViewModelBinder
             return request;
         }
 
-                public static DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails)
+        public static DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails)
+        {
+            var dt = new DataTable("Transpose");
+            //var colRequstDetailID = new DataColumn("RequstDetailID", typeof(int));
+            //colRequstDetailID.ExtendedProperties["ID"] = -1;
+            //dt.Columns.Add(colRequstDetailID);
+
+            var colZone = new DataColumn("Zone", typeof(string));
+            colZone.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colZone);
+
+            var colWoreda = new DataColumn("Woreda", typeof(string));
+            colWoreda.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colWoreda);
+
+            var colFDP = new DataColumn("FDP", typeof(string));
+            colFDP.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colFDP);
+
+            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(decimal));
+            colNoBeneficiary.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colNoBeneficiary);
+            var requestdetail = requestDetails.FirstOrDefault();
+            if (requestdetail != null)
+            {
+                foreach (var ds in requestdetail.RequestDetailCommodities)
                 {
-                    var dt = new DataTable("Transpose");
-                    //var colRequstDetailID = new DataColumn("RequstDetailID", typeof(int));
-                    //colRequstDetailID.ExtendedProperties["ID"] = -1;
-                    //dt.Columns.Add(colRequstDetailID);
+                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                    col.ExtendedProperties.Add("ID", ds.CommodityID);
+                    dt.Columns.Add(col);
+                }
 
-                    var colZone = new DataColumn("Zone", typeof(string));
-                    colZone.ExtendedProperties["ID"] = -1;
-                    dt.Columns.Add(colZone);
+                //int rowID = 0;
+                //bool addRow = false;
+                //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
+                foreach (var requestDetail in requestDetails)
+                {
+                    var dr = dt.NewRow();
+                    //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
+                    dr[colNoBeneficiary] = requestDetail.Beneficiaries;
+                    dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
+                    dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;
+                    dr[colFDP] = requestDetail.Fdp.Name;
 
-                    var colWoreda = new DataColumn("Woreda", typeof(string));
-                    colWoreda.ExtendedProperties["ID"] = -1;
-                    dt.Columns.Add(colWoreda);
 
-                    var colFDP = new DataColumn("FDP", typeof(string));
-                    colFDP.ExtendedProperties["ID"] = -1;
-                    dt.Columns.Add(colFDP);
-
-                    var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(decimal));
-                    colNoBeneficiary.ExtendedProperties["ID"] = -1;
-                    dt.Columns.Add(colNoBeneficiary);
-                    var requestdetail = requestDetails.FirstOrDefault();
-                    if (requestdetail != null)
+                    foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
                     {
-                        foreach (var ds in requestdetail.RequestDetailCommodities)
+
+                        DataColumn col = null;
+                        foreach (DataColumn column in dt.Columns)
                         {
-                            var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
-                            col.ExtendedProperties.Add("ID", ds.CommodityID);
-                            dt.Columns.Add(col);
-                        }
-
-                        //int rowID = 0;
-                        //bool addRow = false;
-                        //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
-                        foreach (var requestDetail in requestDetails)
-                        {
-                            var dr = dt.NewRow();
-                            //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
-                            dr[colNoBeneficiary] = requestDetail.Beneficiaries;
-                            dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
-                            dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;
-                            dr[colFDP] = requestDetail.Fdp.Name;
-
-
-                            foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
+                            if (requestDetailCommodity.CommodityID.ToString() ==
+                                column.ExtendedProperties["ID"].ToString())
                             {
-
-                                DataColumn col = null;
-                                foreach (DataColumn column in dt.Columns)
-                                {
-                                    if (requestDetailCommodity.CommodityID.ToString() ==
-                                        column.ExtendedProperties["ID"].ToString())
-                                    {
-                                        col = column;
-                                        break;
-                                    }
-                                }
-                                if (col != null)
-                                {
-                                    dr[col.ColumnName] = requestDetailCommodity.Amount;
-
-                                }
+                                col = column;
+                                break;
                             }
-                            dt.Rows.Add(dr);
+                        }
+                        if (col != null)
+                        {
+                            dr[col.ColumnName] = requestDetailCommodity.Amount;
+
                         }
                     }
-                    //var dta = (from DataRow row in dt.Rows select new
-                    //                                                  {
-
-                    //                                                  }).ToList();
-
-                    return dt;
+                    dt.Rows.Add(dr);
                 }
+            }
+            //var dta = (from DataRow row in dt.Rows select new
+            //                                                  {
+
+            //                                                  }).ToList();
+
+            return dt;
+        }
 
     }
 }

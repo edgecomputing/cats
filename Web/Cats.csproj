@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocX">
+      <HintPath>..\lib\DocX.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
@@ -197,6 +203,7 @@
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -253,6 +260,7 @@
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\UserPreferenceViewModel.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
@@ -266,6 +274,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserPreferenceController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -319,6 +328,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
   </ItemGroup>
@@ -739,9 +749,8 @@
     <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
+    <Content Include="Areas\Localization\Views\Shared\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\EditTranslation.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\_PSNPLeftBar.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\Web.config" />
@@ -826,11 +835,18 @@
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
     <Content Include="Areas\Settings\Views\Users\ForgetPassword.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
+    <Content Include="Cats.csproj.orig">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1016,7 +1032,7 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequesitions.cshtml">
+    <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequisitions.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Shared\HRDPrintReportViewer.aspx" />
@@ -1081,12 +1097,14 @@
     <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
     <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
     <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Shared\UserPreference.cshtml" />
     <Content Include="Views\Home\Preference.cshtml" />
+    <Content Include="Views\UserPreference\Edit.cshtml" />
+    <Content Include="Views\Shared\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Localization\Models\" />
-    <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="Areas\Transaction\Models\" />
@@ -1094,6 +1112,10 @@
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
+    <Folder Include="Report\EarlyWarning\" />
+    <Folder Include="Report\HRD\" />
+    <Folder Include="Report\Procurment\" />
+    <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1166,10 +1188,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
-    <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
-    <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
-    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
-    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

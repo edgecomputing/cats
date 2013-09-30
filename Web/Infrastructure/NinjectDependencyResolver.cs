@@ -65,6 +65,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IBidDetailService>().To<BidDetailService>();
             kernel.Bind<IStatusService>().To<StatusService>();
             kernel.Bind<IHubAllocationService>().To<HubAllocationService>();
+           
             // Security service registration
             kernel.Bind<IUserAccountService>().To<UserAccountService>();
             kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
@@ -97,6 +98,8 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
 
             kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
+            kernel.Bind<ILanguageService>().To<LanguageService>();
+            //kernel.Bind<ILanguageService>().To<LanguageService>();
             kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
 
             kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
@@ -122,8 +125,6 @@ namespace Cats.Infrastructure
 
             kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
 
-
-            kernel.Bind<ILanguageService>().To<LanguageService>();
             kernel.Bind<ILogReadService>().To<LogReadService>();
 
             kernel.Bind<IUserDashboardPreferenceService>().To<UserDashboardPreferenceService>();

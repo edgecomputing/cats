@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Models;
@@ -50,7 +51,7 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Currency_Create([DataSourceRequest] DataSourceRequest request, DonorModel donor)
+        public ActionResult Donor_Create([DataSourceRequest] DataSourceRequest request, DonorModel donor)
         {
             if (donor != null && ModelState.IsValid)
             {
@@ -79,7 +80,7 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Currency_Update([DataSourceRequest] DataSourceRequest request, DonorModel model)
+        public ActionResult Donor_Update([DataSourceRequest] DataSourceRequest request, DonorModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -93,67 +94,18 @@ namespace Cats.Web.Adminstration.Controllers
             }
             return Json(new[] { model }.ToDataSourceResult(request, ModelState));
         }
-        // GET: /Donor/Details/5
 
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        //
-        // GET: /Donor/Create
-
-        public ActionResult Create()
-        {
-            var donor = new Donor();
-            return View(donor);
-        }
-
-        //
-        // POST: /Donor/Create
-
-        [HttpPost]
-        public ActionResult Create(Donor donor)
-        {
-            try
-            {
-                _donorService.AddDonor(donor);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View(donor);
-            }
-        }
-
-        //
-        // GET: /Donor/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Donor/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult Donor_Destroy([DataSourceRequest] DataSourceRequest request, DonorModel model)
+        //{
+        //    if (model != null && ModelState.IsValid)
+        //    {
+        //        var donor = _donorService.FindById(model.DonorID);
+        //        _donorService.DeleteDonor(donor);
+        //    }
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
         // GET: /Donor/Delete/5
 
         public ActionResult Delete(int id)
@@ -164,10 +116,11 @@ namespace Cats.Web.Adminstration.Controllers
                     _donorService.DeleteDonor(donor);
                     return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+               ModelState.AddModelError("Errors","Unable to delete Donor");
             }
+            return RedirectToAction("Index");
         }
     }
 }

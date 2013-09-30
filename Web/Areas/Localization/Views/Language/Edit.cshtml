@@ -10,8 +10,13 @@
 {
   @Html.Partial("LanguageLeftBar");
 }
-<div><h3>Edit</h3></div>
-    @using (Html.BeginForm())
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_language"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Language")" title="save"></a>
+}
+<div><h4>Edit</h4></div>
+   @using (Html.BeginForm("Edit", "Language", FormMethod.Post, new { id = "frm_edit_language" }))
     {
         @Html.ValidationSummary(true)
         @Html.HiddenFor(m=>m.LanguageID)
@@ -28,22 +33,12 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Name)
+                    @Html.LabelFor(m => m.LanguageName)
                 </div>
                 <div class="controls">
-                   @Html.TextBoxFor(m => m.Name)
-                    @Html.ValidationMessageFor(m=>m.Name)
-                </div>
-        
-            </div>
-            <div class="control-group">      
-                <div class="controls">
-                    <input type="submit" value="SaveChanges" class="btn btn-success" />
+                   @Html.TextBoxFor(m => m.LanguageName)
+                    @Html.ValidationMessageFor(m=>m.LanguageName)
                 </div>
             </div>
-
         </div>
     }
- 
-
-

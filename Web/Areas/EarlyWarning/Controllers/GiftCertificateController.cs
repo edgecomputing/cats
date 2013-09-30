@@ -1,24 +1,19 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
-using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.GiftCertificate.Models;
-using Cats.Helpers;
-using Cats.Models.Partial;
 using Cats.Services.EarlyWarning;
-using Cats.Models;
 using System.Web.Mvc;
 using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using Cats.Services.Common;
-using Newtonsoft.Json;
 using Master = Cats.Models.Constant.Master;
-using Microsoft.Office.Interop.Word;
-
+using Cats.Helpers;
+using Cats.Data.UnitWork;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -29,13 +24,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ICommonService _commonService;
         private readonly ITransactionService _transactionService;
         private readonly ILetterTemplateService _letterTemplateService;
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService)
+        private readonly IUnitOfWork _unitofwork;
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService, IUnitOfWork unitofwork)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
             _commonService = commonService;
             _transactionService = transactionService;
             _letterTemplateService = letterTemplateService;
+            _unitofwork = unitofwork;
         }
 
         public ActionResult Index(int id=1)
@@ -96,6 +93,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var gift = new GiftCertificateViewModel();
             gift.GiftDate = DateTime.Today;
             gift.ETA = DateTime.Today;
+            gift.CommodityTypeID = 1;
             return View(gift);
         }
         [HttpPost]
@@ -253,7 +251,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                  "Name");
                 ViewBag.CommodityTypeID =
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
-                                   "CommodityTypeID", "Name");
+                                   "CommodityTypeID", "Name",1);
                 ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
                 ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name");
         
@@ -265,7 +263,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                 "Name",giftCertificate.DonorID);
                 ViewBag.CommodityTypeID =
                     new SelectList(_commonService.GetCommodityTypes(null, t => t.OrderBy(o => o.Name)),
-                                   "CommodityTypeID", "Name", giftDetails == null ? string.Empty : giftDetails.Commodity.CommodityTypeID.ToString());
+                                   "CommodityTypeID", "Name", giftDetails == null ? "1" : giftDetails.Commodity.CommodityTypeID.ToString());
                 ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",giftCertificate.ProgramID);
                 ViewBag.DModeOfTransport = new SelectList(_commonService.GetDetails(d => d.MasterID == Master.Constants.TRANSPORT_MODE, t => t.OrderBy(o => o.SortOrder)), "DetailID", "Name",giftCertificate.DModeOfTransport);
         
@@ -283,12 +281,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
            return Json(_letterTemplateService.GetAllLetterTemplates().ToDataSourceResult(request));
 
        }
-        public ActionResult ShowTemplate(string fileName, int giftCertificateId)
+        public void ShowTemplate(string fileName, int giftCertificateId)
         {
             // TODO: Make sure to use DI to get the template generator instance
-            //var template = new TemplateGenerator();
-            //template.GenerateTemplate(giftCertificateId,  fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
-            return RedirectToAction("Index");
+           
+                var template = new TemplateHelper(_unitofwork);
+                string filePath = template.GenerateTemplate(giftCertificateId, 1, fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
+               
+               
+                Response.Clear();
+                Response.ContentType = "application/text";
+                Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
+                Response.TransmitFile(filePath);
+                Response.End();
+              
+           
+           
         }
         protected override void Dispose(bool disposing)
         {

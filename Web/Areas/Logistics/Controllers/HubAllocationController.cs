@@ -87,7 +87,7 @@ namespace Cats.Areas.Logistics.Controllers
       
 
 
-        public ActionResult ApprovedRequesitions([DataSourceRequest]DataSourceRequest request)
+        public ActionResult ApprovedRequisitions([DataSourceRequest]DataSourceRequest request)
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");

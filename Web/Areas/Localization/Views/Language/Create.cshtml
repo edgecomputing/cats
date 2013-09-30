@@ -6,14 +6,19 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_language"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Language")" title="save"></a>
+}
 @section LeftBar
 {
    
 @Html.Partial("LanguageLeftBar");
      
 }
-<div class="well"><h3>Create new Language</h3></div>
-    @using (Html.BeginForm())
+<div><h4>Create new Language</h4></div>
+    @using (Html.BeginForm("Create", "Language", FormMethod.Post, new { id = "frm_create_language" }))
     {
         @Html.ValidationSummary(true)
 
@@ -33,20 +38,15 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Name)
+                    @Html.LabelFor(m => m.LanguageName)
                 </div>
                 <div class="controls">
-                   @Html.TextBoxFor(m => m.Name)
-                    @Html.ValidationMessageFor(m=>m.Name)
+                   @Html.TextBoxFor(m => m.LanguageName)
+                    @Html.ValidationMessageFor(m=>m.LanguageName)
                 </div>
         
-            </div>            
-            <div class="control-group">      
-                <div class="controls">
-                    <input type="submit" value="Create" class="btn btn-success" />
-                </div>
-            </div>
-
+            </div>     
+                   
         </div>
     }
  

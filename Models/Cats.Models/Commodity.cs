@@ -9,16 +9,16 @@ namespace Cats.Models
     {
         public Commodity()
         {
-            this.DispatchAllocations = new List<DispatchAllocation>();
-            this.Commodity1 = new List<Commodity>();
+            //this.DispatchAllocations = new List<DispatchAllocation>();
+            //this.Commodity1 = new List<Commodity>();
            
-            this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
-            this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.BidWinners=new List<BidWinner>();
-            this.RationDetails=new List<RationDetail>();
-            this.HRDCommodityDetails=new List<HRDCommodityDetail>();
-            this.GiftCertificateDetails = new List<GiftCertificateDetail>();
-            this.InKindContributionDetails=new List<InKindContributionDetail>();
+            //this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            //this.TransportOrderDetails = new List<TransportOrderDetail>();
+            //this.BidWinners=new List<BidWinner>();
+            //this.RationDetails=new List<RationDetail>();
+            //this.HRDCommodityDetails=new List<HRDCommodityDetail>();
+            //this.GiftCertificateDetails = new List<GiftCertificateDetail>();
+            //this.InKindContributionDetails=new List<InKindContributionDetail>();
             
         }
 

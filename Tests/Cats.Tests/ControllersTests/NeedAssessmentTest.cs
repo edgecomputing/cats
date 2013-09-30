@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
@@ -90,7 +91,9 @@ namespace Cats.Tests.ControllersTests
                                                        PSNPFromWoredasDOA = 90,
                                                        NonPSNPFromWoredasMale = 100,
                                                        NonPSNPFromWoredasFemale = 100,
-                                                       NonPSNPFromWoredasDOA = 120
+                                                       NonPSNPFromWoredasDOA = 120,
+                                                       AdminUnit=new AdminUnit{Name="x",AdminUnitID= 1,ParentID=1},
+NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="Afar"}}
                                                        
                                                    },
 
@@ -111,7 +114,9 @@ namespace Cats.Tests.ControllersTests
                                                        PSNPFromWoredasDOA = 90,
                                                        NonPSNPFromWoredasMale = 66,
                                                        NonPSNPFromWoredasFemale = 89,
-                                                       NonPSNPFromWoredasDOA = 90
+                                                       NonPSNPFromWoredasDOA = 90,
+                                                       AdminUnit=new AdminUnit{Name="x",AdminUnitID= 1,ParentID=1},
+NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="Afar"}}
                                                        
                                                    }
                                                        
@@ -119,7 +124,8 @@ namespace Cats.Tests.ControllersTests
 
             var needAssessmentDetailService = new Mock<INeedAssessmentDetailService>();
             needAssessmentDetailService.Setup(d => d.GetAllNeedAssessmentDetail()).Returns(needAssessmentDetail);
-
+            needAssessmentDetailService.Setup(t => t.FindBy(It.IsAny<Expression<Func<NeedAssessmentDetail, bool>>>())).
+                Returns(needAssessmentDetail);
             var season = new List<Season>()
                             {
                                 new Season
@@ -221,6 +227,7 @@ namespace Cats.Tests.ControllersTests
             Assert.IsNotNull(result);
 
         }
+
         #endregion
     }
 }

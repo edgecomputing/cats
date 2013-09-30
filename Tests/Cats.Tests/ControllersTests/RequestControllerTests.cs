@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Models.Security;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
@@ -275,9 +279,25 @@ namespace Cats.Tests.ControllersTests
                 t =>
                 t.Get(It.IsAny<Expression<Func<HRD, bool>>>(), It.IsAny<Func<IQueryable<HRD>, IOrderedQueryable<HRD>>>(),
                       It.IsAny<string>())).Returns(hrds);
-
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object);
-
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+                                                                                         {
+                                                                                             UserName = "x",
+                                                                                             DatePreference = "en"
+                                                                                         });
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity,null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+           
+           
+          
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object,userAccountService.Object);
+               _requestController.ControllerContext = controllerContext.Object; 
+         
+     
         }
 
         [TearDown]
@@ -402,7 +422,7 @@ namespace Cats.Tests.ControllersTests
             request.Page = 1;
             request.PageSize = 5;
 
-            var result = (JsonResult)_requestController.Request_Read(request,-1);
+            var result = (JsonResult)_requestController.Request_Read(request,0);
 
             //Assert
             Assert.IsNotNull(result);

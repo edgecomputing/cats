@@ -37,7 +37,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                              IRationService rationservice, IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService, ICommodityService commodityService,
                              INeedAssessmentDetailService needAssessmentDetailService, INeedAssessmentHeaderService needAssessmentService,
-                             IWorkflowStatusService workflowStatusService, ISeasonService seasonService)
+                             IWorkflowStatusService workflowStatusService, ISeasonService seasonService,IUserAccountService userAccountService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -49,17 +49,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _needAssessmentService = needAssessmentService;
             _workflowStatusService = workflowStatusService;
             _seasonService = seasonService;
+            _userAccountService = userAccountService;
         }
 
         public ActionResult Index()
         {
             var hrd = _hrdService.GetAllHRD();
-            
-            ModelState.AddModelError("Errors", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
-            ModelState.AddModelError("Warning", "Sample Warning Message. Use in Your Controller: ModelState.AddModelError('Warning', 'Your Warning Message.')");
-            ModelState.AddModelError("Info", "Sample Info Message. Use in Your Controller: ModelState.AddModelError('Info', 'Your Info Message.')");
-            ModelState.AddModelError("Success", "Sample success Message. Use in Your Controller: ModelState.AddModelError('Success', 'Your Success Message.')");
-
             //ViewBag.Status = _workflowStatusService.GetStatusName();
             return View(hrd);
         }
@@ -123,7 +118,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         //get published hrds information
         public ActionResult CurrentHRD_Read([DataSourceRequest] DataSourceRequest request)
-        {
+        {            
             DateTime latestDate = _hrdService.Get(m => m.Status == 3).Max(m => m.PublishedDate);
             var hrds = _hrdService.FindBy(m =>m.Status==3 && m.PublishedDate == latestDate);
                 //.OrderBy(m => m.PublishedDate);
@@ -134,6 +129,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //gets hrd information
         private IEnumerable<HRDViewModel> GetHrds(IEnumerable<HRD> hrds)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from hrd in hrds
                     select new HRDViewModel
                         {
@@ -145,7 +141,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
                         PublishedDate = hrd.PublishedDate,
                         StatusID = hrd.Status,
-                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value)
+                        Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value),
+                        CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(datePref),
+                        PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref)
 
 
                     });
@@ -374,7 +372,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Edit(HRD hrd)
         {
-            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserAccountId;
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             hrd.CreatedBY = userid;
             if (ModelState.IsValid)
             {
@@ -419,10 +417,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult PublishHRD(int id)
         {
-            var hrd = _hrdService.FindById(id);
-            hrd.Status = 3;
-            hrd.PublishedDate = DateTime.Now;
-            _hrdService.EditHRD(hrd);
+            _hrdService.PublishHrd(id);
             return RedirectToAction("ApprovedHRDs");
         }
 

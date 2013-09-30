@@ -1,10 +1,12 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
 @model List<Cats.Models.HRD>
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+
 @section Toolbar
 {
         <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
@@ -23,8 +25,8 @@
         columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
         columns.Bound(p => p.Season);
         columns.Bound(p => p.Year);
-        columns.Bound(p => p.CreatedBy);  
-        columns.Bound(p => p.CreatedDate).Format("{0:MM/dd/yyyy}");
+        columns.Bound(p => p.CreatedBy);
+        columns.Bound(p => p.CreatedDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})", Html.UserCalendarPreference()));
         //columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 

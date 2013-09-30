@@ -11,6 +11,7 @@ using Cats.Models.ViewModels;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Helpers;
+using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -26,16 +27,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         private IRegionalRequestService _regionalRequestService;
         private IFDPService _fdpService;
+        private IUserAccountService _userAccountService;
         private IRegionalRequestDetailService _regionalRequestDetailService;
         private ICommonService _commonService;
         private IHRDService _hrdService;
+      
         private IApplicationSettingService _applicationSettingService;
         public RequestController(IRegionalRequestService reliefRequistionService,
                                 IFDPService fdpService,
                                 IRegionalRequestDetailService reliefRequisitionDetailService,
                                 ICommonService commonService,
                                 IHRDService hrdService,
-                                IApplicationSettingService ApplicationSettingService
+                                IApplicationSettingService ApplicationSettingService,
+                                IUserAccountService userAccountService
                                 )
             {
                 _regionalRequestService = reliefRequistionService;
@@ -44,11 +48,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _commonService = commonService;
                 _hrdService = hrdService;
                 _applicationSettingService = ApplicationSettingService;
+            _userAccountService = userAccountService;
             }
 
-
-
-      
 
         public ViewResult SubmittedRequest(int id)
         {
@@ -59,8 +61,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
             var requests = _regionalRequestService.Get(t => t.Status == id, null, "AdminUnit,Program");
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
-
-            return View(RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses));
+            var userPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            return View(RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, userPref));
         }
 
 
@@ -79,7 +81,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var regionalRequest = new RegionalRequest();
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-            regionalRequest.RequistionDate = DateTime.Today;
+            regionalRequest.RequistionDate = DateTime.Today;           
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
@@ -147,8 +149,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _regionalRequestService.EditRegionalRequest(target);
                 return RedirectToAction("Allocation", "Request", new { id = regionalRequest.RegionalRequestID });
             }
-
-
+            
             PopulateLookup(regionalRequest);
             return View(regionalRequest);
         }
@@ -196,11 +197,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Allocation(int id)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             ViewBag.RequestID = id;
             var request =
                 _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program").FirstOrDefault();
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
-            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses);
+            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
             var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
 
@@ -211,9 +213,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult Details(int id)
         {
-
             ViewBag.RequestID = id;
-
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var request =
                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
            
@@ -222,7 +223,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 return HttpNotFound();
             }
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
-            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses);
+            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
 
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
             var dt = RequestViewModelBinder.TransposeData(requestDetails);
@@ -369,23 +370,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         #region Reguest
 
-        public ActionResult Index(int id=0)
+        public ActionResult Index(int id=1)
         {
             var regions = _commonService.GetAminUnits(t=>t.AdminUnitTypeID==2);
             ViewData["adminunits"] = regions;
             var programs = _commonService.GetPrograms();
             ViewData["programs"] = programs;
             ViewBag.Status = id;
-            
             return View();
         }
 
         public ActionResult Request_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
-
-            var requests = id==-1 ? _regionalRequestService.GetAllRegionalRequest():_regionalRequestService.Get(t=>t.Status==id);
+            
+            var requests = id==0 ? _regionalRequestService.GetAllRegionalRequest():_regionalRequestService.Get(t=>t.Status==id);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
-            var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         
