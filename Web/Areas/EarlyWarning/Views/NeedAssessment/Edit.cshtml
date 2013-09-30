@@ -21,7 +21,7 @@
     .Name("grid")
     .Columns(columns =>
     {
-       
+
         columns.Bound(o => o.WoredaName).Width("200").HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.ProjectedMale).Title("Projecgted Male").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Projecgted Male" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
         columns.Bound(p => p.ProjectedFemale).Title("Projected Female").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Projected Female" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
@@ -36,7 +36,6 @@
         columns.Bound(p => p.NonPSNPFromWoredasMale).Title("Non PSNP From Woredas Male").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Male" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).ClientFooterTemplate(" #=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate(" #=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new { style = "text-align: right; font-size: 12px; font-weight: bold;" });
         columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Female" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).ClientFooterTemplate(" #=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate(" #=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new { style = "text-align: right; font-size: 12px; font-weight: bold;" });
         columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas DOA" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" });
-                                        
         
     })
     
@@ -47,8 +46,8 @@
     .HtmlAttributes(new { style = "height: 400px" })
     .Pageable()
     .Sortable()
-   
-   
+   .Navigatable()
+   .Events(events => events.Change("onGridKeydown"))
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .DataSource(dataSource => dataSource
         .Ajax()
@@ -68,7 +67,6 @@
        .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["Id"].ToString())}))
        .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
        .Events(e=>e.RequestEnd("onRequestEnd"))
-       
        .Model(model =>
                               {
                                   model.Id(p => p.NAId);
@@ -77,6 +75,27 @@
                               }) 
     )
 )
+
+<script>
+    function onGridKeydown(e) {
+        if (e.keyCode === kendo.keys.TAB) {
+            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+            var current = grid.current();
+            if (!current.hasClass("editable-cell")) {
+                var nextCell = current.nextAll(".editable-cell");
+                if (!nextCell[0]) {
+                    //search the next row
+                    var nextRow = current.parent().next();
+                    var nextCell = current.parent().next().children(".editable-cell:first");
+                }
+                grid.current(nextCell);
+                grid.editCell(nextCell[0])
+            }
+        }
+    };
+</script>
+
+
 
 <script>    
  
