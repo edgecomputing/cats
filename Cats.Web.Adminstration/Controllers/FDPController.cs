@@ -33,7 +33,7 @@ namespace Cats.Web.Adminstration.Controllers
             return View();
         }
 
-        public JsonResult FDP_Read([DataSourceRequest]DataSourceRequest request, int adminUnitID)
+        public JsonResult FDP_Read([DataSourceRequest]DataSourceRequest request, int? adminUnitID)
         {
             var fdps = _fdpService.Get(t => t != null && (t.AdminUnitID == adminUnitID));
             var fdpsViewModel = FDPViewModelBinder.BindListFDPViewModel((List<FDP>)fdps);
@@ -41,12 +41,13 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel)
+        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel,int? adminUnitID)
         {
-            if (fdpViewModel != null && ModelState.IsValid)
+            if (fdpViewModel != null && ModelState.IsValid && adminUnitID.HasValue)
             {
                 try
                 {
+                    fdpViewModel.AdminUnitID = adminUnitID.Value;
                     var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
                     _fdpService.AddFDP(fdp);
                     ModelState.AddModelError("Success", "Success: FDP Registered.");
@@ -62,10 +63,11 @@ namespace Cats.Web.Adminstration.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult FDP_Update([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel)
         {
-            if (fdpViewModel != null && ModelState.IsValid)
+            if (fdpViewModel != null && ModelState.IsValid )
             {
-                var target = _fdpService.FindById(fdpViewModel.FDPID);
-                var fdp = FDPViewModelBinder.BindFDP(fdpViewModel, target);
+                
+                //var target = _fdpService.FindById(fdpViewModel.FDPID);
+                var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
                 _fdpService.EditFDP(fdp);
             }
 
