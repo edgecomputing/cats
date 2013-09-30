@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Cats.Areas.EarlyWarning.Models;
+using Cats.Helpers;
 using Cats.Models;
 
 namespace Cats.ViewModelBinder
@@ -31,7 +32,8 @@ namespace Cats.ViewModelBinder
                 hrdCompareViewModel.Region = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.Name;
                 hrdCompareViewModel.WoredaId = hrdDetail.WoredaID;
                 hrdCompareViewModel.Woreda = hrdDetail.AdminUnit.Name;
-
+                hrdCompareViewModel.StartingMonth = RequestHelper.MonthName(hrdDetail.StartingMonth);
+                
                  if(hrdRefrence!=null)
                  {
                      var hrdReferenceDetail =
@@ -41,6 +43,7 @@ namespace Cats.ViewModelBinder
                          hrdCompareViewModel.RefrenceDuration = hrdReferenceDetail.DurationOfAssistance;
                          hrdCompareViewModel.BeginingMonthReference = hrdReferenceDetail.StartingMonth;
                          hrdCompareViewModel.BeneficiariesRefrence = hrdReferenceDetail.NumberOfBeneficiaries;
+                         hrdCompareViewModel.StartingMonthReference = RequestHelper.MonthName(hrdReferenceDetail.StartingMonth);
                      }
                  }
                 hrdCompareViewModels.Add(hrdCompareViewModel);
