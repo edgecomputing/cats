@@ -10,16 +10,13 @@ namespace Cats.Models
     {
         public Hub()
         {
-            this.DispatchAllocations = new List<DispatchAllocation>();
-            this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.HubAllocations = new List<HubAllocation>();
-            this.ReceiptAllocations = new List<ReceiptAllocation>();
-            this.Stores=new List<Store>();
-            this.ReceiptAllocations1 = new List<ReceiptAllocation>();
-            this.Transactions = new List<Transaction>();
-            this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.HubOwner = new HubOwner();
-           
+            //this.DispatchAllocations = new List<DispatchAllocation>();
+            //this.HubAllocations = new List<HubAllocation>();
+            //this.ReceiptAllocations = new List<ReceiptAllocation>();
+            //this.ReceiptAllocations1 = new List<ReceiptAllocation>();
+            //this.Transactions = new List<Transaction>();
+            //this.TransportOrderDetails = new List<TransportOrderDetail>();
+            //this.HubOwner = new HubOwner();
         }
 
         public int HubID { get; set; }
@@ -37,6 +34,5 @@ namespace Cats.Models
         public virtual ICollection<TransportBidPlanDetail> TransportBidPlanSources { get; set; }
 
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
-        public virtual ICollection<Store> Stores { get; set; }
     }
 }
