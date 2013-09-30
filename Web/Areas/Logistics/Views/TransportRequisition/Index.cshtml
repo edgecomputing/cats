@@ -19,9 +19,9 @@
 
     columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
     columns.Bound(requisition => requisition.RequestedBy);
-    columns.Bound(requisition => requisition.RequestedDateET);
+    columns.Bound(requisition => requisition.DateRequested);
     columns.Bound(requisition => requisition.CertifiedBy);
-    columns.Bound(requisition => requisition.CertifiedDateET);
+    columns.Bound(requisition => requisition.DateCertified);
     columns.Bound(requisiton => requisiton.Status);
 })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))

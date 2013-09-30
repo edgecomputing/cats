@@ -7,23 +7,21 @@ namespace Cats.Models
     {
         public AdminUnit()
         {
-            this.AdminUnit1 = new List<AdminUnit>();
-            this.BidDetails = new List<BidDetail>();
-            this.FDPs = new List<FDP>();
-            this.RegionalRequests = new List<RegionalRequest>();
-            this.ReliefRequisitions = new List<ReliefRequisition>();
-            this.ReliefRequisitions1 = new List<ReliefRequisition>();
-            this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.BidWinners=new List<BidWinner>();
+            //this.AdminUnit1 = new List<AdminUnit>();
+            //this.BidDetails = new List<BidDetail>();
+            //this.FDPs = new List<FDP>();
+            //this.RegionalRequests = new List<RegionalRequest>();
+            //this.ReliefRequisitions = new List<ReliefRequisition>();
+            //this.ReliefRequisitions1 = new List<ReliefRequisition>();
+            //this.TransportOrderDetails = new List<TransportOrderDetail>();
+            //this.BidWinners=new List<BidWinner>();
 
 
-            this.NeedAssessments = new List<NeedAssessment>();
-            this.NeedAssessmentDetails = new List<NeedAssessmentDetail>();
-            this.NeedAssessmentHeaders = new List<NeedAssessmentHeader>();
+            //this.NeedAssessments = new List<NeedAssessment>();
+            //this.NeedAssessmentDetails = new List<NeedAssessmentDetail>();
+            //this.NeedAssessmentHeaders = new List<NeedAssessmentHeader>();
 
-            this.HrdDetails=new List<HRDDetail>();
-
-           
+            //this.HrdDetails=new List<HRDDetail>();
         }
 
         public int AdminUnitID { get; set; }
