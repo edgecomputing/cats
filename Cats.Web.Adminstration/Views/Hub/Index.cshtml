@@ -6,35 +6,79 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Hub?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
 
 <h2>Index</h2>
 @(Html.Kendo().Grid<HubViewModel>()
-      .Name("grid")
-      .Columns(columns =>
-      {
-          columns.Bound(p => p.HubName).Width(100).Visible(false);
-      })
-          .ToolBar(toolbar =>
-          {
-              toolbar.Save();
-              toolbar.Create();
-          })
-      .Editable(editable => editable.Mode(GridEditMode.InCell))
-      .Pageable()
-      .Sortable()
-      .Scrollable()
-      .Selectable(t => t.Mode(GridSelectionMode.Single))
-      .Navigatable()
-      .HtmlAttributes(new { style = "height:430px;" })
-      .Events(ev => ev.DataBound("resetRowNumber"))
-      .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .PageSize(20)
-                                    .Model(
+.Name("grid")
+.Columns(columns=>
+        {
+            columns.Bound(c => c.HubName);
+            columns.ForeignKey(c => c.HubOwnerID, (System.Collections.IEnumerable)ViewData["HubOwners"], "HubOwnerID", "Name").Width(50);
+            //columns.Command(c => c.Destroy());
+            columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+        }).ToolBar(toolbar =>
+        {
+            toolbar.Save();
+            toolbar.Create();
+        })
+        .Editable(edit => edit.Mode(GridEditMode.InCell))
+        .Pageable()
+        .Selectable(t => t.Mode(GridSelectionMode.Single))
+        .Navigatable()
+        .DataSource(datasource=>datasource
+        .Ajax()
+        .PageSize(10)
+        .Model(m=>m.Id(t=>t.HubID))
+        .Read("Hub_Read","Hub")
+        .Create("Hub_Create","Hub")
+        .Update("Hub_Update","Hub")
+        //.Destroy("Hub_Destroy","Hub")
+        .Events(events => events.Error("HubSaveSuccess"))
+        )
+      )
+<script>
+    var timer;
+    function HubSaveSuccess(request, status, error) {
+        var msg = '<div class="cats_success">Success: Hub Saved.</div>';
+        $(".message-window").html(msg).delay(800).hide().fadeIn();
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+        }, 5000);
+    }
+    
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
 
-        model => model.Id(p => p.HubID))
-                                    .Create(read => read.Action("Hub_Read", "Hub", new { id = Model.HubID }))
-                                    //.Read(create => create.Action("Hub_Create", "Hub", new { id = Model.HubID }))
-                                    //.Update(update => update.Action("Hub_Update", "Hub"))
-                                    //.Destroy(delete => delete.Action("Hub_Delete", "Hub"))
-).Pageable())
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("hub_Destroy", "Hub")" + "/" + dataItem.CurrencyID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>

@@ -61,13 +61,16 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="AdminUnitService.cs" />
     <Compile Include="AuditSevice.cs" />
     <Compile Include="CommodityGradeService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommoditySourceService.cs" />
     <Compile Include="CommodityTypeService.cs" />
+    <Compile Include="FDPService.cs" />
     <Compile Include="HubOwnerService.cs" />
     <Compile Include="HubService.cs" />
+    <Compile Include="IAdminUnitService.cs" />
     <Compile Include="IAuditService.cs" />
     <Compile Include="ICommodityGradeService.cs" />
     <Compile Include="ICommodityService.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="ICommoditySourceService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IDonorService.cs" />
+    <Compile Include="IFDPService.cs" />
     <Compile Include="IHubOwnerService.cs" />
     <Compile Include="IHubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

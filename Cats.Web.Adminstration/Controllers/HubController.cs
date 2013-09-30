@@ -39,34 +39,54 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Hub_Create([DataSourceRequest] DataSourceRequest request, Hub hub)
+        public ActionResult Hub_Create([DataSourceRequest] DataSourceRequest request, HubViewModel hubViewModel)
         {
-            if (hub != null && ModelState.IsValid)
+            if (hubViewModel != null && ModelState.IsValid)
             {
-                _hubService.AddHub(hub);
+                try
+                {
+                    var hub = HubViewModelBinder.BindHub(hubViewModel);
+                    _hubService.AddHub(hub);
+                    ModelState.AddModelError("Success", "Success: Hub Registered.");
+                }
+                catch(Exception ex)
+                {
+                    ModelState.AddModelError("Errors", "Error: Hub not registered. All fields need to be filled.");
+                }
             }
-            return Json(new[] { hub }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { hubViewModel }.ToDataSourceResult(request, ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Commodity_Update([DataSourceRequest] DataSourceRequest request, Hub hub)
+        public ActionResult Hub_Update([DataSourceRequest] DataSourceRequest request, HubViewModel hubViewModel)
         {
-            if (hub != null && ModelState.IsValid)
+            if (hubViewModel != null && ModelState.IsValid)
             {
-                var target = _hubService.FindById(hub.HubID);
-                _hubService.EditHub(target);
+                var target = _hubService.FindById(hubViewModel.HubID);
+                var hub = HubViewModelBinder.BindHub(hubViewModel, target);
+                _hubService.EditHub(hub);
             }
 
-            return Json(new[] { hub }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { hubViewModel }.ToDataSourceResult(request, ModelState));
         }
 
+
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Commodity_Destroy([DataSourceRequest] DataSourceRequest request,
-                                                  Hub hub)
+        public ActionResult Hub_Destroy([DataSourceRequest] DataSourceRequest request,
+                                                  HubViewModel hubViewModel)
         {
-            if (hub != null)
+            if (hubViewModel != null)
             {
-                _hubService.DeleteById(hub.HubID);
+                try
+                {
+                    _hubService.DeleteById(hubViewModel.HubID);
+                    ModelState.AddModelError("Success", "Success: Hub Deleted.");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Errors", "Error: Hub not deleted. Foreign ke.");
+                }
+                
             }
 
             return Json(ModelState.ToDataSourceResult());

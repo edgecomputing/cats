@@ -23,7 +23,10 @@ namespace Cats.Services.Hub
         List<AdminUnit> Get(Expression<Func<AdminUnit,bool>> filter=null,Func<IQueryable<AdminUnit>,IOrderedQueryable<AdminUnit>> orderBy=null,string includeProperties=""  );
         List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate);
 
+        List<AdminUnit> GetZonesByRegion(int regionId);
 
+
+        List<AdminUnit> GetWoredasByZone(int zoneId);
         /// <summary>
         /// Gets the regions.
         /// </summary>

@@ -353,7 +353,16 @@ namespace Cats.Data.UnitWork
 
         public void Save()
         {
-            _context.SaveChanges();
+            try
+            {
+ _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         private bool disposed = false;

@@ -10,13 +10,13 @@ namespace Cats.Models
     {
         public Hub()
         {
-            this.DispatchAllocations = new List<DispatchAllocation>();
-            this.HubAllocations = new List<HubAllocation>();
-            this.ReceiptAllocations = new List<ReceiptAllocation>();
-            this.ReceiptAllocations1 = new List<ReceiptAllocation>();
-            this.Transactions = new List<Transaction>();
-            this.TransportOrderDetails = new List<TransportOrderDetail>();
-            this.HubOwner = new HubOwner();
+            //this.DispatchAllocations = new List<DispatchAllocation>();
+            //this.HubAllocations = new List<HubAllocation>();
+            //this.ReceiptAllocations = new List<ReceiptAllocation>();
+            //this.ReceiptAllocations1 = new List<ReceiptAllocation>();
+            //this.Transactions = new List<Transaction>();
+            //this.TransportOrderDetails = new List<TransportOrderDetail>();
+            //this.HubOwner = new HubOwner();
         }
 
         public int HubID { get; set; }
