@@ -205,8 +205,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 int typeOfNeedAsseessment = (int)needAssessment.TypeOfNeedAssessment;
                 return RedirectToAction("Edit", new { id = id, typeOfNeed = typeOfNeedAsseessment });
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception,_log);
                 return RedirectToAction("Index");
             }
             
@@ -234,11 +236,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception,_log);
+                ModelState.AddModelError("Errors","Unable to delete this need Assessment");
                 return RedirectToAction("Index");
             }
 
+           
 
         }
 
@@ -271,8 +277,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _needAssessmentService.DeleteNeedAssessment(needAssessment);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception exception)
             {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception,_log);
                 return RedirectToAction("Index");
             }
         }

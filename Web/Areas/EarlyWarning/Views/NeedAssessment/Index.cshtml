@@ -12,32 +12,31 @@
 @section LeftBar{
 
     @Html.Partial("_NeedAssessmentMainLeftBar")
+
 }
 @section Toolbar
 {
 
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddRegion", "NeedAssessment")"></a>
-     
-}
 
+}
 
 <fieldset>
     <legend>
-       @Translator.Translate("Beneficiary numbers and duration of assisstance")
+        @Translator.Translate("Beneficiary numbers and duration of assisstance")
     </legend>
 </fieldset>
 
 
- 
+
 
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
     .Name("grid")
     .Columns(columns =>
-
     {
         columns.Bound(p => p.RegionName).Title("Region");
         columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
-        columns.Bound(p=>p.Date).Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+        columns.Bound(p => p.Date).Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
         columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Command(p =>
         {
@@ -50,9 +49,9 @@
     .ToolBar(toolbar =>
     {
         toolbar.Template(@<text>
-           <div class="toolbar">
-                    <label class="category-label" for="category">Show Zones by Region:</label>
-                        @(Html.Kendo().DropDownList()
+<div class="toolbar">
+    <label class="category-label" for="category">Show Zones by Region:</label>
+    @(Html.Kendo().DropDownList()
                             .Name("regions")
                             .OptionLabel("All")
                             .DataTextField("Name")
@@ -63,12 +62,12 @@
                             {
                                 ds.Read("GetRegions", "NeedAssessment");
                             })
-                        ) 
-                        </div>
-        </text>);
+                        )
+</div>
+</text>);
 
-      
-    
+
+
     })
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()
@@ -88,14 +87,14 @@
 		 	 grid = $("#grid").data("kendoGrid");
 
         if (value) {
-           
+
             grid.dataSource.filter({ field: "Region", operator: "eq", value: parseInt(value) });
         } else {
             grid.dataSource.filter({});
         }
     }
 </script>
-    
+
 @*<style scoped="scoped">
     #grid .k-toolbar
     {
@@ -122,7 +121,7 @@
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = null;
-        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;  
+        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
     }
 </script>
 <script>
@@ -132,7 +131,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wn.center().open();
         $("#yesDelete").click(function () {
-            window.location = "@Url.Action("DeleteNeedAssessment","NeedAssessment")" + "?id="  + dataItem.NeedAID;
+            window.location = "@Url.Action("DeleteNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
             wn.close();
         });
 
@@ -146,12 +145,12 @@
 
     function approveNeedAssessment(e) {
         e.preventDefault();
-       
+
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wnd.center().open();
         $("#yes").click(function () {
             window.location = null;
-            window.location =  "@Url.Action("ApproveNeedAssessment","NeedAssessment")" + "?id=" + dataItem.NeedAID;
+            window.location = "@Url.Action("ApproveNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
             wnd.close();
         });
 
@@ -176,12 +175,13 @@
             width: 300
         }).data("kendoWindow");
     });
-    
+
 
 </script>
 
 <div id="modalWindowDelete">
-    <h6>Delete Need Assessment?<br/>This will delete all the related records with this Region!</h6>
+    <h6>Delete Need Assessment?<br />
+        This will delete all the related records with this Region!</h6>
     <button id="yesDelete" class="k-button">Yes</button>
     <button id="noDelete" class="k-button">No</button>
 </div>

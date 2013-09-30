@@ -7,9 +7,11 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.EarlyWarning.Models;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
+using log4net;
 using Moq;
 using NUnit.Framework;
 using System.Web.Script.Serialization;
@@ -105,8 +107,8 @@ namespace Cats.Tests.ControllersTests
 
             var userAccountService = new Mock<IUserAccountService>();
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "xx", DatePreference = "AM" });
-
-            _rationController = new RationController(rationService.Object, commodityService.Object, rationDetailService.Object,userAccountService.Object);
+            var logService = new Mock<ILog>();
+            _rationController = new RationController(rationService.Object, commodityService.Object, rationDetailService.Object,userAccountService.Object,logService.Object);
             _rationController.ControllerContext = controllerContext.Object; 
         }
 

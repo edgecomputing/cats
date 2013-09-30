@@ -11,7 +11,7 @@ using Cats.Helpers;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-
+using log4net;
 using HubAllocation = Cats.Models.HubAllocation;
 
 namespace Cats.Areas.Logistics.Controllers
@@ -26,18 +26,22 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;
         private readonly IHubAllocationService _hubAllocationService;
+        private readonly ILog _log;
         
         public HubAllocationController(
            IReliefRequisitionDetailService reliefRequisitionDetailService,
            IHubService hubService,
            IHubAllocationService hubAllocationService, 
-           IReliefRequisitionService reliefRequisitionService)
+           IReliefRequisitionService reliefRequisitionService,
+            ILog log)
         {
             this._hubService = hubService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             this._hubAllocationService = hubAllocationService;
             this._reliefRequisitionService = reliefRequisitionService;
+            this._log = log;
         }
+
 
     
       
@@ -160,9 +164,10 @@ namespace Cats.Areas.Logistics.Controllers
                     date = DateTime.Parse(datepicker);
                         //checkes if date is ethiopian date. if it is then it will enter to the catch and convert to gragorian to persist.
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(exception,_log);
                     var strEth = new getGregorianDate();
                     date = strEth.ReturnGregorianDate(datepicker);
                 }

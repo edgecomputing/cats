@@ -12,6 +12,7 @@ using Cats.Models.Security;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Kendo.Mvc.UI;
+using log4net;
 using Moq;
 using NUnit.Framework;
 
@@ -132,6 +133,10 @@ namespace Cats.Tests.ControllersTests
                 UserName = "x",
                 DatePreference = "en"
             });
+
+            var log = new Mock<ILog>();
+
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity, null);
@@ -142,7 +147,7 @@ namespace Cats.Tests.ControllersTests
 
             _hrdController = new HRDController(adminUnitService.Object, hrdService.Object, rationService.Object, rationDetailService.Object, 
                                                hrdDetailService.Object, commodityService.Object,needAssessmentDetailService.Object,needAssessmentService.Object,
-                                               workFlowStatusService.Object,seasonService.Object,userAccountService.Object);
+                                               workFlowStatusService.Object,seasonService.Object,userAccountService.Object,log.Object);
             _hrdController.ControllerContext = controllerContext.Object;
             
 

@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.PSNP;
 using Cats.Data;
@@ -14,6 +15,7 @@ using Kendo.Mvc.UI;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Common;
 using Cats.Infrastructure;
+using log4net;
 
 
 namespace Cats.Areas.PSNP
@@ -26,23 +28,26 @@ namespace Cats.Areas.PSNP
         private readonly IBusinessProcessService _BusinessProcessService;
         private readonly IBusinessProcessStateService _BusinessProcessStateService;
         private readonly IApplicationSettingService _ApplicationSettingService;
-        
+        private readonly ILog _log;
+
         public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam
-                                          ,IRationService rationServiceParam
-                                          ,IAdminUnitService adminUnitServiceParam
-                                          ,IBusinessProcessService BusinessProcessServiceParam
-                                          ,IBusinessProcessStateService BusinessProcessStateServiceParam
-                                          ,IApplicationSettingService ApplicationSettingParam
-                                            
+                                          , IRationService rationServiceParam
+                                          , IAdminUnitService adminUnitServiceParam
+                                          , IBusinessProcessService BusinessProcessServiceParam
+                                          , IBusinessProcessStateService BusinessProcessStateServiceParam
+                                          , IApplicationSettingService ApplicationSettingParam
+                                          , ILog log
+
                                          )
-            {
-                this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
-                this._rationService = rationServiceParam;
-                this._adminUnitService = adminUnitServiceParam;
-                this._BusinessProcessService = BusinessProcessServiceParam;
-                this._BusinessProcessStateService = BusinessProcessStateServiceParam;
-                this._ApplicationSettingService = ApplicationSettingParam;
-            }
+        {
+            this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
+            this._rationService = rationServiceParam;
+            this._adminUnitService = adminUnitServiceParam;
+            this._BusinessProcessService = BusinessProcessServiceParam;
+            this._BusinessProcessStateService = BusinessProcessStateServiceParam;
+            this._ApplicationSettingService = ApplicationSettingParam;
+            this._log = log;
+        }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
         {
@@ -61,7 +66,12 @@ namespace Cats.Areas.PSNP
 
                         });
             }
-            catch(Exception e){}
+            catch (Exception e)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(e,_log);
+
+            }
             return new List<RegionalPSNPPlanViewModel>();
         }
         public void LoadLookups()
@@ -88,11 +98,11 @@ namespace Cats.Areas.PSNP
 
         public ActionResult Print(int id = 0)
         {
-            if(id==0)
+            if (id == 0)
             {
                 RedirectToAction("Index");
             }
-                var reportPath = Server.MapPath("~/Report/PSNP/AnnualPlan.rdlc");
+            var reportPath = Server.MapPath("~/Report/PSNP/AnnualPlan.rdlc");
             var reportData = _regionalPSNPPlanService.GetAnnualPlanRpt(id);
             var dataSourceName = "annualplan";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
@@ -110,13 +120,13 @@ namespace Cats.Areas.PSNP
         }
         public ActionResult Promote(BusinessProcessState st)
         {
-           _BusinessProcessService.PromotWorkflow(st);
-           return RedirectToAction("Index");
+            _BusinessProcessService.PromotWorkflow(st);
+            return RedirectToAction("Index");
 
         }
         public ActionResult promotWorkflow(int id, int nextState)
         {
-           
+
             RegionalPSNPPlan item = _regionalPSNPPlanService.FindById(id);
             item.StatusID = nextState;
             _regionalPSNPPlanService.UpdateRegionalPSNPPlan(item);
@@ -147,8 +157,10 @@ namespace Cats.Areas.PSNP
                 {
                     BusinessProcessState createdstate = new BusinessProcessState
                     {
-                        DatePerformed = DateTime.Now,PerformedBy = "System" , Comment = "Created workflow for PSNP Plan"
-                       
+                        DatePerformed = DateTime.Now,
+                        PerformedBy = "System",
+                        Comment = "Created workflow for PSNP Plan"
+
                     };
                     _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
                     BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP, regionalpsnpplan.RegionalPSNPPlanID, "PSNP", createdstate);
