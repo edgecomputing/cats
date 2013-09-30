@@ -118,8 +118,7 @@ namespace Cats.Areas.Localization.Controllers
 
         public ActionResult Translation_Read([DataSourceRequest] DataSourceRequest request)
         {
-            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
-            //var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+            
             //var language = _languageService.FindById(id);
             var localized = _localizedTextService.FindBy(m => m.LanguageCode == "AM");
 
