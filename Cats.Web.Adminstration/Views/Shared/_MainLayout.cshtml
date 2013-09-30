@@ -145,8 +145,10 @@
                         @Html.Partial("_ToolbarCommon")
                     </div>
                 </div>
-                <div style="clear: both;" class="message-window">@RenderSection("Errors", required:false)@Html.CustomValidationSummary()</div>
-                
+                <div style="clear: both;">
+                    @RenderSection("Errors", required:false)
+                    @Html.CustomValidationSummary()                    
+                </div>
                 <div style="clear: both;">
                     @RenderBody()
                 </div>

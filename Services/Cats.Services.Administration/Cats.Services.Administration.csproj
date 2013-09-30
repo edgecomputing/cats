@@ -71,8 +71,6 @@
     <Compile Include="HubOwnerService.cs" />
     <Compile Include="HubService.cs" />
     <Compile Include="IAdminUnitService.cs" />
-    <Compile Include="HubOwnerService.cs" />
-    <Compile Include="HubService.cs" />
     <Compile Include="IAuditService.cs" />
     <Compile Include="ICommodityGradeService.cs" />
     <Compile Include="ICommodityService.cs" />
@@ -80,15 +78,13 @@
     <Compile Include="ICommoditySourceService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IDonorService.cs" />
-    <Compile Include="IHubOwnerService.cs" />
-    <Compile Include="IHubService.cs" />
+    <Compile Include="IFDPService.cs" />
     <Compile Include="IProgramService.cs" />
     <Compile Include="IStoreService.cs" />
     <Compile Include="IUnitService.cs" />
     <Compile Include="IUserHubService.cs" />
     <Compile Include="IUserProfileService.cs" />
     <Compile Include="ProgramService.cs" />
-    <Compile Include="IFDPService.cs" />
     <Compile Include="IHubOwnerService.cs" />
     <Compile Include="IHubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
