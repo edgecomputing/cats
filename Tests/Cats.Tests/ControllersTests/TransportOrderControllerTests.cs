@@ -14,6 +14,7 @@ using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Moq;
 using NUnit.Framework;
+using log4net;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -76,7 +77,9 @@ namespace Cats.Tests.ControllersTests
 
             var workflowStatusService = new Mock<IWorkflowStatusService>();
             workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Approved");
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,workflowStatusService.Object);
+
+            var logService = new Mock<ILog>();
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,workflowStatusService.Object,logService.Object);
 
         }
 

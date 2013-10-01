@@ -109,6 +109,7 @@ $(document).ready(function () {
                         })
                         .ToolBar(toolBar => toolBar.Save())
                         .Editable(editable => editable.Mode(GridEditMode.InCell))
+                        //.Navigatable()
                         .DataSource(dataSource => dataSource
                             .Ajax()
                             .Batch(true)
@@ -129,6 +130,7 @@ $(document).ready(function () {
 
                         )
                         .Pageable()
+                        .Navigatable()
                         .Sortable()
                         .ToClientTemplate())
                 

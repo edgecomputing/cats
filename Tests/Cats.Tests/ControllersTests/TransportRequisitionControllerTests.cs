@@ -15,6 +15,7 @@ using NUnit.Framework;
 using System.Web;
 using System.Security.Principal;
 using Cats.Services.Security;
+using log4net;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -103,8 +104,8 @@ namespace Cats.Tests.ControllersTests
 
             var userAccountService = new Mock<IUserAccountService>();
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "xx", DatePreference = "AM" });
-
-            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object, _workflowStatusService.Object, userAccountService.Object);
+            var logService = new Mock<ILog>();
+            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object, _workflowStatusService.Object, userAccountService.Object,logService.Object);
             _transportRequisitionController.ControllerContext = controllerContext.Object;
         }
 

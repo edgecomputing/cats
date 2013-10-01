@@ -11,6 +11,7 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.ViewModelBinder;
 using Cats.Services.Security;
+using log4net;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -18,16 +19,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
     {
         private readonly IRationService _rationService;
         private readonly IRationDetailService _rationDetailService;
-        private readonly ICommodityService _commodityService;
+        private  readonly ICommodityService _commodityService;
         private readonly IUserAccountService _userAccountService;
+        private readonly ILog _log;
         
 
-        public RationController(IRationService rationService, ICommodityService commodityService, IRationDetailService rationDetailService, IUserAccountService userAccountService)
+        public RationController(IRationService rationService, ICommodityService commodityService, 
+                    IRationDetailService rationDetailService, IUserAccountService userAccountService,ILog log)
         {
             this._rationService = rationService;
             this._rationDetailService = rationDetailService;
             this._commodityService = commodityService;
             _userAccountService = userAccountService;
+            _log = log;
         }
         //
         // GET: /EarlyWarning/Ration/
@@ -117,7 +121,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(ex,_log);
+                    ModelState.AddModelError("Errors", ex.Message);
                 }
             }
             return PartialView("_Edit", rationViewModel);
@@ -143,7 +149,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(ex,_log);
+                    ModelState.AddModelError("Errors", ex.Message);
                 }
             }
             return PartialView("_Create", ration);

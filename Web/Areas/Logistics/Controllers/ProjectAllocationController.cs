@@ -9,6 +9,7 @@ using Cats.Models.Constant;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
 using Cats.Services.Transaction;
+using log4net;
 
 
 namespace Cats.Areas.Logistics.Controllers
@@ -32,6 +33,9 @@ namespace Cats.Areas.Logistics.Controllers
         private IHubAllocationService _hubAllocationService;
         private IReliefRequisitionService _requisitionService;
         private ITransactionService _transactionService;
+        private ILog _log;
+        
+
         public ProjectAllocationController(IRegionalRequestService reliefRequistionService
            , IFDPService fdpService
             , IAdminUnitService adminUnitService,
@@ -43,6 +47,7 @@ namespace Cats.Areas.Logistics.Controllers
             IShippingInstructionService shippingInstructionService, 
             IHubService hubService, 
             IHubAllocationService hubAllocationService,
+            ILog log,
             IReliefRequisitionService requisitionService, ITransactionService transactionservice)
         {
             this._regionalRequestService = reliefRequistionService;
@@ -58,6 +63,8 @@ namespace Cats.Areas.Logistics.Controllers
             this._hubAllocationService = hubAllocationService;
             this._requisitionService = requisitionService;
             this._transactionService = transactionservice;
+            this._log = log;
+
         }
 
         public ActionResult Index() {
@@ -212,9 +219,12 @@ namespace Cats.Areas.Logistics.Controllers
                 siCode = int.Parse(form["SICode"].ToString(CultureInfo.InvariantCulture));
                 isSICodeSelected = true;
             }
-            catch
-            {
-                siCode = null;
+            catch(Exception ex)
+            {   
+                 siCode = null;
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex,_log);
+               
             }
 
 
@@ -254,9 +264,13 @@ namespace Cats.Areas.Logistics.Controllers
                 _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation, requisitionId, isLastAssignment);
 
             }
-            catch
+            catch(Exception exception)
             {
-                 
+
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception,_log);
+                ModelState.AddModelError("Errors","Can't add new project code allocation");
+
             }
 
            if (isLastAssignment)
