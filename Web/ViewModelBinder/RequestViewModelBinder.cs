@@ -84,6 +84,7 @@ namespace Cats.ViewModelBinder
             request.RequistionDate = origin.RequistionDate;
             request.Status = origin.Status;
             request.Year = origin.Year;
+            request.RationID = origin.RationID;
             return request;
         }
 
