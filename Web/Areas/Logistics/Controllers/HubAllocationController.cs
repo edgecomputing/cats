@@ -32,7 +32,7 @@ namespace Cats.Areas.Logistics.Controllers
            IReliefRequisitionDetailService reliefRequisitionDetailService,
            IHubService hubService,
            IHubAllocationService hubAllocationService, 
-           IReliefRequisitionService reliefRequisitionService, IUserAccountService userAccountService)
+           IReliefRequisitionService reliefRequisitionService, IUserAccountService userAccountService,
             ILog log)
         {
             this._hubService = hubService;
@@ -138,7 +138,7 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 ModelState.AddModelError("Error","No approved requisitions or no requisition is selected.");
                 TempData["ModelState"] = ModelState;
-                return RedirectToAction("ApprovedRequesitions");
+                return RedirectToAction("ApprovedRequisitions");
             }
 
            _requisitionDetail = requisitionDetail.ToArray();
@@ -164,7 +164,7 @@ namespace Cats.Areas.Logistics.Controllers
                                              string datepicker, string rNumber)
         {
             if (rNumber.Trim() == string.Empty)
-                return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+                return RedirectToAction("ApprovedRequisitions", "HubAllocation");
 
             var userName = HttpContext.User.Identity.Name;
             var user = _userAccountService.GetUserDetail(userName);
@@ -209,10 +209,10 @@ namespace Cats.Areas.Logistics.Controllers
 
 
                 }
-                return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+                return RedirectToAction("ApprovedRequisitions", "HubAllocation");
 
             }
-            return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+            return RedirectToAction("ApprovedRequisitions", "HubAllocation");
         }
     }
 }
