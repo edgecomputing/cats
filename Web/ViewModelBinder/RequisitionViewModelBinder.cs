@@ -32,7 +32,7 @@ namespace Cats.ViewModelBinder
                requisition. RequisitionID = reliefRequisition.RequisitionID;
                 requisition.CommodityID = reliefRequisition.CommodityID;
                requisition. ZoneID = reliefRequisition.ZoneID;
-               requisition. Zone = reliefRequisition.AdminUnit.Name;
+            requisition.Zone = reliefRequisition.AdminUnit1.Name;
                requisition. Commodity = reliefRequisition.Commodity.Name;
 
 
