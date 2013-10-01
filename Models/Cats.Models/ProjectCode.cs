@@ -10,5 +10,11 @@ namespace Cats.Models
     {
         public int ProjectCodeID { get; set; }
         public string Value { get; set; }
+        public virtual ICollection<ProjectCodeAllocation> ProjectCodeAllocations { get; set; }
+        public ProjectCode()
+        {
+            this.ProjectCodeAllocations = new List<ProjectCodeAllocation>();
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Helpers
+@using LanguageHelpers.Localization
 @using Cats.Services.Security
 @model IEnumerable<Cats.Models.ProjectCodeAllocation>
 
@@ -47,121 +48,143 @@
  
 </script>
 <h5 align="right"> Metric: @unitPreference </h5>
-<div class="form-horizontal well">
-    <div class="control-group">
-        <div class=control-label> @Translator.Translate("Allocated Amount")</div>
+<div class="form-horizontal">
+<div class="row" >
+    <div class ="span6">
+        <div class="control-group">
+            <div class=control-label> @Translator.Translate("Allocated Amount")</div>
             <div class="controls">
                 <input type="text" id="allocated" name="allocated" value="@ViewBag.Allocated" readonly="readonly"/>
                
             </div>
         
-    </div>
-    <div class="control-group">
-        <div class="control-label">
-             @Translator.Translate("SI amount Allocated"): </div>
-            <div class="controls">
-                  <input type="text" id="si" name="si" value="@ViewBag.AmountSIAssined" readonly="readonly"/>
-               
-            </div>
-        
-    </div>
-    <div class="control-group">
-        <div class="control-label">
-             @Translator.Translate("PC amount Allocated"): </div>
-        <div class="controls">
-            <input type="text" id="pc" name="pc" value="@ViewBag.AmountPCAssigned" readonly="readonly"/>
-               
         </div>
-        
-    </div>
-    <div class="control-group">
-        <div class="control-label">
-            @Translator.Translate("Total Amount Assined")</div>
-        <div class="controls">
-            <input type="text" id="total" name="total" value="@ViewBag.Total" readonly="readonly" />
-               
-        </div>
-        
-    </div>
-    <div class="control-group">
-        <div class="control-label">
-             @Translator.Translate("Requisition No") </div>
-            <div class="controls">
-                  <input type="text" id="ReqNo" name="ReqNo" value="@ViewBag.ReqNo" readonly="readonly"/>
-               
-            </div>
-        
     </div>
     
-    <div class="control-group">
-        <div class="control-label">
-             @Translator.Translate("Remaining") </div>
+    <div class="span4">
+        <div class="control-group">
+            <div class="control-label">
+                @Translator.Translate("SI amount Allocated"): </div>
             <div class="controls">
-                  <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+                <input type="text" id="si" name="si" value="@ViewBag.AmountSIAssined" readonly="readonly"/>
                
             </div>
         
+        </div>
     </div>
 </div>
+    
+<div class="row" >
+    <div class="span6">
+        <div class="control-group">
+            <div class="control-label">
+                @Translator.Translate("PC amount Allocated"): </div>
+            <div class="controls">
+                <input type="text" id="pc" name="pc" value="@ViewBag.AmountPCAssigned" readonly="readonly"/>
+               
+            </div>
+        
+        </div>
+    </div>
+    
+    <div class="span4">
+        <div class="control-group">
+            <div class="control-label">
+                @Translator.Translate("Total Amount Assigned")</div>
+            <div class="controls">
+                <input type="text" id="total" name="total" value="@ViewBag.Total" readonly="readonly" />
+               
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+    <div class="row" >
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Translator.Translate("Requisition No") </div>
+                <div class="controls">
+                    <input type="text" id="ReqNo" name="ReqNo" value="@ViewBag.ReqNo" readonly="readonly"/>
+               
+                </div>
+        
+            </div>
+        </div>
+    
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Translator.Translate("Remaining") </div>
+                <div class="controls">
+                    <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+               
+                </div>
+        
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <p>
     @Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining }, null)
 </p>
 <table id="ProjectCode">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.HubAllocationID)
+            </th>*@
+            <th>
+                @Html.DisplayName("Project code")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProjectCodeID)
+                    @Html.DisplayName("Project Code assigned Amount")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount_FromProject)
+                @Html.DisplayName("Shipping instruction")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SINumberID)
-            </th>
+                @Html.DisplayName("Shipping instruction assigned Amount")
+                </th>
+           @* <th>
+                @Html.DisplayName("Allocation made by")
+            </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Amount_FromSI)
+                @Html.DisplayName("Alloccation Date")
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AllocatedBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AlloccationDate)
-            </th>
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
     
     <tr>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.HubAllocationID)
-        </td>
+        </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.ProjectCodeID)
+            @Html.DisplayFor(modelItem => item.ProjectCode.Value)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount_FromProject)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SINumberID)
+            @Html.DisplayFor(modelItem => item.ShippingInstruction.Value)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount_FromSI)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.AllocatedBy)
-        </td>
+        </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.AlloccationDate)
+            @item.AlloccationDate.ToCTSPreferedDateFormat(Html.UserCalendarPreference())
+            @*@Html.DisplayFor(modelItem => item.AlloccationDate)*@
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectCodeAllocationID }) |
-           
-        </td>
+       
     </tr>
 }
 </tbody>

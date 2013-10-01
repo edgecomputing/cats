@@ -25,12 +25,12 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Amount_FromProject).HasColumnName("Amount_FromProject");
             this.Property(t => t.Amount_FromSI).HasColumnName("Amount_FromSI");
             // Relationships
-            //this.HasOptional(t => t.ProjectCode)
-            //    .WithMany(t => t.ProjectCodeAllocations)
-            //    .HasForeignKey(d => d.ProjectCodeID);
-            //this.HasOptional(t => t.ShippingInstruction)
-            //    .WithMany(t => t.ProjectCodeAllocations)
-            //    .HasForeignKey(d => d.SINumberID);
+            this.HasOptional(t => t.ProjectCode)
+                .WithMany(t => t.ProjectCodeAllocations)
+                .HasForeignKey(d => d.ProjectCodeID);
+            this.HasOptional(t => t.ShippingInstruction)
+                .WithMany(t => t.ProjectCodeAllocations)
+                .HasForeignKey(d => d.SINumberID);
             //this.HasRequired(t => t.UserProfile)
             //    .WithMany(t => t.ProjectCodeAllocations)
             //    .HasForeignKey(d => d.AllocatedBy);
