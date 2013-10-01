@@ -12,53 +12,51 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("RequestFromPlan", "Request")" title="save"></a>
 }
-<div style="display:none;">
-@using (Html.BeginForm("RequestFromPlan", "Request", FormMethod.Post, new { id = "frm_create_request" }))
-{
-@Html.HiddenFor(model => model.HRDPSNPPlan.ProgramID)
-@Html.HiddenFor(model => model.HRDPSNPPlan.RegionID)
-@Html.HiddenFor(model => model.HRDPSNPPlan.Month)
-@Html.HiddenFor(model => model.HRDPSNPPlan.Year)
-@Html.HiddenFor(model => model.HRDPSNPPlan.DonorID)
-    for (int i = 0; i < Model.BeneficiaryInfos.Count; i++)
+<div style="display: none;">
+    @using (Html.BeginForm("RequestFromPlan", "Request", FormMethod.Post, new { id = "frm_create_request" }))
     {
-        @Html.TextBoxFor(model=>model.BeneficiaryInfos[i].FDPID)
-        @Html.TextBoxFor(model=>model.BeneficiaryInfos[i].Beneficiaries)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.ProgramID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.RegionID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.Month)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.Year)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.DonorID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.RationID)
+        for (int i = 0; i < Model.BeneficiaryInfos.Count; i++)
+        {
+        @Html.TextBoxFor(model => model.BeneficiaryInfos[i].FDPID)
+        @Html.TextBoxFor(model => model.BeneficiaryInfos[i].Beneficiaries)
         <br />
+        }
     }
-}
-    </div>
+</div>
 @(Html.Kendo().Grid(Model.BeneficiaryInfos).Name("grid")
-.Columns(col=>
+.Columns(col =>
              {
                  col.Bound(m => m.FDPName);
                  col.Bound(m => m.Beneficiaries);
-                // col.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
+                 // col.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
                  col.Command(
                      command => command.Destroy()
                      ).ClientFooterTemplate("<a href=''>000</a>");
-                 
+
 
              }).Pageable()
-             .DataSource(datasource=>datasource.Server()
-             .Model(model=>model.Id(p=>p.FDPID))
-             .Update(update=>update.Action("RequestFromPlan_Update","Request"))
-             .Destroy(destroy=>destroy.Action("RequestFromPlan_Destroy","Request"))))
+             .DataSource(datasource => datasource.Server()
+             .Model(model => model.Id(p => p.FDPID))
+             .Update(update => update.Action("RequestFromPlan_Update", "Request"))
+             .Destroy(destroy => destroy.Action("RequestFromPlan_Destroy", "Request"))))
 
 <script>
-    $(function ()
-    {
+    $(function () {
         $("tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
         $("thead tr").prepend("<th class='k-header'></th>");
         $("tfoot tr").prepend("<td class='k-header'></td>");
         $("tbody .checker").click(
             function (event) { $(this).parent().toggleClass("k-state-selected"); });
-        }
+    }
         );
 </script>
 <style>
-    .table-compact
-    {
-      
+    .table-compact {
     }
 </style>

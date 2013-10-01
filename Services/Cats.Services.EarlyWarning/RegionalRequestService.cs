@@ -168,6 +168,7 @@ namespace Cats.Services.EarlyWarning
             if (plan.ProgramID == 2)
             {
                 RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.Year == plan.Year).FirstOrDefault();
+               result.HRDPSNPPlan.RationID= psnpplan.RationID;
                 if (psnpplan != null)
                 {
                     beneficiaryInfos = PSNPToRequest(psnpplan);
@@ -176,6 +177,7 @@ namespace Cats.Services.EarlyWarning
             else if (plan.ProgramID == 1)
             {
                 HRD hrd=_unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
+                result.HRDPSNPPlan.RationID = hrd.RationID;
                 if (hrd != null)
                 {
                     List<HRDDetail> hrddetail =
