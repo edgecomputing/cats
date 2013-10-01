@@ -16,7 +16,13 @@
            // $(this).focus(function () { check_parse(this) });
             var eth_date_input = $(htm).insertAfter($(this))
                 .val(eth_date.toString())
-                .click(function () { _ethdatepicker_show(this) })
+                .click(function () { _ethdatepicker_show(this); });
+                    
+           /* if ($(that).attr("readonly") == "readonly") {
+                eth_date_input.attr("readonly", "readonly");
+
+            }*/
+           // if
                 
             eth_date_input.data("greg_input", this);
             eth_date_input.blur(function (e) { _handle_blur(e,this) });

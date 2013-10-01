@@ -141,6 +141,7 @@
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .Pageable()
     .Sortable()
+    .Navigatable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
      .Events(ev => ev.DataBound("resetRowNumber"))

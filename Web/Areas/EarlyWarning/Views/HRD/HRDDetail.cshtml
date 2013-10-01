@@ -50,11 +50,11 @@
          })
       .ToolBar(toolBar => toolBar.Save())
       .Editable(editable => editable.Mode(GridEditMode.InCell))
-      .Events(events => events.DataBound("onDataBound"))
       .Pageable()
       .Groupable()
       .Sortable()
       .Selectable(t=>t.Mode(GridSelectionMode.Single	))
+      .Navigatable()
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()

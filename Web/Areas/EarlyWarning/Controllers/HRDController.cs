@@ -13,6 +13,7 @@ using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using log4net;
 
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -32,12 +33,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IWorkflowStatusService _workflowStatusService;
         private ISeasonService _seasonService;
         private IUserAccountService _userAccountService;
+        private ILog _log;
+
 
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService,
                              IRationService rationservice, IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService, ICommodityService commodityService,
                              INeedAssessmentDetailService needAssessmentDetailService, INeedAssessmentHeaderService needAssessmentService,
-                             IWorkflowStatusService workflowStatusService, ISeasonService seasonService,IUserAccountService userAccountService)
+                             IWorkflowStatusService workflowStatusService, ISeasonService seasonService,IUserAccountService userAccountService, ILog log)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -50,6 +53,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _workflowStatusService = workflowStatusService;
             _seasonService = seasonService;
             _userAccountService = userAccountService;
+            _log = log;
         }
 
         public ActionResult Index()
@@ -346,8 +350,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
                 catch (Exception exception)
                 {
-
-                    ViewBag.Error = "HRD for this Season and Year already Exists";
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(exception,_log);
+                    ModelState.AddModelError("Errors", "HRD for this Season and Year already Exists");
+                    //ViewBag.Error = "HRD for this Season and Year already Exists";
                 }
 
             }

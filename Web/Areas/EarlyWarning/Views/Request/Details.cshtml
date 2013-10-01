@@ -21,19 +21,23 @@
         <a class="btn toolbar-btn " href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"  data-buttontype="">Allocation</a>
         <a class="btn toolbar-btn " href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })" data-buttontype="">Approve</a>
     }
-    <a class="btn toolbar-btn " href="@Url.Action("ReconcileRequest", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype="">Reconcile</a>
-    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+    
+    @if(modelRequest.Program != "PSNP"){
+        <a class="btn toolbar-btn " href="@Url.Action("ReconcileRequest", "Request", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID})" data-buttontype="">Reconcile</a>
+    }
+
+     @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
     {
         <a class="btn toolbar-btn "   href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype=""><i class="icon-plus"></i>Requisiton</a>
     }
 
 
 }
+
 <h4 class="page-header">Regional Request Allocaiton</h4>
-<div class="
-    ">
+<div class="">
     <div>
-        <div class="form-horizontal well">
+        <div class="form-horizontal ">
             <table class="table-condensed">
                 <tr>
                     <td>

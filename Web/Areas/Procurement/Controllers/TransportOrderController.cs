@@ -15,6 +15,7 @@ using Cats.Services.EarlyWarning;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Areas.Logistics.Models;
+using log4net;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -26,10 +27,12 @@ namespace Cats.Areas.Procurement.Controllers
 
         private readonly ITransportRequisitionService _transportRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
+        private readonly ILog _log;
 
 
-
-        public TransportOrderController(ITransportOrderService transportOrderService, ITransportRequisitionService transportRequisitionService, IWorkflowStatusService workflowStatusService)
+        public TransportOrderController(ITransportOrderService transportOrderService, 
+            ITransportRequisitionService transportRequisitionService, 
+            IWorkflowStatusService workflowStatusService,ILog log)
         {
             this._transportOrderService = transportOrderService;
             this._transportRequisitionService = transportRequisitionService;
@@ -87,9 +90,10 @@ namespace Cats.Areas.Procurement.Controllers
                 var requisionIds = (from item in input where (item.IsSelected != null ? ((string[])item.IsSelected)[0] : "off") == "on" select item.Number).ToList();
                 return CreateTransportOrder(requisionIds);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception,_log);
                 return View("TransportRequisitions", "TransportOrder");
             }
 

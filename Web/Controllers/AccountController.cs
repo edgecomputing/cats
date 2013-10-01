@@ -18,13 +18,13 @@ namespace Cats.Controllers
         private readonly ILog _log;
 
 
-        public AccountController(IUserAccountService userAccountService,ILog log)
+        public AccountController(IUserAccountService userAccountService, ILog log)
         {
             service = userAccountService;
             _log = log;
-           
+
         }
-        
+
         [AllowAnonymous]
 
         public ActionResult Login()
@@ -62,14 +62,14 @@ namespace Cats.Controllers
 
                 ViewBag.HasError = true;
                 ViewBag.ErrorMessage = exception.ToString();
-                
+
                 ModelState.AddModelError("", exception.Message);
             }
 
             // If we got this far, something failed, redisplay form            
             return View(model);
         }
-        
+
         [Authorize]
 
         public ActionResult Logout()

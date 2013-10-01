@@ -31,7 +31,7 @@ namespace Cats.Web.Adminstration.Controllers
         }
         public ActionResult Store_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var store = _storeService.GetAllStore();
+            var store = _storeService.GetAllStore().OrderByDescending(m=>m.StoreID);
             var storeToDisplay = GetStores(store).ToList();
             return Json(storeToDisplay.ToDataSourceResult(request));
         }
@@ -115,7 +115,7 @@ namespace Cats.Web.Adminstration.Controllers
                 _storeService.DeleteStore(store);
                 return RedirectToAction("Index");
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
     }

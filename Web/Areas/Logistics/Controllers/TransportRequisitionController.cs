@@ -14,6 +14,7 @@ using Cats.Services.Logistics;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Services.Security;
+using log4net;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -22,12 +23,15 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ITransportRequisitionService _transportRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IUserAccountService _userAccountService;
+        private readonly ILog _log;
         
-        public TransportRequisitionController(ITransportRequisitionService transportRequisitionService,IWorkflowStatusService workflowStatusService, IUserAccountService userAccountService)
+        public TransportRequisitionController(ITransportRequisitionService transportRequisitionService,
+            IWorkflowStatusService workflowStatusService, IUserAccountService userAccountService,ILog log)
         {
             this._transportRequisitionService = transportRequisitionService;
             _workflowStatusService = workflowStatusService;
             _userAccountService = userAccountService;
+            _log = log;
         }
         //
         // GET: /Logistics/TransportRequisition/
@@ -138,10 +142,11 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 result1=transportReqInput.ToList();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                
-                
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception, _log);
+                //TODO: modelstate should be put
             }
             
             return View(result1);
@@ -183,9 +188,12 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 result1 = transportReqInput.ToList();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
 
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception, _log);
+                //TODO: modelstate should be put
 
             }
 

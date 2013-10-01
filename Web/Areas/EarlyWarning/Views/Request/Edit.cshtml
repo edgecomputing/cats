@@ -1,34 +1,39 @@
 ﻿@model  Cats.Models.RegionalRequest
-
+@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<div class="well">
-    <h3> Edit Regional Request</h3>
-</div>
+
+    <h4 class="page-header">@Translator.Translate( "Edit Regional Request")</h4>
+
 @section LeftBar
 {
     @Html.Partial("_RegionalRequestLeftBar")
 
 }
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmEdit"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Details","Request",new {id=Model.RegionalRequestID})"></a>
+}
  @*<a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning" ,id=Model.RegionalRequestID})"><i class="icon-chevron-left"></i>Back</a>*@
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","Request",FormMethod.Post,new {id="frmEdit"}))
 {
     <div class="form-horizontal well">
-        <fieldset>
-            <legend></legend>
+      
             @Html.HiddenFor(m=>m.RegionalRequestID)
-            @Html.HiddenFor(m => m.Status);
+            @Html.HiddenFor(m => m.Status)
             
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.RegionID, "Region")
                 </div>
-                <div class="controls">
-                    @Html.DropDownList("RegionID", String.Empty)
+                <div class="controls ">
+                    @Html.HiddenFor(m=>m.RegionID)
+                    @Html.TextBoxFor(m=>m.AdminUnit.Name,new {@class="disabled"})
                     @Html.ValidationMessageFor(model => model.RegionID)
                 </div>
             </div>
@@ -38,7 +43,8 @@
                     @Html.LabelFor(model => model.ProgramId, "Program")
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("ProgramId", String.Empty)
+                    @Html.HiddenFor(m => m.ProgramId)
+                    @Html.TextBoxFor(m=>m.Program.Name,new {@class="disabled"})
                     @Html.ValidationMessageFor(model => model.ProgramId)
                 </div>
             </div>
@@ -88,7 +94,7 @@
                    
                 </div>
                 <div class="controls">
-                     <input class="cats-datepicker2" type="text" id="RequistionDate" name="RequistionDate"/>
+                     @Html.TextBoxFor(model => model.RequistionDate, new { @class = " cats-datepicker2", @placeholder = "0" })  
                     @Html.ValidationMessageFor(model => model.RequistionDate)
                 </div>
             </div>
@@ -101,13 +107,8 @@
                     @Html.ValidationMessageFor(model => model.Remark)
                 </div>
             </div>
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" value="Save Changes" class="btn btn-success"/>
-                    <a class="btn btn-success" href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning",id=Model.RegionalRequestID})">Cancel</a>
-                    </div>
-            </div>
-        </fieldset>
+           
+       
 
 
 
