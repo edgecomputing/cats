@@ -105,7 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommoidtyTypeControllerTests.cs" />
+    <Compile Include="DonorControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoreControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

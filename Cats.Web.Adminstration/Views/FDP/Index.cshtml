@@ -1,0 +1,235 @@
+﻿@using Cats.Models
+@using Cats.Web.Administration.Helpers
+@using Cats.Web.Adminstration.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this FDP?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+@{
+    ViewBag.Title = Html.Translate("Final Destination Points");
+}
+<div class="row">
+    <h2>@Html.Translate("Manage Final Distribution Points")</h2>
+    Select a Woreda from the tree to manage FDPs registered under it.
+</div>
+    
+<div id="div_tree_view" class="span3 well">
+
+@(Html.Kendo().TreeView()
+        .Name("AdminUnitTreeView")
+        .Animation(animation => animation.Expand(open => open.Fade(FadeDirection.In)))
+        .Events(events => events
+           
+            .Select("onSelect")
+            )
+        .Items(treeview =>
+        {
+           
+            treeview.Add().Text("Regions").Enabled(false)
+                .SpriteCssClasses("folder")
+                .Expanded(true)
+                .Items(root =>
+                {
+                    foreach (var region in ViewBag.RegionCollection)
+                    {
+                        root.Add().Text((string)region.Name)
+                            .SpriteCssClasses("folder")
+                           // .Expanded(true)
+                            .Items(zones =>
+                            {
+                                foreach( var zone in region.AdminUnit1)
+                                {
+                                    zones.Add().Text((string)zone.Name)
+                                    
+                                    .SpriteCssClasses("image")
+                                    .Items(woredas =>
+                                    {
+                                        foreach (var woreda in zone.AdminUnit1)
+                                        {
+                                            woredas.Add().Text((string)woreda.Name)
+                                           .Id(woreda.AdminUnitID + "")
+                                           
+                                           .SpriteCssClasses("pdf");
+                                           
+                                        }
+                                    }); 
+                                }
+                                
+                            });
+                    } 
+                   
+                   
+                    
+                });
+        })
+    )
+</div>
+
+<div class="span7">
+     
+   @* @(Html.Kendo().Grid<FDPViewModel>()
+          .Name("FDPGrid")
+          .Columns(columns =>
+                       {
+                           columns.Bound(p => p.Name);
+                           columns.Bound(p => p.AdminUnit);
+                           columns.Command(command => { command.Edit(); command.Destroy(); });
+                       })
+          .ToolBar(toolbar => toolbar.Create())
+          .Editable(editable => editable.Mode(GridEditMode.PopUp))
+          .Pageable()
+          .Sortable()
+          .Selectable(t=>t.Mode(GridSelectionMode.Single	))
+          .Scrollable()
+          //.HtmlAttributes(new { style = "height:430px;" })
+          .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(20)
+                                        // .Events(events => events.Error("error_handler"))
+                                        .Model(model => model.Id(p => p.FDPID))
+                                        .Create("FDP_Create", "FDP")
+                                        .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
+                                        .Update(update => update.Action("FDP_Update", "FDP"))
+                                        .Destroy(update => update.Action("FDP_Destroy", "FDP"))
+          ))
+    *@
+    
+    @(Html.Kendo().Grid<FDPViewModel>()
+.Name("grid")
+.Columns(columns=>
+        {
+            columns.Bound(c => c.Name);
+           // columns.Bound(c => c.CommodityTypeId);
+            columns.Command(c => c.Destroy()).Width(100);
+        }).ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
+     .Model(m=>m.Id(t=>t.FDPID))
+    .Read(read=>read.Action("FDP_Read","FDP").Data("selectedWoredaId"))
+    .Create(create=>create.Action("FDP_Create","FDP").Data("selectedWoredaId"))
+    .Update("FDP_Update","FDP")
+    .Destroy("FDP_Destroy","FDP")
+    )
+    )
+
+</div>
+<style scoped>
+    .demo-section {
+        width: 200px;
+    }
+
+    #treeview .k-sprite {
+        background-image: url("@Url.Content("~/Content/web/treeview/coloricons-sprite.png")");
+    }
+
+    .rootfolder { background-position: 0 0; }
+    .folder { background-position: 0 -16px; }
+    .pdf { background-position: 0 -32px; }
+    .html { background-position: 0 -48px; }
+    .image { background-position: 0 -64px; }
+</style>
+<script>
+    var selectedWoreda;
+    
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    
+    $(function () {
+      //  $("a.k-grid-add").removeClass("k-grid-add");
+      //  var treeView = $("#AdminUnitTreeView").data("kendoTreeView");
+        //treeView.select(".k-item:first");
+        //$("#AdminUnitTreeView").data("kendoTreeView").trigger("select");
+        //$("#AdminUnitTreeView").data("kendoTreeView").expand(".k-item");
+        //var getitem = treeView.dataSource.get(55);
+        //treeView.findByUid(getitem.uid);
+        //var selectitem = treeView.findByUid(getitem.uid);
+        //treeView.select(selectitem);
+        //onSelect(selectitem);
+        //var grid = $("#FDPGrid").data("kendoGrid");
+        //grid.dataSource.read();
+    });
+    
+    function selectedWoredaId() {
+        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+        var obj = { adminUnitID: selectedWoreda };
+        return obj;
+    }
+    
+    function CurrentSelectedTreeNode() {
+        return {
+            intEmpky: $("#treeview").current()
+        };
+    }
+    
+    function onSelect(e) {
+        var id = this.dataItem(e.node).id;
+        selectedWoreda = id;
+        if (id != null) {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        }
+    }
+    function show_obj(obj, name) {
+        var htm = "<ul>";
+        for (var i in obj) {
+            htm += "<li>" + i + ":" + typeof (obj[i]) + "</li>";
+        }
+        htm += "</ul>";
+        return htm;
+    }
+    
+    var timer;
+    function FDPSaveSuccess(request, status, error) {
+        var msg = '<div class="cats_success">Success: FDP Saved.</div>';
+        $(".message-window").html(msg).delay(800).hide().fadeIn();
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+        }, 5000);
+    }
+
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>

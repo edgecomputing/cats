@@ -29,7 +29,7 @@ namespace Cats.Web.Adminstration.Controllers
         public ActionResult Donor_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var donor = _donorService.GetAllDonor();
+            var donor = _donorService.GetAllDonor().OrderByDescending(m => m.DonorID);
             var donorToDisplay = GetDonors(donor).ToList();
             return Json(donorToDisplay.ToDataSourceResult(request));
         }
