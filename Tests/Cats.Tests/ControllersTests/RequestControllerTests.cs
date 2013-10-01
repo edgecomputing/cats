@@ -294,10 +294,11 @@ namespace Cats.Tests.ControllersTests
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
             var log = new Mock<ILog>();
             log.Setup(t => t.Error(It.IsAny<object>()));
-           
-           
-          
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object,userAccountService.Object,log.Object);
+
+
+            var hrdServiceDetail = new Mock<IHRDDetailService>();
+
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object, userAccountService.Object, log.Object, hrdServiceDetail.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      
