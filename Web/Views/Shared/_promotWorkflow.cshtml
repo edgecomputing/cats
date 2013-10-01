@@ -16,16 +16,18 @@
 
                 <input type="hidden" name="ParentBusinessProcessID" id="ParentBusinessProcessID" class="input-xlarge" value="" />
                 <input type="hidden" id="stateID" name="StateID" class="input-xlarge " />
-                <div class="control-group">
+                <div style="display: none">
+            <div class="control-group">
                     <div class="control-label">Date</div>
                     <div class="controls">
-                        <input name="DatePerformed" class="input-xlarge cats-datepicker2" value="" />
+                        <input readonly="readonly" name="DatePerformed" class="input-xlarge cats-datepicker2" value="" />
                     </div>
-                </div>
+                </div></div>
+                
                 <div class="control-group">
                     <div class="control-label">PerformedBy</div>
                     <div class="controls">
-                        <input name="PerformedBy" class = "input-xlarge" value="@user.Profile.UserName"/>
+                        <input readonly="readonly" name="PerformedBy" class = "input-xlarge" value="@user.Profile.UserName"/>
                     </div>
                 </div>
                 <div class="control-group">

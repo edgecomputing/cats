@@ -21,6 +21,45 @@ namespace Cats.Services.EarlyWarning
        {
            this._unitOfWork = unitOfWork;
        }
+
+        public void SetDefault(int rationId)
+        {
+            var CurrentRation = FindById(rationId);
+            if (CurrentRation!=null)
+            {
+                UnsetDefault();
+                CurrentRation.IsDefaultRation = true;
+                SetSettingValue("DefaultRation", rationId + "");
+                _unitOfWork.Save();
+            }
+        }
+        public void SetSettingValue(string name, string value)
+        {
+            List<ApplicationSetting> ret = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == name);
+            if (ret.Count == 1)
+            {
+                ret[0].SettingValue = value;
+                _unitOfWork.ApplicationSettingRepository.Edit(ret[0]);
+              //  UpdateApplicationSetting(ret[0]);
+                return;
+            }
+            ApplicationSetting apset = new ApplicationSetting { SettingName = name, SettingValue = value };
+            _unitOfWork.ApplicationSettingRepository.Add(apset);
+            //AddApplicationSetting(apset);
+
+        }
+        public void UnsetDefault()
+        {
+            var rations = FindBy(r => r.IsDefaultRation == true).ToList();
+            if (rations!=null)
+            {
+                foreach (var ration in rations)
+                {
+                    ration.IsDefaultRation = false;
+                   
+                }
+            }
+        }
        #region Default Service Implementation
        public bool AddRation(Ration ration)
        {
