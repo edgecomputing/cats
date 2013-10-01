@@ -6,6 +6,10 @@ using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
 using Ninject;
 using log4net;
+using CommodityTypeService = Cats.Services.Administration.CommodityTypeService;
+using DonorService = Cats.Services.Administration.DonorService;
+using ICommodityTypeService = Cats.Services.Administration.ICommodityTypeService;
+using IDonorService = Cats.Services.Administration.IDonorService;
 
 
 
@@ -54,13 +58,20 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<IUnitService>().To<UnitService>();
             kernel.Bind<IStoreService>().To<StoreService>();
             kernel.Bind<ICommodityGradeService>().To<CommodityGradeService>();
+
+            kernel.Bind<IHubService>().To<HubService>();
+            kernel.Bind<IHubOwnerService>().To<HubOwnerService>();
             kernel.Bind<ICommoditySourceService>().To<CommoditySourceService>();
             kernel.Bind<ICommodityService>().To<CommodityService>();
             kernel.Bind<IAuditService>().To<AuditService>();
             kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<IUserProfileService>().To<UserProfileService>();
             kernel.Bind<IUserAccountService>().To<UserAccountService>();
+
+            kernel.Bind<IFDPService>().To<FDPService>();
+            kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
             
+
         }
     }
 }

@@ -58,6 +58,7 @@ namespace Cats.Tests.ControllersTests
 
            var result = _currencyController.Currency_Read(currency);
            Assert.IsNotNull(result);
+           Assert.IsInstanceOf<JsonResult>(result); 
 
            //Assert.AreEqual(1, (((DataSourceResult)result.Data).Total));
        }

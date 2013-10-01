@@ -1,13 +1,14 @@
-﻿using Cats.Services.Administration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Services.Administration;
 using Cats.Web.Adminstration.Models.ViewModels;
 using Cats.Web.Adminstration.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using ICommodityTypeService = Cats.Services.Administration.ICommodityTypeService;
 
 namespace Cats.Web.Adminstration.Controllers
 {
