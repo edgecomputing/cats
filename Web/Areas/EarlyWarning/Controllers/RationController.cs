@@ -238,5 +238,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public ActionResult SetDefault(int id)
+        {
+            _rationService.SetDefault(id);
+            return RedirectToAction("Index");
+        }
     }
 }
