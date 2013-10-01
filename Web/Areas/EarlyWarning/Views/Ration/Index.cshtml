@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @using Kendo.Mvc.UI
 @using Cats.Helpers
+@using LanguageHelpers.Localization
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -25,17 +26,14 @@
 .Columns(columns =>
              {
                  columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
-                 columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
-                // columns.Bound(p => p.CreatedBy);
-               
-                 //if (Html.UserCalendarPreference() == "EC")
-                 //{ columns.Bound(p => p.CreatedDateEC); }
-                 //else
-                 //{ columns.Bound(p => p.CreatedDate); }
-                 columns.Bound(p => p.DateCreated);
-                 
+                 columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a class='default_#=IsDefaultRation#' href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
 
-               //  columns.Bound(p => p.IsDefaultRation);
+                 columns.Bound(p => p.DateCreated).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>");
+
+                 columns.Bound(p => p.RationID).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
+
+                
+              
              }).Events(ev => ev.DataBound("resetRowNumber"))
              .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration")).Pageable())
 @section Scripts
@@ -61,4 +59,20 @@
         });
     });
     
+    function SetDefault(rationId) {
+        
+      
+        window.location = "@Url.Action("SetDefault", "Ration")" + "/" + rationId;
+
+    }
 </script>
+
+<style>
+    .default_true {
+        font-weight: bold;
+    }
+    .set_default_true {
+        display: none;
+    }
+</style>
+
