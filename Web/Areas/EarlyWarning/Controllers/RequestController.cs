@@ -32,7 +32,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IRegionalRequestDetailService _regionalRequestDetailService;
         private ICommonService _commonService;
         private IHRDService _hrdService;
-
+        private IHRDDetailService _HRDDetailService;
         private IApplicationSettingService _applicationSettingService;
         private readonly ILog _log;
         public RequestController(IRegionalRequestService reliefRequistionService,
@@ -42,8 +42,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 IHRDService hrdService,
                                 IApplicationSettingService ApplicationSettingService,
                                 IUserAccountService userAccountService,
-            ILog log
-                                )
+            ILog log, IHRDDetailService hrdDetailService)
         {
             _regionalRequestService = reliefRequistionService;
             _fdpService = fdpService;
@@ -53,6 +52,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _applicationSettingService = ApplicationSettingService;
             _userAccountService = userAccountService;
             _log = log;
+            _HRDDetailService = hrdDetailService;
         }
 
 
@@ -264,6 +264,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private RegionalRequestDetailViewModel BindRegionalRequestDetailViewModel(RegionalRequestDetail regionalRequestDetail)
         {
+
+
+            
+
+            
             return new RegionalRequestDetailViewModel()
                        {
                            Beneficiaries = regionalRequestDetail.Beneficiaries,
@@ -272,9 +277,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                            RegionalRequestID = regionalRequestDetail.RegionalRequestID,
                            RegionalRequestDetailID = regionalRequestDetail.RegionalRequestDetailID,
                            Woreda = regionalRequestDetail.Fdp.AdminUnit.Name,
-                           Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name
+                           Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
+                           PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year, regionalRequestDetail.RegionalRequest.Status, regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
                        };
-
+           
+        }
+        private int GetPlanned(int year, int season, int woreda)
+        {
+            var HRD = _HRDDetailService.Get(t => t.HRD.Season.SeasonID == season && t.HRD.Year == year && t.WoredaID == woreda).SingleOrDefault();
+            if (HRD != null)
+            {
+                return HRD.NumberOfBeneficiaries;
+            }
+            else return -1;
         }
         private RegionalRequestDetail BindRegionalRequestDetail(RegionalRequestDetailViewModel regionalRequestDetailViewModel)
         {
