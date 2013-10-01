@@ -169,20 +169,6 @@ namespace Cats.Services.Hub
             
         }
 
-        public List<AdminUnit> GetZonesByRegion(int regionId)
-        {
-            return _unitOfWork.AdminUnitRepository.Get(
-                  t => t.AdminUnitTypeID == ZONETYPE && t.ParentID == regionId, t => t.OrderBy(x => x.Name)).ToList();
-
-        }
-
-        public List<AdminUnit> GetWoredasByZone(int zoneId)
-        {
-            return _unitOfWork.AdminUnitRepository.Get(
-                  t => t.AdminUnitTypeID == WOREDATYPE && t.ParentID == zoneId, t => t.OrderBy(x => x.Name), "AdminUnit2").ToList();
-
-        }
-
 
 
         /// <summary>

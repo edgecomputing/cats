@@ -91,7 +91,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
             regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
             regionalRequest.DonorID = hrdpsnpPlanInfo.HRDPSNPPlan.DonorID;
-            regionalRequest.RationID = _applicationSettingService.getDefaultRation();
+            regionalRequest.RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value:_applicationSettingService.getDefaultRation();
 
             regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
                                                       select new RegionalRequestDetail()
