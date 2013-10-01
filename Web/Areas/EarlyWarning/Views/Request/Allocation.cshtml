@@ -147,6 +147,8 @@
                                                {
                                                    model.Id(p => p.RegionalRequestDetailID);
                                                    model.Field(detail => detail.FDP).Editable(false);
+                                                   model.Field(detail => detail.Zone).Editable(false);
+                                                   model.Field(detail => detail.Woreda).Editable(false);
                                                })
                                     .Create(update => update.Action("Allocation_Create", "Request"))
 

@@ -20,8 +20,8 @@ namespace Cats.Models
         public System.DateTime AlloccationDate { get; set; }
 
         //public ProjectCodeAllocationInput Input { get; set; }
-        //public virtual ProjectCode ProjectCode { get; set; }
-        //public virtual ShippingInstruction ShippingInstruction { get; set; }
+        public virtual ProjectCode ProjectCode { get; set; }
+        public virtual ShippingInstruction ShippingInstruction { get; set; }
         //public virtual UserProfile UserProfile { get; set; }
         //public virtual HubAllocation HubAllocation { get; set; }
         

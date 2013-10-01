@@ -91,7 +91,7 @@ namespace Cats.Services.EarlyWarning
                                                         Amount = r.ReliefRequisitionDetails.Sum(a => a.Amount),
                                                         Status = int.Parse( r.Status.ToString()),
                                                         Region = r.AdminUnit.Name,
-                                                        Zone = r.AdminUnit.Name
+                                                        Zone = r.AdminUnit1.Name
                                      });
                                                    
 

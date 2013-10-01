@@ -15,6 +15,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
+using log4net;
 using Moq;
 using NUnit.Framework;
 
@@ -87,7 +88,9 @@ namespace Cats.Tests.ControllersTests
             var workflowSatusService = new Mock<IWorkflowStatusService>();
             var seasonService = new Mock<ISeasonService>();
 
-             var userAccountService = new Mock<IUserAccountService>();
+            var userAccountService = new Mock<IUserAccountService>();
+            var log = new Mock<ILog>();
+            
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
             {
                 UserName = "x",
@@ -109,7 +112,8 @@ namespace Cats.Tests.ControllersTests
                 needAssesmentDetailService.Object,
                 needAssesmentHeaderService.Object,
                 workflowSatusService.Object,
-                seasonService.Object,userAccountService.Object
+                seasonService.Object,userAccountService.Object,
+                log.Object
                 );
         }
 

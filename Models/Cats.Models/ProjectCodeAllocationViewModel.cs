@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public class ProjectCode
+    class ProjectCodeAllocationViewModel: ProjectCodeAllocation
     {
-        public int ProjectCodeID { get; set; }
-        public string Value { get; set; }
+        public string DateAllocated { get; set; }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Cats.Helpers;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using LanguageHelpers.Localization.Models;
 using LanguageHelpers.Localization.Services;
 using LanguageHelpers.Localization.Data;
+using log4net;
 
 
 namespace Cats.Areas.Localization.Controllers
@@ -16,13 +18,14 @@ namespace Cats.Areas.Localization.Controllers
         // GET: /Localization/Language/
         private ILanguageService _languageService;
         //private ILocalizedTextService _localizedTextService;
-
+        private  ILog _Log;
         //public LanguageController() { }
 
-        public LanguageController(ILanguageService languageService)
+        public LanguageController(ILanguageService languageService, ILog log)
         {
             _languageService = languageService;
             //_localizedTextService = localizedTextService;
+            _Log = log;
         }
 
         public ActionResult Index()
@@ -65,6 +68,8 @@ namespace Cats.Areas.Localization.Controllers
                 }
                 catch (Exception exception)
                 {
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(exception,_Log);
                     ModelState.AddModelError("Errors", "Language Code Must Be Unique.");
                 }
             }

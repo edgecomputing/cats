@@ -11,7 +11,7 @@ using Cats.Helpers;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-
+using log4net;
 using HubAllocation = Cats.Models.HubAllocation;
 
 namespace Cats.Areas.Logistics.Controllers
@@ -26,18 +26,23 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;
         private readonly IHubAllocationService _hubAllocationService;
-        
+        private readonly ILog _log;
+        private readonly IUserAccountService _userAccountService;
         public HubAllocationController(
            IReliefRequisitionDetailService reliefRequisitionDetailService,
            IHubService hubService,
            IHubAllocationService hubAllocationService, 
-           IReliefRequisitionService reliefRequisitionService)
+           IReliefRequisitionService reliefRequisitionService, IUserAccountService userAccountService)
+            ILog log)
         {
             this._hubService = hubService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             this._hubAllocationService = hubAllocationService;
             this._reliefRequisitionService = reliefRequisitionService;
+            this._log = log;
+            _userAccountService = userAccountService;
         }
+
 
     
       
@@ -59,7 +64,7 @@ namespace Cats.Areas.Logistics.Controllers
             var result = reliefRequisitions.ToList().Select(item => new AssignHubViewModel
                                                                         {
                                                                             Commodity = item.Commodity.Name,
-                                                                            RegionName = item.AdminUnit1.Name, 
+                                                                            RegionName = item.AdminUnit.Name, 
                                                                             ZoneName = item.AdminUnit1.Name, 
                                                                             RequisitionNo = item.RequisitionNo, 
                                                                             RequisitionId = item.RequisitionID, 
@@ -91,7 +96,13 @@ namespace Cats.Areas.Logistics.Controllers
 
         {
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-
+            var previousModelState = TempData["ModelState"] as ModelStateDictionary;
+            if (previousModelState != null)
+            {
+                foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
+                    if (!ModelState.ContainsKey(kvp.Key))
+                        ModelState.Add(kvp.Key, kvp.Value);
+            }
 
             var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo((int)ReliefRequisitionStatus.Approved);
             if (reliefRequisitions != null)
@@ -123,7 +134,12 @@ namespace Cats.Areas.Logistics.Controllers
             ICollection<RequisitionViewModel> listOfRequsitions = new List<RequisitionViewModel>();
             RequisitionViewModel[] _requisitionDetail;
 
-            if (requisitionDetail == null) return View();
+            if (requisitionDetail == null)
+            {
+                ModelState.AddModelError("Error","No approved requisitions or no requisition is selected.");
+                TempData["ModelState"] = ModelState;
+                return RedirectToAction("ApprovedRequesitions");
+            }
 
            _requisitionDetail = requisitionDetail.ToArray();
 
@@ -149,20 +165,25 @@ namespace Cats.Areas.Logistics.Controllers
         {
             if (rNumber.Trim() == string.Empty)
                 return RedirectToAction("ApprovedRequesitions", "HubAllocation");
+
+            var userName = HttpContext.User.Identity.Name;
+            var user = _userAccountService.GetUserDetail(userName);
+
             if (ModelState.IsValid && requisitionDetail !=null )
             {
                 string hub = form["hub"].ToString(CultureInfo.InvariantCulture); //retrives Hub id from the view
                 DateTime date;
-
+              
 
                 try
                 {
                     date = DateTime.Parse(datepicker);
                         //checkes if date is ethiopian date. if it is then it will enter to the catch and convert to gragorian to persist.
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(exception,_log);
                     var strEth = new getGregorianDate();
                     date = strEth.ReturnGregorianDate(datepicker);
                 }
@@ -173,7 +194,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                     var newHubAllocation = new HubAllocation
                                                {
-                                                   AllocatedBy = 1,
+                                                   AllocatedBy = user.UserProfileID,
                                                    RequisitionID = appRequisition.RequisitionId,
                                                    AllocationDate = date,
                                                    ReferenceNo = rNumber,
