@@ -176,6 +176,14 @@ namespace Cats.Tests.ControllersTests
             //
             Assert.AreEqual(1,((DataTable)((ViewResult)result).Model).Rows.Count);
         }
+        [Test]
+        public void ShouldDisplayHRDSummary()
+        {
+            //act
+            var result = _hrdController.RegionalSummary(1);
+            //
+            Assert.AreEqual(1, ((DataTable)((ViewResult)result).Model).Rows.Count);
+        }
         #endregion
     }
 }
