@@ -17,7 +17,9 @@ function init_toolbar_button() {
         btn_back_to_list: { icon: "icon-list", tooltip: "Back to list" },
         btn_save: { icon: "icon-save", tooltip: "Save Change" },
         btn_cancel: { icon: "icon-off", tooltip: "Cancel Changes" },
-        btn_reload: { icon: "icon-retweet", tooltip: "Reload Data" }
+        btn_reload: { icon: "icon-retweet", tooltip: "Reload Data" },
+        btn_forward: { icon: "icon-arrow-right", tooltip: "Continue" },
+        btn_back: { icon: "icon-arrow-left", tooltip: "Back" }
     }
     
     $(".toolbar-btn").each(function () {
