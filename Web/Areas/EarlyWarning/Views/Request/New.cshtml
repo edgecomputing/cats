@@ -44,7 +44,7 @@
         </div>
 
 
-        <div class="control-group">
+        <div class="control-group" id="div_month">
             <div class="control-label">
                 @Html.LabelFor(model => model.Month, "Month")
             </div>
@@ -53,7 +53,18 @@
                 @Html.ValidationMessageFor(model => model.Month)
             </div>
         </div>
-
+        
+        
+        <div class="control-group" id="div_round">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Round, "Round")
+            </div>
+            <div class="controls">
+                @Html.DropDownList("Month", String.Empty)
+                @Html.ValidationMessageFor(model => model.Month)
+            </div>
+        </div>
+        
 
         <div class="control-group">
             <div class="control-label">
@@ -96,17 +107,23 @@
             // $this.attr(label, "");
             var div_season = $("#div_season");
             var div_donor = $("#div_donor");
+            var div_month = $("#div_month");
+            var div_round = $("#div_round");
+            
             var prog = this.options[this.selectedIndex].innerHTML;
 
             if (prog == "Relief") {
                 div_season.show();
                 div_donor.hide();
+                div_month.hide();
+                div_round.show();
             }
             else if (prog == "PSNP") {
                 div_season.hide();
                 div_donor.show();
+                div_month.show();
+                div_round.hide();
             }
-
         });
         $("#cmb_programId").change();
     });
