@@ -40,8 +40,7 @@ namespace Cats.Web.AdministrationControllers
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     // TODO: Review user permission code
-                    //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
-                    service.GetUserPermissions(model.UserName, "CATS", "Finance");
+                    //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");                   
                     return RedirectToLocal(returnUrl);
                 }
             }
@@ -62,7 +61,7 @@ namespace Cats.Web.AdministrationControllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index","Home");
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
