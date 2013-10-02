@@ -74,7 +74,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
-
+            ViewBag.HRDID = id;
             if (hrd != null)
             {
                 return View(hrd);
@@ -209,6 +209,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 });
                 
         }
+
+        public ActionResult Detail (int id)
+        {
+            ViewBag.HRDID = id;
+            var hrd = _hrdService.FindById(id);
+            var hrdDetails = _hrdDetailService.Get(t => t.HRDID == id, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
+            var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
+            var dt = HRDViewModelBinder.TransposeData(hrdDetails, rationDetails);
+            return View(dt);
+        }
+
+        
 
         private IEnumerable<HRDDetailViewModel> GetHRDDetails(HRD hrd)
         {

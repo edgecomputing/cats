@@ -60,38 +60,38 @@
      <div id="list">
 
          @(Html.Telerik().Grid(Model).Name("fdpGrid")
-        .Columns(col =>
-            {
-                col.Template
-                    (
-                        @<text>
-                            @Html.DialogFormLink(item.Name, Url.Action("Edit", "FDP", new { id = item.FDPID }), Html.Translate("Edit FDP"), "fdplist", Url.Action("IndexPartial", "FDP"))
-                        </text>
-                    ).ClientTemplate(
-                        "<a href='/FDP/Edit/<#= FDPID #>'" +
-                        "data-update-url='/FDP/IndexPartial'" +
-                        "data-update-target-id='fdplist' data-dialog-title='Edit FDP'" +
-                        "class='dialogLink'>" +
-                        "<#= Name #>" +
-                        "</a>"
-                    ).Title(Html.Translate("FDP Name"));
-                col.Bound(model => model.NameAM).Title(Html.Translate("FDP Name (Amharic)"));
-                col.Bound(model => model.AdminUnit.AdminUnit2.AdminUnit2.Name).Title(Html.Translate("Region"));
-                col.Bound(model => model.AdminUnit.AdminUnit2.Name).Title("Zone");
-                col.Bound(model => model.AdminUnit.Name).Title("Woreda");
-                col.Template
-                    (
-                        @<text>
-                            @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id = item.FDPID })
-                        </text>
-                    ).ClientTemplate(
-                        "<a href='/FDP/Delete/<#= FDPID #>'>" +
-                        "Delete" +
-                        "</a>"
-                    ).Title("Actions");
-            }).DataBinding(bind => bind.Ajax()
-                                        .Select("GetFDPGrid", "FDP", new {@SelectedRegionId	= "<#= RegionID>" ,@SelectedZoneId = "<#= ZoneID>" ,@woredaId = "<#= FDPID #>" })
-        ).Footer(true).Pageable(p=>p.PageSize(20).Enabled(true)).Filterable(f=>f.Enabled(true)).Sortable(s=>s.Enabled(true).SortMode(GridSortMode.MultipleColumn )))
+                                                                                                 .Columns(col =>
+                                                                                                              {
+                                                                                                                  col.Template
+                                                                                                                      (
+                                                                                                                          @<text>
+                                                                                                                               @Html.DialogFormLink(item.Name, Url.Action("Edit", "FDP", new { id = item.FDPID }), Html.Translate("Edit FDP"), "fdplist", Url.Action("IndexPartial", "FDP"))
+                                                                                                                           </text>
+                                                                                                                      ).ClientTemplate(
+                                                                                                                          "<a href='/FDP/Edit/<#= FDPID #>'" +
+                                                                                                                          "data-update-url='/FDP/IndexPartial'" +
+                                                                                                                          "data-update-target-id='fdplist' data-dialog-title='Edit FDP'" +
+                                                                                                                          "class='dialogLink'>" +
+                                                                                                                          "<#= Name #>" +
+                                                                                                                          "</a>"
+                                                                                                                      ).Title(Html.Translate("FDP Name"));
+                                                                                                                  col.Bound(model => model.NameAM).Title(Html.Translate("FDP Name (Amharic)"));
+                                                                                                                  col.Bound(model => model.AdminUnit.AdminUnit2.AdminUnit2.Name).Title(Html.Translate("Region"));
+                                                                                                                  col.Bound(model => model.AdminUnit.AdminUnit2.Name).Title("Zone");
+                                                                                                                  col.Bound(model => model.AdminUnit.Name).Title("Woreda");
+                                                                                                                  col.Template
+                                                                                                                      (
+                                                                                                                          @<text>
+                                                                                                                               @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id = item.FDPID })
+                                                                                                                           </text>
+                                                                                                                      ).ClientTemplate(
+                                                                                                                          "<a href='/FDP/Delete/<#= FDPID #>'>" +
+                                                                                                                          "Delete" +
+                                                                                                                          "</a>"
+                                                                                                                      ).Title("Actions");
+                                                                                                              }).DataBinding(bind => bind.Ajax()
+                                                                                                                                         .Select("GetFDPGrid", "FDP", new {@SelectedRegionId	= "<#= RegionID>" ,@SelectedZoneId = "<#= ZoneID>" ,@woredaId = "<#= FDPID #>" })
+                                                                                                 ).Footer(true).Pageable(p=>p.PageSize(20).Enabled(true)).Filterable(f=>f.Enabled(true)).Sortable(s=>s.Enabled(true).SortMode(GridSortMode.MultipleColumn )))
 
      </div>
 

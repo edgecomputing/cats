@@ -14,6 +14,10 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Detail", "HRD", new {id = ViewBag.HRDID})"></a>
+}
 
 @section LeftBar
 {

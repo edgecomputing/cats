@@ -24,8 +24,7 @@ namespace Cats.Models
         public Nullable<int> Year { get; set; }
 
         [DisplayName("Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+
         public DateTime? NeedADate { get; set; }
         public Nullable<int> NeddACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }

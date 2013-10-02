@@ -12,6 +12,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Web.Adminstration.Controllers
 {
+     [Authorize]
     public class AuditLogController : Controller
     {
         //

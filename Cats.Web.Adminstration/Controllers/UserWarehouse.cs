@@ -9,7 +9,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Web.Adminstration.Controllers
 {
-    
+     [Authorize]
     public class UserWarehouseController : Controller
     {
         private readonly IUserHubService _userHubService;

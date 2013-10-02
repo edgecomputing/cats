@@ -127,7 +127,7 @@
           columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
           columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
           columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
-         
+          columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
 
       })
       .ToolBar(toolbar => toolbar.Save())
@@ -139,6 +139,7 @@
       .Selectable(t => t.Mode(GridSelectionMode.Single))
       .Navigatable()
       .HtmlAttributes(new { style = "height:430px;" })
+      .Events(events => events.DataBound("onDataBound"))
       .DataSource(dataSource => dataSource
                                     .Ajax()
                                     .PageSize(20)
@@ -158,6 +159,45 @@
       ))
 <script type="text/javascript">
 
-  
-
+    function onDataBound(e) {
+        //alert("");
+        check_planned();
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+           
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            update_ui(rowIdx, row);
+        }
+            );
+    }
+    function update_ui(rowIdx,row) {
+        var grid = $("#grid").data("kendoGrid");
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+        var plannedBeneficiaries = firstItem.get('PlannedBeneficiaries');
+        var beneficiaries = firstItem.get('Beneficiaries');
+        
+        if (plannedBeneficiaries < beneficiaries) {
+            row.addClass("surplus");
+        } else {
+            row.removeClass("surplus");
+        }
+    }
+    function check_planned() {
+        var grid = $("#grid").data("kendoGrid");
+        var rowIdx = 0;
+        $(grid.tbody).find("tr").each(function () {
+            //$(this).addClass("surplus");
+            update_ui(rowIdx, $(this));
+            rowIdx++;
+        });
+    }
 </script>
+<style>
+    .surplus * {
+        color: red;
+    }
+    .surplus {
+        color: red;
+    }
+</style>

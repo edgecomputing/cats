@@ -11,53 +11,78 @@ namespace Cats.ViewModelBinder
 {
     public class RequisitionViewModelBinder
     {
-        public static ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition,List<WorkflowStatus> statuses,string datePref )
+        public static ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition, List<WorkflowStatus> statuses, string datePref)
         {
             var requisition = new ReliefRequisitionViewModel();
-            
-
-               requisition. ProgramID = reliefRequisition.ProgramID;
-               requisition. Program = reliefRequisition.Program.Name;
-               requisition. Region = reliefRequisition.AdminUnit.Name;
-               requisition. RequisitionNo = reliefRequisition.RequisitionNo;
-               requisition. RegionID = reliefRequisition.RegionID;
-               requisition. RegionalRequestID = reliefRequisition.RegionalRequestID;
-            if(reliefRequisition.RequestedDate.HasValue)
-               requisition.RequestedDateEt = reliefRequisition.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
-                //);
-              requisition.  Round = reliefRequisition.Round;
-                requisition.Status = statuses.Find(t=>t.WorkflowID==(int)WORKFLOW.RELIEF_REQUISITION && t.StatusID== reliefRequisition.Status.Value).Description ;
-               requisition. RequestedDate = reliefRequisition.RequestedDate.Value;
-               requisition. StatusID = reliefRequisition.Status;
-               requisition. RequisitionID = reliefRequisition.RequisitionID;
-                requisition.CommodityID = reliefRequisition.CommodityID;
-               requisition. ZoneID = reliefRequisition.ZoneID;
-               requisition. Zone = reliefRequisition.AdminUnit.Name;
-               requisition. Commodity = reliefRequisition.Commodity.Name;
 
 
+            requisition.ProgramID = reliefRequisition.ProgramID;
+            requisition.Program = reliefRequisition.Program.Name;
+            requisition.Region = reliefRequisition.AdminUnit.Name;
+            requisition.RequisitionNo = reliefRequisition.RequisitionNo;
+            requisition.RegionID = reliefRequisition.RegionID;
+            requisition.RegionalRequestID = reliefRequisition.RegionalRequestID;
+            if (reliefRequisition.RequestedDate.HasValue)
+                requisition.RequestedDateEt = reliefRequisition.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
+            //);
+            requisition.Round = reliefRequisition.Round;
+            requisition.Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.RELIEF_REQUISITION && t.StatusID == reliefRequisition.Status.Value).Description;
+            requisition.RequestedDate = reliefRequisition.RequestedDate.Value;
+            requisition.StatusID = reliefRequisition.Status;
+            requisition.RequisitionID = reliefRequisition.RequisitionID;
+            requisition.CommodityID = reliefRequisition.CommodityID;
+            requisition.ZoneID = reliefRequisition.ZoneID;
+            requisition.Zone = reliefRequisition.AdminUnit1.Name;
+            requisition.Commodity = reliefRequisition.Commodity.Name;
+            requisition.RoundOrMonth = match(reliefRequisition.Round, reliefRequisition);
 
             return requisition;
 
 
         }
 
+        private static string match(int? r, ReliefRequisition reliefRequisition)
+        {
+            string month = "";
+
+            if (reliefRequisition.ProgramID == 2)
+            {
+                switch (r)
+                {
+                    case 1:
+                        month = "Meskerem";
+                        break;
+                    case 2:
+                        month = "Tikmet";
+                        break;
+                    case 3:
+                        month = "Hidar";
+                        break;
+                    case 9:
+                        month = "Ginbot";
+                        break;
+                }
+            }
+
+            return month;
+        }
+
         public static List<ReliefRequisitionViewModel> BindRequisitionViewModel(List<ReliefRequisition> reliefRequisitions)
         {
-                var reliefRequisitionViewModels = new List<ReliefRequisitionViewModel>();
-            
-                foreach (var reliefRequisition in reliefRequisitions)
-                {
-                    var reliefRequisitionViewModel = new ReliefRequisitionViewModel();
-                    reliefRequisitionViewModel.RequisitionNo = reliefRequisition.RequisitionNo;
-                    reliefRequisitionViewModel.RequestedDate = (DateTime)reliefRequisition.RequestedDate;
-                    reliefRequisitionViewModel.Status = reliefRequisition.Status.ToString();
-                    reliefRequisitionViewModels.Add(reliefRequisitionViewModel);
+            var reliefRequisitionViewModels = new List<ReliefRequisitionViewModel>();
 
-                }
-                return reliefRequisitionViewModels;
+            foreach (var reliefRequisition in reliefRequisitions)
+            {
+                var reliefRequisitionViewModel = new ReliefRequisitionViewModel();
+                reliefRequisitionViewModel.RequisitionNo = reliefRequisition.RequisitionNo;
+                reliefRequisitionViewModel.RequestedDate = (DateTime)reliefRequisition.RequestedDate;
+                reliefRequisitionViewModel.Status = reliefRequisition.Status.ToString();
+                reliefRequisitionViewModels.Add(reliefRequisitionViewModel);
+
+            }
+            return reliefRequisitionViewModels;
         }
-        
+
         public static ReliefRequisitionDetail BindReliefRequisitionDetail(ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
         {
             return new ReliefRequisitionDetail()
@@ -74,7 +99,7 @@ namespace Cats.ViewModelBinder
 
             };
         }
-        public  static ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail)
+        public static ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail)
         {
             return new ReliefRequisitionDetailViewModel()
             {
@@ -94,10 +119,10 @@ namespace Cats.ViewModelBinder
             };
 
         }
-        public static IEnumerable<ReliefRequisitionViewModel> BindReliefRequisitionListViewModel(IEnumerable<ReliefRequisition> reliefRequisitions,List<WorkflowStatus> statuses ,string datePref)
+        public static IEnumerable<ReliefRequisitionViewModel> BindReliefRequisitionListViewModel(IEnumerable<ReliefRequisition> reliefRequisitions, List<WorkflowStatus> statuses, string datePref)
         {
             return (from requisition in reliefRequisitions
-                    select BindReliefRequisitionViewModel(requisition, statuses,datePref));
+                    select BindReliefRequisitionViewModel(requisition, statuses, datePref));
         }
         public static IEnumerable<ReliefRequisitionDetailViewModel> BindReliefRequisitionDetailListViewModel(IEnumerable<ReliefRequisitionDetail> reliefRequisitionDetails)
         {

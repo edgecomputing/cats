@@ -39,14 +39,14 @@
 @section LeftBar{
 
     @Html.Partial("_HRDLeftBar")
-    
+
 }
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
+            columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("Detail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
             columns.Bound(p => p.Season);
             columns.Bound(p => p.Year);
             columns.Bound(p => p.CreatedBy);
@@ -83,9 +83,7 @@
 
              )
 
-)
-
-              )
+      )
 
 
 

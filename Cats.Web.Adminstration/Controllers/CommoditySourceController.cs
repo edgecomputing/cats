@@ -11,6 +11,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Web.Adminstration.Controllers
 {
+     [Authorize]
     public class CommoditySourceController : Controller
     {
         private readonly ICommoditySourceService _commoditySourceService;
