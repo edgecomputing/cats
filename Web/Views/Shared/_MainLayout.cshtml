@@ -131,7 +131,7 @@
                     <div class="span7">
                         @RenderSection("Breadcrumb", required: false)
                         <ul class="breadcrumb">
-                            <li><a href="~/">Home</a> </li>
+                            <li><a href="/">Home</a> </li>
                             @{
                                 string home = Url.Action("Index", "Home", new {Area = ""});
                                 string[] page_url = PageContext.Page.Context.Request.Url.Segments;
