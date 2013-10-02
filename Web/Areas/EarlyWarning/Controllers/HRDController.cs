@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Helpers;
@@ -153,17 +154,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     });
         }
 
-        public ActionResult RegionalSummary_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
-        {
-            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+        //public ActionResult RegionalSummary_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        //{
+        //    var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
 
-            if (hrd != null)
-            {
-                var detailsToDisplay = GetSummary(hrd).ToList();
-                return Json(detailsToDisplay.ToDataSourceResult(request));
-            }
-            return RedirectToAction("Index");
-        }
+        //    if (hrd != null)
+        //    {
+        //        var detailsToDisplay = GetSummary(hrd).ToList();
+        //        return Json(detailsToDisplay.ToDataSourceResult(request));
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
         public ActionResult RegionalSummary(int id=0)
         {
@@ -171,13 +172,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrd = _hrdService.Get(m => m.HRDID == id).FirstOrDefault();
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
-
+            ViewBag.HRDID = id;
+            var dt = GetHRDSummary(id);
             
-                return View(hrd);
+                return View(dt);
             
+        }
+        private DataTable GetHRDSummary(int id)
+        {
+            var hrd = _hrdService.FindById(id);
+            var hrdDetails = _hrdDetailService.Get(t => t.HRDID == id, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
+            var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
+            var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails);
+            return dt;
         }
         private IEnumerable<RegionalSummaryViewModel> GetSummary(HRD hrd)
         {
+
             var details = hrd.HRDDetails;
             //var hrd = _hrdService.FindById(id);
             //details.First().HRD;
@@ -194,32 +205,36 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                select new
                                {
                                    Region = regionalDetail.Key,
-                                   NumberOfBeneficiaries = regionalDetail.Sum(m =>m.NumberOfBeneficiaries),
+                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
                                    Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
                                };
             return (from total in groupedTotal
-                            select new RegionalSummaryViewModel
-                                {
-                                    RegionName = total.Region.Name,
-                                    NumberOfBeneficiaries = total.NumberOfBeneficiaries,
-                                    Cereal = cerealCoefficient * total.Duration,
-                                    BlededFood = blendFoodCoefficient * total.Duration,
-                                    Oil = oilCoefficient * total.Duration,
-                                    Pulse = pulseCoefficient * total.Duration
-                                });
-                
+                    select new RegionalSummaryViewModel
+                        {
+                            RegionName = total.Region.Name,
+                            NumberOfBeneficiaries = total.NumberOfBeneficiaries,
+                            Cereal = cerealCoefficient * total.Duration,
+                            BlededFood = blendFoodCoefficient * total.Duration,
+                            Oil = oilCoefficient * total.Duration,
+                            Pulse = pulseCoefficient * total.Duration
+                        });
+
         }
 
         public ActionResult Detail (int id)
         {
             ViewBag.HRDID = id;
+            var dt = GetTransposedHRD(id);
+            return View(dt);
+        }
+        private DataTable GetTransposedHRD(int id)
+        {
             var hrd = _hrdService.FindById(id);
             var hrdDetails = _hrdDetailService.Get(t => t.HRDID == id, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
             var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
             var dt = HRDViewModelBinder.TransposeData(hrdDetails, rationDetails);
-            return View(dt);
+            return dt;
         }
-
         
 
         private IEnumerable<HRDDetailViewModel> GetHRDDetails(HRD hrd)

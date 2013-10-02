@@ -12,12 +12,13 @@ namespace Cats.ViewModelBinder
     public class HRDViewModelBinder
     {
 
-        public static List<HRDCompareViewModel> BindHRDCompareViewModel(HRD hrdOriginal,HRD hrdRefrence,int filterRegion)
-        { var hrdCompareViewModels = new List<HRDCompareViewModel>();
-        if (hrdOriginal == null) return hrdCompareViewModels;
-            if (!hrdOriginal.HRDDetails.Any()) return  hrdCompareViewModels;
-           
-            foreach (var hrdDetail in hrdOriginal.HRDDetails.Where(t=>t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==filterRegion))
+        public static List<HRDCompareViewModel> BindHRDCompareViewModel(HRD hrdOriginal, HRD hrdRefrence, int filterRegion)
+        {
+            var hrdCompareViewModels = new List<HRDCompareViewModel>();
+            if (hrdOriginal == null) return hrdCompareViewModels;
+            if (!hrdOriginal.HRDDetails.Any()) return hrdCompareViewModels;
+
+            foreach (var hrdDetail in hrdOriginal.HRDDetails.Where(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == filterRegion))
             {
                 var hrdCompareViewModel = new HRDCompareViewModel();
                 hrdCompareViewModel.Year = hrdOriginal.Year;
@@ -34,19 +35,19 @@ namespace Cats.ViewModelBinder
                 hrdCompareViewModel.WoredaId = hrdDetail.WoredaID;
                 hrdCompareViewModel.Woreda = hrdDetail.AdminUnit.Name;
                 hrdCompareViewModel.StartingMonth = RequestHelper.MonthName(hrdDetail.StartingMonth);
-                
-                 if(hrdRefrence!=null)
-                 {
-                     var hrdReferenceDetail =
-                         hrdRefrence.HRDDetails.FirstOrDefault(t => t.WoredaID == hrdDetail.WoredaID);
-                     if(hrdReferenceDetail!=null)
-                     {
-                         hrdCompareViewModel.RefrenceDuration = hrdReferenceDetail.DurationOfAssistance;
-                         hrdCompareViewModel.BeginingMonthReference = hrdReferenceDetail.StartingMonth;
-                         hrdCompareViewModel.BeneficiariesRefrence = hrdReferenceDetail.NumberOfBeneficiaries;
-                         hrdCompareViewModel.StartingMonthReference = RequestHelper.MonthName(hrdReferenceDetail.StartingMonth);
-                     }
-                 }
+
+                if (hrdRefrence != null)
+                {
+                    var hrdReferenceDetail =
+                        hrdRefrence.HRDDetails.FirstOrDefault(t => t.WoredaID == hrdDetail.WoredaID);
+                    if (hrdReferenceDetail != null)
+                    {
+                        hrdCompareViewModel.RefrenceDuration = hrdReferenceDetail.DurationOfAssistance;
+                        hrdCompareViewModel.BeginingMonthReference = hrdReferenceDetail.StartingMonth;
+                        hrdCompareViewModel.BeneficiariesRefrence = hrdReferenceDetail.NumberOfBeneficiaries;
+                        hrdCompareViewModel.StartingMonthReference = RequestHelper.MonthName(hrdReferenceDetail.StartingMonth);
+                    }
+                }
                 hrdCompareViewModels.Add(hrdCompareViewModel);
 
             }
@@ -83,7 +84,7 @@ namespace Cats.ViewModelBinder
             colStartingMonth.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colStartingMonth);
 
-           if (rationDetails != null)
+            if (rationDetails != null)
             {
                 foreach (var ds in rationDetails)
                 {
@@ -140,6 +141,82 @@ namespace Cats.ViewModelBinder
 
             return dt;
         }
+        public static DataTable TransposeDataSummary(IEnumerable<HRDDetail> hrdDetails, IEnumerable<RationDetail> rationDetails)
+        {
+            var dt = new DataTable("Transpose");
+
+            var colRegion = new DataColumn("Region", typeof(string));
+            colRegion.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colRegion);
+
+            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(int));
+            colNoBeneficiary.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colNoBeneficiary);
+
+
+            if (rationDetails != null)
+            {
+                foreach (var ds in rationDetails)
+                {
+                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                    col.ExtendedProperties.Add("ID", ds.CommodityID);
+                    dt.Columns.Add(col);
+                }
+
+                var colTotal = new DataColumn("Total", typeof(decimal));
+                colTotal.ExtendedProperties.Add("ID", "Total");
+                dt.Columns.Add(colTotal);
+
+
+                var regions =
+                    (from item in hrdDetails
+                     select new
+                         {
+                             item.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID,
+                             item.AdminUnit.AdminUnit2.AdminUnit2.Name
+                         }
+            ).Distinct().ToList();
+                foreach (var region in regions)
+                {
+                    var dr = dt.NewRow();
+                    Decimal total = 0;
+                    dr[colRegion] = region.Name;
+                    int nobenfi =
+                        hrdDetails.Where(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == region.AdminUnitID).Sum(
+                            t => t.NumberOfBeneficiaries);
+                    dr[colNoBeneficiary] = nobenfi;
+
+                    foreach (var rationDetail in rationDetails)
+                    {
+                        DataColumn col = null;
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            if (rationDetail.CommodityID.ToString() ==
+                                column.ExtendedProperties["ID"].ToString())
+                            {
+                                col = column;
+                                break;
+                            }
+                        }
+                        if (col != null)
+                        {
+                            var regionSum = hrdDetails.Where(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == region.AdminUnitID).Sum(t => t.NumberOfBeneficiaries * t.DurationOfAssistance * rationDetail.Amount);
+
+                            total += regionSum;
+                            dr[col.ColumnName] = regionSum;
+
+                        }
+                    }
+                    dr[colTotal] = total;
+                    dt.Rows.Add(dr);
+                    
+                }
+
+            }
+            return dt;
+        }
+
+
 
     }
 }
