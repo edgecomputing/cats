@@ -130,7 +130,7 @@ namespace Cats.Tests.ControllersTests
                                           Description = "Approved",
                                           StatusID = 2,
                                           WorkflowID = 1
-                                      },
+                                     },
                                   new WorkflowStatus()
                                       {
                                           Description = "Closed",

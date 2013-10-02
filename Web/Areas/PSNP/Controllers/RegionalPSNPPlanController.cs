@@ -149,31 +149,46 @@ namespace Cats.Areas.PSNP
         public ActionResult Create(RegionalPSNPPlan regionalpsnpplan)
         {
             //regionalpsnpplan.StatusID = 1;
-            if (ModelState.IsValid)
-            {
 
-                int BP_PSNP = _ApplicationSettingService.getPSNPWorkflow();
-                if (BP_PSNP != 0)
+            //check if this psnp plan exitsts for this region
+            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.Year,
+                                                                                 regionalpsnpplan.RegionID);
+
+             if (ModelState.IsValid)
                 {
-                    BusinessProcessState createdstate = new BusinessProcessState
+                    if (!exists)
                     {
-                        DatePerformed = DateTime.Now,
-                        PerformedBy = "System",
-                        Comment = "Created workflow for PSNP Plan"
+              
 
-                    };
-                    _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
-                    BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP, regionalpsnpplan.RegionalPSNPPlanID, "PSNP", createdstate);
-                    regionalpsnpplan.StatusID = bp.BusinessProcessID;
-                    _regionalPSNPPlanService.UpdateRegionalPSNPPlan(regionalpsnpplan);
-                    return RedirectToAction("Index");
+                    int BP_PSNP = _ApplicationSettingService.getPSNPWorkflow();
+                    if (BP_PSNP != 0)
+                    {
+                        BusinessProcessState createdstate = new BusinessProcessState
+                                                                {
+                                                                    DatePerformed = DateTime.Now,
+                                                                    PerformedBy = "System",
+                                                                    Comment = "Created workflow for PSNP Plan"
 
+                                                                };
+                        _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
+                        BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP,
+                                                                                           regionalpsnpplan.
+                                                                                               RegionalPSNPPlanID,
+                                                                                           "PSNP", createdstate);
+                        regionalpsnpplan.StatusID = bp.BusinessProcessID;
+                        _regionalPSNPPlanService.UpdateRegionalPSNPPlan(regionalpsnpplan);
+                        return RedirectToAction("Index");
+
+                    }
+                    ViewBag.ErrorMessage1 = "The workflow assosiated with PSNP planning doesnot exist.";
+                    ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
-                ViewBag.ErrorMessage1 = "The workflow assosiated with PSNP planning doesnot exist.";
-                ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
+                LoadLookups();
+                ModelState.AddModelError("Errors", "PSNP plan already made for this year and region.");
+                return View(regionalpsnpplan);
             }
-
             LoadLookups();
+           
             return View(regionalpsnpplan);
         }
 
