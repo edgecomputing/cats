@@ -27,6 +27,7 @@ namespace Cats.Models
         public int Status { get; set; }
         public int RationID { get; set; }
         public int? DonorID { get; set; }
+        public int? Round { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }

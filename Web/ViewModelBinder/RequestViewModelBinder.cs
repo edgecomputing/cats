@@ -39,7 +39,7 @@ namespace Cats.ViewModelBinder
             regionalRequestViewModel.RegionalRequestID = regionalRequest.RegionalRequestID;
             regionalRequestViewModel.Remark = regionalRequest.Remark;
             regionalRequestViewModel.RequestDate = regionalRequest.RequistionDate.ToCTSPreferedDateFormat(userPrefrence);
-
+            regionalRequestViewModel.Round = regionalRequest.Round;
 
             //RequestDateEt = EthiopianDate.GregorianToEthiopian(regionalRequest.RequistionDate);
             regionalRequestViewModel.MonthName = RequestHelper.GetMonthList().Find(t => t.Id == regionalRequest.Month).Name;
@@ -65,7 +65,7 @@ namespace Cats.ViewModelBinder
             request.Remark = regionalRequestViewModel.Remark;
             request.Month = regionalRequestViewModel.Month;
             request.RequistionDate = regionalRequestViewModel.RequistionDate;
-
+            request.Round = regionalRequestViewModel.Round;
             request.Status = regionalRequestViewModel.StatusID;
             request.Year = regionalRequestViewModel.Year;
             //  request.DonorID=
@@ -85,6 +85,7 @@ namespace Cats.ViewModelBinder
             request.Status = origin.Status;
             request.Year = origin.Year;
             request.RationID = origin.RationID;
+            request.Round = origin.Round;
             return request;
         }
 

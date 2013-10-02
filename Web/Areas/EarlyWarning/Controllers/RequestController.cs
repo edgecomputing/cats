@@ -110,6 +110,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
+            ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
