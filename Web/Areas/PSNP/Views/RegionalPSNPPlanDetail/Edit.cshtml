@@ -73,11 +73,13 @@
     .Scrollable()
     .Filterable()
    .Groupable()
+   .Navigatable()
 
 )
 <script>
     $(function()
     {
+        
         var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
         $("#toolbar_button_print").attr("href",printurl);
     });
