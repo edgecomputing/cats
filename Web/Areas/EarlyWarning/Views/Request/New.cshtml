@@ -60,8 +60,8 @@
                 @Html.LabelFor(model => model.Round, "Round")
             </div>
             <div class="controls">
-                @Html.DropDownList("Month", String.Empty)
-                @Html.ValidationMessageFor(model => model.Month)
+                @Html.DropDownList("Round", String.Empty)
+                @Html.ValidationMessageFor(model => model.Round)
             </div>
         </div>
         
@@ -115,7 +115,7 @@
             if (prog == "Relief") {
                 div_season.show();
                 div_donor.hide();
-                div_month.hide();
+                div_month.show();
                 div_round.show();
             }
             else if (prog == "PSNP") {
