@@ -278,6 +278,7 @@ namespace Cats.Services.EarlyWarning
                              Program = itm.Program.Name,
                              Region = itm.AdminUnit1.Name,
                              Round = itm.Round,
+                             Month = itm.Month,
                              Zone = itm.AdminUnit.Name,
                              Status = itm.Status,
                              RequisitionID = itm.RequisitionID,

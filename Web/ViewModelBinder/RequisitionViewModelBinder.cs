@@ -34,38 +34,39 @@ namespace Cats.ViewModelBinder
             requisition.ZoneID = reliefRequisition.ZoneID;
             requisition.Zone = reliefRequisition.AdminUnit1.Name;
             requisition.Commodity = reliefRequisition.Commodity.Name;
-            requisition.RoundOrMonth = match(reliefRequisition.Round, reliefRequisition);
-
+            requisition.Month = RequestHelper.MonthName(reliefRequisition.Month);
+            //requisition.MonthRound;
+            //reliefRequisition.
             return requisition;
 
 
         }
 
-        private static string match(int? r, ReliefRequisition reliefRequisition)
-        {
-            string month = "";
+        //private static string match(int? r, ReliefRequisition reliefRequisition)
+        //{
+        //    string month = "";
 
-            if (reliefRequisition.ProgramID == 2)
-            {
-                switch (r)
-                {
-                    case 1:
-                        month = "Meskerem";
-                        break;
-                    case 2:
-                        month = "Tikmet";
-                        break;
-                    case 3:
-                        month = "Hidar";
-                        break;
-                    case 9:
-                        month = "Ginbot";
-                        break;
-                }
-            }
+        //    if (reliefRequisition.ProgramID == 2)
+        //    {
+        //        switch (r)
+        //        {
+        //            case 1:
+        //                month = "Meskerem";
+        //                break;
+        //            case 2:
+        //                month = "Tikmet";
+        //                break;
+        //            case 3:
+        //                month = "Hidar";
+        //                break;
+        //            case 9:
+        //                month = "Ginbot";
+        //                break;
+        //        }
+        //    }
 
-            return month;
-        }
+        //    return month;
+        //}
 
         public static List<ReliefRequisitionViewModel> BindRequisitionViewModel(List<ReliefRequisition> reliefRequisitions)
         {

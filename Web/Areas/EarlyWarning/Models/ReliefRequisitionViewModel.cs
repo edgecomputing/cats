@@ -30,7 +30,22 @@ namespace Cats.Areas.EarlyWarning.Models
         public Nullable<int> ProgramID { get; set; }
         public string Program { get; set; }
         public Nullable<int> RegionalRequestID { get; set; }
-        public string RoundOrMonth { get; set; }
+        public string Month { get; set; }
 
+        public string MonthRound
+        {
+            get
+            {
+                string mr="";
+                if (ProgramID == 1)
+                { mr = Round.ToString(); }
+                else if (ProgramID == 2)
+                {
+                    mr = Month;
+                }
+                return mr;
+            }
+            
+        }
     }
 }

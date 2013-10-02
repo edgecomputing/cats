@@ -177,9 +177,10 @@ namespace Cats.Services.EarlyWarning
             else if (plan.ProgramID == 1)
             {
                 HRD hrd=_unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
-                result.HRDPSNPPlan.RationID = hrd.RationID;
+                
                 if (hrd != null)
                 {
+                    result.HRDPSNPPlan.RationID = hrd.RationID;
                     List<HRDDetail> hrddetail =
                     (from woreda in hrd.HRDDetails
                      where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.NumberOfBeneficiaries > 0
