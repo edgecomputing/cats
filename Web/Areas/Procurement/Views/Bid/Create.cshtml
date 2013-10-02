@@ -14,11 +14,12 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Bid")"></a>
 }
 <div><h4>Bid Document</h4></div>
+
  @using (Html.BeginForm("Create", "Bid", FormMethod.Post, new { id = "frm_create_bid" }))
     {
          @Html.ValidationSummary(true)
        
-        <div class="form-horizontal well">
+        <div class="form-horizontal ">
         <fieldset>
             <div class="control-group ">
                 <div class="control-label">
