@@ -286,6 +286,7 @@
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
+    <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="Helpers\TemplateHelper.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
