@@ -21,6 +21,7 @@
         @Html.HiddenFor(model => model.HRDPSNPPlan.Year)
         @Html.HiddenFor(model => model.HRDPSNPPlan.DonorID)
         @Html.HiddenFor(model => model.HRDPSNPPlan.RationID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.Round)
         for (int i = 0; i < Model.BeneficiaryInfos.Count; i++)
         {
         @Html.TextBoxFor(model => model.BeneficiaryInfos[i].FDPID)

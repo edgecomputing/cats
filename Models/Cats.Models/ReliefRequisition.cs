@@ -24,6 +24,7 @@ namespace Cats.Models
         public Nullable<int> RegionID { get; set; }
         public Nullable<int> ZoneID { get; set; }
         public Nullable<int> Round { get; set; }
+        public int Month { get; set; }
         public string RequisitionNo { get; set; }
         public Nullable<int> RequestedBy { get; set; }
         public Nullable<System.DateTime> RequestedDate { get; set; }
