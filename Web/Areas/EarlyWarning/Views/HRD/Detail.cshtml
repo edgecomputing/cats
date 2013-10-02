@@ -13,7 +13,7 @@
 }
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("HRDDetail", "HRD", new {id = ViewBag.HRDID})"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("HRDDetail", "HRD", new {id = ViewBag.HRDID})"><i class="icon-edit"></i></a>
 }
 @(Html.Kendo().Grid(Model)
     .Name("Grid")
