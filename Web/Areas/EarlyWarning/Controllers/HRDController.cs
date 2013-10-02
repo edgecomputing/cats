@@ -223,6 +223,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Detail (int id)
         {
+            var hrd = _hrdService.Get(m => m.HRDID == id).FirstOrDefault();
+            ViewBag.SeasonID = hrd.Season.Name;
+            ViewBag.Year = hrd.Year;
             ViewBag.HRDID = id;
             var dt = GetTransposedHRD(id);
             return View(dt);
