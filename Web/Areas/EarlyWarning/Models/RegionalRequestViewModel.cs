@@ -33,6 +33,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public string   Status { get; set; } 
         public string Remark { get; set; }
         public string MonthName { get; set; }
+        public int? Round { get; set; }
        
     }
 }
