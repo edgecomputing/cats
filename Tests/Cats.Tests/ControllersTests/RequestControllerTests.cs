@@ -18,6 +18,7 @@ using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
+using log4net;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -129,7 +130,7 @@ namespace Cats.Tests.ControllersTests
                                           Description = "Approved",
                                           StatusID = 2,
                                           WorkflowID = 1
-                                      },
+                                     },
                                   new WorkflowStatus()
                                       {
                                           Description = "Closed",
@@ -291,10 +292,13 @@ namespace Cats.Tests.ControllersTests
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
-           
-           
-          
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object,userAccountService.Object);
+            var log = new Mock<ILog>();
+            log.Setup(t => t.Error(It.IsAny<object>()));
+
+
+            var hrdServiceDetail = new Mock<IHRDDetailService>();
+
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object, userAccountService.Object, log.Object, hrdServiceDetail.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      

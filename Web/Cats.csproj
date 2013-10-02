@@ -786,6 +786,7 @@
     <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

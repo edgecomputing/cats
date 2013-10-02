@@ -30,5 +30,7 @@ namespace Cats.Models
         [Display(Name = "Donor")]
         public int? DonorID { get; set; }
 
+        public int? RationID { get; set; }
+        
     }
 }

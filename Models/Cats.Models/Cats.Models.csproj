@@ -268,7 +268,6 @@
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
     <Compile Include="ViewModels\RequestView.cs" />
     <Compile Include="ViewModels\SINumber.cs" />
-    <Compile Include="ViewModels\TreeViewModel.cs" />
     <Compile Include="vwPSNPAnnualPlan.cs" />
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="NeedAssessmentSummary.cs" />

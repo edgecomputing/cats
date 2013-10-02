@@ -1,6 +1,8 @@
-﻿@using Cats.Areas.EarlyWarning.Models
+﻿@using System.Collections
+@using Cats.Areas.EarlyWarning.Models
 @model System.Data.DataTable
 @using Cats.Helpers
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 
@@ -11,6 +13,13 @@
 @{
     var modelRequest = (RegionalRequestViewModel)ViewData["Request_main_data"];
 }
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+
 @section Toolbar
 {
 
@@ -33,6 +42,7 @@
 
 
 }
+
 <h4 class="page-header">Regional Request Allocaiton</h4>
 <div class="">
     <div>
@@ -115,7 +125,10 @@
         foreach (System.Data.DataColumn column in Model.Columns)
         {
             if (column.DataType == typeof(decimal))
-            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); }
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+                
+            }
             else
             {
                 columns.Bound(column.ColumnName);
@@ -139,5 +152,6 @@
         .Read(read => read.Action("Details_Read", "Request"))
     )
 )
+
 
 

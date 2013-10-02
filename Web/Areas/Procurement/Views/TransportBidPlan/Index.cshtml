@@ -1,6 +1,8 @@
 ﻿@using Kendo.Mvc.UI
 @model List<Cats.Areas.Procurement.Models.TransportBidPlanViewModel>
 
+
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -10,82 +12,48 @@
 {
     @Html.Partial("_BidPlanLeftBar")
 }
-<div id="div_tree_view">
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "TransportBidPlan")"></a>
+}
+    <h3>List of Bid Plans</h3>
 
-@(Html.Kendo().TreeView()
-        .Name("treeview")
-        
-        .Events(events => events
-           
-            .Select("onSelect")
-            )
-        .Items(treeview => treeview.Add().Text("Regions")
-                               .SpriteCssClasses("folder")
-                               .Expanded(true)
-                               .Items(root =>
-                                   {
-                                       foreach (var region in ViewBag.RegionCollection)
-                                       {
-                                           dynamic region1 = region;
-                                           root.Add().Text((string)region.Name)
-                                               .SpriteCssClasses("folder")
-                                               // .Expanded(true)
-                                               .Items(zones =>
-                                                   {
-                                                       foreach( var zone in region1.AdminUnit1)
-                                                       {
-                                                           dynamic zone1 = zone;
-                                                           zones.Add().Text((string)zone.Name)
-                                    
-                                                               .SpriteCssClasses("image")
-                                                               .Items(woredas =>
-                                                                   {
-                                                                       foreach (var woreda in zone1.AdminUnit1)
-                                                                       {
-                                                                           woredas.Add().Text((string)woreda.Name)
-                                                                               .Id(woreda.AdminUnitID + "")
-                                           
-                                                                               .SpriteCssClasses("pdf");
-                                           
-                                                                       }
-                                                                   }); 
-                                                       }
-                                
-                                                   });
-                                       } 
-                   
-                   
-                    
-                                   }))
-    )
-</div>
 
-<style scoped>
-    .demo-section {
-        width: 200px;
-    }
+@(Html.Kendo().Grid<Cats.Models.TransportBidPlan>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.ShortName);
+        columns.Bound(p => p.Year).Width(100);
+        columns.Bound(p => p.YearHalf).Width(100);
 
-    #treeview .k-sprite {
-        background-image: url("@Url.Content("~/Content/web/treeview/coloricons-sprite.png")");
-    }
-
-    .rootfolder { background-position: 0 0; }
-    .folder { background-position: 0 -16px; }
-    .pdf { background-position: 0 -32px; }
-    .html { background-position: 0 -48px; }
-    .image { background-position: 0 -64px; }
-</style>
-<script type="text/javascript">
-
-    function show_obj(obj, name) {
-        var htm = "<ul>";
-        for (var i in obj) {
-            htm += "<li>" + i + ":" + typeof (obj[i]) + "</li>";
-        }
-        htm += "</ul>";
-        return htm;
-    }
+        columns.Command(command => { 
+           command.Custom("Edit").Click("editRecord");
+            command.Custom("Warehouse Selection").Click("selectWarehouse");
+            command.Destroy(); 
+        });
+    })
     
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.TransportBidPlanID))
+        .Read(read => read.Action("GetListJson", "TransportBidPlan"))
+        .Destroy(update => update.Action("DeleteAjax", "TransportBidPlan"))
+        //.Update(update => update.Action("EditingInline_Update", "Transporter"))
+        //.Create(update => update.Action("EditingInline_Create", "Transporter"))
+        
+        .Update(update => update.Action("UpdateAjax", "TransportBidPlan"))
+        .Create(update => update.Action("CreateAjax", "TransportBidPlan"))
+    )
+)
+<script type="text/javascript">
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";

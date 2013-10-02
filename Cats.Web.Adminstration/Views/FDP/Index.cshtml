@@ -138,7 +138,8 @@
     .Read(read=>read.Action("FDP_Read","FDP").Data("selectedWoredaId"))
     .Create(create=>create.Action("FDP_Create","FDP").Data("selectedWoredaId"))
     .Update("FDP_Update","FDP")
-    .Destroy("FDP_Destroy","FDP")
+    .Destroy(update => update.Action("FDP_Destroy", "FDP"))
+    //.Destroy("FDP_Destroy","FDP")
     )
     )
 

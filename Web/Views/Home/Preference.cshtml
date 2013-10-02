@@ -82,12 +82,17 @@
 <h2>Preference</h2>
 <div>
     <div id="tabs">
-      <ul>
-        <li><a href="#tabs-1">Dashboard</a></li>
-        <li><a href="#tabs-2">General</a></li>
-        <li><a href="#tabs-3">Advanced</a></li>
-      </ul>
+        <ul>git 
+            
+            <li><a href="#tabs-1">General</a></li>
+            <li><a href="#tabs-2">Dashboard</a></li>
+            <li><a href="#tabs-3">Advanced</a></li>
+        </ul>
         <div id="tabs-1">
+
+                    @Html.Partial("Edit",Model)
+        </div>
+        <div id="tabs-2">
             <h2>Dashbaords</h2>
             <table>
                 <tr>
@@ -115,10 +120,7 @@
                 </tr>
             </table>
         </div>
-        <div id="tabs-2">
-
-                    @Html.Partial("Edit",Model)
-        </div>
+        
 
         <div id="tabs-3"></div>
     </div>

@@ -60,18 +60,12 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<ICommodityGradeService>().To<CommodityGradeService>();
 
             kernel.Bind<IHubService>().To<HubService>();
-            kernel.Bind<IHubOwnerService>().To<HubOwnerService>();
             kernel.Bind<ICommoditySourceService>().To<CommoditySourceService>();
             kernel.Bind<ICommodityService>().To<CommodityService>();
             kernel.Bind<IAuditService>().To<AuditService>();
-            kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<IUserProfileService>().To<UserProfileService>();
-            kernel.Bind<IUserAccountService>().To<UserAccountService>();
-
-            kernel.Bind<IFDPService>().To<FDPService>();
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
-            
-
+            kernel.Bind<IFDPService>().To<FDPService>();
         }
     }
 }
