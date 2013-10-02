@@ -5,13 +5,7 @@
 });
 function init_datepicker() {
     $(".cats-datepicker2").ethcal_datepicker();
-    /*
-    $(".cats-datepicker").calendarsPicker({
-
-        //calendar: $.calendars.instance('ethiopian', 'am')
-        //disableInput: true
-    }).attr('style', 'background-color : #fff');
-    $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });*/
+    
 }
 function init_toolbar_button() {
     var button_styles = {

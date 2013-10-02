@@ -22,7 +22,7 @@
  @*<a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning" ,id=Model.RegionalRequestID})"><i class="icon-chevron-left"></i>Back</a>*@
 @using (Html.BeginForm("Edit","Request",FormMethod.Post,new {id="frmEdit"}))
 {
-    <div class="form-horizontal well">
+    <div class="form-horizontal ">
       
             @Html.HiddenFor(m=>m.RegionalRequestID)
             @Html.HiddenFor(m => m.Status)

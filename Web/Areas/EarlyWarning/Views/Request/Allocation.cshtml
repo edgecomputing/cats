@@ -11,10 +11,14 @@
 @section Toolbar    {
      <a class="btn icon-reply" href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
 }
-<h5 class="well">Regional Request Resource Allocation</h5>
+<fieldset>
+    <legend>
+         Regional Request Resource Allocation
+    </legend>
+</fieldset>
 <div class="row-fluid">
     <div>
-        <div class="form-horizontal well">
+        <div class="form-horizontal">
             <table class="table-condensed">
                 <tr>
                     <td>

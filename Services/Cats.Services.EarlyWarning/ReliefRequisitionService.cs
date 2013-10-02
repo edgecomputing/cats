@@ -162,7 +162,7 @@ namespace Cats.Services.EarlyWarning
             {
                 var relifRequistionDetail = new ReliefRequisitionDetail();
                 var commodity = regionalRequestDetail.RequestDetailCommodities.First(t => t.CommodityID == commodityId);
-
+                relifRequistionDetail.DonorID = regionalRequest.DonorID;
                 relifRequistionDetail.FDPID = regionalRequestDetail.Fdpid;
                 relifRequistionDetail.BenficiaryNo = regionalRequestDetail.Beneficiaries;
                 relifRequistionDetail.CommodityID = commodity.CommodityID;

@@ -1,7 +1,7 @@
 ﻿@using Cats.Models.ViewModels
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@model  Cats.Models.HRD
+@model  System.Data.DataTable
 
 
 @{
@@ -10,8 +10,8 @@
 }
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
-     <a  class="btn toolbar-btn" target="_blank" href="@Url.Action("PrintSummary", "HRD",new{id=Model.HRDID})" title="Print"><i class="icon-print"></i></a>
+  <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","HRD")"><i class="icon-list"></i></a>
+
 }
 <div>
     <h4>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h4>
@@ -25,7 +25,7 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
-@(Html.Kendo().Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
+@*@(Html.Kendo().Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
           
     .Name("grid")
     .Columns(columns =>
@@ -56,6 +56,39 @@
  
      )
    
+      )*@
+
+
+<script>
+    $(function () {
+        var printurl = "@Url.Action("PrintSummary", "HRD",new{id= ViewBag.HRDID })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>
+
+@(Html.Kendo().Grid(Model)
+          
+    .Name("grid")
+    .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in Model.Columns)
+        {
+            if (column.DataType == typeof(decimal))
+            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
+            else if (column.DataType == typeof(int))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
+            }
+            else{
+                columns.Bound(column.ColumnName);
+            }
+
+        }
+    })
+        .Pageable(t => t.PageSizes(new[] { 10, 15, 20, 30, 50, 100 }))
+
+        .Sortable()
+        //.Scrollable()
+       .Groupable()
+   
       )
-
-

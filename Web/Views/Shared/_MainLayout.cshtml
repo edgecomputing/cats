@@ -222,6 +222,14 @@
         }
         <script>
             //Script to generate row number
+            $(function () {
+                $(".cats-datepicker2").each(function () {
+                    if ($(this).val() == "") {
+                        $(this).val(new Date().toLocaleString());
+                    }
+                    $(this).css("opacity", 0.5);
+                })
+            });
             var rowNumber = 0;
 
             function resetRowNumber(e) {
