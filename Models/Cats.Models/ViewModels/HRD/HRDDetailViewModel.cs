@@ -34,10 +34,10 @@ namespace Cats.Models.ViewModels.HRD
         public string Region { get; set; }
         public int StartingMonth { get; set; }
 
-        public decimal Cereal { get; set; }
-        public decimal Pulse { get; set; }
-        public decimal BlendedFood { get; set; }
-        public decimal Oil { get; set; }
-        public decimal Total { get { return BlendedFood + Cereal + Oil + Pulse; } }
+        //public decimal Cereal { get; set; }
+        //public decimal Pulse { get; set; }
+        //public decimal BlendedFood { get; set; }
+        //public decimal Oil { get; set; }
+        //public decimal Total { get { return BlendedFood + Cereal + Oil + Pulse; } }
     }
 }

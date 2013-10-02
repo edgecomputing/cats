@@ -227,10 +227,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         //(int)GetTotalBeneficiaries(hrdDetail.HRDID, hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID),
                         StartingMonth = hrdDetail.StartingMonth,
                         DurationOfAssistance = hrdDetail.DurationOfAssistance,
-                        Cereal = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 1).Amount),
-                        Pulse = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 2).Amount),
-                        BlendedFood = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 3).Amount),
-                        Oil = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 4).Amount)
+                        //Cereal = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 1).Amount),
+                        //Pulse = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 2).Amount),
+                        //BlendedFood = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 3).Amount),
+                        //Oil = (hrdDetail.DurationOfAssistance) * (hrdDetail.NumberOfBeneficiaries) * (rationDetails.Single(m => m.CommodityID == 4).Amount)
 
 
                     });

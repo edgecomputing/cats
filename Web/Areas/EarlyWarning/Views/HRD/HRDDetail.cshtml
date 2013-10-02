@@ -35,11 +35,11 @@
              columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
              columns.Bound(p => p.DurationOfAssistance).Width(5).Title("Duration").HtmlAttributes(new { align = "Right" });
              columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(10);
-             columns.Bound(p => p.Cereal).Title("Cereal " + @unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.BlendedFood).Title("BleendedFood " +@unit).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.Oil).Title("Oil " +@unit ).Format("{0:N}").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.Pulse).Title("Pulse "+@unit).Format("{0:N}").HtmlAttributes(new {align = "Right"});
-             columns.Bound(p => p.Total).Title("Total" +@unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.Cereal).Title("Cereal " + @unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.BlendedFood).Title("BleendedFood " +@unit).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.Oil).Title("Oil " +@unit ).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.Pulse).Title("Pulse "+@unit).Format("{0:N}").HtmlAttributes(new {align = "Right"});
+             //columns.Bound(p => p.Total).Title("Total" +@unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
 
 
              //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
@@ -60,7 +60,7 @@
       .Ajax()
        .PageSize(15)
       .Events(events => events.Error("error_handler"))
-       .Aggregates(aggregates => aggregates.Add(p => p.Total).Sum())
+     
        .Model(model =>
                               {
                                   model.Id(p => p.HRDID);
@@ -100,7 +100,7 @@
 </script>
 
 
-<script type="text/javascript">
+@*<script type="text/javascript">
 
     function onDataBound(e) {
         rowNumber = 0;
@@ -144,6 +144,6 @@
     }
 
 
-</script> 
+</script> *@
 
 
