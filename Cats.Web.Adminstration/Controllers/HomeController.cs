@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Cats.Web.Adminstration.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         //

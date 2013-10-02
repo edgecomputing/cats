@@ -72,9 +72,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.GetUserName() <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">@Html.Translate("Preference")</a></li>
-                            <li class="divider"></li>
-                            
-                           
+                             <li class="divider"></li>
+                            <li><a href="@Url.Action("ChangePassword","Users")">@Html.Translate("Change Password")</a></li>
+                            <li><a href="@Url.RouteUrl("Logout")">@Html.Translate("Logout")</a></li>
+                                                      
                         </ul>
                     </li>
                 </ul>

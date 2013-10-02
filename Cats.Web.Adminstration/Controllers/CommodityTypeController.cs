@@ -11,6 +11,7 @@ using Cats.Web.Adminstration.ViewModelBinder;
 using Cats.Web.Adminstration.Models.ViewModels;
 namespace Cats.Web.Adminstration.Controllers
 {
+     [Authorize]
     public class CommodityTypeController : Controller
     {
         private readonly ICommodityTypeService _commodityTypeService;

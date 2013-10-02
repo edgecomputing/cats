@@ -10,6 +10,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Web.Adminstration.Controllers
 {
+     [Authorize]
     public class DonorController : Controller
     {
         //

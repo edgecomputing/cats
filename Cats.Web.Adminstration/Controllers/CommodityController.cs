@@ -12,6 +12,7 @@ using ICommodityTypeService = Cats.Services.Administration.ICommodityTypeService
 
 namespace Cats.Web.Adminstration.Controllers
 {
+     [Authorize]
     public class CommodityController : Controller
     {
         private readonly ICommodityService _commodityService;
