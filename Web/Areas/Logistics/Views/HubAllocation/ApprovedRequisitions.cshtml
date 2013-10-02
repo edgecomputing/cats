@@ -141,10 +141,12 @@
                     <th>
                         @Translator.Translate("Beneficiaries")
                     </th>
-                   @* <th>
+                    <th >
                         @Translator.Translate("Requisition ID")
-                    </th>*@
-        
+                    </th>
+                     <th >
+                        @Translator.Translate("date")
+                    </th>
                 </tr>
             </thead>
              <tbody>
@@ -197,11 +199,16 @@
 
                             @Html.HiddenFor(m => m[i].BenficiaryNo)            
                         </td>
-                        @*<td>
+                        <td>
                             @Html.DisplayFor(m => m[i].RequisitionId)
                             @Html.HiddenFor(m => m[i].RequisitionId)
             
-                        </td>*@
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].RequisitionDate)
+                            @Html.HiddenFor(m => m[i].RequisitionDate)
+            
+                        </td>
                     </tr>
                
     
