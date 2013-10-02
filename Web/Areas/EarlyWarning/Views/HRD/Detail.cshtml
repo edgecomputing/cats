@@ -22,29 +22,25 @@
         foreach (System.Data.DataColumn column in Model.Columns)
         {
             if (column.DataType == typeof(decimal))
-            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); }
-            else
+            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
+            else if (column.DataType == typeof(int))
             {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
+            }
+            else{
                 columns.Bound(column.ColumnName);
             }
 
         }
     })
-    .Pageable()
+    .Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
     
     .Sortable()
-    .Scrollable()
-    .Groupable()
-    .DataSource(dataSource => dataSource
-        .Ajax()
-     
-        .Model(model =>
-            {
-                foreach (System.Data.DataColumn column in Model.Columns)
-                {
-                    model.Field(column.ColumnName, column.DataType);
-                }
-            })
-        //.Read(read => read.Action("Details_Read", "HRD", new {id = ViewBag.HRDID}))
+   //.Scrollable()
+   .Groupable()
+   
+   
     )
-)
+
+
+ 

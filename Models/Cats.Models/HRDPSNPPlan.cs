@@ -31,7 +31,7 @@ namespace Cats.Models
         public int? DonorID { get; set; }
 
         public int? RationID { get; set; }
-        public int ? Round { get; set; }
+        public int? Round { get; set; }
 
         
     }

@@ -70,12 +70,12 @@ namespace Cats.ViewModelBinder
             dt.Columns.Add(colWoreda);
 
 
-            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(decimal));
+            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(int));
             colNoBeneficiary.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colNoBeneficiary);
 
 
-            var colDuration = new DataColumn("Duration", typeof(string));
+            var colDuration = new DataColumn("Duration", typeof(int));
             colDuration.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colDuration);
 

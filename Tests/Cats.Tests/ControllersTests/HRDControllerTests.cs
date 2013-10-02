@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Principal;
@@ -42,8 +43,10 @@ namespace Cats.Tests.ControllersTests
                                               {
                                                   new HRDDetail()
                                                       {
+                                                          
                                                           DurationOfAssistance = 2,
                                                           HRDDetailID = 1,
+                                                          
                                                           NumberOfBeneficiaries = 300,
                                                           WoredaID = 1,
                                                           AdminUnit =
@@ -68,6 +71,10 @@ namespace Cats.Tests.ControllersTests
                                               }
                                   }
                           };
+            var rationDetails = new List<RationDetail>
+                                    {
+                                        new RationDetail() {Amount = 1, CommodityID = 1, RationID = 1,Commodity=new Commodity(){CommodityID=1,Name="Creal"}}
+                                    };
             var hrdService = new Mock<IHRDService>();
             hrdService.Setup(
                 t =>
@@ -81,7 +88,18 @@ namespace Cats.Tests.ControllersTests
          
             var rationService = new Mock<IRationService>();
             var rationDetailService = new Mock<IRationDetailService>();
+
+            rationDetailService.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<RationDetail, bool>>>(),
+                      It.IsAny<Func<IQueryable<RationDetail>, IOrderedQueryable<RationDetail>>>(), It.IsAny<string>())).
+                Returns(rationDetails);
             var hrdDetailService = new Mock<IHRDDetailService>();
+            hrdDetailService.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<HRDDetail, bool>>>(),
+                      It.IsAny<Func<IQueryable<HRDDetail>, IOrderedQueryable<HRDDetail>>>(), It.IsAny<string>())).
+                Returns(hrds.First().HRDDetails);
             var commodityService = new Mock<ICommodityService>();
             var needAssesmentDetailService = new Mock<INeedAssessmentDetailService>();
             var needAssesmentHeaderService = new Mock<INeedAssessmentHeaderService>();
@@ -150,7 +168,14 @@ namespace Cats.Tests.ControllersTests
             Assert.IsInstanceOf<JsonResult>(result);
 
         }
-
+        [Test]
+        public void ShouldDisplayHRDDetail()
+        {
+            //act
+            var result = _hrdController.Detail(1);
+            //
+            Assert.AreEqual(1,((DataTable)((ViewResult)result).Model).Rows.Count);
+        }
         #endregion
     }
 }
