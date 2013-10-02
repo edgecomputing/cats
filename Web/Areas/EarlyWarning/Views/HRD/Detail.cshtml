@@ -5,14 +5,16 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h4 class="page-header">HRD Detail</h4>
+<h4 class="page-header">HRD Detail for  @ViewBag.SeasonID  @ViewBag.Year</h4>
+
 @section LeftBar{
 
     @Html.Partial("_HRDLeftBar")
     
 }
 @section Toolbar
-{
+{ <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","HRD")"><i class="icon-list"></i></a>
+
     <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("HRDDetail", "HRD", new {id = ViewBag.HRDID})"><i class="icon-edit"></i></a>
 }
 @(Html.Kendo().Grid(Model)

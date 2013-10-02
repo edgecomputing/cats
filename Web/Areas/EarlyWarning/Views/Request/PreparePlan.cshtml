@@ -5,8 +5,10 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+<fieldset>
+    <legend>Request will be generated for the following FDPs</legend>
+</fieldset>
 
-<h2>Request From Plan</h2>
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
@@ -36,10 +38,7 @@
                  col.Bound(m => m.FDPName);
                  col.Bound(m => m.Beneficiaries);
                  // col.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
-                 col.Command(
-                     command => command.Destroy()
-                     ).ClientFooterTemplate("<a href=''>000</a>");
-
+                
 
              }).Pageable()
              .DataSource(datasource => datasource.Server()
@@ -48,14 +47,14 @@
              .Destroy(destroy => destroy.Action("RequestFromPlan_Destroy", "Request"))))
 
 <script>
-    $(function () {
+   /* $(function () {
         $("tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
         $("thead tr").prepend("<th class='k-header'></th>");
         $("tfoot tr").prepend("<td class='k-header'></td>");
         $("tbody .checker").click(
             function (event) { $(this).parent().toggleClass("k-state-selected"); });
     }
-        );
+        );*/
 </script>
 <style>
     .table-compact {
