@@ -300,7 +300,10 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult MakeActive(int id)
         {
-            _applicationSettingService.SetValue("CurrentBid", ""+id);
+            var bid = _bidService.FindById(id);
+            bid.StatusID = 5;
+            _bidService.EditBid(bid);
+            //_applicationSettingService.SetValue("CurrentBid", ""+id);
             return RedirectToAction("Index");
         }
         public ActionResult ApproveBid(int id)

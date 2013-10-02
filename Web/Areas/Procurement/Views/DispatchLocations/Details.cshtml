@@ -78,7 +78,7 @@
       .Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
        
       .Model(model=>model.Id(p=>p.TransporterID))
-      .Read(read => read.Action("DispatchLocation_Read", "DispatchLocations",new{id=Model.TransporterID}))
+      .Read(read => read.Action("DispatchLocation_Read", "DispatchLocations",new{id=Model.TransportOrderID}))
       )
       
 )

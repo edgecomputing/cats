@@ -44,14 +44,7 @@
         });
     }
 </script>
-<script>
-    function onActive(e) {
-        e.preventDefault();
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "bid/MakeActive/" + dataItem.BidID;
-  
-    }
-</script>
+
 <div>
     <h4>Bid For Transporters</h4>
 </div>
@@ -81,7 +74,7 @@
                 {
                     p.Custom("Edit").Click("bidEdit");
                     p.Custom("Approve").Click("onApprove");
-                    p.Custom("Active").Click("onActive");
+                    //p.Custom("Active").Click("onActive");
                 });
 
         })

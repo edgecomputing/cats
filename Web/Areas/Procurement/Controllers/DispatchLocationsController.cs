@@ -66,9 +66,11 @@ namespace Cats.Areas.Procurement.Controllers
       
      public ActionResult Details(int id = 0)
      {
-         TransportOrder transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
-
+         TransportOrder transportOrder = _transportOrderService.Get(t => t.TransporterID == id, null, "TransportOrderDetails,TransportOrderDetails.FDP.AdminUnit.AdminUnit2,Transporter").FirstOrDefault();
+         //var transportOrder = _transportOrderService.GetTransportOrderDetailByTransportId(id);
+         
          if (transportOrder != null)
+         //try 
          {
              var totalAmount = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl);
              var region = transportOrder.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
@@ -79,6 +81,10 @@ namespace Cats.Areas.Procurement.Controllers
              ViewData["Locations"] = transportOrder;
              return View(transportOrder);
          }
+         //catch(Exception ex)
+         //{
+         //    ModelState.AddModelError("Errors",ex.Message);
+         //}
          return RedirectToAction("Index");
 
      }
