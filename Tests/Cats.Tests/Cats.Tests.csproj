@@ -168,6 +168,10 @@
       <Project>{B0410B11-91E0-40EC-9F16-55FC5E2C4090}</Project>
       <Name>Cats.Services.Procurement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
+      <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
       <Name>Cats.Services.Security</Name>

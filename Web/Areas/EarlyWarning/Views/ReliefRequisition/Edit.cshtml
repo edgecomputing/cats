@@ -13,11 +13,15 @@
     <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back to requisitions</a></li>*@
 }
 
-<h3 class="well">Edit Relief Requisition for Distribution</h3>
+<fieldset>
+    <legend>
+        Edit Relief Requisition for Distribution
+    </legend>
+</fieldset> 
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal well">
+    <div class="form-horizontal ">
         <fieldset>
             @Html.HiddenFor(model => model.RequisitionID)
             @Html.HiddenFor(model => model.Status)

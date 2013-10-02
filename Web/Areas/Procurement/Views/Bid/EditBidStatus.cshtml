@@ -18,7 +18,7 @@
     @using (Html.BeginForm("EditBidStatus", "Bid", FormMethod.Post, new { id = "frm_edit_bid" }))
     {
          @Html.ValidationSummary(true)
-        <div class="form-horizontal well">
+        <div class="form-horizontal ">
         <fieldset>
             <legend> Edit Bid </legend>
             @Html.HiddenFor(model=>model.BidID)

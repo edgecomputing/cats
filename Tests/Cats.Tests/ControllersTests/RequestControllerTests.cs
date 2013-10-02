@@ -14,6 +14,7 @@ using Cats.Models.Constant;
 using Cats.Models.Security;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
+using Cats.Services.PSNP;
 using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
@@ -297,8 +298,9 @@ namespace Cats.Tests.ControllersTests
 
 
             var hrdServiceDetail = new Mock<IHRDDetailService>();
+            var RegionalPSNPPlanDetailService = new Mock<IRegionalPSNPPlanDetailService>();
 
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object, userAccountService.Object, log.Object, hrdServiceDetail.Object);
+            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object, userAccountService.Object, log.Object, hrdServiceDetail.Object, RegionalPSNPPlanDetailService.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      
