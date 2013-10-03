@@ -38,6 +38,7 @@ namespace Cats.Models
         public string LanguageCode { get; set; }
         public string DatePreference { get; set; }
         public string PreferedWeightMeasurment { get; set; }
+        public string Keyboard { get; set; }
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }

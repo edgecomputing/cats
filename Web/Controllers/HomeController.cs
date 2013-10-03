@@ -11,8 +11,9 @@ using Cats.Data.UnitWork;
 using Cats.Services.Common;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using Cats.Areas.Settings.Models;
+using Cats.Models.ViewModels;
 using Cats.Services.Security;
+using UserProfile = Cats.Models.Security.UserProfile;
 
 namespace Cats.Controllers
 {
@@ -52,6 +53,10 @@ namespace Cats.Controllers
 
         public ActionResult Preference()
         {
+            if (TempData["PreferenceUpdateSuccessMsg"] != null)
+                ModelState.AddModelError("Success", TempData["PreferenceUpdateSuccessMsg"].ToString());
+            if (TempData["PreferenceUpdateErrorMsg"] != null)
+                ModelState.AddModelError("Errors", TempData["PreferenceUpdateErrorMsg"].ToString());
             var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
             var selectedDashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
@@ -60,7 +65,24 @@ namespace Cats.Controllers
             var allDashboardWidgets = _dashboardWidgetService.GetAllDashboardWidget();
             var unselectedDashbaords = allDashboardWidgets.Where(dashboardWidget => !selectedDashboardWidgets.Contains(dashboardWidget)).ToList();
             ViewBag.UnselectedDashbaords = unselectedDashbaords;
-            return View(UserPreference());
+
+            var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
+            //var userPreference = new UserPreferenceEditModel
+            //{
+            //    Language = user.LanguageCode,
+            //    KeyboardLanguage = user.Keyboard,
+            //    PreferedWeightMeasurement = user.PreferedWeightMeasurment,
+            //    DatePreference = user.DatePreference,
+            //    DefaultTheme = user.DefaultTheme
+            //};
+            var userPreferenceViewModel = new UserPreferenceViewModel(user);
+            ViewBag.Languages = new SelectList(userPreferenceViewModel.Languages, "StringID", "Name", userPreferenceViewModel.Language);
+            ViewBag.DateFormatPreference = new SelectList(userPreferenceViewModel.DateFormatPreferences, "StringID", "Name", userPreferenceViewModel.DateFormatPreference);
+            ViewBag.WeightPrefernce = new SelectList(userPreferenceViewModel.WeightPerferences, "StringID", "Name", userPreferenceViewModel.WeightPrefernce);
+            ViewBag.KeyboardLanguage = new SelectList(userPreferenceViewModel.KeyboardLanguages, "StringID", "Name", userPreferenceViewModel.KeyboardLanguage);
+            ViewBag.ThemePreference = new SelectList(userPreferenceViewModel.ThemePreferences, "StringID", "Name", userPreferenceViewModel.ThemePreference);
+
+            return View(userPreferenceViewModel);
         }
 
         public JsonResult SavePreference([DataSourceRequest] DataSourceRequest request, List<int> selectedDashboardIDs)
@@ -124,57 +146,46 @@ namespace Cats.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public UserPreferenceViewModel UserPreference()
-        {
-            var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-            var userPreference = new UserPreferenceEditModel
-            {
-                Language = user.LanguageCode,
-                KeyboardLanguage = user.Keyboard,
-                PreferedWeightMeasurement = user.PreferedWeightMeasurment,
-                DatePreference = user.DatePreference,
-                DefaultTheme = user.DefaultTheme
-            };
+        //public UserPreferenceViewModel UserPreference()
+        //{
+        //    var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
+        //    //var userPreference = new UserPreferenceEditModel
+        //    //{
+        //    //    Language = user.LanguageCode,
+        //    //    KeyboardLanguage = user.Keyboard,
+        //    //    PreferedWeightMeasurement = user.PreferedWeightMeasurment,
+        //    //    DatePreference = user.DatePreference,
+        //    //    DefaultTheme = user.DefaultTheme
+        //    //};
+        //    var userPreferenceViewModel = new UserPreferenceViewModel(user);
+            
+        //    return View();
 
-            var userPreferences = userService.GetUserPreferences();
-            //UserPreferenceViewModel userPreferencesModel = new UserPreferenceViewModel
-            //{
-            //    Language = new List<LanguageCode>(),
-            //    KeyboardLanguage = new List<Keyboard>(),
-            //    PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit>(),
-            //    DatePreference = new List<Cats.Areas.Settings.Models.Calendar>(),
-            //    DefaultTheme = new List<Theme>()
-            //};
+        //    var userPreferences = userService.GetUserPreferences();
+        //    //UserPreferenceViewModel userPreferencesModel = new UserPreferenceViewModel
+        //    //{
+        //    //    Language = new List<LanguageCode>(),
+        //    //    KeyboardLanguage = new List<Keyboard>(),
+        //    //    PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit>(),
+        //    //    DatePreference = new List<Cats.Areas.Settings.Models.Calendar>(),
+        //    //    DefaultTheme = new List<Theme>()
+        //    //};
 
-             var Language = new List<LanguageCode>();
-             var KeyboardLanguage = new List<Keyboard>();
-             var PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit>();
-             var DatePreference = new List<Cats.Areas.Settings.Models.Calendar>();
-             var DefaultTheme = new List<Theme>();
 
-            foreach (var preferences in userPreferences)
-            {
-                if (!Language.Exists(t => t.Language == preferences.LanguageCode))
-                    Language.Add(new LanguageCode { Language = preferences.LanguageCode });
-                if (!KeyboardLanguage.Exists(t => t.KeyboardLanguage == preferences.Keyboard))
-                    KeyboardLanguage.Add(new Keyboard { KeyboardLanguage = preferences.Keyboard });
-                if (!PreferedWeightMeasurement.Exists(t => t.PreferedWeightMeasurement == preferences.PreferedWeightMeasurment))
-                    PreferedWeightMeasurement.Add(new PreferedWeightMeasurementUnit { PreferedWeightMeasurement = preferences.PreferedWeightMeasurment });
-                if (!DatePreference.Exists(t => t.DatePreference == preferences.DatePreference))
-                    DatePreference.Add(new Cats.Areas.Settings.Models.Calendar { DatePreference = preferences.DatePreference });
-                if (!DefaultTheme.Exists(t => t.DefaultTheme == preferences.DefaultTheme))
-                    DefaultTheme.Add(new Theme { DefaultTheme = preferences.DefaultTheme });
-            }
-            var userPreferencesModel = new UserPreferenceViewModel()
-            {
-                Language = Language,
-                KeyboardLanguage = KeyboardLanguage,
-                PreferedWeightMeasurement = PreferedWeightMeasurement,
-                DatePreference = DatePreference,
-                DefaultTheme = DefaultTheme,
-                CurrentPreference = userPreference
-            };
-            return userPreferencesModel;
-        }
+        //    //foreach (var preferences in userPreferences)
+        //    //{
+        //    //    if (!Language.Exists(t => t.Language == preferences.LanguageCode))
+        //    //        Language.Add(new LanguageCode { Language = preferences.LanguageCode });
+        //    //    if (!KeyboardLanguage.Exists(t => t.KeyboardLanguage == preferences.Keyboard))
+        //    //        KeyboardLanguage.Add(new Keyboard { KeyboardLanguage = preferences.Keyboard });
+        //    //    if (!PreferedWeightMeasurement.Exists(t => t.PreferedWeightMeasurement == preferences.PreferedWeightMeasurment))
+        //    //        PreferedWeightMeasurement.Add(new PreferedWeightMeasurementUnit { PreferedWeightMeasurement = preferences.PreferedWeightMeasurment });
+        //    //    if (!DatePreference.Exists(t => t.DatePreference == preferences.DatePreference))
+        //    //        DatePreference.Add(new Cats.Areas.Settings.Models.Calendar { DatePreference = preferences.DatePreference });
+        //    //    if (!DefaultTheme.Exists(t => t.DefaultTheme == preferences.DefaultTheme))
+        //    //        DefaultTheme.Add(new Theme { DefaultTheme = preferences.DefaultTheme });
+        //    //}
+            
+        //}
     }
 }

@@ -71,36 +71,7 @@ namespace Cats.Services.EarlyWarning
         }
         #endregion
 
-        public List<RequisitionViewModel> ReturnRequisitionGroupByReuisitionNo(int status)
-        {
-            var requisition =_unitOfWork.ReliefRequisitionRepository.FindBy(r => r.Status == status);
-            
-           
-
-
-
-            var result = (from r in requisition
-
-                         select new RequisitionViewModel()
-                                     {
-                                                        RequisitionNo = r.RequisitionNo,
-                                                        RequisitionId = r.RequisitionID,
-                                                        RequisitionDate = DateTime.Parse(r.RequestedDate.ToString()),
-                                                        Commodity = r.Commodity.Name,
-                                                        BenficiaryNo = r.ReliefRequisitionDetails.Sum(a=>a.BenficiaryNo),
-                                                        Amount = r.ReliefRequisitionDetails.Sum(a => a.Amount),
-                                                        Status = int.Parse( r.Status.ToString()),
-                                                        Region = r.AdminUnit.Name,
-                                                        Zone = r.AdminUnit1.Name
-                                     });
-                                                   
-
-
-            return Enumerable.Cast<RequisitionViewModel>(result).ToList();
-          
-
-
-        }
+       
 
         public string GetAllocatedHub(int id)
         {
