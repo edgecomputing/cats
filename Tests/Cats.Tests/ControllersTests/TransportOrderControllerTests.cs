@@ -100,7 +100,7 @@ namespace Cats.Tests.ControllersTests
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
 
             _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object, logService.Object, userAccountService.Object);
-
+            _transportOrderController.ControllerContext = controllerContext.Object;
         }
 
         [TearDown]

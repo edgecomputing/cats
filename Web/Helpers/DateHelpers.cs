@@ -24,6 +24,10 @@ namespace Cats.Helpers
             }
 
         }
+        public static string CTSPreferedDateLabel(this string label)
+        {
+            return string.Format("{0}( {1})", label, UserAccountHelper.UserCalendarPreference());
+        }
       
         public static string FormatDateFromString(this HtmlHelper helper, string dateAsString)
         {
