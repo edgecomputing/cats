@@ -243,7 +243,20 @@
 
             var datep = $(".cats-date-pref").text();
             $(".cats-date-pref").text(datep + ' (' + datepeferencedisplay + ')');
-           
+            $(".cats-date-pref").each(function () {
+                
+            });
+            $("thead").find("tr").first(function () {
+                alert(this);
+                $(this).find("th.cats-date-pref-grid").each(function () {
+
+                    alert(this.text());
+                });
+                //var datep = $(this).find('th.cats-date-pref-grid').text();
+                //$(this).find('th.cats-date-pref-grid').text(datep + ' (' + datepeferencedisplay + ')');
+               
+
+            });
         }
         );
     </script>
