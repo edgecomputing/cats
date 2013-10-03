@@ -112,7 +112,9 @@
     <li><a href="~/">Home</a> </li>
     @{
         string home = Url.Action("Index", "Home", new { Area = "" });
-
+        <!--<li>@home</li>-->
+        string basePath = Server.MapPath("/");  
+        
         string[] page_url = PageContext.Page.Context.Request.Url.Segments;
         string url = home;
         int heirarchy_len = page_url.Length - 1;
@@ -131,11 +133,11 @@
                 
             if (i < heirarchy_len)
             {
-				<li><span class="divider icon-chevron-right"></span><a href="@url">@Html.Translate(urlitem)</a> </li>
+				<li><span class="divider icon-chevron-right"></span><a href="@url">@urlitem</a> </li>
             }
             else
             {
-				<li class="active"><span class="divider icon-chevron-right"></span> @Html.Translate(urlitem)</li>
+				<li class="active"><span class="divider icon-chevron-right"></span> @urlitem</li>
                
             }
 

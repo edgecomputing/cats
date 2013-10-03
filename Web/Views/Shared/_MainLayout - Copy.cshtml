@@ -131,7 +131,27 @@
                     <div class="span7">
                         @RenderSection("Breadcrumb", required: false)
                          @Html.Partial("_BreadCrumb")
-                        </div>
+                        <ul class="breadcrumb">
+                            
+                            <li><a href="~/">Home</a> </li>
+                            @{
+                                string home = Url.Action("Index", "Home", new {Area = ""});
+                                string[] page_url = PageContext.Page.Context.Request.Url.Segments;
+                                string separator = "";
+                                string url = home;
+
+                                for (int i = 1; i < page_url.Length - 1; i++)
+                                {
+                                    string item = page_url[i];
+                                    string urlitem = item.Replace("/", "");
+                                    url += item;
+                                    <li><span class="divider"> / </span><a href="@url"> @urlitem </a></li>
+                            
+                                }
+                            }
+                        </ul>
+                       
+                    </div>
                     <div class="span5">
                         <div class=" btn-group toolbar">
                             @RenderSection("Toolbar", required: false)
