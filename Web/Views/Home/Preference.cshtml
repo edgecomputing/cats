@@ -1,4 +1,4 @@
-﻿@model Cats.Areas.Settings.Models.UserPreferenceViewModel
+﻿@model Cats.Models.ViewModels.UserPreferenceViewModel
 @using Kendo.Mvc.UI
 @using Cats.Areas.Settings.Models
 @using Cats.Models
@@ -51,14 +51,20 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(selectedDashboards),
             dataType: "json",
+            beforeSend:BeforeSendActivity,
             success: PreferenceSaveCompleted,
             error: PreferenceSaveFailed
         });
     }
     var timer;
+    function BeforeSendActivity() {
+        //alert();
+        //var msg = '<div class="cats_success">Loading...</div>';
+        //$(".message-window").html(msg).delay(800).hide().fadeIn();
+    }
     function PreferenceSaveCompleted(results) {
         if (results) {
-            var msg = '<div class="cats_success">Success: Preference Saved.</div>';
+            var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
             $(".message-window").html(msg).delay(800).hide().fadeIn();
             clearTimeout(timer);
             timer = setTimeout(function () {
@@ -68,7 +74,8 @@
     }
 
     function PreferenceSaveFailed(request, status, error) {
-        var msg = '<div class="cats_error">Error: ' + error + '. Status: ' + status + '</div>';
+        //var msg = '<div class="cats_error">Error: ' + error + '. Status: ' + status + '</div>';
+        var msg = '<div class="cats_error">Error: Dashboard preference not updated.';
         $(".message-window").html(msg).delay(800).hide().fadeIn();
         clearTimeout(timer);
         timer = setTimeout(function () {
