@@ -139,9 +139,7 @@
                             <li class="active">Rations</li>--->
                     </div>
                     <div class="span5">
-                        <div class=" btn-group toolbar">
-                            @RenderSection("Toolbar", required: false)
-                        </div>
+                        <div style="clear: both;" class="message-window">@RenderSection("Errors", required:false)@Html.CustomValidationSummary()</div>
                         @Html.Partial("_ToolbarCommon")
                     </div>
                 </div>

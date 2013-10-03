@@ -34,6 +34,7 @@
     });
 
     $(".saveChanges").click(function (e) {
+        preventDefault();
         saveChanges();
     });
     function saveChanges() {
@@ -75,10 +76,6 @@
         }, 5000);
     }
 </script>
-@section Toolbar
-{
-    <span data-buttontype="btn_save"  class="btn toolbar-btn saveChanges"></span>
-}
 <h2>Preference</h2>
 <div>
     <div id="tabs">
@@ -119,6 +116,10 @@
                     </td>
                 </tr>
             </table>
+            <div class="controls">
+                <input type="button" class="btn btn-primary" value="Save Preference" onclick="saveChanges()"/>
+                <a href="@Url.Action("Index", "Home")" class="btn" id="cancel">Cancel</a>
+            </div>
         </div>
         
 
