@@ -2,16 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
 using Cats.Areas.Procurement.Models;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Models.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
+using Cats.Services.Security;
 using Moq;
 using NUnit.Framework;
 using log4net;
@@ -78,8 +82,24 @@ namespace Cats.Tests.ControllersTests
             var workflowStatusService = new Mock<IWorkflowStatusService>();
             workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Approved");
 
+
             var logService = new Mock<ILog>();
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,workflowStatusService.Object,logService.Object);
+
+
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object, logService.Object, userAccountService.Object);
 
         }
 
