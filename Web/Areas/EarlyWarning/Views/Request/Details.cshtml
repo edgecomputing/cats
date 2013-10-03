@@ -140,17 +140,7 @@
     .Sortable()
     .Scrollable()
     .Groupable()
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .Model(model =>
-            {
-                foreach (System.Data.DataColumn column in Model.Columns)
-                {
-                    model.Field(column.ColumnName, column.DataType);
-                }
-            })
-        .Read(read => read.Action("Details_Read", "Request"))
-    )
+    
 )
 
 

@@ -60,14 +60,15 @@ else
 
                  })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable()
+    .Pageable(t=>t.PageSizes(new int[]{10,30,50}))
+    .Groupable()
     .Sortable()
-    .Scrollable()
+   // .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
     .Events(ev => ev.DataBound("resetRowNumber"))
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(22)
+        .PageSize(10)
 
             .Model(model =>
             {

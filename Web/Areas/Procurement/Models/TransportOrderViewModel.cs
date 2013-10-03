@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -11,6 +12,7 @@ namespace Cats.Areas.Procurement.Models
         public string TransportOrderNo { get; set; }
         public string ContractNumber { get; set; }
         public DateTime OrderDate { get; set; }
+        [Display(Name="Order Date")]
         public string OrderDateET { get; set; }
 
         public DateTime RequestedDispatchDate { get; set; }
@@ -24,6 +26,7 @@ namespace Cats.Areas.Procurement.Models
         public string ConsignerName { get; set; }
         public string TransporterSignedName { get; set; }
         public DateTime ConsignerDate { get; set; }
+        
         public string ConsignerDateET { get; set; }
         public DateTime TransporterSignedDate { get; set; }
         public string TransporterSignedDateET { get; set; }
