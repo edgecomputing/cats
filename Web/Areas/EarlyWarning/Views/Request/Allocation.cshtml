@@ -154,6 +154,7 @@
                                                    model.Field(detail => detail.FDP).Editable(false);
                                                    model.Field(detail => detail.Zone).Editable(false);
                                                    model.Field(detail => detail.Woreda).Editable(false);
+                                                   model.Field(detail => detail.PlannedBeneficiaries).Editable(false);
                                                })
                                     .Create(update => update.Action("Allocation_Create", "Request"))
 
