@@ -141,61 +141,61 @@
     
                </thead>
                <tbody>
-               @foreach(var item in Model)
-               {
+               @for (int i = 0; i < Model.Count; i++)
+            {
                    
                        <tr>
        
                            <td>
-                               @Html.DisplayFor(modelItem => item.Commodity)
-                               @Html.HiddenFor(modelItem => item.Commodity)
+                               @Html.DisplayFor(m => m[i].Commodity)
+                               @Html.HiddenFor(m => m[i].Commodity)
             
                            </td>
         
                            <td>
-                               @Html.DisplayFor(modelItem => item.Region)
-                               @Html.HiddenFor(modelItem => item.Region)
+                               @Html.DisplayFor(m => m[i].Region)
+                               @Html.HiddenFor(m => m[i].Region)
             
                            </td>
         
                            <td>
-                               @Html.DisplayFor(modelItem => item.Zone)
-                               @Html.HiddenFor(modelItem => item.Zone)
+                               @Html.DisplayFor(m => m[i].Zone)
+                               @Html.HiddenFor(m => m[i].Zone)
             
                            </td>
         
                            <td>
            
-                               @Html.DisplayFor(modelItem => item.RequisitionNo)
-                               @Html.HiddenFor(modelItem => item.RequisitionNo)
+                               @Html.DisplayFor(m => m[i].RequisitionNo)
+                               @Html.HiddenFor(m => m[i].RequisitionNo)
             
                            </td>
         
         
                            <td>
-                               @*@item.RequisitionDate.ToCTSPreferedDateFormat(Html.UserCalendarPreference())*@
-                               @Html.DisplayFor(modelItem => item.RequisitionDate)
-                               @Html.HiddenFor(modelItem => item.RequisitionDate)
+                              @Html.DisplayFor(m => m[i].StrRequisitionDate)
+                              @* @Html.DisplayFor(m => m[i].RequisitionDate)*@
+                               @Html.HiddenFor(m => m[i].StrRequisitionDate)
             
                            </td>
                            <td>
                                <p  class="text-right">
-                                   @Html.DisplayFor(modelItem => item.Amount)
+                                   @Html.DisplayFor(m => m[i].Amount)
                                </p>
-                               @Html.HiddenFor(modelItem => item.Amount)
+                               @Html.HiddenFor(m => m[i].Amount)
             
                            </td>
                            <td>
                                <p  class="text-right">
-                                   @Html.DisplayFor(modelItem => item.BenficiaryNo)
+                                   @Html.DisplayFor(m => m[i].BenficiaryNo)
                                </p>
 
-                               @Html.HiddenFor(modelItem => item.BenficiaryNo)
+                               @Html.HiddenFor(m => m[i].BenficiaryNo)
             
                            </td>
                            <td>
-                               @Html.DisplayFor(modelItem => item.RequisitionId)
-                               @Html.HiddenFor(modelItem => item.RequisitionId)
+                               @Html.DisplayFor(m => m[i].RequisitionId)
+                               @Html.HiddenFor(m => m[i].RequisitionId)
             
                            </td>
        

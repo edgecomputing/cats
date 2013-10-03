@@ -11,7 +11,7 @@ namespace Cats.Helpers
     {
         public static string ToCTSPreferedDateFormat(this DateTime date, string lang)
         {
-            if (lang.ToLower() == "en")
+            if (lang.ToLower() == "gc")
             {
                 IFormatProvider provider = new CultureInfo("en-GB");
                 return date.ToString("dd-MMM-yyyy", provider);
@@ -28,7 +28,7 @@ namespace Cats.Helpers
         public static string FormatDateFromString(this HtmlHelper helper, string dateAsString)
         {
             DateTime theRealDate = Convert.ToDateTime((dateAsString));
-            return ToCTSPreferedDateFormat(theRealDate, "am");
+            return ToCTSPreferedDateFormat(theRealDate, "EC");
         }
 
         public static Decimal ToPreferedWeightMeasurment(this Decimal quantity, string weightMeasurment)
