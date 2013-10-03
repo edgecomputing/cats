@@ -130,8 +130,12 @@
                 <div>
                     <div class="span7">
                         @RenderSection("Breadcrumb", required: false)
+
                          @Html.Partial("_BreadCrumb")
                         </div>
+
+                       
+                    
                     <div class="span5">
                         <div class=" btn-group toolbar">
                             @RenderSection("Toolbar", required: false)

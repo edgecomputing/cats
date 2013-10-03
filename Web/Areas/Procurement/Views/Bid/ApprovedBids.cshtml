@@ -17,17 +17,18 @@
     <button id="no" class="k-button">No</button>
 </div>
 <script>
-var wnd;
-$(document).ready(function () {
-    wnd = $("#modalWindow").kendoWindow({
-                        title: "Approve confirmation",
-                        modal: true,
-                        visible: false,
-                        resizable: false,
-                        width: 300
-                    }).data("kendoWindow");
-});
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
 </script>
+
 <script>
 
     function onApprove(e) {
@@ -52,6 +53,13 @@ $(document).ready(function () {
         //    window.location = "bid/ApproveBid/" + dataItem.BidID;
     }
 </script>
+<script>
+    function onActive(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "bid/MakeActive/" + dataItem.BidID;
+    }
+</script>
 <div>
     <h4 class="">Bid For Transporters</h4>
 </div>  
@@ -74,7 +82,12 @@ $(document).ready(function () {
             columns.Bound(p => p.EndDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("End Date({0})", Html.UserCalendarPreference()));
             columns.Bound(p => p.OpeningDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Opening Date({0})", Html.UserCalendarPreference()));
             columns.Bound(p => p.Status).Title("Status");
-            columns.Command(p => p.Custom("Edit").Click("bidEdit"));
+            
+            columns.Command(p =>
+                {
+                    p.Custom("Edit").Click("bidEdit");
+                    p.Custom("Active").Click("onActive");
+                });
                
         })
     .Pageable()

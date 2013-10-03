@@ -68,16 +68,16 @@ namespace Cats.Areas.PSNP.Controllers
                     where (fdp.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID)
                     select new PSNPPlanDetailView
                     {
-                        FDPID = fdp.FDPID,
-                        FDPName = fdp.Name,
-                        WoredaID = fdp.AdminUnit.AdminUnitID,
-                        WoredaName = fdp.AdminUnit.Name,
                         ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
                         ZoneName = fdp.AdminUnit.AdminUnit2.Name,
+                        WoredaID = fdp.AdminUnit.AdminUnitID,
+                        WoredaName = fdp.AdminUnit.Name,
+                        FDPID = fdp.FDPID,
+                        FDPName = fdp.Name,
                         BeneficiaryCount = 0,
                         RegionalPSNPPlanID = planID
-                    }
-                    );
+                    } 
+                    ).OrderBy(t=>t.ZoneName).ThenBy(t=>t.WoredaName);
 
 
         }
@@ -104,9 +104,9 @@ namespace Cats.Areas.PSNP.Controllers
             {
                 return RedirectToAction("Index", "RegionalPSNPPlan");
             }
-            
+
             IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
-            
+
             ViewBag.PsnpPlan = plan;
             return View(allFDPData);
         }
@@ -141,7 +141,7 @@ namespace Cats.Areas.PSNP.Controllers
                 filledData = plan.RegionalPSNPPlanDetails;
                 allFDPData = from fdp in allFDPs
                              join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
-                             
+
                              select new PSNPPlanDetailView
                              {
                                  FDPID = fdp.FDPID,
@@ -153,8 +153,8 @@ namespace Cats.Areas.PSNP.Controllers
                                  RegionalPSNPPlanDetailID = plandetail.RegionalPSNPPlanDetailID,
                                  BeneficiaryCount = plandetail.BeneficiaryCount,
                                  RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
-                                 FoodRatio=plandetail.FoodRatio,
-                                 CashRatio=plandetail.CashRatio
+                                 FoodRatio = plandetail.FoodRatio,
+                                 CashRatio = plandetail.CashRatio
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -169,7 +169,7 @@ namespace Cats.Areas.PSNP.Controllers
 
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==plan.Region.AdminUnitID);
+                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.Region.AdminUnitID);
                 allFDPData = from fdp in allFDPs
                              join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
                              into fdpBeneficiary
@@ -195,7 +195,7 @@ namespace Cats.Areas.PSNP.Controllers
 
         public ActionResult EditAjax([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<PSNPPlanDetailView> items)
         {
-            
+
             foreach (PSNPPlanDetailView item in items)
             {
                 if (item.BeneficiaryCount > 0)
