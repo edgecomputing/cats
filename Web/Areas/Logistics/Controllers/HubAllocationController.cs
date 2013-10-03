@@ -13,6 +13,7 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using log4net;
 using HubAllocation = Cats.Models.HubAllocation;
+using Cats.ViewModelBinder;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -104,10 +105,13 @@ namespace Cats.Areas.Logistics.Controllers
                         ModelState.Add(kvp.Key, kvp.Value);
             }
 
-            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo((int)ReliefRequisitionStatus.Approved);
-            if (reliefRequisitions != null)
+           
+            var requisititions = _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.Approved);
+            var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+          
+            if (requisitionViewModel != null)
             {
-                var total = reliefRequisitions.Count();
+                var total = requisitionViewModel.Count();
                 ViewData["total"] = total;
             }
             else
@@ -115,7 +119,7 @@ namespace Cats.Areas.Logistics.Controllers
                 return HttpNotFound();
             }
                 //.re _reliefRequisitionDetailService.Get(r => r.ReliefRequisition.Status == 2, null, "ReliefRequisition,Donor");
-            return View(reliefRequisitions.ToList());
+            return View(requisitionViewModel.ToList());
         }
         public ActionResult Request(ICollection<ReliefRequisitionDetail> requisitionDetail)
         {

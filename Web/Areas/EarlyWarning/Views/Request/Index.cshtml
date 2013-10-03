@@ -29,13 +29,14 @@
     .Name("grid")
     .Columns(columns =>
                  {
+                    
                      columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
                      columns.Bound(request => request.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
                      columns.Bound(request => request.Program);
-                     columns.Bound(request => request.RequestDate);
+                     columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref" }).Width(160);
                     
     columns.Bound(request => request.Status).Template(
 
@@ -85,4 +86,5 @@ else
         //.Update(update => update.Action("Request_Update", "Request"))
        // .Destroy(update => update.Action("Request_Destroy", "Request"))
     )
-)
+      )
+
