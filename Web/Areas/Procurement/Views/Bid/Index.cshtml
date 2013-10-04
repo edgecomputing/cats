@@ -66,9 +66,9 @@
                 @<text>
 <a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
 </text>);
-            columns.Bound(p => p.StartDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Start Date ({0})", Html.UserCalendarPreference()));
-            columns.Bound(p => p.EndDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("End Date ({0})", Html.UserCalendarPreference()));
-            columns.Bound(p => p.OpeningDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Opening Date ({0})", Html.UserCalendarPreference()));
+            columns.Bound(p => p.StartDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            columns.Bound(p => p.EndDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            columns.Bound(p => p.OpeningDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.Status).Title("Status");
             columns.Command(p =>
                 {

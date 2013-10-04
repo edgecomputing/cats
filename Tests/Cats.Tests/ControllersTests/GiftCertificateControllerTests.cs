@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.GiftCertificate.Models;
 using Cats.Models;
+using Cats.Models.Security;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Cats.Services.Transaction;
 using Moq;
 using NUnit.Framework;
@@ -86,9 +90,25 @@ namespace Cats.Tests.ControllersTests
             var letterTemplateService = new Mock<ILetterTemplateService>();
             transactionService.Setup(t => t.PostGiftCertificate(It.IsAny<int>())).Returns(true);
 
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
+
+
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
             UnitOfWork _unitOfWork = new UnitOfWork();
-            
-            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, transactionService.Object, letterTemplateService.Object,_unitOfWork);
+
+            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, transactionService.Object, letterTemplateService.Object, _unitOfWork, userAccountService.Object);
+            _giftCertificateController.ControllerContext = controllerContext.Object; 
         }
 
         [TearDown]
