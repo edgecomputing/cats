@@ -1,5 +1,6 @@
 ﻿@using Cats.Helpers;
 @using Cats.Services.Security;
+@using LanguageHelpers.Localization
 @{
     UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
 
@@ -237,26 +238,18 @@
        
     }
     <script type="text/javascript">
-        var datepeferencedisplay = "@Html.UserCalendarPreference()";
-       
+        var datepeferencedisplay = "@Translator.Translate(@Html.UserCalendarPreference())";
+
         $(function () {
 
-            var datep = $(".cats-date-pref").text();
-            $(".cats-date-pref").text(datep + ' (' + datepeferencedisplay + ')');
-            $(".cats-date-pref").each(function () {
+            //For label
+            $(".cats-date-pref").append(' (' + datepeferencedisplay + ')');
+            //For grid
+            $(".cats-date-pref-grid >a.k-link").append("(" + datepeferencedisplay + ")");
+            /*each(function () {
+                $(this).append("(" + datepeferencedisplay + ")");
                 
-            });
-            $("thead").find("tr").first(function () {
-                alert(this);
-                $(this).find("th.cats-date-pref-grid").each(function () {
-
-                    alert(this.text());
-                });
-                //var datep = $(this).find('th.cats-date-pref-grid').text();
-                //$(this).find('th.cats-date-pref-grid').text(datep + ' (' + datepeferencedisplay + ')');
-               
-
-            });
+            });*/
         }
         );
     </script>
