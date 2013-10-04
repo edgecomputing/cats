@@ -28,7 +28,7 @@
                  columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
                  columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a class='default_#=IsDefaultRation#' href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
 
-                 columns.Bound(p => p.DateCreated).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>");
+                 columns.Bound(p => p.DateCreated).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
 
                  columns.Bound(p => p.RationID).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
 

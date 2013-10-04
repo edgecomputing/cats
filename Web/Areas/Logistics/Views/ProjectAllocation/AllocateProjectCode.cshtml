@@ -26,62 +26,82 @@
 
 
 
+<script>
+  
+    @{ var total = ViewData["Total"]; }
 
+    $(document).ready(function () {
+        var selectedIds = {};
+        $("#kGrid").kendoGrid({
+            
+            
+            scrollable: true,
+            sortable: true,
+            pageable: true,
+            autoBind: true,
+            dataSource: {
+                pageSize: 10,
+               
+      
+    
+            }
+            
+          
+  
+        });
+       
+    });
+ 
+</script>
 <h5 align="right"> Metric: @unitPreference </h5>
 @using (Html.BeginForm("ProjectCodeAllocation", "ProjectAllocation", FormMethod.Post, Model))
 {
     <div  class="k-content">
         <table  id="kGrid" >
-            <colgroup>
-                <col />
-                <col />
-                <col style="width:110px" />
-                <col style="width:120px" />
-                <col style="width:130px" />
-            </colgroup> 
-            <thead>
-                <tr>
+            
+        <thead>
+            <tr>
                     
-                    <th >
-                        @Translator.Translate("Select Request")
-                    </th>
-                    <th >
-                        @Translator.Translate("Commodity")
-                    </th>
-                    <th >
-                        @Translator.Translate("Region")
-                    </th>
-                    <th >
-                        @Translator.Translate("Zone")
-                    </th>
+                <th >
+                    Select Request
+                </th>
+                <th>
+                   Commodity
+                </th>
+                <th>
+                   "Region
+                </th>
+                <th>
+                   Zone
+                </th>
        
-                    <th >
-                        @Translator.Translate("RequisitionNo")
-                    </th>
+                <th>
+                   Requisition No
+                </th>
                    
        
-                    <th >
-                        @Translator.Translate("Amount")
-                    </th>
-                    <th >
-                        @Translator.Translate("Beneficiaries")
-                    </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Beneficiaries
+                </th>
                 
               
-                </tr>
-            </thead>
-            <tbody>
-                @for(int i = 0;i < Model.Count;i++)
+            </tr>
+        </thead>
+             <tbody>
+            @for(int i = 0;i < Model.Count;i++)
 
-                {
+            {
                
                     <tr>
                         <td>
-                            @* <input type='checkbox' name="IsChecked" id="chkApprovedRequests" value="@i"/>
+                           @* <input type='checkbox' name="IsChecked" id="chkApprovedRequests" value="@i"/>
                             <a href="@Url.Action("ProjectCodeAllocation", "ProjectAllocation", new { Area = "Logistics", id = Model[i].RequisitionId })">@Html.DisplayFor(modelItem => modelItem[i].RequisitionNo)</a>*@
-                            @Ajax.ActionLink("Project/SI","AssignedprojectCodes",  new { Area = "Logistics", requisitionId=Model[i].RequisitionId }, new AjaxOptions {
-                                                                                                                                                                         InsertionMode = InsertionMode.InsertAfter,
-                                                                                                                                                                         UpdateTargetId = "#projectSIAllocation"},new {id="test"})
+                             @Ajax.ActionLink("Project/SI","AssignedprojectCodes",  new { Area = "Logistics", requisitionId=Model[i].RequisitionId }, new AjaxOptions {
+                                                                                                                                                                                                       InsertionMode = InsertionMode.InsertAfter,
+                                                                                                                                                                                                       UpdateTargetId = "#projectSIAllocation"},new {id="test"})
                         </td> 
                         <td>
                             @Html.DisplayFor(m=>m[i].Commodity)
@@ -133,29 +153,9 @@
                     </tr>
                
     
-                }
-            </tbody>
+            }
+ </tbody>
         </table>
-        
-        <script>
-  
-            @{ var total = ViewData["Total"]; }
-
-            $(document).ready(function () {
-                var selectedIds = {};
-                $("#kGrid").kendoGrid({
-
-                    
-                    height: 430,
-                    sortable: true,
-                    groupable: true
-                });
-
-            });
-
-        </script>
-        
-
     </div>
     
     

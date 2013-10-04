@@ -31,9 +31,9 @@
         <a class="btn toolbar-btn " href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })" data-buttontype="">Approve</a>
     }
     
-    @if(modelRequest.Program != "PSNP"){
+   @* @if(modelRequest.Program != "PSNP"){
         <a class="btn toolbar-btn " href="@Url.Action("ReconcileRequest", "Request", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID})" data-buttontype="">Reconcile</a>
-    }
+    }*@
 
      @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
     {
@@ -51,52 +51,41 @@
                 <tr>
                     <td>
 
-                        <p>
+                       
                             <b>@Translator.Translate("Reference Number:")</b>
                         @modelRequest.ReferenceNumber
 
 
-                    </td>
-                    <td>
-                        <p>
+                    
+                      
                             <b>@Translator.Translate("Region")
                                 :</b>
                         @modelRequest.Region
 
-                    </td>
-                    <td>
-                        <p>
+                    
+                       
                             <b>@Translator.Translate("Month")
                                 :</b>
                               @modelRequest.MonthName
                             <b>@Translator.Translate("Year"):</b> @modelRequest.Year
-                        </p>
+                        
                     </td>
                 </tr>
                 <tr>
 
                     <td>
-                        <p>
-                            <b>@Html.Translate("Request Date")
-                                :</b>
+                        
+                            <b >@Html.Translate("Request Date")</b> 
+                                :
                             @modelRequest.RequestDate
-                        </p>
-                    </td>
-                    <td>
-                        <p>
+                        
                             <b>Program
                                 :</b>
                             @modelRequest.Program
-                        </p>
-                    </td>
-                    <td>
-                        <p>
+                       
                             <b>Ration:</b>
                             <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">@modelRequest.Ration</a>
-                        </p>
-                    </td>
-                    <td>
-                        <p>
+                       
                             <b>Status
                                    :</b>
                             @modelRequest.Status
