@@ -51,11 +51,14 @@
             ).Title("");
 
    
+
          col.Bound(gc => gc.Donor);
          col.Bound(gc=>gc.GiftDatePref).HeaderHtmlAttributes(new {@class="cats-date-pref-grid"});
         col.Bound(gc => gc.SINumber);
         col.Bound(gc => gc.ReferenceNo);
         col.Bound(gc => gc.DeclarationNumber);
+
+        
     }
         ).DetailTemplate(detail=>
             Html.Kendo().Grid( detail.GiftCertificateDetails ).Name("GCDetails" + detail.GiftCertificateID)
