@@ -40,7 +40,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.OrderDate)
+                    @Html.LabelFor(model => model.OrderDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.OrderDate, new { @class = "cats-datepicker" })
@@ -49,7 +49,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.RequestedDispatchDate)
+                    @Html.LabelFor(model => model.RequestedDispatchDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.RequestedDispatchDate, new { @class = "cats-datepicker" })
@@ -58,7 +58,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.OrderExpiryDate)
+                    @Html.LabelFor(model => model.OrderExpiryDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.OrderExpiryDate, new { @class = "cats-datepicker" })
@@ -112,7 +112,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ConsignerDate)
+                    @Html.LabelFor(model => model.ConsignerDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.ConsignerDate, new { @class = "cats-datepicker" })
@@ -121,7 +121,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.TransporterSignedDate)
+                    @Html.LabelFor(model => model.TransporterSignedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.TransporterSignedDate, new { @class = "cats-datepicker" })
