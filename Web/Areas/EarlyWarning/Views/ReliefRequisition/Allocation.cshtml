@@ -11,6 +11,14 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"></a>
+    
+    <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"></a>
+    
+    <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn "><i class=""></i>Approve</a>
+}
 
 <h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation
         
@@ -81,34 +89,7 @@
                         </p>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
-
-
-                                </td>
-                                <td>
-                                   @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-                                     { 
-                                        @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
-        
-                                     }
-                                    
-                                </td>
-                                <td>
-                                    @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-                                     {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
-        
-                                     }
-                                   
-                                </td>
-                                   
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                
             </table>
 
         </div>
