@@ -162,26 +162,26 @@
                         </td> 
                         <td>
                             @Html.DisplayFor(m => m[i].Commodity)
-                            @Html.HiddenFor(m => m[i].Commodity)
+                           
             
                         </td>
         
                         <td>
                             @Html.DisplayFor(m => m[i].Region)
-                            @Html.HiddenFor(m => m[i].Region)
+                          
             
                         </td>
         
                         <td>
                             @Html.DisplayFor(m => m[i].Zone)
-                            @Html.HiddenFor(m => m[i].Zone)
+                            
             
                         </td>
         
                         <td >
            
                             @Html.DisplayFor(m => m[i].RequisitionNo)
-                            @Html.HiddenFor(m => m[i].RequisitionNo)
+                           
             
                         </td>
         
@@ -199,18 +199,19 @@
                                 @Html.DisplayFor(m => m[i].BenficiaryNo)
                             </p>
 
-                            @Html.HiddenFor(m => m[i].BenficiaryNo)            
+                                 
                         </td>
                         <td>
                             @Html.DisplayFor(m => m[i].StrRequisitionDate)
                            @* @Html.DisplayFor(m => m[i].RequisitionDate)*@
-                            @Html.HiddenFor(m => m[i].StrRequisitionDate)
+                           
             
                         </td>
                         <td>
                             @Html.DisplayFor(m => m[i].RequisitionId)
                             @Html.HiddenFor(m => m[i].RequisitionId)
             
+                             @Html.HiddenFor(m => m[i].Commodity)   @Html.HiddenFor(m => m[i].Region) @Html.HiddenFor(m => m[i].Zone)  @Html.HiddenFor(m => m[i].RequisitionNo)  @Html.HiddenFor(m => m[i].BenficiaryNo)       @Html.HiddenFor(m => m[i].StrRequisitionDate)
                         </td>
                         
                     </tr>
