@@ -841,7 +841,7 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ForgetPassword.cshtml" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
@@ -849,7 +849,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
@@ -1105,6 +1104,7 @@
     <Content Include="Views\Home\Preference.cshtml" />
     <Content Include="Views\UserPreference\Edit.cshtml" />
     <Content Include="Views\Shared\Edit.cshtml" />
+    <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

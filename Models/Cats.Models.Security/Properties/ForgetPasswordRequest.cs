@@ -9,7 +9,7 @@ namespace Cats.Models.Security
    public class ForgetPasswordRequest
     {
         public int ForgetPasswordRequestID { get; set; }
-        public int UserAccountID { get; set; }
+        public int UserProfileID { get; set; }
         public DateTime GeneratedDate { get; set; }
         public DateTime ExpieryDate { get; set; }
         public bool Completed { get; set; }
