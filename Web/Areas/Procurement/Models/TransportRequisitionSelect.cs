@@ -13,15 +13,15 @@ namespace Cats.Areas.Procurement.Models
         public string TransportRequisitionNo { get; set; }
          [Display(Name = "Requested By")]
         public int RequestedBy { get; set; }
-         [Display(Name = "Request Date(GC)")]
+         [Display(Name = "Request Date")]
         public DateTime RequestedDate { get; set; }
-         [Display(Name = "Request Date(ET)")]
+         [Display(Name = "Request Date")]
         public string RequestDateET { get; set; }
         [Display(Name = "Certified By")]
         public int CertifiedBy { get; set; }
-        [Display(Name = "Certified Date(GC)")]
+        [Display(Name = "Certified Date")]
         public DateTime CertifiedDate { get; set; }
-         [Display(Name = "Certified Date(ET)")]
+         [Display(Name = "Certified Date")]
         public string CertifiedDateET { get; set; }
       //  public string Remark { get; set; }
         public int Status { get; set; }

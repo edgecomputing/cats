@@ -33,7 +33,7 @@
                 <td style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"))
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"),new {@class="cats-date-pref"})
                         </div>
                         <div class="controls">
                            @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
@@ -135,7 +135,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) 
+                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA"),new {@class="cats-date-pref"}) 
                         </div>
 
                         <div class="controls">

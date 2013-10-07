@@ -31,6 +31,7 @@ namespace Cats.Areas.GiftCertificate.Models
         /// </value>
         [Required(ErrorMessage = "Gift Date is required")]
         [DataType(DataType.DateTime)]
+        [Display(Name="Gift Date")]
         public DateTime GiftDate { get; set; }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Cats.Areas.GiftCertificate.Models
         [Remote("NotUnique", "GiftCertificate", AdditionalFields = "GiftCertificateID")]
         [StringLength(50)]
         //[Key]
+        [Display(Name = "SI Number")]
         public String SINumber { get; set; }
 
         /// <summary>
@@ -64,6 +66,7 @@ namespace Cats.Areas.GiftCertificate.Models
         /// </value>
         [Required(ErrorMessage = "Reference No is required")]
         [StringLength(50)]
+        [Display(Name = "Reference No")]
         public String ReferenceNo { get; set; }
 
         /// <summary>
@@ -178,5 +181,7 @@ namespace Cats.Areas.GiftCertificate.Models
         public int StatusID { get; set; }
         [Display(Name="Declaration Number")]
         public string DeclarationNumber { get; set; }
+        [Display(Name="Gift Date")]
+        public string GiftDatePref { get; set; }
      }
 }

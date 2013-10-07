@@ -40,7 +40,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.RequestedDate)
+                    @Html.LabelFor(model => model.RequestedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.RequestedDate, new { @class = "cats-datepicker" })
@@ -58,7 +58,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.CertifiedDate)
+                    @Html.LabelFor(model => model.CertifiedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.CertifiedDate, new { @class = "cats-datepicker" })
