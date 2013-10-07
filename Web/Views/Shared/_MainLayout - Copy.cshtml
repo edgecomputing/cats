@@ -1,9 +1,8 @@
 ﻿@using Cats.Helpers;
 @using Cats.Services.Security;
-@using LanguageHelpers.Localization
 @{
     UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
-
+    
     string theme = "default";
 }
 <!DOCTYPE html>
@@ -52,35 +51,30 @@
         footer {
             bottom: 0;
         }
-
         .cats_info, .cats_success, .cats_warning, .cats_error {
             margin: 10px 0px;
-            padding: 8px 10px 8px 50px;
+            padding:8px 10px 8px 50px;
             background-repeat: no-repeat;
-            background-position: 10px center;
-            -moz-border-radius: .5em;
-            -webkit-border-radius: .5em;
-            border-radius: .5em;
+            background-position: 10px center;-moz-border-radius:.5em;
+        -webkit-border-radius:.5em;
+        border-radius:.5em;
+ 
         }
-
         .cats_info {
             color: #00529B;
             background-color: #BDE5F8;
             background-image: url('../../Content/images/info.png');
         }
-
         .cats_success {
             color: #4F8A10;
             background-color: #DFF2BF;
-            background-image: url('../../Content/images/success.png');
+            background-image:url('../../Content/images/success.png');
         }
-
         .cats_warning {
             color: #9F6000;
             background-color: #FEEFB3;
             background-image: url('../../Content/images/warning.png');
         }
-
         .cats_error {
             color: #D8000C;
             background-color: #FFBABA;
@@ -104,16 +98,16 @@
     @*    @Styles.Render("~/Content/css")*@
     @*@Scripts.Render("~/bundles/modernizr")*@
     <script>
-
+        
         $(function () {
-
+            
             var timer = 3000;
             clearTimeout(timer);
             timer = setTimeout(function () {
-                $(".message-window").html('');
+                $(".message-window").fadeOut("normal", function () { $(this).html(''); });
             }, 3000);
             //alert(timer);
-
+            
         });
     </script>
 </head>
@@ -136,12 +130,28 @@
                 <div>
                     <div class="span7">
                         @RenderSection("Breadcrumb", required: false)
+                         @Html.Partial("_BreadCrumb")
+                        <ul class="breadcrumb">
+                            
+                            <li><a href="~/">Home</a> </li>
+                            @{
+                                string home = Url.Action("Index", "Home", new {Area = ""});
+                                string[] page_url = PageContext.Page.Context.Request.Url.Segments;
+                                string separator = "";
+                                string url = home;
 
-                        @Html.Partial("_BreadCrumb")
+                                for (int i = 1; i < page_url.Length - 1; i++)
+                                {
+                                    string item = page_url[i];
+                                    string urlitem = item.Replace("/", "");
+                                    url += item;
+                                    <li><span class="divider"> / </span><a href="@url"> @urlitem </a></li>
+                            
+                                }
+                            }
+                        </ul>
+                       
                     </div>
-
-
-
                     <div class="span5">
                         <div class=" btn-group toolbar">
                             @RenderSection("Toolbar", required: false)
@@ -149,7 +159,7 @@
                         @Html.Partial("_ToolbarCommon")
                     </div>
                 </div>
-                <div style="clear: both;" class="message-window">@RenderSection("Errors", required: false)@Html.CustomValidationSummary()</div>
+                <div style="clear: both;" class="message-window">@RenderSection("Errors", required:false)@Html.CustomValidationSummary()</div>
                 <div style="clear: both;">
                     @RenderBody()
                 </div>
@@ -194,11 +204,9 @@
     <script type="text/javascript" src="~/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"> </script>
     <script type="text/javascript" src="~/Scripts/js/CatsUI.js"> </script>
 
-    <script type="text/javascript"></script>
     @{
         var calendarPreference = Html.UserCalendarPreference();
-
-
+               
         if (calendarPreference != "AM")
         {
         <script>
@@ -234,24 +242,7 @@
             }
 
         </script>
-        
-       
     }
-    <script type="text/javascript">
-        var datepeferencedisplay = "@Translator.Translate(@Html.UserCalendarPreference())";
 
-        $(function () {
-
-            //For label
-            $(".cats-date-pref").append(' (' + datepeferencedisplay + ')');
-            //For grid
-            $(".cats-date-pref-grid >.k-link").append("(" + datepeferencedisplay + ")");
-            /*each(function () {
-                $(this).append("(" + datepeferencedisplay + ")");
-                
-            });*/
-        }
-        );
-    </script>
 </body>
 </html>

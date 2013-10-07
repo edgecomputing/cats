@@ -9,6 +9,7 @@ using Cats.Models.Constant;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
 using Cats.Services.Transaction;
+using Cats.ViewModelBinder;
 using log4net;
 
 
@@ -95,18 +96,21 @@ namespace Cats.Areas.Logistics.Controllers
                         ModelState.Add(kvp.Key, kvp.Value);
             }
 
-            var reliefRequisitions = _hubAllocationService.ReturnRequisitionGroupByReuisitionNo((int)ReliefRequisitionStatus.HubAssigned);
-            if (reliefRequisitions != null)
+            var requisititions = _requisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+
+
+            if (requisitionViewModel != null)
             {
-                var total = reliefRequisitions.Count();
+                var total = requisitionViewModel.Count();
                 ViewData["total"] = total;
             }
             else
             {
                 return HttpNotFound();
             }
-            
-            return View(reliefRequisitions.ToList());
+
+            return View(requisitionViewModel.ToList());
         }
 
         public ActionResult Assign( int ReqId,double Remaining)

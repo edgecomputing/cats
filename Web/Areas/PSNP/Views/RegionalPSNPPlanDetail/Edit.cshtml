@@ -30,7 +30,7 @@
     duration = ViewBag.PsnpPlan.Duration;
     RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
     <div>
-    <p><b>PSNP Plan</b>: <span>@ViewBag.PsnpPlan.Region.Name Region - </span>  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</p>
+    <h4><b>Edit PSNP Plan</b>: <span>@ViewBag.PsnpPlan.Region.Name Region - </span>  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</h4>
    
     </div>
 }
@@ -90,6 +90,11 @@
     {
         
         var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); },100);
+          
+        });
         $(grid.tbody).on("change", "td", function (e) {
             var duration="@duration"
             var row = $(this).closest("tr");

@@ -34,7 +34,7 @@
         var selectedIds = {};
         $("#kGrid").kendoGrid({
             
-            groupable: true,
+            
             scrollable: true,
             sortable: true,
             pageable: true,
@@ -62,29 +62,29 @@
         <thead>
             <tr>
                     
-                <th>
-                    @Translator.Translate("Select Request")
+                <th >
+                    Select Request
                 </th>
                 <th>
-                    @Translator.Translate("Commodity")
+                   Commodity
                 </th>
                 <th>
-                    @Translator.Translate("Region")
+                   "Region
                 </th>
                 <th>
-                    @Translator.Translate("Zone")
+                   Zone
                 </th>
        
                 <th>
-                    @Translator.Translate("Requisition No")
+                   Requisition No
                 </th>
                    
        
                 <th>
-                    @Translator.Translate("Amount")
+                    Amount
                 </th>
                 <th>
-                    @Translator.Translate("Beneficiaries")
+                    Beneficiaries
                 </th>
                 
               
@@ -144,7 +144,7 @@
                             @Html.HiddenFor(m=>m[i].BenficiaryNo)
             
                         </td>
-                        <td style="visibility: hidden" >
+                        <td  >
                             @Html.DisplayFor(m=>m[i].RequisitionId)
                             @Html.HiddenFor(m=>m[i].RequisitionId)
             

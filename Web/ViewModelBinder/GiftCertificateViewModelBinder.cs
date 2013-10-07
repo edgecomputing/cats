@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Cats.Areas.GiftCertificate.Models;
+using Cats.Helpers;
 using Cats.Models;
 
 namespace Cats.ViewModelBinder
 {
     public class GiftCertificateViewModelBinder
     {
-        public static List<GiftCertificateViewModel> BindListGiftCertificateViewModel(List<GiftCertificate> giftCertificates, bool bindWithDetail=false)
+        public static List<GiftCertificateViewModel> BindListGiftCertificateViewModel(List<GiftCertificate> giftCertificates, string userPrefrence, bool bindWithDetail = false)
         {
             var giftCertificatesViewModel = new List<GiftCertificateViewModel>();
             foreach (var giftCertificate in giftCertificates)
             {
-                giftCertificatesViewModel.Add(BindGiftCertificateViewModel(giftCertificate,bindWithDetail));
+                giftCertificatesViewModel.Add(BindGiftCertificateViewModel(giftCertificate, userPrefrence, bindWithDetail));
             }
             return giftCertificatesViewModel.ToList();
         }
-        public static GiftCertificateViewModel BindGiftCertificateViewModel(GiftCertificate giftCertificateModel, bool bindWithDetail = false)
+        public static GiftCertificateViewModel BindGiftCertificateViewModel(GiftCertificate giftCertificateModel, string userPrefrence, bool bindWithDetail = false)
         {
             var giftCertificateViewModel = new GiftCertificateViewModel();
 
@@ -35,6 +36,7 @@ namespace Cats.ViewModelBinder
             giftCertificateViewModel.Donor = giftCertificateModel.Donor.Name;
             giftCertificateViewModel.StatusID = giftCertificateModel.StatusID;
             giftCertificateViewModel.DeclarationNumber = giftCertificateModel.DeclarationNumber;
+            giftCertificateViewModel.GiftDatePref=giftCertificateModel.GiftDate.ToCTSPreferedDateFormat(userPrefrence);
 
             var giftCertificateDetail = giftCertificateModel.GiftCertificateDetails.FirstOrDefault();
             if (giftCertificateDetail != null)

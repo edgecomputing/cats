@@ -32,7 +32,7 @@
     columns.Bound(requisition => requisition.Zone);
     columns.Bound(requisition => requisition.MonthRound).Title("Round/Month");
     columns.Bound(requisiton => requisiton.Program);
-    columns.Bound(t => t.RequestedDateEt);
+    columns.Bound(t => t.RequestedDateEt).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
     
     columns.Bound(requisition => requisition.Status).Template(
 
@@ -60,14 +60,15 @@ else
 
                  })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable()
+    .Pageable(t=>t.PageSizes(new int[]{10,30,50}))
+    .Groupable()
     .Sortable()
-    .Scrollable()
+   .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
     .Events(ev => ev.DataBound("resetRowNumber"))
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(22)
+        .PageSize(10)
 
             .Model(model =>
             {

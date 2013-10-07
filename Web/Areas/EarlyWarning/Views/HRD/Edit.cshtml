@@ -56,7 +56,7 @@
             </div>
              <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.CreatedDate,"Created Date")
+                    @Html.LabelFor(m => m.CreatedDate,"Created Date",new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.CreatedDate,new {@class="cats-datepicker2"})

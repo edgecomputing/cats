@@ -43,7 +43,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.StartDate, "Start Date")
+                    @Html.LabelFor(model => model.StartDate, "Start Date",new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
                    @* <input class="cats-datepicker" type="text" id="start" name="start" value="@Model.StartDate"/>*@
@@ -55,7 +55,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                     @Html.LabelFor(model => model.EndDate, "End Date")
+                     @Html.LabelFor(model => model.EndDate, "End Date",new {@class="cats-date-pref"})
                 </div>
                
                 <div class="controls">
@@ -67,7 +67,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.EndDate, "Opening Date")
+                    @Html.LabelFor(model => model.EndDate, "Opening Date",new {@class="cats-date-pref"})
                 </div>
                 
                 <div class="controls">

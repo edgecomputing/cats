@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Models.ViewModels.HRD
 {
@@ -13,7 +14,9 @@ namespace Cats.Models.ViewModels.HRD
         public int SeasonID { get; set; }
         public string Ration { get; set; }
         public DateTime CreatedDate { get; set; }
+         [Display(Name = "Date Created")]
         public string CreatedDatePref { get; set; }
+        [Display(Name = "Published Date")]
         public string PublishedDatePref { get; set; }
         public DateTime PublishedDate { get; set; }
         public string CreatedBy { get; set; }

@@ -6,6 +6,7 @@ using System.Linq;
 using Cats.Areas.GiftCertificate.Models;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
+using Cats.Services.Security;
 using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
@@ -25,7 +26,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ITransactionService _transactionService;
         private readonly ILetterTemplateService _letterTemplateService;
         private readonly IUnitOfWork _unitofwork;
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService, IUnitOfWork unitofwork)
+        private readonly IUserAccountService _userAccountService;
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService, IUnitOfWork unitofwork,IUserAccountService userAccountService)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
@@ -33,13 +35,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _transactionService = transactionService;
             _letterTemplateService = letterTemplateService;
             _unitofwork = unitofwork;
+            _userAccountService = userAccountService;
         }
 
         public ActionResult Index(int id=1)
         {
             ViewBag.Title = id == 1 ? "Draft Gift Certificates" : "Approved Gift Certificates";
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var gifts = _giftCertificateService.Get(t=>t.StatusID==id,null, "GiftCertificateDetails,Donor,GiftCertificateDetails.Detail,GiftCertificateDetails.Commodity");
-            var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(),true);
+            var giftsViewModel = GiftCertificateViewModelBinder.BindListGiftCertificateViewModel(gifts.ToList(), datePref,true);
             return View(giftsViewModel);
 
         }
@@ -180,7 +184,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
             PopulateLookup(false, giftcertificate);
-            var giftCertificateViewModel = GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftcertificate);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var giftCertificateViewModel = GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftcertificate, datePref);
             return View(giftCertificateViewModel);
         }
 
@@ -207,7 +212,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Delete(int id)
         {
             var giftcertificate = _giftCertificateService.FindById(id);
-            return View(GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftcertificate));
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            return View(GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftcertificate, datePref));
         }
 
 
@@ -226,7 +232,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
        public ActionResult Approved(int id)
        {
            var giftCertificate = _giftCertificateService.FindById(id);
-           var giftCertificateViewModel = GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftCertificate);
+           var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+           var giftCertificateViewModel = GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftCertificate, datePref);
            return PartialView("_Approve", giftCertificateViewModel);
        }
         [HttpPost]

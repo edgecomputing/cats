@@ -27,7 +27,7 @@
                 <td style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"),new {@class="cats-date-pref"}) <span class="required">*</span>
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.GiftDate)
@@ -117,7 +117,7 @@
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA")) <span class="required">*</span>
+                            @Html.LabelFor(model => model.ETA, Translator.Translate("ETA"),new {@class="cats-date-pref"}) <span class="required">*</span>
                         </div>
 
                         <div class="controls">

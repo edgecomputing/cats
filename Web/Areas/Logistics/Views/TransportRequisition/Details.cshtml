@@ -11,7 +11,21 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
+@section Toolbar
+{
+    
 
+    <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" data-buttontype="btn_back_to_list"></a>
+    @if (Model.StatusID == (int)Cats.Models.Constant.TransportRequisitionStatus.Draft)
+    {
+        <a class="btn toolbar-btn " href="@Url.Action("Edit", "TransportRequisition", new { Area = "Logistics", id = Model.TransportRequisitionID })" data-buttontype="btn_edit"></a>
+        <a class="btn toolbar-btn " href="@Url.Action("Approve", "TransportRequisition", new { id = Model.TransportRequisitionID })" data-buttontype="">Approve</a>
+    }
+    
+ 
+
+
+}
 
 <div class="row-fluid">
     <div>
@@ -63,21 +77,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <table>
-                            <tr>
-                                <td><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })"><i class="icon-chevron-left"></i>Back</a>
-
-
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new {Controller="TransportRequisition", Area = "Logistics", id = Model.TransportRequisitionID })
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Approve", "Approve", new {Controller="TransportRequisition" ,id = Model.TransportRequisitionID })
-                                </td>
-                               
-                            </tr>
-                        </table>
+                       
                     </td>
                 </tr>
             </table>
@@ -100,61 +100,3 @@
                              
                           }).Pageable())
 
-@*<h2>Details</h2>
-
-<fieldset>
-    <legend>TransportRequisition</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.TransportRequisitionNo)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.TransportRequisitionNo)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.RequestedBy)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.RequestedBy)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.RequestedDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.RequestedDate)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.CertifiedBy)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CertifiedBy)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.CertifiedDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CertifiedDate)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Remark)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Remark)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Status)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Status)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.TransportRequisitionID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@

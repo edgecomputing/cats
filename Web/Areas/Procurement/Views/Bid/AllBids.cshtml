@@ -80,10 +80,9 @@ else
     @Html.ActionLink("Approve", "Index", "Bid", new { id = @item.TransportBidPlanID })
 }
 </text>);
-
-            columns.Bound(p => p.StartDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Start Date({0})", Html.UserCalendarPreference()));
-            columns.Bound(p => p.EndDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("End Date ({0})", Html.UserCalendarPreference()));
-            columns.Bound(p => p.OpeningDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Opening Date ({0})", Html.UserCalendarPreference()));
+            columns.Bound(p => p.StartDatePref).HeaderHtmlAttributes(new {@class="cats-date-pref-grid"});
+            columns.Bound(p => p.EndDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            columns.Bound(p => p.OpeningDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.Status).Title("Status");
             //columns.Bound(p => p.BidID).Title("Command").ClientTemplate(
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Areas.Settings.Models;
+using Cats.Models.ViewModels;
 using Cats.Services.Security;
 
 namespace Cats.Controllers
@@ -23,15 +23,20 @@ namespace Cats.Controllers
             if (ModelState.IsValid)
             {
                 var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-                user.DefaultTheme = model.DefaultTheme;
-                user.DatePreference = model.DatePreference;
+                user.DefaultTheme = model.ThemePreference;
+                user.DatePreference = model.DateFormatPreference;
                 user.Keyboard = model.KeyboardLanguage;
-                user.LanguageCode = model.Language;
-                user.PreferedWeightMeasurment = model.PreferedWeightMeasurement;
+                user.LanguageCode = model.Languages;
+                user.PreferedWeightMeasurment = model.WeightPrefernce;
 
                 // Edit user preference
-                ModelState.AddModelError("Success", "Preference Updated");
+                TempData["PreferenceUpdateSuccessMsg"] = "Success: General preference updated";
+                
                 userService.Save(user);
+            }
+            else
+            {
+                TempData["PreferenceUpdateErrorMsg"] = "Error: General preference not updated";
             }
             return RedirectToAction("Preference", "Home");
         }

@@ -111,37 +111,35 @@
 <ul class="breadcrumb" data-role="main">
     <li><a href="~/">Home</a> </li>
     @{
-        string home = Url.Action("Index", "Home", new { Area = "" });
+        string home = Url.Action("Index", "Home", new {Area = ""});
 
+
+       
         string[] page_url = PageContext.Page.Context.Request.Url.Segments;
-        string url = home;
-        int heirarchy_len = page_url.Length - 1;
-
-        string last = page_url[heirarchy_len].Replace("/", "");
-        int num;
-        if (int.TryParse(last, out num))
+        string item_url = home; 
+        string vertual_dir = home.Replace("/", "");
+        int startindex = 1;
+        if (vertual_dir!="")
         {
-            heirarchy_len--;
+            startindex = 2;
         }
-        for (int i = 1; i <= heirarchy_len; i++)
+       
+        for (int i = startindex; i <= page_url.Length - 1; i++)
         {
-            string item = page_url[i];
-            string urlitem = item.Replace("/", "");
-            url += item;
-                
-            if (i < heirarchy_len)
+            string current_page=page_url[i].Replace("/", "");
+            item_url += current_page + "/";
+            if (i < page_url.Length-1)
             {
-				<li><span class="divider icon-chevron-right"></span><a href="@url">@Html.Translate(urlitem)</a> </li>
+               <li><span class="divider icon-chevron-right"></span><a href="@item_url">@current_page</a>  </li> 
             }
             else
             {
-				<li class="active"><span class="divider icon-chevron-right"></span> @Html.Translate(urlitem)</li>
-               
+  
+                <li><span class="divider icon-chevron-right"></span>@current_page</li>
             }
+            
 
-        
-                            
-      }
-                          
+        }
     }
+        
 </ul>

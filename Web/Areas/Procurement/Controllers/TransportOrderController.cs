@@ -12,10 +12,12 @@ using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Areas.Logistics.Models;
 using log4net;
+using Cats.ViewModelBinder;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -28,16 +30,17 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransportRequisitionService _transportRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ILog _log;
-
+        private readonly IUserAccountService _userAccountService;
 
         public TransportOrderController(ITransportOrderService transportOrderService, 
             ITransportRequisitionService transportRequisitionService, 
-            IWorkflowStatusService workflowStatusService,ILog log)
+            IWorkflowStatusService workflowStatusService,ILog log,IUserAccountService userAccountService)
         {
             this._transportOrderService = transportOrderService;
             this._transportRequisitionService = transportRequisitionService;
             this._workflowStatusService = workflowStatusService;
-
+            _log = log;
+            _userAccountService = userAccountService;
         }
 
 
@@ -119,35 +122,12 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request)
         {
             var transportOrders = _transportOrderService.GetAllTransportOrder();
-            var transportOrderViewModels =
-                (from itm in transportOrders select BindTransportOrderViewModel(itm));
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
+                transportOrders, datePref);
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        private TransportOrderViewModel BindTransportOrderViewModel(TransportOrder transportOrder)
-        {
-            TransportOrderViewModel transportOrderViewModel = null;
-            if (transportOrder != null)
-            {
-                transportOrderViewModel = new TransportOrderViewModel();
-                transportOrderViewModel.BidDocumentNo = transportOrder.BidDocumentNo;
-                transportOrderViewModel.OrderDate = transportOrder.OrderDate;
-                transportOrderViewModel.OrderDateET =
-                    EthiopianDate.GregorianToEthiopian(transportOrder.OrderDate);
-                transportOrderViewModel.ContractNumber = transportOrder.ContractNumber;
-                transportOrderViewModel.PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo;
-                transportOrderViewModel.OrderExpiryDate = transportOrder.OrderExpiryDate;
-                transportOrderViewModel.OrderExpiryDateET = EthiopianDate.GregorianToEthiopian(transportOrder.OrderExpiryDate);
-                transportOrderViewModel.Transporter = transportOrder.Transporter.Name ;
-                transportOrderViewModel.RequestedDispatchDate = transportOrder.RequestedDispatchDate;
-                transportOrderViewModel.RequestedDispatchDateET =  EthiopianDate.GregorianToEthiopian(transportOrder.RequestedDispatchDate);
-                transportOrderViewModel.TransporterID = transportOrder.TransporterID;
-                transportOrderViewModel.TransportOrderNo = transportOrder.TransportOrderNo;
-                transportOrderViewModel.TransportOrderID = transportOrder.TransportOrderID;
-              
-            }
-            return transportOrderViewModel;
-            
-        }
+       
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -184,7 +164,8 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Details(int id)
         {
             var transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails.FDP,TransportOrderDetails.FDP.AdminUnit,TransportOrderDetails.Commodity,TransportOrderDetails.Hub,TransportOrderDetails.ReliefRequisition").FirstOrDefault();
-            var transportOrderViewModel = BindTransportOrderViewModel(transportOrder);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder,datePref);
             ViewData["Transport.order.detail.ViewModel"] = transportOrder ==null ? null :
                 GetDetail(transportOrder.TransportOrderDetails);
             return View(transportOrderViewModel);

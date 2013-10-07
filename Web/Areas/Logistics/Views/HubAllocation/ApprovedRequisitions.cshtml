@@ -1,4 +1,5 @@
-﻿@using Cats.Services.Security
+﻿@using Cats.Helpers
+@using Cats.Services.Security
 @model IList<Cats.Models.RequisitionViewModel>
 @using LanguageHelpers.Localization
 
@@ -117,35 +118,36 @@
                 <tr>
                     
                     <th>
-                        @Translator.Translate("Select Request")
+                        Select Request
                     </th>
                     <th>
-                        @Translator.Translate("Commodity")
+                       Commodity
                     </th>
                     <th>
-                        @Translator.Translate("Region")
+                       Region
                     </th>
                     <th>
-                        @Translator.Translate("Zone")
+                       Zone
                     </th>
        
                     <th>
-                        @Translator.Translate("Requisition No")
+                        Requisition No
                     </th>
                    
        
                     <th>
-                        @Translator.Translate("Amount")
+                       Amount
                     </th>
                 
                     <th>
-                        @Translator.Translate("Beneficiaries")
+                        Beneficiaries
                     </th>
-                    <th >
-                        @Translator.Translate("Requisition ID")
+                    
+                    <th class="cats-date-pref-grid">
+                       Date
                     </th>
-                     <th >
-                        @Translator.Translate("date")
+                    <th>
+                       Requisition ID
                     </th>
                 </tr>
             </thead>
@@ -200,15 +202,17 @@
                             @Html.HiddenFor(m => m[i].BenficiaryNo)            
                         </td>
                         <td>
+                            @Html.DisplayFor(m => m[i].StrRequisitionDate)
+                           @* @Html.DisplayFor(m => m[i].RequisitionDate)*@
+                            @Html.HiddenFor(m => m[i].StrRequisitionDate)
+            
+                        </td>
+                        <td>
                             @Html.DisplayFor(m => m[i].RequisitionId)
                             @Html.HiddenFor(m => m[i].RequisitionId)
             
                         </td>
-                        <td>
-                            @Html.DisplayFor(m => m[i].RequisitionDate)
-                            @Html.HiddenFor(m => m[i].RequisitionDate)
-            
-                        </td>
+                        
                     </tr>
                
     
