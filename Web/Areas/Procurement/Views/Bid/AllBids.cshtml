@@ -12,22 +12,23 @@
 }
 
 <div id="modalWindow">
-    <h2>Approve Bid?</h2>
+    <h4>Approve Bid?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
 <script>
-var wnd;
-$(document).ready(function () {
-    wnd = $("#modalWindow").kendoWindow({
-                        title: "Approve confirmation",
-                        modal: true,
-                        visible: false,
-                        resizable: false,
-                        width: 300
-                    }).data("kendoWindow");
-});
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
 </script>
+
 <script>
 
     function onApprove(e) {
@@ -38,11 +39,11 @@ $(document).ready(function () {
         wnd.center().open();
 
         $("#yes").click(function () {
-           
-            window.location = "bid/ApproveBid/" + dataItem.BidID;
+
+            window.location = "@Url.Action("ApproveBid", "Bid")" + "/" + dataItem.BidID;
             wnd.close();
         });
-        
+
         $("#no").click(function () {
             wnd.close();
         });
@@ -66,32 +67,56 @@ $(document).ready(function () {
     .Columns(columns =>
         {
             columns.Bound(p => p.BidNumber).Template(
-                
-                @<text>
-<a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
+
+
+                         @<text>
+@if (item.StatusID == 1)
+{
+    @Html.ActionLink("Approve", "Index", "Bid", new { id = @item.TransportBidPlanID })
+}
+else
+{
+    @item.Status
+    @Html.ActionLink("Approve", "Index", "Bid", new { id = @item.TransportBidPlanID })
+}
 </text>);
+
             columns.Bound(p => p.StartDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Start Date({0})", Html.UserCalendarPreference()));
             columns.Bound(p => p.EndDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("End Date ({0})", Html.UserCalendarPreference()));
             columns.Bound(p => p.OpeningDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Opening Date ({0})", Html.UserCalendarPreference()));
-            columns.Bound(p => p.Status).Title("Status") ;
-            columns.Command(p => p.Custom("Edit").Click("bidEdit"));
-              
+            columns.Bound(p => p.Status).Title("Status");
+            //columns.Bound(p => p.BidID).Title("Command").ClientTemplate(
+
+            //  "# if (StatusID == 1) { #" +
+            //  "<input type='button'class='k-button k-grid-odd' value='Edit' onclick=\"bidEdit\" />" +
+            //    "<input type='button' class='k-button k-grid-odd' value='Approve' onclick='onApprove' />" + 
+            //    "# } else {#" +
+            //    "<input type='button'  value='Edit' onclick='location.href=/Bid/EditBidStatus?id=#= BidID #' />" +
+            //    "#}#"
+            //    );
+            columns.Command(p =>
+                {
+                    p.Custom("Edit").Click("bidEdit");
+                    p.Custom("Approve").Click("onApprove");
+                });
+
+
         })
-    .Pageable()
-    .Sortable()
-    .Filterable()
-    .ClientDetailTemplateId("template")
+        .Pageable()
+        .Sortable()
+        .Filterable()
+        .ClientDetailTemplateId("template")
         //.HtmlAttributes(new { style = "height:430px;" })
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .DataSource(dataSource => dataSource
-          .Ajax()
-          .PageSize(5)
-            .Model(model => model.Id(p => p.BidID))
-            .Read(read => read.Action("All_Bids", "Bid"))
- 
-     )
-     .Events(events => events.DataBound("dataBound"))
-      )
+        .Editable(editable => editable.Mode(GridEditMode.PopUp))
+        .DataSource(dataSource => dataSource
+              .Ajax()
+              .PageSize(5)
+                .Model(model => model.Id(p => p.BidID))
+                .Read(read => read.Action("All_Bids", "Bid"))
+
+         )
+         .Events(events => events.DataBound("dataBound"))
+          )
 
 <script id="template" type="text/kendo-tmpl">
     
@@ -100,7 +125,7 @@ $(document).ready(function () {
                         .Columns(columns =>
                         {
                             //columns.Bound(b => b.BidDetailID).Title("ID").Width(56);
-                            columns.Bound(b => b.Region).HtmlAttributes(new { style = "background-color:lightgray" }); 
+                            columns.Bound(b => b.Region).HtmlAttributes(new { style = "background-color:lightgray" });
                             columns.Bound(b => b.AmountForReliefProgram).Title("Relief");
                             columns.Bound(b => b.AmountForPSNPProgram).Title("PSNP");
                             columns.Bound(b => b.BidDocumentPrice);
@@ -109,7 +134,7 @@ $(document).ready(function () {
                         })
                         .ToolBar(toolBar => toolBar.Save())
                         .Editable(editable => editable.Mode(GridEditMode.InCell))
-                        //.Navigatable()
+                            //.Navigatable()
                         .DataSource(dataSource => dataSource
                             .Ajax()
                             .Batch(true)
@@ -117,12 +142,12 @@ $(document).ready(function () {
                             .Events(events => events.Error("error_handler"))
                             .PageSize(5)
                             .Model(model =>
-                              {
-                                  model.Id(p => p.BidDetailID);
-                                  model.Field(p => p.RegionID);
-                                  model.Field(p => p.BidDetailID).Editable(false);
-                                  model.Field(p => p.Region).Editable(false);
-                              })
+                            {
+                                model.Id(p => p.BidDetailID);
+                                model.Field(p => p.RegionID);
+                                model.Field(p => p.BidDetailID).Editable(false);
+                                model.Field(p => p.Region).Editable(false);
+                            })
                             //.Model(model => model.Id(p => p.BidDetailID))
                             .Read(read => read.Action("BidDetail_Read", "Bid", new { bidID = "#=BidID#" }))
                             //.Update(update=>update.Action("Edit","Bid"))
@@ -147,9 +172,10 @@ $(document).ready(function () {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID;
+        window.location = "@Url.Action("EditBidStatus", "Bid")" + "/" + dataItem.BidID;
     }
 </script>
+
 <script type="text/javascript">
     function error_handler(e) {
         if (e.errors) {

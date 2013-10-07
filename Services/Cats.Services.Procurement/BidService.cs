@@ -69,6 +69,27 @@ namespace Cats.Services.Procurement
             return _unitOfWork.BidRepository.Get(filter, orderBy, includeProperties);
         }
 
+        public void ActivateBid(int id)
+        {
+            var approvedbid = _unitOfWork.BidRepository.FindById(id);
+            var activeBid = _unitOfWork.BidRepository.FindBy(m => m.StatusID == 2).FirstOrDefault();
+            try
+            {
+                //change the status of bid in to active
+                approvedbid.StatusID = 2;
+                if (activeBid!=null)
+                {
+                    activeBid.StatusID = 5;
+                    _unitOfWork.Save();
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
         public bool Save()
         {
             _unitOfWork.Save();

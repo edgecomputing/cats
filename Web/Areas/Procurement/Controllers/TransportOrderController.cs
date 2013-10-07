@@ -143,8 +143,7 @@ namespace Cats.Areas.Procurement.Controllers
                 transportOrderViewModel.TransporterID = transportOrder.TransporterID;
                 transportOrderViewModel.TransportOrderNo = transportOrder.TransportOrderNo;
                 transportOrderViewModel.TransportOrderID = transportOrder.TransportOrderID;
-
-
+              
             }
             return transportOrderViewModel;
             

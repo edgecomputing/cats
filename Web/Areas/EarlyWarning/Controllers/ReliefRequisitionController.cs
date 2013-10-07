@@ -25,14 +25,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IUserAccountService _userAccountService;
+        private readonly IRationService  _rationService;
 
 
-        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, IReliefRequisitionDetailService reliefRequisitionDetailService,IUserAccountService userAccountService)
+        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
+            IReliefRequisitionDetailService reliefRequisitionDetailService,
+            IUserAccountService userAccountService,
+            IRationService rationService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             _userAccountService = userAccountService;
+            _rationService = rationService;
 
         }
 
@@ -94,7 +99,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
-            var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails);
+            var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
+            var RationAmount = GetCommodityRation(id, commodityID);
+            var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
             return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -253,6 +260,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION), datePref);
             return View(requisitionViewModel);
+        }
+
+        public decimal GetCommodityRation(int requisitionID, int commodityID)
+        {
+            var reliefRequisition = _reliefRequisitionService.FindById(requisitionID);
+                var ration = _rationService.FindById(reliefRequisition.RegionalRequest.RationID);
+                var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID).Amount;
+
+             return rationModel;
+
         }
 
     }

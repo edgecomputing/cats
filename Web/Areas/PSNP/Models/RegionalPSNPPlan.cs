@@ -116,7 +116,7 @@ namespace Cats.Models.PSNP
 
         //BeneficiaryCount
         [Display(Name = "No of Beneficiary")]
-        public int BeneficiaryCount { get; set; }
+        public Nullable<int> BeneficiaryCount { get; set; }
 
         //FoodRatio
         [Display(Name = "Food Ratio")]

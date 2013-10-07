@@ -56,7 +56,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var bids = _bidService.Get(m => m.StatusID == 1).OrderByDescending(m => m.BidID);
+            var bids = _bidService.Get(m => m.StatusID == 2).OrderByDescending(m => m.BidID);
             var bidsToDisplay = GetBids(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }
@@ -76,7 +76,7 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult All_Bids([DataSourceRequest] DataSourceRequest request)
         {
-            var bids = _bidService.Get(m => m.StatusID == 4 || m.StatusID == 1 || m.StatusID == 2 || m.StatusID == 3).OrderByDescending(m => m.BidID);
+            var bids = _bidService.FindBy(m=>m.Status.Name=="Open").OrderByDescending(m => m.BidID);
             //var bids = _bidService.GetAllBid().OrderByDescending(m => m.BidID);
             var bidsToDisplay = GetBids(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));  
@@ -160,18 +160,6 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create(Bid bid)
         {
 
-           // DateTime startingdate = DateTime.Now;
-            //DateTime EndDate = DateTime.Now;
-            //DateTime OpeningDate = DateTime.Now;
-
-            //startingdate = GetGregorianDate(start);
-            //EndDate = GetGregorianDate(start);
-           // OpeningDate = GetGregorianDate(start);
-            
-           // bid.StartDate = startingdate.Date;
-           // bid.EndDate = EndDate.Date;
-           // bid.OpeningDate = OpeningDate.Date;
-
             if (ModelState.IsValid)
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
@@ -189,9 +177,6 @@ namespace Cats.Areas.Procurement.Controllers
                 bid.BidDetails = bidDetails;
                 _bidService.AddBid(bid);
 
-                RouteValueDictionary routeValues = this.GridRouteValues();
-                //return RedirectToAction("Edit","Bid", routeValues);
-                //return RedirectToAction("Edit", "Bid", new { id = bid.BidID });
                 return RedirectToAction("Index");
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
@@ -300,10 +285,8 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult MakeActive(int id)
         {
-            var bid = _bidService.FindById(id);
-            bid.StatusID = 5;
-            _bidService.EditBid(bid);
-            //_applicationSettingService.SetValue("CurrentBid", ""+id);
+            _bidService.ActivateBid(id);
+            _applicationSettingService.SetValue("CurrentBid", ""+id);
             return RedirectToAction("Index");
         }
         public ActionResult ApproveBid(int id)

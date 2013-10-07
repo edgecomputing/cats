@@ -163,7 +163,13 @@ namespace Cats.Tests.ControllersTests
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
-            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object, userAccountService.Object);
+            var ration = new List<Ration>()
+                {
+                    new Ration {RationID = 1,IsDefaultRation = true}
+                };
+            var rationService = new Mock<IRationService>();
+            rationService.Setup(m => m.GetAllRation()).Returns(ration);
+            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object, userAccountService.Object,rationService.Object);
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
           //  _input = input;
 
