@@ -31,6 +31,8 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Program { get; set; }
         public Nullable<int> RegionalRequestID { get; set; }
         public string Month { get; set; }
+       
+
 
         public string MonthRound
         {
@@ -45,7 +47,6 @@ namespace Cats.Areas.EarlyWarning.Models
                 }
                 return mr;
             }
-            
         }
     }
 }

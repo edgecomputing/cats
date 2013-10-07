@@ -23,6 +23,7 @@ namespace Cats.Services.Procurement
              Func<IQueryable<Bid>, IOrderedQueryable<Bid>> orderBy = null,
              string includeProperties = "");
 
+        void ActivateBid(int id);
         bool Save();
     }
 }

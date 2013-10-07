@@ -70,7 +70,13 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.ReliefRequisitionDetailRepository.Get(filter, orderBy, includeProperties);
         }
 
-      
+       public decimal GetCommodityRation(int requisitionID, int commodityID)
+       {
+           var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
+           
+               var rationAmount = requisition.RegionalRequest.Ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID).Amount;
+               return rationAmount;
+       }
 
         #endregion
 

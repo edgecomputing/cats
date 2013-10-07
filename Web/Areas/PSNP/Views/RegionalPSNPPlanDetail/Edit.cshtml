@@ -45,9 +45,8 @@
         columns.Bound(p => p.WoredaName);
         columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.FoodRatio).Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.CashRatio).Format("{0:N}").HtmlAttributes(new { align = "Right" });
-
+        columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right" });
+        columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right" });
     })
     .DataSource(dataSource => dataSource
 
@@ -68,6 +67,10 @@
     
     .HtmlAttributes(new { style = "width:100%; height:450px;" })
     .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .Selectable(selectable => selectable
+            //.Mode(GridSelectionMode.Single)
+                .Type(GridSelectionType.Cell)
+                )
    .Events(events => events.DataBound("onDataBound"))
     .Sortable()
     .Scrollable()
@@ -76,17 +79,22 @@
    .Navigatable()
 
 )
-<script>
+<script type="text/javascript">
     $(function()
     {
-        
         var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
         $("#toolbar_button_print").attr("href",printurl);
     });
+    
     function onDataBound(e) 
     {
         
         var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); },100);
+          
+        });
         $(grid.tbody).on("change", "td", function (e) {
             var duration="@duration"
             var row = $(this).closest("tr");
@@ -135,4 +143,87 @@
     {
         $("#grid").data("kendoGrid").dataSource.cancelChanges();
     }
+    
+    //function makeBlank(arg) {
+    //    // alert("Hey");
+    //    alert($(arg).text() + "VALUE");
+    //}
+    
+    //function onChange(arg) {
+    //    var selected = $.map(this.select(), function(item) {
+    //        return $(item).text();
+    //    });
+        
+    //    var grid = $("#grid").data("kendoGrid");
+    //    $(grid.tbody).on("change", "td", function(e) {
+    //            //alert(selected.toString());
+    //            var row = $(this).closest("tr");
+    //            var rowIdx = $("tr", grid.tbody).index(row);
+    //            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+    //           // firstItem.set('BeneficiaryCount', "12");
+    //    });
+        
+    //    if (selected == "0" || selected == "0.00") {
+    //        return $(item).text("2");
+    //    }
+    //    alert(selected);
+    //}    
+    
+    //function onFocus() {
+        //alert("I");
+        //$.map(this.focus(function() {
+        //    var input = $(this);
+        //    alert("IN");
+        //    setTimeout(function() {
+        //        input.select();
+        //    });
+
+        //}));
+        //var input =
+       
+    //    $.map(this).focus(function (e) {
+    //        var input = $(this);
+    //        //console.log('focus');
+    //          alert("PLease");  
+    //        setTimeout(function() {
+    //            input.select(); 
+                
+    //        });
+    //    });
+    //    input.focus();
+    //}     
+    
+
+    
+        //function selecT(e) {
+        //    var input = e.container.find("input");
+            
+        //    input.focus(function (e) {
+        //        var input = $(this);
+                
+        //        //console.log('focus');
+                
+        //        setTimeout(function() {
+        //            input.select();
+        //        });
+        //    });
+        //    input.focus();
+        //}
+        
+        //function selectText(e) {
+
+        //    //alert("here");    
+        //    var activeInput = $("#grid_active_cell >input");
+        //    if(activeInput) {
+        //        alert(activeInput.val());
+                
+        //    }
+
+        //    $("#grid_active_cell").on('focus', function () {
+        //        var input = $(this);
+        //        setTimeout(function () { input.select(); });
+        //    });
+        //}
+    
+    
 </script>

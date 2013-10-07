@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.EarlyWarning;
 
 namespace Cats.ViewModelBinder
 {
@@ -35,38 +35,10 @@ namespace Cats.ViewModelBinder
             requisition.Zone = reliefRequisition.AdminUnit1.Name;
             requisition.Commodity = reliefRequisition.Commodity.Name;
             requisition.Month = RequestHelper.MonthName(reliefRequisition.Month);
-            //requisition.MonthRound;
-            //reliefRequisition.
             return requisition;
 
 
         }
-
-        //private static string match(int? r, ReliefRequisition reliefRequisition)
-        //{
-        //    string month = "";
-
-        //    if (reliefRequisition.ProgramID == 2)
-        //    {
-        //        switch (r)
-        //        {
-        //            case 1:
-        //                month = "Meskerem";
-        //                break;
-        //            case 2:
-        //                month = "Tikmet";
-        //                break;
-        //            case 3:
-        //                month = "Hidar";
-        //                break;
-        //            case 9:
-        //                month = "Ginbot";
-        //                break;
-        //        }
-        //    }
-
-        //    return month;
-        //}
 
         public static List<ReliefRequisitionViewModel> BindRequisitionViewModel(List<ReliefRequisition> reliefRequisitions)
         {
@@ -100,7 +72,7 @@ namespace Cats.ViewModelBinder
 
             };
         }
-        public static ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail)
+        public static ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail, decimal RationAmount)
         {
             return new ReliefRequisitionDetailViewModel()
             {
@@ -110,12 +82,15 @@ namespace Cats.ViewModelBinder
                 Donor = reliefRequisitionDetail.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "",
                 Commodity = reliefRequisitionDetail.Commodity.Name,
                 BenficiaryNo = reliefRequisitionDetail.BenficiaryNo,
-                Amount = reliefRequisitionDetail.Amount,
+                Amount =reliefRequisitionDetail.Amount,
                 RequisitionID = reliefRequisitionDetail.RequisitionID,
                 RequisitionDetailID = reliefRequisitionDetail.RequisitionDetailID,
                 CommodityID = reliefRequisitionDetail.CommodityID,
                 FDPID = reliefRequisitionDetail.FDPID,
-                DonorID = reliefRequisitionDetail.DonorID
+                DonorID = reliefRequisitionDetail.DonorID,
+                RationAmount =RationAmount
+                //_GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID);
+               // GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID)
 
             };
 
@@ -125,10 +100,11 @@ namespace Cats.ViewModelBinder
             return (from requisition in reliefRequisitions
                     select BindReliefRequisitionViewModel(requisition, statuses, datePref));
         }
-        public static IEnumerable<ReliefRequisitionDetailViewModel> BindReliefRequisitionDetailListViewModel(IEnumerable<ReliefRequisitionDetail> reliefRequisitionDetails)
+        public static IEnumerable<ReliefRequisitionDetailViewModel> BindReliefRequisitionDetailListViewModel(IEnumerable<ReliefRequisitionDetail> reliefRequisitionDetails, decimal RationAmount)
         {
             return (from requisitionDetail in reliefRequisitionDetails
-                    select BindReliefRequisitionDetailViewModel(requisitionDetail));
+                    select BindReliefRequisitionDetailViewModel(requisitionDetail, RationAmount));
         }
+
     }
 }

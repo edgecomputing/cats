@@ -23,6 +23,8 @@ namespace Cats.Services.EarlyWarning
            Func<IQueryable<ReliefRequisitionDetail>, IOrderedQueryable<ReliefRequisitionDetail>> orderBy = null,
            string includeProperties = "");
 
+        decimal GetCommodityRation(int requisitionID, int commodityID);
+
 
     }
 }

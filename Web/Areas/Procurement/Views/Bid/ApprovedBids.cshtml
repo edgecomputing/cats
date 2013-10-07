@@ -12,7 +12,7 @@
 }
 
 <div id="modalWindow">
-    <h2>Approve Bid?</h2>
+    <h4>Approve Bid?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
@@ -40,7 +40,7 @@
 
         $("#yes").click(function () {
            
-            window.location = "bid/ApproveBid/" + dataItem.BidID;
+            window.location = "@Url.Action("ApproveBid", "Bid")" + "/" + dataItem.BidID;
             wnd.close();
         });
         
@@ -57,11 +57,11 @@
     function onActive(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "bid/MakeActive/" + dataItem.BidID;
+        window.location = "@Url.Action("MakeActive", "Bid")" + "/" + dataItem.BidID;
     }
 </script>
 <div>
-    <h4 class="">Bid For Transporters</h4>
+    <h4 > List of Approved Bids</h4>
 </div>  
 
 @section LeftBar
@@ -158,7 +158,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "/Procurement/Bid/EditBidStatus/" + dataItem.BidID;
+        window.location = "@Url.Action("EditBidStatus", "Bid")" + "/" + dataItem.BidID;
     }
 </script>
 <script type="text/javascript">

@@ -89,7 +89,34 @@
                         </p>
                     </td>
                 </tr>
-                
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
+
+
+                                </td>
+                                <td>
+                                   @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+                                     { 
+                                        @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
+        
+                                     }
+                                    
+                                </td>
+                                <td>
+                                    @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+                                     {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
+        
+                                     }
+                                   
+                                </td>
+                                   
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
 
         </div>
@@ -104,7 +131,6 @@
 }
 <div style="color: lightgray"></div>
 
-
 @(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
     .Name("grid")
     .Columns(columns =>
@@ -117,6 +143,7 @@
         columns.Bound(p => p.Commodity).Title("Commodity In " + @unit).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
         columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}");
+        columns.Bound(p => p.RationAmount).Hidden(true);
     })
     .ToolBar(toolbar => toolbar.Save())
     .Editable(editable => editable.Mode(GridEditMode.InCell))
@@ -127,6 +154,7 @@
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
      .Events(ev => ev.DataBound("resetRowNumber"))
+      .Events(ev => ev.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
@@ -147,3 +175,32 @@
     )
 )
 
+<script type="text/javascript">
+     
+    function onDataBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            //var Ration = 5;
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var BenficiaryNo = firstItem.get('BenficiaryNo');
+            var RationAmount = firstItem.get('RationAmount');
+            firstItem.set('Amount', RationAmount * BenficiaryNo);
+            
+
+            //$.getJSON('/ReliefRequisition/GetCommodityRation(RequisitionID,commodityID)', function (data) {
+
+
+            //    $.each(data, function(key, val) {
+
+            //        firstItem.set('Amount', val.Value * BenficiaryNo);
+
+            //    });
+            //    });
+            
+        });
+    }
+</script>
+    

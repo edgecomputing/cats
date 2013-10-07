@@ -19,5 +19,6 @@ namespace Cats.Areas.EarlyWarning.Models
         public int FDPID { get; set; }
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
+        public decimal RationAmount { get; set; }
     }
 }

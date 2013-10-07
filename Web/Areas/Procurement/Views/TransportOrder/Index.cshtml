@@ -29,6 +29,7 @@
     columns.Bound(requisiton => requisiton.RequestedDispatchDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(requisition => requisition.ContractNumber);
     columns.Bound(requisition => requisition.PerformanceBondReceiptNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+    
 })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()

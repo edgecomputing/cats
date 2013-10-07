@@ -23,6 +23,7 @@ namespace Cats.Models.ViewModels.Bid
         public int StatusID { get; set; }
         public string Status { get; set; }
         public int TransportBidPlanID { get; set; }
+        public int command { get; set; }
         public List<BidDetail> BidDetails { get; set; }
     }
 }
