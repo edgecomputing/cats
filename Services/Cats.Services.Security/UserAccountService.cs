@@ -29,12 +29,14 @@ namespace Cats.Services.Security
         #region Private vars and Constructors
 
         private readonly IUnitOfWork _unitOfWork;
-        private NetSqlAzManRoleProvider provider = new NetSqlAzManRoleProvider();
-        private IAzManStorage Store = new NetSqlAzMan.SqlAzManStorage(System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString);
+        private readonly NetSqlAzManRoleProvider _provider;//= new NetSqlAzManRoleProvider();
+        private readonly IAzManStorage _store;//= new NetSqlAzMan.SqlAzManStorage(System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString);
 
-        public UserAccountService(IUnitOfWork unitOfWork)
+        public UserAccountService(IUnitOfWork unitOfWork, IAzManStorage store, NetSqlAzManRoleProvider provider)
         {
             this._unitOfWork = unitOfWork;
+            this._store = store;
+            this._provider = provider;
         }
 
         #endregion
@@ -355,7 +357,7 @@ namespace Cats.Services.Security
         {
             var apps = new List<Application>();
 
-            Dictionary<string, IAzManApplication> Application = provider.GetStorage().Stores["CATS"].Applications;
+            Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
             foreach (var app in Application)
             {
                 apps.Add(new Application() { ApplicationName = app.Value.Name, Roles = GetUserPermissions(UserName, "CATS", app.Value.Name) });
@@ -371,8 +373,8 @@ namespace Cats.Services.Security
 
         public string[] GetRoles(string application)
         {
-            provider.ApplicationName = application;
-            return  provider.GetAllRoles();
+            _provider.ApplicationName = application;
+            return  _provider.GetAllRoles();
         }
 
         public List<Role> GetRolesList(string application)
@@ -390,8 +392,8 @@ namespace Cats.Services.Security
         {
             var apps = new List<Cats.Models.Security.ViewModels.Application>();
 
-            provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, ""));
-            Dictionary<string, IAzManApplication> Application = provider.GetStorage().Stores["CATS"].Applications;
+            _provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, ""));
+            Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
 
             // Get all applications together with their corresponding roles
             foreach (var app in Application)
@@ -405,22 +407,22 @@ namespace Cats.Services.Security
 
         public void AddUserToRoles(string userName, string[] Roles, string store, string application)
         {
-            provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, ""));
+            _provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider(store, ""));
             string[] UserName = new string[] { userName };
-            provider.ApplicationName = application;
-            provider.AddUsersToRoles(UserName, Roles);
+            _provider.ApplicationName = application;
+            _provider.AddUsersToRoles(UserName, Roles);
         }
 
         public void EditUserRole(string owner, string userName, Dictionary<string, List<Role>> applications)
         {
             foreach (var apps in applications)
             {
-                List<Role> UserPermissions = GetUserPermissions(Store.GetDBUser(userName).CustomSid.StringValue, "CATS", apps.Key);
+                List<Role> UserPermissions = GetUserPermissions(_store.GetDBUser(userName).CustomSid.StringValue, "CATS", apps.Key);
                 UserPermissions = UserPermissions.Except(apps.Value).ToList();
                 foreach (var item in apps.Value.ToArray())
-                    Store["CATS"][apps.Key][item.RoleName].CreateAuthorization(Store.GetDBUser(userName).CustomSid, WhereDefined.Database, Store.GetDBUser(userName).CustomSid, WhereDefined.Database, AuthorizationType.Allow, DateTime.Now, DateTime.Now);
+                    _store["CATS"][apps.Key][item.RoleName].CreateAuthorization(_store.GetDBUser(userName).CustomSid, WhereDefined.Database, _store.GetDBUser(userName).CustomSid, WhereDefined.Database, AuthorizationType.Allow, DateTime.Now, DateTime.Now);
                 foreach (var permission in UserPermissions)
-                    Store["CATS"][apps.Key][permission.RoleName].CreateAuthorization(Store.GetDBUser(userName).CustomSid, WhereDefined.Database, Store.GetDBUser(userName).CustomSid, WhereDefined.Database, AuthorizationType.Deny, DateTime.Now, DateTime.Now);
+                    _store["CATS"][apps.Key][permission.RoleName].CreateAuthorization(_store.GetDBUser(userName).CustomSid, WhereDefined.Database, _store.GetDBUser(userName).CustomSid, WhereDefined.Database, AuthorizationType.Deny, DateTime.Now, DateTime.Now);
             }
         }
 

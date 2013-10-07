@@ -87,7 +87,7 @@
                         .Text(Html.Translate("Home")).Url("~/");
                     if (Request.IsAuthenticated)
                     {
-                        if (User.IsInRole("Gift Certificate"))
+                       // if (User.IsInRole("Gift Certificate"))
                         {
                             menu.Add()
                                 .Text(Html.Translate("Gift Certiificates"))
@@ -103,7 +103,7 @@
                                     });
                                 });
                         }
-                        if (User.IsInRole("Data Entry"))
+                      //  if (User.IsInRole("Data Entry"))
                         {
 
                             menu.Add()
