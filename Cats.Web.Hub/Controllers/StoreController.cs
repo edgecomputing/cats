@@ -14,10 +14,10 @@ namespace Cats.Web.Hub.Controllers
         
          private readonly IStoreService _storService;
          private readonly IUserProfileService _userProfileService;
-         public StoreController(IStoreService storeServiceParam,IUserProfileService userProfileServiceParam)
+         public StoreController(IStoreService storeServiceParam, IUserProfileService userProfileService):base(userProfileService)
          {
              _storService = storeServiceParam;
-             _userProfileService = userProfileServiceParam;
+             _userProfileService = userProfileService;
          }
         public virtual ActionResult Index()
         {

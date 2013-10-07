@@ -27,6 +27,7 @@ namespace Cats.Web.Hub.Controllers
                                     IUserProfileService userProfileService,
                                     IHubService hubService,
                                     IStackEventTypeService stackEventTypeService)
+            : base(userProfileService)
         {
             _stackEventService = stackeventService;
             _userProfileService = userProfileService;

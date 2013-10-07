@@ -16,7 +16,8 @@ namespace Cats.Web.Hub.Controllers
         private readonly IRoleService _roleService;
         private readonly IUserRoleService _userRoleService;
 
-        public RolesController(IRoleService roleSerivce, IUserRoleService userRoleService)
+        public RolesController(IRoleService roleSerivce, IUserRoleService userRoleService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _roleService = roleSerivce;
             _userRoleService = userRoleService;

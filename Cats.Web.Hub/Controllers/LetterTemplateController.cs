@@ -15,7 +15,8 @@ namespace Cats.Web.Hub.Controllers
        
         private readonly ILetterTemplateService _letterTemplateService;
 
-        public LetterTemplateController(ILetterTemplateService letterTemplateService)
+        public LetterTemplateController(ILetterTemplateService letterTemplateService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _letterTemplateService = letterTemplateService;
         }

@@ -17,7 +17,9 @@ namespace Cats.Web.Hub.Controllers
        
         private readonly IHubSettingService _hubSettingService;
 
-        public HubSettingController(IHubSettingService hubSettingService)
+        public HubSettingController(IHubSettingService hubSettingService, 
+            IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _hubSettingService = hubSettingService;
         }

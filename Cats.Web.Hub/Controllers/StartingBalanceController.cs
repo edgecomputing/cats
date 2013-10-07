@@ -33,6 +33,7 @@ namespace Cats.Web.Hub.Controllers
                                         IDonorService donorService,
                                         IProgramService programService,
                                         IUnitService unitService)
+           : base(userProfileService)
         {
             _userProfileService = userProfileService;
             _transactionService = transactionService;

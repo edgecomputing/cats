@@ -12,7 +12,8 @@ namespace Cats.Web.Hub.Controllers
     {
         private readonly ICommodityGradeService _commodityGradeService;
 
-        public CommodityGradeController(ICommodityGradeService commodityGradeService)
+        public CommodityGradeController(ICommodityGradeService commodityGradeService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _commodityGradeService = commodityGradeService;
         }

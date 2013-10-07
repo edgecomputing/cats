@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Hub.Mapping
@@ -35,8 +36,8 @@ namespace Cats.Models.Hub.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.Sequence)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(t => t.Sequence);
+                //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.Property(t => t.AllXml)
                 .IsRequired();

@@ -10,7 +10,7 @@ namespace Cats.Web.Hub.Controllers
          private readonly IUserProfileService _userProfileService;
         //
         // GET: /CurrentWarehouse/
-         public CurrentHubController(IUserProfileService userProfileService)
+         public CurrentHubController(IUserProfileService userProfileService):base(userProfileService)
          {
              _userProfileService = userProfileService;
          }

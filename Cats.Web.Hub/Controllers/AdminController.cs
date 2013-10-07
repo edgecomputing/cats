@@ -20,7 +20,11 @@ namespace Cats.Web.Hub.Controllers
         private readonly IUserHubService _userHubService;
         private readonly IHubService _hubService;
 
-        public AdminController(IUserProfileService userProfileService, IUserRoleService userRoleService, IRoleService roleService, IUserHubService userHubService, IHubService hubService)
+        public AdminController(IUserProfileService userProfileService, 
+            IUserRoleService userRoleService, 
+            IRoleService roleService, 
+            IUserHubService userHubService, 
+            IHubService hubService ):base(userProfileService)
         {
             _userProfileService = userProfileService;
             _userRoleService = userRoleService;

@@ -43,7 +43,8 @@ namespace Cats.Web.Hub.Controllers
                                  ICommodityService commodityService,IStoreService storeService,ITransactionService transactionService,
                                  IUnitService unitService,IShippingInstructionService shippingInstructionService,IHubService hubService,
                                  ICommodityGradeService commodityGradeService,IProgramService programService,ITransporterService transporterService,
-                                 ICommoditySourceService commoditySourceService,IDonorService donorService)
+                                 ICommoditySourceService commoditySourceService, IDonorService donorService)
+            : base(userProfileService)
         {
             _receiveService = receiveService;
             _giftCertificateService = giftCertificateService;

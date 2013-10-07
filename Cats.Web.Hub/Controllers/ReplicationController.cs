@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Services.Hub;
 using Telerik.Web.Mvc;
 using Cats.Models.Hub.ViewModels;
 using Cats.Models.Hub;
@@ -11,7 +12,11 @@ namespace Cats.Web.Hub.Controllers
 {
     public class ReplicationController : BaseController
     {
-      
+        public ReplicationController(IUserProfileService userProfileService)
+            : base(userProfileService)
+        {
+            
+        }
         public ActionResult Index()
         {
             return View();

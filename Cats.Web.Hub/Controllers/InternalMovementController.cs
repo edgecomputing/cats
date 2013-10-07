@@ -30,6 +30,7 @@ namespace Cats.Web.Hub.Controllers
             ITransactionService transactionService, IStoreService storeService, IProjectCodeService projectCodeService,
             IShippingInstructionService shippingInstructionService, ICommodityService commodityService, IHubService hubService,
             IProgramService programService, IUnitService unitService, IDetailService detailService)
+            : base(userProfileService)
         {
             _userProfileService = userProfileService;
             _internalMovementService = internalMovementService;

@@ -11,7 +11,8 @@ namespace Cats.Web.Hub.Controllers
         private readonly IContactService _contactService;
         private readonly IFDPService _fdpService;
 
-        public ContactController(IContactService contactService, IFDPService fdpService)
+        public ContactController(IContactService contactService, IFDPService fdpService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _contactService = contactService;
             _fdpService = fdpService;

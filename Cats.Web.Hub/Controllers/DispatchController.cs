@@ -41,8 +41,9 @@ namespace Cats.Web.Hub.Controllers
             IDispatchDetailService dispatchDetailService, IUnitService unitService, ICommodityTypeService commodityTypeService,
             IProgramService programService, ITransporterService transporterService, IPeriodService periodService, 
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
-            IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService, 
+            IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
             IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService)
+            : base(userProfileService)
         {
             _dispatchAllocationService = dispatchAllocationService;
             _dispatchService = dispatchService;

@@ -6,11 +6,16 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Cats.Services.Hub;
+using Cats.Services.Security;
+using Cats.Web.Hub.Helpers;
 using Cats.Web.Hub.Infrastructure;
 using Cats.Models.Hub;
 using Cats.Models.Hub.ViewModels;
 using Cats.Web.Hub;
 
+using IForgetPasswordRequestService = Cats.Services.Hub.IForgetPasswordRequestService;
+using ISettingService = Cats.Services.Hub.ISettingService;
+using log4net;
 namespace Cats.Web.Hub.Controllers
 {
     /// <summary>
@@ -19,12 +24,13 @@ namespace Cats.Web.Hub.Controllers
     public class AccountController : BaseController
     {
         private IMembershipWrapper membership;
-        private new IUrlHelperWrapper Url;
+        //private new IUrlHelperWrapper Url;
         private IFormsAuthenticationWrapper authentication;
         private IUserProfileService _userProfileService;
         private IForgetPasswordRequestService _forgetPasswordRequestService;
         private ISettingService _settingService;
-        //
+        private IUserAccountService _userAccountService;
+        private readonly ILog _log;
         // GET: /Account/LogOn
 
        
@@ -57,23 +63,28 @@ namespace Cats.Web.Hub.Controllers
         /// <param name="urlHelper">The URL helper.</param>
         public AccountController(IMembershipWrapper membershipObject,
                                     IFormsAuthenticationWrapper formsAuthenticationObject,
-                                    IUrlHelperWrapper urlHelper,
+                                    //IUrlHelperWrapper urlHelper,
                                     IUserProfileService userProfileService,
                                     IForgetPasswordRequestService forgetPasswordRequestService,
-                                     ISettingService settingService)
+                                     ISettingService settingService,
+            IUserAccountService userAccountService, ILog log)
+            : base(userProfileService)
         {
             this.membership = membershipObject;
-            this.Url = urlHelper;
+           // this.Url = urlHelper;
             this.authentication = formsAuthenticationObject;
             this._forgetPasswordRequestService = forgetPasswordRequestService;
             this._settingService = settingService;
             this._userProfileService = userProfileService;
+            _userAccountService = userAccountService;
+            _log = log;
         }
 
         /// <summary>
         /// Shows Logs the form.
         /// </summary>
         /// <returns></returns>
+       
         public ActionResult LogOn()
         {
             return View();
@@ -91,31 +102,61 @@ namespace Cats.Web.Hub.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl="")
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 
-                if (Membership.ValidateUser(model.UserName, model.Password))
+            //    if (Membership.ValidateUser(model.UserName, model.Password))
+            //    {
+            //        //FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+            //        authentication.SetAuthCookie(model.UserName, model.RememberMe);
+            //        //TODO:Check if this could be made runable
+            //        //if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+            //        //    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            //        //{
+            //        //    return Redirect(returnUrl);
+            //        //}
+            //        //else
+            //        //{
+            //            return RedirectToAction("Index", "Home");
+            //        //}
+            //    }
+            //    else
+            //    {
+            //        ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            //    }
+            //}
+
+            //// If we got this far, something failed, redisplay form
+            //return View(model);
+            try
+            {
+                if (_userAccountService.Authenticate(model.UserName, model.Password))
                 {
-                    //FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    authentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    //TODO:Check if this could be made runable
-                    //if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                    //    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    //{
-                    //    return Redirect(returnUrl);
-                    //}
-                    //else
-                    //{
-                        return RedirectToAction("Index", "Home");
-                    //}
-                }
-                else
-                {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+
+                    // Will be refactored
+                    Session["User"] = _userAccountService.GetUserDetail(model.UserName);
+                    ////
+
+                    // TODO: Review user permission code
+                    //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
+                    //service.GetUserPermissions(model.UserName, "CATS", "Finance");
+                    return RedirectToLocal(returnUrl);
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            catch (Exception exception)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception, _log);
+
+                ViewBag.HasError = true;
+                ViewBag.ErrorMessage = exception.ToString();
+
+                ModelState.AddModelError("", exception.Message);
+            }
+
+            // If we got this far, something failed, redisplay form            
             return View(model);
         }
 
@@ -452,6 +493,18 @@ namespace Cats.Web.Hub.Controllers
              _userProfileService.EditUserProfile(UserProfile);
 
              return Redirect(this.Request.UrlReferrer.PathAndQuery);
+         }
+
+         private ActionResult RedirectToLocal(string returnUrl)
+         {
+             if (Url.IsLocalUrl(returnUrl))
+             {
+                 return Redirect(returnUrl);
+             }
+             else
+             {
+                 return RedirectToAction("Index", "Home");
+             }
          }
     }
 }

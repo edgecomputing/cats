@@ -28,7 +28,7 @@ namespace Cats.Web.Hub.Controllers
         private readonly IProjectCodeService _projectCodeService;
         private readonly IShippingInstructionService _shippingInstructionService;
 
-        public LossesAndAdjustmentsController(IUserProfileService userProfileSerice,
+        public LossesAndAdjustmentsController(IUserProfileService userProfileService,
                                                 ICommodityService commodityService,
                                                 IStoreService storeService,
                                                 IProgramService programService,
@@ -39,8 +39,9 @@ namespace Cats.Web.Hub.Controllers
                                                 ITransactionService transactionService,
                                                 IProjectCodeService projectCodeService,
                                                 IShippingInstructionService shippingInstructionService)
+            : base(userProfileService)
         {
-            _userProfileService = userProfileSerice;
+            _userProfileService = userProfileService;
             _commodityService = commodityService;
             _storeService = storeService;
             _programService = programService;

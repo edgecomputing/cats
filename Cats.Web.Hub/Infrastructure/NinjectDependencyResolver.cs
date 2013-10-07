@@ -6,7 +6,13 @@ using System.Web.Mvc;
 using Cats.Data.Hub;
 using Cats.Models.Hub;
 using Cats.Services.Hub;
+using Cats.Services.Security;
 using Ninject;
+using log4net;
+using ForgetPasswordRequestService = Cats.Services.Hub.ForgetPasswordRequestService;
+using IForgetPasswordRequestService = Cats.Services.Hub.IForgetPasswordRequestService;
+using ISettingService = Cats.Services.Hub.ISettingService;
+using SettingService = Cats.Services.Hub.SettingService;
 
 namespace Cats.Web.Hub.Infrastructure
 {
@@ -92,6 +98,9 @@ namespace Cats.Web.Hub.Infrastructure
             kernel.Bind<ISessionHistoryService>().To<SessionHistoryService>();
             kernel.Bind<ISessionAttemptService>().To<SessionAttemptService>();
             kernel.Bind<IDetailService>().To<DetailService>();
+            kernel.Bind<IUserAccountService>().To<UserAccountService>();
+            kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
+            kernel.Bind<Cats.Data.Security.IUnitOfWork>().To<Cats.Data.Security.UnitOfWork>();
         }
     }
 }

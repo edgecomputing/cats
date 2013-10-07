@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Hub.Mapping
@@ -11,8 +12,8 @@ namespace Cats.Models.Hub.Mapping
             this.HasKey(t => new { t.SMSID, t.InOutInd, t.MobileNumber, t.Text, t.Status, t.StatusDate, t.Attempts });
 
             // Properties
-            this.Property(t => t.SMSID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(t => t.SMSID);
+              //  .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.Property(t => t.InOutInd)
                 .IsRequired()
@@ -31,8 +32,8 @@ namespace Cats.Models.Hub.Mapping
                 .IsRequired()
                 .HasMaxLength(10);
 
-            this.Property(t => t.Attempts)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.Attempts);
+              //  .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             this.Property(t => t.EventTag)
                 .HasMaxLength(30);

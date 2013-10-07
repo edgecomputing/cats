@@ -10,7 +10,7 @@ namespace Cats.Web.Hub.Controllers
     {
         private readonly ICommoditySourceService _commoditySourceService;
 
-        public CommoditySourceController(ICommoditySourceService commodityGradeService)
+        public CommoditySourceController(ICommoditySourceService commodityGradeService,IUserProfileService userProfileService):base(userProfileService)
         {
             _commoditySourceService = commodityGradeService;
         }

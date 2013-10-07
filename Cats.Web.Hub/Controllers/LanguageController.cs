@@ -4,12 +4,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Cats.Services.Hub;
 using Cats.Web.Hub.Helpers;
 
 namespace Cats.Web.Hub.Controllers
 {
     public partial class LanguageController : BaseController
     {
+        public LanguageController(IUserProfileService userProfileService)
+            : base(userProfileService)
+        {
+            
+        }
         //
         // GET: /Language/
 

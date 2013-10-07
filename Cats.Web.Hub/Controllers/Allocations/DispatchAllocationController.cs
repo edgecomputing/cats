@@ -41,6 +41,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
                                             IFDPService fdpService,
                                             IHubService hubService,
                                              ICommodityTypeService commodityTypeService)
+            : base(userProfileService)
         {
             this._dispatchAllocationService = dispatchAllocationService;
             this._userProfileService = userProfileService;

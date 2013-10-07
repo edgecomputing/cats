@@ -19,7 +19,9 @@ namespace Cats.Web.Hub.Controllers
         public ReceiveDetailController(IReceiveDetailService receiveDetailService,
                                        ICommodityService commodityService,
                                        ICommodityGradeService commodityGradeService,
-                                       IReceiveService receiveService,IUnitService unitService)
+                                       IReceiveService receiveService, IUnitService unitService, 
+            IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _receiveDetailService = receiveDetailService;
             _commodityService = commodityService;

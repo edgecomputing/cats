@@ -10,7 +10,7 @@ namespace Cats.Web.Hub.Controllers
     {
         private readonly IDonorService _donorService;
 
-        public DonorController(IDonorService donorService)
+        public DonorController(IDonorService donorService,IUserProfileService userProfileService):base(userProfileService)
         {
             _donorService = donorService;
         }
