@@ -87,6 +87,11 @@
     {
         
         var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); },100);
+          
+        });
         $(grid.tbody).on("change", "td", function (e) {
             var duration="@duration"
             var row = $(this).closest("tr");
