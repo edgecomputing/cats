@@ -26,14 +26,14 @@ namespace Cats.Web.Hub.Controllers
         public StackEventController(IStackEventService stackeventService, 
                                     IUserProfileService userProfileService,
                                     IHubService hubService,
-                                    IStackEventTypeService stackEventTypeService)
+                                    IStackEventTypeService stackEventTypeService, IStoreService storeService)
             : base(userProfileService)
         {
             _stackEventService = stackeventService;
             _userProfileService = userProfileService;
             _hubService = hubService;
             _StackEventTypeService = stackEventTypeService;
-
+            _storeService = storeService;
         }
 
         public ActionResult Index()
