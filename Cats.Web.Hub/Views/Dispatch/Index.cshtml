@@ -6,7 +6,7 @@
     ViewBag.Title = Html.Translate("Expected Dispatch");
 
     var mesure = @Html.GetCurrentUser().PreferedWeightMeasurment;
-    ViewBag.Title = Html.Translate("Expected Receipts");
+    ViewBag.Title = Html.Translate("Expected dispatches");
 
     string quanityColumnHeader = "MT";
     if (mesure.ToUpperInvariant() == "MT" )

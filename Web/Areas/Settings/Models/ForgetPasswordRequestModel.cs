@@ -10,7 +10,7 @@ namespace Cats.Areas.Settings.Models
     public class ForgetPasswordRequestModel
     {
         [Required]
-        [Remote("ISValidUserName", "Users")]
+        [Remote("ISValidUserName", "Account")]
         public string UserName { get; set; }
     }
 }

@@ -67,7 +67,8 @@ namespace Cats.Web.Hub.Controllers
 
         public ViewResult Index()
         {
-           // var membershipUser = Membership.GetUser();
+
+          
 
             if (this.UserProfile != null)
             {
@@ -75,6 +76,8 @@ namespace Cats.Web.Hub.Controllers
                 var toFdps =
                     _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
                         user.DefaultHub.HubID, _userProfileService.GetUser(this.UserProfile.UserName).
+
+            
                             PreferedWeightMeasurment.ToUpperInvariant(), null, null, null);
                 var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
                 var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
