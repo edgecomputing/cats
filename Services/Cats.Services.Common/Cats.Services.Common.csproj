@@ -73,10 +73,12 @@
     <Compile Include="IApplicationSettingService.cs" />
     <Compile Include="ICommonService.cs" />
     <Compile Include="IDashboardWidgetService.cs" />
+    <Compile Include="ILedgerService.cs" />
     <Compile Include="ILogReadService.cs" />
     <Compile Include="INeedAssessmentSummaryService.cs" />
     <Compile Include="ILetterTemplateService.cs" />
     <Compile Include="IUserDashboardPreferenceService.cs" />
+    <Compile Include="LedgerService.cs" />
     <Compile Include="letterTemplateService.cs" />
     <Compile Include="LogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

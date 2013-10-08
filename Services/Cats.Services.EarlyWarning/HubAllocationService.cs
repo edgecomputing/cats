@@ -80,6 +80,13 @@ namespace Cats.Services.EarlyWarning
             return HubAllocatedRequest.Hub.Name;
         }
 
+        public int GetAllocatedHubId(int id)
+        {
+            var HubAllocatedRequest = _unitOfWork.HubAllocationRepository.Get(r => r.RequisitionID == id).SingleOrDefault();
+            if (HubAllocatedRequest == null) return 0;
+            return HubAllocatedRequest.Hub.HubID;
+        }
+
         public HubAllocation GetAllocatedHubByRequisitionNo(int requisitionNo)
         {
             var hubAllocatedRequest = _unitOfWork.HubAllocationRepository.Get(r => r.RequisitionID == requisitionNo).SingleOrDefault();

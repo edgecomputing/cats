@@ -13,7 +13,7 @@ namespace Cats.Models
             //this.DispatchAllocations = new List<DispatchAllocation>();
             //this.OtherDispatchAllocations = new List<OtherDispatchAllocation>();
             this.ProjectCodeAllocations = new List<ProjectCodeAllocation>();
-            //this.Transactions = new List<Transaction>();
+            this.Transactions = new List<Transaction>();
         }
 
         public int ShippingInstructionID { get; set; }
@@ -21,7 +21,7 @@ namespace Cats.Models
         //public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         //public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public virtual ICollection<ProjectCodeAllocation> ProjectCodeAllocations { get; set; }
-        //public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
         public List<ShippingInstruction> GetSIList()
         {
             List<ShippingInstruction> shippingInstructions = new List<ShippingInstruction>();

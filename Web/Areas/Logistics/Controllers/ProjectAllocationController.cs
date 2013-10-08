@@ -11,7 +11,7 @@ using System.Web.Mvc;
 using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using log4net;
-
+using Cats.Services.Common;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -35,6 +35,7 @@ namespace Cats.Areas.Logistics.Controllers
         private IReliefRequisitionService _requisitionService;
         private ITransactionService _transactionService;
         private ILog _log;
+        //private ILedgerService _ledgerService;
         
 
         public ProjectAllocationController(IRegionalRequestService reliefRequistionService
@@ -49,7 +50,7 @@ namespace Cats.Areas.Logistics.Controllers
             IHubService hubService, 
             IHubAllocationService hubAllocationService,
             ILog log,
-            IReliefRequisitionService requisitionService, ITransactionService transactionservice)
+            IReliefRequisitionService requisitionService, ITransactionService transactionservice, ILedgerService ledgerService)
         {
             this._regionalRequestService = reliefRequistionService;
             this._adminUnitService = adminUnitService;
@@ -64,6 +65,7 @@ namespace Cats.Areas.Logistics.Controllers
             this._hubAllocationService = hubAllocationService;
             this._requisitionService = requisitionService;
             this._transactionService = transactionservice;
+           //this._ledgerService = ledgerService;
             this._log = log;
 
         }
@@ -116,6 +118,7 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult Assign( int ReqId,double Remaining)
         {
             var previousModelState = TempData["ModelState"] as ModelStateDictionary;
+          
             if (previousModelState != null)
             {
                 foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
@@ -123,6 +126,8 @@ namespace Cats.Areas.Logistics.Controllers
                         ModelState.Add(kvp.Key, kvp.Value);
             }
 
+            var hubId = _hubAllocationService.GetAllocatedHubId(ReqId);
+            //ViewBag.SI = new SelectList(_ledgerService.GetFreeSICodes(hubId), "ShippingInstructionID", "Value");
 
             ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == ReqId).SingleOrDefault();
             
