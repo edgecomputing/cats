@@ -8,7 +8,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class AdminControllerTests
@@ -56,11 +56,11 @@ namespace DRMFSS.Web.Test
             var userHUbService = new Mock<IUserHubService>();
             userHUbService.Setup(t => t.GetAllUserHub()).Returns(userHubs);
 
-            var hubs = new List<Hub>
+            var hubs = new List<Models.Hub.Hub>
                 {
-                    new Hub {HubID = 1, Name = "Adama", HubOwnerID = 1},
-                    new Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2},
-                    new Hub {HubID = 3, Name = "Diredawa", HubOwnerID = 3},
+                    new Models.Hub.Hub {HubID = 1, Name = "Adama", HubOwnerID = 1},
+                    new Models.Hub.Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2},
+                    new Models.Hub.Hub {HubID = 3, Name = "Diredawa", HubOwnerID = 3},
                 };
             var hubService = new Mock<IHubService>();
             hubService.Setup(t => t.GetAllHub()).Returns(hubs);

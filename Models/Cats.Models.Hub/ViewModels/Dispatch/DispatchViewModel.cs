@@ -50,7 +50,7 @@ namespace Cats.Models.Hub
                 //{
                 //    _transporters = Repository.TransporterRepository.GetAll().OrderBy(o => o.Name).ToList();
                 //}
-                return _transporters;
+                return _transporters.OrderBy(o => o.Name).ToList();
             }
             set { _transporters = value; }
         }
@@ -72,7 +72,7 @@ namespace Cats.Models.Hub
                     //{
                     //    _commodities = Repository.Commodity.GetAllParents().OrderBy(o => o.Name).ToList();
                     //}
-                    return _commodities;
+                    return _commodities.OrderBy(o => o.Name).ToList(); ;
                 }
                 set { _commodities = value; }
             }
@@ -94,7 +94,7 @@ namespace Cats.Models.Hub
                     //{
                     //    _units = Repository.Unit.GetAll().OrderBy(o => o.Name).ToList();
                     //}
-                    return _units;
+                    return _units.OrderBy(o => o.Name).ToList(); 
                 }
                 set { _units = value; }
             }
@@ -116,7 +116,7 @@ namespace Cats.Models.Hub
                 //{
                 //    _FDPs = Repository.FDP.GetAll();
                 //}
-                return _FDPs;
+                return _FDPs.ToList();
             }
             set { _FDPs = value; }
         }
@@ -138,7 +138,7 @@ namespace Cats.Models.Hub
                 //{
                 //    _programs = Repository.Program.GetAll().OrderBy(o => o.Name).ToList();
                 //}
-                return _programs;
+                return _programs.OrderBy(o => o.Name).ToList();
             }
             set { _programs = value; }
         }
@@ -160,7 +160,7 @@ namespace Cats.Models.Hub
                     //{
                     //    _Regions = Repository.AdminUnit.GetRegions();
                     //}
-                    return _Regions;
+                    return _Regions.ToList();
                 }
                 set { _Regions = value; }
             }
@@ -185,6 +185,7 @@ namespace Cats.Models.Hub
                     //{
                     //    _Zones = new List<AdminUnit>();
                     //}
+
                     return _Zones;
                 }
                 set { _Zones = value; }
@@ -516,10 +517,28 @@ namespace Cats.Models.Hub
         /// <summary>
         /// Initializes a new instance of the <see cref="DispatchModel"/> class.
         /// </summary>
-        public DispatchModel()
+        public DispatchModel(List<Commodity> commodities ,
+            List<Transporter> transporters,
+            List<Unit> units,
+            List<FDP> fdps,
+            List<Program> programs ,
+            List<AdminUnit> regions,
+            List<AdminUnit> zones,
+            List<Store> stores )
         {
             this.DispatchID = null;
             this.DispatchDate = DateTime.Now;
+            this._commodities = commodities;
+            this._transporters = transporters;
+            this._units = units;
+            this._FDPs = fdps;
+            this._programs = programs;
+            this.Regions = regions;
+            this.Zones = zones;
+            this._stores = stores;
+
+
+
         }
 
         /// <summary>
@@ -579,9 +598,24 @@ namespace Cats.Models.Hub
         /// <param name="dispatch">The dispatch.</param>
         /// <param name="Repository">The repository.</param>
         /// <returns></returns>
-        public static DispatchModel GenerateDispatchModel(Dispatch dispatch,Transaction transactionObj)
+        public static DispatchModel GenerateDispatchModel(Dispatch dispatch,Transaction transactionObj,
+            List<Commodity> commodities,
+            List<Transporter> transporters,
+            List<Unit> units,
+            List<FDP> fdps,
+            List<Program> programs,
+            List<AdminUnit> regions,
+            List<AdminUnit> zones,
+            List<Store> stores)
         {
-            DispatchModel model = new DispatchModel();
+            DispatchModel model = new DispatchModel(commodities,
+            transporters,
+            units,
+            fdps,
+            programs,
+           regions,
+            zones,
+          stores);
             model.BidNumber = dispatch.BidNumber;
             model.DispatchDate = dispatch.DispatchDate;
             model.DispatchID = dispatch.DispatchID;

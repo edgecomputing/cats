@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class HubControllerTests
@@ -21,10 +21,10 @@ namespace DRMFSS.Web.Test
         [SetUp]
         public void Init()
         {
-            var hubs = new List<Hub>
+            var hubs = new List<Cats.Models.Hub.Hub>
                 {
-                    new Hub {HubID = 1, Name = "Adama", HubOwnerID = 1},
-                    new Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2},
+                    new Models.Hub.Hub {HubID = 1, Name = "Adama", HubOwnerID = 1},
+                    new Models.Hub.Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2},
                 };
             var hubServices = new Mock<IHubService>();
             hubServices.Setup(t => t.GetAllHub()).Returns(hubs);
@@ -36,8 +36,8 @@ namespace DRMFSS.Web.Test
                 };
             var hubOwnerService = new Mock<HubOwnerService>();
             hubOwnerService.Setup(t => t.GetAllHubOwner()).Returns(hubOwners);
-
-            _hubController = new HubController(hubOwnerService.Object, hubServices.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _hubController = new HubController(hubOwnerService.Object, hubServices.Object,userProfileService.Object);
         }
 
         [TearDown]
@@ -59,7 +59,7 @@ namespace DRMFSS.Web.Test
             //ASSERT
             Assert.NotNull(viewResult);
             var model = viewResult.Model;
-            Assert.IsInstanceOf<IEnumerable<Hub>>(model);
+            Assert.IsInstanceOf<IEnumerable<Models.Hub.Hub>>(model);
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace DRMFSS.Web.Test
             //ASSERT
             Assert.NotNull(viewResult);
             var model = viewResult.Model;
-            Assert.IsInstanceOf<Hub>(model);
+            Assert.IsInstanceOf<Models.Hub.Hub>(model);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace DRMFSS.Web.Test
         public void CanDoCreatePostBack()
         {
             //ACT
-            var hub = new Hub {Name = "Diredawa", HubOwnerID = 1};
+            var hub = new Models.Hub.Hub { Name = "Diredawa", HubOwnerID = 1 };
             var jsonResult = _hubController.Create(hub) as JsonResult;
 
             //ASSERT
@@ -108,7 +108,7 @@ namespace DRMFSS.Web.Test
             Assert.NotNull(viewResult);
             var model = viewResult.Model;
             Assert.IsInstanceOf<SelectList>(viewResult.ViewBag.HubOwnerID);
-            Assert.IsInstanceOf<Hub>(model);
+            Assert.IsInstanceOf<Models.Hub.Hub>(model);
             #endregion
         }
 
@@ -116,7 +116,7 @@ namespace DRMFSS.Web.Test
         public void CanEditPostBack()
         {
             //ACT
-            var hub = new Hub { HubID = 1, Name = "Adama", HubOwnerID = 1 };
+            var hub = new Models.Hub.Hub { HubID = 1, Name = "Adama", HubOwnerID = 1 };
             var jsonResult = _hubController.Edit(hub) as JsonResult;
 
             //ASSERT

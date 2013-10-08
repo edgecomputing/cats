@@ -5,7 +5,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 using Cats.Models.Hub;
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     public class ReceiveCommodityControllerTest
     {
@@ -68,10 +68,10 @@ namespace DRMFSS.Web.Test
 
             var unitService = new Mock<IUnitService>();
             unitService.Setup(t => t.GetAllUnit()).Returns(unit);
-
+            var userProfileService = new Mock<IUserProfileService>();
             _receiveDetailController = new ReceiveDetailController(receiveDetailService.Object,
                                                                       commodityService.Object,commodityGradeService.Object,
-                                                                      receiveService.Object,unitService.Object);
+                                                                      receiveService.Object,unitService.Object,userProfileService.Object);
         }
 
         [TearDown]
