@@ -54,21 +54,21 @@
             <td style="text-align: center">
                 @if (item.IsTemporary == true)
                 {             
-                    <img src="../../../images/tick.png" />
+                    <img src="@Url.Content("~/images/tick.png")" alt=""/>
                 }
                 else
                 {
-                    <img src="../../../images/x.png" />
+                    <img src="@Url.Content("~/images/x.png")" alt=""/>
                 }
             </td>
             <td style="text-align: center">
                 @if (item.IsActive == true)
                 {             
-                    <img src="../../../images/tick.png" />
+                    <img src="@Url.Content("~/images/tick.png")" alt=""/>
                 }
                 else
                 {
-                    <img src="../../../images/x.png" />
+                    <img src="@Url.Content("~/images/x.png")" alt=""/>
                 }
             </td>
             <td>
