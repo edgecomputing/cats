@@ -118,7 +118,13 @@ namespace Cats.Web.Hub.Controllers
             _FDPService.DeleteById(id);
             return RedirectToAction("Index");
         }
+        public ActionResult GetFdps(int woredaId)
+        {
+            var fdps = from p in _FDPService.GetFDPsByWoreda(woredaId)
+                       select new AdminUnitItem { Id = p.FDPID, Name = p.Name };
 
+            return Json(new SelectList(fdps.OrderBy(o => o.Name), "Id", "Name"), JsonRequestBehavior.AllowGet);
+        }
         protected override void Dispose(bool disposing)
         {
            // _FDPService.Dispose();
