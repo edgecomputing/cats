@@ -1087,7 +1087,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<StartingBalanceViewModelDto> GetListOfStartingBalances(int hubID)
         {
-            return (from t in _unitOfWork.TransactionRepository.Get()
+            return (from t in _unitOfWork.TransactionRepository.Get(null, null, "ProjectCode,Program,Commodity,Account,TransactionGroup.ReceiveDetails,TransactionGroup.DispatchDetails,TransactionGroup.InternalMovements,TransactionGroup.Adjustments")
                     where
                     !t.TransactionGroup.ReceiveDetails.Any()
                     &&

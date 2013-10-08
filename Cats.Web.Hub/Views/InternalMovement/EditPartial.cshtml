@@ -108,7 +108,7 @@
                             .Placeholder(Html.Translate("Select Stack"))
                             .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                             .HighlightFirstMatch(true)
-                            //.DataBinding(binding => binding.Ajax().Select("GetStacksForFromStore", "InternalMovement"))
+                            .DataBinding(binding => binding.Ajax().Select("GetStacksForFromStore", "InternalMovement"))
                             .ClientEvents(ev => ev.OnChange("onToStoreChange"))
 
                 )
