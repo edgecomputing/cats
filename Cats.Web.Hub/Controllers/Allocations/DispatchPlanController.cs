@@ -11,7 +11,8 @@ namespace Cats.Web.Hub.Controllers.Allocations
     {
         private IDispatchAllocationService _dispatchAllocationService;
 
-        public DispatchPlanController(IDispatchAllocationService dispatchAllocationService)
+        public DispatchPlanController(IDispatchAllocationService dispatchAllocationService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             this._dispatchAllocationService = dispatchAllocationService;
         }

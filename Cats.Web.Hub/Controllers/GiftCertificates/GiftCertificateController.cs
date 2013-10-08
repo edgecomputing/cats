@@ -31,6 +31,7 @@ namespace Cats.Web.Hub.Controllers
            IDonorService donorService,
             IProgramService programService,
             IGiftCertificateDetailService giftCertificateDetailService)
+            : base(userProfileService)
         {
             _giftCertificateService = giftCertificateService;
             _commodityService = commodityService;

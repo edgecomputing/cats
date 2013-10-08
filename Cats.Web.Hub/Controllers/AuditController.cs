@@ -13,9 +13,10 @@ namespace Cats.Web.Hub.Controllers
     {
 
         private readonly IAuditService _auditService;
-       
 
-        public AuditController(IAuditService auditService)
+
+        public AuditController(IAuditService auditService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             this._auditService = auditService;
         }

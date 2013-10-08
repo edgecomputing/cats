@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Threading;
 using System.Web.Security;
 using Cats.Models.Hub;
+using Cats.Services.Hub;
 using Cats.Web.Hub.Helpers;
 using MembershipProvider = Cats.Web.Hub.Helpers.MembershipProvider;
 
@@ -15,15 +16,17 @@ namespace Cats.Web.Hub
     /// 
     /// </summary>
     public class BaseController : Controller
-    {
-        public BaseController()
-        {
-            this.UserProfileService = new Cats.Services.Hub.UserProfileService(_unitOfWork);
-        }
-        
+    { 
         private UserProfile userProfile = null;
         private Cats.Services.Hub.IUserProfileService UserProfileService;
-        private Cats.Data.Hub.IUnitOfWork _unitOfWork = new Cats.Data.Hub.UnitOfWork();
+       
+        public BaseController(IUserProfileService userProfileService)
+        {
+            UserProfileService = userProfileService;
+
+        }
+        
+       
         
         
         /// <summary>

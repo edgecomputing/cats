@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Hub.Mapping
@@ -10,14 +11,14 @@ namespace Cats.Models.Hub.Mapping
             this.HasKey(t => new { t.UserProfileID, t.HubID });
 
             // Properties
-            this.Property(t => t.UserHubID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(t => t.UserHubID);
+              //  .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            this.Property(t => t.UserProfileID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.UserProfileID);
+               // .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-            this.Property(t => t.HubID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.HubID);
+              //  .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             this.Property(t => t.IsDefault)
                 .IsFixedLength()

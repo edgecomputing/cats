@@ -16,7 +16,8 @@ namespace Cats.Web.Hub.Controllers
 
         private readonly IUnitService _unitService;
 
-        public UnitController(IUnitService unitService)
+        public UnitController(IUnitService unitService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             this._unitService = unitService;
         }

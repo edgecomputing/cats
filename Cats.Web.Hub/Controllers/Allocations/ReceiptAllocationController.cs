@@ -33,7 +33,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
             IGiftCertificateDetailService giftCertificateDetailService,
             IHubService hubService,
             IProgramService programService,
-            ICommodityTypeService commodityTypeService)
+            ICommodityTypeService commodityTypeService):base(userProfileService)
         {
             this._receiptAllocationService = receiptAllocationService;
             this._userProfileService = userProfileService;

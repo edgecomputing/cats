@@ -15,7 +15,8 @@ namespace Cats.Web.Hub.Controllers
     {
 
          private readonly ITransporterService _transporterService;
-         public  TransporterController(ITransporterService transporterService)
+         public TransporterController(ITransporterService transporterService, IUserProfileService userProfileService)
+             : base(userProfileService)
          {
              _transporterService = transporterService;
          }

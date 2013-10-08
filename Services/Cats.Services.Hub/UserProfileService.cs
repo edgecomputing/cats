@@ -39,7 +39,7 @@ namespace Cats.Services.Hub
                                 t => t.Hub).FirstOrDefault();
                               
                     }
-
+                
 
             user.DefaultHub = hub;
 

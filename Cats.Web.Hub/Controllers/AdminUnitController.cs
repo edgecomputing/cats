@@ -21,6 +21,7 @@ namespace Cats.Web.Hub.Controllers
         
         public AdminUnitController(IAdminUnitService adminUnitService, IUserProfileService userProfileService,
             IDispatchAllocationService dispatchAllocationService)
+            : base(userProfileService)
         {
             _adminUnitService = adminUnitService;
             _userProfileService = userProfileService;

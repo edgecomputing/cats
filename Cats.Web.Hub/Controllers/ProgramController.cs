@@ -15,7 +15,8 @@ namespace Cats.Web.Hub.Controllers
 
         private IProgramService _programService;
 
-        public ProgramController(IProgramService programService)
+        public ProgramController(IProgramService programService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _programService = programService;
 

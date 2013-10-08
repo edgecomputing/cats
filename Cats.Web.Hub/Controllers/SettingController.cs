@@ -14,7 +14,8 @@ namespace Cats.Web.Hub.Controllers
         // CTSContext context = new CTSContext();
          private readonly ISettingService _settingService;
 
-         public SettingController(ISettingService settingService)
+         public SettingController(ISettingService settingService, IUserProfileService userProfileService)
+             : base(userProfileService)
          {
              this._settingService = settingService;
          }

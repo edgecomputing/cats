@@ -31,7 +31,9 @@ namespace Cats.Web.Hub.Controllers.Reports
             ICommodityTypeService commodityTypeService, ICommoditySourceService commoditySourceService, 
             IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, 
             IReceiveService receiveService, IStoreService storeService, IHubService hubService,
-            IAdminUnitService adminUnitService, IDispatchAllocationService dispatchAllocationService, IDonorService donorService)
+            IAdminUnitService adminUnitService, IDispatchAllocationService dispatchAllocationService,
+            IDonorService donorService)
+            : base(userProfileService)
         {
             _userProfileService = userProfileService;
             _programService = programService;

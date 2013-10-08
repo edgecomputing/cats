@@ -17,7 +17,10 @@ namespace Cats.Web.Hub.Controllers
          private readonly IHubService _hubService;
          private readonly IUserProfileService _userProfileService;
 
-         public UserWarehouseController(IUserHubService userHubService,IHubService hubService,IUserProfileService userProfileService)
+         public UserWarehouseController(IUserHubService userHubService, 
+             IHubService hubService, 
+             IUserProfileService userProfileService)
+             : base(userProfileService)
          {
              this._userHubService = userHubService;
              this._hubService = hubService;

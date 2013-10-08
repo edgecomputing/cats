@@ -18,7 +18,9 @@ namespace Cats.Web.Hub.Controllers.Reports
          private readonly ICommodityService _commodityService;
          private readonly IHubService _hubService;
 
-         public StockStatusController(IUserProfileService userProfileService,ICommodityService commodityService,IHubService hubService)
+         public StockStatusController(IUserProfileService userProfileService,
+             ICommodityService commodityService, IHubService hubService)
+             : base(userProfileService)
          {
              _userProfileService = userProfileService;
              _commodityService = commodityService;

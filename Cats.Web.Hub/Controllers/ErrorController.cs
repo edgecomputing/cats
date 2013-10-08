@@ -13,7 +13,8 @@ namespace Cats.Web.Hub.Controllers
     {
         private readonly IErrorLogService _ErrorService;
 
-        public ErrorController(IErrorLogService errorServiceParam)
+        public ErrorController(IErrorLogService errorServiceParam, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _ErrorService = errorServiceParam;
         }

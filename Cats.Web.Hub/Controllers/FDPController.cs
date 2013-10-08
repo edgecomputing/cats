@@ -16,7 +16,10 @@ namespace Cats.Web.Hub.Controllers
 
         private readonly IFDPService _FDPService;
         private readonly IAdminUnitService _adminUnitService;
-        public FDPController(IFDPService FDPServiceParam, IAdminUnitService adminUnitService)
+        public FDPController(IFDPService FDPServiceParam, 
+            IAdminUnitService adminUnitService, 
+            IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             this._FDPService = FDPServiceParam;
             _adminUnitService = adminUnitService;

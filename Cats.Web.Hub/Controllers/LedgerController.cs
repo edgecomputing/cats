@@ -14,7 +14,9 @@ namespace Cats.Web.Hub.Controllers
         private readonly ILedgerService _ledgerService;
         private readonly ILedgerTypeService _ledgerTypeService;
 
-        public LedgerController(ILedgerService ledgerService,ILedgerTypeService ledgerTypeService) { 
+        public LedgerController(ILedgerService ledgerService, ILedgerTypeService ledgerTypeService, IUserProfileService userProfileService)
+            : base(userProfileService)
+        { 
             _ledgerService = ledgerService;
             _ledgerTypeService = ledgerTypeService;
         }

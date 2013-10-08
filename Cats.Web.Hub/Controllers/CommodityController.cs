@@ -16,7 +16,10 @@ namespace Cats.Web.Hub.Controllers
 
         //
         // GET: /Commodity/
-        public CommodityController(ICommodityTypeService commodityTypeService, ICommodityService commodityService)
+        public CommodityController(ICommodityTypeService commodityTypeService,
+            ICommodityService commodityService, 
+            IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _commodityTypeService = commodityTypeService;
             _commodityService = commodityService;

@@ -17,7 +17,11 @@ namespace Cats.Web.Hub.Controllers.Reports
          private readonly IProjectCodeService _projectCodeService;
          private readonly IStoreService _storeService;
 
-         public BinCardController(ICommodityService commodityService, IProjectCodeService projectCodeService, IStoreService storeService)
+         public BinCardController(ICommodityService commodityService, 
+             IProjectCodeService projectCodeService,
+             IStoreService storeService, 
+             IUserProfileService userProfileService)
+             : base(userProfileService)
          {
              _commodityService = commodityService;
              _projectCodeService = projectCodeService;

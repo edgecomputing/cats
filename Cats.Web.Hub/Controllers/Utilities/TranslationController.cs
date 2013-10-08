@@ -14,7 +14,8 @@ namespace Cats.Web.Hub.Controllers.Utilities
         // GET: /Translation/
 
         private readonly ITranslationService _translationService;
-        public TranslationController(ITranslationService translationService)
+        public TranslationController(ITranslationService translationService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _translationService = translationService;
         }

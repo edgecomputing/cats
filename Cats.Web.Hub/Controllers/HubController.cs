@@ -11,7 +11,8 @@ namespace Cats.Web.Hub.Controllers
         private readonly IHubOwnerService _hubOwnerService;
         private readonly IHubService _hubService;
 
-        public HubController(IHubOwnerService hubOwnerService, IHubService hubService)
+        public HubController(IHubOwnerService hubOwnerService, IHubService hubService, IUserProfileService userProfileService)
+            : base(userProfileService)
         {
             _hubOwnerService = hubOwnerService;
             _hubService = hubService;

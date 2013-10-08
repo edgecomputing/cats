@@ -42,6 +42,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PILOT|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +52,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -78,9 +80,12 @@
   <ItemGroup>
     <Compile Include="ForgetPasswordRequestService.cs" />
     <Compile Include="IForgetPasswordRequestService.cs" />
+    <Compile Include="ISecurityHelper.cs" />
     <Compile Include="ISettingService.cs" />
     <Compile Include="IUserAccountService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecurityConstants.cs" />
+    <Compile Include="SecurityHelper.cs" />
     <Compile Include="SettingService.cs" />
     <Compile Include="UserAccountService.cs" />
     <Compile Include="UserIdentity.cs" />

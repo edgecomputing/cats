@@ -15,7 +15,10 @@ namespace Cats.Web.Hub.Controllers
          private readonly ILedgerService _ledgerService;
          private readonly ICommodityService _commodityService;
 
-         public TransactionController(ITransactionService transactionService,ILedgerService ledgerService,ICommodityService commodityService)
+         public TransactionController(ITransactionService transactionService,
+             ILedgerService ledgerService, ICommodityService commodityService,
+             IUserProfileService userProfileService)
+             : base(userProfileService)
          {
              this._transactionService = transactionService;
              this._ledgerService = ledgerService;

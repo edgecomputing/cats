@@ -15,7 +15,8 @@ namespace Cats.Web.Hub.Controllers.Reports
      {
          private readonly ITransactionService _transactionService;
 
-         public TransportationReportController(ITransactionService transactionService)
+         public TransportationReportController(ITransactionService transactionService, IUserProfileService userProfileService)
+             : base(userProfileService)
          {
              this._transactionService = transactionService;
          }
