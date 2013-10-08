@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers.Reports;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class TransportationReportControllerTests
@@ -36,8 +36,8 @@ namespace DRMFSS.Web.Test
             transactionService.Setup(
                 t => t.GetTransportationReports(OperationMode.Recieve, DateTime.Today, DateTime.Today.AddDays(4))).
                 Returns(transporationReport);
-
-            _transportationReportController=new TransportationReportController(transactionService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _transportationReportController=new TransportationReportController(transactionService.Object,userProfileService.Object);
         }
 
         [TearDown]

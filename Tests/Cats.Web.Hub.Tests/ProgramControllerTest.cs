@@ -8,7 +8,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     public class ProgramControllerTest
     {
@@ -26,7 +26,8 @@ namespace DRMFSS.Web.Test
                 };
             var programService = new Mock<IProgramService>();
             programService.Setup(t => t.GetAllProgram()).Returns(program);
-            _programController = new ProgramController(programService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _programController = new ProgramController(programService.Object,userProfileService.Object);
         }
          [TearDown]
         public void Dispose()

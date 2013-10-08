@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Cats.Web.Hub.Controllers;
 using Moq;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class ErrorControllerTests 
@@ -29,7 +29,8 @@ namespace DRMFSS.Web.Test
                 };
             var errorService = new Mock<IErrorLogService>();
             errorService.Setup(t => t.GetAllErrorLog()).Returns(errors);
-            _errorController = new ErrorController(errorService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _errorController = new ErrorController(errorService.Object,userProfileService.Object);
 
         }
 

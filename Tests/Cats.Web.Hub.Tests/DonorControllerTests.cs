@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class DonorControllerTests
@@ -27,7 +27,8 @@ namespace DRMFSS.Web.Test
                 };
             var donorService = new Mock<IDonorService>();
             donorService.Setup(t => t.GetAllDonor()).Returns(donors);
-            _donorController = new DonorController(donorService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _donorController = new DonorController(donorService.Object,userProfileService.Object);
         }
 
         [TearDown]

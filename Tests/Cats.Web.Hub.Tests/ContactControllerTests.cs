@@ -8,7 +8,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class ContactControllerTests
@@ -34,8 +34,8 @@ namespace DRMFSS.Web.Test
                 };
             var fdpService = new Mock<IFDPService>();
             fdpService.Setup(t => t.GetAllFDP()).Returns(fdps);
-
-            _contactController = new ContactController(contactService.Object, fdpService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _contactController = new ContactController(contactService.Object, fdpService.Object,userProfileService.Object);
         }
 
         [TearDown]

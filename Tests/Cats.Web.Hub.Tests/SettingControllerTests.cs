@@ -11,7 +11,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class SettingControllerTests
@@ -36,7 +36,8 @@ namespace DRMFSS.Web.Test
             var settingService = new Mock<ISettingService>();
 
             settingService.Setup(t => t.FindBy(It.IsAny<Expression<Func<Setting, bool>>>())).Returns(setting);
-            _settingController=new SettingController(settingService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _settingController=new SettingController(settingService.Object,userProfileService.Object);
         }
 
         [TearDown]

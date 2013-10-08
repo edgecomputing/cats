@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class CommoditySourceTests
@@ -28,7 +28,8 @@ namespace DRMFSS.Web.Test
                 };
             var commoditySourceService = new Mock<ICommoditySourceService>();
             commoditySourceService.Setup(t => t.GetAllCommoditySource()).Returns(commoditySource);
-            _commoditySourceController = new CommoditySourceController(commoditySourceService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _commoditySourceController = new CommoditySourceController(commoditySourceService.Object,userProfileService.Object);
         }
 
         [TearDown]

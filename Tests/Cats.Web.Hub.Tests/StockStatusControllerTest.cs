@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers.Reports;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     public class StockStatusControllerTest
     {
@@ -35,11 +35,11 @@ namespace DRMFSS.Web.Test
             var commodityService = new Mock<ICommodityService>();
             commodityService.Setup(t => t.GetAllCommodity()).Returns(commodity);
 
-            var hub = new List<Hub>
+            var hub = new List<Models.Hub.Hub>
                 {
-                    new Hub {HubID = 1,Name = "Adama",HubOwnerID = 1},
-                    new Hub { HubID =2,Name = "Kombolcha",HubOwnerID = 1},
-                    new Hub { HubID =3,Name = "Diredawa",HubOwnerID = 1}
+                    new Models.Hub.Hub {HubID = 1,Name = "Adama",HubOwnerID = 1},
+                    new Models.Hub.Hub { HubID =2,Name = "Kombolcha",HubOwnerID = 1},
+                    new Models.Hub.Hub { HubID =3,Name = "Diredawa",HubOwnerID = 1}
 
                 };
             var hubService = new Mock<IHubService>();
@@ -66,7 +66,7 @@ namespace DRMFSS.Web.Test
             Assert.IsNotNull(result);
 
             var model = result.Model;
-            Assert.IsInstanceOf<Hub>(model);
+            Assert.IsInstanceOf<Models.Hub.Hub>(model);
 
         }
 
@@ -77,7 +77,7 @@ namespace DRMFSS.Web.Test
             Assert.IsNotNull(result);
 
             var model = result.Model;
-            Assert.IsInstanceOf<Hub>(model);
+            Assert.IsInstanceOf<Models.Hub.Hub>(model);
         }
         [Test]
         public void CanShowCommodityByID()

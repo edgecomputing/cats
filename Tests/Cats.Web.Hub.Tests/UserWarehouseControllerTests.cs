@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class UserWarehouseControllerTests
@@ -30,7 +30,9 @@ namespace DRMFSS.Web.Test
                                                                                 UserProfileID = 1
                                                                             }
                                                                     });
-            _userWarehouseController=new UserWarehouseController(userHubServie.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            var hubService = new Mock<IHubService>();
+            _userWarehouseController=new UserWarehouseController(userHubServie.Object,hubService.Object,userProfileService.Object);
         }
 
         [TearDown]
