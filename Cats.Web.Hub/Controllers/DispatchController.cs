@@ -67,15 +67,6 @@ namespace Cats.Web.Hub.Controllers
 
         public ViewResult Index()
         {
-<<<<<<< HEAD
-            var userName = User.Identity.Name;
-            if (userName != null)
-            {
-                var user = _userProfileService.GetUser(userName);
-                var toFdps =
-                    _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
-                        user.DefaultHub.HubID, _userProfileService.GetUser(userName).
-=======
 
           
 
@@ -87,7 +78,6 @@ namespace Cats.Web.Hub.Controllers
                         user.DefaultHub.HubID, _userProfileService.GetUser(this.UserProfile.UserName).
 
             
->>>>>>> cabe011b219d20bd231c238d3acdabd71c273b90
                             PreferedWeightMeasurment.ToUpperInvariant(), null, null, null);
                 var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
                 var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
