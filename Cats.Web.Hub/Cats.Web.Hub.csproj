@@ -375,6 +375,7 @@
     <Compile Include="Helpers\LetterTemplateHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MembershipProvider.cs" />
+    <Compile Include="Helpers\MonthHelper.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\VersionHelper.cs" />
     <Compile Include="Infrastructure\Configuration.cs" />

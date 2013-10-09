@@ -185,8 +185,6 @@ namespace Cats.Areas.Settings.Controllers
                 {
                     try
                     {
-
-                        //changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
                         changePasswordSucceeded = userService.ChangePassword(userid, model.NewPassword);
                     }
                     catch (Exception e)
@@ -210,116 +208,6 @@ namespace Cats.Areas.Settings.Controllers
         //    ModelState.AddModelError("Sucess", "Password Successfully Changed.");
         //    return View();
         //}
-        public ActionResult ISValidUserName(string userName)
-        {
-            if (!string.IsNullOrEmpty(userName))
-            {
-                var user = userService.GetUserDetail(userName);
-                if (user != null)
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
-            }
-            return Json(string.Format("The User name or Email address you provided doesnot exist. please try again."),
-                        JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult ForgetPasswordRequest()
-        {
-            //var UserName = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserName;
-            // userService.ResetPassword(UserName);
-            var model = new ForgetPasswordRequestModel();
-            return View(model);
-            // return RedirectToAction("Index");
-        }
-        [HttpPost]
-        public ActionResult ForgetPasswordRequest(ForgetPasswordRequestModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = userService.GetUserDetail(model.UserName);
-                if (user != null)
-                {
-                    var forgetPasswordRequest = new ForgetPasswordRequest()
-                        {
-                            Completed = false,
-                            ExpieryDate = DateTime.Now.AddMonths(2),
-                            GeneratedDate = DateTime.Now,
-
-                            RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
-                            UserAccountID = user.UserProfileID
-
-                            //RequestKey = MD5Hashing.MD5Hash(Guid.NewGuid().ToString()),
-                            //UserAccountID = user.UserAccountId
-                        };
-                    if (_forgetPasswordRequestService.AddForgetPasswordRequest(forgetPasswordRequest))
-                    {
-
-                        string to = user.Email;
-                        string subject = "Password Change Request";
-                        string link = "localhost" + Request.Url.Port + "/Settings/Users/ForgetPassword/?key=" + forgetPasswordRequest.RequestKey;
-                        string body = string.Format(@"Dear {1}
-                                                            <br /><br />
-                                                        A password reset request has been submitted for your Email account. If you submitted this password reset request, please follow the following link. 
-                                                        <br /><br />
-                                                        <a href='{0}'>Please Follow this Link</a> <br />
-                                                        <br /><br />
-                                                        Please ignore this message if the password request was not submitted by you. This request will expire in 24 hours.
-                                                        <br /><br />
-                                                        Thank you,<br />
-                                                        Administrator.
-                                                        ", link, user.UserName);
-                        try
-                        {
-                            // Read the configuration table for smtp settings.
-
-                            string from = _settingService.GetSettingValue("SMTP_EMAIL_FROM");
-                            string smtp = _settingService.GetSettingValue("SMTP_ADDRESS");
-                            int port = Convert.ToInt32(_settingService.GetSettingValue("SMTP_PORT"));
-                            string userName = _settingService.GetSettingValue("SMTP_USER_NAME");
-                            string password = _settingService.GetSettingValue("SMTP_PASSWORD");
-                            // send the email using the utilty method in the shared dll.
-                            Cats.Helpers.SendMail mail = new Helpers.SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
-
-                            ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
-                            //return RedirectToAction("ConfirmPasswordChange");
-                        }
-                        catch (Exception e)
-                        {
-                            ViewBag.ErrorMessage = "The user name or email address you provided is not correct. Please try again.";
-                        }
-                    }
-
-                    ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
-                }
-                // ModelState.AddModelError("Errors", "Invalid User Name "+ model.UserName);
-            }
-            return View();
-        }
-
-        public ActionResult ForgetPassword(string key)
-        {
-            ForgetPasswordRequest req = _forgetPasswordRequestService.GetValidRequest(key);
-            if (req != null)
-            {
-                ForgotPasswordModel model = new ForgotPasswordModel();
-                model.UserAccountID = req.UserAccountID;
-                return View(model);
-            }
-            return new EmptyResult();
-        }
-        [HttpPost]
-        public ActionResult ForgetPassword(ForgotPasswordModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (userService.ChangePassword(model.UserAccountID, model.Password))
-                {
-                    _forgetPasswordRequestService.InvalidateRequest(model.UserAccountID);
-                }
-
-                return RedirectToAction("Index");
-            }
-            return View(model);
-        }
+       
     }
 }

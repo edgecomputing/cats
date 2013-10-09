@@ -78,7 +78,7 @@ namespace Cats.Services.Security
         /// <param name="userId">The user id.</param>
         public void InvalidateRequest(int userId)
         {
-            var reqs = _unitOfWork.ForgetPasswordRequestRepository.FindBy(p => p.UserAccountID == userId).ToList();
+            var reqs = _unitOfWork.ForgetPasswordRequestRepository.FindBy(p => p.UserProfileID == userId).ToList();
             if (reqs.Count > 0)
             {
                 foreach (ForgetPasswordRequest req in reqs)

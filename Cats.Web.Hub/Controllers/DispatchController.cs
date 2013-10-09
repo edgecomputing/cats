@@ -67,6 +67,7 @@ namespace Cats.Web.Hub.Controllers
 
         public ViewResult Index()
         {
+<<<<<<< HEAD
             var userName = User.Identity.Name;
             if (userName != null)
             {
@@ -74,6 +75,19 @@ namespace Cats.Web.Hub.Controllers
                 var toFdps =
                     _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
                         user.DefaultHub.HubID, _userProfileService.GetUser(userName).
+=======
+
+          
+
+            if (this.UserProfile != null)
+            {
+                var user = _userProfileService.GetUser(this.UserProfile.UserName);
+                var toFdps =
+                    _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
+                        user.DefaultHub.HubID, _userProfileService.GetUser(this.UserProfile.UserName).
+
+            
+>>>>>>> cabe011b219d20bd231c238d3acdabd71c273b90
                             PreferedWeightMeasurment.ToUpperInvariant(), null, null, null);
                 var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
                 var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
@@ -170,6 +184,15 @@ namespace Cats.Web.Hub.Controllers
 
         public   ActionResult Create(string ginNo, int type)
         {
+            
+            var commodities = _commodityService.GetAllCommodity();
+            var transporters = _transporterService.GetAllTransporter();
+            var units = _unitService.GetAllUnit();
+            var fdps = _fdpService.GetAllFDP();
+            var programs = _programService.GetAllProgram();
+            var regions = _adminUnitService.GetRegions();
+            var zones = _adminUnitService.GetAllAdminUnit().Where(t => t.AdminUnitTypeID == 2).ToList();
+            var stores = _storeService.GetAllStore();
 
             ViewBag.Units = _unitService.GetAllUnit();
 
@@ -181,13 +204,21 @@ namespace Cats.Web.Hub.Controllers
                 {
                     PrepareEdit(dispatch, user, type);
                     var transaction = _dispatchService.GetDispatchTransaction(dispatch.DispatchID);
-                    var dis = DispatchModel.GenerateDispatchModel(dispatch, transaction);
+                    var dis = DispatchModel.GenerateDispatchModel(dispatch, transaction, commodities,
+            transporters,
+            units,
+            fdps,
+            programs,
+           regions,
+            zones,
+          stores);
                     return View(dis);
                 }
                 PrepareCreate(type);
                 var comms = new List<DispatchDetailModel>();
                 ViewBag.SelectedCommodities = comms;
-                var  theViewModel = new DispatchModel {Type = type, DispatchDetails = comms};
+                var  theViewModel = new DispatchModel(commodities,transporters,units,
+                    fdps,programs,regions,zones,stores) {Type = type, DispatchDetails = comms};
                 ViewBag.Message = "The selected GIN Number doesn't exist on your default warehouse. Try changing your default warehouse.";
                 return View(theViewModel);
             }
@@ -196,7 +227,8 @@ namespace Cats.Web.Hub.Controllers
                 PrepareCreate(type);
                 var comms = new List<DispatchDetailModel>();
                 ViewBag.SelectedCommodities = comms;
-                var theViewModel = new DispatchModel {Type = type, DispatchDetails = comms};
+                var theViewModel = new DispatchModel(commodities, transporters, units,
+                    fdps, programs, regions, zones, stores) { Type = type, DispatchDetails = comms };
 
                 if (Request["type"] != null && Request["allocationId"] != null)
                 {
@@ -571,6 +603,15 @@ namespace Cats.Web.Hub.Controllers
 
         public   ActionResult _DispatchPartial(string ginNo, int type)
         {
+            var commodities = _commodityService.GetAllCommodity();
+            var transporters = _transporterService.GetAllTransporter();
+            var units = _unitService.GetAllUnit();
+            var fdps = _fdpService.GetAllFDP();
+            var programs = _programService.GetAllProgram();
+            var regions = _adminUnitService.GetRegions();
+            var zones = _adminUnitService.GetAllAdminUnit().Where(t => t.AdminUnitTypeID == 2).ToList();
+            var stores = _storeService.GetAllStore();
+
             ViewBag.Units = _unitService.GetAllUnit();
             
             var dispatch = _dispatchService.GetDispatchByGIN(ginNo);
@@ -582,14 +623,17 @@ namespace Cats.Web.Hub.Controllers
                 {
                     PrepareEdit(dispatch, user, type);
                     var transaction = _dispatchService.GetDispatchTransaction(dispatch.DispatchID);
-                    return PartialView("DispatchPartial", DispatchModel.GenerateDispatchModel(dispatch,transaction));
+                    return PartialView("DispatchPartial", DispatchModel.GenerateDispatchModel(dispatch, transaction, commodities, transporters, units,
+                    fdps, programs, regions, zones, stores));
                 }
                 PrepareCreate(type);
                 ViewBag.Message = "The selected GIN Number doesn't exist on your default warehouse. Try changing your default warehouse.";
-                return PartialView("DispatchPartial", new DispatchModel());
+                return PartialView("DispatchPartial", new DispatchModel(commodities, transporters, units,
+                    fdps, programs, regions, zones, stores));
             }
             PrepareCreate(type);
-            return PartialView("DispatchPartial", new DispatchModel());
+            return PartialView("DispatchPartial", new DispatchModel(commodities, transporters, units,
+                    fdps, programs, regions, zones, stores));
         }
 
         private void PrepareEdit(Dispatch dispatch, UserProfile user, int type)

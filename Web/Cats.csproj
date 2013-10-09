@@ -78,16 +78,22 @@
       <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+    <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+      <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\ninject dll\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -316,14 +322,12 @@
     <Compile Include="Helpers\UserRoleHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\NinjectDependencyResolver.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Infrastructure\ReportHelper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\SelectFromGrid.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
@@ -844,7 +848,7 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ForgetPassword.cshtml" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
@@ -852,8 +856,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\ForgetPasswordRequest.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1108,6 +1112,7 @@
     <Content Include="Views\Home\Preference.cshtml" />
     <Content Include="Views\UserPreference\Edit.cshtml" />
     <Content Include="Views\Shared\Edit.cshtml" />
+    <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

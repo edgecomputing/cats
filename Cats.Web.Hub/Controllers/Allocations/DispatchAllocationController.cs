@@ -8,6 +8,7 @@ using Cats.Services.Hub;
 using Cats.Models.Hub.ViewModels;
 using Cats.Models.Hub.ViewModels.Dispatch;
 using Cats.Web.Hub;
+using Cats.Web.Hub.Helpers;
 using Telerik.Web.Mvc;
 
 namespace Cats.Web.Hub.Controllers.Allocations
@@ -316,7 +317,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
             ViewBag.Woredas = new SelectList(Enumerable.Empty<SelectListItem>(), "AdminUnitID", "Name");
             ViewBag.FDPS = new SelectList(Enumerable.Empty<SelectListItem>(), "FDPID", "Name");
             ViewBag.Years = new SelectList(_commonService.GetYears().Select(y => new { Name = y, Id = y }), "Id", "Name");
-            ViewBag.Months = new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name");
+            ViewBag.Months = new SelectList(MonthHelper.GetMonthList(), "Id", "Name");
             ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
             ViewBag.Programs = new SelectList(_commonService.GetAllProgram(), "ProgramID", "Name");
             ViewBag.Units = new SelectList(_commonService.GetAllUnit(), "UnitID", "Name");

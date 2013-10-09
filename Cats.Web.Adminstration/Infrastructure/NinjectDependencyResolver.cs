@@ -4,6 +4,9 @@ using System.Web.Mvc;
 using Cats.Services.Administration;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
+using NetSqlAzMan;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan.Providers;
 using Ninject;
 using log4net;
 using CommodityTypeService = Cats.Services.Administration.CommodityTypeService;
@@ -66,6 +69,13 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<IUserProfileService>().To<UserProfileService>();
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
             kernel.Bind<IFDPService>().To<FDPService>();
+            kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
+                                                                                  System.Configuration.
+                                                                                      ConfigurationManager.
+                                                                                      ConnectionStrings[
+                                                                                          "SecurityContext"].
+                                                                                      ConnectionString);
+            kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
         }
     }
 }

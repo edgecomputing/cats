@@ -22,11 +22,12 @@ namespace Cats
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configuration.Filters.Add(new ElmahErrorAttribute());
+           
+           
             AreaRegistration.RegisterAllAreas();
 
             DependencyResolver.SetResolver(new NinjectDependencyResolver());
-            
+            GlobalConfiguration.Configuration.Filters.Add(new ElmahErrorAttribute());
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

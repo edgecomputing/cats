@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class CommodityGradeTests
@@ -33,8 +33,8 @@ namespace DRMFSS.Web.Test
             commodityGradeService.Setup(t => t.FindById(2)).Returns(commodityGrades[1]);
             commodityGradeService.Setup(t => t.FindById(3)).Returns(commodityGrades[2]);
             commodityGradeService.Setup(t => t.FindById(4)).Returns(commodityGrades[3]);
-
-            _commodityGradeController = new CommodityGradeController(commodityGradeService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _commodityGradeController = new CommodityGradeController(commodityGradeService.Object,userProfileService.Object);
         }
 
         [TearDown]

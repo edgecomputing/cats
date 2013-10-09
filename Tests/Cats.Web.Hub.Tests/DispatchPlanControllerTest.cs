@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers.Allocations;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class DispatchPlanControllerTest
@@ -34,7 +34,8 @@ namespace DRMFSS.Web.Test
                                          };
             var dispatchAllocationService = new Mock<IDispatchAllocationService>();
             dispatchAllocationService.Setup(t => t.GetSummaryForUncommitedAllocations(1)).Returns(requisitionSummary);
-            this._dispatchPlanController = new DispatchPlanController(dispatchAllocationService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            this._dispatchPlanController = new DispatchPlanController(dispatchAllocationService.Object,userProfileService.Object);
         }
 
         [TearDown]

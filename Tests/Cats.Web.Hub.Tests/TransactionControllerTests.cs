@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class TransactionControllerTests
@@ -23,8 +23,9 @@ namespace DRMFSS.Web.Test
             var transactionService = new Mock<ITransactionService>();
             var ledgerServie = new Mock<ILedgerService>();
             var commodityService=new Mock<ICommodityService>();
+            var userProfileService = new Mock<IUserProfileService>();
             _transactionController = new TransactionController(transactionService.Object, ledgerServie.Object,
-                                                               commodityService.Object);
+                                                               commodityService.Object,userProfileService.Object);
         }
 
         [TearDown]
