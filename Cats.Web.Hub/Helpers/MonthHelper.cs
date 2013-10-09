@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Cats.Web.Hub.Helpers
 {
@@ -28,6 +29,20 @@ namespace Cats.Web.Hub.Helpers
             var monthList = GetMonthList();
            return  monthList.Find(t => t.Id == id).Name;
         }
+        public static Month GetMonth(List<int?> months )
+        {
+            var allmonths = new Month();
+            if (months != null)
+            {
+                foreach (var month in months)
+                {
+                    var monthList = GetMonthList();
+                    allmonths = monthList.Find(t => t.Id == month);
+                }
+                return allmonths;
+            }
+            return null;
+        }
 
     }
 
@@ -35,6 +50,9 @@ namespace Cats.Web.Hub.Helpers
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public Month()
+        {
+        }
 
         public Month(int id, string name)
         {
