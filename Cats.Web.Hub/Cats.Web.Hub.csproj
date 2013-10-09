@@ -389,6 +389,7 @@
     <Compile Include="Library\RoleProvider.cs" />
     <Compile Include="Library\UrlHelperWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />

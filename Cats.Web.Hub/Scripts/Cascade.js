@@ -77,6 +77,7 @@ function onFDPRegionChange(e) {
     if (e.value != "") {
         var woredaGrid = $('#fdpGrid').data('tGrid');
         woredaGrid.rebind({ regionId: e.value });
+        //alert(e.value);
     }
 }
 function onFDPZoneChange(e) {

@@ -106,7 +106,7 @@ namespace Cats.Services.Hub
         public int GetRegionByZoneId(int zoneId)
         {
             return
-                _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitTypeID == zoneId).
+                _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitID == zoneId).
                 Select(t => t.ParentID.Value).
                     Single();
 
