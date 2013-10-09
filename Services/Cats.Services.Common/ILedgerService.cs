@@ -12,5 +12,7 @@ namespace Cats.Services.Common
    public interface ILedgerService
    {
        LedgerService.AvailableShippingCodes GetFreeSICodes(int hubId);
+       decimal GetFreeSICodes(int hubId, int siCode);
+       decimal GetAvailableAmount(int siCode);
    }
 }

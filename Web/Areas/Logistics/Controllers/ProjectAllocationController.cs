@@ -35,7 +35,7 @@ namespace Cats.Areas.Logistics.Controllers
         private IReliefRequisitionService _requisitionService;
         private ITransactionService _transactionService;
         private ILog _log;
-        //private ILedgerService _ledgerService;
+        private ILedgerService _ledgerService;
         
 
         public ProjectAllocationController(IRegionalRequestService reliefRequistionService
@@ -65,7 +65,7 @@ namespace Cats.Areas.Logistics.Controllers
             this._hubAllocationService = hubAllocationService;
             this._requisitionService = requisitionService;
             this._transactionService = transactionservice;
-           //this._ledgerService = ledgerService;
+           this._ledgerService = ledgerService;
             this._log = log;
 
         }
@@ -127,18 +127,28 @@ namespace Cats.Areas.Logistics.Controllers
             }
 
             var hubId = _hubAllocationService.GetAllocatedHubId(ReqId);
-            //ViewBag.SI = new SelectList(_ledgerService.GetFreeSICodes(hubId), "ShippingInstructionID", "Value");
+            ViewBag.SI = new SelectList(new[] {_ledgerService.GetFreeSICodes(hubId)}, "SICodeId", "SICode");
 
             ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == ReqId).SingleOrDefault();
             
            
-            ViewBag.SI = new SelectList(_shippingInstructionService.GetAllShippingInstruction(), "ShippingInstructionID", "Value");
+           // ViewBag.SI = new SelectList(_shippingInstructionService.GetAllShippingInstruction(), "ShippingInstructionID", "Value");
             ViewBag.PC = new SelectList(_projectCodeService.GetAllProjectCode(), "ProjectCodeID", "Value");
             ViewBag.RequetedAmount = Math.Round(listOfRequsitions.ReliefRequisitionDetails.Sum(a => a.Amount));
             ViewBag.Hub = _hubAllocationService.GetAllocatedHub(ReqId);
             ViewBag.ReqId = listOfRequsitions.RequisitionID;
             ViewBag.Remaining = Math.Round(Remaining);
             return View();
+        }
+
+        public ActionResult OnSICodeChange(int siCodeId,int reqId)
+        {
+            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
+            var available = _ledgerService.GetFreeSICodes(hubId,siCodeId);
+            var assigned = _ledgerService.GetAvailableAmount(siCodeId);
+
+            ViewBag.ToBeAssigned = available - assigned;
+            return View("_OnSICodeChange");
         }
         public ActionResult AllocatePC(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
         {
