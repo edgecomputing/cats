@@ -11,7 +11,7 @@ using Cats.Web.Hub.Controllers.Reports;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class StockManagementControllerTests

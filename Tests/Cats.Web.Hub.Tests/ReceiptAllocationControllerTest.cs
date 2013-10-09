@@ -10,7 +10,7 @@ using Cats.Web.Hub.Controllers.Allocations;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class ReceiptAllocationControllerTest

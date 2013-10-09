@@ -9,7 +9,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class AuditControllerTests
@@ -35,7 +35,8 @@ namespace DRMFSS.Web.Test
                                                                                               PreviousValue = "MRY"
                                                                                           }
                                                                                   });
-            this._auditController = new AuditController(auditService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            this._auditController = new AuditController(auditService.Object,userProfileService.Object);
         }
 
         [TearDown]

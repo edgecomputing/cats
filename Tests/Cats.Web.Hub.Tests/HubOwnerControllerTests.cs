@@ -8,7 +8,7 @@ using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class HubOwnerControllerTests
@@ -34,8 +34,8 @@ namespace DRMFSS.Web.Test
                 };
             var fdpService = new Mock<IFDPService>();
             fdpService.Setup(t => t.GetAllFDP()).Returns(fdps);, fdpService.Object*/
-
-            _hubOwnerController = new HubOwnerController(hubOwnerService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _hubOwnerController = new HubOwnerController(hubOwnerService.Object,userProfileService.Object);
         }
 
         [TearDown]

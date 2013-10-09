@@ -8,7 +8,7 @@ using NUnit.Framework;
 using Cats.Web.Hub.Controllers;
 using Moq;
 
-namespace DRMFSS.Web.Test
+namespace Cats.Web.Hub.Tests
 {
     [TestFixture]
     public class UnitControllerTests 
@@ -26,7 +26,8 @@ namespace DRMFSS.Web.Test
                 };
             var unitService = new Mock<IUnitService>();
             unitService.Setup(t => t.GetAllUnit()).Returns(units);
-            _unitController = new UnitController(unitService.Object);
+            var userProfileService = new Mock<IUserProfileService>();
+            _unitController = new UnitController(unitService.Object,userProfileService.Object);
 
         }
 

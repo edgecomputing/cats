@@ -100,9 +100,9 @@
                     <label class="control-label">Project Code</label>
                     <div class="controls">
                         @Html.Hidden("PC")
-                        @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new { id = "ProjectCodeID" })
+                        @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new { @onchange= "onChange(this.value);", id = "ProjectCodeID" })
                     </div>
-                </div>
+                </div> 
                 
                 <div class="control-group">
                     <label class="control-label">PC Quantity</label>
@@ -130,6 +130,12 @@
                         <input type="text" id="SICodeqty" name="SICodeqty" />
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label">SI Quantity</label>
+                    <div class="controls">
+                      @Html.Partial("_OnSICodeChange")
+                    </div>
+                </div>
             </div>
         </div>
        </fieldset>
@@ -141,7 +147,7 @@
 }
 
 <script  >
-    $(document).ready(function () {
+    $(document).ready(function() {
         // storing selected value to hidden field
         $("#SI").val($("#ShippingInstructionID").val());
         $("#PI").val($("#ProjectCodeID").val());
@@ -149,9 +155,13 @@
         $("#SIQty").val($("#SICodeqty").val());
         $("#HubId").val($("#hub").val());
 
-    
-    })
 
+    });
+    
+    function onChange(value) {
+        window.location = "@Url.Action("OnSICodeChange","ProjectAllocation")" + "?siCodeId=" + value + "?reqId=" + @ViewBag.ReqId + "";
+       
+    }
 
 </script>
 
@@ -188,6 +198,6 @@
              alert("Please select Project code or SI ")
              return false;
          }
-         return true
+         return true;
      });
  </script>
