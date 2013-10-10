@@ -9,17 +9,17 @@
 @if (Request.IsAuthenticated)
 {
 
-    if (User.IsInRole("Admin"))
-    {
+    //if (User.IsInRole("Admin"))
+    //{
         <table width="100%">
             <tr>
-                <td style="width: 50%;vertical-align: top;">
+                <td style="width: 50%; vertical-align: top;">
                     <h3>@Html.Translate("User Accounts And System Administration")</h3>
                     <ul>
                         <li>@Html.ActionLink(Html.Translate("Mange Roles"), "Index", "Roles")</li>
                         <li>@Html.ActionLink(Html.Translate("Mange Users"), "Index", "Admin")</li>
-                        <li>@Html.ActionLink(Html.Translate("Change Password"),"ChangePassword","Account")</li>
-                            @*
+                        <li>@Html.ActionLink(Html.Translate("Change Password"), "ChangePassword", "Account")</li>
+                        @*
                         <li>@Html.ActionLink("General Configurations", "SysSettings", "Setting")</li>*@
                     </ul>
                     <h3> @Html.Translate("Hub Managment")</h3>
@@ -37,7 +37,7 @@
                     </ul>
                     <h3>@Html.Translate("Translations")</h3>
                     <ul>
-                        <li>@Html.ActionLink(Html.Translate("Translations"),"Index","Translation")</li>
+                        <li>@Html.ActionLink(Html.Translate("Translations"), "Index", "Translation")</li>
                     </ul>
                     <h3> @Html.Translate("Transactions")</h3>
                     <ul>
@@ -71,31 +71,31 @@
                 </td>
             </tr>
         </table>
-    }
+    @*}
 
 
     if (User.IsInRole("Data Entry") && !User.IsInRole("Admin") )
-    {
-               
+    {*@
+
         <table width="100%">
-        <tr>
-            <td style="width: 50%;vertical-align: top;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
         
-                <h3> @Html.Translate("Transporter and Others")</h3>
-                <ul>
-                    <li>@Html.ActionLink(Html.Translate("Transporters"), "Index", "Transporter")</li>
-                </ul>
+                    <h3> @Html.Translate("Transporter and Others")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Transporters"), "Index", "Transporter")</li>
+                    </ul>
                 
                     <h3> @Html.Translate("Hub Managment")</h3>
                     <ul>
                         <li>@Html.ActionLink(Html.Translate("Store"), "Index", "Store")</li>
                     </ul>
                 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
         </table>
-        
+
     }
 }
 </div>

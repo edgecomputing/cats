@@ -113,12 +113,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IUnitService>().To<UnitService>();
             kernel.Bind<ILetterTemplateService>().To<LetterTemplateService>();
-<<<<<<< HEAD
             kernel.Bind<ICurrencyService>().To<CurrencyService>();
-;
-=======
-            kernel.Bind<ILog>().To<Log>();
->>>>>>> f021c77844319e7c1b2acf8abac5af3d151059ad
         }
     }
 }

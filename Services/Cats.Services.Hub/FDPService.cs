@@ -73,7 +73,7 @@ namespace Cats.Services.Hub
         {
             return
                 _unitOfWork.FDPRepository.Get(t => t.AdminUnit.AdminUnit2.ParentID == regionId,
-                                              o => o.OrderBy(t => t.Name), "AdminUnit").ToList();
+                                              o => o.OrderBy(t => t.Name), "AdminUnit,AdminUnit.AdminUnit2").ToList();
 
 
         }
