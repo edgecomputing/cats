@@ -308,7 +308,7 @@ namespace Cats.Data.Hub
                     PrimaryKey = dbEntry.CurrentValues.GetValue<object>(keyName).ToString(),  // Again, adjust this if you have a multi-column key
                     ColumnName = "*ALL",    // Or make it nullable, whatever you want
                     NewValue = dbEntry.CurrentValues.ToObject().ToString(),
-                    HubID = userId.DefaultHub.HubID,
+                    HubID = 1,
                     //TODO: fix this partion id
                     PartitionID = 0
                 }
@@ -327,7 +327,7 @@ namespace Cats.Data.Hub
                     PrimaryKey = dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
                     ColumnName = "*ALL",
                     NewValue = dbEntry.OriginalValues.ToObject().ToString(),
-                    HubID = userId.DefaultHub.HubID,
+                    HubID = 1,
                     //TODO: fix this partion id
                     PartitionID = 0
                 }
@@ -351,7 +351,7 @@ namespace Cats.Data.Hub
                             ColumnName = propertyName,
                             OldValue = dbEntry.OriginalValues.GetValue<object>(propertyName) == null ? null : dbEntry.OriginalValues.GetValue<object>(propertyName).ToString(),
                             NewValue = dbEntry.CurrentValues.GetValue<object>(propertyName) == null ? null : dbEntry.CurrentValues.GetValue<object>(propertyName).ToString(),
-                            HubID = userId.DefaultHub.HubID,
+                            HubID = 1,
                             //TODO: fix this partion id
                             PartitionID = 0
                         }
@@ -373,12 +373,12 @@ namespace Cats.Data.Hub
 
             // Create a SQL command to execute the sproc
             var cmd = Database.Connection.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = procedureName;
 
             foreach (var procParam in param)
             {
                 var dbParam = new SqlParameter(procParam.ParmName, procParam.Value);
-
                 cmd.Parameters.Add(dbParam);
             }
 
@@ -393,10 +393,9 @@ namespace Cats.Data.Hub
                 var result = ((IObjectContextAdapter)this)
                     .ObjectContext
                     .Translate<T>(reader, entitySetName, MergeOption.AppendOnly);
-
                 return result;
-
             }
+
             finally
             {
                 Database.Connection.Close();
@@ -410,7 +409,8 @@ namespace Cats.Data.Hub
         }
         public ObjectResult<RPT_Distribution_Result> RPT_Distribution(int hubId)
         {
-            return ExecProcedure<RPT_Distribution_Result>("RPT_Distribution", "RPT_Distributions", new ProcParam() { ParmName = "hubId", Value = hubId });
+            return ExecProcedure<RPT_Distribution_Result>("RPT_Distribution", "RPT_Distributions", 
+                new ProcParam() { ParmName = "hubId", Value = hubId });
         }
         public ObjectResult<RPT_Distribution_Result> RPT_ReceiptReport(int hubID, DateTime sTime, DateTime eTime)
         {
@@ -466,19 +466,20 @@ namespace Cats.Data.Hub
         public ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
         {
             return ExecProcedure<StockStatusReport>("RPT_StockStatus", "StockStatusReports",
-                new ProcParam() { ParmName = "hubId", Value = hubID },
-                  new ProcParam() { ParmName = "CommodityID", Value = commodityID });
+                new ProcParam() { ParmName = "@Warehouse", Value = hubID },
+                new ProcParam() { ParmName = "@commodity", Value = commodityID }
+                );
         }
         public ObjectResult<StockStatusReport> RPT_StockStatusNonFood(int? hubID, int? commodityID)
         {
             return ExecProcedure<StockStatusReport>("RPT_StockStatusNonFood", "StockStatusReports",
-                new ProcParam() { ParmName = "hubId", Value = hubID },
-                  new ProcParam() { ParmName = "CommodityID", Value = commodityID });
+                new ProcParam() { ParmName = "@Warehouse", Value = hubID },
+                  new ProcParam() { ParmName = "@commodity", Value = commodityID });
         }
         public ObjectResult<StatusReportBySI_Result> GetStatusReportBySI(int? hubID)
         {
-            return ExecProcedure<StatusReportBySI_Result>("GetStatusReportBySI", "StatusReportBySI_Results",
-                new ProcParam() { ParmName = "hubId", Value = hubID });
+            return ExecProcedure<StatusReportBySI_Result>("RPT_StatusReportBySI", "StatusReportBySI_Results",
+                new ProcParam() { ParmName = "@Hub", Value = hubID });
         }
         public ObjectResult<DispatchFulfillmentStatus_Result> GetDispatchFulfillmentStatus(int? hubID)
         {

@@ -41,19 +41,21 @@
                 columns.Bound(o => o.ProjectCode);
                 columns.Bound(o => o.ProgramName);
                 columns.Bound(o => o.StoreName);
-                columns.Bound(o => o.StackNumber);
-                columns.Bound(o => o.UnitName);
-                columns.Bound(o => o.QuantityInUnit).Format("{0:N3}").HtmlAttributes(new { align = "right" }); 
-                columns.Bound(o => o.QuantityInMT).Format("{0:N3}").HtmlAttributes(new { align = "right" }); 
-                
+                columns.Bound(o => o.StackNumber).Title("Stack");
+                columns.Bound(o => o.UnitName).Title("Unit");
+                columns.Bound(o => o.QuantityInUnit);//.Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                columns.Bound(o => o.QuantityInMT); //.Format("{0:N3}").HtmlAttributes(new { align = "right" }); 
+
             })
-           // .ClientEvents(ev => ev.OnDataBinding("dataBinding"))
+            
+            //.ClientEvents(ev => ev.OnDataBinding("dataBinding"))
             .DataBinding(dataBinding => dataBinding.Ajax().Select("GetListOfStartingBalances", "StartingBalance"))
             .Sortable(sorting => sorting.Enabled(true))
             //.Pageable(paging => paging.Enabled(true))
             .Filterable()
             .Footer(true)
-)
+      )
+
 <script type="text/javascript">
 
     function CreateStartingBalance() {

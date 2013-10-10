@@ -67,17 +67,17 @@ namespace Cats.Web.Hub.Controllers.Reports
              return View();
          }
 
-         //public ActionResult Dispatch()
-         //{
-         //    UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-         //    ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
-         //    var report = new DispatchReport();
-         //    ViewBag.Report = report;
-         //    report.DataSource = ViewBag.Stock;
-         //    report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
-         //    report.ReportDate.Text = string.Format("Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
-         //    return View();
-         //}
+         public ActionResult Dispatch()
+         {
+             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+             ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
+             //var report = new DispatchReport();
+             //ViewBag.Report = report;
+             //report.DataSource = ViewBag.Stock;
+             //report.HubName.Text = UserProfile.DefaultHub.HubNameWithOwner;
+             //report.ReportDate.Text = string.Format("Generated On: {0}", DateTime.Now.ToString("dd-MMM-yyyy"));
+             return View();
+         }
 
          //public ActionResult DispatchPartial()
          //{

@@ -6,7 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Models.Hub;
+using Cats.Models.Hub.ViewModels;
 using Cats.Services.Hub;
+using Cats.Web.Hub.ViewModelBinder;
 
 namespace Cats.Web.Hub.Controllers
 {
@@ -33,9 +35,41 @@ namespace Cats.Web.Hub.Controllers
         {
             ViewBag.Regions = _adminUnitService.GetRegions();
             var fdps = _FDPService.GetAllFDP();
-            return View(fdps);
+            var fdpsViewModel = FDPViewModelBinder.FDPListViewModelBinder(fdps);
+            return View(fdpsViewModel);
         }
 
+        public ActionResult GetFDPGrid(int regionId=0, int zoneId=0, int woredaId=0)
+        {
+            if(regionId>0)
+            {
+                var fdps = _FDPService.GetFDPsByRegion(regionId).OrderBy(o => o.Name);
+                var fdpsViewModel = FDPViewModelBinder.FDPListViewModelBinder(fdps.ToList());
+                return Json(fdpsViewModel, JsonRequestBehavior.AllowGet);
+            }
+            else if (zoneId>0)
+            {
+                var fdps = _FDPService.GetFDPsByZone(zoneId).OrderBy(o => o.Name);
+                var fdpsViewModel = FDPViewModelBinder.FDPListViewModelBinder(fdps.ToList());
+                return Json(fdpsViewModel, JsonRequestBehavior.AllowGet);
+            }
+            else if(woredaId>0)
+            {
+                var fdps =_FDPService.GetFDPsByWoreda(woredaId).OrderBy(o => o.Name);
+                var fdpsViewModel = FDPViewModelBinder.FDPListViewModelBinder(fdps.ToList());
+                return Json(fdpsViewModel, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return EmptyResult;
+            }
+        }
+
+        protected ActionResult EmptyResult
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
 
         //
         // GET: /FDP/Details/5
@@ -49,24 +83,44 @@ namespace Cats.Web.Hub.Controllers
         //
         // GET: /FDP/Create
 
-        public virtual ActionResult Create()
+        public virtual ActionResult Create(int? woredaId)
         {
-            return PartialView();
+            var adminUnit = _adminUnitService.Get(t=>t.AdminUnitID == woredaId, null, "AdminUnit2,AdminUnit2.AdminUnit2").FirstOrDefault();
+            var adminUnitModel = new AdminUnitModel();
+            if (adminUnit != null)
+            {
+                if (adminUnit.AdminUnit2.ParentID != null)
+                    adminUnitModel = new AdminUnitModel
+                        {
+                            SelectedWoredaId = adminUnit.AdminUnitID,
+                            SelectedZoneId = adminUnit.AdminUnit2.AdminUnitID,
+                            SelectedRegionId = (int) adminUnit.AdminUnit2.ParentID,
+                            SelectedWoredaName = adminUnit.Name,
+                            SelectedZoneName = adminUnit.AdminUnit2.Name,
+                            SelectedRegionName = adminUnit.AdminUnit2.AdminUnit2.Name
+                        };
+            }
+            return PartialView(adminUnitModel);
         }
 
         //
         // POST: /FDP/Create
 
         [HttpPost]
-        public virtual ActionResult Create(FDP fdp)
+        public virtual ActionResult Create(AdminUnitModel fdps)
         {
+            var fdp = new FDP
+                {
+                    Name = fdps.UnitName,
+                    NameAM = fdps.UnitNameAM,
+                    AdminUnitID = fdps.SelectedWoredaId
+                };
             if (ModelState.IsValid)
             {
                 _FDPService.AddFDP(fdp);
                 return Json(new { success = true });
             }
-
-            return PartialView(fdp);
+            return PartialView(fdps);
         }
 
         //
