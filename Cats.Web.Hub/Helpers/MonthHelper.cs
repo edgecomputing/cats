@@ -24,13 +24,20 @@ namespace Cats.Web.Hub.Helpers
             months.Add(new Month(12, "December"));
             return months;
         }
-        public static string MonthName(int id)
+        public static string MonthName(int? id)
         {
             var monthList = GetMonthList();
            return  monthList.Find(t => t.Id == id).Name;
         }
         public static Month GetMonth(List<int?> months )
-        {
+        {    
+            
+            //return (from month in months
+            //        select new Month()
+            //            {
+            //                Id=month,
+            //                Name = MonthName(month)
+            //            });
             var allmonths = new Month();
             if (months != null)
             {
@@ -50,10 +57,7 @@ namespace Cats.Web.Hub.Helpers
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Month()
-        {
-        }
-
+        public Month() {}
         public Month(int id, string name)
         {
             this.Id = id;
