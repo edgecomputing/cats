@@ -53,11 +53,11 @@ namespace Cats.Web.Hub.Controllers
         public ActionResult Create()
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var fromStore = _hubService.GetAllStoreByUser(user); ;
-            var commodities = _commodityService.GetAllParents(); ;
+            var fromStore = _hubService.GetAllStoreByUser(user); 
+            var commodities = _commodityService.GetAllParents(); 
             var programs = _programService.GetAllProgramsForReport();
-            var units = _unitService.GetAllUnit(); ;
-            var toStore = _hubService.GetAllStoreByUser(user); ;
+            var units = _unitService.GetAllUnit(); 
+            var toStore = _hubService.GetAllStoreByUser(user); 
             var reasons = _detailService.GetReasonByMaster(Master.Constants.REASON_FOR_INTERNAL_MOVMENT);
             var viewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
             return View(viewModel);
@@ -67,11 +67,11 @@ namespace Cats.Web.Hub.Controllers
         public ActionResult Create(InternalMovementViewModel viewModel)
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var fromStore = _hubService.GetAllStoreByUser(user); ;
-            var commodities = _commodityService.GetAllParents(); ;
+            var fromStore = _hubService.GetAllStoreByUser(user); 
+            var commodities = _commodityService.GetAllParents(); 
             var programs = _programService.GetAllProgramsForReport();
-            var units = _unitService.GetAllUnit(); ;
-            var toStore = _hubService.GetAllStoreByUser(user); ;
+            var units = _unitService.GetAllUnit(); 
+            var toStore = _hubService.GetAllStoreByUser(user); 
             var reasons = _detailService.GetReasonByMaster(Master.Constants.REASON_FOR_INTERNAL_MOVMENT);
             var newViewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
             if (viewModel.QuantityInMt > _transactionService.GetCommodityBalanceForStack(viewModel.FromStoreId, viewModel.FromStackId, viewModel.CommodityId, viewModel.ShippingInstructionId, viewModel.ProjectCodeId))

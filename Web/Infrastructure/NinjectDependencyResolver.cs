@@ -4,6 +4,9 @@ using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
+using NetSqlAzMan;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan.Providers;
 using Ninject;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
@@ -131,7 +134,14 @@ namespace Cats.Infrastructure
             kernel.Bind<IForgetPasswordRequestService>().To<ForgetPasswordRequestService>();
             kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();
             kernel.Bind<ISettingService>().To<SettingService>();
-
+            //kernel.Bind<ILedgerService>().To<LedgerService>();
+            kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
+                                                                                   System.Configuration.
+                                                                                       ConfigurationManager.
+                                                                                       ConnectionStrings[
+                                                                                           "SecurityContext"].
+                                                                                       ConnectionString);
+            kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
         }
     }
 }

@@ -308,7 +308,7 @@ namespace Cats.Data.Hub
                     PrimaryKey = dbEntry.CurrentValues.GetValue<object>(keyName).ToString(),  // Again, adjust this if you have a multi-column key
                     ColumnName = "*ALL",    // Or make it nullable, whatever you want
                     NewValue = dbEntry.CurrentValues.ToObject().ToString(),
-                    HubID = userId.DefaultHub.HubID,
+                    HubID = 1,
                     //TODO: fix this partion id
                     PartitionID = 0
                 }
@@ -327,7 +327,7 @@ namespace Cats.Data.Hub
                     PrimaryKey = dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
                     ColumnName = "*ALL",
                     NewValue = dbEntry.OriginalValues.ToObject().ToString(),
-                    HubID = userId.DefaultHub.HubID,
+                    HubID = 1,
                     //TODO: fix this partion id
                     PartitionID = 0
                 }
@@ -351,7 +351,7 @@ namespace Cats.Data.Hub
                             ColumnName = propertyName,
                             OldValue = dbEntry.OriginalValues.GetValue<object>(propertyName) == null ? null : dbEntry.OriginalValues.GetValue<object>(propertyName).ToString(),
                             NewValue = dbEntry.CurrentValues.GetValue<object>(propertyName) == null ? null : dbEntry.CurrentValues.GetValue<object>(propertyName).ToString(),
-                            HubID = userId.DefaultHub.HubID,
+                            HubID = 1,
                             //TODO: fix this partion id
                             PartitionID = 0
                         }

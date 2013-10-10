@@ -218,7 +218,6 @@
     <Compile Include="Partials\DispatchDetail.cs" />
     <Compile Include="Partials\Donor.cs" />
     <Compile Include="Partials\ErrorLog.cs" />
-    <Compile Include="Partials\FDP.cs" />
     <Compile Include="Partials\ForgetPasswordRequest.cs" />
     <Compile Include="Partials\GiftCertificate.cs" />
     <Compile Include="Partials\GiftCertificateDetail.cs" />
@@ -318,6 +317,7 @@
     <Compile Include="ViewModels\Dispatch\RequisitionSummary.cs" />
     <Compile Include="ViewModels\ErrorModels.cs" />
     <Compile Include="ViewModels\FDPBalance.cs" />
+    <Compile Include="ViewModels\FDPViewModel.cs" />
     <Compile Include="ViewModels\GiftCertificateDetailsViewModel.cs" />
     <Compile Include="ViewModels\GiftCertificateModel.cs" />
     <Compile Include="ViewModels\GiftCertificateViewModel.cs" />

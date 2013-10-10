@@ -21,18 +21,24 @@ namespace Cats.Controllers
     {
         private IRegionalRequestService _regionalRequestService;
         private IReliefRequisitionService _reliefRequistionService; 
-        private IUnitOfWork _unitOfWork = new UnitOfWork();
+        private IUnitOfWork _unitOfWork ;
         private IUserDashboardPreferenceService _userDashboardPreferenceService;
         private IDashboardWidgetService _dashboardWidgetService;
         private IUserAccountService userService;
 
-        public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService, IDashboardWidgetService dashboardWidgetService, IUserAccountService _userService) {
-            _regionalRequestService = new RegionalRequestService(_unitOfWork);
-            _reliefRequistionService = new ReliefRequisitionService(_unitOfWork);
+        public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService, 
+            IDashboardWidgetService dashboardWidgetService, 
+            IUserAccountService _userService,
+            IUnitOfWork unitOfWork,
+            IRegionalRequestService regionalRequestService,
+            IReliefRequisitionService reliefRequisitionService) {
+            _regionalRequestService = regionalRequestService;
+            _reliefRequistionService =  reliefRequisitionService;
             _userDashboardPreferenceService = userDashboardPreferenceService;
             _dashboardWidgetService = dashboardWidgetService;
             this.userService = _userService;
-        }
+            _unitOfWork = unitOfWork;
+            }
 
         //
         // GET: /Home/

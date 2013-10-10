@@ -220,7 +220,7 @@
                 <td>@Html.LabelFor(model => model.Month)</td>
                 <td>@(Html.Telerik().ComboBox().Name("Month")
                             .BindTo((SelectList)ViewBag.Months)
-                            //.DataBinding(bind => bind.Ajax().Select("Months", "Dispatch"))
+                            .DataBinding(bind => bind.Ajax().Select("Months", "Dispatch"))
                     .AutoFill(true)
                             .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
                     .OpenOnFocus(true)

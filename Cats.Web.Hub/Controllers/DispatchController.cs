@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Models.Hub;
 using Cats.Services.Hub;
+using Cats.Web.Hub.Helpers;
 using Newtonsoft.Json;
 using Telerik.Web.Mvc;
 using System;
@@ -258,6 +259,12 @@ namespace Cats.Web.Hub.Controllers
                             theViewModel.Month = toFDPDispatchAllocation.Month.Value;
                         var months = (from y in _periodService.GetMonths(theViewModel.Year)
                                       select new { Name = y, Id = y }).ToList();
+
+                        //var months = _periodService.GetMonths(theViewModel.Year);
+                        //var monthList= MonthHelper.GetMonth(months);
+                       // MonthHelper.get(months);
+                        //ViewBag.Month = new SelectList(MonthHelper.GetMonthList(months), "Id", "Name");
+
                         ViewBag.Month = new SelectList(months, "Id", "Name", theViewModel.Month);
                         if (toFDPDispatchAllocation.Round.HasValue)
                             theViewModel.Round = toFDPDispatchAllocation.Round.Value;

@@ -40,7 +40,7 @@ namespace Cats.Models
       //  public virtual Ledger Ledger { get; set; }
         //public virtual Program Program { get; set; }
         //public virtual ProjectCode ProjectCode { get; set; }
-        //public virtual ShippingInstruction ShippingInstruction { get; set; }
+        public virtual ShippingInstruction ShippingInstruction { get; set; }
         //public virtual Store Store { get; set; }
         public virtual TransactionGroup TransactionGroup { get; set; }
         public virtual Unit Unit { get; set; }
