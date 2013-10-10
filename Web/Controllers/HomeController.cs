@@ -36,7 +36,7 @@ namespace Cats.Controllers
 
         //
         // GET: /Home/
-        [Authorize]
+   //     [Authorize]
         public ActionResult Index(int regionId=4)
         {
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);

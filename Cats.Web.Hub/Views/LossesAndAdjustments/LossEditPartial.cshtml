@@ -82,7 +82,7 @@
                 <td>
                     @(Html.Telerik().ComboBoxFor(model => model.Stores)
                                 .Name("StoreId")
-                                //.BindTo(new SelectList(Model.Stores, "StoreId", "StoreName"))
+                                .BindTo(new SelectList(Model.Stores, "StoreId", "StoreName"))
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .HighlightFirstMatch(true)
                                 .Placeholder("Select Store")
@@ -237,6 +237,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#StoreId").data("tComboBox").disable();
+        //$("#StoreId").data("tComboBox").disable();
     });
 </script>
