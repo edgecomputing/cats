@@ -129,7 +129,7 @@
 </div>
 
 <p>
-    @Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining }, null)
+    @Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)
 </p>
 <table id="ProjectCode">
     <thead>
@@ -190,7 +190,7 @@
 </tbody>
 </table>
 <br/>
-<div class="footer-links">@Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) | |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation", new {  ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining }, null)
+<div class="footer-links">@Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) | |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation", new {  ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)
 </div>
 
 

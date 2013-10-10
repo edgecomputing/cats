@@ -65,9 +65,9 @@ namespace Cats.Models.Mapping
             //this.HasRequired(t => t.Program)
             //    .WithMany(t => t.Transactions)
             //    .HasForeignKey(d => d.ProgramID);
-            //this.HasOptional(t => t.ProjectCode)
-            //    .WithMany(t => t.Transactions)
-            //    .HasForeignKey(d => d.ProjectCodeID);
+            this.HasOptional(t => t.ProjectCode)
+                .WithMany(t => t.Transactions)
+                .HasForeignKey(d => d.ProjectCodeID);
             this.HasOptional(t => t.ShippingInstruction)
                 .WithMany(t => t.Transactions)
                 .HasForeignKey(d => d.ShippingInstructionID);
