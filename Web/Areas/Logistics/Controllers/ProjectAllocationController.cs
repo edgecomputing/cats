@@ -129,8 +129,8 @@ namespace Cats.Areas.Logistics.Controllers
             var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
             ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == reqId).SingleOrDefault();
 
-            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
-            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
+            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId,(int) listOfRequsitions.Commodity.ParentID);
+            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId,(int) listOfRequsitions.Commodity.ParentID);
             ViewBag.FreeSICodes = freeSICodes;
             ViewBag.FreePCCodes = freePCCodes;
             ViewBag.SI = new SelectList(freeSICodes, "siCodeId", "SIcode");
