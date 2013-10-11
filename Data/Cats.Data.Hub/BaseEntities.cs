@@ -466,8 +466,8 @@ namespace Cats.Data.Hub
         public ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
         {
             return ExecProcedure<StockStatusReport>("RPT_StockStatus", "StockStatusReports",
-                new ProcParam() { ParmName = "hubId", Value = hubID },
-                  new ProcParam() { ParmName = "CommodityID", Value = commodityID });
+                new ProcParam() { ParmName = "Warehouse", Value = hubID },
+                  new ProcParam() { ParmName = "commodity", Value = commodityID });
         }
         public ObjectResult<StockStatusReport> RPT_StockStatusNonFood(int? hubID, int? commodityID)
         {

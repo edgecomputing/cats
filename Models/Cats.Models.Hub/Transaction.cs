@@ -26,7 +26,8 @@ namespace Cats.Models.Hub
         public decimal QuantityInUnit { get; set; }
         public int UnitID { get; set; }
         public System.DateTime TransactionDate { get; set; }
-        public virtual Account Account { get; set; }
+       
+            public virtual Account Account { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual Commodity Commodity1 { get; set; }
         public virtual CommodityGrade CommodityGrade { get; set; }

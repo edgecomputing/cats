@@ -15,11 +15,11 @@ namespace Cats.Models
         {
 
 
-            //this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
-            //this.TransportOrderDetails = new List<TransportOrderDetail>();
-            //this.GiftCertificates = new List<GiftCertificate>();
-            //this.Contributions = new List<Contribution>();
-            //this.Contributions1=new List<Contribution>();
+            this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            this.TransportOrderDetails = new List<TransportOrderDetail>();
+            this.GiftCertificates = new List<GiftCertificate>();
+            this.Contributions = new List<Contribution>();
+            //this.Contributions1 = new List<Contribution>();
         }
         public int DonorID { get; set; }
         public string Name { get; set; }

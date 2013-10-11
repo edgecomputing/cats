@@ -40,17 +40,19 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Hub_Create([DataSourceRequest] DataSourceRequest request, Hub hub)
+        public ActionResult Hub_Create([DataSourceRequest] DataSourceRequest request, HubViewModel hubViewModel)
         {
-            if (hub != null && ModelState.IsValid)
+            var hub = new Hub();
+            if (hubViewModel != null && ModelState.IsValid)
             {
+                hub = HubViewModelBinder.BindHub(hubViewModel);
                 _hubService.AddHub(hub);
             }
             return Json(new[] { hub }.ToDataSourceResult(request, ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Commodity_Update([DataSourceRequest] DataSourceRequest request, Hub hub)
+        public ActionResult Hub_Update([DataSourceRequest] DataSourceRequest request, Hub hub)
         {
             if (hub != null && ModelState.IsValid)
             {
@@ -61,16 +63,20 @@ namespace Cats.Web.Adminstration.Controllers
             return Json(new[] { hub }.ToDataSourceResult(request, ModelState));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Commodity_Destroy([DataSourceRequest] DataSourceRequest request,
-                                                  Hub hub)
+        
+        public ActionResult Hub_Destroy(int id)
         {
-            if (hub != null)
+            var hub = _hubService.FindById(id);
+            try
             {
-                _hubService.DeleteById(hub.HubID);
+                _hubService.DeleteHub(hub);
+                return RedirectToAction("Index");
             }
-
-            return Json(ModelState.ToDataSourceResult());
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", "Unable to delete Hub");
+            }
+            return RedirectToAction("Index");
         }
         
     }

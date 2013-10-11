@@ -56,8 +56,6 @@ namespace Cats.Web.Adminstration.Controllers
         {
             if (donor != null && ModelState.IsValid)
             {
-
-
                 _donorService.AddDonor(BindDonor(donor));
             }
 
