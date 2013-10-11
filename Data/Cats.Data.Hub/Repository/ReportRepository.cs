@@ -39,11 +39,56 @@ namespace DRMFSS.BLL.Repository
             return _context.RPT_Offloading(hubID, sTime, eTime);
         }
 
-        public System.Data.Objects.ObjectResult<RPT_Distribution_Result> util_GetDispatchedAllocationFromSI(int hubId, int sis)
+        public IEnumerable<RPT_Distribution_Result> util_GetDispatchedAllocationFromSI(int hubId, int sis)
         {
-            return _context.util_GetDispatchedAllocationFromSI(hubId, sis);
-        }
 
+
+            var x = (from item in _context.DispatchAllocations
+                     join dispatch in _context.Dispatches on item.DispatchAllocationID equals
+                         dispatch.DispatchAllocationID
+                     join dispatchDetail in _context.DispatchDetails on dispatch.DispatchID equals
+                         dispatchDetail.DispatchID
+                     join transaction in _context.Transactions on dispatchDetail.TransactionGroupID equals
+                         transaction.TransactionGroupID
+
+                     where
+                         (item.ShippingInstructionID == sis && item.IsClosed && transaction.LedgerID == 9 &&
+                          dispatch.HubID == hubId)
+                     select new RPT_Distribution_Result { Quantity = transaction.QuantityInMT, QuantityInUnit = transaction.QuantityInUnit }
+                    );
+            return new List<RPT_Distribution_Result>()
+                       {
+                           new RPT_Distribution_Result()
+                               {Quantity = x.Sum(t => t.Quantity), QuantityInUnit = x.Sum(t => t.QuantityInUnit)}
+                       };
+        }
+        //public class DispatchedQuantityFromSI
+        //{
+        //    public decimal? Quantity { get; set; }
+        //    public decimal? QuantityInMT { get; set; }
+        //}
+        //public DispatchedQuantityFromSI GetDispatchedAllocationFromSi(int hubId, int sis)
+        //{
+            
+
+        //    var x = (from item in _context.DispatchAllocations
+        //             join dispatch in _context.Dispatches on item.DispatchAllocationID equals
+        //                 dispatch.DispatchAllocationID
+        //             join dispatchDetail in _context.DispatchDetails on dispatch.DispatchID equals
+        //                 dispatchDetail.DispatchID
+        //             join transaction in _context.Transactions on dispatchDetail.TransactionGroupID equals
+        //                 transaction.TransactionGroupID
+
+        //             where
+        //                 (item.ShippingInstructionID == sis && item.IsClosed && transaction.LedgerID == 9 &&
+        //                  dispatch.HubID == hubId)
+        //             select new RPT_Distribution_Result { Quantity = transaction.QuantityInMT, QuantityInUnit = transaction.QuantityInUnit }
+        //            );
+        //    return new DispatchedQuantityFromSI()
+        //               {Quantity = x.Sum(t => t.Quantity), QuantityInMT = x.Sum(t => t.QuantityInMT)};
+
+            
+        //}
         public System.Data.Objects.ObjectResult<BinCardReport> RPT_BinCardNonFood(int hubID, int? StoreID, int? CommodityID, string ProjectID)
         {
             return _context.RPT_BinCardNonFood(hubID, StoreID, CommodityID, ProjectID);

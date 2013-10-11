@@ -80,7 +80,7 @@ namespace Cats.Services.Hub
             var instruction =
                 _unitOfWork.ShippingInstructionRepository.FindBy(t => t.Value.ToUpper() == si.ToUpper()).SingleOrDefault
                     ();
-           
+
             if (instruction != null)
             {
                 return instruction.ShippingInstructionID;
@@ -103,7 +103,7 @@ namespace Cats.Services.Hub
                                                                    t.Account.EntityType == Account.Constants.FDP &&
                                                                    t.Account.EntityID == FDPID
                 ).Select(t => t.QuantityInMT).ToList().Sum();
-           
+
             return (balance > 0);
         }
 
@@ -118,7 +118,7 @@ namespace Cats.Services.Hub
             var instruction =
                 _unitOfWork.ShippingInstructionRepository.FindBy(t => t.Value.ToUpper() == SiNumber.ToUpper()).
                     SingleOrDefault();
-          
+
             if (instruction != null)
             {
                 return instruction;
@@ -131,7 +131,7 @@ namespace Cats.Services.Hub
                 };
                 _unitOfWork.ShippingInstructionRepository.Add(newInstruction);
                 _unitOfWork.Save();
-               
+
                 return newInstruction;
             }
         }
@@ -150,9 +150,7 @@ namespace Cats.Services.Hub
             return shippingInstructions;
         }
 
-        public List<ShippingInstructionViewModel> GetShippingInstructionsForProjectCode(int hubId,
-                                                                                                          int
-                                                                                                              projectCodeId)
+        public List<ShippingInstructionViewModel> GetShippingInstructionsForProjectCode(int hubId, int projectCodeId)
         {
             var tempShippingInstructions =
                 _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == projectCodeId);
@@ -160,7 +158,7 @@ namespace Cats.Services.Hub
                                         select
                                             new ShippingInstructionViewModel
                                             {
-                                                ShippingInstructionId = v.ShippingInstructionID,
+                                                ShippingInstructionId = v.ShippingInstructionID.Value,
                                                 ShippingInstructionName = v.ShippingInstruction.Value
                                             }).Distinct().
                 ToList();
@@ -177,7 +175,7 @@ namespace Cats.Services.Hub
                              t.ParentCommodityID == commodityId);
             if (com.CommodityTypeID == 1)
             {
-                
+
                 var sis = from v in tempSis
                           group v by v.ShippingInstruction
                               into g
@@ -202,7 +200,7 @@ namespace Cats.Services.Hub
 
         public ProjectCode GetProjectCodeForSI(int hubId, int commodityId, int shippingInstructionID)
         {
-           
+
             var projectCode = (from v in _unitOfWork.TransactionRepository.GetAll()
                                where
                                    v.HubID == hubId && v.ParentCommodityID == commodityId &&
@@ -247,8 +245,8 @@ namespace Cats.Services.Hub
                                        where v.IsClosed == false && v.CommodityID == commodityId
                                        select v.Amount / 10).DefaultIfEmpty().Sum();
 
-           
-            var utilGetDispatchedAllocationFromSiResult =_unitOfWork.ReportRepository.util_GetDispatchedAllocationFromSI(hubID, shippingInstructionID).FirstOrDefault();
+
+            var utilGetDispatchedAllocationFromSiResult = _unitOfWork.ReportRepository.util_GetDispatchedAllocationFromSI(hubID, shippingInstructionID).FirstOrDefault();
             if (utilGetDispatchedAllocationFromSiResult != null)
                 if (utilGetDispatchedAllocationFromSiResult.Quantity != null)
                     siBalance.CommitedToFDP -= utilGetDispatchedAllocationFromSiResult.Quantity.Value;
@@ -258,27 +256,28 @@ namespace Cats.Services.Hub
                                           select v.QuantityInMT).DefaultIfEmpty().Sum();
 
 
-            //TODO:After Implementing ReceiptAllocationService Return to this method implementation
+            
             decimal ReaminingExpectedReceipts = 0;
-            //var rAll = repository.ReceiptAllocation.FindBySINumber(siBalance.SINumber)
-            //    .Where(
-            //    p =>
-            //    {
-            //        if (p.Commodity.ParentID == null)
-            //            return p.CommodityID == commodityId;
-            //        else
-            //            return p.Commodity.ParentID == commodityId;
-            //    }
-            //    )
-            //    .Where(q => q.IsClosed == false);
+            var allocation = _unitOfWork.ReceiptAllocationRepository.FindBy(r => r.SINumber == siBalance.SINumber).ToList();
+            var rAll = allocation
+                .Where(
+                p =>
+                {
+                    if (p.Commodity.ParentID == null)
+                        return p.CommodityID == commodityId;
+                    else
+                        return p.Commodity.ParentID == commodityId;
+                }
+                )
+                .Where(q => q.IsClosed == false);
 
-            //foreach (var receiptAllocation in rAll)
-            //{
-            //    ReaminingExpectedReceipts = ReaminingExpectedReceipts +
-            //                       (receiptAllocation.QuantityInMT
-            //                        -
-            //                        repository.ReceiptAllocation.GetReceivedAlready(receiptAllocation));
-            //}
+            foreach (var receiptAllocation in rAll)
+            {
+                ReaminingExpectedReceipts = ReaminingExpectedReceipts +
+                                   (receiptAllocation.QuantityInMT
+                                    -
+                                    GetReceivedAlready(receiptAllocation));
+            }
             siBalance.ReaminingExpectedReceipts = ReaminingExpectedReceipts;
             decimal newVariable = (siBalance.CommitedToFDP + siBalance.CommitedToOthers);
 
@@ -291,6 +290,19 @@ namespace Cats.Services.Hub
                 siBalance.TotalDispatchable = siBalance.AvailableBalance;
             return siBalance;
 
+        }
+        private decimal GetReceivedAlready(ReceiptAllocation receiptAllocation)
+        {
+            decimal sum = 0;
+            if (receiptAllocation.Receives != null)
+                foreach (Receive r in receiptAllocation.Receives)
+                {
+                    foreach (ReceiveDetail rd in r.ReceiveDetails)
+                    {
+                        sum = sum + Math.Abs(rd.QuantityInMT);
+                    }
+                }
+            return sum;
         }
 
         /// <summary>
@@ -328,8 +340,8 @@ namespace Cats.Services.Hub
                                        where v.IsClosed == false && v.CommodityID == commodityId
                                        select v.AmountInUnit).DefaultIfEmpty().Sum();
             //select v.Amount / 10).DefaultIfEmpty().Sum();
-           
-            var utilGetDispatchedAllocationFromSiResult =_unitOfWork.ReportRepository.util_GetDispatchedAllocationFromSI(hubID, shippingInstructionID).FirstOrDefault();
+
+            var utilGetDispatchedAllocationFromSiResult = _unitOfWork.ReportRepository.util_GetDispatchedAllocationFromSI(hubID, shippingInstructionID).FirstOrDefault();
             if (utilGetDispatchedAllocationFromSiResult != null)
                 if (utilGetDispatchedAllocationFromSiResult.QuantityInUnit != null)
                     siBalance.CommitedToFDP -= utilGetDispatchedAllocationFromSiResult.QuantityInUnit.Value;
@@ -372,9 +384,9 @@ namespace Cats.Services.Hub
 
         }
 
-    
 
-       
+
+
     }
 }
 

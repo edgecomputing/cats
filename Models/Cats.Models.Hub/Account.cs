@@ -8,9 +8,9 @@ namespace Cats.Models.Hub
     {
         public Account()
         {
-            this.Transactions = new List<Transaction>();
+          this.Transactions = new List<Transaction>();
         }
-        [Key]
+        //[Key]
         public int AccountID { get; set; }
         public string EntityType { get; set; }
         public int EntityID { get; set; }

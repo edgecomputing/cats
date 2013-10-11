@@ -375,10 +375,14 @@ namespace Cats.Data.Hub
             var cmd = Database.Connection.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = procedureName;
-
+            cmd.CommandType = CommandType.StoredProcedure;
+            
             foreach (var procParam in param)
             {
-                var dbParam = new SqlParameter(procParam.ParmName, procParam.Value);
+
+                var dbParam = new SqlParameter(string.Format("@{0}",procParam.ParmName), procParam.Value);
+
+
                 cmd.Parameters.Add(dbParam);
             }
 
@@ -431,9 +435,9 @@ namespace Cats.Data.Hub
         }
         public ObjectResult<RPT_Distribution_Result> util_GetDispatchedAllocationFromSI(int hubId, int sis)
         {
-            return ExecProcedure<RPT_Distribution_Result>("util_GetDispatchedAllocationFromSI_Result", "util_GetDispatchedAllocationFromSI_Results",
-                new ProcParam() { ParmName = "hubId", Value = hubId },
-                new ProcParam() { ParmName = "sis", Value = sis }
+            return ExecProcedure<RPT_Distribution_Result>("util_GetDispatchedAllocationFromSI", "RPT_Distribution_Result",
+                new ProcParam() { ParmName = "HubID", Value = hubId },
+                new ProcParam() { ParmName = "ShippingInstruction", Value = sis }
                 );
         }
         public ObjectResult<BinCardReport> RPT_BinCardNonFood(int hubID, int? StoreID, int? CommodityID, string ProjectID)

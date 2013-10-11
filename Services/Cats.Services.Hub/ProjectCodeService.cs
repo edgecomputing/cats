@@ -134,7 +134,7 @@ namespace Cats.Services.Hub
             var projectCodes = (from v in transactions
                                 where v.ParentCommodityID == parentCommodityId && v.HubID == hubID
                                 select
-                                    new ProjectCodeViewModel { ProjectCodeId = v.ProjectCodeID, ProjectName = v.ProjectCode.Value }).Distinct()
+                                    new ProjectCodeViewModel { ProjectCodeId = v.ProjectCodeID.Value, ProjectName = v.ProjectCode.Value }).Distinct()
                 .ToList();
             return projectCodes;
         }
