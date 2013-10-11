@@ -103,9 +103,9 @@ namespace Cats.Services.Common
             return siCodeList;
         }
 
-        public List<AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int parentId)
+        public List<AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == parentId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 3);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
@@ -168,9 +168,9 @@ namespace Cats.Services.Common
         }
 
 
-        public List<AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int parentId)
+        public List<AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == parentId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 3);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ProjectCodeID).Select(
