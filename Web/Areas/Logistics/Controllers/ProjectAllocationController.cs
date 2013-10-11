@@ -127,16 +127,17 @@ namespace Cats.Areas.Logistics.Controllers
             }
 
             var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
-
-            List<LedgerService.AvailableShippingCodes> FreeSICodes = _ledgerService.GetFreeSICodes(hubId);
-            List<LedgerService.AvailableProjectCodes> FreePCCodes = _ledgerService.GetFreePCCodes(hubId);
-            ViewBag.FreeSICodes = FreeSICodes;
-            ViewBag.FreePCCodes = FreePCCodes;
-            ViewBag.SI = new SelectList(FreeSICodes, "siCodeId", "SIcode");
-            ViewBag.PC = new SelectList(FreePCCodes, "pcCodeId", "PCcode");
-
-
             ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == reqId).SingleOrDefault();
+
+            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
+            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
+            ViewBag.FreeSICodes = freeSICodes;
+            ViewBag.FreePCCodes = freePCCodes;
+            ViewBag.SI = new SelectList(freeSICodes, "siCodeId", "SIcode");
+            ViewBag.PC = new SelectList(freePCCodes, "pcCodeId", "PCcode");
+
+
+           
             
            
            // ViewBag.SI = new SelectList(_shippingInstructionService.GetAllShippingInstruction(), "ShippingInstructionID", "Value");

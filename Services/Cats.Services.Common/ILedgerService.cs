@@ -13,6 +13,10 @@ namespace Cats.Services.Common
    {
        List<LedgerService.AvailableShippingCodes> GetFreeSICodes(int hubId);
        List<LedgerService.AvailableProjectCodes> GetFreePCCodes(int hubId);
+
+       List<LedgerService.AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId);
+       List<LedgerService.AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int commodityId);
+
        decimal GetFreeSICodesAmount(int hubId, int siCode);
        decimal GetFreePCCodes(int hubId, int pcCode);
        decimal GetAvailableAmount(int siCode);
