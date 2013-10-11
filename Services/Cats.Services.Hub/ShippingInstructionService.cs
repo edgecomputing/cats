@@ -246,7 +246,7 @@ namespace Cats.Services.Hub
                                        select v.Amount / 10).DefaultIfEmpty().Sum();
 
 
-            var utilGetDispatchedAllocationFromSiResult = _unitOfWork.ReportRepository.GetDispatchedAllocationFromSi(hubID, shippingInstructionID);
+            var utilGetDispatchedAllocationFromSiResult = _unitOfWork.ReportRepository.util_GetDispatchedAllocationFromSI(hubID, shippingInstructionID).FirstOrDefault();
             if (utilGetDispatchedAllocationFromSiResult != null)
                 if (utilGetDispatchedAllocationFromSiResult.Quantity != null)
                     siBalance.CommitedToFDP -= utilGetDispatchedAllocationFromSiResult.Quantity.Value;
