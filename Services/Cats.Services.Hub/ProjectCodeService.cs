@@ -131,8 +131,6 @@ namespace Cats.Services.Hub
 
            // projeCodes doesnt  have fields 'ParentCommodityID','HubsID' defined
 
-
-
             var projectCodes = (from v in transactions
                                 where v.ParentCommodityID == parentCommodityId && v.HubID == hubID
                                 select

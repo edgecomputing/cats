@@ -134,7 +134,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IForgetPasswordRequestService>().To<ForgetPasswordRequestService>();
             kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();
             kernel.Bind<ISettingService>().To<SettingService>();
-            //kernel.Bind<ILedgerService>().To<LedgerService>();
+            kernel.Bind<ILedgerService>().To<LedgerService>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.
