@@ -14,68 +14,80 @@ using NUnit.Framework;
 
 namespace Cats.Web.Adminstration.Tests.ControllerTest
 {
-   public class HubOwnerControllerTest
-   {
-       private HubOwnerController _hubOwnerController;
+    [TestFixture]
+    public class HubOwnerControllerTest
+    {
+        private HubOwnerController _hubOwnerController;
 
-       #region SetUp
-       [SetUp]
-       public void Init()
-       {
-           var hubOwner = new List<HubOwner>
+        #region SetUp
+        [SetUp]
+        public void Init()
+        {
+            var hubOwner = new List<HubOwner>
                {
                    new HubOwner {HubOwnerID = 1,Name = "Owner1",LongName = "Hub Owner 1"},
                    new HubOwner {HubOwnerID = 2,Name = "Owner2",LongName = "Hub Owner 2"}
 
                };
-           var hubOwnerService = new Mock<IHubOwnerService>();
-           hubOwnerService.Setup(m => m.GetAllHubOwner()).Returns(hubOwner);
-           _hubOwnerController=new HubOwnerController(hubOwnerService.Object);
-       }
-       [TearDown]
-       public void Dispose()
-       {
-           _hubOwnerController.Dispose();
-       }
-       #endregion
-       #region Test
-       [Test]
-       public void CanShowIndex()
-       {
-           var result = _hubOwnerController.Index();
-           Assert.IsNotNull(result);
-       }
+            var hubOwnerService = new Mock<IHubOwnerService>();
+            hubOwnerService.Setup(m => m.GetAllHubOwner()).Returns(hubOwner);
+            _hubOwnerController = new HubOwnerController(hubOwnerService.Object);
+        }
 
-       [Test]
-       public void CanReadHubOwner()
-       {
-           var request = new DataSourceRequest();
-           var result = _hubOwnerController.Read(request);
+        [TearDown]
+        public void Dispose()
+        {
+            _hubOwnerController.Dispose();
+        }
+        #endregion
+        #region Test
+        [Test]
+        public void CanShowIndex()
+        {
+            var result = _hubOwnerController.Index();
+            Assert.IsNotNull(result);
+        }
 
-           Assert.IsInstanceOf<JsonResult>(result);
-       }
-       [Test]
-       public void CanUpdateHubOwner()
-       {
-           var request = new DataSourceRequest();
-           var hubOwnerViewModel = new HubOwnerViewModel {HubOwnerID = 1,HubId = 1,Name = "Owner2", LongName = "Hub Owner 2"};
+        [Test]
+        public void CanReadHubOwner()
+        {
+            var request = new DataSourceRequest();
+            var result = _hubOwnerController.Read(request);
 
-           var result = _hubOwnerController.HubOwnerUpdate(request, hubOwnerViewModel);
-           //Assert
-           Assert.IsInstanceOf<JsonResult>(result);
-           Assert.IsNotNull(result);
-       }
-       [Test]
-       public void CanDestroyHubOwner()
-       {
-           var request = new DataSourceRequest();
-           var hubOwnerViewModel = new HubOwnerViewModel { HubOwnerID = 1, HubId = 1, Name = "Owner2", LongName = "Hub Owner 2" };
+            Assert.IsInstanceOf<JsonResult>(result);
+        }
+        [Test]
+        public void CanCreateHubOwner()
+        {
+            var request = new DataSourceRequest();
+            var hubOwnerViewModel = new HubOwnerViewModel { HubOwnerID = 1, HubId = 1, Name = "Owner2", LongName = "Hub Owner 2" };
 
-           var result = _hubOwnerController.HubOwnerUpdate(request, hubOwnerViewModel);
-           //Assert
-           Assert.IsInstanceOf<JsonResult>(result);
+            var result = _hubOwnerController.HubOwnerCreate(request, hubOwnerViewModel);
+            //Assert
+            Assert.IsInstanceOf<JsonResult>(result);
+        }
+        [Test]
+        public void CanUpdateHubOwner()
+        {
+            var request = new DataSourceRequest();
+            var hubOwnerViewModel = new HubOwnerViewModel { HubOwnerID = 1, HubId = 1, Name = "Owner2", LongName = "Hub Owner 2" };
 
-       }
-       #endregion
-   }
+            var result = _hubOwnerController.HubOwnerUpdate(request, hubOwnerViewModel);
+            //Assert
+            Assert.IsInstanceOf<JsonResult>(result);
+            Assert.IsNotNull(result);
+        }
+        [Test]
+        public void CanDestroyHubOwner()
+        {
+            var request = new DataSourceRequest();
+            var hubOwnerViewModel = new HubOwnerViewModel { HubOwnerID = 1, HubId = 1, Name = "Owner2", LongName = "Hub Owner 2" };
+
+            var result = _hubOwnerController.HubOwnerUpdate(request, hubOwnerViewModel);
+            //Assert
+            Assert.IsInstanceOf<JsonResult>(result);
+
+        }
+        #endregion
+    }
 }

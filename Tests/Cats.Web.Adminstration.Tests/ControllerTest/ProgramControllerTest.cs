@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.Administration;
 using Cats.Web.Adminstration.Controllers;
+using Cats.Web.Adminstration.Models.ViewModels;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
@@ -53,6 +54,15 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
            var result = _programController.Program_Read(request);
            Assert.IsInstanceOf<JsonResult>(result);
            Assert.IsNotNull(result);
+       }
+       [Test]
+       public void CanCreateProgram()
+       {
+           var request = new DataSourceRequest();
+           var programViewModel = new ProgramViewModel {ProgramID = 1, ProgramName = "PSNP", Description = "PSNP Program"};
+           var result = _programController.Program_Create(request, programViewModel);
+           //Assert
+           Assert.IsInstanceOf<JsonResult>(result);
        }
        [Test]
        public void CanDeleteProgram()
