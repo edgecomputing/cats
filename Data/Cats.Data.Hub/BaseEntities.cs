@@ -409,6 +409,10 @@ namespace Cats.Data.Hub
 
         public ObjectResult<RPT_MonthGiftSummary_Result> GetMonthlySummary()
         {
+           
+
+           // (from gift in _context.Gi )
+
             return ExecProcedure<RPT_MonthGiftSummary_Result>("GetMonthlyGiftSummary", "RPT_MonthGiftSummary_Results");
         }
         public ObjectResult<RPT_Distribution_Result> RPT_Distribution(int hubId)
@@ -445,10 +449,11 @@ namespace Cats.Data.Hub
             return ExecProcedure<BinCardReport>("RPT_BinCardNonFood", "RPT_BinCardNonFoods",
                 new ProcParam() { ParmName = "hubId", Value = hubID },
                 new ProcParam() { ParmName = "StoreID", Value = StoreID },
-                  new ProcParam() { ParmName = "CommodityID", Value = CommodityID },
+                new ProcParam() { ParmName = "CommodityID", Value = CommodityID },
                 new ProcParam() { ParmName = "ProjectID", Value = ProjectID }
                 );
         }
+
         public ObjectResult<BinCardReport> RPT_BinCard(int hubID, int? StoreID, int? CommodityID, string ProjectID)
         {
             return ExecProcedure<BinCardReport>("RPT_BinCard", "RPT_BinCardNonFoods",
