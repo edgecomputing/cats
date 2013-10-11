@@ -75,7 +75,7 @@ namespace Cats.Data.Hub
         public DbSet<UserHub> UserHubs { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-       
+       // public DbSet<RPT_Distribution_Result> RPT_Distribution_Results { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
