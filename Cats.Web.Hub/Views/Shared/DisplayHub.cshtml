@@ -17,6 +17,7 @@
 </div>
 <h2>
     @Html.Translate(title) : @Html.Label("Owner", mdl.Owner) - @Html.Label("WH", mdl.Name) @Html.Translate(" Hub ")
+    
     @{
         if(usr.UserAllowedHubs.Count > 1)
         {
@@ -24,9 +25,6 @@
         }
         
    }
-   
-    
-    
 </h2>
 
 

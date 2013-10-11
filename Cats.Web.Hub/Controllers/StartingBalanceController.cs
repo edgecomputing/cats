@@ -43,9 +43,8 @@ namespace Cats.Web.Hub.Controllers
             _programService = programService;
             _unitService = unitService;
         }
-
-
-        public ActionResult Index()
+       
+       public ActionResult Index()
         {
             return View(new List<StartingBalanceViewModel>());
         }

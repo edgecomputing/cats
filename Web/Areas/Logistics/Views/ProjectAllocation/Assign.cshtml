@@ -28,127 +28,169 @@
     <fieldset>
         <legend>Projec Code/SI Assignment</legend>
     </fieldset>
-    
+
     <input type="hidden" value="@ViewBag.ReqId" name="RequisitionId" />
-    
+
     <div class="alert alert-block" id="Notification" style="display: none" >
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <h4>Error!</h4>
-    The amount allocated can not be greater than the remaining quantity
-</div>
-    
-    
-    
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Error!</h4>
+        The amount allocated can not be greater than the remaining quantity
+    </div>
+
+
+
     <h5 align="right"> Metric: @unitPreference </h5>
     <div class="form-horizontal ">
        
         <div class="row">
             <div class="span4">
                 <div class="control-group">
-                     <label class="control-label">
-                    @Translator.Translate("Requested Amount") </label>
+                    <label class="control-label">Assigned Amount</label>
+                    <div class="controls">
+                        <input type="text" class="icon-file-text-alt" id="Assigned" name="Assigned" value=" @ViewBag.Total" readonly="readonly" /> 
+                    </div>
+                </div>
+          
+           
+                <div class="control-group">
+                    <label class="control-label">
+                        @Translator.Translate("Requested Amount") </label>
                     <div class="controls">
                         <input type="text" class="icon-file-text-alt" id="Requested" name="Requested" value="@ViewBag.RequetedAmount" readonly="readonly" />    
                     </div>
                 </div>
-            </div>
            
-            
+           
+            </div>
             <div class="span4">
                 <div class="control-group">
-                     <label class="control-label">
-                    @Translator.Translate("Hub") </label>
+                    <label class="control-label">
+                        @Translator.Translate("Hub") </label>
                     <div class="controls">
                         @Html.Hidden("hub")
                         <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly" />
                     </div>
                 </div>
-            </div>
-        </div>
+            
        
-        <div class="row">
-            <div class="span4">
-                <div class="control-group">
-                     <label class="control-label">
-                    @Translator.Translate("Reamining")</label>
+                    <div class="control-group">
+                        <label class="control-label">
+                            @Translator.Translate("Reamining")</label>
                     
-                    <div class="controls">
-                        @Html.Hidden("reamaining")
-                        <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+                        <div class="controls">
+                            @Html.Hidden("reamaining")
+                            <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+                        </div>
                     </div>
-                </div>
+               
             </div>
-             
-            <div class="span4">
-                <div class="control-group">
-                     <label class="control-label">
-                    @Translator.Translate("Date") </label>
-                    <div class="controls">
-                        <input type="text" class="cats-datepicker2" id="datepicker" name="datepicker" >
-                    </div>
-                </div>
-            </div>
+           
         </div>
         
         <fieldset>
             <legend></legend>
 
         
-        <div class="row" >
-            <div class="span4">
-                <div class="control-group ">
-                    <label class="control-label">Project Code</label>
-                    <div class="controls">
-                        @Html.Hidden("PC")
-                        @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new { @onchange= "onChange(this.value);", id = "ProjectCodeID" })
-                    </div>
-                </div> 
+            <div class="row" >
                 
-                <div class="control-group">
-                    <label class="control-label">PC Quantity</label>
-                    <div class="controls">
-                       @Html.Hidden("PCQty")
-                        <input type="text" id="PCodeqty" name="PCodeqty" />
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label">
+                            @Translator.Translate("Date") </label>
+                        <div class="controls">
+                            <input type="text" class="cats-datepicker2" id="datepicker" name="datepicker" >
+                        </div>
                     </div>
-                </div>
+               
 
-            </div>
-            <div class="span4">
-                <div class="control-group">
-                    <label class="control-label">SI Code</label>
-                    <div class="controls">
-	                
-                        @Html.Hidden("SI")
-                        @Html.DropDownList("SICode", ViewBag.SI as SelectList, "Select SI", new { id = "ShippingInstructionID" })
-                      </div>
-                </div>
                 
-                <div class="control-group">
-                    <label class="control-label">SI Quantity</label>
-                    <div class="controls">
-                        @Html.Hidden("SIQty")
-                        <input type="text" id="SICodeqty" name="SICodeqty" />
+                    <div class="control-group ">
+                        <label class="control-label">Project Code</label>
+                        <div class="controls">
+                            @Html.Hidden("PC")
+                            @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new {@onchange = "onChangePC(this.value);", id = "ProjectCodeID"})
+                        </div>
+                    </div> 
+                
+                    <div class="control-group">
+                        <label class="control-label">PC Quantity</label>
+                        <div class="controls">
+                            @Html.Hidden("PCQty")
+                            <input type="text" id="PCodeqty" name="PCodeqty" onchange="on_pc_amount_change(this);" />
+                            <div id="pc_validation_message" class="alert-error" >msg</div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">PC Available Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="PCAvailableQuantity" readonly="readonly" />
+                        </div>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">SI Quantity</label>
-                    <div class="controls">
-                      @Html.Partial("_OnSICodeChange")
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label">SI Code</label>
+                        <div class="controls">
+	                
+                            @Html.Hidden("SI")
+                            @Html.DropDownList("SICode", ViewBag.SI as SelectList, "Select SI", new {@onchange = "onChangeSI(this.value);", id = "ShippingInstructionID"})
+                        </div>
                     </div>
+                
+                    <div class="control-group">
+                        <label class="control-label">SI Quantity</label>
+                        <div class="controls">
+                            @Html.Hidden("SIQty")
+                            <input type="text" id="SICodeqty" name="SICodeqty" onchange="on_si_amount_change(this);" />
+                            <div id="si_validation_message" class="alert-error" >msg</div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">SI Available Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="SIAvailableQuantity" readonly="readonly" />
+                        </div>
+                    </div>
+                    
+                     
                 </div>
             </div>
-        </div>
-       </fieldset>
+        </fieldset>
         
        
     </div>
-    
-    
+
 }
+<div>
+        @foreach (var si in ViewBag.FreeSICodes)
+        {
+            <input type="hidden" class="freeSI"  id="si_@si.siCodeId" value="@si.amount"/>
+        }  
+    
+     @foreach (var pc in ViewBag.FreePCCodes)
+     {
+         <input type="hidden" class="freePC"  id="pc_@pc.pcCodeId" value="@pc.amount"/>
+     }    
+</div>  
+
 
 <script  >
-    $(document).ready(function() {
+    var freeSI = {};
+    var freePC = {};
+    var currentAmount;
+    $(document).ready(function () {
         // storing selected value to hidden field
+        $(".freeSI").each(function () {
+            freeSI[this.id] = this.value;
+        });
+       
+        $(".freePC").each(function () {
+            freePC[this.id] = this.value;
+        });
+
+
+
         $("#SI").val($("#ShippingInstructionID").val());
         $("#PI").val($("#ProjectCodeID").val());
         $("#PCQty").val($("#PCodeqty").val());
@@ -157,47 +199,51 @@
 
 
     });
-    
-    function onChange(value) {
-        window.location = "@Url.Action("OnSICodeChange","ProjectAllocation")" + "?siCodeId=" + value + "?reqId=" + @ViewBag.ReqId + "";
-       
+
+    function onChangeSI(value) {
+        var totalassigned = '@ViewBag.Total';
+        var available = freeSI["si_" + value] - totalassigned;
+        currentAmount = available;
+        $("#SIAvailableQuantity").val(available);
+        on_si_amount_change();
+      
+
     }
+    
+    function onChangePC(value) {
+        var totalassigned = '@ViewBag.Total';
+       
+        var available = freePC["pc_" + value] - totalassigned;
+        currentAmount = available;
+        $("#PCAvailableQuantity").val(available);
+        on_pc_amount_change();
+
+
+    }
+    
+    function on_pc_amount_change(inp) {
+
+        var assigned = $("#PCodeqty").val();
+        var msg = "";
+        if (currentAmount - assigned < 0) {
+            msg = "Can not exceed " + currentAmount;
+            $("#PCodeqty").val("");
+        }
+        $("#pc_validation_message").html(msg);
+    }
+    
+    function on_si_amount_change(inp)
+    {
+       
+        var assigned = $("#SICodeqty").val();
+        var msg = "";
+        if (currentAmount - assigned < 0) {
+            msg = "Can not exceed " + currentAmount;
+            $("#SICodeqty").val("");
+        }
+        $("#si_validation_message").html(msg);
+    }
+    
+
 
 </script>
-
- <script type="text/javascript">
-     $(document).ready(function () {
-         //Dropdownlist Selectedchange event
-         var SItext;
-         var ProjectCodetext;
-         $('#ShippingInstructionID').change(function () {
-             // Get Dropdownlist seleted item text
-             SItext = $("#ShippingInstructionID option:selected").text();
-             alert(text);
-             // Get Dropdownlist selected item value
-             var sIvalue = $("#ShippingInstructionID").val();
-             alert(sIvalue);
-              
-
-             
-         })
-          
-         $('#ProjectCodeID').change(function () {
-             // Get Dropdownlist seleted item text
-             ProjectCodetext = $("#ProjectCodeID option:selected").text();
-             alert(text);
-             // Get Dropdownlist selected item value
-             var projectCodevalue = $("#ProjectCodeID").val();
-             alert(projectCodevalue);
-
-
-             
-         })
-          
-         if (SItext == "Select SI" && ProjectCodetext == "Selected Project code") {
-             alert("Please select Project code or SI ")
-             return false;
-         }
-         return true;
-     });
- </script>
