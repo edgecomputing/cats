@@ -4,6 +4,7 @@ using System.Data.Objects;
 using System.Linq;
 using System.Text;
 using Cats.Models.Hub;
+using DRMFSS.BLL.Repository;
 
 namespace DRMFSS.BLL.Interfaces
 {
@@ -24,7 +25,7 @@ namespace DRMFSS.BLL.Interfaces
         ObjectResult<StockStatusReport> RPT_StockStatusNonFood(int? hubID, int? commodityID);
         ObjectResult<StatusReportBySI_Result> GetStatusReportBySI(int? hubID);
         ObjectResult<DispatchFulfillmentStatus_Result> GetDispatchFulfillmentStatus(int? hubID);
-
+        ReportRepository.DispatchedQuantityFromSI GetDispatchedAllocationFromSi(int hubId, int sis);
         ObjectResult<DispatchFulfillmentStatus_Result> GetAllLossAndAdjustmentLog();
     }
 }

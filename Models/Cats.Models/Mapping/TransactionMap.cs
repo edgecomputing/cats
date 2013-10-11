@@ -33,9 +33,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.QuantityInUnit).HasColumnName("QuantityInUnit");
             this.Property(t => t.UnitID).HasColumnName("UnitID");
             this.Property(t => t.TransactionDate).HasColumnName("TransactionDate");
-            this.Property(t => t.GiftTypeID).HasColumnName("RegionID");
-            this.Property(t => t.GiftTypeID).HasColumnName("Month");
-            this.Property(t => t.GiftTypeID).HasColumnName("Round");
+            this.Property(t => t.RegionID).HasColumnName("RegionID");
+            this.Property(t => t.Month).HasColumnName("Month");
+            this.Property(t => t.Round).HasColumnName("Round");
             this.Property(t => t.DonorID).HasColumnName("DonorID");
             this.Property(t => t.CommoditySourceID).HasColumnName("CommoditySourceID");
             this.Property(t => t.GiftTypeID).HasColumnName("GiftTypeID");

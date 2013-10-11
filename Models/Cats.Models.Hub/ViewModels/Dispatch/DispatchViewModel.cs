@@ -31,17 +31,17 @@ namespace Cats.Models.Hub
         /// 
         /// </summary>
         /// //TODO:code smell separation of concern
-         //   private IUnitOfWork Repository = new UnitOfWork();
+        //   private IUnitOfWork Repository = new UnitOfWork();
 
-            private List<Transporter> _transporters;
+        private List<Transporter> _transporters;
 
-            /// <summary>
-            /// Gets or sets the transporters.
-            /// </summary>
-            /// <value>
-            /// The transporters.
-            /// </value>
-            public List<Transporter> Transporters
+        /// <summary>
+        /// Gets or sets the transporters.
+        /// </summary>
+        /// <value>
+        /// The transporters.
+        /// </value>
+        public List<Transporter> Transporters
         {
             get
             {
@@ -55,59 +55,59 @@ namespace Cats.Models.Hub
             set { _transporters = value; }
         }
 
-            private List<Commodity> _commodities;
+        private List<Commodity> _commodities;
 
-            /// <summary>
-            /// Gets or sets the commodities.
-            /// </summary>
-            /// <value>
-            /// The commodities.
-            /// </value>
-            public List<Commodity> Commodities
+        /// <summary>
+        /// Gets or sets the commodities.
+        /// </summary>
+        /// <value>
+        /// The commodities.
+        /// </value>
+        public List<Commodity> Commodities
+        {
+            get
             {
-                get
-                {
-                    //TODO:Make sure this property is loaded with commodity
-                    //if (_commodities == null)
-                    //{
-                    //    _commodities = Repository.Commodity.GetAllParents().OrderBy(o => o.Name).ToList();
-                    //}
-                    return _commodities.OrderBy(o => o.Name).ToList(); ;
-                }
-                set { _commodities = value; }
+                //TODO:Make sure this property is loaded with commodity
+                //if (_commodities == null)
+                //{
+                //    _commodities = Repository.Commodity.GetAllParents().OrderBy(o => o.Name).ToList();
+                //}
+                return _commodities.OrderBy(o => o.Name).ToList(); ;
             }
+            set { _commodities = value; }
+        }
 
-            private List<Unit> _units;
+        private List<Unit> _units;
 
-            /// <summary>
-            /// Gets or sets the units.
-            /// </summary>
-            /// <value>
-            /// The units.
-            /// </value>
-            public List<Unit> Units
+        /// <summary>
+        /// Gets or sets the units.
+        /// </summary>
+        /// <value>
+        /// The units.
+        /// </value>
+        public List<Unit> Units
+        {
+            get
             {
-                get
-                {
-                    //TODO:Make sure this property is loaded with full of units
-                    //if (_units == null)
-                    //{
-                    //    _units = Repository.Unit.GetAll().OrderBy(o => o.Name).ToList();
-                    //}
-                    return _units.OrderBy(o => o.Name).ToList(); 
-                }
-                set { _units = value; }
+                //TODO:Make sure this property is loaded with full of units
+                //if (_units == null)
+                //{
+                //    _units = Repository.Unit.GetAll().OrderBy(o => o.Name).ToList();
+                //}
+                return _units.OrderBy(o => o.Name).ToList();
             }
+            set { _units = value; }
+        }
 
-            private List<FDP> _FDPs;
+        private List<FDP> _FDPs;
 
-            /// <summary>
-            /// Gets or sets the FD ps.
-            /// </summary>
-            /// <value>
-            /// The FD ps.
-            /// </value>
-            public List<FDP> FDPs
+        /// <summary>
+        /// Gets or sets the FD ps.
+        /// </summary>
+        /// <value>
+        /// The FD ps.
+        /// </value>
+        public List<FDP> FDPs
         {
             get
             {
@@ -121,15 +121,15 @@ namespace Cats.Models.Hub
             set { _FDPs = value; }
         }
 
-            private List<Program> _programs;
+        private List<Program> _programs;
 
-            /// <summary>
-            /// Gets or sets the programs.
-            /// </summary>
-            /// <value>
-            /// The programs.
-            /// </value>
-            public List<Program> Programs
+        /// <summary>
+        /// Gets or sets the programs.
+        /// </summary>
+        /// <value>
+        /// The programs.
+        /// </value>
+        public List<Program> Programs
         {
             get
             {
@@ -143,85 +143,85 @@ namespace Cats.Models.Hub
             set { _programs = value; }
         }
 
-            private List<AdminUnit> _Regions;
+        private List<AdminUnit> _Regions;
 
-            /// <summary>
-            /// Gets or sets the regions.
-            /// </summary>
-            /// <value>
-            /// The regions.
-            /// </value>
-            public List<AdminUnit> Regions
+        /// <summary>
+        /// Gets or sets the regions.
+        /// </summary>
+        /// <value>
+        /// The regions.
+        /// </value>
+        public List<AdminUnit> Regions
+        {
+            get
             {
-                get
-                {
-                    //TODO:make sure regions are loaded
-                    //if(_Regions == null)
-                    //{
-                    //    _Regions = Repository.AdminUnit.GetRegions();
-                    //}
-                    return _Regions.ToList();
-                }
-                set { _Regions = value; }
+                //TODO:make sure regions are loaded
+                //if(_Regions == null)
+                //{
+                //    _Regions = Repository.AdminUnit.GetRegions();
+                //}
+                return _Regions.ToList();
             }
+            set { _Regions = value; }
+        }
 
-            private List<AdminUnit> _Zones;
+        private List<AdminUnit> _Zones;
 
-            /// <summary>
-            /// Gets or sets the zones.
-            /// </summary>
-            /// <value>
-            /// The zones.
-            /// </value>
-            public List<AdminUnit> Zones
+        /// <summary>
+        /// Gets or sets the zones.
+        /// </summary>
+        /// <value>
+        /// The zones.
+        /// </value>
+        public List<AdminUnit> Zones
+        {
+            get
             {
-                get
-                {
-                    //TODO:Make sure zones are loaded
-                    //if(RegionID != null)
-                    //{
-                    //    _Zones = Repository.AdminUnit.GetChildren(RegionID.Value);
-                    //}else
-                    //{
-                    //    _Zones = new List<AdminUnit>();
-                    //}
+                //TODO:Make sure zones are loaded
+                //if(RegionID != null)
+                //{
+                //    _Zones = Repository.AdminUnit.GetChildren(RegionID.Value);
+                //}else
+                //{
+                //    _Zones = new List<AdminUnit>();
+                //}
 
-                    return _Zones;
-                }
-                set { _Zones = value; }
+                return _Zones;
             }
+            set { _Zones = value; }
+        }
 
-            private List<Store> _stores;
+        private List<Store> _stores;
 
-            /// <summary>
-            /// Gets or sets the stores.
-            /// </summary>
-            /// <value>
-            /// The stores.
-            /// </value>
-            public List<Store> Stores
+        /// <summary>
+        /// Gets or sets the stores.
+        /// </summary>
+        /// <value>
+        /// The stores.
+        /// </value>
+        public List<Store> Stores
+        {
+            get
             {
-                get
-                {
-                    //TODO:make sure stores are loaded
-                    //if(_stores == null)
-                    //{
-                    //    _stores = Repository.Store.GetAll();
-                    //}
-                    return _stores;
-                }
-                set { _stores = value; }
+                //TODO:make sure stores are loaded
+                //if(_stores == null)
+                //{
+                //    _stores = Repository.Store.GetAll();
+                //}
+                return _stores;
             }
- 
+            set { _stores = value; }
+        }
+
         #endregion
 
 
-            /// <summary>
-            /// Gets or sets the dispatch ID.
-            /// </summary>
-            /// <value>
-            /// The dispatch ID.
-            /// </value>
+        /// <summary>
+        /// Gets or sets the dispatch ID.
+        /// </summary>
+        /// <value>
+        /// The dispatch ID.
+        /// </value>
         public Guid? DispatchID { get; set; }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace Cats.Models.Hub
         /// <value>
         /// The FDPID.
         /// </value>
-        [Required(ErrorMessage="FDP is required")]
+        [Required(ErrorMessage = "FDP is required")]
         [Display(Name = "FDP")]
         public int? FDPID { get; set; }
 
@@ -240,7 +240,7 @@ namespace Cats.Models.Hub
         /// <value>
         /// The region ID.
         /// </value>
-         [Required(ErrorMessage = "Region is required")]
+        [Required(ErrorMessage = "Region is required")]
         public int? RegionID { get; set; }
         /// <summary>
         /// Gets or sets the zone ID.
@@ -248,7 +248,7 @@ namespace Cats.Models.Hub
         /// <value>
         /// The zone ID.
         /// </value>
-          [Required(ErrorMessage = "Zone is required")]
+        [Required(ErrorMessage = "Zone is required")]
         public int? ZoneID { get; set; }
         /// <summary>
         /// Gets or sets the woreda ID.
@@ -395,7 +395,7 @@ namespace Cats.Models.Hub
         /// </value>
         [Required(ErrorMessage = "Project Code is a required field")]
         [Display(Name = "Project Code")]
-        [Remote("IsProjectValid","Dispatch",ErrorMessage="Project Number does not exist")]
+        [Remote("IsProjectValid", "Dispatch", ErrorMessage = "Project Number does not exist")]
         public string ProjectNumber { get; set; }
         /// <summary>
         /// Gets or sets the year.
@@ -517,14 +517,14 @@ namespace Cats.Models.Hub
         /// <summary>
         /// Initializes a new instance of the <see cref="DispatchModel"/> class.
         /// </summary>
-        public DispatchModel(List<Commodity> commodities ,
+        public DispatchModel(List<Commodity> commodities,
             List<Transporter> transporters,
             List<Unit> units,
             List<FDP> fdps,
-            List<Program> programs ,
+            List<Program> programs,
             List<AdminUnit> regions,
             List<AdminUnit> zones,
-            List<Store> stores )
+            List<Store> stores)
         {
             this.DispatchID = null;
             this.DispatchDate = DateTime.Now;
@@ -563,7 +563,7 @@ namespace Cats.Models.Hub
                 BidNumber = this.BidNumber,
                 CreatedDate = DateTime.Now,
                 DispatchDate = this.DispatchDate,
-                
+
                 DriverName = this.DriverName,
                 DispatchedByStoreMan = DispatchedByStoreMan,
                 FDPID = this.FDPID,
@@ -574,8 +574,8 @@ namespace Cats.Models.Hub
                 PlateNo_Trailer = this.PlateNo_Trailer,
                 RequisitionNo = this.RequisitionNo,
                 //HubID = user.DefaultHub.HubID;
-               // StackNumber = this.StackNumber,
-               // StoreID = this.StoreID,
+                // StackNumber = this.StackNumber,
+                // StoreID = this.StoreID,
                 TransporterID = this.TransporterID,
                 HubID = this.WarehouseID,
                 //ProgramID = this.ProgramID,
@@ -583,9 +583,9 @@ namespace Cats.Models.Hub
                 Round = this.Round,
                 Remark = this.Remark,
                 //ProjectNumber = this.ProjectNumber,
-               // SINumber = this.SINumber 
+                // SINumber = this.SINumber 
             };
-            if(this.DispatchID.HasValue)
+            if (this.DispatchID.HasValue)
             {
                 dispatch.DispatchID = this.DispatchID.Value;
             }
@@ -598,7 +598,7 @@ namespace Cats.Models.Hub
         /// <param name="dispatch">The dispatch.</param>
         /// <param name="Repository">The repository.</param>
         /// <returns></returns>
-        public static DispatchModel GenerateDispatchModel(Dispatch dispatch,Transaction transactionObj,
+        public static DispatchModel GenerateDispatchModel(Dispatch dispatch, Transaction transactionObj,
             List<Commodity> commodities,
             List<Transporter> transporters,
             List<Unit> units,
@@ -639,7 +639,7 @@ namespace Cats.Models.Hub
 
             model.OtherDispatchAllocationID = dispatch.OtherDispatchAllocationID;
             model.DispatchAllocationID = dispatch.DispatchAllocationID;
-            
+
             // model.ProjectNumber = dispatch.ProjectNumber;
             //model.SINumber = dispatch.SINumber;
             //TODO:Check modification have any impact
@@ -647,7 +647,7 @@ namespace Cats.Models.Hub
             if (transaction != null)
             {
                 if (transaction.Stack != null) model.StackNumber = transaction.Stack.Value;
-                model.StoreID = transaction.StoreID;
+                if (transaction.StoreID.HasValue) model.StoreID = transaction.StoreID.Value;
                 model.ProgramID = transaction.ProgramID;
                 model.ProjectNumber = transaction.ProjectCode.Value;
                 model.SINumber = transaction.ShippingInstruction.Value;
@@ -664,7 +664,7 @@ namespace Cats.Models.Hub
         /// The dispatch details.
         /// </value>
         public List<DispatchDetailModel> DispatchDetails { get; set; }
-        
+
         public Guid? DispatchAllocationID { get; set; }
 
         public Guid? OtherDispatchAllocationID { get; set; }

@@ -12,44 +12,44 @@ namespace Cats.Models.Hub.MetaModels
 			[Required(ErrorMessage="Transaction is required")]
     		public Guid TransactionID { get; set; }
 
-			[Required(ErrorMessage="Partition is required")]
-    		public Int32 PartitionID { get; set; }
+			//[Required(ErrorMessage="Partition is required")]
+    		public Int32? PartitionID { get; set; }
 
-    		public Guid TransactionGroupID { get; set; }
+    		public Guid? TransactionGroupID { get; set; }
 
 			[Required(ErrorMessage="Ledger is required")]
     		public Int32 LedgerID { get; set; }
 
-			[Required(ErrorMessage="Hub Owner is required")]
-    		public Int32 HubOwnerID { get; set; }
+			//[Required(ErrorMessage="Hub Owner is required")]
+    		public Int32? HubOwnerID { get; set; }
 
-			[Required(ErrorMessage="Account is required")]
-    		public Int32 AccountID { get; set; }
+			//[Required(ErrorMessage="Account is required")]
+    		public Int32? AccountID { get; set; }
 
-			[Required(ErrorMessage="Hub is required")]
-    		public Int32 HubID { get; set; }
+			//[Required(ErrorMessage="Hub is required")]
+    		public Int32? HubID { get; set; }
 
-			[Required(ErrorMessage="Store is required")]
-    		public Int32 StoreID { get; set; }
+			//[Required(ErrorMessage="Store is required")]
+    		public Int32? StoreID { get; set; }
 
-    		public Int32 Stack { get; set; }
+    		public Int32? Stack { get; set; }
 
-			[Required(ErrorMessage="Project Code is required")]
-    		public Int32 ProjectCodeID { get; set; }
+			//[Required(ErrorMessage="Project Code is required")]
+    		public Int32? ProjectCodeID { get; set; }
 
-			[Required(ErrorMessage="Shipping Instruction is required")]
-    		public Int32 ShippingInstructionID { get; set; }
+			//[Required(ErrorMessage="Shipping Instruction is required")]
+    		public Int32? ShippingInstructionID { get; set; }
 
 			[Required(ErrorMessage="Program is required")]
     		public Int32 ProgramID { get; set; }
 
-			[Required(ErrorMessage="Parent Commodity is required")]
-    		public Int32 ParentCommodityID { get; set; }
+			//[Required(ErrorMessage="Parent Commodity is required")]
+    		public Int32? ParentCommodityID { get; set; }
 
-			[Required(ErrorMessage="Commodity is required")]
-    		public Int32 CommodityID { get; set; }
+			//[Required(ErrorMessage="Commodity is required")]
+    		public Int32? CommodityID { get; set; }
 
-    		public Int32 CommodityGradeID { get; set; }
+    		public Int32? CommodityGradeID { get; set; }
 
 			[Required(ErrorMessage="Quantity In M T is required")]
     		public Decimal QuantityInMT { get; set; }
