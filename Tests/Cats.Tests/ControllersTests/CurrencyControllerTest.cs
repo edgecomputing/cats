@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Cats.Models;
 
 namespace Cats.Tests.ControllersTests
-{
+{  [TestFixture]
    public class CurrencyControllerTest
    {
        private CurrencyController _currencyController;

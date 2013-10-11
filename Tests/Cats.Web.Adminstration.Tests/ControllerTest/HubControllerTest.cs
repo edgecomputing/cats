@@ -12,7 +12,7 @@ using Moq;
 using NUnit.Framework;
 
 namespace Cats.Web.Adminstration.Tests.ControllerTest
-{
+{  [TestFixture]
    public class HubControllerTest
    {
        private HubController _hubController;

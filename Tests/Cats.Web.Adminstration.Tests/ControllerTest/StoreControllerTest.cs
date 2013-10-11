@@ -59,8 +59,8 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
       //{
       //    var request = new DataSourceRequest();
       //    var result = _storeController.Store_Read(request);
-      //    //Assert.IsInstanceOf<JsonResult>(result);
-      //    Assert.IsNotNull(result);
+      //    Assert.IsInstanceOf<JsonResult>(result);
+      //   // Assert.IsNotNull(result);
       //}
       [Test]
       public void CanCreateStore()
@@ -70,6 +70,17 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
           var result = _storeController.Store_Create(request, store);
           Assert.IsInstanceOf<JsonResult>(result);
       }
+      //[Test]
+      //public void CanUpdateStore()
+      //{
+      //    var request = new DataSourceRequest();
+      //    var storeViewModel = new StoreViewModel { StoreID = 1, Name = "One", Number = 1, IsActive = true, 
+      //                          IsTemporary = false, HubID = 1, StackCount = 1, StoreManName = "Store man1" };
+      //    var result = _storeController.Store_Update(request, storeViewModel);
+      //    //Assert
+      //    Assert.IsInstanceOf<JsonResult>(result);
+
+      //}
       [Test]
       public void CanDeleteStore()
       {

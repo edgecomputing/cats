@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.Administration;
 using Cats.Web.Adminstration.Controllers;
+using Cats.Web.Adminstration.Models.ViewModels;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
@@ -51,6 +52,15 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
            var result = _unitController.Unit_Read(request);
            Assert.IsInstanceOf<JsonResult>(result);
            Assert.IsNotNull(result);
+       }
+       [Test]
+       public void CanCreateUnit()
+       {
+           var request = new DataSourceRequest();
+           var unitViewModel = new UnitViewModel{UnitID = 1,UnitName = "Killo Gram"};
+           var result = _unitController.Unit_Create(request, unitViewModel);
+
+           Assert.IsInstanceOf<JsonResult>(result);
        }
        [Test]
        public void CanDeleteUnit()

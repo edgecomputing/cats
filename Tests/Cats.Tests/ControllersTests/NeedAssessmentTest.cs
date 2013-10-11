@@ -10,7 +10,7 @@ using NUnit.Framework;
 using Moq;
 using log4net;
 namespace Cats.Tests.ControllersTests
-{
+{   [TestFixture]
     public class NeedAssessmentTest
     {
         private  NeedAssessmentController _needAssessmentController;
