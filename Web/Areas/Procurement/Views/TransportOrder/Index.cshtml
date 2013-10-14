@@ -40,7 +40,7 @@
         .Ajax()
         .PageSize(20)
         .Model(model =>model.Id(p => p.TransportOrderID))
-        .Read(read => read.Action("TransportOrder_Read", "TransportOrder"))
+        .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
     ).Pageable()
 )
 
