@@ -85,7 +85,7 @@ namespace Cats.Services.Common
         /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public List<AvailableShippingCodes> GetFreeSICodes(int hubId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 3 );//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 2 );//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
@@ -119,7 +119,7 @@ namespace Cats.Services.Common
         /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public List<AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
@@ -153,7 +153,7 @@ namespace Cats.Services.Common
         /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public decimal GetFreeSICodesAmount(int hubId,int siCode)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ShippingInstructionID == siCode && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ShippingInstructionID == siCode && t.LedgerID == 2);//Goods On Hand - unCommited
             return listOfTrans.Sum(s => s.QuantityInMT);
 
         }
@@ -165,7 +165,7 @@ namespace Cats.Services.Common
 
         public List<AvailableProjectCodes> GetFreePCCodes(int hubId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 2);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ProjectCodeID).Select(
@@ -192,7 +192,7 @@ namespace Cats.Services.Common
 
         public List<AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ProjectCodeID).Select(
