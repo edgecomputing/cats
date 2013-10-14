@@ -132,7 +132,7 @@ namespace Cats.Web.Adminstration.Tests
                 Name = "fdpViewModel1",
                 AdminUnitID = 1
             };
-            var jsonResult = _fdpController.FDP_Destroy(kendoDataRequest, fdpViewModel) as JsonResult;
+            var jsonResult = _fdpController.FDP_Destroy(fdpViewModel.FDPID) as JsonResult;
 
             //ASSERT
             Assert.NotNull(jsonResult);
