@@ -12,7 +12,7 @@ namespace Cats.Web.Hub.Controllers
 {
     public class InternalMovementController : BaseController
     {
-        
+
         private readonly IUserProfileService _userProfileService;
         private readonly IInternalMovementService _internalMovementService;
         private readonly ITransactionService _transactionService;
@@ -26,7 +26,7 @@ namespace Cats.Web.Hub.Controllers
         private readonly IDetailService _detailService;
         //
         // GET: /InternalMovement/
-        public InternalMovementController(IUserProfileService userProfileService, IInternalMovementService internalMovementService, 
+        public InternalMovementController(IUserProfileService userProfileService, IInternalMovementService internalMovementService,
             ITransactionService transactionService, IStoreService storeService, IProjectCodeService projectCodeService,
             IShippingInstructionService shippingInstructionService, ICommodityService commodityService, IHubService hubService,
             IProgramService programService, IUnitService unitService, IDetailService detailService)
@@ -53,25 +53,36 @@ namespace Cats.Web.Hub.Controllers
         public ActionResult Create()
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var fromStore = _hubService.GetAllStoreByUser(user); 
-            var commodities = _commodityService.GetAllParents(); 
+            var fromStore = _hubService.GetAllStoreByUser(user);
+            var commodities = _commodityService.GetAllParents();
             var programs = _programService.GetAllProgramsForReport();
-            var units = _unitService.GetAllUnit(); 
-            var toStore = _hubService.GetAllStoreByUser(user); 
+            var units = _unitService.GetAllUnit();
+            var toStore = _hubService.GetAllStoreByUser(user);
             var reasons = _detailService.GetReasonByMaster(Master.Constants.REASON_FOR_INTERNAL_MOVMENT);
             var viewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
             return View(viewModel);
         }
-
-        [HttpPost]
-        public ActionResult Create(InternalMovementViewModel viewModel)
+        public ActionResult EditPartial()
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var fromStore = _hubService.GetAllStoreByUser(user); 
-            var commodities = _commodityService.GetAllParents(); 
+            var fromStore = _hubService.GetAllStoreByUser(user);
+            var commodities = _commodityService.GetAllParents();
             var programs = _programService.GetAllProgramsForReport();
-            var units = _unitService.GetAllUnit(); 
-            var toStore = _hubService.GetAllStoreByUser(user); 
+            var units = _unitService.GetAllUnit();
+            var toStore = _hubService.GetAllStoreByUser(user);
+            var reasons = _detailService.GetReasonByMaster(Master.Constants.REASON_FOR_INTERNAL_MOVMENT);
+            var viewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult EditPartial(InternalMovementViewModel viewModel)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            var fromStore = _hubService.GetAllStoreByUser(user);
+            var commodities = _commodityService.GetAllParents();
+            var programs = _programService.GetAllProgramsForReport();
+            var units = _unitService.GetAllUnit();
+            var toStore = _hubService.GetAllStoreByUser(user);
             var reasons = _detailService.GetReasonByMaster(Master.Constants.REASON_FOR_INTERNAL_MOVMENT);
             var newViewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
             if (viewModel.QuantityInMt > _transactionService.GetCommodityBalanceForStack(viewModel.FromStoreId, viewModel.FromStackId, viewModel.CommodityId, viewModel.ShippingInstructionId, viewModel.ProjectCodeId))
@@ -83,27 +94,72 @@ namespace Cats.Web.Hub.Controllers
             {
                 ModelState.AddModelError("QuantityInMt", "You have nothing to transfer");
                 return View(newViewModel);
-            }           
+            }
 
             _internalMovementService.AddNewInternalMovement(viewModel, user);
             return RedirectToAction("Index", "InternalMovement");
         }
 
-        public ActionResult IsQuantityValid(decimal QuantityInMt, int? FromStoreId, int? FromStackId, int? CommodityId, int? ShippingInstructionId, int? ProjectCodeId  )
+        [HttpPost]
+        public ActionResult Create(InternalMovementViewModel viewModel)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            var fromStore = _hubService.GetAllStoreByUser(user);
+            var commodities = _commodityService.GetAllParents();
+            var programs = _programService.GetAllProgramsForReport();
+            var units = _unitService.GetAllUnit();
+            var toStore = _hubService.GetAllStoreByUser(user);
+            var reasons = _detailService.GetReasonByMaster(Master.Constants.REASON_FOR_INTERNAL_MOVMENT);
+            var newViewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
+            if (viewModel.QuantityInMt > _transactionService.GetCommodityBalanceForStack(viewModel.FromStoreId, viewModel.FromStackId, viewModel.CommodityId, viewModel.ShippingInstructionId, viewModel.ProjectCodeId))
+            {
+                ModelState.AddModelError("QuantityInMt", "you dont have sufficent ammout to transfer");
+                return View(newViewModel);
+            }
+            if (viewModel.QuantityInMt <= 0)
+            {
+                ModelState.AddModelError("QuantityInMt", "You have nothing to transfer");
+                return View(newViewModel);
+            }
+
+            _internalMovementService.AddNewInternalMovement(viewModel, user);
+            return RedirectToAction("Index", "InternalMovement");
+        }
+
+        public ActionResult IsQuantityValid(decimal QuantityInMt, int? FromStoreId, int? FromStackId, int? CommodityId, int? ShippingInstructionId, int? ProjectCodeId)
         {
             bool result = true;
-            if (FromStoreId.HasValue && CommodityId.HasValue && ShippingInstructionId.HasValue && ProjectCodeId.HasValue)
+            if (FromStackId.HasValue)
             {
+                if (FromStoreId.HasValue && CommodityId.HasValue && ShippingInstructionId.HasValue && ProjectCodeId.HasValue)
+                {
 
-                if ((QuantityInMt > _transactionService.GetCommodityBalanceForStack(FromStoreId.Value, FromStackId.Value, CommodityId.Value, ShippingInstructionId.Value, ProjectCodeId.Value)))
+                    if ((QuantityInMt > _transactionService.GetCommodityBalanceForStack(FromStoreId.Value, FromStackId.Value, CommodityId.Value, ShippingInstructionId.Value, ProjectCodeId.Value)))
+                    {
+                        result = false;
+                    }
+
+                }
+                else
                 {
                     result = false;
                 }
-
             }
             else
             {
-                result = false;
+                if (FromStoreId.HasValue && CommodityId.HasValue && ShippingInstructionId.HasValue && ProjectCodeId.HasValue)
+                {
+
+                    if ((QuantityInMt > _transactionService.GetCommodityBalanceForStack2(FromStoreId.Value, CommodityId.Value, ShippingInstructionId.Value, ProjectCodeId.Value)))
+                    {
+                        result = false;
+                    }
+
+                }
+                else
+                {
+                    result = false;
+                }
             }
             return (Json(result, JsonRequestBehavior.AllowGet));
         }
@@ -134,7 +190,7 @@ namespace Cats.Web.Hub.Controllers
 
         public ActionResult GetProjecCodetForCommodity(int? CommodityId)
         {
-           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             var projectCodes = _projectCodeService.GetProjectCodesForCommodity(user.DefaultHub.HubID, CommodityId.Value);
             return Json(new SelectList(projectCodes, "ProjectCodeId", "ProjectName"), JsonRequestBehavior.AllowGet);
         }
@@ -143,7 +199,7 @@ namespace Cats.Web.Hub.Controllers
         {
             if (ProjectCodeId.HasValue)
             {
-               UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.HubID, ProjectCodeId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
             }
             else
@@ -157,7 +213,7 @@ namespace Cats.Web.Hub.Controllers
         {
             if (commodityParentId.HasValue && SINumber.HasValue)
             {
-               UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 return Json(new SelectList(ConvertStoreToStoreViewModel(_storeService.GetStoresWithBalanceOfCommodityAndSINumber(commodityParentId.Value, SINumber.Value, user.DefaultHub.HubID)), "StoreId", "StoreName"));
             }
             else
@@ -172,11 +228,11 @@ namespace Cats.Web.Hub.Controllers
             return PartialView(internalMovment);
         }
 
-        public ActionResult SINumberBalance(int? parentCommodityId,int? projectcode, int? SINumber, int? StoreId, int? StackId)
+        public ActionResult SINumberBalance(int? parentCommodityId, int? projectcode, int? SINumber, int? StoreId, int? StackId)
         {
             StoreBalanceViewModel viewModel = new StoreBalanceViewModel();
-           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            if(!StoreId.HasValue && !StackId.HasValue && parentCommodityId.HasValue && projectcode.HasValue && SINumber.HasValue)
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            if (!StoreId.HasValue && !StackId.HasValue && parentCommodityId.HasValue && projectcode.HasValue && SINumber.HasValue)
             {
                 viewModel.ParentCommodityNameB = _commodityService.FindById(parentCommodityId.Value).Name;
                 viewModel.ProjectCodeNameB = _projectCodeService.FindById(projectcode.Value).Value;
@@ -203,7 +259,7 @@ namespace Cats.Web.Hub.Controllers
                 viewModel.StoreNameB = string.Format("{0} - {1}", store.Name, store.StoreManName);
                 viewModel.StackNumberB = StackId.Value.ToString();
             }
-                
+
             return PartialView(viewModel);
         }
 
@@ -218,6 +274,6 @@ namespace Cats.Web.Hub.Controllers
 
             return viewModel;
         }
-      
+
     }
 }

@@ -112,19 +112,22 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("Index", "TransportOrder");
         }
 
-        public ViewResult Index()
+        public ViewResult Index(int id=0)
         {
-
-
+            ViewBag.TransportOrdrStatus = id;
+            ViewBag.TransportOrderTitle = id == 0
+                                              ? "Draft"
+                                              : _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_ORDER, id);
             return View();
         }
 
-        public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
-            var transportOrders = _transportOrderService.GetAllTransportOrder();
+            var transportOrders = id==0?_transportOrderService.Get(t=>t.StatusID==(int)TransportOrderStatus.Draft).ToList():_transportOrderService.Get(t=>t.StatusID==id).ToList();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
-                transportOrders, datePref);
+                transportOrders, datePref, statuses);
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
        
@@ -165,7 +168,8 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails.FDP,TransportOrderDetails.FDP.AdminUnit,TransportOrderDetails.Commodity,TransportOrderDetails.Hub,TransportOrderDetails.ReliefRequisition").FirstOrDefault();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder,datePref);
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
+            var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder,datePref,statuses);
             ViewData["Transport.order.detail.ViewModel"] = transportOrder ==null ? null :
                 GetDetail(transportOrder.TransportOrderDetails);
             return View(transportOrderViewModel);

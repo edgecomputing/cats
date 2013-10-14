@@ -1,9 +1,10 @@
-﻿<ul class="nav nav-list">
+﻿@using Cats.Models.Constant
+<ul class="nav nav-list">
    
     
     <li class="nav-header">Transport Order</li>
-    <li><a href="@Url.Action("Index","TransportOrder",new {Area="Procurement"})"><i class="icon-inbox"></i> Draft Order </a></li>
-   <li><a href="@Url.Action("Index","TransportOrder",new {Area="Procurement"})"><i class="icon-check"></i> All Orders</a></li>
+    <li><a href="@Url.Action("Index","TransportOrder",new {id=(int)TransportOrderStatus.Draft,Area="Procurement"})"><i class="icon-inbox"></i> Draft Order </a></li>
+   <li><a href="@Url.Action("Index","TransportOrder",new {id=(int)TransportOrderStatus.Approved,Area="Procurement"})"><i class="icon-check"></i> Approved Orders</a></li>
    
    
 

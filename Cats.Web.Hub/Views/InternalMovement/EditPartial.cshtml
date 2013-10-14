@@ -4,7 +4,7 @@
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","InternalMovement",FormMethod.Post))
     {
         <table class="borderless fromTable" style="vertical-align:middle">
         
@@ -92,9 +92,9 @@
                             .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                             .HighlightFirstMatch(true)
                             .ClientEvents(ev => ev.OnChange("onFromStoreChange") )
-                            //.CascadeTo("FromStackId")
-                            //.DataBinding(binding => binding.Ajax().Select("GetFromStoreForSINumber", "InternalMovement"))
-                            //.ClientEvents(ev => ev.OnDataBinding("onStoreDataBinding"))
+                            .CascadeTo("FromStackId")
+                            .DataBinding(binding => binding.Ajax().Select("GetFromStoreForSINumber", "InternalMovement"))
+                            .ClientEvents(ev => ev.OnDataBinding("onStoreDataBinding"))
                 )
                 @Html.ValidationMessageFor(model => model.FromStore)
             </td>
@@ -208,10 +208,9 @@
     </table>
     
         <div style="margin-left:100px; margin-top:50px;" >
-        <input type="submit" value="@Html.Translate("Save")" />
+        <input type="submit" value="@Html.Translate("Save")"  />
         @Html.ActionLink(Html.Translate("Cancel"), "Index")
     </div>
-    
 }
 
 
@@ -222,15 +221,7 @@
     function onStoreDataBinding() {
         var CommodityId = $("#CommodityId").data("tComboBox").value();
         var StoreCombo = $("#FromStoreId").data("tComboBox");
-         $.ajax({
-            type: 'POST',
-            url: '/InternalMovement/GetFromStoreForParentCommodity',
-            data: { commodityParentId: CommodityId },
-            dataType: 'json',
-            success: function (data) {
-                StoreCombo.dataBind(data,true)
-            }
-        });
+         
 
     }
 
@@ -254,6 +245,7 @@
         });
         LoadBalance();
     }
+
 
 
     function LoadBalance() {
@@ -344,5 +336,6 @@
         $("#FromStoreId").data("tComboBox").disable();
         $("#ToStackId").data("tComboBox").disable();
         $("#FromStackId").data("tComboBox").disable();
+       
     });
 </script>
