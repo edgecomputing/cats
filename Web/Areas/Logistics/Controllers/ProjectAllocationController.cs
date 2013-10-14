@@ -125,12 +125,12 @@ namespace Cats.Areas.Logistics.Controllers
                     if (!ModelState.ContainsKey(kvp.Key))
                         ModelState.Add(kvp.Key, kvp.Value);
             }
-
+            
             var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
             ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == reqId).SingleOrDefault();
 
-            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId,(int) listOfRequsitions.Commodity.ParentID);
-            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId,(int) listOfRequsitions.Commodity.ParentID);
+            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
+            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
             ViewBag.FreeSICodes = freeSICodes;
             ViewBag.FreePCCodes = freePCCodes;
             ViewBag.SI = new SelectList(freeSICodes, "siCodeId", "SIcode");

@@ -158,9 +158,9 @@
                         this.onItemCreate(obj);
                         }
                     if (!(item.unselectable)) {
-                        sb.cat('<li unselectable="on" class="t-item" style="background : #ccc">').cat(obj.html).cat("</li>");
+                        sb.cat('<li unselectable="on" class="t-item"  style="pointer-events: none; cursor: default;background : #ccc;">').cat(obj.html).cat("</li>");
                     } else {
-                        sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;" >').cat(obj.html).cat("</li>");
+                        sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;"  >').cat(obj.html).cat("</li>");
                     }
                 }
 
