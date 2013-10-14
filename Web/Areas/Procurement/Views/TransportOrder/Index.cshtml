@@ -11,7 +11,7 @@
     @Html.Partial("_TransportOrderLeftBar");
 }
 
-<h4 class="page-header">Transport Orders</h4>
+<h4 class="page-header">@ViewBag.TransportOrderTitle Transport Orders</h4>
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
@@ -21,15 +21,15 @@
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
 {
 
-    columns.Bound(requisition => requisition.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-    columns.Bound(requisition => requisition.Transporter);
-    columns.Bound(requisition => requisition.BidDocumentNo);
-    columns.Bound(requisition => requisition.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(requisition => requisition.OrderExpiryDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(requisiton => requisiton.RequestedDispatchDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(requisition => requisition.ContractNumber);
-    columns.Bound(requisition => requisition.PerformanceBondReceiptNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-    
+    columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.Transporter);
+    columns.Bound(to => to.BidDocumentNo);
+    columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(to => to.OrderExpiryDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.ContractNumber);
+    columns.Bound(to => to.PerformanceBondReceiptNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.Status);
 })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()

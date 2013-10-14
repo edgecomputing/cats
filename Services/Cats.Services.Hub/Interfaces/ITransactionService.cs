@@ -141,6 +141,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         decimal GetCommodityBalanceForStack(int storeId, int stack, int parentCommodityId, int si, int project);
 
+       decimal GetCommodityBalanceForStack2(int storeId, int parentCommodityId, int si, int project);
         void SaveStartingBalanceTransaction(StartingBalanceViewModel startingBalance, UserProfile user);
 
         List<StartingBalanceViewModelDto> GetListOfStartingBalances(int hubID);

@@ -50,6 +50,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.ConsignerDate).HasColumnName("ConsignerDate");
             this.Property(t => t.TransporterSignedDate).HasColumnName("TransporterSignedDate");
             this.Property(t => t.ContractNumber).HasColumnName("ContractNumber");
+            this.Property(t => t.StatusID).HasColumnName("StatusID");
 
             // Relationships
            
