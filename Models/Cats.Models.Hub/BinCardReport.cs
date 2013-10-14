@@ -14,15 +14,13 @@ namespace Cats.Models.Hub
        public string Transporter { get; set; }
        public string TransporterAM { get; set; }
        public DateTime Date { get; set; }
-       public string Projesct { get; set; }
+       public string Project { get; set; }
        public decimal? Dispatched { get; set; }
        public decimal? Received { get; set; }
-       public decimal? balance { get; set; }
+       // public decimal? balance { get; set; }
        public string Identification { get; set; }
        public string ToFrom { get; set; }
-
-
-
+       public string PlateNoPrime { get; set; }
 
     }
 }
