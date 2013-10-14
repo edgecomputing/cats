@@ -27,6 +27,7 @@ namespace Cats.Models
        public string TransporterSignedName { get; set; }
        public DateTime ConsignerDate { get; set; }
        public DateTime TransporterSignedDate { get; set; }
+        public int? StatusID { get; set; }
        public virtual Transporter Transporter { get; set; }
        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
       //  public virtual ICollection<BidWinner> BidWinners  { get; set; }

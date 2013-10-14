@@ -184,6 +184,25 @@ namespace Cats.Services.Hub
             return 0;
         }
 
+        public decimal GetCommodityBalanceForStack2(int storeId,  int parentCommodityId, int si, int project)
+        {
+            var balance = _unitOfWork.TransactionRepository.FindBy(t =>
+                                                                   t.StoreID == storeId &&
+                                                                   t.ParentCommodityID == parentCommodityId &&
+                                                                   t.ShippingInstructionID == si &&
+                                                                   t.ProjectCodeID == project  &&
+                                                                   t.LedgerID ==
+                                                                   Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+
+                ).Select(t => t.QuantityInMT).ToList();
+
+            if (balance.Any())
+            {
+                return balance.Sum();
+            }
+
+            return 0;
+        }
 
 
 
