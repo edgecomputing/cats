@@ -7,7 +7,6 @@ namespace Cats.Models.Hub.ViewModels.Report.Data
 {
     public class BinCardViewModel
     {
-        
         public string Identification { get; set; }
         public string ToFrom { get; set; }
         public string Transporter { get; set; }
@@ -19,6 +18,5 @@ namespace Cats.Models.Hub.ViewModels.Report.Data
         public decimal? Received { get; set; }
         public decimal? Dispatched { get; set; }
         public decimal Balance { get; set; }
-        
     }
 }

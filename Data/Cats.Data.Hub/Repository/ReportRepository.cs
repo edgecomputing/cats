@@ -17,8 +17,6 @@ namespace DRMFSS.BLL.Repository
             _context = context;
         }
 
-
-
         public System.Data.Objects.ObjectResult<RPT_MonthGiftSummary_Result> GetMonthlySummary()
         {
             /*
@@ -63,8 +61,6 @@ namespace DRMFSS.BLL.Repository
 
         public IEnumerable<RPT_Distribution_Result> util_GetDispatchedAllocationFromSI(int hubId, int sis)
         {
-
-
             var x = (from item in _context.DispatchAllocations
                      join dispatch in _context.Dispatches on item.DispatchAllocationID equals
                          dispatch.DispatchAllocationID
@@ -85,11 +81,11 @@ namespace DRMFSS.BLL.Repository
                     );
 
             return new List<RPT_Distribution_Result>()
-                {
-                    new RPT_Distribution_Result()
-                        {Quantity = x.Sum(t => t.Quantity), QuantityInUnit = x.Sum(t => t.QuantityInUnit)}
-                };
-        }
+            {
+                new RPT_Distribution_Result()
+                    {Quantity = x.Sum(t => t.Quantity), QuantityInUnit = x.Sum(t => t.QuantityInUnit)}
+            };
+    }
 
         //public class DispatchedQuantityFromSI
         //{
@@ -118,14 +114,46 @@ namespace DRMFSS.BLL.Repository
 
 
         //}
+        
         public System.Data.Objects.ObjectResult<BinCardReport> RPT_BinCardNonFood(int hubID, int? StoreID,
                                                                                   int? CommodityID, string ProjectID)
         {
+
+        var y = (
+                from item in _context.Dispatches
+                join dispatchDetail in _context.DispatchDetails on item.DispatchID equals dispatchDetail.DispatchID
+                join fdp in _context.FDPs on item.FDPID equals fdp.FDPID
+                join @group in _context.TransactionGroups on dispatchDetail.TransactionGroupID equals @group.TransactionGroupID
+                join transaction1 in _context.Transactions on @group.TransactionGroupID equals transaction1.TransactionGroupID
+                join code in _context.ProjectCodes on transaction1.ProjectCodeID equals code.ProjectCodeID
+                join instruction in _context.ShippingInstructions on transaction1.ShippingInstructionID equals instruction.ShippingInstructionID
+                join transporter1 in _context.Transporters on item.TransporterID equals transporter1.TransporterID
+                where transaction1.HubID == hubID && transaction1.StoreID == StoreID
+                //in (from com in Commodity where ParentId==CommodityID || CommodityID==CommodityID select CommodityID)
+                //)
+
+                select new
+                {
+                    Transporter = transporter1.Name,
+                    transporter1.NameAM,
+                    item.DriverName,
+                    item.PlateNo_Prime,
+                    Date = item.DispatchDate,
+                    Identification = item.GIN,
+                    ToFrom = fdp.Name,
+                    Project = code.Value,
+                    SINumber = instruction.Value,
+                    transaction1.QuantityInMT,
+                    //Dispatched = null
+                }
+
+                );
+             
             return _context.RPT_BinCardNonFood(hubID, StoreID, CommodityID, ProjectID);
         }
 
-        public System.Data.Objects.ObjectResult<BinCardReport> RPT_BinCard(int hubID, int? StoreID, int? CommodityID,string ProjectID)
-                                                                           
+
+        public IEnumerable<BinCardReport> RPT_BinCard(int hubID, int? StoreID, int? CommodityID, string ProjectID)
         {
             /*    select * from 
             (
@@ -141,8 +169,8 @@ namespace DRMFSS.BLL.Repository
                   * where t.HubID = @warehouse and t.StoreID = @store 
                   * and rc.CommodityID in ( select CommodityID from Commodity where ParentID = @commodity or CommodityID = @commodity) and pc.ProjectCodeID = @project
                 union
-                select [Ordering] = 2,tr.Name Transporter, tr.NameAM TransporterAM, d.DriverName,d.PlateNo_Prime, d.DispatchDate [Date],d.GIN as Identification,
-                  * f.Name as ToFrom, pc.Value Project,SINumber = null, Received = null, t.QuantityInMT Dispatched   from Dispatch d 
+                select [Ordering] = 2,tr.Name Transporter, tr.NameAM TransporterAM, d.DriverName,d.PlateNo_Prime, d.DispatchDate [Date],
+                  * d.GIN as Identification,f.Name as ToFrom, pc.Value Project,SINumber = null, Received = null, t.QuantityInMT Dispatched   from Dispatch d 
                   * join DispatchDetail dc on d.DispatchID = dc.DispatchID left 
                   * join FDP f on  d.FDPID = f.FDPID join TransactionGroup tg on tg.TransactionGroupID = dc.TransactionGroupID 
                   * join [Transaction] t on t.TransactionGroupID = tg.TransactionGroupID and t.QuantityInMT >= 0 
@@ -160,75 +188,81 @@ namespace DRMFSS.BLL.Repository
 
             var y = (
                         from item in _context.Dispatches
-                        join dispatchDetail in _context.DispatchDetails on item.DispatchID equals
-                            dispatchDetail.DispatchID
+                        join dispatchDetail in _context.DispatchDetails on item.DispatchID equals dispatchDetail.DispatchID
                         join fdp in _context.FDPs on item.FDPID equals fdp.FDPID
-
-                        join @group in _context.TransactionGroups on dispatchDetail.TransactionGroupID equals
-                            @group.TransactionGroupID
-                        join transaction1 in _context.Transactions on @group.TransactionGroupID equals
-                            transaction1.TransactionGroupID
+                        join @group in _context.TransactionGroups on dispatchDetail.TransactionGroupID equals @group.TransactionGroupID
+                        join transaction1 in _context.Transactions on @group.TransactionGroupID equals transaction1.TransactionGroupID
                         join code in _context.ProjectCodes on transaction1.ProjectCodeID equals code.ProjectCodeID
-                        join instruction in _context.ShippingInstructions on transaction1.ShippingInstructionID equals
-                            instruction.ShippingInstructionID
-                        join transporter1 in _context.Transporters on item.TransporterID equals
-                            transporter1.TransporterID
-                        //where transaction1.HubID == hubID && transaction1.StoreID==StoreID && code.ProjectCodeID==ProjectID && transaction1.ParentCommodityID
+                        join instruction in _context.ShippingInstructions on transaction1.ShippingInstructionID equals instruction.ShippingInstructionID
+                        join transporter1 in _context.Transporters on item.TransporterID equals transporter1.TransporterID
+                        where transaction1.HubID == hubID && transaction1.StoreID==StoreID
                         //in (from com in Commodity where ParentId==CommodityID || CommodityID==CommodityID select CommodityID)
                         //)
-
-                        select new
+                        select new  BinCardReport()
                             {
                                 Transporter = transporter1.Name,
-                                transporter1.NameAM,
-                                item.DriverName,
-                                item.PlateNo_Prime,
-                                item.DispatchDate,
-                                item.GIN,
+                                TransporterAM= transporter1.NameAM,
+                                DriverName = item.DriverName,
+                                PlateNoPrime=  item.PlateNo_Prime,
+                                Date = item.DispatchDate,
+                                Identification=item.GIN,
                                 ToFrom = fdp.Name,
                                 Project = code.Value,
                                 SINumber = instruction.Value,
-                                transaction1.QuantityInMT,
-                                //Dispatched=null
+                                Dispatched = transaction1.QuantityInMT,
+                                Received = null
                             }
-
                     );
-
-          
 
             var x = (
                         from bin in _context.Receives
                         join donor in _context.Donors on bin.ResponsibleDonorID equals donor.DonorID
                         join receiveDetail in _context.ReceiveDetails on bin.ReceiveID equals receiveDetail.ReceiveID
-                        join transactionGroup in _context.TransactionGroups on receiveDetail.TransactionGroupID equals
-                            transactionGroup.TransactionGroupID
-                        join transaction in _context.Transactions on transactionGroup.TransactionGroupID equals
-                            transaction.TransactionGroupID
-                        join projectCode in _context.ProjectCodes on transaction.ProjectCodeID equals
-                            projectCode.ProjectCodeID
-                        join shippingInstruction in _context.ShippingInstructions on transaction.ShippingInstructionID
-                            equals shippingInstruction.ShippingInstructionID
+                        join transactionGroup in _context.TransactionGroups on receiveDetail.TransactionGroupID equals transactionGroup.TransactionGroupID
+                        join transaction in _context.Transactions on transactionGroup.TransactionGroupID equals transaction.TransactionGroupID
+                        join projectCode in _context.ProjectCodes on transaction.ProjectCodeID equals projectCode.ProjectCodeID
+                        join shippingInstruction in _context.ShippingInstructions on transaction.ShippingInstructionID equals shippingInstruction.ShippingInstructionID
                         join transporter in _context.Transporters on bin.TransporterID equals transporter.TransporterID
 
-                        select new
+                        where transaction.HubID == hubID && transaction.StoreID == StoreID
+                        
+                        select new BinCardReport()
                             {
                                 Transporter = transporter.Name,
-                                //transporter.NameAM,
-                                bin.DriverName,
-                                bin.PlateNo_Prime,
-                                bin.ReceiptDate,
-                                bin.GRN,
+                                TransporterAM= transporter.NameAM,
+                                DriverName = bin.DriverName,
+                                PlateNoPrime = bin.PlateNo_Prime,
+                                Date = bin.ReceiptDate,
+                                Identification=bin.GRN,
                                 ToFrom = donor.Name,
                                 Project = projectCode.Value,
                                 SINumber = shippingInstruction.Value,
-                                transaction.QuantityInMT,
-                                //Dispatched=null
+                                Dispatched=null,
+                                Received = transaction.QuantityInMT
                             }
 
                     );
 
-                //var z = x.Union(y);
-                return _context.RPT_BinCard(hubID,StoreID,CommodityID,ProjectID);
+             var z = x.Union(y).OrderBy(d => d.Date);
+
+             var r = (from each in z
+
+                      select new BinCardReport()
+                         {
+                             Transporter = each.Transporter,
+                             TransporterAM = each.TransporterAM,
+                             DriverName = each.DriverName,
+                             PlateNoPrime = each.PlateNoPrime,
+                             Date = each.Date,
+                             Identification = each.Identification,
+                             ToFrom = each.ToFrom,
+                             Project = each.Project,
+                             SINumber =  each.SINumber,
+                             Dispatched = each.Dispatched,
+                             Received = each.Received,
+                         }
+                    ).ToList();
+            return r;
         }
 
         public System.Data.Objects.ObjectResult<RPT_MonthlyGiftSummary_Result> GetMonthlyGiftSummaryETA()

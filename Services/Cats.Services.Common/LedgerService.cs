@@ -76,9 +76,16 @@ namespace Cats.Services.Common
 
         #region "SI Code"
 
+        /// <summary>
+        /// Gets the balance of an SI number commodity .
+        /// </summary>
+        /// <param name="hubId">The hub id.</param>
+       
+
+        /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public List<AvailableShippingCodes> GetFreeSICodes(int hubId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 3 );//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 2 );//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
@@ -103,9 +110,16 @@ namespace Cats.Services.Common
             return siCodeList;
         }
 
+        /// <summary>
+        /// Gets the balance of an SI number commodity .
+        /// </summary>
+        /// <param name="hubId">The hub id.</param>
+        /// <param name="commodityId">The commodity id.</param>
+       
+        /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public List<AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
@@ -129,9 +143,17 @@ namespace Cats.Services.Common
             return siCodeList;
         }
 
+        /// <summary>
+        /// Gets the balance of an SI number.
+        /// </summary>
+        ///  /// <param name="siCode">The si id.</param>
+        /// <param name="hubId">The hub id.</param>
+      
+
+        /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public decimal GetFreeSICodesAmount(int hubId,int siCode)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ShippingInstructionID == siCode && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ShippingInstructionID == siCode && t.LedgerID == 2);//Goods On Hand - unCommited
             return listOfTrans.Sum(s => s.QuantityInMT);
 
         }
@@ -143,7 +165,7 @@ namespace Cats.Services.Common
 
         public List<AvailableProjectCodes> GetFreePCCodes(int hubId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.LedgerID == 2);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ProjectCodeID).Select(
@@ -170,7 +192,7 @@ namespace Cats.Services.Common
 
         public List<AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
 
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ProjectCodeID).Select(

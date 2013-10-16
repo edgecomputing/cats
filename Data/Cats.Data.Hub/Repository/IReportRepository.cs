@@ -17,7 +17,7 @@ namespace DRMFSS.BLL.Interfaces
         ObjectResult<RPT_Distribution_Result> RPT_Offloading(int hubID, DateTime sTime, DateTime eTime);
         IEnumerable<RPT_Distribution_Result> util_GetDispatchedAllocationFromSI(int hubId, int sis);
         ObjectResult<BinCardReport> RPT_BinCardNonFood(int hubID, int? StoreID, int? CommodityID, string ProjectID);
-        ObjectResult<BinCardReport> RPT_BinCard(int hubID, int? StoreID, int? CommodityID, string ProjectID);
+        IEnumerable<BinCardReport> RPT_BinCard(int hubID, int? StoreID, int? CommodityID, string ProjectID);
 
         ObjectResult<RPT_MonthlyGiftSummary_Result> GetMonthlyGiftSummaryETA();
         ObjectResult<RPT_MonthlyGiftSummary_Result> GetMonthlyGiftSummary();

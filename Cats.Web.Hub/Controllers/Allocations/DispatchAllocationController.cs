@@ -318,7 +318,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
             ViewBag.FDPS = new SelectList(Enumerable.Empty<SelectListItem>(), "FDPID", "Name");
             ViewBag.Years = new SelectList(_commonService.GetYears().Select(y => new { Name = y, Id = y }), "Id", "Name");
             ViewBag.Months = new SelectList(MonthHelper.GetMonthList(), "Id", "Name");
-            ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
+            ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter().OrderBy(t=>t.Name), "TransporterID", "Name");
             ViewBag.Programs = new SelectList(_commonService.GetAllProgram(), "ProgramID", "Name");
             ViewBag.Units = new SelectList(_commonService.GetAllUnit(), "UnitID", "Name");
             return PartialView("Create", new DispatchAllocationViewModel());

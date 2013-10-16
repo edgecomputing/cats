@@ -183,10 +183,11 @@ namespace Cats.Services.Hub
                 commodity = FindCommodityById(CommodityID.Value);
             List<BinCardReport> results = new List<BinCardReport>();
             
+            //TODO:the logic should be verified(Robi)
             if (commodity != null && commodity.CommodityTypeID == 1)
                 results = _unitOfWork.ReportRepository.RPT_BinCard(hubID, StoreID, CommodityID, ProjectID).ToList();
             else
-                results = _unitOfWork.ReportRepository.RPT_BinCardNonFood(hubID, StoreID, CommodityID, ProjectID).ToList();
+                results = _unitOfWork.ReportRepository.RPT_BinCard(hubID, StoreID, CommodityID, ProjectID).ToList();
 
             //var results = db.RPT_BinCard(hubID,StoreID,CommodityID,ProjectID);
             var returnValue = new List<BinCardViewModel>();
@@ -203,7 +204,7 @@ namespace Cats.Services.Hub
                     Transporter = res.Transporter,
                     TransporterAM = res.TransporterAM,
                     Date = res.Date,
-                    Project = res.Projesct,
+                    Project = res.Project,
                     Dispatched = res.Dispatched,
                     Received = res.Received,
                     Balance = balance,
