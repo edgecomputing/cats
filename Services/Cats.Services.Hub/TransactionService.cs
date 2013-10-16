@@ -789,6 +789,7 @@ namespace Cats.Services.Hub
 
 
             //transaction.TransactionGroupID = transactionGroupId;
+            transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.LedgerID = 2;
             transactionOne.HubOwnerID = user.DefaultHub.HubOwner.HubOwnerID;
             transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 

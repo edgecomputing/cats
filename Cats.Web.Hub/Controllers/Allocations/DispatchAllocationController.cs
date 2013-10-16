@@ -331,6 +331,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
             {
                 var user = _userProfileService.GetUser(User.Identity.Name);
                 var alloc = GetAllocationModel(allocation);
+                alloc.DispatchAllocationID = Guid.NewGuid();
                 alloc.HubID = user.DefaultHub.HubID;
                 _dispatchAllocationService.AddDispatchAllocation(alloc);
                 if (this.Request.UrlReferrer != null) return Redirect(Request.UrlReferrer.PathAndQuery);
