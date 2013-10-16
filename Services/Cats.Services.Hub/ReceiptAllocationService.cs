@@ -84,7 +84,7 @@ namespace Cats.Services.Hub
 
         public List<ReceiptAllocation> FindBySINumber(string SINumber)
         {
-           return  _unitOfWork.ReceiptAllocationRepository.FindBy(r => r.SINumber == SINumber).ToList();
+            return _unitOfWork.ReceiptAllocationRepository.FindBy(r => r.SINumber == SINumber).ToList();
             
         }
 

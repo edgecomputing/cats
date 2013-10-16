@@ -7,6 +7,7 @@ namespace Cats.Models.Hub
 {
     public class RPT_Distribution_Result
     {
+        
         public decimal? QuantityInUnit { get; set; }
         public decimal? Quantity { get; set; }
         public string BidRefNo { get; set; }

@@ -167,13 +167,11 @@ namespace Cats.Web.Hub.Controllers
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
-         
             return View(receives);
         }
 
         public virtual ActionResult Log()
         {
-            
             List<Receive> receives = _receiveService.ByHubId(GetCurrentUserProfile().DefaultHub.HubID);
             return View(receives);
         }

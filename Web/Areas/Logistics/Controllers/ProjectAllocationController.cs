@@ -115,7 +115,7 @@ namespace Cats.Areas.Logistics.Controllers
             return View(requisitionViewModel.ToList());
         }
 
-        public ActionResult Assign( int ReqId,double Remaining)
+        public ActionResult Assign(int reqId, double remaining, double totalAssigned)
         {
             var previousModelState = TempData["ModelState"] as ModelStateDictionary;
           
@@ -125,31 +125,38 @@ namespace Cats.Areas.Logistics.Controllers
                     if (!ModelState.ContainsKey(kvp.Key))
                         ModelState.Add(kvp.Key, kvp.Value);
             }
+            
+            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
+            ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == reqId).SingleOrDefault();
 
-            var hubId = _hubAllocationService.GetAllocatedHubId(ReqId);
-            ViewBag.SI = new SelectList(new[] {_ledgerService.GetFreeSICodes(hubId)}, "SICodeId", "SICode");
+            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
+            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId,(int) listOfRequsitions.CommodityID);
+            ViewBag.FreeSICodes = freeSICodes;
+            ViewBag.FreePCCodes = freePCCodes;
+            ViewBag.SI = new SelectList(freeSICodes, "siCodeId", "SIcode");
+            ViewBag.PC = new SelectList(freePCCodes, "pcCodeId", "PCcode");
 
-            ReliefRequisition listOfRequsitions = _requisitionService.Get(r => r.RequisitionID == ReqId).SingleOrDefault();
+
+           
             
            
            // ViewBag.SI = new SelectList(_shippingInstructionService.GetAllShippingInstruction(), "ShippingInstructionID", "Value");
-            ViewBag.PC = new SelectList(_projectCodeService.GetAllProjectCode(), "ProjectCodeID", "Value");
+            ViewBag.Total = totalAssigned;
+            //ViewBag.PC = new SelectList(_projectCodeService.GetAllProjectCode(), "ProjectCodeID", "Value");
             ViewBag.RequetedAmount = Math.Round(listOfRequsitions.ReliefRequisitionDetails.Sum(a => a.Amount));
-            ViewBag.Hub = _hubAllocationService.GetAllocatedHub(ReqId);
+            ViewBag.Hub = _hubAllocationService.GetAllocatedHub(reqId);
             ViewBag.ReqId = listOfRequsitions.RequisitionID;
-            ViewBag.Remaining = Math.Round(Remaining);
+            ViewBag.Remaining = Math.Round(remaining);
             return View();
         }
-
-        public ActionResult OnSICodeChange(int siCodeId,int reqId)
+        public JsonResult GetSIAmount(int siIndex, int reqId)
         {
             var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
-            var available = _ledgerService.GetFreeSICodes(hubId,siCodeId);
-            var assigned = _ledgerService.GetAvailableAmount(siCodeId);
-
-            ViewBag.ToBeAssigned = available - assigned;
-            return View("_OnSICodeChange");
+            var result = _ledgerService.GetFreeSICodesAmount(hubId,siIndex);
+            return Json(new {Success = true, Result = result}, JsonRequestBehavior.AllowGet);
         }
+
+       
         public ActionResult AllocatePC(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
         {
             ViewBag.Hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");

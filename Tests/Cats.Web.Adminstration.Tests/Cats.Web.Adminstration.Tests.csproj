@@ -107,8 +107,15 @@
     <Compile Include="CommoidtyTypeControllerTests.cs" />
     <Compile Include="DonorControllerTest.cs" />
     <Compile Include="FDPControllerTest.cs" />
+    <Compile Include="ControllerTest\CommoidtyTypeControllerTests.cs" />
+    <Compile Include="ControllerTest\DonorControllerTest.cs" />
+    <Compile Include="ControllerTest\HubControllerTest.cs" />
+    <Compile Include="ControllerTest\HubOwnerControllerTest.cs" />
+    <Compile Include="ControllerTest\ProgramControllerTest.cs" />
+    <Compile Include="ControllerTest\UserWarehouseControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StoreControllerTest.cs" />
+    <Compile Include="ControllerTest\StoreControllerTest.cs" />
+    <Compile Include="ControllerTest\UnitControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

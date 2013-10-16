@@ -31,6 +31,8 @@ namespace Cats.Web.Hub.Controllers.Reports
         public ActionResult Index(int? StoreID, int? CommodityID, string ProjectID )
         {
             ViewBag.StoreID = new SelectList(GetCurrentUserProfile().DefaultHub.Stores,"StoreID","Name",StoreID);
+            //var StoreI = new SelectList(GetCurrentUserProfile().DefaultHub.Stores,"StoreID","Name", StoreID);
+
             ViewBag.CommodityID = new SelectList(_commodityService.GetAllParents(), "CommodityID", "Name",CommodityID);
             ViewBag.ProjectID =
                 new SelectList(

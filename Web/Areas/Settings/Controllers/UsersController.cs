@@ -18,14 +18,10 @@ namespace Cats.Areas.Settings.Controllers
     public class UsersController : Controller
     {
         private IUserAccountService userService;
-        private IForgetPasswordRequestService _forgetPasswordRequestService;
-        private ISettingService _settingService;
-
-        public UsersController(IUserAccountService service, IForgetPasswordRequestService forgetPasswordRequestService, ISettingService settingService)
+      
+        public UsersController(IUserAccountService service)
         {
             userService = service;
-            _forgetPasswordRequestService = forgetPasswordRequestService;
-            _settingService = settingService;
         }
 
         public ActionResult UsersList([DataSourceRequest] DataSourceRequest request)

@@ -373,11 +373,15 @@ namespace Cats.Data.Hub
 
             // Create a SQL command to execute the sproc
             var cmd = Database.Connection.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = procedureName;
-
+            cmd.CommandType = CommandType.StoredProcedure;
+            
             foreach (var procParam in param)
             {
-                var dbParam = new SqlParameter(procParam.ParmName, procParam.Value);
+
+                var dbParam = new SqlParameter(string.Format("@{0}",procParam.ParmName), procParam.Value);
+
 
                 cmd.Parameters.Add(dbParam);
             }
@@ -393,10 +397,9 @@ namespace Cats.Data.Hub
                 var result = ((IObjectContextAdapter)this)
                     .ObjectContext
                     .Translate<T>(reader, entitySetName, MergeOption.AppendOnly);
-
                 return result;
-
             }
+
             finally
             {
                 Database.Connection.Close();
@@ -406,11 +409,16 @@ namespace Cats.Data.Hub
 
         public ObjectResult<RPT_MonthGiftSummary_Result> GetMonthlySummary()
         {
+           
+
+           // (from gift in _context.Gi )
+
             return ExecProcedure<RPT_MonthGiftSummary_Result>("GetMonthlyGiftSummary", "RPT_MonthGiftSummary_Results");
         }
         public ObjectResult<RPT_Distribution_Result> RPT_Distribution(int hubId)
         {
-            return ExecProcedure<RPT_Distribution_Result>("RPT_Distribution", "RPT_Distributions", new ProcParam() { ParmName = "hubId", Value = hubId });
+            return ExecProcedure<RPT_Distribution_Result>("RPT_Distribution", "RPT_Distributions", 
+                new ProcParam() { ParmName = "hubId", Value = hubId });
         }
         public ObjectResult<RPT_Distribution_Result> RPT_ReceiptReport(int hubID, DateTime sTime, DateTime eTime)
         {
@@ -431,9 +439,9 @@ namespace Cats.Data.Hub
         }
         public ObjectResult<RPT_Distribution_Result> util_GetDispatchedAllocationFromSI(int hubId, int sis)
         {
-            return ExecProcedure<RPT_Distribution_Result>("util_GetDispatchedAllocationFromSI_Result", "util_GetDispatchedAllocationFromSI_Results",
-                new ProcParam() { ParmName = "hubId", Value = hubId },
-                new ProcParam() { ParmName = "sis", Value = sis }
+            return ExecProcedure<RPT_Distribution_Result>("util_GetDispatchedAllocationFromSI", "RPT_Distribution_Result",
+                new ProcParam() { ParmName = "HubID", Value = hubId },
+                new ProcParam() { ParmName = "ShippingInstruction", Value = sis }
                 );
         }
         public ObjectResult<BinCardReport> RPT_BinCardNonFood(int hubID, int? StoreID, int? CommodityID, string ProjectID)
@@ -441,10 +449,11 @@ namespace Cats.Data.Hub
             return ExecProcedure<BinCardReport>("RPT_BinCardNonFood", "RPT_BinCardNonFoods",
                 new ProcParam() { ParmName = "hubId", Value = hubID },
                 new ProcParam() { ParmName = "StoreID", Value = StoreID },
-                  new ProcParam() { ParmName = "CommodityID", Value = CommodityID },
+                new ProcParam() { ParmName = "CommodityID", Value = CommodityID },
                 new ProcParam() { ParmName = "ProjectID", Value = ProjectID }
                 );
         }
+
         public ObjectResult<BinCardReport> RPT_BinCard(int hubID, int? StoreID, int? CommodityID, string ProjectID)
         {
             return ExecProcedure<BinCardReport>("RPT_BinCard", "RPT_BinCardNonFoods",
@@ -472,13 +481,13 @@ namespace Cats.Data.Hub
         public ObjectResult<StockStatusReport> RPT_StockStatusNonFood(int? hubID, int? commodityID)
         {
             return ExecProcedure<StockStatusReport>("RPT_StockStatusNonFood", "StockStatusReports",
-                new ProcParam() { ParmName = "hubId", Value = hubID },
-                  new ProcParam() { ParmName = "CommodityID", Value = commodityID });
+                new ProcParam() { ParmName = "@Warehouse", Value = hubID },
+                  new ProcParam() { ParmName = "@commodity", Value = commodityID });
         }
         public ObjectResult<StatusReportBySI_Result> GetStatusReportBySI(int? hubID)
         {
-            return ExecProcedure<StatusReportBySI_Result>("GetStatusReportBySI", "StatusReportBySI_Results",
-                new ProcParam() { ParmName = "hubId", Value = hubID });
+            return ExecProcedure<StatusReportBySI_Result>("RPT_StatusReportBySI", "StatusReportBySI_Results",
+                new ProcParam() { ParmName = "@Hub", Value = hubID });
         }
         public ObjectResult<DispatchFulfillmentStatus_Result> GetDispatchFulfillmentStatus(int? hubID)
         {

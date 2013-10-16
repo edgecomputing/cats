@@ -90,7 +90,7 @@ namespace Cats.Services.Hub
                                                      {
                                                          TransactionId = transaction.TransactionID,
                                                          Type = lossAndAdjustment.AdjustmentDirection,
-                                                         CommodityName = _unitOfWork.CommodityRepository.FindById(transaction.CommodityID).Name,
+                                                         CommodityName = transaction.CommodityID.HasValue ? _unitOfWork.CommodityRepository.FindById(transaction.CommodityID.Value).Name:string.Empty,
                                                          ProjectCodeName = transaction.ProjectCode.Value,
                                                          MemoNumber = lossAndAdjustment.ReferenceNumber,
                                                          ShippingInstructionName = transaction.ShippingInstruction.Value,

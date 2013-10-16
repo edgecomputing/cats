@@ -25,6 +25,7 @@ namespace Cats.Web.Hub.Controllers
         {
             return View();
         }
+
         [CatsAuthorize(operation = CheckAccessHelper.Operation.View_request)]
         public ActionResult About()
         {

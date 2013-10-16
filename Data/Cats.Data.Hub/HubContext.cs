@@ -1,5 +1,6 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using Cats.Models.Hub;
 using Cats.Models.Hub.Mapping;
 
@@ -66,7 +67,7 @@ namespace Cats.Data.Hub
         public DbSet<StackEvent> StackEvents { get; set; }
         public DbSet<StackEventType> StackEventTypes { get; set; }
         public DbSet<Store> Stores { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
+        //public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionGroup> TransactionGroups { get; set; }
         public DbSet<Translation> Translations { get; set; }
@@ -75,10 +76,11 @@ namespace Cats.Data.Hub
         public DbSet<UserHub> UserHubs { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-       
+       // public DbSet<RPT_Distribution_Result> RPT_Distribution_Results { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Configurations.Add(new AccountMap());
             modelBuilder.Configurations.Add(new AdjustmentMap());
             modelBuilder.Configurations.Add(new AdjustmentReasonMap());
