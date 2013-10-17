@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Cats.Services.Hub
         List<Models.Hub.Hub> GetAllHub();
         List<Models.Hub.Hub> FindBy(Expression<Func<Models.Hub.Hub, bool>> predicate);
         List<StoreViewModel> GetAllStoreByUser(UserProfile user);
-        IEnumerable<StockStatusReport> GetStockStatusReport(int hubID, int commodityID);
+        DataTable GetStockStatusReport(int hubID, int commodityID);
         IEnumerable<StatusReportBySI_Result> GetStatusReportBySI(int hubID);
         IEnumerable<DispatchFulfillmentStatus_Result> GetDispatchFulfillmentStatus(int hubID);
 

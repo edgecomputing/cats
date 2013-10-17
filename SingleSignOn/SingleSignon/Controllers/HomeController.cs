@@ -9,12 +9,12 @@ namespace SingleSignon.Controllers
 {
     public class HomeController : Controller
     {
-        public void Index()
+        public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            RedirectToRoute(FormatRedirectUrl("Cats/Home"));
-            //return View();
+            //RedirectToRoute(FormatRedirectUrl("Cats/Home"));
+            return View();
         }
 
         public ActionResult About()

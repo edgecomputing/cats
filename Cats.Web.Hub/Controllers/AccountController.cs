@@ -87,6 +87,9 @@ namespace Cats.Web.Hub.Controllers
        
         public ActionResult LogOn()
         {
+            CryptoGen x=new CryptoGen();
+            var val = x.CreateKey(30);
+            var dec = x.CreateKey(30);
             return View();
         }
 

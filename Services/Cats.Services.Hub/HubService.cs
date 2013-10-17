@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
@@ -87,13 +88,14 @@ namespace Cats.Services.Hub
             //stores.Insert(0, new ViewModels.Common.StoreViewModel { StoreName = "Total Hub" });  //I need it for report only so I will modify it on report
             return stores;
         }
-        public IEnumerable<StockStatusReport> GetStockStatusReport(int hubID, int commodityID)
+        public DataTable GetStockStatusReport(int hubID, int commodityID)
         {
             var commodity = _unitOfWork.CommodityRepository.FindById(commodityID);
             if (commodity != null && commodity.CommodityTypeID == 1)
-                return _unitOfWork.ReportRepository.RPT_StockStatus(hubID, commodityID);
+                return _unitOfWork.ReportRepository.RPTStockStatus(hubID, commodityID);
             else
-                return _unitOfWork.ReportRepository.RPT_StockStatusNonFood(hubID, commodityID);
+               return new DataTable();
+                //return _unitOfWork.ReportRepository.RPT_StockStatusNonFood(hubID, commodityID);
         }
 
         public IEnumerable<StatusReportBySI_Result> GetStatusReportBySI(int hubID)
