@@ -275,19 +275,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                       "NeedACreatedDate");
 
             ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
-            var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 3);
-            var commodities = _commodityService.GetAllCommodity();
-
-            var hrdDetails = (from detail in woredas
-                              select new HRDDetail()
-                              {
-                                  WoredaID = detail.AdminUnitID,
-                                  NumberOfBeneficiaries = 0
-
-                              }).ToList();
-            hrd.HRDDetails = hrdDetails;
-
-
             return View(hrd);
         }
 

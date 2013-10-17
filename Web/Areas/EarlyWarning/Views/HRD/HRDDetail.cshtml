@@ -34,11 +34,11 @@
 .Name("grid").Columns(columns =>
          {
              columns.Bound(p => p.Region).Width(5).HtmlAttributes(new { style = "background-color:lightgray" });
-             columns.Bound(p => p.Zone).HtmlAttributes(new { style = "background-color:lightgray" });
-             columns.Bound(p => p.Woreda).HtmlAttributes(new { style = "background-color:lightgray" });
-             columns.Bound(p => p.NumberOfBeneficiaries).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.DurationOfAssistance).Width(5).Title("Duration").HtmlAttributes(new { align = "Right" });
-             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(10);
+             columns.Bound(p => p.Zone).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Woreda).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.NumberOfBeneficiaries).Width(40).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.DurationOfAssistance).Width(40).Title("Duration").HtmlAttributes(new { align = "Right" });
+             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(40);
              //columns.Bound(p => p.Cereal).Title("Cereal " + @unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
              //columns.Bound(p => p.BlendedFood).Title("BleendedFood " +@unit).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
              //columns.Bound(p => p.Oil).Title("Oil " +@unit ).Format("{0:N}").HtmlAttributes(new { align = "Right" });
@@ -50,17 +50,18 @@
          
       .ToolBar(toolBar => toolBar.Save())
       .Editable(editable => editable.Mode(GridEditMode.InCell))
+       .Events(events => events.DataBound("onDataBound"))
       .Pageable()
       .Groupable()
       .Sortable()
-      .Selectable(t=>t.Mode(GridSelectionMode.Single	))
+      //.Selectable(t=>t.Mode(GridSelectionMode.Single	))
       .Navigatable()
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
        .PageSize(15)
       .Events(events => events.Error("error_handler"))
-     
+       .Events(events => events.Change("onGridKeydown"))
        .Model(model =>
                               {
                                   model.Id(p => p.HRDID);
@@ -96,6 +97,33 @@
             });
             alert(message);
         }
+    }
+    
+    function onGridKeydown(e) {
+        if (e.keyCode === kendo.keys.TAB) {
+            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+            var current = grid.current();
+            if (!current.hasClass("editable-cell")) {
+                var nextCell = current.nextAll(".editable-cell");
+                if (!nextCell[0]) {
+                    //search the next row
+                    var nextRow = current.parent().next();
+                    var nextCell = current.parent().next().children(".editable-cell:first");
+                }
+                grid.current(nextCell);
+                grid.editCell(nextCell[0]);
+            }
+        }
+    };
+    
+    function onDataBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+
+        });
     }
 </script>
 
