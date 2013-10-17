@@ -820,7 +820,7 @@ namespace Cats.Services.Hub
 
             Transaction transactionTwo = new Transaction();
 
-            transactionTwo.TransactionGroupID = transactionGroupId;
+            transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
             transactionTwo.LedgerID = 14;
             transactionTwo.HubOwnerID = user.DefaultHub.HubOwnerID;
@@ -846,6 +846,7 @@ namespace Cats.Services.Hub
 
 
             lossAndAdjustment.PartitionID = 0;
+            lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
             lossAndAdjustment.TransactionGroup = transactionGroup;
             lossAndAdjustment.HubID = user.DefaultHub.HubID;
