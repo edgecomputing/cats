@@ -152,6 +152,8 @@
 
                         menu.Add()
                          .Text(Html.Translate("Admin")).Url("~/Admin/Home");
+                        menu.Add()
+                        .Text(Html.Translate("Cats")).Url("http://localhost/cats/home");
                     }
                     if (Request.IsAuthenticated)
                     {

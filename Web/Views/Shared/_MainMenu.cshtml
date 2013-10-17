@@ -44,6 +44,7 @@
                                 <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })">@Html.Translate("Rations")</a></li>
                                 <li class="divider" />
                                 <li><a href="#">@Translator.Translate("Reports") </a></li>
+                                
                             </ul>
                         </li>
 
@@ -79,7 +80,7 @@
                         </li>
 
                         <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">@Html.Translate("Settings")</a></li>
-                    
+                    <li><a href="@Url.Action("RedirectToHub", "Account")">@Translator.Translate("Hub")</a> </li>
                 </ul>
                 <ul class="nav pull-right">
                     <li class="divider-vertical"></li>
@@ -95,6 +96,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.GetUserName() <b class="caret"></b></a>
                         <ul class="dropdown-menu">                            
                             <li><a href="@Url.Action("Preference", "Home",new{Area=""})">@Html.Translate("Preference")</a></li>
+                             <li><a href="@Url.Action("Administration", "Account")">@Html.Translate("Administration")</a></li>
                             <li class="divider"></li>
                             <li><a href="@Url.Action("ChangePassword","Users",new {Area="Settings"})">@Html.Translate("Change Password")</a></li>
                             <li><a href="@Url.RouteUrl("Logout")">@Html.Translate("Logout")</a></li>

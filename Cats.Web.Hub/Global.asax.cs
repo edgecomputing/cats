@@ -1,6 +1,10 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
+using Cats.Services.Security;
+using Cats.Web.Hub.Controllers;
 using Cats.Web.Hub.Helpers;
 using Cats.Web.Hub.Infrastructure;
 using Elmah;
@@ -44,6 +48,17 @@ namespace Cats.Web.Hub
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
            
+        }
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                var identity = new UserIdentity(UserAccountHelper.GetUser(ticket.Name));
+                var principal = new UserPrincipal(identity);
+                HttpContext.Current.User = principal;
+            }
         }
 
         public override string GetVaryByCustomString(HttpContext context, string arg)
