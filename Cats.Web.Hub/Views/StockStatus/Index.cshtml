@@ -1,4 +1,5 @@
 ﻿@model Cats.Models.Hub.StockStatusReport
+@using System.Data
 @using Cats.Models.Hub
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.UI
@@ -43,7 +44,7 @@
         window.location = '/StockStatus/Commodity/' + commodity;
     }
 </script>
-@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StockStatusReport>)
+@*@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StockStatusReport>)
 .Name("Stock")
 .Columns(col =>
              {
@@ -65,4 +66,28 @@
 .Pageable()
 .Filterable()
 
+)*@
+@(Html.Telerik().Grid(ViewBag.Stock as DataTable)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in ((DataTable)ViewBag.Stock).Columns)
+        {
+            if (column.DataType == typeof(decimal))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+                
+            }
+            else
+            {
+                columns.Bound(column.ColumnName);
+            }
+
+        }
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Groupable()
+    
 )

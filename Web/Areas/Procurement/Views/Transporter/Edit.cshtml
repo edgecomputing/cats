@@ -8,12 +8,15 @@
 {
     @Html.Partial("_TransporterLeftBar")
 }
+@section Toolbar
+{
+       <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Edit_Transporter"></a>
+}
 <div class="form-horizontal">
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "Transporter", FormMethod.Post, new { id = "frm_Edit_Transporter" }))
+{
     @Html.ValidationSummary(true)
-    <p>
-            <input type="submit" value="Save" /> 
-        </p>
+    
     
     <div style="border:solid 1px #CCC; padding:4px;">
 <div id="navbar" class="tabbable tabs-left">
