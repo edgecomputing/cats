@@ -943,6 +943,7 @@ namespace Cats.Services.Hub
             transactionGroup.Transactions.Add(transactionTwo);
 
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
+            lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.PartitionID = 0;
             lossAndAdjustment.TransactionGroup = transactionGroup;
             lossAndAdjustment.HubID = user.DefaultHub.HubID;
