@@ -61,7 +61,7 @@
 <script type="text/javascript">
     function onDetailClick(id) {
         var window = $('#internalMovementWindow').data('tWindow');
-        window.ajaxRequest("/InternalMovement/ViewDetial", { TransactionId: id });
+        window.ajaxRequest("@Url.Action("ViewDetial","InternalMovement")", { TransactionId: id });
         window.center().open();
     }
 

@@ -121,7 +121,7 @@ namespace Cats.Services.Hub
         public void AddNewInternalMovement(InternalMovementViewModel viewModel, UserProfile user)
         {
 
-            //repository.Transaction.SaveInternalMovementTrasnsaction(viewModel, user);
+          //  _unitOfWork.TransactionRepository.SaveInternalMovementTrasnsaction(viewModel, user);
         }
 
        
