@@ -65,29 +65,29 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
 
            Assert.IsInstanceOf<JsonResult>(result);
        }
-       [Test]
-       public void CanDestroyHub()
-       {
-           var request = new DataSourceRequest();
-           var hub = new Hub {HubID = 1, Name = "One", HubOwnerID = 1};
-           var result = _hubController.Commodity_Destroy(request, hub);
+       //[Test]
+       //public void CanDestroyHub()
+       //{
+       //    var request = new DataSourceRequest();
+       //    var hub = new Hub {HubID = 1, Name = "One", HubOwnerID = 1};
+       //    var result = _hubController.Commodity_Destroy(request, hub);
 
-           //Assert
-           Assert.IsInstanceOf<JsonResult>(result);
-           Assert.IsNotNull(result);
-       }
-       [Test]
-       public void CanUpdateHub()
-       {
-           var request = new DataSourceRequest();
-           var hub = new Hub { HubID = 1, Name = "One", HubOwnerID = 1 };
-           var result = _hubController.Commodity_Update(request, hub);
+       //    //Assert
+       //    Assert.IsInstanceOf<JsonResult>(result);
+       //    Assert.IsNotNull(result);
+       //}
+       //[Test]
+       //public void CanUpdateHub()
+       //{
+       //    var request = new DataSourceRequest();
+       //    var hub = new Hub { HubID = 1, Name = "One", HubOwnerID = 1 };
+       //    var result = _hubController.Commodity_Update(request, hub);
 
-           //Assert
-           Assert.IsInstanceOf<DataSourceRequest>(request);
-           Assert.IsNotNull(result);
+       //    //Assert
+       //    Assert.IsInstanceOf<DataSourceRequest>(request);
+       //    Assert.IsNotNull(result);
 
-       }
+       //}
        #endregion
    }
 }

@@ -22,5 +22,10 @@ namespace Cats.Areas.Settings.Controllers
             return View();
         }
 
+        public ActionResult Redirect2Admin()
+        {
+            return Redirect("http://localhost/admin");
+        }
+
     }
 }
