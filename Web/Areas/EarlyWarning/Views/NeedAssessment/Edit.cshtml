@@ -4,11 +4,15 @@
     ViewBag.Title = Translator.Translate("Edit NeedAssessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
 @section LeftBar{
 
     @Html.Partial("_NeedAssessmentLeftBar")
 }
- 
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "NeedAssessment")"></a>
+}
 <fieldset>
     <legend>
         <h5>@Translator.Translate("Region"):  @ViewData["RegionName"]</h5> 
@@ -117,40 +121,38 @@
     function onEdit (e) {
         alert("yes");
         var input = e.container.find("input");
-        setTimeout(function () {
+        setTimeout(function() {
             input.select();
         }, 25);
-        
-   
-    function zoneChange(value) {
-       
-       
-           var grid = $("#grid").data("kendoGrid");
 
-        if (value) {
-           
-            grid.dataSource.filter({ field: "Zone", operator: "eq", value: value });
-        } else {
-            grid.dataSource.filter({});
-        }
+
+        function zoneChange(value) {
+
+
+            var grid = $("#grid").data("kendoGrid");
+
+            if (value) {
+
+                grid.dataSource.filter({ field: "Zone", operator: "eq", value: value });
+            } else {
+                grid.dataSource.filter({ });
+            }
+        }    
+
+
+        $('#batchEdit').click(function() {
+            if (this.checked) {
+
+                $("#dropdown").style.display = 'none';
+            } else {
+                alert("unchecked");
+            }
+
+        });
     }
-    
-    
-
-
-    $('#batchEdit').click(function () {
-        if (this.checked) {
-           
-            $("#dropdown").style.display = 'none';
-        } else {
-            alert("unchecked");
-        }
-        
-    });
-
 </script>
 
-<style scoped="scoped">
+@*<style scoped="scoped">
     #grid .k-toolbar
     {
         min-height: 27px;
@@ -168,7 +170,7 @@
     .toolbar {
         float: right;
     }
-</style>
+</style>*@
 
 @*.ToolBar(toolbar =>
     {
