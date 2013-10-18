@@ -42,10 +42,12 @@ namespace Cats.Web.Hub.Controllers.Reports
             OperationMode mode = (OperationMode)Operation;
             DateTime? f = (fromResult)? fromDate : (DateTime?) null;
             DateTime? t = (toResult) ? toDate : (DateTime?)null;
-            var list = _transactionService.GetTransportationReports(mode, f, t);
-          
-            
-            return PartialView("PartialGrid", list);
+            var list = new List<TransporationReport>();
+            if (f < t)
+                list = _transactionService.GetTransportationReports(mode, f, t);
+            else
+                return PartialView("DateRangeErrorPage");
+            return list.Any() ? PartialView("PartialGrid", list) : PartialView("EmptyPage");
         }
 
          private void PopulateDateFormat()

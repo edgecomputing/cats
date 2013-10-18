@@ -1344,6 +1344,8 @@
     <Content Include="Views\UserWarehouse\Index.cshtml" />
     <Content Include="Views\UserWarehouse\Update.cshtml" />
     <Content Include="Views\Ledger\Index.cshtml" />
+    <Content Include="Views\TransportationReport\EmptyPage.cshtml" />
+    <Content Include="Views\TransportationReport\DateRangeErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

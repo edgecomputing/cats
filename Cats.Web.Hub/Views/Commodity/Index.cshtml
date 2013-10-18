@@ -90,59 +90,59 @@
                    .Text(Html.Translate("Parent Commodities"))
                    .Content(@<text>
                                             
-                                            <table class="borderless">
-                                                <tr>
-                                                    <td style="width: 150px">@Html.Translate("Commodity Type")</td>
-                                                    <td>
-                                                        @(Html.Telerik().ComboBox().Name("CommodityType")
-                                                            .BindTo(new SelectList(ViewBag.CommodityTypes,"CommodityTypeID","Name",1)).ClientEvents(cEvents => cEvents.OnChange("OnCommodityTypeChanged")))
-                                                    </td>
-                                                    <td>
-                                                        @Html.DialogFormLink(Html.Translate("Create New Parent Commodity"), Url.Action("Create") + "?type=1", "Create Commodity", "parentCommodity", "javascript:RefreshCommodities()", "uniqueId")
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                            </table>
-                                            <div id="parentCommodity">
-                                                @{ViewBag.ShowParentCommodity = false;}
-                                                @Html.Partial("_CommodityPartial", @Model.Where(c => c.ParentID == null && c.CommodityTypeID == 1))  
-                                            </div>
-                                        </text>);
-               tabstrip.Add()
+                    <table class="borderless">
+                        <tr>
+                            <td style="width: 150px">@Html.Translate("Commodity Type")</td>
+                            <td>
+                                @(Html.Telerik().ComboBox().Name("CommodityType")
+                                    .BindTo(new SelectList(ViewBag.CommodityTypes,"CommodityTypeID","Name",1)).ClientEvents(cEvents => cEvents.OnChange("OnCommodityTypeChanged")))
+                            </td>
+                            <td>
+                                @Html.DialogFormLink(Html.Translate("Create New Parent Commodity"), Url.Action("Create") + "?type=1", "Create Commodity", "parentCommodity", "javascript:RefreshCommodities()", "uniqueId")
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div id="parentCommodity">
+                        @{ViewBag.ShowParentCommodity = false;}
+                        @Html.Partial("_CommodityPartial", @Model.Where(c => c.ParentID == null && c.CommodityTypeID == 1))  
+                    </div>
+                </text>);
+                tabstrip.Add()
                    .Text(Html.Translate("Sub Commodities"))
                    .Content(@<text>
 
-                                            @using (Html.BeginForm())
-                                            {
+                            @using (Html.BeginForm())
+                            {
                            
-                                                <table class="borderless">
-                                                <tr>
-                                                    <td style="width: 150px">@Html.Translate("Commodity Type")</td>
-                                                    <td>
-                                                        @(Html.Telerik().ComboBox().Name("CommodityTypeID")
-                                                                .BindTo(new SelectList(ViewBag.CommodityTypes,"CommodityTypeID","Name",1)).CascadeTo("ParentID"))
-                                                    </td>
-                                                    <td>
-                                                        @Html.Translate("Commodity Category")
-                                                    </td>
-                                                    <td>@(Html.Telerik().ComboBox().DataBinding(d=>d.Ajax().Select("ParentCommodities","Commodity")).ClientEvents(e=>e.OnChange("OnCommodityChanged")).Name("ParentID").BindTo((SelectList)ViewBag.ParentID))</td>
-                                                    <td></td>
-                                                </tr>
-                                                </table>
+                                <table class="borderless">
+                                <tr>
+                                    <td style="width: 150px">@Html.Translate("Commodity Type")</td>
+                                    <td>
+                                        @(Html.Telerik().ComboBox().Name("CommodityTypeID")
+                                                .BindTo(new SelectList(ViewBag.CommodityTypes,"CommodityTypeID","Name",1)).CascadeTo("ParentID"))
+                                    </td>
+                                    <td>
+                                        @Html.Translate("Commodity Category")
+                                    </td>
+                                    <td>@(Html.Telerik().ComboBox().DataBinding(d=>d.Ajax().Select("ParentCommodities","Commodity")).ClientEvents(e=>e.OnChange("OnCommodityChanged")).Name("ParentID").BindTo((SelectList)ViewBag.ParentID))</td>
+                                    <td></td>
+                                </tr>
+                                </table>
                                                 
                                                
                           
-                                            }  
-                                            <p>
-                                                @{ ViewBag.ShowParentCommodity = true;}
-                                                @Html.DialogFormLink(Html.Translate("Create Sub Commodities"), Url.Action("Create", new { type = 0 }), Html.Translate("Create Commodity"), "childrenCommodity", "javascript:RefreshSubCommodities()", "UniqueId")
+                            }  
+                            <p>
+                                @{ ViewBag.ShowParentCommodity = true;}
+                                @Html.DialogFormLink(Html.Translate("Create Sub Commodities"), Url.Action("Create", new { type = 0 }), Html.Translate("Create Commodity"), "childrenCommodity", "javascript:RefreshSubCommodities()", "UniqueId")
                        
-                                            </p>  
+                            </p>  
                            
-                                            <div id="childrenCommodity">
-                                                @Html.Partial("_CommodityPartial", @Model.Where(c => c.ParentID == ViewBag.SelectedCommodityID))
-                                            </div> 
-                                        </text>);
+                            <div id="childrenCommodity">
+                                @Html.Partial("_CommodityPartial", @Model.Where(c => c.ParentID == ViewBag.SelectedCommodityID))
+                            </div> 
+                        </text>);
 
                       })
            .SelectedIndex(0)

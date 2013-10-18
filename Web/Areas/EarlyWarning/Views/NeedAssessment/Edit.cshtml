@@ -8,6 +8,10 @@
 
     @Html.Partial("_NeedAssessmentLeftBar")
 }
+@section Toolbar
+{ 
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","NeedAssessment")"></a>
+}
  
 <fieldset>
     <legend>
@@ -114,40 +118,38 @@
 
 <script>    
  
-    function onEdit (e) {
+    function onEdit(e) {
         alert("yes");
         var input = e.container.find("input");
-        setTimeout(function () {
+        setTimeout(function() {
             input.select();
         }, 25);
-        
-   
-    function zoneChange(value) {
-       
-       
-           var grid = $("#grid").data("kendoGrid");
 
-        if (value) {
-           
-            grid.dataSource.filter({ field: "Zone", operator: "eq", value: value });
-        } else {
-            grid.dataSource.filter({});
+
+        function zoneChange(value) {
+
+
+            var grid = $("#grid").data("kendoGrid");
+
+            if (value) {
+
+                grid.dataSource.filter({ field: "Zone", operator: "eq", value: value });
+            } else {
+                grid.dataSource.filter({ });
+            }
         }
+
+
+        $('#batchEdit').click(function() {
+            if (this.checked) {
+
+                $("#dropdown").style.display = 'none';
+            } else {
+                alert("unchecked");
+            }
+
+        });
     }
-    
-    
-
-
-    $('#batchEdit').click(function () {
-        if (this.checked) {
-           
-            $("#dropdown").style.display = 'none';
-        } else {
-            alert("unchecked");
-        }
-        
-    });
-
 </script>
 
 <style scoped="scoped">
