@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
@@ -85,7 +86,7 @@ namespace DRMFSS.BLL.Repository
                 new RPT_Distribution_Result()
                     {Quantity = x.Sum(t => t.Quantity), QuantityInUnit = x.Sum(t => t.QuantityInUnit)}
             };
-    }
+        }
 
         //public class DispatchedQuantityFromSI
         //{
@@ -114,41 +115,41 @@ namespace DRMFSS.BLL.Repository
 
 
         //}
-        
+
         public System.Data.Objects.ObjectResult<BinCardReport> RPT_BinCardNonFood(int hubID, int? StoreID,
                                                                                   int? CommodityID, string ProjectID)
         {
 
-        var y = (
-                from item in _context.Dispatches
-                join dispatchDetail in _context.DispatchDetails on item.DispatchID equals dispatchDetail.DispatchID
-                join fdp in _context.FDPs on item.FDPID equals fdp.FDPID
-                join @group in _context.TransactionGroups on dispatchDetail.TransactionGroupID equals @group.TransactionGroupID
-                join transaction1 in _context.Transactions on @group.TransactionGroupID equals transaction1.TransactionGroupID
-                join code in _context.ProjectCodes on transaction1.ProjectCodeID equals code.ProjectCodeID
-                join instruction in _context.ShippingInstructions on transaction1.ShippingInstructionID equals instruction.ShippingInstructionID
-                join transporter1 in _context.Transporters on item.TransporterID equals transporter1.TransporterID
-                where transaction1.HubID == hubID && transaction1.StoreID == StoreID
-                //in (from com in Commodity where ParentId==CommodityID || CommodityID==CommodityID select CommodityID)
-                //)
+            var y = (
+                    from item in _context.Dispatches
+                    join dispatchDetail in _context.DispatchDetails on item.DispatchID equals dispatchDetail.DispatchID
+                    join fdp in _context.FDPs on item.FDPID equals fdp.FDPID
+                    join @group in _context.TransactionGroups on dispatchDetail.TransactionGroupID equals @group.TransactionGroupID
+                    join transaction1 in _context.Transactions on @group.TransactionGroupID equals transaction1.TransactionGroupID
+                    join code in _context.ProjectCodes on transaction1.ProjectCodeID equals code.ProjectCodeID
+                    join instruction in _context.ShippingInstructions on transaction1.ShippingInstructionID equals instruction.ShippingInstructionID
+                    join transporter1 in _context.Transporters on item.TransporterID equals transporter1.TransporterID
+                    where transaction1.HubID == hubID && transaction1.StoreID == StoreID
+                    //in (from com in Commodity where ParentId==CommodityID || CommodityID==CommodityID select CommodityID)
+                    //)
 
-                select new
-                {
-                    Transporter = transporter1.Name,
-                    transporter1.NameAM,
-                    item.DriverName,
-                    item.PlateNo_Prime,
-                    Date = item.DispatchDate,
-                    Identification = item.GIN,
-                    ToFrom = fdp.Name,
-                    Project = code.Value,
-                    SINumber = instruction.Value,
-                    transaction1.QuantityInMT,
-                    //Dispatched = null
-                }
+                    select new
+                    {
+                        Transporter = transporter1.Name,
+                        transporter1.NameAM,
+                        item.DriverName,
+                        item.PlateNo_Prime,
+                        Date = item.DispatchDate,
+                        Identification = item.GIN,
+                        ToFrom = fdp.Name,
+                        Project = code.Value,
+                        SINumber = instruction.Value,
+                        transaction1.QuantityInMT,
+                        //Dispatched = null
+                    }
 
-                );
-             
+                    );
+
             return _context.RPT_BinCardNonFood(hubID, StoreID, CommodityID, ProjectID);
         }
 
@@ -195,17 +196,17 @@ namespace DRMFSS.BLL.Repository
                         join code in _context.ProjectCodes on transaction1.ProjectCodeID equals code.ProjectCodeID
                         join instruction in _context.ShippingInstructions on transaction1.ShippingInstructionID equals instruction.ShippingInstructionID
                         join transporter1 in _context.Transporters on item.TransporterID equals transporter1.TransporterID
-                        where transaction1.HubID == hubID && transaction1.StoreID==StoreID
+                        where transaction1.HubID == hubID && transaction1.StoreID == StoreID
                         //in (from com in Commodity where ParentId==CommodityID || CommodityID==CommodityID select CommodityID)
                         //)
-                        select new  BinCardReport()
+                        select new BinCardReport()
                             {
                                 Transporter = transporter1.Name,
-                                TransporterAM= transporter1.NameAM,
+                                TransporterAM = transporter1.NameAM,
                                 DriverName = item.DriverName,
-                                PlateNoPrime=  item.PlateNo_Prime,
+                                PlateNoPrime = item.PlateNo_Prime,
                                 Date = item.DispatchDate,
-                                Identification=item.GIN,
+                                Identification = item.GIN,
                                 ToFrom = fdp.Name,
                                 Project = code.Value,
                                 SINumber = instruction.Value,
@@ -225,43 +226,43 @@ namespace DRMFSS.BLL.Repository
                         join transporter in _context.Transporters on bin.TransporterID equals transporter.TransporterID
 
                         where transaction.HubID == hubID && transaction.StoreID == StoreID
-                        
+
                         select new BinCardReport()
                             {
                                 Transporter = transporter.Name,
-                                TransporterAM= transporter.NameAM,
+                                TransporterAM = transporter.NameAM,
                                 DriverName = bin.DriverName,
                                 PlateNoPrime = bin.PlateNo_Prime,
                                 Date = bin.ReceiptDate,
-                                Identification=bin.GRN,
+                                Identification = bin.GRN,
                                 ToFrom = donor.Name,
                                 Project = projectCode.Value,
                                 SINumber = shippingInstruction.Value,
-                                Dispatched=null,
+                                Dispatched = null,
                                 Received = transaction.QuantityInMT
                             }
 
                     );
 
-             var z = x.Union(y).OrderBy(d => d.Date);
+            var z = x.Union(y).OrderBy(d => d.Date);
 
-             var r = (from each in z
+            var r = (from each in z
 
-                      select new BinCardReport()
-                         {
-                             Transporter = each.Transporter,
-                             TransporterAM = each.TransporterAM,
-                             DriverName = each.DriverName,
-                             PlateNoPrime = each.PlateNoPrime,
-                             Date = each.Date,
-                             Identification = each.Identification,
-                             ToFrom = each.ToFrom,
-                             Project = each.Project,
-                             SINumber =  each.SINumber,
-                             Dispatched = each.Dispatched,
-                             Received = each.Received,
-                         }
-                    ).ToList();
+                     select new BinCardReport()
+                        {
+                            Transporter = each.Transporter,
+                            TransporterAM = each.TransporterAM,
+                            DriverName = each.DriverName,
+                            PlateNoPrime = each.PlateNoPrime,
+                            Date = each.Date,
+                            Identification = each.Identification,
+                            ToFrom = each.ToFrom,
+                            Project = each.Project,
+                            SINumber = each.SINumber,
+                            Dispatched = each.Dispatched,
+                            Received = each.Received,
+                        }
+                   ).ToList();
             return r;
         }
 
@@ -274,9 +275,9 @@ namespace DRMFSS.BLL.Repository
         {
             return _context.GetMonthlyGiftSummary();
         }
-
-        public System.Data.Objects.ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
+        public DataTable RPTStockStatus(int hubID, int commodityID)
         {
+
             /*
              select *,StoreID = 0 from 
             (select s.Number as StoreNo,
@@ -309,8 +310,129 @@ namespace DRMFSS.BLL.Repository
             //)
            
 
-            return _context.RPT_StockStatus(hubID, commodityID);
+   
+
+
+          
+            var result = (from t in _context.Transactions
+                          join shippingInstruction in _context.ShippingInstructions on t.ShippingInstructionID equals
+                              shippingInstruction.ShippingInstructionID
+                          join projectCode in _context.ProjectCodes on t.ProjectCodeID equals projectCode.ProjectCodeID
+                          join store in _context.Stores on t.StoreID equals store.StoreID
+                          where t.HubID == hubID && t.ParentCommodityID == commodityID && t.LedgerID == 2
+                          group t by new { store.StoreID, store.Number, sivalue = shippingInstruction.Value, projectCode.Value } into g
+                          select new
+                          {
+                              StoreNo = g.Key.Number,
+                              Project = g.Key.Value,
+                              SINumber = g.Key.sivalue,
+                              Balance = g.Sum(t => t.QuantityInMT)
+                          });
+
+            if(!result.Any()) return new DataTable();
+
+            var storeMin = result.Min(t => t.StoreNo);
+            var storeMax = result.Max(t => t.StoreNo);
+            var stores = new List<int>();
+            for (int i = storeMin; i < storeMax; i++)
+            {
+                stores.Add(i);
+            }
+
+            var query = result.GroupBy(r => new { r.StoreNo, r.Project, r.SINumber }).Select(storeGroup => new
+            {
+
+                StoreNo = storeGroup.Key,
+                storeGroup.Key.Project,
+                storeGroup.Key.SINumber,
+                Values = from lang in stores
+                         join ng in storeGroup
+                             on lang equals
+                             ng.StoreNo into
+                             languageGroup
+                         select new
+                         {
+                             Column = lang,
+                             Value =
+                  languageGroup.Any()
+                      ? languageGroup.
+                            FirstOrDefault().
+                            Balance
+                      : 0
+                         }
+            }).ToList();
+
+
+
+            DataTable dt = new DataTable("transpose");
+
+            var col = new DataColumn();
+            col.DataType = typeof(string);
+            col.ColumnName = "Project";
+            col.ExtendedProperties.Add("ID", -1);
+            dt.Columns.Add(col);
+
+            var col1 = new DataColumn();
+            col1.DataType = typeof(string);
+            col1.ColumnName = "SINumber";
+            col1.ExtendedProperties.Add("ID", -1);
+            dt.Columns.Add(col1);
+
+            foreach (var store in stores)
+            {
+                var col3 = new DataColumn();
+                col3.DataType = typeof(decimal);
+                col3.ExtendedProperties.Add("ID", store);
+                col3.ColumnName = store.ToString();
+                dt.Columns.Add(col3);
+
+            }
+            foreach (var requestDetail in query)
+            {
+
+                var dr = dt.NewRow();
+
+                dr[col] = requestDetail.Project;
+                dr[col1] = requestDetail.SINumber;
+
+
+
+                foreach (var requestDetailCommodity in requestDetail.Values)
+                {
+
+                    DataColumn colx = null;
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        if (requestDetailCommodity.Column.ToString() ==
+                            column.ExtendedProperties["ID"].ToString())
+                        {
+                            colx = column;
+                            break;
+                        }
+                    }
+                    if (colx != null)
+                    {
+                        dr[colx.ColumnName] = requestDetailCommodity.Value;
+
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+
+
+           
+
+            return dt;
+
         }
+
+        //public System.Data.Objects.ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
+        //{
+
+            
+
+        //    return _context.RPT_StockStatus(hubID, commodityID);
+        //}
 
         public System.Data.Objects.ObjectResult<StockStatusReport> RPT_StockStatusNonFood(int? hubID, int? commodityID)
         {

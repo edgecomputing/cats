@@ -96,7 +96,8 @@ namespace Cats.Web.Hub.Controllers
                 return View(newViewModel);
             }
 
-            _internalMovementService.AddNewInternalMovement(viewModel, user);
+           // _internalMovementService.AddNewInternalMovement(viewModel, user);
+            _transactionService.SaveInternalMovementTrasnsaction(viewModel, user);
             return RedirectToAction("Index", "InternalMovement");
         }
 
@@ -121,8 +122,8 @@ namespace Cats.Web.Hub.Controllers
                 ModelState.AddModelError("QuantityInMt", "You have nothing to transfer");
                 return View(newViewModel);
             }
-
-            _internalMovementService.AddNewInternalMovement(viewModel, user);
+            _transactionService.SaveInternalMovementTrasnsaction(viewModel,user);
+          //  _internalMovementService.AddNewInternalMovement(viewModel, user);
             return RedirectToAction("Index", "InternalMovement");
         }
 

@@ -10,6 +10,7 @@
 }
 @section Toolbar
 {
+
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_transporter"></a>
     @*<a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>*@
 }
@@ -21,6 +22,15 @@
          <p>
             <input type="submit" value="Save" /> 
     </p>
+
+       <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Edit_Transporter"></a>
+}
+<div class="form-horizontal">
+@using (Html.BeginForm("Edit", "Transporter", FormMethod.Post, new { id = "frm_Edit_Transporter" }))
+{
+    @Html.ValidationSummary(true)
+    
+
     
     <div style="border:solid 1px #CCC; padding:4px;">
 <div id="navbar" class="tabbable tabs-left">

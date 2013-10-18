@@ -378,8 +378,10 @@
     <Compile Include="Helpers\MembershipProvider.cs" />
     <Compile Include="Helpers\MonthHelper.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Helpers\VersionHelper.cs" />
     <Compile Include="Infrastructure\Configuration.cs" />
+    <Compile Include="Infrastructure\CryptoGen.cs" />
     <Compile Include="Infrastructure\EthiopianDate.cs" />
     <Compile Include="Infrastructure\MD5Hash.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
@@ -1342,6 +1344,8 @@
     <Content Include="Views\UserWarehouse\Index.cshtml" />
     <Content Include="Views\UserWarehouse\Update.cshtml" />
     <Content Include="Views\Ledger\Index.cshtml" />
+    <Content Include="Views\TransportationReport\EmptyPage.cshtml" />
+    <Content Include="Views\TransportationReport\DateRangeErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1615,9 +1619,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>1804</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:17688/</IISUrl>
+          <IISUrl>http://localhost:1804/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

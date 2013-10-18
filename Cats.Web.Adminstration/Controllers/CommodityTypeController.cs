@@ -60,16 +60,21 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CommodityType_Destroy([DataSourceRequest] DataSourceRequest request,
-                                                  CommodityTypeViewModel commodityTypeViewModel)
-        {
-            if (commodityTypeViewModel != null)
-            {
-                _commodityTypeService.DeleteById(commodityTypeViewModel.CommodityTypeId);
-            }
+        
 
-            return Json(ModelState.ToDataSourceResult());
+        public ActionResult CommodityType_Destroy(int id)
+        {
+            var hub = _commodityTypeService.FindById(id);
+            try
+            {
+                _commodityTypeService.DeleteCommodityType(hub);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", "Unable to Commoditytype");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

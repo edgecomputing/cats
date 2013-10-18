@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Areas.Settings.Models;
@@ -65,7 +66,8 @@ namespace Cats.Controllers
                 log.LogAllErrorsMesseges(exception, _log);
 
                 ViewBag.HasError = true;
-                ViewBag.ErrorMessage = exception.ToString();
+                ViewBag.Error = exception.ToString();
+                ViewBag.ErrorMessage = "Login failed. Try logging in with the right user name and password.";
 
                 ModelState.AddModelError("", exception.Message);
             }
@@ -210,5 +212,6 @@ namespace Cats.Controllers
             }
             return View(model);
         }
+
     }
 }

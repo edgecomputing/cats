@@ -75,26 +75,26 @@ namespace Cats.Web.Adminstration.Controllers
             return Json(new[] { fdpViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult FDP_Destroy([DataSourceRequest] DataSourceRequest request,
-                                                  FDPViewModel fdpViewModel)
-        {
-            if (fdpViewModel != null)
-            {
-                try
-                {
-                    _fdpService.DeleteById(fdpViewModel.FDPID);
-                    ModelState.AddModelError("Success", "Success: FDP Deleted.");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("Errors", "Error: FDP not deleted. Foreign ke.");
-                }
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult FDP_Destroy([DataSourceRequest] DataSourceRequest request,
+        //                                          FDPViewModel fdpViewModel)
+        //{
+        //    if (fdpViewModel != null)
+        //    {
+        //        try
+        //        {
+        //            _fdpService.DeleteById(fdpViewModel.FDPID);
+        //            ModelState.AddModelError("Success", "Success: FDP Deleted.");
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ModelState.AddModelError("Errors", "Error: FDP not deleted. Foreign ke.");
+        //        }
 
-            }
-            RedirectToAction("Index", "FDP");
-            return Json(ModelState.ToDataSourceResult());
-        }
+        //    }
+        //    RedirectToAction("Index", "FDP");
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
 
 
         public JsonResult GetCascadeRegions([DataSourceRequest] DataSourceRequest request)
@@ -121,5 +121,19 @@ namespace Cats.Web.Adminstration.Controllers
             return Json(woredasViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult FDP_Destroy(int id)
+        {
+            var hub = _fdpService.FindById(id);
+            try
+            {
+                _fdpService.DeleteFDP(hub);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", "Unable to delete FDP");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

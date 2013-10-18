@@ -31,5 +31,10 @@ namespace Cats.Web.Hub.Controllers
         {
             return View();
         }
+
+        public ActionResult Redirect2Cats()
+        {
+            return Redirect("http://localhost/Cats");
+        }
     }
 }

@@ -90,6 +90,7 @@ namespace Cats.Web.Hub.Controllers
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             _stackEventService.AddStackEvent(new StackEvent 
             { 
+                StackEventID=Guid.NewGuid(),
                 EventDate = viewModel.EventDate,
                 StoreID = viewModel.StoreIdTwo,
                 StackEventTypeID = viewModel.StackEventTypeId,

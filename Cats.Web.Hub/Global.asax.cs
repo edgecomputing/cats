@@ -1,6 +1,9 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
+using Cats.Services.Security;
 using Cats.Web.Hub.Helpers;
 using Cats.Web.Hub.Infrastructure;
 using Elmah;
@@ -87,6 +90,19 @@ namespace Cats.Web.Hub
                 HttpException ex = (HttpException)e.Exception.GetBaseException();
                 if (ex.GetHttpCode() == 404)
                     e.Dismiss();
+            }
+        }
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+          
+            if (authCookie != null)
+            {
+               
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                var identity = new UserIdentity(UserAccountHelper.GetUser(ticket.Name));
+                var principal = new UserPrincipal(identity);
+                HttpContext.Current.User = principal;
             }
         }
     }

@@ -138,11 +138,11 @@
         });
 
         function populateRequistions() {
-            var url = '/DispatchAllocation/AvailableRequistions?UnCommited=';
+            var url = '@Url.Action("AvailableRequistions", "DispatchAllocation", new { UnCommited = "__id__" })';///DispatchAllocation/AvailableRequistions?UnCommited=';
             if ($('#chk-uncommited').attr('checked') == 'checked') {
-                url += 'true';
+               url= url.replace("__id__","true") ;
             } else {
-                url += 'false';
+                url = url.replace("__id__", "false");
             }
             $.getJSON(url, function (result) {
                 var req = $('#Requisitions');
@@ -164,18 +164,21 @@
             var req = $('#Requisitions :selected');
             
             // load the header
-            $('#selection-header').load("/DispatchAllocation/SelectionHeader?requisition="+req.text() );
+            var hurl = '@Url.Action("SelectionHeader","DispatchAllocation",new {requisition="__id__"})';
+            $('#selection-header').load(hurl.replace("__id__",req.text()));//"/DispatchAllocation/SelectionHeader?requisition="+req.text() );
             
             // Load available SIs
-            $('#si-balance').load('/DispatchAllocation/SiBalances?requisition=' + req.text());
+            var surl = '@Url.Action("SiBalances","DispatchAllocation",new {requisition="__id__"})';
+            $('#si-balance').load(surl.replace("__id__",req.text()));//'/DispatchAllocation/SiBalances?requisition=' + req.text());
 
             // Clear out the balance view
             $('#balance-view').html('');
             
             // Disable the commit button until the Project code with balance is selected.
-
-            $.getJSON('/DispatchAllocation/GetCommodities/', { RequisitionNo: req.text() }, function (coms) {
-                var c = coms;
+            var curl = '@Url.Action("GetCommodities","DispatchAllocation")';
+            //$.getJSON('/DispatchAllocation/GetCommodities/', { RequisitionNo: req.text() }, function (coms) {
+            $.getJSON(curl, { RequisitionNo: req.text() }, function (coms) {
+            var c = coms;
                 var commodity = $('#CommodityID-Selector').data('tComboBox');
                 commodity.dataBind(coms);
                 if (coms.length > 0) {
@@ -249,16 +252,18 @@
                 params["Uncommited"] = true;
             } else {
             params["Uncommited"] = false;
-        }
-            $('#alloc-grid').load('/DispatchAllocation/GetAllocations/', params);
+            }
+            var aurl = '@Url.Action("GetAllocations","DispatchAllocation")';
+            $('#alloc-grid').load(aurl,params);//'/DispatchAllocation/GetAllocations/', params);
         }
 
         function onCommodityChange(e) {
             // Reload the grid
             reloadGrid();
             // reload possible SI numbers for the selected commodities
-           var commodity = $('#CommodityID-Selector').data('tComboBox');
-            $.getJSON('/DispatchAllocation/GetAvailableSINumbers/', { CommodityID: commodity.value() }, onSINumbersLoaded);
+            var commodity = $('#CommodityID-Selector').data('tComboBox');
+            var asurl = '@Url.Action("GetAvailableSINumbers","DispatchAllocation")';
+            $.getJSON(asurl, { CommodityID: commodity.value() }, onSINumbersLoaded);
         }
 
         function onSINumbersLoaded(result) {

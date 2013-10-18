@@ -129,9 +129,9 @@ namespace Cats.Services.Hub
         {
             var transactions = _unitOfWork.TransactionRepository.Get();
 
-           // projeCodes doesnt  have fields 'ParentCommodityID','HubsID' defined
+          
 
-            var projectCodes = (from v in transactions
+        var projectCodes = (from v in transactions
                                 where v.ParentCommodityID == parentCommodityId && v.HubID == hubID
                                 select
                                     new ProjectCodeViewModel { ProjectCodeId = v.ProjectCodeID.Value, ProjectName = v.ProjectCode.Value }).Distinct()
