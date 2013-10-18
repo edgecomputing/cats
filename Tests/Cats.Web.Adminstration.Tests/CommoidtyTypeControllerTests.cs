@@ -66,14 +66,14 @@ namespace Cats.Web.Adminstration.Tests
             var result = _commodityTypeController.CommodityType_Update(request,commdityType);
             Assert.IsInstanceOf<JsonResult>(result);
         }
-        [Test]
-        public void ShouldDeleteCommodityType()
-        {
-            var commdityType = new CommodityTypeViewModel() {CommodityTypeId = 1, Name = "CSB"};
-            var request = new DataSourceRequest();
-            var result = _commodityTypeController.CommodityType_Destroy(commdityType.CommodityTypeId);
-            Assert.IsInstanceOf<JsonResult>(result);
-        }
+        //[Test]
+        //public void ShouldDeleteCommodityType()
+        //{
+        //    var commdityType = new CommodityTypeViewModel() {CommodityTypeId = 1, Name = "CSB"};
+        //    var request = new DataSourceRequest();
+        //    var result = _commodityTypeController.CommodityType_Destroy(commdityType.CommodityTypeId);
+        //    Assert.IsInstanceOf<JsonResult>(result);
+        //}
         #endregion
     }
 }
