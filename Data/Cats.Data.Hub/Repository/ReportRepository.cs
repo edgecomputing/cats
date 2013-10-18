@@ -277,6 +277,38 @@ namespace DRMFSS.BLL.Repository
 
         public System.Data.Objects.ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
         {
+            /*
+             select *,StoreID = 0 from 
+            (select s.Number as StoreNo,
+             * pc.Value as Project,
+             * si.Value as SINumber, 
+             * SUM(t.QuantityInMT) as Balance 
+             * 
+             * from [Transaction] t 
+             * join ShippingInstruction si on t.ShippingInstructionID = si.ShippingInstructionID 
+             * join ProjectCode pc on t.ProjectCodeID = pc.ProjectCodeID 
+             * join Store s on t.StoreID = s.StoreID where t.HubID = @Warehouse and (t.ParentCommodityID = @commodity) 
+             * and LedgerID in (2) group by s.StoreID, s.Number, si.Value,pc.Value ) as PivotData
+		            PIVOT
+		            (
+		            SUM(Balance)
+		            For StoreNo in ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20])
+		            ) AS PivotTable
+             */
+
+            //(
+            //    from transaction in _context.Transactions
+            //    join shippingInstruction in _context.ShippingInstructions on transaction.ShippingInstructionID equals
+            //        shippingInstruction.ShippingInstructionID
+            //    join projectCode in _context.ProjectCodes on transaction.ProjectCodeID equals projectCode.ProjectCodeID
+
+            //    join store in _context.Stores on transaction.StoreID equals store.StoreID
+            //    where (transaction.HubID == hubID && transaction.ParentCommodityID == commodityID)
+            //    select new {transaction.HubID} as 
+            //}
+            //)
+           
+
             return _context.RPT_StockStatus(hubID, commodityID);
         }
 
