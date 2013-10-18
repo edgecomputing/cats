@@ -5,9 +5,10 @@
     @foreach (var item in ViewBag.Zones)
     {
         int id = @item.AdminUnitID;
-        <li><a href="#" OnClick="zoneChange(@id);">@item.Name </a></li>
+        <li><a href="#@item.Name" OnClicks="zoneChange(@id);">@item.Name </a></li>
     }
-
+<!--
     <li class="divider"></li>
     <li><a href="#" onclick="zoneChange('');">Show All Zones </a></li>
+-->
 </ul>
