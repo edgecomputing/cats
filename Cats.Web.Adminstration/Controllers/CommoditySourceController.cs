@@ -58,20 +58,33 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CommoditySource_Destroy([DataSourceRequest] DataSourceRequest request,
-                                                  CommoditySourceViewModel commoditySourceViewModel)
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult CommoditySource_Destroy([DataSourceRequest] DataSourceRequest request,
+        //                                          CommoditySourceViewModel commoditySourceViewModel)
+        //{
+        //    if (commoditySourceViewModel != null)
+        //    {
+        //        _commoditySourceService.DeleteById(commoditySourceViewModel.CommoditySourceID);
+        //    }
+
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
+
+
+        public ActionResult CommoditySource_Destroy(int id)
         {
-            if (commoditySourceViewModel != null)
+            var hub = _commoditySourceService.FindById(id);
+            try
             {
-                _commoditySourceService.DeleteById(commoditySourceViewModel.CommoditySourceID);
+                _commoditySourceService.DeleteCommoditySource(hub);
+                return RedirectToAction("Index");
             }
-
-            return Json(ModelState.ToDataSourceResult());
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", "Unable to delete CommoditySource");
+            }
+            return RedirectToAction("Index");
         }
-        
-  
-
 
   
 

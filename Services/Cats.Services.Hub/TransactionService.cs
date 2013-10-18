@@ -225,7 +225,7 @@ namespace Cats.Services.Hub
             // var comms = GenerateReceiveDetail(commodities);
 
 
-
+            var transactionGroupId = Guid.NewGuid();
 
             foreach (ReceiveDetailViewModel c in receiveModels.ReceiveDetails)
             {
@@ -235,7 +235,7 @@ namespace Cats.Services.Hub
                     c.SentQuantityInMT = 0;
                 }
                 TransactionGroup tgroup = new TransactionGroup();
-
+                tgroup.TransactionGroupID = transactionGroupId;
                 var receiveDetail = new ReceiveDetail()
                 {
                     CommodityID = c.CommodityID,
@@ -250,11 +250,13 @@ namespace Cats.Services.Hub
                     receiveDetail.ReceiveDetailID = c.ReceiveDetailID.Value;
                 }
 
-                // receiveDetail.TransactionGroupID = tgroup.TransactionGroupID;
+                receiveDetail.TransactionGroupID = tgroup.TransactionGroupID;
                 receiveDetail.TransactionGroup = tgroup;
                 receive.ReceiveDetails.Add(receiveDetail);
 
                 Transaction transaction = new Transaction();
+                transaction.TransactionID = Guid.NewGuid();
+                transaction.TransactionGroupID = transactionGroupId;
                 transaction.TransactionDate = DateTime.Now;
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
@@ -280,6 +282,8 @@ namespace Cats.Services.Hub
                 // do the second half of the transaction here.
 
                 var transaction2 = new Transaction();
+                transaction2.TransactionID = Guid.NewGuid();
+                transaction2.TransactionGroupID = transactionGroupId;
                 transaction2.TransactionDate = DateTime.Now;
                 //TAKEs the PARENT FROM THE FIRST TRANSACTION
                 transaction2.ParentCommodityID = transaction.ParentCommodityID;
@@ -820,7 +824,7 @@ namespace Cats.Services.Hub
 
             Transaction transactionTwo = new Transaction();
 
-            transactionTwo.TransactionGroupID = transactionGroupId;
+            transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
             transactionTwo.LedgerID = 14;
             transactionTwo.HubOwnerID = user.DefaultHub.HubOwnerID;
@@ -846,6 +850,7 @@ namespace Cats.Services.Hub
 
 
             lossAndAdjustment.PartitionID = 0;
+            lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
             lossAndAdjustment.TransactionGroup = transactionGroup;
             lossAndAdjustment.HubID = user.DefaultHub.HubID;
@@ -942,6 +947,7 @@ namespace Cats.Services.Hub
             transactionGroup.Transactions.Add(transactionTwo);
 
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
+            lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.PartitionID = 0;
             lossAndAdjustment.TransactionGroup = transactionGroup;
             lossAndAdjustment.HubID = user.DefaultHub.HubID;

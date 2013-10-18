@@ -16,7 +16,7 @@
     var wnd;
     $(document).ready(function () {
         wnd = $("#modalWindow").kendoWindow({
-            title: "",
+            title: "Delete confirmation",
             modal: true,
             visible: false,
             resizable: false,
@@ -86,41 +86,13 @@
 </div>
 
 <div class="span7">
-     
-   @* @(Html.Kendo().Grid<FDPViewModel>()
-          .Name("FDPGrid")
-          .Columns(columns =>
-                       {
-                           columns.Bound(p => p.Name);
-                           columns.Bound(p => p.AdminUnit);
-                           columns.Command(command => { command.Edit(); command.Destroy(); });
-                       })
-          .ToolBar(toolbar => toolbar.Create())
-          .Editable(editable => editable.Mode(GridEditMode.PopUp))
-          .Pageable()
-          .Sortable()
-          .Selectable(t=>t.Mode(GridSelectionMode.Single	))
-          .Scrollable()
-          //.HtmlAttributes(new { style = "height:430px;" })
-          .DataSource(dataSource => dataSource
-                                        .Ajax()
-                                        .PageSize(20)
-                                        // .Events(events => events.Error("error_handler"))
-                                        .Model(model => model.Id(p => p.FDPID))
-                                        .Create("FDP_Create", "FDP")
-                                        .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
-                                        .Update(update => update.Action("FDP_Update", "FDP"))
-                                        .Destroy(update => update.Action("FDP_Destroy", "FDP"))
-          ))
-    *@
-    
-    @(Html.Kendo().Grid<FDPViewModel>()
+     @(Html.Kendo().Grid<FDPViewModel>()
 .Name("grid")
 .Columns(columns=>
         {
             columns.Bound(c => c.Name);
-           // columns.Bound(c => c.CommodityTypeId);
-            columns.Command(c => c.Destroy()).Width(100);
+            columns.Bound(c => c.FDPID).Visible(false);
+            columns.Command(command => command.Custom("Delete").Click("OnDelete")).Width(100);
         }).ToolBar(toolbar =>
                          {
                              toolbar.Save();
@@ -174,6 +146,25 @@
             });
             alert(message);
         }
+    }
+    
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("FDP_Destroy", "FDP")" + "/" + dataItem.FDPID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
     }
     
     $(function () {

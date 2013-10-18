@@ -104,6 +104,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommoidtyTypeControllerTests.cs" />
+    <Compile Include="DonorControllerTest.cs" />
+    <Compile Include="FDPControllerTest.cs" />
     <Compile Include="ControllerTest\CommoidtyTypeControllerTests.cs" />
     <Compile Include="ControllerTest\DonorControllerTest.cs" />
     <Compile Include="ControllerTest\HubControllerTest.cs" />

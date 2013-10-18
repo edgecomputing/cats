@@ -34,7 +34,7 @@ namespace Cats.Web.Hub.Controllers.Reports
            // ViewBag.Stock = db.GetStockStatusReport(user.DefaultHub.HubID,).ToList();
 
             ViewBag.Commodity = _commodityService.GetAllParents();
-            ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.HubID, 1).ToList();
+            ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.HubID, 1);
             ViewBag.CommodityID = 1;
             return View();
         }
@@ -44,7 +44,7 @@ namespace Cats.Web.Hub.Controllers.Reports
             if (id != null)
             {
                 UserProfile user =_userProfileService.GetUser(User.Identity.Name);
-                ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.HubID,id.Value).ToList();
+                ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.HubID,id.Value);
                 
                 ViewBag.Commodity = _commodityService.GetAllParents();
                 ViewBag.CommodityID = id;

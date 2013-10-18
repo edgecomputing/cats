@@ -27,8 +27,10 @@ namespace Cats.Web.Adminstration
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+          
             if (authCookie != null)
             {
+              
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 var identity = new UserIdentity(UserAccountHelper.GetUser(ticket.Name));
                 var principal = new UserPrincipal(identity);

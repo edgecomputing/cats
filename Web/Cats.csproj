@@ -858,6 +858,7 @@
     <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
+    <Content Include="Content\Web.config" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1202,7 +1203,7 @@
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
   </ItemGroup>
   <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
@@ -1237,7 +1238,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1786</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56576/</IISUrl>
+          <IISUrl>http://localhost:1786/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:56576/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -290,10 +290,10 @@ namespace Cats.Data.Hub
             string tableName = dbEntry.Entity.GetType().Name.Split('_')[0];//tableAttr != null ? tableAttr.Name : dbEntry.Entity.GetType().Name;
 
             // Get primary key value (If you have more than one key column, this will need to be adjusted)
-            // string keyName =dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), false).Count() > 0).Name;
-           
+            //string keyName = dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), false).Any()).Name;
+
             string keyName =
-                dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
+            dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
             if (dbEntry.State == System.Data.EntityState.Added)
             {
                 // For Inserts, just add the whole record
@@ -475,9 +475,8 @@ namespace Cats.Data.Hub
         public ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
         {
             return ExecProcedure<StockStatusReport>("RPT_StockStatus", "StockStatusReports",
-                new ProcParam() { ParmName = "@Warehouse", Value = hubID },
-                new ProcParam() { ParmName = "@commodity", Value = commodityID }
-                );
+                new ProcParam() { ParmName = "Warehouse", Value = hubID },
+                  new ProcParam() { ParmName = "commodity", Value = commodityID });
         }
         public ObjectResult<StockStatusReport> RPT_StockStatusNonFood(int? hubID, int? commodityID)
         {
