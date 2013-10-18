@@ -17,5 +17,9 @@ namespace Cats.Web.Adminstration.Controllers
             return View();
         }
 
+        public ActionResult Redirect2Cats()
+        {
+            return Redirect("http://localhost/Cats");
+        }
     }
 }

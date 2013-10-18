@@ -5,7 +5,6 @@ using System.Web.Routing;
 using System.Web.Security;
 using Cats.Services.Security;
 using Cats.Web.Hub.Helpers;
-using Cats.Web.Hub.Helpers;
 using Cats.Web.Hub.Infrastructure;
 using Elmah;
 

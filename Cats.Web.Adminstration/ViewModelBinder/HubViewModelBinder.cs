@@ -18,9 +18,24 @@ namespace Cats.Web.Adminstration.ViewModelBinder
                 HubOwnerID = hub.HubOwnerID
             };
         }
-        public static List<HubViewModel> BindListHubViewModel(List<Hub> commodities)
+        public static List<HubViewModel> BindListHubViewModel(List<Hub> hubs)
         {
-            return commodities.Select(BindHubViewModel).ToList();
+            return hubs.Select(BindHubViewModel).ToList();
+        }
+
+        public static List<Hub> BindListHub(List<HubViewModel> hubViewModels)
+        {
+            return hubViewModels.Select(BindHub).ToList();
+        }
+
+        public static Hub BindHub(HubViewModel hubViewModel)
+        {
+            return new Hub()
+            {
+                HubID = hubViewModel.HubID,
+                Name = hubViewModel.HubName,
+                HubOwnerID = hubViewModel.HubOwnerID
+            };
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult All_Bids([DataSourceRequest] DataSourceRequest request)
         {
-            var bids = _bidService.FindBy(m=>m.Status.Name=="Open").OrderByDescending(m => m.BidID);
+            var bids = _bidService.FindBy(m => m.Status.Name == "Open").OrderByDescending(m => m.BidID);
             //var bids = _bidService.GetAllBid().OrderByDescending(m => m.BidID);
             var bidsToDisplay = GetBids(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));  

@@ -122,6 +122,8 @@
     @Html.Partial("_MainMenu")
 
     <div class="container-fluid">
+        
+
         <div class="row-fluid">
             <div class="span2 column-divider">
                 <div class="sidebar-nav">
@@ -161,6 +163,46 @@
         <footer>
             <p>CATS &copy; DRMFSS @DateTime.Now.Year.ToString()</p>
         </footer>
+
+        <div id="div_help_panel" style="display:none;">
+            <style>
+                .left_panel
+                {
+                    position:fixed; left:-510px; top:0px; border:solid 1px #ccc;width:25%;bottom:0px;background:rgba(0,0,0,0.8);
+                }
+                .left_panel *
+                {
+                    color:#FFF;
+                }
+                .left_panel .content
+                {
+                    margin-top:60px;
+                    padding:4px;
+                }
+
+            </style>
+            <script>
+                $(document).ready(function () {
+
+                    $("#toolbar_btn_help").click(function () {
+                        var curPosition = $("#div_content_panel").css("left");
+                        if (curPosition == '0px') {
+                            $("#div_content_panel").animate({ "left": "-=510px" }, "slow");
+                        }
+                        if (curPosition == '-510px') {
+                            $("#div_content_panel").animate({ "left": "+=510px" }, "slow");
+                        }
+                    });
+
+                });
+
+            </script>
+            <div id="div_content_panel" class="left_panel">
+                <div class="content">
+                    Help Content
+                </div>
+            </div>
+        </div>
     </div>
     <!--/.fluid-container-->
 
