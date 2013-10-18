@@ -55,98 +55,98 @@ namespace Cats.Web.Adminstration.Tests
 
         #region Tests
 
-        //[Test]
-        //public void CanViewIndex()
-        //{
-        //    //Act
-        //    var result = _fdpController.Index();
+        [Test]
+        public void CanViewIndex()
+        {
+            //Act
+            var result = _fdpController.Index();
 
-        //    //Assert
-        //    Assert.IsInstanceOf<ViewResult>(result);
-        //}
+            //Assert
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
 
-        //[Test]
-        //public void CanFDPJsonRead()
-        //{
-        //    //Act
-        //    var kendoDataRequest = new DataSourceRequest();
-        //    var jsonResult= _fdpController.FDP_Read(kendoDataRequest,1);
+        [Test]
+        public void CanFDPJsonRead()
+        {
+            //Act
+            var kendoDataRequest = new DataSourceRequest();
+            var jsonResult= _fdpController.FDP_Read(kendoDataRequest,1);
 
-        //    //Assert
-        //    Assert.NotNull(jsonResult);
-        //    dynamic data = jsonResult.Data;
-        //    var results = data.Data as List<FDPViewModel>; 
-        //    Assert.IsInstanceOf<List<FDPViewModel>>(results);
-        //    Assert.NotNull(results);
-        //    Assert.AreEqual(1, results.Count);
-        //}
+            //Assert
+            Assert.NotNull(jsonResult);
+            //dynamic data = jsonResult.Data;
+            //var results = data.Data as List<FDPViewModel>; 
+            //Assert.IsInstanceOf<List<FDPViewModel>>(results);
+            //Assert.NotNull(results);
+            //Assert.AreEqual(1, results.Count);
+        }
 
-        //[Test]
-        //public void CanFDPCreateWork()
-        //{
-        //    //ACT
-        //    var kendoDataRequest = new DataSourceRequest();
-        //    var fdpViewModel = new FDPViewModel()
-        //        {
-        //            FDPID = 1,
-        //            Name = "fdpViewModel1",
-        //            AdminUnitID = 1
-        //        };
-        //    var jsonResult = _fdpController.FDP_Create(kendoDataRequest,fdpViewModel, 1) as JsonResult; 
+        [Test]
+        public void CanFDPCreateWork()
+        {
+            //ACT
+            var kendoDataRequest = new DataSourceRequest();
+            var fdpViewModel = new FDPViewModel()
+                {
+                    FDPID = 1,
+                    Name = "fdpViewModel1",
+                    AdminUnitID = 1
+                };
+            var jsonResult = _fdpController.FDP_Create(kendoDataRequest,fdpViewModel, 1) as JsonResult; 
 
-        //    //ASSERT
-        //    Assert.NotNull(jsonResult);
-        //    dynamic data = jsonResult.Data;
-        //    var results = data.Data as FDPViewModel;
-        //    Assert.IsInstanceOf<List<FDPViewModel>>(results);
-        //    Assert.NotNull(results);
-        //}
-
-        //[Test]
-        //public void CanFDPUpdate()
-        //{
-        //    var kendoDataRequest = new DataSourceRequest();
-        //    var fdpViewModel = new FDPViewModel()
-        //    {
-        //        FDPID = 1,
-        //        Name = "fdpViewModel1",
-        //        AdminUnitID = 1
-        //    };
-        //    var jsonResult = _fdpController.FDP_Update(kendoDataRequest, fdpViewModel) as JsonResult;
-
-        //    //ASSERT
-        //    Assert.NotNull(jsonResult);
-        //    dynamic data = jsonResult.Data;
-        //    var results = data.Data as FDPViewModel;
-        //    Assert.NotNull(results);
-        //    Assert.IsInstanceOf<List<FDPViewModel>>(results);
-        //}
-
-        //[Test]
-        //public void CanFDPDestory()
-        //{
-        //    var kendoDataRequest = new DataSourceRequest();
-        //    var fdpViewModel = new FDPViewModel()
-        //    {
-        //        FDPID = 1,
-        //        Name = "fdpViewModel1",
-        //        AdminUnitID = 1
-        //    };
-        //    var jsonResult = _fdpController.FDP_Destroy(fdpViewModel.FDPID) as JsonResult;
-
-        //    //ASSERT
-        //    Assert.NotNull(jsonResult);
-        //    dynamic data = jsonResult.Data;
-        //    var results = data.Data as FDPViewModel;
-        //    Assert.NotNull(results);
-        //    Assert.IsInstanceOf<List<ModelStateDictionary>>(results);
-        //}
-
-        //[Test]
-        //public void CanGetCascadeRegions()
-        //{
+            //ASSERT
+            Assert.NotNull(jsonResult);
+            ////dynamic data = jsonResult.Data as FDPViewModel;
+            //Assert.NotNull(jsonResult.Data);
+            //Assert.IsInstanceOf<FDPViewModel>(jsonResult.Data);
             
-        //}
+        }
+
+        [Test]
+        public void CanFDPUpdate()
+        {
+            var kendoDataRequest = new DataSourceRequest();
+            var fdpViewModel = new FDPViewModel()
+            {
+                FDPID = 1,
+                Name = "fdpViewModel1",
+                AdminUnitID = 1
+            };
+            var jsonResult = _fdpController.FDP_Update(kendoDataRequest, fdpViewModel) as JsonResult;
+
+            //ASSERT
+            Assert.NotNull(jsonResult);
+            //dynamic data = jsonResult.Data;
+            //var results = data.Data as FDPViewModel;
+            //Assert.NotNull(results);
+            //Assert.IsInstanceOf<List<FDPViewModel>>(results);
+        }
+
+        [Test]
+        public void CanFDPDestory()
+        {
+            var kendoDataRequest = new DataSourceRequest();
+            var fdpViewModel = new FDPViewModel()
+            {
+                FDPID = 1,
+                Name = "fdpViewModel1",
+                AdminUnitID = 1
+            };
+            var jsonResult = _fdpController.FDP_Destroy(fdpViewModel.FDPID);
+
+            //ASSERT
+            Assert.NotNull(jsonResult);
+            //dynamic data = jsonResult.Data;
+            //var results = data.Data as FDPViewModel;
+            //Assert.NotNull(results);
+            //Assert.IsInstanceOf<List<ModelStateDictionary>>(results);
+        }
+
+        [Test]
+        public void CanGetCascadeRegions()
+        {
+            
+        }
 
         #endregion
     }
