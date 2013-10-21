@@ -58,20 +58,33 @@ namespace Cats.Web.Adminstration.Controllers
         }
 
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CommodityGrade_Destroy([DataSourceRequest] DataSourceRequest request,
-                                                   CommodityGradeViewModel commodityGradeViewModel)
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult CommodityGrade_Destroy([DataSourceRequest] DataSourceRequest request,
+        //                                           CommodityGradeViewModel commodityGradeViewModel)
+        //{
+        //    if (commodityGradeViewModel != null)
+        //    {
+        //        _commodityGradeService.DeleteById(commodityGradeViewModel.CommodityGradeID);
+        //    }
+
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
+
+
+        public ActionResult CommodityGrade_Destroy(int id)
         {
-            if (commodityGradeViewModel != null)
+            var commodityGrade = _commodityGradeService.FindById(id);
+            try
             {
-                _commodityGradeService.DeleteById(commodityGradeViewModel.CommodityGradeID);
+                _commodityGradeService.DeleteCommodityGrade(commodityGrade);
+                return RedirectToAction("Index");
             }
-
-            return Json(ModelState.ToDataSourceResult());
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", "Unable to delete CommodityGrade");
+            }
+            return RedirectToAction("Index");
         }
-
-
-
 
     }
 

@@ -218,6 +218,9 @@
     <Compile Include="Partials\DispatchDetail.cs" />
     <Compile Include="Partials\Donor.cs" />
     <Compile Include="Partials\ErrorLog.cs" />
+    <Compile Include="Partials\FDP.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Partials\ForgetPasswordRequest.cs" />
     <Compile Include="Partials\GiftCertificate.cs" />
     <Compile Include="Partials\GiftCertificateDetail.cs" />
@@ -243,7 +246,9 @@
     <Compile Include="Partials\ShippingInstruction.cs" />
     <Compile Include="Partials\SMS.cs" />
     <Compile Include="Partials\Store.cs" />
-    <Compile Include="Partials\Transaction.cs" />
+    <Compile Include="Partials\Transaction.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Partials\TransactionGroup.cs" />
     <Compile Include="Partials\Translation.cs" />
     <Compile Include="Partials\Transporter.cs" />

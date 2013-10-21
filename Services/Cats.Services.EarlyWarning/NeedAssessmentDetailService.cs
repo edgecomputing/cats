@@ -88,11 +88,18 @@ namespace Cats.Services.EarlyWarning
 
            if (months != null)
            {
-               if (months.PSNPFromWoredasDOA != null)
+
+               if (months.NonPSNPFromWoredasDOA != null)
                {
-                   var totalMonths = (int)(months.PSNPFromWoredasDOA);
+                   var totalMonths = (int)(months.NonPSNPFromWoredasDOA);
                    return totalMonths;
                }
+               else if (months.PSNPFromWoredasDOA != null)
+               {
+                   return (int)(months.PSNPFromWoredasDOA);
+               }
+               else return 0;
+               
            }
            return 0;
        }

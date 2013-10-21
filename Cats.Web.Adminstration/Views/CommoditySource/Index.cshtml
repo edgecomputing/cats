@@ -1,25 +1,38 @@
-﻿
-
-@using Cats.Models
+﻿@using Cats.Models
 @using Cats.Web.Adminstration.Models.ViewModels
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this CommoditySource?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
 <h4 class="page-header">Commodity Source</h4>
 @(Html.Kendo().Grid<CommoditySourceViewModel>().Name("grid").Columns(columns=>
-                                                            {
-                                                              //  columns.Bound(t => t.CommoditySourceID);
-                                                                columns.Bound(t => t.Name);
-                                                                columns.Command(t => t.Destroy()).Width(100);
-
-                                                            }).ToolBar(toolbar =>
-                         {
-                             toolbar.Save();
-                             toolbar.Create();
-                         })
+            {
+                columns.Bound(t => t.CommoditySourceID).Visible(false);
+                columns.Bound(t => t.Name);
+                columns.Command(command => command.Custom("Delete").Click("OnDelete")).Width(100);
+            }).ToolBar(toolbar =>
+            {
+                toolbar.Save();
+                toolbar.Create();
+            })
              .Editable(edit => edit.Mode(GridEditMode.InCell))
              .Pageable()
             .Selectable(t => t.Mode(GridSelectionMode.Single))
@@ -31,8 +44,27 @@
     .Read("CommoditySource_Read","CommoditySource")
     .Create("CommoditySource_Create","CommoditySource")
     .Update("CommoditySource_Update","CommoditySource")
-    .Destroy("CommoditySource_Destroy","CommoditySource")
+    //.Destroy("CommoditySource_Destroy","CommoditySource")
     .Model(m=>m.Id(t=>t.CommoditySourceID)))
     )
     
-  
+ <script>
+
+     function OnDelete(e) {
+         e.preventDefault();
+         var grid = this;
+         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+         var row = $(e.currentTarget).closest("tr");
+         wnd.center().open();
+
+         $("#yes").click(function () {
+
+             window.location = "@Url.Action("CommoditySource_Destroy", "CommoditySource")" + "/" + dataItem.CommoditySourceID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script> 

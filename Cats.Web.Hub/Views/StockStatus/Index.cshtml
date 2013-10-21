@@ -8,8 +8,8 @@
     ViewBag.Title = Html.Translate("Stock Status");
 }
 
-    
-@Html.Partial("DisplayHub") 
+
+@Html.Partial("DisplayHub")
 <p>
     @Html.Translate("This report shows the current stock status by SI number and in each of the respective stores. Please select the different commodities to continue.")
 </p>
@@ -21,27 +21,30 @@
             @Html.Translate("Commodity")
         </div>
         <div class="editor-field">
-            @Html.Telerik().DropDownList().Name("Commodity").ClientEvents( clientEventsAction => clientEventsAction.OnChange("OnCommodityChanged")).BindTo(new SelectList(((List<Commodity>)ViewData["Commodity"]),"CommodityID","Name",ViewBag.CommodityID))
+            @Html.Telerik().DropDownList().Name("Commodity").ClientEvents(clientEventsAction => clientEventsAction.OnChange("OnCommodityChanged")).BindTo(new SelectList(((List<Commodity>)ViewData["Commodity"]), "CommodityID", "Name", ViewBag.CommodityID))
         </div>
-        
+
     </div>
     <div class="clear"></div>
 }<br />
 
 <script type="text/javascript">
+  
     $(function () {
-      
+
         $('#Commodity').change(function () {
-            
+
             var commodity = $(this).find('option:selected').val();
-           
+
 
         });
     });
-    
+
     function OnCommodityChanged(e) {
         var commodity = ($('#Commodity').data('tDropDownList').value());
-        window.location = '/StockStatus/Commodity/' + commodity;
+       
+        var url = '@Url.Action("Commodity", "StockStatus", new { id = "__id__" })';
+        window.location.href = url.replace('__id__', commodity);
     }
 </script>
 @*@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StockStatusReport>)
@@ -76,7 +79,7 @@
             if (column.DataType == typeof(decimal))
             {
                 columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
-                
+
             }
             else
             {
@@ -89,5 +92,5 @@
     .Sortable()
     .Scrollable()
     .Groupable()
-    
+
 )
