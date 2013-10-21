@@ -26,12 +26,10 @@ namespace Cats.Web.Hub
 
         }
         
-       
-        
-        
         /// <summary>
         /// Gets the user profile.
         /// </summary>
+        
         public UserProfile UserProfile
         {
             get

@@ -4,6 +4,7 @@
     ViewBag.Title = Translator.Translate("Edit NeedAssessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
 @section LeftBar{
 
     @Html.Partial("_NeedAssessmentLeftBar")
@@ -12,7 +13,6 @@
 { 
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","NeedAssessment")"></a>
 }
- 
 <fieldset>
     <legend>
         <h5>@Translator.Translate("Region"):  @ViewData["RegionName"]</h5> 
@@ -152,7 +152,7 @@
     }
 </script>
 
-<style scoped="scoped">
+@*<style scoped="scoped">
     #grid .k-toolbar
     {
         min-height: 27px;
@@ -170,7 +170,7 @@
     .toolbar {
         float: right;
     }
-</style>
+</style>*@
 
 @*.ToolBar(toolbar =>
     {
@@ -220,4 +220,3 @@
     
    
 </script>
-

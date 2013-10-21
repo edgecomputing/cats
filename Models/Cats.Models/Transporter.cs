@@ -14,21 +14,22 @@ namespace Cats.Models
             DateTime dt = DateTime.Now; ;
             this.ExperienceFrom = dt;
             this.ExperienceTo = dt;
-
         }
+     
         [Key]
         public int TransporterID { get; set; }
 
         //Transporter Address
-         [Required]
-         [Display(Name = "Name")]
+        [Required]
+        [Display(Name = "Name")]
         public string Name { get; set; }
-        public string Region { get; set; }
+        public int Region { get; set; }
+        //public int RegionId { get; set; }
 
-         [Display(Name = "Sub City")]
+        [Display(Name = "Sub City")]
         public string SubCity { get; set; }
-        public string Zone { get; set; }
-        public string Woreda { get; set; }
+        public int Zone { get; set; }
+        public int Woreda { get; set; }
         public string Kebele { get; set; }
         public string HouseNo { get; set; }
         public string TelephoneNo { get; set; }
@@ -57,6 +58,7 @@ namespace Cats.Models
         public virtual ICollection<TransportOrder> TransportOrders { get; set; }
         public virtual ICollection<BidWinner> BidWinners { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
-   
+        //public  List<AdminUnit> Regions { get; set; }
+
     }
 }

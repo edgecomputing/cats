@@ -68,9 +68,6 @@
     .Height(500)
     .Modal(true).Visible(false)
     .Actions(actions => actions.Refresh().Close())
-    
-      
-
 )
 
 <div id="transporter_edit_window2"></div>
@@ -88,10 +85,12 @@
             alert(message);
         }
     }
+
     function onClose(e) {
        // e.preventDefault();
        // $("#window").data("kendoWindow").hide();
     }
+    
     var editorWindow;
     function editRecordAjax(e) {
         e.preventDefault();
@@ -107,11 +106,12 @@
         wnd.center().open();
       //  window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
     }
+    
     function editRecord(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var url = "/Procurement/Transporter/Edit/" + dataItem.TransporterID;
-        window.location =url
+        window.location = url;
     }
 </script>
 <!--
@@ -119,8 +119,6 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table table-striped table-bordered">
-
-
 
     <tr>
         <th>
@@ -187,6 +185,5 @@
         </td>
     </tr>
 }
-
 </table>
 -->
