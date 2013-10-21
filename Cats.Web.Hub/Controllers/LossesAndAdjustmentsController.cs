@@ -131,28 +131,37 @@ namespace Cats.Web.Hub.Controllers
             units = _unitService.GetAllUnit().ToList();
             programs = _programService.GetAllProgramsForReport();
 
+            //if (ModelState.IsValid)
+            //{
+
+                LossesAndAdjustmentsViewModel newViewModel = new LossesAndAdjustmentsViewModel(commodity, stores,
+                                                                                               adjustmentReasonMinus,
+                                                                                               adjustmentReasonPlus,
+                                                                                               units, programs, user, 1);
 
 
-            LossesAndAdjustmentsViewModel newViewModel = new LossesAndAdjustmentsViewModel(commodity, stores, adjustmentReasonMinus, adjustmentReasonPlus, units, programs, user, 1);
 
-           
-            
-                           
-            if (viewModel.QuantityInMt > _TransactionService.GetCommodityBalanceForStore(viewModel.StoreId, viewModel.CommodityId, viewModel.ShippingInstructionId, viewModel.ProjectCodeId))
-            {
-                ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
-                return View(newViewModel);
-            }
 
-            if (viewModel.QuantityInMt <= 0)
-            {
-                ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
+                if (viewModel.QuantityInMt >
+                    _TransactionService.GetCommodityBalanceForStore(viewModel.StoreId, viewModel.CommodityId,
+                                                                    viewModel.ShippingInstructionId,
+                                                                    viewModel.ProjectCodeId))
+                {
+                    ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
+                    return View(newViewModel);
+                }
 
-                return View(newViewModel);
-            }
-            viewModel.IsLoss = true;
-            _adjustmentService.AddNewLossAndAdjustment(viewModel, user);
-            return RedirectToAction("Index");
+                if (viewModel.QuantityInMt <= 0)
+                {
+                    ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
+
+                    return View(newViewModel);
+                }
+                viewModel.IsLoss = true;
+                _adjustmentService.AddNewLossAndAdjustment(viewModel, user);
+                return RedirectToAction("Index");
+            //}
+            //return View();
         }
 
         [HttpPost]

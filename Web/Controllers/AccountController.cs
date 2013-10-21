@@ -66,7 +66,8 @@ namespace Cats.Controllers
                 log.LogAllErrorsMesseges(exception, _log);
 
                 ViewBag.HasError = true;
-                ViewBag.ErrorMessage = exception.ToString();
+                ViewBag.Error = exception.ToString();
+                ViewBag.ErrorMessage = "Login failed. Try logging in with the right user name and password.";
 
                 ModelState.AddModelError("", exception.Message);
             }
@@ -215,11 +216,11 @@ namespace Cats.Controllers
         public ActionResult RedirectToHub()
         {
            
-            return Redirect(FormatRedirectUrl("http://localhost/hub/home"));
+           // return Redirect(FormatRedirectUrl("http://locahost/hub"));
         }
         public ActionResult Administration()
         {
-            return Redirect("http://localhost/admin/home");
+            //return Redirect("http://localhost/admin/home");
         }
         public static string FormatRedirectUrl(string redirectUrl)
         {

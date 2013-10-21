@@ -379,8 +379,10 @@
     <Compile Include="Helpers\MembershipProvider.cs" />
     <Compile Include="Helpers\MonthHelper.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Helpers\UserAccountHelper.cs" />
     <Compile Include="Helpers\VersionHelper.cs" />
     <Compile Include="Infrastructure\Configuration.cs" />
+    <Compile Include="Infrastructure\CryptoGen.cs" />
     <Compile Include="Infrastructure\EthiopianDate.cs" />
     <Compile Include="Infrastructure\MD5Hash.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />

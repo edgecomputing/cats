@@ -12,7 +12,14 @@
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
-
+@section Toolbar
+{
+    
+    <a class="btn toolbar-btn "   href="@Url.Action( "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)" >Allocate</a>
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("AllocateProjectCode","ProjectAllocation")"></a>
+    
+}
+    
 <fieldset>
     <legend>
         @Translator.Translate("Assigned project Code / SI for Requisition No"): @ViewBag.ReqNo<br/>
@@ -128,9 +135,9 @@
 
 </div>
 
-<p>
+@*<p>
     @Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)
-</p>
+</p>*@
 <table id="ProjectCode">
     <thead>
         <tr>
@@ -189,8 +196,8 @@
 }
 </tbody>
 </table>
-<br/>
+@*<br/>
 <div class="footer-links">@Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) | |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation", new {  ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)
-</div>
+</div>*@
 
 
