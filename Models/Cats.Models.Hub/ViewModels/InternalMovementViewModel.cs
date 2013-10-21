@@ -116,13 +116,11 @@ namespace Cats.Models.Hub.ViewModels
 
 
         public InternalMovementViewModel(List<StoreViewModel> fromStore,
-                                        
-                                       List<Commodity> commodities,
-                                       List<ProgramViewModel> programs,
-            List<Unit> units,
-            List<StoreViewModel> toStore,
-            List<ReasonViewModel> reasons 
-                                                                     
+                                         List<Commodity> commodities,
+                                         List<ProgramViewModel> programs,
+                                         List<Unit> units,
+                                         List<StoreViewModel> toStore,
+                                         List<ReasonViewModel> reasons 
             )
         {
             this.FromStore = fromStore;//repository.Hub.GetAllStoreByUser(user);

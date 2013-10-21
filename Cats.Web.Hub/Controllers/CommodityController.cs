@@ -36,8 +36,8 @@ namespace Cats.Web.Hub.Controllers
         {
             ViewBag.CommodityTypes = _commodityTypeService.GetAllCommodityType();
 
-            var parents = _commodityService.GetAllParents().OrderBy(o=>o.Name);
-            ViewBag.ParentID = new SelectList(parents, "CommodityID", "Name"); 
+            var parents = _commodityService.GetAllParents();
+            ViewBag.ParentID = new SelectList(parents, "CommodityID", "Name", 1); 
     
             var firstOrDefault =
                 _commodityService.GetAllParents() == null ? null : _commodityService.GetAllParents().FirstOrDefault();
@@ -278,8 +278,8 @@ namespace Cats.Web.Hub.Controllers
                               where v.ParentID == null
                               select v;
             commodities = commodities.OrderBy(o => o.Name);
-            var firstOrDefault = commodities.FirstOrDefault();
-            return firstOrDefault != null ? Json(new SelectList(commodities, "CommodityID", "Name", firstOrDefault.CommodityID)) : null;
+            var cereal = _commodityService.GetCommodityByName("Cereal");
+            return Json(new SelectList(commodities, "CommodityID", "Name", cereal.CommodityID));
         }
         //
         // POST: /Commodity/Edit/5

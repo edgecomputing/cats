@@ -468,16 +468,19 @@ namespace Cats.Data.Hub
         {
             return ExecProcedure<RPT_MonthlyGiftSummary_Result>("GetMonthlyGiftSummaryETA", "RPT_MonthlyGiftSummary_Results");
         }
-        public ObjectResult<RPT_MonthlyGiftSummary_Result> GetMonthlyGiftSummary()
+       
+       public ObjectResult<RPT_MonthlyGiftSummary_Result> GetMonthlyGiftSummary()
         {
             return ExecProcedure<RPT_MonthlyGiftSummary_Result>("RPT_MonthlyGiftSummary", "RPT_MonthlyGiftSummary_Results");
         }
-        public ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
+       
+       public ObjectResult<StockStatusReport> RPT_StockStatus(int hubID, int commodityID)
         {
             return ExecProcedure<StockStatusReport>("RPT_StockStatus", "StockStatusReports",
                 new ProcParam() { ParmName = "Warehouse", Value = hubID },
                   new ProcParam() { ParmName = "commodity", Value = commodityID });
         }
+
         public ObjectResult<StockStatusReport> RPT_StockStatusNonFood(int? hubID, int? commodityID)
         {
             return ExecProcedure<StockStatusReport>("RPT_StockStatusNonFood", "StockStatusReports",

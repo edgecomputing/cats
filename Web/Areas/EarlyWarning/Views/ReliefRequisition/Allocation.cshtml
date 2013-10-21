@@ -158,7 +158,7 @@
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
-        //.Events(events => events.Error("error_handler"))
+        .Events(events => events.Change("onGridKeydown"))
             .Model(model =>
             {
                 model.Id(p => p.RequisitionDetailID);
@@ -188,19 +188,36 @@
             var BenficiaryNo = firstItem.get('BenficiaryNo');
             var RationAmount = firstItem.get('RationAmount');
             firstItem.set('Amount', RationAmount * BenficiaryNo);
-            
-
-            //$.getJSON('/ReliefRequisition/GetCommodityRation(RequisitionID,commodityID)', function (data) {
-
-
-            //    $.each(data, function(key, val) {
-
-            //        firstItem.set('Amount', val.Value * BenficiaryNo);
-
-            //    });
-            //    });
+               
             
         });
     }
+    
+    function onGridKeydown(e) {
+        if (e.keyCode === kendo.keys.TAB) {
+            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+            var current = grid.current();
+            if (!current.hasClass("editable-cell")) {
+                var nextCell = current.nextAll(".editable-cell");
+                if (!nextCell[0]) {
+                    //search the next row
+                    var nextRow = current.parent().next();
+                    var nextCell = current.parent().next().children(".editable-cell:first");
+                }
+                grid.current(nextCell);
+                grid.editCell(nextCell[0]);
+            }
+        }
+    };
+
+    //function onBound(e) {
+
+    //    var grid = $("#grid").data("kendoGrid");
+    //    $(grid.tbody).on("focus", "input", function (e) {
+    //        var input = $(this);
+    //        setTimeout(function () { input.select(); }, 100);
+
+    //    });
+    //}
 </script>
     

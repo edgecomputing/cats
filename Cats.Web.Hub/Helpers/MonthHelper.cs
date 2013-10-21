@@ -29,26 +29,11 @@ namespace Cats.Web.Hub.Helpers
             var monthList = GetMonthList();
            return  monthList.Find(t => t.Id == id).Name;
         }
-        public static Month GetMonth(List<int?> months )
-        {    
-            
-            //return (from month in months
-            //        select new Month()
-            //            {
-            //                Id=month,
-            //                Name = MonthName(month)
-            //            });
-            var allmonths = new Month();
-            if (months != null)
-            {
-                foreach (var month in months)
-                {
-                    var monthList = GetMonthList();
-                    allmonths = monthList.Find(t => t.Id == month);
-                }
-                return allmonths;
-            }
-            return null;
+        public static List<Month> GetMonth(List<int?> months )
+        {
+            var listOfMonth = GetMonthList();
+            return listOfMonth.Where(m => months.Contains(m.Id)).ToList();
+           
         }
 
     }
