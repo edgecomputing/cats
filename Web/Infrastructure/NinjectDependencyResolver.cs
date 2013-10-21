@@ -15,7 +15,7 @@ using Cats.Services.PSNP;
 using Cats.Services.Transaction;
 using Cats.Services.Common;
 using log4net;
-
+using Early_Warning.Security;
 
 namespace Cats.Infrastructure
 {
@@ -142,6 +142,12 @@ namespace Cats.Infrastructure
                                                                                            "SecurityContext"].
                                                                                        ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
+            kernel.Bind<ICheckAccessHelper>().To<CheckAccessHelper>().WithConstructorArgument("storageConnectionString",
+                                                                                   System.Configuration.
+                                                                                       ConfigurationManager.
+                                                                                       ConnectionStrings[
+                                                                                           "SecurityContext"].
+                                                                                       ConnectionString);
         }
     }
 }

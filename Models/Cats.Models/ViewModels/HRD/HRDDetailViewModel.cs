@@ -25,8 +25,8 @@ namespace Cats.Models.ViewModels.HRD
         //[DataType(DataType.Currency)]
         [Range(0, Double.MaxValue, ErrorMessage = "Number of Beneficiaries can not be less than 0!")]
         public int NumberOfBeneficiaries { get; set; }
-        //[DataType(DataType.Currency)]
-       [Range(0, Int32.MaxValue, ErrorMessage = "Duration of Assistance can not be less than 0!")]
+        //[DataType(DataType.Duration)]
+        [Range(0, 12, ErrorMessage = "Duration can not be less than 0 and greater than 12!")]
         public int DurationOfAssistance { get; set; }
         public int WoredaID { get; set; }
         public string Woreda { get; set; }
