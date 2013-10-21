@@ -150,7 +150,11 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create()
         {
-            return RedirectToAction("Edit");
+           //return RedirectToAction("Edit");
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.zones = new SelectList(_adminUnitService.FindBy(z => z.AdminUnitTypeID == 3 && z.ParentID == 3), "AdminUnitID", "Name");
+            ViewBag.woredas = new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == 19 ), "AdminUnitID", "Name");
+            return View();
         }
 
         //
@@ -159,13 +163,13 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost]
         public ActionResult Create(Transporter transporter)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 transportService.AddTransporter(transporter);
-                return RedirectToAction("Index");
             }
-            return RedirectToAction("Edit");
+            //return RedirectToAction("Edit");
             //return View(transporter);
+            return RedirectToAction("Index");
         }
 
         //
