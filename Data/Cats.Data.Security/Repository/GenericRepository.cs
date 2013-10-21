@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -44,7 +42,6 @@ namespace Cats.Data.Security
             return true;
         }
 
-
         public virtual bool Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
@@ -57,13 +54,11 @@ namespace Cats.Data.Security
             return true;
         }
 
-
-
-
         public virtual T FindById(int id)
         {
             return _context.Set<T>().Find(id);
         }
+        
         public virtual T FindById(Guid id)
         {
             return _context.Set<T>().Find(id);
@@ -87,11 +82,7 @@ namespace Cats.Data.Security
                 query = query.Include(includeProperty);
             }
 
-
             return query.ToList();
-
         }
-
-
     }
 }

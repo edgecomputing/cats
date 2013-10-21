@@ -104,8 +104,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             try
             {
-
-
              ViewBag.Error = "";
              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
              int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));

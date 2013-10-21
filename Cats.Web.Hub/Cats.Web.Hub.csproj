@@ -51,9 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1346,6 +1346,8 @@
     <Content Include="Views\UserWarehouse\Index.cshtml" />
     <Content Include="Views\UserWarehouse\Update.cshtml" />
     <Content Include="Views\Ledger\Index.cshtml" />
+    <Content Include="Views\TransportationReport\EmptyPage.cshtml" />
+    <Content Include="Views\TransportationReport\DateRangeErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
