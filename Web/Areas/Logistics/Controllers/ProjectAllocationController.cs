@@ -160,6 +160,13 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(new {Success = true, Result = result}, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetPCAmount(int pcIndex, int reqId)
+        {
+
+            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
+            var result = _projectCodeAllocationService.GetAllocatedAmountByPC(hubId, pcIndex);
+            return Json(new { Success = true, Result = result }, JsonRequestBehavior.AllowGet);
+        }
        
         public ActionResult AllocatePC(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
         {

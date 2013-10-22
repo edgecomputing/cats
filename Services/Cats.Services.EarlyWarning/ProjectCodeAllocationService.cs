@@ -141,6 +141,11 @@ namespace Cats.Services.EarlyWarning
                     p => p.HubAllocationID == hubId && p.SINumberID == siIndex).Sum(p=>p.Amount_FromSI).Value;
             return amount;
         }
-        
+        public int GetAllocatedAmountByPC(int hubId, int pcIndex)
+        {
+            int amount = _unitOfWork.ProjectCodeAllocationRepository.Get(
+                    p => p.HubAllocationID == hubId && p.SINumberID == pcIndex).Sum(p => p.Amount_FromProject).Value;
+            return amount;
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace Cats.Services.EarlyWarning
 
         List<ProjectCodeAllocation> GetHubAllocationByHubID(int status);
         List<ProjectCodeAllocation> GetHubAllocationByID(int hubID);
-         int GetAllocatedAmountBySI(int hubId,int siIndex)
+        int GetAllocatedAmountBySI(int hubId, int siIndex);
+        int GetAllocatedAmountByPC(int hubId, int pcIndex);
     }
 }
