@@ -281,6 +281,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     RegionalRequestID = regionalRequestDetail.RegionalRequestID,
                     RegionalRequestDetailID = regionalRequestDetail.RegionalRequestDetailID,
                     Woreda = regionalRequestDetail.Fdp.AdminUnit.Name,
+                    WoredaId = regionalRequestDetail.Fdp.AdminUnit.AdminUnitID,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                     PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year,
                         (int) regionalRequestDetail.RegionalRequest.Season,
