@@ -105,24 +105,6 @@ namespace Cats.Services.EarlyWarning
         }
 
 
-        //public bool SaveProjectCodeAllocation(IEnumerable<ProjectCodeAllocation> projectCodeAlloation)
-        //{
-        //    try{
-        //        foreach (var item in projectCodeAlloation)
-        //            {
-        //                var tempProjectCodeAllocation=FindById(item.HubAllocationID);
-        //                    tempProjectCodeAllocation.ProjectCodeID=item.ProjectCodeID;
-        //                    tempProjectCodeAllocation.ShippingInstructionID = item.ShippingInstructionID;
-        //                    this.EditProjectCodeAllocationDetail(tempProjectCodeAllocation);
-        //            }
-        //            return true;
-        //        }
-        //        catch
-        //            {
-        //                return false;
-        //            }
-            
-        //}
 
         public List<HubAllocation> GetHubAllocation(Expression<Func<HubAllocation, bool>> predicate)
         {
@@ -142,13 +124,7 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.HubAllocationRepository.Get(filter, orderBy, includeProperties);
         }
 
-        //public IEnumerable<ReliefRequisition> GetReliefRequisition(
-        //  Expression<Func<ReliefRequisition, bool>> filter = null,
-        //  Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
-        //  string includeProperties = "")
-        //{
-        //    return _unitOfWork.ReliefRequisitionRepository.Get(filter, orderBy, includeProperties);
-        //}
+       
 
         public List<ProjectCodeAllocation> GetHubAllocationByHubID(int status)
         {
@@ -158,6 +134,13 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.ProjectCodeAllocationRepository.Get(h=>h.HubAllocationID == hubID).ToList();
         } 
+
+        public int GetAllocatedAmountBySI(int hubId,int siIndex)
+        {
+            int amount = _unitOfWork.ProjectCodeAllocationRepository.Get(
+                    p => p.HubAllocationID == hubId && p.SINumberID == siIndex).Sum(p=>p.Amount_FromSI).Value;
+            return amount;
+        }
         
     }
 }

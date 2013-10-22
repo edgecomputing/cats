@@ -207,6 +207,8 @@
     function onChangeSI(value) {
         var totalassigned = '@ViewBag.Total';
         var available = freeSI["si_" + value] - totalassigned;
+        if (available < 0)
+            available = freeSI["si_" + value];
         currentAmount = available;
         $("#SIAvailableQuantity").val(available);
         on_si_amount_change();
@@ -218,6 +220,8 @@
         var totalassigned = '@ViewBag.Total';
        
         var available = freePC["pc_" + value] - totalassigned;
+        if (available < 0)
+            available = freePC["pc_" + value];
         currentAmount = available;
         $("#PCAvailableQuantity").val(available);
         on_pc_amount_change();
@@ -248,6 +252,15 @@
         $("#si_validation_message").html(msg);
     }
     
-
+    function SIChanged(e) {
+        //var combobox = $('#StoreID').data('tComboBox');
+        if (e.value != null) {
+            var url = "/ProjectAllocation/GetSIAmount";
+            $.getJSON(url, { storeId: e.value }, function (amount) {
+                if (amount != "")
+                    $('#ReceivedByStoreMan').val(amount);
+            });
+        }
+    }
 
 </script>

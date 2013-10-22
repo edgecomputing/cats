@@ -17,39 +17,40 @@ namespace Cats.Models
 
         public int NAId { get; set; }
         [Range(0, Int32.MaxValue)]
-        [DataType(DataType.Currency)]
+      
+        
         public Nullable<int> ProjectedMale { get; set; }
-         [DataType(DataType.Currency)]
+        
          [Range(0, Int32.MaxValue)]
         public Nullable<int> ProjectedFemale { get; set; }
-         [DataType(DataType.Currency)]
+        
          [Range(0, Int32.MaxValue)]
         public Nullable<int> RegularPSNP { get; set; }
-         [DataType(DataType.Currency)]
+        
          [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNP { get; set; }
 
-         [DataType(DataType.Currency)]
+        
          [Range(0, Int32.MaxValue)]
         public Nullable<int> NonPSNP { get; set; }
          
-        [DataType(DataType.Currency)]
+      
          [Range(0, Int32.MaxValue)]
         public Nullable<int> Contingencybudget { get; set; }
 
-         [DataType(DataType.Currency)]
+        
          [Range(0, Int32.MaxValue)]
         public Nullable<int> TotalBeneficiaries { get; set; }
 
-         [DataType(DataType.Currency)]
+       
         [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNPFromWoredasMale { get; set; }
 
-         [DataType(DataType.Currency)]
+        
         [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNPFromWoredasFemale { get; set; }
 
-         [DataType(DataType.Currency)]
+        
         [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNPFromWoredasDOA { get; set; }
 
@@ -57,15 +58,15 @@ namespace Cats.Models
         [Range(0, Int32.MaxValue)]
         public Nullable<int> NonPSNPFromWoredasMale { get; set; }
 
-         [DataType(DataType.Currency)]
+         
         [Range(0, Int32.MaxValue)]
         public Nullable<int> NonPSNPFromWoredasFemale { get; set; }
 
-         [DataType(DataType.Currency)]
+       
         [Range(0, Int32.MaxValue)]
         public Nullable<int> NonPSNPFromWoredasDOA { get; set; }
-        
-                                    
+
+         public Nullable<double> Total { get; set; }                           
                                                              
     }
 }

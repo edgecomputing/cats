@@ -281,9 +281,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     RegionalRequestDetailID = regionalRequestDetail.RegionalRequestDetailID,
                     Woreda = regionalRequestDetail.Fdp.AdminUnit.Name,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
-                    PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year, 
-                        regionalRequestDetail.RegionalRequest.Status, 
-                        regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
+                    //PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year, 
+                    //    regionalRequestDetail.RegionalRequest.s, 
+                    //    regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
                 };
             }
             else
