@@ -1,0 +1,33 @@
+﻿@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@Translator.Translate("Dispatch allocation")</h2>
+
+@{
+    @Html.Partial("_AllocationLeftBar")
+}
+
+<fieldset>
+    <legend>
+        @Translator.Translate("Approved Requisitions to be hub allocated")
+    </legend>
+</fieldset>
+
+<div id ="HubAllocationPartial">
+    @Html.Partial("HubAllocation")
+</div>
+
+
+<fieldset>
+    <legend>
+        @Translator.Translate("Hub allocated requisitions")
+    </legend>
+</fieldset>
+
+<div id="ProjectCodeAllocationPartial">
+    @Html.Partial("AllocateProjectCode")
+</div>
+
+
