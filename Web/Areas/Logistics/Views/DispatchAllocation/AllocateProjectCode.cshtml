@@ -1,6 +1,6 @@
 ﻿@using Kendo.Mvc.UI
 @(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
-    .Name("grid")
+    .Name("ProjectCodegrid")
     .Columns(columns =>
     {
         columns.Bound(e => e.RequisitionNo).Width(100).Title("Region");
@@ -14,9 +14,9 @@
         .Ajax()
         .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation"))
        
-        .PageSize(10)
+        .PageSize(5)
      )
-     .Scrollable(scroll => scroll.Height(300))
+     .Scrollable(scroll => scroll.Height(200))
      .Selectable(select => select.Mode(GridSelectionMode.Single))
      .Navigatable()
      .Filterable()
