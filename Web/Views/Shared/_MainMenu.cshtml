@@ -38,6 +38,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Early Warning <b class="caret"></b></a>
                             <ul class="dropdown-menu">
 
+                        
+
                                 
                                     @{
                                         
@@ -154,34 +156,32 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Logistics") <b class="caret"></b></a>
 
 
-                            <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })">@Html.Translate("Resource Allocation") </a></li>
-                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">@Html.Translate("Transport Requisition") </a></li>
-
+                           
                              <ul class="dropdown-menu">
-                                @{
+                               @* @{
                                     if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
                                     {                               
-                                        <li><a href="@Url.Action("ApprovedRequisitions", "HubAllocation", new { Area = "Logistics" })">@Html.Translate("Resource Allocation") </a></li>
-                                    }
+                                        *@<li><a href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })">@Html.Translate("Resource Allocation") </a></li>
+                                   @* }
                                     else
                                     {
                                        <li class="disabled"><a href="#">@Html.Translate("Resource Allocation")</a></li>
                                     } 
                                     
                                     if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
-                                    {                               
+                                    { *@                              
                                         <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">@Html.Translate("Transport Requisition") </a></li>
-                                    }
+                                   @* }
                                     else
                                     {
                                        <li class="disabled"><a href="#">@Html.Translate("Transport Requisition")</a></li>
-                                    }                            
+                                    }  *@                          
+                                
                                 
 
                                 <li class="divider" />
                                 <li><a href="#">@Html.Translate("Stock")</a></li>
-                                }
+                                @*}*@
                             </ul>
                                 
                         </li>
