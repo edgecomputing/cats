@@ -1,13 +1,18 @@
 ﻿@using LanguageHelpers.Localization
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>@Translator.Translate("Dispatch allocation")</h2>
+<fieldset>
+    <legend>
+        @Translator.Translate("Dispatch allocation")
+    </legend>
+</fieldset> 
 
-@{
+@*@{
     @Html.Partial("_AllocationLeftBar")
-}
+}*@
 
 <fieldset>
     <legend>
@@ -18,11 +23,17 @@
 <div id ="HubAllocationPartial">
     @Html.Partial("HubAllocation")
 </div>
-
+<br/>
+<br/>
 
 <fieldset>
     <legend>
         @Translator.Translate("Hub allocated requisitions")
+    </legend>
+</fieldset>
+<fieldset>
+    <legend>
+       <span style="font-size: small"> @Translator.Translate(" Requisition to be allocated PC/SI code")</span>
     </legend>
 </fieldset>
 

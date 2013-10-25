@@ -3,23 +3,21 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(e => e.RequisitionNo).Width(120).Title("Region");
-        columns.Bound(e => e.Region).Width(120).Title("Commodity");
-        columns.Bound(e => e.Commodity).Width(120);
-        columns.Bound(e => e.Amount);
+        columns.Bound(e => e.RequisitionNo).Width(100).Title("Requisition No");
+        columns.Bound(e => e.Region).Width(100).Title("Region");
+        columns.Bound(e => e.Commodity).Width(100);
+        columns.Bound(e => e.Amount).Width(50);
         columns.Bound(e => e.RequisitionDate).Width(80);
         columns.Bound(e => e.BenficiaryNo).Width(50);
         
     })
     .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action("ApprovedRequisitions", "DispatchAllocation"))
-        .Group(grouping =>
-        {
-            grouping.Add(e => e.Region);
-        })
-        .PageSize(10)
+        .Read(read => read.Action("HubAllocation", "DispatchAllocation"))
+       
+        .PageSize(5)
      )
+     
      .Scrollable(scroll => scroll.Height(300))
      .Selectable(select => select.Mode(GridSelectionMode.Multiple))
      .Navigatable()
@@ -28,10 +26,3 @@
      .Pageable()
 )
 
-<script>
-    $(document.body).keydown(function(e) {
-        if (e.altKey && e.keyCode == 87) {
-            $("#grid").data("kendoGrid").table.focus();
-        }
-    });
-</script>
