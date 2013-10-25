@@ -17,6 +17,7 @@ namespace Cats.Models
 
         public int NAId { get; set; }
         [Range(0, Int32.MaxValue)]
+
       
         
         public Nullable<int> ProjectedMale { get; set; }
@@ -27,6 +28,7 @@ namespace Cats.Models
          [Range(0, Int32.MaxValue)]
         public Nullable<int> RegularPSNP { get; set; }
         
+
          [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNP { get; set; }
 
@@ -38,6 +40,7 @@ namespace Cats.Models
          [Range(0, Int32.MaxValue)]
         public Nullable<int> Contingencybudget { get; set; }
 
+
         
          [Range(0, Int32.MaxValue)]
         public Nullable<int> TotalBeneficiaries { get; set; }
@@ -46,7 +49,7 @@ namespace Cats.Models
         [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNPFromWoredasMale { get; set; }
 
-        
+
         [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNPFromWoredasFemale { get; set; }
 
@@ -54,11 +57,11 @@ namespace Cats.Models
         [Range(0, Int32.MaxValue)]
         public Nullable<int> PSNPFromWoredasDOA { get; set; }
 
-         [DataType(DataType.Currency)]
+         //[DataType(DataType.Currency)]
         [Range(0, Int32.MaxValue)]
         public Nullable<int> NonPSNPFromWoredasMale { get; set; }
 
-         
+
         [Range(0, Int32.MaxValue)]
         public Nullable<int> NonPSNPFromWoredasFemale { get; set; }
 

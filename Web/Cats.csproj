@@ -15,7 +15,7 @@
     <AssemblyName>Cats</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
@@ -1243,7 +1243,8 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1786</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/Cats</IISUrl>
+          <IISUrl>http://localhost:1786/</IISUrl>
+          <IISUrl>http://localhost:1786/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:56576/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

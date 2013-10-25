@@ -19,7 +19,7 @@ namespace Cats.Web.Adminstration.Controllers
 
         public ActionResult Redirect2Cats()
         {
-            return Redirect("http://localhost/Cats");
+            return Redirect("http://192.168.1.248/Cats");
         }
     }
 }

@@ -27,9 +27,9 @@ namespace Cats.Services.EarlyWarning
 
         public bool AddRegionalRequest(RegionalRequest regionalRequest)
         {
-           // regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
+            // regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
-           // regionalRequest.RationID = 2;//TODO:SET DEFAULT Ration
+            // regionalRequest.RationID = 2;//TODO:SET DEFAULT Ration
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.ReferenceNumber = DateTime.Today.ToLongTimeString();
             _unitOfWork.RegionalRequestRepository.Add(regionalRequest);
@@ -55,11 +55,39 @@ namespace Cats.Services.EarlyWarning
         public bool EditRegionalRequest(RegionalRequest reliefRequistion)
         {
             _unitOfWork.RegionalRequestRepository.Edit(reliefRequistion);
+            CalculateAllocation(reliefRequistion.RegionalRequestID);
             _unitOfWork.Save();
             return true;
 
         }
+        private bool CalculateAllocation(int requestId)
+        {
+            var requestDetails =
+                _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId, null,
+                                                                "RequestDetailCommodities").ToList();
+            foreach (var requestDetail in requestDetails)
+            {
 
+
+
+                foreach (var requestCommodity in requestDetail.RequestDetailCommodities)
+                {
+                    var rationAmount = GetCommodityRation(requestDetail.RegionalRequestID, requestCommodity.CommodityID);
+                    var target = _unitOfWork.RequestDetailCommodityRepository.FindById(requestCommodity.RequestCommodityID);
+
+                    target.Amount = requestDetail.Beneficiaries * rationAmount;
+                }
+            }
+            return true;
+        }
+        private decimal GetCommodityRation(int requestId, int commodityId)
+        {
+            var rationID = _unitOfWork.RegionalRequestRepository.FindById(requestId).RationID;
+            var ration =
+                _unitOfWork.RationDetailRepository.FindBy(t => t.RationID == rationID && t.CommodityID == commodityId).FirstOrDefault();
+            if (ration == null) return 0;
+            return ration.Amount;
+        }
         public bool DeleteRegionalRequest(RegionalRequest reliefRequistion)
         {
             if (reliefRequistion == null) return false;
@@ -160,7 +188,7 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Save();
             return true;
         }
-        public HRDPSNPPlanInfo  PlanToRequest(HRDPSNPPlan plan)
+        public HRDPSNPPlanInfo PlanToRequest(HRDPSNPPlan plan)
         {
             HRDPSNPPlanInfo result = new HRDPSNPPlanInfo();
             List<BeneficiaryInfo> beneficiaryInfos = new List<BeneficiaryInfo>();
@@ -168,7 +196,7 @@ namespace Cats.Services.EarlyWarning
             if (plan.ProgramID == 2)
             {
                 RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.Year == plan.Year).FirstOrDefault();
-               result.HRDPSNPPlan.RationID= psnpplan.RationID;
+                result.HRDPSNPPlan.RationID = psnpplan.RationID;
                 if (psnpplan != null)
                 {
                     beneficiaryInfos = PSNPToRequest(psnpplan);
@@ -176,8 +204,8 @@ namespace Cats.Services.EarlyWarning
             }
             else if (plan.ProgramID == 1)
             {
-                HRD hrd=_unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
-                
+                HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
+
                 if (hrd != null)
                 {
                     result.HRDPSNPPlan.RationID = hrd.RationID;
@@ -189,7 +217,7 @@ namespace Cats.Services.EarlyWarning
                 }
             }
             result.BeneficiaryInfos = beneficiaryInfos;
-                return result;
+            return result;
 
         }
         List<BeneficiaryInfo> HRDToRequest(List<HRDDetail> plandetail)
@@ -197,19 +225,19 @@ namespace Cats.Services.EarlyWarning
             List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
             foreach (HRDDetail d in plandetail)
             {
-               List<FDP> WoredaFDPs= _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == d.AdminUnit.AdminUnitID);
-               ICollection<BeneficiaryInfo> woredabeneficiaries =
-                (from FDP fdp  in WoredaFDPs
-                 select new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0 }).ToList();
-               benficiaries.AddRange(woredabeneficiaries);
+                List<FDP> WoredaFDPs = _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == d.AdminUnit.AdminUnitID);
+                ICollection<BeneficiaryInfo> woredabeneficiaries =
+                 (from FDP fdp in WoredaFDPs
+                  select new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0 }).ToList();
+                benficiaries.AddRange(woredabeneficiaries);
             }
             return benficiaries;
         }
         List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan)
         {
             List<BeneficiaryInfo> benficiaries =
-                (from RegionalPSNPPlanDetail pd  in plan.RegionalPSNPPlanDetails
-                 select new BeneficiaryInfo { FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name,Beneficiaries = pd.BeneficiaryCount }).ToList();
+                (from RegionalPSNPPlanDetail pd in plan.RegionalPSNPPlanDetails
+                 select new BeneficiaryInfo { FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name, Beneficiaries = pd.BeneficiaryCount }).ToList();
             return benficiaries;
 
         }
