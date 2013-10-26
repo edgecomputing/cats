@@ -206,7 +206,7 @@
 
     function onChangeSI(value) {
         var totalassigned = '@ViewBag.Total';
-        var available = freeSI["si_" + value] - totalassigned;
+        var available = freeSI["si_" + value] ;
         currentAmount = available;
         $("#SIAvailableQuantity").val(available);
         on_si_amount_change();
@@ -217,7 +217,7 @@
     function onChangePC(value) {
         var totalassigned = '@ViewBag.Total';
        
-        var available = freePC["pc_" + value] - totalassigned;
+        var available = freePC["pc_" + value] ;
         currentAmount = available;
         $("#PCAvailableQuantity").val(available);
         on_pc_amount_change();

@@ -17,7 +17,6 @@
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
 }
 
-
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
 {
 
@@ -30,6 +29,8 @@
     columns.Bound(to => to.ContractNumber);
     columns.Bound(to => to.PerformanceBondReceiptNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.Status);
+    columns.Command(p => p.Custom("Generate Contract").Click("onGenerate"));
+           
 })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
@@ -44,3 +45,12 @@
     ).Pageable()
 )
 
+<script>
+    function onGenerate(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("TransportContract", "TransportOrder")" + "/" + dataItem.TransportOrderID;
+
+    }
+</script>

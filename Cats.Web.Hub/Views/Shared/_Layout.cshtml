@@ -84,7 +84,7 @@
                 .Items(menu =>
                 {
                     menu.Add()
-                        .Text(Html.Translate("Home")).Url(@Url.Action("Redirect2Cats", "Home"));
+                        .Text(Html.Translate("Home")).Url(@"\Cats");
                     if (Request.IsAuthenticated)
                     {
                        // if (User.IsInRole("Gift Certificate"))

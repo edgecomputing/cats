@@ -251,7 +251,7 @@ namespace Cats.Services.Procurement
                     throw new Exception(string.Format("Transporter Couldn't be found for from {0} to {1}", transportRequisition.HubID, transportRequisition.WoredaID));
                 }
                 transportRequisition.TransporterID = transportBidWinner.TransporterID;
-                transportRequisition.TariffPerQtl = transportBidWinner.Tariff;
+                transportRequisition.TariffPerQtl = transportBidWinner.Tariff; 
 
                 transportSourceDestination.Add(transportRequisition);
             }
