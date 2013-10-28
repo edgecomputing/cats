@@ -13,8 +13,6 @@ namespace Cats.Models.Constant
       TRANSPORT_REQUISITION=3,
       TRANSPORT_ORDER=4,
       HRD=5
-
-      
   }
 
     public enum RegionalRequestStatus
@@ -23,8 +21,6 @@ namespace Cats.Models.Constant
         Approved=2, 
         Closed=3,
         FederalApproved=4
-     
-
     }
 
     public  enum ReliefRequisitionStatus
@@ -41,7 +37,6 @@ namespace Cats.Models.Constant
         Draft=1,
         Approved=2,
         Closed=3
-
     }
 
     public enum TransportOrderStatus

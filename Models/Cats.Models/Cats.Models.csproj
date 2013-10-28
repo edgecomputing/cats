@@ -223,6 +223,7 @@
     <Compile Include="RegionalPSNPPledge.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />
+    <Compile Include="RegionalRequisitionSummary.cs" />
     <Compile Include="RegionsViewModel.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />

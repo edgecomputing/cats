@@ -71,9 +71,8 @@
                                     .Group(groups => groups.Add(p => p.ZoneName))
                                     .Read(read => read.Action("NeedAssessmentDetailRead", "NeedAssessment", new {region = int.Parse(ViewData["Id"].ToString())}))
                                     .Update(update => update.Action("NeedAssessmentUpdate", "NeedAssessment"))
-                                    
-       
-       .Model(model =>
+                              
+                                    .Model(model =>
                               {
                                   model.Id(p => p.NAId);
                                   model.Field(p => p.Woreda).Editable(false);
@@ -113,8 +112,6 @@
    }
     
 </script>
-
-
 
 <script>    
  

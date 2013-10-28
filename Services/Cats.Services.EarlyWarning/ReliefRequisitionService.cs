@@ -19,11 +19,11 @@ namespace Cats.Services.EarlyWarning
         private readonly IUnitOfWork _unitOfWork;
 
 
-
         public ReliefRequisitionService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
+
         #region Default Service Implementation
         public bool AddReliefRequisition(ReliefRequisition reliefRequisition)
         {
@@ -89,31 +89,158 @@ namespace Cats.Services.EarlyWarning
 
         //}
          
-        public List<ReliefRequisition> GetApprovedRequistion()
+        public List<ReliefRequisition> GetApprovedRequistions()
         {
             return new List<ReliefRequisition>(){
                 new ReliefRequisition(){
                 ProgramID=1,
                 RegionID=1,
                 RequestedBy=1,
-                 RequestedDate=DateTime.Today,
+                RequestedDate=DateTime.Today,
                 RequisitionNo="XYZ123",
                 Round=1,
                 Status=1,
                 ZoneID=1,
                 CommodityID=1
-             
-
                 }
             };
         }
+        
+        public List<RegionalRequisitionsSummary> GetRequisitionsSentToLogistics()
+        {
+           var app = _unitOfWork.ReliefRequisitionRepository.FindBy(t => t.Status == 2 );
+           var ds =
+                (
+                    from a in app
+                    group a by new { a.RegionID,a.AdminUnit.Name} into regionalRequistions
+                    select new
+                            {
+                                regionalRequistions.Key.Name,
+                                ProgramBased = from a in regionalRequistions
+                                               group a by a.ProgramID into final
+                                               select new 
+                                               RegionalRequisitionsSummary()
+                                               {
+                                                    RegionID = regionalRequistions.Key.RegionID,
+                                                    RegionName = regionalRequistions.Key.Name,
+                                                    DateLastModified = regionalRequistions.Select(d=>d.ApprovedDate).Last(),
+                                                    NumberOfHubAssignedRequisitions = final.Count(r=>r.Status>=2),
+                                                    NumberOfTotalRequisitions = regionalRequistions.Count(),
+                                                    ProgramType = final.Key.ToString(),
+                                                    Percentage = (final.Count(r=>r.Status==3)/regionalRequistions.Count())*100
+                                               }
+                            }
+                );
+            
+            var result = new List<RegionalRequisitionsSummary>();
+
+            foreach (var d in ds)
+            {
+                foreach (var e in d.ProgramBased)
+                {
+                    
+                    //var t = d.ProgramBased.Take(e);
+                    
+                    var t = new RegionalRequisitionsSummary()
+                    {
+                        RegionID = e.RegionID,
+                        RegionName = e.RegionName,
+                        DateLastModified = e.DateLastModified,
+                        NumberOfHubAssignedRequisitions = e.NumberOfHubAssignedRequisitions,
+                        NumberOfTotalRequisitions = e.NumberOfTotalRequisitions,
+                        ProgramType = e.ProgramType,
+                        Percentage = e.Percentage
+                    };
+
+                    //result.Add(new RegionalRequisitionsSummary()
+                    //    {
+                    //        RegionID = 1,
+                    //        RegionName = "Afar",
+                    //        DateLastModified = DateTime.Now,
+                    //        NumberOfHubAssignedRequisitions = 45,
+                    //        NumberOfTotalRequisitions = 80,
+                    //        Percentage = (45 / 80) * 100,
+                    //        ProgramType = e.ProgramType
+                    //    });
+
+                    result.Add(t);
+                }
+            }
+
+            return result;
+            
+            
+            
+            //foreach (var d in ds)
+            //{
+            //    var region = "";
+            //    var program = "";
+
+            //    foreach (var reliefRequisition in d)
+            //    {
+            //        region = reliefRequisition.Program.Name;
+            //        program = reliefRequisition.Program.Name;
+            //    } 
+
+            //    var temp = new RegionalRequisitionsSummary()
+            //        {
+            //            RegionID = d.Key.RegionID,
+            //            RegionName = region,
+            //            NumberOfHubAssignedRequisitions = d.Count(),
+            //            NumberOfTotalRequisitions = d.Count(),
+            //            Percentage = d.Count(),
+            //            DateLastModified = DateTime.Now,
+            //            ProgramType = d.Key.ProgramID
+            //        };
+
+            //result.Add(temp);
+            //}
+
+            //return result;
+
+
+
+            //select new RegionalRequisitionsSummary()
+            //   {
+            //       RegionName = "",
+            //       RegionID = g.Key,
+            //       NumberOfHubAssignedRequisitions = g.Count(),
+            //       NumberOfTotalRequisitions = g.Count(),
+            //       Percentage = g.Count(),
+            //       DateLastModified = DateTime.Now,
+            //       ProgramType = "PSNP"
+            //   }
+            //);
+
+            //return d.ToList();
+
+            //(from app in approved  )
+            //return new List<RegionalRequisitionsSummary>(){
+            //    new RegionalRequisitionsSummary(){
+            //        RegionID = 1,
+            //        RegionName = "Afar",
+            //        NumberOfHubAssignedRequisitions = 15,
+            //        NumberOfTotalRequisitions = 50,
+            //        Percentage = 30,
+            //        DateLastModified = DateTime.Now
+            //    },
+            //    new RegionalRequisitionsSummary(){
+            //        RegionID = 2,
+            //        RegionName = "Tigray",
+            //        NumberOfHubAssignedRequisitions = 15,
+            //        NumberOfTotalRequisitions = 50,
+            //        Percentage = 30,
+            //        DateLastModified = DateTime.Now
+            //    }
+            //};
+        }
+
         public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions)
         {
             foreach (var reliefRequisition in reliefRequisitions)
             {
                 this._unitOfWork.ReliefRequisitionRepository.Add(reliefRequisition);
             }
-
         }
 
         public IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId)
@@ -122,18 +249,18 @@ namespace Cats.Services.EarlyWarning
             //
             var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)RegionalRequestStatus.Approved  , null, "RegionalRequestDetails").FirstOrDefault();
             if (regionalRequest == null) return null;
-
+            
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
             AddReliefRequisions(reliefRequistions);
             regionalRequest.Status = (int)RegionalRequestStatus.Closed;
             _unitOfWork.Save();
+            
             foreach (var item in reliefRequistions)
             {
                 item.RequisitionNo = String.Format("REQ-{0}", item.RequisitionID);
             }
             _unitOfWork.Save();
-           return  GetRequisitionByRequestId(requestId);
-
+            return  GetRequisitionByRequestId(requestId);
         }
        
         public ReliefRequisition GenerateRequisition(RegionalRequest regionalRequest, List<RegionalRequestDetail> regionalRequestDetails, int commodityId, int zoneId)
@@ -147,7 +274,8 @@ namespace Cats.Services.EarlyWarning
                 ProgramID = regionalRequest.ProgramId,
                 CommodityID = commodityId,
                 RequestedDate = DateTime.Today
-                    //TODO:Please find another way how to specify Requistion No
+                
+                //TODO:Please find another way how to specify Requistion No
                 ,
                 RequisitionNo = Guid.NewGuid().ToString(),
                 RegionID = regionalRequest.RegionID,
@@ -158,6 +286,7 @@ namespace Cats.Services.EarlyWarning
                 //ApprovedDate=itm.ApprovedDate,
 
             };
+
             foreach (var regionalRequestDetail in regionalRequestDetails)
             {
                 var relifRequistionDetail = new ReliefRequisitionDetail();
@@ -169,11 +298,7 @@ namespace Cats.Services.EarlyWarning
                 relifRequistionDetail.Amount = commodity.Amount;
                 relifRequisition.ReliefRequisitionDetails.Add(relifRequistionDetail);
             }
-           
-         
-
             return relifRequisition;
-
         }
 
 

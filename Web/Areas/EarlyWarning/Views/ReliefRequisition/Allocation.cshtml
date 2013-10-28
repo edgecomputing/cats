@@ -94,34 +94,28 @@
                         <table>
                             <tr>
                                 <td><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
-
-
                                 </td>
                                 <td>
                                    @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
                                      { 
                                         @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
-        
                                      }
                                     
                                 </td>
                                 <td>
                                     @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-                                     {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
-        
+                                     { 
+                                         @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
                                      }
                                    
                                 </td>
-                                   
                             </tr>
                         </table>
                     </td>
                 </tr>
             </table>
-
         </div>
     </div>
-
 </div>
 
 @section LeftBar
@@ -188,8 +182,6 @@
             var BenficiaryNo = firstItem.get('BenficiaryNo');
             var RationAmount = firstItem.get('RationAmount');
             firstItem.set('Amount', RationAmount * BenficiaryNo);
-               
-            
         });
     }
     

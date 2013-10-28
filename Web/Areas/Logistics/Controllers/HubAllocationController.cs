@@ -21,8 +21,6 @@ namespace Cats.Areas.Logistics.Controllers
     {
         //
         // GET: /Logistics/HubAllocation/
-
-        
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;

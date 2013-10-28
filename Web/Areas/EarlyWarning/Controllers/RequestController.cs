@@ -72,18 +72,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, userPref));
         }
 
-
-
-
         [HttpGet]
         public ActionResult New()
         {
-
             PopulateLookup();
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
-
+            //ViewBag.CurrentHRDYear = _hrdService.FindBy(y => y.Status == 3).SingleOrDefault().Year;
             return View();
         }
+
         private RegionalRequest CretaeRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo)
         {
             var regionalRequest = new RegionalRequest();
