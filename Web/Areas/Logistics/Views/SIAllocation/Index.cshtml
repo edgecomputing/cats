@@ -1,0 +1,140 @@
+﻿@using Cats.Services.Security
+
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Hub Allocated Requesitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+  // Cats.Models.ShippingInstruction si=new Cats.Models.ShippingInstruction();
+  // si.Value
+   
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+<fieldset>
+    <legend>
+        SI Allocation
+    </legend>
+</fieldset>
+
+<!--
+<table class="table table-striped table-bordered">
+    @foreach(var req in ViewBag.ReliefRequisitionList){
+       
+    <tr>
+        <td>
+            <div>
+                <div>@req.RegionName @req.ZoneName </div>
+                <div>@req.Commodity @req.Amount</div>
+
+            </div>
+        </td>
+        <td>
+            <ul>
+                 @foreach (var alloc in @req.SIAllocations)
+                {
+                     <li>@alloc.ShippingInstructionCode : @alloc.AllocatedAmount</li>
+                }
+            </ul>
+           
+           
+        </td>
+    </tr>
+    }
+</table>
+-->
+<style>
+    .SI_Row
+    {
+        padding:2px;
+        margin:2px;
+        border:solid 1px #DDD;
+        border-radius:2px;
+    }
+        .SI_Row :focus
+        {
+            background:#EEE;
+        }
+</style>
+<div ng-app>
+
+
+  <div ng-controller="CartCtrl">
+
+
+  <table class="table table-striped table-bordered">
+  <tr ng-repeat="request in requests">
+      <td>
+         <div>
+                <div>{{request.RegionName}} [{{request.ZoneName}}]  </div>
+                <div>{{request.Commodity}} {{request.Amount}}  </div>
+            </div> 
+      </td>
+      <td>
+          <div class="SI_Row" onclick="voide()" ng-repeat="item in request.SIAllocations">
+            
+            SI/Project Code <input class="SI_Input SI_Code" ng-model="item.ShippingInstructionCode">
+            Amount <input class="SI_Input Amount" ng-model="item.AllocatedAmount">
+            <button class="SI_Remove" ng-click="remove(request.RequisitionId,$index)">Remove</button>
+          </div>
+          <div>
+            
+            <!--<input ng-model="item.ShippingInstructionCode">
+            <input ng-model="item.AllocatedAmount">-->
+            <button ng-click="add(request.RequisitionId,$index)">Add</button>
+          </div>
+      </td>
+  </tr>
+
+  </table>  
+  
+
+
+  <script>
+      function voide()
+      {}
+
+      function CartCtrl($scope) {
+
+          $.getJSON("getList", {}, function (data) {
+              $scope.requests = data;
+          });
+          
+          $scope.requests = [
+            {
+                RequisitionId: "req-1211", commodity: "pulse", SIAllocations: [
+                        { si_code: 'Si-2000', AllocatedAmount: 8, price: 3.95 },
+                        { si_code: 'Si-2002', AllocatedAmount: 17, price: 12.95 }
+                ]
+            }
+          ];
+
+
+          $scope.remove = function (req_id, index) {
+              var index_r = 0;
+              for (var i in $scope.requests) {
+                  if ($scope.requests[i].RequisitionId == req_id) {
+                      index_r = i;
+                  }
+              }
+              //  alert(index_r)
+              $scope.requests[index_r].SIAllocations.splice(index, 1);
+              //$scope.items.splice(index, 1);
+          }
+          $scope.add = function (req_id, index) {
+              var index_r = 0;
+              for (var i in $scope.requests) {
+                  if ($scope.requests[i].RequisitionId == req_id) {
+                      index_r = i;
+                  }
+              }
+              var add_index = $scope.requests[index_r].SIAllocations.length;
+              $scope.requests[index_r].SIAllocations[add_index] = {ShippingInstructionCode:"Select SI Code",AllocatedAmount:0};
+              //$scope.items.splice(index, 1);
+          }
+      }
+  </script>
+  </div>
+    </div>
