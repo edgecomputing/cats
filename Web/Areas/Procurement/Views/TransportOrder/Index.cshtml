@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Cats.Areas.Procurement.Models
 @using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 
 
 @{
@@ -18,15 +19,15 @@
 }
 
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
-{
-
-    columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+      {
+          columns.Bound(to => to.ContractNumber);
+    //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.Transporter);
-    columns.Bound(to => to.BidDocumentNo);
-    columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(to => to.BidDocumentNo).Title(Translator.Translate("Bid Document #"));
+    //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
     columns.Bound(to => to.OrderExpiryDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.RequestedDispatchDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.ContractNumber);
+    columns.Bound(to => to.TransportOrderNo);
     columns.Bound(to => to.PerformanceBondReceiptNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.Status);
     columns.Command(p => p.Custom("Generate Contract").Click("onGenerate"));
@@ -36,7 +37,7 @@
     .Pageable()
     .Sortable()
     .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
+    .HtmlAttributes(new { style = "height:230px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
@@ -44,6 +45,36 @@
         .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
     ).Pageable()
 )
+
+<h4>Transport Requisition Without Winner Transporter </h4>
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportRequisitionWithoutWinnerModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+
+            columns.Bound(p => p.Woreda);
+            columns.Bound(p => p.Commodity);
+            columns.Bound(p => p.FDP);
+            columns.Bound(p => p.OriginWarehouse).ClientFooterTemplate(Translator.Translate("Total")); 
+            columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}");
+            //columns.Bound(p => p.TariffPerQtl);
+           // columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}"); ;
+
+        })
+            .Pageable()
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
+                  //.Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
+                  .PageSize(8)
+                    //.Model(model => model.Id(p => p.TransportRequisitionID))
+                    .Read(read => read.Action("TransReqWithoutTransporter_Read", "TransportOrder"))
+
+             )
+
+      )
 
 <script>
     function onGenerate(e) {

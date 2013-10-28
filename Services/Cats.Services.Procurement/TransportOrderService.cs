@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Models.ViewModels;
 
 
 namespace Cats.Services.Procurement
@@ -148,7 +147,7 @@ namespace Cats.Services.Procurement
 
             var transporters = (from item in transporterAssignedRequisionDetails select item.TransporterID).Distinct().ToList();
 
-
+            
             //If we reached here all location got transporter 
             var transportOrders = new List<TransportOrder>();
 
@@ -248,7 +247,13 @@ namespace Cats.Services.Procurement
                    //    t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
                 if (transportBidWinner == null)
                 {
-                    throw new Exception(string.Format("Transporter Couldn't be found for from {0} to {1}", transportRequisition.HubID, transportRequisition.WoredaID));
+                    var transReqWithoutTransporter = new TransReqWithoutTransporter();
+                    transReqWithoutTransporter.TransportRequisitionID = transportRequisition.RequisitionID;
+                    transReqWithoutTransporter.IsAssigned = false;
+                    _unitOfWork.TransReqWithoutTransporterRepository.Add(transReqWithoutTransporter);
+                    _unitOfWork.Save();
+                    //throw new Exception(string.Format("Transporter Couldn't be found for from {0} to {1}", transportRequisition.HubID, transportRequisition.WoredaID));
+                    //transportRequisition.TransporterID = 0;
                 }
                 transportRequisition.TransporterID = transportBidWinner.TransporterID;
                 transportRequisition.TariffPerQtl = transportBidWinner.Tariff; 
@@ -257,6 +262,7 @@ namespace Cats.Services.Procurement
             }
             return transportSourceDestination;
         }
+        
         public List<vwTransportOrder> GeTransportOrderRpt(int id)
         {
             return _unitOfWork.VwTransportOrderRepository.Get(t => t.TransportOrderID == id).ToList();

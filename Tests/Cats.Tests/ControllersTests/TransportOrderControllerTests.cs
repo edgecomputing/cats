@@ -99,7 +99,16 @@ namespace Cats.Tests.ControllersTests
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
 
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object, logService.Object, userAccountService.Object);
+            var TransReqWithoutTransporter = new List<TransReqWithoutTransporter>
+                {
+                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 1,TransportRequisitionID = 1,IsAssigned = false},
+                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 2,TransportRequisitionID = 2,IsAssigned = true}
+                };
+
+            var transReqWithoutTransporterService = new Mock<ITransReqWithoutTransporterService>();
+            transReqWithoutTransporterService.Setup(m => m.GetAllTransReqWithoutTransporter()).Returns(
+                TransReqWithoutTransporter);
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object, logService.Object, userAccountService.Object,transReqWithoutTransporterService.Object);
             _transportOrderController.ControllerContext = controllerContext.Object;
         }
 

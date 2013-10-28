@@ -707,6 +707,11 @@ namespace Cats.Data.UnitWork
         {
             get { return this.auditRepository ?? (this.auditRepository = new GenericRepository<Audit>(_context)); }
         }
-        
+
+        private IGenericRepository<TransReqWithoutTransporter> transReqWithoutTransporterRepository;
+        public IGenericRepository<TransReqWithoutTransporter> TransReqWithoutTransporterRepository
+        {
+            get { return this.transReqWithoutTransporterRepository ?? (this.transReqWithoutTransporterRepository = new GenericRepository<TransReqWithoutTransporter>(_context)); }
+        }
     }
 }

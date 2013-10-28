@@ -11,7 +11,7 @@ namespace Cats.Models
        public TransportOrder()
        {
            this.TransportOrderDetails=new List<TransportOrderDetail>();
-          // this.BidWinners=new List<BidWinner>();
+           // this.BidWinners=new List<BidWinner>();
 
        }
        public int TransportOrderID { get; set; }
@@ -31,6 +31,6 @@ namespace Cats.Models
        public virtual Transporter Transporter { get; set; }
        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
       //  public virtual ICollection<BidWinner> BidWinners  { get; set; }
-
+        
     }
 }

@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";    
 }
 
-<h4>Transport Contract.</h4>
+<h4>Transport Contract</h4>
 <div class="control-group form-horizontal">
     <div class="row">
         <div class="span6">
@@ -16,6 +16,7 @@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Transporter.Name, new { Disabled = true })
+                    <a href="@Url.Action("TransportContract","TransportOrder")">Change Transporter</a>
                 </div>
             </div>
         </div>
@@ -36,8 +37,8 @@
     <div class="row">
         <div class="span6">
             <div class="control-group">
-                <div class="control-label" align="left">
-                    @Html.Label("Requisition No")
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Requisition No"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.TransportOrderDetails.First().ReliefRequisition.RequisitionNo, new { Disabled = true })
@@ -48,7 +49,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.PerformanceBondReceiptNo)
+                    @Html.Label(Translator.Translate("Performance Bond"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.PerformanceBondReceiptNo, new { Disabled = true })
@@ -60,7 +61,7 @@
     <div class="row">
         <div class="span6">
             <div class="control-group">
-                <div class="control-label" align="left">
+                <div class="control-label">
                     @Html.LabelFor(m=>m.RequestedDispatchDate)
                 </div>
                 <div class="controls">
@@ -72,7 +73,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.OrderExpiryDate)
+                    @Html.Label(Translator.Translate("Transport Order Expiry"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.OrderExpiryDate, new { Disabled = true })
@@ -91,11 +92,11 @@
             columns.Bound(p => p.Woreda);
             columns.Bound(p => p.Commodity);
             columns.Bound(p => p.FDP);
-            columns.Bound(p => p.OriginWarehouse);
+            columns.Bound(p => p.OriginWarehouse).ClientFooterTemplate(Translator.Translate("Total")); 
             columns.Bound(p => p.DistanceFromOrigin);
-            columns.Bound(p => p.QuantityQtl);
+            columns.Bound(p => p.QuantityQtl).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}");
             columns.Bound(p => p.TariffPerQtl);
-            columns.Bound(p => p.TotalAmount);
+            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}"); ;
 
         })
             .Pageable()
@@ -103,6 +104,8 @@
             .Filterable()
             .DataSource(dataSource => dataSource
                   .Ajax()
+                  .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
+                  .Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
                   .PageSize(8)
                     .Model(model => model.Id(p => p.TransportOrderID))
                     .Read(read => read.Action("Contract_Read", "TransportOrder", new { id = Model.TransportOrderID }))
@@ -110,4 +113,3 @@
              )
 
       )
-

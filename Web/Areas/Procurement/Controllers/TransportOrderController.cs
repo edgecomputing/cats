@@ -32,16 +32,19 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
+        private readonly ITransReqWithoutTransporterService _transReqWithoutTransporterService;
 
         public TransportOrderController(ITransportOrderService transportOrderService,
             ITransportRequisitionService transportRequisitionService,
-            IWorkflowStatusService workflowStatusService, ILog log, IUserAccountService userAccountService)
+            IWorkflowStatusService workflowStatusService, ILog log, IUserAccountService userAccountService,
+            ITransReqWithoutTransporterService transReqWithoutTransporterService)
         {
             this._transportOrderService = transportOrderService;
             this._transportRequisitionService = transportRequisitionService;
             this._workflowStatusService = workflowStatusService;
             _log = log;
             _userAccountService = userAccountService;
+            _transReqWithoutTransporterService = transReqWithoutTransporterService;
         }
 
 
@@ -249,6 +252,39 @@ namespace Cats.Areas.Procurement.Controllers
                 return Json(detailToDisplay.ToDataSourceResult(request));
             }
             return RedirectToAction("Index");
+        }
+        public ActionResult TransReqWithoutTransporter_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var transReqWithoutTransport = _transReqWithoutTransporterService.GetAllTransReqWithoutTransporter();
+            if(transReqWithoutTransport!=null)
+            {
+                var withoutTransporterToDisplay = GetTransReqWithoutTransporter(transReqWithoutTransport).ToList();
+                return Json(withoutTransporterToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
+        private IEnumerable<TransportRequisitionWithoutWinnerModel> GetTransReqWithoutTransporter(IEnumerable<TransReqWithoutTransporter> transReqWithoutTransporter)
+        {
+            return (from detail in transReqWithoutTransporter
+                    select new TransportRequisitionWithoutWinnerModel()
+                        {
+                          TransportRequisitionID = detail.TransportRequisitionID,
+                          Woreda = detail.TransportRequisition.TransportRequisitionDetails.First()
+                                          .ReliefRequisition.ReliefRequisitionDetails.First().FDP.AdminUnit.Name,
+                          FDP = detail.TransportRequisition.TransportRequisitionDetails.First()
+                                          .ReliefRequisition.ReliefRequisitionDetails.First().FDP.Name,
+                          QuantityQtl = detail.TransportRequisition.TransportRequisitionDetails.First()
+                                           .ReliefRequisition.ReliefRequisitionDetails.First().Amount,
+                          Commodity = detail.TransportRequisition.TransportRequisitionDetails.First()
+                                           .ReliefRequisition.ReliefRequisitionDetails.First().Commodity.Name,
+
+                         //OriginWarehouse = detail.TransportRequisition.TransportRequisitionDetails.First().
+                         //                     ReliefRequisition.ReliefRequisitionDetails.First().
+                        });
+
+
+
+
         }
        private IEnumerable<TransportOrderDetailViewModel> GetTransportContract(TransportOrder transportOrder)
        {
