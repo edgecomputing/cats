@@ -189,10 +189,10 @@ namespace Cats.Services.Logistics
                 requisitionToDispatch.OrignWarehouse = hubAllocation.Hub.Name;
                 requisitionToDispatch.CommodityID = requisition.CommodityID.Value;
                 requisitionToDispatch.CommodityName = requisition.Commodity.Name;
-                requisitionToDispatch.Zone = requisition.AdminUnit.Name;
+                requisitionToDispatch.Zone = requisition.AdminUnit1.Name;
                 requisitionToDispatch.RegionID = requisition.RegionID.Value;
 
-                requisitionToDispatch.RegionName = requisition.AdminUnit1.Name;
+                requisitionToDispatch.RegionName = requisition.AdminUnit.Name;
                 requisitionToDispatch.RequisitionStatusName = status.Description;
                 result.Add(requisitionToDispatch);
             }
