@@ -159,9 +159,21 @@ namespace Cats.Services.Procurement
                 transportOrder.OrderDate = DateTime.Today;
                 transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
                 transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
-                transportOrder.BidDocumentNo = "BID-DOC-No";
+                var currentBid=_unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
+                if (currentBid!=null)
+                {
+                    var bidID =int.Parse(currentBid[0].SettingValue) ;
+                    transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidID).BidNumber;
+                }
+                else
+                {
+                    transportOrder.BidDocumentNo = "Bid-Number";
+                    //_unitOfWork.BidWinnerRepository.FindById(transporter).Bid.BidNumber;
+                }
                 transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
+                //var transporterName = _unitOfWork.TransporterRepository.FindById(transporter).Name;
                 transportOrder.ContractNumber = Guid.NewGuid().ToString();
+                    //string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.day, DateTime.Today.Year, transporterName.Substring(0, 1));
                 transportOrder.TransporterSignedDate = DateTime.Today;
                 transportOrder.RequestedDispatchDate = DateTime.Today;
                 transportOrder.ConsignerDate = DateTime.Today;
@@ -213,11 +225,12 @@ namespace Cats.Services.Procurement
             }
             _unitOfWork.Save();
             //TODO:Identity if Transport order number to be auto generated , and where to get contract number.
-
+            
             foreach (var transportOrder in transportOrders)
-            { 
+            {
+                var transporterName = _unitOfWork.TransporterRepository.FindById(transportOrder.TransporterID).Name;
                 transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrder.TransportOrderID);
-                transportOrder.ContractNumber = string.Format("CON-NUM-{0}", transportOrder.TransportOrderID);
+                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day, DateTime.Today.Year, transporterName.Substring(0, 2));
             }
             
             _unitOfWork.Save();
@@ -238,6 +251,7 @@ namespace Cats.Services.Procurement
                 //var requi =
                 //    _unitOfWork.ReliefRequisitionRepository.Get(
                 //        t => t.RequisitionID == reliefRequisitionDetail.RequisitionID, null, "HubAllocations").FirstOrDefault();
+                transportRequisition.TransportRequisitionDetailID = reliefRequisitionDetail.ReliefRequisition.TransportRequisitionDetails.First().TransportRequisitionDetailID;
                 transportRequisition.RequisitionID = reliefRequisitionDetail.RequisitionID;
                 transportRequisition.HubID = _unitOfWork.HubAllocationRepository.FindBy(t=>t.RequisitionID==reliefRequisitionDetail.RequisitionID).FirstOrDefault().HubID;//requi.HubAllocations.FirstOrDefault().HubID;
                 transportRequisition.WoredaID = reliefRequisitionDetail.FDP.AdminUnitID;
@@ -246,19 +260,23 @@ namespace Cats.Services.Procurement
                    //_unitOfWork.BidWinnerRepository.Get(
                    //    t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
                 if (transportBidWinner == null)
-                {
+                {  
                     var transReqWithoutTransporter = new TransReqWithoutTransporter();
-                    transReqWithoutTransporter.TransportRequisitionID = transportRequisition.RequisitionID;
+                    transReqWithoutTransporter.TransportRequisitionDetailID = transportRequisition.TransportRequisitionDetailID;
+                    transReqWithoutTransporter.RequisitionDetailID = reliefRequisitionDetail.RequisitionDetailID;
                     transReqWithoutTransporter.IsAssigned = false;
                     _unitOfWork.TransReqWithoutTransporterRepository.Add(transReqWithoutTransporter);
                     _unitOfWork.Save();
                     //throw new Exception(string.Format("Transporter Couldn't be found for from {0} to {1}", transportRequisition.HubID, transportRequisition.WoredaID));
-                    //transportRequisition.TransporterID = 0;
                 }
-                transportRequisition.TransporterID = transportBidWinner.TransporterID;
-                transportRequisition.TariffPerQtl = transportBidWinner.Tariff; 
+                else
+                {
+                    transportRequisition.TransporterID = transportBidWinner.TransporterID;
+                    transportRequisition.TariffPerQtl = transportBidWinner.Tariff;
 
-                transportSourceDestination.Add(transportRequisition);
+                    transportSourceDestination.Add(transportRequisition);
+                }
+               
             }
             return transportSourceDestination;
         }
@@ -267,14 +285,35 @@ namespace Cats.Services.Procurement
         {
             return _unitOfWork.VwTransportOrderRepository.Get(t => t.TransportOrderID == id).ToList();
         }
+        public List<Transporter> GetTransporter()
+        {
+            return _unitOfWork.TransporterRepository.GetAll();
+        }
+        public bool ReAssignTransporter(IEnumerable<TransReqWithoutTransporter> transReqWithoutTransporter, int transporterID)
+        {
+            foreach (var detail in transReqWithoutTransporter)
+            {
+                var transportOrder = new TransportOrder();
+                transportOrder.TransporterID = transporterID;
+                transportOrder.StatusID = (int)TransportOrderStatus.Draft;
+                //foreach (var reqWithoutTransporter in detail.TransportRequisitionDetail)
+                //{
+
+                //}
+            }
+            return true;
+        }
         private class TransporterRequisition
         {
+            
             public int HubID { get; set; }
             public int WoredaID { get; set; }
             public int RequisitionID { get; set; }
             public int TransporterID { get; set; }
             public decimal TariffPerQtl { get; set; }
+            public int TransportRequisitionDetailID { get; set; }
         }
+
     }
 }
 

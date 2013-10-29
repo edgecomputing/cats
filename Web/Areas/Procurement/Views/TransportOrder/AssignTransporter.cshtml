@@ -1,0 +1,34 @@
+﻿@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "AssignTransporter";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Assign_transporter"></a>
+}
+ @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_Assign_transporter" }))
+
+    {
+
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Transporter"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("smaple",String.Empty)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Trarif"))
+                </div>
+                <div class="controls">
+                    @Html.TextBox("");
+                </div>
+        
+            </div>
+        </div>
+    }

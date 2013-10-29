@@ -128,7 +128,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-            var transportOrders = id == 0 ? _transportOrderService.Get(t => t.StatusID == (int)TransportOrderStatus.Draft).ToList() : _transportOrderService.Get(t => t.StatusID == id).ToList();
+            var transportOrders = id == 0 ? _transportOrderService.Get(t => t.StatusID == (int)TransportOrderStatus.Draft).OrderByDescending(m=>m.TransportOrderID).ToList() : _transportOrderService.Get(t => t.StatusID == id).ToList();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
@@ -245,7 +245,7 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult Contract_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
-            var transportOrder =_transportOrderService.Get(m => m.TransportOrderID == id, null, "TransportOrderDetails").FirstOrDefault();
+            var transportOrder =_transportOrderService.Get(m => m.TransportOrderID == id, null, "TransportOrderDetails").OrderByDescending(m=>m.TransportOrderID).FirstOrDefault();
             if(transportOrder!=null)
             {
                 var detailToDisplay = GetTransportContract(transportOrder).ToList();
@@ -265,21 +265,19 @@ namespace Cats.Areas.Procurement.Controllers
         }
         private IEnumerable<TransportRequisitionWithoutWinnerModel> GetTransReqWithoutTransporter(IEnumerable<TransReqWithoutTransporter> transReqWithoutTransporter)
         {
+            
             return (from detail in transReqWithoutTransporter
+                    from requisitionDetail in detail.TransportRequisitionDetail.ReliefRequisition.ReliefRequisitionDetails.
+                                    Where(m => m.RequisitionDetailID == detail.RequisitionDetailID)
                     select new TransportRequisitionWithoutWinnerModel()
                         {
-                          TransportRequisitionID = detail.TransportRequisitionID,
-                          Woreda = detail.TransportRequisition.TransportRequisitionDetails.First()
-                                          .ReliefRequisition.ReliefRequisitionDetails.First().FDP.AdminUnit.Name,
-                          FDP = detail.TransportRequisition.TransportRequisitionDetails.First()
-                                          .ReliefRequisition.ReliefRequisitionDetails.First().FDP.Name,
-                          QuantityQtl = detail.TransportRequisition.TransportRequisitionDetails.First()
-                                           .ReliefRequisition.ReliefRequisitionDetails.First().Amount,
-                          Commodity = detail.TransportRequisition.TransportRequisitionDetails.First()
-                                           .ReliefRequisition.ReliefRequisitionDetails.First().Commodity.Name,
-
-                         //OriginWarehouse = detail.TransportRequisition.TransportRequisitionDetails.First().
-                         //                     ReliefRequisition.ReliefRequisitionDetails.First().
+                          TransportRequisitionID = detail.TransportRequisitionDetailID,
+                           RequisitionDetailID = detail.RequisitionDetailID,
+                          Woreda = requisitionDetail.FDP.AdminUnit.Name,
+                          FDP = requisitionDetail.FDP.Name,
+                          QuantityQtl = requisitionDetail.Amount,
+                          Commodity = requisitionDetail.Commodity.Name,
+                          beneficiaryNumber = detail.TransportRequisitionDetail.ReliefRequisition.ReliefRequisitionDetails.First().BenficiaryNo
                         });
 
 
@@ -303,10 +301,37 @@ namespace Cats.Areas.Procurement.Controllers
                            Woreda = detail.FDP.AdminUnit.Name,
                            FDP = detail.FDP.Name
                            
-                           
                        });
 
            // return transportContractDetail;
        }
+       public ActionResult AssignTransporter()
+       {
+           //var requisiitonWithoutTransporter = _transReqWithoutTransporterService.FindBy(m => m.IsAssigned == false);
+           //var transporters = _transportOrderService.GetTransporter();
+           //try
+           //{
+           //    _transportOrderService.AssignTransporter(requisiitonWithoutTransporter,transporters.First().TransporterID);
+           //    return RedirectToAction("Index");
+           //}
+           //catch (Exception ex)
+           //{
+
+           //    var log = new Logger();
+           //    log.LogAllErrorsMesseges(ex, _log);
+           //}
+           return View();
+       }
+     //[HttpPost]
+     //public ActionResult AssignTransporter(IList<SelectFromGrid> input,int transporterID)
+     //{
+     //    var transReqWithoutTransporter = (from item in input where (item.IsSelected != null ? ((string[])item.IsSelected)[0] : "off") == "on" 
+     //                                      select item.Number).ToList();
+     //    //try
+     //    //{
+     //    //    _transportOrderService.AssignTransporter(transReqWithoutTransporter, transporterID);
+     //    //}
+
+     //}
     }
 }

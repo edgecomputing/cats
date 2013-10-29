@@ -862,6 +862,7 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <Content Include="Content\Web.config" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

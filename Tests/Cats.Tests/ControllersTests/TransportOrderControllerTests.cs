@@ -101,8 +101,8 @@ namespace Cats.Tests.ControllersTests
 
             var TransReqWithoutTransporter = new List<TransReqWithoutTransporter>
                 {
-                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 1,TransportRequisitionID = 1,IsAssigned = false},
-                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 2,TransportRequisitionID = 2,IsAssigned = true}
+                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 1,TransportRequisitionDetailID = 1,IsAssigned = false},
+                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 2,TransportRequisitionDetailID = 2,IsAssigned = true}
                 };
 
             var transReqWithoutTransporterService = new Mock<ITransReqWithoutTransporterService>();

@@ -20,46 +20,48 @@
 
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
       {
-          columns.Bound(to => to.ContractNumber);
+          columns.Bound(to => to.ContractNumber).Width(150);
     //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.Transporter);
-    columns.Bound(to => to.BidDocumentNo).Title(Translator.Translate("Bid Document #"));
+    columns.Bound(to => to.BidDocumentNo).Width(100).Title(Translator.Translate("Bid Document #"));
     //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(to => to.OrderExpiryDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.RequestedDispatchDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.TransportOrderNo);
-    columns.Bound(to => to.PerformanceBondReceiptNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.OrderExpiryDateET).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.TransportOrderNo).Width(120);
+    columns.Bound(to => to.PerformanceBondReceiptNo).Width(150).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.Status);
-    columns.Command(p => p.Custom("Generate Contract").Click("onGenerate"));
+    columns.Command(p => p.Custom("View Contract").Click("onGenerate")).Width(150);
            
 })
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    //.Editable(editable => editable.Mode(GridEditMode.PopUp))
     .Pageable()
     .Sortable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:230px;" })
+    //.Scrollable()
+    //.HtmlAttributes(new { style = "height:230px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(20)
+        .PageSize(4)
         .Model(model =>model.Id(p => p.TransportOrderID))
         .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
     ).Pageable()
 )
-
-<h4>Transport Requisition Without Winner Transporter </h4>
+<h4 >Transport Requisition Without Winner Transporter </h4>
+<div class="controls" align="right">
+                    <input type="submit" value="Assign Transporter" onclick="onAssign(e)" class="btn btn-success"/>
+                </div>
 @(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportRequisitionWithoutWinnerModel>()
     .Name("grid")
     .Columns(columns =>
         {
-
+            columns.Bound(p => p.Select).
+                //ClientTemplate("<input type='checkbox'/>");
+            ClientTemplate("<input type='checkbox' #= Select ? checked='checked' : '' # ></input>");
             columns.Bound(p => p.Woreda);
             columns.Bound(p => p.Commodity);
             columns.Bound(p => p.FDP);
-            columns.Bound(p => p.OriginWarehouse).ClientFooterTemplate(Translator.Translate("Total")); 
-            columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}");
-            //columns.Bound(p => p.TariffPerQtl);
-           // columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}"); ;
-
+            columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new { align = "Right" });
+           // columns.Bound(p => p.Amount);
+            //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
         })
             .Pageable()
             .Sortable()
@@ -68,7 +70,8 @@
                   .Ajax()
                   .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
                   //.Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
-                  .PageSize(8)
+                  .PageSize(4)
+                  .Group(group=>group.Add(m=>m.Woreda))
                     //.Model(model => model.Id(p => p.TransportRequisitionID))
                     .Read(read => read.Action("TransReqWithoutTransporter_Read", "TransportOrder"))
 
@@ -83,5 +86,11 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("TransportContract", "TransportOrder")" + "/" + dataItem.TransportOrderID;
 
+    }
+    function onAssign(e) {
+        e.preventDefault();
+        
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("AssignTransporter", "TransportOrder")" + "/" + dataItem.TransportOrderID;
     }
 </script>

@@ -20,13 +20,18 @@ namespace Cats.Models.Mapping
 
            // Relationships
            this.Property(t => t.TransReqWithoutTransporterID).HasColumnName("TransReqWithoutTransporterID");
-           this.Property(t => t.TransportRequisitionID).HasColumnName("TransportRequisitionID");
+           this.Property(t => t.TransportRequisitionDetailID).HasColumnName("TransportRequisitionID");
+           this.Property(t => t.RequisitionDetailID).HasColumnName("RequisitionDetailID");
            this.Property(t => t.IsAssigned).HasColumnName("IsAssigned");
 
            // Relationships
-           this.HasRequired(t => t.TransportRequisition)
+           this.HasRequired(t => t.TransportRequisitionDetail)
                .WithMany(t => t.TransReqWithoutTransporters)
-               .HasForeignKey(d => d.TransportRequisitionID);
+               .HasForeignKey(d => d.TransportRequisitionDetailID);
+
+           this.HasRequired(t => t.ReliefRequisitionDetail)
+              .WithMany(t => t.TransReqWithoutTransporters)
+              .HasForeignKey(d => d.RequisitionDetailID);
 
           
        }

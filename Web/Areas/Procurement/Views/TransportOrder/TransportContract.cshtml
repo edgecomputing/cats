@@ -7,7 +7,7 @@
 }
 
 <h4>Transport Contract</h4>
-<div class="control-group form-horizontal">
+<div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">
             <div class="control-group">
@@ -16,7 +16,7 @@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Transporter.Name, new { Disabled = true })
-                    <a href="@Url.Action("TransportContract","TransportOrder")">Change Transporter</a>
+                    <a href="@Url.Action("TransportContract","TransportOrder")">Change</a>
                 </div>
             </div>
         </div>
@@ -94,9 +94,9 @@
             columns.Bound(p => p.FDP);
             columns.Bound(p => p.OriginWarehouse).ClientFooterTemplate(Translator.Translate("Total")); 
             columns.Bound(p => p.DistanceFromOrigin);
-            columns.Bound(p => p.QuantityQtl).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}");
-            columns.Bound(p => p.TariffPerQtl);
-            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}"); ;
+            columns.Bound(p => p.QuantityQtl).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"});
+            columns.Bound(p => p.TariffPerQtl).HtmlAttributes(new {align="Right"});
+            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"}); 
 
         })
             .Pageable()
