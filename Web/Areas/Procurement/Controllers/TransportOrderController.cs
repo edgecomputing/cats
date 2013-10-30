@@ -123,7 +123,11 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.TransportOrderTitle = id == 0
                                               ? "Draft"
                                               : _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_ORDER, id);
-            return View();
+            var allTransporters = _transportOrderService.GetTransporter();
+            ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
+            var viewModel = GetRequisitionsWithoutTransporter();
+            viewModel.Transporters = allTransporters;
+            return View(viewModel);
         }
 
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
@@ -134,6 +138,18 @@ namespace Cats.Areas.Procurement.Controllers
             var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
                 transportOrders, datePref, statuses);
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public TransportRequisitionWithTransporter GetRequisitionsWithoutTransporter()
+        {
+            var req = new TransportRequisitionWithTransporter();
+            //req.Transporters = _transportOrderService.GetTransporter();
+            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m=>m.IsAssigned==false);
+            if (transReqWithoutTransport != null)
+            {
+                req.TransReqwithOutTransporters = GetTransReqWithoutTransporter(transReqWithoutTransport).ToList();
+            }
+            return req;
         }
 
         [HttpGet]
@@ -237,10 +253,6 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult TransportContract(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
-            //if(transportOrder!=null)
-            //{
-                
-            //}
             return View(transportOrder);
         }
         public ActionResult Contract_Read([DataSourceRequest] DataSourceRequest request,int id=0)
@@ -272,11 +284,15 @@ namespace Cats.Areas.Procurement.Controllers
                     select new TransportRequisitionWithoutWinnerModel()
                         {
                           TransportRequisitionID = detail.TransportRequisitionDetailID,
+                          TransReqWithoutTransporterID = detail.TransReqWithoutTransporterID,
                            RequisitionDetailID = detail.RequisitionDetailID,
                           Woreda = requisitionDetail.FDP.AdminUnit.Name,
                           FDP = requisitionDetail.FDP.Name,
                           QuantityQtl = requisitionDetail.Amount,
                           Commodity = requisitionDetail.Commodity.Name,
+                          CommodityID = requisitionDetail.CommodityID,
+                          FdpID = requisitionDetail.FDPID,
+                          RequisitionID = detail.ReliefRequisitionDetail.RequisitionID,
                           beneficiaryNumber = detail.TransportRequisitionDetail.ReliefRequisition.ReliefRequisitionDetails.First().BenficiaryNo
                         });
 
@@ -305,33 +321,29 @@ namespace Cats.Areas.Procurement.Controllers
 
            // return transportContractDetail;
        }
-       public ActionResult AssignTransporter()
+       public ActionResult Transporter_Read()
        {
-           //var requisiitonWithoutTransporter = _transReqWithoutTransporterService.FindBy(m => m.IsAssigned == false);
-           //var transporters = _transportOrderService.GetTransporter();
-           //try
-           //{
-           //    _transportOrderService.AssignTransporter(requisiitonWithoutTransporter,transporters.First().TransporterID);
-           //    return RedirectToAction("Index");
-           //}
-           //catch (Exception ex)
-           //{
-
-           //    var log = new Logger();
-           //    log.LogAllErrorsMesseges(ex, _log);
-           //}
-           return View();
+           ViewBag.Transporters = _transportOrderService.GetTransporter();
+           return Json((List<TransporterViewModel>)ViewBag.Transporters, JsonRequestBehavior.AllowGet);
        }
-     //[HttpPost]
-     //public ActionResult AssignTransporter(IList<SelectFromGrid> input,int transporterID)
-     //{
-     //    var transReqWithoutTransporter = (from item in input where (item.IsSelected != null ? ((string[])item.IsSelected)[0] : "off") == "on" 
-     //                                      select item.Number).ToList();
-     //    //try
-     //    //{
-     //    //    _transportOrderService.AssignTransporter(transReqWithoutTransporter, transporterID);
-     //    //}
+       [HttpPost]
+       public ActionResult AssignTransporter(TransportRequisitionWithTransporter requisitionWithTransporter)
+       {
 
-     //}
+           var selectedTransRequision =requisitionWithTransporter.TransReqwithOutTransporters.Where(m => m.Selected == true);
+           var selectedTransporter = requisitionWithTransporter.SelectedTransporter;
+           try
+           {
+               _transportOrderService.ReAssignTransporter(selectedTransRequision);
+               return RedirectToAction("Index");
+           }
+           catch (Exception ex)
+           {
+               
+               ModelState.AddModelError("Errors",ex);
+           }
+           
+           return RedirectToAction("Index");
+       }
     }
 }

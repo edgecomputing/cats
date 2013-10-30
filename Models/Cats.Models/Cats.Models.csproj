@@ -260,6 +260,7 @@
     <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
     <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
     <Compile Include="ViewModels\LookupViewModel.cs" />
+    <Compile Include="ViewModels\TransportRequisitionWithoutWinnerModel.cs" />
     <Compile Include="ViewModels\PSNP\RegionalPSNPPlanDetailViewModel.cs" />
     <Compile Include="ViewModels\PSNP\RegionalPSNPPlanViewModel.cs" />
     <Compile Include="ViewModels\RegionalSummaryViewModel.cs" />

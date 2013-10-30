@@ -1,34 +1,102 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model Cats.Models.ViewModels.TransportRequisitionWithTransporter
 @{
     ViewBag.Title = "AssignTransporter";
-    //Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-@section Toolbar
-{
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Assign_transporter"></a>
-}
- @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_Assign_transporter" }))
+<div style="display: none;">
+ @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_assign_transporter" }))
+ {
+     for (int i = 0; i < Model.TransReqwithOutTransporters.Count; i++)
+     {
 
-    {
+         @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].TransReqWithoutTransporterID)
+         @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].Selected)
+         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].Woreda)
+         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].CommodityID)
+          @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].FdpID)
+          @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].QuantityQtl)
+          @Html.HiddenFor(model =>model.TransReqwithOutTransporters[i].RequisitionID)
+            @Html.HiddenFor(model => model.SelectedTransporter)
+         <br />
+     }
 
-        <div class="well form-horizontal">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Transporter"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("smaple",String.Empty)
-                </div>
-        
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Trarif"))
-                </div>
-                <div class="controls">
-                    @Html.TextBox("");
-                </div>
-        
-            </div>
-        </div>
+ }  
+</div>  
+<div id="div_select" >
+@Html.Kendo().ComboBox().Name("cmbTransportersList").Placeholder("Select Transporter").DataTextField("Name").DataSource(source =>
+          {
+                source.Read(read =>
+                {
+                    read.Action("Transporter_Read", "TransportOrder");
+                 })
+           .ServerFiltering(true);
+              
+          })
+          
+<a class="btn toolbar-btn " data-buttontype=" " data-submittedform="frm_assign_transporter">Assign Transporter</a>
+         @*<input type="submit" value="Assign Transporter" formtarget="frm_assign_transporter"  class="btn btn-success"/>*@
+         @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
+               .Name("grid")
+               .Columns(columns =>
+                   {
+                       //columns.Bound(p => p.Select).
+                       //    //ClientTemplate("<input type='checkbox'/>");
+                       //    ClientTemplate("<input type='checkbox' #= Select ? checked='checked' : '' # ></input>");
+                       columns.Bound(p => p.TransReqWithoutTransporterID);
+                       columns.Bound(p => p.Woreda);
+                       columns.Bound(p => p.Commodity);
+                       columns.Bound(p => p.FDP);
+                       columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new {align = "Right"});
+                       // columns.Bound(p => p.Amount);
+                       //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
+                   })
+               .Scrollable()
+               .DataSource(datasource => datasource.Server()
+           
+               .Model(model => model.Id(p => p.TransReqWithoutTransporterID))
+      
+               //.Server()
+               //.Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
+               ////.Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
+               //.PageSize(4)
+               //.Group(group=>group.Add(m=>m.Woreda))
+               //.Model(model => model.Id(p => p.TransportRequisitionID))
+               //.Read(read => read.Action("TransReqWithoutTransporter_Read", "TransportOrder"))
+
+               ))
+    </div>
+     
+     <script>
+    $(function() {
+        $("#div_select tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
+        $("#div_select thead tr").prepend("<th class='k-header'></th>");
+        $("#div_select tfoot tr").prepend("<td class='k-header'></td>");
+        $("#div_select tbody .checker").click(
+            function (event) {
+                $(this).parent().toggleClass("k-state-selected");
+                update_selection_data();
+            });
     }
+    );
+
+    function update_selection_data() {
+        var i = 0;
+        $("#div_select tbody tr").each(function () {
+            var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
+            if ($(this).hasClass("k-state-selected")) {
+                inp.val(true);
+                //alert("Selected");
+            } else {
+                inp.val(false);
+            }
+            i++;
+        });
+    }
+</script>
+<style>
+    .table-compact {
+    }
+</style>
+

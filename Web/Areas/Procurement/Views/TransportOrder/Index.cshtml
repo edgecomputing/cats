@@ -2,6 +2,7 @@
 @using Cats.Areas.Procurement.Models
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@model Cats.Models.ViewModels.TransportRequisitionWithTransporter
 
 
 @{
@@ -44,40 +45,47 @@
         .Model(model =>model.Id(p => p.TransportOrderID))
         .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
     ).Pageable()
-)
-<h4 >Transport Requisition Without Winner Transporter </h4>
-<div class="controls" align="right">
-                    <input type="submit" value="Assign Transporter" onclick="onAssign(e)" class="btn btn-success"/>
-                </div>
-@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportRequisitionWithoutWinnerModel>()
-    .Name("grid")
-    .Columns(columns =>
-        {
-            columns.Bound(p => p.Select).
-                //ClientTemplate("<input type='checkbox'/>");
-            ClientTemplate("<input type='checkbox' #= Select ? checked='checked' : '' # ></input>");
-            columns.Bound(p => p.Woreda);
-            columns.Bound(p => p.Commodity);
-            columns.Bound(p => p.FDP);
-            columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new { align = "Right" });
-           // columns.Bound(p => p.Amount);
-            //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
-        })
-            .Pageable()
-            .Sortable()
-            .Filterable()
-            .DataSource(dataSource => dataSource
-                  .Ajax()
-                  .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
-                  //.Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
-                  .PageSize(4)
-                  .Group(group=>group.Add(m=>m.Woreda))
-                    //.Model(model => model.Id(p => p.TransportRequisitionID))
-                    .Read(read => read.Action("TransReqWithoutTransporter_Read", "TransportOrder"))
-
-             )
-
       )
+<div>
+    <hr/>
+</div>
+@Html.Partial("AssignTransporter",Model)
+@*<h4 >Transport Requisition Without Winner Transporter </h4>
+<div class="controls" align="center">
+    @Html.DropDownList("TransporterID",String.Empty)
+</div>
+<div class="controls" align="right">
+    <input type="submit" value="Assign Transporter" onclick="onAssign(e)" class="btn btn-success"/>
+</div>
+
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportRequisitionWithoutWinnerModel>()
+      .Name("grid")
+      .Columns(columns =>
+          {
+              columns.Bound(p => p.Select).
+                  //ClientTemplate("<input type='checkbox'/>");
+                  ClientTemplate("<input type='checkbox' #= Select ? checked='checked' : '' # ></input>");
+              columns.Bound(p => p.Woreda);
+              columns.Bound(p => p.Commodity);
+              columns.Bound(p => p.FDP);
+              columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new { align = "Right" });
+              // columns.Bound(p => p.Amount);
+              //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
+          })
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .Selectable(m=>m.Mode(GridSelectionMode.Multiple	))
+      .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
+                                    //.Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
+                                    .PageSize(4)
+                                    .Group(group=>group.Add(m=>m.Woreda))
+                                    //.Model(model => model.Id(p => p.TransportRequisitionID))
+                                    .Read(read => read.Action("TransReqWithoutTransporter_Read", "TransportOrder"))
+
+      ))*@
 
 <script>
     function onGenerate(e) {
@@ -86,11 +94,5 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("TransportContract", "TransportOrder")" + "/" + dataItem.TransportOrderID;
 
-    }
-    function onAssign(e) {
-        e.preventDefault();
-        
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("AssignTransporter", "TransportOrder")" + "/" + dataItem.TransportOrderID;
     }
 </script>

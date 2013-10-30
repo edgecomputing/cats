@@ -250,7 +250,6 @@
     <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidPlanViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransporterPOCO.cs" />
-    <Compile Include="Areas\Procurement\Models\TransportRequisitionWithoutWinnerModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
