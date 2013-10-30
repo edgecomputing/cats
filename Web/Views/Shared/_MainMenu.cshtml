@@ -37,6 +37,9 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Early Warning <b class="caret"></b></a>
                             <ul class="dropdown-menu">
+
+                        
+
                                 
                                     @{
                                         
@@ -98,6 +101,7 @@
                                     <li class="divider"></li>                                      
                                     <li><a href="#">@Translator.Translate("Reports") </a></li>
                                         }
+
                             </ul>
                         </li>
 
@@ -150,30 +154,38 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Logistics") <b class="caret"></b></a>
+
+
+                           
                              <ul class="dropdown-menu">
-                                @{
-                                    if (_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Add_new_commodity_allocation, db_user))
+
+                               @* @{
+                                    if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
+
                                     {                               
-                                        <li><a href="@Url.Action("ApprovedRequisitions", "HubAllocation", new { Area = "Logistics" })">@Html.Translate("Resource Allocation") </a></li>
-                                    }
+                                        *@<li><a href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })">@Html.Translate("Resource Allocation") </a></li>
+                                   @* }
                                     else
                                     {
                                        <li class="disabled"><a href="#">@Html.Translate("Resource Allocation")</a></li>
                                     } 
                                     
-                                    if (_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Add_new_commodity_allocation, db_user))
-                                    {                               
+
+                                    if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
+                                    { *@                              
+
                                         <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">@Html.Translate("Transport Requisition") </a></li>
-                                    }
+                                   @* }
                                     else
                                     {
                                        <li class="disabled"><a href="#">@Html.Translate("Transport Requisition")</a></li>
-                                    }                            
+                                    }  *@                          
                                 
                                 
+
                                 <li class="divider" />
                                 <li><a href="#">@Html.Translate("Stock")</a></li>
-                                }
+                                @*}*@
                             </ul>
                                 
                         </li>
@@ -192,9 +204,15 @@
                                 <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">@Html.Translate("Dispatch Locations")</a></li>
                             </ul>
                         </li>
+
+
+                        <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">@Html.Translate("Settings")</a></li>
+                    <li><a href="@Url.Action("RedirectToHub", "Account")">@Translator.Translate("Hub")</a> </li>
+
                         <li><a href="@Url.Action("Redirect2Hub", "Home")">@Html.Translate("Hub")</a></li>
                         <li><a href="@Url.Action("Redirect2Admin", "AdminDashboard", new { Area = "Settings" })">@Html.Translate("Settings")</a></li>
                     
+
                 </ul>
                 <ul class="nav pull-right">
                     <li class="divider-vertical"></li>
@@ -210,6 +228,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.GetUserName() <b class="caret"></b></a>
                         <ul class="dropdown-menu">                            
                             <li><a href="@Url.Action("Preference", "Home",new{Area=""})">@Html.Translate("Preference")</a></li>
+                             <li><a href="@Url.Action("Administration", "Account")">@Html.Translate("Administration")</a></li>
                             <li class="divider"></li>
                             <li><a href="@Url.Action("ChangePassword","Users",new {Area="Settings"})">@Html.Translate("Change Password")</a></li>
                             <li><a href="@Url.RouteUrl("Logout")">@Html.Translate("Logout")</a></li>

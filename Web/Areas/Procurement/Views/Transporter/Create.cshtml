@@ -5,200 +5,292 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Transporter</legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Region)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Region)
-            @Html.ValidationMessageFor(model => model.Region)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Zone)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Zone)
-            @Html.ValidationMessageFor(model => model.Zone)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Woreda)
-        </div>
-       
-         <div class="editor-field">
-            @Html.EditorFor(model => model.Woreda)
-            @Html.ValidationMessageFor(model => model.Woreda)
-        </div>
-        
-         <div class="editor-label">
-            @Html.LabelFor(model => model.SubCity)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SubCity)
-            @Html.ValidationMessageFor(model => model.SubCity)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Kebele)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Kebele)
-            @Html.ValidationMessageFor(model => model.Kebele)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.HouseNo)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.HouseNo)
-            @Html.ValidationMessageFor(model => model.HouseNo)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TelephoneNo)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TelephoneNo)
-            @Html.ValidationMessageFor(model => model.TelephoneNo)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.MobileNo)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.MobileNo)
-            @Html.ValidationMessageFor(model => model.MobileNo)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Ownership)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Ownership)
-            @Html.ValidationMessageFor(model => model.Ownership)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.VehicleCount)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.VehicleCount)
-            @Html.ValidationMessageFor(model => model.VehicleCount)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.LiftCapacityFrom)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.LiftCapacityFrom)
-            @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.LiftCapacityTo)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.LiftCapacityTo)
-            @Html.ValidationMessageFor(model => model.LiftCapacityTo)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.LiftCapacityTotal)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.LiftCapacityTotal)
-            @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Capital)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Capital)
-            @Html.ValidationMessageFor(model => model.Capital)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.EmployeeCountMale)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.EmployeeCountMale)
-            @Html.ValidationMessageFor(model => model.EmployeeCountMale)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.EmployeeCountFemale)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.EmployeeCountFemale)
-            @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.OwnerName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.OwnerName)
-            @Html.ValidationMessageFor(model => model.OwnerName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.OwnerMobile)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.OwnerMobile)
-            @Html.ValidationMessageFor(model => model.OwnerMobile)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ManagerName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ManagerName)
-            @Html.ValidationMessageFor(model => model.ManagerName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ManagerMobile)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ManagerMobile)
-            @Html.ValidationMessageFor(model => model.ManagerMobile)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ExperienceFrom)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ExperienceFrom)
-            @Html.ValidationMessageFor(model => model.ExperienceFrom)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ExperienceTo)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ExperienceTo)
-            @Html.ValidationMessageFor(model => model.ExperienceTo)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_transporter"></a>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="form-horizontal">
+    @using (Html.BeginForm("Create", "Transporter", FormMethod.Post, new { id = "frm_create_transporter" }))
+    {
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Create Transporter</legend>
+            
+            <div class="control-group">
+                <label class="control-label" for="Name">Transporter ID</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransporterID, new { @class = "input-xlarge", @placeholder = "Transporter ID" })
+                    @Html.ValidationMessageFor(model => model.TransporterID)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="Name">Name</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", @placeholder = "Name" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+
+            <!-- Input Region-->
+            <div class="control-group">
+                <label class="control-label" for="Region">Region</label>
+                <div class="controls" id="div_region">
+                    @Html.DropDownList("Region", ViewBag.Regions as SelectList, new { @id = "RegionID" })
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
+            </div>
+
+            <!-- Input Zone-->
+            <div class="control-group">
+                <label class="control-label" for="Zone">Zone</label>
+                <div class="controls" id="div_zone">
+                    @Html.DropDownList("Zone", ViewBag.zones as SelectList, new { @id = "ZoneID" })
+                    @Html.ValidationMessageFor(model => model.Zone)
+                </div>
+            </div>
+
+            <!-- Input Woreda-->
+            <div class="control-group">
+                <label class="control-label" for="Woreda">Woreda</label>
+                <div class="controls" id="div_woreda">
+                    @Html.DropDownList("Woreda", ViewBag.woredas as SelectList, new { @id = "WoredaID" })
+                    @Html.ValidationMessageFor(model => model.Woreda)
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="SubCity">SubCity</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.SubCity)
+                    @Html.ValidationMessageFor(model => model.SubCity)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="Kebele">Kebele</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Kebele)
+                    @Html.ValidationMessageFor(model => model.Kebele)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="HouseNo">House No.</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.HouseNo)
+                    @Html.ValidationMessageFor(model => model.HouseNo)
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="TelephoneNo">Telephone No.</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.TelephoneNo)
+                    @Html.ValidationMessageFor(model => model.TelephoneNo)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="MobileNo">Mobile No.</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.MobileNo)
+                    @Html.ValidationMessageFor(model => model.MobileNo)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="Ownership">Ownership</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Ownership)
+                @Html.ValidationMessageFor(model => model.Ownership)
+            </div>
+                </div>
+
+           
+            <div class="control-group">
+                <label class="control-label" for="VehicleCount">Vehicle Count</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.VehicleCount)
+                    @Html.ValidationMessageFor(model => model.VehicleCount)
+                </div>
+            </div>
+            
+
+           <div class="control-group">
+                <label class="control-label" for="LiftCapacityFrom">Lift Capacity From</label>
+           <div class="controls">
+               @Html.EditorFor(model => model.LiftCapacityFrom)
+               @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
+           </div>
+               </div>
+
+            <div class="control-group">
+                <label class="control-label" for="LiftCapacityTo">Lift Capacity To</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.LiftCapacityTo)
+                @Html.ValidationMessageFor(model => model.LiftCapacityTo)
+            </div>
+                </div>
+
+            
+            <div class="control-group">
+                <label class="control-label" for="LiftCapacityTotal">Lift Capacity Total</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.LiftCapacityTotal)
+                    @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="Capital">Capital</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Capital)
+                @Html.ValidationMessageFor(model => model.Capital)
+            </div>
+                </div>
+
+           <div class="control-group">
+                <label class="control-label" for="EmployeeCountMale">Employee Count Male</label>
+           <div class="controls">
+               @Html.EditorFor(model => model.EmployeeCountMale)
+               @Html.ValidationMessageFor(model => model.EmployeeCountMale)
+           </div>
+               </div>
+
+            <div class="control-group">
+                <label class="control-label" for="EmployeeCountFemale">Employee Count Female</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.EmployeeCountFemale)
+                    @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
+                </div>
+            </div>
+
+          <div class="control-group">
+                <label class="control-label" for="OwnerName">Owner Name</label>
+          <div class="controls">
+              @Html.EditorFor(model => model.OwnerName)
+              @Html.ValidationMessageFor(model => model.OwnerName)
+          </div>
+              </div>
+            
+           <div class="control-group">
+                <label class="control-label" for="OwnerMobile">Owner Mobile</label>
+           <div class="controls">
+               @Html.EditorFor(model => model.OwnerMobile)
+               @Html.ValidationMessageFor(model => model.OwnerMobile)
+           </div>
+               </div>
+
+             <div class="control-group">
+                <label class="control-label" for="ManagerName">Manager Name</label>
+             <div class="controls">
+                 @Html.EditorFor(model => model.ManagerName)
+                 @Html.ValidationMessageFor(model => model.ManagerName)
+             </div>
+                 </div>
+
+            <div class="control-group">
+                <label class="control-label" for="ManagerMobile">Manager Mobile</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.ManagerMobile)
+                    @Html.ValidationMessageFor(model => model.ManagerMobile)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="ExperienceFrom">Experience From</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.ExperienceFrom)
+                    @Html.ValidationMessageFor(model => model.ExperienceFrom)
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="ExperienceTo">Experience To</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.ExperienceTo)
+                @Html.ValidationMessageFor(model => model.ExperienceTo)
+            </div>
+                </div>
+          </fieldset>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>
 
+
+<script>
+
+    var admin_region_hash = {};
+    var admin_zone_hash = {};
+    
+    $(function() {
+        $.getJSON("/Procurement/Transporter/GetAdminUnits", {}, function(data) {
+            
+            document.getElementById("ZoneID").disabled = true;
+            document.getElementById("WoredaID").disabled = true;
+
+            var msg = "";
+            for (var i in data) {
+                msg += "\n" + data[i].RegionName;
+                var key = data[i].RegionID;
+                admin_region_hash[key] = data[i];
+
+                var count = data[i].Zones.length;
+                
+                for (var j=0; j<count;j++){
+                    var keyz = data[i].Zones[j].ZoneID;
+                    admin_zone_hash[keyz] = data[i].Zones[j].Woredas;
+                }
+            }
+        });
+
+        $("#RegionID").change(function() {
+            var regionId = $("#RegionID").val();
+            var region = admin_region_hash[regionId];
+            var zones = region.Zones;
+            document.getElementById("ZoneID").disabled = false;
+           
+            //var msg = "";
+            var htm = "<select name='Zone' id ='ZoneID' > ";
+            for (var z in zones) {
+                //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
+                htm += "<option value='" + zones[z].ZoneID + "'>" + zones[z].ZoneName + "</option>";
+                //msg += "\n" + zones[z].ZoneName;
+            }
+
+            htm += "</select>";
+            $("#div_zone").html(htm);
+            
+            $("#ZoneID").change(function () {
+                popoulateWoredas();
+            });
+        });
+
+        function popoulateWoredas() {
+            document.getElementById("WoredaID").disabled = false;
+            var zoneId = $("#ZoneID").val();
+            //alert(zoneId);
+            var woredas = admin_zone_hash[zoneId];
+            var s = "<select id ='WoredaID' name='Woreda' >";
+            for (w in woredas) {
+                s += "<option value='" + woredas[w].WoredaID + "'>" + woredas[w].WoredaName + "</option>";
+            }
+            s += "</select>";
+            $("#div_woreda").html(s);
+        }
+        
+        $("#ZoneID").change(function () {
+            popoulateWoredas();
+        });
+      });
+</script>
 

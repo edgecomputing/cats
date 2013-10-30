@@ -106,6 +106,10 @@ namespace Cats.Services.Security
             {
                 return "Add new request";
             }
+            if ((operation == Operation.Allocate_resource))
+            {
+                return "Allocate resource";
+            }
             if ((operation == Operation.Create_new_needs_assessment))
             {
                 return "Create new needs assessment";
@@ -483,6 +487,10 @@ namespace Cats.Services.Security
             /// Operation Add new request
             /// </summary>
             Add_new_request,
+            /// <summary>
+            /// Operation resource allocation
+            /// </summary>
+            Allocate_resource,
             /// <summary>
             /// Operation Create new needs assessment
             /// </summary>

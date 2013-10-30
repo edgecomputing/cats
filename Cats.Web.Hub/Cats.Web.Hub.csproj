@@ -53,7 +53,10 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+
+      <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+
     </Reference>
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -356,6 +359,7 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\TransporterController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\UserAccountHelper.cs" />
     <Compile Include="Controllers\UserWarehouseController.cs" />
     <Compile Include="Controllers\Utilities\TranslationController.cs" />
     <Compile Include="Global.asax.cs">

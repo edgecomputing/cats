@@ -148,6 +148,7 @@ namespace Cats.Controllers
             return Json(request, JsonRequestBehavior.AllowGet);
         }
 
+
         public ActionResult Redirect2Hub()
         {
             return Redirect("http://localhost/hub");

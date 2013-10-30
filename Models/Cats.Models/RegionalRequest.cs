@@ -22,6 +22,7 @@ namespace Cats.Models
         public int Month { get; set; }
         public DateTime RequistionDate { get; set; }
         public int Year { get; set; }
+        public int? Season { get; set; }
         public String ReferenceNumber { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }
