@@ -245,7 +245,7 @@ namespace Cats.Areas.Logistics.Controllers
                 ViewBag.Error = "An error has occured: Check Detail.";
                 ModelState.AddModelError("Errors", ViewBag.Error);
             }
-                Session["transport_requisiton_return_id"]=id;
+               // Session["transport_requisiton_return_id"]=id;
             return View(transportRequisitonViewModel);
         }
         [HttpGet]

@@ -30,7 +30,8 @@
                 @Html.DisplayNameFor(model => model.TransportRequisitionNo)
             </div>
             <div class="controls">
-                @Html.TextBoxFor(model => model.TransportRequisitionNo, new { @class = "Disabled input" })
+              
+                @Html.TextBoxFor(model => model.TransportRequisitionNo, new { disabled="true" })
             </div>
         </div>
         <div class="control-group">
@@ -38,7 +39,7 @@
                 @Html.DisplayNameFor(model => model.RequestedBy)
             </div>
             <div class="controls">
-                @Html.TextBoxFor(model => model.RequestedBy)
+                @Html.TextBoxFor(model => model.RequestedBy, new { disabled="true" })
             </div>
         </div>
         <div class="control-group">
@@ -47,7 +48,7 @@
 
             </div>
             <div class="controls">
-                @Html.TextBoxFor(model => model.DateRequested)
+                @Html.TextBoxFor(model => model.DateRequested, new { disabled="true" })
             </div>
         </div>
     </div>
@@ -59,7 +60,7 @@
                 @Html.DisplayNameFor(model => model.CertifiedBy)
             </div>
             <div class="controls">
-                @Html.TextBoxFor(model => model.CertifiedBy)
+                @Html.TextBoxFor(model => model.CertifiedBy, new { disabled="true" })
             </div>
         </div>
         <div class="control-group">
@@ -67,7 +68,7 @@
                 @Html.LabelFor(model => model.DateCertified, new { @class = "cats-date-pref" })
             </div>
             <div class="controls">
-                @Html.TextBoxFor(model => model.DateCertified)
+                @Html.TextBoxFor(model => model.DateCertified, new { disabled="true" })
             </div>
         </div>
         <div class="control-group">
@@ -75,7 +76,7 @@
                 @Html.LabelFor(model => model.Status)
             </div>
             <div class="controls">
-                @Html.TextBoxFor(model => model.Status)
+                @Html.TextBoxFor(model => model.Status, new { disabled="true" ,@class="disabled" })
             </div>
         </div>
     </div>
