@@ -87,7 +87,7 @@
                              
                               columns.Bound(trd => trd.CommodityName);
                               columns.Bound(trd => trd.RequisitionNo);
-                              columns.Bound(trd => trd.QuanityInQtl).HtmlAttributes(new { align = "right" });
+                              columns.Bound(trd => trd.QuanityInQtl).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                               columns.Bound(trd => trd.OrignWarehouse);
                               columns.Bound(trd => trd.Region);
                               columns.Bound(trd => trd.Zone);
@@ -97,6 +97,6 @@
                                                 </text>);
                           }).Pageable()
                           .Groupable()
-                         
+                          .Sortable()
                           )
 

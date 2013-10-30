@@ -15,7 +15,7 @@ namespace Cats.Areas.Logistics.Models
         public string RequisitionNo { get; set; }
         public string RequisitionStatus { get; set; }
         public int ZoneID { get; set; }
-        [Display(Name="Amount Qtl.")]
+        [Display(Name="Amount")]
         public decimal QuanityInQtl { get; set; }
         [Display(Name="Warehouse")]
         public string OrignWarehouse { get; set; }

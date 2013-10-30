@@ -36,8 +36,10 @@
         columns.Bound(p => p.FDP).Width(100);
         columns.Bound(p => p.Donor).Width(100);
         columns.Bound(p => p.Commodity).Width(100);
-        columns.Bound(p => p.Amount).Width(100).Title("Amount " + @unit).HtmlAttributes(new { align = "right" }).Format("{0:n2}");
+        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         columns.Bound(p => p.RationAmount).Hidden(true);
+       
+        
     })
   
    
@@ -52,7 +54,7 @@
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
-       
+      // .Aggregates(t=>t.Add(x=>x.Amount).Sum())
        
         .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new {Area="EarlyWarning" ,id = ViewBag.RequisitionID  }))
        
