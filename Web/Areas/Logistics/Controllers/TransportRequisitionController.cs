@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.Logistics.Models;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
@@ -64,6 +65,7 @@ namespace Cats.Areas.Logistics.Controllers
           
             var requIds = (from itm in transportRequisitionDetails select itm.RequisitionID).ToList();
             var temp = _transportRequisitionService.GetTransportRequisitionDetail(requIds);
+            
             var result = TransportRequisitionViewModelBinder.BindListTransportRequisitionDetailViewModel(temp);
             return result.ToList();
         }
@@ -215,8 +217,9 @@ namespace Cats.Areas.Logistics.Controllers
             return RedirectToAction("Index", "TransportRequisition");
         }
 
-        [HttpGet]
-        //[CatsAuthorize(operation = CheckAccessHelper.Operation.ViewTransportRequisition)]
+        
+            [HttpGet]
+        [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
         public ActionResult Details(int id)
         {
             var transportRequisitonViewModel = new TransportRequisitionViewModel();
@@ -230,6 +233,7 @@ namespace Cats.Areas.Logistics.Controllers
              transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
              transportRequisitonViewModel.TransportRequisitionDetailViewModels =
                 GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+
            
             }
             catch(Exception ex)
@@ -242,6 +246,14 @@ namespace Cats.Areas.Logistics.Controllers
                 ModelState.AddModelError("Errors", ViewBag.Error);
             }
             return View(transportRequisitonViewModel);
+        }
+        [HttpGet]
+        [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
+        public ActionResult Destinations(int id)
+        {
+            ViewBag.RequisitionID = id;
+           // ViewBag.TransportRequisitonID = transportRequistionId;
+            return View();
         }
        
     }

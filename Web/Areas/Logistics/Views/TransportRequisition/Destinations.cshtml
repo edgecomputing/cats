@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
@@ -10,5 +13,49 @@
 @{
     ViewBag.Title = "Destinations";
 }
+@section Toolbar
+{
+   
+    
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Details", "TransportRequisition", new {id = ViewBag.TransportRequisitonID})"></a>
+}
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
 
-<h2>Destinations</h2>
+<h4 class="page-header">Transport Requisiton Destinations</h4>
+@(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+        columns.Bound(p => p.Zone).Width(100);
+        columns.Bound(p => p.Woreda).Width(100);
+        columns.Bound(p => p.FDP).Width(100);
+        columns.Bound(p => p.Donor).Width(100);
+        columns.Bound(p => p.Commodity).Width(100);
+        columns.Bound(p => p.Amount).Width(100).Title("Amount " + @unit).HtmlAttributes(new { align = "right" }).Format("{0:n2}");
+        columns.Bound(p => p.RationAmount).Hidden(true);
+    })
+  
+   
+    .Pageable()
+   .Groupable()
+    .Sortable()
+    .Navigatable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+     .Events(ev => ev.DataBound("resetRowNumber"))
+    
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+       
+       
+        .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new {Area="EarlyWarning" ,id = ViewBag.RequisitionID  }))
+       
+    )
+)
+

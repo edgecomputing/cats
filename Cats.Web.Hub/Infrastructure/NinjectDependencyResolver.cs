@@ -113,7 +113,7 @@ namespace Cats.Web.Hub.Infrastructure
                                                                                         ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
 
-            kernel.Bind<ICheckAccessHelper>().To<CheckAccessHelper>().WithConstructorArgument("storageConnectionString",
+            kernel.Bind<IEarlyWarningCheckAccess>().To<EarlyWarningCheckAccess>().WithConstructorArgument("storageConnectionString",
                                                                                     System.Configuration.
                                                                                         ConfigurationManager.
                                                                                         ConnectionStrings[
