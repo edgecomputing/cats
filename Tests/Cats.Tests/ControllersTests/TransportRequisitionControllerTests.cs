@@ -102,11 +102,12 @@ namespace Cats.Tests.ControllersTests
                                  new WorkflowStatus() {Description = "Open", StatusID = 1, WorkflowID = 1}
                              };
             _workflowStatusService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(statuses);
-
+            var session = new Mock<HttpSessionStateBase>();
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
+            fakeContext.Setup(t => t.Session).Returns(session.Object);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
             var users = new List<UserInfo>()
@@ -164,6 +165,12 @@ namespace Cats.Tests.ControllersTests
         {
             var result =((ViewResult) _transportRequisitionController.Details(1)).Model;
             Assert.IsInstanceOf<TransportRequisitionViewModel>(result);
+        }
+        [Test]
+        public void ShouldDisplayTransportRequisitionDestinations()
+        {
+            var result = _transportRequisitionController.Destinations(1);
+            Assert.IsInstanceOf<ViewResult>(result);
         }
      /*   [Test]
         public void ShouldConfirmApproval()
