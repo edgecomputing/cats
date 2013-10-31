@@ -14,9 +14,9 @@
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"></a>
-    
+
     <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"></a>
-    
+
     <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn "><i class=""></i>Approve</a>
 }
 
@@ -24,105 +24,67 @@
         
 </h5>
 
-<div class="row-fluid">
-    <div>
-        <div class="form-horizontal">
-            <table class="table-condensed">
-                <tr>
-                    <td>
-
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.RequisitionNo) :</b>
-                        @Html.DisplayFor(model => model.RequisitionNo)
-
-
-                    </td>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.Region)
-                                :</b>
-                        @Html.DisplayFor(model => model.Region)
-
-                    </td>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.Zone)
-                                :</b>
-                            @Html.DisplayFor(model => model.Zone)
-                        </p>
-                    </td>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.Commodity)
-                                :</b>
-                            @Html.DisplayFor(model => model.Commodity)
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.Round)
-                                :</b>
-                            @Html.DisplayFor(model => model.Round)
-                        </p>
-                    </td>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.RequestedDateEt)
-                                :</b>
-                            @Html.DisplayFor(model => model.RequestedDateEt)
-                        </p>
-                    </td>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.Program)
-                                :</b>
-                            @Html.DisplayFor(model => model.Program)
-                        </p>
-                    </td>
-                    <td>
-                        <p>
-                            <b>Status
-                                   :</b>
-                            @Html.DisplayFor(model => model.Status)
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back</a>
-
-
-                                </td>
-                                <td>
-                                   @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-                                     { 
-                                        @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
-        
-                                     }
-                                    
-                                </td>
-                                <td>
-                                    @if(Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-                                     {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
-        
-                                     }
-                                   
-                                </td>
-                                   
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-
+<div class="row form-horizontal well">
+    <div class="span5">
+        <div class="control-group">
+            <div class="control-label">@Html.DisplayNameFor(model => model.RequisitionNo)</div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.RequisitionNo, new { disabled="true" })
+            </div>
         </div>
-    </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.Region)
+            </div>
+            <div class="controls">@Html.TextBoxFor(model => model.Region, new { disabled="true" })</div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">@Html.DisplayNameFor(model => model.Zone)
+            </div>
+            <div class="controls">@Html.TextBoxFor(model => model.Zone, new { disabled="true" })</div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">@Html.DisplayNameFor(model => model.Commodity)
+            </div>
+            <div class="controls">@Html.TextBoxFor(model => model.Commodity, new { disabled="true" })</div>
+        </div>
 
+    </div>
+    <div class="span5">
+        <div class="control-group">
+            <div class="control-label">@Html.DisplayNameFor(model => model.Round)
+            </div>
+            <div class="controls">@Html.TextBoxFor(model => model.Round, new { disabled="true" })</div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">@Html.DisplayNameFor(model => model.RequestedDateEt)
+            </div>
+            <div class="controls">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled="true" })</div>
+        </div>
+        <div class="control-group">
+
+            <div class="control-label">@Html.DisplayNameFor(model => model.Program)
+            </div>
+            <div class="controls">@Html.TextBoxFor(model => model.Program, new { disabled="true" })</div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                Status
+            </div>
+            <div class="controls">@Html.TextBoxFor(model => model.Status, new { disabled="true" })</div>
+        </div>
+        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+        { 
+            @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
+        
+        }
+        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+        {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
+        
+        }
+    </div>
 </div>
+
 
 @section LeftBar
 {
@@ -148,7 +110,7 @@
     .ToolBar(toolbar => toolbar.Save())
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .Pageable()
-   // .Groupable()
+        // .Groupable()
     .Sortable()
     .Navigatable()
     .Scrollable()
@@ -176,7 +138,7 @@
 )
 
 <script type="text/javascript">
-     
+
     function onDataBound(e) {
 
         var grid = $("#grid").data("kendoGrid");
@@ -188,11 +150,11 @@
             var BenficiaryNo = firstItem.get('BenficiaryNo');
             var RationAmount = firstItem.get('RationAmount');
             firstItem.set('Amount', RationAmount * BenficiaryNo);
-               
-            
+
+
         });
     }
-    
+
     function onGridKeydown(e) {
         if (e.keyCode === kendo.keys.TAB) {
             var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
@@ -220,4 +182,3 @@
     //    });
     //}
 </script>
-    
