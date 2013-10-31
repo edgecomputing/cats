@@ -21,49 +21,52 @@
 @using (Html.BeginForm("ConfirmSendToLogistics", "ReliefRequisition", FormMethod.Post, new { @class = "modal-form" }))
 {@Html.HiddenFor(model => model.RequisitionID)
     <div class="modal-body form-horizontal">
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.RequisitionNo)
+        <div class="row">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.DisplayNameFor(model => model.RequisitionNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.RequisitionNo, null, new { disabled = "true" })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.DisplayNameFor(model => model.RegionID)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.AdminUnit.Name, null, new { disabled = "true" })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.DisplayNameFor(model => model.ProgramID)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Program.Name, null, new { disabled = "true" })
+                    </div>
+                </div>
             </div>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.RequisitionNo, null, new { disabled = "true" })
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.DisplayNameFor(model => model.Round)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Round, null, new { disabled = "true" })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.DisplayNameFor(model => model.RequestedDate)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.RequestedDate, null, new { disabled = "true" })
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.RegionID)
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.AdminUnit.Name, null, new { disabled = "true" })
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.ProgramID)
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.Program.Name, null, new { disabled = "true" })
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.Round)
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.Round, null, new { disabled = "true" })
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.RequestedDate)
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.RequestedDate, null, new { disabled = "true" })
-            </div>
-        </div>
-      
-
     </div>
     <div class="modal-footer">
         @if (Model.Status == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
