@@ -17,13 +17,15 @@
 
     <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"></a>
 
-    <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn "><i class=""></i>Approve</a>
+    <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn btn-Approve-allocation"><i class=""></i>Approve</a>
 }
 
 <h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation
         
 </h5>
-
+  <div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 <div class="row form-horizontal well">
     <div class="span5">
         <div class="control-group">
@@ -139,6 +141,7 @@
 
 <script type="text/javascript">
 
+
     function onDataBound(e) {
 
         var grid = $("#grid").data("kendoGrid");
@@ -172,7 +175,7 @@
         }
     };
 
-    //function onBound(e) {
+//function onBound(e) {
 
     //    var grid = $("#grid").data("kendoGrid");
     //    $(grid.tbody).on("focus", "input", function (e) {
@@ -181,4 +184,22 @@
 
     //    });
     //}
+</script>
+<script type="text/javascript">
+    $(function() {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('.btn-Approve-allocation').click(function() {
+            $('#dialogContent').load(this.href, function() {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
 </script>
