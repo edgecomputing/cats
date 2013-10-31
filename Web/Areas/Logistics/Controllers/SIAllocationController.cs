@@ -17,12 +17,22 @@ namespace Cats.Areas.Logistics.Controllers
     public class SIAllocationController : Controller
     {
         private IReliefRequisitionService _requisitionService;
-
-        public SIAllocationController(
-                            IReliefRequisitionService requisitionService)
-                            {
-                                this._requisitionService = requisitionService;
-                            }
+        private ILedgerService _ledgerService;
+        private IHubAllocationService _hubAllocationService;
+        private IProjectCodeAllocationService _projectCodeAllocationService;
+        public SIAllocationController
+            (
+             IReliefRequisitionService requisitionService
+            , ILedgerService ledgerService
+            , IHubAllocationService hubAllocationService
+            , IProjectCodeAllocationService projectCodeAllocationService
+            )
+            {
+                this._requisitionService = requisitionService;
+                this._ledgerService = ledgerService;
+                this._hubAllocationService = hubAllocationService;
+                this._projectCodeAllocationService = projectCodeAllocationService;
+            }
 
         public List<RequestAllocationViewModel> getIndexList()
         {
@@ -32,15 +42,29 @@ namespace Cats.Areas.Logistics.Controllers
                Commodity = item.Commodity.Name,
                RegionName = item.AdminUnit.Name,
                 ZoneName = item.AdminUnit1.Name,
-            //    RequisitionNo = item.RequisitionNo,
                 RequisitionId = item.RequisitionID,
-           //     Beneficiaries = item.ReliefRequisitionDetails.Sum(b => b.BenficiaryNo),
-                Amount = item.ReliefRequisitionDetails.Sum(a => a.Amount)
+               CommodityId = (int)item.CommodityID,
+                Amount = item.ReliefRequisitionDetails.Sum(a => a.Amount),
+               HubAllocationID = item.HubAllocations.ToList()[0].HubAllocationID,
+               HubName = item.HubAllocations.ToList()[0].Hub.Name
                 ,SIAllocations = getSIAllocations(item.HubAllocations.ToList()[0].ProjectCodeAllocations.ToList())
-            //    Selected = true,
-              //  Unit = unitPreference
+                ,FreeSIPCCodes = getSIPCLists(item.RequisitionID,(int)item.CommodityID)
             }).ToList();
             return result;
+        }
+        public Cats.Models.ProjectCodeAllocation convertToEntityModel(AllocationAction allocationAction)
+        {
+            DateTime date;
+           // DateTime.Now
+            return new Cats.Models.ProjectCodeAllocation
+            {
+                SINumberID = allocationAction.ShippingInstructionId,
+                Amount_FromSI = (int)allocationAction.AllocatedAmount,
+                ProjectCodeAllocationID = allocationAction.AllocationId,
+                AlloccationDate = DateTime.Now,
+                AllocatedBy = 1,
+                HubAllocationID = allocationAction.HubAllocationID
+            };
         }
         public List<SIAllocation> getSIAllocations(List<Cats.Models.ProjectCodeAllocation> pcAllocations)
         {
@@ -49,8 +73,18 @@ namespace Cats.Areas.Logistics.Controllers
                 ShippingInstructionId=(int)item.SINumberID
                 ,ShippingInstructionCode=item.ShippingInstruction.Value
                 ,AllocatedAmount=(double)item.Amount_FromSI
+                ,AllocationId=(int)item.ProjectCodeAllocationID
+                
             }).ToList();
             return result;
+        }
+        public FreeSIPC getSIPCLists(int reqId, int CommodityID)
+        {
+            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
+            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId, CommodityID);
+            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId, CommodityID);
+            FreeSIPC free = new FreeSIPC { FreePCCodes = freePCCodes, FreeSICodes = freeSICodes };
+            return free;
         }
         //
         // GET: /Logistics/SIAllocation/
@@ -66,6 +100,38 @@ namespace Cats.Areas.Logistics.Controllers
         {
             List<RequestAllocationViewModel> list = getIndexList();
             return Json(list,JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult updateAllocation(List<AllocationAction> allocationAction)
+        {
+            foreach(AllocationAction aa in allocationAction)
+            {
+                if (aa.Action == "delete")
+                {
+                    _projectCodeAllocationService.DeleteById((int)aa.AllocationId);
+                }
+                else
+                {
+                    Cats.Models.ProjectCodeAllocation newProjectAllocation = convertToEntityModel(aa);
+                    if (aa.Action == "add")
+                    {
+                        _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation, aa.RequisitionId, false);
+                    }
+                    else
+                    {
+                        _projectCodeAllocationService.EditProjectCodeAllocationDetail(newProjectAllocation);
+                    }
+                }
+            }
+            List<RequestAllocationViewModel> list = getIndexList();
+            return Json(list, JsonRequestBehavior.AllowGet); 
+        }
+        public JsonResult http_getSIPCLists(int reqId, int CommodityID)
+        {
+            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
+            List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId, CommodityID);
+            List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId, CommodityID);
+            FreeSIPC free = new FreeSIPC { FreePCCodes = freePCCodes, FreeSICodes = freeSICodes };
+            return Json(free, JsonRequestBehavior.AllowGet);
         }
 
     }
