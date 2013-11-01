@@ -1601,7 +1601,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Datevalue(First(Fields!DateRequested.Value, "Header"))</Value>
+                <Value>=First(Fields!DateRequested.Value, "Header")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1631,7 +1631,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=DateValue(First(Fields!DateRecieved.Value, "Header"))</Value>
+                <Value>=FormatDateTime(First(Fields!RequestedBy.Value, "Header"), DateFormat.ShortDate)</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1639,7 +1639,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox9</rd:DefaultName>
-        <Top>4.0925in</Top>
+        <Top>4.07862in</Top>
         <Left>4.12167in</Left>
         <Height>0.25in</Height>
         <Width>1.65599in</Width>
