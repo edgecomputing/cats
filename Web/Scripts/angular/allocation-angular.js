@@ -30,8 +30,7 @@ app.factory("savefactory", function ($http) {
         save: function (hubAllocated) {
           
             $http.post("/DispatchAllocation/Save", { allocation: hubAllocated }).success(function (responseData) {
-                console.log("Error !" + responseData);
-                alert("success!");
+                $scope.allocated = [];
             });
         }
     };
