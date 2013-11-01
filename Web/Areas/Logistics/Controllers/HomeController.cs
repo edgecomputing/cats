@@ -19,7 +19,6 @@ namespace Cats.Areas.Logistics.Controllers
             this._reliefRequisitionService = reliefRequisitionService;
         }
 
-
         public ActionResult Index()
         {
             return View();
@@ -28,6 +27,11 @@ namespace Cats.Areas.Logistics.Controllers
         public JsonResult GetRecievedRequisitions()
         {
             return Json(_reliefRequisitionService.GetRequisitionsSentToLogistics(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAllocationSummary()
+        {
+            return new JsonResult();
         }
     }
 }

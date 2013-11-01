@@ -10,9 +10,12 @@ namespace Cats.Models
     {
         public int? RegionID { get; set; }
         public string RegionName { get; set; }
-        public int? NumberOfHubAssignedRequisitions { get; set; }
+        public int? NumberOfHubUnAssignedRequisitions { get; set; }
         public int? NumberOfTotalRequisitions { get; set; }
-        public decimal? Percentage { get; set; }
+        public decimal? Percentage
+        {
+            set { value = (NumberOfHubUnAssignedRequisitions / NumberOfTotalRequisitions) * 100; }
+        }
         public DateTime? DateLastModified { get; set; }
         public string ProgramType { get; set; }
     }

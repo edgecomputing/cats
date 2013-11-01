@@ -105,7 +105,14 @@ namespace Cats.Tests.ControllersTests
             var userAccountService = new Mock<IUserAccountService>();
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "xx", DatePreference = "AM" });
             var logService = new Mock<ILog>();
-            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object, _workflowStatusService.Object, userAccountService.Object,logService.Object);
+            var hubAllocationService = new Mock<IHubAllocationService>();
+            var projectCodeAllocationService = new Mock<IProjectCodeAllocationService>();
+        
+            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object,
+                                                                                 _workflowStatusService.Object,
+                                                                                  userAccountService.Object,
+                                                                                  logService.Object,hubAllocationService.Object,
+                                                                                  projectCodeAllocationService.Object);
             _transportRequisitionController.ControllerContext = controllerContext.Object;
         }
 

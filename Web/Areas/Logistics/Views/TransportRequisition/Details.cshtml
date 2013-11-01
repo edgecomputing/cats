@@ -35,19 +35,19 @@
                     <td>
 
                         <p>
-                            <b>@Html.DisplayNameFor(model => model.TransportRequisitionNo) :</b>
+                        <b>@Html.DisplayNameFor(model => model.TransportRequisitionNo) :</b>
                         @Html.DisplayFor(model => model.TransportRequisitionNo)
 
 
                     </td>
                     <td>
                         <p>
-                            <b>@Html.DisplayNameFor(model => model.RequestedBy)
-                                :</b>
+                        <b>@Html.DisplayNameFor(model => model.RequestedBy)
+                            :</b>
                         @Html.DisplayFor(model => model.DateRequested)
 
                     </td>
-                 <td>
+                    <td>
                         
                     </td>
                 </tr>
@@ -70,7 +70,7 @@
                     <td>
                         <p>
                             <b>Status
-                                   :</b>
+                                :</b>
                             @Html.DisplayFor(model => model.Status)
                         </p>
                     </td>
@@ -87,6 +87,12 @@
 
 </div>
 
+<script>
+    $(function () {
+        var printurl = "@Url.Action("PrintSummary", "TransportRequisition",new{id= 1 })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>
 
 @(Html.Kendo().Grid((IEnumerable<TransportRequisitionDetailViewModel>)ViewData["Transport.Requisition.detail.ViewModel"])
 .Name("Grid").Columns(columns=>

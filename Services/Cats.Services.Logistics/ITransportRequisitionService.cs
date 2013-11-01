@@ -31,5 +31,3 @@ namespace Cats.Services.Logistics
         List<RequisitionToDispatch> GetTransportRequisitionDetail(List<int> requIds);
     }
 }
-
-

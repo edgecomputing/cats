@@ -108,131 +108,46 @@ namespace Cats.Services.EarlyWarning
         
         public List<RegionalRequisitionsSummary> GetRequisitionsSentToLogistics()
         {
-           var app = _unitOfWork.ReliefRequisitionRepository.FindBy(t => t.Status == 2 );
-           var ds =
+          //var app3 = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.Status == 3); 
+          
+          var app = _unitOfWork.ReliefRequisitionRepository.FindBy(t => t.Status >= 2 );
+          var ds =
                 (
                     from a in app
                     group a by new { a.RegionID,a.AdminUnit.Name} into regionalRequistions
                     select new
-                            {
-                                regionalRequistions.Key.Name,
-                                ProgramBased = from a in regionalRequistions
-                                               group a by a.ProgramID into final
-                                               select new 
-                                               RegionalRequisitionsSummary()
-                                               {
-                                                    RegionID = regionalRequistions.Key.RegionID,
-                                                    RegionName = regionalRequistions.Key.Name,
-                                                    DateLastModified = regionalRequistions.Select(d=>d.ApprovedDate).Last(),
-                                                    NumberOfHubAssignedRequisitions = final.Count(r=>r.Status>=2),
-                                                    NumberOfTotalRequisitions = regionalRequistions.Count(),
-                                                    ProgramType = final.Key.ToString(),
-                                                    Percentage = (final.Count(r=>r.Status==3)/regionalRequistions.Count())*100
-                                               }
-                            }
-                );
-            
-            var result = new List<RegionalRequisitionsSummary>();
-
-            foreach (var d in ds)
-            {
-                foreach (var e in d.ProgramBased)
-                {
-                    
-                    //var t = d.ProgramBased.Take(e);
-                    
-                    var t = new RegionalRequisitionsSummary()
                     {
-                        RegionID = e.RegionID,
-                        RegionName = e.RegionName,
-                        DateLastModified = e.DateLastModified,
-                        NumberOfHubAssignedRequisitions = e.NumberOfHubAssignedRequisitions,
-                        NumberOfTotalRequisitions = e.NumberOfTotalRequisitions,
-                        ProgramType = e.ProgramType,
-                        Percentage = e.Percentage
-                    };
+                        regionalRequistions.Key.Name,
+                        ProgramBased = from a in regionalRequistions
+                                        group a by new {a.ProgramID,a.Program} into final
+                                        select new 
+                                        RegionalRequisitionsSummary()
+                                        {
+                                            RegionID = regionalRequistions.Key.RegionID,
+                                            RegionName = regionalRequistions.Key.Name,
+                                            DateLastModified = regionalRequistions.Select(d=>d.ApprovedDate).Last(),
+                                            NumberOfHubUnAssignedRequisitions = 
+                                            _unitOfWork.ReliefRequisitionRepository.FindBy(s => (s.RegionID == regionalRequistions.Key.RegionID && s.ProgramID == final.Key.ProgramID && s.Status==2)).Count,
+                                            NumberOfTotalRequisitions = regionalRequistions.Count(p=>p.ProgramID == final.Key.ProgramID),
+                                            ProgramType = final.Key.Program.Name,
+                                            //Percentage = (NumberOfHubAssignedRequisitions / regionalRequistions.Count()) * 100,
+                                        }
+                    }
+                );
 
-                    //result.Add(new RegionalRequisitionsSummary()
-                    //    {
-                    //        RegionID = 1,
-                    //        RegionName = "Afar",
-                    //        DateLastModified = DateTime.Now,
-                    //        NumberOfHubAssignedRequisitions = 45,
-                    //        NumberOfTotalRequisitions = 80,
-                    //        Percentage = (45 / 80) * 100,
-                    //        ProgramType = e.ProgramType
-                    //    });
-
-                    result.Add(t);
-                }
-            }
-
-            return result;
-            
-            
-            
-            //foreach (var d in ds)
-            //{
-            //    var region = "";
-            //    var program = "";
-
-            //    foreach (var reliefRequisition in d)
-            //    {
-            //        region = reliefRequisition.Program.Name;
-            //        program = reliefRequisition.Program.Name;
-            //    } 
-
-            //    var temp = new RegionalRequisitionsSummary()
-            //        {
-            //            RegionID = d.Key.RegionID,
-            //            RegionName = region,
-            //            NumberOfHubAssignedRequisitions = d.Count(),
-            //            NumberOfTotalRequisitions = d.Count(),
-            //            Percentage = d.Count(),
-            //            DateLastModified = DateTime.Now,
-            //            ProgramType = d.Key.ProgramID
-            //        };
-
-            //result.Add(temp);
-            //}
-
-            //return result;
-
-
-
-            //select new RegionalRequisitionsSummary()
-            //   {
-            //       RegionName = "",
-            //       RegionID = g.Key,
-            //       NumberOfHubAssignedRequisitions = g.Count(),
-            //       NumberOfTotalRequisitions = g.Count(),
-            //       Percentage = g.Count(),
-            //       DateLastModified = DateTime.Now,
-            //       ProgramType = "PSNP"
-            //   }
-            //);
-
-            //return d.ToList();
-
-            //(from app in approved  )
-            //return new List<RegionalRequisitionsSummary>(){
-            //    new RegionalRequisitionsSummary(){
-            //        RegionID = 1,
-            //        RegionName = "Afar",
-            //        NumberOfHubAssignedRequisitions = 15,
-            //        NumberOfTotalRequisitions = 50,
-            //        Percentage = 30,
-            //        DateLastModified = DateTime.Now
-            //    },
-            //    new RegionalRequisitionsSummary(){
-            //        RegionID = 2,
-            //        RegionName = "Tigray",
-            //        NumberOfHubAssignedRequisitions = 15,
-            //        NumberOfTotalRequisitions = 50,
-            //        Percentage = 30,
-            //        DateLastModified = DateTime.Now
-            //    }
-            //};
+            return (from d in ds
+                    from e in d.ProgramBased
+                    select new RegionalRequisitionsSummary()
+                        {
+                            RegionID = e.RegionID,
+                            RegionName = e.RegionName,
+                            DateLastModified = e.DateLastModified,
+                            NumberOfHubUnAssignedRequisitions = e.NumberOfHubUnAssignedRequisitions,
+                            NumberOfTotalRequisitions = e.NumberOfTotalRequisitions,
+                            ProgramType = e.ProgramType,
+                            Percentage = e.NumberOfHubUnAssignedRequisitions / e.NumberOfTotalRequisitions * 100
+                            //Percentage
+                        }).ToList();
         }
 
         public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions)

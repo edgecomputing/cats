@@ -31,7 +31,6 @@ namespace Cats.Controllers
         }
 
         [AllowAnonymous]
-
         public ActionResult Login()
         {
             ViewBag.HasError = false;
@@ -162,7 +161,6 @@ namespace Cats.Controllers
                         catch (Exception e)
                         {
                             ViewBag.ErrorMessage = "The user name or email address you provided is not correct. Please try again.";
-                            
                         }
                       
                     }
