@@ -74,9 +74,17 @@ namespace Cats.Areas.Logistics.Controllers
                 ,ShippingInstructionCode=item.ShippingInstruction.Value
                 ,AllocatedAmount=(double)item.Amount_FromSI
                 ,AllocationId=(int)item.ProjectCodeAllocationID
-                
+                ,AllocationType="SI"
             }).ToList();
-            return result;
+            var pcresult = pcAllocations.Where(item => item.ProjectCodeID != null).Select(item => new SIAllocation
+            {
+                ShippingInstructionId = (int)item.ProjectCodeID,
+                ShippingInstructionCode = item.ProjectCode.Value,
+                AllocatedAmount = (double)item.Amount_FromProject,
+                AllocationId = (int)item.ProjectCodeAllocationID,
+                AllocationType = "PC"
+            });
+            return result.Union(pcresult).ToList();
         }
         public FreeSIPC getSIPCLists(int reqId, int CommodityID)
         {
@@ -112,6 +120,13 @@ namespace Cats.Areas.Logistics.Controllers
                 else
                 {
                     Cats.Models.ProjectCodeAllocation newProjectAllocation = convertToEntityModel(aa);
+                    if (aa.AllocationType == "PC")
+                    {
+                        newProjectAllocation.Amount_FromProject = newProjectAllocation.Amount_FromSI;
+                        newProjectAllocation.ProjectCodeID = newProjectAllocation.SINumberID;
+                        newProjectAllocation.Amount_FromSI=0;
+                        newProjectAllocation.SINumberID=null;
+                    }
                     if (aa.Action == "add")
                     {
                         _projectCodeAllocationService.AddProjectCodeAllocation(newProjectAllocation, aa.RequisitionId, false);

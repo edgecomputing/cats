@@ -44,6 +44,7 @@
             list-style: none;
             height:32px;
             line-height:32px;
+            clear:both;
         }
         .SI_Row li .modified1
     {
@@ -188,6 +189,11 @@
     }
 </style>
 
+ 
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:100px; height:50px; right:50%; top:50%; margin:auto;">
+  <div id="modalContent" style="line-height:40px; text-align:center;">Saving</div> 
+</div>
 
 <div ng-app>
     <div ng-controller="CartCtrl">
@@ -216,10 +222,15 @@
                 <td style="width: 200px;">
                     <div class="accordion-group">
                         <div class="accordion-heading">
-                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$index}}">
+                          <div>
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$index}}">
                             {{request.RegionName}}-{{request.ZoneName}}
                               [{{request.Commodity}} {{request.Amount}}<i>@UserUnit</i>]  
                           </a>
+                          </div>
+                            <div class="progress progress-success  progress-striped" style="margin:2px; height:10px; border:solid 1px rgb(12, 219, 86);">
+                              <div class="bar" style="width:{{request.AllocatedPercent}}%"></div>
+                            </div>
                         </div>
                         <div id="collapse{{$index}}" class="accordion-body collapse">
                           <div class="accordion-inner">
@@ -229,6 +240,7 @@
                               <div class="label2">@Translator.Translate("Commodity"): </div><div class="value2">{{request.Commodity}}</div>
                               <div class="label2">@Translator.Translate("Requested Qty"): </div><div class="value2">{{request.Amount}}<i>@UserUnit</i></div>
                               <div class="label2">@Translator.Translate("Allocated Qty"): </div><div class="value2">{{request.AllocatedAmount}}<i>@UserUnit</i></div>
+                              <div class="label2">@Translator.Translate("Remaining Qty"): </div><div class="value2">{{request.RemainingAmount}}<i>@UserUnit</i></div>
                               <div class="debug">
                                   <div class="label2">RequisitionId</div><div class="value2">{{request.RequisitionId}}</div>
                                   <div class="label2">HubAllocationID</div><div class="value2">{{request.HubAllocationID}}</div>
@@ -245,16 +257,23 @@
                         <div class="label1">
                             <!--<span class="gray">SI/Project Code: </span>-->
                             <div class="input-prepend ">
-<div class="btn-group">
-    <button class="btn dropdown-toggle" data-toggle="dropdown">Project Code <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-        <li><a href="#">Project Code</a></li>
-        <li><a href="#">SI Code</a></li>
-    </ul>
-    </div>
-                            <select id="cmb_si_{{request.RequisitionId}}" ng-model="request.edit_variable.ShippingInstructionId">
+                            <div class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">{{request.AllocationType}} <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:voide()" ng-click="on_Allocation_TypeSI()" >SI</a></li>
+                                    <li><a href="javascript:voide()" ng-click="on_Allocation_TypePC()">PC</a></li>
+                                </ul>
+                            </div>
+                            <select class="cmb_si" id="cmb_si_{{request.RequisitionId}}" ng-model="request.edit_variable.ShippingInstructionId">
+                                <option>--SI Code--</option>
                                 <option value="{{sicode.siCodeId}}" ng-repeat="sicode in request.FreeSIPCCodes.FreeSICodes">{{sicode.SIcode}} [{{sicode.amount}}]</option>
                             </select>
+                            
+                            <select class="cmb_pc" id="cmb_pc_{{request.RequisitionId}}" ng-model="request.edit_variable.ProjectCodeId">
+                                <option>--Project Code--</option>
+                                <option  value="{{pccode.pcCodeId}}" ng-repeat="pccode in request.FreeSIPCCodes.FreePCCodes">{{pccode.PCcode}} [{{pccode.amount}}]</option>
+                            </select>
+    
                             </div>
 
                         </div>
@@ -271,10 +290,7 @@
                             <button class="SI_Save btn btn-danger" ng-click="on_edit_cancel()"><i class=" icon-remove"></i></button>
                         </div>
                          <!-- 
-
-                      <select>
-                            <option ng-repeat="pccode in request.FreeSIPCCodes.FreePCCodes">{{pccode.PCcode}} [{{pccode.amount}}]</option>
-                        </select>-->
+                             -->
                             
                     </div>
                         </div>
@@ -283,7 +299,7 @@
                         <li  id="div_allocation_{{request.RequisitionId}}_{{$index}}" class="list-item1 old_allocation allocation_saved " onclick="voide()" ng-repeat="item in request.SIAllocations">
                             <div class="modified{{item.Modified}}"></div>
                             <div class="frm_view">
-                                <div class="label1"><span class="gray">SI/Project Code: </span>{{item.ShippingInstructionCode}}</div>
+                                <div class="label1"><span class="gray">{{item.AllocationType}}: </span>{{item.ShippingInstructionCode}}</div>
                                 
                                 <div class="label1" ><span class="gray">quantity <i>[@UserUnit]</i>: </span>{{item.AllocatedAmount}}</div>
                                 <div style="float:right;">
@@ -365,6 +381,7 @@
 
                 $scope.ModelToView = function (model, view) {
                     view.ShippingInstructionId = model.ShippingInstructionId;
+                    view.ProjectCodeId = model.ShippingInstructionId;
                     view.ShippingInstructionCode = model.ShippingInstructionCode;
                     
                     view.AllocatedAmount = model.AllocatedAmount;
@@ -376,15 +393,35 @@
                     $scope.NewAllocation.ShippingInstructionId = "";
                     return $scope.NewAllocation;
                 }
+                $scope.CalculateAllocatedAmount = function () {
+                    for (var r in $scope.requests) {
+                        
+                        var req = $scope.requests[r];
+                        var allocated = 0;
+                        for (var a in req.SIAllocations) {
+                            allocated += (req.SIAllocations[a].AllocatedAmount) / 1;
+                        }
+                        req.AllocatedAmount = allocated;
+                        req.RemainingAmount = req.Amount - req.AllocatedAmount;
+                        req.AllocatedPercent = Math.round(100 * req.AllocatedAmount / req.Amount);
+                        req.AllocationType = "SI";
+                    }
+                }
                 $scope.ViewToModel = function (view, model) {
-                 //   alert($scope.SICodesHash["si94"]);
-                    
                     model.AllocatedAmount = view.AllocatedAmount;
-                    var ShippingInstructionCode = $scope.SICodesHash["si" + view.ShippingInstructionId];
-                   // if (view.ShippingInstructionId && ShippingInstructionCode) {
-                        model.ShippingInstructionCode = $scope.SICodesHash["si" + model.ShippingInstructionId];
+                    model.AllocationType = view.AllocationType;
+                    var ShippingInstructionCode;
+                    if (model.AllocationType == "SI") {
                         model.ShippingInstructionId = view.ShippingInstructionId;
-                  //  }
+                        ShippingInstructionCode = $scope.SICodesHash["si" + model.ShippingInstructionId];
+                    }
+                    else {
+                        model.ShippingInstructionId = view.ProjectCodeId;
+                        ShippingInstructionCode = $scope.SICodesHash["pc" + model.ShippingInstructionId];
+                    }
+                    
+                   // alert(model.AllocationType + model.ShippingInstructionId);
+                    model.ShippingInstructionCode = ShippingInstructionCode;
                 }
                 $scope.clone = function (src, dest) {
                     if (!dest) {
@@ -394,6 +431,20 @@
                         dest[i] = src[i];
                     }
                     return dest;
+                }
+                $scope.on_Allocation_TypeSI = function () {
+                    var reqindex = $scope.getRequestIndex($scope.selections.RequestId);
+                    $scope.requests[reqindex].AllocationType = "SI";
+                    $(".cmb_si").show();
+                    $(".cmb_pc").hide();
+                    $scope.requests[reqindex].edit_variable.AllocationType = "SI";
+                }
+                $scope.on_Allocation_TypePC = function () {
+                    var reqindex = $scope.getRequestIndex($scope.selections.RequestId);
+                    $scope.requests[reqindex].AllocationType = "PC";
+                    $(".cmb_si").hide();
+                    $(".cmb_pc").show();
+                    $scope.requests[reqindex].edit_variable.AllocationType = "PC";
                 }
                 $scope.on_edit_ok = function ()
                 {
@@ -410,14 +461,14 @@
                     }
                     else {
                         model = $scope.clone($scope.NewAllocation);
-                        $scope.ViewToModel(view, model);
+                       // $scope.ViewToModel(view, model);
                         $scope.requests[reqindex].SIAllocations.push(model);
                        
                         
                     }
                     model.Modified = 1;
                     $scope.ViewToModel(view, model);
-                   
+                    $scope.CalculateAllocatedAmount();
                     
                 }
                 $scope.on_edit = function (req_id, index) {
@@ -430,6 +481,8 @@
                         model = $scope.requests[reqindex].SIAllocations[index];
                         $scope.requests[reqindex].SIAllocations[index].siCodeId += "";
                         $scope.ModelToView($scope.requests[reqindex].SIAllocations[index], $scope.requests[reqindex].edit_variable);
+
+                        $scope.requests[reqindex].AllocationType = model.AllocationType;
                     }
                     else {
                         model = $scope.create_new_allocation(req_id)
@@ -452,8 +505,16 @@
                     $scope.selections.AllocationId=index;
 
                     $scope.lastTarget = $target;
-                    window.setTimeout(function () { $("#cmb_si_" + req_id).val(model.ShippingInstructionId); }, 1000);
-                    
+                    var sipccombo="cmb_si";
+                    if (model.AllocationType == "PC") {
+                        sipccombo = "cmb_pc";
+
+                        $scope.on_Allocation_TypePC();
+                    }
+                    else {
+                        $scope.on_Allocation_TypeSI();
+                    }
+                    window.setTimeout(function () { $("#" + sipccombo + "_" + req_id).val(model.ShippingInstructionId); }, 1000);
                 }
                 $scope.on_edit_cancel = function () {
                     if ($scope.lastTarget) {
@@ -472,12 +533,19 @@
                     resp.forEach(function (entry, i) {
                         entry.edit_variable = { RequisitionId: entry.RequisitionId, AllocatedAmount: 199, ShippingInstructionCode: "", ShippingInstructionId: 94 };
                         $scope.requests.push(entry);
-                        var FreeSICodes=entry.FreeSIPCCodes.FreeSICodes
+                        var FreeSICodes = entry.FreeSIPCCodes.FreeSICodes
+                        var FreePCCodes = entry.FreeSIPCCodes.FreePCCodes
                         for (var si_index in FreeSICodes) {
                             var si=FreeSICodes[si_index];
                             $scope.SICodesHash["si" + si.siCodeId] = si.SIcode;
                         }
+                        for (var pc_index in FreePCCodes) {
+                            var pc = FreePCCodes[pc_index];
+                            $scope.SICodesHash["pc" + pc.pcCodeId] = pc.PCcode;
+                        }
+                        $scope.CalculateAllocatedAmount();
                     });
+                    $('#myModal').modal('hide')
                 }
               //  request.FreeSIPCCodes.FreeSICodes">{{sicode.siCodeId}} {{sicode.SIcode}} 
                 $scope.getRequestIndex = function (req_id) {
@@ -497,10 +565,17 @@
                     }
                     
                     $scope.requests[index_r].SIAllocations.splice(index, 1);
-
+                    $scope.CalculateAllocatedAmount();
+                }
+                var GetListErrorCB = function (resp, status, headers, config) {
+                    $('#modalContent').html("Error");
                 }
                 $scope.save = function (param) {
-                    $http.post("updateAllocation", param).success(GetListSuccessCB);
+                    if (param.length) {
+                        $('#myModal').modal('show')
+                        $http.post("updateAllocation", param).success(GetListSuccessCB).error(GetListErrorCB);
+                    }
+
                 }
                 $http.get("getList").success(GetListSuccessCB);
             }

@@ -24,6 +24,8 @@ namespace Cats.Areas.Logistics.Models
         public string ShippingInstructionCode { get; set; }
         public double AllocatedAmount { get; set; }
         public int AllocationId { get; set; }
+        public string AllocationType { get; set; }
+        
     }
     public class FreeSIPC
     {
@@ -38,5 +40,6 @@ namespace Cats.Areas.Logistics.Models
         public int ShippingInstructionId {get;set;}
         public double AllocatedAmount { get; set; }
         public int HubAllocationID { get; set; }
+        public string AllocationType { get; set; }
     }
 }

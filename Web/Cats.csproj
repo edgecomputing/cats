@@ -863,8 +863,6 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <Content Include="Content\Web.config" />
     <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\SIAllocation\Index_1.cshtml" />
-    <Content Include="Areas\Logistics\Views\SIAllocation\Copy of Index.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
