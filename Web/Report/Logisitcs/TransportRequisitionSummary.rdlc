@@ -1508,7 +1508,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value EvaluationMode="Constant" />
+                <Value>=Today()</Value>
                 <Style />
               </TextRun>
             </TextRuns>
