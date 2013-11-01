@@ -323,8 +323,6 @@ namespace Cats.Areas.Procurement.Controllers
                            HubID = detail.Hub.HubID,
                            Woreda = detail.FDP.AdminUnit.Name,
                            FDP = detail.FDP.Name,
-                           Zone = detail.FDP.AdminUnit.AdminUnit2.Name,
-                           Region = detail.AdminUnit.Name,
                            RequisitionNo = detail.ReliefRequisition.RequisitionNo
                            
                        });
