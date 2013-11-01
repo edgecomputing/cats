@@ -41,7 +41,7 @@
   </button>
   <ul class="dropdown-menu">
             <li>  <a href="@Url.Action("Hub", "DispatchAllocation",new {regionid =  ViewBag.regionId})">hub allocation</a></li>
-            <li><a href="#">pc/si code allocation</a></li>
+            <li><a href="@Url.Action("getIndexList", "SIAllocation", new { Area = "Logistics", regionid =  ViewBag.regionId })">PC/SI code allocation</a></li>
             <li><a href="#">Generate TR</a></li>
             <li><a href="#"></a></li>
         </ul>
