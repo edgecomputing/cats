@@ -21,7 +21,12 @@ namespace Cats.Models.MetaData
         [Required(ErrorMessage = "Please Select Ration")]
         public int RationID { get; set; }
 
-       
+         [Display(Name = "Start Date")]
+         [Required(ErrorMessage = "Please Select Start Date")]
+         public DateTime StartDate { get; set; }
+         [Display(Name = "End Date")]
+         [Required(ErrorMessage = "Please Select End Date")]
+        public DateTime EndDate { get; set; }
 
     }
 }

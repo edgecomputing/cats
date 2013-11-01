@@ -151,7 +151,7 @@ namespace Cats.Controllers
 
         public ActionResult Redirect2Hub()
         {
-            return Redirect("http://localhost/hub");
+            return Redirect("/hub");
         }
 
         /// <summary>

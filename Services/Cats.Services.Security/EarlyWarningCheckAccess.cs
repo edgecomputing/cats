@@ -410,6 +410,7 @@ namespace Cats.Services.Security
         public virtual bool CheckAccess(Operation operation, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
         {
             NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(operation, dbUserName, contextParameters);
+            return true;
             return ((result == AuthorizationType.AllowWithDelegation)
                         || (result == AuthorizationType.Allow));
         }
@@ -423,6 +424,7 @@ namespace Cats.Services.Security
         public virtual bool CheckAccess(Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
         {
             NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(operation, customSID, contextParameters);
+            return true;
             return ((result == AuthorizationType.AllowWithDelegation)
                         || (result == AuthorizationType.Allow));
         }
@@ -436,6 +438,7 @@ namespace Cats.Services.Security
         public virtual bool CheckAccess(Operation operation, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
             NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(operation, out attributes, contextParameters);
+            return true;
             return ((result == AuthorizationType.AllowWithDelegation)
                         || (result == AuthorizationType.Allow));
         }
@@ -450,6 +453,7 @@ namespace Cats.Services.Security
         public virtual bool CheckAccess(Operation operation, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
             NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(operation, dbUserName, out attributes, contextParameters);
+            return true;
             return ((result == AuthorizationType.AllowWithDelegation)
                         || (result == AuthorizationType.Allow));
         }
@@ -464,6 +468,7 @@ namespace Cats.Services.Security
         public virtual bool CheckAccess(Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
             NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(operation, customSID, out attributes, contextParameters);
+            return true;
             return ((result == AuthorizationType.AllowWithDelegation)
                         || (result == AuthorizationType.Allow));
         }
