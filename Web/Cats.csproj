@@ -290,6 +290,7 @@
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
+    <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -864,9 +866,13 @@
     <Content Include="Content\Web.config" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
+
     <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

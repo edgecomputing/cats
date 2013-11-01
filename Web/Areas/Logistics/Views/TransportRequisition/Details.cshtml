@@ -11,9 +11,10 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
+<h4 class="page-header">Transport Requisiotn Detail </h4>
 @section Toolbar
 {
-    
+
 
     <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" data-buttontype="btn_back_to_list"></a>
     @if (Model.StatusID == (int)Cats.Models.Constant.TransportRequisitionStatus.Draft)
@@ -21,82 +22,81 @@
         <a class="btn toolbar-btn " href="@Url.Action("Edit", "TransportRequisition", new { Area = "Logistics", id = Model.TransportRequisitionID })" data-buttontype="btn_edit"></a>
         <a class="btn toolbar-btn " href="@Url.Action("Approve", "TransportRequisition", new { id = Model.TransportRequisitionID })" data-buttontype="">Approve</a>
     }
-    
- 
-
-
 }
+<div class="row form-horizontal well">
+    <div class="span5 ">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+            </div>
+            <div class="controls">
+             @Html.TextBoxFor(model => model.TransportRequisitionNo, new { disabled="true" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.RequestedBy)
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.RequestedBy, new { disabled="true" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.DateRequested, new { @class = "cats-date-pref" })
 
-<div class="row-fluid">
-    <div>
-        <div class="form-horizontal">
-            <table class="table-condensed">
-                <tr>
-                    <td>
-
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.TransportRequisitionNo) :</b>
-                        @Html.DisplayFor(model => model.TransportRequisitionNo)
-
-
-                    </td>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.RequestedBy)
-                                :</b>
-                        @Html.DisplayFor(model => model.DateRequested)
-
-                    </td>
-                 <td>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.CertifiedBy)
-                                :</b>
-                            @Html.DisplayFor(model => model.CertifiedBy)
-                        </p>
-                    </td>
-                    <td>
-                        <p>
-                            <b>@Html.DisplayNameFor(model => model.DateCertified)
-                                :</b>
-                            @Html.DisplayFor(model => model.DateCertified)
-                        </p>
-                    </td>
-                    <td>
-                        <p>
-                            <b>Status
-                                   :</b>
-                            @Html.DisplayFor(model => model.Status)
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       
-                    </td>
-                </tr>
-            </table>
-
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.DateRequested, new { disabled="true" })
+            </div>
         </div>
     </div>
 
+    <div class="span5">
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.DisplayNameFor(model => model.CertifiedBy)
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.CertifiedBy, new { disabled="true" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.DateCertified, new { @class = "cats-date-pref" })
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.DateCertified, new { disabled="true" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Status)
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Status, new { disabled="true" ,@class="disabled" })
+            </div>
+        </div>
+    </div>
 </div>
 
-
-@(Html.Kendo().Grid((IEnumerable<TransportRequisitionDetailViewModel>)ViewData["Transport.Requisition.detail.ViewModel"])
-.Name("Grid").Columns(columns=>
+@(Html.Kendo().Grid(Model.TransportRequisitionDetailViewModels)
+.Name("Grid").Columns(columns =>
                           {
+                             
                               columns.Bound(trd => trd.CommodityName);
                               columns.Bound(trd => trd.RequisitionNo);
-                              columns.Bound(trd => trd.QuanityInQtl);
+                              columns.Bound(trd => trd.QuanityInQtl).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                               columns.Bound(trd => trd.OrignWarehouse);
                               columns.Bound(trd => trd.Region);
                               columns.Bound(trd => trd.Zone);
-                             
-                          }).Pageable())
+                
+                               columns.Template(@<text>
+                                                   <a href="@Url.Action("Destinations","TransportRequisition",new {id=item.RequisitionID})">Destinations</a> 
+                                                </text>);
+                          }).Pageable()
+                          .Groupable()
+                          .Sortable()
+                          )
 

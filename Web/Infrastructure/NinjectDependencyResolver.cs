@@ -144,12 +144,30 @@ namespace Cats.Infrastructure
                                                                                            "SecurityContext"].
                                                                                        ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
-            kernel.Bind<ICheckAccessHelper>().To<CheckAccessHelper>().WithConstructorArgument("storageConnectionString",
+            kernel.Bind<IEarlyWarningCheckAccess>().To<EarlyWarningCheckAccess>().WithConstructorArgument("storageConnectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.
                                                                                        ConnectionStrings[
                                                                                            "SecurityContext"].
                                                                                        ConnectionString);
+            kernel.Bind<ILogisticsCheckAccess>().To<LogisticsCheckAccess>().WithConstructorArgument("storageConnectionString",
+                                                                                  System.Configuration.
+                                                                                      ConfigurationManager.
+                                                                                      ConnectionStrings[
+                                                                                          "SecurityContext"].
+                                                                                      ConnectionString);
+            kernel.Bind<IProcurementCheckAccess>().To<ProcurementCheckAccess>().WithConstructorArgument("storageConnectionString",
+                                                                                  System.Configuration.
+                                                                                      ConfigurationManager.
+                                                                                      ConnectionStrings[
+                                                                                          "SecurityContext"].
+                                                                                      ConnectionString);
+            kernel.Bind<IPSNPCheckAccess>().To<PSNPCheckAccess>().WithConstructorArgument("storageConnectionString",
+                                                                                  System.Configuration.
+                                                                                      ConfigurationManager.
+                                                                                      ConnectionStrings[
+                                                                                          "SecurityContext"].
+                                                                                      ConnectionString);
         }
     }
 }

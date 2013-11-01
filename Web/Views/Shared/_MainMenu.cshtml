@@ -7,13 +7,13 @@
    
     var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
-    CheckAccessHelper accessHelper = new CheckAccessHelper("");
+    EarlyWarningCheckAccess accessHelper = new EarlyWarningCheckAccess("");
     var lang = user.Profile.LanguageCode;
     ViewBag.CurrentUser = user;
                         //  Translator.CurrentLanguage = lang;
                         //   Translator.LoadTexts();
 
-    var _checkAccessHelper = DependencyResolver.Current.GetService<ICheckAccessHelper>();
+    var _checkAccessHelper = DependencyResolver.Current.GetService<IEarlyWarningCheckAccess>();
    var db_user = _checkAccessHelper.Storage.GetDBUser(user.Profile.UserName).CustomSid;
                         }
 
@@ -43,7 +43,7 @@
                                 
                                     @{
                                         
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_Gift_Certificate,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_Gift_Certificate,db_user))
                                     {
                                         <li><a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })">@Html.Translate("Gift Certificate")</a></li>
                                         
@@ -53,7 +53,7 @@
                                         <li class="disabled"><a href="#">@Html.Translate("Gift Certificate")</a></li>
                                     }
                                     <li class="divider"></li>
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_needs_assessment,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_needs_assessment,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })">@Html.Translate("Needs Assessment")</a></li>
                                     }
@@ -62,7 +62,7 @@
                                        <li class="disabled"><a href="#">@Html.Translate("Needs Assessment")</a></li>
                                     }
                                     
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Modify_HRD,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Modify_HRD,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })">@Html.Translate("HRD")</a></li>
                                     }
@@ -71,7 +71,7 @@
                                        <li class="disabled"><a href="#">@Html.Translate("HRD")</a></li>
                                     }
                                         <li class="divider"></li>
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_request,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_request,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">@Html.Translate("Requests")</a></li>
                                     }
@@ -80,7 +80,7 @@
                                        <li class="disabled"><a href="#">@Html.Translate("Requests")</a></li>
                                     }                                        
                                       
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_requisition,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_requisition,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })">@Html.Translate("Requisitions")</a></li>
                                     }
@@ -90,7 +90,7 @@
                                     }                                        
                                     <li class="divider"></li>  
 
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_ration,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_ration,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })">@Html.Translate("Rations")</a></li>
                                     }
@@ -109,7 +109,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("FSCD") <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 @{
-                                    if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Modify_HRD, db_user))
+                                    if (_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Modify_HRD, db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })">@Html.Translate("PSNP Plan")</a></li>
                                     }
@@ -118,7 +118,7 @@
                                        <li class="disabled"><a href="#">@Html.Translate("PSNP Plan")</a></li>
                                     }                                       
                                 <li class="divider"></li>
-                                    if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_request, db_user))
+                                    if (_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_request, db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">@Html.Translate("Requests")</a></li>
                                     }
@@ -128,7 +128,7 @@
                                     }                                
                                 
                                 
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_requisition,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_requisition,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })">@Html.Translate("Requisitions")</a></li>
                                     }
@@ -138,7 +138,7 @@
                                     }                                        
                                     <li class="divider"></li>  
 
-                                    if(_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Edit_ration,db_user))
+                                    if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_ration,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })">@Html.Translate("Rations")</a></li>
                                     }
@@ -158,8 +158,10 @@
 
                            
                              <ul class="dropdown-menu">
+
                                @* @{
                                     if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
+
                                     {                               
                                         *@<li><a href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })">@Html.Translate("Resource Allocation") </a></li>
                                    @* }
@@ -168,8 +170,10 @@
                                        <li class="disabled"><a href="#">@Html.Translate("Resource Allocation")</a></li>
                                     } 
                                     
+
                                     if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
                                     { *@                              
+
                                         <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">@Html.Translate("Transport Requisition") </a></li>
                                    @* }
                                     else
