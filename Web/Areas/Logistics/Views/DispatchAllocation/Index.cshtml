@@ -20,8 +20,8 @@
 
 
 @{
-   
-    
+
+
     var ddl = Html.Kendo().DropDownList()
         .Name("category")
         .OptionLabel("Select a Region...")
@@ -29,7 +29,7 @@
         .DataValueField("AdminUnitID")
         .HtmlAttributes(new {style = "width:200px"})
         .Events(e => e.Change("regionsChange"))
-        .DataSource(source => source.Read("GetRegions", "DispatchAllocation")).Value("regionid");
+        .DataSource(source => source.Read("GetRegions", "DispatchAllocation"));
         
             
     ddl.Render(); //displays the dropdown list
@@ -80,7 +80,7 @@
 
 
 <script>
-    var regionid = '@ViewBag.regionId';
+  
     function regionsChange(e) {
         e.preventDefault();
 
