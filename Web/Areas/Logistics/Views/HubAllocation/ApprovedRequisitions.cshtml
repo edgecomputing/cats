@@ -189,7 +189,7 @@
            
                         <td>
                             <p class="text-right">
-                             @Html.DisplayFor(m => m[i].Amount)
+                             @Html.DisplayFor(m => m[i].Amount.ToPreferedWeightUnit())
                             </p>
                             @Html.HiddenFor(m => m[i].Amount)
             

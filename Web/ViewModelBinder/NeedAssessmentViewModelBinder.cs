@@ -92,7 +92,8 @@ namespace Cats.ViewModelBinder
                 PSNPFromWoredasDOA = adminUnit.PSNPFromWoredasDOA,
                 NonPSNPFromWoredasMale = adminUnit.NonPSNPFromWoredasMale,
                 NonPSNPFromWoredasFemale = adminUnit.NonPSNPFromWoredasFemale,
-                NonPSNPFromWoredasDOA = adminUnit.NonPSNPFromWoredasDOA
+                NonPSNPFromWoredasDOA = adminUnit.NonPSNPFromWoredasDOA,
+                Total = adminUnit.PSNP + adminUnit.NonPSNP
             });
         }
 
@@ -116,7 +117,8 @@ namespace Cats.ViewModelBinder
                 PSNPFromWoredasDOA = viewModel.PSNPFromWoredasDOA,
                 NonPSNPFromWoredasMale = viewModel.NonPSNPFromWoredasMale,
                 NonPSNPFromWoredasFemale = viewModel.NonPSNPFromWoredasFemale,
-                NonPSNPFromWoredasDOA = viewModel.NonPSNPFromWoredasDOA
+                NonPSNPFromWoredasDOA = viewModel.NonPSNPFromWoredasDOA,
+
             }).ToList();
         }
     }

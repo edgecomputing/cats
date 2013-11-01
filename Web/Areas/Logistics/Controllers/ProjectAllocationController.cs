@@ -149,13 +149,24 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.Remaining = Math.Round(remaining);
             return View();
         }
+
+        
         public JsonResult GetSIAmount(int siIndex, int reqId)
         {
+
+
             var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
-            var result = _ledgerService.GetFreeSICodesAmount(hubId,siIndex);
+            var result = _projectCodeAllocationService.GetAllocatedAmountBySI(hubId,siIndex);
             return Json(new {Success = true, Result = result}, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetPCAmount(int pcIndex, int reqId)
+        {
+
+            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
+            var result = _projectCodeAllocationService.GetAllocatedAmountByPC(hubId, pcIndex);
+            return Json(new { Success = true, Result = result }, JsonRequestBehavior.AllowGet);
+        }
        
         public ActionResult AllocatePC(ICollection<RequisitionViewModel> requisitionDetail, FormCollection form)
         {
