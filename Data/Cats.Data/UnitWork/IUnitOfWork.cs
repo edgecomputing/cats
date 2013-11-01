@@ -127,6 +127,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Audit> AuditRepository { get; }
         IGenericRepository<CommodityGrade> CommodityGradeRepository { get; }
         IGenericRepository<UserHub> UserHubRepository { get; }
+        IGenericRepository<TransReqWithoutTransporter> TransReqWithoutTransporterRepository { get; } 
         void Save();
 
     }

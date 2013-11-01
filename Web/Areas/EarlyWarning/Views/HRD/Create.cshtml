@@ -61,18 +61,28 @@
                 </div>
         
             </div>
-            @* <div class="control-group">
+             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.CreatedDate,"Created Date")
+                    @Html.LabelFor(m => m.StartDate)
                 </div>
                 <div class="controls">
-                     <input class="cats-datepicker" type="text" id="create" name="create" />
-                    @Html.HiddenFor(m=>m.CreatedDate)
-                    @Html.ValidationMessageFor(m => m.CreatedDate)
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.StartDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m => m.StartDate)
                 </div>
         
-            </div>*@
-
+            </div>
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.EndDate)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.EndDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m => m.EndDate)
+                </div>
+        
+            </div>
         </div>
     }
 

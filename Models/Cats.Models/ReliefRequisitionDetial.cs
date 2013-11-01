@@ -11,7 +11,7 @@ namespace Cats.Models
         public ReliefRequisitionDetail()
         {
            
-           
+           TransReqWithoutTransporters=new List<TransReqWithoutTransporter>();
         }
 
         public int RequisitionDetailID { get; set; }
@@ -25,6 +25,7 @@ namespace Cats.Models
         public virtual Donor Donor { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual ReliefRequisition ReliefRequisition { get; set; }
+        public ICollection<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; } 
        
     }
 }

@@ -50,6 +50,7 @@ namespace Cats.Controllers
 
                     // Will be refactored
                     Session["User"] = _userAccountService.GetUserDetail(model.UserName);
+                   
                     ////
 
                     // TODO: Review user permission code
@@ -211,5 +212,16 @@ namespace Cats.Controllers
             return View(model);
         }
 
+
+        public ActionResult RedirectToHub()
+        {
+           
+            return Redirect("http://locahost/hub");
+        }
+        public ActionResult Administration()
+        {
+            return Redirect("http://localhost/admin/home");
+        }
+        
     }
 }

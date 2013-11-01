@@ -28,6 +28,8 @@ namespace Cats.Models.Mapping
             this.Property(t => t.PublishedDate).HasColumnName("PublishedDate");
             //this.Property(t => t.RationID).HasColumnName("RationID");
             this.Property(t => t.Status).HasColumnName("Status");
+            this.Property(t => t.StartDate).HasColumnName("StartDate");
+            this.Property(t => t.EndDate).HasColumnName("EndDate");
 
             // Relationships
             //this.HasOptional(t => t.Season)

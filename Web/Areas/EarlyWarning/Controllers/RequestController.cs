@@ -87,6 +87,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
+            regionalRequest.Season = hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
             regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
@@ -277,9 +278,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     RegionalRequestID = regionalRequestDetail.RegionalRequestID,
                     RegionalRequestDetailID = regionalRequestDetail.RegionalRequestDetailID,
                     Woreda = regionalRequestDetail.Fdp.AdminUnit.Name,
+                    WoredaId = regionalRequestDetail.Fdp.AdminUnit.AdminUnitID,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
-                    PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year, 
-                        regionalRequestDetail.RegionalRequest.Status, 
+                    PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year,
+                        (int) regionalRequestDetail.RegionalRequest.Season,
                         regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
                 };
             }

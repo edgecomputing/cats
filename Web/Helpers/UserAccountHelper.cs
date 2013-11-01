@@ -62,6 +62,25 @@ namespace Cats.Helpers
 
             return preference.ToUpper();
         }
+        public static string UserUnitPreference(this HtmlHelper helper)
+        {
+            return UserUnitPreference();
+        }
+        public static string UserUnitPreference()
+        {
+            var preference = "MT";
+            var user = GetUser(HttpContext.Current.User.Identity.Name);
+            try
+            {
+                preference = user.PreferedWeightMeasurment;
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log exception hrere
+            }
+
+            return preference.ToUpper();
+        }
 
     }
 }

@@ -6,13 +6,11 @@
 <configuration>
   <configSections>
     <!--
-    log4me
+    log4mehowt 
       -->
     <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler,Log4net" />
     <sectionGroup name="elmah">
-      <section name="handlers" overrideModeDefault="Allow" /> 
-      <section name="modules" allowDefinition="MachineToApplication" overrideModeDefault="Allow" />
-      <section name="security" requirePermission="false" type="Elmah.SecuritySectionHandler, Elmah"/>
+      <section name="security" requirePermission="false" type="Elmah.SecuritySectionHandler, Elmah" />
       <section name="errorLog" requirePermission="false" type="Elmah.ErrorLogSectionHandler, Elmah" />
       <section name="errorMail" requirePermission="false" type="Elmah.ErrorMailSectionHandler, Elmah" />
       <section name="errorFilter" requirePermission="false" type="Elmah.ErrorFilterSectionHandler, Elmah" />
@@ -28,7 +26,7 @@
     <appender name="ADONetAppender" type="log4net.Appender.AdoNetAppender">
       <bufferSize value="100" />
       <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-      <connectionString value="Data Source=.;Initial Catalog=CTS;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
+      <connectionString value="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
       <commandText value="INSERT INTO Log ([Date],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)" />
       <parameter>
         <parameterName value="@log_date" />
@@ -75,20 +73,43 @@
       </parameter>
     </appender>
   </log4net>
-
+<<<<<<< HEAD
   <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-
-  <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+  </connectionStrings>-->
+
+   <connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
+=======
+   <!--<connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass; " providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
+  </connectionStrings>-->
+
+  <!--<connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+  </connectionStrings>-->
+
+ <connectionStrings>
+    <add name="elmah-sql" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
   </connectionStrings>
+
+  
   <appSettings>
     <add key="log4net.Internal.Debug" value="true" />
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
@@ -104,7 +125,12 @@
     <add key="elmah.mvc.allowedUsers" value="*" />
     <add key="elmah.mvc.route" value="elmah" />
   </appSettings>
+  
   <system.web>
+    <authorization>
+      <deny users="?" />
+    </authorization>
+
     <httpModules>
       <add name="ErrorLog" type="Elmah.ErrorLogModule, Elmah" />
       <add name="ErrorMail" type="Elmah.ErrorMailModule, Elmah" />
@@ -129,9 +155,22 @@
         <add extension=".rdlc" type="Microsoft.Reporting.RdlBuildProvider, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
       </buildProviders>
     </compilation>
+
+
+   
+
     <authentication mode="Forms">
-      <forms loginUrl="~/Login" timeout="2880" name="./AUTHTICKET" />
+
+      <forms loginUrl="~/Login" timeout="2880" name="Authen" />
+
     </authentication>
+    
+    <machineKey decryptionKey="A225194E99BCCB0F6B92BC9D82F12C2907BD07CF069BC8B4" validationKey="6FA5B7DB89076816248243B8FD7336CCA360DAF8" />
+    
+    
+    
+    
+        
     <!--<customErrors mode="On" defaultRedirect="~/Error">
       <error redirect="~/Error" statusCode="400"/>
     </customErrors>-->
@@ -153,6 +192,7 @@
         <add name="DefaultSessionProvider" type="System.Web.Providers.DefaultSessionStateProvider, System.Web.Providers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" connectionStringName="DefaultConnection" />
       </providers>
     </sessionState>
+   
   </system.web>
   <system.webServer>
     <modules runAllManagedModulesForAllRequests="true">
@@ -173,6 +213,7 @@
       <add name="Telerik.ReportViewer.axd_*" path="Telerik.ReportViewer.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" preCondition="integratedMode" />
     </handlers>
   </system.webServer>
+  
   <runtime>
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
       <dependentAssembly>

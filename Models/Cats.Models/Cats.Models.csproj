@@ -70,8 +70,10 @@
   <ItemGroup>
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
+    <Compile Include="Allocation.cs" />
     <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Audit.cs" />
+    <Compile Include="HubAllocationByRegionViewModel.cs" />
     <Compile Include="Mapping\AuditMap.cs" />
     <Compile Include="BeneficiaryInfo.cs" />
     <Compile Include="Bid.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="Mapping\TransportOrderMap.cs" />
     <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
+    <Compile Include="Mapping\TransReqWithoutTransporterMap.cs" />
     <Compile Include="Mapping\TypeOfNeedAssessmentMap.cs" />
     <Compile Include="Mapping\UnitMap.cs" />
     <Compile Include="Mapping\UserDashboardPreferenceMap.cs" />
@@ -244,6 +247,7 @@
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
+    <Compile Include="TransReqWithoutTransporter.cs" />
     <Compile Include="TypeOfNeedAssessment.cs" />
     <Compile Include="UIWidget.cs" />
     <Compile Include="Unit.cs" />
@@ -259,6 +263,7 @@
     <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
     <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
     <Compile Include="ViewModels\LookupViewModel.cs" />
+    <Compile Include="ViewModels\TransportRequisitionWithoutWinnerModel.cs" />
     <Compile Include="ViewModels\PSNP\RegionalPSNPPlanDetailViewModel.cs" />
     <Compile Include="ViewModels\PSNP\RegionalPSNPPlanViewModel.cs" />
     <Compile Include="ViewModels\RegionalSummaryViewModel.cs" />

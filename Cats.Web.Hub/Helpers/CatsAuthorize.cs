@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Services.Security;
 using Early_Warning.Security;
 using Ninject;
 
@@ -11,14 +12,14 @@ namespace Cats.Web.Hub.Helpers
 
     public class CatsAuthorize : AuthorizeAttribute
     {
-        private readonly ICheckAccessHelper _checkAccessHelper;
-        
-        public CheckAccessHelper.Operation operation;
-       
+        private readonly IEarlyWarningCheckAccess _checkAccessHelper;
+
+        public EarlyWarningCheckAccess.Operation operation;
+
 
         public CatsAuthorize()
         {
-            _checkAccessHelper = DependencyResolver.Current.GetService<ICheckAccessHelper>();
+            _checkAccessHelper = DependencyResolver.Current.GetService<IEarlyWarningCheckAccess>();
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
