@@ -1,0 +1,97 @@
+﻿@using System.Collections
+@using Cats.Models;
+@{
+    ViewBag.Title = "hub";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+   
+}
+
+
+@section Toolbar
+{
+     
+   <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:onsaveAllocation()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "DispatchAllocation")" title="Cancel"></a>
+     <a class="btn toolbar-btn " data-buttontype="" href="@Url.Action("Hub","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})">Restart</a>
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .thumbnail { height: 280px; }
+        .btn-droppable { width: 160px; height: 30px; padding-left: 4px; }
+        .btn-draggable { width: 150px; }
+    </style>
+</head>
+    <body >
+       
+
+      <div class="row">
+          <div ng-app="dragDrop"  ng-controller="DragDroController">
+                                                                        <fieldset>
+                                                                            <legend> <ng-pluralize count="Requisitions.length" when="newRequisitions"></ng-pluralize></legend>
+                                                                        </fieldset>
+                                                                        
+                                                                   
+                        
+                    <div class="span3" >
+                        @*<div ng-model="allocated" ng-repeat="item in allocated">
+                            
+                            ReqId: {{item.reqId}} | HubId: {{item.HubId}}
+                            <button ng-click='saveAllocation()' id="save">save</button>
+                        </div>*@
+                         
+                        
+
+                        <div class="thumbnail "  ng-model='Requisitions' style=" overflow-y:scroll;" >
+                            <div  class="btn btn-info btn-draggable " id="{{item.RequisitionId}}" draggable    ng-repeat="item in Requisitions" >
+                               
+                                Req.No: {{item.RequisitionNo}}
+                                <br />Commodity: {{item.Commodity}}
+                                <br />Benficiary: {{item.BenficiaryNo}}
+                                <br />Amount: {{item.AmountAllocated}}
+                               
+                                
+
+                            </div>
+                        </div>
+                    </div>
+              <div class="span8">
+
+                    @{
+                    
+                        var enumerable = ViewData["Hubs"] as IEnumerable<Hub>;
+                        if (enumerable != null)
+                        {
+                            foreach (var hub in  enumerable)
+                            {
+                                
+                                <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                    <div class="btn btn-info btn-droppable"  >@hub.Name</div>
+                                </div>
+                            }
+                        }
+                    
+                    } 
+                
+                </div>
+            
+        
+                
+                </div>
+    
+            </div>
+       
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/angular/angular.js"></script>
+        <script src="~/Scripts/angular/angular-resource.js"></script>
+        <script src="~/Scripts/angular/allocation-angular.js"></script>
+        <link href="~/Scripts/angular/css/jquery-ui.css" rel="stylesheet">
+    </body>
+</html>
+<script>
+   var regionId = '@ViewBag.regionId';
+   var RegionName = '@ViewBag.RegionName';
+</script>

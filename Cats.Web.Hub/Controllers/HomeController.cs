@@ -7,6 +7,7 @@ using Cats.Models.Hub;
 using System.Text;
 using System.Security.Cryptography;
 using Cats.Services.Hub;
+using Cats.Services.Security;
 using Cats.Web.Hub.Helpers;
 using Early_Warning.Security;
 
@@ -26,7 +27,7 @@ namespace Cats.Web.Hub.Controllers
             return View();
         }
 
-        [CatsAuthorize(operation = CheckAccessHelper.Operation.View_request)]
+        [CatsAuthorize(operation = EarlyWarningCheckAccess.Operation.View_request)]
         public ActionResult About()
         {
             return View();
@@ -34,7 +35,7 @@ namespace Cats.Web.Hub.Controllers
 
         public ActionResult Redirect2Cats()
         {
-            return Redirect("http://localhost/Cats");
+            return Redirect("/Cats");
         }
     }
 }

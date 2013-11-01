@@ -13,7 +13,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Woreda { get; set; }
         public int Fdpid { get; set; }
         public string FDP { get; set; }
-      
+        public int WoredaId { get; set; }
         public int Beneficiaries { get; set; }
         public int PlannedBeneficiaries { get; set; }
     }

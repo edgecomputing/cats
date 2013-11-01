@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cats.Services.Security
+namespace Cats.Models
 {
-    class ISecurityHelper
+   public  class Allocation
     {
+       public int ReqId { get; set; }
+       public int HubId { get; set; }
+
     }
 }

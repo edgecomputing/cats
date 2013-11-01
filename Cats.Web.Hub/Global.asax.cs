@@ -7,6 +7,7 @@ using Cats.Services.Security;
 using Cats.Web.Hub.Helpers;
 using Cats.Web.Hub.Infrastructure;
 using Elmah;
+using UserAccountHelper = Cats.Web.Hub.Controllers.UserAccountHelper;
 
 namespace Cats.Web.Hub
 {
@@ -48,6 +49,7 @@ namespace Cats.Web.Hub
             RegisterRoutes(RouteTable.Routes);
            
         }
+       
 
         public override string GetVaryByCustomString(HttpContext context, string arg)
         {

@@ -282,29 +282,29 @@ namespace Cats.Services.Hub
             List<ReceiptAllocation> GetDetachecedList = new List<ReceiptAllocation>();
 
             var x = GetListOfSource(commoditySoureType);
-            var receiptAll = _unitOfWork.ReceiptAllocationRepository.Get();
+            var receiptAll = _unitOfWork.ReceiptAllocationRepository.Get().ToList();
             var unclosed = (from rAll in receiptAll
                             where hubId == rAll.HubID
                                   && x.Any(p => p == rAll.CommoditySourceID)
-                            select rAll);
+                            select rAll).ToList();
 
             if (closedToo == null || closedToo == false)
             {
-                unclosed = unclosed.Where(p => p.IsClosed == false);
+                unclosed = unclosed.Where(p => p.IsClosed == false).ToList();
             }
             else
             {
-                unclosed = unclosed.Where(p => p.IsClosed == true);
+                unclosed = unclosed.Where(p => p.IsClosed == true).ToList();
             }
 
 
             if (CommodityType.HasValue)
             {
-                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == CommodityType.Value);
+                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == CommodityType.Value).ToList();
             }
             else
             {
-                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == 1);//by default
+                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == 1).ToList();//by default
             }
 
             foreach (ReceiptAllocation receiptAllocation in unclosed)

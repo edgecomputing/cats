@@ -111,8 +111,9 @@ namespace Cats.Data
         
         public DbSet<Store> Stores { get; set; }
 
-        public DbSet<Audit> Audits { get; set; } 
+        public DbSet<Audit> Audits { get; set; }
 
+        public DbSet<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; } 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new DashboardWidgetMap());
@@ -208,6 +209,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new CommoditySourceMap());
 
             modelBuilder.Configurations.Add(new AuditMap());
+
+            modelBuilder.Configurations.Add(new TransReqWithoutTransporterMap());
 
         }
 

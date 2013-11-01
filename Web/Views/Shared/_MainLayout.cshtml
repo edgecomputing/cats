@@ -281,14 +281,17 @@
        
     }
     <script type="text/javascript">
-        var datepeferencedisplay = "@Translator.Translate(@Html.UserCalendarPreference())";
+        var datepreferencedisplay = "@Translator.Translate(@Html.UserCalendarPreference())";
+        var unitpreferencedisplay = "@Translator.Translate(@Html.UserUnitPreference())";
 
         $(function () {
 
             //For label
-            $(".cats-date-pref").append(' (' + datepeferencedisplay + ')');
+            $(".cats-date-pref").append(' (' + datepreferencedisplay + ')');
+            $(".cats-unit-pref").append(' (' + unitpreferencedisplay + ')');
             //For grid
-            $(".cats-date-pref-grid >.k-link").append("(" + datepeferencedisplay + ")");
+            $(".cats-date-pref-grid >.k-link").append("(" + datepreferencedisplay + ")");
+            $(".cats-unit-pref-grid >.k-link").append("(" + unitpreferencedisplay + ")");
             /*each(function () {
                 $(this).append("(" + datepeferencedisplay + ")");
                 

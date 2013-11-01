@@ -128,6 +128,14 @@
                             <input type="text" id="PCAvailableQuantity" readonly="readonly" />
                         </div>
                     </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">PC Allocated Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="PCAllocatedQuantity" readonly="readonly" />
+                        </div>
+                    </div>
+
                 </div>
                 <div class="span4">
                     <div class="control-group">
@@ -153,7 +161,12 @@
                             <input type="text" id="SIAvailableQuantity" readonly="readonly" />
                         </div>
                     </div>
-                    
+                    <div class="control-group">
+                        <label class="control-label">SI Allocated Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="SIAllocatedQuantity" readonly="readonly" />
+                        </div>
+                    </div>
                      
                 </div>
             </div>
@@ -205,8 +218,11 @@
     });
 
     function onChangeSI(value) {
-        var totalassigned = '@ViewBag.Total';
-        var available = freeSI["si_" + value] - totalassigned;
+        SIChanged(value);
+        
+        var available = freeSI["si_" + value] - $('#SIAllocatedQuantity').val;
+        if (available < 0)
+            available = freeSI["si_" + value];
         currentAmount = available;
         $("#SIAvailableQuantity").val(available);
         on_si_amount_change();
@@ -215,9 +231,13 @@
     }
     
     function onChangePC(value) {
-        var totalassigned = '@ViewBag.Total';
+        PCChanged(value);
+        
        
-        var available = freePC["pc_" + value] - totalassigned;
+       
+        var available = freePC["pc_" + value] -  $('#PCAllocatedQuantity').val;
+        if (available < 0)
+            available = freePC["pc_" + value];
         currentAmount = available;
         $("#PCAvailableQuantity").val(available);
         on_pc_amount_change();
@@ -227,6 +247,7 @@
     
     function on_pc_amount_change(inp) {
 
+       
         var assigned = $("#PCodeqty").val();
         var msg = "";
         if (currentAmount - assigned < 0) {
@@ -248,6 +269,25 @@
         $("#si_validation_message").html(msg);
     }
     
+    function SIChanged(e) {
+        var requisitionId = '@ViewBag.ReqId';
+        if (e.value != null) {
+            var url = "/ProjectAllocation/GetSIAmount";
+            $.getJSON(url, { siIndex: e.value, reqId: requisitionId}, function (amount) {
+                if (amount != "")
+                    $('#SIAllocatedQuantity').val(amount);
+            });
+        }
+    }
 
-
+    function PCChanged(e) {
+        var requisitionId = '@ViewBag.ReqId';
+         if (e.value != null) {
+             var url = "/ProjectAllocation/GetPCAmount";
+             $.getJSON(url, { pcIndex: e.value, reqId: requisitionId }, function (amount) {
+                 if (amount != "")
+                     $('#PCAllocatedQuantity').val(amount);
+             });
+         }
+     }
 </script>

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Controllers;
+using Cats.Areas.Logistics.Models;
 using Cats.Areas.Procurement.Models;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Models.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
@@ -16,6 +18,7 @@ using System.Web;
 using System.Security.Principal;
 using Cats.Services.Security;
 using log4net;
+using UserProfile = Cats.Models.UserProfile;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -94,16 +97,35 @@ namespace Cats.Tests.ControllersTests
             _transportRequisitionService.Setup(t => t.FindById(It.IsAny<int>())).Returns(_transportRequisition);
             var _workflowStatusService = new Mock<IWorkflowStatusService>();
             _workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Approved");
-
+            var statuses = new List<WorkflowStatus>()
+                             {
+                                 new WorkflowStatus() {Description = "Open", StatusID = 1, WorkflowID = 1}
+                             };
+            _workflowStatusService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(statuses);
+            var session = new Mock<HttpSessionStateBase>();
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
+            fakeContext.Setup(t => t.Session).Returns(session.Object);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
-
+            var users = new List<UserInfo>()
+                            {
+                                new UserInfo()
+                                    {
+                                        ActiveInd = true,
+                                        UserProfileID = 1,
+                                        FirstName = "Admin",
+                                        LastName = "System",
+                                        GrandFatherName = "Admin"
+                                    }
+                            };
+            _transportRequisitionService.Setup(t => t.GetTransportRequisitionDetail(It.IsAny<List<int>>())).Returns(
+                _requisitionToDispatches1);
             var userAccountService = new Mock<IUserAccountService>();
-            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "xx", DatePreference = "AM" });
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "Admin", DatePreference = "AM" });
+            userAccountService.Setup(t => t.GetUsers()).Returns(users);
             var logService = new Mock<ILog>();
             _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object, _workflowStatusService.Object, userAccountService.Object,logService.Object);
             _transportRequisitionController.ControllerContext = controllerContext.Object;
@@ -137,6 +159,18 @@ namespace Cats.Tests.ControllersTests
 
             //Assert
             Assert.IsInstanceOf<TransportRequisition>(((ViewResult)result).Model);
+        }
+        [Test]
+        public void ShouldDisplayTransportRequisitonDetail()
+        {
+            var result =((ViewResult) _transportRequisitionController.Details(1)).Model;
+            Assert.IsInstanceOf<TransportRequisitionViewModel>(result);
+        }
+        [Test]
+        public void ShouldDisplayTransportRequisitionDestinations()
+        {
+            var result = _transportRequisitionController.Destinations(1);
+            Assert.IsInstanceOf<ViewResult>(result);
         }
      /*   [Test]
         public void ShouldConfirmApproval()
