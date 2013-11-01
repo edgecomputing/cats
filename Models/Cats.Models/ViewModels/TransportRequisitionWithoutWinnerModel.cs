@@ -25,6 +25,7 @@ namespace Cats.Models.ViewModels
         public string Commodity { get; set; }
         public string Zone { get; set; }
         public bool Selected { get; set; }
+        public string RequisitionNo { get; set; }
         public decimal Amount
         {
             get { return QuantityQtl*beneficiaryNumber; }
@@ -34,13 +35,14 @@ namespace Cats.Models.ViewModels
     public class TransportRequisitionWithTransporter
     {
         public List<TransportRequisitionWithoutWinnerModel> TransReqwithOutTransporters { get; set; }
-        public List<Transporter> Transporters { get; set; }
-        public TransporterViewModel SelectedTransporter { get; set; }
+        //public List<Transporter> Transporters { get; set; }
+        //public Transporter SelectedTransporter { get; set; }
+        public int SelectedTransporterID { get; set; }
     }
 
-    public class TransporterViewModel
-    {
-        public int TransporterID { get; set; }
-        public string Name { get; set; }
-    }
+    //public class TransporterViewModel
+    //{
+    //    public int TransporterID { get; set; }
+    //    public string Name { get; set; }
+    //}
 }

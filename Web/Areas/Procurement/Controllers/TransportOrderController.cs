@@ -27,7 +27,7 @@ namespace Cats.Areas.Procurement.Controllers
         //
         // GET: /Procurement/TransportOrder/
         private readonly ITransportOrderService _transportOrderService;
-
+        private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly ITransportRequisitionService _transportRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ILog _log;
@@ -37,7 +37,7 @@ namespace Cats.Areas.Procurement.Controllers
         public TransportOrderController(ITransportOrderService transportOrderService,
             ITransportRequisitionService transportRequisitionService,
             IWorkflowStatusService workflowStatusService, ILog log, IUserAccountService userAccountService,
-            ITransReqWithoutTransporterService transReqWithoutTransporterService)
+            ITransReqWithoutTransporterService transReqWithoutTransporterService,ITransportOrderDetailService transportOrderDetailService)
         {
             this._transportOrderService = transportOrderService;
             this._transportRequisitionService = transportRequisitionService;
@@ -45,6 +45,7 @@ namespace Cats.Areas.Procurement.Controllers
             _log = log;
             _userAccountService = userAccountService;
             _transReqWithoutTransporterService = transReqWithoutTransporterService;
+            _transportOrderDetailService = transportOrderDetailService;
         }
 
 
@@ -126,7 +127,7 @@ namespace Cats.Areas.Procurement.Controllers
             var allTransporters = _transportOrderService.GetTransporter();
             ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
             var viewModel = GetRequisitionsWithoutTransporter();
-            viewModel.Transporters = allTransporters;
+            //viewModel.Transporters = allTransporters;
             return View(viewModel);
         }
 
@@ -253,6 +254,8 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult TransportContract(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
+            ViewBag.HubID = _transportOrderService.GetHubs();
+            ViewBag.TransportOrderID = id;
             return View(transportOrder);
         }
         public ActionResult Contract_Read([DataSourceRequest] DataSourceRequest request,int id=0)
@@ -292,8 +295,11 @@ namespace Cats.Areas.Procurement.Controllers
                           Commodity = requisitionDetail.Commodity.Name,
                           CommodityID = requisitionDetail.CommodityID,
                           FdpID = requisitionDetail.FDPID,
+                          HubID = requisitionDetail.ReliefRequisition.HubAllocations.First().HubID,
+                          OriginWarehouse = requisitionDetail.ReliefRequisition.HubAllocations.First().Hub.Name,
                           RequisitionID = detail.ReliefRequisitionDetail.RequisitionID,
-                          beneficiaryNumber = detail.TransportRequisitionDetail.ReliefRequisition.ReliefRequisitionDetails.First().BenficiaryNo
+                          beneficiaryNumber = detail.TransportRequisitionDetail.ReliefRequisition.ReliefRequisitionDetails.First().BenficiaryNo,
+                          RequisitionNo = detail.TransportRequisitionDetail.ReliefRequisition.RequisitionNo
                         });
 
 
@@ -314,32 +320,49 @@ namespace Cats.Areas.Procurement.Controllers
                            TariffPerQtl = detail.TariffPerQtl,
                            Commodity = detail.Commodity.Name,
                            OriginWarehouse = detail.Hub.Name,
+                           HubID = detail.Hub.HubID,
                            Woreda = detail.FDP.AdminUnit.Name,
-                           FDP = detail.FDP.Name
+                           FDP = detail.FDP.Name,
+                           RequisitionNo = detail.ReliefRequisition.RequisitionNo
                            
                        });
 
            // return transportContractDetail;
        }
-       public ActionResult Transporter_Read()
+       [AcceptVerbs(HttpVerbs.Post)]
+       public ActionResult TransportOrder_Update([DataSourceRequest] DataSourceRequest request, TransportOrderDetailViewModel orderDetails)
        {
-           ViewBag.Transporters = _transportOrderService.GetTransporter();
-           return Json((List<TransporterViewModel>)ViewBag.Transporters, JsonRequestBehavior.AllowGet);
+           if (orderDetails != null && ModelState.IsValid)
+           {
+               var detail = _transportOrderDetailService.FindById(orderDetails.TransportOrderDetailID);
+               if (detail != null)
+               {
+                   detail.TransportOrderID = orderDetails.TransportOrderID;
+                   detail.TransportOrderDetailID = orderDetails.TransportOrderDetailID;
+                   detail.SourceWarehouseID = orderDetails.HubID;
+                   detail.TariffPerQtl = orderDetails.TariffPerQtl;
+
+                   _transportOrderDetailService.EditTransportOrderDetail(detail);
+               }
+
+           }
+           return Json(new[] { orderDetails }.ToDataSourceResult(request, ModelState));
+           //return Json(ModelState.ToDataSourceResult());
        }
        [HttpPost]
        public ActionResult AssignTransporter(TransportRequisitionWithTransporter requisitionWithTransporter)
        {
 
-           var selectedTransRequision =requisitionWithTransporter.TransReqwithOutTransporters.Where(m => m.Selected == true);
-           var selectedTransporter = requisitionWithTransporter.SelectedTransporter;
+           var selectedTransRequision =requisitionWithTransporter.TransReqwithOutTransporters.Where(m => m.Selected==true);
            try
            {
-               _transportOrderService.ReAssignTransporter(selectedTransRequision);
+               _transportOrderService.ReAssignTransporter(selectedTransRequision,requisitionWithTransporter.SelectedTransporterID);
                return RedirectToAction("Index");
            }
            catch (Exception ex)
            {
-               
+               var log = new Logger();
+               log.LogAllErrorsMesseges(ex, _log);
                ModelState.AddModelError("Errors",ex);
            }
            

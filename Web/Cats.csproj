@@ -1130,7 +1130,6 @@
     <Folder Include="bin\" />
     <Folder Include="Report\EarlyWarning\" />
     <Folder Include="Report\HRD\" />
-    <Folder Include="Report\Procurment\" />
     <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
@@ -1204,6 +1203,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
+    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -1241,7 +1241,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1786</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1786/</IISUrl>
+          <IISUrl>http://localhost:56576/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:56576/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -18,34 +18,36 @@
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
 }
-
+<div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
       {
-          columns.Bound(to => to.ContractNumber).Width(150);
+          columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("TransportContract", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.Transporter);
     columns.Bound(to => to.BidDocumentNo).Width(100).Title(Translator.Translate("Bid Document #"));
     //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(to => to.OrderExpiryDateET).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.RequestedDispatchDateET).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.TransportOrderNo).Width(120);
-    columns.Bound(to => to.PerformanceBondReceiptNo).Width(150).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.OrderExpiryDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.TransportOrderNo).Width(150);
     columns.Bound(to => to.Status);
-    columns.Command(p => p.Custom("View Contract").Click("onGenerate")).Width(150);
-           
-})
+     columns.Command(p =>
+              
+                  p.Custom("View Contract").Click("onGenerate")).Width(150);
+                 
+              
+
+      })
     //.Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable()
-    .Sortable()
+     .Scrollable()
     //.Scrollable()
     //.HtmlAttributes(new { style = "height:230px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(4)
         .Model(model =>model.Id(p => p.TransportOrderID))
         .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
-    ).Pageable()
+    )
       )
+    </div>
 <div>
     <hr/>
 </div>

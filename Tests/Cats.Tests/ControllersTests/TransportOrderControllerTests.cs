@@ -108,7 +108,17 @@ namespace Cats.Tests.ControllersTests
             var transReqWithoutTransporterService = new Mock<ITransReqWithoutTransporterService>();
             transReqWithoutTransporterService.Setup(m => m.GetAllTransReqWithoutTransporter()).Returns(
                 TransReqWithoutTransporter);
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object, logService.Object, userAccountService.Object,transReqWithoutTransporterService.Object);
+            var transporterOrderDetail = new List<TransportOrderDetail>
+                {
+                    new TransportOrderDetail {TransportOrderDetailID = 1,TransportOrderID = 1,RequisitionID = 1,FdpID = 5,QuantityQtl = 200,TariffPerQtl = 12},
+                    new TransportOrderDetail {TransportOrderDetailID = 1,TransportOrderID = 1,RequisitionID = 1,FdpID = 5,QuantityQtl = 200,TariffPerQtl = 12},
+
+                };
+            var transporterOrderDetailService = new Mock<ITransportOrderDetailService>();
+            transporterOrderDetailService.Setup(m => m.GetAllTransportOrderDetail()).Returns(transporterOrderDetail);
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,
+                                                                     workflowStatusService.Object, logService.Object, userAccountService.Object,
+                                                                     transReqWithoutTransporterService.Object,transporterOrderDetailService.Object);
             _transportOrderController.ControllerContext = controllerContext.Object;
         }
 
@@ -147,5 +157,12 @@ namespace Cats.Tests.ControllersTests
             Assert.IsInstanceOf<JsonResult>(result);
         }
         #endregion
+        [Test]
+        public void CanShowTransportContract()
+        {
+            var result = _transportOrderController.TransportContract(1);
+            Assert.IsNotNull(result);
+        }
+        
     }
 }
