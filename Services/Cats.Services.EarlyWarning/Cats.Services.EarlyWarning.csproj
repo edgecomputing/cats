@@ -68,12 +68,14 @@
   <ItemGroup>
     <Compile Include="AdminUnitService.cs" />
     <Compile Include="AdminUnitTypeService.cs" />
+    <Compile Include="AllocationByRegionService.cs" />
     <Compile Include="BusinessProcessService.cs" />
     <Compile Include="BusinessProcessStateService.cs" />
     <Compile Include="CommodityService.cs" />
     <Compile Include="CommodityTypeService.cs" />
     <Compile Include="CurrencyService.cs" />
     <Compile Include="DashboardService.cs" />
+    <Compile Include="IAllocationByRegionService.cs" />
     <Compile Include="ICurrencyService.cs" />
     <Compile Include="IDashboardService.cs" />
     <Compile Include="ContributionDetailService.cs" />
