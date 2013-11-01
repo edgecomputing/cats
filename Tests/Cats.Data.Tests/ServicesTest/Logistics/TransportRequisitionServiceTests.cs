@@ -82,19 +82,19 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                                       CommodityCode = "C1",
                                                                       Name = "CSB"
                                                                   },
-                                                  HubAllocations = new List<HubAllocation>(){new HubAllocation()
-                                                                      {
-                                                                          HubAllocationID = 1,
-                                                                          HubID = 1,
-                                                                          RequisitionID = 1,
-                                                                          Hub = new Hub
-                                                                                    {
-                                                                                        HubID = 1,
-                                                                                        Name = "Test Hub",
+                                                  //HubAllocations = new List<HubAllocation>(){new HubAllocation()
+                                                  //                    {
+                                                  //                        HubAllocationID = 1,
+                                                  //                        HubID = 1,
+                                                  //                        RequisitionID = 1,
+                                                  //                        Hub = new Hub
+                                                  //                                  {
+                                                  //                                      HubID = 1,
+                                                  //                                      Name = "Test Hub",
 
-                                                                                    }
+                                                  //                                  }
 
-                                                                      }},
+                                                  //                    }},
 
                                                   ReliefRequisitionDetails = new List<ReliefRequisitionDetail>
                                                                                  {
