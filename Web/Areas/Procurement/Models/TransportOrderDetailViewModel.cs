@@ -28,6 +28,7 @@ namespace Cats.Areas.Procurement.Models
         public string Zone { get; set; }
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
+        public string Region { get; set; }
 
         public decimal TotalAmount
         {

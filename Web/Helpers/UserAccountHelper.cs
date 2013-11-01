@@ -59,7 +59,7 @@ namespace Cats.Helpers
             {
                 // TODO: Log exception hrere
             }
-
+ 
             return preference.ToUpper();
         }
         public static string UserUnitPreference(this HtmlHelper helper)

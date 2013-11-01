@@ -57,7 +57,7 @@ namespace Cats.Services.Common
                get { return _pcCodeId; }
                set { _pcCodeId = value; }
            }
-           public string PCcode
+           public string PCcode 
            {
                get { return _PCcode; }
                set { _PCcode = value; }

@@ -651,7 +651,10 @@
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+<<<<<<< HEAD
     <Content Include="Scripts\angular.min.js" />
+=======
+    <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
@@ -943,6 +946,7 @@
     <Content Include="Scripts\angular\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\angular\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\angular\i18n\angular-locale_zu.js" />
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
@@ -1158,8 +1162,10 @@
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <Content Include="Content\Web.config" />
-    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
+=======
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
 
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
@@ -1172,6 +1178,7 @@
 
 
 
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>

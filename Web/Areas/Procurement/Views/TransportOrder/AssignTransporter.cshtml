@@ -46,7 +46,7 @@
         
         })*@
           
-    <a class="btn toolbar-btn " data-buttontype=" "  data-submittedform="frm_assign_transporter">Assign Transporter</a>
+    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">Assign Transporter</a>
     
     @*<input type="submit" value="Assign Transporter" formtarget="frm_assign_transporter"  class="btn btn-success"/>*@
     @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
@@ -69,14 +69,6 @@
           .DataSource(datasource => datasource.Server()
            
                                         .Model(model => model.Id(p => p.TransReqWithoutTransporterID))
-      
-          //.Server()
-          //.Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
-          ////.Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
-          //.PageSize(4)
-          //.Group(group=>group.Add(m=>m.Woreda))
-          //.Model(model => model.Id(p => p.TransportRequisitionID))
-          //.Read(read => read.Action("TransReqWithoutTransporter_Read", "TransportOrder"))
 
           ))
 </div>
@@ -114,7 +106,7 @@
         var selected = $("#TransporterID").val();
         $("#SelectedTransporterID").val(selected);
     }
-    
+   
     function validate_selection_data() {
         var i = 0;
         var count = 0;

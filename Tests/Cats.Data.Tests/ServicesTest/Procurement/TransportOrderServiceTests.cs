@@ -22,7 +22,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         private IList<TransportOrder> _transportOrders;
         private TransportOrderService _transportOrderService;
         private IList<BidWinner> _transportBidWinners;
-        [SetUp]
+        private IList<ApplicationSetting> _applicationSettings;
         public void Init()
         {
             _transportBidWinners = new List<BidWinner>()
@@ -35,7 +35,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                    TransporterID = 1
                                                }
                                        };
-
+            
             _reliefRequisitions = new List<ReliefRequisition>()
                                          {
 
@@ -61,12 +61,33 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                              CommodityID=1,
                                                                                              Amount=10,
                                                                                              BenficiaryNo=12,
+                                                                                             ReliefRequisition = new ReliefRequisition()
+                                                                                                      {   
+                                                                        
+                                                                                                             RequisitionID = 1,
+            
+                                                                                                             RegionalRequestID = 1,
+                                                                                                             TransportRequisitionDetails = new List<TransportRequisitionDetail>()
+                                                                                                                 {
+                                                                                                                     new TransportRequisitionDetail()
+                                                                                                                         {
+                                                                                                                             RequisitionID = 1,
+                                                                                                                             TransportRequisitionDetailID = 1,
+                                                                                                                             TransportRequisitionID = 1
+                                                                                                                            
+                                                                                                                             
+                                                                                                                         }
+                                                                                                                         
+                                                                                                                 }
+
+                                                                                                        },
                                                                                              FDP=new FDP
                                                                                                      {
                                                                                                          Name="XYX",
                                                                                                          AdminUnitID=1,
                                                                                                          FDPID=1
-                                                                                                     }
+                                                                                                     },
+                                                                                                     
                                                                                             
                                                                                          }
                                                                                   }
