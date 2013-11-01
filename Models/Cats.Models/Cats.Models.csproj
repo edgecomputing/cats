@@ -70,8 +70,10 @@
   <ItemGroup>
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
+    <Compile Include="Allocation.cs" />
     <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Audit.cs" />
+    <Compile Include="HubAllocationByRegionViewModel.cs" />
     <Compile Include="Mapping\AuditMap.cs" />
     <Compile Include="BeneficiaryInfo.cs" />
     <Compile Include="Bid.cs" />

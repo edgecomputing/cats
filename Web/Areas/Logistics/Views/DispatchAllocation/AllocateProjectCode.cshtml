@@ -1,4 +1,6 @@
-﻿@using Kendo.Mvc.UI
+﻿
+@model int?
+@using Kendo.Mvc.UI
 @(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
     .Name("ProjectCodegrid")
     .Columns(columns =>
@@ -12,7 +14,7 @@
     })
     .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation"))
+        .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation",new {regionId = @Model}))
        
         .PageSize(5)
      )

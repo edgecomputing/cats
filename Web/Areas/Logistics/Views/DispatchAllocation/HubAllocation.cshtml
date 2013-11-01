@@ -1,19 +1,22 @@
-﻿@using Kendo.Mvc.UI
-@(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
-    .Name("grid")
+﻿
+
+ 
+@model int?
+
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@(Html.Kendo().Grid<Cats.Models.HubAllocationByRegionViewModel>()
+    .Name("grid_hub")
     .Columns(columns =>
     {
-        columns.Bound(e => e.RequisitionNo).Width(100).Title("Requisition No");
-        columns.Bound(e => e.Region).Width(100).Title("Region");
-        columns.Bound(e => e.Commodity).Width(100);
-        columns.Bound(e => e.Amount).Width(50);
-        columns.Bound(e => e.RequisitionDate).Width(80);
-        columns.Bound(e => e.BenficiaryNo).Width(50);
+        columns.Bound(e => e.Hub).Width(100).Title("Hub");
+        columns.Bound(e => e.AllocatedAmount).Width(100).Title("Allocated Amount");
+       
         
     })
     .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action("HubAllocation", "DispatchAllocation"))
+        .Read(read => read.Action("HubAllocation", "DispatchAllocation",new {regionId = @Model}))
        
         .PageSize(5)
      )

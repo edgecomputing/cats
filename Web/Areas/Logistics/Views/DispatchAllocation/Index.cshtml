@@ -1,4 +1,5 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -15,6 +16,38 @@
     @Html.Partial("_AllocationLeftBar")
 }
 
+
+
+@{
+    var ddl = Html.Kendo().DropDownList()
+        .Name("category")
+        .OptionLabel("Select a product...")
+        .DataTextField("Name")
+        .DataValueField("AdminUnitID")
+        .HtmlAttributes(new {style = "width:200px"})
+        .Events(e => e.Change("regionsChange"))
+        .DataSource(source => source.Read("GetRegions", "DispatchAllocation"));
+        
+            
+    ddl.Render(); //displays the dropdown list
+
+    var selected = ddl.ToComponent().Value;//gets the selected value
+}
+<div style="float: right; margin-right: 100px">
+    <div class="btn-group">
+  <button class="btn">Action</button>
+  <button class="btn dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+            <li>  <a href="@Url.Action("Hub", "DispatchAllocation",new {regionid =  ViewBag.regionId})">hub allocation</a></li>
+            <li><a href="#">pc/si code allocation</a></li>
+            <li><a href="#">Generate TR</a></li>
+            <li><a href="#"></a></li>
+        </ul>
+
+    </div>
+</div>
 <fieldset>
     <legend>
         @Translator.Translate("Approved Requisitions to be hub allocated")
@@ -22,7 +55,7 @@
 </fieldset>
 
 <div id ="HubAllocationPartial">
-    @Html.Partial("HubAllocation")
+    @Html.Partial("HubAllocation",(int)ViewBag.regionId)
 </div>
 <br/>
 <br/>
@@ -39,7 +72,17 @@
 </fieldset>
 
 <div id="ProjectCodeAllocationPartial">
-    @Html.Partial("AllocateProjectCode")
+    @Html.Partial("AllocateProjectCode",(int)ViewBag.regionId)
 </div>
 
 
+<script>
+   
+    function regionsChange(e) {
+        e.preventDefault();
+
+        var value = this.value();
+        window.location = null;
+        window.location = "@Url.Action("RegionId", "DispatchAllocation")" + "?id=" + value;
+    }
+</script>
