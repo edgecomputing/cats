@@ -323,6 +323,8 @@ namespace Cats.Areas.Procurement.Controllers
                            HubID = detail.Hub.HubID,
                            Woreda = detail.FDP.AdminUnit.Name,
                            FDP = detail.FDP.Name,
+                           Zone = detail.FDP.AdminUnit.AdminUnit2.Name,
+                           Region = detail.AdminUnit.Name,
                            RequisitionNo = detail.ReliefRequisition.RequisitionNo
                            
                        });
@@ -363,10 +365,26 @@ namespace Cats.Areas.Procurement.Controllers
            {
                var log = new Logger();
                log.LogAllErrorsMesseges(ex, _log);
-               ModelState.AddModelError("Errors",ex);
+               ModelState.AddModelError("Errors","Unable to create transport order");
            }
            
            return RedirectToAction("Index");
        }
+        public ActionResult Approve(int id)
+        {
+            var transportOrder = _transportOrderService.FindById(id);
+            try
+            {
+                _transportOrderService.ApproveTransportOrder(transportOrder);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex, _log);
+                ModelState.AddModelError("Errors", "Unable to approve");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
