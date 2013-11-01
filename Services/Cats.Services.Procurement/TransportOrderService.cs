@@ -297,7 +297,6 @@ namespace Cats.Services.Procurement
 
 
                 var transportOrder = new TransportOrder();
-                //Hard code should be removed
                 transportOrder.TransporterID = transporterID;
                 transportOrder.OrderDate = DateTime.Today;
                 transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
@@ -333,7 +332,7 @@ namespace Cats.Services.Procurement
                     transportOrderDetail.FdpID = detail.FdpID;
                     transportOrderDetail.RequisitionID = detail.RequisitionID;
                     transportOrderDetail.QuantityQtl = detail.QuantityQtl;
-                    //since users don't specify trarif value
+                    //since users don't specify tariff value
                     transportOrderDetail.TariffPerQtl = 0;
                     transportOrderDetail.SourceWarehouseID = detail.HubID;
                     transportOrder.TransportOrderDetails.Add(transportOrderDetail);
@@ -372,6 +371,18 @@ namespace Cats.Services.Procurement
         public List<Hub> GetHubs()
         {
             return _unitOfWork.HubRepository.GetAll();
+        }
+        public bool ApproveTransportOrder(TransportOrder transportOrder)
+        {
+            if (transportOrder!=null)
+            {
+                transportOrder.StatusID = (int)TransportOrderStatus.Approved;
+                _unitOfWork.TransportOrderRepository.Edit(transportOrder);
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+
         }
     }
 }

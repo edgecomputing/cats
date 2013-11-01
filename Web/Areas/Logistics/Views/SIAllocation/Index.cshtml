@@ -16,7 +16,8 @@
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:submitform()" ></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","DispatchAllocation",new { Area = "Logistics" })"></a>
 }
 
 <fieldset>
@@ -352,8 +353,9 @@
                 }
                 show_form(postdata);
                 $$scope.save(postdata);
-               // $$scope.save(postdata);
-               // $.post("updateAllocation", postdata, function (data) { alert(data)});
+            }
+            function reloadPage() {
+                $$scope.loadPage(1);
             }
             function show_form(postdata) {
                 var htm = "<table class='table table-striped table-bordered'><tr><td>Action</td><td>AllocationId</td><td>ReqId</td><td>si</td><td>Amount</td></tr>";
@@ -572,12 +574,20 @@
                 }
                 $scope.save = function (param) {
                     if (param.length) {
-                        $('#myModal').modal('show')
+                        $('#modalContent').html("Saving...");
+                        $('#myModal').modal('show');
                         $http.post("updateAllocation", param).success(GetListSuccessCB).error(GetListErrorCB);
                     }
 
                 }
-                $http.get("getList").success(GetListSuccessCB);
+                $scope.loadPage = function (showmodal) {
+                    $http.get("getList").success(GetListSuccessCB);
+                    if (showmodal) {
+                        $('#modalContent').html("...");
+                        $('#myModal').modal('show');
+                    }
+                }
+                $scope.loadPage();
             }
         </script>
     </div>
