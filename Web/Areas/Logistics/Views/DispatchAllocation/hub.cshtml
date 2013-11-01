@@ -11,8 +11,8 @@
 {
      
    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:onsaveAllocation()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "DispatchAllocation")" title="Cancel"></a>
-     <a class="btn toolbar-btn " data-buttontype="" href="@Url.Action("Hub","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})">Restart</a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Hub", "DispatchAllocation",new {regionId= Request.QueryString["regionid"]})" title="Cancel"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})"></a>
 }
 
 <!DOCTYPE html>
@@ -45,7 +45,7 @@
                         
 
                         <div class="thumbnail "  ng-model='Requisitions' style=" overflow-y:scroll;" >
-                            <div  class="btn btn-info btn-draggable " id="{{item.RequisitionId}}" draggable    ng-repeat="item in Requisitions" >
+                            <div  class="btn btn-navbar btn-draggable " id="{{item.RequisitionId}}" draggable    ng-repeat="item in Requisitions" >
                                
                                 Req.No: {{item.RequisitionNo}}
                                 <br />Commodity: {{item.Commodity}}
@@ -68,7 +68,7 @@
                             {
                                 
                                 <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
-                                    <div class="btn btn-info btn-droppable"  >@hub.Name</div>
+                                    <div class="btn btn-navbar btn-droppable"  >@hub.Name</div>
                                 </div>
                             }
                         }
@@ -88,7 +88,7 @@
         <script src="~/Scripts/angular/angular.js"></script>
         <script src="~/Scripts/angular/angular-resource.js"></script>
         <script src="~/Scripts/angular/allocation-angular.js"></script>
-        <link href="~/Scripts/angular/css/jquery-ui.css" rel="stylesheet">
+       @* <link href="~/Scripts/angular/css/jquery-ui.css" rel="stylesheet">*@
     </body>
 </html>
 <script>

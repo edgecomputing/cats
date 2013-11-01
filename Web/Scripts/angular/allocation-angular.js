@@ -24,13 +24,15 @@ app.factory("dragDropService", function ($resource)
 
 });
 
-app.factory("savefactory", function ($http) {
+app.factory("savefactory", function ($http, dragDropService) {
    
     return {
         save: function (hubAllocated) {
           
             $http.post("/DispatchAllocation/Save", { allocation: hubAllocated }).success(function (responseData) {
                 $scope.allocated = [];
+                $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
+                $location.path('/DispatchAllocation/ReadRequisitions?regionId=' + regionId);
             });
         }
     };
@@ -102,13 +104,12 @@ app.directive('droppable', function () {
             drop: '&',
             allocated: "="
         },
-        link: function (scope, element) {
-            
-           
-            
+        link: function(scope, element) {
+
+
             // again we need the native object
             var el = element[0];
-           
+
             el.addEventListener(
                 'dragover',
                 function(e) {
@@ -150,24 +151,23 @@ app.directive('droppable', function () {
                     var item = document.getElementById(e.dataTransfer.getData('Text'));
                     this.appendChild(item);
 
-                  
-                    
+
                     for (var i = 0; i < $$scope.allocated.length; i++) {
-                        if( $$scope.allocated[i].reqId == item.id) {
+                        if ($$scope.allocated[i].reqId == item.id) {
                             $$scope.allocated.splice(i, 1);
                         }
                     }
                     $$scope.allocated.splice(0, 0, { reqId: item.id, HubId: 'index' });
-                    
+
                     scope.$apply('drop()');
-                 
+
                     return false;
                 },
                 false
             );
 
         }
-    }
+    };
 });
 
 

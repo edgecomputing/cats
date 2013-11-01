@@ -14,14 +14,17 @@
 @section LeftBar{
     
     @Html.Partial("_AllocationLeftBar")
+
 }
 
 
 
 @{
+
+
     var ddl = Html.Kendo().DropDownList()
         .Name("category")
-        .OptionLabel("Select a product...")
+        .OptionLabel("Select a Region...")
         .DataTextField("Name")
         .DataValueField("AdminUnitID")
         .HtmlAttributes(new {style = "width:200px"})
@@ -41,7 +44,7 @@
   </button>
   <ul class="dropdown-menu">
             <li>  <a href="@Url.Action("Hub", "DispatchAllocation",new {regionid =  ViewBag.regionId})">hub allocation</a></li>
-            <li><a href="#">pc/si code allocation</a></li>
+            <li><a href="@Url.Action("Index", "SIAllocation", new { Area = "Logistics", regionid =  ViewBag.regionId })">PC/SI code allocation</a></li>
             <li><a href="#">Generate TR</a></li>
             <li><a href="#"></a></li>
         </ul>
@@ -50,7 +53,7 @@
 </div>
 <fieldset>
     <legend>
-        @Translator.Translate("Approved Requisitions to be hub allocated")
+        @Translator.Translate("Allocated amount  by Region and Hub")
     </legend>
 </fieldset>
 
@@ -77,7 +80,7 @@
 
 
 <script>
-   
+  
     function regionsChange(e) {
         e.preventDefault();
 

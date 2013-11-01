@@ -27,10 +27,11 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IHubAllocationService _HubAllocationService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly INeedAssessmentService _needAssessmentService;
-      
+        private readonly IAllocationByRegionService _AllocationByRegionService;
+
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
-        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log)
+        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log, IAllocationByRegionService allocationByRegionService)
         {
             _reliefRequisitionService = reliefRequisitionService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
@@ -40,6 +41,7 @@ namespace Cats.Areas.Logistics.Controllers
             _HubAllocationService = hubAllocationService;
             _userAccountService = userAccountService;
             _log = log;
+            _AllocationByRegionService = allocationByRegionService;
         }
 
 
@@ -57,8 +59,8 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public ActionResult HubAllocation([DataSourceRequest]DataSourceRequest request,int regionId)
         {
-            List<ReliefRequisition> requisititions = null;
-            requisititions = regionId!=-1 ? _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            List<AllocationByRegion> requisititions = null;
+            requisititions = regionId!=-1 ? _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
 
             var requisitionViewModel = BindAllocation(requisititions);// HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
             
@@ -150,16 +152,20 @@ namespace Cats.Areas.Logistics.Controllers
                                       });
              return Enumerable.Cast<HubAllocationByRegionViewModel>(result).ToList();
          }
-        public   List<HubAllocationByRegionViewModel> BindAllocation(List<ReliefRequisition> reliefRequisitions)
+         public List<HubAllocationByRegionViewModel> BindAllocation(List<AllocationByRegion> reliefRequisitions)
         {
+
+
+
+
             var result = (from req in reliefRequisitions
                           select new HubAllocationByRegionViewModel()
                           {
 
-                              Region = req.AdminUnit.Name,
-                              RegionId = (int)req.RegionID,
-                              Hub = GetHubName(req.RequisitionID),
-                              AllocatedAmount = req.ReliefRequisitionDetails.Sum(a => a.Amount)
+                              Region = req.Name,
+                              RegionId = (int) req.RegionID,
+                              Hub = req.Hub,
+                              AllocatedAmount = (decimal) req.Amount
                               
                           });
 

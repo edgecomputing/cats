@@ -113,7 +113,9 @@ namespace Cats.Data
 
         public DbSet<Audit> Audits { get; set; }
 
-        public DbSet<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; } 
+        public DbSet<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; }
+        public DbSet<AllocationByRegion> AllocationByRegion { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new DashboardWidgetMap());
@@ -211,7 +213,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new AuditMap());
 
             modelBuilder.Configurations.Add(new TransReqWithoutTransporterMap());
-
+            modelBuilder.Configurations.Add(new AllocationByRegionMap());
         }
 
     }
