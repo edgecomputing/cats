@@ -219,7 +219,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         
             [HttpGet]
-        [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
+        //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
         public ActionResult Details(int id)
         {
             var transportRequisitonViewModel = new TransportRequisitionViewModel();
@@ -249,7 +249,7 @@ namespace Cats.Areas.Logistics.Controllers
             return View(transportRequisitonViewModel);
         }
         [HttpGet]
-        [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
+        //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
         public ActionResult Destinations(int id)
         {
             ViewBag.RequisitionID = id;
