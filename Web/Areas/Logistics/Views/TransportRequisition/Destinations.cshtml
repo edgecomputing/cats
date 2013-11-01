@@ -54,10 +54,14 @@
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
-      // .Aggregates(t=>t.Add(x=>x.Amount).Sum())
-       
+        // .Aggregates(t=>t.Add(x=>x.Amount).Sum())
         .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new {Area="EarlyWarning" ,id = ViewBag.RequisitionID  }))
-       
     )
 )
 
+<script>    
+$(function () {
+        var printurl = "@Url.Action("PrintAttachment", "TransportRequisition",new{id= 13 })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>

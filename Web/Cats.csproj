@@ -343,6 +343,11 @@
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+    <Compile Include="Requisitionattachment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Compile>
     <Compile Include="RequisitionSummary.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1171,6 +1176,9 @@
     <Content Include="CatsMasterDataSet.xsc">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="CatsMasterDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CatsMasterDataSet.Designer.cs</LastGenOutput>
@@ -1179,7 +1187,6 @@
     <Content Include="CatsMasterDataSet.xss">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Content>
-
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1201,6 +1208,17 @@
     </Content>
     <Content Include="RequisitionSummary.xsc">
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
+    </Content>
+    <Content Include="Requisitionattachment.xsc">
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Content>
+    <None Include="Requisitionattachment.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Requisitionattachment.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Requisitionattachment.xss">
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
     </Content>
     <None Include="RequisitionSummary.xsd">
       <SubType>Designer</SubType>
@@ -1459,7 +1477,6 @@
     <Folder Include="bin\" />
     <Folder Include="Report\EarlyWarning\" />
     <Folder Include="Report\HRD\" />
-    <Folder Include="Report\Procurment\" />
     <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
@@ -1533,6 +1550,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
   </ItemGroup>

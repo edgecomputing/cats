@@ -127,14 +127,26 @@ namespace Cats.Tests.ControllersTests
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "Admin", DatePreference = "AM" });
             userAccountService.Setup(t => t.GetUsers()).Returns(users);
             var logService = new Mock<ILog>();
+            
             var hubAllocationService = new Mock<IHubAllocationService>();
             var projectCodeAllocationService = new Mock<IProjectCodeAllocationService>();
-        
+            //private readonly IReliefRequisitionService _reliefRequisitionService;
+            //private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
+            //private readonly IRationService _rationService;
+
+            var reliefRequisitionService = new Mock<IReliefRequisitionService>();
+            var reliefRequisitionDetailService = new Mock<IReliefRequisitionDetailService>();
+            var rationService = new Mock<IRationService>();
+
             _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object,
                                                                                  _workflowStatusService.Object,
                                                                                   userAccountService.Object,
                                                                                   logService.Object,hubAllocationService.Object,
-                                                                                  projectCodeAllocationService.Object);
+                                                                                  projectCodeAllocationService.Object,
+                                                                                  reliefRequisitionService.Object,
+                                                                                  reliefRequisitionDetailService.Object,
+                                                                                  rationService.Object
+                                                                                  );
             _transportRequisitionController.ControllerContext = controllerContext.Object;
         }
 

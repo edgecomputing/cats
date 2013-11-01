@@ -31,13 +31,21 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ILog _log;
         private readonly IHubAllocationService _hubAllocationService;
         private readonly IProjectCodeAllocationService _projectCodeAllocationService;
+        private readonly IReliefRequisitionService _reliefRequisitionService;
+        private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
+        private readonly IRationService _rationService;
+               
         
         public TransportRequisitionController(ITransportRequisitionService transportRequisitionService,
             IWorkflowStatusService workflowStatusService,
             IUserAccountService userAccountService,
             ILog log,
             IHubAllocationService hubAllocationService,
-            IProjectCodeAllocationService projectCodeAllocationService)
+            IProjectCodeAllocationService projectCodeAllocationService,
+            IReliefRequisitionService reliefRequisitionService,
+            IReliefRequisitionDetailService reliefRequisitionDetailService,
+            IRationService  rationService
+            )
         {
             this._transportRequisitionService = transportRequisitionService;
             _workflowStatusService = workflowStatusService;
@@ -45,6 +53,9 @@ namespace Cats.Areas.Logistics.Controllers
             _log = log;
             _hubAllocationService = hubAllocationService;
             _projectCodeAllocationService = projectCodeAllocationService;
+            _reliefRequisitionDetailService = reliefRequisitionDetailService;
+            _reliefRequisitionService = reliefRequisitionService;
+            _rationService = rationService;
         }
         //
         // GET: /Logistics/TransportRequisition/
@@ -272,9 +283,9 @@ namespace Cats.Areas.Logistics.Controllers
                // Session["transport_requisiton_return_id"]=id;
             return View(transportRequisitonViewModel);
         }
+
         [HttpGet]
         [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
-       
         public ActionResult Destinations(int id)
         {
             ViewBag.RequisitionID = id;
@@ -424,6 +435,44 @@ namespace Cats.Areas.Logistics.Controllers
             reportData[0] = header;
             reportData[1] = requisitionsSummary;
             reportData[2] = detailsT;
+
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSources);
+            return File(result.RenderBytes, result.MimeType);
+        }
+
+        public decimal GetCommodityRation(int requisitionID, int commodityID)
+        {
+            var reliefRequisition = _reliefRequisitionService.FindById(requisitionID);
+            var ration = _rationService.FindById(reliefRequisition.RegionalRequest.RationID);
+            var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID).Amount;
+
+            return rationModel;
+
+        }
+
+        public ActionResult PrintAttachment(int id) {
+            
+            var reportPath = Server.MapPath("~/Report/Logisitcs/transportRequisitionAttachment.rdlc");
+            
+            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
+            var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
+            var RationAmount = GetCommodityRation(id, commodityID);
+            var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails, RationAmount);
+            
+            var header = (from destination in requisitionDetailViewModels
+                          select new
+                          {
+                              destination.Zone,
+                              destination.Woreda,
+                              destination.FDP,
+                              destination.Donor,
+                              destination.Commodity,
+                              destination.Amount
+                          });
+
+
+            var dataSources="attachment";
+            var reportData= header;
 
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSources);
             return File(result.RenderBytes, result.MimeType);
