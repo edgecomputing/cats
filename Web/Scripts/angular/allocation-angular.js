@@ -30,9 +30,7 @@ app.factory("savefactory", function ($http, dragDropService) {
         save: function (hubAllocated) {
           
             $http.post("/DispatchAllocation/Save", { allocation: hubAllocated }).success(function (responseData) {
-                $scope.allocated = [];
-                $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
-                $location.path('/DispatchAllocation/ReadRequisitions?regionId=' + regionId);
+               
             });
         }
     };

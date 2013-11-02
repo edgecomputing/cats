@@ -138,20 +138,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-         public   List<HubAllocationByRegionViewModel> GroupByRegion(List<HubAllocationByRegionViewModel> listToBeGrouped)
-         {
-             var result = (from req in listToBeGrouped
-                           group req by req.RegionId
-                           into region
-                           select new HubAllocationByRegionViewModel
-                                      {
-                                          Region = region.First().Region,
-                                          RegionId =  region.First().RegionId,
-                                          Hub = region.First().Hub,
-                                          AllocatedAmount = region.Sum(a => a.AllocatedAmount)
-                                      });
-             return Enumerable.Cast<HubAllocationByRegionViewModel>(result).ToList();
-         }
+        
          public List<HubAllocationByRegionViewModel> BindAllocation(List<AllocationByRegion> reliefRequisitions)
         {
 
@@ -173,12 +160,6 @@ namespace Cats.Areas.Logistics.Controllers
 
             return Enumerable.Cast<HubAllocationByRegionViewModel>(result).ToList();
         }
-        public string GetHubName(int requisitionId)
-        {
-            var allocated = _HubAllocationService.FindBy(r => r.RequisitionID == requisitionId).SingleOrDefault();
-            if (allocated != null)
-                return allocated.Hub.Name;
-            else return null;
-        }
+       
     }
 }
