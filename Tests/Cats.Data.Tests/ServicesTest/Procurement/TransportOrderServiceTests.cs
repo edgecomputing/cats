@@ -23,6 +23,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         private TransportOrderService _transportOrderService;
         private IList<BidWinner> _transportBidWinners;
         private IList<ApplicationSetting> _applicationSettings;
+        [SetUp]
         public void Init()
         {
             _transportBidWinners = new List<BidWinner>()
