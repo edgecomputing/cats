@@ -92,7 +92,11 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult HubAllocation([DataSourceRequest]DataSourceRequest request,int regionId)
         {
             List<AllocationByRegion> requisititions = null;
-            requisititions = regionId!=-1 ? _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            requisititions = regionId != -1
+                                 ? _AllocationByRegionService.FindBy(
+                                     r =>
+                                     r.Status == (int) ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId)
+                                 : null;// _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
 
             var requisitionViewModel = BindAllocation(requisititions);// HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
             
@@ -102,7 +106,11 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult AllocateProjectCode([DataSourceRequest]DataSourceRequest request, int regionId)
         {
             List<ReliefRequisition> requisititions = null;
-            requisititions = regionId != -1 ? _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            requisititions = regionId != -1
+                                 ? _reliefRequisitionService.FindBy(
+                                     r =>
+                                     r.Status == (int) ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId)
+                                 : null;// _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
             
             var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
             return Json(requisitionViewModel.ToDataSourceResult(request));
@@ -176,7 +184,8 @@ namespace Cats.Areas.Logistics.Controllers
 
 
 
-
+             if (reliefRequisitions==null)
+                 return new List<HubAllocationByRegionViewModel>();
             var result = (from req in reliefRequisitions
                           select new HubAllocationByRegionViewModel()
                           {
