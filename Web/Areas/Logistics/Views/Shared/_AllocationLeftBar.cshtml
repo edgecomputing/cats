@@ -1,48 +1,16 @@
-﻿<nav>
-    <div id="floatMenu">
+﻿
+    
         <ul class="nav nav-list " >
             @*<li class="nav-header">Allocation</li>
             <li><a href="@Url.Action("ApprovedRequisitions", "HubAllocation", new { Area = "Logistics" })"><i class="icon-inbox"></i> Draft Allocations</a></li>
             <li><a href="@Url.Action("AllocateProjectCode", "ProjectAllocation", new { Area = "Logistics" })"><i class="icon-check"></i> Hub Allocated</a></li>*@
-            <li class="nav-header">Requisition</li>
-            <li><a href="#">need assessment</a></li>
+            
+            <li><a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })">Nedd assessment</a></li>
             <li><a href="#">HRD</a></li>
-            <li><a href="#">Ration</a></li>
-            <li><a href="#">Requisition</a></li>
-            <li><a href="#"></a></li>
+            <li><a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })">Ration</a></li>
+            
         </ul>
-    </div>
-</nav>
-
-<style>
-    
-    #floatMenu {
-    position:absolute;
-    border: ridge;
-}
-</style>
-<script>
-    
+  
 
 
-    $(function() {
-        var menuYloc;
 
-        function moveFloatMenu() {
-            var menuOffset = menuYloc.top + $(this).scrollTop() + "px";
-            $('#floatMenu').animate({
-                    top: menuOffset
-                }, {
-                    duration: 80,
-                    queue: false
-                });
-        }
-
-        menuYloc = $('#floatMenu').offset();
-
-        $(window).scroll(moveFloatMenu);
-
-        moveFloatMenu();
-    });
-
-</script>

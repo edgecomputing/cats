@@ -11,7 +11,8 @@ namespace Cats.ViewModelBinder
     {
          public static List<RequisitionViewModel> ReturnRequisitionGroupByReuisitionNo(List<ReliefRequisition> requisition )
         {
-            
+            if (requisition==null)
+                return  new List<RequisitionViewModel>();
             var result = (from req in requisition
                          select new RequisitionViewModel()
                                      {
