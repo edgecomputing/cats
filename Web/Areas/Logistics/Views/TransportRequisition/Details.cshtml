@@ -1,5 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
+@using Cats.Localization;
+@using LanguageHelpers.Localization
 @model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
 @{
@@ -11,7 +13,7 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
-<h4 class="page-header">Transport Requisiotn Detail </h4>
+<h4 class="page-header">@Translator.Translate("Transport Requisition Detail") </h4>
 @section Toolbar
 {
 
@@ -43,7 +45,7 @@
             </div>
         </div>
         <div class="control-group">
-            <div class="control-label">
+            <div class="control-label ">
                 @Html.LabelFor(model => model.DateRequested, new { @class = "cats-date-pref" })
 
             </div>

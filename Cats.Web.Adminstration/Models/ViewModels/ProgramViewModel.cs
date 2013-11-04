@@ -11,5 +11,6 @@ namespace Cats.Web.Adminstration.Models.ViewModels
         public string ProgramName { get; set; }
         public string Description { get; set; }
         public string LongName { get; set; }
+        public string ShortCode { get; set; }
     }
 }

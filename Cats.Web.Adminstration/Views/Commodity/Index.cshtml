@@ -24,33 +24,35 @@
 </script>
 
 <h4 class="page-header">Commodity</h4>
-@(Html.Kendo().Grid<CommodityViewModel>().Name("grid").Columns(columns=>
-            {
-                columns.Bound(t => t.CommodityID).Visible(false);
-                columns.Bound(t => t.CommodityCode);
-                columns.Bound(t => t.Name);
-                columns.Bound(t => t.LongName);
-                columns.ForeignKey(t => t.CommodityTypeID, (IEnumerable<CommodityType>) ViewData["CommodityTypes"], "CommodityTypeID", "Name");
-                columns.ForeignKey(t => t.ParentID, (IEnumerable <Commodity>) ViewData["Commodities"], "CommodityID", "Name");
-                columns.Bound(t => t.NameAM);
-                columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+@(Html.Kendo().Grid<CommodityViewModel>()
+    .Name("grid")
+    .Columns(columns=>
+    {
+        columns.Bound(t => t.CommodityID).Visible(false);
+        columns.Bound(t => t.CommodityCode);
+        columns.Bound(t => t.Name);
+        columns.Bound(t => t.LongName);
+        columns.ForeignKey(t => t.CommodityTypeID, (IEnumerable<CommodityType>) ViewData["CommodityTypes"], "CommodityTypeID", "Name");
+        columns.ForeignKey(t => t.ParentID, (IEnumerable <Commodity>) ViewData["Commodities"], "CommodityID", "Name");
+        columns.Bound(t => t.NameAM);
+        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
 
-            }).ToolBar(toolbar =>
-            {
-                toolbar.Save();
-                toolbar.Create();
-            })
-             .Editable(edit => edit.Mode(GridEditMode.InCell))
-             .Pageable()
-            .Selectable(t => t.Mode(GridSelectionMode.Single))
-             .Navigatable()
+    }).ToolBar(toolbar =>
+    {
+        toolbar.Save();
+        toolbar.Create();
+    })
+        .Editable(edit => edit.Mode(GridEditMode.InCell))
+        .Pageable()
+    .Selectable(t => t.Mode(GridSelectionMode.Single))
+        .Navigatable()
              
-             .DataSource(datasource=>
-                 datasource
+        .DataSource(datasource=>
+            datasource
                  
-                    .Ajax()
-            .PageSize(10)
-            .Model(model=>model.Id(p=>p.CommodityID))
+            .Ajax()
+    .PageSize(10)
+    .Model(model=>model.Id(p=>p.CommodityID))
     .Read("Commodity_Read","Commodity")
     .Create("Commodity_Create","Commodity")
     .Update("Commodity_Update","Commodity")

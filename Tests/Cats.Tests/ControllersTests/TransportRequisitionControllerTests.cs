@@ -127,7 +127,30 @@ namespace Cats.Tests.ControllersTests
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "Admin", DatePreference = "AM" });
             userAccountService.Setup(t => t.GetUsers()).Returns(users);
             var logService = new Mock<ILog>();
-            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object, _workflowStatusService.Object, userAccountService.Object,logService.Object);
+
+            var program = new List<Program>()
+                {
+                    new Program() {ProgramID = 1,Name = "Relief"}
+                };
+            var programService = new Mock<IProgramService>();
+            programService.Setup(m => m.GetAllProgram()).Returns(program);
+
+            var reliefRequisition = new List<ReliefRequisition>()
+                {
+                    new ReliefRequisition() {RequisitionID = 1,RequisitionNo = "EM/1/3/2013"}
+                };
+            var reliefRequisitionService = new Mock<IReliefRequisitionService>();
+            reliefRequisitionService.Setup(m => m.GetAllReliefRequisition()).Returns(reliefRequisition);
+
+            var adminUnit = new List<AdminUnit>()
+                {
+                    new AdminUnit() {AdminUnitID = 1,Name = "Federal"}
+                };
+            var adminUnitService = new Mock<IAdminUnitService>();
+            adminUnitService.Setup(m => m.GetAllAdminUnit()).Returns(adminUnit);
+
+            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object, _workflowStatusService.Object, 
+                userAccountService.Object, logService.Object,adminUnitService.Object, programService.Object, reliefRequisitionService.Object);
             _transportRequisitionController.ControllerContext = controllerContext.Object;
         }
 
