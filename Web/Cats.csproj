@@ -652,6 +652,7 @@
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
@@ -879,6 +880,7 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
