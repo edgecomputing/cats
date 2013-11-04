@@ -19,6 +19,8 @@ namespace Cats.Areas.Logistics.Models
         public System.DateTime RequestedDate { get; set; }
         [Display(Name = "Request Date")]
         public string DateRequested { get; set; }
+        public string Region { get; set; }
+        public string Program { get; set; }
         [Display(Name="Certified By")]
         public string CertifiedBy { get; set; }
         [Display(Name="Certified Date")]

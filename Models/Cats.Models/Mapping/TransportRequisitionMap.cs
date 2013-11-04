@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Mapping
 {
-  
+
     public class TransportRequisitionMap : EntityTypeConfiguration<TransportRequisition>
     {
         public TransportRequisitionMap()
@@ -24,6 +24,8 @@ namespace Cats.Models.Mapping
             this.ToTable("TransportRequisition", "Logistics");
             this.Property(t => t.TransportRequisitionID).HasColumnName("TransportRequisitionID");
             this.Property(t => t.TransportRequisitionNo).HasColumnName("TransportRequisitionNo");
+            this.Property(t => t.RegionID).HasColumnName("RegionID");
+            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
             this.Property(t => t.RequestedBy).HasColumnName("RequestedBy");
             this.Property(t => t.RequestedDate).HasColumnName("RequestedDate");
             this.Property(t => t.CertifiedBy).HasColumnName("CertifiedBy");
@@ -31,7 +33,13 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Remark).HasColumnName("Remark");
             this.Property(t => t.Status).HasColumnName("Status");
 
-           
+            // Relationships
+            this.HasRequired(t => t.AdminUnit)
+                .WithMany(t => t.TransportRequisitions)
+                .HasForeignKey(d => d.RegionID);
+            this.HasRequired(t => t.Program)
+                .WithMany(t => t.TransportRequisitions)
+                .HasForeignKey(d => d.ProgramID);
 
         }
     }

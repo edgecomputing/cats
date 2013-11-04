@@ -49,7 +49,8 @@ namespace Cats.Models.Constant
         Draft=1,
         Approved=2,
         Signed=3,
-        Closed=4
+        Closed=4,
+        Failed=5
     }
     public enum HRDStatus
     {

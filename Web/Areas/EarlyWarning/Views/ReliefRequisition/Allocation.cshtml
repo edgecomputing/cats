@@ -1,4 +1,5 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Models
 @model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
 @using Cats.Services.Security
 @using Cats.Helpers;
@@ -107,8 +108,9 @@
         columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        //columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
         columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
         columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         columns.Bound(p => p.RationAmount).Hidden(true);
@@ -116,13 +118,13 @@
     .ToolBar(toolbar => toolbar.Save())
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .Pageable()
-        // .Groupable()
-    .Sortable()
+   .Selectable(t => t.Mode(GridSelectionMode.Single))
+   // .Sortable()
     .Navigatable()
-    .Scrollable()
+   // .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
-     .Events(ev => ev.DataBound("resetRowNumber"))
-      .Events(ev => ev.DataBound("onDataBound"))
+    // .Events(ev => ev.DataBound("resetRowNumber"))
+    //  .Events(ev => ev.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
@@ -132,7 +134,6 @@
                 model.Id(p => p.RequisitionDetailID);
                 model.Field(detail => detail.FDP).Editable(false);
                 model.Field(detail => detail.Zone).Editable(false);
-                model.Field(detail => detail.Donor).Editable(false);
                 model.Field(detail => detail.Woreda).Editable(false);
                 model.Field(detail => detail.Commodity).Editable(false);
             })
