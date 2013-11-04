@@ -190,12 +190,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult SendToLogistics(int id)
         {
-            var requistion = _reliefRequisitionService.FindById(id);
-            if (requistion == null)
+            //var requistion = _reliefRequisitionService.FindById(id);
+            //if (requistion == null)
+            //{
+            //    HttpNotFound();
+            //}
+            var requisition =
+                _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
+                    FirstOrDefault();
+            if (requisition == null)
             {
                 HttpNotFound();
             }
-            return View(requistion);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION), datePref);
+
+            return View(requisitionViewModel);
         }
 
         [HttpPost]
