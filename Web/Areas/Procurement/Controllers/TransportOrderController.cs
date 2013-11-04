@@ -340,7 +340,8 @@ namespace Cats.Areas.Procurement.Controllers
             var transportOrder = _transportOrderService.FindById(id);
             ViewBag.HubID = _transportOrderService.GetHubs();
             ViewBag.TransportOrderID = id;
-            return View(transportOrder);
+            var transportContract = GetTransportOrder(transportOrder);
+            return View(transportContract);
         }
         public ActionResult Contract_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
@@ -413,6 +414,33 @@ namespace Cats.Areas.Procurement.Controllers
 
            // return transportContractDetail;
        }
+        private TransportContractViewModel GetTransportOrder(TransportOrder transportOrder)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportContract = new TransportContractViewModel()
+                {
+                    TransportOrderID = transportOrder.TransportOrderID,
+                    TransportOrderNo = transportOrder.TransportOrderNo,
+                    TransporterID = transportOrder.TransporterID,
+                    RequisitionNo = transportOrder.TransportOrderDetails.First().ReliefRequisition.RequisitionNo,
+                    Transporter = transportOrder.Transporter.Name,
+                    BidDocumentNo = transportOrder.BidDocumentNo,
+                    ConsignerName = transportOrder.ConsignerName,
+                    ContractNumber = transportOrder.ContractNumber,
+                    OrderDate = transportOrder.OrderDate.ToCTSPreferedDateFormat(datePref),
+                    OrderExpiryDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref),
+                    RequestedDispatchDate = transportOrder.RequestedDispatchDate.ToCTSPreferedDateFormat(datePref),
+                    ConsignerDate = transportOrder.ConsignerDate.ToCTSPreferedDateFormat(datePref),
+                    PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo,
+                    TransporterSignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
+                    TransporterSignedName = transportOrder.TransporterSignedName,
+                    StatusID = transportOrder.StatusID,
+                    Zone = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.Name,
+                    Region = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name
+
+                };
+            return transportContract;
+        }
        [AcceptVerbs(HttpVerbs.Post)]
        public ActionResult TransportOrder_Update([DataSourceRequest] DataSourceRequest request, TransportOrderDetailViewModel orderDetails)
        {
@@ -433,6 +461,7 @@ namespace Cats.Areas.Procurement.Controllers
            return Json(new[] { orderDetails }.ToDataSourceResult(request, ModelState));
            //return Json(ModelState.ToDataSourceResult());
        }
+       
        [HttpPost]
        public ActionResult AssignTransporter(TransportRequisitionWithTransporter requisitionWithTransporter)
        {

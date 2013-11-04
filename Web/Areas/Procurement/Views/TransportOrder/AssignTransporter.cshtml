@@ -33,10 +33,10 @@
     @Html.DropDownList("TransporterID", String.Empty)
 
 @* @(Html.Kendo().DropDownList()
-            .Name("cmbTransportersList")
+            .Name("TransporterID")
             .DataTextField("Text")
             .DataValueField("Value")
-            //.Events(p=>p.Change("getSelectedValue"))
+            .Events(p=>p.Change("update_selected_transporter"))
             .AutoBind(false)
             .BindTo(ViewBag.TransporterID))*@
    @* @(Html.Kendo().ComboBox().Name("cmbTransportersList").DataTextField("Name").DataValueField("TransporterID").BindTo(ViewBag.TransporterID))*@
@@ -107,24 +107,24 @@
         $("#SelectedTransporterID").val(selected);
     }
    
-    function validate_selection_data() {
-        var i = 0;
-        var count = 0;
-        $("#div_select tbody tr").each(function () {
-            var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
-            if ($(this).hasClass("k-state-selected")) {
-                //inp.val(true);
-                count++;
-                //alert("Selected");
-            } 
-            i++;
-            if (count == 0) {
+    //function validate_selection_data() {
+    //    var i = 0;
+    //    var count = 0;
+    //    $("#div_select tbody tr").each(function () {
+    //        var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
+    //        if ($(this).hasClass("k-state-selected")) {
+    //            //inp.val(true);
+    //            count++;
+    //            //alert("Selected");
+    //        } 
+    //        i++;
+    //        if (count == 0) {
 
-                alert("Please Select Transporter and Requisitions");
-            }
-        });
+    //            alert("Please Select Transporter and Requisitions");
+    //        }
+    //    });
         
-    }
+    //}
     
 </script>
 <style>

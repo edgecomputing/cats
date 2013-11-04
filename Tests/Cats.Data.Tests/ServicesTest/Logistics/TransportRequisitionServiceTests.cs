@@ -254,7 +254,32 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                       It.IsAny<string>())).Returns(_hubAllocation);
             unitOfWork.Setup(t => t.HubAllocationRepository).Returns(hubAllocationRepository.Object);
 
+            var adminUnitRepository = new Mock<IGenericRepository<AdminUnit>>();
+            adminUnitRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns(new
+                                                                                    AdminUnit()
+                                                                                    {
+                                                                                        AdminUnitID = 2,
+                                                                                        Name = "Zone1",
+                                                                                        AdminUnit2 = new AdminUnit
+                                                                                                         {
+                                                                                                             AdminUnitID
+                                                                                                                 = 1,
+                                                                                                             Name =
+                                                                                                                 "Region1"
+                                                                                                         }
+                                                                                    }
+                );
+            unitOfWork.Setup(t => t.AdminUnitRepository).Returns(adminUnitRepository.Object);
+                                                                                                                                         
 
+            var programRepository = new Mock<IGenericRepository<Program>>();
+            programRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns(new Program
+                                                                                  {
+                                                                                      ProgramID = 1,
+                                                                                      Name = "PSNP",
+                                                                                      Description = "PSNP Des."
+                                                                                  });
+            unitOfWork.Setup(t => t.ProgramRepository).Returns(programRepository.Object);
 
             _transportRequisitionService = new TransportRequisitionService(unitOfWork.Object);
 

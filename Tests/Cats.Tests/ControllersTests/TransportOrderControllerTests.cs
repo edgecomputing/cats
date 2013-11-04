@@ -197,12 +197,12 @@ namespace Cats.Tests.ControllersTests
             Assert.IsInstanceOf<JsonResult>(result);
         }
         #endregion
-        [Test]
-        public void CanShowTransportContract()
-        {
-            var result = _transportOrderController.TransportContract(1);
-            Assert.IsNotNull(result);
-        }
+        //[Test]
+        //public void CanShowTransportContract()
+        //{
+        //    var result = _transportOrderController.TransportContract(1);
+        //    Assert.IsNotNull(result);
+        //}
         
     }
 }
