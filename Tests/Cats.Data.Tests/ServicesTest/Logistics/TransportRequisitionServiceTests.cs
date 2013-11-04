@@ -253,6 +253,29 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                       It.IsAny<string>())).Returns(_hubAllocation);
             unitOfWork.Setup(t => t.HubAllocationRepository).Returns(hubAllocationRepository.Object);
 
+            var adminUnitRepository = new Mock<IGenericRepository<AdminUnit>>();
+            adminUnitRepository.Setup(t => t.FindBy(It.IsAny<Expression<Func<AdminUnit, bool>>>())).Returns(new List<AdminUnit>()
+                                                                                                                                 {
+                                                                                                                                     new AdminUnit()
+                                                                                                                                         {
+                                                                                                                                             AdminUnitID = 2,
+                                                                                                                                             Name = "Zone1"
+                                                                                                                                         }
+                                                                                                                                 });
+            unitOfWork.Setup(t => t.AdminUnitRepository).Returns(adminUnitRepository.Object);
+
+
+            var programRepository = new Mock<IGenericRepository<Program>>();
+            programRepository.Setup(t => t.FindBy(It.IsAny<Expression<Func<Program, bool>>>())).Returns(new List<Program>()
+                                                                                                                                 {
+                                                                                                                                     new Program()
+                                                                                                                                         {
+                                                                                                                                             ProgramID= 1,
+                                                                                                                                            Name= "PSNP",
+                                                                                                                                            ShortCode = "SF"
+                                                                                                                                         }
+                                                                                                                                 });
+            unitOfWork.Setup(t => t.ProgramRepository).Returns(programRepository.Object);
 
 
             _transportRequisitionService = new TransportRequisitionService(unitOfWork.Object);
