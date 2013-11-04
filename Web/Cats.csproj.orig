@@ -914,11 +914,11 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
-<<<<<<< HEAD
 
-=======
+
+
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
->>>>>>> 531e9765acf1916632254850fd88de92c1a5063d
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
