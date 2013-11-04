@@ -1,6 +1,9 @@
 ﻿
 @model int?
 @using Kendo.Mvc.UI
+@using Cats.Helpers
+
+
 @(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
     .Name("ProjectCodegrid")
     .Columns(columns =>
