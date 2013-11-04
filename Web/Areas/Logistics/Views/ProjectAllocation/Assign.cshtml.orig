@@ -1,0 +1,291 @@
+﻿@using Cats.Services.Security
+@model IList<Cats.Models.RequisitionViewModel>
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "PC/SI Assignment";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@{
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-submittedform="frmHub"  >Assign Project Code/SI Code</a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("AssignedprojectCodes","ProjectAllocation",new {requisitionId=@ViewBag.ReqId})"></a>
+}
+    
+@using (Html.BeginForm("SaveProjectAllocation", "ProjectAllocation", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
+{
+    <fieldset>
+        <legend>Projec Code/SI Assignment</legend>
+    </fieldset>
+
+    <input type="hidden" value="@ViewBag.ReqId" name="RequisitionId" />
+
+    <div class="alert alert-block" id="Notification" style="display: none" >
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Error!</h4>
+        The amount allocated can not be greater than the remaining quantity
+    </div>
+
+    <h5 align="right"> Metric: @unitPreference </h5>
+    <div class="form-horizontal ">
+       
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label">Assigned Amount</label>
+                    <div class="controls">
+                        <input type="text" class="icon-file-text-alt" id="Assigned" name="Assigned" value=" @ViewBag.Total" readonly="readonly" /> 
+                    </div>
+                </div>
+          
+           
+                <div class="control-group">
+                    <label class="control-label">
+                        @Translator.Translate("Requested Amount") </label>
+                    <div class="controls">
+                        <input type="text" class="icon-file-text-alt" id="Requested" name="Requested" value="@ViewBag.RequetedAmount" readonly="readonly" />    
+                    </div>
+                </div>
+           
+           
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label">
+                        @Translator.Translate("Hub") </label>
+                    <div class="controls">
+                        @Html.Hidden("hub")
+                        <input type="text" id="hub" name="hub" value="@ViewBag.Hub" readonly="readonly" />
+                    </div>
+                </div>
+            
+       
+                    <div class="control-group">
+                        <label class="control-label">
+                            @Translator.Translate("Reamining")</label>
+                    
+                        <div class="controls">
+                            @Html.Hidden("reamaining")
+                            <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+                        </div>
+                    </div>
+               
+            </div>
+           
+        </div>
+        
+        <fieldset>
+            <legend></legend>
+
+        
+            <div class="row" >
+                
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label">
+                            @Translator.Translate("Date") </label>
+                        <div class="controls">
+                            <input type="text" class="cats-datepicker2" id="datepicker" name="datepicker" >
+                        </div>
+                    </div>
+               
+
+                
+                    <div class="control-group ">
+                        <label class="control-label">Project Code</label>
+                        <div class="controls">
+                            @Html.Hidden("PC")
+                            @Html.DropDownList("PCCode", ViewBag.PC as SelectList, "Select PC", new {@onchange = "onChangePC(this.value);", id = "ProjectCodeID"})
+                        </div>
+                    </div> 
+                
+                    <div class="control-group">
+                        <label class="control-label">PC Quantity</label>
+                        <div class="controls">
+                            @Html.Hidden("PCQty")
+                            <input type="text" id="PCodeqty" name="PCodeqty" onchange="on_pc_amount_change(this);" />
+                            <div id="pc_validation_message" class="alert-error" >msg</div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">PC Available Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="PCAvailableQuantity" readonly="readonly" />
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">PC Allocated Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="PCAllocatedQuantity" readonly="readonly" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label">SI Code</label>
+                        <div class="controls">
+	                
+                            @Html.Hidden("SI")
+                            @Html.DropDownList("SICode", ViewBag.SI as SelectList, "Select SI", new {@onchange = "onChangeSI(this.value);", id = "ShippingInstructionID"})
+                        </div>
+                    </div>
+                
+                    <div class="control-group">
+                        <label class="control-label">SI Quantity</label>
+                        <div class="controls">
+                            @Html.Hidden("SIQty")
+                            <input type="text" id="SICodeqty" name="SICodeqty" onchange="on_si_amount_change(this);" />
+                            <div id="si_validation_message" class="alert-error" >msg</div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">SI Available Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="SIAvailableQuantity" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">SI Allocated Quantity</label>
+                        <div class="controls">
+                            <input type="text" id="SIAllocatedQuantity" readonly="readonly" />
+                        </div>
+                    </div>
+                     
+                </div>
+            </div>
+        </fieldset>
+        
+       
+    </div>
+
+}
+<div>
+        @foreach (var si in ViewBag.FreeSICodes)
+        {
+            <input type="hidden" class="freeSI"  id="si_@si.siCodeId" value="@si.amount"/>
+        }  
+    
+     @foreach (var pc in ViewBag.FreePCCodes)
+     {
+         <input type="hidden" class="freePC"  id="pc_@pc.pcCodeId" value="@pc.amount"/>
+     }    
+</div>  
+
+
+<script  >
+    var freeSI = {};
+    var freePC = {};
+    var currentAmount;
+    $("#si_validation_message").html("");
+    $("#pc_validation_message").html("");
+    
+    $(document).ready(function () {
+        // storing selected value to hidden field
+        $(".freeSI").each(function () {
+            freeSI[this.id] = this.value;
+        });
+       
+        $(".freePC").each(function () {
+            freePC[this.id] = this.value;
+        });
+
+
+
+        $("#SI").val($("#ShippingInstructionID").val());
+        $("#PI").val($("#ProjectCodeID").val());
+        $("#PCQty").val($("#PCodeqty").val());
+        $("#SIQty").val($("#SICodeqty").val());
+        $("#HubId").val($("#hub").val());
+
+    });
+
+    function onChangeSI(value) {
+<<<<<<< HEAD
+        var totalassigned = '@ViewBag.Total';
+        var available = freeSI["si_" + value];
+=======
+        SIChanged(value);
+        
+        var available = freeSI["si_" + value] - $('#SIAllocatedQuantity').val;
+        if (available < 0)
+            available = freeSI["si_" + value];
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
+        currentAmount = available;
+        $("#SIAvailableQuantity").val(available);
+        on_si_amount_change();
+      
+
+    }
+    
+    function onChangePC(value) {
+        PCChanged(value);
+        
+       
+       
+<<<<<<< HEAD
+        var available = freePC["pc_" + value];
+=======
+        var available = freePC["pc_" + value] -  $('#PCAllocatedQuantity').val;
+        if (available < 0)
+            available = freePC["pc_" + value];
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
+        currentAmount = available;
+        $("#PCAvailableQuantity").val(available);
+        on_pc_amount_change();
+
+
+    }
+    
+    function on_pc_amount_change(inp) {
+
+       
+        var assigned = $("#PCodeqty").val();
+        var msg = "";
+        if (currentAmount - assigned < 0) {
+            msg = "Can not exceed " + currentAmount;
+            $("#PCodeqty").val("");
+        }
+        $("#pc_validation_message").html(msg);
+    }
+    
+    function on_si_amount_change(inp)
+    {
+       
+        var assigned = $("#SICodeqty").val();
+        var msg = "";
+        if (currentAmount - assigned < 0) {
+            msg = "Can not exceed " + currentAmount;
+            $("#SICodeqty").val("");
+        }
+        $("#si_validation_message").html(msg);
+    }
+    
+    function SIChanged(e) {
+        var requisitionId = '@ViewBag.ReqId';
+        if (e.value != null) {
+            var url = "/ProjectAllocation/GetSIAmount";
+            $.getJSON(url, { siIndex: e.value, reqId: requisitionId}, function (amount) {
+                if (amount != "")
+                    $('#SIAllocatedQuantity').val(amount);
+            });
+        }
+    }
+
+    function PCChanged(e) {
+        var requisitionId = '@ViewBag.ReqId';
+         if (e.value != null) {
+             var url = "/ProjectAllocation/GetPCAmount";
+             $.getJSON(url, { pcIndex: e.value, reqId: requisitionId }, function (amount) {
+                 if (amount != "")
+                     $('#PCAllocatedQuantity').val(amount);
+             });
+         }
+     }
+</script>

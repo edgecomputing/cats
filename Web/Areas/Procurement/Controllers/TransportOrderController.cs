@@ -9,6 +9,7 @@ using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Models.ViewModels.HRD;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
@@ -23,8 +24,7 @@ namespace Cats.Areas.Procurement.Controllers
 {
     public class TransportOrderController : Controller
     {
-        //
-        // GET: /Procurement/TransportOrder/
+        /// GET: /Procurement/TransportOrder/
         private readonly ITransportOrderService _transportOrderService;
         private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly ITransportRequisitionService _transportRequisitionService;
@@ -38,7 +38,7 @@ namespace Cats.Areas.Procurement.Controllers
         public TransportOrderController(ITransportOrderService transportOrderService,
             ITransportRequisitionService transportRequisitionService,
             IWorkflowStatusService workflowStatusService, ILog log, IUserAccountService userAccountService,
-            ITransReqWithoutTransporterService transReqWithoutTransporterService,ITransportOrderDetailService transportOrderDetailService,
+            ITransReqWithoutTransporterService transReqWithoutTransporterService, ITransportOrderDetailService transportOrderDetailService,
             IAdminUnitService adminUnitService, ITransporterService transporterService)
         {
             this._transportOrderService = transportOrderService;
@@ -51,7 +51,6 @@ namespace Cats.Areas.Procurement.Controllers
             _transReqWithoutTransporterService = transReqWithoutTransporterService;
             _transportOrderDetailService = transportOrderDetailService;
         }
-
 
 
 

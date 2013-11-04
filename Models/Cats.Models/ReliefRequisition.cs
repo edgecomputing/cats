@@ -18,7 +18,7 @@ namespace Cats.Models
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.TransportRequisitionDetails = new List<TransportRequisitionDetail>();
         }
-
+        
         public int RequisitionID { get; set; }
         public Nullable<int> CommodityID { get; set; }
         public Nullable<int> RegionID { get; set; }

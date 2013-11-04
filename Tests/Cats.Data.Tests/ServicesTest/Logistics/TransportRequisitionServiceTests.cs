@@ -213,6 +213,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                         return result;
                     }
                 );
+
             mockReliefRequisitionRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) => reliefRequisitions
                                                                                                             .ToList().
                                                                                                             Find
@@ -230,10 +231,10 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                     return true;
                 });
             transportRequisitionReqository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) =>
-                                                                                               {
-                                                                                                   return
-                                                                                                       _transportRequisition;
-                                                                                               });
+            {
+                return
+                    _transportRequisition;
+            });
             unitOfWork.Setup(t => t.TransportRequisitionRepository).Returns(transportRequisitionReqository.Object);
             unitOfWork.Setup(t => t.Save());
 
@@ -313,7 +314,6 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         [Test]
         public void ShouldCreateTransportRequision()
         {
-
             //Act
             var result = _transportRequisitionService.CreateTransportRequisition(_reliefRequisitions);
             //Assert

@@ -68,7 +68,6 @@
                 <div class="controls">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true" })</div>
             </div>
             <div class="control-group">
-
                 <div class="control-label">@Html.DisplayNameFor(model => model.Program)
                 </div>
                 <div class="controls">@Html.TextBoxFor(model => model.Program, new { disabled = "true" })</div>
@@ -86,6 +85,7 @@
         }
         @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
         {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
+                                         @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
         
         }*@
         </div>
