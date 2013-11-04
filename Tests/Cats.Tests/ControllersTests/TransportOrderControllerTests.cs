@@ -98,8 +98,26 @@ namespace Cats.Tests.ControllersTests
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+            var adminUnit = new List<AdminUnit>
+                {
+                    new AdminUnit {AdminUnitID = 1, Name = "Adminunit name", AdminUnitTypeID = 2},
+                    new AdminUnit {AdminUnitID = 2, Name = "AdminUnit", AdminUnitTypeID = 2}
+                };
 
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object, logService.Object, userAccountService.Object);
+            var adminUnitService = new Mock<IAdminUnitService>();
+            adminUnitService.Setup(m => m.GetAllAdminUnit()).Returns(adminUnit);
+
+            var transporter = new List<Transporter>
+                {
+                    new Transporter {TransporterID = 1,Name = "Elete Deration"},
+                    new Transporter {TransporterID = 2,Name = "Asemamaw"}
+                };
+
+            var transporterService = new Mock<ITransporterService>();
+            transporterService.Setup(m => m.GetAllTransporter()).Returns(transporter);
+
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object,
+                                                                     logService.Object, userAccountService.Object, adminUnitService.Object,transporterService.Object);
             _transportOrderController.ControllerContext = controllerContext.Object;
         }
 

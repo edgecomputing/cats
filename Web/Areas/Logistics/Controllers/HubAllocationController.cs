@@ -45,7 +45,10 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-    
+        public ActionResult Index()
+        {
+            return View("Index");
+        }
       
       
 
@@ -53,7 +56,7 @@ namespace Cats.Areas.Logistics.Controllers
         {
 
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            return View();
+            return View("AssignHub");
         }
         
         public JsonResult GetRequisitionsForAssignment()

@@ -14,7 +14,8 @@ namespace Cats.Areas.Logistics.Models
         public string Status { get; set; }
         public System.DateTime RequestedDate { get; set; }
         public string DateRequested { get; set; }
-
+        public string Region { get; set; }
+        public string Program { get; set; }
         public int CertifiedBy { get; set; }
         public System.DateTime CertifiedDate { get; set; }
         public string DateCertified { get; set; }

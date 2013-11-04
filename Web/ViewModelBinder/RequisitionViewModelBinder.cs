@@ -79,7 +79,7 @@ namespace Cats.ViewModelBinder
                 Zone = reliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name,
                 Woreda = reliefRequisitionDetail.FDP.AdminUnit.Name,
                 FDP = reliefRequisitionDetail.FDP.Name,
-                Donor = reliefRequisitionDetail.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "",
+                Donor = reliefRequisitionDetail.Donor!=null ? reliefRequisitionDetail.Donor.Name : "",
                 Commodity = reliefRequisitionDetail.Commodity.Name,
                 BenficiaryNo = reliefRequisitionDetail.BenficiaryNo,
                 Amount =reliefRequisitionDetail.Amount,

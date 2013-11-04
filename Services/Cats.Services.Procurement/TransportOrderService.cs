@@ -175,7 +175,7 @@ namespace Cats.Services.Procurement
                         _unitOfWork.ReliefRequisitionDetailRepository.Get(
                             t =>
                             t.RequisitionID == transporterRequisition.RequisitionID &&
-                            t.FDP.AdminUnitID == transporterRequisition.WoredaID).ToList();
+                            t.FDP.AdminUnitID == transporterRequisition.WoredaID, null, "ReliefRequisition").ToList();
 
                     foreach (var reliefRequisitionDetail in requisionsDetails)
                     {
@@ -192,7 +192,7 @@ namespace Cats.Services.Procurement
 
                 }
                 _unitOfWork.TransportOrderRepository.Add(transportOrder);
-              transportOrders.Add(transportOrder);
+                transportOrders.Add(transportOrder);
 
             }
 

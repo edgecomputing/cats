@@ -14,14 +14,18 @@
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Requisitions","TransportRequisition",new {Area="Logistics"})"></a>
 }
 <h4 class="page-header">Transport Requisition</h4>
+Transport Requisition Code: <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="text" /><a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
+<a class="btn toolbar-btn icon-umbrella" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"></a>
 @(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
 
     columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
-    columns.Bound(requisition => requisition.RequestedBy);
+    columns.Bound(requisition => requisition.Region);
+    columns.Bound(requisition => requisition.Program);
+    //columns.Bound(requisition => requisition.RequestedBy);
     columns.Bound(requisition => requisition.DateRequested).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(requisition => requisition.CertifiedBy);
-    columns.Bound(requisition => requisition.DateCertified).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    //columns.Bound(requisition => requisition.CertifiedBy);
+    //columns.Bound(requisition => requisition.DateCertified).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
     columns.Bound(requisiton => requisiton.Status);
 })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
@@ -33,12 +37,25 @@
         .Ajax()
         .PageSize(20)
         .Model(model =>model.Id(p => p.TransportRequisitionID))
-        .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition"))
+        .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition").Data("searchIndexObj"))
     ).Pageable()
 )
 
 
-
+<script>
+    function searchIndexObj() {
+        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+        var searchIndexValue = $("#searchIndex").val();
+        var obj = { searchIndex: searchIndexValue };
+        return obj;
+    }
+    
+    function reloadTDRGrid() {
+        //alert($("#searchIndex").val());
+        var grid = $("#Grid").data("kendoGrid");
+        grid.dataSource.read();
+    }
+</script>
 
 @*@(Html.Kendo().Grid(Model).Name("Grid")
       .Columns(columns =>
