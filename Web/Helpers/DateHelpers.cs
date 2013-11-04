@@ -67,10 +67,10 @@ namespace Cats.Helpers
             if (currentUnit == "MT")
                 return amount;
 
-            // For the other unit (KG)  multiply by 1000
+            // For the other unit (quintal)  multiply by 10
 
 
-            return amount * 1000;
+            return amount * 10;
         }
     }
 }

@@ -52,6 +52,38 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.Region = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             return View();
         }
+
+        #region "test"
+
+        public ActionResult Main()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult HubAllocationByRegion(int regionId = -1)
+        {
+            List<AllocationByRegion> requisititions = null;
+            requisititions = regionId != -1 ? _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+
+            var requisitionViewModel = BindAllocation(requisititions);// HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+
+            return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult AllocatedProjectCode(int regionId = -1)
+        {
+            List<ReliefRequisition> requisititions = null;
+            requisititions = regionId != -1 ? _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+
+            var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+            return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
         public ActionResult GetRegions()
         {
             IOrderedEnumerable<RegionsViewModel> regions = _needAssessmentService.GetRegions();
@@ -138,20 +170,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-         public   List<HubAllocationByRegionViewModel> GroupByRegion(List<HubAllocationByRegionViewModel> listToBeGrouped)
-         {
-             var result = (from req in listToBeGrouped
-                           group req by req.RegionId
-                           into region
-                           select new HubAllocationByRegionViewModel
-                                      {
-                                          Region = region.First().Region,
-                                          RegionId =  region.First().RegionId,
-                                          Hub = region.First().Hub,
-                                          AllocatedAmount = region.Sum(a => a.AllocatedAmount)
-                                      });
-             return Enumerable.Cast<HubAllocationByRegionViewModel>(result).ToList();
-         }
+        
          public List<HubAllocationByRegionViewModel> BindAllocation(List<AllocationByRegion> reliefRequisitions)
         {
 
@@ -164,6 +183,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                               Region = req.Name,
                               RegionId = (int) req.RegionID,
+                              AdminUnitID = (int)req.RegionID,
                               Hub = req.Hub,
                               AllocatedAmount = (decimal) req.Amount
                               
@@ -173,12 +193,6 @@ namespace Cats.Areas.Logistics.Controllers
 
             return Enumerable.Cast<HubAllocationByRegionViewModel>(result).ToList();
         }
-        public string GetHubName(int requisitionId)
-        {
-            var allocated = _HubAllocationService.FindBy(r => r.RequisitionID == requisitionId).SingleOrDefault();
-            if (allocated != null)
-                return allocated.Hub.Name;
-            else return null;
-        }
+       
     }
 }
