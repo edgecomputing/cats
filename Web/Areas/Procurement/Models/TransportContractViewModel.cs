@@ -9,20 +9,26 @@ namespace Cats.Areas.Procurement.Models
 {
     public class TransportContractViewModel
     {
-        public TransportContractViewModel()
-        {
-            TransportOrderDetail=new List<TransportOrderDetailViewModel>();
-       }
-        
         public int TransportOrderID { get; set; }
         public string TransportOrderNo { get; set; }
         public string ContractNumber { get; set; }
         [Display(Name = "Order Date")]
-        public DateTime OrderDate { get; set; }
+        public string OrderDate { get; set; }
         [Display(Name = "Requested Dispatch Date")]
-        public DateTime RequestedDispatchDate { get; set; }
-        public DateTime OrderExpiryDate { get; set; }
-        public ICollection<TransportOrderDetailViewModel> TransportOrderDetail { get; set; }
+        public string RequestedDispatchDate { get; set; }
+        public string OrderExpiryDate { get; set; }
+        public string BidDocumentNo { get; set; }
+        public string PerformanceBondReceiptNo { get; set; }
+        public int TransporterID { get; set; }
+        public string Transporter { get; set; }
+        public string ConsignerName { get; set; }
+        public string TransporterSignedName { get; set; }
+        public string ConsignerDate { get; set; }
+        public string TransporterSignedDate { get; set; }
+        public int? StatusID { get; set; }
+        public string Region { get; set; }
+        public string Zone { get; set; }
+        public string RequisitionNo { get; set; }
         
     }
 }

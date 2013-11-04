@@ -269,6 +269,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                                                     }
                 );
             unitOfWork.Setup(t => t.AdminUnitRepository).Returns(adminUnitRepository.Object);
+                                                                                                                                         
 
             var programRepository = new Mock<IGenericRepository<Program>>();
             programRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns(new Program
