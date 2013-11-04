@@ -9,7 +9,6 @@ namespace Cats.Models
 {
     public class HRDPSNPPlan
     {
-
         public int? SeasonID { get; set; }
 
         [Required]
@@ -33,6 +32,5 @@ namespace Cats.Models
         public int? RationID { get; set; }
         public int? Round { get; set; }
 
-        
     }
 }

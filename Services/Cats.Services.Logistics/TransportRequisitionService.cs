@@ -81,7 +81,7 @@ namespace Cats.Services.Logistics
             var region = new AdminUnit();
             if (anyReliefRequisition.RegionID != null)
             {
-                 region = _unitOfWork.AdminUnitRepository.FindById(anyReliefRequisition.RegionID.Value);
+                region = _unitOfWork.AdminUnitRepository.FindById(anyReliefRequisition.RegionID.Value);
             }
             var program = new Program();
             if (anyReliefRequisition.ProgramID != null)
@@ -89,16 +89,16 @@ namespace Cats.Services.Logistics
                 program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID.Value);
             }
             var transportRequisition = new TransportRequisition()
-                                           {
-                                               Status = 1,//Draft
-                                               RequestedDate = DateTime.Today,
-                                               RequestedBy = 1, //should be current user
-                                               CertifiedBy = 1,//Should be some user
-                                               CertifiedDate = DateTime.Today,//should be date cerified
-                                               TransportRequisitionNo = Guid.NewGuid().ToString(),
-                                               RegionID = region.AdminUnitID,
-                                               ProgramID = program.ProgramID
-                                           };
+            {
+                Status = 1,//Draft
+                RequestedDate = DateTime.Today,
+                RequestedBy = 1, //should be current user
+                CertifiedBy = 1,//Should be some user
+                CertifiedDate = DateTime.Today,//should be date cerified
+                TransportRequisitionNo = Guid.NewGuid().ToString(),
+                RegionID = region.AdminUnitID,
+                ProgramID = program.ProgramID
+            };
 
             foreach (var reliefRequisition in reliefRequisitions)
             {
@@ -112,12 +112,13 @@ namespace Cats.Services.Logistics
             var year = transportRequisition.RequestedDate.Year;
             transportRequisition.TransportRequisitionNo = string.Format("{0}/{1}/{2}/{3}",
                                                                         program.ShortCode, region.AdminUnitID, transportRequisition.TransportRequisitionID, year);
-          
+
             _unitOfWork.Save();
             return transportRequisition;
 
 
         }
+
 
         public void Dispose()
         {
