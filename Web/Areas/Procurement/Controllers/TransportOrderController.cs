@@ -321,7 +321,7 @@ namespace Cats.Areas.Procurement.Controllers
                             transportOrderDetailObj.CommodityID = transportOrderDetail.CommodityID;
                             transportOrderDetailObj.FdpID = transportOrderDetail.FdpID;
                             transportOrderDetailObj.RequisitionID = transportOrderDetail.RequisitionID;
-                            transportOrderDetailObj.QuantityQtl = transportOrderDetail.QuantityQtl;
+                            transportOrderDetailObj.QuantityQtl = transportOrderDetail.QuantityQtl.ToPreferedWeightUnit();
                             transportOrderDetailObj.TariffPerQtl = transportOrderDetail.TariffPerQtl;
                             transportOrderDetailObj.SourceWarehouseID = transportOrderDetail.Hub.HubID;
                             transportOrderObj.TransportOrderDetails.Add(transportOrderDetail);
@@ -377,7 +377,7 @@ namespace Cats.Areas.Procurement.Controllers
                            RequisitionDetailID = detail.RequisitionDetailID,
                           Woreda = requisitionDetail.FDP.AdminUnit.Name,
                           FDP = requisitionDetail.FDP.Name,
-                          QuantityQtl = requisitionDetail.Amount,
+                          QuantityQtl = requisitionDetail.Amount.ToPreferedWeightUnit(),
                           Commodity = requisitionDetail.Commodity.Name,
                           CommodityID = requisitionDetail.CommodityID,
                           FdpID = requisitionDetail.FDPID,
@@ -401,7 +401,7 @@ namespace Cats.Areas.Procurement.Controllers
                            TransportOrderID = detail.TransportOrderID,
                            CommodityID = detail.CommodityID,
                            SourceWarehouseID = detail.SourceWarehouseID,
-                           QuantityQtl = detail.QuantityQtl,
+                           QuantityQtl = detail.QuantityQtl.ToPreferedWeightUnit(),
                            RequisitionID = detail.RequisitionID,
                            TariffPerQtl = detail.TariffPerQtl,
                            Commodity = detail.Commodity.Name,
