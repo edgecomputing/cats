@@ -108,7 +108,7 @@
         columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        columns.Bound(p => p.Commodity).Title("Commodity In " + @unit).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
         columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         columns.Bound(p => p.RationAmount).Hidden(true);
