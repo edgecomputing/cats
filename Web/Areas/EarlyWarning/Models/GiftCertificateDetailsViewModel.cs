@@ -31,6 +31,7 @@ namespace Cats.Areas.GiftCertificate.Models
 
         [StringLength(50)]
         [UIHint("WayBillWarning")]
+        [Display(Name = "Bill of Loading")]
         public String BillOfLoading
         {
             get { return _billOfLoading; }
@@ -38,10 +39,12 @@ namespace Cats.Areas.GiftCertificate.Models
         }
 
         [Required(ErrorMessage = "Account Number is required")]
+        [Display(Name = "Acc. No")]
         public Int32 AccountNumber { get; set; }
 
         [Required(ErrorMessage = "Estimated Price is required")]
         [Range(0, 9999999999999.99)]
+        [Display(Name="Est. Price")]
         public Decimal EstimatedPrice { get; set; }
 
         [Required(ErrorMessage = "Estimated Tax is required")]
@@ -50,6 +53,7 @@ namespace Cats.Areas.GiftCertificate.Models
 
         [Required(ErrorMessage = "Year Purchased is required")]
         [Range(2000, 3000)]
+        [Display(Name="Year Purchased")]
         public Int32 YearPurchased { get; set; }
 
         [Required(ErrorMessage = "Fund Source is required")]

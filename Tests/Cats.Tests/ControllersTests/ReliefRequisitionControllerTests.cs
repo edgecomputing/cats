@@ -175,7 +175,14 @@ namespace Cats.Tests.ControllersTests
                 };
             var donorService = new Mock<IDonorService>();
             donorService.Setup(m => m.GetAllDonor()).Returns(donor);
-            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object, userAccountService.Object,rationService.Object,donorService.Object);
+            _reliefRequisitionController = new ReliefRequisitionController(
+                mockReliefRequistionService.Object, 
+                workflowStatusService.Object, 
+                mockReliefRequistionDetailService.Object, 
+                userAccountService.Object,
+                rationService.Object,
+                donorService.Object);
+
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
           //  _input = input;
 

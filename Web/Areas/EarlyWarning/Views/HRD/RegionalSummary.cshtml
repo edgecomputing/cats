@@ -13,6 +13,7 @@
   <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","HRD")"><i class="icon-list"></i></a>
 
 }
+
 <div>
     <h4>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h4>
 </div>
@@ -86,9 +87,7 @@
         }
     })
         .Pageable(t => t.PageSizes(new[] { 10, 15, 20, 30, 50, 100 }))
-
         .Sortable()
         //.Scrollable()
        .Groupable()
-   
-      )
+    )

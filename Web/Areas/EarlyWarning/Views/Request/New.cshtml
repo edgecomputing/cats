@@ -7,7 +7,6 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-
 <h4>New Regional Request</h4>
 
 @section LeftBar
@@ -68,11 +67,12 @@
 
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.Year,"Year: As specified on the current HRD or PSNP plan")
+                @Html.LabelFor(model => model.Year,"Year")
             </div>
             <div class="controls">
                 @Html.EditorFor(model => model.Year)
                 @Html.ValidationMessageFor(model => model.Year)
+                <p id="Year_description">As specified on the current HRD</p>
             </div>
         </div>
 
@@ -109,6 +109,9 @@
             var div_donor = $("#div_donor");
             var div_month = $("#div_month");
             var div_round = $("#div_round");
+           
+            
+            //var div_desc = $("#Year_description");
             
             var prog = this.options[this.selectedIndex].innerHTML;
 
@@ -117,12 +120,16 @@
                 div_donor.hide();
                 div_month.show();
                 div_round.show();
+                var htm = "<p id ='Year_description'>As specified on the current HRD</p>";
+                $("#Year_description").html(htm);
             }
             else if (prog == "PSNP") {
                 div_season.hide();
                 div_donor.show();
                 div_month.show();
                 div_round.hide();
+                var htm = "<p id ='Year_description'>As specified on the current PSNP</p>";
+                $("#Year_description").html(htm);
             }
         });
         $("#cmb_programId").change();

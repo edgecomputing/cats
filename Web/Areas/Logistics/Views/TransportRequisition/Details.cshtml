@@ -24,6 +24,10 @@
         <a class="btn toolbar-btn " href="@Url.Action("Edit", "TransportRequisition", new { Area = "Logistics", id = Model.TransportRequisitionID })" data-buttontype="btn_edit"></a>
         <a class="btn toolbar-btn " href="@Url.Action("Approve", "TransportRequisition", new { id = Model.TransportRequisitionID })" data-buttontype="">Approve</a>
     }
+    
+ 
+
+
 }
 <div class="row-fluid form-horizontal ">
     <div class="well span12">
@@ -84,6 +88,13 @@
     </div>
 </div>
 </div>
+<script>    
+$(function () {
+        var printurl = "@Url.Action("PrintSummary", "TransportRequisition",new{id= 1 })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+    
+</script>
 @(Html.Kendo().Grid(Model.TransportRequisitionDetailViewModels)
 .Name("Grid").Columns(columns =>
                           {

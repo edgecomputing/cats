@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="RequisitionSummary1" targetNamespace="http://tempuri.org/RequisitionSummary1.xsd" xmlns:mstns="http://tempuri.org/RequisitionSummary1.xsd" xmlns="http://tempuri.org/RequisitionSummary1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="RequisitionSummary1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="RequisitionSummary1" msprop:Generator_UserDSName="RequisitionSummary1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="RequisitionsSummary" msprop:Generator_TableClassName="RequisitionsSummaryDataTable" msprop:Generator_TableVarName="tableRequisitionsSummary" msprop:Generator_TablePropName="RequisitionsSummary" msprop:Generator_RowDeletingName="RequisitionsSummaryRowDeleting" msprop:Generator_RowChangingName="RequisitionsSummaryRowChanging" msprop:Generator_RowEvHandlerName="RequisitionsSummaryRowChangeEventHandler" msprop:Generator_RowDeletedName="RequisitionsSummaryRowDeleted" msprop:Generator_UserTableName="RequisitionsSummary" msprop:Generator_RowChangedName="RequisitionsSummaryRowChanged" msprop:Generator_RowEvArgName="RequisitionsSummaryRowChangeEvent" msprop:Generator_RowClassName="RequisitionsSummaryRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Commodity" msprop:Generator_ColumnVarNameInTable="columnCommodity" msprop:Generator_ColumnPropNameInRow="Commodity" msprop:Generator_ColumnPropNameInTable="CommodityColumn" msprop:Generator_UserColumnName="Commodity" type="xs:string" minOccurs="0" />
+              <xs:element name="RequisitionNumber" msprop:Generator_ColumnVarNameInTable="columnRequisitionNumber" msprop:Generator_ColumnPropNameInRow="RequisitionNumber" msprop:Generator_ColumnPropNameInTable="RequisitionNumberColumn" msprop:Generator_UserColumnName="RequisitionNumber" type="xs:string" minOccurs="0" />
+              <xs:element name="Donor" msprop:Generator_ColumnVarNameInTable="columnDonor" msprop:Generator_ColumnPropNameInRow="Donor" msprop:Generator_ColumnPropNameInTable="DonorColumn" msprop:Generator_UserColumnName="Donor" type="xs:string" minOccurs="0" />
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:string" minOccurs="0" />
+              <xs:element name="Warehouse" msprop:Generator_ColumnVarNameInTable="columnWarehouse" msprop:Generator_ColumnPropNameInRow="Warehouse" msprop:Generator_ColumnPropNameInTable="WarehouseColumn" msprop:Generator_UserColumnName="Warehouse" type="xs:string" minOccurs="0" />
+              <xs:element name="Region" msprop:Generator_ColumnVarNameInTable="columnRegion" msprop:Generator_ColumnPropNameInRow="Region" msprop:Generator_ColumnPropNameInTable="RegionColumn" msprop:Generator_UserColumnName="Region" type="xs:string" minOccurs="0" />
+              <xs:element name="Zone" msprop:Generator_ColumnVarNameInTable="columnZone" msprop:Generator_ColumnPropNameInRow="Zone" msprop:Generator_ColumnPropNameInTable="ZoneColumn" msprop:Generator_UserColumnName="Zone" type="xs:string" minOccurs="0" />
+              <xs:element name="RequisitionID" msprop:Generator_ColumnVarNameInTable="columnRequisitionID" msprop:Generator_ColumnPropNameInRow="RequisitionID" msprop:Generator_ColumnPropNameInTable="RequisitionIDColumn" msprop:Generator_UserColumnName="RequisitionID" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RequisitionsHeader" msprop:Generator_TableClassName="RequisitionsHeaderDataTable" msprop:Generator_TableVarName="tableRequisitionsHeader" msprop:Generator_RowChangedName="RequisitionsHeaderRowChanged" msprop:Generator_TablePropName="RequisitionsHeader" msprop:Generator_RowDeletingName="RequisitionsHeaderRowDeleting" msprop:Generator_RowChangingName="RequisitionsHeaderRowChanging" msprop:Generator_RowEvHandlerName="RequisitionsHeaderRowChangeEventHandler" msprop:Generator_RowDeletedName="RequisitionsHeaderRowDeleted" msprop:Generator_RowClassName="RequisitionsHeaderRow" msprop:Generator_UserTableName="RequisitionsHeader" msprop:Generator_RowEvArgName="RequisitionsHeaderRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Remark" msprop:Generator_ColumnVarNameInTable="columnRemark" msprop:Generator_ColumnPropNameInRow="Remark" msprop:Generator_ColumnPropNameInTable="RemarkColumn" msprop:Generator_UserColumnName="Remark" type="xs:string" minOccurs="0" />
+              <xs:element name="DateRequested" msprop:Generator_ColumnVarNameInTable="columnDateRequested" msprop:Generator_ColumnPropNameInRow="DateRequested" msprop:Generator_ColumnPropNameInTable="DateRequestedColumn" msprop:Generator_UserColumnName="DateRequested" type="xs:string" minOccurs="0" />
+              <xs:element name="DateRecieved" msprop:Generator_ColumnVarNameInTable="columnDateRecieved" msprop:Generator_ColumnPropNameInRow="DateRecieved" msprop:Generator_ColumnPropNameInTable="DateRecievedColumn" msprop:Generator_UserColumnName="DateRecieved" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestedBy" msprop:Generator_ColumnVarNameInTable="columnRequestedBy" msprop:Generator_ColumnPropNameInRow="RequestedBy" msprop:Generator_ColumnPropNameInTable="RequestedByColumn" msprop:Generator_UserColumnName="RequestedBy" type="xs:string" minOccurs="0" />
+              <xs:element name="CertifiedBy" msprop:Generator_ColumnVarNameInTable="columnCertifiedBy" msprop:Generator_ColumnPropNameInRow="CertifiedBy" msprop:Generator_ColumnPropNameInTable="CertifiedByColumn" msprop:Generator_UserColumnName="CertifiedBy" type="xs:string" minOccurs="0" />
+              <xs:element name="TransportRequisitionID" msprop:Generator_ColumnVarNameInTable="columnTransportRequisitionID" msprop:Generator_ColumnPropNameInRow="TransportRequisitionID" msprop:Generator_ColumnPropNameInTable="TransportRequisitionIDColumn" msprop:Generator_UserColumnName="TransportRequisitionID" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="details" msprop:Generator_TableClassName="detailsDataTable" msprop:Generator_TableVarName="tabledetails" msprop:Generator_TablePropName="details" msprop:Generator_RowDeletingName="detailsRowDeleting" msprop:Generator_RowChangingName="detailsRowChanging" msprop:Generator_RowEvHandlerName="detailsRowChangeEventHandler" msprop:Generator_RowDeletedName="detailsRowDeleted" msprop:Generator_UserTableName="details" msprop:Generator_RowChangedName="detailsRowChanged" msprop:Generator_RowEvArgName="detailsRowChangeEvent" msprop:Generator_RowClassName="detailsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CommodityName" msprop:Generator_ColumnVarNameInTable="columnCommodityName" msprop:Generator_ColumnPropNameInRow="CommodityName" msprop:Generator_ColumnPropNameInTable="CommodityNameColumn" msprop:Generator_UserColumnName="CommodityName" type="xs:string" minOccurs="0" />
+              <xs:element name="fromSIPC" msprop:Generator_ColumnVarNameInTable="columnfromSIPC" msprop:Generator_ColumnPropNameInRow="fromSIPC" msprop:Generator_ColumnPropNameInTable="fromSIPCColumn" msprop:Generator_UserColumnName="fromSIPC" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="RequisitionsSummaryKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:RequisitionsSummary" />
+      <xs:field xpath="mstns:RequisitionID" />
+    </xs:unique>
+    <xs:unique name="RequisitionsHeaderKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:RequisitionsHeader" />
+      <xs:field xpath="mstns:TransportRequisitionID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

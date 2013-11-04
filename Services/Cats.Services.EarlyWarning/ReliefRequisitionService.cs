@@ -19,11 +19,11 @@ namespace Cats.Services.EarlyWarning
         private readonly IUnitOfWork _unitOfWork;
 
 
-
         public ReliefRequisitionService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
+
         #region Default Service Implementation
         public bool AddReliefRequisition(ReliefRequisition reliefRequisition)
         {
@@ -89,31 +89,73 @@ namespace Cats.Services.EarlyWarning
 
         //}
          
-        public List<ReliefRequisition> GetApprovedRequistion()
+        public List<ReliefRequisition> GetApprovedRequistions()
         {
             return new List<ReliefRequisition>(){
                 new ReliefRequisition(){
                 ProgramID=1,
                 RegionID=1,
                 RequestedBy=1,
-                 RequestedDate=DateTime.Today,
+                RequestedDate=DateTime.Today,
                 RequisitionNo="XYZ123",
                 Round=1,
                 Status=1,
                 ZoneID=1,
                 CommodityID=1
-             
-
                 }
             };
         }
+        
+        public List<RegionalRequisitionsSummary> GetRequisitionsSentToLogistics()
+        {
+          //var app3 = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.Status == 3); 
+          
+          var app = _unitOfWork.ReliefRequisitionRepository.FindBy(t => t.Status >= 2 );
+          var ds =
+                (
+                    from a in app
+                    group a by new { a.RegionID,a.AdminUnit.Name} into regionalRequistions
+                    select new
+                    {
+                        regionalRequistions.Key.Name,
+                        ProgramBased = from a in regionalRequistions
+                                        group a by new {a.ProgramID,a.Program} into final
+                                        select new 
+                                        RegionalRequisitionsSummary()
+                                        {
+                                            RegionID = regionalRequistions.Key.RegionID,
+                                            RegionName = regionalRequistions.Key.Name,
+                                            DateLastModified = regionalRequistions.Select(d=>d.ApprovedDate).Last(),
+                                            NumberOfHubUnAssignedRequisitions = 
+                                            _unitOfWork.ReliefRequisitionRepository.FindBy(s => (s.RegionID == regionalRequistions.Key.RegionID && s.ProgramID == final.Key.ProgramID && s.Status==2)).Count,
+                                            NumberOfTotalRequisitions = regionalRequistions.Count(p=>p.ProgramID == final.Key.ProgramID),
+                                            ProgramType = final.Key.Program.Name,
+                                            //Percentage = (NumberOfHubAssignedRequisitions / regionalRequistions.Count()) * 100,
+                                        }
+                    }
+                );
+
+            return (from d in ds
+                    from e in d.ProgramBased
+                    select new RegionalRequisitionsSummary()
+                        {
+                            RegionID = e.RegionID,
+                            RegionName = e.RegionName,
+                            DateLastModified = e.DateLastModified,
+                            NumberOfHubUnAssignedRequisitions = e.NumberOfHubUnAssignedRequisitions,
+                            NumberOfTotalRequisitions = e.NumberOfTotalRequisitions,
+                            ProgramType = e.ProgramType,
+                            Percentage = e.NumberOfHubUnAssignedRequisitions / e.NumberOfTotalRequisitions * 100
+                            //Percentage
+                        }).ToList();
+        }
+
         public void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions)
         {
             foreach (var reliefRequisition in reliefRequisitions)
             {
                 this._unitOfWork.ReliefRequisitionRepository.Add(reliefRequisition);
             }
-
         }
 
         public IEnumerable<ReliefRequisitionNew> CreateRequisition(int requestId)
@@ -122,18 +164,18 @@ namespace Cats.Services.EarlyWarning
             //
             var regionalRequest = _unitOfWork.RegionalRequestRepository.Get(t => t.RegionalRequestID == requestId && t.Status == (int)RegionalRequestStatus.Approved  , null, "RegionalRequestDetails").FirstOrDefault();
             if (regionalRequest == null) return null;
-
+            
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
             AddReliefRequisions(reliefRequistions);
             regionalRequest.Status = (int)RegionalRequestStatus.Closed;
             _unitOfWork.Save();
+            
             foreach (var item in reliefRequistions)
             {
                 item.RequisitionNo = String.Format("REQ-{0}", item.RequisitionID);
             }
             _unitOfWork.Save();
-           return  GetRequisitionByRequestId(requestId);
-
+            return  GetRequisitionByRequestId(requestId);
         }
        
         public ReliefRequisition GenerateRequisition(RegionalRequest regionalRequest, List<RegionalRequestDetail> regionalRequestDetails, int commodityId, int zoneId)
@@ -147,7 +189,8 @@ namespace Cats.Services.EarlyWarning
                 ProgramID = regionalRequest.ProgramId,
                 CommodityID = commodityId,
                 RequestedDate = DateTime.Today
-                    //TODO:Please find another way how to specify Requistion No
+                
+                //TODO:Please find another way how to specify Requistion No
                 ,
                 RequisitionNo = Guid.NewGuid().ToString(),
                 RegionID = regionalRequest.RegionID,
@@ -158,6 +201,7 @@ namespace Cats.Services.EarlyWarning
                 //ApprovedDate=itm.ApprovedDate,
 
             };
+
             foreach (var regionalRequestDetail in regionalRequestDetails)
             {
                 var relifRequistionDetail = new ReliefRequisitionDetail();
@@ -169,11 +213,7 @@ namespace Cats.Services.EarlyWarning
                 relifRequistionDetail.Amount = commodity.Amount;
                 relifRequisition.ReliefRequisitionDetails.Add(relifRequistionDetail);
             }
-           
-         
-
             return relifRequisition;
-
         }
 
 

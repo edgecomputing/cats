@@ -44,7 +44,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ViewResult Index(int id = 1)
         {
             ViewBag.Status = id;
-
             return View();
         }
 
@@ -52,11 +51,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult CreateRequisiton(int id)
         {
             var input = _reliefRequisitionService.CreateRequisition(id);
-
             return RedirectToAction("NewRequisiton", "ReliefRequisition", new { id = id });
-
-
         }
+
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
@@ -78,10 +75,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index", "ReliefRequisition");
         }
+
         [HttpGet]
         public ActionResult Allocation(int id)
         {
-
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();
@@ -138,6 +135,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(new[] { reliefRequisitionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
 
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Allocation_Destroy([DataSourceRequest] DataSourceRequest request,
                                                   ReliefRequisitionDetail reliefRequisitionDetail)
@@ -149,7 +147,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-
 
 
         [HttpPost]
@@ -174,11 +171,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 HttpNotFound();
             }
-
-
-
-            return View(relifRequisition);
+         return View(relifRequisition);
         }
+
         [HttpPost]
         public ActionResult Edit(ReliefRequisition reliefrequisition)
         {

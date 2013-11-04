@@ -752,7 +752,6 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
-                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                 </TablixCells>
@@ -790,7 +789,7 @@
                           <Top>0.58458in</Top>
                           <Left>0.08903in</Left>
                           <Height>0.75in</Height>
-                          <Width>6.30097in</Width>
+                          <Width>6.30096in</Width>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -820,7 +819,7 @@
                           <Top>0.19319in</Top>
                           <Left>1.35318in</Left>
                           <Height>0.25in</Height>
-                          <Width>0.58089in</Width>
+                          <Width>0.97642in</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
@@ -853,9 +852,9 @@
                           </Paragraphs>
                           <rd:DefaultName>Year</rd:DefaultName>
                           <Top>0.19319in</Top>
-                          <Left>1.98234in</Left>
+                          <Left>2.35737in</Left>
                           <Height>0.25in</Height>
-                          <Width>0.70609in</Width>
+                          <Width>0.84151in</Width>
                           <ZIndex>2</ZIndex>
                           <Style>
                             <Border>
@@ -902,9 +901,9 @@
                         </Textbox>
                         <Line Name="Line2">
                           <Top>0.44319in</Top>
-                          <Left>2.92583in</Left>
+                          <Left>3.20708in</Left>
                           <Height>0in</Height>
-                          <Width>-2.82292in</Width>
+                          <Width>-3.10417in</Width>
                           <ZIndex>4</ZIndex>
                           <Style>
                             <Border>
@@ -920,6 +919,40 @@
                         </Border>
                       </Style>
                     </Rectangle>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -940,11 +973,14 @@
                 </GroupExpressions>
               </Group>
             </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>hrdsummarybyregion</DataSetName>
         <Top>0.01389in</Top>
-        <Height>1.45708in</Height>
+        <Height>1.70708in</Height>
         <Width>6.39in</Width>
         <Style>
           <Border>
@@ -953,10 +989,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.54042in</Height>
+    <Height>1.72097in</Height>
     <Style />
   </Body>
-  <Width>6.45708in</Width>
+  <Width>6.39in</Width>
   <Page>
     <PageHeader>
       <Height>1in</Height>
@@ -1067,7 +1103,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.63542in</Height>
+      <Height>0.44792in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <Style>
@@ -1146,7 +1182,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>HRDDataSet</rd:DataSetName>
-        <rd:SchemaPath>F:\Source\cats\Web\HRDDataSet.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\store\EDGE\cats\Web\HRDDataSet.xsd</rd:SchemaPath>
         <rd:TableName>HRDSummaryByRegion</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />

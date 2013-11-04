@@ -15,7 +15,7 @@ namespace Cats.Web.Hub.Helpers
         private readonly IEarlyWarningCheckAccess _checkAccessHelper;
 
         public EarlyWarningCheckAccess.Operation operation;
-       
+
 
         public CatsAuthorize()
         {
