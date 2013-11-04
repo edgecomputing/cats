@@ -1,5 +1,6 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Cats.Areas.Procurement.Models
+@using Cats.Models.Constant
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @model Cats.Models.ViewModels.TransportRequisitionWithTransporter
@@ -30,17 +31,21 @@
     columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.TransportOrderNo).Width(150);
     columns.Bound(to => to.Status);
-     columns.Command(p =>
-              
-                  p.Custom("View Contract").Click("onGenerate")).Width(150);
+          columns.Command(p =>
+              {
+                  if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
+                  {
+                      p.Custom("Approve").Click("onApprove");
+                  }
+                  p.Custom("Edit").Click("onEdit");
                  
-              
+
+              }).Width(200);
+
+
 
       })
-    //.Editable(editable => editable.Mode(GridEditMode.PopUp))
      .Scrollable()
-    //.Scrollable()
-    //.HtmlAttributes(new { style = "height:230px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
         .Model(model =>model.Id(p => p.TransportOrderID))
@@ -51,50 +56,22 @@
 <div>
     <hr/>
 </div>
-@Html.Partial("AssignTransporter",Model)
-@*<h4 >Transport Requisition Without Winner Transporter </h4>
-<div class="controls" align="center">
-    @Html.DropDownList("TransporterID",String.Empty)
-</div>
-<div class="controls" align="right">
-    <input type="submit" value="Assign Transporter" onclick="onAssign(e)" class="btn btn-success"/>
-</div>
-
-@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportRequisitionWithoutWinnerModel>()
-      .Name("grid")
-      .Columns(columns =>
-          {
-              columns.Bound(p => p.Select).
-                  //ClientTemplate("<input type='checkbox'/>");
-                  ClientTemplate("<input type='checkbox' #= Select ? checked='checked' : '' # ></input>");
-              columns.Bound(p => p.Woreda);
-              columns.Bound(p => p.Commodity);
-              columns.Bound(p => p.FDP);
-              columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new { align = "Right" });
-              // columns.Bound(p => p.Amount);
-              //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
-          })
-      .Pageable()
-      .Sortable()
-      .Filterable()
-      .Selectable(m=>m.Mode(GridSelectionMode.Multiple	))
-      .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                    .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
-                                    //.Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
-                                    .PageSize(4)
-                                    .Group(group=>group.Add(m=>m.Woreda))
-                                    //.Model(model => model.Id(p => p.TransportRequisitionID))
-                                    .Read(read => read.Action("TransReqWithoutTransporter_Read", "TransportOrder"))
-
-      ))*@
-
+@if (@ViewBag.TransportOrderTitle == "Draft") 
+{
+ @Html.Partial("AssignTransporter",Model)
+}
 <script>
-    function onGenerate(e) {
+    function onEdit(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("TransportContract", "TransportOrder")" + "/" + dataItem.TransportOrderID;
+        window.location = "@Url.Action("Edit", "TransportOrder")" + "/" + dataItem.TransportOrderID;
 
+    }
+    function onApprove(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Approve","TransportOrder")" + "/" + dataItem.TransportOrderID;
     }
 </script>

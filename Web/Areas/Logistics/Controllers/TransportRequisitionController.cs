@@ -69,7 +69,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request)
         {
-               var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var transportRequisitions = _transportRequisitionService.GetAllTransportRequisition();
             var users = _userAccountService.GetUsers();
@@ -253,8 +253,12 @@ namespace Cats.Areas.Logistics.Controllers
 
         
             [HttpGet]
+
         [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
         
+
+        //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
+
         public ActionResult Details(int id)
         {
             var transportRequisitonViewModel = new TransportRequisitionViewModel();
@@ -285,7 +289,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         [HttpGet]
-        [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
+        //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
         public ActionResult Destinations(int id)
         {
             ViewBag.RequisitionID = id;

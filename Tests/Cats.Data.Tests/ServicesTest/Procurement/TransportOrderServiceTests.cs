@@ -22,7 +22,8 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         private IList<TransportOrder> _transportOrders;
         private TransportOrderService _transportOrderService;
         private IList<BidWinner> _transportBidWinners;
-        [SetUp]
+        private IList<ApplicationSetting> _applicationSettings;
+         [SetUp]
         public void Init()
         {
             _transportBidWinners = new List<BidWinner>()
@@ -35,7 +36,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                    TransporterID = 1
                                                }
                                        };
-
+            
             _reliefRequisitions = new List<ReliefRequisition>()
                                          {
 
@@ -61,12 +62,33 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                              CommodityID=1,
                                                                                              Amount=10,
                                                                                              BenficiaryNo=12,
+                                                                                             ReliefRequisition = new ReliefRequisition()
+                                                                                                      {   
+                                                                        
+                                                                                                             RequisitionID = 1,
+            
+                                                                                                             RegionalRequestID = 1,
+                                                                                                             TransportRequisitionDetails = new List<TransportRequisitionDetail>()
+                                                                                                                 {
+                                                                                                                     new TransportRequisitionDetail()
+                                                                                                                         {
+                                                                                                                             RequisitionID = 1,
+                                                                                                                             TransportRequisitionDetailID = 1,
+                                                                                                                             TransportRequisitionID = 1
+                                                                                                                            
+                                                                                                                             
+                                                                                                                         }
+                                                                                                                         
+                                                                                                                 }
+
+                                                                                                        },
                                                                                              FDP=new FDP
                                                                                                      {
                                                                                                          Name="XYX",
                                                                                                          AdminUnitID=1,
                                                                                                          FDPID=1
-                                                                                                     }
+                                                                                                     },
+                                                                                                     
                                                                                             
                                                                                          }
                                                                                   }
@@ -181,6 +203,30 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                 });
             mockUnitOfWork.Setup(t => t.TransportRequisitionDetailRepository).Returns(
                 transportRequisitionDetailRepository.Object);
+             var applicationSettingRepository = new Mock<IGenericRepository<ApplicationSetting>>();
+             applicationSettingRepository.Setup(t=>t.FindBy(It.IsAny<Expression<Func<ApplicationSetting, bool>>>())).Returns(new List<ApplicationSetting>()
+                                                                                                                                 {
+                                                                                                                                     new ApplicationSetting()
+                                                                                                                                         {
+                                                                                                                                             SettingID=1,
+                                                                                                                                            SettingName="CurrentBid",
+                                                                                                                                            SettingValue = "1"
+                                                                                                                                         }
+                                                                                                                                 });
+             mockUnitOfWork.Setup(t => t.ApplicationSettingRepository).Returns(applicationSettingRepository.Object);
+             ;
+             var bidRepository = new Mock<IGenericRepository<Bid>>();
+             bidRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns(new Bid() {BidID = 1, BidNumber = "Bid-001"});
+           
+
+             mockUnitOfWork.Setup(t => t.BidRepository).Returns(bidRepository.Object);
+             var transporterRepository = new Mock<IGenericRepository<Transporter>>();
+             transporterRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns(new Transporter()
+                                                                                       {
+                                                                                           TransporterID = 1,
+                                                                                           Name = "TRANS"
+                                                                                       });
+             mockUnitOfWork.Setup(t => t.TransporterRepository).Returns(transporterRepository.Object);
             var transporterService = new Mock<ITransporterService>();
             transporterService.Setup(t => t.GetCurrentBidWinner(It.IsAny<int>(), It.IsAny<int>())).Returns(new TransportBidQuotation
                                                                                                                ()

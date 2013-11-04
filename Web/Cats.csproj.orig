@@ -217,10 +217,18 @@
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs">
@@ -279,11 +287,14 @@
     <Compile Include="Areas\WorkflowManager\Controllers\ProcessTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
+<<<<<<< HEAD
     <Compile Include="CatsMasterDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Compile>
+=======
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
@@ -343,11 +354,14 @@
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+<<<<<<< HEAD
     <Compile Include="RequisitionSummary.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
+=======
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
@@ -436,7 +450,10 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+<<<<<<< HEAD
     <Content Include="Content\DashboardWidget.css" />
+=======
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
@@ -660,6 +677,12 @@
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <Content Include="Scripts\angular.min.js" />
+=======
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
@@ -952,6 +975,10 @@
     <Content Include="Scripts\angular\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\angular\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\angular\i18n\angular-locale_zu.js" />
+<<<<<<< HEAD
+=======
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
@@ -1167,6 +1194,7 @@
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <Content Include="Content\Web.config" />
+<<<<<<< HEAD
     <Content Include="Areas\Logistics\Views\Shared\_ApprovedRequisitions.cshtml" />
     <Content Include="CatsMasterDataSet.xsc">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
@@ -1179,6 +1207,11 @@
     <Content Include="CatsMasterDataSet.xss">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Content>
+=======
+<<<<<<< HEAD
+    <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
+=======
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
 
@@ -1192,7 +1225,11 @@
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1212,6 +1249,7 @@
     <Content Include="HRDDataSet.xss">
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Content>
+<<<<<<< HEAD
     <Content Include="RequisitionSummary.xsc">
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Content>
@@ -1223,6 +1261,8 @@
     <Content Include="RequisitionSummary.xss">
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Content>
+=======
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\ICanHaz-no-mustache.js" />
     <Content Include="Scripts\ICanHaz.js" />
@@ -1546,11 +1586,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
+<<<<<<< HEAD
 
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
 
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
 
+=======
+    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -1589,8 +1633,11 @@
           <DevelopmentServerPort>1786</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:1786/</IISUrl>
+<<<<<<< HEAD
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:56576/</IISAppRootUrl>
+=======
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,0 +1,638 @@
+﻿@using Cats.Services.Security
+@using Cats.Helpers;
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Hub Allocated Requesitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    // Cats.Models.ShippingInstruction si=new Cats.Models.ShippingInstruction();
+    // si.Value
+    var UserUnit = "Qtl";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+@section Toolbar
+{
+    <!--
+    <div class="btn-group" style="margin-right: 3px;">
+        <button class="btn">Action</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">hub allocation</a></li>
+            <li><a href="#">pc/si code allocation</a></li>
+            <li><a href="#">Generate TR</a></li>
+            <li><a href="#"></a></li>
+        </ul>
+    </div>
+    -->
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:submitform()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
+}
+
+<fieldset>
+    <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
+
+</fieldset>
+
+<style>
+    .debug
+    {
+        display: none;
+    }
+
+    .SI_Row
+    {
+        margin: 0;
+        padding: 0;
+    }
+
+        .SI_Row .list-item1 /*li*/
+        {
+            padding: 2px;
+            margin: 2px;
+            border: solid 1px #DDD;
+            border-radius: 2px;
+            list-style: none;
+            height: 32px;
+            line-height: 32px;
+            clear: both;
+        }
+
+        .SI_Row li .modified1
+        {
+            border-color: red;
+        }
+
+        .SI_Row .new_allocation .new_allocation_input
+        {
+            visibility: hidden;
+        }
+
+        .SI_Row .SI_Remove
+        {
+            visibility: hidden;
+        }
+
+        .SI_Row input
+        {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding-left: 5px;
+        }
+
+        .SI_Row .old_allocation:hover
+        {
+            background: rgb(201, 221, 237);
+        }
+
+        .SI_Row .new_allocation:hover
+        {
+            background: rgb(255, 216, 0);
+        }
+
+            .SI_Row .new_allocation:hover .new_allocation_input
+            {
+                visibility: visible;
+            }
+
+            .SI_Row .new_allocation:hover .new_allocation_message
+            {
+                display: none;
+            }
+
+        .SI_Row li:hover input
+        {
+            background: #FFF;
+        }
+
+        .SI_Row li:hover .SI_Remove
+        {
+            visibility: visible;
+        }
+
+    .select_list
+    {
+        width: 200px;
+    }
+
+        .select_list .available
+        {
+            width: 90px;
+            float: left;
+            color: #CCC;
+        }
+
+        .select_list .SICode
+        {
+            width: 100px;
+        }
+
+    .SI_Row .dropdown
+    {
+        float: left;
+    }
+
+    .new_allocation_unsaved .SI_Add
+    {
+        visibility: hidden;
+    }
+
+    #new_allocation_form
+    {
+        float: left;
+    }
+
+    .allocation_saved .frm_edit
+    {
+        display: none;
+    }
+
+    .allocation_saved .frm_view
+    {
+        display: block;
+    }
+
+    .allocation_unsaved .frm_edit
+    {
+        display: block;
+    }
+
+    .allocation_unsaved .frm_view
+    {
+        display: none;
+    }
+
+    .modified, .modified1
+    {
+        width: 2px;
+        float: left;
+        height: 2px;
+    }
+
+    .modified1
+    {
+        border: solid 1px red;
+        background: red;
+    }
+
+    .label1
+    {
+        min-width: 200px;
+        float: left;
+        margin-right: 5px;
+    }
+
+        .label1 .gray
+        {
+            color: #808080;
+        }
+
+    .label2
+    {
+        width: 50%;
+        float: left;
+        color: #777;
+        text-align: right;
+        font-size: 12px;
+    }
+
+    .value2
+    {
+        width: 50%;
+        float: left;
+        color: #000;
+        text-align: left;
+        font-size: 12px;
+    }
+
+    .accordion-heading
+    {
+        font-size: 12px;
+    }
+</style>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 100px; height: 50px; right: 50%; top: 50%; margin: auto;">
+    <div id="modalContent" style="line-height: 40px; text-align: center;">Saving</div>
+</div>
+
+<div ng-app>
+    <div ng-controller="CartCtrl">
+        <div class="debug">
+            <div id="frm_submit"></div>
+
+            <form>
+                <div ng-repeat="request in requests">
+                    <div ng-repeat="item in request.SIAllocations">
+                        <input ng-model="item.Modified" />
+                        <input ng-model="item.AllocationId" />
+                        <input ng-model="request.RequisitionId" />
+                        <input ng-model="item.ShippingInstructionId" />
+                        <input ng-model="item.AllocatedAmount" />
+
+                    </div>
+                </div>
+                Deleted
+            <div ng-repeat="allocation in DeletedAllocations">
+                {{allocation}}
+            </div>
+            </form>
+        </div>
+        <table class="table table-striped  table-bordered  table-condensed" style="width: 1020px;">
+            <tr ng-repeat="request in requests">
+                <td style="width: 200px;">
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <div>
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$index}}">{{request.RegionName}}-{{request.ZoneName}}
+                              [{{request.Commodity}} {{request.Amount}}<i>@UserUnit</i>]  
+                                </a>
+                            </div>
+                            <div class="progress progress-success  progress-striped" style="margin: 2px; height: 10px; border: solid 1px rgb(12, 219, 86);">
+                                <div class="bar" style="width: {{request.AllocatedPercent}}%"></div>
+                            </div>
+                        </div>
+                        <div id="collapse{{$index}}" class="accordion-body collapse">
+                            <div class="accordion-inner">
+                                <div class="label2">@Translator.Translate("Region"): </div>
+                                <div class="value2">{{request.RegionName}}</div>
+                                <div class="label2">@Translator.Translate("Zone"): </div>
+                                <div class="value2">{{request.ZoneName}}</div>
+                                <div class="label2">@Translator.Translate("Hub"): </div>
+                                <div class="value2">{{request.HubName}}</div>
+                                <div class="label2">@Translator.Translate("Commodity"): </div>
+                                <div class="value2">{{request.Commodity}}</div>
+                                <div class="label2">@Translator.Translate("Requested Qty"): </div>
+                                <div class="value2">{{request.Amount}}<i>@UserUnit</i></div>
+                                <div class="label2">@Translator.Translate("Allocated Qty"): </div>
+                                <div class="value2">{{request.AllocatedAmount}}<i>@UserUnit</i></div>
+                                <div class="label2">@Translator.Translate("Remaining Qty"): </div>
+                                <div class="value2">{{request.RemainingAmount}}<i>@UserUnit</i></div>
+                                <div class="debug">
+                                    <div class="label2">RequisitionId</div>
+                                    <div class="value2">{{request.RequisitionId}}</div>
+                                    <div class="label2">HubAllocationID</div>
+                                    <div class="value2">{{request.HubAllocationID}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+                <td>
+                    <div style="display: none;">
+                        <div class="frm_edit" id="div_frm_request_{{request.RequisitionId}}">
+                            <div class="label1">
+                                <!--<span class="gray">SI/Project Code: </span>-->
+                                <div class="input-prepend ">
+                                    <div class="btn-group">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown">{{request.AllocationType}} <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypeSI()">SI</a></li>
+                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypePC()">PC</a></li>
+                                        </ul>
+                                    </div>
+                                    <select class="cmb_si" id="cmb_si_{{request.RequisitionId}}" ng-model="request.edit_variable.ShippingInstructionId">
+                                        <option>--SI Code--</option>
+                                        <option value="{{sicode.siCodeId}}" ng-repeat="sicode in request.FreeSIPCCodes.FreeSICodes">{{sicode.SIcode}} [{{sicode.amount}}]</option>
+                                    </select>
+
+                                    <select class="cmb_pc" id="cmb_pc_{{request.RequisitionId}}" ng-model="request.edit_variable.ProjectCodeId">
+                                        <option>--Project Code--</option>
+                                        <option value="{{pccode.pcCodeId}}" ng-repeat="pccode in request.FreeSIPCCodes.FreePCCodes">{{pccode.PCcode}} [{{pccode.amount}}]</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+                            <div class="label1">
+                                <div class="input-prepend input-append">
+                                    <span class="add-on">Qty.</span>
+                                    <input ng-model="request.edit_variable.AllocatedAmount" type="text">
+                                    <span class="add-on">@UserUnit</span>
+                                </div>
+                                <!--<input ng-model="request.edit_variable.AllocatedAmount" class="SI_Input Amount" style="width:60px;">-->
+                            </div>
+                            <div style="float: right;">
+                                <button class="SI_Save btn btn-primary" ng-click="on_edit_ok()"><i class=" icon-ok"></i></button>
+                                <button class="SI_Save btn btn-danger" ng-click="on_edit_cancel()"><i class=" icon-remove"></i></button>
+                            </div>
+                            <!-- 
+                             -->
+
+                        </div>
+                    </div>
+                    <ul class="SI_Row">
+
+                        <li id="div_allocation_{{request.RequisitionId}}_{{$index}}" class="list-item1 old_allocation allocation_saved " onclick="voide()" ng-repeat="item in request.SIAllocations">
+                            <div class="modified{{item.Modified}}"></div>
+                            <div class="frm_view">
+                                <div class="label1"><span class="gray">{{item.AllocationType}}: </span>{{item.ShippingInstructionCode}}</div>
+
+                                <div class="label1"><span class="gray">quantity <i>[@UserUnit]</i>: </span>{{item.AllocatedAmount}}</div>
+                                <div style="float: right;">
+                                    <button class="SI_Remove  btn btn-primary" ng-click="on_edit(request.RequisitionId,$index)"><i class=" icon-pencil"></i></button>
+                                    <button class="SI_Remove btn btn-danger" ng-click="remove(request.RequisitionId,$index)"><i class=" icon-minus-sign"></i></button>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li class="list-item1 new_allocation allocation_saved" id="div_allocation_{{request.RequisitionId}}_new" data-requisitionid="{{request.RequisitionId}}">
+                            <div class="frm_view" style="width: 200px;">
+                                <button class="SI_Removes btn" ng-click="on_edit(request.RequisitionId,'new')"><i class=" icon-plus-sign"></i></button>
+                                <span style="color: #808080;">New Allocation</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                </td>
+            </tr>
+
+        </table>
+
+
+
+        <script>
+            var regionId=@ViewBag.regionId;
+            var $$scope;
+            function voide()
+            { }
+            function submitform() {
+                var postdata = [];
+                for (var r in $$scope.requests) {
+                    for (var a in $$scope.requests[r].SIAllocations) {
+                        var allocation = $$scope.requests[r].SIAllocations[a];
+                        if (allocation.Modified) {
+                            allocation.RequisitionId = $$scope.requests[r].RequisitionId;
+                            allocation.HubAllocationID = $$scope.requests[r].HubAllocationID;
+                            if (allocation.AllocationId) {
+                                allocation.Action = "update";
+                            }
+                            else {
+                                allocation.Action = "add";
+                            }
+                            postdata.push(allocation);
+                        }
+                    }
+                }
+                for (var r in $$scope.DeletedAllocations) {
+                    var aid=$$scope.DeletedAllocations[r];
+                    postdata.push({ Action: "delete", AllocationId: aid });
+                }
+                show_form(postdata);
+                $$scope.save(postdata);
+            }
+            function reloadPage() {
+                $$scope.loadPage(1);
+            }
+            function show_form(postdata) {
+                var htm = "<table class='table table-striped table-bordered'><tr><td>Action</td><td>AllocationId</td><td>ReqId</td><td>si</td><td>Amount</td></tr>";
+                var flds = { Action: "", AllocationId: "", RequisitionId: "", ShippingInstructionId: "", AllocatedAmount: "" };
+                for (var i in postdata) {
+                    var fldval = "";
+                    for (var f in flds) {
+                        var val = postdata[i][f];
+                        val = val == undefined ? "" : val;
+                        fldval += "<td>" + val + "</td>";
+
+                    }
+                    htm += "<tr>" + fldval + "</tr>";
+                }
+                htm += "</table>";
+                $("#frm_submit").html(htm);
+            }
+            function CartCtrl($scope, $http) {
+                
+                $$scope = $scope;
+                $scope.regionId=@ViewBag.regionId;
+                $scope.getListUrl="@Url.Action("getList", "SIAllocation", new { Area = "Logistics" })"
+                $scope.updateUrl="@Url.Action("updateAllocation", "SIAllocation", new { Area = "Logistics" })"
+                $scope.requests = [];
+                $scope.selections = {};
+                $scope.NewAllocation = { RequisitionId: "", AllocatedAmount: 0, ShippingInstructionCode: "", ShippingInstructionId: "" };
+                $scope.SICodesHash = {};
+                $scope.DeletedAllocations = [];
+
+                $scope.ModelToView = function (model, view) {
+                    view.ShippingInstructionId = model.ShippingInstructionId;
+                    view.ProjectCodeId = model.ShippingInstructionId;
+                    view.ShippingInstructionCode = model.ShippingInstructionCode;
+                    
+                    view.AllocatedAmount = model.AllocatedAmount;
+                }
+                $scope.create_new_allocation = function (reqId) {
+                    $scope.NewAllocation.RequisitionId = reqId;
+                    $scope.NewAllocation.AllocatedAmount = 0;
+                    $scope.NewAllocation.ShippingInstructionCode = "";
+                    $scope.NewAllocation.ShippingInstructionId = "";
+                    return $scope.NewAllocation;
+                }
+                $scope.CalculateAllocatedAmount = function () {
+                    for (var r in $scope.requests) {
+                        
+                        var req = $scope.requests[r];
+                        var allocated = 0;
+                        for (var a in req.SIAllocations) {
+                            allocated += (req.SIAllocations[a].AllocatedAmount) / 1;
+                        }
+                        req.AllocatedAmount = allocated;
+                        req.RemainingAmount = req.Amount - req.AllocatedAmount;
+                        req.AllocatedPercent = Math.round(100 * req.AllocatedAmount / req.Amount);
+                        req.AllocationType = "SI";
+                    }
+                }
+                $scope.ViewToModel = function (view, model) {
+                    model.AllocatedAmount = view.AllocatedAmount;
+                    model.AllocationType = view.AllocationType;
+                    var ShippingInstructionCode;
+                    if (model.AllocationType == "SI") {
+                        model.ShippingInstructionId = view.ShippingInstructionId;
+                        ShippingInstructionCode = $scope.SICodesHash["si" + model.ShippingInstructionId];
+                    }
+                    else {
+                        model.ShippingInstructionId = view.ProjectCodeId;
+                        ShippingInstructionCode = $scope.SICodesHash["pc" + model.ShippingInstructionId];
+                    }
+                    
+                    // alert(model.AllocationType + model.ShippingInstructionId);
+                    model.ShippingInstructionCode = ShippingInstructionCode;
+                }
+                $scope.clone = function (src, dest) {
+                    if (!dest) {
+                        dest = {};
+                    }
+                    for (var i in src) {
+                        dest[i] = src[i];
+                    }
+                    return dest;
+                }
+                $scope.on_Allocation_TypeSI = function () {
+                    var reqindex = $scope.getRequestIndex($scope.selections.RequestId);
+                    $scope.requests[reqindex].AllocationType = "SI";
+                    $(".cmb_si").show();
+                    $(".cmb_pc").hide();
+                    $scope.requests[reqindex].edit_variable.AllocationType = "SI";
+                }
+                $scope.on_Allocation_TypePC = function () {
+                    var reqindex = $scope.getRequestIndex($scope.selections.RequestId);
+                    $scope.requests[reqindex].AllocationType = "PC";
+                    $(".cmb_si").hide();
+                    $(".cmb_pc").show();
+                    $scope.requests[reqindex].edit_variable.AllocationType = "PC";
+                }
+                $scope.on_edit_ok = function ()
+                {
+                    $scope.on_edit_cancel();
+                    var allocId = $scope.selections.AllocationId;
+                    // alert(allocId=="0");
+                    var reqindex = $scope.getRequestIndex($scope.selections.RequestId);
+
+                    var model = $scope.requests[reqindex].SIAllocations[allocId];
+                    var view = $scope.requests[reqindex].edit_variable;
+                    if (allocId != "new") {
+                        model = $scope.requests[reqindex].SIAllocations[allocId];
+                        $scope.ViewToModel(view, $scope.requests[reqindex].SIAllocations[allocId]);
+                    }
+                    else {
+                        model = $scope.clone($scope.NewAllocation);
+                        // $scope.ViewToModel(view, model);
+                        $scope.requests[reqindex].SIAllocations.push(model);
+                       
+                        
+                    }
+                    model.Modified = 1;
+                    $scope.ViewToModel(view, model);
+                    $scope.CalculateAllocatedAmount();
+                    
+                }
+                $scope.on_edit = function (req_id, index) {
+
+                    var reqindex = $scope.getRequestIndex(req_id);
+                    // alert($scope.requests[reqindex].SIAllocations[index].AllocatedAmount);
+                    var model = { RequisitionId: req_id, AllocatedAmount: "", ShippingInstructionCode: "", ShippingInstructionId: "" };;
+                    var view = $scope.requests[reqindex].edit_variable;
+                    if (index != "new") {
+                        model = $scope.requests[reqindex].SIAllocations[index];
+                        $scope.requests[reqindex].SIAllocations[index].siCodeId += "";
+                        $scope.ModelToView($scope.requests[reqindex].SIAllocations[index], $scope.requests[reqindex].edit_variable);
+
+                        $scope.requests[reqindex].AllocationType = model.AllocationType;
+                    }
+                    else {
+                        model = $scope.create_new_allocation(req_id)
+                    }
+                    
+                    $scope.ModelToView(model, view);
+                   
+                    var $frm = $("#div_frm_request_" + req_id);
+                    var $target = $("#div_allocation_" + req_id + "_" + index);
+                    $target.append($frm);
+
+                    if ($scope.lastTarget) {
+                        $scope.lastTarget.removeClass("allocation_unsaved");
+                        $scope.lastTarget.addClass("allocation_saved");
+                    }
+                    $target.removeClass("allocation_saved");
+                    $target.addClass("allocation_unsaved");
+
+                    $scope.selections.RequestId = req_id;
+                    $scope.selections.AllocationId=index;
+
+                    $scope.lastTarget = $target;
+                    var sipccombo="cmb_si";
+                    if (model.AllocationType == "PC") {
+                        sipccombo = "cmb_pc";
+
+                        $scope.on_Allocation_TypePC();
+                    }
+                    else {
+                        $scope.on_Allocation_TypeSI();
+                    }
+                    window.setTimeout(function () { $("#" + sipccombo + "_" + req_id).val(model.ShippingInstructionId); }, 1000);
+                }
+                $scope.on_edit_cancel = function () {
+                    if ($scope.lastTarget) {
+                        $scope.lastTarget.removeClass("allocation_unsaved");
+                        $scope.lastTarget.addClass("allocation_saved");
+                    }
+                }
+
+                var GetListSuccessCB = function (resp, status, headers, config) {
+                    $scope.requests = [];
+                    $scope.selections = {};
+                    $scope.NewAllocation = { RequisitionId: "", AllocatedAmount: 0, ShippingInstructionCode: "", ShippingInstructionId: "" };
+                    $scope.SICodesHash = {};
+                    $scope.DeletedAllocations = [];
+                    $$scope = $scope;
+                    resp.forEach(function (entry, i) {
+                        entry.edit_variable = { RequisitionId: entry.RequisitionId, AllocatedAmount: 199, ShippingInstructionCode: "", ShippingInstructionId: 94 };
+                        $scope.requests.push(entry);
+                        var FreeSICodes = entry.FreeSIPCCodes.FreeSICodes
+                        var FreePCCodes = entry.FreeSIPCCodes.FreePCCodes
+                        for (var si_index in FreeSICodes) {
+                            var si=FreeSICodes[si_index];
+                            $scope.SICodesHash["si" + si.siCodeId] = si.SIcode;
+                        }
+                        for (var pc_index in FreePCCodes) {
+                            var pc = FreePCCodes[pc_index];
+                            $scope.SICodesHash["pc" + pc.pcCodeId] = pc.PCcode;
+                        }
+                        $scope.CalculateAllocatedAmount();
+                    });
+                    $('#myModal').modal('hide')
+                }
+                //  request.FreeSIPCCodes.FreeSICodes">{{sicode.siCodeId}} {{sicode.SIcode}} 
+                $scope.getRequestIndex = function (req_id) {
+                    var index_r = 0;
+                    for (var i in $scope.requests) {
+                        if ($scope.requests[i].RequisitionId == req_id) {
+                            return i;
+                        }
+                    }
+                }
+                $scope.remove = function (req_id, index) {
+
+                    var index_r = $scope.getRequestIndex(req_id);
+                    var deleted = $scope.requests[index_r].SIAllocations[index];
+                    if (deleted.AllocationId) {
+                        $scope.DeletedAllocations.push(deleted.AllocationId);
+                    }
+                    
+                    $scope.requests[index_r].SIAllocations.splice(index, 1);
+                    $scope.CalculateAllocatedAmount();
+                }
+                var GetListErrorCB = function (resp, status, headers, config) {
+                    $('#modalContent').html("Error");
+                }
+                $scope.save = function (param) {
+                    if (param.length) {
+                        // alert(regionId);
+                        var param1={regionId:regionId,allocationAction:param};
+                      //  param.regionId=regionId;
+                        $('#modalContent').html("Saving...");
+                        $('#myModal').modal('show');
+                        $http.post( $scope.updateUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
+                    }
+
+                }
+                $scope.loadPage = function (showmodal) {
+                    var param={regionId:$scope.regionId};
+                    $http.post($scope.getListUrl,param).success(GetListSuccessCB);
+                    if (showmodal) {
+                        $('#modalContent').html("...");
+                        $('#myModal').modal('show');
+                    }
+                }
+                $scope.loadPage();
+            }
+        </script>
+    </div>
+</div>
