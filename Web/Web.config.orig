@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   For more information on how to configure your ASP.NET application, please visit
   http://go.microsoft.com/fwlink/?LinkId=152368
@@ -26,7 +26,7 @@
     <appender name="ADONetAppender" type="log4net.Appender.AdoNetAppender">
       <bufferSize value="100" />
       <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-      <connectionString value="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+      <connectionString value="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
       <commandText value="INSERT INTO Log ([Date],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)" />
       <parameter>
         <parameterName value="@log_date" />
@@ -73,12 +73,28 @@
       </parameter>
     </appender>
   </log4net>
+  
+   <!--<connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass; " providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
+  </connectionStrings>-->
+
+<<<<<<< HEAD
 <<<<<<< HEAD
   <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="elmah-sql" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+  </connectionStrings>-->
+
+ <!--<connectionStrings>
+    <add name="elmah-sql" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
   </connectionStrings>-->
 
    <connectionStrings>
@@ -87,27 +103,24 @@
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
 =======
-   <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass; " providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-
-  <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-
  <connectionStrings>
-    <add name="elmah-sql" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
->>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
+=======
+>>>>>>> 531e9765acf1916632254850fd88de92c1a5063d
+
+  <connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+<<<<<<< HEAD
+
+
+>>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
+=======
+>>>>>>> 531e9765acf1916632254850fd88de92c1a5063d
   </connectionStrings>
+
+
 
   
   <appSettings>

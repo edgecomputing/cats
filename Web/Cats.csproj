@@ -230,6 +230,7 @@
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
     <Compile Include="Areas\Procurement\Models\TransportContractViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
@@ -668,6 +669,7 @@
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
@@ -912,6 +914,7 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
 
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
@@ -1203,6 +1206,7 @@
     <Folder Include="bin\" />
     <Folder Include="Report\EarlyWarning\" />
     <Folder Include="Report\HRD\" />
+    <Folder Include="Report\Procurment\" />
     <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>

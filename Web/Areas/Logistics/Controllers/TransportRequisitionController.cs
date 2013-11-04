@@ -29,6 +29,8 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IUserAccountService _userAccountService;
         private readonly ILog _log;
+        private readonly IAdminUnitService _adminUnitService;
+        private readonly IProgramService _programService;
         private readonly IHubAllocationService _hubAllocationService;
         private readonly IProjectCodeAllocationService _projectCodeAllocationService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
@@ -36,21 +38,28 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IRationService _rationService;
                
         
-        public TransportRequisitionController(ITransportRequisitionService transportRequisitionService,
+        public TransportRequisitionController(
+            ITransportRequisitionService transportRequisitionService,
             IWorkflowStatusService workflowStatusService,
             IUserAccountService userAccountService,
-            ILog log,
+            ILog log, 
+            IAdminUnitService adminUnitService,
+            IProgramService programService,
+            IReliefRequisitionService reliefRequisitionService,
             IHubAllocationService hubAllocationService,
             IProjectCodeAllocationService projectCodeAllocationService,
-            IReliefRequisitionService reliefRequisitionService,
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IRationService  rationService
             )
-        {
+        
+    {
             this._transportRequisitionService = transportRequisitionService;
             _workflowStatusService = workflowStatusService;
             _userAccountService = userAccountService;
             _log = log;
+            _adminUnitService = adminUnitService;
+            _programService = programService;
+            _reliefRequisitionService = reliefRequisitionService;
             _hubAllocationService = hubAllocationService;
             _projectCodeAllocationService = projectCodeAllocationService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
@@ -66,32 +75,45 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
 
         }
-
-        public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request, string searchIndex)
         {
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportRequisitions = _transportRequisitionService.Get(t => t.TransportRequisitionNo.Contains(searchIndex));
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
-            var transportRequisitions = _transportRequisitionService.GetAllTransportRequisition();
             var users = _userAccountService.GetUsers();
             var transportRequisitonViewModels =
-                TransportRequisitionViewModelBinder.BindListTransportRequisitonViewModel(transportRequisitions, statuses,
-                                                                                         datePref, users);
-                ////EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
-                //transportRequisitionViewModel.Remark = transportRequisition.Remark;
-                //transportRequisitionViewModel.RequestedBy = transportRequisition.RequestedBy;
-                //transportRequisitionViewModel.RequestedDate = transportRequisition.RequestedDate;
-                //transportRequisitionViewModel.DateRequested = transportRequisition.RequestedDate.ToCTSPreferedDateFormat(datePref);
-                ////EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
-                //transportRequisitionViewModel.Status = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION,transportRequisition.Status);
-                //transportRequisitionViewModel.StatusID = transportRequisition.Status;
-                //transportRequisitionViewModel.TransportRequisitionID = transportRequisition.TransportRequisitionID;
-                //transportRequisitionViewModel.TransportRequisitionNo = transportRequisition.TransportRequisitionNo;
-             
+                (from itm in transportRequisitions select BindTransportRequisitionViewModel(itm));
             return Json(transportRequisitonViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
 
-        
+        private TransportRequisitionViewModel BindTransportRequisitionViewModel(TransportRequisition transportRequisition)
+        {
+            string userPreference = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+
+            TransportRequisitionViewModel transportRequisitionViewModel = null;
+            if (transportRequisition != null)
+            {
+                transportRequisitionViewModel = new TransportRequisitionViewModel();
+                //transportRequisitionViewModel.CertifiedBy = transportRequisition.CertifiedBy;
+                transportRequisitionViewModel.CertifiedDate = transportRequisition.CertifiedDate;
+                transportRequisitionViewModel.DateCertified = transportRequisition.CertifiedDate.ToCTSPreferedDateFormat(userPreference);
+                //EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
+                transportRequisitionViewModel.Remark = transportRequisition.Remark;
+                //transportRequisitionViewModel.RequestedBy = transportRequisition.RequestedBy;
+                transportRequisitionViewModel.RequestedDate = transportRequisition.RequestedDate;
+                transportRequisitionViewModel.DateRequested = transportRequisition.RequestedDate.ToCTSPreferedDateFormat(userPreference);
+                //EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
+                transportRequisitionViewModel.Status = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION, transportRequisition.Status);
+                transportRequisitionViewModel.StatusID = transportRequisition.Status;
+                transportRequisitionViewModel.TransportRequisitionID = transportRequisition.TransportRequisitionID;
+                transportRequisitionViewModel.TransportRequisitionNo = transportRequisition.TransportRequisitionNo;
+                transportRequisitionViewModel.Region = _adminUnitService.FindById(transportRequisition.RegionID).Name;
+                transportRequisitionViewModel.Program = _programService.FindById(transportRequisition.ProgramID).Name;
+
+            }
+            return transportRequisitionViewModel;
+        }
+
         
         private List<TransportRequisitionDetailViewModel> GetDetail(IEnumerable<TransportRequisitionDetail> transportRequisitionDetails )
         {
@@ -214,6 +236,29 @@ namespace Cats.Areas.Logistics.Controllers
             return RedirectToAction("Edit", "TransportRequisition",new {id=transportRequisition.TransportRequisitionID});
         }
 
+        public ActionResult GenerateTransportRequisitionForRegion(int regionID)
+        {
+            var reliefRequisitionslist = _reliefRequisitionService.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned && t.RegionID == regionID, null,
+                                                          "ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
+            var uniquePrograms = new List<Program>();
+            foreach (var uniqueProgram in from reliefRequisitionsID in reliefRequisitionslist let uniqueProgram = new Program()
+                                          let programID = reliefRequisitionsID.ProgramID
+                                          where programID != null
+                                          select _programService.FindById((int)programID) 
+                                          into uniqueProgram where !uniquePrograms.Contains(uniqueProgram) select uniqueProgram)
+            {
+                uniquePrograms.Add(uniqueProgram);
+            }
+            var transportRequisition = new TransportRequisition();
+            foreach (var partitionedReliefRequisitiionIDList in uniquePrograms.Select(program1 => 
+                _reliefRequisitionService.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned && t.RegionID == regionID &&
+                t.ProgramID == program1.ProgramID)).Select(partitionedReliefRequisitiions => partitionedReliefRequisitiions.Select(t => t.RequisitionID).ToList()))
+            {
+                transportRequisition  = _transportRequisitionService.CreateTransportRequisition(partitionedReliefRequisitiionIDList);
+            }
+            return RedirectToAction("Index", "TransportRequisition");
+        }
+
         public ActionResult Edit(int id)
         {
             var transportRequisition = _transportRequisitionService.FindById(id);
@@ -253,10 +298,6 @@ namespace Cats.Areas.Logistics.Controllers
 
         
             [HttpGet]
-
-        [LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
-        
-
         //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
 
         public ActionResult Details(int id)

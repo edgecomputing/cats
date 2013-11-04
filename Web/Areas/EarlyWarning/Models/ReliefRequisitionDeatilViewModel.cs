@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Cats.Models;
 
 namespace Cats.Areas.EarlyWarning.Models
 {
@@ -20,5 +21,6 @@ namespace Cats.Areas.EarlyWarning.Models
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
         public decimal RationAmount { get; set; }
+        public List<Donor> Donors { get; set; }
     }
 }

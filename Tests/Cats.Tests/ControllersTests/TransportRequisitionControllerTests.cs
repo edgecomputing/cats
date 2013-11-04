@@ -1,86 +1,45 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Cats.Areas.Logistics.Controllers;
-using Cats.Areas.Logistics.Models;
-using Cats.Areas.Procurement.Models;
+using System.Linq.Expressions;
+using Cats.Data.Repository;
+using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Models.Security;
 using Cats.Models.ViewModels;
-using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Moq;
 using NUnit.Framework;
-using System.Web;
-using System.Security.Principal;
-using Cats.Services.Security;
-using log4net;
-using UserProfile = Cats.Models.UserProfile;
 
-namespace Cats.Tests.ControllersTests
+namespace Cats.Data.Tests.ServicesTest.Logistics
 {
     [TestFixture]
-    public class TransportRequisitionControllerTests
+    public class TransportRequisitionServiceTests
     {
         #region SetUp / TearDown
 
-      //  private ITransportRequisitionService _transportRequisitionService;
-        private TransportRequisitionController _transportRequisitionController;
-        private List<RequisitionToDispatchSelect> _requisitionToDispatches;
-        private List<RequisitionToDispatch> _requisitionToDispatches1 ;
+        private List<int> _reliefRequisitions;
+        private List<TransportRequisition> _transportRequisitions;
+        private TransportRequisitionService _transportRequisitionService;
+        private TransportRequisition _transportRequisition;
+        private IList<ReliefRequisition> reliefRequisitions;
         [SetUp]
         public void Init()
+        {
+            _transportRequisitions = new List<TransportRequisition>();
+            _reliefRequisitions = new List<int> { 1 };
+            var unitOfWork = new Mock<IUnitOfWork>();
+            _transportRequisition = new TransportRequisition
             {
-                _requisitionToDispatches1 = new List<RequisitionToDispatch>
-                                               {
-                                                   new RequisitionToDispatch
-                                                       {
-                                                           RegionID = 1,
-                                                           RequisitionID = 1,
-                                                           HubID = 1,
-                                                           RequisitionNo = "REQ-001",
-                                                           CommodityID = 1,
-                                                           ZoneID = 1,
-                                                           QuanityInQtl = 10,
-                                                           RequisitionStatus = 1,
-                                                           
-
-                                                       }
-                                               };
-                _requisitionToDispatches = new List<RequisitionToDispatchSelect>
-                                               {
-                                                   new RequisitionToDispatchSelect
-                                                       {
-                                                           RegionID = 1,
-                                                           RequisitionID = 1,
-                                                           HubID = 1,
-                                                           RequisitionNo = "REQ-001",
-                                                           CommodityID = 1,
-                                                           ZoneID = 1,
-                                                           QuanityInQtl = 10,
-                                                           RequisitionStatus = 1,
-                                                           Input=new RequisitionToDispatchSelect.RequisitionToDispatchSelectInput()
-                                                                     {
-                                                                         Number=1,
-                                                                         IsSelected =false
-                                                                     }
-
-                                                       }
-                                               };
-            var _transportRequisition = new TransportRequisition
-                                            {
-                                                Status = 1,
-                                                RequestedDate = DateTime.Today,
-                                                RequestedBy = 1,
-                                                CertifiedBy = 1,
-                                                CertifiedDate = DateTime.Today,
-                                                Remark = "",
-                                                TransportRequisitionNo = "REQ-001",
-                                                TransportRequisitionID = 1,
-                                                TransportRequisitionDetails = new List<TransportRequisitionDetail>()
+                Status = 1,
+                RequestedDate = DateTime.Today,
+                RequestedBy = 1,
+                CertifiedBy = 1,
+                CertifiedDate = DateTime.Today,
+                Remark = "",
+                TransportRequisitionNo = "REQ-001",
+                TransportRequisitionID = 1,
+                TransportRequisitionDetails = new List<TransportRequisitionDetail>()
                                                                                   {
                                                                                       new TransportRequisitionDetail
                                                                                           {
@@ -91,117 +50,325 @@ namespace Cats.Tests.ControllersTests
                                                                                           }
                                                                                   }
 
+            };
+            reliefRequisitions = new List<ReliefRequisition>()
+                                      {
+                                          
+                                          new ReliefRequisition()
+                                              {
+                                                  RegionID = 1,
+                                                  ProgramID = 1,
+                                                  CommodityID = 1,
+                                                  ZoneID = 2,
+                                                  RequisitionNo = "REQ-001",
+                                                  Round = 1,
+                                                  RegionalRequestID = 1,
+                                                  RequisitionID = 1,
+                                                  Status = 4,
+
+                                                  AdminUnit = new AdminUnit
+                                                                  {
+                                                                      AdminUnitID = 2,
+                                                                      Name = "Zone1"
+                                                                  },
+                                                  AdminUnit1 = new AdminUnit
+                                                                   {
+                                                                       AdminUnitID = 1,
+                                                                       Name = "Region1"
+                                                                   },
+                                                  Commodity = new Commodity
+                                                                  {
+                                                                      CommodityID = 1,
+                                                                      CommodityCode = "C1",
+                                                                      Name = "CSB"
+                                                                  },
+                                                  //HubAllocations = new List<HubAllocation>(){new HubAllocation()
+                                                  //                    {
+                                                  //                        HubAllocationID = 1,
+                                                  //                        HubID = 1,
+                                                  //                        RequisitionID = 1,
+                                                  //                        Hub = new Hub
+                                                  //                                  {
+                                                  //                                      HubID = 1,
+                                                  //                                      Name = "Test Hub",
+
+                                                  //                                  }
+
+                                                  //                    }},
+
+                                                  ReliefRequisitionDetails = new List<ReliefRequisitionDetail>
+                                                                                 {
+                                                                                     new ReliefRequisitionDetail()
+                                                                                         {
+                                                                                             RequisitionID = 1,
+                                                                                             RequisitionDetailID = 1,
+                                                                                             Amount = 100,
+                                                                                             CommodityID = 1,
+                                                                                             FDPID = 1,
+                                                                                             BenficiaryNo = 10,
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=1,
+                                                                                                         Name="FDP1"
+                                                                                                     }
+                                                                                             
+                                                                                         },
+                                                                                     new ReliefRequisitionDetail()
+                                                                                         {
+                                                                                             RequisitionID = 1,
+                                                                                             RequisitionDetailID = 2,
+                                                                                             Amount = 50,
+                                                                                             CommodityID = 1,
+                                                                                             FDPID = 2,
+                                                                                             BenficiaryNo = 10,
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=2,
+                                                                                                         Name="FDP2"
+                                                                                                     }
+                                                                                         },
+                                                                                     new ReliefRequisitionDetail()
+                                                                                         {
+                                                                                             RequisitionID = 1,
+                                                                                             RequisitionDetailID = 3,
+                                                                                             Amount = 60,
+                                                                                             CommodityID = 1,
+                                                                                             FDPID = 3,
+                                                                                             BenficiaryNo = 10,
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=3,
+                                                                                                         Name="FDP3"
+                                                                                                     }
+                                                                                         },
+                                                                                     new ReliefRequisitionDetail()
+                                                                                         {
+                                                                                             RequisitionID = 1,
+                                                                                             RequisitionDetailID = 4,
+                                                                                             Amount = 70,
+                                                                                             CommodityID = 1,
+                                                                                             FDPID = 2,
+                                                                                             BenficiaryNo = 10,
+                                                                                             DonorID = 1,
+                                                                                             FDP=new FDP
+                                                                                                     {
+                                                                                                         AdminUnitID=1,
+                                                                                                         FDPID=4,
+                                                                                                         Name="FDP4"
+                                                                                                     }
+                                                                                         }
+                                                                                 }
+                                              }
+                                      };
+            var _workflowstatuses = new List<WorkflowStatus>
+                                            {
+                                                new WorkflowStatus
+                                                    {
+                                                        StatusID = 1,
+                                                        WorkflowID = 2,
+                                                        Description = "Approved",
+
+                                                    }
                                             };
-           var _transportRequisitionService = new Mock<ITransportRequisitionService>();
-           _transportRequisitionService.Setup(t => t.GetRequisitionToDispatch()).Returns(_requisitionToDispatches1);
-            _transportRequisitionService.Setup(t => t.FindById(It.IsAny<int>())).Returns(_transportRequisition);
-            var _workflowStatusService = new Mock<IWorkflowStatusService>();
-            _workflowStatusService.Setup(t => t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Approved");
-            var statuses = new List<WorkflowStatus>()
-                             {
-                                 new WorkflowStatus() {Description = "Open", StatusID = 1, WorkflowID = 1}
-                             };
-            _workflowStatusService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(statuses);
-            var session = new Mock<HttpSessionStateBase>();
-            var fakeContext = new Mock<HttpContextBase>();
-            var identity = new GenericIdentity("User");
-            var principal = new GenericPrincipal(identity, null);
-            fakeContext.Setup(t => t.User).Returns(principal);
-            fakeContext.Setup(t => t.Session).Returns(session.Object);
-            var controllerContext = new Mock<ControllerContext>();
-            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
-            var users = new List<UserInfo>()
-                            {
-                                new UserInfo()
-                                    {
-                                        ActiveInd = true,
-                                        UserProfileID = 1,
-                                        FirstName = "Admin",
-                                        LastName = "System",
-                                        GrandFatherName = "Admin"
-                                    }
-                            };
-            _transportRequisitionService.Setup(t => t.GetTransportRequisitionDetail(It.IsAny<List<int>>())).Returns(
-                _requisitionToDispatches1);
-            var userAccountService = new Mock<IUserAccountService>();
-            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new Models.Security.UserInfo() { UserName = "Admin", DatePreference = "AM" });
-            userAccountService.Setup(t => t.GetUsers()).Returns(users);
-            var logService = new Mock<ILog>();
-            
-            var hubAllocationService = new Mock<IHubAllocationService>();
-            var projectCodeAllocationService = new Mock<IProjectCodeAllocationService>();
-            //private readonly IReliefRequisitionService _reliefRequisitionService;
-            //private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
-            //private readonly IRationService _rationService;
 
-            var reliefRequisitionService = new Mock<IReliefRequisitionService>();
-            var reliefRequisitionDetailService = new Mock<IReliefRequisitionDetailService>();
-            var rationService = new Mock<IRationService>();
+            var _hubAllocation = new List<HubAllocation>
+                                         {
+                                             new HubAllocation
+                                                 {
+                                                     RequisitionID = 1,
+                                                     HubID = 1,
+                                                     HubAllocationID = 1,
+                                                     Hub=new Hub
+                                                             {
+                                                                 Name="Hub 1",
+                                                                 HubID=1,
 
-            _transportRequisitionController = new TransportRequisitionController(_transportRequisitionService.Object,
-                                                                                 _workflowStatusService.Object,
-                                                                                  userAccountService.Object,
-                                                                                  logService.Object,hubAllocationService.Object,
-                                                                                  projectCodeAllocationService.Object,
-                                                                                  reliefRequisitionService.Object,
-                                                                                  reliefRequisitionDetailService.Object,
-                                                                                  rationService.Object
-                                                                                  );
-            _transportRequisitionController.ControllerContext = controllerContext.Object;
+                                                             }
+                                                 }
+                                         };
+            //_transportRequisition = new TransportRequisition()
+            //                            {
+            //                                Status = 1,
+            //                                RequestedBy = 1,
+            //                                CertifiedBy = 1,
+            //                                CertifiedDate = DateTime.Today,
+            //                                RequestedDate = DateTime.Today,
+            //                                TransportRequisitionID = 1,
+            //                                TransportRequisitionNo = "T-001",
+            //                                Remark = "comment"
+            //                            };
+            var mockReliefRequisitionRepository = new Mock<IGenericRepository<ReliefRequisition>>();
+            mockReliefRequisitionRepository.Setup(
+                t => t.Get(It.IsAny<Expression<Func<ReliefRequisition, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>>>(), It.IsAny<string>())).Returns(
+                    (Expression<Func<ReliefRequisition, bool>> perdicate, Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> obrderBy, string prop) =>
+                    {
+                        var
+                            result = reliefRequisitions.AsQueryable();
+                        return result;
+                    }
+                );
+            mockReliefRequisitionRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) => reliefRequisitions
+                                                                                                            .ToList().
+                                                                                                            Find
+                                                                                                            (t =>
+                                                                                                             t.
+                                                                                                                 RequisitionID ==
+                                                                                                             id));
+            unitOfWork.Setup(t => t.ReliefRequisitionRepository).Returns(mockReliefRequisitionRepository.Object);
+            var transportRequisitionReqository = new Mock<IGenericRepository<TransportRequisition>>();
+
+            transportRequisitionReqository.Setup(t => t.Add(It.IsAny<TransportRequisition>())).Returns(
+                (TransportRequisition transportRequisiton) =>
+                {
+                    _transportRequisitions.Add(transportRequisiton);
+                    return true;
+                });
+            transportRequisitionReqository.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) =>
+            {
+                return
+                    _transportRequisition;
+            });
+            unitOfWork.Setup(t => t.TransportRequisitionRepository).Returns(transportRequisitionReqository.Object);
+            unitOfWork.Setup(t => t.Save());
+
+            var workflowStatusRepository = new Mock<IGenericRepository<WorkflowStatus>>();
+            workflowStatusRepository.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<WorkflowStatus, bool>>>(),
+                      It.IsAny<Func<IQueryable<WorkflowStatus>, IOrderedQueryable<WorkflowStatus>>>(),
+                      It.IsAny<string>())).Returns(_workflowstatuses);
+
+            unitOfWork.Setup(t => t.WorkflowStatusRepository).Returns(workflowStatusRepository.Object);
+            var hubAllocationRepository = new Mock<IGenericRepository<HubAllocation>>();
+            hubAllocationRepository.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<HubAllocation, bool>>>(),
+                      It.IsAny<Func<IQueryable<HubAllocation>, IOrderedQueryable<HubAllocation>>>(),
+                      It.IsAny<string>())).Returns(_hubAllocation);
+            unitOfWork.Setup(t => t.HubAllocationRepository).Returns(hubAllocationRepository.Object);
+
+            var adminUnitRepository = new Mock<IGenericRepository<AdminUnit>>();
+            adminUnitRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns(new
+                                                                                    AdminUnit()
+            {
+                AdminUnitID = 2,
+                Name = "Zone1",
+                AdminUnit2 = new AdminUnit
+                {
+                    AdminUnitID
+                        = 1,
+                    Name =
+                        "Region1"
+                }
+            }
+                );
+            unitOfWork.Setup(t => t.AdminUnitRepository).Returns(adminUnitRepository.Object);
+
+
+            var programRepository = new Mock<IGenericRepository<Program>>();
+            programRepository.Setup(t => t.FindById(It.IsAny<int>())).Returns(new Program
+            {
+                ProgramID = 1,
+                Name = "PSNP",
+                Description = "PSNP Des."
+            });
+            unitOfWork.Setup(t => t.ProgramRepository).Returns(programRepository.Object);
+
+            _transportRequisitionService = new TransportRequisitionService(unitOfWork.Object);
+
+
         }
 
         [TearDown]
         public void Dispose()
         {
-            _transportRequisitionController.Dispose();
+            _transportRequisitionService.Dispose();
         }
 
         #endregion
 
         #region Tests
-
         [Test]
-        public void CanShowListOfRequisitionsWithProjectCodeAndHubAssigned()
+        public void CanGenerateRequisitonReadyToDispatch()
         {
-            //Act
-            var result = _transportRequisitionController.Requisitions();
+
+
+
+
+            //Act 
+
+            var requisitionToDispatch = _transportRequisitionService.GetRequisitionToDispatch().ToList();
 
             //Assert
-            Assert.IsInstanceOf<List<RequisitionToDispatchSelect>>(((ViewResult)result).Model);
+
+            Assert.IsInstanceOf<IList<RequisitionToDispatch>>(requisitionToDispatch);
+            Assert.AreEqual(1, requisitionToDispatch.Count());
+        }
+        [Test]
+        public void ShouldCreateTransportRequision()
+        {
+
+            //Act
+            var result = _transportRequisitionService.CreateTransportRequisition(_reliefRequisitions);
+            //Assert
+            Assert.IsInstanceOf<TransportRequisition>(result);
         }
 
         [Test]
-        public void CandEditTransportRequisition()
+        public void SholdNotCreateTransportRequisitionIfNoReliefRequisition()
         {
             //Act
-            var result = _transportRequisitionController.Edit(1);
-
+            var result = _transportRequisitionService.CreateTransportRequisition(new List<int>());
             //Assert
-            Assert.IsInstanceOf<TransportRequisition>(((ViewResult)result).Model);
+            Assert.IsNull(result);
         }
+
+
         [Test]
-        public void ShouldDisplayTransportRequisitonDetail()
-        {
-            var result =((ViewResult) _transportRequisitionController.Details(1)).Model;
-            Assert.IsInstanceOf<TransportRequisitionViewModel>(result);
-        }
-        [Test]
-        public void ShouldDisplayTransportRequisitionDestinations()
-        {
-            var result = _transportRequisitionController.Destinations(1);
-            Assert.IsInstanceOf<ViewResult>(result);
-        }
-     /*   [Test]
-        public void ShouldConfirmApproval()
+        public void ShouldAddTransportRequisition()
         {
             //Act
-            var result = _transportRequisitionController.Approve(1);
-            
+            var count = _transportRequisitions.Count;
+            _transportRequisitionService.AddTransportRequisition(_transportRequisition);
+
+            var result = _transportRequisitions.Count;
+
+            Assert.AreEqual(1 + count, result);
+        }
+
+        [Test]
+        public void IsProjectCodeAndOrSINumberAssigned()
+        {
+            //Act
+
+            var requisition = _transportRequisitionService.GetRequisitionToDispatch();
+            var result = requisition.ToList().TrueForAll(t => t.RequisitionStatus == (int)ReliefRequisitionStatus.ProjectCodeAssigned);//Project Si Code Assigned,indirectly it means Hub also assigned
             //Assert
 
-            Assert.IsInstanceOf<TransportRequisition>(((ViewResult)result).Model);
-            Assert.AreEqual((int)TransportRequisitionStatus.Draft,((TransportRequisition)(((ViewResult)result).Model)).Status);
-        }*/
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void CanApproveTransportRequisition()
+        {
+            //Act
+
+            var result = _transportRequisitionService.ApproveTransportRequisition(1);
+
+            //Assert
+            var status = _transportRequisition.Status;
+            Assert.IsTrue(result);
+            Assert.AreEqual((int)TransportRequisitionStatus.Approved, status);
+
+
+
+        }
         #endregion
     }
 }

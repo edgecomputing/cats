@@ -1,4 +1,5 @@
-﻿@model Cats.Models.ReliefRequisition
+﻿@model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
+@using Cats.Helpers
 
 @*@{
     ViewBag.Title = "Send Requistion To Logistics";
@@ -13,7 +14,7 @@
     <h3 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Send Requistion To Logistics")</h3>
 </div>
 
-<h4>@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to send this Requisition to logistics?")</h4>
+<h5 class="offset1">@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to send this Requisition to logistics?")</h5>
 
 
 
@@ -22,54 +23,54 @@
 {@Html.HiddenFor(model => model.RequisitionID)
     <div class="modal-body form-horizontal">
         <div class="row">
-            <div class="span5">
+            <div class="span6">
                 <div class="control-group">
-                    <div class="control-label">
+                    <div class="control-label span6">
                         @Html.DisplayNameFor(model => model.RequisitionNo)
                     </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(model => model.RequisitionNo, null, new { disabled = "true" })
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.RequisitionNo, null, new { disabled = "true",@class="span10"})
                     </div>
                 </div>
                 <div class="control-group">
-                    <div class="control-label">
-                        @Html.DisplayNameFor(model => model.RegionID)
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.Region)
                     </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(model => model.AdminUnit.Name, null, new { disabled = "true" })
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.Region, null, new { disabled = "true",@class="span10" })
                     </div>
                 </div>
                 <div class="control-group">
-                    <div class="control-label">
-                        @Html.DisplayNameFor(model => model.ProgramID)
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.Program)
                     </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(model => model.Program.Name, null, new { disabled = "true" })
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.Program, null, new { disabled = "true" ,@class="span10"})
                     </div>
                 </div>
             </div>
-            <div class="span5">
+            <div class="span6">
                 <div class="control-group">
-                    <div class="control-label">
+                    <div class="control-label span4">
                         @Html.DisplayNameFor(model => model.Round)
                     </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(model => model.Round, null, new { disabled = "true" })
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.Round, null, new { disabled = "true" ,@class="span10"})
                     </div>
                 </div>
                 <div class="control-group">
-                    <div class="control-label">
-                        @Html.DisplayNameFor(model => model.RequestedDate)
+                    <div class="control-label span4">
+                        @Html.DisplayNameFor(model => model.RequestedDateEt)
                     </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(model => model.RequestedDate, null, new { disabled = "true" })
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.RequestedDateEt, null, new { disabled = "true",@class="span10" })
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        @if (Model.Status == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
         {
             <button class="btn btn-primary" type="submit">Yes</button>
         }

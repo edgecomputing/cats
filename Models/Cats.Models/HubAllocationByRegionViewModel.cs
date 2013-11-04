@@ -13,5 +13,6 @@ namespace Cats.Models
        public decimal AllocatedAmount { get; set; }
        public int HubId { get; set; }
        public string Hub { get; set; }
+       public int AdminUnitID { get; set; } 
     }
 }

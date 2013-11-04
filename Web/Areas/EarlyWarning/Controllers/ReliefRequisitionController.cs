@@ -26,19 +26,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IUserAccountService _userAccountService;
         private readonly IRationService  _rationService;
-
+        private readonly IDonorService _donorService;
 
         public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService)
+            IRationService rationService, IDonorService donorService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             _userAccountService = userAccountService;
             _rationService = rationService;
-
+            _donorService = donorService;
         }
 
         public ViewResult Index(int id = 1)
@@ -82,6 +82,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();
+            ViewData["donors"] = _donorService.GetAllDonor();
+            //ViewBag.HRDID = new SelectList(_donorService.GetAllDonor(), "HRDID", "Year", donor.HRDID);
+
             if (requisition == null)
             {
                 HttpNotFound();
@@ -95,7 +98,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
-            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
+            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity").ToList();
             var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
             var RationAmount = GetCommodityRation(id, commodityID);
             var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
@@ -124,7 +127,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Amount = reliefRequisitionDetailViewModel.Amount;
                     target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
-
+                    target.DonorID = int.Parse(reliefRequisitionDetailViewModel.Donor);
                     _reliefRequisitionDetailService.EditReliefRequisitionDetail(target);
                 }
             }
@@ -185,12 +188,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult SendToLogistics(int id)
         {
-            var requistion = _reliefRequisitionService.FindById(id);
-            if (requistion == null)
+            //var requistion = _reliefRequisitionService.FindById(id);
+            //if (requistion == null)
+            //{
+            //    HttpNotFound();
+            //}
+            var requisition =
+                _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
+                    FirstOrDefault();
+            if (requisition == null)
             {
                 HttpNotFound();
             }
-            return View(requistion);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION), datePref);
+
+            return View(requisitionViewModel);
         }
 
         [HttpPost]

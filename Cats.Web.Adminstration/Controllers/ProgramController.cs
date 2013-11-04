@@ -46,8 +46,8 @@ namespace Cats.Web.Adminstration.Controllers
                         ProgramID = programs.ProgramID,
                         ProgramName = programs.Name,
                         Description = programs.Description,
-                        LongName = programs.LongName
-
+                        LongName = programs.LongName,
+                        ShortCode = programs.ShortCode
                     });
         }
 
@@ -73,7 +73,8 @@ namespace Cats.Web.Adminstration.Controllers
                 ProgramID = model.ProgramID,
                 Name = model.ProgramName,
                 Description = model.Description,
-                LongName = model.LongName
+                LongName = model.LongName,
+                ShortCode = model.ShortCode
             };
             return program;
         }
