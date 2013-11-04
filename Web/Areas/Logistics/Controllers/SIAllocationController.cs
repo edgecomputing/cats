@@ -39,17 +39,20 @@ namespace Cats.Areas.Logistics.Controllers
             List<ReliefRequisition> req = _requisitionService.FindBy(r => r.RegionID==regionId && r.Status == (int)ReliefRequisitionStatus.HubAssigned);
             var result = req.ToList().Select(item => new RequestAllocationViewModel
             {
-               Commodity = item.Commodity.Name,
-               RegionName = item.AdminUnit.Name,
+                Commodity = item.Commodity.Name,
+                RegionName = item.AdminUnit.Name,
                 ZoneName = item.AdminUnit1.Name,
                 RequisitionId = item.RequisitionID,
-               CommodityId = (int)item.CommodityID,
+                CommodityId = (int)item.CommodityID,
                 Amount = item.ReliefRequisitionDetails.Sum(a => a.Amount),
-               HubAllocationID = item.HubAllocations.ToList()[0].HubAllocationID,
-               HubName = item.HubAllocations.ToList()[0].Hub.Name
-                ,SIAllocations = getSIAllocations(item.HubAllocations.ToList()[0].ProjectCodeAllocations.ToList())
-                ,FreeSIPCCodes = getSIPCLists(item.RequisitionID,(int)item.CommodityID)
+                HubAllocationID = item.HubAllocations.ToList()[0].HubAllocationID,
+                HubName = item.HubAllocations.ToList()[0].Hub.Name,
+                AllocatedAmount = geteAllocatedAmount(item),
+                SIAllocations = getSIAllocations(item.HubAllocations.ToList()[0].ProjectCodeAllocations.ToList()),
+                FreeSIPCCodes = getSIPCLists(item.RequisitionID,(int)item.CommodityID),
+               
             }).ToList();
+                
             return result;
         }
         public Cats.Models.ProjectCodeAllocation convertToEntityModel(AllocationAction allocationAction)
@@ -76,6 +79,7 @@ namespace Cats.Areas.Logistics.Controllers
                 ,AllocationId=(int)item.ProjectCodeAllocationID
                 ,AllocationType="SI"
             }).ToList();
+            
             var pcresult = pcAllocations.Where(item => item.ProjectCodeID != null).Select(item => new SIAllocation
             {
                 ShippingInstructionId = (int)item.ProjectCodeID,
@@ -85,6 +89,13 @@ namespace Cats.Areas.Logistics.Controllers
                 AllocationType = "PC"
             });
             return result.Union(pcresult).ToList();
+        }
+        public decimal geteAllocatedAmount(ReliefRequisition req)
+        {
+            List<Cats.Models.ProjectCodeAllocation> pcAllocations = req.HubAllocations.ToList()[0].ProjectCodeAllocations.ToList();
+            var siAllocation = pcAllocations.Where(item => item.SINumberID != null).Sum(item => item.Amount_FromSI);
+            var pcAllocation = pcAllocations.Where(item => item.ProjectCodeID != null).Sum(item => item.Amount_FromProject);
+            return (decimal)(siAllocation + pcAllocation);
         }
         public FreeSIPC getSIPCLists(int reqId, int CommodityID)
         {
@@ -135,9 +146,22 @@ namespace Cats.Areas.Logistics.Controllers
                     {
                         _projectCodeAllocationService.EditProjectCodeAllocationDetail(newProjectAllocation);
                     }
+                    
                 }
             }
             List<RequestAllocationViewModel> list = getIndexList(regionId);
+            foreach(RequestAllocationViewModel item in list)
+            {
+                if(item.AllocatedAmount>=item.Amount)
+                {
+                    ReliefRequisition req = _requisitionService.FindById(item.RequisitionId);
+                    req.Status = 4;
+                    _requisitionService.EditReliefRequisition(req);
+
+                }
+            }
+           // for(geteAllocatedAmount(_requisitionService
+            list = getIndexList(regionId);
             return Json(list, JsonRequestBehavior.AllowGet); 
         }
         public JsonResult http_getSIPCLists(int reqId, int CommodityID)

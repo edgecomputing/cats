@@ -11,6 +11,7 @@ namespace Cats.Areas.Logistics.Models
         public int CommodityId { get; set; }
         public string Commodity { get; set; }
         public decimal Amount { get; set; }
+        public decimal AllocatedAmount { get; set; }
         public string RegionName { get; set; }
         public string ZoneName { get; set; }
         public List<SIAllocation> SIAllocations {get;set;}
