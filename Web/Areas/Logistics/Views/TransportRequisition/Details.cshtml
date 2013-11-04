@@ -23,14 +23,15 @@
         <a class="btn toolbar-btn " href="@Url.Action("Approve", "TransportRequisition", new { id = Model.TransportRequisitionID })" data-buttontype="">Approve</a>
     }
 }
-<div class="row form-horizontal well">
+<div class="row-fluid form-horizontal ">
+    <div class="well span12">
     <div class="span5 ">
         <div class="control-group">
             <div class="control-label">
                 @Html.DisplayNameFor(model => model.TransportRequisitionNo)
             </div>
             <div class="controls">
-             @Html.TextBoxFor(model => model.TransportRequisitionNo, new { disabled="true" })
+                @Html.TextBoxFor(model => model.TransportRequisitionNo, new { disabled="true" })
             </div>
         </div>
         <div class="control-group">
@@ -80,7 +81,7 @@
         </div>
     </div>
 </div>
-
+</div>
 @(Html.Kendo().Grid(Model.TransportRequisitionDetailViewModels)
 .Name("Grid").Columns(columns =>
                           {
