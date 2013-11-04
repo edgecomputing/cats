@@ -169,7 +169,13 @@ namespace Cats.Tests.ControllersTests
                 };
             var rationService = new Mock<IRationService>();
             rationService.Setup(m => m.GetAllRation()).Returns(ration);
-            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object, userAccountService.Object,rationService.Object);
+            var donor = new List<Donor>()
+                {
+                    new Donor {DonorID = 1,Name = "UK"}
+                };
+            var donorService = new Mock<IDonorService>();
+            donorService.Setup(m => m.GetAllDonor()).Returns(donor);
+            _reliefRequisitionController = new ReliefRequisitionController(mockReliefRequistionService.Object, workflowStatusService.Object, mockReliefRequistionDetailService.Object, userAccountService.Object,rationService.Object,donorService.Object);
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
           //  _input = input;
 

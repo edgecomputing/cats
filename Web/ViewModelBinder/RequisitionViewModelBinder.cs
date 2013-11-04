@@ -82,7 +82,7 @@ namespace Cats.ViewModelBinder
                 Donor = reliefRequisitionDetail.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "-",
                 Commodity = reliefRequisitionDetail.Commodity.Name,
                 BenficiaryNo = reliefRequisitionDetail.BenficiaryNo,
-                Amount =reliefRequisitionDetail.Amount,
+                Amount =reliefRequisitionDetail.Amount.ToPreferedWeightUnit(),
                 RequisitionID = reliefRequisitionDetail.RequisitionID,
                 RequisitionDetailID = reliefRequisitionDetail.RequisitionDetailID,
                 CommodityID = reliefRequisitionDetail.CommodityID,

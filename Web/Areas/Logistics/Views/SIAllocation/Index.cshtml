@@ -15,12 +15,28 @@
 }
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:submitform()" ></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+    <!--
+    <div class="btn-group" style="margin-right: 3px;">
+        <button class="btn">Action</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">hub allocation</a></li>
+            <li><a href="#">pc/si code allocation</a></li>
+            <li><a href="#">Generate TR</a></li>
+            <li><a href="#"></a></li>
+        </ul>
+    </div>
+    -->
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:submitform()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
 }
 
 <fieldset>
     <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
+
 </fieldset>
 
 <style>
@@ -42,15 +58,16 @@
             border: solid 1px #DDD;
             border-radius: 2px;
             list-style: none;
-            height:32px;
-            line-height:32px;
-            clear:both;
+            height: 32px;
+            line-height: 32px;
+            clear: both;
         }
+
         .SI_Row li .modified1
-    {
-        border-color:red;
-    }
-       
+        {
+            border-color: red;
+        }
+
         .SI_Row .new_allocation .new_allocation_input
         {
             visibility: hidden;
@@ -91,7 +108,7 @@
 
         .SI_Row li:hover input
         {
-            background:#FFF;
+            background: #FFF;
         }
 
         .SI_Row li:hover .SI_Remove
@@ -130,189 +147,208 @@
     {
         float: left;
     }
+
     .allocation_saved .frm_edit
     {
-        display:none;
+        display: none;
     }
+
     .allocation_saved .frm_view
     {
-        display:block;
+        display: block;
     }
+
     .allocation_unsaved .frm_edit
     {
-        display:block;
+        display: block;
     }
+
     .allocation_unsaved .frm_view
     {
-        display:none;
+        display: none;
     }
-    .modified,.modified1
+
+    .modified, .modified1
     {
-        width:2px;
-        float:left;
-        height:2px;
+        width: 2px;
+        float: left;
+        height: 2px;
     }
+
     .modified1
     {
         border: solid 1px red;
-        background:red;
+        background: red;
     }
+
     .label1
     {
-        min-width:200px; 
-        float:left;
-        margin-right:5px;
+        min-width: 200px;
+        float: left;
+        margin-right: 5px;
     }
-    .label1 .gray
-    {
-        color:#808080;
-    }
+
+        .label1 .gray
+        {
+            color: #808080;
+        }
+
     .label2
     {
-        width:50%; 
-        float:left;
-        color:#777;
-        text-align:right;
-        font-size:12px;
+        width: 50%;
+        float: left;
+        color: #777;
+        text-align: right;
+        font-size: 12px;
     }
-        .value2
+
+    .value2
     {
-        width:50%; 
-        float:left;
-        color:#000;
-        text-align:left;
-        font-size:12px;
+        width: 50%;
+        float: left;
+        color: #000;
+        text-align: left;
+        font-size: 12px;
     }
+
     .accordion-heading
     {
-        font-size:12px;
+        font-size: 12px;
     }
 </style>
 
- 
+
 <!-- Modal -->
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:100px; height:50px; right:50%; top:50%; margin:auto;">
-  <div id="modalContent" style="line-height:40px; text-align:center;">Saving</div> 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 100px; height: 50px; right: 50%; top: 50%; margin: auto;">
+    <div id="modalContent" style="line-height: 40px; text-align: center;">Saving</div>
 </div>
 
 <div ng-app>
     <div ng-controller="CartCtrl">
         <div class="debug">
-            <div id="frm_submit" ></div>
-        
-        <form>
-            <div ng-repeat="request in requests">
-                <div ng-repeat="item in request.SIAllocations">
-                    <input ng-model="item.Modified" />
-                    <input ng-model="item.AllocationId" />
-                    <input ng-model="request.RequisitionId" />
-                    <input ng-model="item.ShippingInstructionId" />
-                    <input ng-model="item.AllocatedAmount" />
+            <div id="frm_submit"></div>
 
+            <form>
+                <div ng-repeat="request in requests">
+                    <div ng-repeat="item in request.SIAllocations">
+                        <input ng-model="item.Modified" />
+                        <input ng-model="item.AllocationId" />
+                        <input ng-model="request.RequisitionId" />
+                        <input ng-model="item.ShippingInstructionId" />
+                        <input ng-model="item.AllocatedAmount" />
+
+                    </div>
                 </div>
-            </div>
-            Deleted
+                Deleted
             <div ng-repeat="allocation in DeletedAllocations">
                 {{allocation}}
             </div>
-        </form>
-            </div>
-        <table class="table table-striped  table-bordered  table-condensed" style="width:1020px;">
+            </form>
+        </div>
+        <table class="table table-striped  table-bordered  table-condensed" style="width: 1020px;">
             <tr ng-repeat="request in requests">
                 <td style="width: 200px;">
                     <div class="accordion-group">
                         <div class="accordion-heading">
-                          <div>
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$index}}">
-                            {{request.RegionName}}-{{request.ZoneName}}
+                            <div>
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$index}}">{{request.RegionName}}-{{request.ZoneName}}
                               [{{request.Commodity}} {{request.Amount}}<i>@UserUnit</i>]  
-                          </a>
-                          </div>
-                            <div class="progress progress-success  progress-striped" style="margin:2px; height:10px; border:solid 1px rgb(12, 219, 86);">
-                              <div class="bar" style="width:{{request.AllocatedPercent}}%"></div>
+                                </a>
+                            </div>
+                            <div class="progress progress-success  progress-striped" style="margin: 2px; height: 10px; border: solid 1px rgb(12, 219, 86);">
+                                <div class="bar" style="width: {{request.AllocatedPercent}}%"></div>
                             </div>
                         </div>
                         <div id="collapse{{$index}}" class="accordion-body collapse">
-                          <div class="accordion-inner">
-                              <div class="label2">@Translator.Translate("Region"): </div><div class="value2">{{request.RegionName}}</div>
-                              <div class="label2">@Translator.Translate("Zone"): </div><div class="value2">{{request.ZoneName}}</div>
-                              <div class="label2">@Translator.Translate("Hub"): </div><div class="value2">{{request.HubName}}</div>
-                              <div class="label2">@Translator.Translate("Commodity"): </div><div class="value2">{{request.Commodity}}</div>
-                              <div class="label2">@Translator.Translate("Requested Qty"): </div><div class="value2">{{request.Amount}}<i>@UserUnit</i></div>
-                              <div class="label2">@Translator.Translate("Allocated Qty"): </div><div class="value2">{{request.AllocatedAmount}}<i>@UserUnit</i></div>
-                              <div class="label2">@Translator.Translate("Remaining Qty"): </div><div class="value2">{{request.RemainingAmount}}<i>@UserUnit</i></div>
-                              <div class="debug">
-                                  <div class="label2">RequisitionId</div><div class="value2">{{request.RequisitionId}}</div>
-                                  <div class="label2">HubAllocationID</div><div class="value2">{{request.HubAllocationID}}</div>
-                              </div>
+                            <div class="accordion-inner">
+                                <div class="label2">@Translator.Translate("Region"): </div>
+                                <div class="value2">{{request.RegionName}}</div>
+                                <div class="label2">@Translator.Translate("Zone"): </div>
+                                <div class="value2">{{request.ZoneName}}</div>
+                                <div class="label2">@Translator.Translate("Hub"): </div>
+                                <div class="value2">{{request.HubName}}</div>
+                                <div class="label2">@Translator.Translate("Commodity"): </div>
+                                <div class="value2">{{request.Commodity}}</div>
+                                <div class="label2">@Translator.Translate("Requested Qty"): </div>
+                                <div class="value2">{{request.Amount}}<i>@UserUnit</i></div>
+                                <div class="label2">@Translator.Translate("Allocated Qty"): </div>
+                                <div class="value2">{{request.AllocatedAmount}}<i>@UserUnit</i></div>
+                                <div class="label2">@Translator.Translate("Remaining Qty"): </div>
+                                <div class="value2">{{request.RemainingAmount}}<i>@UserUnit</i></div>
+                                <div class="debug">
+                                    <div class="label2">RequisitionId</div>
+                                    <div class="value2">{{request.RequisitionId}}</div>
+                                    <div class="label2">HubAllocationID</div>
+                                    <div class="value2">{{request.HubAllocationID}}</div>
+                                </div>
 
-                          </div>
+                            </div>
                         </div>
-                      </div>
+                    </div>
 
                 </td>
-                <td >
-                    <div style="display:none;">
-                    <div  class="frm_edit" id="div_frm_request_{{request.RequisitionId}}">
-                        <div class="label1">
-                            <!--<span class="gray">SI/Project Code: </span>-->
-                            <div class="input-prepend ">
-                            <div class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown">{{request.AllocationType}} <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="javascript:voide()" ng-click="on_Allocation_TypeSI()" >SI</a></li>
-                                    <li><a href="javascript:voide()" ng-click="on_Allocation_TypePC()">PC</a></li>
-                                </ul>
+                <td>
+                    <div style="display: none;">
+                        <div class="frm_edit" id="div_frm_request_{{request.RequisitionId}}">
+                            <div class="label1">
+                                <!--<span class="gray">SI/Project Code: </span>-->
+                                <div class="input-prepend ">
+                                    <div class="btn-group">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown">{{request.AllocationType}} <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypeSI()">SI</a></li>
+                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypePC()">PC</a></li>
+                                        </ul>
+                                    </div>
+                                    <select class="cmb_si" id="cmb_si_{{request.RequisitionId}}" ng-model="request.edit_variable.ShippingInstructionId">
+                                        <option>--SI Code--</option>
+                                        <option value="{{sicode.siCodeId}}" ng-repeat="sicode in request.FreeSIPCCodes.FreeSICodes">{{sicode.SIcode}} [{{sicode.amount}}]</option>
+                                    </select>
+
+                                    <select class="cmb_pc" id="cmb_pc_{{request.RequisitionId}}" ng-model="request.edit_variable.ProjectCodeId">
+                                        <option>--Project Code--</option>
+                                        <option value="{{pccode.pcCodeId}}" ng-repeat="pccode in request.FreeSIPCCodes.FreePCCodes">{{pccode.PCcode}} [{{pccode.amount}}]</option>
+                                    </select>
+
+                                </div>
+
                             </div>
-                            <select class="cmb_si" id="cmb_si_{{request.RequisitionId}}" ng-model="request.edit_variable.ShippingInstructionId">
-                                <option>--SI Code--</option>
-                                <option value="{{sicode.siCodeId}}" ng-repeat="sicode in request.FreeSIPCCodes.FreeSICodes">{{sicode.SIcode}} [{{sicode.amount}}]</option>
-                            </select>
-                            
-                            <select class="cmb_pc" id="cmb_pc_{{request.RequisitionId}}" ng-model="request.edit_variable.ProjectCodeId">
-                                <option>--Project Code--</option>
-                                <option  value="{{pccode.pcCodeId}}" ng-repeat="pccode in request.FreeSIPCCodes.FreePCCodes">{{pccode.PCcode}} [{{pccode.amount}}]</option>
-                            </select>
-    
+                            <div class="label1">
+                                <div class="input-prepend input-append">
+                                    <span class="add-on">Qty.</span>
+                                    <input ng-model="request.edit_variable.AllocatedAmount" type="text">
+                                    <span class="add-on">@UserUnit</span>
+                                </div>
+                                <!--<input ng-model="request.edit_variable.AllocatedAmount" class="SI_Input Amount" style="width:60px;">-->
                             </div>
+                            <div style="float: right;">
+                                <button class="SI_Save btn btn-primary" ng-click="on_edit_ok()"><i class=" icon-ok"></i></button>
+                                <button class="SI_Save btn btn-danger" ng-click="on_edit_cancel()"><i class=" icon-remove"></i></button>
+                            </div>
+                            <!-- 
+                             -->
 
                         </div>
-                        <div class="label1" >
-                            <div class="input-prepend input-append">
-                              <span class="add-on">Qty.</span>
-                              <input  ng-model="request.edit_variable.AllocatedAmount" type="text">
-                              <span class="add-on">@UserUnit</span>
-                            </div>
-                            <!--<input ng-model="request.edit_variable.AllocatedAmount" class="SI_Input Amount" style="width:60px;">-->
-                        </div>
-                        <div style="float:right;">
-                            <button  class="SI_Save btn btn-primary" ng-click="on_edit_ok()" ><i class=" icon-ok"></i></button>
-                            <button class="SI_Save btn btn-danger" ng-click="on_edit_cancel()"><i class=" icon-remove"></i></button>
-                        </div>
-                         <!-- 
-                             -->
-                            
                     </div>
-                        </div>
                     <ul class="SI_Row">
 
-                        <li  id="div_allocation_{{request.RequisitionId}}_{{$index}}" class="list-item1 old_allocation allocation_saved " onclick="voide()" ng-repeat="item in request.SIAllocations">
+                        <li id="div_allocation_{{request.RequisitionId}}_{{$index}}" class="list-item1 old_allocation allocation_saved " onclick="voide()" ng-repeat="item in request.SIAllocations">
                             <div class="modified{{item.Modified}}"></div>
                             <div class="frm_view">
                                 <div class="label1"><span class="gray">{{item.AllocationType}}: </span>{{item.ShippingInstructionCode}}</div>
-                                
-                                <div class="label1" ><span class="gray">quantity <i>[@UserUnit]</i>: </span>{{item.AllocatedAmount}}</div>
-                                <div style="float:right;">
+
+                                <div class="label1"><span class="gray">quantity <i>[@UserUnit]</i>: </span>{{item.AllocatedAmount}}</div>
+                                <div style="float: right;">
                                     <button class="SI_Remove  btn btn-primary" ng-click="on_edit(request.RequisitionId,$index)"><i class=" icon-pencil"></i></button>
                                     <button class="SI_Remove btn btn-danger" ng-click="remove(request.RequisitionId,$index)"><i class=" icon-minus-sign"></i></button>
                                 </div>
                             </div>
-                            
+
                         </li>
                         <li class="list-item1 new_allocation allocation_saved" id="div_allocation_{{request.RequisitionId}}_new" data-requisitionid="{{request.RequisitionId}}">
-                            <div class="frm_view" style="width:200px;">
+                            <div class="frm_view" style="width: 200px;">
                                 <button class="SI_Removes btn" ng-click="on_edit(request.RequisitionId,'new')"><i class=" icon-plus-sign"></i></button>
-                                <span style="color:#808080;">New Allocation</span>
+                                <span style="color: #808080;">New Allocation</span>
                             </div>
                         </li>
                     </ul>
@@ -325,6 +361,7 @@
 
 
         <script>
+            var regionId=@ViewBag.regionId;
             var $$scope;
             function voide()
             { }
@@ -352,8 +389,9 @@
                 }
                 show_form(postdata);
                 $$scope.save(postdata);
-               // $$scope.save(postdata);
-               // $.post("updateAllocation", postdata, function (data) { alert(data)});
+            }
+            function reloadPage() {
+                $$scope.loadPage(1);
             }
             function show_form(postdata) {
                 var htm = "<table class='table table-striped table-bordered'><tr><td>Action</td><td>AllocationId</td><td>ReqId</td><td>si</td><td>Amount</td></tr>";
@@ -372,7 +410,11 @@
                 $("#frm_submit").html(htm);
             }
             function CartCtrl($scope, $http) {
+                
                 $$scope = $scope;
+                $scope.regionId=@ViewBag.regionId;
+                $scope.getListUrl="@Url.Action("getList", "SIAllocation", new { Area = "Logistics" })"
+                $scope.updateUrl="@Url.Action("updateAllocation", "SIAllocation", new { Area = "Logistics" })"
                 $scope.requests = [];
                 $scope.selections = {};
                 $scope.NewAllocation = { RequisitionId: "", AllocatedAmount: 0, ShippingInstructionCode: "", ShippingInstructionId: "" };
@@ -420,7 +462,7 @@
                         ShippingInstructionCode = $scope.SICodesHash["pc" + model.ShippingInstructionId];
                     }
                     
-                   // alert(model.AllocationType + model.ShippingInstructionId);
+                    // alert(model.AllocationType + model.ShippingInstructionId);
                     model.ShippingInstructionCode = ShippingInstructionCode;
                 }
                 $scope.clone = function (src, dest) {
@@ -450,7 +492,7 @@
                 {
                     $scope.on_edit_cancel();
                     var allocId = $scope.selections.AllocationId;
-                   // alert(allocId=="0");
+                    // alert(allocId=="0");
                     var reqindex = $scope.getRequestIndex($scope.selections.RequestId);
 
                     var model = $scope.requests[reqindex].SIAllocations[allocId];
@@ -461,7 +503,7 @@
                     }
                     else {
                         model = $scope.clone($scope.NewAllocation);
-                       // $scope.ViewToModel(view, model);
+                        // $scope.ViewToModel(view, model);
                         $scope.requests[reqindex].SIAllocations.push(model);
                        
                         
@@ -547,7 +589,7 @@
                     });
                     $('#myModal').modal('hide')
                 }
-              //  request.FreeSIPCCodes.FreeSICodes">{{sicode.siCodeId}} {{sicode.SIcode}} 
+                //  request.FreeSIPCCodes.FreeSICodes">{{sicode.siCodeId}} {{sicode.SIcode}} 
                 $scope.getRequestIndex = function (req_id) {
                     var index_r = 0;
                     for (var i in $scope.requests) {
@@ -572,12 +614,24 @@
                 }
                 $scope.save = function (param) {
                     if (param.length) {
-                        $('#myModal').modal('show')
-                        $http.post("updateAllocation", param).success(GetListSuccessCB).error(GetListErrorCB);
+                        // alert(regionId);
+                        var param1={regionId:regionId,allocationAction:param};
+                      //  param.regionId=regionId;
+                        $('#modalContent').html("Saving...");
+                        $('#myModal').modal('show');
+                        $http.post( $scope.updateUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
                     }
 
                 }
-                $http.get("getList").success(GetListSuccessCB);
+                $scope.loadPage = function (showmodal) {
+                    var param={regionId:$scope.regionId};
+                    $http.post($scope.getListUrl,param).success(GetListSuccessCB);
+                    if (showmodal) {
+                        $('#modalContent').html("...");
+                        $('#myModal').modal('show');
+                    }
+                }
+                $scope.loadPage();
             }
         </script>
     </div>

@@ -34,9 +34,9 @@ namespace Cats.Areas.Logistics.Controllers
                 this._projectCodeAllocationService = projectCodeAllocationService;
             }
 
-        public List<RequestAllocationViewModel> getIndexList()
+        public List<RequestAllocationViewModel> getIndexList(int regionId = 0)
         {
-            List<ReliefRequisition> req = _requisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            List<ReliefRequisition> req = _requisitionService.FindBy(r => r.RegionID==regionId && r.Status == (int)ReliefRequisitionStatus.HubAssigned);
             var result = req.ToList().Select(item => new RequestAllocationViewModel
             {
                Commodity = item.Commodity.Name,
@@ -97,19 +97,19 @@ namespace Cats.Areas.Logistics.Controllers
         //
         // GET: /Logistics/SIAllocation/
 
-        public ActionResult Index()
+        public ActionResult Index(int regionId=0)
         {
             List<RequestAllocationViewModel> list = getIndexList();
             ViewBag.ReliefRequisitionList = list;//list[0].ReliefRequisitionDetails[0].;
-           // ViewBag.Requests = Js(list).;
+            ViewBag.regionId = regionId;
             return View();
         }
-        public JsonResult getList()
+        public JsonResult getList(int regionId=0)
         {
-            List<RequestAllocationViewModel> list = getIndexList();
+            List<RequestAllocationViewModel> list = getIndexList(regionId);
             return Json(list,JsonRequestBehavior.AllowGet);
         }
-        public JsonResult updateAllocation(List<AllocationAction> allocationAction)
+        public JsonResult updateAllocation(int regionId,List<AllocationAction> allocationAction)
         {
             foreach(AllocationAction aa in allocationAction)
             {
@@ -137,7 +137,7 @@ namespace Cats.Areas.Logistics.Controllers
                     }
                 }
             }
-            List<RequestAllocationViewModel> list = getIndexList();
+            List<RequestAllocationViewModel> list = getIndexList(regionId);
             return Json(list, JsonRequestBehavior.AllowGet); 
         }
         public JsonResult http_getSIPCLists(int reqId, int CommodityID)
