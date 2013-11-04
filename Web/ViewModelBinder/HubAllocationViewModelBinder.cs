@@ -23,7 +23,11 @@ namespace Cats.ViewModelBinder
                                                         Amount = req.ReliefRequisitionDetails.Sum(a => a.Amount),
                                                         Status = int.Parse( req.Status.ToString()),
                                                         Region = req.AdminUnit.Name,
+                                                        RegionId = (int) req.RegionID,
                                                         Zone = req.AdminUnit1.Name,
+                                                       
+                                                       
+                                                        AmountAllocated = req.ReliefRequisitionDetails.Sum(a=>a.Amount),
                                                         StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
                                      });
                                                    

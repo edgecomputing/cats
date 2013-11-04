@@ -111,7 +111,10 @@ namespace Cats.Data
         
         public DbSet<Store> Stores { get; set; }
 
-        public DbSet<Audit> Audits { get; set; } 
+        public DbSet<Audit> Audits { get; set; }
+
+        public DbSet<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; }
+        public DbSet<AllocationByRegion> AllocationByRegion { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -209,6 +212,8 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new AuditMap());
 
+            modelBuilder.Configurations.Add(new TransReqWithoutTransporterMap());
+            modelBuilder.Configurations.Add(new AllocationByRegionMap());
         }
 
     }

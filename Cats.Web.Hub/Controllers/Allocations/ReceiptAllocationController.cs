@@ -242,7 +242,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
                 {
                     typeOfGridToReload = Cats.Models.Hub.CommoditySource.Constants.LOAN;
                 }
-
+                receiptAllocation.ReceiptAllocationID = Guid.NewGuid();
                 _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
 
                 return Json(new {gridId = typeOfGridToReload, CommodityTypeID = commType}, JsonRequestBehavior.AllowGet);

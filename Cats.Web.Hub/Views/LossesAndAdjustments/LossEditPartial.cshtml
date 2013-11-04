@@ -5,7 +5,7 @@
 
 @using (Html.BeginForm())
     {
-   
+     @Html.ValidationSummary("Please correct Errors")
     <table class="borderless">
         <tbody>
             <tr>
@@ -202,7 +202,7 @@
     function clearStore() {
         $("#StoreId").data("tComboBox").select(0);
         $("#StoreId").data("tComboBox").disable();
-        clearBalance()
+        clearBalance();
     }
 
     function LoadBalance() {

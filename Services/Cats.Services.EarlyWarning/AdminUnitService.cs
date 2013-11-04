@@ -4,8 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using System.Web.Mvc;
+
+
+
 
 
 namespace Cats.Services.EarlyWarning
@@ -14,7 +19,6 @@ namespace Cats.Services.EarlyWarning
     public class AdminUnitService : IAdminUnitService
     {
         private readonly IUnitOfWork _unitOfWork;
-
 
         public AdminUnitService(IUnitOfWork unitOfWork)
         {
@@ -76,15 +80,11 @@ namespace Cats.Services.EarlyWarning
         public List<AdminUnit> GetWoreda(int zoneId)
         {
             return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID ==zoneId).ToList();
-        } 
+        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
-
         }
-
     }
 }
-
-
-

@@ -1,6 +1,6 @@
 ﻿$(function () {
     init_toolbar_button();
-    
+   
 
 });
 function init_datepicker() {

@@ -98,12 +98,44 @@ namespace Cats.Tests.ControllersTests
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
-            var adminUnit = new List<AdminUnit>
+            var TransReqWithoutTransporter = new List<TransReqWithoutTransporter>
+                {
+                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 1,TransportRequisitionDetailID = 1,IsAssigned = false},
+                    new TransReqWithoutTransporter {TransReqWithoutTransporterID = 2,TransportRequisitionDetailID = 2,IsAssigned = true}
+                };
+
+            var transReqWithoutTransporterService = new Mock<ITransReqWithoutTransporterService>();
+            transReqWithoutTransporterService.Setup(m => m.GetAllTransReqWithoutTransporter()).Returns(
+                TransReqWithoutTransporter);
+            var transporterOrderDetail = new List<TransportOrderDetail>
+                {
+                    new TransportOrderDetail
+                        {
+                            TransportOrderDetailID = 1,
+                            TransportOrderID = 1,
+                            RequisitionID = 1,
+                            FdpID = 5,
+                            QuantityQtl = 200,
+                            TariffPerQtl = 12
+                        },
+                    new TransportOrderDetail
+                        {
+                            TransportOrderDetailID = 1,
+                            TransportOrderID = 1,
+                            RequisitionID = 1,
+                            FdpID = 5,
+                            QuantityQtl = 200,
+                            TariffPerQtl = 12
+                        },
+                };
+            var transporterOrderDetailService = new Mock<ITransportOrderDetailService>();
+            transporterOrderDetailService.Setup(m => m.GetAllTransportOrderDetail()).Returns(transporterOrderDetail);
+
+             var adminUnit = new List<AdminUnit>
                 {
                     new AdminUnit {AdminUnitID = 1, Name = "Adminunit name", AdminUnitTypeID = 2},
                     new AdminUnit {AdminUnitID = 2, Name = "AdminUnit", AdminUnitTypeID = 2}
                 };
-
             var adminUnitService = new Mock<IAdminUnitService>();
             adminUnitService.Setup(m => m.GetAllAdminUnit()).Returns(adminUnit);
 
@@ -115,9 +147,16 @@ namespace Cats.Tests.ControllersTests
 
             var transporterService = new Mock<ITransporterService>();
             transporterService.Setup(m => m.GetAllTransporter()).Returns(transporter);
-
-            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object, workflowStatusService.Object,
-                                                                     logService.Object, userAccountService.Object, adminUnitService.Object,transporterService.Object);
+            _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,
+                                                                     workflowStatusService.Object, logService.Object, userAccountService.Object,
+                                                                     transReqWithoutTransporterService.Object,transporterOrderDetailService.Object,
+                                                                     adminUnitService.Object,transporterService.Object);
+            //var transporterOrderDetailService = new Mock<ITransportOrderDetailService>();
+            //transporterOrderDetailService.Setup(m => m.GetAllTransportOrderDetail()).Returns(transporterOrderDetail);
+            //_transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,
+            //                                                         workflowStatusService.Object, logService.Object, userAccountService.Object,
+            //                                                         transReqWithoutTransporterService.Object,transporterOrderDetailService.Object
+            //                                                         adminUnitService.Object,transporterService.Object);
             _transportOrderController.ControllerContext = controllerContext.Object;
         }
 
@@ -156,5 +195,12 @@ namespace Cats.Tests.ControllersTests
             Assert.IsInstanceOf<JsonResult>(result);
         }
         #endregion
+        [Test]
+        public void CanShowTransportContract()
+        {
+            var result = _transportOrderController.TransportContract(1);
+            Assert.IsNotNull(result);
+        }
+        
     }
 }

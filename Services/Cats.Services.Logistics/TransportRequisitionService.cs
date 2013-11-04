@@ -201,10 +201,10 @@ namespace Cats.Services.Logistics
                 if (hubAllocation != null) requisitionToDispatch.OrignWarehouse = hubAllocation.Hub.Name;
                 if (requisition.CommodityID != null) requisitionToDispatch.CommodityID = requisition.CommodityID.Value;
                 requisitionToDispatch.CommodityName = requisition.Commodity.Name;
-                requisitionToDispatch.Zone = requisition.AdminUnit.Name;
+                requisitionToDispatch.Zone = requisition.AdminUnit1.Name;
                 if (requisition.RegionID != null) requisitionToDispatch.RegionID = requisition.RegionID.Value;
 
-                requisitionToDispatch.RegionName = requisition.AdminUnit1.Name;
+                requisitionToDispatch.RegionName = requisition.AdminUnit.Name;
                 if (status != null) requisitionToDispatch.RequisitionStatusName = status.Description;
                 result.Add(requisitionToDispatch);
             }

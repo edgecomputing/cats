@@ -1,0 +1,31 @@
+﻿
+@model int?
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+
+@(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
+    .Name("ProjectCodegrid")
+    .Columns(columns =>
+    {
+        columns.Bound(e => e.RequisitionNo).Width(100).Title("Requisition No");
+        columns.Bound(e => e.Region).Width(100).Title("Region");
+        columns.Bound(e => e.Commodity).Width(100);
+        columns.Bound(e => e.Amount).Width(50);
+        columns.Bound(e => e.RequisitionDate).Width(80);
+        columns.Bound(e => e.BenficiaryNo).Width(50);
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation",new {regionId = @Model}))
+       
+        .PageSize(5)
+     )
+     .Scrollable(scroll => scroll.Height(200))
+     .Selectable(select => select.Mode(GridSelectionMode.Single))
+     .Navigatable()
+     .Filterable()
+     .Sortable()
+     .Pageable()
+)
+

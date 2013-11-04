@@ -15,7 +15,7 @@
                  col.Bound(c => c.CommodityName);
                  col.Bound(c => c.ProjectCode);
                  col.Bound(c => c.SINumber);
-                 col.Bound(c => c.CommitedBalance);
+                 //col.Bound(c => c.CommitedBalance);
                  col.Bound(c => c.TotalStockOnHand).Format("{0:#,##0.##0}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Total Stock On Hand"));
                  col.Bound(c => c.UncommitedStock).Format("{0:#,##0.##0}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Uncommited Stock"));
                  

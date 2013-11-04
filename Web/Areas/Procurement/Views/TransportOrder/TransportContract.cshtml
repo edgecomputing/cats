@@ -1,0 +1,160 @@
+﻿@model Cats.Models.TransportOrder
+@using System.Collections
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "TransportContract";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+<h4>Transport Contract</h4>
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Transporter)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Transporter.Name, new { Disabled = true })
+                    <a href="@Url.Action("TransportContract","TransportOrder")">Change</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.BidDocumentNo)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.BidDocumentNo, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Requisition No"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.TransportOrderDetails.First().ReliefRequisition.RequisitionNo, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Contract Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.RequestedDispatchDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.RequestedDispatchDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Transport Order Expiry"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.OrderExpiryDate, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+     <div class="row">
+    <div class="span6">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m=>m.ContractNumber)
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
+            </div>
+        </div>
+        </div>
+        </div>
+</div>
+
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportOrderDetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+
+            columns.Bound(p => p.Woreda);
+            columns.Bound(p => p.RequisitionNo);
+            columns.Bound(p => p.Commodity);
+            columns.Bound(p => p.FDP);
+            columns.ForeignKey(p => p.HubID, (IEnumerable) ViewBag.HubID, "hubID", "Name").Width(100).Title(Translator.Translate("Origin Warehouse")).ClientFooterTemplate(Translator.Translate("Total")); 
+           // columns.Bound(p => p.DistanceFromOrigin);
+            columns.Bound(p => p.QuantityQtl).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"});
+            columns.Bound(p => p.TariffPerQtl).HtmlAttributes(new { style = "background-color:lightgray" }).Width(100).HtmlAttributes(new {align="Right"});
+            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"}); 
+
+        })   
+             .ToolBar(toolBar => toolBar.Save())
+             .Editable(editable => editable.Mode(GridEditMode.InCell))
+             .Events(events => events.DataBound("onDataBound"))
+            .Pageable()
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
+                  .Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
+                  .PageSize(8)
+                    .Model(model =>
+                        {
+                            model.Id(p => p.TransportOrderID);
+                            model.Field(p=>p.TransportOrderDetailID);
+                            model.Field(p => p.TariffPerQtl);
+                            model.Field(p => p.RequisitionNo).Editable(false);
+                            model.Field(p => p.Woreda).Editable(false);
+                            model.Field(p => p.Commodity).Editable(false);
+                            model.Field(p => p.FDP).Editable(false);
+                            model.Field(p => p.QuantityQtl).Editable(false);
+                            model.Field(p => p.TotalAmount).Editable(false);
+                            model.Field(p => p.HubID).Editable(false);
+                        })
+                    .Read(read => read.Action("Contract_Read", "TransportOrder", new { id = Model.TransportOrderID }))
+                    .Update(update => update.Action("TransportOrder_Update", "TransportOrder"))
+
+             )
+
+      )
+<script>
+    $(function () {
+        var printurl = "@Url.Action("Print", "TransportOrder",new{id= ViewBag.TransportOrderID })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+    function onDataBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+
+        });
+    }
+</script>

@@ -12,6 +12,7 @@ namespace Cats.Models
         public TransportRequisition()
         {
             this.TransportRequisitionDetails = new List<TransportRequisitionDetail>();
+            //this.TransReqWithoutTransporters = new List<TransReqWithoutTransporter>();
         }
 
         public int TransportRequisitionID { get; set; }
@@ -27,5 +28,6 @@ namespace Cats.Models
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
         public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }
+        //public virtual ICollection<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; } 
     }
 }

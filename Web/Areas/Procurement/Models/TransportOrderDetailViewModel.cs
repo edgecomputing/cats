@@ -16,6 +16,7 @@ namespace Cats.Areas.Procurement.Models
         public string Woreda { get; set; }
         public int SourceWarehouseID { get; set; }
         public string OriginWarehouse { get; set; }
+        public int HubID { get; set; }
         public decimal QuantityQtl { get; set; }
         public Nullable<decimal> DistanceFromOrigin { get; set; }
         public decimal TariffPerQtl { get; set; }
@@ -27,6 +28,7 @@ namespace Cats.Areas.Procurement.Models
         public string Zone { get; set; }
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
+        public string Region { get; set; }
 
         public decimal TotalAmount
         {

@@ -4,6 +4,7 @@
     ViewBag.Title = Translator.Translate("Edit NeedAssessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+
 @section LeftBar{
 
     @Html.Partial("_NeedAssessmentLeftBar")
@@ -12,7 +13,6 @@
 { 
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","NeedAssessment")"></a>
 }
- 
 <fieldset>
     <legend>
         <h5>@Translator.Translate("Region"):  @ViewData["RegionName"]</h5> 
@@ -32,6 +32,7 @@
                        columns.Bound(p => p.RegularPSNP).Title("Regular PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Regular PSNP"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.PSNP).Title("PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.NonPSNP).Title("Non PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
+                       columns.Bound(p => p.Total).Title("Total").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Total" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
                        columns.Bound(p => p.Contingencybudget).Title("Contingency budget").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Contingency budget"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.TotalBeneficiaries).Title("Total Beneficiaries").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Total Beneficiaries"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.PSNPFromWoredasMale).Title("PSNP From Woredas Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Male"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate("#=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate("#=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
@@ -51,7 +52,7 @@
       .Pageable()
       .Sortable()
       .Navigatable()
-      .Events(events => events.Change("onGridKeydown"))
+      .Events(events => events.Change("onDataBound"))
       .Editable(editable => editable.Mode(GridEditMode.InCell))
        .Events(events => events.DataBound("onDataBound"))
       .DataSource(dataSource => dataSource
@@ -78,6 +79,7 @@
                                   model.Id(p => p.NAId);
                                   model.Field(p => p.Woreda).Editable(false);
                                   model.Field(p => p.WoredaName).Editable(false);
+                                 // model.Field(p => p.Total).Editable(false);
                               }) 
     )
 )
@@ -110,7 +112,25 @@
             setTimeout(function () { input.select(); },100);
           
         });
-   }
+        
+        $(grid.tbody).on("change", "td", function (e) {
+
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var kendoRow = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var psnpBeneficiaries = kendoRow.get('PSNP');
+            var nonPsnpBeneficiaries = kendoRow.get('NonPSNP');
+            var contigency = kendoRow.get('Contingencybudget');
+            var woreda = kendoRow.get('WoredaName');
+            alert(woreda);
+            //alert(nonPsnpBeneficiaries.toString());
+            var total = psnpBeneficiaries + nonPsnpBeneficiaries;
+            kendoRow.set('Total', total);
+            kendoRow.set('TotalBeneficiaries', total - contigency);
+        }
+        );
+    }
+   
     
 </script>
 
@@ -152,7 +172,7 @@
     }
 </script>
 
-<style scoped="scoped">
+@*<style scoped="scoped">
     #grid .k-toolbar
     {
         min-height: 27px;
@@ -170,7 +190,7 @@
     .toolbar {
         float: right;
     }
-</style>
+</style>*@
 
 @*.ToolBar(toolbar =>
     {
@@ -220,4 +240,3 @@
     
    
 </script>
-

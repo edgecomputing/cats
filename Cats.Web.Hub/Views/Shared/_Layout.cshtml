@@ -84,7 +84,7 @@
                 .Items(menu =>
                 {
                     menu.Add()
-                        .Text(Html.Translate("Home")).Url(@Url.Action("Redirect2Cats", "Home"));
+                        .Text(Html.Translate("Home")).Url(@"\Cats");
                     if (Request.IsAuthenticated)
                     {
                        // if (User.IsInRole("Gift Certificate"))
@@ -152,6 +152,10 @@
 
                         menu.Add()
                          .Text(Html.Translate("Admin")).Url("~/Admin/Home");
+                        //menu.Add()
+                        //.Text(Html.Translate("Cats")).Url("http://localhost/cats/home");
+                       // menu.Add()
+                       //.Text(Html.Translate("admin")).Url("http://localhost/admin/home");
                     }
                     if (Request.IsAuthenticated)
                     {

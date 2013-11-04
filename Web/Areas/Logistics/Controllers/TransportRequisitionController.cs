@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.Logistics.Models;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
@@ -11,6 +12,8 @@ using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
+using Cats.ViewModelBinder;
+using Early_Warning.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Services.Security;
@@ -52,30 +55,32 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request, string searchIndex)
         {
             var transportRequisitions = _transportRequisitionService.Get(t => t.TransportRequisitionNo.Contains(searchIndex));
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
+            var users = _userAccountService.GetUsers();
             var transportRequisitonViewModels =
                 (from itm in transportRequisitions select BindTransportRequisitionViewModel(itm));
             return Json(transportRequisitonViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        
+
         private TransportRequisitionViewModel BindTransportRequisitionViewModel(TransportRequisition transportRequisition)
         {
             string userPreference = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
 
-            TransportRequisitionViewModel transportRequisitionViewModel=null;
-            if(transportRequisition !=null)
+            TransportRequisitionViewModel transportRequisitionViewModel = null;
+            if (transportRequisition != null)
             {
                 transportRequisitionViewModel = new TransportRequisitionViewModel();
-                transportRequisitionViewModel.CertifiedBy = transportRequisition.CertifiedBy;
+                //transportRequisitionViewModel.CertifiedBy = transportRequisition.CertifiedBy;
                 transportRequisitionViewModel.CertifiedDate = transportRequisition.CertifiedDate;
                 transportRequisitionViewModel.DateCertified = transportRequisition.CertifiedDate.ToCTSPreferedDateFormat(userPreference);
-                    //EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
+                //EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
                 transportRequisitionViewModel.Remark = transportRequisition.Remark;
-                transportRequisitionViewModel.RequestedBy = transportRequisition.RequestedBy;
+                //transportRequisitionViewModel.RequestedBy = transportRequisition.RequestedBy;
                 transportRequisitionViewModel.RequestedDate = transportRequisition.RequestedDate;
                 transportRequisitionViewModel.DateRequested = transportRequisition.RequestedDate.ToCTSPreferedDateFormat(userPreference);
                 //EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
-                transportRequisitionViewModel.Status = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION,transportRequisition.Status);
+                transportRequisitionViewModel.Status = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION, transportRequisition.Status);
                 transportRequisitionViewModel.StatusID = transportRequisition.Status;
                 transportRequisitionViewModel.TransportRequisitionID = transportRequisition.TransportRequisitionID;
                 transportRequisitionViewModel.TransportRequisitionNo = transportRequisition.TransportRequisitionNo;
@@ -85,33 +90,14 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return transportRequisitionViewModel;
         }
-        private TransportRequisitionDetailViewModel BindTransportRequisitionDetailViewModel(RequisitionToDispatch requisitionToDispatch)
-        {
-            TransportRequisitionDetailViewModel transportRequisitionDetailViewModel = null;
-            if (requisitionToDispatch != null)
-            {
-                transportRequisitionDetailViewModel = new TransportRequisitionDetailViewModel();
-                transportRequisitionDetailViewModel.CommodityID = requisitionToDispatch.CommodityID;
-                transportRequisitionDetailViewModel.CommodityName = requisitionToDispatch.CommodityName;
-                transportRequisitionDetailViewModel.HubID =requisitionToDispatch.HubID;
-                transportRequisitionDetailViewModel.OrignWarehouse = requisitionToDispatch.OrignWarehouse;
-                transportRequisitionDetailViewModel.QuanityInQtl = requisitionToDispatch.QuanityInQtl;
-                transportRequisitionDetailViewModel.Region = requisitionToDispatch.RegionName;
-                transportRequisitionDetailViewModel.Zone = requisitionToDispatch.Zone;
-                transportRequisitionDetailViewModel.RequisitionNo = requisitionToDispatch.RequisitionNo;
-
-
-
-            }
-            return transportRequisitionDetailViewModel;
-        }
 
         private List<TransportRequisitionDetailViewModel> GetDetail(IEnumerable<TransportRequisitionDetail> transportRequisitionDetails )
         {
           
             var requIds = (from itm in transportRequisitionDetails select itm.RequisitionID).ToList();
             var temp = _transportRequisitionService.GetTransportRequisitionDetail(requIds);
-            var result = (from itm in temp select BindTransportRequisitionDetailViewModel(itm));
+            
+            var result = TransportRequisitionViewModelBinder.BindListTransportRequisitionDetailViewModel(temp);
             return result.ToList();
         }
         [HttpGet]
@@ -285,14 +271,44 @@ namespace Cats.Areas.Logistics.Controllers
             return RedirectToAction("Index", "TransportRequisition");
         }
 
-        [HttpGet]
+        
+            [HttpGet]
+        //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
         public ActionResult Details(int id)
         {
+            var transportRequisitonViewModel = new TransportRequisitionViewModel();
+            try
+            {
+                var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
+            var users = _userAccountService.GetUsers();
+
             var transportRequisition = _transportRequisitionService.FindById(id);
-            var transportRequisitonViewModel = BindTransportRequisitionViewModel(transportRequisition);
-            ViewData["Transport.Requisition.detail.ViewModel"] =
+             transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
+             transportRequisitonViewModel.TransportRequisitionDetailViewModels =
                 GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+
+           
+            }
+            catch(Exception ex)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex, _log);
+                transportRequisitonViewModel.TransportRequisitionDetailViewModels = new List<TransportRequisitionDetailViewModel>();
+              
+                ViewBag.Error = "An error has occured: Check Detail.";
+                ModelState.AddModelError("Errors", ViewBag.Error);
+            }
+               // Session["transport_requisiton_return_id"]=id;
             return View(transportRequisitonViewModel);
+        }
+        [HttpGet]
+        //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
+        public ActionResult Destinations(int id)
+        {
+            ViewBag.RequisitionID = id;
+           // ViewBag.TransportRequisitonID = transportRequistionId;
+            return View();
         }
        
     }

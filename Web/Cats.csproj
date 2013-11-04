@@ -15,7 +15,7 @@
     <AssemblyName>Cats</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
@@ -213,13 +213,16 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs">
@@ -228,6 +231,7 @@
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportContractViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
@@ -289,6 +293,7 @@
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
+    <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
@@ -297,6 +302,7 @@
     <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="Helpers\TemplateHelper.cs" />
+    <Compile Include="Helpers\UnitConversion.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -342,6 +348,7 @@
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -645,6 +652,12 @@
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular\angular-resource.js" />
+    <Content Include="Scripts\angular\angular.js" />
+    <Content Include="Scripts\angular\css\bootstrap.min.css" />
+    <Content Include="Scripts\angular\css\jquery-ui.css" />
+    <Content Include="Scripts\angular\allocation-angular.js" />
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
@@ -666,6 +679,12 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
@@ -854,6 +873,15 @@
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <Content Include="Content\Web.config" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1196,6 +1224,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
+    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -1233,9 +1262,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1786</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/Cats</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:56576/</IISAppRootUrl>
+          <IISUrl>http://localhost:1786/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

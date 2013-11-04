@@ -51,9 +51,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+
       <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+
     </Reference>
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -356,6 +359,7 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\TransporterController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\UserAccountHelper.cs" />
     <Compile Include="Controllers\UserWarehouseController.cs" />
     <Compile Include="Controllers\Utilities\TranslationController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1010,7 +1014,9 @@
     <Content Include="Views\Shared\EditorTemplates\Integer.ascx" />
     <Content Include="Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Views\Shared\EditorTemplates\Time.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

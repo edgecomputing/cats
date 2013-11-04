@@ -15,7 +15,7 @@ using Cats.Services.PSNP;
 using Cats.Services.Transaction;
 using Cats.Services.Common;
 using log4net;
-
+using Early_Warning.Security;
 
 namespace Cats.Infrastructure
 {
@@ -135,6 +135,10 @@ namespace Cats.Infrastructure
             kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();
             kernel.Bind<ISettingService>().To<SettingService>();
             kernel.Bind<ILedgerService>().To<LedgerService>();
+            kernel.Bind<ITransReqWithoutTransporterService>().To<TransReqWithoutTransporterService>();
+            kernel.Bind<ITransportOrderDetailService>().To<TransportOrderDetailService>();
+            kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
+
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.
@@ -142,6 +146,30 @@ namespace Cats.Infrastructure
                                                                                            "SecurityContext"].
                                                                                        ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
+            kernel.Bind<IEarlyWarningCheckAccess>().To<EarlyWarningCheckAccess>().WithConstructorArgument("storageConnectionString",
+                                                                                   System.Configuration.
+                                                                                       ConfigurationManager.
+                                                                                       ConnectionStrings[
+                                                                                           "SecurityContext"].
+                                                                                       ConnectionString);
+            kernel.Bind<ILogisticsCheckAccess>().To<LogisticsCheckAccess>().WithConstructorArgument("storageConnectionString",
+                                                                                  System.Configuration.
+                                                                                      ConfigurationManager.
+                                                                                      ConnectionStrings[
+                                                                                          "SecurityContext"].
+                                                                                      ConnectionString);
+            kernel.Bind<IProcurementCheckAccess>().To<ProcurementCheckAccess>().WithConstructorArgument("storageConnectionString",
+                                                                                  System.Configuration.
+                                                                                      ConfigurationManager.
+                                                                                      ConnectionStrings[
+                                                                                          "SecurityContext"].
+                                                                                      ConnectionString);
+            kernel.Bind<IPSNPCheckAccess>().To<PSNPCheckAccess>().WithConstructorArgument("storageConnectionString",
+                                                                                  System.Configuration.
+                                                                                      ConfigurationManager.
+                                                                                      ConnectionStrings[
+                                                                                          "SecurityContext"].
+                                                                                      ConnectionString);
         }
     }
 }

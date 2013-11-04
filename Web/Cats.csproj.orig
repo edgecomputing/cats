@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocX">
+      <HintPath>..\lib\DocX.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
@@ -62,6 +68,9 @@
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,15 +78,22 @@
       <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -86,6 +102,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
@@ -162,6 +179,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -172,8 +190,10 @@
     <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -193,18 +213,24 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
     <Compile Include="Areas\Logistics\Models\HubAllocation.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportContractViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
@@ -232,13 +258,20 @@
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
+    <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Settings\Controllers\LogController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\UserPreferenceViewModel.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
@@ -250,39 +283,49 @@
     <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserPreferenceController.cs" />
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
+    <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="Helpers\HtmlExtensions.cs" />
+    <Compile Include="Helpers\LanguageHelper.cs" />
+    <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Helpers\MD5Hashing.cs" />
+    <Compile Include="Helpers\RoundMonthHelper.cs" />
+    <Compile Include="Helpers\SendMail.cs" />
+    <Compile Include="Helpers\TemplateHelper.cs" />
+    <Compile Include="Helpers\UnitConversion.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\AmharicEditorHelper.cs">
+    <Compile Include="Helpers\AmharicEditorHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\ElmahErrorAttribute.cs">
+    <Compile Include="Helpers\ElmahErrorAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\EthiopianDate.cs">
+    <Compile Include="Helpers\EthiopianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\getGregorianDate.cs">
+    <Compile Include="Helpers\getGregorianDate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\RequestHelper.cs">
+    <Compile Include="Helpers\RequestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\TemplateGenerator.cs" />
-    <Compile Include="Infrastructure\Helpers\UserAccountHelper.cs">
+    <Compile Include="Helpers\UserAccountHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Helpers\UserRoleHelper.cs">
+    <Compile Include="Helpers\UserRoleHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\ReportHelper.cs" />
@@ -299,7 +342,12 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
@@ -385,6 +433,8 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
+    <Content Include="Content\images\Regions%27flags.png" />
+    <Content Include="Content\images\Regionsflags_small.png" />
     <Content Include="Content\kendo\2013.1.319\Black\editor.png" />
     <Content Include="Content\kendo\2013.1.319\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2013.1.319\Black\loading-image.gif" />
@@ -601,6 +651,302 @@
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+<<<<<<< HEAD
+    <Content Include="Scripts\angular.min.js" />
+=======
+    <Content Include="Scripts\angular\angular-resource.js" />
+    <Content Include="Scripts\angular\angular.js" />
+    <Content Include="Scripts\angular\css\bootstrap.min.css" />
+    <Content Include="Scripts\angular\css\jquery-ui.css" />
+    <Content Include="Scripts\angular\allocation-angular.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_af-na.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_af-za.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_af.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_am-et.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_am.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-001.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-ae.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-bh.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-dz.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-eg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-iq.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-jo.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-kw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-lb.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-ly.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-ma.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-om.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-qa.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-sa.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-sd.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-sy.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-tn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar-ye.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ar.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_bg-bg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_bg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_bn-bd.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_bn-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_bn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ca-ad.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ca-es.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ca.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_chr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_cs-cz.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_cs.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_cy.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_da-dk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_da.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_de-at.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_de-be.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_de-ch.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_de-de.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_de-li.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_de-lu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_de.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_el-cy.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_el-gr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_el-polyton.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_el.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-as.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-au.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-bb.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-be.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-bm.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-bw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-bz.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-ca.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-dsrt-us.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-dsrt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-fm.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-gb.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-gu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-gy.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-hk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-ie.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-iso.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-jm.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-mh.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-mp.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-mt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-mu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-na.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-nz.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-ph.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-pk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-pr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-pw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-sg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-tc.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-tt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-um.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-us.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-vg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-vi.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-za.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-zw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en-zz.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_en.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-419.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-ar.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-bo.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-cl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-co.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-cr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-do.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-ea.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-ec.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-es.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-gq.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-gt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-hn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-ic.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-mx.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-ni.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-pa.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-pe.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-pr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-py.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-sv.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-us.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-uy.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es-ve.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_es.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_et-ee.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_et.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_eu-es.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_eu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fa-af.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fa-ir.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fa.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fi-fi.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fi.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fil-ph.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fil.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-be.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-bf.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-bi.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-bj.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-bl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-ca.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-cd.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-cf.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-cg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-ch.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-ci.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-cm.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-dj.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-fr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-ga.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-gf.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-gn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-gp.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-gq.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-km.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-lu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-mc.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-mf.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-mg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-ml.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-mq.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-ne.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-re.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-rw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-sn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-td.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-tg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr-yt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_fr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_gl-es.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_gl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_gsw-ch.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_gsw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_gu-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_gu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_haw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_he-il.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_he.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_hi-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_hi.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_hr-hr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_hr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_hu-hu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_hu.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_id-id.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_id.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_is-is.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_is.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_it-ch.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_it-it.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_it-sm.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_it.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_iw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ja-jp.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ja.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_kn-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_kn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ko-kr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ko.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ln-cd.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ln-cg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ln.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_lt-lt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_lt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_lv-lv.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_lv.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ml-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ml.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_mo.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_mr-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_mr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ms-bn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ms-my.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ms.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_mt-mt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_mt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_nl-aw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_nl-be.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_nl-cw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_nl-nl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_nl-sx.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_nl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_no.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_or-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_or.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pl-pl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pt-ao.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pt-br.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pt-gw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pt-mz.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pt-pt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pt-st.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_pt.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ro-md.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ro-ro.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ro.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ru-md.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ru-ru.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ru-ua.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ru.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sk-sk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sl-si.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sq-al.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sq.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-cyrl-ba.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-cyrl-me.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-cyrl-rs.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-cyrl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-latn-ba.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-latn-me.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-latn-rs.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-latn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr-rs.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sv-fi.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sv-se.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sv.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sw-ke.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sw-tz.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_sw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ta-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ta-lk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ta.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_te-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_te.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_th-th.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_th.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_tl-ph.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_tl.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_tr-tr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_tr.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_uk-ua.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_uk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ur-in.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ur-pk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_ur.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_vi-vn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_vi.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-cn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hans-cn.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hans-hk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hans-mo.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hans-sg.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hans.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hant-hk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hant-mo.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hant-tw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hant.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-hk.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh-tw.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zh.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zu-za.js" />
+    <Content Include="Scripts\angular\i18n\angular-locale_zu.js" />
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
@@ -641,7 +987,6 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
-    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
@@ -655,7 +1000,7 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
-    <Content Include="Areas\Settings\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
@@ -706,10 +1051,6 @@
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Web.config" />
-    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
-    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
-    <Content Include="Areas\Localization\Views\Translation\Edit.cshtml" />
-    <Content Include="Areas\Localization\Views\Translation\_TranslationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\GenerateTemplate.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Index.cshtml" />
     <Content Include="Areas\Transaction\Views\Web.config" />
@@ -721,9 +1062,8 @@
     <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
     <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\Details.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\LanguageLeftBar.cshtml" />
-    <Content Include="Areas\Localization\Views\Language\EditTranslation.cshtml" />
+    <Content Include="Areas\Localization\Views\Shared\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\EditTranslation.cshtml" />
     <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\_PSNPLeftBar.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\Web.config" />
@@ -751,6 +1091,14 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDPrintOut.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -764,7 +1112,6 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Index.cshtml" />
-    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\FDPsCoveredByDonors.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\_RegionalPSNPPledgeLeftBar.cshtml" />
     <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Issue.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
@@ -783,13 +1130,55 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
-    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
+    <Content Include="Areas\Logistics\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\EditUserRoles.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Commodity.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Locations_FDPs.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_TransactionAndJournals.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_BusineesProcess.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_UsersAndRoles.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
+    <Content Include="Cats.csproj.orig">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
+    <Content Include="Content\Web.config" />
+<<<<<<< HEAD
+    <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
+=======
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
 
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+
+
+
+>>>>>>> 315537633d95bf8e644ae989acdbb3134febff66
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -810,6 +1199,8 @@
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\ICanHaz-no-mustache.js" />
+    <Content Include="Scripts\ICanHaz.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
@@ -973,9 +1364,10 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequesitions.cshtml">
+    <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequisitions.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\HRDPrintReportViewer.aspx" />
     <Content Include="Views\Shared\_BreadCrumb.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1023,26 +1415,29 @@
     <Content Include="Views\Shared\_Requests.cshtml" />
     <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
-    <Content Include="Views\Shared\_MainLayout.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
     <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
-
     <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
-
+    <Content Include="Views\Shared\Dashboard\_RegionalMonthlyRequests.cshtml" />
+    <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Shared\UserPreference.cshtml" />
+    <Content Include="Views\Home\Preference.cshtml" />
+    <Content Include="Views\UserPreference\Edit.cshtml" />
+    <Content Include="Views\Shared\Edit.cshtml" />
+    <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Localization\Models\" />
-    <Folder Include="Areas\Localization\Views\Shared\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
     <Folder Include="Areas\Transaction\Models\" />
@@ -1050,7 +1445,10 @@
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
-    <Folder Include="Views\Dashboard\" />
+    <Folder Include="Report\EarlyWarning\" />
+    <Folder Include="Report\HRD\" />
+    <Folder Include="Report\Procurment\" />
+    <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1064,9 +1462,21 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
+      <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
+      <Name>Cats.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Cats.Documents\Cats.Documents.csproj">
+      <Project>{48791f08-2497-4328-b7de-2cbe5a81c836}</Project>
+      <Name>Cats.Documents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Exceptions\Cats.Exceptions.csproj">
+      <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
+      <Name>Cats.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
@@ -1075,6 +1485,10 @@
     <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReportLib\ReportLib.csproj">
+      <Project>{2db02a2c-8e7b-4a3c-9a4c-af7736a66990}</Project>
+      <Name>ReportLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
@@ -1107,13 +1521,29 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
-    <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
-    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PILOT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -1125,11 +1555,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1786</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56576/</IISUrl>
+          <IISUrl>http://localhost:1786/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
