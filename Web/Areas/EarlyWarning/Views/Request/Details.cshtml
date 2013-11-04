@@ -115,7 +115,12 @@
         {
             if (column.DataType == typeof(decimal))
             {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}").HeaderHtmlAttributes(new {@class="cats-unit-pref-grid"});
+                
+            }
+            else if(column.DataType==typeof(int))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
                 
             }
             else
