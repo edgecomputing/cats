@@ -279,9 +279,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var reliefRequisition = _reliefRequisitionService.FindById(requisitionID);
                 var ration = _rationService.FindById(reliefRequisition.RegionalRequest.RationID);
-                var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID).Amount;
+                var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID);
 
-             return rationModel;
+             return rationModel!=null?rationModel.Amount:0;
 
         }
 
