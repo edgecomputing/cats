@@ -90,14 +90,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
-            regionalRequest.Season = hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID;
+            if (hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.HasValue)
+                regionalRequest.Season = hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.Value;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
             regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
             regionalRequest.DonorID = hrdpsnpPlanInfo.HRDPSNPPlan.DonorID;
-            regionalRequest.RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value:_applicationSettingService.getDefaultRation();
+            regionalRequest.RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation();
             regionalRequest.Round = hrdpsnpPlanInfo.HRDPSNPPlan.Round;
-            regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos where item.Selected==true
+            regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
+                                                      where item.Selected == true
                                                       select new RegionalRequestDetail()
                                                                  {
                                                                      Beneficiaries = item.Beneficiaries,
@@ -158,13 +160,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     RequestViewModelBinder.BindRegionalRequest(regionalRequest, target);
 
                     _regionalRequestService.EditRegionalRequest(target);
-                    ModelState.AddModelError("Success","Regional Request updated successfully.");
+                    ModelState.AddModelError("Success", "Regional Request updated successfully.");
                     return RedirectToAction("Details", "Request", new { id = regionalRequest.RegionalRequestID });
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex);
-                    
+
                 }
 
             }
@@ -234,7 +236,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.RequestID = id;
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-           //  datePref = "gc";
+            //  datePref = "gc";
             var request =
                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
 
@@ -271,7 +273,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
 
-            if (regionalRequestDetail.RegionalRequest.Program.Name=="Relief")
+            if (regionalRequestDetail.RegionalRequest.Program.Name == "Relief")
             {
                 return new RegionalRequestDetailViewModel()
                 {
@@ -284,7 +286,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     WoredaId = regionalRequestDetail.Fdp.AdminUnit.AdminUnitID,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                     PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year,
-                        (int) regionalRequestDetail.RegionalRequest.Season,
+                        (int)regionalRequestDetail.RegionalRequest.Season,
                         regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
                 };
             }
@@ -299,15 +301,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     RegionalRequestDetailID = regionalRequestDetail.RegionalRequestDetailID,
                     Woreda = regionalRequestDetail.Fdp.AdminUnit.Name,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
-                    PlannedBeneficiaries = GetPlannedForPSNP(regionalRequestDetail.RegionalRequest.Year, 
+                    PlannedBeneficiaries = GetPlannedForPSNP(regionalRequestDetail.RegionalRequest.Year,
                         regionalRequestDetail.RegionalRequest.RegionID,
                         regionalRequestDetail.Fdpid)
                 };
             }
 
-            
-            
-           
+
+
+
         }
         private int GetPlanned(int year, int season, int woreda)
         {
@@ -318,14 +320,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             else return 0;
         }
-        private int GetPlannedForPSNP(int year,int regionId, int fdpId)
+        private int GetPlannedForPSNP(int year, int regionId, int fdpId)
         {
             var psnp =
                 _RegionalPSNPPlanDetailService.Get(
                     p =>
                     p.RegionalPSNPPlan.Year == year && p.RegionalPSNPPlan.RegionID == regionId && p.PlanedFDPID == fdpId)
                     .SingleOrDefault();
-            
+
             if (psnp != null)
             {
                 return psnp.BeneficiaryCount;
@@ -442,8 +444,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         #region Reguest
 
 
-        public ActionResult Index(int id=-1)
-
+        public ActionResult Index(int id = -1)
         {
             var regions = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2);
             ViewData["adminunits"] = regions;
@@ -454,10 +455,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-        public ActionResult Request_Read([DataSourceRequest] DataSourceRequest request,int id=-1)
+        public ActionResult Request_Read([DataSourceRequest] DataSourceRequest request, int id = -1)
         {
-            
-            var requests = id==-1 ? _regionalRequestService.GetAllRegionalRequest():_regionalRequestService.Get(t=>t.Status==id);
+
+            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest() : _regionalRequestService.Get(t => t.Status == id);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);
