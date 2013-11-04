@@ -20,7 +20,7 @@
 <head>
     <style>
         .thumbnail { height: 280px; }
-        .btn-droppable { width: 160px; height: 30px; padding-left: 4px; }
+        .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
         .btn-draggable { width: 150px; }
     </style>
 </head>
@@ -46,11 +46,24 @@
 
                         <div class="thumbnail "  ng-model='Requisitions' style=" overflow-y:scroll;" >
                             <div  class="btn btn-navbar btn-draggable " id="{{item.RequisitionId}}" draggable    ng-repeat="item in Requisitions" >
+                                <div class="accordion" id="accordion2">
+                                    <div class="accordion-group">
+                                        <div class="accordion-heading">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#acc_{{item.RequisitionId}}" style="font-size: small ">
+                                                Req.No: {{item.RequisitionNo}}
+                                            </a>
+                                        </div>
+                                        <div id="acc_{{item.RequisitionId}}" class="accordion-body collapse">
+                                            <div class="accordion-inner" style="font-size: small">
+                                                <br />Commodity: {{item.Commodity}}
+                                                <br />Benficiary: {{item.BenficiaryNo}}
+                                                <br />Amount: {{item.AmountAllocated}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                
-                                Req.No: {{item.RequisitionNo}}
-                                <br />Commodity: {{item.Commodity}}
-                                <br />Benficiary: {{item.BenficiaryNo}}
-                                <br />Amount: {{item.AmountAllocated}}
                                
                                 
 
@@ -83,10 +96,7 @@
     
             </div>
        
-        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
-        <script src="~/Scripts/bootstrap.min.js"></script>
-        <script src="~/Scripts/angular/angular.js"></script>
-        <script src="~/Scripts/angular/angular-resource.js"></script>
+      
         <script src="~/Scripts/angular/allocation-angular.js"></script>
        @* <link href="~/Scripts/angular/css/jquery-ui.css" rel="stylesheet">*@
     </body>

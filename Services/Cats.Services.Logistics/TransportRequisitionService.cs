@@ -77,17 +77,28 @@ namespace Cats.Services.Logistics
         {
 
             if (reliefRequisitions.Count < 1) return null;
-
+            var anyReliefRequisition = _unitOfWork.ReliefRequisitionRepository.FindById(reliefRequisitions.ElementAt(0));
+            var region = new AdminUnit();
+            if (anyReliefRequisition.RegionID != null)
+            {
+                region = _unitOfWork.AdminUnitRepository.FindById(anyReliefRequisition.RegionID.Value);
+            }
+            var program = new Program();
+            if (anyReliefRequisition.ProgramID != null)
+            {
+                program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID.Value);
+            }
             var transportRequisition = new TransportRequisition()
-                                           {
-                                               Status = 1,//Draft
-                                               RequestedDate = DateTime.Today,
-                                               RequestedBy = 1, //should be current user
-                                               CertifiedBy = 1,//Should be some user
-                                               CertifiedDate = DateTime.Today,//should be date cerified
-                                               TransportRequisitionNo = Guid.NewGuid().ToString(),
-
-                                           };
+            {
+                Status = 1,//Draft
+                RequestedDate = DateTime.Today,
+                RequestedBy = 1, //should be current user
+                CertifiedBy = 1,//Should be some user
+                CertifiedDate = DateTime.Today,//should be date cerified
+                TransportRequisitionNo = Guid.NewGuid().ToString(),
+                RegionID = region.AdminUnitID,
+                ProgramID = program.ProgramID
+            };
 
             foreach (var reliefRequisition in reliefRequisitions)
             {
@@ -98,14 +109,16 @@ namespace Cats.Services.Logistics
             }
 
             AddTransportRequisition(transportRequisition);
-            transportRequisition.TransportRequisitionNo = string.Format("TRN-{0}",
-                                                                        transportRequisition.TransportRequisitionID);
-          
+            var year = transportRequisition.RequestedDate.Year;
+            transportRequisition.TransportRequisitionNo = string.Format("{0}/{1}/{2}/{3}",
+                                                                        program.ShortCode, region.AdminUnitID, transportRequisition.TransportRequisitionID, year);
+
             _unitOfWork.Save();
             return transportRequisition;
 
 
         }
+
 
         public void Dispose()
         {
@@ -180,20 +193,20 @@ namespace Cats.Services.Logistics
                 var status = _unitOfWork.WorkflowStatusRepository.Get(
                     t => t.StatusID == requisition.Status && t.WorkflowID == (int)WORKFLOW.RELIEF_REQUISITION).FirstOrDefault();
 
-                requisitionToDispatch.HubID = hubAllocation.HubID;
+                if (hubAllocation != null) requisitionToDispatch.HubID = hubAllocation.HubID;
                 requisitionToDispatch.RequisitionID = requisition.RequisitionID;
                 requisitionToDispatch.RequisitionNo = requisition.RequisitionNo;
-                requisitionToDispatch.RequisitionStatus = requisition.Status.Value;
-                requisitionToDispatch.ZoneID = requisition.ZoneID.Value;
+                if (requisition.Status != null) requisitionToDispatch.RequisitionStatus = requisition.Status.Value;
+                if (requisition.ZoneID != null) requisitionToDispatch.ZoneID = requisition.ZoneID.Value;
                 requisitionToDispatch.QuanityInQtl = requisition.ReliefRequisitionDetails.Sum(m => m.Amount);
-                requisitionToDispatch.OrignWarehouse = hubAllocation.Hub.Name;
-                requisitionToDispatch.CommodityID = requisition.CommodityID.Value;
+                if (hubAllocation != null) requisitionToDispatch.OrignWarehouse = hubAllocation.Hub.Name;
+                if (requisition.CommodityID != null) requisitionToDispatch.CommodityID = requisition.CommodityID.Value;
                 requisitionToDispatch.CommodityName = requisition.Commodity.Name;
                 requisitionToDispatch.Zone = requisition.AdminUnit1.Name;
-                requisitionToDispatch.RegionID = requisition.RegionID.Value;
+                if (requisition.RegionID != null) requisitionToDispatch.RegionID = requisition.RegionID.Value;
 
                 requisitionToDispatch.RegionName = requisition.AdminUnit.Name;
-                requisitionToDispatch.RequisitionStatusName = status.Description;
+                if (status != null) requisitionToDispatch.RequisitionStatusName = status.Description;
                 result.Add(requisitionToDispatch);
             }
             return result;

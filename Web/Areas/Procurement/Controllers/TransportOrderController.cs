@@ -24,30 +24,33 @@ namespace Cats.Areas.Procurement.Controllers
 {
     public class TransportOrderController : Controller
     {
-        //
-        // GET: /Procurement/TransportOrder/
+        /// GET: /Procurement/TransportOrder/
         private readonly ITransportOrderService _transportOrderService;
         private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly ITransportRequisitionService _transportRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
+        private readonly IAdminUnitService _adminUnitService;
         private readonly ITransReqWithoutTransporterService _transReqWithoutTransporterService;
+        private readonly ITransporterService _transporterService;
 
         public TransportOrderController(ITransportOrderService transportOrderService,
             ITransportRequisitionService transportRequisitionService,
             IWorkflowStatusService workflowStatusService, ILog log, IUserAccountService userAccountService,
-            ITransReqWithoutTransporterService transReqWithoutTransporterService,ITransportOrderDetailService transportOrderDetailService)
+            ITransReqWithoutTransporterService transReqWithoutTransporterService, ITransportOrderDetailService transportOrderDetailService,
+            IAdminUnitService adminUnitService, ITransporterService transporterService)
         {
             this._transportOrderService = transportOrderService;
             this._transportRequisitionService = transportRequisitionService;
             this._workflowStatusService = workflowStatusService;
             _log = log;
             _userAccountService = userAccountService;
+            _adminUnitService = adminUnitService;
+            _transporterService = transporterService;
             _transReqWithoutTransporterService = transReqWithoutTransporterService;
             _transportOrderDetailService = transportOrderDetailService;
         }
-
 
 
 
@@ -251,12 +254,94 @@ namespace Cats.Areas.Procurement.Controllers
             return View(detailTransportOrders.ToList());
         }
 
+        //public ActionResult SubTransportersStandingByWoreda([DataSourceRequest] DataSourceRequest request, int changedTransportOrderID)
+        //{
+        //    var changedTransportOrderObj = _transportOrderService.FindById(changedTransportOrderID);
+        //    var substituteTransporterOrder = new SubstituteTransporterOrder();
+        //    var changedTransportOrderDetails = changedTransportOrderObj.TransportOrderDetails;
+        //    substituteTransporterOrder.WoredaID = changedTransportOrderDetails.First().FDP.AdminUnitID;
+        //    foreach (var changedTransportOrderDetail in changedTransportOrderDetails)
+        //    {
+        //        substituteTransporterOrder
+        //    }
+        //    return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult ChangeTransporters(List<SubstituteTransporterOrder> listOfSubTransporterOrders, int changedTransportOrderID)
+        {
+            var changedTransportOrderObj = _transportOrderService.FindById(changedTransportOrderID);
+            var returnedObj = new TransportOrder();
+            foreach (var subTransporterOrders in listOfSubTransporterOrders)
+            {
+                foreach (var transporter in subTransporterOrders.TransporterIDs)
+                {
+                    var transporterObj = _transporterService.FindById(transporter);
+                    var transportOrder =
+                        _transportOrderService.Get(t => t.TransporterID == transporterObj.TransporterID &&
+                                                        t.StatusID == (int) TransportOrderStatus.Draft).FirstOrDefault();
+                    if (transportOrder != null)
+                    {
+                        foreach (var transportOrderDetail in subTransporterOrders.TransportOrderDetails)
+                        {
+                            var transportOrderDetailObj = new TransportOrderDetail();
+                            //transportOrderDetailObj.ZoneID = transportOrderDetail.ReliefRequisition.ZoneID;
+                            transportOrderDetailObj.CommodityID = transportOrderDetail.CommodityID;
+                            transportOrderDetailObj.FdpID = transportOrderDetail.FdpID;
+                            transportOrderDetailObj.RequisitionID = transportOrderDetail.RequisitionID;
+                            transportOrderDetailObj.QuantityQtl = transportOrderDetail.QuantityQtl;
+                            transportOrderDetailObj.TariffPerQtl = transportOrderDetail.TariffPerQtl;
+                            transportOrderDetailObj.SourceWarehouseID = transportOrderDetail.Hub.HubID;
+                            transportOrder.TransportOrderDetails.Add(transportOrderDetail);
+                        }
+                        returnedObj = transportOrder;
+                    }
+                    else
+                    {
+                        var transportOrderObj = new TransportOrder
+                            {
+                                TransporterID = transporter,
+                                OrderDate = DateTime.Today,
+                                TransportOrderNo = Guid.NewGuid().ToString(),
+                                OrderExpiryDate = DateTime.Today.AddDays(10),
+                                BidDocumentNo = "BID-DOC-No",
+                                PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO",
+                                ContractNumber = Guid.NewGuid().ToString(),
+                                TransporterSignedDate = DateTime.Today,
+                                RequestedDispatchDate = DateTime.Today,
+                                ConsignerDate = DateTime.Today,
+                                StatusID = (int) TransportOrderStatus.Draft
+                            };
+                        _transportOrderService.AddTransportOrder(transportOrderObj);
+                        var transportOrderDetailList = changedTransportOrderObj.TransportOrderDetails;
+                        foreach (var transportOrderDetail in transportOrderDetailList)
+                        {
+                            var transportOrderDetailObj = new TransportOrderDetail();
+                            //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;
+                            transportOrderDetailObj.CommodityID = transportOrderDetail.CommodityID;
+                            transportOrderDetailObj.FdpID = transportOrderDetail.FdpID;
+                            transportOrderDetailObj.RequisitionID = transportOrderDetail.RequisitionID;
+                            transportOrderDetailObj.QuantityQtl = transportOrderDetail.QuantityQtl;
+                            transportOrderDetailObj.TariffPerQtl = transportOrderDetail.TariffPerQtl;
+                            transportOrderDetailObj.SourceWarehouseID = transportOrderDetail.Hub.HubID;
+                            transportOrderObj.TransportOrderDetails.Add(transportOrderDetail);
+                        }
+                        returnedObj = transportOrderObj;
+
+                    }
+                }
+
+            }
+            changedTransportOrderObj.StatusID = (int) TransportOrderStatus.Failed;
+            return RedirectToAction("Index", "TransportOrder", returnedObj);
+        }
+
         public ActionResult TransportContract(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
             ViewBag.HubID = _transportOrderService.GetHubs();
             ViewBag.TransportOrderID = id;
-            return View(transportOrder);
+            var transportContract = GetTransportOrder(transportOrder);
+            return View(transportContract);
         }
         public ActionResult Contract_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
@@ -329,6 +414,33 @@ namespace Cats.Areas.Procurement.Controllers
 
            // return transportContractDetail;
        }
+        private TransportContractViewModel GetTransportOrder(TransportOrder transportOrder)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportContract = new TransportContractViewModel()
+                {
+                    TransportOrderID = transportOrder.TransportOrderID,
+                    TransportOrderNo = transportOrder.TransportOrderNo,
+                    TransporterID = transportOrder.TransporterID,
+                    RequisitionNo = transportOrder.TransportOrderDetails.First().ReliefRequisition.RequisitionNo,
+                    Transporter = transportOrder.Transporter.Name,
+                    BidDocumentNo = transportOrder.BidDocumentNo,
+                    ConsignerName = transportOrder.ConsignerName,
+                    ContractNumber = transportOrder.ContractNumber,
+                    OrderDate = transportOrder.OrderDate.ToCTSPreferedDateFormat(datePref),
+                    OrderExpiryDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref),
+                    RequestedDispatchDate = transportOrder.RequestedDispatchDate.ToCTSPreferedDateFormat(datePref),
+                    ConsignerDate = transportOrder.ConsignerDate.ToCTSPreferedDateFormat(datePref),
+                    PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo,
+                    TransporterSignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
+                    TransporterSignedName = transportOrder.TransporterSignedName,
+                    StatusID = transportOrder.StatusID,
+                    Zone = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.Name,
+                    Region = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name
+
+                };
+            return transportContract;
+        }
        [AcceptVerbs(HttpVerbs.Post)]
        public ActionResult TransportOrder_Update([DataSourceRequest] DataSourceRequest request, TransportOrderDetailViewModel orderDetails)
        {
@@ -349,6 +461,7 @@ namespace Cats.Areas.Procurement.Controllers
            return Json(new[] { orderDetails }.ToDataSourceResult(request, ModelState));
            //return Json(ModelState.ToDataSourceResult());
        }
+       
        [HttpPost]
        public ActionResult AssignTransporter(TransportRequisitionWithTransporter requisitionWithTransporter)
        {

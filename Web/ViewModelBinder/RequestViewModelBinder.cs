@@ -108,7 +108,7 @@ namespace Cats.ViewModelBinder
             colFDP.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colFDP);
 
-            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(decimal));
+            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(int));
             colNoBeneficiary.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colNoBeneficiary);
             var requestdetail = requestDetails.FirstOrDefault();
@@ -149,7 +149,7 @@ namespace Cats.ViewModelBinder
                         }
                         if (col != null)
                         {
-                            dr[col.ColumnName] = requestDetailCommodity.Amount;
+                            dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
 
                         }
                     }

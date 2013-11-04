@@ -10,11 +10,12 @@ function onsaveAllocation() {
 var app = angular.module("dragDrop", ['ngResource']);
 
 // Declaring a Service
-app.factory("dragDropService", function ($resource)
+app.factory("dragDropService", function ($resource, $route)
 {
 
     return {
         getRequisitions: $resource("/DispatchAllocation/ReadRequisitions?regionId=" + regionId)
+        
     };
     
    
@@ -24,15 +25,14 @@ app.factory("dragDropService", function ($resource)
 
 });
 
-app.factory("savefactory", function ($http, dragDropService) {
+app.factory("savefactory", function ($http) {
    
     return {
         save: function (hubAllocated) {
           
             $http.post("/DispatchAllocation/Save", { allocation: hubAllocated }).success(function (responseData) {
-                $scope.allocated = [];
-                $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
-                $location.path('/DispatchAllocation/ReadRequisitions?regionId=' + regionId);
+                $location.path("/DispatchAllocation/ReadRequisitions?regionId=" + regionId);
+               
             });
         }
     };

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Requisitionattachment" targetNamespace="http://tempuri.org/Requisitionattachment.xsd" xmlns:mstns="http://tempuri.org/Requisitionattachment.xsd" xmlns="http://tempuri.org/Requisitionattachment.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Requisitionattachment" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Requisitionattachment" msprop:Generator_UserDSName="Requisitionattachment">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="attachment" msprop:Generator_TableClassName="attachmentDataTable" msprop:Generator_TableVarName="tableattachment" msprop:Generator_TablePropName="attachment" msprop:Generator_RowDeletingName="attachmentRowDeleting" msprop:Generator_RowChangingName="attachmentRowChanging" msprop:Generator_RowEvHandlerName="attachmentRowChangeEventHandler" msprop:Generator_RowDeletedName="attachmentRowDeleted" msprop:Generator_UserTableName="attachment" msprop:Generator_RowChangedName="attachmentRowChanged" msprop:Generator_RowEvArgName="attachmentRowChangeEvent" msprop:Generator_RowClassName="attachmentRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Zone" msprop:Generator_ColumnVarNameInTable="columnZone" msprop:Generator_ColumnPropNameInRow="Zone" msprop:Generator_ColumnPropNameInTable="ZoneColumn" msprop:Generator_UserColumnName="Zone" type="xs:string" minOccurs="0" />
+              <xs:element name="Woreda" msprop:Generator_ColumnVarNameInTable="columnWoreda" msprop:Generator_ColumnPropNameInRow="Woreda" msprop:Generator_ColumnPropNameInTable="WoredaColumn" msprop:Generator_UserColumnName="Woreda" type="xs:string" minOccurs="0" />
+              <xs:element name="FDP" msprop:Generator_ColumnVarNameInTable="columnFDP" msprop:Generator_ColumnPropNameInRow="FDP" msprop:Generator_ColumnPropNameInTable="FDPColumn" msprop:Generator_UserColumnName="FDP" type="xs:string" minOccurs="0" />
+              <xs:element name="Donor" msprop:Generator_ColumnVarNameInTable="columnDonor" msprop:Generator_ColumnPropNameInRow="Donor" msprop:Generator_ColumnPropNameInTable="DonorColumn" msprop:Generator_UserColumnName="Donor" type="xs:string" minOccurs="0" />
+              <xs:element name="Commodity" msprop:Generator_ColumnVarNameInTable="columnCommodity" msprop:Generator_ColumnPropNameInRow="Commodity" msprop:Generator_ColumnPropNameInTable="CommodityColumn" msprop:Generator_UserColumnName="Commodity" type="xs:string" minOccurs="0" />
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

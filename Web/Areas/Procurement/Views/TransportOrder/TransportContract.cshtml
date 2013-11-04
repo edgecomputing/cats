@@ -1,4 +1,4 @@
-﻿@model Cats.Models.TransportOrder
+﻿@model Cats.Areas.Procurement.Models.TransportContractViewModel
 @using System.Collections
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
@@ -16,7 +16,7 @@
                     @Html.LabelFor(m => m.Transporter)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => m.Transporter.Name, new { Disabled = true })
+                    @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
                     <a href="@Url.Action("TransportContract","TransportOrder")">Change</a>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     @Html.Label(Translator.Translate("Requisition No"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => m.TransportOrderDetails.First().ReliefRequisition.RequisitionNo, new { Disabled = true })
+                    @Html.TextBoxFor(m => m.RequisitionNo, new { Disabled = true })
                 </div>
             </div>
         </div>
@@ -63,9 +63,13 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.RequestedDispatchDate)
+                    @Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
+                    @*@foreach (var detail in Model.TransportOrderDetails)
+                    {
+                       
+                    }*@
                     @Html.TextBoxFor(m => m.RequestedDispatchDate, new { Disabled = true })
                 </div>
             </div>
@@ -83,18 +87,30 @@
             </div>
         </div>
     </div>
-     <div class="row">
-    <div class="span6">
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(m=>m.ContractNumber)
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Region"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Region, new { Disabled = true })
+                </div>
             </div>
-            <div class="controls">
-                @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Zone"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Zone, new { Disabled = true })
+                </div>
+
             </div>
         </div>
-        </div>
-        </div>
+    </div>
 </div>
 
 @(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportOrderDetailViewModel>()

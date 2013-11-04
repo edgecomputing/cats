@@ -38,6 +38,7 @@
         columns.Bound(p => p.ProgramName);
         columns.Bound(p => p.Description);
         columns.Bound(p => p.LongName);
+        columns.Bound(p => p.ShortCode);
        //columns.Command(command => command.Destroy());
        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
     })

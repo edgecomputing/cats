@@ -1,0 +1,128 @@
+﻿@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "main";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script src="~/Scripts/angular/angular.js"></script>
+
+
+<html ng-app="test">
+    <body ng-controller="DemoCtrl">
+       
+        <fieldset>
+            <legend>
+                @Translator.Translate("Dispatch allocation")
+            </legend>
+        </fieldset>
+        <div class="offset1 span8">
+            <div class="controls-row">
+                <label for="cityComboBox" class="control-label">Region:</label>
+                <div class="controls">
+                    @*<input type="text" ng-model="Regions.AdminUnitID" ng-trim/>*@
+                    <select id="RegionComboBox" ng-model="Regions.AdminUnitID" >
+                        <option ng-repeat="region in Regions">
+                            {{region.Name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        
+
+        <div class="offset1 span8">
+            <fieldset>
+                <legend>
+                    @Translator.Translate("Allocated amount  by Region and Hub")
+                </legend>
+            </fieldset>
+
+            <table style="border:medium" class="table table-hover  table-condensed">
+                
+                <tr class="success">
+                    <td> Region </td>
+                    <td> Hub </td>
+                    <td> Allocated amount</td>
+                        
+                </tr>
+                
+                
+                <tr ng-repeat="item in Requisitions | filter:Regions.AdminUnitID ">
+                    <td>{{item.Region}} </td>
+                    <td>{{item.Hub}} </td>
+                    <td>{{item.AllocatedAmount}}</td>
+                        
+                </tr>
+                
+            </table>
+        </div>
+        
+        
+
+        <div class="offset1 span8">
+            <fieldset>
+            <legend>
+                @Translator.Translate("Hub allocated requisitions")
+            </legend>
+        </fieldset>
+            <table style="border:medium" class="table table-hover table-condensed">
+                
+                <tr class="success">
+                    <td> Req.No </td>
+                    <td> Commodity </td>
+                    <td> BenficiaryNo </td>
+                    <td> Amount </td>
+                </tr>
+                
+                <tr ng-repeat="item in SIToBeAllocated | filter:Regions.AdminUnitID ">
+                    <td>{{item.RequisitionNo}} </td>
+                    <td>{{item.Commodity}} </td>
+                    <td>{{item.BenficiaryNo}}</td>
+                    <td>{{item.Amount}}</td>
+                </tr>
+               
+            </table>
+        </div>
+
+    </body>
+</html>
+
+
+
+<script>
+    angular.module('test', []).controller('DemoCtrl', function ($scope, $http) {
+        $scope.selectedTestAccount = null;
+        $scope.Regions = [];
+        $scope.Requisitions = [];
+        $scope.SIToBeAllocated = [];
+
+        $http({
+            method: 'GET',
+            url: '/DispatchAllocation/GetRegions',
+           
+        }).success(function (result) {
+            $scope.Regions = result;
+        });
+        
+
+        $http({
+            method: 'GET',
+            url: '/DispatchAllocation/HubAllocationByRegion',
+           
+        }).success(function (result) {
+            $scope.Requisitions = result;
+        });
+
+        $http({
+            method: 'GET',
+            url: '/DispatchAllocation/AllocatedProjectCode',
+
+        }).success(function (result) {
+            $scope.SIToBeAllocated = result;
+        });
+    });
+    
+
+
+</script>

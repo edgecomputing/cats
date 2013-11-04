@@ -1,5 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
+@using Cats.Localization;
+@using LanguageHelpers.Localization
 @model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
 @{
@@ -11,7 +13,7 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
-<h4 class="page-header">Transport Requisiotn Detail </h4>
+<h4 class="page-header">@Translator.Translate("Transport Requisition Detail") </h4>
 @section Toolbar
 {
 
@@ -22,15 +24,20 @@
         <a class="btn toolbar-btn " href="@Url.Action("Edit", "TransportRequisition", new { Area = "Logistics", id = Model.TransportRequisitionID })" data-buttontype="btn_edit"></a>
         <a class="btn toolbar-btn " href="@Url.Action("Approve", "TransportRequisition", new { id = Model.TransportRequisitionID })" data-buttontype="">Approve</a>
     }
+    
+ 
+
+
 }
-<div class="row form-horizontal well">
+<div class="row-fluid form-horizontal ">
+    <div class="well span12">
     <div class="span5 ">
         <div class="control-group">
             <div class="control-label">
                 @Html.DisplayNameFor(model => model.TransportRequisitionNo)
             </div>
             <div class="controls">
-             @Html.TextBoxFor(model => model.TransportRequisitionNo, new { disabled="true" })
+                @Html.TextBoxFor(model => model.TransportRequisitionNo, new { disabled="true" })
             </div>
         </div>
         <div class="control-group">
@@ -42,7 +49,7 @@
             </div>
         </div>
         <div class="control-group">
-            <div class="control-label">
+            <div class="control-label ">
                 @Html.LabelFor(model => model.DateRequested, new { @class = "cats-date-pref" })
 
             </div>
@@ -80,7 +87,14 @@
         </div>
     </div>
 </div>
-
+</div>
+<script>    
+$(function () {
+        var printurl = "@Url.Action("PrintSummary", "TransportRequisition",new{id= 1 })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+    
+</script>
 @(Html.Kendo().Grid(Model.TransportRequisitionDetailViewModels)
 .Name("Grid").Columns(columns =>
                           {

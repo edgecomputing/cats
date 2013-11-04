@@ -53,7 +53,7 @@ namespace Cats.ViewModelBinder
                 transportRequisitionDetailViewModel.CommodityName = requisitionToDispatch.CommodityName;
                 transportRequisitionDetailViewModel.HubID = requisitionToDispatch.HubID;
                 transportRequisitionDetailViewModel.OrignWarehouse = requisitionToDispatch.OrignWarehouse;
-                transportRequisitionDetailViewModel.QuanityInQtl = requisitionToDispatch.QuanityInQtl;
+                transportRequisitionDetailViewModel.QuanityInQtl = requisitionToDispatch.QuanityInQtl.ToPreferedWeightUnit();
                 transportRequisitionDetailViewModel.Region = requisitionToDispatch.RegionName;
                 transportRequisitionDetailViewModel.Zone = requisitionToDispatch.Zone;
                 transportRequisitionDetailViewModel.RequisitionNo = requisitionToDispatch.RequisitionNo;

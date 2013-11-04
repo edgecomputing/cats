@@ -230,6 +230,7 @@
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
     <Compile Include="Areas\Procurement\Models\TransportContractViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
@@ -281,6 +282,11 @@
     <Compile Include="Areas\WorkflowManager\Controllers\ProcessTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
     <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
+    <Compile Include="CatsMasterDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
@@ -340,6 +346,16 @@
     <Compile Include="Models\ViewModels\ReportDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+    <Compile Include="Requisitionattachment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="RequisitionSummary.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RequisitionSummary.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
@@ -428,6 +444,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\DashboardWidget.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
@@ -652,6 +669,7 @@
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
@@ -871,6 +889,23 @@
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <Content Include="Content\Web.config" />
+
+    <Content Include="Areas\Logistics\Views\Shared\_ApprovedRequisitions.cshtml" />
+    <Content Include="CatsMasterDataSet.xsc">
+      <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <None Include="CatsMasterDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CatsMasterDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="CatsMasterDataSet.xss">
+      <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
+    </Content>
+
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
     <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
@@ -879,6 +914,8 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
+
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -897,6 +934,28 @@
     </None>
     <Content Include="HRDDataSet.xss">
       <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="RequisitionSummary.xsc">
+      <DependentUpon>RequisitionSummary.xsd</DependentUpon>
+    </Content>
+    <Content Include="Requisitionattachment.xsc">
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Content>
+    <None Include="Requisitionattachment.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Requisitionattachment.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Requisitionattachment.xss">
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Content>
+    <None Include="RequisitionSummary.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RequisitionSummary.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="RequisitionSummary.xss">
+      <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\ICanHaz-no-mustache.js" />
@@ -1220,6 +1279,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
   </ItemGroup>
   <PropertyGroup>
@@ -1256,7 +1317,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1786</DevelopmentServerPort>
+          <DevelopmentServerPort>6517</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:1786/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

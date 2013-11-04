@@ -26,25 +26,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IUserAccountService _userAccountService;
         private readonly IRationService  _rationService;
-
+        private readonly IDonorService _donorService;
 
         public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService)
+            IRationService rationService, IDonorService donorService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
             this._reliefRequisitionDetailService = reliefRequisitionDetailService;
             _userAccountService = userAccountService;
             _rationService = rationService;
-
+            _donorService = donorService;
         }
 
         public ViewResult Index(int id = 1)
         {
             ViewBag.Status = id;
-
             return View();
         }
 
@@ -52,11 +51,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult CreateRequisiton(int id)
         {
             var input = _reliefRequisitionService.CreateRequisition(id);
-
             return RedirectToAction("NewRequisiton", "ReliefRequisition", new { id = id });
-
-
         }
+
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
@@ -78,13 +75,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index", "ReliefRequisition");
         }
+
         [HttpGet]
         public ActionResult Allocation(int id)
         {
-
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();
+            ViewData["donors"] = _donorService.GetAllDonor();
+            //ViewBag.HRDID = new SelectList(_donorService.GetAllDonor(), "HRDID", "Year", donor.HRDID);
+
             if (requisition == null)
             {
                 HttpNotFound();
@@ -98,7 +98,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
-            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
+            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity").ToList();
             var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
             var RationAmount = GetCommodityRation(id, commodityID);
             var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
@@ -127,13 +127,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Amount = reliefRequisitionDetailViewModel.Amount;
                     target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
-
+                    if(reliefRequisitionDetailViewModel.DonorID.HasValue)
+                    target.DonorID = reliefRequisitionDetailViewModel.DonorID.Value;
                     _reliefRequisitionDetailService.EditReliefRequisitionDetail(target);
                 }
             }
 
             return Json(new[] { reliefRequisitionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
+
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Allocation_Destroy([DataSourceRequest] DataSourceRequest request,
@@ -146,7 +148,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-
 
 
         [HttpPost]
@@ -171,11 +172,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 HttpNotFound();
             }
-
-
-
-            return View(relifRequisition);
+         return View(relifRequisition);
         }
+
         [HttpPost]
         public ActionResult Edit(ReliefRequisition reliefrequisition)
         {
@@ -190,12 +189,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult SendToLogistics(int id)
         {
-            var requistion = _reliefRequisitionService.FindById(id);
-            if (requistion == null)
+            //var requistion = _reliefRequisitionService.FindById(id);
+            //if (requistion == null)
+            //{
+            //    HttpNotFound();
+            //}
+            var requisition =
+                _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
+                    FirstOrDefault();
+            if (requisition == null)
             {
                 HttpNotFound();
             }
-            return View(requistion);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION), datePref);
+
+            return View(requisitionViewModel);
         }
 
         [HttpPost]
@@ -266,9 +275,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var reliefRequisition = _reliefRequisitionService.FindById(requisitionID);
                 var ration = _rationService.FindById(reliefRequisition.RegionalRequest.RationID);
-                var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID).Amount;
+                var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID);
 
-             return rationModel;
+             return rationModel!=null?rationModel.Amount:0;
 
         }
 

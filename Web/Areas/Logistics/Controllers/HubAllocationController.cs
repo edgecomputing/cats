@@ -21,8 +21,6 @@ namespace Cats.Areas.Logistics.Controllers
     {
         //
         // GET: /Logistics/HubAllocation/
-
-        
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;
@@ -45,7 +43,10 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-    
+        public ActionResult Index()
+        {
+            return View("Index");
+        }
       
       
 
@@ -53,7 +54,7 @@ namespace Cats.Areas.Logistics.Controllers
         {
 
             ViewBag.Months = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
-            return View();
+            return View("AssignHub");
         }
         
         public JsonResult GetRequisitionsForAssignment()

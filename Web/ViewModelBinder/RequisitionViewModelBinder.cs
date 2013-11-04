@@ -14,8 +14,6 @@ namespace Cats.ViewModelBinder
         public static ReliefRequisitionViewModel BindReliefRequisitionViewModel(ReliefRequisition reliefRequisition, List<WorkflowStatus> statuses, string datePref)
         {
             var requisition = new ReliefRequisitionViewModel();
-
-
             requisition.ProgramID = reliefRequisition.ProgramID;
             requisition.Program = reliefRequisition.Program.Name;
             requisition.Region = reliefRequisition.AdminUnit.Name;
@@ -36,8 +34,6 @@ namespace Cats.ViewModelBinder
             requisition.Commodity = reliefRequisition.Commodity.Name;
             requisition.Month = RequestHelper.MonthName(reliefRequisition.Month);
             return requisition;
-
-
         }
 
         public static List<ReliefRequisitionViewModel> BindRequisitionViewModel(List<ReliefRequisition> reliefRequisitions)
@@ -51,7 +47,6 @@ namespace Cats.ViewModelBinder
                 reliefRequisitionViewModel.RequestedDate = (DateTime)reliefRequisition.RequestedDate;
                 reliefRequisitionViewModel.Status = reliefRequisition.Status.ToString();
                 reliefRequisitionViewModels.Add(reliefRequisitionViewModel);
-
             }
             return reliefRequisitionViewModels;
         }
@@ -60,8 +55,6 @@ namespace Cats.ViewModelBinder
         {
             return new ReliefRequisitionDetail()
             {
-
-
                 BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo,
                 Amount = reliefRequisitionDetailViewModel.Amount,
                 RequisitionID = reliefRequisitionDetailViewModel.RequisitionID,
@@ -82,7 +75,7 @@ namespace Cats.ViewModelBinder
                 Donor = reliefRequisitionDetail.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "-",
                 Commodity = reliefRequisitionDetail.Commodity.Name,
                 BenficiaryNo = reliefRequisitionDetail.BenficiaryNo,
-                Amount =reliefRequisitionDetail.Amount,
+                Amount =reliefRequisitionDetail.Amount.ToPreferedWeightUnit(),
                 RequisitionID = reliefRequisitionDetail.RequisitionID,
                 RequisitionDetailID = reliefRequisitionDetail.RequisitionDetailID,
                 CommodityID = reliefRequisitionDetail.CommodityID,

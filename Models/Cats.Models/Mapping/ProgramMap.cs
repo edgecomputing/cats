@@ -21,12 +21,16 @@ namespace Cats.Models.Mapping
             this.Property(t => t.LongName)
                 .HasMaxLength(500);
 
+            this.Property(t => t.ShortCode)
+                .HasMaxLength(10);
+
             // Table & Column Mappings
             this.ToTable("Program");
             this.Property(t => t.ProgramID).HasColumnName("ProgramID");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Description).HasColumnName("Description");
             this.Property(t => t.LongName).HasColumnName("LongName");
+            this.Property(t => t.ShortCode).HasColumnName("ShortCode");
         }
     }
 }
