@@ -124,8 +124,8 @@
             columns.Bound(p => p.FDP);
             columns.ForeignKey(p => p.HubID, (IEnumerable) ViewBag.HubID, "hubID", "Name").Width(100).Title(Translator.Translate("Origin Warehouse")).ClientFooterTemplate(Translator.Translate("Total")); 
            // columns.Bound(p => p.DistanceFromOrigin);
-            columns.Bound(p => p.QuantityQtl).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"});
-            columns.Bound(p => p.TariffPerQtl).HtmlAttributes(new { style = "background-color:lightgray" }).Width(100).HtmlAttributes(new {align="Right"});
+            columns.Bound(p => p.QuantityQtl).Title("Qantity").ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+            columns.Bound(p => p.TariffPerQtl).Title("Tariff").HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
             columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"}); 
 
         })   
