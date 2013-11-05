@@ -10,7 +10,7 @@
     .Columns(columns =>
     {
         columns.Bound(e => e.Hub).Width(100).Title("Hub");
-        columns.Bound(e => e.AllocatedAmount).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Amount Allocated" }).Format("{0:N2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
+        columns.Bound(e => e.AllocatedAmount).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Amount Allocated", @class = "cats-unit-pref-grid" }).Format("{0:N2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
        
         
     })
