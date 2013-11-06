@@ -127,7 +127,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Amount = reliefRequisitionDetailViewModel.Amount;
                     target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
-                    target.DonorID = int.Parse(reliefRequisitionDetailViewModel.Donor);
+                    if(reliefRequisitionDetailViewModel.DonorID.HasValue)
+                    target.DonorID = reliefRequisitionDetailViewModel.DonorID.Value;
                     _reliefRequisitionDetailService.EditReliefRequisitionDetail(target);
                 }
             }

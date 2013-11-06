@@ -63,7 +63,7 @@
                 <div class="controls">@Html.TextBoxFor(model => model.Round, new { disabled = "true" })</div>
             </div>
             <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.RequestedDateEt)
+                <div class="control-label">@Html.LabelFor(model => model.RequestedDateEt,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true" })</div>
             </div>
@@ -121,7 +121,7 @@
    .Selectable(t => t.Mode(GridSelectionMode.Single))
    // .Sortable()
     .Navigatable()
-   // .Scrollable()
+    .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
     // .Events(ev => ev.DataBound("resetRowNumber"))
     //  .Events(ev => ev.DataBound("onDataBound"))

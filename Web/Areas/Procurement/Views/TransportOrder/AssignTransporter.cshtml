@@ -61,7 +61,7 @@
                   columns.Bound(p => p.Commodity);
                   columns.Bound(p => p.FDP);
                   columns.Bound(P => P.OriginWarehouse);
-                  columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new {align = "Right"});
+                  columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                   // columns.Bound(p => p.Amount);
                   //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
               })
@@ -83,7 +83,6 @@
                 $(this).parent().toggleClass("k-state-selected");
                 update_selection_data();
                 update_selected_transporter();
-                validate_selection_data();
             });
     }
     );

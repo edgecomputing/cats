@@ -6,7 +6,8 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     // Cats.Models.ShippingInstruction si=new Cats.Models.ShippingInstruction();
     // si.Value
-    var UserUnit = "Qtl";
+    var UserUnit = @Translator.Translate(@Html.UserUnitPreference());
+    decimal amount = 12.5M;
 }
 
 @section LeftBar
@@ -15,28 +16,15 @@
 }
 @section Toolbar
 {
-    <!--
-    <div class="btn-group" style="margin-right: 3px;">
-        <button class="btn">Action</button>
-        <button class="btn dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">hub allocation</a></li>
-            <li><a href="#">pc/si code allocation</a></li>
-            <li><a href="#">Generate TR</a></li>
-            <li><a href="#"></a></li>
-        </ul>
-    </div>
-    -->
-    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:submitform()"></a>
+
+    <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
 }
 
 <fieldset>
     <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
-
+  <!--  <div>@amount  MT is  @amount.ToPreferedWeightUnit()</div>-->
 </fieldset>
 
 <style>
@@ -60,6 +48,12 @@
             list-style: none;
             height: 32px;
             line-height: 32px;
+            clear: both;
+        }
+        .SI_Row .list-item2 /*li*/
+        {
+            margin: 2px;
+            list-style: none;
             clear: both;
         }
 
@@ -270,11 +264,11 @@
                                 <div class="label2">@Translator.Translate("Commodity"): </div>
                                 <div class="value2">{{request.Commodity}}</div>
                                 <div class="label2">@Translator.Translate("Requested Qty"): </div>
-                                <div class="value2">{{request.Amount}}<i>@UserUnit</i></div>
+                                <div class="value2">{{request.Amount}}<i> @UserUnit</i></div>
                                 <div class="label2">@Translator.Translate("Allocated Qty"): </div>
-                                <div class="value2">{{request.AllocatedAmount}}<i>@UserUnit</i></div>
+                                <div class="value2">{{request.AllocatedAmount}}<i> @UserUnit</i></div>
                                 <div class="label2">@Translator.Translate("Remaining Qty"): </div>
-                                <div class="value2">{{request.RemainingAmount}}<i>@UserUnit</i></div>
+                                <div class="value2">{{request.RemainingAmount}}<i> @UserUnit</i></div>
                                 <div class="debug">
                                     <div class="label2">RequisitionId</div>
                                     <div class="value2">{{request.RequisitionId}}</div>
@@ -345,11 +339,18 @@
                             </div>
 
                         </li>
+
                         <li class="list-item1 new_allocation allocation_saved" id="div_allocation_{{request.RequisitionId}}_new" data-requisitionid="{{request.RequisitionId}}">
                             <div class="frm_view" style="width: 200px;">
                                 <button class="SI_Removes btn" ng-click="on_edit(request.RequisitionId,'new')"><i class=" icon-plus-sign"></i></button>
                                 <span style="color: #808080;">New Allocation</span>
                             </div>
+                        </li>
+                        <li class="list-item2" ng-repeat="item in request.Message">
+                            <div class="alert alert-error">
+                                {{item}}
+                            </div>
+
                         </li>
                     </ul>
 
@@ -420,7 +421,7 @@
                 $scope.NewAllocation = { RequisitionId: "", AllocatedAmount: 0, ShippingInstructionCode: "", ShippingInstructionId: "" };
                 $scope.SICodesHash = {};
                 $scope.DeletedAllocations = [];
-
+                $scope.hasError=false;
                 $scope.ModelToView = function (model, view) {
                     view.ShippingInstructionId = model.ShippingInstructionId;
                     view.ProjectCodeId = model.ShippingInstructionId;
@@ -436,6 +437,7 @@
                     return $scope.NewAllocation;
                 }
                 $scope.CalculateAllocatedAmount = function () {
+                    $scope.hasError=false;
                     for (var r in $scope.requests) {
                         
                         var req = $scope.requests[r];
@@ -447,6 +449,37 @@
                         req.RemainingAmount = req.Amount - req.AllocatedAmount;
                         req.AllocatedPercent = Math.round(100 * req.AllocatedAmount / req.Amount);
                         req.AllocationType = "SI";
+                        req.ErrMessage="ErrMessage";
+                        req.Message=[];
+                        
+                        if(req.RemainingAmount<0)
+                        {
+                            req.Message=["Error: Allocated amount cannot be greater than then requested amount"];
+                            $scope.hasError=true;
+                        }
+                    }
+                    $scope.checkError();
+                }
+                $scope.checkError=function()
+                {
+                    for(var r in $scope.requests)
+                    {
+                        var message="";
+                        for(var i in $scope.requests[r].FreeSIPCCodes.FreeSICodes)
+                        {
+                            message +=" " + $scope.requests[r].FreeSIPCCodes.FreeSICodes[i].amount;
+                           // $scope.requests[r].FreeSIPCCodes.FreeSICodes[i].amount=0;
+                        }
+                        $scope.requests[r].ErrMessage=message;
+                    }
+
+                    if($scope.hasError)
+                    {
+                        $("#btn_save_submitform").addClass("disabled");
+                    }
+                    else
+                    {
+                        $("#btn_save_submitform").removeClass("disabled");
                     }
                 }
                 $scope.ViewToModel = function (view, model) {

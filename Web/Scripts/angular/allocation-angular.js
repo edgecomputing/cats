@@ -31,7 +31,7 @@ app.factory("savefactory", function ($http) {
         save: function (hubAllocated) {
           
             $http.post("/DispatchAllocation/Save", { allocation: hubAllocated }).success(function (responseData) {
-                $location.path("/DispatchAllocation/ReadRequisitions?regionId=" + regionId);
+               
                
             });
         }

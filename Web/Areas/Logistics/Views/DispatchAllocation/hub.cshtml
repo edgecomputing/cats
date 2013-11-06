@@ -15,16 +15,12 @@
      <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})"></a>
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        .thumbnail { height: 280px; }
-        .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
-        .btn-draggable { width: 150px; }
-    </style>
-</head>
-    <body >
+
+
+
+    
+    <base href="/cats/">
+
        
 
       <div class="row">
@@ -97,11 +93,15 @@
             </div>
        
       
-        <script src="~/Scripts/angular/allocation-angular.js"></script>
-       @* <link href="~/Scripts/angular/css/jquery-ui.css" rel="stylesheet">*@
-    </body>
-</html>
-<script>
-   var regionId = '@ViewBag.regionId';
-   var RegionName = '@ViewBag.RegionName';
-</script>
+   <script src="~/Scripts/angular/allocation-angular.js"></script>
+    <script>
+        var regionId = '@ViewBag.regionId';
+        var RegionName = '@ViewBag.RegionName';
+    </script>
+    <style>
+       
+        .thumbnail { height: 280px; }
+        .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
+        .btn-draggable { width: 150px; }
+    
+    </style>
