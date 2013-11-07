@@ -14,8 +14,8 @@
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Requisitions","TransportRequisition",new {Area="Logistics"})"></a>
 }
 <h4 class="page-header">Transport Requisition</h4>
-Transport Requisition Code: <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="text" /><a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
-<a class="btn toolbar-btn icon-umbrella" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"></a>
+Transport Requisition Code: <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
+<a class="btn toolbar-btn" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"><i class="ui-icon-cancel"></i></a>
 @(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
 

@@ -75,10 +75,25 @@
                         {
                             foreach (var hub in  enumerable)
                             {
+                                if (hub.HubOwnerID == 1)
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
+                                else if (hub.HubOwnerID == 2)
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
                                 
-                                <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
-                                    <div class="btn btn-navbar btn-droppable"  >@hub.Name</div>
-                                </div>
                             }
                         }
                     
@@ -99,9 +114,11 @@
         var RegionName = '@ViewBag.RegionName';
     </script>
     <style>
-       
         .thumbnail { height: 280px; }
         .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
         .btn-draggable { width: 150px; }
-    
+        .span4 {
+            margin: 0px !important;
+        }
+
     </style>
