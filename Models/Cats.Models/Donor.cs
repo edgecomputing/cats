@@ -37,5 +37,7 @@ namespace Cats.Models
         public virtual ICollection<Contribution> Contributions { get; set; }
         public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
         //public virtual ICollection<Contribution> Contributions1 { get; set; }
+
+        public virtual ICollection<PromisedContribution> PromisedContributions { get; set; } 
     }
 }
