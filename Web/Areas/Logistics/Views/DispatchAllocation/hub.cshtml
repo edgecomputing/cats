@@ -15,16 +15,12 @@
      <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})"></a>
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        .thumbnail { height: 280px; }
-        .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
-        .btn-draggable { width: 150px; }
-    </style>
-</head>
-    <body >
+
+
+
+    
+    <base href="/cats/">
+
        
 
       <div class="row">
@@ -79,10 +75,25 @@
                         {
                             foreach (var hub in  enumerable)
                             {
+                                if (hub.HubOwnerID == 1)
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
+                                else if (hub.HubOwnerID == 2)
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
                                 
-                                <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
-                                    <div class="btn btn-navbar btn-droppable"  >@hub.Name</div>
-                                </div>
                             }
                         }
                     
@@ -97,11 +108,17 @@
             </div>
        
       
-        <script src="~/Scripts/angular/allocation-angular.js"></script>
-       @* <link href="~/Scripts/angular/css/jquery-ui.css" rel="stylesheet">*@
-    </body>
-</html>
-<script>
-   var regionId = '@ViewBag.regionId';
-   var RegionName = '@ViewBag.RegionName';
-</script>
+   <script src="~/Scripts/angular/allocation-angular.js"></script>
+    <script>
+        var regionId = '@ViewBag.regionId';
+        var RegionName = '@ViewBag.RegionName';
+    </script>
+    <style>
+        .thumbnail { height: 280px; }
+        .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
+        .btn-draggable { width: 150px; }
+        .span4 {
+            margin: 0px !important;
+        }
+
+    </style>

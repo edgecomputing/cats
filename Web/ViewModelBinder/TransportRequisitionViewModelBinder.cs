@@ -38,11 +38,10 @@ namespace Cats.ViewModelBinder
                 transportRequisitionViewModel.StatusID = transportRequisition.Status;
                 transportRequisitionViewModel.TransportRequisitionID = transportRequisition.TransportRequisitionID;
                 transportRequisitionViewModel.TransportRequisitionNo = transportRequisition.TransportRequisitionNo;
-
-
             }
             return transportRequisitionViewModel;
         }
+
         public static TransportRequisitionDetailViewModel BindTransportRequisitionDetailViewModel(RequisitionToDispatch requisitionToDispatch)
         {
             TransportRequisitionDetailViewModel transportRequisitionDetailViewModel = null;

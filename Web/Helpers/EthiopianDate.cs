@@ -167,7 +167,7 @@ namespace Cats.Helpers
         /// <returns></returns>
         public string ToLongDateString()
         {
-            string date = string.Format("{1} {0} - {3} ", Day, GetMonthName(), GetMonthNameEN(), Year);
+            string date = string.Format("{1} {0} - {2} ", Day, GetMonthName(), Year);
             return date;
         }
 
