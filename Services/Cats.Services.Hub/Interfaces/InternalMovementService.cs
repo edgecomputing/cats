@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
 using Cats.Data.Hub;
-using Cats.Models.Hub;
-using Cats.Models.Hub.ViewModels;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
 
 
 namespace Cats.Services.Hub

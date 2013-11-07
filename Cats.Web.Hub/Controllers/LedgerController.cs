@@ -39,7 +39,7 @@ namespace Cats.Web.Hub.Controllers
 
         
         [HttpPost]
-        public ActionResult Edit(Cats.Models.Hub.Ledger ledger) {
+        public ActionResult Edit(Cats.Models.Hubs.Ledger ledger) {
 
             if(ModelState.IsValid){
                 _ledgerService.EditLedger(ledger);
@@ -66,7 +66,7 @@ namespace Cats.Web.Hub.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult Create(Cats.Models.Hub.Ledger ledger)
+        public virtual ActionResult Create(Cats.Models.Hubs.Ledger ledger)
         {
             if (ModelState.IsValid)
             {

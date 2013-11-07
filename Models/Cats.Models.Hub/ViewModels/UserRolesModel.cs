@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     public class UserRolesModel
     {

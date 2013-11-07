@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 
 using System.Web.Security;
 using Cats.Services.Hub;
@@ -141,7 +141,7 @@ namespace Cats.Web.Hub.Controllers
 
         public virtual ActionResult UserHubs(string userName)
         {
-            var userhubs = new Cats.Models.Hub.UserHubsModel {UserHubs = GetUserHubs(userName).OrderBy(o => o.Name).ToList()};
+            var userhubs = new Cats.Models.Hubs.UserHubsModel {UserHubs = GetUserHubs(userName).OrderBy(o => o.Name).ToList()};
             Session["Hubs"] = userhubs;
             Session["UserName"] = userName;
             return PartialView( "Users/UserHubs", userhubs);
@@ -150,13 +150,13 @@ namespace Cats.Web.Hub.Controllers
         [HttpPost]
         public virtual ActionResult UserHubs(FormCollection userHubs)
         {
-            var hubModel = Session["Hubs"] as Cats.Models.Hub.UserHubsModel;
+            var hubModel = Session["Hubs"] as Cats.Models.Hubs.UserHubsModel;
             var userName = Session["UserName"].ToString();
             if (hubModel!=null)
             {
                 for (var i = 0; i < hubModel.UserHubs.Count(); i++)
                 {
-                    var model = new Cats.Models.Hub.UserHubModel
+                    var model = new Cats.Models.Hubs.UserHubModel
                         {HubID = hubModel.UserHubs[i].HubID, Name = hubModel.UserHubs[i].Name};
                     model.Selected = userHubs.GetValue(string.Format("[{0}].Selected", model.HubID)).AttemptedValue.Contains("true");
                     if (model.Selected == hubModel.UserHubs[i].Selected) continue;
@@ -164,7 +164,7 @@ namespace Cats.Web.Hub.Controllers
                                   where v.UserName == userName
                                   select v.UserProfileID).FirstOrDefault();
 
-                    var hub = new Cats.Models.Hub.Hub();
+                    var hub = new Cats.Models.Hubs.Hub();
                     if (model.Selected)
                     {
                         _userHubService.AddUserHub(model.HubID,userID);
@@ -222,7 +222,7 @@ namespace Cats.Web.Hub.Controllers
             return userRoles.ToList();
         }
 
-        private IEnumerable<Cats.Models.Hub.UserHubModel> GetUserHubs(string userName)
+        private IEnumerable<Cats.Models.Hubs.UserHubModel> GetUserHubs(string userName)
         {
             
             var warehouses = from v in _userHubService.GetAllUserHub()
@@ -230,7 +230,7 @@ namespace Cats.Web.Hub.Controllers
                              select v.HubID;
            
             var userHubs = from v in _hubService.GetAllHub()
-                            select new Cats.Models.Hub.UserHubModel { HubID = v.HubID, Name = v.Name + " : " + v.HubOwner.Name, Selected = warehouses.Contains(v.HubID) } ;
+                            select new Cats.Models.Hubs.UserHubModel { HubID = v.HubID, Name = v.Name + " : " + v.HubOwner.Name, Selected = warehouses.Contains(v.HubID) } ;
             return userHubs.ToList();
         }
     }

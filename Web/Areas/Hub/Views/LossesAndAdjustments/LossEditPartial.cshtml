@@ -1,0 +1,242 @@
+﻿@model Cats.Models.Hubs.ViewModels.LossesAndAdjustmentsViewModel
+@using Cats.Web.Hub.Helpers           
+
+<div>
+
+@using (Html.BeginForm())
+    {
+     @Html.ValidationSummary("Please correct Errors")
+    <table class="borderless">
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(model => model.Commodities)</td>
+                <td>
+                    @(Html.Telerik().ComboBoxFor(model => model.Commodities)
+                                .Name("CommodityId")
+                                .BindTo(new SelectList(Model.Commodities, "CommodityId", "Name"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                                .ClientEvents(ev => ev.OnChange("clearStore"))
+                                .CascadeTo("ProjectCodeId")
+                    )
+                    @Html.ValidationMessageFor(model => model.Commodities)
+                </td>
+                <td>@Html.LabelFor(model => model.SelectedDate)</td>
+                <td>
+                    @Html.EditorFor(model => model.SelectedDate)
+                    @Html.ValidationMessageFor(model => model.SelectedDate)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.ProjectCodes)</td>
+                <td>
+                    @(Html.Telerik().ComboBoxFor(model => model.ProjectCodes)
+                                .Name("ProjectCodeId")
+                                .AutoFill(true)
+                                .BindTo(new SelectList (Model.ProjectCodes))
+                                .HighlightFirstMatch(true)
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity","LossesAndAdjustments"))
+                                .ClientEvents(ev => ev.OnChange("clearStore"))
+                                .CascadeTo("ShippingInstructionId")
+                      )   
+                    @Html.ValidationMessageFor(model => model.ProjectCodes)
+                </td>
+                
+                <td>@Html.LabelFor(model => model.MemoNumber)</td>
+                <td>
+                    @Html.EditorFor(model => model.MemoNumber)
+                    @Html.ValidationMessageFor(model => model.MemoNumber)
+                </td>
+                <td rowspan="5">
+                    <div style="margin-left: 20px;" id="BalanceContent">
+                </div>
+            </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.ShippingInstructions)</td>
+                <td>
+                     @(Html.Telerik().ComboBoxFor(model => model.ShippingInstructions)
+                                .Name("ShippingInstructionId")
+                                .BindTo(new SelectList(Model.ShippingInstructions))
+                                .AutoFill(true)
+                                .HighlightFirstMatch(true)
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode","LossesAndAdjustments"))
+                                .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
+                    )
+                    @Html.ValidationMessageFor(model => model.ShippingInstructions)
+                </td>
+                <td>@Html.LabelFor(model => model.Programes)</td>
+                <td>@(Html.Telerik().ComboBox()
+                                .Name("ProgramId")
+                                .BindTo(new SelectList(Model.Programes, "ProgramId", "ProgramName"))
+                                .AutoFill(true)
+                                .HighlightFirstMatch(true)
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                )
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Stores)</td>
+                <td>
+                    @(Html.Telerik().ComboBoxFor(model => model.Stores)
+                                .Name("StoreId")
+                                .BindTo(new SelectList(Model.Stores, "StoreId", "StoreName"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                                .Placeholder("Select Store")
+                                .SelectedIndex(0)
+                                .ClientEvents(ev => ev.OnChange("onStoreComboChange"))
+                    )
+                    @Html.ValidationMessageFor(model => model.Stores)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.StoreMan)</td>
+                <td>
+                    @Html.EditorFor(model => model.StoreMan)
+                    @Html.ValidationMessageFor(model => model.StoreMan)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Reasons)</td>
+                <td>
+                    @(Html.Telerik().ComboBoxFor(model => model.Reasons)
+                                .Name("ReasonId")
+                                .BindTo(new SelectList(Model.Reasons, "AdjustmentReasonId", "Name"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                    )
+
+                    @Html.ValidationMessageFor(model => model.Reasons)
+                </td>
+            </tr>
+            
+            <tr>
+                <td>@Html.LabelFor(model => model.Units)</td>
+                <td>
+                    @(Html.Telerik().ComboBoxFor(model => model.Units)
+                                .Name("UnitId")
+                                .BindTo(new SelectList(Model.Units, "UnitId", "Name"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                    )
+                    @Html.ValidationMessageFor(model => Model.Units)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.QuantityInUint)</td>
+                <td>
+                    @Html.EditorFor(model => model.QuantityInUint)
+                    @Html.ValidationMessageFor(model => model.QuantityInUint)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.QuantityInMt)</td>
+                <td>
+                    @Html.EditorFor(model => model.QuantityInMt)
+                    @Html.ValidationMessageFor(model => model.QuantityInMt)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.ApprovedBy)</td>
+                <td>
+                    @Html.EditorFor(model => model.ApprovedBy)
+                    @Html.ValidationMessageFor(model => model.ApprovedBy)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Description)</td>
+                <td>
+                    @Html.EditorFor(model => model.Description)
+                    @Html.ValidationMessageFor(model => model.Description)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+     <div style="margin-left:100px; margin-top:50px;" >
+        <input type="submit" class="t-button" value="@Html.Translate("Save")" /> <input type="button" value="@Html.Translate("Cancel")" class="t-button"/>
+    </div>
+}
+
+
+</div>
+
+<script type="text/javascript">
+    function onStoreComboChange(m) {
+        $.ajax({
+            type: 'POST',
+            url: '/LossesAndAdjustments/GetStoreMan',
+            data: { storeId: m.value },
+            dataType: 'json',
+            success: function (data) {
+                $('#StoreMan').val(data);
+            }
+        });
+        LoadBalance();
+    }
+
+    function onShippingInstructionChange() {
+
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var siId = $("#ShippingInstructionId").data("tComboBox").value();
+        var StoreCombo = $("#StoreId").data("tComboBox");
+
+        $.ajax({
+            type: 'POST',
+            url: '/LossesAndAdjustments/GetStoreForParentCommodity',
+            data: { commodityParentId: CommodityId, SINumber: siId },
+            dataType: 'json',
+            success: function (data) {
+                StoreCombo.dataBind(data, true);
+                if (siId > 0) {
+                    $("#StoreId").data("tComboBox").enable();
+                }
+            }
+        });
+        LoadBalance();
+    }
+
+    function clearStore() {
+        $("#StoreId").data("tComboBox").select(0);
+        $("#StoreId").data("tComboBox").disable();
+        clearBalance();
+    }
+
+    function LoadBalance() {
+
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectId = $("#ProjectCodeId").data("tComboBox").value();
+        var siId = $("#ShippingInstructionId").data("tComboBox").value();
+        var StoreId = $("#StoreId").data("tComboBox").value();
+        var StackId = null;
+//        var FromStackId = $("#FromStackId").data("tComboBox").value();
+        if (CommodityId != "" && projectId != "" && siId != "") {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/InternalMovement/SINumberBalance")',
+                data: { parentCommodityId: CommodityId, projectcode: projectId, SINumber: siId, StoreId: StoreId, StackId: StackId },
+                success: function (data) {
+                    $('#BalanceContent').empty();
+                    $('#BalanceContent').append(data);
+                }
+            });
+        }
+
+    }
+
+    function clearBalance() {
+        $('#BalanceContent').empty();
+    }
+
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#StoreId").data("tComboBox").disable();
+    });
+</script>

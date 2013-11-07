@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Objects.DataClasses;
 
-namespace Cats.Models.Hub.MetaModels
+namespace Cats.Models.Hubs.MetaModels
 {
 
 		public sealed class ShippingInstructionMetaModel

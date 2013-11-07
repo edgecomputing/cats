@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
-using Cats.Models.Hub;
-using Cats.Models.Hub.MetaModels;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.MetaModels;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
-using Cats.Models.Hub.ViewModels.Report.Data;
+using Cats.Models.Hubs.ViewModels.Report.Data;
 
 namespace Cats.Services.Hub
 {
@@ -89,7 +89,7 @@ namespace Cats.Services.Hub
 
         public List<Store> GetStoresWithBalanceOfCommodityAndSINumber(int parentCommodityId, int SINumber, int hubId)
         {
-            Models.Hub.Hub hub = FindHubById(hubId);
+            Models.Hubs.Hub hub = FindHubById(hubId);
             List<Store> result = new List<Store>();
             foreach (var store in hub.Stores)
             {
@@ -106,7 +106,7 @@ namespace Cats.Services.Hub
 
         public List<Store> GetStoresWithBalanceOfCommodity(int parentCommodityId, int hubId)
         {
-            Models.Hub.Hub hub = FindHubById(hubId);
+            Models.Hubs.Hub hub = FindHubById(hubId);
             List<Store> result = new List<Store>();
             foreach (var store in hub.Stores)
             {
@@ -164,7 +164,7 @@ namespace Cats.Services.Hub
             return result;
         }
 
-        public List<Store> GetAllByHUbs(List<Models.Hub.Hub> HubIds)
+        public List<Store> GetAllByHUbs(List<Models.Hubs.Hub> HubIds)
         {
             List<int> hubIds = HubIds.Select(hubId => hubId.HubID).ToList();
 
@@ -227,7 +227,7 @@ namespace Cats.Services.Hub
         }
 
        
-        public Models.Hub.Hub FindHubById(int HubId)
+        public Models.Hubs.Hub FindHubById(int HubId)
         {
             return _unitOfWork.HubRepository.FindBy(h => h.HubID == HubId).SingleOrDefault();
         }

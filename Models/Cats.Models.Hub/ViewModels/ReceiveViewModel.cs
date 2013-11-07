@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
-using Cats.Models.Hub.Repository;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.Repository;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
 
 
@@ -571,7 +571,7 @@ namespace Cats.Models.Hub
             model.Remark = receive.Remark;
             model.ReceivedByStoreMan = receive.ReceivedByStoreMan;
 
-            model.ReceiveDetails =Cats.Models.Hub.ReceiveDetailViewModel.GenerateReceiveDetailModels(receive.ReceiveDetails);
+            model.ReceiveDetails =Cats.Models.Hubs.ReceiveDetailViewModel.GenerateReceiveDetailModels(receive.ReceiveDetails);
             return model;
         }
 

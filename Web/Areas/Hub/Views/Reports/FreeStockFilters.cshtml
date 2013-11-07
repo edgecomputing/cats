@@ -1,0 +1,136 @@
+﻿@model Cats.Models.Hubs.ViewModels.Report.FreeStockFilterViewModel
+ @using Cats.Web.Hub.Helpers
+@{
+    //ViewBag.Title = Html.Translate("StockBalance");
+ }
+
+<script src="../../Scripts/ReportFileter.js" type="text/javascript"></script>
+<script src="../../Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+<link href="../../Content/TestStyle.css" rel="stylesheet" type="text/css" />
+
+@*@using (Ajax.BeginForm("StockBalanceReport", "StockManagement", new AjaxOptions { UpdateTargetId = "content", InsertionMode = InsertionMode.Replace }))
+{*@
+@using (Html.BeginForm("FreeStockPartial", "Reports"))
+{
+<div>
+    <div class="filterPanel">
+        <ul class="formelts">
+            @*<li>
+                <label>@Html.Translate("Period")</label>
+            </li>
+            <li>
+                <div>@(Html.Telerik().ComboBox()
+           .Name("PeriodId")
+           .AutoFill(false)
+           .BindTo(new SelectList(Model.Periods, "PeriodId", "PeriodName"))
+           .SelectedIndex(0)
+           .ClientEvents(e => e.OnChange("onPeriodReportFilterChange"))
+                           )
+                </div>
+            </li>*@
+            <li>
+                <label>@Html.Translate("Codes")</label>
+            </li>
+            <li>
+                <div>@(Html.Telerik().ComboBox()
+           .Name("CodesId")
+           .AutoFill(false)
+           .SelectedIndex(0)
+           .BindTo(new SelectList(Model.Cods, "CodesId", "CodesName"))
+           .ClientEvents(e => e.OnChange("onCodesReportFileterChange"))
+                           )
+                </div>
+            </li>
+            <li>
+                <div id="codeDetail"></div>
+            </li>
+@*            <li>
+                <label>@Html.Translate("Commodity Type")</label>
+            </li>
+            <li>
+                <div>@(Html.Telerik().ComboBox()
+           .Name("CommodityTypeId")
+           .AutoFill(false)
+           .SelectedIndex(0)
+           .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeId", "CommodityTypeName"))
+           .ClientEvents(e => e.OnChange("onReportFileterChange"))
+           .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+           .HighlightFirstMatch(true)
+                           )
+                </div>
+            </li>*@
+            <li>
+                <label>@Html.Translate("Program ")</label>
+            </li>
+            <li>
+                <div>@(Html.Telerik().ComboBox()
+           .Name("ProgramId")
+           .AutoFill(false)
+           .SelectedIndex(0)
+           .BindTo(new SelectList(Model.Programs, "ProgramId", "ProgramName"))
+           .ClientEvents(e => e.OnChange("onReportFileterChange"))
+           //.Placeholder("All")
+                           )
+                </div>
+            </li>
+            <li>
+                <label>@Html.Translate("Commodity ")</label>
+            </li>
+            <li>
+                <div>@(Html.Telerik().ComboBox()
+            .Name("CommodityId")
+           .AutoFill(false)
+           .SelectedIndex(0)
+            .BindTo(new SelectList(Model.Commodities, "CommodityId", "CommodityName"))
+           .ClientEvents(e => e.OnChange("onReportFileterChange"))
+           .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+           .HighlightFirstMatch(true)
+                           )
+                </div>
+            </li>
+            <br />
+            <p style="clear: both">
+                <input id="showReport" style="width: 80px; height: 20px; horiz-align: center" class="t-button" value="@Html.Translate("Filter")" onclick="return SubmitFilters(this)" />
+            </p>
+           
+        </ul>
+            
+    </div>
+            
+</div>
+}
+<script type="text/javascript">
+    function SubmitFilters(button) {
+        var form = $(button).closest("form");
+        // var theNewSi = null;//$('#SINumber').val();
+
+        if (form.valid()) {
+
+            ReportViewer1.Refresh();
+
+            params = {};
+            
+            if ($('#CommodityId').val() != undefined) {
+                params['CommodityId'] = $('#CommodityId').val();
+            }
+
+            if ($('#ProgramId').val() != undefined) {
+                params['ProgramId'] = $('#ProgramId').val();
+            }
+
+            if ($('#ShippingInstructionId').val() != undefined) {
+                params['ShippingInstructionId'] = $('#ShippingInstructionId').val();
+            }
+
+            if ($('#ShippingInstructionId').val() != undefined) {
+                params['ShippingInstructionId'] = $('#ShippingInstructionId').val();
+            }
+
+            ReportViewer1.formHelper.customArgs = params;
+
+        }
+        return false;
+}
+</script>
+
+

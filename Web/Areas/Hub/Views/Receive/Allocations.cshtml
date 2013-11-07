@@ -1,0 +1,331 @@
+﻿@model IEnumerable<Cats.Models.Hubs.ReceiptAllocation>
+@*           @model IEnumerable<Cats.Web.Hub.Models.ReceiptAllocationViewModelDto>*@
+@using Cats.Models.Hubs
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Receipt Allocations");
+}
+@{
+    int allocationType = ViewBag.CommoditySourceType;
+    string quanityColumnHeader = "MT";
+    
+    if(@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
+    {
+        quanityColumnHeader = "Quintals";
+    }
+    
+
+}
+
+@(Html.Telerik().Grid<Cats.Models.Hubs.ReceiptAllocation>()
+      .Name("ReceiveAllocationGrid" + allocationType)
+         // .Columns(columns => columns.LoadSettings((IEnumerable<GridColumnSettings<EditableProduct>>)ViewData["Columns"]))
+
+       .ToolBar(toolBar => toolBar.Template(
+        @<text>
+             <label class="closed-label" for="Closed-input">
+                 @Html.Translate("Show closed Plans")  :
+             </label>
+             <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-@allocationType" data-val="@allocationType" />
+             <script type="text/javascript">
+                 $(function () {
+                     $("#chk-closedtoo-@allocationType").change(function () {
+                         var gridNum = $(this).attr('data-val');
+                         var gr = $('#ReceiveAllocationGrid' + gridNum).data('tGrid');
+                         if (gr != null) {
+                             gr.rebind();
+                         }
+                     });
+
+                 });
+
+
+             </script>
+             
+             
+     <label class="customer-label" for="Customers-input" style="padding-left:10px ">
+        Show Allocations for :
+    </label>
+    @(Html.Telerik().ComboBox()
+                    .Name("CommodityTypeSelector-" + @allocationType)
+                    .BindTo((SelectList)ViewBag.CommodityTypes)
+               //     .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
+                    .AutoFill(true)
+                    .Filterable(filtering =>
+                    {
+                        filtering.FilterMode(AutoCompleteFilterMode.StartsWith);
+                    })
+                    .HtmlAttributes(new { style = "width: 300px" })
+                    .HighlightFirstMatch(true)
+                    .SelectedIndex(0)
+                    .ClientEvents(events => events.OnChange("comTypeChange" + @allocationType)) //.OnLoad("onComboBoxLoad"))
+            )
+
+
+         </text>))
+
+
+            .DataKeys(keys => keys.Add(d => d.ReceiptAllocationID))
+            .Columns(col =>
+                         {
+
+                             col.Bound(dis => dis.ReceiptAllocationID).
+                                 ClientTemplate("<a href='"
+                                                + @Url.Action("Create", "Receive", new { @ReceiptAllocationID = "<#= ReceiptAllocationID #>", @type = "<#= CommoditySourceID #>" })
+                                                + "' >" + @Html.Translate("Receive") + "</a><span>   </span>  "
+
+                                                + "<a href='#' onclick='editPlan(\"<#= ReceiptAllocationID #>\",<#= CommoditySourceID #>)'"
+                                                + "' >" + @Html.Translate("Edit") + "</a>"
+                                                + "<span> </span>"
+                                                + "<# if (!IsClosed) {#>"
+                                                + "<a href='#' onclick='ClosePlanById(\"<#= ReceiptAllocationID #>\")' >" + @Html.Translate("Close") + "</a>" +
+                                                " <#} else {#>"
+                                                //                  + "<a href='#' onclick='OpenPlanById(<#= ReceiptAllocationID #>)' >Open</a>"
+                                                + " <#}#>"
+                                                + "<span>  </span>"
+                                 
+                                 );
+                             //<# if (!IsClosed) { #> <#= ETA #><#}#>" 
+                               //.Title(Html.Translate("Action"));
+
+                               //.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
+
+        col.Bound(dis => dis.CommodityName).Title(Html.Translate("Commodity")).Filterable(true);
+        col.Bound(dis => dis.SINumber).Title(Html.Translate("SINumber")).Filterable(true);
+        col.Bound(dis => dis.ProjectNumber).Title(Html.Translate("Project Code")).Filterable(true);
+        col.Bound(dis => dis.QuantityInMT).Title(Html.Translate("Allocated In "+ quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        col.Bound(dis => dis.QuantityInUnit).Title(Html.Translate("Allocated Quantiy In Unit")).Format("{0:N3}");
+        col.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        col.Bound(dis => dis.ReceivedQuantityInUnit).Title(Html.Translate("Received in Unit")).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        col.Bound(dis => dis.RemainingBalanceInMt).Title(Html.Translate("Remaining in "+ quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        col.Bound(dis => dis.RemainingBalanceInUnit).Title(Html.Translate("Remaining in Unit")).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        col.Bound(dis => dis.IsClosed).Hidden(true).ClientTemplate("<input type='checkbox' disabled='disabled' name='closed' <#= IsClosed?\"checked='checked'\" : \"\" #> />");
+        //col.Template(@<text></text>)
+        //.ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingBalanceInMt < 0) || (RemainingBalanceInUnit < 0))?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
+
+                         })
+    //.ClientEvents(events => events.OnRowDataBound("allocation_onRowDataBound"))
+
+    .DetailView(details => details.ClientTemplate(
+            Html.Telerik().Grid<ReceiveViewModelDto>()
+                    .Name("Receives_<#= ReceiptAllocationID #>")
+                    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
+                    .Columns(receiveCols =>
+                                 {
+@*                                     receiveCols.Template(@<text>
+            @item.ReceiptDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
+            </text>).Title(Html.Translate("Receipt Date"));*@
+                                     receiveCols.Bound(d => d.ReceiptDate).Format("{0:d-MMM-yyyy}");
+                                     receiveCols.Bound(d => d.GRN).ClientTemplate("<a href='"+
+                                                @Url.Action("Create", "Receive", new { @ReceiveID = "<#= ReceiveID #>" })
+                                           + "' >" + "<#= GRN #></a>");
+                                     receiveCols.Bound(d => d.ReceivedByStoreMan);
+                                     //receiveCols.Bound(d => d.GRN).ClientTemplate("<a href='#'><#= ReceiveID></a>");
+                                 }
+
+                ).Footer(true)
+                                .DetailView(ordersDetailView => ordersDetailView.ClientTemplate(
+                                        Html.Telerik().Grid<ReceiveDetailViewModelDto>()
+                                        .Name("ReceiveDetails_<#= ReceiveID #>")
+                                    .Columns(c =>
+                                    {
+                                        c.Bound(com => com.CommodityName).Title(Html.Translate("Commodity"));
+                                        c.Bound(com => com.UnitName).Title(Html.Translate("Unit"));
+                                        c.Bound(com => com.SentQuantityInUnit).Title(Html.Translate("Sent Qty (Unit)")).HtmlAttributes(new { align = "right" }); ;
+                                        c.Bound(com => com.ReceivedQuantityInUnit).Title("Received Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
+                                        c.Bound(com => com.SentQuantityInMT).Title(Html.Translate("Sent Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                        c.Bound(com => com.ReceivedQuantityInMT).Title(Html.Translate("Received Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                    })
+                                        .DataBinding(dataBinding => dataBinding.Ajax()
+                                                      .Select("ReceiveListGridListGrid", "Receive", new { ReceiveID = "<#= ReceiveID #>" }))
+                                                                     .Pageable()
+                                        .Sortable().Footer(true)
+                                        .ToHtmlString()
+                                 )).Footer(true)
+                .DataBinding(dataBinding => dataBinding.Ajax()
+                                    .Select("ReceiveListGrid", "Receive", new { ReceiptAllocationID = "<#= ReceiptAllocationID #>" }))
+                                             .Pageable(paging =>
+                             paging.PageSize(10)
+                             .Style(GridPagerStyles.NextPreviousAndNumeric)
+                             .Position(GridPagerPosition.Bottom)
+                             )
+                .Sortable()
+                .ToHtmlString()
+                                                           ))
+                                                           
+.ClientEvents(ev => ev.OnDataBinding("dataBinding"+allocationType))
+
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("AllocationListGrid", "Receive"))
+    .Pageable(paging =>
+    paging.PageSize(10)
+    .Style(GridPagerStyles.NextPreviousAndNumeric)
+    .Position(GridPagerPosition.Bottom)
+    ).Footer(true)
+    .Filterable()
+            //.Filterable(filtering => filtering.Filters(filters =>
+            //    filters.Add(o => o.IsClosed).IsEqualTo(false)))
+
+
+                    )
+<script type="text/javascript">
+
+    $(function () {
+        //        $("#chk-closedtoo-@allocationType").change(function () {
+        //            var gridNum = $(this).attr('data-val');
+        //            var gr = $('#ReceiveAllocationGrid' + gridNum).data('tGrid');
+        //            if (gr != null) {
+        //                gr.rebind();
+        //            }
+        //        });
+    });
+
+    function dataBinding1(args) {
+        var commType = $("#CommodityTypeSelector-1").val();
+        if ($("#chk-closedtoo-1").attr('checked') == 'checked') {
+            args.data = $.extend(args.data, { closedToo: true, CommodityType: commType });
+        }else {
+            args.data = $.extend(args.data, { closedToo: false, CommodityType: commType });
+        }
+
+        var gr = $('#ReceiveAllocationGrid' + 1).data('tGrid');
+        if (commType == 1 || commType == null) {
+            gr.hideColumn(5);
+            gr.showColumn(4);
+            gr.hideColumn(7);
+            gr.showColumn(6);
+            gr.hideColumn(9);
+            gr.showColumn(8);
+
+        } else {
+            gr.hideColumn(4);
+            gr.showColumn(5);
+            gr.hideColumn(6);
+            gr.showColumn(7);
+            gr.hideColumn(8);
+            gr.showColumn(9);
+        }
+        
+    }
+
+    function dataBinding2(args) {
+        var commType = $("#CommodityTypeSelector-2").val();
+        if ($("#chk-closedtoo-2").attr('checked') == 'checked') {
+            args.data = $.extend(args.data, { closedToo: true, CommodityType: commType });
+        }else {
+            args.data = $.extend(args.data, { closedToo: false, CommodityType: commType });
+        }
+        var gr = $('#ReceiveAllocationGrid' + 2).data('tGrid');
+        if (commType == 1 || commType == null) {
+            gr.hideColumn(5);
+            gr.showColumn(4);
+            gr.hideColumn(7);
+            gr.showColumn(6);
+            gr.hideColumn(9);
+            gr.showColumn(8);
+
+        } else {
+            gr.hideColumn(4);
+            gr.showColumn(5);
+            gr.hideColumn(6);
+            gr.showColumn(7);
+            gr.hideColumn(8);
+            gr.showColumn(9);
+        }
+    }
+
+    function dataBinding3(args) {
+        var commType = $("#CommodityTypeSelector-3").val();
+        if ($("#chk-closedtoo-3").attr('checked') == 'checked') {
+            args.data = $.extend(args.data, { closedToo: true, CommodityType: commType });
+        } else {
+            args.data = $.extend(args.data, { closedToo: false, CommodityType: commType });
+        }
+
+        var gr = $('#ReceiveAllocationGrid' + 3).data('tGrid');
+        if (commType == 1 || commType == null) {
+            gr.hideColumn(5);
+            gr.showColumn(4);
+            gr.hideColumn(7);
+            gr.showColumn(6);
+            gr.hideColumn(9);
+            gr.showColumn(8);
+
+        } else {
+            gr.hideColumn(4);
+            gr.showColumn(5);
+            gr.hideColumn(6);
+            gr.showColumn(7);
+            gr.hideColumn(8);
+            gr.showColumn(9);
+        }
+    }
+
+    function comTypeChange1(e) {
+        var Params = { CommodityType : e.value , closedToo : $("#chk-closedtoo-1").attr('checked') == 'checked' };
+        var gr = $('#ReceiveAllocationGrid' + 1).data('tGrid');
+        if (e.value == 1 || e.value == null) {
+            gr.hideColumn(5);
+            gr.showColumn(4);
+            gr.hideColumn(7);
+            gr.showColumn(6);
+            gr.hideColumn(9);
+            gr.showColumn(8);
+
+        } else {
+            gr.hideColumn(4);
+            gr.showColumn(5);
+            gr.hideColumn(6);
+            gr.showColumn(7);
+            gr.hideColumn(8);
+            gr.showColumn(9);
+        }
+
+        if (gr != null) {
+            gr.rebind(Params);
+        }
+    }
+    function comTypeChange2(e) {
+        var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-1").attr('checked') == 'checked' };
+        var gr = $('#ReceiveAllocationGrid' + 2).data('tGrid');
+        if (gr != null) {
+            gr.rebind(Params);
+        }
+    }
+    function comTypeChange3(e) {
+        var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-1").attr('checked') == 'checked' };
+        var gr = $('#ReceiveAllocationGrid' + 3).data('tGrid');
+        if (gr != null) {
+            gr.rebind(Params);
+        }
+    }
+
+    //    function allocation_onRowDataBound(e) {
+    //        var grid = $(this).data('tGrid');
+    //        expandFirstRow(grid, e.row);
+    //    }
+
+    function Receives_onRowDataBound(e) {
+        var receiveGrid = $(this).data('tGrid');
+        //        alert(receiveGrid);
+
+    }
+    function expandFirstRow(grid, row) {
+        if (grid.$rows().index(row) == 0) {
+            grid.expandRow(row);
+        }
+    }
+
+    function totalChanged(item) {
+        return false;
+    }
+</script>
+
+
+
+
+
+
+
+
+

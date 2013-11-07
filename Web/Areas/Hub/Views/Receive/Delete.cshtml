@@ -1,0 +1,126 @@
+﻿@model Cats.Models.Hubs.Receive
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Delete");
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("Receive")</legend>
+
+    <div class="display-label">
+        @Html.Translate("SINumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SINumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("GRN")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GRN)
+    </div>
+
+    <div class="display-label">@Html.Translate("Warehouse")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Warehouse.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Store")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Store.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("StackNumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StackNumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("CommodityTypeID")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommodityTypeID)
+    </div>
+
+    <div class="display-label">@Html.Translate("SourceDonorID")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SourceDonorID)
+    </div>
+
+    <div class="display-label">@Html.Translate("ResponsibleDonorID")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ResponsibleDonorID)
+    </div>
+
+    <div class="display-label">@Html.Translate("Program")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Program.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Transporter")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transporter.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("PlateNo_Prime")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PlateNo_Prime)
+    </div>
+
+    <div class="display-label">@Html.Translate("PlateNo_Trailer")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PlateNo_Trailer)
+    </div>
+
+    <div class="display-label">
+        @Html.Translate("DriverName")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DriverName)
+    </div>
+
+    <div class="display-label">@Html.Translate("WeightBeforeUnloading")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.WeightBeforeUnloading)
+    </div>
+
+    <div class="display-label">@Html.Translate("WeightAfterUnloading")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.WeightAfterUnloading)
+    </div>
+
+    <div class="display-label">@Html.Translate("ReceiptDate")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ReceiptDate)
+    </div>
+
+    <div class="display-label">@Html.Translate("UserProfile")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserProfile.UserName)
+    </div>
+
+    <div class="display-label">@Html.Translate("CreatedDate")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedDate)
+    </div>
+
+    <div class="display-label">@Html.Translate("WayBillNo")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.WayBillNo)
+    </div>
+
+    <div class="display-label">@Html.Translate("ProjectID")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProjectID)
+    </div>
+
+    <div class="display-label">@Html.Translate("CommoditySource")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommoditySource.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+    {
+    <p>
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index")
+    </p>
+}

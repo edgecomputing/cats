@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace Cats.Models.Hub.Mapping
+namespace Cats.Models.Hubs.Mapping
 {
     public class UserHubMap : EntityTypeConfiguration<UserHub>
     {

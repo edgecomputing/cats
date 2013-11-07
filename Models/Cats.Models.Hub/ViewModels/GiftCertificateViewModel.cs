@@ -5,9 +5,9 @@ using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     /// <summary>
     /// 

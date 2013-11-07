@@ -1,0 +1,9 @@
+﻿@using Cats.Web.Hub.Helpers
+@model DateTime?
+           
+@{
+    if(Model != null)
+    {
+        @Model.Value.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference);
+    }
+}

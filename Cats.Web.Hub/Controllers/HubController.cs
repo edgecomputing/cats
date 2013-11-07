@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Web.Hub;
 
@@ -49,7 +49,7 @@ namespace Cats.Web.Hub.Controllers
         // POST: /Warehouse/Create
 
         [HttpPost]
-        public virtual ActionResult Create(Cats.Models.Hub.Hub warehouse)
+        public virtual ActionResult Create(Cats.Models.Hubs.Hub warehouse)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace Cats.Web.Hub.Controllers
         // POST: /Warehouse/Edit/5
 
         [HttpPost]
-        public virtual ActionResult Edit(Cats.Models.Hub.Hub warehouse)
+        public virtual ActionResult Edit(Cats.Models.Hubs.Hub warehouse)
         {
             if (ModelState.IsValid)
             {

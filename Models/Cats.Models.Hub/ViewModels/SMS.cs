@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using Cats.Models.Hub.MetaModels;
+using Cats.Models.Hubs.MetaModels;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
    
     partial class SMS
@@ -20,7 +20,7 @@ namespace Cats.Models.Hub
   //          {
   ////              INSERT SMS (InOutInd, MobileNumber, Text, RequestDate, SendAfterDate, Status, StatusDate, Attempts, EventTag)
   ////VALUES ('O', @MobileNumber, @SMSMessage, @Today, @SendAfterDate, 'pending', @Today, 0, 'SEND_SMS')
-  //              SMS sms = new Cats.Models.Hub.SMS();
+  //              SMS sms = new Cats.Models.Hubs.SMS();
   //              sms.Attempts = 0;
   //              sms.EventTag = "SEND_SMS";
   //              sms.InOutInd = "O";

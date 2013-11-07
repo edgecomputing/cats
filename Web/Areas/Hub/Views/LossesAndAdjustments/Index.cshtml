@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Cats.Models.Hubs.ViewModels.LossAndAdjustmentLogViewModel>
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Loss or Adjustment");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("DisplayHub")
+
+<p>List of loss and adjustment in your current wearehouse, to add new loss or adjustment record click @Html.ActionLink("Record new Loss", "CreateLoss", "LossesAndAdjustments")  or  @Html.ActionLink("Record new Adjustment", "CreateAdjustment", "LossesAndAdjustments") respectively </p>
+
+@{Html.Telerik().Window()
+            .Name("lossAdjsutmenttWindow")
+            .Title("Loss or Adjsutment Detail")
+            .Draggable(true)
+            .Modal(true)
+            .Visible(false)
+            .Height(400)
+            .Width(600)
+            .Render();
+    
+}
+
+
+@(Html.Telerik().Grid(Model)
+            .Name("LossesAdjustmentsLogGrid")
+            .ToolBar(toolBar => toolBar.Template(
+                @<text>
+<label>Filter:</label>
+@(Html.Telerik().ComboBox()
+                                .Name("LossAdjustmentFilter")
+                                .DataBinding(binding => binding.Ajax().Select("GetFilters", "LossesAndAdjustments"))
+                                .HtmlAttributes(new { style = "width: 200px;" })
+                                .Placeholder("All")
+                                .ClientEvents(ev => ev.OnChange("onLossAdjustmentFilterChange"))
+                    )
+</text>
+                )
+             )
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.Date);
+                columns.Bound(o => o.Type);
+                columns.Bound(o => o.CommodityName);
+
+                columns.Bound(o => o.Store);
+                columns.Bound(o => o.StoreMan);
+                columns.Bound(o => o.Unit);
+                columns.Bound(o => o.QuantityInUnit).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                columns.Bound(o => o.QuantityInMt).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                columns.Bound(o => o.ApprovedBy);
+                columns.Template(@<text>
+<input type="button" value="Detail" onclick="onDetailClick('@item.TransactionId    ')" />
+</text>);
+            })
+            .ClientEvents(ev => ev.OnDataBinding("dataBinding"))
+            .DataBinding(dataBinding => dataBinding.Ajax().Select("FilteredGrid", "LossesAndAdjustments"))
+            .Sortable(sorting => sorting.Enabled(true))
+            .Pageable(paging => paging.Enabled(true))
+            .Footer(true)
+)
+
+
+<script type="text/javascript">
+    function onDetailClick(id) {
+        var window = $('#lossAdjsutmenttWindow').data('tWindow');
+        
+        var url = '@Url.Action("ViewDetial", "LossesAndAdjustments", new { TransactionId = "__id__" })';
+        window.ajaxRequest(url.replace('__id__', id));
+        window.center().open();
+    }
+
+    function onLossAdjustmentFilterChange() {
+        $("#LossesAdjustmentsLogGrid").data("tGrid").rebind();
+    }
+    function dataBinding(args) {
+        if ($("#LossAdjustmentFilter").data("tComboBox") != null) {
+            var filterId = $("#LossAdjustmentFilter").data("tComboBox").value();
+            args.data = $.extend(args.data, { filterId: filterId });
+        }
+    }
+   
+</script>

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cats.Models.Hub.Repository;
-using Cats.Models.Hub.ViewModels.Common;
+using Cats.Models.Hubs.Repository;
+using Cats.Models.Hubs.ViewModels.Common;
 
-namespace Cats.Models.Hub.ViewModels.Report
+namespace Cats.Models.Hubs.ViewModels.Report
 {
     /// <summary>
     /// view model for Receipts view and Wrapping  filtering criteria objects

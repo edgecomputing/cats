@@ -9,8 +9,8 @@ using Cats.Services.Hub;
 using Cats.Services.Security;
 using Cats.Web.Hub.Helpers;
 using Cats.Web.Hub.Infrastructure;
-using Cats.Models.Hub;
-using Cats.Models.Hub.ViewModels;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
 using Cats.Web.Hub;
 
 using IForgetPasswordRequestService = Cats.Services.Hub.IForgetPasswordRequestService;

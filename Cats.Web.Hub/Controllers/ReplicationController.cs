@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Hub;
 using Telerik.Web.Mvc;
-using Cats.Models.Hub.ViewModels;
-using Cats.Models.Hub;
+using Cats.Models.Hubs.ViewModels;
+using Cats.Models.Hubs;
 
 namespace Cats.Web.Hub.Controllers
 {

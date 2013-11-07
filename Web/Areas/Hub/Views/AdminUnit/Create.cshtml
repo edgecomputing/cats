@@ -1,0 +1,99 @@
+﻿@model Cats.Models.Hubs.AdminUnitModel
+@using Cats.Web.Hub.Infrastructure
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Create"); 
+}
+
+<h2>@Html.Translate("Create")</h2>
+
+<script src="@Url.Content("~/Scripts/Cascade.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>@Html.Translate("AdminUnitModel")</legend>
+
+        
+<div id="AdminUnitType">
+<div class="editor-label">
+@Html.Translate("Unit Type")
+</div>
+@Html.DropDownListFor(m => m.SelectedAdminUnitTypeId, new SelectList(Model.AdminUnitTypes, "AdminUnitTypeID", "Name"))
+</div>
+<div id="Region">
+<div class="editor-label">
+@Html.Translate("Region")
+</div>
+@Html.DropDownListFor(m=>m.SelectedRegionId, Enumerable.Empty<SelectListItem>())
+</div>
+
+<div id="Zone">
+<div class="editor-label">
+@Html.Translate("Zone")
+</div>
+@Html.DropDownListFor(m=>m.SelectedZoneId, Enumerable.Empty<SelectListItem>())
+</div>
+        <div id="UnitName">
+            <div class="editor-label">
+                @Html.Translate("Name")
+            </div>
+            @Html.EditorFor(m=>m.UnitName)
+        </div>
+        <div id="UnitNameAM">
+            <div class="editor-label">
+                @Html.Translate("Name (Amharic)")
+            </div>
+            @Html.EditorFor(m=>m.UnitNameAM)
+        </div>
+        <p>
+            <input type="submit" value="@Html.Translate("Create")"/>
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</div>
+<script type="text/javascript">
+    $(function () {
+        var regionTypeId = '@Configuration.RegionTypeId';
+        var zoneTypeId = '@Configuration.ZoneTypeId';
+        var woredaTypeId = '@Configuration.WoredaTypeId';
+        $('#SelectedAdminUnitTypeId').change();
+        $('#Zone').hide();
+        $('#Region').hide();
+        
+        $('#SelectedAdminUnitTypeId').cascade({
+            url: '@Url.Action("GetRegions", "AdminUnit")',
+            childSelect: $('#SelectedRegionId'),
+            ignoreValue: regionTypeId,
+            loaded: function () {
+                var selectedValue = $('#SelectedAdminUnitTypeId').val();
+                if (selectedValue == regionTypeId) {
+                    $('#Zone').hide();
+                    $('#Region').hide();
+                } else if (selectedValue == zoneTypeId) {
+                    $('#Region').show();
+                    $('#Zone').hide();
+                }
+                else if (selectedValue == woredaTypeId) {
+                    $('#Region').show();
+                    $('#Zone').show();
+                    $('#SelectedZoneId').change();
+                }
+            }
+        });
+
+        $('#SelectedRegionId').cascade({
+            url: '@Url.Action("GetChildren", "AdminUnit")',
+            paramName: 'unitId',
+            childSelect: $('#SelectedZoneId')
+        });
+
+        $('#SelectedZoneId').cascade({
+            url: '@Url.Action("GetChildren", "AdminUnit")',
+            paramName: 'unitId',
+            childSelect: $('#SelectedWoredaId')
+        });
+    });
+</script>
