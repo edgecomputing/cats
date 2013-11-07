@@ -53,10 +53,8 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-
       <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
-
     </Reference>
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1638,6 +1636,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
