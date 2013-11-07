@@ -53,5 +53,12 @@ namespace Cats.Services.Logistics
             return _unitOfWork.PromisedContributionRepository.Delete(promisedContribution);
         }
         #endregion
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+
+        }
+
     }
 }
