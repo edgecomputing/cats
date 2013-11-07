@@ -20,9 +20,9 @@
      </style>
       @{
         var UserProfile = Html.GetCurrentUser();
-        var theme = "vista";
-        if (Request.IsAuthenticated && UserProfile != null)
-        {theme = UserProfile.DefaultTheme;}
+        var theme = "default";
+        //if (Request.IsAuthenticated && UserProfile != null)
+        //{theme = UserProfile.DefaultTheme;}
     }
     
         @(Html.Telerik().StyleSheetRegistrar()
