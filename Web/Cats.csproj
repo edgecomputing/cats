@@ -44,9 +44,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocX">
-      <HintPath>..\lib\DocX.dll</HintPath>
-    </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -156,6 +153,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Web.Mvc">
+      <HintPath>..\packages\TelerikMvcExtensions.2013.1.219\lib\net40\Telerik.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
@@ -166,6 +166,191 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\EditorLocalization.bg-BG.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.bg-BG.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.da-DK.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.da-DK.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.de-DE.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.de-DE.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.fr-FR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.nl-NL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.nl-NL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.pl-PL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.pl-PL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.pt-BR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.pt-PT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.pt-PT.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.zh-CN.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.zh-CN.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.bg-BG.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.bg-BG.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.da-DK.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.da-DK.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.de-DE.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.de-DE.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.es-ES.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.fr-FR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.nl-NL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.nl-NL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.pl-PL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.pl-PL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.pt-BR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.pt-PT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.pt-PT.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.zh-CN.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.zh-CN.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.bg-BG.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.bg-BG.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.da-DK.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.da-DK.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.fr-FR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.nl-NL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.nl-NL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.pl-PL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.pl-PL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.pt-BR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.pt-PT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.pt-PT.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.zh-CN.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.zh-CN.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -211,6 +396,58 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Hub\Controllers\AboutController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommodityGradeController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommoditySourceController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommodityTypeController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ContactController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CurrentHubController.cs" />
+    <Compile Include="Areas\Hub\Controllers\DispatchController.cs" />
+    <Compile Include="Areas\Hub\Controllers\DonorController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ErrorController.cs" />
+    <Compile Include="Areas\Hub\Controllers\FDPController.cs" />
+    <Compile Include="Areas\Hub\Controllers\GiftCertificates\GiftCertificateController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HelpController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubOwnerController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubSettingController.cs" />
+    <Compile Include="Areas\Hub\Controllers\InternalMovementController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LedgerController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LetterTemplateController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LossesAndAdjustmentsController.cs" />
+    <Compile Include="Areas\Hub\Controllers\PlannerController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ProgramController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReceiveCommodityController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReceiveController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReleaseNotesController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReplicationController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\BinCardController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\StackCardController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\StockManagementController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\StockStatusController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\TransportationReportController.cs" />
+    <Compile Include="Areas\Hub\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Hub\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Hub\Controllers\StackEventController.cs" />
+    <Compile Include="Areas\Hub\Controllers\StartingBalanceController.cs" />
+    <Compile Include="Areas\Hub\Controllers\StoreController.cs" />
+    <Compile Include="Areas\Hub\Controllers\TransactionController.cs" />
+    <Compile Include="Areas\Hub\Controllers\TransporterController.cs" />
+    <Compile Include="Areas\Hub\Controllers\UnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\UserAccountHelper.cs" />
+    <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Utilities\TranslationController.cs" />
+    <Compile Include="Areas\Hub\HubAreaRegistration.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
@@ -303,6 +540,25 @@
     <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
+    <Compile Include="Helpers\Hub\AmharicEditorHelper.cs" />
+    <Compile Include="Helpers\Hub\CascadeDropDownHelper.cs" />
+    <Compile Include="Helpers\Hub\CatsAuthorize.cs" />
+    <Compile Include="Helpers\Hub\ControllerContextExtensions.cs" />
+    <Compile Include="Helpers\Hub\CultureHelper.cs" />
+    <Compile Include="Helpers\Hub\CurrentUserHelper.cs" />
+    <Compile Include="Helpers\Hub\DateHelpers.cs" />
+    <Compile Include="Helpers\Hub\DictionaryExtensions.cs" />
+    <Compile Include="Helpers\Hub\HandledErrorLoggerFilter.cs" />
+    <Compile Include="Helpers\Hub\HtmlHelpers.cs" />
+    <Compile Include="Helpers\Hub\HtmlHelpersExtensions.cs" />
+    <Compile Include="Helpers\Hub\LanguageHelper.cs" />
+    <Compile Include="Helpers\Hub\LetterTemplateHelper.cs" />
+    <Compile Include="Helpers\Hub\Log.cs" />
+    <Compile Include="Helpers\Hub\MembershipProvider.cs" />
+    <Compile Include="Helpers\Hub\MonthHelper.cs" />
+    <Compile Include="Helpers\Hub\StringExtensions.cs" />
+    <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
+    <Compile Include="Helpers\Hub\VersionHelper.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
@@ -336,7 +592,18 @@
     <Compile Include="Helpers\UserRoleHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\Infrastructure\Configuration.cs" />
+    <Compile Include="Infrastructure\Infrastructure\CryptoGen.cs" />
+    <Compile Include="Infrastructure\Infrastructure\EthiopianDate.cs" />
+    <Compile Include="Infrastructure\Infrastructure\MD5Hash.cs" />
+    <Compile Include="Infrastructure\Infrastructure\SendMail.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
+    <Compile Include="Library\Controllers\BaseController.cs" />
+    <Compile Include="Library\ErrorHandler.cs" />
+    <Compile Include="Library\FormsAuthenticationWrapper.cs" />
+    <Compile Include="Library\MembershipWrapper.cs" />
+    <Compile Include="Library\RoleProvider.cs" />
+    <Compile Include="Library\UrlHelperWrapper.cs" />
     <Compile Include="Models\Month.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -358,6 +625,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
@@ -368,7 +636,217 @@
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Hub\Views\Dispatch\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\Receive\EditorTemplates\ComboBox.ascx" />
+    <Content Include="Areas\Hub\Views\Receive\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Currency.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Date.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Integer.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
     <Content Include="ClientBin\EWdispatchAllocationList.xap" />
+    <Content Include="Content\2013.1.219\Black\editor.png" />
+    <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Black\loading.gif" />
+    <Content Include="Content\2013.1.219\Black\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Black\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Black\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Black\sprite.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Default\editor.png" />
+    <Content Include="Content\2013.1.219\Default\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Default\loading.gif" />
+    <Content Include="Content\2013.1.219\Default\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Default\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Default\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Default\sprite.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Forest\editor.png" />
+    <Content Include="Content\2013.1.219\Forest\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Forest\loading.gif" />
+    <Content Include="Content\2013.1.219\Forest\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Forest\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Forest\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Forest\sprite.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Hay\editor.png" />
+    <Content Include="Content\2013.1.219\Hay\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Hay\loading.gif" />
+    <Content Include="Content\2013.1.219\Hay\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Hay\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Hay\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Hay\sprite.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Metro\editor.png" />
+    <Content Include="Content\2013.1.219\Metro\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Metro\loading.gif" />
+    <Content Include="Content\2013.1.219\Metro\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Metro\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Metro\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2007\editor.png" />
+    <Content Include="Content\2013.1.219\Office2007\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2007\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2007\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2007\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2007\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2007\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\gradient.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\gradient.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\sprite.png" />
+    <Content Include="Content\2013.1.219\Outlook\editor.png" />
+    <Content Include="Content\2013.1.219\Outlook\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Outlook\loading.gif" />
+    <Content Include="Content\2013.1.219\Outlook\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Outlook\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Outlook\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Outlook\sprite.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Simple\editor.png" />
+    <Content Include="Content\2013.1.219\Simple\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Simple\loading.gif" />
+    <Content Include="Content\2013.1.219\Simple\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Simple\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Simple\sprite.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\editor.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\loading.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\sprite.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Sunset\editor.png" />
+    <Content Include="Content\2013.1.219\Sunset\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Sunset\loading.gif" />
+    <Content Include="Content\2013.1.219\Sunset\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Sunset\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Sunset\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Sunset\sprite.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\telerik.black.min.css" />
+    <Content Include="Content\2013.1.219\telerik.common.min.css" />
+    <Content Include="Content\2013.1.219\telerik.default.min.css" />
+    <Content Include="Content\2013.1.219\telerik.forest.min.css" />
+    <Content Include="Content\2013.1.219\telerik.hay.min.css" />
+    <Content Include="Content\2013.1.219\telerik.metro.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2007.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010black.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010blue.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010silver.min.css" />
+    <Content Include="Content\2013.1.219\telerik.outlook.min.css" />
+    <Content Include="Content\2013.1.219\telerik.rtl.min.css" />
+    <Content Include="Content\2013.1.219\telerik.simple.min.css" />
+    <Content Include="Content\2013.1.219\telerik.sitefinity.min.css" />
+    <Content Include="Content\2013.1.219\telerik.sunset.min.css" />
+    <Content Include="Content\2013.1.219\telerik.telerik.min.css" />
+    <Content Include="Content\2013.1.219\telerik.transparent.min.css" />
+    <Content Include="Content\2013.1.219\telerik.vista.min.css" />
+    <Content Include="Content\2013.1.219\telerik.web20.min.css" />
+    <Content Include="Content\2013.1.219\telerik.webblue.min.css" />
+    <Content Include="Content\2013.1.219\telerik.windows7.min.css" />
+    <Content Include="Content\2013.1.219\Telerik\editor.png" />
+    <Content Include="Content\2013.1.219\Telerik\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Telerik\loading.gif" />
+    <Content Include="Content\2013.1.219\Telerik\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Telerik\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Telerik\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Telerik\sprite.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Transparent\active.png" />
+    <Content Include="Content\2013.1.219\Transparent\editor.png" />
+    <Content Include="Content\2013.1.219\Transparent\gradient.png" />
+    <Content Include="Content\2013.1.219\Transparent\group.png" />
+    <Content Include="Content\2013.1.219\Transparent\hover.png" />
+    <Content Include="Content\2013.1.219\Transparent\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Transparent\loading.gif" />
+    <Content Include="Content\2013.1.219\Transparent\selected.png" />
+    <Content Include="Content\2013.1.219\Transparent\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Transparent\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Transparent\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Transparent\sprite.png" />
+    <Content Include="Content\2013.1.219\Transparent\toolbar.png" />
+    <Content Include="Content\2013.1.219\Transparent\widget.png" />
+    <Content Include="Content\2013.1.219\Vista\editor.png" />
+    <Content Include="Content\2013.1.219\Vista\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Vista\loading.gif" />
+    <Content Include="Content\2013.1.219\Vista\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Vista\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Vista\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Vista\sprite.png" />
+    <Content Include="Content\2013.1.219\Web20\editor.png" />
+    <Content Include="Content\2013.1.219\Web20\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Web20\loading.gif" />
+    <Content Include="Content\2013.1.219\Web20\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Web20\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Web20\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Web20\sprite.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\WebBlue\editor.png" />
+    <Content Include="Content\2013.1.219\WebBlue\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\WebBlue\loading.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\slider-h.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\slider-v.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\WebBlue\sprite.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-line.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Windows7\editor.png" />
+    <Content Include="Content\2013.1.219\Windows7\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Windows7\loading.gif" />
+    <Content Include="Content\2013.1.219\Windows7\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Windows7\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Windows7\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Windows7\sprite.png" />
     <Content Include="Content\assets\css\bootstrap-responsive.css" />
     <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
     <Content Include="Content\assets\css\bootstrap.css" />
@@ -446,6 +924,52 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_flat_10_aaaaaa_40x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_glass_55_fcf0ba_1x400.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_gloss-wave_100_ece8da_500x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_100_f5f3e5_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_100_fafaf4_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_15_496e79_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_95_cccccc_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-soft_25_218eb0_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-soft_75_99c0eb_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-soft_95_ffedad_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-hard_75_91bcf7_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-soft_15_2b2922_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-soft_75_91bcf7_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-soft_95_fef1ec_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_808080_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_847e71_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_8dc262_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_eeeeee_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\css\custom-theme\jquery-ui-1.7.3.custom.css" />
+    <Content Include="Content\css\custom-theme\jquery-ui-1.8.18.custom.css" />
+    <Content Include="Content\css\south-street\images\ui-bg_glass_55_fcf0ba_1x400.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_gloss-wave_100_ece8da_500x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_100_f5f3e5_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_100_fafaf4_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_15_459e00_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_95_cccccc_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-soft_25_67b021_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-soft_95_ffedad_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_inset-soft_15_2b2922_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_808080_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_847e71_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_8dc262_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_eeeeee_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\css\south-street\jquery-ui-1.8.18.custom.css" />
     <Content Include="Content\DashboardWidget.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
@@ -668,8 +1192,51 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\ajax-loaderbig.gif" />
+    <Content Include="Images\audit.png" />
+    <Content Include="Images\change.png" />
+    <Content Include="Images\dialog-warning.png" />
+    <Content Include="Images\english.png" />
+    <Content Include="Images\ethiopian.png" />
+    <Content Include="Images\messagebox_warning.png" />
+    <Content Include="Images\tick.png" />
+    <Content Include="Images\top-bg.gif" />
+    <Content Include="Images\Warning.png" />
+    <Content Include="Images\watermark.png" />
+    <Content Include="Images\x.png" />
     <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\2013.1.219\jquery.validate.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.all.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.autocomplete.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.calendar.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.chart.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.combobox.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.common.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.datepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.datetimepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.draganddrop.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.editor.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.editing.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.filtering.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.grouping.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.reordering.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.resizing.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.imagebrowser.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.list.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.menu.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.panelbar.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.slider.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.splitter.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.tabstrip.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.textbox.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.timepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.treeview.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.upload.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.window.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
@@ -882,13 +1449,44 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Scripts\HubScripts\Cascade.js" />
+    <Content Include="Scripts\HubScripts\DialogForm.js" />
+    <Content Include="Scripts\HubScripts\dispatch.js" />
+    <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
+    <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\HubScripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\HubScripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.jCombo.js" />
+    <Content Include="Scripts\HubScripts\jquery.jgeez.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.printElement.js" />
+    <Content Include="Scripts\HubScripts\jquery.printElement.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\HubScripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\HubScripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.unobtrusive.bQuery.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\HubScripts\jq_dialogs.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\HubScripts\modernizr-1.7.js" />
+    <Content Include="Scripts\HubScripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\HubScripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\HubScripts\receive.js" />
+    <Content Include="Scripts\HubScripts\ReportFileter.js" />
+    <Content Include="Scripts\HubScripts\ReportingDateFilters.js" />
+    <Content Include="Scripts\HubScripts\utility.js" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
-    <Content Include="Cats.csproj.orig">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
@@ -900,6 +1498,325 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\Hub\Views\Web.config" />
+    <Content Include="Areas\Hub\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Hub\Views\About\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\_Standalone.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ChangePassword.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ConfirmPasswordChange.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ForgetPassword.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ForgetPasswordRequest.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\LogOn.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\Register.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Home.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Preferences.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\UserHubs.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\UserRoles.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\AdminUnits.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\CreateRegion.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\CreateWoreda.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\CreateZone.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.1.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.2.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.3.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.4.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\UnitTypes.cshtml" />
+    <Content Include="Areas\Hub\Views\BinCard\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\_CommodityPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\DispatchPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Log.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\AllocationList.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Close.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\CloseOther.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditTransfer.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Partials\EditLoans.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Partials\EditTransfer.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\SelectionHeader.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\SIBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\ToHubs.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\ToOtherOwners.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchPlan\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchPlan\ListRequisitions.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchPlan\RequistionDetails.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\Error.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\General.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\NotFound.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\ViewErrors.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\IndexPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\ChartView.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\EditorTemplates\WayBillWarning.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\MonthlySummary.cshtml" />
+    <Content Include="Areas\Hub\Views\Help\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\About.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\ConfigSMTP.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\EditConfigSMTP.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\SINumberBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\ViewDetial.cshtml" />
+    <Content Include="Areas\Hub\Views\Ledger\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\LetterBodyPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\LetterPreview.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\SelectTemplatePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\AdjustmentEditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\CreateAdjustment.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\CreateLoss.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\Log.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\LossEditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\ViewDetial.cshtml" />
+    <Content Include="Areas\Hub\Views\Planner\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\AllocationList.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Close.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\FromHubs.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Loans.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\LocalPurchase.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\SIBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\_ReceivePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Allocations.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Log.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\PublicatonOne.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\AreaPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\DistributionReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\DistributionReportFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\DistributionReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\FreeStock.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\FreeStockFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\FreeStockPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\OffloadingFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\OffloadingReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\OffloadingReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\Receive.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\ReceiveFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\ReceivePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\SIReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Setting\EditConfigSMTP.cshtml" />
+    <Content Include="Areas\Hub\Views\Setting\SysSettings.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\_Language.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\AdminUnit.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayHub.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayTemplates\CommodityId.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayTemplates\PreferedWeightMeasurment.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Color.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\CommodityId.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\DateTime-Local.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\EmailAddress.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Integer.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Month.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\PhoneNumber.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\PreferedWeightMeasurment.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\PreferedWeightMeasurmentQi.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Search.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Unit.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Url.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\UserRoleModel.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Week.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\FieldAudits.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\NotFound.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\SelectHub.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\SIBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\StackCard\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StackEvent\EditStackEvent.cshtml" />
+    <Content Include="Areas\Hub\Views\StackEvent\EventLog.cshtml" />
+    <Content Include="Areas\Hub\Views\StackEvent\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\StartingBalancePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\AreaPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ArrivalsVsReceipts.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ArrivalsVsReceiptsReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\CommittedVsDispatched.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\CommittedVsDispatchedReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\CustomeDate.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DeliveryAgainstDispatch.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DeliveryAgainstDispatchReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\Dispatches.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DispatchesReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionByOwner.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionByOwnerReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionDeliveryDispatch.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionDeliveryDispatchReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\InTransit.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\InTransitReprot.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\MonthToDate.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ProjectCode.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\Receipts.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ReceiptsReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ShippingInstruction.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\StockBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\StockBalanceReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\Dispatch.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\DispatchPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\FreeStock.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\Receipts.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\Journal.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\Ledger.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\LedgerPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Transactions\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Translation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\DateRangeErrorPage.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\EmptyPage.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\PartialGrid.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Update.cshtml" />
     <None Include="CatsMasterDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CatsMasterDataSet.Designer.cs</LastGenOutput>
@@ -1194,9 +2111,12 @@
     <Content Include="Views\UserPreference\Edit.cshtml" />
     <Content Include="Views\Shared\Edit.cshtml" />
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Hub\Models\generated\" />
+    <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
@@ -1213,6 +2133,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
+      <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
+      <Name>Cats.Data.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
@@ -1237,6 +2161,10 @@
       <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
       <Name>Cats.Exceptions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
+      <Name>Cats.Models.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
       <Name>Cats.Models.Security</Name>
@@ -1256,6 +2184,10 @@
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
       <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
@@ -1279,6 +2211,154 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.da-DK.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.es-ES.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.es-ES.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.de-DE.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.da-DK.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.de-DE.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.de-DE.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.da-DK.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
@@ -1316,9 +2396,9 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>39715</DevelopmentServerPort>
+          <DevelopmentServerPort>3325</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:1786/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
@@ -1332,6 +2412,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

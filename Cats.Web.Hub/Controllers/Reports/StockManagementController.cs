@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Services.Hub;
-using Cats.Models.Hub.ViewModels.Common;
-using Cats.Models.Hub.ViewModels.Report;
+using Cats.Models.Hubs.ViewModels.Common;
+using Cats.Models.Hubs.ViewModels.Report;
 //using DevExpress.XtraRichEdit.Utils;
 
 namespace Cats.Web.Hub.Controllers.Reports

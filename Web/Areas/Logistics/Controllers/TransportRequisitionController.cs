@@ -302,20 +302,22 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Details(int id)
         {
+            ViewBag.RequisistionId = id;
+
             var transportRequisitonViewModel = new TransportRequisitionViewModel();
             try
             {
-                var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
 
             var transportRequisition = _transportRequisitionService.FindById(id);
-             transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
-             transportRequisitonViewModel.TransportRequisitionDetailViewModels =
-                GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
-
-           
+            transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
+            transportRequisitonViewModel.TransportRequisitionDetailViewModels =
+            GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
             }
+
             catch(Exception ex)
             {
                 var log = new Logger();
@@ -342,19 +344,45 @@ namespace Cats.Areas.Logistics.Controllers
         {
             var reportPath = Server.MapPath("~/Report/Logisitcs/TransportRequisitionSummary.rdlc");
             var transportR = _transportRequisitionService.FindBy(t=>t.TransportRequisitionID==id);
-            var transportRequisition = _transportRequisitionService.FindById(id);
-            var details = GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
 
-            var header = (from requisition in transportR
+            var transportRequisitonViewModel = new TransportRequisitionViewModel();
+            var headerInfo = new List<TransportRequisitionViewModel>();
+            headerInfo.Add(transportRequisitonViewModel);
+
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
+            var users = _userAccountService.GetUsers();
+            var transportRequisition = _transportRequisitionService.FindById(id);
+            
+            transportRequisitonViewModel = TransportRequisitionViewModelBinder.
+                                            BindTransportRequisitionViewModel(
+                                            transportRequisition,
+                                            statuses,
+                                            datePref,
+                                            users
+                                            );
+            
+            //transportRequisitonViewModel.TransportRequisitionDetailViewModels = GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+            //var transportRequisition = _transportRequisitionService.FindById(id);
+            
+            var details = GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+            var header = (from requisition in headerInfo
                          select new
                             {
-                                TransportRequisitionID=requisition.TransportRequisitionNo,
+                                //TransportRequisitionID=requisition.TransportRequisitionNo,
+                                //requisition.Remark,
+                                //DateRequested=requisition.RequestedDate,
+                                //DateRecieved = requisition.CertifiedDate,
+                                //requisition.RequestedBy,
+                                //requisition.CertifiedBy
+                                requisition.TransportRequisitionNo,
                                 requisition.Remark,
                                 DateRequested=requisition.RequestedDate,
                                 DateRecieved = requisition.CertifiedDate,
-                                requisition.RequestedBy,
-                                requisition.CertifiedBy
+                                RequestedBy = requisition.RequestedBy,
+                                CertifiedBy = requisition.CertifiedBy
                             });
+
 
             var requisitionsSummary =
                 (from transportRequisitionDetail in details

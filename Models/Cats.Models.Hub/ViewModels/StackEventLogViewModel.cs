@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cats.Models.Hub.ViewModels
+namespace Cats.Models.Hubs.ViewModels
 {
     public class StackEventLogViewModel
     {

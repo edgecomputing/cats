@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cats.Models.Hub.ViewModels.Common
+namespace Cats.Models.Hubs.ViewModels.Common
 {
     public class StoreBalanceViewModel
     {

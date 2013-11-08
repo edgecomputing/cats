@@ -4,9 +4,9 @@ using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     /// <summary>
     /// 

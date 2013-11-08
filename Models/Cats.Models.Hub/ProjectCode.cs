@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     public partial class ProjectCode
     {

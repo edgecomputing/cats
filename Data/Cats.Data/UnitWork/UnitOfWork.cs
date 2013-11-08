@@ -40,11 +40,7 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<HubOwner> _HubOwnerRepository = null;
         public IGenericRepository<HubOwner> HubOwnerRepository
         {
-
-
             get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
-
-
         }
 
         private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
@@ -720,10 +716,18 @@ namespace Cats.Data.UnitWork
             get { return this.allocationByRegionRepository ?? (this.allocationByRegionRepository = new GenericRepository<AllocationByRegion>(_context)); }
         }
 
-        private IGenericRepository<Plan>planRepository; 
+        private IGenericRepository<Plan>planRepository;
         public IGenericRepository<Plan> PlanRepository
+         {
+           get { return this.planRepository ?? (this.planRepository = new GenericRepository<Plan>(_context)); }
+         }
+       
+        private IGenericRepository<PromisedContribution> _PromisedContributionRepository = null;
+        public IGenericRepository<PromisedContribution> PromisedContributionRepository
         {
-            get { return this.planRepository ?? (this.planRepository = new GenericRepository<Plan>(_context)); }
+            get { return this._PromisedContributionRepository ?? (this._PromisedContributionRepository = new GenericRepository<PromisedContribution>(_context)); }
         }
+
+        
     }
 }

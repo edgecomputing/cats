@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
-using Cats.Models.Hub.ViewModels.Report.Data;
+using Cats.Models.Hubs.ViewModels.Report.Data;
 
 namespace Cats.Services.Hub
 {
@@ -25,7 +25,7 @@ namespace Cats.Services.Hub
        List<Store> GetStoresWithBalanceOfCommodity(int parentCommodityId, int hubId);
        List<int> GetStacksWithSIBalance(int storeId, int siNumber);
        List<int> GetStacksByToStoreIdFromStoreIdFromStack(int ToStoreId, int FromStoreId, int FromStackId);
-       List<Store> GetAllByHUbs(List<Models.Hub.Hub> HubIds);
+       List<Store> GetAllByHUbs(List<Models.Hubs.Hub> HubIds);
        IEnumerable<BinCardViewModel> GetBinCard(int hubID, int? StoreID, int? CommodityID, string ProjectID);
        List<Store> GetStoreByHub(int hubId);
     }

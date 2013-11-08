@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.Hub.Receive>
+﻿@model IEnumerable<Cats.Models.Hubs.Receive>
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.Examples
 @{
@@ -35,46 +35,46 @@
         <div class="field-set-title">
             <h2>
                 From Donation</h2>
-                 <a href="#" onclick="CreateNewPlan(@Cats.Models.Hub.CommoditySource.Constants.DONATION)">@Html.Translate("Make a new Plan")</a> 
+                 <a href="#" onclick="CreateNewPlan(@Cats.Models.Hubs.CommoditySource.Constants.DONATION)">@Html.Translate("Make a new Plan")</a> 
             <span style="float: right">
-                @Html.ActionLink(Html.Translate("Record a new receipt"), "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.DONATION },null)    
+                @Html.ActionLink(Html.Translate("Record a new receipt"), "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.DONATION },null)    
             </span>
         </div>
 
     
         <div class="field-set">
-            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.DONATION })
+            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.DONATION })
         </div>
 <br />
  
         <div class="field-set-title">
             <h2>
                 @Html.Translate("From Loan, Swap,  Repayment Or Transfer")</h2>
-                <a href="#" onclick="CreateNewPlan(@Cats.Models.Hub.CommoditySource.Constants.LOAN )">@Html.Translate("Make a new Plan")</a> 
+                <a href="#" onclick="CreateNewPlan(@Cats.Models.Hubs.CommoditySource.Constants.LOAN )">@Html.Translate("Make a new Plan")</a> 
             <span style="float:right">
                 Record a new receipt 
-                @Html.ActionLink("From Loan", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOAN }, null)<span>  </span>
-                @Html.ActionLink("From Repayment", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.REPAYMENT }, null)<span>  </span>
-                @Html.ActionLink("From Swap", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.SWAP }, null)<span>  </span>
-                @Html.ActionLink("From Transfer", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.TRANSFER }, null)<span>  </span>
+                @Html.ActionLink("From Loan", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.LOAN }, null)<span>  </span>
+                @Html.ActionLink("From Repayment", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.REPAYMENT }, null)<span>  </span>
+                @Html.ActionLink("From Swap", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.SWAP }, null)<span>  </span>
+                @Html.ActionLink("From Transfer", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.TRANSFER }, null)<span>  </span>
             </span>
         </div>
 
 
         <div class="field-set" style="vertical-align: top">
-            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOAN })
+            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.LOAN })
          </div>
 <br />
         <div class="field-set-title">
             <h2>
                 @Html.Translate("Local purchase")</h2> 
-                <a href="#" onclick="CreateNewPlan('@Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE')">Make a new Plan</a> 
+                <a href="#" onclick="CreateNewPlan('@Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE')">Make a new Plan</a> 
                 <span style="float: right">
-                    @Html.ActionLink("Record a new receipt", "Create", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE },null)
+                    @Html.ActionLink("Record a new receipt", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE },null)
                 </span>
         </div>
         <div class="field-set">
-            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE })
+            @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE })
         </div>
  <p>
    @Html.Translate("Please click ") @Html.ActionLink(@Html.Translate("New Recipt"), "Create") @Html.Translate("here if you would like to record a receipt that is not listed in the plans above")

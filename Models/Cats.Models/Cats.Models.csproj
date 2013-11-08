@@ -156,6 +156,7 @@
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
     <Compile Include="Mapping\ProjectCodeMap.cs" />
+    <Compile Include="Mapping\PromisedContributionMap.cs" />
     <Compile Include="Mapping\RationDetailMap.cs" />
     <Compile Include="Mapping\RationMap.cs" />
     <Compile Include="Mapping\ReceiptAllocationMap.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectCode.cs" />
     <Compile Include="ProjectCodeAllocation.cs" />
+    <Compile Include="PromisedContribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ration.cs" />
     <Compile Include="RationDetail.cs" />

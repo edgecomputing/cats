@@ -16,13 +16,13 @@ namespace Cats.Models
             //this.ReceiptAllocations1 = new List<ReceiptAllocation>();
             //this.Transactions = new List<Transaction>();
             //this.TransportOrderDetails = new List<TransportOrderDetail>();
-            //this.HubOwner = new HubOwner();
+           // this.HubOwner = new HubOwner();
         }
 
         public int HubID { get; set; }
         public string Name { get; set; }
         public int HubOwnerID { get; set; }
-        public HubOwner HubOwner { get; set; }
+        public virtual HubOwner HubOwner { get; set; }
         public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         public virtual ICollection<HubAllocation> HubAllocations { get; set; }
         public virtual ICollection<ReceiptAllocation> ReceiptAllocations { get; set; }
@@ -34,5 +34,7 @@ namespace Cats.Models
         public virtual ICollection<TransportBidPlanDetail> TransportBidPlanSources { get; set; }
 
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
+
+        public virtual ICollection<PromisedContribution> PromisedContributions { get; set; } 
     }
 }

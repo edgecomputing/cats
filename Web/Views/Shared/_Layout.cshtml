@@ -1,27 +1,116 @@
-﻿<!DOCTYPE html>
+@using Cats.Models.Hubs.ViewModels
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+
+<!DOCTYPE HTML>
 <html>
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-	<!--This bundle was moved by the Kendo UI VS Extensions for compatibility reasons-->
-	@Scripts.Render("~/bundles/jquery")
-	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.common.min.css")" rel="stylesheet" type="text/css" />
-	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
-	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.silver.min.css")" rel="stylesheet" type="text/css" />
-	<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />
-	<script src="@Url.Content("~/Scripts/kendo/2013.1.319/jquery.min.js")"></script>
-	<script src="@Url.Content("~/Scripts/kendo/2013.1.319/kendo.all.min.js")"></script>
-	<script src="@Url.Content("~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js")"></script>
-	<script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
-</head>
-<body>
-    @RenderBody()
-
+    <title>@Html.Translate("Commodity Tracking System : ")@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/css/south-street/jquery-ui-1.8.18.custom.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+   <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
+     <style type="text/css">
+         body {
+             padding-top: 60px;
+             padding-bottom: 40px;
+         }
+     </style>
+      @{
+        var UserProfile = Html.GetCurrentUser();
+        var theme = "default";
+        //if (Request.IsAuthenticated && UserProfile != null)
+        //{theme = UserProfile.DefaultTheme;}
+    }
     
-    @RenderSection("scripts", required: false)
-</body>
-</html>
+        @(Html.Telerik().StyleSheetRegistrar()
+            .DefaultGroup(group => group
+                .Add("telerik.common.css")
+                .Add("telerik." + @theme + ".css")
+                .Combined(true))
+              )
 
+
+</head>
+    <body>
+        @Html.Partial("_MainMenu")
+        <div id="page" class="row-fluid">
+
+       
+                <section class="well-small" id="main">
+              
+                    
+
+
+
+                    @(Html.Telerik().ScriptRegistrar()
+                          .jQuery(true)
+                          .DefaultGroup(group => group.Compress(true)
+                                                     .Combined(false).CacheDurationInDays(365))
+                          .jQueryValidation(false)
+                          )
+                    <script src="@Url.Content("~/Scripts/HubScripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/HubScripts/jquery-ui-1.8.11.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/HubScripts/DialogForm.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/HubScripts/Cascade.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/HubScripts/jquery.validate.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/HubScripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+                    <script src="@Url.Content("~/Scripts/HubScripts/jquery.jgeez.min.js")" type="text/javascript"></script>
+                    <div id="body" style="padding: 5px; min-height: 500px;">
+                        @RenderBody()
+                    </div>
+                    <div id="ajaxBusy" style="display: none;">
+                        <div>
+                            <img alt="Loading data" id="busyimage" src="@Url.Content("~/images/ajax-loaderbig.gif")" />
+                        </div>
+                        <div id="ajax-content"></div>
+                    </div>
+
+                </section>
+           
+            <div style="clear: both;"></div>
+            @Html.CTSVersion()
+        </div>
+
+         <script src="~/Content/assets/js/bootstrap-transition.js"></script>
+    <script src="~/Content/assets/js/bootstrap-alert.js"></script>
+    <script src="~/Content/assets/js/bootstrap-modal.js"></script>
+    <script src="~/Content/assets/js/bootstrap-dropdown.js"></script>
+    <script src="~/Content/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="~/Content/assets/js/bootstrap-tab.js"></script>
+    <script src="~/Content/assets/js/bootstrap-tooltip.js"></script>
+    <script src="~/Content/assets/js/bootstrap-popover.js"></script>
+    <script src="~/Content/assets/js/bootstrap-button.js"></script>
+    <script src="~/Content/assets/js/bootstrap-collapse.js"></script>
+    <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
+    <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
+    <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
+
+    <script src="~/Content/assets/js/jquery.validate.min.js"></script>
+    <script src="~/Content/assets/js/jquery.validate.js"></script>
+    </body>
+
+<script type="text/javascript">
+
+    function OpenSettingsPopup() {
+        $('#Window').data('tWindow').center().open();
+    }
+    // Do the animation when the ajax starts
+    $(document).ajaxStart(function () {
+        var positionL = $('#body').offset().left;
+        var positionT = $('#body').offset().top;
+        var positionWidth = $('#body').width();
+        var positionHeight = $('#body').height();
+        $('#ajaxBusy').css({ left: positionL, top: positionT, width: positionWidth, height: positionHeight });
+        $('#ajaxBusy').show();
+    }).ajaxStop(function () {
+        // When the Ajax finishes, hide the busy sign.
+        $('#ajaxBusy').hide();
+    });
+
+
+
+</script>
+</html>

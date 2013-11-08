@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     /// <summary>
     /// 

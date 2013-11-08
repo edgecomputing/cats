@@ -2,7 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 
 namespace Cats.Web.Hub.Controllers

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Cats.Services.Hub;
 using Cats.Web.Hub.Infrastructure;
 using Telerik.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Telerik.Web.Mvc.UI;
 
 namespace Cats.Web.Hub.Controllers

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     public partial class UserHub
     {

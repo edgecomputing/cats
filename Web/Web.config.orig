@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
   For more information on how to configure your ASP.NET application, please visit
   http://go.microsoft.com/fwlink/?LinkId=152368
@@ -73,56 +73,27 @@
       </parameter>
     </appender>
   </log4net>
-  
-   <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass; " providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=pass;" providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-  <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=192.168.1.9;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-
- <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CatsMaster;Data Source=." providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-
-   <connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Persist Security Info=True;User ID=sa;Password=pass" providerName="System.Data.SqlClient" />
-=======
- <connectionStrings>
-=======
->>>>>>> 531e9765acf1916632254850fd88de92c1a5063d
 
   <connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-<<<<<<< HEAD
-
-
->>>>>>> 8fd3fe1c5f649ec32fba8f65b45bd19119f46da0
-=======
->>>>>>> 531e9765acf1916632254850fd88de92c1a5063d
+    <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
   </connectionStrings>
 
+<<<<<<< HEAD
+  <!--<connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+  </connectionStrings>-->
 
 
   
+=======
+ 
+>>>>>>> 89866417e7f28c991106dbfdd469bc6cb0271a1c
   <appSettings>
     <add key="log4net.Internal.Debug" value="true" />
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
@@ -138,11 +109,7 @@
     <add key="elmah.mvc.allowedUsers" value="*" />
     <add key="elmah.mvc.route" value="elmah" />
   </appSettings>
-  
   <system.web>
-    <authorization>
-      <deny users="?" />
-    </authorization>
 
     <httpModules>
       <add name="ErrorLog" type="Elmah.ErrorLogModule, Elmah" />
@@ -153,6 +120,7 @@
       <add path="elmah.axd" verb="POST,GET,HEAD" type="Elmah.ErrorLogPageFactory, Elmah" />
       <add path="Reserved.ReportViewerWebControl.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false" />
       <add path="Telerik.ReportViewer.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="true" />
+      <add verb="GET,HEAD" path="asset.axd" validate="false" type="Telerik.Web.Mvc.WebAssetHttpHandler, Telerik.Web.Mvc" />
     </httpHandlers>
     <httpRuntime targetFramework="4.5" />
     <compilation debug="true" targetFramework="4.5">
@@ -168,22 +136,16 @@
         <add extension=".rdlc" type="Microsoft.Reporting.RdlBuildProvider, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
       </buildProviders>
     </compilation>
+    <authentication mode="Forms">
+      <forms loginUrl="~/Login" timeout="2880" name="Authen" />
+    </authentication>
 
-
+    <authorization>
+      <deny users="?"/>
+    </authorization>
    
 
-    <authentication mode="Forms">
-
-      <forms loginUrl="~/Login" timeout="2880" name="Authen" />
-
-    </authentication>
-    
     <machineKey decryptionKey="A225194E99BCCB0F6B92BC9D82F12C2907BD07CF069BC8B4" validationKey="6FA5B7DB89076816248243B8FD7336CCA360DAF8" />
-    
-    
-    
-    
-        
     <!--<customErrors mode="On" defaultRedirect="~/Error">
       <error redirect="~/Error" statusCode="400"/>
     </customErrors>-->
@@ -198,6 +160,7 @@
         <add namespace="System.Web.WebPages" />
         <add namespace="Kendo.Mvc.UI" />
         <add namespace="Cats.Helpers" />
+        <add namespace="Telerik.Web.Mvc.UI" />
       </namespaces>
     </pages>
     <sessionState mode="InProc" customProvider="DefaultSessionProvider">
@@ -205,7 +168,6 @@
         <add name="DefaultSessionProvider" type="System.Web.Providers.DefaultSessionStateProvider, System.Web.Providers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" connectionStringName="DefaultConnection" />
       </providers>
     </sessionState>
-   
   </system.web>
   <system.webServer>
     <modules runAllManagedModulesForAllRequests="true">
@@ -224,9 +186,10 @@
       <add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
       <add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
       <add name="Telerik.ReportViewer.axd_*" path="Telerik.ReportViewer.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" preCondition="integratedMode" />
+      <remove name="asset" />
+      <add name="asset" preCondition="integratedMode" verb="GET,HEAD" path="asset.axd" type="Telerik.Web.Mvc.WebAssetHttpHandler, Telerik.Web.Mvc" />
     </handlers>
   </system.webServer>
-  
   <runtime>
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
       <dependentAssembly>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
      [Authorize]
     public class UserHubsModel

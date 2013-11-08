@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
-using Cats.Models.Hub.ViewModels;
-using Cats.Models.Hub.ViewModels.Dispatch;
+using Cats.Models.Hubs.ViewModels;
+using Cats.Models.Hubs.ViewModels.Dispatch;
 using Cats.Web.Hub;
 using Cats.Web.Hub.Helpers;
 using Telerik.Web.Mvc;
@@ -65,7 +65,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
         public ActionResult AllocationList()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            Cats.Models.Hub.Hub hub = user.DefaultHub;
+            Cats.Models.Hubs.Hub hub = user.DefaultHub;
             var list = _dispatchAllocationService.GetUncommitedAllocationsByHub(hub.HubID);
             var listViewModel = (from item in list select BindDispatchAllocationViewModelDto(item));
 
