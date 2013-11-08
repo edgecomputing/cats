@@ -21,7 +21,7 @@ namespace Cats.Services.Hub
         private readonly IShippingInstructionService _shippingInstructionService;
         private readonly IProjectCodeService _projectCodeService;
 
-        public TransactionService(IUnitOfWork unitOfWork, IAccountService accountService,IShippingInstructionService shippingInstructionService,IProjectCodeService projectCodeService)
+        public TransactionService(IUnitOfWork unitOfWork, IAccountService accountService, IShippingInstructionService shippingInstructionService, IProjectCodeService projectCodeService)
         {
             this._unitOfWork = unitOfWork;
             this._accountService = accountService;
@@ -185,13 +185,13 @@ namespace Cats.Services.Hub
             return 0;
         }
 
-        public decimal GetCommodityBalanceForStack2(int storeId,  int parentCommodityId, int si, int project)
+        public decimal GetCommodityBalanceForStack2(int storeId, int parentCommodityId, int si, int project)
         {
             var balance = _unitOfWork.TransactionRepository.FindBy(t =>
                                                                    t.StoreID == storeId &&
                                                                    t.ParentCommodityID == parentCommodityId &&
                                                                    t.ShippingInstructionID == si &&
-                                                                   t.ProjectCodeID == project  &&
+                                                                   t.ProjectCodeID == project &&
                                                                    t.LedgerID ==
                                                                    Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
 
@@ -267,7 +267,7 @@ namespace Cats.Services.Hub
                 transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
                 transaction.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
 
-                transaction.ProjectCodeID =_projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
+                transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
                 transaction.HubID = user.DefaultHub.HubID;
                 transaction.UnitID = c.UnitID;
                 if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = c.ReceivedQuantityInMT.Value;
@@ -496,8 +496,8 @@ namespace Cats.Services.Hub
 
             }
             // Try to save this transaction
-        //    db.Database.Connection.Open();
-          //  DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
+            //    db.Database.Connection.Open();
+            //  DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
             try
             {
                 _unitOfWork.DispatchRepository.Add(dispatch);
@@ -507,7 +507,7 @@ namespace Cats.Services.Hub
             }
             catch (Exception exp)
             {
-               // dbTransaction.Rollback();
+                // dbTransaction.Rollback();
                 //TODO: Save the detail of this exception somewhere
                 throw new Exception("The Dispatch Transaction Cannot be saved. <br />Detail Message :" + exp.Message);
             }
@@ -569,7 +569,7 @@ namespace Cats.Services.Hub
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
-           transaction.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
+            transaction.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
             transaction.Stack = dispatchModel.StackNumber;
             transaction.StoreID = dispatchModel.StoreID;
             transaction.TransactionDate = DateTime.Now;
@@ -597,7 +597,7 @@ namespace Cats.Services.Hub
             transaction2.QuantityInMT = +detail.DispatchedQuantityMT.Value;
             transaction2.QuantityInUnit = +detail.DispatchedQuantity.Value;
             transaction2.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
-           
+
             transaction2.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
             transaction2.Stack = dispatchModel.StackNumber;
             transaction2.StoreID = dispatchModel.StoreID;
@@ -678,7 +678,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public Transaction FindByTransactionGroupID(Guid transactionGroupID)
         {
-            return _unitOfWork.TransactionRepository.Get(tr=> tr.TransactionGroupID == transactionGroupID).FirstOrDefault();
+            return _unitOfWork.TransactionRepository.Get(tr => tr.TransactionGroupID == transactionGroupID).FirstOrDefault();
         }
 
 
@@ -771,8 +771,8 @@ namespace Cats.Services.Hub
             {
                 _unitOfWork.InternalMovementRepository.Add(internalMovement);
                 _unitOfWork.Save();
-             //   repository.InternalMovement.Add(internalMovement);
-               // dbTransaction.Commit();
+                //   repository.InternalMovement.Add(internalMovement);
+                // dbTransaction.Commit();
             }
             catch (Exception exp)
             {
@@ -829,7 +829,7 @@ namespace Cats.Services.Hub
             transactionTwo.TransactionGroupID = transactionGroupId;
             transactionTwo.LedgerID = 14;
             transactionTwo.HubOwnerID = user.DefaultHub.HubOwnerID;
-            transactionTwo.AccountID =_accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
+            transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
             transactionTwo.HubID = user.DefaultHub.HubID;
             transactionTwo.StoreID = viewModel.StoreId;  //
             transactionTwo.ProjectCodeID = viewModel.ProjectCodeId;
@@ -878,7 +878,7 @@ namespace Cats.Services.Hub
             }
             catch (Exception exp)
             {
-               // dbTransaction.Rollback();
+                // dbTransaction.Rollback();
                 //TODO: Save the detail of this exception somewhere
                 throw new Exception("The Internal Movement Transaction Cannot be saved. <br />Detail Message :" + exp.Message);
             }
@@ -1045,9 +1045,9 @@ namespace Cats.Services.Hub
         public void SaveStartingBalanceTransaction(StartingBalanceViewModel startingBalance, UserProfile user)
         {
             int repositoryAccountGetAccountIDWithCreateNegative = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, startingBalance.DonorID); ;
-           
+
             int repositoryProjectCodeGetProjectCodeIdWIthCreateProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(startingBalance.ProjectNumber).ProjectCodeID; ;
-            int repositoryShippingInstructionGetSINumberIdWithCreateShippingInstructionID =_shippingInstructionService.GetSINumberIdWithCreate(startingBalance.SINumber).ShippingInstructionID; ;
+            int repositoryShippingInstructionGetSINumberIdWithCreateShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(startingBalance.SINumber).ShippingInstructionID; ;
             int repositoryAccountGetAccountIDWithCreatePosetive = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); ;
 
             TransactionGroup transactionGroup = new TransactionGroup();
@@ -1399,12 +1399,12 @@ namespace Cats.Services.Hub
                     }).ToList();
         }
 
-         public IEnumerable<Transaction> getTransactionsAsof(DateTime date) 
+        public IEnumerable<Transaction> getTransactionsAsof(DateTime date)
         {
             return _unitOfWork.TransactionRepository.FindBy(d => d.TransactionDate <= date);
         }
-        
-        public IEnumerable<Transaction> FreeStockStatus()
+
+        public IEnumerable<Object> FreeStockStatus()
         {
             var allTransactions = getTransactionsAsof(DateTime.Now);
             
@@ -1416,9 +1416,13 @@ namespace Cats.Services.Hub
                         detail = hubstockstatus
                     };
             
-            foreach(var d in r){
+           foreach(var d in r){
                 foreach(var h in d.detail){
-                    
+                  (from s in h select new {
+                    h.Commodity,
+                    h.Ledger,
+                    h.PartitionID
+                  }) ;
                 }
             }
 
@@ -1438,7 +1442,7 @@ namespace Cats.Services.Hub
         {
             return _unitOfWork.TransactionRepository.Get(t => t.TransactionID == id).FirstOrDefault();
         }
-        
+
         public IEnumerable<Transaction> Get(System.Linq.Expressions.Expression<Func<Transaction, bool>> filter = null, Func<IQueryable<Transaction>, IOrderedQueryable<Transaction>> orderBy = null, string includeProperties = "")
         {
             return _unitOfWork.TransactionRepository.Get(filter, orderBy, includeProperties);

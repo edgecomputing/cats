@@ -43,7 +43,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         decimal GetTotalReceivedFromReceiptAllocation(int siNumber, int commodityId, int hubId);
 
-        IEnumerable<Transaction> FreeStockStatus();
+        IEnumerable<Object> FreeStockStatus();
 
         decimal GetTotalReceivedFromReceiptAllocation(string siNumber, int commodityId, int hubId);
         /// <summary>

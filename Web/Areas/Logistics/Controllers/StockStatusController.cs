@@ -32,12 +32,9 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         public JsonResult FreeStock() {
-
             var hello = _transcationService.FreeStockStatus();
-            var x = (from h in hello select new { h.LedgerID, h.Month });
-            return Json(x, JsonRequestBehavior.AllowGet);
-            
-
+            //var x = (from h in hello select new { h.LedgerID, h.Month });
+            return Json(hello, JsonRequestBehavior.AllowGet);
         }
 
     }
