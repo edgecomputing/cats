@@ -21,13 +21,15 @@ namespace Cats.Models
         public int RationID { get; set; }
         //public Nullable<int> NeedAssessmentID { get; set; }
         public Nullable<int> Status { get; set; }
+       // public int PlanID { get; set; }
 
         public virtual Ration Ration { get; set; }
         public virtual ICollection<HRDDetail> HRDDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         //public virtual NeedAssessment NeedAssessment { get; set; }
         public virtual Season Season { get; set; }
-        public virtual ICollection<Contribution> Contributions { get; set; } 
+        public virtual ICollection<Contribution> Contributions { get; set; }
+       // public virtual HRDPlan HRDPlan { get; set;}
 
     }
 }

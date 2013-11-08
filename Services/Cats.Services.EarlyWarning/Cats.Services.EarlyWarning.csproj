@@ -75,10 +75,12 @@
     <Compile Include="CommodityTypeService.cs" />
     <Compile Include="CurrencyService.cs" />
     <Compile Include="DashboardService.cs" />
+    <Compile Include="HRDPlanService.cs" />
     <Compile Include="IAllocationByRegionService.cs" />
     <Compile Include="ICurrencyService.cs" />
     <Compile Include="IDashboardService.cs" />
     <Compile Include="ContributionDetailService.cs" />
+    <Compile Include="IHRDPlanService.cs" />
     <Compile Include="IInkindContributionDetailService.cs" />
     <Compile Include="INeedAssessmentService.cs" />
     <Compile Include="ContributionService.cs" />

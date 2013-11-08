@@ -115,6 +115,7 @@ namespace Cats.Data
 
         public DbSet<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; }
         public DbSet<AllocationByRegion> AllocationByRegion { get; set; }
+        public DbSet<HRDPlan> HrdPlans { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -214,6 +215,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new TransReqWithoutTransporterMap());
             modelBuilder.Configurations.Add(new AllocationByRegionMap());
+            modelBuilder.Configurations.Add(new HRDPlanMap());
         }
 
     }

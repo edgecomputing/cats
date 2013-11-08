@@ -74,6 +74,7 @@
     <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
+    <Compile Include="HRDPlan.cs" />
     <Compile Include="HubAllocationByRegionViewModel.cs" />
     <Compile Include="Mapping\AllocationByRegionMap.cs" />
     <Compile Include="Mapping\AuditMap.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Mapping\HRDCommodityDetailMap.cs" />
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
+    <Compile Include="Mapping\HRDPlanMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\HubMap.cs" />
     <Compile Include="Mapping\HubOwnerMap.cs" />

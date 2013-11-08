@@ -719,5 +719,11 @@ namespace Cats.Data.UnitWork
         {
             get { return this.allocationByRegionRepository ?? (this.allocationByRegionRepository = new GenericRepository<AllocationByRegion>(_context)); }
         }
+
+        private IGenericRepository<HRDPlan> hrdPlanRepository; 
+        public IGenericRepository<HRDPlan> HrdPlanRepository
+        {
+            get { return this.hrdPlanRepository ?? (this.hrdPlanRepository = new GenericRepository<HRDPlan>(_context)); }
+        }
     }
 }

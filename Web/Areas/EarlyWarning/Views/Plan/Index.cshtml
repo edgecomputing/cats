@@ -1,0 +1,47 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@model List<Cats.Models.HRDPlan>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Plan")"></a>
+}
+
+<div>
+    <h4>List of Plans</h4>
+</div>
+
+@section LeftBar{
+
+   
+}
+
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.PlanViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.planName);
+            columns.Bound(p => p.StartDate);
+            columns.Bound(p => p.EndDate);
+            columns.Bound(p => p.Program);
+          
+        })
+            .Sortable()
+            .Scrollable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(8)
+                    .Model(model => model.Id(p => p.planID))
+                    .Read(read => read.Action("plan_Read", "Plan"))
+
+             )
+
+      )

@@ -183,6 +183,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\PlanController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -826,6 +828,8 @@
     <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Index.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -889,7 +893,6 @@
     <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
     <Content Include="Content\Web.config" />
-
     <Content Include="Areas\Logistics\Views\Shared\_ApprovedRequisitions.cshtml" />
     <Content Include="CatsMasterDataSet.xsc">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
@@ -905,7 +908,6 @@
     <Content Include="CatsMasterDataSet.xss">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Content>
-
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
     <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
@@ -915,7 +917,6 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
-
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
@@ -1317,7 +1318,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>6517</DevelopmentServerPort>
+          <DevelopmentServerPort>39715</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:1786/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
