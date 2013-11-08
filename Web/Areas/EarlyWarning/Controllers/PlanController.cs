@@ -17,9 +17,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
     {
         //
         // GET: /EarlyWarning/Plan/
-        private IHRDPlanService _hrdPlanService;
+        private IPlanService _hrdPlanService;
         private IUserAccountService _userAccountService;
-        public PlanController(IHRDPlanService hrdPlanService,IUserAccountService userAccountService)
+        public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService)
         {
             _hrdPlanService = hrdPlanService;
             _userAccountService = userAccountService;
@@ -37,7 +37,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(plansToDisplay.ToDataSourceResult(request));
         }
 
-        private IEnumerable<PlanViewModel> GetPlan(IEnumerable<HRDPlan>  plans)
+        private IEnumerable<PlanViewModel> GetPlan(IEnumerable<Plan>  plans)
         {
              var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from plan in plans
@@ -54,21 +54,21 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult Create()
         {
-            var plan = new HRDPlan();
-            ViewBag.ProgramID = _hrdPlanService.GetPrograms();
+            var plan = new Plan();
+            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(),"ProgramID", "Name");
             return View(plan);
         }
 
         [HttpPost]
-        public ActionResult Create(HRDPlan hrdPlan)
+        public ActionResult Create(Plan Plan)
         {
             if (ModelState.IsValid)
             {
-                _hrdPlanService.AddHRDPlan(hrdPlan);
+                _hrdPlanService.AddHRDPlan(Plan);
                 return RedirectToAction("Index");
 
             }
-            return View(hrdPlan);
+            return View(Plan);
         }
         public ActionResult Edit(int id)
         {

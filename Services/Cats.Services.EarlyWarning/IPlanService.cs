@@ -8,14 +8,14 @@ using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
-   public interface IHRDPlanService:IDisposable
+   public interface IPlanService:IDisposable
     {
-        bool AddHRDPlan(Plan hrdPlan);
-        bool DeleteHRDPlan(Plan hrdPlan);
+        bool AddPlan(Plan plan);
+        bool DeletePlan(Plan plan);
         bool DeleteById(int id);
-        bool EditHRDPlan(Plan hrdPlan);
+        bool EditPlan(Plan plan);
         Plan FindById(int id);
-        List<Plan> GetAllHRDPlan();
+        List<Plan> GetAllPlan();
         List<Plan> FindBy(Expression<Func<Plan, bool>> predicate);
 
         IEnumerable<Plan> Get(

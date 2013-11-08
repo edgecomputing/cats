@@ -30,6 +30,6 @@ namespace Cats.Models
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
-       // public virtual ICollection<HRDPlan> HrdPlans { get; set; } 
+        public virtual ICollection<Plan> Plans { get; set; } 
     }
 }

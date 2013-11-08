@@ -1,6 +1,6 @@
 ﻿
 @using LanguageHelpers.Localization
-@model Cats.Models.HRDPlan
+@model Cats.Models.Plan
 
 @{
     ViewBag.Title = "Create";
@@ -28,14 +28,14 @@
         <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.PlanName)
+                    @Html.LabelFor(m => m.PlanName,Translator.Translate("Plan Name"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.PlanName)
                     @Html.ValidationMessageFor(m=>m.PlanName)
                 </div>
             </div>
-             <div class="control-group">
+            <div class="control-group">
                 <div class="control-label">
                     @Html.Label(Translator.Translate("Program"))
                 </div>
@@ -44,9 +44,10 @@
                     @Html.ValidationMessageFor(m=>m.ProgramID)
                 </div>
             </div>
+
              <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.StartDate)
+                    @Html.LabelFor(m => m.StartDate,Translator.Translate("From Date"))
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
@@ -55,14 +56,25 @@
                 </div>
         
             </div>
-             <div class="control-group">
+            <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.EndDate)
+                    @Html.LabelFor(m => m.EndDate,Translator.Translate("TO Date"))
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
                     @Html.TextBoxFor(m=>m.EndDate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(m => m.EndDate)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Remark)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextAreaFor(m=>m.Remark)
+                    @Html.ValidationMessageFor(m => m.Remark)
                 </div>
         
             </div>

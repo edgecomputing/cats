@@ -8,63 +8,63 @@ using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
-   public class HRDPlanService:IHRDPlanService
+   public class PlanService:IPlanService
    {
        private IUnitOfWork _unitOfWork;
 
-       public HRDPlanService(IUnitOfWork unitOfWork)
+       public PlanService(IUnitOfWork unitOfWork)
        {
            _unitOfWork = unitOfWork;
        }
-       public bool AddHRDPlan(Models.Plan hrdPlan)
+       public bool AddPlan(Models.Plan plan)
        {
-           _unitOfWork.HrdPlanRepository.Add(hrdPlan);
+           _unitOfWork.PlanRepository.Add(plan);
            _unitOfWork.Save();
            return true;
         }
 
-       public bool DeleteHRDPlan(Models.Plan hrdPlan)
+       public bool DeletePlan(Models.Plan plan)
         {
-            if (hrdPlan == null) return false;
-           _unitOfWork.HrdPlanRepository.Delete(hrdPlan);
+            if (plan == null) return false;
+            _unitOfWork.PlanRepository.Delete(plan);
            _unitOfWork.Save();
            return true;
         }
 
         public bool DeleteById(int id)
         {
-            var entity = _unitOfWork.HrdPlanRepository.FindById(id);
+            var entity = _unitOfWork.PlanRepository.FindById(id);
             if (entity == null) return false;
-            _unitOfWork.HrdPlanRepository.Delete(entity);
+            _unitOfWork.PlanRepository.Delete(entity);
             _unitOfWork.Save();
             return true;
         }
 
-        public bool EditHRDPlan(Models.Plan hrdPlan)
+        public bool EditPlan(Models.Plan plan)
         {
-            _unitOfWork.HrdPlanRepository.Edit(hrdPlan);
+            _unitOfWork.PlanRepository.Edit(plan);
             _unitOfWork.Save();
             return true;
         }
 
         public Models.Plan FindById(int id)
         {
-            return _unitOfWork.HrdPlanRepository.FindById(id);
+            return _unitOfWork.PlanRepository.FindById(id);
         }
 
-        public List<Models.Plan> GetAllHRDPlan()
+        public List<Models.Plan> GetAllPlan()
         {
-            return _unitOfWork.HrdPlanRepository.GetAll();
+            return _unitOfWork.PlanRepository.GetAll();
         }
 
         public List<Models.Plan> FindBy(System.Linq.Expressions.Expression<Func<Models.Plan, bool>> predicate)
         {
-            return _unitOfWork.HrdPlanRepository.FindBy(predicate);
+            return _unitOfWork.PlanRepository.FindBy(predicate);
         }
 
         public IEnumerable<Models.Plan> Get(System.Linq.Expressions.Expression<Func<Models.Plan, bool>> filter = null, Func<IQueryable<Models.Plan>, IOrderedQueryable<Models.Plan>> orderBy = null, string includeProperties = "")
         {
-            return _unitOfWork.HrdPlanRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.PlanRepository.Get(filter, orderBy, includeProperties);
         }
        public List<Program> GetPrograms()
        {

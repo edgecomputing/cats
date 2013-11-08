@@ -1,7 +1,6 @@
 ﻿@using Cats.Helpers
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
-
 @{
     ViewBag.Title = Translator.Translate(" Beneficiary numbers and duration of assisstance");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -26,9 +25,6 @@
         @Translator.Translate("List of Needs Assessment")
     </legend>
 </fieldset>
-
-
-
 
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
     .Name("grid")
