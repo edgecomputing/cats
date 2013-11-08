@@ -11,65 +11,57 @@
 {
      
    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:onsaveAllocation()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Hub", "DispatchAllocation",new {regionId= Request.QueryString["regionid"]})" title="Cancel"></a>
-     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})"></a>
+   <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Hub", "DispatchAllocation",new {regionId= Request.QueryString["regionid"]})" title="Cancel"></a>
+   <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})"></a>
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        .thumbnail { height: 280px; }
-        .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
-        .btn-draggable { width: 150px; }
-    </style>
-</head>
-    <body >
+
+
+
+    
+    
+
        
 
       <div class="row">
-          <div ng-app="dragDrop"  ng-controller="DragDroController">
-                                                                        <fieldset>
-                                                                            <legend> <ng-pluralize count="Requisitions.length" when="newRequisitions"></ng-pluralize></legend>
-                                                                        </fieldset>
+      <div ng-app="dragDrop"  ng-controller="DragDroController">
+          <fieldset>
+              <legend> <ng-pluralize count="Requisitions.length" when="newRequisitions"></ng-pluralize></legend>
+          </fieldset>
                                                                         
                                                                    
                         
-                    <div class="span3" >
-                        @*<div ng-model="allocated" ng-repeat="item in allocated">
+              <div class="span3" >
+                  @*<div ng-model="allocated" ng-repeat="item in allocated">
                             
                             ReqId: {{item.reqId}} | HubId: {{item.HubId}}
                             <button ng-click='saveAllocation()' id="save">save</button>
                         </div>*@
                          
                         
-
-                        <div class="thumbnail "  ng-model='Requisitions' style=" overflow-y:scroll;" >
-                            <div  class="btn btn-navbar btn-draggable " id="{{item.RequisitionId}}" draggable    ng-repeat="item in Requisitions" >
-                                <div class="accordion" id="accordion2">
-                                    <div class="accordion-group">
-                                        <div class="accordion-heading">
-                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#acc_{{item.RequisitionId}}" style="font-size: small ">
-                                                Req.No: {{item.RequisitionNo}}
-                                            </a>
-                                        </div>
-                                        <div id="acc_{{item.RequisitionId}}" class="accordion-body collapse">
-                                            <div class="accordion-inner" style="font-size: small">
-                                                <br />Commodity: {{item.Commodity}}
-                                                <br />Benficiary: {{item.BenficiaryNo}}
-                                                <br />Amount: {{item.AmountAllocated}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                               
-                               
-                                
-
-                            </div>
-                        </div>
-                    </div>
+                  
+                      <div class="thumbnail " ng-model='Requisitions' id="container" style=" overflow-y:scroll;" >
+                          <div  class="btn btn-navbar btn-draggable " id="{{item.RequisitionId}}"  draggable=""   ng-repeat="item in Requisitions" >
+                              <div class="accordion" id="accordion2">
+                                  <div class="accordion-group">
+                                      <div class="accordion-heading">
+                                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#acc_{{item.RequisitionId}}" style="font-size: small ">
+                                              Req.No: {{item.RequisitionNo}}
+                                          </a>
+                                      </div>
+                                      <div id="acc_{{item.RequisitionId}}" class="accordion-body collapse">
+                                          <div class="accordion-inner" style="font-size: small">
+                                              <br />Commodity: {{item.Commodity}}
+                                              <br />Benficiary: {{item.BenficiaryNo}}
+                                              <br />Amount: {{item.AmountAllocated}}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+             
               <div class="span8">
 
                     @{
@@ -79,10 +71,25 @@
                         {
                             foreach (var hub in  enumerable)
                             {
+                                if (hub.HubOwnerID == 1)
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
+                                else if (hub.HubOwnerID == 2)
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                        <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
+                                    </div>
+                                }
                                 
-                                <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
-                                    <div class="btn btn-navbar btn-droppable"  >@hub.Name</div>
-                                </div>
                             }
                         }
                     
@@ -97,11 +104,17 @@
             </div>
        
       
-        <script src="~/Scripts/angular/allocation-angular.js"></script>
-       @* <link href="~/Scripts/angular/css/jquery-ui.css" rel="stylesheet">*@
-    </body>
-</html>
-<script>
-   var regionId = '@ViewBag.regionId';
-   var RegionName = '@ViewBag.RegionName';
-</script>
+   <script src="~/Scripts/angular/allocation-angular.js"></script>
+    <script>
+        var regionId = '@ViewBag.regionId';
+        var RegionName = '@ViewBag.RegionName';
+    </script>
+    <style>
+        .thumbnail { height: 280px; }
+        .btn-droppable { width: 180px; height: 30px; padding-left: 4px; }
+        .btn-draggable { width: 150px; }
+        .span4 {
+            margin: 0px !important;
+        }
+
+    </style>

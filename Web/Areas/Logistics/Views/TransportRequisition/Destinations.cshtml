@@ -61,7 +61,7 @@
 
 <script>    
 $(function () {
-        var printurl = "@Url.Action("PrintAttachment", "TransportRequisition",new{id= 13 })";
+        var printurl = "@Url.Action("PrintAttachment", "TransportRequisition",new{id= ViewBag.RequisitionID })";
         $("#toolbar_button_print").attr("href", printurl);
     });
 </script>

@@ -324,7 +324,7 @@ namespace Cats.Services.Procurement
                 var lastOrder = _unitOfWork.TransportOrderRepository.GetAll();
                 transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", lastOrder.Last().TransportOrderID + 1);
                 transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day,
-                                                              DateTime.Today.Year, transporterName.Substring(0, 2));
+                                                              DateTime.Today.Year, transporterName.Substring(0, 3));
                 foreach (var detail in transReqWithTransporter)
                 {
                     var transportOrderDetail = new TransportOrderDetail();

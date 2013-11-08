@@ -13,7 +13,7 @@ using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using log4net;
-
+using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
     public class DispatchAllocationController : Controller
@@ -121,9 +121,8 @@ namespace Cats.Areas.Logistics.Controllers
             if (regionId !=-1)
             {
                 ViewBag.regionId = regionId;
-                ViewBag.RegionName =
-                    _adminUnitService.GetRegions().Where(r => r.AdminUnitID == regionId).Select(r => r.Name).Single();
-                ViewData["Hubs"] = _hubService.GetAllHub().Where(h => h.HubOwnerID == 1);//get DRMFSS stores
+                ViewBag.RegionName =_adminUnitService.GetRegions().Where(r => r.AdminUnitID == regionId).Select(r => r.Name).Single();
+                ViewData["Hubs"] = _hubService.GetAllHub();//.Where(h => h.HubOwnerID == 1);//get DRMFSS stores
                 return View();
             }
             return View();
@@ -182,25 +181,30 @@ namespace Cats.Areas.Logistics.Controllers
          public List<HubAllocationByRegionViewModel> BindAllocation(List<AllocationByRegion> reliefRequisitions)
         {
 
+             try
+             {
+                 if (reliefRequisitions == null)
+                     return new List<HubAllocationByRegionViewModel>();
+                 var result = (reliefRequisitions.Select(req => new HubAllocationByRegionViewModel()
+                 {
+                     Region = req.Name,
+                     RegionId = (int)req.RegionID,
+                     AdminUnitID = (int)req.RegionID,
+                     Hub = req.Hub,
+                     AllocatedAmount = ((decimal)req.Amount).ToPreferedWeightUnit()
+                 }));
 
 
-             if (reliefRequisitions==null)
+
+                 return Enumerable.Cast<HubAllocationByRegionViewModel>(result).ToList();
+             }
+             catch 
+             {
+                 
                  return new List<HubAllocationByRegionViewModel>();
-            var result = (from req in reliefRequisitions
-                          select new HubAllocationByRegionViewModel()
-                          {
+             }
 
-                              Region = req.Name,
-                              RegionId = (int) req.RegionID,
-                              AdminUnitID = (int)req.RegionID,
-                              Hub = req.Hub,
-                              AllocatedAmount = (decimal) req.Amount
-                              
-                          });
-
-
-
-            return Enumerable.Cast<HubAllocationByRegionViewModel>(result).ToList();
+             
         }
        
     }

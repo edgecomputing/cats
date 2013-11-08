@@ -157,14 +157,15 @@
 
 
                            
-                             <ul class="dropdown-menu">
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Index","Home", new{Area="Logistics"})">Logistics Dashboard</a></li>
 
-                               @* @{
+                                @* @{
                                     if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
 
                                     {                               
                                         *@<li><a href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })">@Html.Translate("Dispatch Allocation") </a></li>
-                                   @* }
+                                @* }
                                     else
                                     {
                                        <li class="disabled"><a href="#">@Html.Translate("Resource Allocation")</a></li>
@@ -174,8 +175,8 @@
                                     if (_checkAccessHelper.CheckAccess(CheckAccessHelper.Operation.Add_new_commodity_allocation, db_user))
                                     { *@                              
 
-                                        <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">@Html.Translate("Transport Requisition") </a></li>
-                                   @* }
+                                <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })">@Html.Translate("Transport Requisition") </a></li>
+                                @* }
                                     else
                                     {
                                        <li class="disabled"><a href="#">@Html.Translate("Transport Requisition")</a></li>
