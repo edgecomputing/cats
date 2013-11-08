@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.Hub.ViewModels.FDPViewModel>
+﻿@model IEnumerable<Cats.Models.Hubs.ViewModels.FDPViewModel>
 @using Cats.Web.Hub.Helpers
 @{
     ViewBag.Title = Html.Translate("Final Destination Points");
@@ -18,7 +18,7 @@
         </td>
         <td>
             @(Html.Telerik().ComboBox().Name("SelectedRegionId")
-                            .BindTo(new SelectList((IEnumerable < Cats.Models.Hub.AdminUnit >)ViewBag.Regions,"AdminUnitID","Name"))
+                            .BindTo(new SelectList((IEnumerable < Cats.Models.Hubs.AdminUnit >)ViewBag.Regions,"AdminUnitID","Name"))
                     .CascadeTo("SelectedZoneId")
                     .AutoFill(true)
                     .OpenOnFocus(true)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.Hub.ViewModels.DispatchAllocationViewModelDto>
+﻿@model IEnumerable<Cats.Models.Hubs.ViewModels.DispatchAllocationViewModelDto>
            @using Cats.Web.Hub.Helpers
 @{
     ViewBag.Title = Html.Translate("Dispatch Allocations");
@@ -28,7 +28,7 @@
                     .Visible(false)
                     .Render();
 }
-@(Html.Telerik().Grid<Cats.Models.Hub.ViewModels.DispatchAllocationViewModelDto>()
+@(Html.Telerik().Grid<Cats.Models.Hubs.ViewModels.DispatchAllocationViewModelDto>()
 .Name("allocList")
 .DataKeys(keys => keys.Add(x => x.DispatchAllocationID))
 .Columns(col =>

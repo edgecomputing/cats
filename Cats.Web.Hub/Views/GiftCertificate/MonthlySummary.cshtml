@@ -1,7 +1,7 @@
 ﻿@using System.Collections
 @using Telerik.Web.Mvc.Examples
 @using Cats.Web.Hub.Helpers
-@model Cats.Models.Hub.RPT_MonthlyGiftSummary_Result
+@model Cats.Models.Hubs.RPT_MonthlyGiftSummary_Result
 
 @{
     ViewBag.Title = Html.Translate("Monthly Gift Certificate Report");
@@ -29,7 +29,7 @@
                     <p>
                     @Html.Translate("Amount in Metric Ton Expected to arrive on port on each of the months listed.")
                     </p>
-                                        @(Html.Telerik().Grid((List<Cats.Models.Hub.RPT_MonthlyGiftSummary_Result>)ViewBag.MonthlySummaryETA)
+                                        @(Html.Telerik().Grid((List<Cats.Models.Hubs.RPT_MonthlyGiftSummary_Result>)ViewBag.MonthlySummaryETA)
                                         .Name("MonthlySummaryETA")
                                         .Columns(col =>
                                         {
@@ -47,7 +47,7 @@
         <p>
             @Html.Translate("Amount in Metric tone gift certificate received for in each month.")
         </p>
-        @(Html.Telerik().Grid((List<Cats.Models.Hub.RPT_MonthlyGiftSummary_Result>)ViewBag.MonthlySummary)
+        @(Html.Telerik().Grid((List<Cats.Models.Hubs.RPT_MonthlyGiftSummary_Result>)ViewBag.MonthlySummary)
             .Name("MonthlySummary")
             .Columns(col =>
             {

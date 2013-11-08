@@ -7,7 +7,7 @@
     @Html.Translate("This report presents the total free stock in the current Hub. Note that Free stock is the uncommited stock in the hub. It doesnot represent what is at hand in the hub.")
 </p>
 
-@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StatusReportBySI_Result>)
+@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hubs.StatusReportBySI_Result>)
 .Name("Stock")
 .Columns(col =>
              {

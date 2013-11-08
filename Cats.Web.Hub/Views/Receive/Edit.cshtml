@@ -1,4 +1,4 @@
-﻿@model Cats.Models.Hub.Receive
+﻿@model Cats.Models.Hubs.Receive
 @using Cats.Web.Hub.Helpers
 @{
     ViewBag.Title = Html.Translate("Edit");
@@ -65,7 +65,7 @@
         <tr>
             <td>
                 
-    @(Html.Telerik().Grid(ViewBag.ReceiveCommodities as IEnumerable<Cats.Models.Hub.GiftCertificateDetail>)
+    @(Html.Telerik().Grid(ViewBag.ReceiveCommodities as IEnumerable<Cats.Models.Hubs.GiftCertificateDetail>)
                .Name("Grid")
 
                .DataKeys(keys =>

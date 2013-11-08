@@ -1,6 +1,6 @@
-﻿@model Cats.Models.Hub.StockStatusReport
+﻿@model Cats.Models.Hubs.StockStatusReport
 @using System.Data
-@using Cats.Models.Hub
+@using Cats.Models.Hubs
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.UI
 
@@ -47,7 +47,7 @@
         window.location.href = url.replace('__id__', commodity);
     }
 </script>
-@*@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StockStatusReport>)
+@*@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hubs.StockStatusReport>)
 .Name("Stock")
 .Columns(col =>
              {

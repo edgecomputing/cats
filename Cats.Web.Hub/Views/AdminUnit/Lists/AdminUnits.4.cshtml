@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.Hub.AdminUnit>
+﻿@model IEnumerable<Cats.Models.Hubs.AdminUnit>
 @using Cats.Web.Hub.Helpers
 
 <div id="woredaList">
@@ -11,7 +11,7 @@
             <td>
                 @(Html.Telerik().ComboBox().Name("SelectedRegionId2")
                     //.DataBinding(binding => binding.Ajax().Select("GetRegions", "AdminUnit"))
-                    .BindTo(new SelectList((IEnumerable<Cats.Models.Hub.AdminUnit>)ViewBag.Regions, "AdminUnitID","Name"))
+                    .BindTo(new SelectList((IEnumerable<Cats.Models.Hubs.AdminUnit>)ViewBag.Regions, "AdminUnitID","Name"))
                     .CascadeTo("zones2")
                     .AutoFill(true)
                     .OpenOnFocus(true)

@@ -1,7 +1,7 @@
-﻿@using Cats.Models.Hub
-@using Cats.Models.Hub.ViewModels
+﻿@using Cats.Models.Hubs
+@using Cats.Models.Hubs.ViewModels
 @using Cats.Web.Hub.Helpers
-@model Cats.Models.Hub.ViewModels.Dispatch.DispatchHomeViewModel
+@model Cats.Models.Hubs.ViewModels.Dispatch.DispatchHomeViewModel
 @{
     ViewBag.Title = Html.Translate("Expected Dispatch");
 
@@ -110,7 +110,7 @@
         </td>
         <td style="vertical-align: top">
 
-            @(Html.Telerik().Grid<Cats.Models.Hub.ViewModels.DispatchAllocationViewModelDto>().Name("DispatchAllocationGrid1")
+            @(Html.Telerik().Grid<Cats.Models.Hubs.ViewModels.DispatchAllocationViewModelDto>().Name("DispatchAllocationGrid1")
            .ToolBar(toolBar => toolBar.Template(
                @<text>
                     <label class="closed-label" for="Closed-input">

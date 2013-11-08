@@ -1,5 +1,5 @@
 ﻿@model ReceiveViewModel
-@using Cats.Models.Hub
+@using Cats.Models.Hubs
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.UI
 @{
@@ -85,8 +85,8 @@
                 @Html.AuditTrial("Receive", "CommoditySourceID", Model.ReceiveID)
                 *@@Html.ValidationMessageFor(model => model.CommoditySourceID)
             </td>
-@*            @if ((Model.CommoditySourceID != Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE) &&
-                (Model.CommoditySourceID != Cats.Models.Hub.CommoditySource.Constants.DONATION))
+@*            @if ((Model.CommoditySourceID != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE) &&
+                (Model.CommoditySourceID != Cats.Models.Hubs.CommoditySource.Constants.DONATION))
             {*@
            
                 <td class="SourceHubDonation" style="width: 200px;display: none">
@@ -141,7 +141,7 @@
                 @Html.ValidationMessageFor(model => model.ProjectNumber)
             </td>
         </tr>
-     @*   @if (Model.CommoditySourceID == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+     @*   @if (Model.CommoditySourceID == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
         { *@
                 <tr id="PurchaseFeilds" style="display: none;">
                     <td style="width: 200px">
@@ -390,7 +390,7 @@
     </div>
     <div style="padding:10px;" class="field-set">
         <table class="borderless">
-            @* @if (Model.CommoditySourceID == Cats.Models.Hub.CommoditySource.Constants.DONATION || Model.CommoditySourceID == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+            @* @if (Model.CommoditySourceID == Cats.Models.Hubs.CommoditySource.Constants.DONATION || Model.CommoditySourceID == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
         {*@
             <tr id="donationAndPurchaseFields">
                 <td style="width: 200px">
@@ -714,7 +714,7 @@
 
     function showTheRespectivefeilds() {
         $.validator.unobtrusive.parse('form');
-        if ($('#CommoditySourceID').val() == '@Cats.Models.Hub.CommoditySource.Constants.DONATION'){
+        if ($('#CommoditySourceID').val() == '@Cats.Models.Hubs.CommoditySource.Constants.DONATION'){
             $('#donationAndPurchaseFields').show();
             $('#PurchaseFeilds').hide();
             $('.SourceHubDonation').hide();
@@ -729,7 +729,7 @@
             $('#PurchaseOrder').rules("remove");
             $('#SupplierName').rules("remove");
             
-        } else if ($('#CommoditySourceID').val() == '@Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE') {
+        } else if ($('#CommoditySourceID').val() == '@Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE') {
             $('#donationAndPurchaseFields').show();
             $('#PurchaseFeilds').show();
             $('.SourceHubDonation').hide();

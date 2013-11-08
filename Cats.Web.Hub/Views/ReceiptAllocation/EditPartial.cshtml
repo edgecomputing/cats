@@ -1,4 +1,4 @@
-﻿@model Cats.Models.Hub.ReceiptAllocationViewModel
+﻿@model Cats.Models.Hubs.ReceiptAllocationViewModel
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.UI
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
@@ -38,14 +38,14 @@
 
         <tr>
             <td> 
-                @if (allocationType == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+                @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                 {
                       @Html.LabelFor(model => model.PurchaseOrder, Html.Translate("Purchase Order")) <span class="required">*</span>
                 }
                
                  
             </td>
-            <td>@if (allocationType == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+            <td>@if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                 {
                      @Html.EditorFor(model => model.PurchaseOrder)
                         @Html.ValidationMessageFor(model => model.PurchaseOrder)
@@ -53,12 +53,12 @@
                 
             </td>
 
-            <td>@if (allocationType != Cats.Models.Hub.CommoditySource.Constants.DONATION)
+            <td>@if (allocationType != Cats.Models.Hubs.CommoditySource.Constants.DONATION)
                 {
                      @Html.LabelFor(model => model.OtherDocumentationRef, Html.Translate("Memo Reference"))
                 }
                 </td>
-            <td>@if (allocationType != Cats.Models.Hub.CommoditySource.Constants.DONATION)
+            <td>@if (allocationType != Cats.Models.Hubs.CommoditySource.Constants.DONATION)
                 {
                     @Html.EditorFor(model => model.OtherDocumentationRef)
                     @Html.ValidationMessageFor(model => model.OtherDocumentationRef)
@@ -67,8 +67,8 @@
 
         </tr>
         <tr>
-               @if (allocationType != Cats.Models.Hub.CommoditySource.Constants.DONATION &&
-                    allocationType != Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+               @if (allocationType != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
+                    allocationType != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                {
                    <td>
                        @Html.LabelFor(model => model.SourceHubID, Html.Translate("Source Hub")) <span class="required">*</span>
@@ -122,8 +122,8 @@
             @Html.HiddenFor(model => model.HubID)
             
         </tr>
-                       @if (allocationType == Cats.Models.Hub.CommoditySource.Constants.DONATION ||
-                    allocationType == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+                       @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.DONATION ||
+                    allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                        {
                            <tr>
                                <td> @Html.LabelFor(model => model.DonorID, Html.Translate("Donor")) <span class="required">*</span></td>
@@ -283,7 +283,7 @@
                     @Html.ValidationMessageFor(model => model.QuantityInMT)
                 </td>
         </tr>
-         @if (allocationType == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+         @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
          {
              <tr>
                  <td>
@@ -373,7 +373,7 @@
         params['SInumber'] = value;
         if ($(this).val() != ""
             && ($('#ReceiptAllocationID').val() == "")
-                && $('#CommoditySourceID').val() == '@Cats.Models.Hub.CommoditySource.Constants.DONATION'
+                && $('#CommoditySourceID').val() == '@Cats.Models.Hubs.CommoditySource.Constants.DONATION'
             ) {
             var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
             $('#create-edit-form').load(url, { SInumber: value, type: '@allocationType' }, function () {

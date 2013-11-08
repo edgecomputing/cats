@@ -87,6 +87,7 @@ namespace Cats.Web.Hub.Controllers
        
         public ActionResult LogOn()
         {
+            ViewBag.HasError = false;
             CryptoGen x=new CryptoGen();
             var val = x.CreateKey(30);
             var dec = x.CreateKey(30);
@@ -105,6 +106,7 @@ namespace Cats.Web.Hub.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl="")
         {
+            
             //if (ModelState.IsValid)
             //{
                 

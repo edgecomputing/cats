@@ -1,4 +1,4 @@
-﻿@model Cats.Models.Hub.BinCardReport
+﻿@model Cats.Models.Hubs.BinCardReport
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.UI
 
@@ -50,7 +50,7 @@
 }
 @*} *@
 
-@(Html.Telerik().Grid(ViewBag.BinCards as IEnumerable<Cats.Models.Hub.ViewModels.Report.Data.BinCardViewModel>)
+@(Html.Telerik().Grid(ViewBag.BinCards as IEnumerable<Cats.Models.Hubs.ViewModels.Report.Data.BinCardViewModel>)
 .Name("BinCards")
 .Columns(col => {
 

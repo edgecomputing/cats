@@ -8,7 +8,7 @@
     @Html.Translate("This report shows total received commodities against receipt allocation.")
 </p>
 
-@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hub.StatusReportBySI_Result>)
+@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hubs.StatusReportBySI_Result>)
 .Name("Stock")
 .Columns(col =>
              {

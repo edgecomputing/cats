@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Cats.Models.Hub.ReceiptAllocation>
+﻿@model IEnumerable<Cats.Models.Hubs.ReceiptAllocation>
 @*           @model IEnumerable<Cats.Web.Hub.Models.ReceiptAllocationViewModelDto>*@
-@using Cats.Models.Hub
+@using Cats.Models.Hubs
 @using Cats.Web.Hub.Helpers
 
 @{
@@ -18,7 +18,7 @@
 
 }
 
-@(Html.Telerik().Grid<Cats.Models.Hub.ReceiptAllocation>()
+@(Html.Telerik().Grid<Cats.Models.Hubs.ReceiptAllocation>()
       .Name("ReceiveAllocationGrid" + allocationType)
          // .Columns(columns => columns.LoadSettings((IEnumerable<GridColumnSettings<EditableProduct>>)ViewData["Columns"]))
 

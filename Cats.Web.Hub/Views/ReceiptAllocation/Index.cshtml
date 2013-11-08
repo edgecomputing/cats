@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.Hub.ReceiptAllocation>
+﻿@model IEnumerable<Cats.Models.Hubs.ReceiptAllocation>
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.Examples
 @{
@@ -15,22 +15,22 @@
         @Html.Translate("SI Number form the list box on the left to continue.")
     </p>
     <p>
-        @if (allocationType == Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+        @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
         {
             <text>@Html.Translate("Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
                @Html.Translate(" From Local Purchase")</a></text>
         }
-        else if (allocationType == Cats.Models.Hub.CommoditySource.Constants.LOAN)
+        else if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOAN)
         {
             <text>@Html.Translate("Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
                 From Loan</a></text>
         }
-        else if (allocationType == Cats.Models.Hub.CommoditySource.Constants.OTHER)
+        else if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.OTHER)
         {
             <text>@Html.Translate("Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
                @Html.Translate(" From Other Sources")</a></text>
         }
-        else if (allocationType == Cats.Models.Hub.CommoditySource.Constants.TRANSFER)
+        else if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.TRANSFER)
         {
             <text>@Html.Translate(" Click here to create a new Receipt Allocation ")<a href="#" onclick="createCleanPartialForm()">
                 @Html.Translate("From Transfer ")</a></text>

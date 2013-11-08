@@ -1,4 +1,4 @@
-﻿@model Cats.Models.Hub.DispatchModel
+﻿@model Cats.Models.Hubs.DispatchModel
 
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.UI
@@ -315,7 +315,7 @@
     </div>
     <br />
     
-    @(Html.Telerik().Grid(ViewBag.SelectedCommodities as IEnumerable<Cats.Models.Hub.DispatchDetailModel>).Name("dispatchCommoditiesGrid")
+    @(Html.Telerik().Grid(ViewBag.SelectedCommodities as IEnumerable<Cats.Models.Hubs.DispatchDetailModel>).Name("dispatchCommoditiesGrid")
     .DataKeys(keys => keys.Add(co => co.Id))
     .ToolBar(commands =>
     {
@@ -353,7 +353,7 @@
                                           .OnRowDataBound("hideEdit")
                                           .OnEdit("onEdit")
                                           .OnRowSelect("Grid_onRowSelect"))
-        .Editable(editing => editing.Mode(GridEditMode.InCell).DefaultDataItem(new Cats.Models.Hub.DispatchDetailModel())
+        .Editable(editing => editing.Mode(GridEditMode.InCell).DefaultDataItem(new Cats.Models.Hubs.DispatchDetailModel())
 
         ).KeyboardNavigation(configurator => configurator.EditOnTab(true))
           )

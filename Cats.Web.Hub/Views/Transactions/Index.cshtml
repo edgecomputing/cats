@@ -1,4 +1,4 @@
-﻿@model Cats.Models.Hub.RPT_DISPACHFORMOTHX_Result
+﻿@model Cats.Models.Hubs.RPT_DISPACHFORMOTHX_Result
 @using System.Globalization
 @using Telerik.Web.Mvc
 @using System.Web.Mvc
@@ -28,7 +28,7 @@
      </p>       
 }
 
-@(Html.Telerik().Grid(ViewBag.Transactions as IEnumerable<Cats.Models.Hub.RPT_DISPACHFORMOTHX_Result>)
+@(Html.Telerik().Grid(ViewBag.Transactions as IEnumerable<Cats.Models.Hubs.RPT_DISPACHFORMOTHX_Result>)
 .Name("BinCards")
 .Columns(col => {
 

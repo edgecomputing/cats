@@ -1,4 +1,4 @@
-﻿@model List<Cats.Models.Hub.Transaction>
+﻿@model List<Cats.Models.Hubs.Transaction>
  @using Cats.Web.Hub.Helpers
 @{
     ViewBag.Title = "Ledger";
@@ -45,11 +45,11 @@
     <tr>
         <td>@Html.Translate("Ledger")</td>
         <td>
-            @Html.Telerik().ComboBox().Name("LedgerID").BindTo(new SelectList((List<Cats.Models.Hub.Ledger>)ViewBag.Ledgers, "LedgerID", "Name")).HtmlAttributes(new {style="width: 300px;" }).CascadeTo("AccountID")
+            @Html.Telerik().ComboBox().Name("LedgerID").BindTo(new SelectList((List<Cats.Models.Hubs.Ledger>)ViewBag.Ledgers, "LedgerID", "Name")).HtmlAttributes(new {style="width: 300px;" }).CascadeTo("AccountID")
         </td>
         <td>Commodity</td>
         <td>
-            @Html.Telerik().ComboBox().Name("CommodityID").BindTo(new SelectList((List<Cats.Models.Hub.Commodity>)ViewBag.Commodities,"CommodityID","Name")).SelectedIndex(0)
+            @Html.Telerik().ComboBox().Name("CommodityID").BindTo(new SelectList((List<Cats.Models.Hubs.Commodity>)ViewBag.Commodities,"CommodityID","Name")).SelectedIndex(0)
         </td>
         <td>Account</td>
         <td>
