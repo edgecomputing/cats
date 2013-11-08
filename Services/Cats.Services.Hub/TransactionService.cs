@@ -10,6 +10,7 @@ using Cats.Models.Hub.ViewModels.Report;
 using Cats.Models.Hub.ViewModels.Report.Data;
 using Cats.Models.Hub;
 
+
 namespace Cats.Services.Hub
 {
     public class TransactionService : ITransactionService
@@ -1398,6 +1399,32 @@ namespace Cats.Services.Hub
                     }).ToList();
         }
 
+         public IEnumerable<Transaction> getTransactionsAsof(DateTime date) 
+        {
+            return _unitOfWork.TransactionRepository.FindBy(d => d.TransactionDate <= date);
+        }
+        
+        public IEnumerable<Transaction> FreeStockStatus()
+        {
+            var allTransactions = getTransactionsAsof(DateTime.Now);
+            
+            var r = from all in allTransactions
+                    group all by all.ParentCommodityID into hubstockstatus
+                    select new
+                    {
+                        Commodity = hubstockstatus.Key,
+                        detail = hubstockstatus
+                    };
+            
+            foreach(var d in r){
+                foreach(var h in d.detail){
+                    
+                }
+            }
+
+            return allTransactions;
+        }
+
         public bool DeleteById(System.Guid id)
         {
             var original = FindById(id);
@@ -1407,29 +1434,11 @@ namespace Cats.Services.Hub
             return true;
         }
 
-
-
-
-
         public Transaction FindById(System.Guid id)
         {
             return _unitOfWork.TransactionRepository.Get(t => t.TransactionID == id).FirstOrDefault();
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         public IEnumerable<Transaction> Get(System.Linq.Expressions.Expression<Func<Transaction, bool>> filter = null, Func<IQueryable<Transaction>, IOrderedQueryable<Transaction>> orderBy = null, string includeProperties = "")
         {
             return _unitOfWork.TransactionRepository.Get(filter, orderBy, includeProperties);

@@ -184,7 +184,8 @@
                                 
 
                                 <li class="divider" />
-                                <li><a href="#">@Html.Translate("Stock")</a></li>
+                                @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
+                                 <li><a href="@Url.Action("Index", "StockStatus", new { Area = "Logistics" })">@Html.Translate("Stock Status") </a></li>
                                 @*}*@
                             </ul>
                                 

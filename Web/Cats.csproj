@@ -215,10 +215,12 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\StockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
@@ -890,6 +892,7 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\Logistics\Views\StockStatus\Index.cshtml" />
     <None Include="CatsMasterDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CatsMasterDataSet.Designer.cs</LastGenOutput>
@@ -1227,6 +1230,10 @@
       <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
       <Name>Cats.Exceptions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
+      <Name>Cats.Models.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
       <Name>Cats.Models.Security</Name>
@@ -1246,6 +1253,10 @@
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
       <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>

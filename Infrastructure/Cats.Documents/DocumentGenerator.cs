@@ -64,10 +64,8 @@ namespace Cats.Documents
                 using (WordprocessingDocument wpdFile = WordprocessingDocument.Open(msFile, true))
                 {
                     wpdFile.ChangeDocumentType(WordprocessingDocumentType.Document);
-
                     MainDocumentPart docPart = wpdFile.MainDocumentPart;
                     docPart.AddExternalRelationship("http://schemas.openxmlformats.org/officeDocument/2006/relationships/attachedTemplate", new Uri(_templateFileName, UriKind.RelativeOrAbsolute));
-
                     docPart.Document.Save();
                 }
 

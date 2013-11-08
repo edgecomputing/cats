@@ -11,8 +11,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-
-    <h4 class="page-header">Regional Monthly Requests</h4>
+<h4 class="page-header">Regional Monthly Requests</h4>
 
 @section LeftBar
 {
@@ -25,6 +24,7 @@
 }
 
 @ViewBag.message
+
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("grid")
     .Columns(columns =>

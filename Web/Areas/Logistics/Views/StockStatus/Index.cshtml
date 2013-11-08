@@ -1,0 +1,48 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@using Cats.Models.Constant
+
+@model IEnumerable<FreeStockStatusViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h4>Free Stock Status</h4>
+
+@(Html.Kendo().Grid<FreeStockStatusViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+                 {                    
+                     columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
+                     columns.Bound(request => request.CommodityName).ClientTemplate("<a href='" + Url.Action("Details", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
+                     columns.Bound(request => request.TotalPhysicalStock);
+                     columns.Bound(request => request.TotalFreeStock);
+                     columns.Bound(request => request.Shortage).Title(Html.Translate("Month"));
+                     columns.Bound(request => request.detail);
+                 })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .Events(ev => ev.DataBound("resetRowNumber"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+
+            .Model(model =>
+            {
+                model.Id(p => p.RegionalRequestID);
+                //  model.Field(r => r.Status).Editable(false);
+                // model.Field(r => r.RegionalRequestID).Editable(false);
+                //  model.Field(r => r.StatusID).Editable(false).DefaultValue(1);
+                // model.Field(r => r.RequistionDate).Editable(false);
+            })
+       //.Create(update => update.Action("Request_Create", "Request"))
+       .Read(read => read.Action("Request_Read", "Request",new{id=ViewBag.Status}))
+       //.Update(update => update.Action("Request_Update", "Request"))
+       // .Destroy(update => update.Action("Request_Destroy", "Request"))
+    )
+  )
