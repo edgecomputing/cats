@@ -22,6 +22,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ISeasonService _seasonService;
         private readonly ITypeOfNeedAssessmentService _typeOfNeedAssessmentService;
         private readonly ILog _log;
+        private readonly IPlanService _planService;
 
      
 
@@ -29,7 +30,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                         IAdminUnitService adminUnitService, 
                                         INeedAssessmentHeaderService needAssessmentHeaderService, 
                                         INeedAssessmentDetailService needAssessmentDetailService, 
-                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService,ILog log)
+                                        ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService,
+                                        ILog log,IPlanService planService)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;
@@ -38,6 +40,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _seasonService = seasonService;
             _typeOfNeedAssessmentService = typeOfNeedAssessmentService;
             _log = log;
+            _planService = planService;
         }
 
         //
@@ -95,6 +98,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID","Name");
             ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID","Name");
             ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID","TypeOfNeedAssessment1");
+            ViewBag.PlanID = new SelectList(_planService.GetAllPlan(), "PlanID", "PlanName");
             return View();
         }
 
@@ -102,6 +106,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult AddRegion(NeedAssessment needAssessment,FormCollection collection)
         {
+           
             try
             {
              ViewBag.Error = "";
@@ -117,8 +122,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             needAssessment.Season = season;
             needAssessment.Year = needAssessment.NeedADate.Value.Year;
             needAssessment.TypeOfNeedAssessment = typeOfNeedID;
-
-
+                
+           //var plan = _planService.AddNeedAssessmentPlan(needAssessment);
          
             if (ModelState.IsValid)
             {

@@ -52,7 +52,15 @@
                                     {
                                         <li class="disabled"><a href="#">@Html.Translate("Gift Certificate")</a></li>
                                     }
-                                    <li class="divider"></li>
+                                        <li class="divider"></li>
+                                      if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Modify_HRD,db_user))
+                                    {                               
+                                        <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate("Plan")</a></li>
+                                    }
+                                    else
+                                    {
+                                       <li class="disabled"><a href="#">@Html.Translate("Plan")</a></li>
+                                    }
                                     if(_checkAccessHelper.CheckAccess(EarlyWarningCheckAccess.Operation.Edit_needs_assessment,db_user))
                                     {                               
                                         <li><a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })">@Html.Translate("Needs Assessment")</a></li>

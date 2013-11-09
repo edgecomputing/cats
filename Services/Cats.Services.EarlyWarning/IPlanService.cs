@@ -24,5 +24,7 @@ namespace Cats.Services.EarlyWarning
              string includeProperties = "");
 
        List<Program> GetPrograms();
+       Plan AddNeedAssessmentPlan(NeedAssessment needAssessment);
+
     }
 }

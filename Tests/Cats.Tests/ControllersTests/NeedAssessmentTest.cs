@@ -192,8 +192,27 @@ NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="
             typeOfNeedAssessmentService.Setup(t => t.GetAllTypeOfNeedAssessment()).Returns(TypeOfAssessment);
 
             var log = new Mock<ILog>();
-
-
+            var plan = new List<Plan>
+                {
+                    new Plan
+                        {
+                            PlanID = 1,
+                            PlanName = "NeedAssessmentPlan",
+                            ProgramID = 1,
+                            StartDate = new DateTime(12/12/2013),
+                            EndDate = new DateTime(12/12/2014)
+                        },
+                    new Plan
+                        {
+                            PlanID = 2,
+                            PlanName = "NeedAssessmentPlan2",
+                            ProgramID = 1,
+                            StartDate = new DateTime(12/12/2013),
+                            EndDate = new DateTime(12/12/2014)
+                        }
+                };
+            var planService = new Mock<IPlanService>();
+            planService.Setup(m => m.GetAllPlan()).Returns(plan);
 
             _needAssessmentController=new NeedAssessmentController(needAssessmentService.Object,
                                                                     adminUnitService.Object,
@@ -201,7 +220,7 @@ NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="
                                                                     needAssessmentDetailService.Object,
                                                                     seasonService.Object,
                                                                     typeOfNeedAssessmentService.Object,
-                                                                    log.Object);
+                                                                    log.Object,planService.Object);
         }
         [TearDown]
         public void Dispose()

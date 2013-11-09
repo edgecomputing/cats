@@ -66,6 +66,22 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.PlanRepository.Get(filter, orderBy, includeProperties);
         }
+        public Plan AddNeedAssessmentPlan(NeedAssessment needAssessment)
+        {
+            var plan = new Plan();
+            plan.PlanName = needAssessment.Plan.PlanName;
+            plan.StartDate = needAssessment.Plan.StartDate;
+            plan.EndDate = needAssessment.Plan.EndDate;
+            var program = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief");
+            plan.ProgramID = program.First().ProgramID;
+            var savePlan=_unitOfWork.PlanRepository.Add(plan);
+            _unitOfWork.Save();
+            if (savePlan)
+            {
+                return plan;
+            }
+            return null;
+        }
        public List<Program> GetPrograms()
        {
            return _unitOfWork.ProgramRepository.GetAll();

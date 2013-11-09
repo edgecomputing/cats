@@ -63,6 +63,15 @@
                     @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
                 </div>
             </div>
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PlanID)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("PlanID",String.Empty)
+                    @Html.ValidationMessageFor(model => model.PlanID)
+                </div>
+            </div>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.Remark)
