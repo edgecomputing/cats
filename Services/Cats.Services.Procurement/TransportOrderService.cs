@@ -238,6 +238,13 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+
+         //this action is used to send/Persist notifications 
+        private void Notify(TransportOrder transport)
+        {
+            
+        }
+
         private List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<int> requisitions)
         {
             var requisionIds = requisitions.ToList();

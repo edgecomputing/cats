@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Newtonsoft.Json;
 using Telerik.Web.Mvc;
@@ -80,7 +80,7 @@ namespace Cats.Web.Hub.Controllers
         {
             if (!id.HasValue)
             {
-                return View(new GridModel(new List<Cats.Models.Hub.GiftCertificateDetailsViewModel>()));
+                return View(new GridModel(new List<Cats.Models.Hubs.GiftCertificateDetailsViewModel>()));
             }
             else
             {
@@ -89,7 +89,7 @@ namespace Cats.Web.Hub.Controllers
                 {
                     var gC = (from g in gc.GiftCertificateDetails
                               where g.GiftCertificateID == id
-                              select new Cats.Models.Hub.GiftCertificateDetailsViewModel()
+                              select new Cats.Models.Hubs.GiftCertificateDetailsViewModel()
                                          {
                                              CommodityID = g.CommodityID,
                                              BillOfLoading = g.BillOfLoading,
@@ -110,7 +110,7 @@ namespace Cats.Web.Hub.Controllers
                 }
                 else
                 {
-                    return View(new GridModel(new List<Cats.Models.Hub.GiftCertificateDetailsViewModel>()));
+                    return View(new GridModel(new List<Cats.Models.Hubs.GiftCertificateDetailsViewModel>()));
                 }
             }
         }
@@ -148,7 +148,7 @@ namespace Cats.Web.Hub.Controllers
         // POST: /GiftCertificate/Create
 
         [HttpPost]
-        public ActionResult Create(Cats.Models.Hub.GiftCertificateViewModel giftcertificate)
+        public ActionResult Create(Cats.Models.Hubs.GiftCertificateViewModel giftcertificate)
         {
             if (ModelState.IsValid)
             {
@@ -173,9 +173,9 @@ namespace Cats.Web.Hub.Controllers
             return Create(); //GiftCertificateViewModel.GiftCertificateModel(giftcertificate));
         }
 
-        private void InsertGiftCertificate(Cats.Models.Hub.GiftCertificateViewModel giftcertificate, GiftCertificate giftCertificateModel)
+        private void InsertGiftCertificate(Cats.Models.Hubs.GiftCertificateViewModel giftcertificate, GiftCertificate giftCertificateModel)
         {
-            List<Cats.Models.Hub.GiftCertificateDetailsViewModel> giftCertificateDetails = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
+            List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> giftCertificateDetails = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
             var giftDetails = GenerateGiftCertificate(giftCertificateDetails);
             foreach (GiftCertificateDetail giftDetail in giftDetails)
             {
@@ -185,18 +185,18 @@ namespace Cats.Web.Hub.Controllers
         }
 
         //generate view models from the respective json array of GiftCertificateDetails json elements
-        private List<Cats.Models.Hub.GiftCertificateDetailsViewModel> GetSelectedGiftCertificateDetails(string jsonArray)
+        private List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> GetSelectedGiftCertificateDetails(string jsonArray)
         {
-            List<Cats.Models.Hub.GiftCertificateDetailsViewModel> giftCertificateDetails = null;
+            List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> giftCertificateDetails = null;
             if (!string.IsNullOrEmpty(jsonArray))
             {
-                giftCertificateDetails = JsonConvert.DeserializeObject<List<Cats.Models.Hub.GiftCertificateDetailsViewModel>>(jsonArray);
+                giftCertificateDetails = JsonConvert.DeserializeObject<List<Cats.Models.Hubs.GiftCertificateDetailsViewModel>>(jsonArray);
             }
             return giftCertificateDetails;
         }
 
         //return the respective bll model's from the list of view models 
-        private static List<GiftCertificateDetail> GenerateGiftCertificate(List<Cats.Models.Hub.GiftCertificateDetailsViewModel> giftCertificateDetails)
+        private static List<GiftCertificateDetail> GenerateGiftCertificate(List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> giftCertificateDetails)
         {
             if (giftCertificateDetails != null)
             {
@@ -254,9 +254,9 @@ namespace Cats.Web.Hub.Controllers
 
                 GiftCertificate giftCertificateModel = giftcertificate.GenerateGiftCertificate();
 
-                List<Cats.Models.Hub.GiftCertificateDetailsViewModel> insertCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
-                List<Cats.Models.Hub.GiftCertificateDetailsViewModel> deletedCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONDeletedGiftCertificateDetails);
-                List<Cats.Models.Hub.GiftCertificateDetailsViewModel> updateCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONUpdatedGiftCertificateDetails);
+                List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> insertCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
+                List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> deletedCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONDeletedGiftCertificateDetails);
+                List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> updateCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONUpdatedGiftCertificateDetails);
 
                 _giftCertificateService.Update(giftCertificateModel, GenerateGiftCertificate(insertCommodities),
                      GenerateGiftCertificate(updateCommodities),

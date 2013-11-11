@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
 
 

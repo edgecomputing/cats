@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
-using Cats.Models.Hub.ViewModels.Report;
+using Cats.Models.Hubs.ViewModels.Report;
 using System.Linq;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 
 namespace Cats.Services.Hub
 {

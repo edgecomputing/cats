@@ -205,10 +205,32 @@
                                 <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })">@Html.Translate("Dispatch Locations")</a></li>
                             </ul>
                         </li>
+                     <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Hub") <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
 
+                                <li><a href="@Url.Action("Index","StartingBalance",new {Area="Hub"})">@Html.Translate("Starting Balance")</a></li>
+                                <li><a href="@Url.Action("Index","Receive",new {Area="Hub"})">@Html.Translate("Receipts")</a></li>
+                                 <li><a href="@Url.Action("Index", "Dispatch", new { Area = "Hub" })">@Html.Translate("Dispatch") </a></li>
+                               <li class="divider" />
+                                <li><a href="@Url.Action("Index", "InternalMovement", new { Area = "Hub" })">@Html.Translate("Internal Movemnets")</a></li>
+                                <li><a href="@Url.Action("Index", "LossesAndAdjustments", new { Area = "Hub" })">@Html.Translate("Losses and Adjustments")</a></li>
+                                <li><a href="@Url.Action("Index", "StackEvent", new { Area = "Hub" })">@Html.Translate("Stack Events")</a></li>
+                                <li class="divider" />
+                                 <li><a href="@Url.Action("Index", "BinCard", new { Area = "Hub" })">@Html.Translate("Bin Card")</a></li>
+                                <li><a href="@Url.Action("Index", "StockStatus", new { Area = "Hub" })">@Html.Translate("Store Report")</a></li>
+                                <li><a href="@Url.Action("FreeStock", "StockStatus", new { Area = "Hub" })">@Html.Translate("Free Stock")</a></li>
+                                <li><a href="@Url.Action("Receipts", "StockStatus", new { Area = "Hub" })">@Html.Translate("Receipt Status")</a></li>
+                                  <li><a href="@Url.Action("Dispatch", "StockStatus", new { Area = "Hub" })">@Html.Translate("Dispatch Status")</a></li>
+                                <li class="divider" />
+                                  <li><a href="@Url.Action("Index", "TransportationReport", new { Area = "Hub" })">@Html.Translate("Transportation Reports")</a></li>
+                                  <li><a href="@Url.Action("Home", "Admin", new { Area = "Hub" })">@Html.Translate("Admin")</a></li>
+                              
+                            </ul>
+                        </li>
 
                         <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">@Html.Translate("Settings")</a></li>
-                    <li><a href="@Url.Action("RedirectToHub", "Account")">@Translator.Translate("Hub")</a> </li>
+                   
 
                     
 
@@ -217,7 +239,7 @@
                     <li class="divider-vertical"></li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"></i><b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"></i><b class="caret"><span class="badge pull-right" style="color: red">42</span></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.Translate("Messages")</li>
                         </ul>

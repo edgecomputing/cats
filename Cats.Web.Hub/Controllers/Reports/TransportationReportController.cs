@@ -6,7 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Hub;
-using Cats.Models.Hub.ViewModels;
+using Cats.Models.Hubs.ViewModels;
 
 namespace Cats.Web.Hub.Controllers.Reports
 {

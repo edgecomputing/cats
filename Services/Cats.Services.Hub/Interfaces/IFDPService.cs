@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Cats.Models.Hub;
-using Cats.Models.Hub.ViewModels.Report;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels.Report;
 
 namespace Cats.Services.Hub
 {

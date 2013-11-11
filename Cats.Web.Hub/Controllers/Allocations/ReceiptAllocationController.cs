@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 
 namespace Cats.Web.Hub.Controllers.Allocations
@@ -156,7 +156,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
             var user = _userProfileService.GetUser(User.Identity.Name);
             var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var donors = _donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var hubs = new List<Cats.Models.Hub.Hub>();
+            var hubs = new List<Cats.Models.Hubs.Hub>();
             if (user != null)
             {
                 //Hubs = new List<Hub>() { user.DefaultHub };
@@ -237,10 +237,10 @@ namespace Cats.Web.Hub.Controllers.Allocations
                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 receiptAllocation.HubID = user.DefaultHub.HubID;
 
-                if (typeOfGridToReload != Cats.Models.Hub.CommoditySource.Constants.DONATION &&
-                    typeOfGridToReload != Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+                if (typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
+                    typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                 {
-                    typeOfGridToReload = Cats.Models.Hub.CommoditySource.Constants.LOAN;
+                    typeOfGridToReload = Cats.Models.Hubs.CommoditySource.Constants.LOAN;
                 }
                 receiptAllocation.ReceiptAllocationID = Guid.NewGuid();
                 _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
@@ -449,10 +449,10 @@ namespace Cats.Web.Hub.Controllers.Allocations
                 //override to default hub
                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 receiptAllocation.HubID = user.DefaultHub.HubID;
-                if (typeOfGridToReload != Cats.Models.Hub.CommoditySource.Constants.DONATION &&
-                    typeOfGridToReload != Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+                if (typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
+                    typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                 {
-                    typeOfGridToReload = Cats.Models.Hub.CommoditySource.Constants.LOAN;
+                    typeOfGridToReload = Cats.Models.Hubs.CommoditySource.Constants.LOAN;
                 }
                 //TODO:Check savechanges -> EditRecieptAllocation
                 _receiptAllocationService.EditReceiptAllocation(receiptAllocation);
@@ -501,7 +501,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
                     receiptAllocationViewModel.CommoditySources.Add(
                         _commoditySourceService.FindById(CommoditySource.Constants.DONATION));
                     receiptAllocationViewModel.CommoditySourceID =CommoditySource.Constants.DONATION;
-                    var hubs = new List<Cats.Models.Hub.Hub>();
+                    var hubs = new List<Cats.Models.Hubs.Hub>();
                     //foreach (var c in receiptAllocationViewModel.Hubs)
                     //{
                     //    var bySI = _receiptAllocationService.FindBySINumber(SInumber);
@@ -612,7 +612,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
                 IEnumerable<SelectListItemModel> SINumbers = new List<SelectListItemModel>();
                 IEnumerable<SelectListItemModel> SINumbersRA = new List<SelectListItemModel>();
 
-                if (commoditySoureType == Cats.Models.Hub.CommoditySource.Constants.DONATION)
+                if (commoditySoureType == Cats.Models.Hubs.CommoditySource.Constants.DONATION)
                 {
                     SINumbers = from item in _giftCertificateService.GetAllGiftCertificate()
                                 select new SelectListItemModel()
@@ -642,7 +642,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
                 IEnumerable<SelectListItemModel> SINumbersGCD = new List<SelectListItemModel>();
                 IEnumerable<SelectListItemModel> SINumbersRA = new List<SelectListItemModel>();
 
-                if (commoditySoureType == Cats.Models.Hub.CommoditySource.Constants.DONATION)
+                if (commoditySoureType == Cats.Models.Hubs.CommoditySource.Constants.DONATION)
                 {
                     SINumbersGCD = from p in _giftCertificateDetailService.GetUncommitedSIs()
                                    select new SelectListItemModel()
@@ -772,10 +772,10 @@ namespace Cats.Web.Hub.Controllers.Allocations
                 int commType = delAllocation.Commodity.CommodityTypeID;
                 _receiptAllocationService.CloseById(Guid.Parse(id));
                 //return the type of the allocation closed so that we can reload that respective grid(i.e. not every grid)
-                if (typeOfGridToReload != Cats.Models.Hub.CommoditySource.Constants.DONATION &&
-                    typeOfGridToReload != Cats.Models.Hub.CommoditySource.Constants.LOCALPURCHASE)
+                if (typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
+                    typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                 {
-                    typeOfGridToReload = Cats.Models.Hub.CommoditySource.Constants.LOAN;
+                    typeOfGridToReload = Cats.Models.Hubs.CommoditySource.Constants.LOAN;
                 }
                 return Json(new {gridId = typeOfGridToReload, CommodityTypeID = commType}, JsonRequestBehavior.AllowGet);
                 //return RedirectToAction("index", "Receive");

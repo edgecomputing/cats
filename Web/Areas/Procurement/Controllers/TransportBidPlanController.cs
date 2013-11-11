@@ -185,7 +185,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             //this._transportBidPlanDetailService.get
             List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.DestinationID == WoredaID);
-             List<Hub> hubs = _hubService.GetAllHub();
+             List<Cats.Models.Hub> hubs = _hubService.GetAllHub();
             
             List<WarehouseProgramViewModel> ret=
                ( from hub in hubs

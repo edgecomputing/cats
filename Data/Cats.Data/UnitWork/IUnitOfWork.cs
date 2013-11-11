@@ -129,10 +129,10 @@ namespace Cats.Data.UnitWork
         IGenericRepository<UserHub> UserHubRepository { get; }
         IGenericRepository<TransReqWithoutTransporter> TransReqWithoutTransporterRepository { get; }
         IGenericRepository<AllocationByRegion> AllocationByRegionRepository { get; }
-
+        IGenericRepository<Plan> PlanRepository { get; } 
         IGenericRepository<PromisedContribution> PromisedContributionRepository { get; }
 
-
+        IGenericRepository<Notification> NotificationRepository { get; } 
         void Save();
 
     }

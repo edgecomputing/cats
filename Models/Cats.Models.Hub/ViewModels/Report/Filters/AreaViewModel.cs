@@ -1,4 +1,4 @@
-﻿namespace Cats.Models.Hub.ViewModels.Report
+﻿namespace Cats.Models.Hubs.ViewModels.Report
 {
     /// <summary>
     /// region | zone | woreda | FDP

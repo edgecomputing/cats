@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Cats.Models.Hub.ViewModels
+namespace Cats.Models.Hubs.ViewModels
 {
 
     public class StartingBalanceViewModelDto

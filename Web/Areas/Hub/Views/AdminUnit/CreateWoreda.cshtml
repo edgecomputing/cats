@@ -1,0 +1,36 @@
+﻿@model Cats.Models.Hubs.AdminUnitModel
+@using Cats.Web.Hub.Infrastructure
+@using Telerik.Web.Mvc.UI
+@using Cats.Web.Hub.Helpers
+
+@using (Html.BeginForm("Create","AdminUnit")) {
+    @Html.ValidationSummary(true) 
+
+        @Html.HiddenFor(m=>m.SelectedAdminUnitTypeId)
+        @*<script src="@Url.Content("~/Scripts/Cascade.js")" type="text/javascript"></script>*@
+        <script src="@Url.Content("~/Scripts/2013.1.219/telerik.list.min.js")" type="text/javascript"></script>
+    <table>
+        <tr>
+            <td>@Html.Translate("Region")</td>
+            <td>@Html.DisplayFor(model => model.SelectedRegionName)
+                @Html.HiddenFor(model => model.SelectedRegionId)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.Translate("Zone")</td>
+            <td>
+            @Html.DisplayFor(model => model.SelectedZoneName)
+            @Html.HiddenFor(model => model.SelectedZoneId)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.Translate("Name")</td>
+            <td>@Html.EditorFor(m => m.UnitName)</td>
+        </tr>
+        <tr>
+            <td>@Html.Translate("Name (Amharic)")</td>
+            <td>@Html.EditorFor(m => m.UnitNameAM)</td>
+        </tr>
+    </table>
+    
+}

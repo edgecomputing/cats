@@ -4,13 +4,13 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Web.Hub.Helpers;
 using Newtonsoft.Json;
 using Telerik.Web.Mvc;
 using System;
-using Cats.Models.Hub.ViewModels.Dispatch;
+using Cats.Models.Hubs.ViewModels.Dispatch;
 
 namespace Cats.Web.Hub.Controllers
 { 

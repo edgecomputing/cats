@@ -96,11 +96,13 @@
     <Compile Include="ILogReadService.cs" />
     <Compile Include="INeedAssessmentSummaryService.cs" />
     <Compile Include="ILetterTemplateService.cs" />
+    <Compile Include="INotificationService.cs" />
     <Compile Include="IUserDashboardPreferenceService.cs" />
     <Compile Include="LedgerService.cs" />
     <Compile Include="letterTemplateService.cs" />
     <Compile Include="LogReadService.cs" />
     <Compile Include="NotificationHub.cs" />
+    <Compile Include="NotificationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NeedAssessmentSummaryService.cs" />
     <Compile Include="UserDashboardPreferenceService.cs" />

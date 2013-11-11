@@ -716,12 +716,22 @@ namespace Cats.Data.UnitWork
             get { return this.allocationByRegionRepository ?? (this.allocationByRegionRepository = new GenericRepository<AllocationByRegion>(_context)); }
         }
 
+        private IGenericRepository<Plan>planRepository;
+        public IGenericRepository<Plan> PlanRepository
+         {
+           get { return this.planRepository ?? (this.planRepository = new GenericRepository<Plan>(_context)); }
+         }
+       
         private IGenericRepository<PromisedContribution> _PromisedContributionRepository = null;
         public IGenericRepository<PromisedContribution> PromisedContributionRepository
         {
             get { return this._PromisedContributionRepository ?? (this._PromisedContributionRepository = new GenericRepository<PromisedContribution>(_context)); }
         }
 
-        
+        private IGenericRepository<Notification> notificationRepository = null;
+        public IGenericRepository<Notification> NotificationRepository
+        {
+            get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
+        }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     public partial class SM
     {

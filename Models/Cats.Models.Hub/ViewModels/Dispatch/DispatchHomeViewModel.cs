@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace Cats.Models.Hub.ViewModels.Dispatch
+namespace Cats.Models.Hubs.ViewModels.Dispatch
 {
    public class DispatchHomeViewModel
     {
