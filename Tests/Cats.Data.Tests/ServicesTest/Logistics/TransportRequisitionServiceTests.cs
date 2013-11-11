@@ -192,17 +192,19 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                              }
                                                  }
                                          };
-            //_transportRequisition = new TransportRequisition()
-            //                            {
-            //                                Status = 1,
-            //                                RequestedBy = 1,
-            //                                CertifiedBy = 1,
-            //                                CertifiedDate = DateTime.Today,
-            //                                RequestedDate = DateTime.Today,
-            //                                TransportRequisitionID = 1,
-            //                                TransportRequisitionNo = "T-001",
-            //                                Remark = "comment"
-            //                            };
+            _transportRequisition = new TransportRequisition()
+                                        {
+                                            Status = 1,
+                                            AdminUnit = new AdminUnit { AdminUnitID = 2,
+                                                                      Name = "Zone1"},
+                                            RequestedBy = 1,
+                                            CertifiedBy = 1,
+                                            CertifiedDate = DateTime.Today,
+                                            RequestedDate = DateTime.Today,
+                                            TransportRequisitionID = 1,
+                                            TransportRequisitionNo = "T-001",
+                                            Remark = "comment"
+                                        };
             var mockReliefRequisitionRepository = new Mock<IGenericRepository<ReliefRequisition>>();
             mockReliefRequisitionRepository.Setup(
                 t => t.Get(It.IsAny<Expression<Func<ReliefRequisition, bool>>>(), It.IsAny<Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>>>(), It.IsAny<string>())).Returns(
@@ -272,10 +274,6 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         [Test]
         public void CanGenerateRequisitonReadyToDispatch()
         {
-
-
-
-
             //Act 
 
             var requisitionToDispatch = _transportRequisitionService.GetRequisitionToDispatch().ToList();
