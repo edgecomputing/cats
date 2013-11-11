@@ -9,9 +9,15 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
+@section Toolbar
+{
+     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmEdit"></a>
+   <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" data-buttontype="btn_back_to_list"></a>
+}
+
 <h4>Edit Transport Requisition</h4>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","TransportRequisition",FormMethod.Post,new {id="frmEdit"}))
 {
     @Html.ValidationSummary(true)
 
@@ -77,16 +83,16 @@
             </div>
             
 
-            <div class="controls">
+@*            <div class="controls">
                 <input type="submit" value="Save" />
-            </div>
+            </div>*@
         </div>
     </fieldset>
 }
 
-<div>
+@*<div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

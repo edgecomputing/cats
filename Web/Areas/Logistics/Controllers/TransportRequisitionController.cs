@@ -94,12 +94,12 @@ namespace Cats.Areas.Logistics.Controllers
             if (transportRequisition != null)
             {
                 transportRequisitionViewModel = new TransportRequisitionViewModel();
-                //transportRequisitionViewModel.CertifiedBy = transportRequisition.CertifiedBy;
+                transportRequisitionViewModel.CertifiedBy = _userAccountService.FindById(transportRequisition.CertifiedBy).FullName;
                 transportRequisitionViewModel.CertifiedDate = transportRequisition.CertifiedDate;
                 transportRequisitionViewModel.DateCertified = transportRequisition.CertifiedDate.ToCTSPreferedDateFormat(userPreference);
                 //EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
                 transportRequisitionViewModel.Remark = transportRequisition.Remark;
-                //transportRequisitionViewModel.RequestedBy = transportRequisition.RequestedBy;
+                transportRequisitionViewModel.RequestedBy = _userAccountService.FindById(transportRequisition.RequestedBy).FullName;
                 transportRequisitionViewModel.RequestedDate = transportRequisition.RequestedDate;
                 transportRequisitionViewModel.DateRequested = transportRequisition.RequestedDate.ToCTSPreferedDateFormat(userPreference);
                 //EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
@@ -234,19 +234,33 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult CreateTransportRequisition(int regionId)
         {
-            var requisitions = _reliefRequisitionService.FindBy(t => t.RegionID == regionId && t.Status==(int)ReliefRequisitionStatus.ProjectCodeAssigned);
-            var programs = (from item in requisitions select item.ProgramID).ToList();
-            var requisitionToDispatches = new List<List<int>>();
-            foreach (var program in programs)
+            try
             {
-                var requisitionToDispatche =
-                    (from itm in requisitions where itm.ProgramID == program select itm.RequisitionID).ToList();
-                requisitionToDispatches.Add(requisitionToDispatche);
-                
+                var requisitions = _reliefRequisitionService.FindBy(t => t.RegionID == regionId && t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned);
+                var programs = (from item in requisitions select item.ProgramID).ToList();
+                var requisitionToDispatches = new List<List<int>>();
+                var currentUser = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
+                foreach (var program in programs)
+                {
+                    var requisitionToDispatche =
+                        (from itm in requisitions where itm.ProgramID == program select itm.RequisitionID).ToList();
+                    requisitionToDispatches.Add(requisitionToDispatche);
+
+                }
+                _transportRequisitionService.CreateTransportRequisition(requisitionToDispatches, currentUser);
+
+                return RedirectToAction("Index", "TransportRequisition");//,new {id=(int)TransportRequisitionStatus.Draft});
             }
-            _transportRequisitionService.CreateTransportRequisition(requisitionToDispatches);
+            catch (Exception exception)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception, _log);
+                ModelState.AddModelError("",exception.Message);
+
+                return RedirectToAction("Main", "DispatchAllocation");
+                throw;
+            }
           
-            return RedirectToAction("Index", "TransportRequisition");//,new {id=(int)TransportRequisitionStatus.Draft});
         }
 
         //public ActionResult GenerateTransportRequisitionForRegion(int regionID)
@@ -299,12 +313,14 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 return HttpNotFound();
             }
-            return View(transportRequisition);
+            var transportRequisitionViewModel = BindTransportRequisitionViewModel(transportRequisition);
+            return View(transportRequisitionViewModel);
         }
         [HttpPost]
         public ActionResult ApproveConfirmed(int TransportRequisitionID)
         {
-            _transportRequisitionService.ApproveTransportRequisition(TransportRequisitionID);
+            var currentUser = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
+            _transportRequisitionService.ApproveTransportRequisition(TransportRequisitionID, currentUser);
            
             return RedirectToAction("Index", "TransportRequisition");
         }

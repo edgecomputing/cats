@@ -1,6 +1,6 @@
-﻿@model Cats.Models.TransportRequisition
+﻿@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
-@{
+@*@{
     ViewBag.Title = "Approve";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
@@ -8,79 +8,85 @@
 @section LeftBar
 {
     @Html.Partial("_AllocationLeftBar")
-}
-<h2>Are you sure you want to approve selected Transport Requisition?</h2>
+}*@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Approve Transport Requisition")</h3>
+</div>
 
-<fieldset>
-    <legend></legend>
-    <div class="form-horizontal">
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+<h5 class="offset1">@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to approve selected Transport Requisition?")</h5>
+@using (Html.BeginForm("ApproveConfirmed", "TransportRequisition", FormMethod.Post, new { @class = "modal-form" }))
+{
+    <div class="modal-body form-horizontal">
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+                    </div>
+                    <div class="controls span6 ">
+                        @Html.TextBoxFor(model => model.TransportRequisitionNo,new {disabled="disabled" ,@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.RequestedBy)
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.RequestedBy,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.LabelFor(model => model.DateRequested,new {@class="cats-date-pref"})
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.DateRequested,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
             </div>
-            <div class="controls">
-                @Html.DisplayFor(model => model.TransportRequisitionNo)
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.LabelFor(model => model.CertifiedBy)
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.CertifiedBy,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.LabelFor(model => model.DateCertified,new {@class="cats-date-pref"})
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.DateCertified,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.Remark)
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.Remark,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.RequestedBy)
-            </div>
-            <div class="controls">
-                @Html.DisplayFor(model => model.RequestedBy)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.RequestedDate)
-            </div>
-            <div class="controls">
-                @Html.DisplayFor(model => model.RequestedDate)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.CertifiedBy)
-            </div>
-            <div class="controls">
-                @Html.DisplayFor(model => model.CertifiedBy)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.CertifiedDate)
-            </div>
-            <div class="controls">
-                @Html.DisplayFor(model => model.CertifiedDate)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.DisplayNameFor(model => model.Remark)
-            </div>
-            <div class="controls">
-                @Html.DisplayFor(model => model.Remark)
-            </div>
-        </div>
+    @Html.HiddenFor(model => model.TransportRequisitionID)
+    <div class="modal-footer">
+        @if (Model.StatusID == (int)Cats.Models.Constant.TransportRequisitionStatus.Draft)
+        {
+            <button class="btn btn-primary" type="submit">Yes</button>
+        }
+        <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
 
     </div>
-</fieldset>
-<p></p>
-@using (Html.BeginForm("ApproveConfirmed", "TransportRequisition", FormMethod.Post))
-{
-   
-        @Html.HiddenFor(model => model.TransportRequisitionID)
-        <div class="control-group">
-            <div class="controls">
-                <input class="btn btn-success" type="submit" value="Approve Transport Requisition" />
-            </div>
 
-        </div>
-   
 }
 

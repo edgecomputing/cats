@@ -73,8 +73,9 @@ namespace Cats.Services.Logistics
         }
         #endregion
 
-        public bool CreateTransportRequisition(List<List<int>> programRequisitons)
+        public bool CreateTransportRequisition(List<List<int>> programRequisitons,int requestedBy)
         {
+            if(programRequisitons.Count < 1) return false;
             foreach (var reliefRequisitions in programRequisitons)
             {
 
@@ -92,12 +93,13 @@ namespace Cats.Services.Logistics
                 {
                     program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID.Value);
                 }
+                
                 var transportRequisition = new TransportRequisition()
                                                {
-                                                   Status = 1, //Draft
+                                                   Status = (int)TransportRequisitionStatus.Draft, //Draft
                                                    RequestedDate = DateTime.Today,
-                                                   RequestedBy = 1, //should be current user
-                                                   CertifiedBy = 1, //Should be some user
+                                                   RequestedBy = requestedBy, //should be current user
+                                                   CertifiedBy = requestedBy, //Should be some user
                                                    CertifiedDate = DateTime.Today, //should be date cerified
                                                    TransportRequisitionNo = Guid.NewGuid().ToString(),
                                                    RegionID = region.AdminUnitID,
@@ -177,13 +179,15 @@ namespace Cats.Services.Logistics
         }
 
 
-        public bool ApproveTransportRequisition(int id)
+        public bool ApproveTransportRequisition(int id,int approvedBy)
         {
             var transportRequisition =
                 _unitOfWork.TransportRequisitionRepository.FindById(id);
             if(transportRequisition==null) return false;
             
             transportRequisition.Status = (int) TransportRequisitionStatus.Approved;
+            transportRequisition.CertifiedBy = approvedBy;
+            transportRequisition.CertifiedDate = DateTime.Today;
             _unitOfWork.Save();
             return true;
         }
