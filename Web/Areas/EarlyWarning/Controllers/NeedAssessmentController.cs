@@ -99,7 +99,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID","Name");
             ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID","TypeOfNeedAssessment1");
             ViewBag.PlanID = new SelectList(_planService.GetAllPlan(), "PlanID", "PlanName");
-            return View();
+            var needAssessement = new NeedAssessment();
+            return View(needAssessement);
         }
 
        
@@ -107,23 +108,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult AddRegion(NeedAssessment needAssessment,FormCollection collection)
         {
            
-            try
-            {
+           
              ViewBag.Error = "";
              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
              int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
              int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
 
+             var plan = _planService.AddNeedAssessmentPlan(needAssessment);
+             try
+             {
 
             needAssessment.NeddACreatedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
             needAssessment.NeedAApproved = false;
             needAssessment.NeedAApprovedBy = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
             needAssessment.Region = int.Parse(region.ToString(CultureInfo.InvariantCulture));
             needAssessment.Season = season;
-            needAssessment.Year = needAssessment.NeedADate.Value.Year;
+            //needAssessment.Year = needAssessment.NeedADate.Value.Year;
             needAssessment.TypeOfNeedAssessment = typeOfNeedID;
-                
-           //var plan = _planService.AddNeedAssessmentPlan(needAssessment);
+            needAssessment.PlanID = plan.PlanID;
+           // needAssessment.Plan= plan;
+            needAssessment.Year = DateTime.Now.Year;   
+           
          
             if (ModelState.IsValid)
             {
@@ -139,14 +144,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             catch (Exception exception)
             {
-                var log = new Logger();
-                log.LogAllErrorsMesseges(exception,_log);
+                //var log = new Logger();
+                //log.LogAllErrorsMesseges(exception,_log);
 
-                ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-                ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
-                ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
-                ViewBag.Error = "An error has occured: This region has already been registered with the information you are trying to input. Please choose a different Region, Seasnon, Year or Type of Need Assessment.";
-                ModelState.AddModelError("Errors", ViewBag.Error);
+                //ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+                //ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+                //ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
+                //ViewBag.Error = "An error has occured: This region has already been registered with the information you are trying to input. Please choose a different Region, Seasnon, Year or Type of Need Assessment.";
+                //ModelState.AddModelError("Errors", ViewBag.Error);
                 return View();
             }
         }

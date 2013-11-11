@@ -16,9 +16,96 @@
 {
     @Html.ValidationSummary(true)
 
-    <fieldset>
         <legend>@Translator.Translate("Add New Need Assessment")</legend>
-        <div class="form-horizontal  ">
+        
+        <div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Plan.PlanName)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Plan.PlanName)
+                   @Html.ValidationMessageFor(m =>m.Plan.PlanName)
+                </div>
+            </div>
+        </div>
+
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Region)
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new {id = "Region"})
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.Season)
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new {id = "Season"})
+                    @Html.ValidationMessageFor(model => model.Season)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment Type"))
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new {id = "TypeOfNeed"})
+                    
+                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment From"),new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                     @Html.TextBoxFor(m => m.Plan.StartDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m=>m.Plan.StartDate)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("To"),new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Plan.EndDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m=>m.Plan.EndDate)
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+        
+        
+        
+        
+        
+
+       @* <div class="form-horizontal  ">
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.Region)
@@ -82,9 +169,9 @@
                 </div>
             </div>
         </div>
-    </fieldset>
+    </fieldset>*@
 }
-
+@Html.Partial("PlannedNeedAssessment")
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

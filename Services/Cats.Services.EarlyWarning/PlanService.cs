@@ -68,19 +68,29 @@ namespace Cats.Services.EarlyWarning
         }
         public Plan AddNeedAssessmentPlan(NeedAssessment needAssessment)
         {
-            var plan = new Plan();
-            plan.PlanName = needAssessment.Plan.PlanName;
-            plan.StartDate = needAssessment.Plan.StartDate;
-            plan.EndDate = needAssessment.Plan.EndDate;
-            var program = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief");
-            plan.ProgramID = program.First().ProgramID;
-            var savePlan=_unitOfWork.PlanRepository.Add(plan);
-            _unitOfWork.Save();
-            if (savePlan)
+            var oldPlan = _unitOfWork.PlanRepository.FindBy(m => m.PlanName==needAssessment.Plan.PlanName).SingleOrDefault();
+            if (oldPlan == null)
             {
+                var program = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief");
+                var plan = new Plan
+                    {
+                        PlanName = needAssessment.Plan.PlanName,
+                        StartDate = needAssessment.Plan.StartDate,
+                        EndDate = needAssessment.Plan.EndDate,
+                        ProgramID = program.First().ProgramID,
+                        Program = _unitOfWork.ProgramRepository.FindBy(m=>m.Name=="Relief").FirstOrDefault()
+                        
+                    };
+                
+                var savePlan = _unitOfWork.PlanRepository.Add(plan);
+                _unitOfWork.Save();
+                if (!savePlan)
+                {
+                    return null;
+                }
                 return plan;
             }
-            return null;
+            return oldPlan;
         }
        public List<Program> GetPrograms()
        {

@@ -23,6 +23,6 @@ namespace Cats.Models
 
        public virtual ICollection<HRD> Hrds { get; set; }
        public virtual ICollection<NeedAssessment> NeedAssessments { get; set;} 
-       public virtual Program Program { get; set; }
+      public virtual Program Program { get; set; }
     }
 }
