@@ -1,0 +1,78 @@
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+@using LanguageHelpers.Localization
+@using Cats.Models;
+@model PromisedContribution
+@{
+    ViewBag.Title = Translator.Translate("Contributions");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+   
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_contribution"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("index", "PromisedContribution")"></a>
+}
+<!--<div class="well">@ViewBag.Message</div>-->
+<div class="form-horizontal">
+@using (Html.BeginForm("Edit", "PromisedContribution", FormMethod.Post, new { id = "frm_edit_contribution" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+
+        @Html.HiddenFor(model => model.PromisedContributionId)
+
+        <div class="control-group">
+            <label class="control-label" for="ExpectedTimeOfArrival"> @Html.LabelFor(model => model.ExpectedTimeOfArrival)</label>
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.ExpectedTimeOfArrival, new { @class = "cats-datepicker2", @placeholder = "ETA" })    
+                 @Html.ValidationMessageFor(model => model.ExpectedTimeOfArrival)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="DonorId"> @Html.LabelFor(model => model.Donor)</label>
+            <div class="controls">
+                 
+                @Html.DropDownList("DonorId")
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label class="control-label" for="CommodityId"> @Html.LabelFor(model => model.Commodity)</label>
+            <div class="controls">
+                
+                @Html.DropDownList("CommodityId")
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="HubId"> @Html.LabelFor(model => model.Hub)</label>
+            <div class="controls">
+                   
+                @Html.DropDownList("HubId")
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="PromisedQuantity"> @Html.LabelFor(model => model.PromisedQuantity)</label>
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.PromisedQuantity, new { @class = "input-xlarge", @placeholder = "Promised Quantity" })    
+                 @Html.ValidationMessageFor(model => model.PromisedQuantity)
+            </div>
+        </div>
+
+         <div class="control-group">
+            <label class="control-label" for="DeliveredQuantity"> @Html.LabelFor(model => model.DeliveredQuantity)</label>
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.DeliveredQuantity, new { @class = "input-xlarge", @placeholder = "Delivered Quantity" })    
+                 @Html.ValidationMessageFor(model => model.DeliveredQuantity)
+            </div>
+        </div>                   
+    </fieldset>
+}
+</div>
+

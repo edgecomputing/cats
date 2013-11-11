@@ -214,6 +214,7 @@
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
@@ -890,6 +891,8 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\Logistics\Views\PromisedContribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\PromisedContribution\Edit.cshtml" />
     <None Include="CatsMasterDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CatsMasterDataSet.Designer.cs</LastGenOutput>
