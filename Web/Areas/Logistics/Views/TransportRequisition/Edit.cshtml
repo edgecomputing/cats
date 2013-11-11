@@ -19,13 +19,14 @@
         <legend></legend>
 
         @Html.HiddenFor(model => model.TransportRequisitionID)
+        @Html.HiddenFor(model=>model.Status)
         <div class="form-horizontal">
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.TransportRequisitionNo)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.TransportRequisitionNo)
+                    @Html.TextBoxFor(model => model.TransportRequisitionNo)
                     @Html.ValidationMessageFor(model => model.TransportRequisitionNo)
                 </div>
             </div>
@@ -34,7 +35,7 @@
                     @Html.LabelFor(model => model.RequestedBy)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.RequestedBy)
+                    @Html.TextBoxFor(model => model.RequestedBy)
                     @Html.ValidationMessageFor(model => model.RequestedBy)
                 </div>
             </div>
@@ -43,7 +44,7 @@
                     @Html.LabelFor(model => model.RequestedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.RequestedDate, new { @class = "cats-datepicker" })
+                     @Html.TextBoxFor(model => model.RequestedDate, new { @class = " cats-datepicker2", @placeholder = "0" })
                     @Html.ValidationMessageFor(model => model.RequestedDate)
                 </div>
             </div>
@@ -52,7 +53,7 @@
                     @Html.LabelFor(model => model.CertifiedBy)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.CertifiedBy)
+                    @Html.TextBoxFor(model => model.CertifiedBy)
                     @Html.ValidationMessageFor(model => model.CertifiedBy)
                 </div>
             </div>
@@ -61,7 +62,7 @@
                     @Html.LabelFor(model => model.CertifiedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.CertifiedDate, new { @class = "cats-datepicker" })
+                   @Html.TextBoxFor(model => model.CertifiedDate, new { @class = " cats-datepicker2", @placeholder = "0" })
                     @Html.ValidationMessageFor(model => model.CertifiedDate)
                 </div>
             </div>
@@ -70,19 +71,11 @@
                     @Html.LabelFor(model => model.Remark)
                 </div>
                 <div class="controls">
-                    @Html.EditorFor(model => model.Remark)
+                    @Html.TextAreaFor(model => model.Remark)
                     @Html.ValidationMessageFor(model => model.Remark)
                 </div>
             </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Status)
-                </div>
-                <div class="controls">
-                    @Html.EditorFor(model => model.Status)
-                    @Html.ValidationMessageFor(model => model.Status)
-                </div>
-            </div>
+            
 
             <div class="controls">
                 <input type="submit" value="Save" />

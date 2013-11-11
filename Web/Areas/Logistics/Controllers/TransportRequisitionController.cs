@@ -125,53 +125,53 @@ namespace Cats.Areas.Logistics.Controllers
             return result.ToList();
         }
 
-        [HttpGet]
-        public ActionResult Requisitions()
-        {
-            var assignedRequisitions = _transportRequisitionService.GetRequisitionToDispatch();
-            var transportReqInput = (from item in assignedRequisitions
-                                     select new RequisitionToDispatchSelect()
-                                     {
-                                         CommodityName = item.CommodityName,
-                                         CommodityID = item.CommodityID,
-                                         HubID = item.HubID,
-                                         OrignWarehouse = item.OrignWarehouse,
-                                         QuanityInQtl = item.QuanityInQtl,
-                                         RegionID = item.RegionID,
-                                         RegionName = item.RegionName,
-                                         RequisitionID = item.RequisitionID,
-                                         RequisitionNo = item.RequisitionNo,
-                                         ZoneID = item.ZoneID,
-                                         Zone = item.Zone,
-                                         RequisitionStatusName = item.RequisitionStatusName,
-                                         RequisitionStatus = item.RequisitionStatus,
+        //[HttpGet]
+        //public ActionResult Requisitions()
+        //{
+        //    var assignedRequisitions = _transportRequisitionService.GetRequisitionToDispatch();
+        //    var transportReqInput = (from item in assignedRequisitions
+        //                             select new RequisitionToDispatchSelect()
+        //                             {
+        //                                 CommodityName = item.CommodityName,
+        //                                 CommodityID = item.CommodityID,
+        //                                 HubID = item.HubID,
+        //                                 OrignWarehouse = item.OrignWarehouse,
+        //                                 QuanityInQtl = item.QuanityInQtl,
+        //                                 RegionID = item.RegionID,
+        //                                 RegionName = item.RegionName,
+        //                                 RequisitionID = item.RequisitionID,
+        //                                 RequisitionNo = item.RequisitionNo,
+        //                                 ZoneID = item.ZoneID,
+        //                                 Zone = item.Zone,
+        //                                 RequisitionStatusName = item.RequisitionStatusName,
+        //                                 RequisitionStatus = item.RequisitionStatus,
                                          
-                                         Input = new RequisitionToDispatchSelect.RequisitionToDispatchSelectInput
-                                         {
-                                             Number = item.RequisitionID,
-                                             IsSelected = false
-                                         }
+        //                                 Input = new RequisitionToDispatchSelect.RequisitionToDispatchSelectInput
+        //                                 {
+        //                                     Number = item.RequisitionID,
+        //                                     IsSelected = false
+        //                                 }
 
 
-                                     });
+        //                             });
 
-            var  result1 = new List<RequisitionToDispatchSelect>();
-            try
-            {
-                result1=transportReqInput.ToList();
-            }
-            catch (Exception exception)
-            {
-                var log = new Logger();
-                log.LogAllErrorsMesseges(exception, _log);
-                //TODO: modelstate should be put
-            }
+        //    var  result1 = new List<RequisitionToDispatchSelect>();
+        //    try
+        //    {
+        //        result1=transportReqInput.ToList();
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        var log = new Logger();
+        //        log.LogAllErrorsMesseges(exception, _log);
+        //        //TODO: modelstate should be put
+        //    }
             
-            return View(result1);
+        //    return View(result1);
 
 
           
-        }
+        //}
         [HttpGet]
         public ActionResult Requisitions1()
         {
@@ -221,43 +221,56 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
        
-        [HttpPost]
-        public ActionResult Requisitions(IList<SelectFromGrid> input)
-        {
+        //[HttpPost]
+        //public ActionResult Requisitions(IList<SelectFromGrid> input)
+        //{
            
-            var requisionIds = (from item in input where (item.IsSelected !=null ?((string[])item.IsSelected)[0]: "off")=="on"    select item.Number).ToList();
-            return CreateTransportRequisition(requisionIds);
+        //    var requisionIds = (from item in input where (item.IsSelected !=null ?((string[])item.IsSelected)[0]: "off")=="on"    select item.Number).ToList();
+        //    var req = new List<List<int>>();
+        //    req.Add(requisionIds);
+        //    return CreateTransportRequisition(req);
 
-        }
+        //}
 
-        public ActionResult CreateTransportRequisition(List<int> requisitionToDispatches)
+        public ActionResult CreateTransportRequisition(int regionId)
         {
-           var transportRequisition=  _transportRequisitionService.CreateTransportRequisition(requisitionToDispatches);
-            return RedirectToAction("Edit", "TransportRequisition",new {id=transportRequisition.TransportRequisitionID});
+            var requisitions = _reliefRequisitionService.FindBy(t => t.RegionID == regionId && t.Status==(int)ReliefRequisitionStatus.ProjectCodeAssigned);
+            var programs = (from item in requisitions select item.ProgramID).ToList();
+            var requisitionToDispatches = new List<List<int>>();
+            foreach (var program in programs)
+            {
+                var requisitionToDispatche =
+                    (from itm in requisitions where itm.ProgramID == program select itm.RequisitionID).ToList();
+                requisitionToDispatches.Add(requisitionToDispatche);
+                
+            }
+            _transportRequisitionService.CreateTransportRequisition(requisitionToDispatches);
+          
+            return RedirectToAction("Index", "TransportRequisition");//,new {id=(int)TransportRequisitionStatus.Draft});
         }
 
-        public ActionResult GenerateTransportRequisitionForRegion(int regionID)
-        {
-            var reliefRequisitionslist = _reliefRequisitionService.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned && t.RegionID == regionID, null,
-                                                          "ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
-            var uniquePrograms = new List<Program>();
-            foreach (var uniqueProgram in from reliefRequisitionsID in reliefRequisitionslist let uniqueProgram = new Program()
-                                          let programID = reliefRequisitionsID.ProgramID
-                                          where programID != null
-                                          select _programService.FindById((int)programID) 
-                                          into uniqueProgram where !uniquePrograms.Contains(uniqueProgram) select uniqueProgram)
-            {
-                uniquePrograms.Add(uniqueProgram);
-            }
-            var transportRequisition = new TransportRequisition();
-            foreach (var partitionedReliefRequisitiionIDList in uniquePrograms.Select(program1 => 
-                _reliefRequisitionService.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned && t.RegionID == regionID &&
-                t.ProgramID == program1.ProgramID)).Select(partitionedReliefRequisitiions => partitionedReliefRequisitiions.Select(t => t.RequisitionID).ToList()))
-            {
-                transportRequisition  = _transportRequisitionService.CreateTransportRequisition(partitionedReliefRequisitiionIDList);
-            }
-            return RedirectToAction("Index", "TransportRequisition");
-        }
+        //public ActionResult GenerateTransportRequisitionForRegion(int regionID)
+        //{
+        //    var reliefRequisitionslist = _reliefRequisitionService.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned && t.RegionID == regionID, null,
+        //                                                  "ReliefRequisitionDetails,Program,AdminUnit1,AdminUnit,Commodity");
+        //    var uniquePrograms = new List<Program>();
+        //    foreach (var uniqueProgram in from reliefRequisitionsID in reliefRequisitionslist let uniqueProgram = new Program()
+        //                                  let programID = reliefRequisitionsID.ProgramID
+        //                                  where programID != null
+        //                                  select _programService.FindById((int)programID) 
+        //                                  into uniqueProgram where !uniquePrograms.Contains(uniqueProgram) select uniqueProgram)
+        //    {
+        //        uniquePrograms.Add(uniqueProgram);
+        //    }
+        //    var transportRequisition = new TransportRequisition();
+        //    foreach (var partitionedReliefRequisitiionIDList in uniquePrograms.Select(program1 => 
+        //        _reliefRequisitionService.Get(t => t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned && t.RegionID == regionID &&
+        //        t.ProgramID == program1.ProgramID)).Select(partitionedReliefRequisitiions => partitionedReliefRequisitiions.Select(t => t.RequisitionID).ToList()))
+        //    {
+        //        transportRequisition  = _transportRequisitionService.CreateTransportRequisition(partitionedReliefRequisitiionIDList);
+        //    }
+        //    return RedirectToAction("Index", "TransportRequisition");
+        //}
 
         public ActionResult Edit(int id)
         {

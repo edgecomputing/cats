@@ -24,7 +24,7 @@ namespace Cats.Services.Logistics
                    Expression<Func<TransportRequisition, bool>> filter = null,
                    Func<IQueryable<TransportRequisition>, IOrderedQueryable<TransportRequisition>> orderBy = null,
                    string includeProperties = "");
-        TransportRequisition CreateTransportRequisition(List<int> reliefRequisitions);
+        bool CreateTransportRequisition(List<List<int>> reliefRequisitions);
         IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
         bool ApproveTransportRequisition(int id);
 

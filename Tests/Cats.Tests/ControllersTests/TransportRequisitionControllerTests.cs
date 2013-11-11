@@ -313,9 +313,12 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         [Test]
         public void ShouldCreateTransportRequision()
         {
+            //Arrange
 
+            var reqList = new List<List<int>>();
+            reqList.Add(_reliefRequisitions);
             //Act
-            var result = _transportRequisitionService.CreateTransportRequisition(_reliefRequisitions);
+            var result = _transportRequisitionService.CreateTransportRequisition(reqList);
             //Assert
             Assert.IsInstanceOf<TransportRequisition>(result);
         }
@@ -324,7 +327,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         public void SholdNotCreateTransportRequisitionIfNoReliefRequisition()
         {
             //Act
-            var result = _transportRequisitionService.CreateTransportRequisition(new List<int>());
+            var result = _transportRequisitionService.CreateTransportRequisition(new List<List<int>>());
             //Assert
             Assert.IsNull(result);
         }
