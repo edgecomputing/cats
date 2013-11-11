@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Objects.DataClasses;
 using System.Web.Mvc;
 
-namespace Cats.Models.Hub.MetaModels
+namespace Cats.Models.Hubs.MetaModels
 {
 
 		public sealed class DonorMetaModel

@@ -150,10 +150,10 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create()
         {
-           //return RedirectToAction("Edit");
+            //return RedirectToAction("Edit");
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.zones = new SelectList(_adminUnitService.FindBy(z => z.AdminUnitTypeID == 3 && z.ParentID == 3), "AdminUnitID", "Name");
-            ViewBag.woredas = new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == 19 ), "AdminUnitID", "Name");
+            ViewBag.woredas = new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == 19), "AdminUnitID", "Name");
             return View();
         }
 
@@ -317,26 +317,27 @@ namespace Cats.Areas.Procurement.Controllers
 
         public JsonResult GetAdminUnits()
         {
-            var r = (from region in _adminUnitService.GetRegions() 
-                select new
-                         {
-                             
-                             RegionID =region.AdminUnitID, 
-                             RegionName = region.Name, Zones = from  zone in _adminUnitService.GetZones(region.AdminUnitID) 
-                                                  select new
-                                                      {
-                                                          ZoneID = zone.AdminUnitID, 
-                                                          ZoneName = zone.Name,
-                                                          Woredas = from  woreda in _adminUnitService.GetWoreda(zone.AdminUnitID)
-                                                                    select new {
-                                                                                   WoredaID=woreda.AdminUnitID,
-                                                                                   WoredaName = woreda.Name
-                                                                                }
-                                                      }
-                         }
-                    );
+            var r = (from region in _adminUnitService.GetRegions()
+                     select new
+                              {
 
-            return Json(r,JsonRequestBehavior.AllowGet);
+                                  RegionID = region.AdminUnitID,
+                                  RegionName = region.Name,
+                                  Zones = from zone in _adminUnitService.GetZones(region.AdminUnitID)
+                                          select new
+                                              {
+                                                  ZoneID = zone.AdminUnitID,
+                                                  ZoneName = zone.Name,
+                                                  Woredas = from woreda in _adminUnitService.GetWoreda(zone.AdminUnitID)
+                                                            select new
+                                                            {
+                                                                WoredaID = woreda.AdminUnitID,
+                                                                WoredaName = woreda.Name
+                                                            }
+                                              }
+                              }
+                    );
+            return Json(r, JsonRequestBehavior.AllowGet);
         }
     }
 }

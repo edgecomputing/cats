@@ -29,6 +29,7 @@ namespace Cats.Models
         public Nullable<int> NeddACreatedBy { get; set; }
         public Nullable<bool> NeedAApproved { get; set; }
         public Nullable<int> NeedAApprovedBy { get; set; }
+        public int PlanID { get; set; }
         
        
         public int? TypeOfNeedAssessment { get; set; }
@@ -40,5 +41,6 @@ namespace Cats.Models
         public virtual Season Season1 { get; set; }
         public virtual TypeOfNeedAssessment TypeOfNeedAssessment1 { get; set; }
         public virtual ICollection<NeedAssessmentHeader> NeedAssessmentHeaders { get; set; }
+        public virtual Plan Plan { get; set; }
     }
 }

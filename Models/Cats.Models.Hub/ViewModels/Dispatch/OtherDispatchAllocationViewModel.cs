@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace Cats.Models.Hub.ViewModels.Dispatch
+namespace Cats.Models.Hubs.ViewModels.Dispatch
 {
     /// <summary>
     /// 

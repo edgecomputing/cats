@@ -1,4 +1,4 @@
-﻿namespace Cats.Models.Hub.ViewModels.Dispatch
+﻿namespace Cats.Models.Hubs.ViewModels.Dispatch
 {
     public class RequisitionSummary
     {

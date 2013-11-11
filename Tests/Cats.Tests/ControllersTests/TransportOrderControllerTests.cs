@@ -105,8 +105,10 @@ namespace Cats.Tests.ControllersTests
                 };
 
             var transReqWithoutTransporterService = new Mock<ITransReqWithoutTransporterService>();
+            
             transReqWithoutTransporterService.Setup(m => m.GetAllTransReqWithoutTransporter()).Returns(
                 TransReqWithoutTransporter);
+            
             var transporterOrderDetail = new List<TransportOrderDetail>
                 {
                     new TransportOrderDetail
@@ -149,8 +151,8 @@ namespace Cats.Tests.ControllersTests
             transporterService.Setup(m => m.GetAllTransporter()).Returns(transporter);
             _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,
                                                                      workflowStatusService.Object, logService.Object, userAccountService.Object,
-                                                                     transReqWithoutTransporterService.Object,transporterOrderDetailService.Object,
-                                                                     adminUnitService.Object,transporterService.Object);
+                                                                     transReqWithoutTransporterService.Object, transporterOrderDetailService.Object,
+                                                                     adminUnitService.Object, transporterService.Object);
             //var transporterOrderDetailService = new Mock<ITransportOrderDetailService>();
             //transporterOrderDetailService.Setup(m => m.GetAllTransportOrderDetail()).Returns(transporterOrderDetail);
             //_transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,
@@ -195,12 +197,12 @@ namespace Cats.Tests.ControllersTests
             Assert.IsInstanceOf<JsonResult>(result);
         }
         #endregion
-        [Test]
-        public void CanShowTransportContract()
-        {
-            var result = _transportOrderController.TransportContract(1);
-            Assert.IsNotNull(result);
-        }
+        //[Test]
+        //public void CanShowTransportContract()
+        //{
+        //    var result = _transportOrderController.TransportContract(1);
+        //    Assert.IsNotNull(result);
+        //}
         
     }
 }

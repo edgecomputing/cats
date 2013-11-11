@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cats.Models.Hub.ViewModels.Common;
+using Cats.Models.Hubs.ViewModels.Common;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace Cats.Models.Hub.ViewModels
+namespace Cats.Models.Hubs.ViewModels
 {
     /// <summary>
     /// view model for Internal Movements 

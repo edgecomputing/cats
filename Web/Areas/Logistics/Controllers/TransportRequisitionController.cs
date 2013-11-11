@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.Logistics.Models;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
@@ -29,12 +31,28 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ILog _log;
         private readonly IAdminUnitService _adminUnitService;
         private readonly IProgramService _programService;
+        private readonly IHubAllocationService _hubAllocationService;
+        private readonly IProjectCodeAllocationService _projectCodeAllocationService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
+        private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
+        private readonly IRationService _rationService;
+               
         
-        public TransportRequisitionController(ITransportRequisitionService transportRequisitionService,
-            IWorkflowStatusService workflowStatusService, IUserAccountService userAccountService,ILog log, 
-            IAdminUnitService adminUnitService, IProgramService programService, IReliefRequisitionService reliefRequisitionService)
-        {
+        public TransportRequisitionController(
+            ITransportRequisitionService transportRequisitionService,
+            IWorkflowStatusService workflowStatusService,
+            IUserAccountService userAccountService,
+            ILog log, 
+            IAdminUnitService adminUnitService,
+            IProgramService programService,
+            IReliefRequisitionService reliefRequisitionService,
+            IHubAllocationService hubAllocationService,
+            IProjectCodeAllocationService projectCodeAllocationService,
+            IReliefRequisitionDetailService reliefRequisitionDetailService,
+            IRationService  rationService
+            )
+        
+    {
             this._transportRequisitionService = transportRequisitionService;
             _workflowStatusService = workflowStatusService;
             _userAccountService = userAccountService;
@@ -42,6 +60,11 @@ namespace Cats.Areas.Logistics.Controllers
             _adminUnitService = adminUnitService;
             _programService = programService;
             _reliefRequisitionService = reliefRequisitionService;
+            _hubAllocationService = hubAllocationService;
+            _projectCodeAllocationService = projectCodeAllocationService;
+            _reliefRequisitionDetailService = reliefRequisitionDetailService;
+            _reliefRequisitionService = reliefRequisitionService;
+            _rationService = rationService;
         }
         //
         // GET: /Logistics/TransportRequisition/
@@ -91,6 +114,7 @@ namespace Cats.Areas.Logistics.Controllers
             return transportRequisitionViewModel;
         }
 
+        
         private List<TransportRequisitionDetailViewModel> GetDetail(IEnumerable<TransportRequisitionDetail> transportRequisitionDetails )
         {
           
@@ -100,6 +124,7 @@ namespace Cats.Areas.Logistics.Controllers
             var result = TransportRequisitionViewModelBinder.BindListTransportRequisitionDetailViewModel(temp);
             return result.ToList();
         }
+
         [HttpGet]
         public ActionResult Requisitions()
         {
@@ -274,22 +299,25 @@ namespace Cats.Areas.Logistics.Controllers
         
             [HttpGet]
         //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
+
         public ActionResult Details(int id)
         {
+            ViewBag.RequisistionId = id;
+
             var transportRequisitonViewModel = new TransportRequisitionViewModel();
             try
             {
-                var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
 
             var transportRequisition = _transportRequisitionService.FindById(id);
-             transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
-             transportRequisitonViewModel.TransportRequisitionDetailViewModels =
-                GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
-
-           
+            transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
+            transportRequisitonViewModel.TransportRequisitionDetailViewModels =
+            GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
             }
+
             catch(Exception ex)
             {
                 var log = new Logger();
@@ -302,6 +330,7 @@ namespace Cats.Areas.Logistics.Controllers
                // Session["transport_requisiton_return_id"]=id;
             return View(transportRequisitonViewModel);
         }
+
         [HttpGet]
         //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
         public ActionResult Destinations(int id)
@@ -310,6 +339,216 @@ namespace Cats.Areas.Logistics.Controllers
            // ViewBag.TransportRequisitonID = transportRequistionId;
             return View();
         }
-       
+
+        public ActionResult PrintSummary(int id)
+        {
+            var reportPath = Server.MapPath("~/Report/Logisitcs/TransportRequisitionSummary.rdlc");
+            var transportR = _transportRequisitionService.FindBy(t=>t.TransportRequisitionID==id);
+
+            var transportRequisitonViewModel = new TransportRequisitionViewModel();
+            var headerInfo = new List<TransportRequisitionViewModel>();
+            headerInfo.Add(transportRequisitonViewModel);
+
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
+            var users = _userAccountService.GetUsers();
+            var transportRequisition = _transportRequisitionService.FindById(id);
+            
+            transportRequisitonViewModel = TransportRequisitionViewModelBinder.
+                                            BindTransportRequisitionViewModel(
+                                            transportRequisition,
+                                            statuses,
+                                            datePref,
+                                            users
+                                            );
+            
+            //transportRequisitonViewModel.TransportRequisitionDetailViewModels = GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+            //var transportRequisition = _transportRequisitionService.FindById(id);
+            
+            var details = GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+            var header = (from requisition in headerInfo
+                         select new
+                            {
+                                //TransportRequisitionID=requisition.TransportRequisitionNo,
+                                //requisition.Remark,
+                                //DateRequested=requisition.RequestedDate,
+                                //DateRecieved = requisition.CertifiedDate,
+                                //requisition.RequestedBy,
+                                //requisition.CertifiedBy
+                                requisition.TransportRequisitionNo,
+                                requisition.Remark,
+                                DateRequested=requisition.RequestedDate,
+                                DateRecieved = requisition.CertifiedDate,
+                                RequestedBy = requisition.RequestedBy,
+                                CertifiedBy = requisition.CertifiedBy
+                            });
+
+
+            var requisitionsSummary =
+                (from transportRequisitionDetail in details
+                 select new
+                     {
+                         Commodity = transportRequisitionDetail.CommodityName,
+                         RequisitionNumber = transportRequisitionDetail.RequisitionNo,
+                         Amount = transportRequisitionDetail.QuanityInQtl,
+                         Warehouse = transportRequisitionDetail.OrignWarehouse,
+                         Region = transportRequisitionDetail.Region,
+                         Zone = transportRequisitionDetail.Zone,
+                         Donor = "WFP",
+                         transportRequisitionDetail.RequisitionID,
+                         fromSIPC = (from projectCodeAllocation in _projectCodeAllocationService.FindBy(p => p.HubAllocationID == 3/*_hubAllocationService.GetAllocatedHubId(transportRequisitionDetail.RequisitionID)*/)
+                                     select new
+                                         {
+                                             CommodityName = transportRequisitionDetail.CommodityName,
+                                             fromSIPC = projectCodeAllocation.Amount_FromSI,
+                                             //fromSIPCKEy = projectCodeAllocation.ProjectCodeAllocationID
+                                         }
+                                     )
+                     }
+                );
+
+            var detailsT =
+                        (
+                            from requisition in requisitionsSummary
+                            select requisition.fromSIPC
+                        );
+
+           //foreach (var detail in details)
+           //{
+           //    var hubAllocationID = _hubAllocationService.GetAllocatedHubId(detail.RequisitionID);
+           //    var projectCodeAllocations = _projectCodeAllocationService.FindBy(p=>p.HubAllocationID==hubAllocationID);
+           //    var ds = from projectCodeAllocation in projectCodeAllocations
+           //             select new
+           //             {
+           //                 CommodityName = detail.CommodityName,
+           //                 fromSIPC = projectCodeAllocation.Amount_FromSI,
+           //                 fromSIPCKEy = projectCodeAllocation.ProjectCodeAllocationID
+           //             }
+           //}
+         /*
+          var detail =
+               (from projectCodeAllocation in _projectCodeAllocationService.FindBy(
+                        p =>
+                        p.HubAllocationID ==
+                        _hubAllocationService.GetAllocatedHubId(transportRequisitionDetail.RequisitionID))
+                select new
+                    {
+                        CommodityName = transportRequisitionDetail.CommodityName,
+                        fromSIPC = projectCodeAllocation.Amount_FromSI,
+                        fromSIPCKEy = projectCodeAllocation.ProjectCodeAllocationID
+                    }
+               );
+
+           //var data = (from requisition in transportRequisition
+           //            select new
+           //                {
+           //                    requisition.TransportRequisitionID,
+           //                    requisition.Remark,
+           //                    requisition.RequestedDate,
+           //                    requisition.CertifiedDate,
+           //                    requisition.RequestedBy,
+           //                    requisition.CertifiedBy,
+           //                    requisitionsSummary = (from transportRequisitionDetail in GetDetail(requisition.TransportRequisitionDetails.ToList())
+           //                                           select new
+           //                                               {
+           //                                                   Commodity = transportRequisitionDetail.CommodityName,
+           //                                                   RequisitionNumber = transportRequisitionDetail.RequisitionNo,
+           //                                                   Amount = transportRequisitionDetail.QuanityInQtl,
+           //                                                   Warehouse = transportRequisitionDetail.OrignWarehouse,
+           //                                                   Region = transportRequisitionDetail.Region,
+           //                                                   Zone = transportRequisitionDetail.Zone,
+           //                                                   Donor = "WFP",
+           //                                                   RecievedDate = DateTime.Now,
+           //                                                   DateofRequisition = DateTime.Now,
+           //                                                   fromSIPC = (from projectCodeAllocation in _projectCodeAllocationService.FindBy(p => p.HubAllocationID == _hubAllocationService.GetAllocatedHubId(transportRequisitionDetail.RequisitionID))
+           //                                                               select new
+           //                                                                   {
+           //                                                                       CommodityName = transportRequisitionDetail.CommodityName,
+           //                                                                       fromSIPC = projectCodeAllocation.Amount_FromSI,
+           //                                                                       fromSIPCKEy = projectCodeAllocation.ProjectCodeAllocationID
+           //                                                                   }
+           //                                                              )
+           //                                               }
+           //                                          )
+
+           //                }
+           //           );
+
+           
+
+           var reportData = (from detail in details
+                             select new
+                             {
+                                 Commodity = detail.CommodityName,
+                                 RequisitionNumber = detail.RequisitionNo,
+                                 Amount = detail.QuanityInQtl,
+                                 Warehouse = detail.OrignWarehouse,
+                                 Region = detail.Region,
+                                 Zone= detail.Zone,
+                                 Donor = "WFP",
+                                 RecievedDate= DateTime.Now,
+                                 DateofRequisition = DateTime.Now,
+                                 Remark = transportRequisition.Remark,
+                                 RequestedBy = transportRequisition.RequestedBy,
+                                 CertifiedBy = transportRequisition.CertifiedBy,
+                                 //fromSIPCAllocations = detail.
+                             });*/
+
+            //var dataSourceName = "RequisitionsSummary";
+            //var dataSourceName2 = "Header";
+            //var dataSourceName3 = "details";
+
+            var dataSources = new string[3];
+            // dataSources[0] = "";
+            dataSources[0] = "Header";
+            dataSources[1] = "RequisitionsSummary";
+            dataSources[2] = "details";
+
+            var reportData = new IEnumerable[3];
+            reportData[0] = header;
+            reportData[1] = requisitionsSummary;
+            reportData[2] = detailsT;
+
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSources);
+            return File(result.RenderBytes, result.MimeType);
+        }
+
+        public decimal GetCommodityRation(int requisitionID, int commodityID)
+        {
+            var reliefRequisition = _reliefRequisitionService.FindById(requisitionID);
+            var ration = _rationService.FindById(reliefRequisition.RegionalRequest.RationID);
+            var rationModel = ration.RationDetails.FirstOrDefault(m => m.CommodityID == commodityID).Amount;
+
+            return rationModel;
+
+        }
+
+        public ActionResult PrintAttachment(int id) {
+            
+            var reportPath = Server.MapPath("~/Report/Logisitcs/transportRequisitionAttachment.rdlc");
+            
+            var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity");
+            var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
+            var RationAmount = GetCommodityRation(id, commodityID);
+            var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails, RationAmount);
+            
+            var header = (from destination in requisitionDetailViewModels
+                          select new
+                          {
+                              destination.Zone,
+                              destination.Woreda,
+                              destination.FDP,
+                              destination.Donor,
+                              destination.Commodity,
+                              destination.Amount
+                          });
+
+
+            var dataSources="attachment";
+            var reportData= header;
+
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSources);
+            return File(result.RenderBytes, result.MimeType);
+        }
     }
 }

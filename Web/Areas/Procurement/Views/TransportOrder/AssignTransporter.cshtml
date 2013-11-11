@@ -33,10 +33,10 @@
     @Html.DropDownList("TransporterID", String.Empty)
 
 @* @(Html.Kendo().DropDownList()
-            .Name("cmbTransportersList")
+            .Name("TransporterID")
             .DataTextField("Text")
             .DataValueField("Value")
-            //.Events(p=>p.Change("getSelectedValue"))
+            .Events(p=>p.Change("update_selected_transporter"))
             .AutoBind(false)
             .BindTo(ViewBag.TransporterID))*@
    @* @(Html.Kendo().ComboBox().Name("cmbTransportersList").DataTextField("Name").DataValueField("TransporterID").BindTo(ViewBag.TransporterID))*@
@@ -61,7 +61,7 @@
                   columns.Bound(p => p.Commodity);
                   columns.Bound(p => p.FDP);
                   columns.Bound(P => P.OriginWarehouse);
-                  columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new {align = "Right"});
+                  columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                   // columns.Bound(p => p.Amount);
                   //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
               })
@@ -83,7 +83,6 @@
                 $(this).parent().toggleClass("k-state-selected");
                 update_selection_data();
                 update_selected_transporter();
-                validate_selection_data();
             });
     }
     );
@@ -107,24 +106,24 @@
         $("#SelectedTransporterID").val(selected);
     }
    
-    function validate_selection_data() {
-        var i = 0;
-        var count = 0;
-        $("#div_select tbody tr").each(function () {
-            var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
-            if ($(this).hasClass("k-state-selected")) {
-                //inp.val(true);
-                count++;
-                //alert("Selected");
-            } 
-            i++;
-            if (count == 0) {
+    //function validate_selection_data() {
+    //    var i = 0;
+    //    var count = 0;
+    //    $("#div_select tbody tr").each(function () {
+    //        var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
+    //        if ($(this).hasClass("k-state-selected")) {
+    //            //inp.val(true);
+    //            count++;
+    //            //alert("Selected");
+    //        } 
+    //        i++;
+    //        if (count == 0) {
 
-                alert("Please Select Transporter and Requisitions");
-            }
-        });
+    //            alert("Please Select Transporter and Requisitions");
+    //        }
+    //    });
         
-    }
+    //}
     
 </script>
 <style>

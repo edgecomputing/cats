@@ -9,8 +9,8 @@ using Cats.Services.Hub;
 using Cats.Services.Security;
 using Cats.Web.Hub.Helpers;
 using Cats.Web.Hub.Infrastructure;
-using Cats.Models.Hub;
-using Cats.Models.Hub.ViewModels;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
 using Cats.Web.Hub;
 
 using IForgetPasswordRequestService = Cats.Services.Hub.IForgetPasswordRequestService;
@@ -87,6 +87,7 @@ namespace Cats.Web.Hub.Controllers
        
         public ActionResult LogOn()
         {
+            ViewBag.HasError = false;
             CryptoGen x=new CryptoGen();
             var val = x.CreateKey(30);
             var dec = x.CreateKey(30);
@@ -105,6 +106,7 @@ namespace Cats.Web.Hub.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl="")
         {
+            
             //if (ModelState.IsValid)
             //{
                 

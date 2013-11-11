@@ -1,5 +1,4 @@
-﻿
-@using Cats.Helpers
+﻿@using Cats.Helpers
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
 
@@ -60,7 +59,7 @@ else
 
                  })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable(t=>t.PageSizes(new int[]{10,30,50}))
+    //.Pageable(t=>t.PageSizes(new int[]{10,30,50}))
     .Groupable()
     .Sortable()
    .Scrollable()
@@ -68,7 +67,7 @@ else
     .Events(ev => ev.DataBound("resetRowNumber"))
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(10)
+        //.PageSize(10)
 
             .Model(model =>
             {
@@ -88,6 +87,6 @@ else
         .Read(read => read.Action("Requisition_Read", "ReliefRequisition",new{id=ViewBag.Status}))
         .Update(update => update.Action("Requisition_Update", "ReliefRequisition"))
         .Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
-    ).Pageable()
+    )
 )
 

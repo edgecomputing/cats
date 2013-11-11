@@ -1,8 +1,8 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Cats.Models.Hub;
-using Cats.Models.Hub.Mapping;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.Mapping;
 
 
 namespace Cats.Data.Hub
@@ -40,7 +40,7 @@ namespace Cats.Data.Hub
         public DbSet<ForgetPasswordRequest> ForgetPasswordRequests { get; set; }
         public DbSet<GiftCertificate> GiftCertificates { get; set; }
         public DbSet<GiftCertificateDetail> GiftCertificateDetails { get; set; }
-        public DbSet<Models.Hub.Hub> Hubs { get; set; }
+        public DbSet<Models.Hubs.Hub> Hubs { get; set; }
         public DbSet<HubOwner> HubOwners { get; set; }
         public DbSet<HubSetting> HubSettings { get; set; }
         public DbSet<HubSettingValue> HubSettingValues { get; set; }

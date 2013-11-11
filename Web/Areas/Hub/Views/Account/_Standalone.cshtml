@@ -1,0 +1,64 @@
+@using Telerik.Web.Mvc
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    @(Html.Telerik().StyleSheetRegistrar()
+        .DefaultGroup(group => group
+            .Add("telerik.common.css")
+                    .Add("telerik.vista.css")
+            .Combined(true)
+            .Compress(true))
+        )
+</head>
+<body>
+    <div class="page">
+        
+        <header>
+            <div class="header-top">
+            <div id="title">
+                <h1>Commodity Tracking System</h1>
+            </div>
+            <div id="logindisplay">
+                @Html.Partial("_Language")
+                
+            </div>
+            <nav>
+                <ul id="menu">
+                    @*<li>@Html.ActionLink(@DRMFSS.Resources.Resources.Home, "Index", "Home")</li>*@
+                    @if (Request.IsAuthenticated)
+                    {
+
+
+                        if (User.IsInRole("Data Entry"))
+                        {
+                            <li>@Html.ActionLink("Recipts", "Index", "Receive")</li>
+                            <li>@Html.ActionLink("Dispatchs", "Index", "Dispatch")</li>
+                            <li>@Html.ActionLink("Reports", "Index", "Reports")</li>
+                        }
+
+                        if (User.IsInRole("Admin"))
+                        {     
+                            <li>@Html.ActionLink("Admin", "Home", "Admin")</li>
+                        
+                        }
+                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Account")</li>
+                    }
+                    
+                </ul>
+            </nav>
+            </div>
+        </header>
+            
+        <div>
+            <section id="main">
+                @RenderBody()
+            </section>
+        </div>
+        <div style="clear:both;"></div>
+        
+    </div>
+</body>
+</html>

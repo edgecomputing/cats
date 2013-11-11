@@ -9,6 +9,7 @@ using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Models.ViewModels.HRD;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
@@ -23,8 +24,7 @@ namespace Cats.Areas.Procurement.Controllers
 {
     public class TransportOrderController : Controller
     {
-        //
-        // GET: /Procurement/TransportOrder/
+        /// GET: /Procurement/TransportOrder/
         private readonly ITransportOrderService _transportOrderService;
         private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly ITransportRequisitionService _transportRequisitionService;
@@ -38,7 +38,7 @@ namespace Cats.Areas.Procurement.Controllers
         public TransportOrderController(ITransportOrderService transportOrderService,
             ITransportRequisitionService transportRequisitionService,
             IWorkflowStatusService workflowStatusService, ILog log, IUserAccountService userAccountService,
-            ITransReqWithoutTransporterService transReqWithoutTransporterService,ITransportOrderDetailService transportOrderDetailService,
+            ITransReqWithoutTransporterService transReqWithoutTransporterService, ITransportOrderDetailService transportOrderDetailService,
             IAdminUnitService adminUnitService, ITransporterService transporterService)
         {
             this._transportOrderService = transportOrderService;
@@ -51,7 +51,6 @@ namespace Cats.Areas.Procurement.Controllers
             _transReqWithoutTransporterService = transReqWithoutTransporterService;
             _transportOrderDetailService = transportOrderDetailService;
         }
-
 
 
 
@@ -321,7 +320,7 @@ namespace Cats.Areas.Procurement.Controllers
                             transportOrderDetailObj.CommodityID = transportOrderDetail.CommodityID;
                             transportOrderDetailObj.FdpID = transportOrderDetail.FdpID;
                             transportOrderDetailObj.RequisitionID = transportOrderDetail.RequisitionID;
-                            transportOrderDetailObj.QuantityQtl = transportOrderDetail.QuantityQtl;
+                            transportOrderDetailObj.QuantityQtl = transportOrderDetail.QuantityQtl.ToPreferedWeightUnit();
                             transportOrderDetailObj.TariffPerQtl = transportOrderDetail.TariffPerQtl;
                             transportOrderDetailObj.SourceWarehouseID = transportOrderDetail.Hub.HubID;
                             transportOrderObj.TransportOrderDetails.Add(transportOrderDetail);
@@ -341,7 +340,8 @@ namespace Cats.Areas.Procurement.Controllers
             var transportOrder = _transportOrderService.FindById(id);
             ViewBag.HubID = _transportOrderService.GetHubs();
             ViewBag.TransportOrderID = id;
-            return View(transportOrder);
+            var transportContract = GetTransportOrder(transportOrder);
+            return View(transportContract);
         }
         public ActionResult Contract_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
@@ -376,7 +376,7 @@ namespace Cats.Areas.Procurement.Controllers
                            RequisitionDetailID = detail.RequisitionDetailID,
                           Woreda = requisitionDetail.FDP.AdminUnit.Name,
                           FDP = requisitionDetail.FDP.Name,
-                          QuantityQtl = requisitionDetail.Amount,
+                          QuantityQtl = requisitionDetail.Amount.ToPreferedWeightUnit(),
                           Commodity = requisitionDetail.Commodity.Name,
                           CommodityID = requisitionDetail.CommodityID,
                           FdpID = requisitionDetail.FDPID,
@@ -400,7 +400,7 @@ namespace Cats.Areas.Procurement.Controllers
                            TransportOrderID = detail.TransportOrderID,
                            CommodityID = detail.CommodityID,
                            SourceWarehouseID = detail.SourceWarehouseID,
-                           QuantityQtl = detail.QuantityQtl,
+                           QuantityQtl = detail.QuantityQtl.ToPreferedWeightUnit(),
                            RequisitionID = detail.RequisitionID,
                            TariffPerQtl = detail.TariffPerQtl,
                            Commodity = detail.Commodity.Name,
@@ -414,6 +414,33 @@ namespace Cats.Areas.Procurement.Controllers
 
            // return transportContractDetail;
        }
+        private TransportContractViewModel GetTransportOrder(TransportOrder transportOrder)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportContract = new TransportContractViewModel()
+                {
+                    TransportOrderID = transportOrder.TransportOrderID,
+                    TransportOrderNo = transportOrder.TransportOrderNo,
+                    TransporterID = transportOrder.TransporterID,
+                    RequisitionNo = transportOrder.TransportOrderDetails.First().ReliefRequisition.RequisitionNo,
+                    Transporter = transportOrder.Transporter.Name,
+                    BidDocumentNo = transportOrder.BidDocumentNo,
+                    ConsignerName = transportOrder.ConsignerName,
+                    ContractNumber = transportOrder.ContractNumber,
+                    OrderDate = transportOrder.OrderDate.ToCTSPreferedDateFormat(datePref),
+                    OrderExpiryDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref),
+                    RequestedDispatchDate = transportOrder.RequestedDispatchDate.ToCTSPreferedDateFormat(datePref),
+                    ConsignerDate = transportOrder.ConsignerDate.ToCTSPreferedDateFormat(datePref),
+                    PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo,
+                    TransporterSignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
+                    TransporterSignedName = transportOrder.TransporterSignedName,
+                    StatusID = transportOrder.StatusID,
+                    Zone = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.Name,
+                    Region = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name
+
+                };
+            return transportContract;
+        }
        [AcceptVerbs(HttpVerbs.Post)]
        public ActionResult TransportOrder_Update([DataSourceRequest] DataSourceRequest request, TransportOrderDetailViewModel orderDetails)
        {
@@ -434,6 +461,7 @@ namespace Cats.Areas.Procurement.Controllers
            return Json(new[] { orderDetails }.ToDataSourceResult(request, ModelState));
            //return Json(ModelState.ToDataSourceResult());
        }
+       
        [HttpPost]
        public ActionResult AssignTransporter(TransportRequisitionWithTransporter requisitionWithTransporter)
        {

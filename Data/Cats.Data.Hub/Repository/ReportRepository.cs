@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using DRMFSS.BLL.Interfaces;
 
 namespace DRMFSS.BLL.Repository

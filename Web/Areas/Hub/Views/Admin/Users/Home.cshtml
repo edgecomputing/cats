@@ -1,0 +1,102 @@
+﻿@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Admin Home");
+}
+
+@*<h2>Admin Home</h2>*@
+<div>
+@if (Request.IsAuthenticated)
+{
+
+    //if (User.IsInRole("Admin"))
+    //{
+        <table width="100%">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <h3>@Html.Translate("User Accounts And System Administration")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Mange Roles"), "Index", "Roles")</li>
+                        <li>@Html.ActionLink(Html.Translate("Mange Users"), "Index", "Admin")</li>
+                        <li>@Html.ActionLink(Html.Translate("Change Password"), "ChangePassword", "Account")</li>
+                        @*
+                        <li>@Html.ActionLink("General Configurations", "SysSettings", "Setting")</li>*@
+                    </ul>
+                    <h3> @Html.Translate("Hub Managment")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Hub Owners"), "Index", "HubOwner")</li>
+                        <li>@Html.ActionLink(Html.Translate("Hub"), "Index", "Hub")</li>
+                        <li>@Html.ActionLink(Html.Translate("Store"), "Index", "Store")</li>
+                
+                        @*<li>@Html.ActionLink("Warehouse Setting", "Index", "WarehouseSetting")</li>*@
+                        @* <li>@Html.ActionLink("User - Hub", "Index", "UserWarehouse")</li>*@
+                    </ul>
+                    <h3> @Html.Translate("Transporter and Others")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Transporters"), "Index", "Transporter")</li>
+                    </ul>
+                    <h3>@Html.Translate("Translations")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Translations"), "Index", "Translation")</li>
+                    </ul>
+                    <h3> @Html.Translate("Transactions")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Journal"), "Journal", "Transaction")</li>
+                        <li>@Html.ActionLink(Html.Translate("Ledger"), "Ledger", "Transaction")</li>
+                    </ul>
+
+                </td>
+                <td style="vertical-align: top;">
+                    <h3>@Html.Translate("Commodity and Related Lookups")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Commodity Type"), "Index", "CommodityType")</li>
+                        <li>@Html.ActionLink(Html.Translate("Commodity"), "Index", "Commodity")</li>
+                        <li>@Html.ActionLink(Html.Translate("Program"), "Index", "Program")</li>
+                        <li>@Html.ActionLink(Html.Translate("Donor"), "Index", "Donor")</li>
+                        <li>@Html.ActionLink(Html.Translate("Unit"), "Index", "Unit")</li>
+                        <li>@Html.ActionLink(Html.Translate("Commodity Grade"), "Index", "CommodityGrade")</li>
+                        <li>@Html.ActionLink(Html.Translate("Commodity Source"), "Index", "CommoditySource")</li>
+                    </ul>
+           
+                    <h3>@Html.Translate("Administrative Locations And Final Distribution points")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Manage Admin Units"), "Index", "AdminUnit")</li>
+                        <li>@Html.ActionLink(Html.Translate("FDPs"), "Index", "FDP")</li>
+                    </ul> 
+                    <h3>
+                        @Html.Translate("System Errors and Exceptions")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Error Log"), "ViewErrors", "Error")</li>
+                    </ul>  
+                </td>
+            </tr>
+        </table>
+    @*}
+
+
+    if (User.IsInRole("Data Entry") && !User.IsInRole("Admin") )
+    {*@
+
+        <table width="100%">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+        
+                    <h3> @Html.Translate("Transporter and Others")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Transporters"), "Index", "Transporter")</li>
+                    </ul>
+                
+                    <h3> @Html.Translate("Hub Managment")</h3>
+                    <ul>
+                        <li>@Html.ActionLink(Html.Translate("Store"), "Index", "Store")</li>
+                    </ul>
+                
+                </td>
+
+            </tr>
+        </table>
+
+    }
+}
+</div>
+

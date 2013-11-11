@@ -1,0 +1,14 @@
+﻿<div class="editor-field"><label>Project Code</label></div>
+ <div>@(Html.Telerik().ComboBox()
+                            .Name("ProjectCodeId")
+                            .AutoFill(false)
+                            .SelectedIndex(0)
+                            .BindTo((SelectList)ViewBag.ProjectCode)
+                            .ClientEvents(ev => ev.OnChange("onReportFileterChange"))
+                )
+                </div>
+      
+
+
+                
+            

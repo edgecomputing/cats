@@ -115,9 +115,13 @@ namespace Cats.Data
 
         public DbSet<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; }
         public DbSet<AllocationByRegion> AllocationByRegion { get; set; }
+        public DbSet<Plan> HrdPlans { get; set; }
 
+        public DbSet<PromisedContribution> PromisedContribution { get; set; }
+               
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new PromisedContributionMap());
             modelBuilder.Configurations.Add(new DashboardWidgetMap());
             modelBuilder.Configurations.Add(new UserDashboardPreferenceMap());
             modelBuilder.Configurations.Add(new BusinessProcessStateMap());
@@ -214,6 +218,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new TransReqWithoutTransporterMap());
             modelBuilder.Configurations.Add(new AllocationByRegionMap());
+            modelBuilder.Configurations.Add(new PlanMap());
         }
 
     }

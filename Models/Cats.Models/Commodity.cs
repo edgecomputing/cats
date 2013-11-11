@@ -47,6 +47,7 @@ namespace Cats.Models
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
 
         public virtual ICollection<InKindContributionDetail> InKindContributionDetails{ get; set; }
- 
+
+        public virtual ICollection<PromisedContribution> PromisedContributions { get; set; } 
     }
 }

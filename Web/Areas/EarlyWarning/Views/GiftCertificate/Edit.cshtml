@@ -13,7 +13,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_gift"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"></a>
 }
-<h2>@Translator.Translate("Edit Gift Certificate")</h2>
+<h4 class="page-header">@Translator.Translate("Edit Gift Certificate")</h4>
 @section LeftBar
 {
 @Html.Partial("_giftLeftBar")}
@@ -36,7 +36,7 @@
                             @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"),new {@class="cats-date-pref"})
                         </div>
                         <div class="controls">
-                           @Html.TextBoxFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
+                           @Html.TextBoxFor(model => model.GiftDate, new { @class = " cats-datepicker2", @placeholder = "0" })  
                             @Html.ValidationMessageFor(model => model.GiftDate)
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                         </div>
 
                         <div class="controls">
-                         @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
+                         @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2", @placeholder = "0" })  
                             @Html.ValidationMessageFor(model => model.ETA)
                         </div>
                     </div>
@@ -151,7 +151,7 @@
 
    }     
   
-    @*<div class="span10" >*@
+   @* <div class="row-fluid" >*@
         
 
                     @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
@@ -168,12 +168,12 @@
                             columns.AutoGenerate(false);
                             columns.ForeignKey(o => o.CommodityID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name").Width(10).Title(Translator.Translate("Commodity"))
                                 .Filterable(true);
-                            columns.Bound(o => o.BillOfLoading).Width(80).Title(Translator.Translate("Bill of Loading"));
+                            columns.Bound(o => o.BillOfLoading);
 
-                            columns.Bound(o => o.YearPurchased).Width(100).Title(Translator.Translate("Year Purchased")).Width(80).HtmlAttributes(new { align = "right" });
-                            columns.Bound(o => o.AccountNumber).Width(10).Title(Translator.Translate("Acc. No")).Width(80).HtmlAttributes(new { align = "right" });
-                            columns.Bound(o => o.WeightInMT).Title(Translator.Translate("Sent Qty (MT)")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
-                            columns.Bound(o => o.EstimatedPrice).Title(Translator.Translate("Est. Price")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
+                            columns.Bound(o => o.YearPurchased).HtmlAttributes(new { align = "right" });
+                            columns.Bound(o => o.AccountNumber).HtmlAttributes(new { align = "right" });
+                            columns.Bound(o => o.WeightInMT).Title(Translator.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
+                            columns.Bound(o => o.EstimatedPrice).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
                             columns.Bound(o => o.EstimatedTax).Title(Translator.Translate("Est. Tax")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
 
                             columns.ForeignKey(o => o.DCurrencyID, (System.Collections.IEnumerable)ViewData["DCurrencies"], "DetailID", "Name").Width(10).Title(Translator.Translate("Currency"))

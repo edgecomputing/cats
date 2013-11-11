@@ -7,7 +7,7 @@ using System.Data.Objects;
 using System.Linq;
 using System.Text;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     
     partial class Audit

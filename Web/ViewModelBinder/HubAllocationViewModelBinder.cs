@@ -21,7 +21,7 @@ namespace Cats.ViewModelBinder
                                                         RequisitionDate = DateTime.Parse(req.RequestedDate.ToString()),
                                                         Commodity = req.Commodity.Name,
                                                         BenficiaryNo = req.ReliefRequisitionDetails.Sum(a=>a.BenficiaryNo),
-                                                        Amount = req.ReliefRequisitionDetails.Sum(a => a.Amount),
+                                                        Amount = req.ReliefRequisitionDetails.Sum(a => a.Amount).ToPreferedWeightUnit(),
                                                         Status = int.Parse( req.Status.ToString()),
                                                         Region = req.AdminUnit.Name,
                                                         RegionId = (int) req.RegionID,

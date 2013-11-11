@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     public partial class OtherDispatchAllocation
     {
