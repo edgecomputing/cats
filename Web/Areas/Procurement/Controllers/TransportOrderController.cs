@@ -83,6 +83,8 @@ namespace Cats.Areas.Procurement.Controllers
 
             return View(transportReqInput.ToList());
         }
+
+     
         public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");

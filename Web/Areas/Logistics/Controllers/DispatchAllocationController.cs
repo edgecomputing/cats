@@ -7,11 +7,13 @@ using System.Web.Mvc;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNet.SignalR;
 using log4net;
 using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
@@ -45,9 +47,14 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
+       
+
         public ActionResult Index(int regionId=-1)
         {
-            
+
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            hubContext.Clients.All.receiveNotification("this is a sample data");
+
             ViewBag.regionId = regionId;
             ViewBag.Region = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             return View();

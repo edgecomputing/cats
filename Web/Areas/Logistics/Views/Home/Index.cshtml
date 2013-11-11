@@ -10,49 +10,63 @@
 
 <html>
  <body>
-<div class="row">
-<div class="span6">
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-bookmark"></i>
-                <h3>Welcome to Logistics</h3>
-            </div>
-            <div class="widget-content">
+     <div class="row">
+         <div class="span6">
+             <div class="widget stacked">
+                 <div class="widget-header">
+                     <i class="icon-bookmark"></i>
+                     <h3>Welcome to Logistics</h3>
+                 </div>
+                 <div class="widget-content">
 
-                <div class="shortcuts">
-                    <a href="@Url.Action("Index", "BeneficiariesAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                        <span class="shortcut-label">Beneficiaries Allocation</span>
-                    </a>
+                     <div class="shortcuts">
+                         <a href="@Url.Action("Index", "BeneficiariesAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                             <span class="shortcut-label">Beneficiaries Allocation</span>
+                         </a>
 
-                    <a href="@Url.Action("Index", "HubAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                        <span class="shortcut-label">Hub Allocation</span>
-                    </a>
+                         <a href="@Url.Action("Index", "HubAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                             <span class="shortcut-label">Hub Allocation</span>
+                         </a>
 
-                    <a href="@Url.Action("Index", "ProjectAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                        <span class="shortcut-label">Project Allocation</span>
-                    </a>
+                         <a href="@Url.Action("Index", "ProjectAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                             <span class="shortcut-label">Project Allocation</span>
+                         </a>
 
-                    <a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
-                        <span class="shortcut-label">Transport Requisition</span>
-                    </a>
+                         <a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+                             <span class="shortcut-label">Transport Requisition</span>
+                         </a>
 
-                </div>
+                     </div>
 
-            </div>
-        </div>
-    </div>
+                 </div>
+             </div>
+         </div>
 
-    <div class="span6">
-        <div class="widget stacked">
-            <div class="widget-header">
-                <i class="icon-bookmark"></i>
-                <h3>Active Requisitions from Regions</h3>
-            </div>
-            <div class="widget-content">
-                 @Html.Partial("_ApprovedRequisitions") 
-            </div>
-        </div>
-    </div>
+         <div class="span6">
+             <div class="widget stacked">
+                 <div class="widget-header">
+                     <i class="icon-bookmark"></i>
+                     <h3>Active Requisitions from Regions</h3>
+                 </div>
+                 <div class="widget-content">
+                     @Html.Partial("_ApprovedRequisitions") 
+                 </div>
+             </div>
+         </div>
+    
+         <div class="span6">
+             <div class="widget stacked">
+                 <div class="widget-header">
+                     <i class="icon-bookmark"></i>
+                     <h3>Notification</h3>
+                 </div>
+                 <div class="widget-content">
+                     @Html.Partial("_Notification")
+                 </div>
+             </div>
+         </div>
+     </div>
+
 </div>
         </body>
 </html>
