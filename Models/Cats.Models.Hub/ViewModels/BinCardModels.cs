@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Cats.Models.Hub.Repository;
+using Cats.Models.Hubs.Repository;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     /// <summary>
     /// 

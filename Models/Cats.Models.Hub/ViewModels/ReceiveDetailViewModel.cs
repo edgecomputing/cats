@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
-using Cats.Models.Hub.Repository;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.Repository;
 
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
 
     public class ReceiveDetailViewModelDto

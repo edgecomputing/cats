@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Cats.Models.Hub.MetaModels;
+using Cats.Models.Hubs.MetaModels;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     [MetadataType(typeof(RoleMetaModel))]
     public partial  class Role

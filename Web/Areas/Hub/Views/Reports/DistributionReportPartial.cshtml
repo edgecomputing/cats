@@ -1,0 +1,12 @@
+﻿@using Cats.Web.Hub.Reports
+@using DevExpress.Web.Mvc.UI
+@Html.DevExpress().ReportViewer(
+    settings => {
+        settings.Name = "ReportViewer1";
+        settings.Report = (MasterReportBound)Model;
+        settings.CallbackRouteValues = new { Controller = "Reports", Action = "DistributionReportPartial" };
+        settings.ExportRouteValues = new { Controller = "Reports", Action = "DistributionReportViewerExportTo" };
+        settings.ClientSideEvents.BeginCallback = "CallFilterCallBack"; 
+        settings.Attributes.CssStyle.Add("background-image", "/Images/watermark.png");
+    }
+).GetHtml()

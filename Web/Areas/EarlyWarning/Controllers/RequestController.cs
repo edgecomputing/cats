@@ -455,7 +455,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Request_Read([DataSourceRequest] DataSourceRequest request, int id = -1)
         {
 
-            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest() : _regionalRequestService.Get(t => t.Status == id);
+            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m=>m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == id);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);

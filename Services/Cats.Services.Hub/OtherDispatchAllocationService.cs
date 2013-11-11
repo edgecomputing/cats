@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 
 using System.Linq;
 using Cats.Data.Hub;
-using Cats.Models.Hub;
-using Cats.Models.Hub.ViewModels;
-using Cats.Models.Hub.ViewModels.Dispatch;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
+using Cats.Models.Hubs.ViewModels.Dispatch;
 
 namespace Cats.Services.Hub
 {
@@ -84,7 +84,7 @@ namespace Cats.Services.Hub
 
 
 
-        public void Save(Models.Hub.ViewModels.Dispatch.OtherDispatchAllocationViewModel model)
+        public void Save(Models.Hubs.ViewModels.Dispatch.OtherDispatchAllocationViewModel model)
         {
             OtherDispatchAllocation oAllocation = new OtherDispatchAllocation();
             if (model.OtherDispatchAllocationID != null)

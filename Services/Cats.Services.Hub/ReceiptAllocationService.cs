@@ -10,7 +10,7 @@ using System.Text;
 
 using System.Data.Objects.DataClasses;
 using Cats.Data.Hub;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 
 namespace Cats.Services.Hub
 {

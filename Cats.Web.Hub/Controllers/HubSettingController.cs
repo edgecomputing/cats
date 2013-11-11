@@ -5,8 +5,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Models.Hub;
-using Cats.Models.Hub.Repository;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.Repository;
 using Cats.Services.Hub;
 
 namespace Cats.Web.Hub.Controllers

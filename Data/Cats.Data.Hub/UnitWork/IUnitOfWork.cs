@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Objects.DataClasses;
 using Cats.Data.Repository;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using DRMFSS.BLL.Interfaces;
 
 
@@ -167,7 +167,7 @@ namespace Cats.Data.Hub
 
             IGenericRepository<GiftCertificateDetail >GiftCertificateDetailRepository { get; }
 
-            IGenericRepository< Models.Hub.Hub > HubRepository{ get; }
+            IGenericRepository< Models.Hubs.Hub > HubRepository{ get; }
 
             IGenericRepository<HubOwner> HubOwnerRepository  { get; }
 

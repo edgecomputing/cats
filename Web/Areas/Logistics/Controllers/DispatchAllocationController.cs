@@ -121,8 +121,7 @@ namespace Cats.Areas.Logistics.Controllers
             if (regionId !=-1)
             {
                 ViewBag.regionId = regionId;
-                ViewBag.RegionName =
-                    _adminUnitService.GetRegions().Where(r => r.AdminUnitID == regionId).Select(r => r.Name).Single();
+                ViewBag.RegionName =_adminUnitService.GetRegions().Where(r => r.AdminUnitID == regionId).Select(r => r.Name).Single();
                 ViewData["Hubs"] = _hubService.GetAllHub();//.Where(h => h.HubOwnerID == 1);//get DRMFSS stores
                 return View();
             }

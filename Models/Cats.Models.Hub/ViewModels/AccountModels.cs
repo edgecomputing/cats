@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
 
     /// <summary>

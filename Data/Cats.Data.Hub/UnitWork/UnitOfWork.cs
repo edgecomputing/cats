@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Objects.DataClasses;
 using Cats.Data.Repository;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using DRMFSS.BLL.Interfaces;
 using DRMFSS.BLL.Repository;
 
@@ -42,7 +42,7 @@ namespace Cats.Data.Hub
         private IGenericRepository<ForgetPasswordRequest> _ForgetPasswordRequestRepository = null;
         private IGenericRepository<GiftCertificate> _GiftCertificateRepository = null;
         private IGenericRepository<GiftCertificateDetail> _GiftCertificateDetailRepository = null;
-        private IGenericRepository<Models.Hub.Hub> _HubRepository = null;
+        private IGenericRepository<Models.Hubs.Hub> _HubRepository = null;
         private IGenericRepository<HubOwner> _HubOwnerRepository = null;
         private IGenericRepository<HubSetting> _HubSettingRepository = null;
         private IGenericRepository<HubSettingValue> _HubSettingValueRepository = null;
@@ -276,11 +276,11 @@ namespace Cats.Data.Hub
         }
 
         
-       public  IGenericRepository<Models.Hub.Hub> HubRepository 
+       public  IGenericRepository<Models.Hubs.Hub> HubRepository 
         {
 
 
-            get { return this._HubRepository ?? (this._HubRepository = new GenericRepository<Models.Hub.Hub>(_context)); }
+            get { return this._HubRepository ?? (this._HubRepository = new GenericRepository<Models.Hubs.Hub>(_context)); }
 
       
         }

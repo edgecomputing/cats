@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Cats.Models.Hub.ViewModels.Report.Filters
+namespace Cats.Models.Hubs.ViewModels.Report.Filters
 {
     public class BinCardReportViewModel
     {
