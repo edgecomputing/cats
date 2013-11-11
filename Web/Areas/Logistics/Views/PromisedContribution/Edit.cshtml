@@ -6,7 +6,10 @@
 @{
     ViewBag.Title = Translator.Translate("Contributions");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-   
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
+    var UserUnit = @Translator.Translate(@Html.UserUnitPreference());
+    var unitsfx = " [" + UserUnit + "]";
 }
 @section Toolbar
 {
@@ -27,7 +30,7 @@
         <div class="control-group">
             <label class="control-label" for="ExpectedTimeOfArrival"> @Html.LabelFor(model => model.ExpectedTimeOfArrival)</label>
             <div class="controls">
-                 @Html.TextBoxFor(model => model.ExpectedTimeOfArrival, new { @class = "cats-datepicker2", @placeholder = "ETA" })    
+                <input class = "cats-datepicker2" id="ExpectedTimeOfArrival" name="ExpectedTimeOfArrival" value="@Model.ExpectedTimeOfArrival.ToShortDateString()"/>
                  @Html.ValidationMessageFor(model => model.ExpectedTimeOfArrival)
             </div>
         </div>
@@ -58,7 +61,7 @@
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="PromisedQuantity"> @Html.LabelFor(model => model.PromisedQuantity)</label>
+            <label class="control-label" for="PromisedQuantity"> @Html.LabelFor(model => model.PromisedQuantity) @unitsfx</label>
             <div class="controls">
                  @Html.TextBoxFor(model => model.PromisedQuantity, new { @class = "input-xlarge", @placeholder = "Promised Quantity" })    
                  @Html.ValidationMessageFor(model => model.PromisedQuantity)
@@ -66,7 +69,7 @@
         </div>
 
          <div class="control-group">
-            <label class="control-label" for="DeliveredQuantity"> @Html.LabelFor(model => model.DeliveredQuantity)</label>
+            <label class="control-label" for="DeliveredQuantity"> @Html.LabelFor(model => model.DeliveredQuantity) @unitsfx</label>
             <div class="controls">
                  @Html.TextBoxFor(model => model.DeliveredQuantity, new { @class = "input-xlarge", @placeholder = "Delivered Quantity" })    
                  @Html.ValidationMessageFor(model => model.DeliveredQuantity)
