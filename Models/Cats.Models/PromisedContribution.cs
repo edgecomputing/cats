@@ -12,10 +12,10 @@ namespace Cats.Models
         public int PromisedContributionId { get; set; }
 
         [Display(Name = "Promised Quantity")]
-        public decimal PromisedQuantity { get; set; }
+        public float? PromisedQuantity { get; set; }
 
         [Display(Name = "Delivered Quantity")]
-        public decimal DeliveredQuantity { get; set; }
+        public float? DeliveredQuantity { get; set; }
 
         [Display(Name = "ETA")]
         public System.DateTime ExpectedTimeOfArrival { get; set; }
@@ -29,7 +29,7 @@ namespace Cats.Models
         [Display(Name = "Hub ID")]
         public int HubId { get; set; }
 
-        
+
 
     }
 
@@ -39,6 +39,14 @@ namespace Cats.Models
         public virtual Donor Donor { get; set; }
         public virtual Hub Hub { get; set; }
 
+    }
+    public class PromisedContributionViewModel : PromisedContributionPOCO
+    {
+        [Display(Name = "ETA")]
+        public string strETA { get; set; }
+        public string CommodityName { get; set; }
+        public string DonorName { get; set; }
+        public string HubName { get; set; }
     }
 }
 

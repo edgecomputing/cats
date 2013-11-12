@@ -9,7 +9,7 @@ using Cats.Models;
 
 namespace Cats.Services.Logistics
 {
-    class PromisedContributionService:IPromisedContributionService
+    public class PromisedContributionService:IPromisedContributionService
     {
         private readonly IUnitOfWork _unitOfWork;
         public PromisedContributionService(IUnitOfWork unitOfWork)
@@ -21,7 +21,19 @@ namespace Cats.Services.Logistics
         
         public bool Create(PromisedContribution promisedContribution)
         {
-            return _unitOfWork.PromisedContributionRepository.Add(promisedContribution); 
+            _unitOfWork.PromisedContributionRepository.Add(promisedContribution);
+            _unitOfWork.Save();
+            try
+            {
+               // _unitOfWork.PromisedContributionRepository.Add(promisedContribution);
+               // _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+
+            }
+            return false;
         }
 
         public PromisedContribution FindById(int id)
@@ -40,17 +52,38 @@ namespace Cats.Services.Logistics
 
         public bool Update(PromisedContribution promisedContribution)
         {
-            return _unitOfWork.PromisedContributionRepository.Edit(promisedContribution);
+            try
+            {
+                _unitOfWork.PromisedContributionRepository.Edit(promisedContribution);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+
+            }
+            return false;
+            
         }
 
         public bool Delete(PromisedContribution promisedContribution)
         {
-            return _unitOfWork.PromisedContributionRepository.Delete(promisedContribution);
+            try
+            {
+                _unitOfWork.PromisedContributionRepository.Delete(promisedContribution);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+
+            }
+            return false;
         }
         public bool DeleteById(int id)
         {
             PromisedContribution promisedContribution = _unitOfWork.PromisedContributionRepository.FindById(id);
-            return _unitOfWork.PromisedContributionRepository.Delete(promisedContribution);
+            return Delete(promisedContribution);
         }
         #endregion
 
