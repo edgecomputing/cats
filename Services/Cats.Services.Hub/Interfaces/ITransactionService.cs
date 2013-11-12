@@ -43,7 +43,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         decimal GetTotalReceivedFromReceiptAllocation(int siNumber, int commodityId, int hubId);
 
-        IEnumerable<Object> FreeStockStatus();
+        //IEnumerable<Object> FreeStockStatus();
 
         decimal GetTotalReceivedFromReceiptAllocation(string siNumber, int commodityId, int hubId);
         /// <summary>
@@ -59,7 +59,6 @@ namespace Cats.Services.Hub
         /// <param name="dispatchModel">The dispatch model.</param>
         /// <param name="user">The user.</param>
         void SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user);
-
 
         /// <summary>
         /// Gets the grouped transportation reports.

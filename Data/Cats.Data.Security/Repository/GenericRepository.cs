@@ -15,6 +15,7 @@ namespace Cats.Data.Security
         {
             _context = context;
         }
+
         private SecurityContext _context;
         public SecurityContext db
         {

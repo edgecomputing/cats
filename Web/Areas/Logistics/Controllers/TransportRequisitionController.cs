@@ -71,10 +71,23 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            
             return View();
-
         }
+        public ActionResult panel() {
+
+            ////var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
+            ////var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
+            //////ViewBag.Requests = req;
+            //var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+            //var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
+            //var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
+            //                        _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
+            //return View(dashboardWidgets);
+            //return Json(req, JsonRequestBehavior.AllowGet);
+            // return Json(req, JsonRequestBehavior.AllowGet);
+            return View();
+        }
+
         public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request, string searchIndex)
         {
             var transportRequisitions = _transportRequisitionService.Get(t => t.TransportRequisitionNo.Contains(searchIndex));

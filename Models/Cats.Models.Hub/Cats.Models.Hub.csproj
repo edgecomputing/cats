@@ -282,6 +282,7 @@
     <Compile Include="StackEventType.cs" />
     <Compile Include="StatusReportBySI_Result.cs" />
     <Compile Include="StockStatusReport.cs" />
+    <Compile Include="StockStatusViewModel.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="sysdiagram.cs" />
     <Compile Include="Transaction.cs" />

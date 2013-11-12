@@ -16,6 +16,7 @@ using Cats.Services.Transaction;
 using Cats.Services.Common;
 using log4net;
 using Early_Warning.Security;
+//using Cats.Services.Hub;
 
 namespace Cats.Infrastructure
 {
@@ -30,8 +31,7 @@ namespace Cats.Infrastructure
         }
 
        
-
-    public object GetService(Type serviceType)
+        public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
         }
@@ -60,7 +60,6 @@ namespace Cats.Infrastructure
             kernel.Bind<IReliefRequisitionDetailService>().To<ReliefRequisitionDetailService>();
             kernel.Bind<IBidService>().To<BidService>();
           
-
             kernel.Bind<IHubService>().To<HubService>();
             kernel.Bind<ITransporterService>().To<TransporterService>();
             kernel.Bind<ITransportBidPlanService>().To<TransportBidPlanService>();
@@ -80,16 +79,16 @@ namespace Cats.Infrastructure
             kernel.Bind<IShippingInstructionService>().To<ShippingInstructionService>();
 
             kernel.Bind<ITransactionService>().To<TransactionService>();
+            kernel.Bind<ITransactionService>().To<TransactionService>();
+            //kernel.Bind<ITransactionGroupService>().To<TransactionGroupService>();
             kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
 
-           
             kernel.Bind<IBeneficiaryAllocationService>().To<BeneficiaryAllocationService>();
             kernel.Bind<IWorkflowStatusService>().To<WorkflowStatusService>();
             kernel.Bind<ITransportBidQuotationService>().To<TransportBidQuotationService>();
             kernel.Bind<IApplicationSettingService>().To<ApplicationSettingService>();
             kernel.Bind<IRationService>().To<RationService>();
             kernel.Bind<IRationDetailService>().To<RationDetailService>();
-
 
             kernel.Bind<INeedAssessmentHeaderService>().To<NeedAssessmentHeaderService>();
             kernel.Bind<INeedAssessmentDetailService>().To<NeedAssessmentDetailService>();
@@ -108,12 +107,10 @@ namespace Cats.Infrastructure
             kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
             kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
             
-
             kernel.Bind<ISeasonService>().To<SeasonService>();
             kernel.Bind<IDonorService>().To<DonorService>();
             kernel.Bind<ICommonService>().To<CommonService>();
             kernel.Bind<IRegionalPSNPPledgeService>().To<RegionalPSNPPledgeService>();
-
 
             kernel.Bind<IContributionService>().To<ContributionService>();
             kernel.Bind<IContributionDetailService>().To<ContributionDetailService>();
@@ -170,6 +167,7 @@ namespace Cats.Infrastructure
                                                                                       ConnectionStrings[
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
+            kernel.Bind<IStockStatusService>().To<StockStatusService>();
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Cats.Services.Hub
             this._accountService = accountService;
             this._shippingInstructionService = shippingInstructionService;
             this._projectCodeService = projectCodeService;
+            
         }
 
 
@@ -1404,30 +1405,26 @@ namespace Cats.Services.Hub
             return _unitOfWork.TransactionRepository.FindBy(d => d.TransactionDate <= date);
         }
 
-        public IEnumerable<Object> FreeStockStatus()
-        {
-            var allTransactions = getTransactionsAsof(DateTime.Now);
+        //public IEnumerable<Object> FreeStockStatus()
+        //{
+        //    var allTransactions = getTransactionsAsof(DateTime.Now);
             
-            var r = from all in allTransactions
-                    group all by all.ParentCommodityID into hubstockstatus
-                    select new
-                    {
-                        Commodity = hubstockstatus.Key,
-                        detail = hubstockstatus
-                    };
+        //    var r = from all in allTransactions
+        //            group all by all.ParentCommodityID into hubstockstatus
+        //            select new
+        //            {
+        //                Commodity = hubstockstatus.Key,
+        //                detail = hubstockstatus
+        //            };
             
-           foreach(var d in r){
-                foreach(var h in d.detail){
-                  (from s in h select new {
-                    h.Commodity,
-                    h.Ledger,
-                    h.PartitionID
-                  }) ;
-                }
-            }
+        //   foreach(var d in r){
+        //        foreach(var h in d.detail){
+        //            return (from u in h select new { });
+        //        }
+        //    }
 
-            return allTransactions;
-        }
+        //    return s;
+        //}
 
         public bool DeleteById(System.Guid id)
         {
