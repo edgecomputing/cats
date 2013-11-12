@@ -648,7 +648,7 @@
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Integer.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
-    <Content Include="ClientBin\EWdispatchAllocationList.xap" />
+    <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
     <Content Include="Content\2013.1.219\Black\loading.gif" />
@@ -1188,9 +1188,9 @@
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Edit.cshtml" />-->
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
@@ -1257,7 +1257,7 @@
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />-->
     <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
@@ -1266,12 +1266,12 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
-    </Content>
+    </Content>-->
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
@@ -1321,7 +1321,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
+    <!--<Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
@@ -1936,10 +1936,10 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />-->
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Allocation.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
     <Content Include="Areas\Settings\Views\Web.config" />
     <Content Include="Areas\Settings\Views\AdminDashboard\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AdminLeftBar.cshtml" />
