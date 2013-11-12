@@ -1,6 +1,7 @@
 ﻿@using Cats.Helpers
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@model Cats.Models.NeedAssessment
 @{
     ViewBag.Title = Translator.Translate(" Beneficiary numbers and duration of assisstance");
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
@@ -32,9 +33,8 @@
         .PageSize(30)
         .ServerOperation(false)
         .Model(model => model.Id(p => p.NeedAID))
-        .Read("NeedAssessmentRead", "NeedAssessment")
+        .Read(read=>read.Action("NeedAssessmentRead", "NeedAssessment")))
     )
-)
 <script>
     function regionsChange() {
         var value = this.value(),
@@ -48,26 +48,23 @@
         }
     }
 </script>
+<script type="text/javascript">
 
-@*<style scoped="scoped">
-    #grid .k-toolbar
-    {
-        min-height: 27px;
-        padding: 1.3em;
+    function filterData() {
+
+        return {
+            id: $("#Plan.PlanName").val()
+
+        };
     }
-    .category-label
-    {
-        vertical-align: middle;
-        padding-right: .5em;
-    }
-    #category
-    {
-        vertical-align: middle;
-    }
-    .toolbar {
-        float: right;
-    }
-</style>*@
+
+    $(document).ready(function () {
+        $("#Plan.PlanName").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+    });
+</script>
 
 <script>
     function NeedAssessmentEdit(e) {

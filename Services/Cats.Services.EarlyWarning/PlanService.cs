@@ -66,7 +66,7 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.PlanRepository.Get(filter, orderBy, includeProperties);
         }
-        public Plan AddNeedAssessmentPlan(NeedAssessment needAssessment)
+        public void AddNeedAssessmentPlan(NeedAssessment needAssessment)
         {
             var oldPlan = _unitOfWork.PlanRepository.FindBy(m => m.PlanName==needAssessment.Plan.PlanName).SingleOrDefault();
             if (oldPlan == null)
@@ -84,13 +84,13 @@ namespace Cats.Services.EarlyWarning
                 
                 var savePlan = _unitOfWork.PlanRepository.Add(plan);
                 _unitOfWork.Save();
-                if (!savePlan)
-                {
-                    return null;
-                }
-                return plan;
+                //if (!savePlan)
+                //{
+                //    return null;
+                //}
+                //return plan;
             }
-            return oldPlan;
+            //return oldPlan;
         }
        public List<Program> GetPrograms()
        {
@@ -100,5 +100,24 @@ namespace Cats.Services.EarlyWarning
         {
             _unitOfWork.Dispose();
         }
-    }
+
+
+        public void AddPlan(string planName, DateTime startDate, DateTime endDate)
+        {
+            var oldPlan = _unitOfWork.PlanRepository.FindBy(m => m.PlanName == planName).SingleOrDefault();
+            if(oldPlan == null)
+            {
+                var reliefProgram = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief").SingleOrDefault();
+                var plan = new Plan
+                {
+                    PlanName = planName,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    Program = reliefProgram
+                };
+                _unitOfWork.PlanRepository.Add(plan);
+                _unitOfWork.Save();
+            }
+        }
+   }
 }
