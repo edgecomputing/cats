@@ -314,11 +314,8 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
 
             //Act 
 
-            var requisitions = new List<int>()
-                                   {
-                                       1
-                                   };
-            var result = _transportOrderService.CreateTransportOrder(requisitions);
+           
+            var result = _transportOrderService.CreateTransportOrder(1);
 
             //Assert
 

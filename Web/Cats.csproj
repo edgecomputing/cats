@@ -25,7 +25,6 @@
     <SilverlightApplicationList>
     </SilverlightApplicationList>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
-  
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1449,6 +1448,7 @@
     <Content Include="Scripts\HubScripts\Cascade.js" />
     <Content Include="Scripts\HubScripts\DialogForm.js" />
     <Content Include="Scripts\HubScripts\dispatch.js" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\ConfirmGenerateTransportOrder.cshtml" />
     <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />

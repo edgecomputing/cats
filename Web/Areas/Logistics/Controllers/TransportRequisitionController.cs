@@ -75,9 +75,10 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
 
         }
-        public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request, string searchIndex)
+        public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request, string searchIndex,int status=-1)
         {
-            var transportRequisitions = _transportRequisitionService.Get(t => t.TransportRequisitionNo.Contains(searchIndex));
+            var transportRequisitions = status ==-1 ? _transportRequisitionService.Get(t => t.TransportRequisitionNo.Contains(searchIndex)):
+                _transportRequisitionService.Get(t=>t.TransportRequisitionNo.Contains(searchIndex) && t.Status==(int)TransportRequisitionStatus.Approved);
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
             var transportRequisitonViewModels =
@@ -307,6 +308,16 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         public ActionResult Approve(int id)
+        {
+            var transportRequisition = _transportRequisitionService.FindById(id);
+            if (transportRequisition == null)
+            {
+                return HttpNotFound();
+            }
+            var transportRequisitionViewModel = BindTransportRequisitionViewModel(transportRequisition);
+            return View(transportRequisitionViewModel);
+        }
+        public ActionResult ConfirmGenerateTransportOrder(int id)
         {
             var transportRequisition = _transportRequisitionService.FindById(id);
             if (transportRequisition == null)

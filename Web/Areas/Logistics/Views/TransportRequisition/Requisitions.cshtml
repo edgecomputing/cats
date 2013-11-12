@@ -1,4 +1,6 @@
-﻿@using Cats.Models.ViewModels
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Models.Constant
+@using Cats.Models.ViewModels
 @using Kendo.Mvc.UI
 @model IEnumerable<Cats.Areas.Procurement.Models.RequisitionToDispatchSelect>
 
@@ -17,199 +19,48 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "TransportRequisition")" title="cancel"></a>
 }
 
-<h4 class="page-header">Hub and Project/SI Code assigned Requisitions.</h4>
-@using (Html.BeginForm("Requisitions", "TransportRequisition", FormMethod.Post, new { id = "frm_create_request" }))
+<h4 class="page-header">Transport Requisition</h4>
+Transport Requisition Code: <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
+@*<a class="btn toolbar-btn" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"><i class="ui-icon-cancel"></i></a>*@
+@(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
 
-    <div class="k-content">
-        <table class="table table-bordered table-condensed table-striped"  id="kGrid">
-            <thead>
-                <tr>
-                    <th>Select</th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CommodityName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.RequisitionNo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.QuanityInQtl)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.OrignWarehouse)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.RegionName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Zone)
-                    </th>
+    columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
+    columns.Bound(requisition => requisition.Region);
+    columns.Bound(requisition => requisition.Program);
+    columns.Bound(requisition => requisition.RequestedBy);
+    columns.Bound(requisition => requisition.DateRequested).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(requisition => requisition.CertifiedBy);
+    columns.Bound(requisition => requisition.DateCertified).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(requisiton => requisiton.Status);
+    columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("CreateTransportOrder", "TransportOrder", new { Area = "Procurement", id = "#=TransportRequisitionID#" }) + " '>Generate Transport Order</a>  ");
 
-                    <th>
-                        @Html.Label("Status")
-
-                    </th>
-
-                    <th>ID</th>
-
-
-                    
-                </tr>
-            </thead>
-            <tbody>
-            @{int index = 0;}
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                       
-                        <input type='checkbox'  name="input[@index].IsSelected" id="chkApprovedRequests" value="@item.Input.IsSelected"/>
-                    
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CommodityName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequisitionNo)
-                          
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.QuanityInQtl)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrignWarehouse)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RegionName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Zone)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modleItem => item.RequisitionStatusName)
-                    </td>
-                    <td>
-                          <input type='hidden'  name="input[@index].Number" id="txtRequisitionID" value="@item.Input.Number"/>
-                        @*<input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")"  />*@
-                    </td>
-
-
-                 
-                </tr>
-                index++;
-            }
-</tbody>
-        </table>
-        </div>
-   
-}
+})
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Model(model =>model.Id(p => p.TransportRequisitionID))
+        .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition",new {status=(int)TransportRequisitionStatus.Approved}).Data("searchIndexObj"))
+    ).Pageable()
+)
 
 
 <script>
-
-    $(document).ready(function() {
-        $("#kGrid").kendoGrid({
-            
-            sortable: true,
-            Scrollable:true
-            
-        });
-        
-    });
+    function searchIndexObj() {
+        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+        var searchIndexValue = $("#searchIndex").val();
+        var obj = { searchIndex: searchIndexValue };
+        return obj;
+    }
+    
+    function reloadTDRGrid() {
+        //alert($("#searchIndex").val());
+        var grid = $("#Grid").data("kendoGrid");
+        grid.dataSource.read();
+    }
 </script>
-@*@(Html.Kendo().Grid(Model).Name("Grid")
-      .Columns(columns =>
-                   {
-                                           
-                       columns.Bound(requisition => requisition.CommodityName);
-                       columns.Bound(requisition => requisition.RequisitionNo);
-                       columns.Bound(requisition => requisition.QuanityInQtl);
-                       columns.Bound(requisition => requisition.OrignWarehouse);
-                       columns.Bound(requisition => requisition.RegionName);
-                       columns.Bound(requisition => requisition.Zone);
-                       columns.Bound(requisition => requisition.RequisitionStatusName); 
-                                      
-
-
-                   } ).Selectable(selection=>selection.Mode(GridSelectionMode.Multiple))
-                   .DataSource(datasource=>datasource.Server().Model(model=>model.Id(t=>t.RequisitionID)))
-      .Pageable());*@
-
-@*<script type="text/javascript">
-    $(function () {
-        var gridDataSource = new kendo.data.DataSource({
-            transport: {
-                read: '/TransportRequisition/Requisitions1'
-            },
-            pageSize: 2
-        });
-
-        var $kgrid = $("#kGrid");
-        var grid = $("#kGrid").kendoGrid({
-            dataSource: gridDataSource,
-            pageable: true,
-            columns: [
-                { field: "check_row", title: " ", width: 30, template: "<input class='check_row' type='checkbox' />" },
-                { field: "CommodityName", title: "Commodity", filterable: true, sortable: true, width: 300 },
-                { field: "RequisitionNo", filterable: true, sortable: true },
-            ],
-            dataBound: function (e) {
-                //Go Through Each visible row and add a data property with the unique ID from the dataset
-                $(".k-grid-content tbody tr").each(function () {
-                    var $tr = $(this);
-                    var uid = $tr.attr("data-uid");
-                    var data_entry = _.find(gridDataSource._data, function (data_source) {
-                        return data_source.uid === uid;
-                    });
-                    $tr.addClass('kendo-data-row').attr('data-sympleTech-KendoGrid-rowid', data_entry.id);
-                });
-
-                //Mark any selected rows as selected (persists selections from page to page)
-                var selectedRowIds = $kgrid.attr('data-sympleTech-KendoGrid-selected');
-                if (selectedRowIds != null) {
-                    var selectedRowIdArray = selectedRowIds.split(',');
-                    var visibleRows = $kgrid.find('.kendo-data-row');
-                    $(visibleRows).each(function () {
-                        $row = $(this);
-                        var rowID = $row.attr('data-sympleTech-KendoGrid-rowid');
-                        if (_.contains(selectedRowIdArray, rowID)) {
-                            $row.addClass('k-state-selected');
-                            $row.find('.check_row').attr('checked', 'checked');
-                        }
-                    });
-                }
-            }
-        });
-    });
-
-    $('.check_row').live('click', function (e) {
-        var $kgrid = $("#kGrid");
-        var $cb = $(this);
-
-        //Get Current Selected Values
-        var selectedVals = [];
-        var selectedRowIds = $kgrid.attr('data-sympleTech-KendoGrid-selected');
-        if (selectedRowIds != null) {
-            selectedVals = selectedRowIds.split(',');
-        }
-
-        var $row = $cb.parents('.kendo-data-row').first();
-        var rowId = $row.attr('data-sympleTech-KendoGrid-rowid');
-        if ($cb.is(':checked')) {
-            $row.addClass('k-state-selected');
-            selectedVals.push(rowId);
-        } else {
-            $row.removeClass('k-state-selected');
-            selectedVals = _.without(selectedVals, rowId);
-        }
-
-        //Set selected values to a custom data attribute on the grid
-        $kgrid.attr('data-sympleTech-KendoGrid-selected', selectedVals);
-
-        
-    });
-
-</script>
-
-<div id="kGrid"></div>*@
