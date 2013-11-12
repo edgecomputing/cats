@@ -3,6 +3,8 @@
 @using LanguageHelpers.Localization
 @model Cats.Models.NeedAssessment
 @{
+    ViewBag.Title = "PlannedNeedAssessement";
+    Layout = "~/Views/Shared/_MainLayout.cshtml"; 
     ViewBag.Title = Translator.Translate(" Beneficiary numbers and duration of assisstance");
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 }
@@ -33,7 +35,7 @@
         .PageSize(30)
         .ServerOperation(false)
         .Model(model => model.Id(p => p.NeedAID))
-        .Read(read=>read.Action("NeedAssessmentRead", "NeedAssessment")))
+        .Read(read=>read.Action("PlannedNeedAssessmentInfo_Read", "NeedAssessment")))
     )
 <script>
     function regionsChange() {

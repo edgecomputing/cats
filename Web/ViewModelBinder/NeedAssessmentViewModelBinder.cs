@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using log4net;
 using Cats.Data.UnitWork;
@@ -120,6 +121,22 @@ namespace Cats.ViewModelBinder
                 NonPSNPFromWoredasDOA = viewModel.NonPSNPFromWoredasDOA,
 
             }).ToList();
+        }
+        public static IEnumerable<NeedAssessmentPlanViewModel> GetNeedAssessmentPlanInfo(IEnumerable<Plan> plans)
+        {
+            
+            return plans.Select(viewModel => new NeedAssessmentPlanViewModel
+                {
+                    AssessmentName = viewModel.PlanName,
+                    PlanID = viewModel.PlanID,
+                    //NeedAssessmentID = viewModel.NeedAssessments.First().NeedAID,
+                    StartDate = viewModel.StartDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                    EndDate = viewModel.EndDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                    //Year = (int) viewModel.NeedAssessments.First().Year
+
+                });
+
+
         }
     }
 }

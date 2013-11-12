@@ -166,12 +166,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
              //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
             return RedirectToAction("AddRegion");
         }
-
-        public ActionResult PlannedNeedAssessment_Read([DataSourceRequest] DataSourceRequest request,string  planNmae)
+        public ActionResult NeedAssessmentPlan()
         {
-            var plan = planNmae ?? null;
-            var needAssessment = _needAssessmentService.FindBy(m => m.Plan.PlanName == plan).OrderByDescending(m => m.NeedAID).ToList(); //featch unapproved need assessments
-            var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnViewModel(needAssessment);
+            return View();
+        }
+        public ActionResult NeedAssessment_Plan([DataSourceRequest] DataSourceRequest request)
+        {
+            var plans=_planService.FindBy(m=>m.Program.Name=="Relief");
+            var needAssesmentsViewModel = NeedAssessmentViewModelBinder.GetNeedAssessmentPlanInfo(plans);
             return Json(needAssesmentsViewModel.ToDataSourceResult(request));
 
         }
@@ -309,5 +311,28 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 return RedirectToAction("Index");
             }
         }
+        public ActionResult Detail(int id=0)
+        {
+            var plannedNeedAssessment = _needAssessmentService.FindBy(m => m.PlanID == id).OrderByDescending(m=>m.NeedAID).FirstOrDefault();
+            if (plannedNeedAssessment==null)
+            {
+                return null;
+            }
+            return View(plannedNeedAssessment);
+        }
+      public ActionResult PlannedNeedAssessmentInfo_Read([DataSourceRequest] DataSourceRequest request,int id=0)
+      {
+          var needAssessment = _needAssessmentService.FindBy(m=>m.PlanID==id && m.NeedAApproved==false).OrderByDescending(m => m.NeedAID).ToList(); 
+          var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnViewModel(needAssessment);
+          return Json(needAssesmentsViewModel.ToDataSourceResult(request));
+      }
+     public ActionResult AddNeedAssessment(int id)
+     {
+         var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == id).FirstOrDefault();
+         ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
+         ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+         return View(needAssessment);
+     }
+
     }
 }

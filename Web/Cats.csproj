@@ -25,7 +25,7 @@
     <SilverlightApplicationList>
     </SilverlightApplicationList>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
-    <!--<RunOctoPack>True</RunOctoPack>-->
+    <RunOctoPack>True</RunOctoPack>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -381,6 +381,7 @@
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
@@ -1400,6 +1401,9 @@
     <Content Include="Areas\EarlyWarning\Views\Plan\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\PlannedNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDFromPlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentPlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
