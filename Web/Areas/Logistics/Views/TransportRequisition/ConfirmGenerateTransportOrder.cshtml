@@ -1,6 +1,6 @@
 ﻿@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
-@*@{
+@{
     ViewBag.Title = "Approve";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
@@ -8,15 +8,16 @@
 @section LeftBar
 {
     @Html.Partial("_AllocationLeftBar")
-}*@
+}
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Approve Transport Requisition")</h3>
+   @* <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>*@
+    <h4 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Generate Transport Order")</h4>
 </div>
 
-<h5 class="offset1">@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to approve selected Transport Requisition?")</h5>
-@using (Html.BeginForm("ApproveConfirmed", "TransportRequisition", FormMethod.Post, new { @class = "modal-form" }))
+<h5 class="offset1">@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to generate transported order for selected Transport Requisition?")</h5>
+@using (Html.BeginForm("CreateTransportOrder", "TransportOrder", FormMethod.Post, new { @class = "modal-form" }))
 {
+    
     <div class="modal-body form-horizontal">
         <div class="row-fluid">
             <div class="span6">
@@ -80,10 +81,9 @@
 
     @Html.HiddenFor(model => model.TransportRequisitionID)
     <div class="modal-footer">
-        @if (Model.StatusID == (int)Cats.Models.Constant.TransportRequisitionStatus.Draft)
-        {
+     
             <button class="btn btn-primary" type="submit">Yes</button>
-        }
+        
         <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
 
     </div>

@@ -73,48 +73,59 @@ namespace Cats.Services.Logistics
         }
         #endregion
 
-        public TransportRequisition CreateTransportRequisition(List<int> reliefRequisitions)
+        public bool CreateTransportRequisition(List<List<int>> programRequisitons,int requestedBy)
         {
-
-            if (reliefRequisitions.Count < 1) return null;
-            var anyReliefRequisition = _unitOfWork.ReliefRequisitionRepository.FindById(reliefRequisitions.ElementAt(0));
-            var region = new AdminUnit();
-            if (anyReliefRequisition.RegionID != null)
+            if(programRequisitons.Count < 1) return false;
+            foreach (var reliefRequisitions in programRequisitons)
             {
-                region = _unitOfWork.AdminUnitRepository.FindById(anyReliefRequisition.RegionID.Value);
+
+
+                if (reliefRequisitions.Count < 1) break;
+                var anyReliefRequisition =
+                    _unitOfWork.ReliefRequisitionRepository.FindById(reliefRequisitions.ElementAt(0));
+                var region = new AdminUnit();
+                if (anyReliefRequisition.RegionID != null)
+                {
+                    region = _unitOfWork.AdminUnitRepository.FindById(anyReliefRequisition.RegionID.Value);
+                }
+                var program = new Program();
+                if (anyReliefRequisition.ProgramID != null)
+                {
+                    program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID.Value);
+                }
+                
+                var transportRequisition = new TransportRequisition()
+                                               {
+                                                   Status = (int)TransportRequisitionStatus.Draft, //Draft
+                                                   RequestedDate = DateTime.Today,
+                                                   RequestedBy = requestedBy, //should be current user
+                                                   CertifiedBy = requestedBy, //Should be some user
+                                                   CertifiedDate = DateTime.Today, //should be date cerified
+                                                   TransportRequisitionNo = Guid.NewGuid().ToString(),
+                                                   RegionID = region.AdminUnitID,
+                                                   ProgramID = program.ProgramID
+                                               };
+
+                foreach (var reliefRequisition in reliefRequisitions)
+                {
+                    transportRequisition.TransportRequisitionDetails.Add(new TransportRequisitionDetail
+                                                                             {RequisitionID = reliefRequisition});
+                    var orignal =
+                        _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionID == reliefRequisition).
+                            FirstOrDefault();
+                    orignal.Status = (int) ReliefRequisitionStatus.TransportRequisitionCreated;
+                }
+
+                AddTransportRequisition(transportRequisition);
+                var year = transportRequisition.RequestedDate.Year;
+                transportRequisition.TransportRequisitionNo = string.Format("{0}/{1}/{2}/{3}",
+                                                                            program.ShortCode, region.AdminUnitID,
+                                                                            transportRequisition.TransportRequisitionID,
+                                                                            year);
+
+                _unitOfWork.Save();
             }
-            var program = new Program();
-            if (anyReliefRequisition.ProgramID != null)
-            {
-                program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID.Value);
-            }
-            var transportRequisition = new TransportRequisition()
-            {
-                Status = 1,//Draft
-                RequestedDate = DateTime.Today,
-                RequestedBy = 1, //should be current user
-                CertifiedBy = 1,//Should be some user
-                CertifiedDate = DateTime.Today,//should be date cerified
-                TransportRequisitionNo = Guid.NewGuid().ToString(),
-                RegionID = region.AdminUnitID,
-                ProgramID = program.ProgramID
-            };
-
-            foreach (var reliefRequisition in reliefRequisitions)
-            {
-                transportRequisition.TransportRequisitionDetails.Add(new TransportRequisitionDetail { RequisitionID = reliefRequisition });
-                var orignal =
-                    _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionID == reliefRequisition).FirstOrDefault();
-                orignal.Status = (int)ReliefRequisitionStatus.TransportRequisitionCreated;
-            }
-
-            AddTransportRequisition(transportRequisition);
-            var year = transportRequisition.RequestedDate.Year;
-            transportRequisition.TransportRequisitionNo = string.Format("{0}/{1}/{2}/{3}",
-                                                                        program.ShortCode, region.AdminUnitID, transportRequisition.TransportRequisitionID, year);
-
-            _unitOfWork.Save();
-            return transportRequisition;
+            return true;
 
 
         }
@@ -168,13 +179,15 @@ namespace Cats.Services.Logistics
         }
 
 
-        public bool ApproveTransportRequisition(int id)
+        public bool ApproveTransportRequisition(int id,int approvedBy)
         {
             var transportRequisition =
                 _unitOfWork.TransportRequisitionRepository.FindById(id);
             if(transportRequisition==null) return false;
             
             transportRequisition.Status = (int) TransportRequisitionStatus.Approved;
+            transportRequisition.CertifiedBy = approvedBy;
+            transportRequisition.CertifiedDate = DateTime.Today;
             _unitOfWork.Save();
             return true;
         }

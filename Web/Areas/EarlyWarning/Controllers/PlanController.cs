@@ -32,7 +32,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Plan_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var plans = _hrdPlanService.GetAllPlan().OrderByDescending(m=>m.PlanID);
+            var plans = _hrdPlanService.FindBy(m=>m.Program.Name=="Relief").OrderByDescending(m=>m.PlanID);
             var plansToDisplay = GetPlan(plans).ToList();
             return Json(plansToDisplay.ToDataSourceResult(request));
         }

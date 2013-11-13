@@ -15,7 +15,7 @@ namespace Cats.Models
             this.ReliefRequisitions = new List<ReliefRequisition>();
             this.Transactions = new List<Transaction>();
             this.TransportRequisitions = new List<TransportRequisition>();
-           // this.HrdPlans=new List<HRDPlan>();
+            //this.Plans=new List<Plan>();
         }
 
         public int ProgramID { get; set; }
@@ -30,6 +30,6 @@ namespace Cats.Models
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
-        public virtual ICollection<Plan> Plans { get; set; } 
+       //public virtual ICollection<Plan> Plans { get; set; } 
     }
 }

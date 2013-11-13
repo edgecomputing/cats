@@ -66,6 +66,32 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.PlanRepository.Get(filter, orderBy, includeProperties);
         }
+        public void AddNeedAssessmentPlan(NeedAssessment needAssessment)
+        {
+            var oldPlan = _unitOfWork.PlanRepository.FindBy(m => m.PlanName==needAssessment.Plan.PlanName).SingleOrDefault();
+            if (oldPlan == null)
+            {
+                var program = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief");
+                var plan = new Plan
+                    {
+                        PlanName = needAssessment.Plan.PlanName,
+                        StartDate = needAssessment.Plan.StartDate,
+                        EndDate = needAssessment.Plan.EndDate,
+                        ProgramID = program.First().ProgramID,
+                        Program = _unitOfWork.ProgramRepository.FindBy(m=>m.Name=="Relief").FirstOrDefault()
+                        
+                    };
+                
+                var savePlan = _unitOfWork.PlanRepository.Add(plan);
+                _unitOfWork.Save();
+                //if (!savePlan)
+                //{
+                //    return null;
+                //}
+                //return plan;
+            }
+            //return oldPlan;
+        }
        public List<Program> GetPrograms()
        {
            return _unitOfWork.ProgramRepository.GetAll();
@@ -74,5 +100,24 @@ namespace Cats.Services.EarlyWarning
         {
             _unitOfWork.Dispose();
         }
-    }
+
+
+        public void AddPlan(string planName, DateTime startDate, DateTime endDate)
+        {
+            var oldPlan = _unitOfWork.PlanRepository.FindBy(m => m.PlanName == planName).SingleOrDefault();
+            if(oldPlan == null)
+            {
+                var reliefProgram = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief").SingleOrDefault();
+                var plan = new Plan
+                {
+                    PlanName = planName,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    Program = reliefProgram
+                };
+                _unitOfWork.PlanRepository.Add(plan);
+                _unitOfWork.Save();
+            }
+        }
+   }
 }

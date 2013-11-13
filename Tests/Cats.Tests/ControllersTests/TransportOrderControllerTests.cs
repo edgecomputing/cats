@@ -16,6 +16,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
+using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 using log4net;
@@ -173,24 +174,22 @@ namespace Cats.Tests.ControllersTests
         [Test]
         public void CanDisplayTransportRequisitions()
         {
+          
             //Act
             var result = _transportOrderController.TransportRequisitions();
 
             //Assert
 
-            Assert.IsInstanceOf<List<TransportRequisitionSelect>>(result.Model);
-            Assert.AreEqual(1, ((IEnumerable<TransportRequisitionSelect>)result.Model).Count());
+            Assert.IsInstanceOf<ViewResult>(result);
+           
         }
         [Test]
         public void ShouldGenerateTransportOrderForSelectedTransportRequisition()
         {
             //Act
-             var requisitions = new List<int>()
-                                   {
-                                       1
-                                   };
+            
           
-            _transportOrderController.CreateTransportOrder(requisitions);
+            _transportOrderController.CreateTransportOrder(1);
             var request =new Kendo.Mvc.UI.DataSourceRequest();
             var result = _transportOrderController.TransportOrder_Read(request);
             //Assert

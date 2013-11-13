@@ -141,10 +141,10 @@ namespace Cats.Services.Procurement
            return _unitOfWork.TransportOrderDetailRepository.Get(t => t.TransportOrderID == transportId);
        }
         //TODO:Factor Out  to single responiblity Principle 
-        public bool CreateTransportOrder(IEnumerable<int> requisitions)
+        public bool CreateTransportOrder(int transportRequisitionId)
         {
             //var requId=_unitOfWork.TransportRequisitionDetailRepository.FindBy(t=>t.TransportRequisitionID==)
-            var transporterAssignedRequisionDetails = AssignTransporterForEachWoreda(requisitions);
+            var transporterAssignedRequisionDetails = AssignTransporterForEachWoreda(transportRequisitionId);
 
             var transporters = (from item in transporterAssignedRequisionDetails select item.TransporterID).Distinct().ToList();
 
@@ -208,14 +208,13 @@ namespace Cats.Services.Procurement
 
             }
 
-            foreach (var item in requisitions)
-            {
-                var requisition = _unitOfWork.TransportRequisitionRepository.Get(t=>t.TransportRequisitionID==item).FirstOrDefault();
+           
+                var requisition = _unitOfWork.TransportRequisitionRepository.Get(t=>t.TransportRequisitionID==transportRequisitionId).FirstOrDefault();
 
                 requisition.Status = (int) TransportRequisitionStatus.Closed;
 
                 var transportRequisitionDetails =
-                    _unitOfWork.TransportRequisitionDetailRepository.Get(t => t.TransportRequisitionID == item).ToList();
+                    _unitOfWork.TransportRequisitionDetailRepository.Get(t => t.TransportRequisitionID == transportRequisitionId).ToList();
                 foreach (var transportRequisitionDetail in transportRequisitionDetails)
                 {
                     var reliefRequisition =
@@ -223,7 +222,7 @@ namespace Cats.Services.Procurement
                             t => t.RequisitionID == transportRequisitionDetail.RequisitionID).FirstOrDefault();
                     reliefRequisition.Status = (int) ReliefRequisitionStatus.TransportOrderCreated;
                 }
-            }
+            
             _unitOfWork.Save();
             //TODO:Identity if Transport order number to be auto generated , and where to get contract number.
             
@@ -244,14 +243,12 @@ namespace Cats.Services.Procurement
         }
 
 
-        
-       
+        private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)
 
-        private List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<int> requisitions)
         {
-            var requisionIds = requisitions.ToList();
+           
             var transportRequision = _unitOfWork.TransportRequisitionDetailRepository.Get(
-                t => requisionIds.Contains(t.TransportRequisitionID), null, null).Select(t => t.RequisitionID);
+                t => t.TransportRequisitionID == transportRequisitionId, null, null).Select(t => t.RequisitionID);
                 
             var reqDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(t => transportRequision.Contains(t.RequisitionID));
             var transportSourceDestination = new List<TransporterRequisition>();

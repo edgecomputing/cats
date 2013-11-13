@@ -23,7 +23,7 @@ namespace Cats.Models.Mapping
            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
            this.Property(t => t.Remark).HasColumnName("Remark");
 
-           //this.HasOptional(t => t.Program)
+           //this.HasRequired(t => t.Program)
            //   .WithMany(t => t.Plans)
            //   .HasForeignKey(d => d.ProgramID);
        }

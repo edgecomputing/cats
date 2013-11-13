@@ -57,34 +57,12 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpGet]
         public ViewResult TransportRequisitions()
         {
-            var transportRequisitions = _transportRequisitionService.Get(t => t.Status == (int)TransportRequisitionStatus.Approved);
-            var transportReqInput = (from item in transportRequisitions
-                                     select new TransportRequisitionSelect
-                                                {
-                                                    CertifiedBy = item.CertifiedBy,
-                                                    CertifiedDate = item.CertifiedDate,
-                                                    RequestedBy = item.RequestedBy,
-                                                    RequestedDate = item.RequestedDate,
-                                                    StatusName = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION, item.Status),
-                                                    Status = item.Status,
-                                                    RequestDateET = EthiopianDate.GregorianToEthiopian(item.RequestedDate),
-                                                    CertifiedDateET = EthiopianDate.GregorianToEthiopian(item.CertifiedDate),
-                                                    TransportRequisitionID = item.TransportRequisitionID,
-                                                    TransportRequisitionNo = item.TransportRequisitionNo,
-                                                    Input = new TransportRequisitionSelect.TransportRequisitionSelectInput
-                                                              {
-                                                                  Number = item.TransportRequisitionID,
-                                                                  IsSelected = false
-                                                              }
+            
 
 
-                                                });
-
-
-            return View(transportReqInput.ToList());
+            return View();
         }
 
-     
         public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
@@ -94,36 +72,32 @@ namespace Cats.Areas.Procurement.Controllers
 
             return File(result.RenderBytes, result.MimeType);
         }
-
-        [HttpPost]
-        public ActionResult TransportRequisitions(IList<SelectFromGrid> input)
+       
+        [HttpGet]
+        public ActionResult CreateTransportOrder(int id)
         {
             try
             {
-                var requisionIds = (from item in input where (item.IsSelected != null ? ((string[])item.IsSelected)[0] : "off") == "on" select item.Number).ToList();
-                return CreateTransportOrder(requisionIds);
+                _transportOrderService.CreateTransportOrder(id);
+                return RedirectToAction("Index", "TransportOrder");
             }
             catch (Exception exception)
             {
                 var log = new Logger();
                 log.LogAllErrorsMesseges(exception, _log);
-                return View("TransportRequisitions", "TransportOrder");
+                return RedirectToAction("ConfirmGenerateTransportOrder", "TransportRequisition",
+                                        new {id = id});
             }
 
 
         }
 
-        public ActionResult CreateTransportOrder(IEnumerable<int> requisitionToDispatches)
-        {
 
-            _transportOrderService.CreateTransportOrder(requisitionToDispatches);
-
-
-            return RedirectToAction("Index", "TransportOrder");
-        }
+        
 
 
        
+
 
 
         public ViewResult Index(int id = 0)

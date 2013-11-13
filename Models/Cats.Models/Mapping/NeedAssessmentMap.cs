@@ -44,9 +44,9 @@ namespace Cats.Models.Mapping
              this.HasOptional(t => t.TypeOfNeedAssessment1)
                 .WithMany(t => t.NeedAssessments)
                 .HasForeignKey(d => d.TypeOfNeedAssessment);
-             //this.HasOptional(t => t.Plan)
-             //   .WithMany(t => t.NeedAssessments)
-             //   .HasForeignKey(d => d.PlanID);
+             this.HasRequired(t => t.Plan)
+                .WithMany(t => t.NeedAssessments)
+                .HasForeignKey(d => d.PlanID);
 
         }
     }
