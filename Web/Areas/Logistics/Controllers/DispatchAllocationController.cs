@@ -53,36 +53,37 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
-        #region "test"
+        //#region "test"
 
-        public ActionResult Main()
-        {
-            return View();
-        }
+        //public ActionResult Main()
+        //{
+        //    return View();
+        //}
 
-        [HttpGet]
-        public JsonResult HubAllocationByRegion(int regionId = -1)
-        {
-            List<AllocationByRegion> requisititions = null;
-            requisititions = regionId != -1 ? _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+        //[HttpGet]
+        //public JsonResult HubAllocationByRegion(int regionId = -1)
+        //{
+        //    List<AllocationByRegion> requisititions = null;
+        //    requisititions = regionId != -1 ? _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
 
-            var requisitionViewModel = BindAllocation(requisititions);// HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+        //    var requisitionViewModel = BindAllocation(requisititions);// HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
 
-            return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
-        }
-
-
-        public JsonResult AllocatedProjectCode(int regionId = -1)
-        {
-            List<ReliefRequisition> requisititions = null;
-            requisititions = regionId != -1 ? _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
-
-            var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
-            return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
+        //}
 
 
-        #endregion
+        //public JsonResult AllocatedProjectCode(int regionId = -1,int status=-1)
+        //{
+        //    if (regionId < 0 || status < 0) return Json(new List<RequisitionViewModel>(), JsonRequestBehavior.AllowGet);
+        //    var requisititions = new List<ReliefRequisition>();
+        //    requisititions = _reliefRequisitionService.FindBy(r => r.Status == status && r.RegionID == regionId);
+
+        //    var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+        //    return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
+        //}
+
+
+        //#endregion
 
         public ActionResult GetRegions()
         {
@@ -103,14 +104,14 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(requisitionViewModel.ToDataSourceResult(request));
         }
 
-        public ActionResult AllocateProjectCode([DataSourceRequest]DataSourceRequest request, int regionId)
+        public ActionResult AllocateProjectCode([DataSourceRequest]DataSourceRequest request, int regionId,int status)
         {
             List<ReliefRequisition> requisititions = null;
-            requisititions = regionId != -1
-                                 ? _reliefRequisitionService.FindBy(
-                                     r =>
-                                     r.Status == (int) ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId)
-                                 : null;// _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            if (regionId == -1 || status == -1) return Json((new List<RequisitionViewModel>()).ToDataSourceResult(request));
+            requisititions = _reliefRequisitionService.FindBy(
+                r =>
+                r.Status == status && r.RegionID == regionId);
+                                 
             
             var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
             return Json(requisitionViewModel.ToDataSourceResult(request));

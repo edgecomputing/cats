@@ -1,31 +1,29 @@
-﻿
-
- 
-@model int?
+﻿@model int?
 
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @(Html.Kendo().Grid<Cats.Models.HubAllocationByRegionViewModel>()
     .Name("grid_hub")
+
     .Columns(columns =>
-    {
-        columns.Bound(e => e.Hub).Width(100).Title("Hub");
-        columns.Bound(e => e.AllocatedAmount).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Amount Allocated", @class = "cats-unit-pref-grid" }).Format("{0:N2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
-       
-        
-    })
+
+
+        columns.Bound(e => e.Hub).ClientTemplate("#=Hub#(#=kendo.toString(AllocatedAmount,'N')#)").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Title(Translator.Translate("Hub Allocated Amount"))
+
+
+    )
     .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action("HubAllocation", "DispatchAllocation",new {regionId = @Model}))
-       
-        .PageSize(5)
+        .Read(read => read.Action("HubAllocation", "DispatchAllocation", new { regionId = @Model }))
+
+        .PageSize(10)
      )
-     
+
      .Scrollable(scroll => scroll.Height(200))
-     .Selectable(select => select.Mode(GridSelectionMode.Multiple))
-     .Navigatable()
-     .Filterable()
-     .Sortable()
-     .Pageable()
+        //.Selectable(select => select.Mode(GridSelectionMode.Multiple))
+        //.Navigatable()
+        //.Filterable()
+        //.Sortable()
+        //.Pageable()
 )
 
