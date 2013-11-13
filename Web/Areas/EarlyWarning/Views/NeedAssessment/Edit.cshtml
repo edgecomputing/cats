@@ -41,10 +41,7 @@
                        columns.Bound(p => p.NonPSNPFromWoredasMale).Title("Non PSNP From Woredas Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Male"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate(" #=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate(" #=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
                        columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Female"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate(" #=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate(" #=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
                        columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas DOA"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"});
-
                    })
-
-
 
       .ToolBar(toolbar => toolbar.Save())
 
@@ -104,12 +101,10 @@
 
     function onDataBound(e) 
     {
-        
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("focus", "input", function (e) {
             var input = $(this);
             setTimeout(function () { input.select(); },100);
-          
         });
         
         $(grid.tbody).on("change", "td", function (e) {
@@ -234,6 +229,4 @@
             alert("Create record is successfull");
         }
     }
-    
-   
 </script>

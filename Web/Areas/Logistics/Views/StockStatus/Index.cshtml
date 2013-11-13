@@ -605,7 +605,7 @@
 
     .gridStyle {
         width: 100%;
-        height: 220px;
+        height: 100%;
     }
 
     .ng-table {
@@ -651,6 +651,40 @@
     })
 </script>
 
+<div class="row-fluid form-horizontal ">
+    <div class="well span12">
+        <div class="span5 ">
+            <div class="control-group">
+                <div class="toolbar">
+                    <label class="category-label" for="category">Show Zones by Region:</label>
+                    @(Html.Kendo().DropDownList()
+                                        .Name("regions")
+                                        .OptionLabel("All")
+                                        .DataTextField("Name")
+                                        .DataValueField("AdminUnitID")
+                                        .AutoBind(false)
+                                        .Events(e => e.Change("regionsChange"))
+                                        .DataSource(ds =>
+                                        {
+                                            ds.Read("GetRegions", "NeedAssessment");
+                                        })
+                        )
+                </div>
+            </div>
+        </div>
+
+        <div class="span5">
+            <div class="control-group">
+                <div class="control-label">
+                    Select
+                </div>
+                <div class="controls">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title" style="font: normal">Free Stock Status of all hubs</h3>
@@ -663,7 +697,7 @@
                     <table class="table table-striped" style="height: auto" ng-grid="gridOptions"></table>
                 </div>
             </div>
-         @*   <div ng-app="main" ng-controller="DemoCtrl">
+            @*   <div ng-app="main" ng-controller="DemoCtrl">
                     <table ng-table class="table">
                         <tr ng-repeat="user in users">
                             <td data-title="'Name'">{{user.name}}</td>

@@ -22,7 +22,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ISeasonService _seasonService;
         private readonly ITypeOfNeedAssessmentService _typeOfNeedAssessmentService;
         private readonly ILog _log;
-
+       
      
 
         public NeedAssessmentController(INeedAssessmentService needAssessmentService, 
@@ -85,11 +85,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult GetZones(int region)
         {
-           
             var zones = _needAssessmentService.GetZoness(region);
             return Json(zones, JsonRequestBehavior.AllowGet);
 
         }
+       
         public ActionResult AddRegion()
         {
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID","Name");

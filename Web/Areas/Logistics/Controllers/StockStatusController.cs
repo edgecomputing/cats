@@ -20,6 +20,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly Cats.Services.Hub.ITransactionService _transcationService;
         //private readonly ITransactionGroupService _transactionGroupService;
         //private readonly IStockStatusService _stockStatusService;
+        private readonly IHubService _hubService;
         
         private IUnitOfWork _unitOfWork;
         private IUserDashboardPreferenceService _userDashboardPreferenceService;
@@ -31,7 +32,8 @@ namespace Cats.Areas.Logistics.Controllers
             IUnitOfWork unitOfWork, 
             IUserDashboardPreferenceService userDashboardPreferenceService,
             IDashboardWidgetService dashboardWidgetservice,
-            IUserAccountService userService
+            IUserAccountService userService,
+            IHubService hubService
 
             //ITransactionService transactionService
             //ITransactionGroupService transactionGroupService,
@@ -42,6 +44,7 @@ namespace Cats.Areas.Logistics.Controllers
             _userDashboardPreferenceService = userDashboardPreferenceService;
             dashboardWidgetservice = dashboardWidgetservice;
             _userService = userService;
+            _hubService = hubService;
         
             //_transcationService = transactionService;
             //_transactionGroupService = transactionGroupService;
@@ -80,6 +83,12 @@ namespace Cats.Areas.Logistics.Controllers
             
             return Json(re,JsonRequestBehavior.AllowGet);
         }
+
+        //public ActionResult GetHubs()
+        //{
+        //    //var hubs = _hubService.GetHubs();
+        //    return Json(hubs, JsonRequestBehavior.AllowGet);
+        //}
 
         //public ActionResult FreeStock()
         //{

@@ -70,11 +70,9 @@
     <Compile Include="BeneficiaryAllocationService.cs" />
     <Compile Include="IBeneficiaryAllocationService.cs" />
     <Compile Include="IPromisedContributionService.cs" />
-    <Compile Include="IStockStatusService.cs" />
     <Compile Include="ITransportRequisitionService.cs" />
     <Compile Include="PromisedContributionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockStatusService.cs" />
     <Compile Include="TransportRequisitionService.cs" />
   </ItemGroup>
   <ItemGroup>

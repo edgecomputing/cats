@@ -170,7 +170,7 @@ namespace Cats.Infrastructure
                                                                                       ConnectionStrings[
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
-            kernel.Bind<IStockStatusService>().To<StockStatusService>();
+            //kernel.Bind<IStockStatusService>().To<StockStatusService>();
         }
         private void AddBindingsHub()
         {

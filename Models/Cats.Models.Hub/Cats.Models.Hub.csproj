@@ -81,6 +81,7 @@
     <Compile Include="HubOwner.cs" />
     <Compile Include="HubSetting.cs" />
     <Compile Include="HubSettingValue.cs" />
+    <Compile Include="HubView.cs" />
     <Compile Include="InternalMovement.cs" />
     <Compile Include="Ledger.cs" />
     <Compile Include="LedgerType.cs" />
