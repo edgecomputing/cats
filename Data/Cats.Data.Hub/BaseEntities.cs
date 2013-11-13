@@ -14,7 +14,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 
 
 namespace Cats.Data.Hub

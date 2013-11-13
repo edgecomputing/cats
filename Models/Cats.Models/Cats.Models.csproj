@@ -74,6 +74,7 @@
     <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
+    <Compile Include="Plan.cs" />
     <Compile Include="HubAllocationByRegionViewModel.cs" />
     <Compile Include="Mapping\AllocationByRegionMap.cs" />
     <Compile Include="Mapping\AuditMap.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Mapping\HRDCommodityDetailMap.cs" />
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
+    <Compile Include="Mapping\PlanMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
     <Compile Include="Mapping\HubMap.cs" />
     <Compile Include="Mapping\HubOwnerMap.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
     <Compile Include="Mapping\ProjectCodeMap.cs" />
+    <Compile Include="Mapping\PromisedContributionMap.cs" />
     <Compile Include="Mapping\RationDetailMap.cs" />
     <Compile Include="Mapping\RationMap.cs" />
     <Compile Include="Mapping\ReceiptAllocationMap.cs" />
@@ -219,6 +222,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectCode.cs" />
     <Compile Include="ProjectCodeAllocation.cs" />
+    <Compile Include="PromisedContribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ration.cs" />
     <Compile Include="RationDetail.cs" />

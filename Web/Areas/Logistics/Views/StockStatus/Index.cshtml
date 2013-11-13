@@ -28,7 +28,7 @@
                 title: {
                     text: null
                 },
-               
+
                 plotOptions: {
                     pie: {
                         showInLegend: true,
@@ -42,7 +42,7 @@
                             connectorColor: '#000000',
                             formatter: function () {
                                 var percent = this.percentage;
-                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
+                                return /* '<b>' + this.point.name + '</b>: ' + */percent.toFixed(2) + ' %';
                             }
                         }
                     }
@@ -108,7 +108,7 @@
                             connectorColor: '#000000',
                             formatter: function () {
                                 var percent = this.percentage;
-                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
+                                return /*'<b>' + this.point.name + '</b>: ' +*/ percent.toFixed(2) + ' %';
                             }
                         }
                     }
@@ -155,7 +155,7 @@
                         animation: false,
                         allowPointSelect: true,
                         cursor: 'pointer',
-                       
+
                         dataLabels: {
                             enabled: false,
                             color: '#000000',
@@ -275,7 +275,7 @@
                     enabled: false
                 },
                 series: [{
-                    name: 'Requests',
+                    name: 'Stock Status',
                     type: 'pie',
                     data: [90, 10]
                 }]
@@ -413,7 +413,8 @@
     .panel-title {
         margin-top: 0;
         margin-bottom: 0;
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: lighter;
     }
 
         .panel-title > a {
@@ -601,17 +602,79 @@
         height: 100%;
         float: right;
     }
+
+    .gridStyle {
+        width: 100%;
+        height: 220px;
+    }
+
+    .ng-table {
+        border: 1px solid #000;
+    }
 </style>
+
+<script>
+    var app = angular.module('myApp', ['ngGrid']);
+    app.controller('MyCtrl', function ($scope) {
+        $scope.myData = [
+                             { Commodity: "Cereal", PhysicalStock: 50, FreeStock: 50 },
+                             { Commodity: "Wheat Flour", PhysicalStock: 43, FreeStock: 14 },
+                             { Commodity: "CSB/Famix", PhysicalStock: 27, FreeStock: 25 },
+                             { Commodity: "Pulses", PhysicalStock: 29, FreeStock: 39 },
+                             { Commodity: "V.Oil", PhysicalStock: 34, FreeStock: 58 }
+        ];
+
+        $scope.gridOptions = {
+            data: 'myData',
+            columnDefs: [
+                { field: 'Commodity', displayName: 'Commodity' },
+                { field: 'PhysicalStock', displayName: 'Physical Stock' },
+                { field: 'FreeStock', displayName: 'Free Stock' },
+            ],
+            jqueryUITheme: false,
+        };
+    });
+</script>
+
+<script>
+    var app = angular.module('main', ['ngTable']).
+    controller('DemoCtrl', function ($scope) {
+
+        $scope.users = [
+                { name: "Moroni", age: 50 },
+                { name: "Tiancum", age: 43 },
+                { name: "Jacob", age: 27 },
+                { name: "Nephi", age: 29 },
+                { name: "Enos", age: 34 }
+        ];
+
+    })
+</script>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Free Stock Status of all hubs</h3>
-    </div> 
+        <h3 class="panel-title" style="font: normal">Free Stock Status of all hubs</h3>
+    </div>
     <div class="panel-body">
         <div style="float: left; width: 65%">
-            Table
+            <div ng-app="myApp">
+                <div ng-controller="MyCtrl">
+                    @*<div class="gridstyle" ng-grid="gridOptions"></div>*@
+                    <table class="table table-striped" style="height: auto" ng-grid="gridOptions"></table>
+                </div>
+            </div>
+            <div ng-app="main" ng-controller="DemoCtrl">
+                    <table ng-table class="table">
+                        <tr ng-repeat="user in users">
+                            <td data-title="'Name'">{{user.name}}</td>
+                            <td data-title="'Age'">{{user.age}}</td>
+                            <td data-title="'Age'">{{user.age}}</td>
+                        </tr>
+                    </table>
+              </div>
         </div>
-        <div class="chart-wrapper" style="width:35%">
+
+        <div class="chart-wrapper" style="width: 35%; float: right">
             <div class="chart-inner">
                 <div id="pieChart-main" style="width: 100%; height: 100%;"></div>
             </div>
@@ -620,13 +683,21 @@
 </div>
 
 <div>
-    <div class="panel panel-success" style="float: left; width: 49%">
+    <div class="panel panel-default" style="float: left; width: 49%">
         <div class="panel-heading">
             <h3 class="panel-title">Adamahub</h3>
         </div>
         <div class="panel-body">
             <div style="float: left; width: 50%">
-                Table
+                <div ng-app="main" ng-controller="DemoCtrl">
+                    <table ng-table class="table">
+                        <tr ng-repeat="user in users">
+                            <td data-title="'Name'">{{user.name}}</td>
+                            <td data-title="'Age'">{{user.age}}</td>
+                            <td data-title="'Age'">{{user.age}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="chart-wrapper">
                 <div class="chart-inner">
@@ -635,9 +706,9 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-success" style="float: right; width: 49%">
+    <div class="panel panel-default" style="float: right; width: 49%">
         <div class="panel-heading">
-            <h3 class="panel-title">Diredawa hub</h3>
+            <h3 class="panel-title" style="font: normal">Diredawa hub</h3>
         </div>
         <div class="panel-body">
             <div style="float: left; width: 50%">
@@ -653,7 +724,7 @@
 </div>
 
 <div>
-    <div class="panel panel-success" style="float: left; width: 49%">
+    <div class="panel panel-default" style="float: left; width: 49%">
         <div class="panel-heading">
             <h3 class="panel-title">Kombolcha hub</h3>
         </div>
@@ -668,7 +739,7 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-success" style="float: right; width: 49%">
+    <div class="panel panel-default" style="float: right; width: 49%">
         <div class="panel-heading">
             <h3 class="panel-title">Mekele hub</h3>
         </div>
@@ -686,7 +757,7 @@
 </div>
 
 <div>
-    <div class="panel panel-success" style="float: left; width: 49%">
+    <div class="panel panel-default" style="float: left; width: 49%">
         <div class="panel-heading">
             <h3 class="panel-title">Sodo hub(EFSRA)</h3>
         </div>
@@ -701,7 +772,7 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-success" style="float: right; width: 49%">
+    <div class="panel panel-default" style="float: right; width: 49%">
         <div class="panel-heading">
             <h3 class="panel-title">Shashemene hub(EFSRA)</h3>
         </div>
@@ -719,7 +790,7 @@
 </div>
 
 <div>
-    <div class="panel panel-success" style="float: left; width: 49%">
+    <div class="panel panel-default" style="float: left; width: 49%">
         <div class="panel-heading">
             <h3 class="panel-title">Woreta hub(EFSRA)</h3>
         </div>
@@ -735,4 +806,3 @@
         </div>
     </div>
 </div>
-

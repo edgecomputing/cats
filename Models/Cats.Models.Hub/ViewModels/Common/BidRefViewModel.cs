@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Cats.Models.Hub.ViewModels.Common
+namespace Cats.Models.Hubs.ViewModels.Common
 {
     public class BidRefViewModel
     {

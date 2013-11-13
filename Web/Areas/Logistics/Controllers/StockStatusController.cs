@@ -43,7 +43,7 @@ namespace Cats.Areas.Logistics.Controllers
             dashboardWidgetservice = dashboardWidgetservice;
             _userService = userService;
         
-           //_transcationService = transactionService;
+            //_transcationService = transactionService;
             //_transactionGroupService = transactionGroupService;
             //_stockStatusService = stockStatusService;
         }
@@ -54,6 +54,13 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
+        public ActionResult AngularGrid() {
+            return View();
+        }
+
+        public ActionResult angu() {
+            return View();
+        }
         public ActionResult Status()
         {
             return View();

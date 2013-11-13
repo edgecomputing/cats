@@ -68,10 +68,13 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
 
 
 app.directive('draggable', function () {
+    
+    
     return function (scope, element) {
+       
         // this gives us the native JS object
         var el = element[0];
-
+        
         el.draggable = true;
 
         el.addEventListener(

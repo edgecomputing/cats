@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     
     partial class UserProfile

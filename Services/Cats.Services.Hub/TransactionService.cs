@@ -4,11 +4,11 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
-using Cats.Models.Hub;
-using Cats.Models.Hub.ViewModels;
-using Cats.Models.Hub.ViewModels.Report;
-using Cats.Models.Hub.ViewModels.Report.Data;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
+using Cats.Models.Hubs.ViewModels.Report;
+using Cats.Models.Hubs.ViewModels.Report.Data;
+using Cats.Models.Hubs;
 
 
 namespace Cats.Services.Hub

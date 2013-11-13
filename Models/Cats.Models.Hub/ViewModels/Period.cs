@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using Cats.Models.Hub.MetaModels;
+using Cats.Models.Hubs.MetaModels;
 
-namespace Cats.Models.Hub
+namespace Cats.Models.Hubs
 {
     
     partial class Period

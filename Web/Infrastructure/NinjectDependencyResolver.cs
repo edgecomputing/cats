@@ -28,6 +28,7 @@ namespace Cats.Infrastructure
         {
             kernel = new StandardKernel();
             AddBindings();
+            AddBindingsHub();
         }
 
        
@@ -43,6 +44,8 @@ namespace Cats.Infrastructure
         
         private void AddBindings()
         {
+           
+            kernel.Bind<IPromisedContributionService>().To<PromisedContributionService>();
             kernel.Bind<IBusinessProcessStateService>().To<BusinessProcessStateService>();
             kernel.Bind<IBusinessProcessService>().To<BusinessProcessService>();
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
@@ -135,7 +138,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransReqWithoutTransporterService>().To<TransReqWithoutTransporterService>();
             kernel.Bind<ITransportOrderDetailService>().To<TransportOrderDetailService>();
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
-
+            kernel.Bind<IPlanService>().To<PlanService>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.
@@ -168,6 +171,70 @@ namespace Cats.Infrastructure
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
             kernel.Bind<IStockStatusService>().To<StockStatusService>();
+        }
+        private void AddBindingsHub()
+        {
+            kernel.Bind<Cats.Data.Hub.IUnitOfWork>().To<Cats.Data.Hub.UnitOfWork>();
+            kernel.Bind<Cats.Services.Hub.IFDPService>().To<Cats.Services.Hub.FDPService>();
+            kernel.Bind<Cats.Services.Hub.IAdminUnitService>().To<Cats.Services.Hub.AdminUnitService>();
+            kernel.Bind<Cats.Services.Hub.ICommodityService>().To<Cats.Services.Hub.CommodityService>();
+            kernel.Bind<Cats.Services.Hub.ITransporterService>().To<Cats.Services.Hub.TransporterService>();
+            kernel.Bind<Cats.Services.Hub.IShippingInstructionService>().To<Cats.Services.Hub.ShippingInstructionService>();
+            kernel.Bind<Cats.Services.Hub.ITransactionService>().To<Cats.Services.Hub.TransactionService>();
+            kernel.Bind<Cats.Services.Hub.IUnitService>().To<Cats.Services.Hub.UnitService>();
+            kernel.Bind<Cats.Services.Hub.IUserProfileService>().To<Cats.Services.Hub.UserProfileService>();
+            kernel.Bind<Cats.Services.Hub.IUserRoleService>().To<Cats.Services.Hub.UserRoleService>();
+            kernel.Bind<Cats.Services.Hub.IUserHubService>().To<Cats.Services.Hub.UserHubService>();
+            kernel.Bind<Cats.Services.Hub.ICommodityTypeService>().To<Cats.Services.Hub.CommodityTypeService>();
+            kernel.Bind<Cats.Services.Hub.ICommodityGradeService>().To<Cats.Services.Hub.CommodityGradeService>();
+            kernel.Bind<Cats.Services.Hub.ICommoditySourceService>().To<Cats.Services.Hub.CommoditySourceService>();
+            kernel.Bind<Cats.Services.Hub.IContactService>().To<Cats.Services.Hub.ContactService>();
+            kernel.Bind<Cats.Services.Hub.IInternalMovementService>().To<Cats.Services.Hub.InternalMovementService>();
+            kernel.Bind<Cats.Services.Hub.IStoreService>().To<Cats.Services.Hub.StoreService>();
+            kernel.Bind<Cats.Services.Hub.IProjectCodeService>().To<Cats.Services.Hub.ProjectCodeService>();
+            kernel.Bind<Cats.Services.Hub.IProgramService>().To<Cats.Services.Hub.ProgramService>();
+            kernel.Bind<Cats.Services.Hub.IDispatchAllocationService>().To<Cats.Services.Hub.DispatchAllocationService>();
+            kernel.Bind<Cats.Services.Hub.IDispatchService>().To<Cats.Services.Hub.DispatchService>();
+            kernel.Bind<Cats.Services.Hub.IOtherDispatchAllocationService>().To<Cats.Services.Hub.OtherDispatchAllocationService>();
+            kernel.Bind<Cats.Services.Hub.IDispatchDetailService>().To<Cats.Services.Hub.DispatchDetailService>();
+            kernel.Bind<Cats.Services.Hub.IPeriodService>().To<Cats.Services.Hub.PeriodService>();
+            kernel.Bind<Cats.Services.Hub.IHubService>().To<Cats.Services.Hub.HubService>();
+            kernel.Bind<Cats.Services.Hub.IReceiveService>().To<Cats.Services.Hub.ReceiveService>();
+            kernel.Bind<Cats.Web.Hub.IMembershipWrapper>().To<Cats.Web.Hub.MembershipWrapper>(); ;
+            kernel.Bind<Cats.Web.Hub.IUrlHelperWrapper>().To<Cats.Web.Hub.UrlHelperWrapper>();
+            kernel.Bind<Cats.Web.Hub.IFormsAuthenticationWrapper>().To<Cats.Web.Hub.FormsAuthenticationWrapper>();
+            kernel.Bind<Cats.Services.Hub.IForgetPasswordRequestService>().To<Cats.Services.Hub.ForgetPasswordRequestService>();
+            kernel.Bind<Cats.Services.Hub.ISettingService>().To<Cats.Services.Hub.SettingService>();
+            kernel.Bind<Cats.Services.Hub.IAccountService>().To<Cats.Services.Hub.AccountService>();
+            kernel.Bind<Cats.Services.Hub.IAdjustmentReasonService>().To<Cats.Services.Hub.AdjustmentReasonService>();
+            kernel.Bind<Cats.Services.Hub.IAdjustmentService>().To<Cats.Services.Hub.AdjustmentService>();
+            kernel.Bind<Cats.Services.Hub.IAuditService>().To<Cats.Services.Hub.AuditSevice>();
+            kernel.Bind<Cats.Services.Hub.ICommonService>().To<Cats.Services.Hub.CommonService>();
+            kernel.Bind<Cats.Services.Hub.IDonorService>().To<Cats.Services.Hub.DonorService>();
+            kernel.Bind<Cats.Services.Hub.IErrorLogService>().To<Cats.Services.Hub.ErrorLogService>();
+            kernel.Bind<Cats.Services.Hub.IGiftCertificateDetailService>().To<Cats.Services.Hub.GiftCertificateDetailService>();
+            kernel.Bind<Cats.Services.Hub.IGiftCertificateService>().To<Cats.Services.Hub.GiftCertificateService>();
+            kernel.Bind<Cats.Services.Hub.IHubOwnerService>().To<Cats.Services.Hub.HubOwnerService>();
+            kernel.Bind<Cats.Services.Hub.IHubSettingService>().To<Cats.Services.Hub.HubSettingService>();
+            kernel.Bind<Cats.Services.Hub.IHubSettingValueService>().To<Cats.Services.Hub.HubSettingValueService>();
+            kernel.Bind<Cats.Services.Hub.ILedgerService>().To<Cats.Services.Hub.LedgerService>();
+            kernel.Bind<Cats.Services.Hub.ILedgerTypeService>().To<Cats.Services.Hub.LedgerTypeService>();
+            kernel.Bind<Cats.Services.Hub.ILetterTemplateService>().To<Cats.Services.Hub.LetterTemplateService>();
+            kernel.Bind<Cats.Services.Hub.IMasterService>().To<Cats.Services.Hub.MasterService>();
+            kernel.Bind<Cats.Services.Hub.IPartitionService>().To<Cats.Services.Hub.PartitionService>();
+            kernel.Bind<Cats.Services.Hub.IReceiptAllocationService>().To<Cats.Services.Hub.ReceiptAllocationService>();
+            kernel.Bind<Cats.Services.Hub.IReceiveDetailService>().To<Cats.Services.Hub.ReceiveDetailService>();
+            kernel.Bind<Cats.Services.Hub.IReleaseNoteService>().To<Cats.Services.Hub.ReleaseNoteService>();
+            kernel.Bind<Cats.Services.Hub.IRoleService>().To<Cats.Services.Hub.RoleService>();
+            kernel.Bind<Cats.Services.Hub.ITranslationService>().To<Cats.Services.Hub.TranslationService>();
+            kernel.Bind<Cats.Services.Hub.ITransactionGroupService>().To<Cats.Services.Hub.TransactionGroupService>();
+            kernel.Bind<Cats.Services.Hub.IStackEventTypeService>().To<Cats.Services.Hub.StackEventTypeService>();
+            kernel.Bind<Cats.Services.Hub.IStackEventService>().To<Cats.Services.Hub.StackEventService>();
+            kernel.Bind<Cats.Services.Hub.ISMSService>().To<Cats.Services.Hub.SMSService>();
+            kernel.Bind<Cats.Services.Hub.ISessionHistoryService>().To<Cats.Services.Hub.SessionHistoryService>();
+            kernel.Bind<Cats.Services.Hub.ISessionAttemptService>().To<Cats.Services.Hub.SessionAttemptService>();
+            kernel.Bind<Cats.Services.Hub.IDetailService>().To<Cats.Services.Hub.DetailService>();
+           
         }
     }
 }

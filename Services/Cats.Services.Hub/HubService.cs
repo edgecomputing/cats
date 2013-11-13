@@ -4,10 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
-using Cats.Models.Hub;
-using Cats.Models.Hub.ViewModels.Common;
-using Cats.Models.Hub.ViewModels.Report;
-using Cats.Models.Hub.ViewModels.Report.Data;
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels.Common;
+using Cats.Models.Hubs.ViewModels.Report;
+using Cats.Models.Hubs.ViewModels.Report.Data;
 
 
 namespace Cats.Services.Hub
@@ -24,14 +24,14 @@ namespace Cats.Services.Hub
         }
 
         #region Default Service Implementation
-        public bool AddHub(Models.Hub.Hub hub)
+        public bool AddHub(Models.Hubs.Hub hub)
         {
             _unitOfWork.HubRepository.Add(hub);
             _unitOfWork.Save();
             return true;
         }
 
-        public bool DeleteHub(Models.Hub.Hub hub)
+        public bool DeleteHub(Models.Hubs.Hub hub)
         {
             if (hub == null) return false;
             _unitOfWork.HubRepository.Delete(hub);
@@ -48,24 +48,24 @@ namespace Cats.Services.Hub
             return true;
         }
 
-        public bool EditHub(Models.Hub.Hub hub)
+        public bool EditHub(Models.Hubs.Hub hub)
         {
             _unitOfWork.HubRepository.Edit(hub);
             _unitOfWork.Save();
             return true;
         }
 
-        public Models.Hub.Hub FindById(int id)
+        public Models.Hubs.Hub FindById(int id)
         {
             return _unitOfWork.HubRepository.FindById(id);
         }
 
-        public List<Models.Hub.Hub> GetAllHub()
+        public List<Models.Hubs.Hub> GetAllHub()
         {
             return _unitOfWork.HubRepository.GetAll();
         }
 
-        public List<Models.Hub.Hub> FindBy(System.Linq.Expressions.Expression<Func<Models.Hub.Hub, bool>> predicate)
+        public List<Models.Hubs.Hub> FindBy(System.Linq.Expressions.Expression<Func<Models.Hubs.Hub, bool>> predicate)
         {
             return _unitOfWork.HubRepository.FindBy(predicate);
         }
@@ -160,17 +160,17 @@ namespace Cats.Services.Hub
                         }).ToList();
 
         }
-        public List<Models.Hub.Hub> GetAllWithoutId(int hubId)
+        public List<Models.Hubs.Hub> GetAllWithoutId(int hubId)
         {
             return _unitOfWork.HubRepository.Get(p => p.HubID != hubId).ToList();
         }
-        public List<Models.Hub.Hub> GetOthersHavingSameOwner(Models.Hub.Hub hub)
+        public List<Models.Hubs.Hub> GetOthersHavingSameOwner(Models.Hubs.Hub hub)
         {
             return (from v in _unitOfWork.HubRepository.GetAll()
                     where v.HubID != hub.HubID && v.HubOwnerID == hub.HubOwnerID
                     select v).ToList();
         }
-        public List<Models.Hub.Hub> GetOthersWithDifferentOwner(Models.Hub.Hub hub)
+        public List<Models.Hubs.Hub> GetOthersWithDifferentOwner(Models.Hubs.Hub hub)
         {
             return (from v in _unitOfWork.HubRepository.GetAll()
                     where v.HubOwnerID != hub.HubOwnerID

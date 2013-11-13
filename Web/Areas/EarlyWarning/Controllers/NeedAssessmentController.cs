@@ -146,9 +146,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
         }
 
-      
-       
-
         public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request )
         {
             var needAssessment = _needAssessmentService.FindBy(g => g.NeedAApproved == false); //featch unapproved need assessments
