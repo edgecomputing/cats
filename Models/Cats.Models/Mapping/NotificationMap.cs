@@ -14,16 +14,31 @@ namespace Cats.Models.Mapping
             // Primary Key
             this.HasKey(t => t.NotificationId);
 
-         
+            // Properties
+            this.Property(t => t.Text)
+                .IsRequired()
+                .HasMaxLength(500);
+
+            this.Property(t => t.Url)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            this.Property(t => t.TypeOfNotification)
+                .IsRequired()
+                .HasMaxLength(50);
 
             // Table & Column Mappings
             this.ToTable("Notification");
             this.Property(t => t.NotificationId).HasColumnName("NotificationId");
-            this.Property(t => t.ReqID).HasColumnName("ReqID");
-            this.Property(t => t.TransportOrderID).HasColumnName("TransportOrderID");
+            this.Property(t => t.Text).HasColumnName("Text");
+            this.Property(t => t.Url).HasColumnName("Url");
+            this.Property(t => t.RecordId).HasColumnName("RecordId");
             this.Property(t => t.IsRead).HasColumnName("IsRead");
-            this.Property(t => t.NotifiedUser).HasColumnName("NotifiedUser");
-            this.Property(t => t.NotificationDate).HasColumnName("NotificationDate");
+            this.Property(t => t.TypeOfNotification).HasColumnName("TypeOfNotification");
+            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+            this.Property(t => t.Role).HasColumnName("Role");
+
+           
         }
     }
 }

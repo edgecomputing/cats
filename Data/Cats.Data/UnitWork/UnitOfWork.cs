@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using Cats.Models;
 using Cats.Data.Repository;
 
@@ -360,8 +361,17 @@ namespace Cats.Data.UnitWork
         }
 
         public void Save()
-        {          
- _context.SaveChanges();
+        {
+            try
+            {
+_context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                
+                throw;
+            }
+            
         }
 
         private bool disposed = false;

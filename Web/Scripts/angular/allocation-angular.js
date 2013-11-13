@@ -14,6 +14,7 @@ app.factory("dragDropService", function ($resource, $route)
 {
 
     return {
+        
         getRequisitions: $resource("/DispatchAllocation/ReadRequisitions?regionId=" + regionId)
         
     };
@@ -52,10 +53,11 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
         savefactory.save($scope.allocated);
     };
 
-
+    
     $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
     $scope.allocated = [];
-    
+
+    alert($scope.Requisitions.length());
     $scope.newRequisitions = {
         
         0: "No requisitions in " + RegionName +" region ",

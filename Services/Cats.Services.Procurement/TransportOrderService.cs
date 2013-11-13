@@ -235,15 +235,17 @@ namespace Cats.Services.Procurement
             }
             
             _unitOfWork.Save();
+
+            
+          
+
+
             return true;
         }
 
 
-         //this action is used to send/Persist notifications 
-        private void Notify(TransportOrder transport)
-        {
-            
-        }
+        
+       
 
         private List<TransporterRequisition> AssignTransporterForEachWoreda(IEnumerable<int> requisitions)
         {

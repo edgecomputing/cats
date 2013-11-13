@@ -10,10 +10,10 @@ namespace Cats.Services.Common
 {
    public interface INotificationService
     {
-        bool AddNotification(Notification Notification);
+        bool AddNotification(Notification notification);
         bool DeleteNotification(Notification notification);
         bool DeleteById(int id);
-        bool EditNotification(Notification Notification);
+        bool EditNotification(Notification notification);
         Notification FindById(int id);
         List<Notification> GetAllNotification();
         List<Notification> FindBy(Expression<Func<Notification, bool>> predicate);

@@ -579,6 +579,7 @@
     <Compile Include="Helpers\Hub\Log.cs" />
     <Compile Include="Helpers\Hub\MembershipProvider.cs" />
     <Compile Include="Helpers\Hub\MonthHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\Hub\StringExtensions.cs" />
     <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
     <Compile Include="Helpers\Hub\VersionHelper.cs" />
@@ -1476,9 +1477,6 @@
     <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angular1.min.js" />
-    <Content Include="Scripts\angular\allocation-angular.js" />
-    <Content Include="Scripts\angular\angular-resource.js" />
-    <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />

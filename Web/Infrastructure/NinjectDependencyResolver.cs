@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
+using Cats.Models;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
 using NetSqlAzMan;
@@ -130,7 +131,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
 
             kernel.Bind<ILogReadService>().To<LogReadService>();
-
+            kernel.Bind<INotificationService>().To<NotificationService>();
             kernel.Bind<IUserDashboardPreferenceService>().To<UserDashboardPreferenceService>();
             kernel.Bind<IForgetPasswordRequestService>().To<ForgetPasswordRequestService>();
             kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();

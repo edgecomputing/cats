@@ -9,7 +9,7 @@ using Cats.Models;
 
 namespace Cats.Services.Common
 {
-    class NotificationService:INotificationService
+   public class NotificationService:INotificationService
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -20,24 +20,24 @@ namespace Cats.Services.Common
 
 
         #region Default Service Implementation
-        public bool AddNotification(Notification Notification)
+        public bool AddNotification(Notification notification)
         {
-            _unitOfWork.NotificationRepository.Add(Notification);
+            _unitOfWork.NotificationRepository.Add(notification);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditNotification(Notification Notification)
+        public bool EditNotification(Notification notification)
         {
-            _unitOfWork.NotificationRepository.Edit(Notification);
+            _unitOfWork.NotificationRepository.Edit(notification);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteNotification(Notification Notification)
+        public bool DeleteNotification(Notification notification)
         {
-            if (Notification == null) return false;
-            _unitOfWork.NotificationRepository.Delete(Notification);
+            if (notification == null) return false;
+            _unitOfWork.NotificationRepository.Delete(notification);
             _unitOfWork.Save();
             return true;
         }
@@ -63,6 +63,8 @@ namespace Cats.Services.Common
         }
         #endregion
 
+
+       
 
        
         public void Dispose()

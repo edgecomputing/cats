@@ -30,10 +30,10 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IAdminUnitService _adminUnitService;
         private readonly INeedAssessmentService _needAssessmentService;
         private readonly IAllocationByRegionService _AllocationByRegionService;
-
+        private readonly INotificationService _notificationService;
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
-        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log, IAllocationByRegionService allocationByRegionService)
+        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log, IAllocationByRegionService allocationByRegionService, INotificationService notification)
         {
             _reliefRequisitionService = reliefRequisitionService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
@@ -44,6 +44,7 @@ namespace Cats.Areas.Logistics.Controllers
             _userAccountService = userAccountService;
             _log = log;
             _AllocationByRegionService = allocationByRegionService;
+            _notificationService = notification;
         }
 
 
@@ -52,8 +53,9 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult Index(int regionId=-1)
         {
 
-            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            hubContext.Clients.All.receiveNotification("this is a sample data");
+           
+            //var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            //hubContext.Clients.All.receiveNotification("this is a sample data");
 
             ViewBag.regionId = regionId;
             ViewBag.Region = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
@@ -167,6 +169,7 @@ namespace Cats.Areas.Logistics.Controllers
                      
 
                      _HubAllocationService.AddHubAllocation(newHubAllocation);
+                     AddNotification(newHubAllocation.HubAllocationID);
                  }
                 
                  return Json(new { success = true });
@@ -178,6 +181,29 @@ namespace Cats.Areas.Logistics.Controllers
              }
            
         }
+
+        private void AddNotification(int hubAllocationId)
+        {
+            if (Request.Url != null)
+            {
+                var notification = new Notification
+                                       {
+                                           Text = "Hub Allocation",
+                                           CreatedDate = DateTime.Now.Date,
+                                           IsRead = false,
+                                           Role = 2,
+                                           RecordId = hubAllocationId,
+                                           Url = Request.Url.AbsoluteUri,
+                                           TypeOfNotification = "Hub Allocation"
+                                       };
+
+                _notificationService.AddNotification(notification);
+
+            }
+
+
+        }
+
         public ActionResult RegionId(int id)
         {
            return RedirectToAction("Index", new {regionId = id});
