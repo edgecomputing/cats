@@ -29,6 +29,8 @@ namespace Cats.Areas.PSNP
         private readonly IBusinessProcessStateService _BusinessProcessStateService;
         private readonly IApplicationSettingService _ApplicationSettingService;
         private readonly ILog _log;
+        private readonly IPlanService _planService;
+        
 
         public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam
                                           , IRationService rationServiceParam
@@ -37,7 +39,7 @@ namespace Cats.Areas.PSNP
                                           , IBusinessProcessStateService BusinessProcessStateServiceParam
                                           , IApplicationSettingService ApplicationSettingParam
                                           , ILog log
-
+                                           , IPlanService planService
                                          )
         {
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
@@ -47,6 +49,7 @@ namespace Cats.Areas.PSNP
             this._BusinessProcessStateService = BusinessProcessStateServiceParam;
             this._ApplicationSettingService = ApplicationSettingParam;
             this._log = log;
+            this._planService = planService;
         }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
@@ -79,6 +82,8 @@ namespace Cats.Areas.PSNP
 
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
+            var psnpPlans = _planService.FindBy(p => p.ProgramID == 2);
+            ViewBag.PlanId = new SelectList(_planService.FindBy(p => p.ProgramID == 2), "PlanID", "PlanName");
         }
         //
         // GET: /PSNP/RegionalPSNPPlan/

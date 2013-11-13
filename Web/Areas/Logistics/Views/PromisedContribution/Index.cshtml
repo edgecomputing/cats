@@ -27,6 +27,12 @@
      
    <a class="btn toolbar-btn " data-buttontype="btn_new_record" href="@Url.Action("edit", "PromisedContribution")"></a>
 }
+<style>
+    .number
+    {
+        text-align:right;
+    }
+</style>
 <fieldset>
     <legend>
        @Translator.Translate("Promised Contribution ")
@@ -43,8 +49,8 @@
        // columns.Bound(p => p.PromisedContributionId);
         columns.Bound(p => p.strETA).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }); ;
       //  columns.Bound(p => p.ExpectedTimeOfArrival);
-        columns.Bound(p => p.PromisedQuantity).Title("Promised Qty ["+@UserUnit + "]") ;
-        columns.Bound(p => p.DeliveredQuantity).Title("Delivered Qty [" + @UserUnit + "]");
+        columns.Bound(p => p.PromisedQuantity).Title("Promised Qty [" + @UserUnit + "]").HtmlAttributes(new { @class = "number" });
+        columns.Bound(p => p.DeliveredQuantity).Title("Delivered Qty [" + @UserUnit + "]").HtmlAttributes(new { @class = "number" });
         columns.Bound(p => p.CommodityName).Width(100);
         columns.Bound(p => p.DonorName).Width(230);
         columns.Bound(p => p.HubName).Width(130);
