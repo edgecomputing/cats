@@ -35,15 +35,13 @@ namespace Cats.Areas.Logistics.Controllers
 
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
-        private readonly ITransactionService _transactionService;
         public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService, 
             IHubService hubService, IAdminUnitService adminUnitService,
             INeedAssessmentService needAssessmentService, 
             IHubAllocationService hubAllocationService, 
             IUserAccountService userAccountService, ILog log,
-            IAllocationByRegionService allocationByRegionService,
-            ITransactionService transactionService)
+            IAllocationByRegionService allocationByRegionService)
         {
             _reliefRequisitionService = reliefRequisitionService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
@@ -54,7 +52,6 @@ namespace Cats.Areas.Logistics.Controllers
             _userAccountService = userAccountService;
             _log = log;
             _AllocationByRegionService = allocationByRegionService;
-            _transactionService = transactionService;
         }
 
 
