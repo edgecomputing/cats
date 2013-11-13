@@ -1,4 +1,5 @@
 ﻿@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 @model Cats.Models.HRD
 
 @{
@@ -25,65 +26,64 @@
     {
 
         <div class="well form-horizontal">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Year,"Year (Specified in GC)")
-                </div>
-                <div class="controls">
-                    @Html.Editor("Year")
-                    @Html.ValidationMessageFor(m=>m.Year)
-                    @if(@ViewBag.Error!=null)
-                    {
-                    <span class="alert alert-error">
-                        @ViewBag.Error
-                    </span>
-                    }
-                </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.Year,"Year (Specified in GC)")
+                        </div>
+                        <div class="controls">
+                            @Html.Editor("Year")
+                            @Html.ValidationMessageFor(m=>m.Year)
+                            @if(@ViewBag.Error!=null)
+                            {
+                                <span class="alert alert-error">
+                                    @ViewBag.Error
+                                </span>
+                            }
+                        </div>
         
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.SeasonID)
+                    </div>
                 </div>
-                <div class="controls">
-                    @Html.DropDownList("SeasonID",String.Empty)
-                    @Html.ValidationMessageFor(m=>m.SeasonID)
-                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.SeasonID)
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("SeasonID",String.Empty)
+                            @Html.ValidationMessageFor(m=>m.SeasonID)
+                        </div>
         
+                    </div>
+                </div>
             </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.RationID,"Ration")
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.RationID,"Ration")
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("RationID",String.Empty)
+                            @Html.ValidationMessageFor(m=>m.RationID)
+                        </div>
+                    </div>
                 </div>
-                <div class="controls">
-                    @Html.DropDownList("RationID",String.Empty)
-                    @Html.ValidationMessageFor(m=>m.RationID)
+                <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.PlanID,Translator.Translate("Plan Name"))
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("PlanID",String.Empty)
+                        @Html.ValidationMessageFor(m=>m.Plan.PlanName)
+                    </div>
+                   </div>
                 </div>
-        
             </div>
-             <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.StartDate)
-                </div>
-                <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
-                    @Html.TextBoxFor(m=>m.StartDate,new {@class="cats-datepicker2"})
-                    @Html.ValidationMessageFor(m => m.StartDate)
-                </div>
-        
-            </div>
-             <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.EndDate)
-                </div>
-                <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
-                    @Html.TextBoxFor(m=>m.EndDate,new {@class="cats-datepicker2"})
-                    @Html.ValidationMessageFor(m => m.EndDate)
-                </div>
-        
-            </div>
+           
         </div>
     }
-
+@Html.Partial("HRDFromPlan")
 

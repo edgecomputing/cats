@@ -96,7 +96,10 @@ namespace Cats.Services.EarlyWarning
             }
 
         }
-
+        public List<Plan> GetPlans()
+        {
+            return _unitOfWork.PlanRepository.FindBy(m => m.Program.Name == "Relief");
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

@@ -44,6 +44,8 @@ namespace Cats.Infrastructure
         
         private void AddBindings()
         {
+           
+            kernel.Bind<IPromisedContributionService>().To<PromisedContributionService>();
             kernel.Bind<IBusinessProcessStateService>().To<BusinessProcessStateService>();
             kernel.Bind<IBusinessProcessService>().To<BusinessProcessService>();
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
@@ -139,7 +141,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransReqWithoutTransporterService>().To<TransReqWithoutTransporterService>();
             kernel.Bind<ITransportOrderDetailService>().To<TransportOrderDetailService>();
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
-
+            kernel.Bind<IPlanService>().To<PlanService>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.

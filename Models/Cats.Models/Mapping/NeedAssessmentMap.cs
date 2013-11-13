@@ -26,6 +26,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.NeedAApproved).HasColumnName("NeedAApproved");
             this.Property(t => t.NeedAApprovedBy).HasColumnName("NeedAApprovedBy");
             this.Property(t => t.Remark).HasColumnName("Remark");
+            this.Property(t => t.PlanID).HasColumnName("PlanID");
 
             // Relationships
             this.HasRequired(t => t.AdminUnit)
@@ -43,6 +44,9 @@ namespace Cats.Models.Mapping
              this.HasOptional(t => t.TypeOfNeedAssessment1)
                 .WithMany(t => t.NeedAssessments)
                 .HasForeignKey(d => d.TypeOfNeedAssessment);
+             this.HasRequired(t => t.Plan)
+                .WithMany(t => t.NeedAssessments)
+                .HasForeignKey(d => d.PlanID);
 
         }
     }

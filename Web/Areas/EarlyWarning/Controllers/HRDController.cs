@@ -270,7 +270,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");
-
+            ViewBag.PlanID = new SelectList(_hrdService.GetPlans(), "PlanID", "PlanName");
             ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             return View(hrd);
         }
@@ -352,9 +352,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                           {
                                               WoredaID = detail.AdminUnitID,
                                               StartingMonth = 1,
-                                              NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int)seasonID, detail.AdminUnitID),
-                                              DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int)seasonID, detail.AdminUnitID)
-
+                                              //NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int)seasonID, detail.AdminUnitID),
+                                              //DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int)seasonID, detail.AdminUnitID)
+                                              NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(hrd.PlanID,detail.AdminUnitID),
+                                              DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonthsFromPlan(hrd.PlanID,detail.AdminUnitID)
 
                                           }).ToList();
 

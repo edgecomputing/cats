@@ -57,8 +57,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public Cats.Models.ProjectCodeAllocation convertToEntityModel(AllocationAction allocationAction)
         {
-            DateTime date;
-           // DateTime.Now
+
             return new Cats.Models.ProjectCodeAllocation
             {
                 SINumberID = allocationAction.ShippingInstructionId,
@@ -150,18 +149,20 @@ namespace Cats.Areas.Logistics.Controllers
                 }
             }
             List<RequestAllocationViewModel> list = getIndexList(regionId);
+            
+            
             foreach(RequestAllocationViewModel item in list)
             {
-                if(item.AllocatedAmount>=item.Amount)
+                /*if(item.AllocatedAmount>=item.Amount)
                 {
                     ReliefRequisition req = _requisitionService.FindById(item.RequisitionId);
-                    req.Status = 4;
+                  //  req.Status = 4;
                     _requisitionService.EditReliefRequisition(req);
 
-                }
+                }*/
             }
            // for(geteAllocatedAmount(_requisitionService
-            list = getIndexList(regionId);
+          //  list = getIndexList(regionId);/**/
             return Json(list, JsonRequestBehavior.AllowGet); 
         }
         public JsonResult http_getSIPCLists(int reqId, int CommodityID)

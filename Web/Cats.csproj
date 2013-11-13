@@ -25,6 +25,7 @@
     <SilverlightApplicationList>
     </SilverlightApplicationList>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <!--<RunOctoPack>True</RunOctoPack>-->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -368,6 +369,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\PlanController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
@@ -379,6 +381,8 @@
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
@@ -454,6 +458,7 @@
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
@@ -644,7 +649,7 @@
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Integer.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
-    <Content Include="ClientBin\EWdispatchAllocationList.xap" />
+    <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
     <Content Include="Content\2013.1.219\Black\loading.gif" />
@@ -1184,9 +1189,9 @@
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
     <Content Include="Content\assets\js\README.md" />
     <Content Include="Areas\Logistics\Views\Web.config" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Edit.cshtml" />-->
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
@@ -1253,7 +1258,7 @@
     <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
     <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />-->
     <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
@@ -1262,12 +1267,12 @@
     <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
     <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
       <SubType>Code</SubType>
-    </Content>
+    </Content>-->
     <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
@@ -1317,7 +1322,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />
+    <!--<Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
@@ -1393,6 +1398,13 @@
     <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\PlannedNeedAssessment.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDFromPlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentPlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1495,6 +1507,8 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\Logistics\Views\PromisedContribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\PromisedContribution\Edit.cshtml" />
     <Content Include="Areas\Hub\Views\Web.config" />
     <Content Include="Areas\Hub\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Hub\Views\About\Index.cshtml" />
@@ -1926,10 +1940,10 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />-->
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Allocation.cshtml" />
-    <Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
     <Content Include="Areas\Settings\Views\Web.config" />
     <Content Include="Areas\Settings\Views\AdminDashboard\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AdminLeftBar.cshtml" />
