@@ -24,44 +24,6 @@
     <div class="row">
         <div class="span6">
             <div class="control-group">
-   @* <div class="control-label">
-                    @Html.LabelFor(m => m.Plan.PlanName)
-                </div>
-                <div id="taxi">
-    <label for="states">Select Plan:</label>
-    @(Html.Kendo().AutoComplete()
-        .Name("states")
-        .BindTo(new String[]
-        {
-            "Mehere 2012",
-            "Mehere 2010",
-            "Mehere 2011",
-            "Mehere 2008",
-            "Belg 2012","Belg 2012",
-        })
-        .Events(e =>
-        {
-            e.Change("onChange").Select("onSelect").Open("onOpen").Close("onClose").DataBound("onDataBound");
-        })
-    )
-</div>*@
-   @* @(Html.Kendo().AutoComplete()
-          .Name("plans")
-          .DataTextField("PlanName")
-          .Filter("contains")
-          .MinLength(3)
-              .HtmlAttributes(new { style = "width:250px" })
-          .DataSource(source =>
-          {
-              source.Read(read =>
-              {
-                  read.Action("GetPlans", "NeedAssessment").Data("onAdditionalData");
-              })
-              .ServerFiltering(true);
-          })
-    )*@
-</div>
-            <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.Plan.PlanName)
                 </div>
@@ -72,7 +34,7 @@
             </div>
         </div>
 
-        <div class="span6">
+        <div class="span4">
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.Region)
@@ -141,10 +103,7 @@
 </div>
         
 }
-@Html.Partial("PlannedNeedAssessment", Model)
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
 @*<script>
     function onOpen() {
         if ("kendoConsole" in window) {

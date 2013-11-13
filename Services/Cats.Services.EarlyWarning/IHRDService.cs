@@ -24,8 +24,9 @@ namespace Cats.Services.EarlyWarning
                    Func<IQueryable<HRD>, IOrderedQueryable<HRD>> orderBy = null,
                    string includeProperties = "");
 
-        List<Plan> GetPlans(); 
-
+        List<Plan> GetPlans();
+        Plan GetPlan(int id);
         void PublishHrd(int hrdId);
+        bool AddHRDFromAssessment(HRD hrd);
     }
 }

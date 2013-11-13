@@ -147,8 +147,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             StatusID = hrd.Status,
                             Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value),
                             CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(datePref),
-                            PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref)
-
+                            PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref),
+                            Plan = hrd.Plan.PlanName
 
                         });
         }
@@ -354,8 +354,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                               StartingMonth = 1,
                                               //NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int)seasonID, detail.AdminUnitID),
                                               //DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int)seasonID, detail.AdminUnitID)
-                                              NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(hrd.PlanID,detail.AdminUnitID),
-                                              DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonthsFromPlan(hrd.PlanID,detail.AdminUnitID)
+                                              NumberOfBeneficiaries = 0,
+                                              //_needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(hrd.PlanID,detail.AdminUnitID),
+                                              DurationOfAssistance = 0
+                                              //_needAssessmentDetailService.GetNeedAssessmentMonthsFromPlan(hrd.PlanID,detail.AdminUnitID)
 
                                           }).ToList();
 
@@ -496,5 +498,63 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(hrdsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
         }
+        public ActionResult CreateHRD(int id)
+        {
+            var plan = _hrdService.GetPlan(id);
+            var hrd = new HRD();
+            ViewBag.Year = DateTime.Today.Year;
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
+            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+            hrd.PlanID = plan.PlanID;
+            return View(hrd);
+        }
+        [HttpPost]
+        public ActionResult CreateHRD(HRD hrd)
+        {
+             DateTime dateCreated = DateTime.Now;
+            DateTime DatePublished = DateTime.Now;
+
+            hrd.CreatedDate = dateCreated;
+            hrd.PublishedDate = DatePublished;
+            hrd.Status = 1;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
+                    var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
+                    hrd.CreatedBY = userid;
+                    var hrdDetails = (from detail in woredas
+                                      select new HRDDetail
+                                          {
+                                              WoredaID = detail.AdminUnitID,
+                                              StartingMonth = 1,
+                                              NumberOfBeneficiaries =
+                                                  _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(
+                                                      hrd.PlanID, detail.AdminUnitID),
+                                              DurationOfAssistance =
+                                                  _needAssessmentDetailService.GetNeedAssessmentMonthsFromPlan(
+                                                      hrd.PlanID, detail.AdminUnitID)
+
+                                          }).ToList();
+
+                    hrd.HRDDetails = hrdDetails;
+                    _hrdService.AddHRDFromAssessment(hrd);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception exception)
+                {
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(exception, _log);
+                    ModelState.AddModelError("Errors", "Unable to create hrd form the given need Assessment");
+                    //ViewBag.Error = "HRD for this Season and Year already Exists";
+                }
+            }
+            ViewBag.Year = hrd.Year;
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
+            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+            return View(hrd);
+            }
     }
 }

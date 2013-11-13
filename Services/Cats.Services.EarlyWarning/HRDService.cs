@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
@@ -103,6 +104,25 @@ namespace Cats.Services.EarlyWarning
         public void Dispose()
         {
             _unitOfWork.Dispose();
+        }
+
+
+        public Plan GetPlan(int id)
+        {
+            return _unitOfWork.PlanRepository.FindById(id);
+        }
+
+
+        public bool AddHRDFromAssessment(HRD hrd)
+        {
+            _unitOfWork.HRDRepository.Add(hrd);
+            _unitOfWork.Save();
+            var plan=_unitOfWork.PlanRepository.FindById(hrd.PlanID);
+            plan.Status = (int) PlanStatus.HRDCreated;
+            _unitOfWork.PlanRepository.Edit(plan);
+            _unitOfWork.Save();
+            return true;
+
         }
     }
 }

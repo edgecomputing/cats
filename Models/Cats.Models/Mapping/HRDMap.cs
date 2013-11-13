@@ -39,9 +39,9 @@ namespace Cats.Models.Mapping
                 .WithMany(t => t.Hrds)
                 .HasForeignKey(d => d.CreatedBY);
 
-            //this.HasOptional(t => t.Plan)
-            //   .WithMany(t => t.Hrds)
-            //   .HasForeignKey(d => d.PlanID);
+            this.HasRequired(t => t.Plan)
+               .WithMany(t => t.Hrds)
+               .HasForeignKey(d => d.PlanID);
 
         }
     }
