@@ -12,13 +12,14 @@
                 }
                     
                 
-                var cnt = '<table border="1"> <th colSpan=2>Notification</th><th colSpan=2>Type</th> <th colSpan=2>Created Date</th>';
+                var cnt = '<table class="table table-striped"> <th colSpan=2>Notification</th><th colSpan=2>Type</th> ';
                 
                 for (var i = 0; i < length; i++) {
+                   
                     cnt +=  '<tr>';
                     cnt += '<td colSpan=2>' + "<a href=" + json[i].Url + ">" + json[i].Text + "</a>" + '</td>';
                     cnt += '<td colSpan=2>' + json[i].TypeOfNotification + '</td>';
-                    cnt += '<td colSpan=2>' + json[i].TypeOfNotification.CreatedDate + '</td>';
+                   
                     cnt += '</tr>';
                 }
                 cnt += '</table>';

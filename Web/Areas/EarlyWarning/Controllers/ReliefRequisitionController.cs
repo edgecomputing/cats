@@ -225,7 +225,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     Text = "Approved Requistion: " + requisitioNo,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
-                    Role = 2,
+                    Role = 1,
                     RecordId = requisitionID,
                     Url = Request.Url.AbsoluteUri.Substring(0, 21) + "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId + "&recordId=" + requisitionID,
                     TypeOfNotification = "Requisition Approval"
