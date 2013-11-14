@@ -1,21 +1,22 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
+    ViewBag.ViewWidth = "Wide";
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 
 <fieldset>
     <legend>
         @Translator.Translate("Dispatch allocation")
     </legend>
-</fieldset> 
+</fieldset>
 
-@section LeftBar{
+@*@section LeftBar{
     
     @Html.Partial("_AllocationLeftBar")
 
-}
+}*@
 
 
 
@@ -27,11 +28,11 @@
         .OptionLabel("Select a Region...")
         .DataTextField("Name")
         .DataValueField("AdminUnitID")
-        .HtmlAttributes(new {style = "width:200px"})
+        .HtmlAttributes(new { style = "width:200px" })
         .Events(e => e.Change("regionsChange"))
         .DataSource(source => source.Read("GetRegions", "DispatchAllocation"));
-        
-            
+
+
     ddl.Render(); //displays the dropdown list
 
     var selected = ddl.ToComponent().Value;//gets the selected value
@@ -42,62 +43,111 @@
     <div class="btn-group">
         <button class="btn">Action</button>
         @{
-            if(ViewBag.regionId!=-1)
+            if (ViewBag.regionId != -1)
             {
-                <button class="btn dropdown-toggle " data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
             }
             else
             {
-                <button class="btn dropdown-toggle disabled" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
+            <button class="btn dropdown-toggle disabled" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
             }
         }
-  
-  <ul class="dropdown-menu">
-            <li>  <a href="@Url.Action("Hub", "DispatchAllocation",new {regionid =  ViewBag.regionId})">Hub allocation</a></li>
-            <li><a href="@Url.Action("Index", "SIAllocation", new { Area = "Logistics", regionid =  ViewBag.regionId })">PC/SI code allocation</a></li>
-            <li><a href="#">Generate TR</a></li>
+
+
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">Hub allocation</a></li>
+            <li><a href="@Url.Action("Index", "SIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId })">PC/SI code allocation</a></li>
+            <li><a href="@Url.Action("CreateTransportRequisition", "TransportRequisition", new { regionId = ViewBag.regionId })">Generate TR</a></li>
+
             <li><a href="#"></a></li>
         </ul>
 
     </div>
 </div>
+
+
 <fieldset>
     <legend>
         @Translator.Translate("Allocated amount  by Region and Hub")
     </legend>
 </fieldset>
 
-<div id ="HubAllocationPartial">
-    @Html.Partial("HubAllocation",(int)ViewBag.regionId)
-</div>
-<br/>
-<br/>
 
-<fieldset>
+
+@*<fieldset>
     <legend>
         @Translator.Translate("Hub allocated requisitions")
     </legend>
 </fieldset>
 <fieldset>
     <legend>
-       <span style="font-size: small"> @Translator.Translate(" Requisition to be allocated PC/SI code")</span>
+        <span style="font-size: small">@Translator.Translate(" Requisition to be allocated PC/SI code")</span>
     </legend>
-</fieldset>
+</fieldset>*@
+<hr/>
+<div class="row-fluid">
+    <div class="span3 column-divider">
+        <div id="HubAllocationPartial">
+            @Html.Partial("HubAllocation", (int)ViewBag.regionId)
+        </div>
+    </div>
+    <div class="span9">
+        <div class="row-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Approved Requisitions")</b></a>
+            </li>
 
-<div id="ProjectCodeAllocationPartial">
-    @Html.Partial("AllocateProjectCode",(int)ViewBag.regionId)
+            <li>
+                <a href="#tab1" data-toggle="tab"><b>@Translator.Translate("Hub Allocated Requisitions")</b></a>
+            </li>
+            <li>
+                <a href="#tab2" data-toggle="tab"><b>@Translator.Translate("Project /SI Code Allocated")</b></a>
+            </li>
+
+
+
+        </ul>
+        <div class="tab-content ">
+            <div id="tab0" class="tab-pane active">
+                <div id="ApprovedRequisitionPartial">
+                    @Html.Partial("AllocateProjectCode", new List<int?>(){{ViewBag.regionId},{(int)Cats.Models.Constant.ReliefRequisitionStatus.Approved}})
+                </div>
+            </div>
+            <div id="tab1" class="tab-pane">
+                <div id="HubAllocatedPartial">
+                    @Html.Partial("AllocateProjectCode", new List<int?>(){{ViewBag.regionId},{(int)Cats.Models.Constant.ReliefRequisitionStatus.HubAssigned}})
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+                <div id="ProjectCodeAllocatedPartial">
+                    @Html.Partial("AllocateProjectCode", new List<int?>(){{ViewBag.regionId},{(int)Cats.Models.Constant.ReliefRequisitionStatus.ProjectCodeAssigned}})
+                </div>
+            </div>
+        </div>
 </div>
+        
+    </div>
+</div>
+
+@*<br/>
+<br/>
+<fieldset>
+    <legend>
+        @Translator.Translate("Allocated amount  by Region and Hub")
+    </legend>
+</fieldset>*@
 
 
 <script>
-  
+
     $(document).ready(function () {
         var regionId = '@ViewBag.regionId';
-        
+
         var dropdownlist = $("#Region").data("kendoDropDownList");
         dropdownlist.value(regionId);
     });
@@ -106,19 +156,20 @@
     function regionsChange(e) {
         e.preventDefault();
 
-      
+
         var value = this.value();
-       
+
         if (value == "") {
-           
+
             window.location = null;
             window.location = "@Url.Action("RegionId", "DispatchAllocation")" + "?id=" + -1;
-           
+
         }
         else {
             window.location = null;
             window.location = "@Url.Action("RegionId", "DispatchAllocation")" + "?id=" + value;
         }
-       
+
     }
 </script>
+

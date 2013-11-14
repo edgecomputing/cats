@@ -1,0 +1,50 @@
+﻿
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@{
+    ViewBag.Title = "GetUnreadNotificationDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<fieldset>
+    <legend>
+        List of Notifications
+    </legend>
+</fieldset> 
+
+
+
+
+@(Html.Kendo().Grid<Cats.Models.NotificationViewModel>()
+    .Name("NotificationGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(e => e.Text).Width(100).Title("Notification");
+        columns.Bound(e => e.TypeOfNotification).Width(100).Title("Type");
+        columns.Bound(e => e.StrCreatedDate).Width(100).Title("Created Date");
+        columns.Command(p => p.Custom("Go to ").Click("DetailNotification")).Width(100);   
+       
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("GetUnreadNotification", "Home"))
+       
+        .PageSize(10)
+     )
+     .Scrollable(scroll => scroll.Height(200))
+     .Selectable(select => select.Mode(GridSelectionMode.Single))
+     .Navigatable()
+     .Filterable()
+     .Sortable()
+     .Pageable()
+)
+
+<script>
+    function DetailNotification(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        window.location = dataItem.Url;         
+    }
+</script>

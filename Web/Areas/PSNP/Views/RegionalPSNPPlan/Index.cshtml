@@ -1,12 +1,17 @@
 ﻿@using Kendo.Mvc.UI
 @using Cats.Models.PSNP
 @using Cats.Models
+@using Cats.Services.Security;
+@using Cats.Helpers
 @model IEnumerable<RegionalPSNPPlan>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var index = 0;
+    UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
+    
+   // string userPreference = userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
 }
 
 @section LeftBar
@@ -29,10 +34,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Region)
             </th>
-            <th>Program
-            </th>
-            <th>Status
-            </th>
+            <th colspan="2">Period</th>
+            
+            <th>Status</th>
             <th></th>
  
             <th></th>
@@ -44,12 +48,17 @@
             index++;
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ShortName)
+                    @Html.DisplayFor(modelItem => item.Plan.PlanName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Region.Name)
                 </td>
-                <td>PSNP
+                <td>
+                    @item.Plan.StartDate.ToCTSPreferedDateFormat("gc") 
+                </td>
+                <td>
+                      @item.Plan.EndDate.ToCTSPreferedDateFormat("gc") 
+                  
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)

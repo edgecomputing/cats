@@ -69,19 +69,45 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>bin\signalR\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin">
+      <HintPath>bin\signalR\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>bin\signalR\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\signalR\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -111,9 +137,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -402,7 +425,9 @@
     <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
-    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
@@ -559,6 +584,7 @@
     <Compile Include="Helpers\Hub\Log.cs" />
     <Compile Include="Helpers\Hub\MembershipProvider.cs" />
     <Compile Include="Helpers\Hub\MonthHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\Hub\StringExtensions.cs" />
     <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
     <Compile Include="Helpers\Hub\VersionHelper.cs" />
@@ -633,6 +659,7 @@
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
@@ -1458,9 +1485,157 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
+    <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular1.min.js" />
+    <Content Include="Scripts\angular\css\bootstrap.min.css" />
+    <Content Include="Scripts\angular\css\jquery-ui.css" />
+    <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
+    <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\cats-print-script.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
+    <Content Include="Scripts\ICanHaz-no-mustache.js" />
+    <Content Include="Scripts\ICanHaz.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.jgeez.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\amharictyping.js" />
+    <Content Include="Scripts\js\bootstrap.calendars.picker.css" />
+    <Content Include="Scripts\js\CatsUI.js" />
+    <Content Include="Scripts\js\exporting.js" />
+    <Content Include="Scripts\js\highcharts-more.js" />
+    <Content Include="Scripts\js\highcharts-more.src.js" />
+    <Content Include="Scripts\js\highcharts.js" />
+    <Content Include="Scripts\js\highcharts.src.js" />
+    <Content Include="Scripts\js\humanity.calendars.picker.css" />
+    <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
+    <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
+    <Content Include="Scripts\js\jquery.calendars.js" />
+    <Content Include="Scripts\js\jquery.calendars.picker-am.js" />
+    <Content Include="Scripts\js\jquery.calendars.picker.js" />
+    <Content Include="Scripts\js\jquery.calendars.plus.js" />
+    <Content Include="Scripts\js\jquery.mb.browser.js" />
+    <Content Include="Scripts\kendo.modernizr.custom.js" />
+    <None Include="Scripts\kendo.web-vsdoc.js" />
+    <None Include="Scripts\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\kendo.web.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\jquery.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.all-vsdoc.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.all.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.all.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.autocomplete.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.binder.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.calendar.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.colorpicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.columnmenu.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.combobox.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.core.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.data.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.data.odata.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.data.xml.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.dataviz-vsdoc.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.chart.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.core.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.gauge.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.dataviz.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.sparkline.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.stock.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.svg.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.themes.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.vml.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.datepicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.datetimepicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.draganddrop.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dropdownlist.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.editable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.editor.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.filtermenu.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.fx.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.grid.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.groupable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.imagebrowser.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.list.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.listview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.menu.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.mobile-vsdoc.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.actionsheet.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.application.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.button.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.buttongroup.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.listview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.loader.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.mobile.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.modalview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.navbar.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.pane.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.popover.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.scroller.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.scrollview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.shim.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.splitview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.switch.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.tabstrip.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.view.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.multiselect.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.numerictextbox.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.pager.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.panelbar.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.popup.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.reorderable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.resizable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.router.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.selectable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.slider.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.sortable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.splitter.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.tabstrip.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.timepicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.tooltip.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.touch.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.treeview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.upload.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.userevents.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.validator.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.view.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.web-vsdoc.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.web.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.window.min.js" />
+    <Content Include="Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <None Include="Scripts\signalR\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\signalR\jquery-1.8.2.js" />
+    <Content Include="Scripts\signalR\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\signalR\jquery.signalR-1.0.0.js" />
+    <Content Include="Scripts\signalR\jquery.signalR-1.0.0.min.js" />
+    <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\HubScripts\Cascade.js" />
     <Content Include="Scripts\HubScripts\DialogForm.js" />
     <Content Include="Scripts\HubScripts\dispatch.js" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\ConfirmGenerateTransportOrder.cshtml" />
     <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />
@@ -1886,32 +2061,7 @@
     <Content Include="RequisitionSummary.xss">
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Content>
-    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\ICanHaz-no-mustache.js" />
-    <Content Include="Scripts\ICanHaz.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
-    <Content Include="Scripts\js\CatsUI.js" />
-    <Content Include="Scripts\js\exporting.js" />
-    <Content Include="Scripts\js\highcharts-more.js" />
-    <Content Include="Scripts\js\highcharts-more.src.js" />
-    <Content Include="Scripts\js\highcharts.js" />
-    <Content Include="Scripts\js\highcharts.src.js" />
-    <Content Include="Scripts\js\humanity.calendars.picker.css" />
-    <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
-    <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
-    <Content Include="Scripts\js\jquery.calendars.js" />
-    <Content Include="Scripts\js\jquery.calendars.picker-am.js" />
-    <Content Include="Scripts\js\jquery.calendars.picker.js" />
-    <Content Include="Scripts\js\jquery.calendars.plus.js" />
     <Content Include="Content\site.js" />
-    <None Include="Scripts\kendo.web-vsdoc.js" />
-    <None Include="Scripts\kendo.web.min.intellisense.js" />
-    <Content Include="Scripts\jquery.jgeez.min.js" />
-    <Content Include="Scripts\js\jquery.mb.browser.js" />
-    <Content Include="Scripts\kendo.modernizr.custom.js" />
-    <Content Include="Scripts\kendo.web.min.js" />
     <Content Include="Areas\Procurement\Views\Web.config" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
@@ -1940,7 +2090,7 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />-->
+    <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Allocation.cshtml" />
     <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
@@ -1954,104 +2104,6 @@
     <Content Include="Content\assets\font\FontAwesome.otf" />
     <Content Include="Areas\Procurement\Views\Bid\EditBidStatus.cshtml" />
     <Content Include="Areas\Settings\Views\Users\New.cshtml" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\jquery.min.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.all-vsdoc.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.all.min.intellisense.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.all.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.aspnetmvc.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.autocomplete.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.binder.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.calendar.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.colorpicker.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.columnmenu.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.combobox.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.core.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.data.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.data.odata.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.data.xml.min.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.dataviz-vsdoc.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.chart.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.core.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.gauge.min.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.dataviz.min.intellisense.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.sparkline.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.stock.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.svg.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.themes.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.vml.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.datepicker.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.datetimepicker.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.draganddrop.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.dropdownlist.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.editable.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.editor.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.filtermenu.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.fx.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.grid.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.groupable.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.imagebrowser.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.list.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.listview.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.menu.min.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.mobile-vsdoc.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.actionsheet.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.application.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.button.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.buttongroup.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.listview.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.loader.min.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.mobile.min.intellisense.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.modalview.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.navbar.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.pane.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.popover.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.scroller.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.scrollview.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.shim.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.splitview.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.switch.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.tabstrip.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.view.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.multiselect.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.numerictextbox.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.pager.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.panelbar.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.popup.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.reorderable.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.resizable.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.router.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.selectable.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.slider.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.sortable.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.splitter.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.tabstrip.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.timepicker.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.tooltip.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.touch.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.treeview.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.upload.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.userevents.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.validator.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.view.min.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.web-vsdoc.js" />
-    <None Include="Scripts\kendo\2013.1.319\kendo.web.min.intellisense.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.web.min.js" />
-    <Content Include="Scripts\kendo\2013.1.319\kendo.window.min.js" />
-    <Content Include="Scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequisitions.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -2122,7 +2174,10 @@
     <Content Include="Views\UserPreference\Edit.cshtml" />
     <Content Include="Views\Shared\Edit.cshtml" />
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
+    <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Views\Shared\Dashboard\_Notification.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Home\GetUnreadNotificationDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2141,7 +2196,9 @@
     <Folder Include="Report\PSNP\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">

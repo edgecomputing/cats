@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Cats.Helpers;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
 using Cats.Models.ViewModels;
@@ -94,5 +95,14 @@ namespace Cats.Controllers
         {
             return Json(_IDashboardService.ZonalMonthlyBeneficiaries(RegionName, ZoneName), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetUnreadNotifications()
+        {
+            var user = System.Web.HttpContext.Current.User.Identity.Name;
+            var userID = UserAccountHelper.GetUser(user).UserProfileID;
+            return Json(_IDashboardService.GetUnreadNotifications(userID),JsonRequestBehavior.AllowGet);
+        }
+
+        
     }
 }
