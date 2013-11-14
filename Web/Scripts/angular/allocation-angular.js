@@ -1,6 +1,7 @@
 ﻿/// <reference path="jquery-1.9.1.js" />
 /// <reference path="hello-angular.js" />
 /// <reference path="angular.js" />
+
 var $$scope;
 
 // Create app Module 
@@ -15,7 +16,7 @@ app.factory("dragDropService", function ($resource)
 
     return {
         
-        getRequisitions: $resource("/DispatchAllocation/ReadRequisitions?regionId=" + regionId)
+        getRequisitions: $resource(Url + "?regionId=" + regionId)
         
     };
     
