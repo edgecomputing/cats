@@ -425,6 +425,9 @@
     <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
