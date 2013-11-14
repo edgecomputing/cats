@@ -34,7 +34,7 @@
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
 .Name("grid").Columns(columns =>
          {
-             columns.Bound(p => p.Region).Width(5).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Region).Width(15).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Zone).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Woreda).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.NumberOfBeneficiaries).Width(40).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
@@ -52,15 +52,16 @@
       .ToolBar(toolBar => toolBar.Save())
       .Editable(editable => editable.Mode(GridEditMode.InCell))
        .Events(events => events.DataBound("onDataBound"))
-      .Pageable()
+      //.Pageable()
+      .Scrollable()
       .Groupable()
       .Sortable()
-      //.Selectable(t=>t.Mode(GridSelectionMode.Single	))
+     .HtmlAttributes(new { style = "height: 450px" })
       .Navigatable()
       .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
-       .PageSize(15)
+       //.PageSize(15)
       .Events(events => events.Error("error_handler"))
        .Events(events => events.Change("onGridKeydown"))
        .Model(model =>

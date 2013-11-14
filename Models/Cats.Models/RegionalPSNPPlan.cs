@@ -47,15 +47,23 @@ namespace Cats.Models
         //StatusID
         [Display(Name = "Status ID")]
         public int StatusID { get; set; }
-       
+
+         [Display(Name = "Name")]    
         public string ShortName
         {
             get { return this.Year + "-" + this.Region.Name; }
         }
 
+        //StatusID
+        [Display(Name = "Plan ID")]
+        public int PlanId { get; set; }
+
+       
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         
         public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
+
+        public virtual Plan Plan { get; set; }
 
         
     }

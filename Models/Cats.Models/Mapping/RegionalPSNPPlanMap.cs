@@ -25,6 +25,11 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.AttachedBusinessProcess)
            .WithMany(t => t.RegionalPSNPPlans)
            .HasForeignKey(d => d.StatusID);
+
+            this.HasRequired(t => t.Plan)
+           .WithMany(t => t.RegionalPSNPPlans)
+           .HasForeignKey(d => d.PlanId);
+           
         }
     }
 }

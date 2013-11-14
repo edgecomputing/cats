@@ -1,13 +1,10 @@
-﻿@using Cats.Helpers
-@using Cats.Services.Security
+﻿@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
-    ViewBag.Title = Translator.Translate(" Beneficiary numbers and duration of assisstance");
+    ViewBag.Title = "NeedAssessmentPlan";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 }
-@{var record = 0;}
 
 @section LeftBar{
 
@@ -26,51 +23,16 @@
         display: none;
     }
 </style>
-<fieldset>
-    <legend>
-        @Translator.Translate("List of Needs Assessment")
-    </legend>
-</fieldset>
-
-@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+<h4>List of Planned Need Assessmen</h4>
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
     .Name("grid")
     .Columns(columns =>
-    {
-        columns.Bound(p => p.RegionName).Title("Region");
-        columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
-        columns.Bound(p => p.Date).Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new {@class="cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
-        columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
-        columns.Command(p =>
         {
-            p.Custom("Edit").Click("NeedAssessmentEdit").HtmlAttributes(new { @class = "edit" });
-            p.Custom("Approve").Click("approveNeedAssessment");
-            p.Custom("Delete").Click("DeleteNeedAssessment");
-
-        });
-    })
-    .ToolBar(toolbar =>
-    {
-        toolbar.Template(@<text>
-<div class="toolbar">
-    <label class="category-label" for="category">Show Zones by Region:</label>
-    @(Html.Kendo().DropDownList()
-                            .Name("regions")
-                            .OptionLabel("All")
-                            .DataTextField("Name")
-                            .DataValueField("AdminUnitID")
-                            .AutoBind(false)
-                            .Events(e => e.Change("regionsChange"))
-                            .DataSource(ds =>
-                            {
-                                ds.Read("GetRegions", "NeedAssessment");
-                            })
-                        )
-</div>
-</text>);
-
-
-
-    })
+            columns.Bound(p => p.AssessmentName).Title(Translator.Translate("Assessment Name")).ClientTemplate("<a href='" + Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }) + " '>#=AssessmentName#</a>  ");
+            columns.Bound(p => p.StartDate);
+            columns.Bound(p => p.EndDate);
+           // columns.Bound(p => p.Status);
+        })
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()
     .Sortable()
@@ -79,125 +41,7 @@
         .Ajax()
         .PageSize(30)
         .ServerOperation(false)
-        .Model(model => model.Id(p => p.NeedAID))
-        .Read("NeedAssessmentRead", "NeedAssessment")
+        .Model(model => model.Id(p => p.PlanID))
+        .Read(read=>read.Action("NeedAssessment_Plan", "NeedAssessment"))
     )
-)
-<script>
-    function regionsChange() {
-        var value = this.value(),
-		 	 grid = $("#grid").data("kendoGrid");
-
-        if (value) {
-
-            grid.dataSource.filter({ field: "Region", operator: "eq", value: parseInt(value) });
-        } else {
-            grid.dataSource.filter({});
-        }
-    }
-</script>
-
-@*<style scoped="scoped">
-    #grid .k-toolbar
-    {
-        min-height: 27px;
-        padding: 1.3em;
-    }
-    .category-label
-    {
-        vertical-align: middle;
-        padding-right: .5em;
-    }
-    #category
-    {
-        vertical-align: middle;
-    }
-    .toolbar {
-        float: right;
-    }
-</style>*@
-
-<script>
-    function NeedAssessmentEdit(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = null;
-        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
-    }
-</script>
-<script>
-    function DeleteNeedAssessment(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        wn.center().open();
-        $("#yesDelete").click(function () {
-            window.location = "@Url.Action("DeleteNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
-            wn.close();
-        });
-
-        $("#noDelete").click(function () {
-            wn.close();
-        });
-    }
-
-</script>
-<script>
-
-    function approveNeedAssessment(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        wnd.center().open();
-        $("#yes").click(function () {
-            window.location = null;
-            window.location = "@Url.Action("ApproveNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
-            wnd.close();
-        });
-
-        $("#no").click(function () {
-            wnd.close();
-        });
-    }
-</script>
-<div id="modalWindow">
-    <h6>Approve Need Assessment?</h6>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
-</div>
-<script>
-    var wnd;
-    $(document).ready(function () {
-        wnd = $("#modalWindow").kendoWindow({
-            title: "Approve confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
-
-
-</script>
-
-<div id="modalWindowDelete">
-    <h6>Delete Need Assessment?<br />
-        This will delete all the related records with this Region!</h6>
-    <button id="yesDelete" class="k-button">Yes</button>
-    <button id="noDelete" class="k-button">No</button>
-</div>
-<script>
-    var wn;
-    $(document).ready(function () {
-        wn = $("#modalWindowDelete").kendoWindow({
-            title: "Delete confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
-
-
-</script>
+    )

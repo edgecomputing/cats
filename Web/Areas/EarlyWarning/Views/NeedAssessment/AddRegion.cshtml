@@ -1,4 +1,6 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 @model Cats.Models.NeedAssessment
 
 @{
@@ -16,66 +18,121 @@
 {
     @Html.ValidationSummary(true)
 
-    <fieldset>
         <legend>@Translator.Translate("Add New Need Assessment")</legend>
-        <div class="form-horizontal  ">
+        
+        <div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Region)
+                    @Html.LabelFor(m => m.Plan.PlanName)
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new {id = "Region"})
-                    @Html.ValidationMessageFor(model => model.Region)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Season)
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new {id = "Season"})
-                    
-                    @Html.ValidationMessageFor(model => model.Season)
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.NeedADate,new {@class="cats-date-pref"})
-                    
-                </div>
-                <div class="controls">
-                    
-                    @Html.TextBoxFor(model => model.NeedADate,new {@class="cats-datepicker2"})
-                    @Html.ValidationMessageFor(model => model.NeedADate)
-                </div> 
-            </div>
-            
-           
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new {id = "TypeOfNeed"})
-                    
-                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Remark)
-                </div>
-                <div class="controls">
-                    @Html.EditorFor(model => model.Remark)
-                    @Html.ValidationMessageFor(model => model.Remark)
+                    @Html.TextBoxFor(m => m.Plan.PlanName)
+                   @Html.ValidationMessageFor(m =>m.Plan.PlanName)
                 </div>
             </div>
         </div>
-    </fieldset>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Region)
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new { id = "Region" })
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Season)
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season" })
+                    @Html.ValidationMessageFor(model => model.Season)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment Type"))
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
+                    
+                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.EndDate)
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+        
 }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+@*<script>
+    function onOpen() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: open");
+        }
+    }
+
+    function onClose() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: close");
+        }
+    }
+
+    function onChange() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: change");
+        }
+    }
+
+    function onSelect(e) {
+        if ("kendoConsole" in window) {
+            var dataItem = this.dataItem(e.item.index());
+            kendoConsole.log("event :: select (" + dataItem + ")");
+        }
+    }
+
+    function onDataBound(e) {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: dataBound");
+        }
+    }
+</script>*@

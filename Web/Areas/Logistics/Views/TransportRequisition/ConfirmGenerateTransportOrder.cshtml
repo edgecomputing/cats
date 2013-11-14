@@ -1,0 +1,92 @@
+﻿@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
+
+@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+<div class="modal-header">
+   @* <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>*@
+    <h4 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Generate Transport Order")</h4>
+</div>
+
+<h5 class="offset1">@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to generate transported order for selected Transport Requisition?")</h5>
+@using (Html.BeginForm("CreateTransportOrder", "TransportOrder", FormMethod.Post, new { @class = "modal-form" }))
+{
+    
+    <div class="modal-body form-horizontal">
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+                    </div>
+                    <div class="controls span6 ">
+                        @Html.TextBoxFor(model => model.TransportRequisitionNo,new {disabled="disabled" ,@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.RequestedBy)
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.RequestedBy,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.LabelFor(model => model.DateRequested,new {@class="cats-date-pref"})
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.DateRequested,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.LabelFor(model => model.CertifiedBy)
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.CertifiedBy,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.LabelFor(model => model.DateCertified,new {@class="cats-date-pref"})
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.DateCertified,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.Remark)
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.Remark,new {disabled="disabled",@class="span12"})
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Html.HiddenFor(model => model.TransportRequisitionID)
+    <div class="modal-footer">
+     
+            <button class="btn btn-primary" type="submit">Yes</button>
+        
+        <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+
+    </div>
+
+}
+

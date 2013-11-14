@@ -20,6 +20,7 @@ using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
+using Cats.Services.Common;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -175,13 +176,16 @@ namespace Cats.Tests.ControllersTests
                 };
             var donorService = new Mock<IDonorService>();
             donorService.Setup(m => m.GetAllDonor()).Returns(donor);
+
+            var notificationService = new Mock<INotificationService>();
+
             _reliefRequisitionController = new ReliefRequisitionController(
                 mockReliefRequistionService.Object, 
                 workflowStatusService.Object, 
                 mockReliefRequistionDetailService.Object, 
                 userAccountService.Object,
                 rationService.Object,
-                donorService.Object);
+                donorService.Object, notificationService.Object);
 
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
           //  _input = input;

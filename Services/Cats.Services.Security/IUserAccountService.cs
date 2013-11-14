@@ -44,6 +44,7 @@ namespace Cats.Services.Security
         List<Role> GetUserPermissions(string UserName, string store, string application);
 
         string[] GetRoles(string application);
+        string[] GetUserRoles(string username);
         List<Application> GetApplications(string store);
         List<Role> GetRolesList(string application);
         void EditUserRole(string owner, string userName, Dictionary<string, List<Role>> applications);

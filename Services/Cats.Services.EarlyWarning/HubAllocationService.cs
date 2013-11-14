@@ -82,9 +82,22 @@ namespace Cats.Services.EarlyWarning
 
         public int GetAllocatedHubId(int id)
         {
-            var HubAllocatedRequest = _unitOfWork.HubAllocationRepository.Get(r => r.RequisitionID == id).SingleOrDefault();
-            if (HubAllocatedRequest == null) return 0;
-            return HubAllocatedRequest.Hub.HubID;
+            try
+            {
+                var HubAllocatedRequest = _unitOfWork.HubAllocationRepository.Get(r => r.RequisitionID == id).First();
+                if (HubAllocatedRequest == null) return 0;
+
+                return HubAllocatedRequest.Hub.HubID;
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                
+            }
+            return 0;
         }
 
         public HubAllocation GetAllocatedHubByRequisitionNo(int requisitionNo)

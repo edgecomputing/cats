@@ -28,8 +28,6 @@ namespace Cats.Models.Mapping
             this.Property(t => t.PublishedDate).HasColumnName("PublishedDate");
             //this.Property(t => t.RationID).HasColumnName("RationID");
             this.Property(t => t.Status).HasColumnName("Status");
-            //this.Property(t => t.StartDate).HasColumnName("StartDate");
-            //this.Property(t => t.EndDate).HasColumnName("EndDate");
             this.Property(t => t.PlanID).HasColumnName("PlanID");
             // Relationships
             //this.HasOptional(t => t.Season)
@@ -39,7 +37,7 @@ namespace Cats.Models.Mapping
                 .WithMany(t => t.Hrds)
                 .HasForeignKey(d => d.CreatedBY);
 
-            //this.HasOptional(t => t.Plan)
+            //this.HasRequired(t => t.Plan)
             //   .WithMany(t => t.Hrds)
             //   .HasForeignKey(d => d.PlanID);
 

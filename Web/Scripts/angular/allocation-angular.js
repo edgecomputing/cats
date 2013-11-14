@@ -1,6 +1,7 @@
 ﻿/// <reference path="jquery-1.9.1.js" />
 /// <reference path="hello-angular.js" />
 /// <reference path="angular.js" />
+
 var $$scope;
 
 // Create app Module 
@@ -10,11 +11,12 @@ function onsaveAllocation() {
 var app = angular.module("dragDrop", ['ngResource']);
 
 // Declaring a Service
-app.factory("dragDropService", function ($resource, $route)
+app.factory("dragDropService", function ($resource)
 {
 
     return {
-        getRequisitions: $resource("/DispatchAllocation/ReadRequisitions?regionId=" + regionId)
+        
+        getRequisitions: $resource(Url + "?regionId=" + regionId)
         
     };
     
@@ -52,10 +54,11 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
         savefactory.save($scope.allocated);
     };
 
-
+    
     $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
     $scope.allocated = [];
-    
+
+   
     $scope.newRequisitions = {
         
         0: "No requisitions in " + RegionName +" region ",

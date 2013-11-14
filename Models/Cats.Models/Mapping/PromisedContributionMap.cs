@@ -13,6 +13,7 @@ namespace Cats.Models.Mapping
             this.HasKey(t => t.PromisedContributionId);
 
             // Table & Column Mappings
+
             this.ToTable("PromisedContribution");
 
             this.Property(t => t.PromisedContributionId).HasColumnName("PromisedContributionId");

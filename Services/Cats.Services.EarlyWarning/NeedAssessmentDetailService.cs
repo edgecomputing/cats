@@ -82,7 +82,8 @@ namespace Cats.Services.EarlyWarning
            }
            return 0;
        }
-       public int GetNeedAssessmentMonths(int year, int season, int woredaId)
+       
+       public int GetNeedAssessmentMonthsGetNeedAssessmentMonths(int year, int season, int woredaId)
        {
            var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.NeedADate.Value.Year == year && w.NeedAssessmentHeader.NeedAssessment.Season == season && w.Woreda == woredaId && w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
 
@@ -103,7 +104,37 @@ namespace Cats.Services.EarlyWarning
            }
            return 0;
        }
+       public int GetNeedAssessmentBeneficiaryNoFromPlan(int planID, int woredaID)
+       {
+           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(m => m.NeedAssessmentHeader.NeedAssessment.PlanID == planID && m.Woreda == woredaID).FirstOrDefault();
+           if (beneficiaryNo != null)
+           {
+               var totalBeneficiaties = (int)(beneficiaryNo.PSNPFromWoredasMale + beneficiaryNo.PSNPFromWoredasFemale + beneficiaryNo.NonPSNPFromWoredasMale + beneficiaryNo.NonPSNPFromWoredasFemale);
+               return totalBeneficiaties;
+           }
+           return 0;
+       }
+       public int GetNeedAssessmentMonthsFromPlan(int planID, int woredaID)
+       {
+           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.PlanID == planID && w.Woreda == woredaID).SingleOrDefault();
 
+           if (months != null)
+           {
+
+               if (months.NonPSNPFromWoredasDOA != null)
+               {
+                   var totalMonths = (int)(months.NonPSNPFromWoredasDOA);
+                   return totalMonths;
+               }
+               else if (months.PSNPFromWoredasDOA != null)
+               {
+                   return (int)(months.PSNPFromWoredasDOA);
+               }
+               else return 0;
+
+           }
+           return 0;
+       }
         
         public void Dispose()
         {
