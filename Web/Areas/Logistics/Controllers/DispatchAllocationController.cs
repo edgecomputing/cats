@@ -10,11 +10,17 @@ using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
 using log4net;
+
+using Cats.Helpers;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
+using IHubService = Cats.Services.EarlyWarning.IHubService;
+
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -33,7 +39,10 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly INotificationService _notificationService;
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
+
+
         public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log, IAllocationByRegionService allocationByRegionService, INotificationService notification)
+
         {
             _reliefRequisitionService = reliefRequisitionService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
@@ -61,7 +70,13 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.Region = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             return View();
         }
-
+        public ActionResult AllocationAdjustment(int requisitionId)
+        {
+            var requisition = _reliefRequisitionService.FindById(requisitionId);
+            var data = new List<int> {requisitionId, requisition.RegionID.Value};
+            return View(data);
+        }
+       
         //#region "test"
 
         //public ActionResult Main()

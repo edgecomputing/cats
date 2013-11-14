@@ -183,5 +183,6 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(free, JsonRequestBehavior.AllowGet);
         }
 
+        
     }
 }

@@ -94,11 +94,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create()
         {
             PopulateLookup();
-            var gift = new GiftCertificateViewModel();
-            gift.GiftDate = DateTime.Today;
-            gift.ETA = DateTime.Today;
-            gift.CommodityTypeID = 1;
-            return View(gift);
+            //var gift = new GiftCertificateViewModel();
+            //gift.GiftDate = ;
+            //gift.ETA = DateTime.Today;
+            //gift.CommodityTypeID = 1;
+            return View();
         }
         [HttpPost]
         public ActionResult Create(GiftCertificateViewModel giftcertificateViewModel)

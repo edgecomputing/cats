@@ -262,11 +262,15 @@
         <script>
             //Script to generate row number
             $(function () {
+                var date = new Date();
                 $(".cats-datepicker2").each(function () {
+                    
                     if ($(this).val() == "") {
-                        $(this).val(new Date().toLocaleString());
+                       // $(this).val(new Date().toLocaleDateString());
+                    } else {
+                        date = new Date(Date.parse($(this).val()));
                     }
-                    $(this).css("opacity", 0.5);
+                    $(this).val(date.toLocaleDateString());
                 })
             });
             var rowNumber = 0;
