@@ -210,6 +210,14 @@
     {
         font-size: 12px;
     }
+    .AllocationUnDone
+    {
+        display:none;
+    }
+    .AllocationDone
+    {
+        float:right;
+    }
 </style>
 
 
@@ -279,6 +287,7 @@
 
                             </div>
                         </div>
+                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn {{request.DoneStatus}}">Promot</button>
                     </div>
 
                 </td>
@@ -417,12 +426,24 @@
                 $scope.regionId=@ViewBag.regionId;
                 $scope.getListUrl="@Url.Action("getList", "SIAllocation", new { Area = "Logistics" })"
                 $scope.updateUrl="@Url.Action("updateAllocation", "SIAllocation", new { Area = "Logistics" })"
+                $scope.promoteUrl="@Url.Action("updateRequisitionStatus", "SIAllocation", new { Area = "Logistics" })"
                 $scope.requests = [];
                 $scope.selections = {};
                 $scope.NewAllocation = { RequisitionId: "", AllocatedAmount: 0, ShippingInstructionCode: "", ShippingInstructionId: "" };
                 $scope.SICodesHash = {};
                 $scope.DeletedAllocations = [];
                 $scope.hasError=false;
+                
+                $scope.on_Allocation_Done=function(requisitionId)
+                {
+                   // alert(requisitionId);
+                    
+                        var param1={regionId:$scope.regionId,requisitionId:requisitionId};
+                        $('#modalContent').html("Updating...");
+                        $('#myModal').modal('show');
+                        $http.post( $scope.promoteUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
+                   
+                };
                 $scope.ModelToView = function (model, view) {
                     view.ShippingInstructionId = model.ShippingInstructionId;
                     view.ProjectCodeId = model.ShippingInstructionId;
@@ -608,6 +629,13 @@
                     $$scope = $scope;
                     resp.forEach(function (entry, i) {
                         entry.edit_variable = { RequisitionId: entry.RequisitionId, AllocatedAmount: 199, ShippingInstructionCode: "", ShippingInstructionId: 94 };
+                        entry.DoneStatus="AllocationUnDone";
+
+                        var SavedAllocatedPercent = Math.round(100 * entry.AllocatedAmount / entry.Amount);
+                        if(SavedAllocatedPercent>=60)
+                        {
+                            entry.DoneStatus="AllocationDone";
+                        }
                         $scope.requests.push(entry);
                         var FreeSICodes = entry.FreeSIPCCodes.FreeSICodes
                         var FreePCCodes = entry.FreeSIPCCodes.FreePCCodes
@@ -648,9 +676,7 @@
                 }
                 $scope.save = function (param) {
                     if (param.length) {
-                        // alert(regionId);
                         var param1={regionId:regionId,allocationAction:param};
-                      //  param.regionId=regionId;
                         $('#modalContent').html("Saving...");
                         $('#myModal').modal('show');
                         $http.post( $scope.updateUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
