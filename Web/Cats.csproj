@@ -1432,6 +1432,7 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentPlan.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

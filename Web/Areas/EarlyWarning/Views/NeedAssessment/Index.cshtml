@@ -25,7 +25,7 @@
             columns.Bound(p => p.AssessmentName).Title(Translator.Translate("Assessment Name")).ClientTemplate("<a href='" + Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }) + " '>#=AssessmentName#</a>  ");
             columns.Bound(p => p.StartDate);
             columns.Bound(p => p.EndDate);
-            columns.Bound(p => p.Year);
+           // columns.Bound(p => p.Status);
         })
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()

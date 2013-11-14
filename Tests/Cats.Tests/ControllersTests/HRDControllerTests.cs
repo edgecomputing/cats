@@ -108,7 +108,16 @@ namespace Cats.Tests.ControllersTests
 
             var userAccountService = new Mock<IUserAccountService>();
             var log = new Mock<ILog>();
-            
+
+            var plan = new List<Plan> 
+                {
+                    new Plan {PlanID = 1,PlanName = "Mehere 2005",ProgramID = 1,StartDate = new DateTime(12/12/2006),EndDate = new DateTime(12/12/2007)},
+                     new Plan {PlanID = 2,PlanName = "Belg 2005",ProgramID = 1,StartDate = new DateTime(12/12/2006),EndDate = new DateTime(12/12/2007)}
+                };
+
+            var planService = new Mock<IPlanService>();
+            planService.Setup(m => m.GetAllPlan()).Returns(plan);
+
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
             {
                 UserName = "x",
@@ -131,7 +140,7 @@ namespace Cats.Tests.ControllersTests
                 needAssesmentHeaderService.Object,
                 workflowSatusService.Object,
                 seasonService.Object,userAccountService.Object,
-                log.Object
+                log.Object,planService.Object
                 );
         }
 

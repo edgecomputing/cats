@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
+using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
@@ -19,10 +21,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         // GET: /EarlyWarning/Plan/
         private IPlanService _hrdPlanService;
         private IUserAccountService _userAccountService;
-        public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService)
+        private ICommonService _commonService;
+        public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService,ICommonService commonService)
         {
             _hrdPlanService = hrdPlanService;
             _userAccountService = userAccountService;
+            _commonService = commonService;
         }
         public ActionResult Index()
         {
@@ -48,27 +52,31 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             StartDate = plan.StartDate.ToCTSPreferedDateFormat(datePref),
                             EndDate = plan.EndDate.ToCTSPreferedDateFormat(datePref),
                             ProgramID = plan.ProgramID,
-                            Program = plan.Program.Name
-
+                            Program = plan.Program.Name,
+                            StatusID = plan.Status,
+                            Status = _commonService.GetStatusName(WORKFLOW.Plan, plan.Status) 
                         });
         }
         public ActionResult Create()
         {
             var plan = new Plan();
             ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(),"ProgramID", "Name");
+            plan.StartDate = DateTime.Now;
+            plan.EndDate = DateTime.Now;
             return View(plan);
         }
 
         [HttpPost]
-        public ActionResult Create(Plan Plan)
+        public ActionResult Create(Plan plan)
         {
             if (ModelState.IsValid)
             {
-                _hrdPlanService.AddPlan(Plan);
+                plan.Status = (int)PlanStatus.Draft;
+                _hrdPlanService.AddPlan(plan);
                 return RedirectToAction("Index");
 
             }
-            return View(Plan);
+            return View(plan);
         }
         public ActionResult Edit(int id)
         {

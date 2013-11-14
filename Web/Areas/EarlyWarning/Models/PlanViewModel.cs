@@ -13,5 +13,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public string EndDate { get; set; }
         public string Program { get; set; }
         public int ProgramID { get; set; }
+        public string Status { get; set; }
+        public int StatusID { get; set; }
     }
 }
