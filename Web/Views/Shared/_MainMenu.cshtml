@@ -54,7 +54,7 @@
                                 <li class="divider"></li>
                                 
                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Draft_requests, @Html.Translate("Requests"))</li>
+                                                                        EarlyWarningCheckAccess.Operation.View_request, @Html.Translate("Requests"))</li>
                                 
                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_Requisition, @Html.Translate("Requisitions"))</li>
@@ -77,11 +77,11 @@
                                 
                                 <li>@Html.PSNPOperationMenuItem(@Html.Translate("PSNP Plan"),
                                                             @Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" }),
-                                                            PSNPCheckAccess.Task.Manage_annual_plan)</li>                            
+                                                            PSNPCheckAccess.Operation.View_annual_plan_list)</li>                            
                                 <li class="divider"></li>
                                                                   
                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Draft_requests, @Html.Translate("Requests"))</li>
+                                                                        EarlyWarningCheckAccess.Operation.View_request, @Html.Translate("Requests"))</li>
 
                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_Requisition, @Html.Translate("Requisitions")) </li>                

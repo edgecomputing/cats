@@ -40,7 +40,7 @@ namespace Cats.Helpers
             return MvcHtmlString.Create(html);
         }
 
-        public static MvcHtmlString PSNPOperationMenuItem(this HtmlHelper helper, string text, string url, PSNPCheckAccess.Task task, string ccsClass="", string dataButtontype="")
+        public static MvcHtmlString PSNPOperationMenuItem(this HtmlHelper helper, string text, string url, PSNPCheckAccess.Operation operation, string ccsClass="", string dataButtontype="")
         {
             var user = (UserIdentity)HttpContext.Current.User.Identity;
             var checkAccessHelper = DependencyResolver.Current.GetService<IPSNPCheckAccess>();
@@ -48,7 +48,7 @@ namespace Cats.Helpers
 
             var html = string.Empty;
 
-            if (checkAccessHelper.CheckAccess(task, dbUser))
+            if (checkAccessHelper.CheckAccess(operation, dbUser))
             {
                 html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             }

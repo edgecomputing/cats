@@ -18,12 +18,17 @@
                         @Url.Action("AddRegion", "NeedAssessment"),
                         EarlyWarningCheckAccess.Operation.Create_new_needs_assessment, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
 }
+<<<<<<< HEAD
 <style>
     .edit {
         display: none;
     }
 </style>
 <h4>List of Planned Need Assessmen</h4>
+=======
+
+<h4>List of Planned Need Assessment</h4>
+>>>>>>> b7a03ddc10ed91b70d50bbcbaa1dc6923a241208
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
     .Name("grid")
     .Columns(columns =>

@@ -30,7 +30,7 @@ namespace Cats.Areas.GiftCertificate.Models
         /// The gift date.
         /// </value>
         [Required(ErrorMessage = "Gift Date is required")]
-        [DataType(DataType.DateTime)]
+       
         [Display(Name="Gift Date")]
         public DateTime GiftDate { get; set; }
 
@@ -86,7 +86,7 @@ namespace Cats.Areas.GiftCertificate.Models
         /// The ETA.
         /// </value>
         [Required(ErrorMessage = "ETA is required")]
-        [DataType(DataType.DateTime)]
+      
         public DateTime ETA { get; set; }
 
         /// <summary>

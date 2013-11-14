@@ -116,7 +116,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            
              ViewBag.Error = "";
              var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
-            var regionID = int.Parse(region);
+             var regionID = int.Parse(region);
              int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
              int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
              string planName = collection["Plan.PlanName"].ToString(CultureInfo.InvariantCulture);
@@ -142,9 +142,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 //ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
                 //ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
                 //ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
-                //ViewBag.Error = "An error has occured: This region has already been registered with the information you are trying to input. Please choose a different Region, Seasnon, Year or Type of Need Assessment.";
-                //ModelState.AddModelError("Errors", ViewBag.Error);
-                return View();
+                ViewBag.Error = "Need Assessment is already Created for this region";
+                ModelState.AddModelError("Errors", ViewBag.Error);
+                return RedirectToAction("Detail","NeedAssessment",new {id=plan.PlanID});
             }
              //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
           
@@ -337,7 +337,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var log = new Logger();
             log.LogAllErrorsMesseges(exception, _log);
-            return View();
+            ViewBag.Error = "Need Assessment is already Created for this region";
+            ModelState.AddModelError("Errors", ViewBag.Error);
+            return RedirectToAction("Detail", "NeedAssessment", new { id = needAssessment.PlanID });
         }
     }
 
