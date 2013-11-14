@@ -13,9 +13,9 @@ using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using Microsoft.AspNet.SignalR;
+
 using log4net;
-using Cats.Helpers;
+
 namespace Cats.Areas.Logistics.Controllers
 {
     public class DispatchAllocationController : Controller
