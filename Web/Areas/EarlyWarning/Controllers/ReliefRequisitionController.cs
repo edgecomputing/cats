@@ -214,7 +214,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-        private void AddNotification(int requisitionID,int regionId)
+        private void AddNotification(int requisitionID,int regionId,string requisitioNo)
         {
             if (Request.Url != null)
             {
@@ -222,15 +222,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 url = Request.Url.Segments.Aggregate(url, (current, segment) => current + segment);
                 var notification = new Notification
                 {
-                    Text = "Logistics",
+                    Text = "Approved Requistion: " + requisitioNo,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
                     Role = 2,
                     RecordId = requisitionID,
-
-
-                    Url = Request.Url.Authority + "/Logistics/DispatchAllocation/Hub?regionid=" + regionId,
-                    TypeOfNotification = "Requisition"
+                    Url = Request.Url.AbsoluteUri.Substring(0, 21) + "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId + "&recordId=" + requisitionID,
+                    TypeOfNotification = "Requisition Approval"
                 };
 
                 _notificationService.AddNotification(notification);
@@ -247,7 +245,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             requisition.Status = (int)ReliefRequisitionStatus.Approved;
             _reliefRequisitionService.EditReliefRequisition(requisition);
             //send notification
-            AddNotification(requisition.RequisitionID,(int) requisition.RegionID);
+            AddNotification(requisition.RequisitionID,(int) requisition.RegionID,requisition.RequisitionNo);
             return RedirectToAction("Index", "ReliefRequisition");
         }
 

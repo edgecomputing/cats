@@ -425,7 +425,6 @@
     <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
-    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
@@ -657,6 +656,7 @@
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
@@ -2086,11 +2086,8 @@
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
-
     <Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />
-
     <Content Include="Scripts\jquery-1.9.1.min.map" />
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Allocation.cshtml" />
     <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
     <Content Include="Areas\Settings\Views\Web.config" />
@@ -2174,8 +2171,9 @@
     <Content Include="Views\Shared\Edit.cshtml" />
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="Areas\Logistics\Views\Shared\_Notification.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Notification.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Home\GetUnreadNotificationDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

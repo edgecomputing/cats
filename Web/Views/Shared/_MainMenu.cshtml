@@ -6,6 +6,7 @@
 @{
    
     var user = (UserIdentity)HttpContext.Current.User.Identity;
+
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     EarlyWarningCheckAccess accessHelper = new EarlyWarningCheckAccess("");
     var lang = user.Profile.LanguageCode;

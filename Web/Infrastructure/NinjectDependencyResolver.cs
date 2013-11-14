@@ -143,6 +143,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransportOrderDetailService>().To<TransportOrderDetailService>();
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
             kernel.Bind<IPlanService>().To<PlanService>();
+            kernel.Bind<IDashboardService>().To<DashboardService>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.

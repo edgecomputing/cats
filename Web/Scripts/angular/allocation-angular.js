@@ -10,7 +10,7 @@ function onsaveAllocation() {
 var app = angular.module("dragDrop", ['ngResource']);
 
 // Declaring a Service
-app.factory("dragDropService", function ($resource, $route)
+app.factory("dragDropService", function ($resource)
 {
 
     return {
@@ -57,7 +57,7 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
     $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
     $scope.allocated = [];
 
-    alert($scope.Requisitions.length());
+   
     $scope.newRequisitions = {
         
         0: "No requisitions in " + RegionName +" region ",

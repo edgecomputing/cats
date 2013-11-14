@@ -1,0 +1,54 @@
+﻿ 
+
+
+
+    <script type="text/javascript">
+        $(function() {
+            $.getJSON('/Dashboard/GetUnreadNotifications', { }, function(data) {
+                var json = data;
+                var length = json.length;
+                if (length > 5) {
+                    length = 5;
+                }
+                    
+                
+                var cnt = '<table border="1"> <th colSpan=2>Notification</th><th colSpan=2>Type</th> <th colSpan=2>Created Date</th>';
+                
+                for (var i = 0; i < length; i++) {
+                    cnt +=  '<tr>';
+                    cnt += '<td colSpan=2>' + "<a href=" + json[i].Url + ">" + json[i].Text + "</a>" + '</td>';
+                    cnt += '<td colSpan=2>' + json[i].TypeOfNotification + '</td>';
+                    cnt += '<td colSpan=2>' + json[i].TypeOfNotification.CreatedDate + '</td>';
+                    cnt += '</tr>';
+                }
+                cnt += '</table>';
+                $("#container").html(cnt);
+                if (json.length > 5) {
+                    $("#container").append("<br> <a href= /Home/GetUnreadNotificationDetail>" + "All Notifications...</a>");
+                }
+
+
+            });
+        });
+    </script>
+
+
+
+@*<table class="table table-striped ">
+    <thead>
+        <tr>
+            <th>Notification</th>
+            <th>Created Date</th>
+            <th>Created Date</th>
+           
+        </tr>
+    </thead>
+    <tbody>  *@  
+        <div id="container"></div>
+    @*</tbody>
+</table>*@
+
+
+
+    
+       

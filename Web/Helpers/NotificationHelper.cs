@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
 using Cats.Services.Common;
+
 namespace Cats.Helpers
 {
     public static class  NotificationHelper
@@ -17,9 +18,10 @@ namespace Cats.Helpers
         {
             try
             {
-
+                var user = HttpContext.Current.User.Identity.Name;
+                var userID = UserAccountHelper.GetUser(user).UserProfileID;
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Count(n => n.IsRead == false);
+                var totallUnread = notificationService.GetAllNotification().Count(n => n.IsRead == false && n.Role == userID);
 
                 return totallUnread;
             }
@@ -34,26 +36,35 @@ namespace Cats.Helpers
         {
             try
             {
+                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+              
+                var user = HttpContext.Current.User.Identity.Name;
+                var userID = UserAccountHelper.GetUser(user).UserProfileID;
 
-               // var user = HttpContext.Current.User.IsInRole("Admin");
-               
-             
-            
+                var roles = accountService.GetUserRoles(user);
+
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false).ToList();
-               
-                
-                foreach(var item in totallUnread)
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Role == userID).ToList();
+                int max = 0;
+
+                max = totallUnread.Count > 5 ? 5 : totallUnread.Count;
+
+                for (int i = 0; i < max;i ++ )
                 {
                     str = str + "<li>";
-
-                    str = str + "<a href=" + item.Url + ">";
-                    str = str + item.Text;
+                    str = str + "<a href=" + totallUnread[i].Url + ">";
+                    str = str + totallUnread[i].Text;
                     str = str + "</li>";
                     str = str + "</a>";
                 }
+                    
                 str = str + "</ul>";
+                if (totallUnread.Count > 5)
+                {
+                    str = str + "<a href=/Home/GetUnreadNotificationDetail>" + "More...</a>";
+                }
+               
                 return MvcHtmlString.Create(str);
             }
             catch (Exception)

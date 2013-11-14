@@ -48,7 +48,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-       
+      
 
         public ActionResult Index(int regionId=-1)
         {
@@ -125,6 +125,16 @@ namespace Cats.Areas.Logistics.Controllers
             var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
             return Json(requisitionViewModel.ToDataSourceResult(request));
         }
+
+
+        public ActionResult IndexFromNotification(int paramRegionId, int recordId)
+        {
+            ViewBag.regionId = paramRegionId;
+            NotificationHelper.MakeNotificationRead(recordId);
+            return RedirectToAction("Hub", new { regionId = paramRegionId });
+
+        }
+
 
         public ActionResult Hub(int regionId)
         {
