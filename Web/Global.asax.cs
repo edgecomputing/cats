@@ -22,7 +22,7 @@ namespace Cats
     {
         protected void Application_Start()
         {
-            RouteTable.Routes.MapHubs();
+            //RouteTable.Routes.MapHubs();
            
             AreaRegistration.RegisterAllAreas();
 
