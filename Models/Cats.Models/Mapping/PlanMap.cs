@@ -22,6 +22,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.EndDate).HasColumnName("EndDate");
            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
            this.Property(t => t.Remark).HasColumnName("Remark");
+           this.Property(t => t.Status).HasColumnName("Status");
 
            //this.HasRequired(t => t.Program)
            //   .WithMany(t => t.Plans)

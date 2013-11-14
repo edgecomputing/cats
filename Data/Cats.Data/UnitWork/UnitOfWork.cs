@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using Cats.Models;
 using Cats.Data.Repository;
 
@@ -360,8 +361,17 @@ namespace Cats.Data.UnitWork
         }
 
         public void Save()
-        {          
- _context.SaveChanges();
+        {
+            try
+            {
+_context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                
+                throw;
+            }
+            
         }
 
         private bool disposed = false;
@@ -728,6 +738,10 @@ namespace Cats.Data.UnitWork
             get { return this._PromisedContributionRepository ?? (this._PromisedContributionRepository = new GenericRepository<PromisedContribution>(_context)); }
         }
 
-        
+        private IGenericRepository<Notification> notificationRepository = null;
+        public IGenericRepository<Notification> NotificationRepository
+        {
+            get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
+        }
     }
 }

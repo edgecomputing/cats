@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -113,11 +114,32 @@ namespace Cats.Services.EarlyWarning
                     PlanName = planName,
                     StartDate = startDate,
                     EndDate = endDate,
-                    Program = reliefProgram
+                    Program = reliefProgram,
+                    Status = (int)PlanStatus.AssessmentCreated
+                    
                 };
                 _unitOfWork.PlanRepository.Add(plan);
                 _unitOfWork.Save();
             }
+        }
+
+
+        public void AddHRDPlan(string planName, DateTime startDate, DateTime endDate)
+        {
+           
+                var reliefProgram = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief").SingleOrDefault();
+                var plan = new Plan
+                {
+                    PlanName = planName,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    Program = reliefProgram,
+                    Status = (int)PlanStatus.HRDCreated
+
+                };
+                _unitOfWork.PlanRepository.Add(plan);
+                _unitOfWork.Save();
+            
         }
    }
 }

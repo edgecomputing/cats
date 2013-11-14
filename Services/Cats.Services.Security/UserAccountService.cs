@@ -165,6 +165,7 @@ namespace Cats.Services.Security
                 //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
                 
             // Check if the passwords match
+
             if (user.Password == HashPassword(password))
             {
                 //Add the current Identity and Principal to the current thread.               
@@ -375,6 +376,13 @@ namespace Cats.Services.Security
         {
             _provider.ApplicationName = application;
             return  _provider.GetAllRoles();
+        }
+
+
+        public string[] GetUserRoles(string username)
+        {
+            string[] roles = _provider.GetRolesForUser(username);
+            return roles;
         }
 
         public List<Role> GetRolesList(string application)

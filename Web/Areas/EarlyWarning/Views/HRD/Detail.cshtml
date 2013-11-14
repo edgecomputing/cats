@@ -35,10 +35,11 @@
 
         }
     })
-    .Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
-    
+    //.Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
+     
+    .HtmlAttributes(new { style = "height: 430px" })
     .Sortable()
-   //.Scrollable()
+   .Scrollable()
    .Groupable()
    
    

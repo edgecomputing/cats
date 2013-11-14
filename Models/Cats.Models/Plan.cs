@@ -20,6 +20,7 @@ namespace Cats.Models
        public DateTime EndDate { get; set; }
        public int ProgramID { get; set; }
        public string Remark { get; set; }
+       public int Status { get; set; }
 
        public virtual ICollection<HRD> Hrds { get; set; }
        public virtual ICollection<NeedAssessment> NeedAssessments { get; set;} 

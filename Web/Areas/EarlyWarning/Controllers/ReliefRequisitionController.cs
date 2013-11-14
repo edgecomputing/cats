@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Cats.ViewModelBinder;
@@ -27,11 +29,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IUserAccountService _userAccountService;
         private readonly IRationService  _rationService;
         private readonly IDonorService _donorService;
+        private readonly INotificationService _notificationService;
 
         public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService, IDonorService donorService)
+            IRationService rationService, IDonorService donorService, INotificationService notificationService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -39,6 +42,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _userAccountService = userAccountService;
             _rationService = rationService;
             _donorService = donorService;
+            _notificationService = notificationService;
         }
 
         public ViewResult Index(int id = 1)
@@ -204,7 +208,34 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION), datePref);
 
+          
+
             return View(requisitionViewModel);
+        }
+
+
+        private void AddNotification(int requisitionID,int regionId,string requisitioNo)
+        {
+            if (Request.Url != null)
+            {
+                var url = Request.Url.Authority + "/";
+                url = Request.Url.Segments.Aggregate(url, (current, segment) => current + segment);
+                var notification = new Notification
+                {
+                    Text = "Approved Requistion: " + requisitioNo,
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Role = 1,
+                    RecordId = requisitionID,
+                    Url = Request.Url.AbsoluteUri.Substring(0, 21) + "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId + "&recordId=" + requisitionID,
+                    TypeOfNotification = "Requisition Approval"
+                };
+
+                _notificationService.AddNotification(notification);
+
+            }
+
+
         }
 
         [HttpPost]
@@ -213,6 +244,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requisition = _reliefRequisitionService.FindById(requisitionid);
             requisition.Status = (int)ReliefRequisitionStatus.Approved;
             _reliefRequisitionService.EditReliefRequisition(requisition);
+            //send notification
+            AddNotification(requisition.RequisitionID,(int) requisition.RegionID,requisition.RequisitionNo);
             return RedirectToAction("Index", "ReliefRequisition");
         }
 

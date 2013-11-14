@@ -198,5 +198,13 @@ namespace Cats.Services.EarlyWarning
             return (int)(DateTime.Now - Past).TotalDays;
 
         }
+
+        public IEnumerable<Notification> GetUnreadNotifications(int userId)
+        {
+            var notifications = _IUnitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false && n.Role == userId);
+            return notifications;
+        }
+
+
     }
 }
