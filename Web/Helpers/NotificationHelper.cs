@@ -41,7 +41,7 @@ namespace Cats.Helpers
                 var user = HttpContext.Current.User.Identity.Name;
                 var userID = UserAccountHelper.GetUser(user).UserProfileID;
 
-                var roles = accountService.GetUserRoles(user);
+               // var roles = accountService.GetUserRoles(user);
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
