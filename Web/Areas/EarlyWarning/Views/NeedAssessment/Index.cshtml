@@ -1,4 +1,5 @@
 ﻿@using Cats.Helpers
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
@@ -16,10 +17,15 @@
 @section Toolbar
 {
 
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddRegion", "NeedAssessment")"></a>
-
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("AddRegion", "NeedAssessment"),
+                        EarlyWarningCheckAccess.Operation.Create_new_needs_assessment, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
 }
-
+<style>
+    .edit {
+        display: none;
+    }
+</style>
 <fieldset>
     <legend>
         @Translator.Translate("List of Needs Assessment")
@@ -36,7 +42,7 @@
         columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Command(p =>
         {
-            p.Custom("Edit").Click("NeedAssessmentEdit");
+            p.Custom("Edit").Click("NeedAssessmentEdit").HtmlAttributes(new { @class = "edit" });
             p.Custom("Approve").Click("approveNeedAssessment");
             p.Custom("Delete").Click("DeleteNeedAssessment");
 

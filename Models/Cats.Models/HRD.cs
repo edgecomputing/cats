@@ -14,8 +14,8 @@ namespace Cats.Models
         public int Year { get; set; }
         public Nullable<int> SeasonID { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        //public DateTime StartDate { get; set; }
+        //public DateTime EndDate { get; set; }
         public DateTime PublishedDate { get; set; }
         public Nullable<int> CreatedBY { get; set; }
         public int RationID { get; set; }
