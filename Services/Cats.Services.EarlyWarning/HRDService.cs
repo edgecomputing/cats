@@ -124,5 +124,36 @@ namespace Cats.Services.EarlyWarning
             return true;
 
         }
+
+
+        public bool AddHRD(int year, int userID, int seasonID, int rationID, int planID)
+        {
+            var woredas = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitTypeID == 4);
+            var hrd = new HRD()
+                {
+                    Year = year,
+                    CreatedBY = userID,
+                    SeasonID = seasonID,
+                    RationID = rationID,
+                    PlanID = planID,
+                    CreatedDate = DateTime.Now,
+                    PublishedDate = DateTime.Now,
+                    Status = (int?) HRDStatus.Draft
+                };
+            var hrdDetails = (from detail in woredas
+                              select new HRDDetail
+                              {
+                                  WoredaID = detail.AdminUnitID,
+                                  StartingMonth = 1,
+                                  NumberOfBeneficiaries = 0,
+                                  DurationOfAssistance = 0
+                              }).ToList();
+
+            hrd.HRDDetails = hrdDetails;
+            _unitOfWork.HRDRepository.Add(hrd);
+            _unitOfWork.Save();
+            return true;
+
+        }
     }
 }

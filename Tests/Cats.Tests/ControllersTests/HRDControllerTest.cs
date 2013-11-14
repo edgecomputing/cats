@@ -136,6 +136,14 @@ namespace Cats.Tests.ControllersTests
 
             var log = new Mock<ILog>();
 
+            var plan = new List<Plan> 
+                {
+                    new Plan {PlanID = 1,PlanName = "Mehere 2005",ProgramID = 1,StartDate = new DateTime(12/12/2006),EndDate = new DateTime(12/12/2007)},
+                     new Plan {PlanID = 2,PlanName = "Belg 2005",ProgramID = 1,StartDate = new DateTime(12/12/2006),EndDate = new DateTime(12/12/2007)}
+                };
+
+            var planService = new Mock<IPlanService>();
+            planService.Setup(m => m.GetAllPlan()).Returns(plan);
 
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
@@ -147,7 +155,7 @@ namespace Cats.Tests.ControllersTests
 
             _hrdController = new HRDController(adminUnitService.Object, hrdService.Object, rationService.Object, rationDetailService.Object, 
                                                hrdDetailService.Object, commodityService.Object,needAssessmentDetailService.Object,needAssessmentService.Object,
-                                               workFlowStatusService.Object,seasonService.Object,userAccountService.Object,log.Object);
+                                               workFlowStatusService.Object,seasonService.Object,userAccountService.Object,log.Object,planService.Object);
             _hrdController.ControllerContext = controllerContext.Object;
             
 

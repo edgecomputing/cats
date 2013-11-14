@@ -47,10 +47,10 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("Detail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
+            columns.Bound(p => p.HRDName).Title(Translator.Translate("HRD Name")).ClientTemplate("<a href='" + Url.Action("Detail", "HRD", new { id = "#=HRDID#" }) + " '>#=HRDName#</a>  ");
+            columns.Bound(p => p.Ration).Title("Ration No");
             columns.Bound(p => p.Season);
             columns.Bound(p => p.Year);
-            columns.Bound(p => p.Plan).Title(Translator.Translate("Plan Name"));
             columns.Bound(p => p.CreatedBy);
             columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
             // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");

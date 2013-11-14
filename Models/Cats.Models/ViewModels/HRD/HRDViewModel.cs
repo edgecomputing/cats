@@ -25,6 +25,10 @@ namespace Cats.Models.ViewModels.HRD
         public Nullable<int> StatusID { get; set; }
         public List<HRDDetailViewModel> HRDDetails { get; set; }
 
+        public string HRDName
+        {
+            get { return string.Format("{0} {1}", Season, Year); }
+        }
        
 
         
