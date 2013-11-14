@@ -141,5 +141,24 @@ namespace Cats.Services.EarlyWarning
                 _unitOfWork.Save();
             
         }
+
+
+        public List<NeedAssessment> PlannedNeedAssessment(int planID)
+        {
+            var needAssessment = _unitOfWork.NeedAssessmentRepository.FindBy(m => m.PlanID == planID).ToList();
+            if (needAssessment != null)
+                return needAssessment;
+            return null;
+
+        }
+
+        public List<HRD> PlannedHRD(int planID)
+        {
+            var hrd = _unitOfWork.HRDRepository.FindBy(m => m.PlanID == planID);
+            if (hrd != null)
+                return hrd;
+            return null;
+
+        }
    }
 }

@@ -75,8 +75,10 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />
+    <Compile Include="MetaData\PlanMetaData.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationViewModel.cs" />
+    <Compile Include="Partial\Plan.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="HubAllocationByRegionViewModel.cs" />
     <Compile Include="Mapping\AllocationByRegionMap.cs" />
