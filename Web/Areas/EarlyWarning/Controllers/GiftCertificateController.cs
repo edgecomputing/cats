@@ -245,7 +245,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpGet]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Approved_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Approve_Gift_Certeficate)]
        public ActionResult Approved(int id)
        {
            var giftCertificate = _giftCertificateService.FindById(id);

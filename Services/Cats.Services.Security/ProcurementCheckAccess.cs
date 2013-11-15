@@ -291,6 +291,26 @@ namespace Cats.Services.Security
             {
                 return "View current bid";
             }
+            if ((operation == Operation.View_Dispath_Locations))
+            {
+                return "View Dispath Locations";
+            }
+            if ((operation == Operation.View_Price_Quotation_Data_Entries))
+            {
+                return "View Price Quotation Data Entries";
+            }
+            if ((operation == Operation.View_Request_For_Quotation))
+            {
+                return "View Request For Quotation";
+            }
+            if ((operation == Operation.View_Transport_Order))
+            {
+                return "View Transport Order";
+            }
+            if ((operation == Operation.View_Transport_Suppliers))
+            {
+                return "View Transport Suppliers";
+            }
             if ((operation == Operation.Winners_Dispatch_Locations))
             {
                 return "Winners Dispatch Locations";
@@ -980,6 +1000,26 @@ namespace Cats.Services.Security
             /// </summary>
             View_current_bid,
             /// <summary>
+            /// Operation View Dispath Locations
+            /// </summary>
+            View_Dispath_Locations,
+            /// <summary>
+            /// Operation View Price Quotation Data Entries
+            /// </summary>
+            View_Price_Quotation_Data_Entries,
+            /// <summary>
+            /// Operation View Request For Quotation
+            /// </summary>
+            View_Request_For_Quotation,
+            /// <summary>
+            /// Operation View Transport Order
+            /// </summary>
+            View_Transport_Order,
+            /// <summary>
+            /// Operation View Transport Suppliers
+            /// </summary>
+            View_Transport_Suppliers,
+            /// <summary>
             /// Operation Winners Dispatch Locations
             /// </summary>
             Winners_Dispatch_Locations,
@@ -1186,6 +1226,26 @@ namespace Procurement.Security
         /// OPERATION 'View current bid'
         /// </summary>
         public const string VIEW_CURRENT_BID = "View current bid";
+        /// <summary>
+        /// OPERATION 'View Dispath Locations'
+        /// </summary>
+        public const string VIEW_DISPATH_LOCATIONS = "View Dispath Locations";
+        /// <summary>
+        /// OPERATION 'View Price Quotation Data Entries'
+        /// </summary>
+        public const string VIEW_PRICE_QUOTATION_DATA_ENTRIES = "View Price Quotation Data Entries";
+        /// <summary>
+        /// OPERATION 'View Request For Quotation'
+        /// </summary>
+        public const string VIEW_REQUEST_FOR_QUOTATION = "View Request For Quotation";
+        /// <summary>
+        /// OPERATION 'View Transport Order'
+        /// </summary>
+        public const string VIEW_TRANSPORT_ORDER = "View Transport Order";
+        /// <summary>
+        /// OPERATION 'View Transport Suppliers'
+        /// </summary>
+        public const string VIEW_TRANSPORT_SUPPLIERS = "View Transport Suppliers";
         /// <summary>
         /// OPERATION 'Winners Dispatch Locations'
         /// </summary>

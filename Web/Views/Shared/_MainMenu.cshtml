@@ -101,11 +101,11 @@
 
                                 <li>@Html.LogisticOperationMenuItem(@Html.Translate("Dispatch Allocation"),
                                                                 @Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" }),
-                                                                LogisticsCheckAccess.Task.Dispatch_Allocation) </li>
+                                                                LogisticsCheckAccess.Operation.View_Dispatch_Allocation) </li>
 
                                 <li>@Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
                                                                 @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
-                                                                LogisticsCheckAccess.Task.Transport_Requisition)</li>
+                                                                LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
                                     
                                 <li class="divider" />
                                 <li><a href="#">@Html.Translate("Stock")</a></li>
@@ -118,34 +118,34 @@
                             <ul class="dropdown-menu">
                                     <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Manage Bids"),
                                                                     @Url.Action("Index", "Bid", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Task.Manage_bid)</li>
+                                                                    ProcurementCheckAccess.Operation.View_bid_list)</li>
 
                                     <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Bid Planning"),
                                                                     @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Task.Bid_plan)</li>
+                                                                    ProcurementCheckAccess.Operation.View_bid_plan)</li>
                                     
                                     <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
                                                                     @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Task.Transport_Order)</li>
+                                                                    ProcurementCheckAccess.Operation.View_Transport_Order)</li>
                                     
                                     <li class="divider" />
                                     
                                     <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Suppliers"),
                                                                     @Url.Action("Index", "Transporter", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Task.Transport_Supplier)</li>
+                                                                    ProcurementCheckAccess.Operation.View_Transport_Suppliers)</li>
 
                                     <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Request for Quotations (RFQ)"),
                                                                     @Url.Action("Index", "RFQ", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Task.Request_For_Quotation__RFQ)</li>
+                                                                    ProcurementCheckAccess.Operation.View_Request_For_Quotation)</li>
                                     
                                     <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Price Quotation"),
                                                                     @Url.Action("Index", "PriceQuotation", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Task.Price_Quotation_Data_Entries)</li>
+                                                                    ProcurementCheckAccess.Operation.View_Price_Quotation_Data_Entries)</li>
                                     
                                     
                                     <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Dispatch Locations"),
                                                                     @Url.Action("Index", "DispatchLocations", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Task.Winners_Dispatch_Location)</li>
+                                                                    ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
                             </ul>
                         </li>
                          <li class="dropdown">

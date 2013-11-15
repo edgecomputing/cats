@@ -352,9 +352,17 @@ namespace Logistics.Security
             {
                 return "View Destinations";
             }
+            if ((operation == Operation.View_Dispatch_Allocation))
+            {
+                return "View Dispatch Allocation";
+            }
             if ((operation == Operation.View_draft_hub_allocation))
             {
                 return "View draft hub allocation";
+            }
+            if ((operation == Operation.View_Transport_Requisition))
+            {
+                return "View Transport Requisition";
             }
             if ((operation == Operation.View_Transport_Requisition_Detail))
             {
@@ -1118,9 +1126,17 @@ namespace Logistics.Security
             /// </summary>
             View_Destinations,
             /// <summary>
+            /// Operation View Dispatch Allocation
+            /// </summary>
+            View_Dispatch_Allocation,
+            /// <summary>
             /// Operation View draft hub allocation
             /// </summary>
             View_draft_hub_allocation,
+            /// <summary>
+            /// Operation View Transport Requisition
+            /// </summary>
+            View_Transport_Requisition,
             /// <summary>
             /// Operation View Transport Requisition Detail
             /// </summary>
@@ -1393,9 +1409,17 @@ namespace Logistics.Security
         /// </summary>
         public const string VIEW_DESTINATIONS = "View Destinations";
         /// <summary>
+        /// OPERATION 'View Dispatch Allocation'
+        /// </summary>
+        public const string VIEW_DISPATCH_ALLOCATION = "View Dispatch Allocation";
+        /// <summary>
         /// OPERATION 'View draft hub allocation'
         /// </summary>
         public const string VIEW_DRAFT_HUB_ALLOCATION = "View draft hub allocation";
+        /// <summary>
+        /// OPERATION 'View Transport Requisition'
+        /// </summary>
+        public const string VIEW_TRANSPORT_REQUISITION = "View Transport Requisition";
         /// <summary>
         /// OPERATION 'View Transport Requisition Detail'
         /// </summary>

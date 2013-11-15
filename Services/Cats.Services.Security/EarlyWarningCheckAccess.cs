@@ -434,6 +434,10 @@
                 {
                     return "View Hub Assigned Requisition";
                 }
+                if ((operation == Operation.View_Need_Assessment_Detail))
+                {
+                    return "View Need Assessment Detail";
+                }
                 if ((operation == Operation.View_PC_SI_Assigned_Requisition))
                 {
                     return "View PC/SI Assigned Requisition";
@@ -1286,6 +1290,10 @@
                 /// </summary>
                 View_Hub_Assigned_Requisition,
                 /// <summary>
+                /// Operation View Need Assessment Detail
+                /// </summary>
+                View_Need_Assessment_Detail,
+                /// <summary>
                 /// Operation View PC/SI Assigned Requisition
                 /// </summary>
                 View_PC_SI_Assigned_Requisition,
@@ -1640,6 +1648,10 @@
             /// OPERATION 'View Hub Assigned Requisition'
             /// </summary>
             public const string VIEW_HUB_ASSIGNED_REQUISITION = "View Hub Assigned Requisition";
+            /// <summary>
+            /// OPERATION 'View Need Assessment Detail'
+            /// </summary>
+            public const string VIEW_NEED_ASSESSMENT_DETAIL = "View Need Assessment Detail";
             /// <summary>
             /// OPERATION 'View PC/SI Assigned Requisition'
             /// </summary>

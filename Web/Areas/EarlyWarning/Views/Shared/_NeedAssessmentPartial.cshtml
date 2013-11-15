@@ -1,14 +1,40 @@
-﻿<ul class="nav nav-list">
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+<ul class="nav nav-list">
     <li class="nav-header">Need Assessment</li>
-    <li><a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })"><i class="icon-inbox"></i>Draft Assessment</a></li>
-    <li><a href="@Url.Action("NeedAssessmentToBeApproved", "NeedAssessment", new { Area = "EarlyWarning" })"><i class="icon-check"></i>Approved Assessments</a></li>
-    <li><a href="@Url.Action("Approved","NeedAssessment",new {Area="EarlyWarning"})"><i class="icon-bullseye"></i> Completed</a></li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "NeedAssessment"),
+                        EarlyWarningCheckAccess.Operation.Create_new_needs_assessment, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("NeedAssessmentToBeApproved", "NeedAssessment", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.View_approved_needs_assesment, "<i class=\"icon-check\"></i>Approved Assessments")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Approved", "NeedAssessment", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.View_approved_needs_assesment, "<i class=\"icon-bullseye\"></i> Completed")
+    </li>
     
     <li class="nav-header">HRD</li>
-    <li><a href="@Url.Action("","",new {Area="EarlyWarning"})"><i class="icon-inbox"></i>Create HRD</a></li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("CreateHRD", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-inbox\"></i>Create HRD")
+    </li>
     
     <li class="divider"></li>
-    <li><a href="#"><i class="icon-print"></i> Print</a></li>
-    <li><a href="#"><i class="icon-share"></i> Export</a></li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("PrintNeedAssessment", "NeedAssessment", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.Print_needs_assessment, "<i class=\"icon-print\"></i> Print")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("ExportNeedAssessment", "NeedAssessment", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.Export_needs_assessment, "<i class=\"icon-share\"></i> Export")
+    </li>
 
 </ul>
