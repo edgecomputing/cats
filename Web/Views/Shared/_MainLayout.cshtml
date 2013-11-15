@@ -266,18 +266,18 @@
         }
         <script>
             //Script to generate row number
-            //$(function () {
-            //    var date = new Date();
-            //    $(".cats-datepicker2").each(function () {
+            $(function () {
+                var date = new Date();
+                $(".cats-datepicker2").each(function () {
                     
-            //        if ($(this).val() == "") {
-            //           // $(this).val(new Date().toLocaleDateString());
-            //        } else {
-            //            date = new Date(Date.parse($(this).val()));
-            //        }
-            //        $(this).val(date.toLocaleDateString());
-            //    })
-            //});
+                    if ($(this).val() == "") {
+                       // $(this).val(new Date().toLocaleDateString());
+                    } else {
+                        date = new Date(Date.parse($(this).val()));
+                    }
+                    $(this).val(date.toLocaleDateString());
+                })
+            });
             var rowNumber = 0;
 
             function resetRowNumber(e) {

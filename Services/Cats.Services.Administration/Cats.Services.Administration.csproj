@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="HubService.cs.orig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

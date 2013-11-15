@@ -9,6 +9,7 @@ namespace Cats.Models.Security.ViewModels
     public class Role
     {
         public string RoleName { get; set; }
+       
         public bool IsChecked { get; set; }
     }
 }

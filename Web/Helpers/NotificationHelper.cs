@@ -18,10 +18,15 @@ namespace Cats.Helpers
         {
             try
             {
+                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
+                var application = accountService.GetUserPermissions(user).Select(a => a.ApplicationName);
+
+              
                 var userID = UserAccountHelper.GetUser(user).UserProfileID;
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Count(n => n.IsRead == false && n.Role == userID);
+               
+                var totallUnread = notificationService.GetAllNotification().Count(n => n.IsRead == false &&  application.Contains(n.RoleName));
 
                 return totallUnread;
             }
@@ -39,13 +44,14 @@ namespace Cats.Helpers
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
               
                 var user = HttpContext.Current.User.Identity.Name;
-                var userID = UserAccountHelper.GetUser(user).UserProfileID;
+               
 
-               // var roles = accountService.GetUserRoles(user);
-
+                var application = accountService.GetUserPermissions(user).Select(a=>a.ApplicationName);
+                
+                
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Role == userID).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && application.Contains(n.RoleName)).ToList();
                 int max = 0;
 
                 max = totallUnread.Count > 5 ? 5 : totallUnread.Count;

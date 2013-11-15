@@ -396,6 +396,91 @@ namespace Cats.Services.Hub
 
         }
 
+        public List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId, string PreferedWeightMeasurment)
+        {
+            List<DispatchAllocationViewModelDto> GetUncloDetacheced = new List<DispatchAllocationViewModelDto>();
+            var unclosed =
+                _unitOfWork.DispatchAllocationRepository.Get(
+                    t => t.ShippingInstructionID.HasValue && t.ProjectCodeID.HasValue
+                         && hubId == t.HubID);
+
+
+            //if (AdminUnitId.HasValue)
+            //{
+            //    AdminUnit adminunit = _unitOfWork.AdminUnitRepository.FindById(AdminUnitId.Value);
+
+            //    if (adminunit.AdminUnitType.AdminUnitTypeID == 2)//by region
+            //        unclosed =
+            //            unclosed.Where(p => p.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == AdminUnitId.Value);
+            //    else if (adminunit.AdminUnitType.AdminUnitTypeID == 3)//by zone
+            //        unclosed =
+            //                unclosed.Where(p => p.FDP.AdminUnit.AdminUnit2.AdminUnitID == AdminUnitId.Value);
+            //    else if (adminunit.AdminUnitType.AdminUnitTypeID == 4)//by woreda
+            //        unclosed =
+            //                unclosed.Where(p => p.FDP.AdminUnit.AdminUnitID == AdminUnitId.Value);
+            //    //DAVMD.Region = adminunit.FDP.AdminUnit.AdminUnit2.AdminUnit2.;
+            //    //DAVMD.Zone = adminunit.FDP.AdminUnit.AdminUnit2.Name;
+            //    //DAVMD.Woreda = adminunit.FDP.AdminUnit.Name;
+
+            //    //unclosed = unclosed.Where(p => p.FDP.AdminUnitID == AdminUnitId.Value);
+            //}
+            //if (closedToo == null || closedToo == false)
+            //{
+            //    unclosed = unclosed.Where(p => p.IsClosed == false);
+            //}
+            //else
+            //{
+            //    unclosed = unclosed.Where(p => p.IsClosed == true);
+            //}
+
+            //if (CommodityType.HasValue)
+            //{
+            //    unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == CommodityType.Value);
+            //}
+            //else
+            //{
+            //    unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == 1);//by default
+            //}
+
+            foreach (var dispatchAllocation in unclosed)
+            {
+                var DAVMD = new DispatchAllocationViewModelDto();
+                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT" && dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
+                {
+                    DAVMD.Amount = dispatchAllocation.Amount / 10;
+                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount / 10;
+                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals / 10;
+                }
+                else
+                {
+                    DAVMD.Amount = dispatchAllocation.Amount;
+                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount;
+                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals;
+                }
+                DAVMD.DispatchAllocationID = dispatchAllocation.DispatchAllocationID;
+                DAVMD.CommodityName = dispatchAllocation.Commodity.Name;
+                DAVMD.RequisitionNo = dispatchAllocation.RequisitionNo;
+                DAVMD.BidRefNo = dispatchAllocation.BidRefNo;
+
+                DAVMD.Region = dispatchAllocation.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
+                DAVMD.Zone = dispatchAllocation.FDP.AdminUnit.AdminUnit2.Name;
+                DAVMD.Woreda = dispatchAllocation.FDP.AdminUnit.Name;
+                DAVMD.FDPName = dispatchAllocation.FDP.Name;
+                DAVMD.IsClosed = dispatchAllocation.IsClosed;
+
+
+                DAVMD.AmountInUnit = DAVMD.Amount;
+                DAVMD.DispatchedAmountInUnit = dispatchAllocation.DispatchedAmountInUnit;
+                DAVMD.RemainingQuantityInUnit = dispatchAllocation.RemainingQuantityInUnit;
+
+                GetUncloDetacheced.Add(DAVMD);
+                // db.Detach(dispatchAllocation);
+            }
+            return GetUncloDetacheced;
+
+        }
+
+      
         public List<BidRefViewModel> GetAllBidRefsForReport()
         {
             var tempDispatchAllocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.BidRefNo != string.Empty);

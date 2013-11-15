@@ -171,6 +171,8 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId, string PreferedWeightMeasurment, bool? closedToo, int? AdminUnitId, int? CommodityType);
 
+        List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId,
+                                                                                 string PreferedWeightMeasurment);
         DispatchAllocation FindById(System.Guid id);
 
         List<BidRefViewModel> GetAllBidRefsForReport();

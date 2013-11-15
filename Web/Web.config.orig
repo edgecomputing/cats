@@ -23,7 +23,7 @@
     <appender name="ADONetAppender" type="log4net.Appender.AdoNetAppender">
       <bufferSize value="100" />
       <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-      <connectionString value="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+      <connectionString value="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
       <commandText value="INSERT INTO Log ([Date],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)" />
       <parameter>
         <parameterName value="@log_date" />
@@ -71,26 +71,25 @@
     </appender>
   </log4net>
 
-<<<<<<< HEAD
-  <!--<connectionStrings>
+
+ <!--<connectionStrings>
 =======
-   <!--	<connectionStrings>
 
 
+   	<connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+</connectionStrings>
 
-  </connectionStrings>-->
 
- <connectionStrings>
->>>>>>> c3257f0f5a84baae2c74d2df57b6b2106b22a573
+  <!--
+  </connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
-<<<<<<< HEAD
   </connectionStrings>-->
 	
   <connectionStrings>
@@ -99,18 +98,8 @@
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
   </connectionStrings>
-  
-	<appSettings>
-=======
-    
-</connectionStrings> 
-
-
 
   <appSettings>
-
-
->>>>>>> c3257f0f5a84baae2c74d2df57b6b2106b22a573
     <add key="log4net.Internal.Debug" value="true" />
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
     <add key="webpages:Enabled" value="false" />

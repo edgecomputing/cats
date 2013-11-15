@@ -1509,6 +1509,7 @@
     <Content Include="Scripts\ICanHaz-no-mustache.js" />
     <Content Include="Scripts\ICanHaz.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -2382,6 +2383,7 @@
     <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
