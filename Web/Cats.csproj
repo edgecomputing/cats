@@ -2362,6 +2362,7 @@
     <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

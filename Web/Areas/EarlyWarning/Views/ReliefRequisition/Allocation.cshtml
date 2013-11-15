@@ -180,15 +180,15 @@
         }
     };
 
-    //function onBound(e) {
+    function onBound(e) {
 
-    //    var grid = $("#grid").data("kendoGrid");
-    //    $(grid.tbody).on("focus", "input", function (e) {
-    //        var input = $(this);
-    //        setTimeout(function () { input.select(); }, 100);
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
 
-    //    });
-    //}
+        });
+    }
 </script>
 <script type="text/javascript">
     $(function () {

@@ -199,9 +199,9 @@ namespace Cats.Services.EarlyWarning
 
         }
 
-        public IEnumerable<Notification> GetUnreadNotifications(int userId)
+        public IEnumerable<Notification> GetUnreadNotifications()
         {
-            var notifications = _IUnitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false && n.Role == userId);
+            var notifications = _IUnitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false);
             return notifications;
         }
 
