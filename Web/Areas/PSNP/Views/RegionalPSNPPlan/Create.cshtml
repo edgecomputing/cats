@@ -43,7 +43,13 @@
                     @Html.ValidationMessageFor(model => model.Year)
                 </div>
             </div>
-
+            <div class="control-group">
+                @Html.LabelFor(model => model.Plan, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.DropDownList("PlanId")
+                    @Html.ValidationMessageFor(model => model.Plan)
+                </div>
+            </div>
             <div class="control-group">
                 @Html.LabelFor(model => model.Region, new { @class = "control-label" })
                 <div class="controls">

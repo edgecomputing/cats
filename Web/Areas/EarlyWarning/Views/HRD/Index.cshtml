@@ -1,5 +1,6 @@
 ﻿@using Kendo.Mvc.UI
 @using Cats.Helpers
+@using LanguageHelpers.Localization
 
 @model List<Cats.Models.HRD>
 
@@ -46,7 +47,8 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("Detail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
+            columns.Bound(p => p.HRDName).Title(Translator.Translate("HRD Name")).ClientTemplate("<a href='" + Url.Action("Detail", "HRD", new { id = "#=HRDID#" }) + " '>#=HRDName#</a>  ");
+            columns.Bound(p => p.Ration).Title("Ration No");
             columns.Bound(p => p.Season);
             columns.Bound(p => p.Year);
             columns.Bound(p => p.CreatedBy);

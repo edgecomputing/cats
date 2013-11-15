@@ -208,6 +208,61 @@ namespace Cats.Services.EarlyWarning
 
         }
 
+
+
+        public void AddNeedAssessment(int planID, int regionID, int seasonID, int userID, int needAssessmentTypeID)
+        {
+            List<AdminUnit> zones = _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == regionID).ToList();
+            NeedAssessmentDetail detail = null;
+            var needAssessment = new NeedAssessment
+                {
+                    PlanID = planID,
+                    Region = regionID,
+                    Season = seasonID,
+                    NeddACreatedBy = userID,
+                    NeedAApprovedBy = userID,
+                    TypeOfNeedAssessment = needAssessmentTypeID,
+                    NeedAApproved = false,
+                    NeedADate = DateTime.Now
+                };
+            _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
+            foreach (var adminUnit in zones)
+            {
+                var needAssessmentHeader = new NeedAssessmentHeader()
+                    {
+                        Zone = adminUnit.AdminUnitID,
+                        NeedAssessment = needAssessment
+                    };
+                _unitOfWork.NeedAssessmentHeaderRepository.Add(needAssessmentHeader);
+
+                var woredas = _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == needAssessmentHeader.Zone).ToList();
+
+                foreach (var woreda in woredas)
+                {
+                    detail = new NeedAssessmentDetail
+                    {
+                        //NeedAId = needAssessmentHeader.NAHeaderId,
+                        NeedAssessmentHeader = needAssessmentHeader,
+                        Woreda = woreda.AdminUnitID,
+                        ProjectedMale = 0,
+                        ProjectedFemale = 0,
+                        RegularPSNP = 0,
+                        PSNP = 0,
+                        NonPSNP = 0,
+                        Contingencybudget = 0,
+                        TotalBeneficiaries = 0,
+                        PSNPFromWoredasMale = 0,
+                        PSNPFromWoredasFemale = 0,
+                        PSNPFromWoredasDOA = 0,
+                        NonPSNPFromWoredasMale = 0,
+                        NonPSNPFromWoredasFemale = 0,
+                        NonPSNPFromWoredasDOA = 0
+                    };
+                    _unitOfWork.NeedAssessmentDetailRepository.Add(detail);
+                }
+            }
+            _unitOfWork.Save();
+        }
     }
 }
 

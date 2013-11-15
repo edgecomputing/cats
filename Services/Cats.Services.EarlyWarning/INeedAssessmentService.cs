@@ -27,6 +27,8 @@ namespace Cats.Services.EarlyWarning
         List<NeedAssessmentDao> GetListOfZones();
         List<NeedAssessmentWoredaDao> GetListOfWoredas(int zoneId);
          bool GenerateDefefaultData(NeedAssessment needAssessment);
+        void AddNeedAssessment(int planID, int regionID, int seasonID, int userID, int needAssessmentTypeID);
+        
         IOrderedEnumerable<RegionsViewModel> GetRegions();
         IOrderedEnumerable<RegionsViewModel> GetZoness(int region);
         //IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved();

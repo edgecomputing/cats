@@ -7,13 +7,21 @@ using System.Web.Mvc;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+
 using log4net;
+
 using Cats.Helpers;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
+using IHubService = Cats.Services.EarlyWarning.IHubService;
+
+
 namespace Cats.Areas.Logistics.Controllers
 {
     public class DispatchAllocationController : Controller
@@ -28,10 +36,13 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IAdminUnitService _adminUnitService;
         private readonly INeedAssessmentService _needAssessmentService;
         private readonly IAllocationByRegionService _AllocationByRegionService;
-
+        private readonly INotificationService _notificationService;
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
-        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log, IAllocationByRegionService allocationByRegionService)
+
+
+        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log, IAllocationByRegionService allocationByRegionService, INotificationService notification)
+
         {
             _reliefRequisitionService = reliefRequisitionService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
@@ -42,47 +53,61 @@ namespace Cats.Areas.Logistics.Controllers
             _userAccountService = userAccountService;
             _log = log;
             _AllocationByRegionService = allocationByRegionService;
+            _notificationService = notification;
         }
 
 
+      
+
         public ActionResult Index(int regionId=-1)
         {
-            
+
+           
+            //var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            //hubContext.Clients.All.receiveNotification("this is a sample data");
+
             ViewBag.regionId = regionId;
             ViewBag.Region = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             return View();
         }
-
-        #region "test"
-
-        public ActionResult Main()
+        public ActionResult AllocationAdjustment(int requisitionId)
         {
-            return View();
+            var requisition = _reliefRequisitionService.FindById(requisitionId);
+            var data = new List<int> {requisitionId, requisition.RegionID.Value};
+            return View(data);
         }
+       
+        //#region "test"
 
-        [HttpGet]
-        public JsonResult HubAllocationByRegion(int regionId = -1)
-        {
-            List<AllocationByRegion> requisititions = null;
-            requisititions = regionId != -1 ? _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+        //public ActionResult Main()
+        //{
+        //    return View();
+        //}
 
-            var requisitionViewModel = BindAllocation(requisititions);// HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+        //[HttpGet]
+        //public JsonResult HubAllocationByRegion(int regionId = -1)
+        //{
+        //    List<AllocationByRegion> requisititions = null;
+        //    requisititions = regionId != -1 ? _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
 
-            return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
-        }
+        //    var requisitionViewModel = BindAllocation(requisititions);// HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
 
-
-        public JsonResult AllocatedProjectCode(int regionId = -1)
-        {
-            List<ReliefRequisition> requisititions = null;
-            requisititions = regionId != -1 ? _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId) : _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
-
-            var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
-            return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
+        //}
 
 
-        #endregion
+        //public JsonResult AllocatedProjectCode(int regionId = -1,int status=-1)
+        //{
+        //    if (regionId < 0 || status < 0) return Json(new List<RequisitionViewModel>(), JsonRequestBehavior.AllowGet);
+        //    var requisititions = new List<ReliefRequisition>();
+        //    requisititions = _reliefRequisitionService.FindBy(r => r.Status == status && r.RegionID == regionId);
+
+        //    var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
+        //    return Json(requisitionViewModel,JsonRequestBehavior.AllowGet);
+        //}
+
+
+        //#endregion
 
         public ActionResult GetRegions()
         {
@@ -103,18 +128,28 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(requisitionViewModel.ToDataSourceResult(request));
         }
 
-        public ActionResult AllocateProjectCode([DataSourceRequest]DataSourceRequest request, int regionId)
+        public ActionResult AllocateProjectCode([DataSourceRequest]DataSourceRequest request, int regionId,int status)
         {
             List<ReliefRequisition> requisititions = null;
-            requisititions = regionId != -1
-                                 ? _reliefRequisitionService.FindBy(
-                                     r =>
-                                     r.Status == (int) ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId)
-                                 : null;// _reliefRequisitionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            if (regionId == -1 || status == -1) return Json((new List<RequisitionViewModel>()).ToDataSourceResult(request));
+            requisititions = _reliefRequisitionService.FindBy(
+                r =>
+                r.Status == status && r.RegionID == regionId);
+                                 
             
             var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
             return Json(requisitionViewModel.ToDataSourceResult(request));
         }
+
+
+        public ActionResult IndexFromNotification(int paramRegionId, int recordId)
+        {
+            ViewBag.regionId = paramRegionId;
+            NotificationHelper.MakeNotificationRead(recordId);
+            return RedirectToAction("Hub", new { regionId = paramRegionId });
+
+        }
+
 
         public ActionResult Hub(int regionId)
         {
@@ -160,6 +195,7 @@ namespace Cats.Areas.Logistics.Controllers
                      
 
                      _HubAllocationService.AddHubAllocation(newHubAllocation);
+                     AddNotification(newHubAllocation.HubAllocationID);
                  }
                 
                  return Json(new { success = true });
@@ -171,6 +207,29 @@ namespace Cats.Areas.Logistics.Controllers
              }
            
         }
+
+        private void AddNotification(int hubAllocationId)
+        {
+            if (Request.Url != null)
+            {
+                var notification = new Notification
+                                       {
+                                           Text = "Hub Allocation",
+                                           CreatedDate = DateTime.Now.Date,
+                                           IsRead = false,
+                                           Role = 2,
+                                           RecordId = hubAllocationId,
+                                           Url = Request.Url.AbsoluteUri,
+                                           TypeOfNotification = "Hub Allocation"
+                                       };
+
+                _notificationService.AddNotification(notification);
+
+            }
+
+
+        }
+
         public ActionResult RegionId(int id)
         {
            return RedirectToAction("Index", new {regionId = id});

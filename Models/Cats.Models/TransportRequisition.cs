@@ -16,12 +16,16 @@ namespace Cats.Models
         }
 
         public int TransportRequisitionID { get; set; }
+        [Display(Name="Transport Requisition No")]
         public string TransportRequisitionNo { get; set; }
         public int RegionID { get; set; }
         public int ProgramID { get; set; }
+        [Display(Name="Requested By")]
         public int RequestedBy { get; set; }
+        [Display(Name="Requested Date")]
         public System.DateTime RequestedDate { get; set; }
         public int CertifiedBy { get; set; }
+        [Display(Name="Certified Date")]
         public System.DateTime CertifiedDate { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }

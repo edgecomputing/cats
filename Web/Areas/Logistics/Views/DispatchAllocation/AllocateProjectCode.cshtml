@@ -1,11 +1,14 @@
 ﻿
-@model int?
+@model List<int?>
 @using Kendo.Mvc.UI
 @using Cats.Helpers
 
+@{
+    var gridid = Guid.NewGuid().ToString();
+}
 
 @(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
-    .Name("ProjectCodegrid")
+    .Name("ProjectCodegrid" +gridid)
     .Columns(columns =>
     {
         columns.Bound(e => e.RequisitionNo).Width(100).Title("Requisition No");
@@ -14,10 +17,11 @@
         columns.Bound(e => e.Amount).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal; ", title = "Amount Allocated" ,@class = "cats-unit-pref-grid"}).Format("{0:N2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
         columns.Bound(e => e.RequisitionDate).Width(80);
         columns.Bound(e => e.BenficiaryNo).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Benficiary No" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
+       
     })
     .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation",new {regionId = @Model}))
+        .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation",new {regionId = Model[0],status=Model[1]}))
        
         .PageSize(5)
      )

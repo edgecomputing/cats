@@ -22,9 +22,9 @@ namespace Cats.Services.Logistics
                    Expression<Func<TransportRequisition, bool>> filter = null,
                    Func<IQueryable<TransportRequisition>, IOrderedQueryable<TransportRequisition>> orderBy = null,
                    string includeProperties = "");
-        TransportRequisition CreateTransportRequisition(List<int> reliefRequisitions);
+        bool CreateTransportRequisition(List<List<int>> reliefRequisitions,int requestedBy);
         IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
-        bool ApproveTransportRequisition(int id);
+        bool ApproveTransportRequisition(int id,int approvedBy);
         List<RequisitionToDispatch> GetTransportRequisitionDetail(List<int> requIds);
     }
 }

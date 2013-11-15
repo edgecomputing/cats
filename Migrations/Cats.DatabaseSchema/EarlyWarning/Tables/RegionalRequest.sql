@@ -11,8 +11,8 @@
     [Status]            INT            NULL,
     CONSTRAINT [PK_RegionalRequest] PRIMARY KEY CLUSTERED ([RegionalRequestID] ASC),
     CONSTRAINT [FK_RegionalRequest_AdminUnit] FOREIGN KEY ([RegionID]) REFERENCES [dbo].[AdminUnit] ([AdminUnitID]),
-    CONSTRAINT [FK_RegionalRequest_Program] FOREIGN KEY ([ProgramID]) REFERENCES [dbo].[Program] ([ProgramID]),
-    --CONSTRAINT [FK_RegionalRequest_Ration] FOREIGN KEY ([RationID]) REFERENCES [dbo].[Ration] ([RationID])
+    CONSTRAINT [FK_RegionalRequest_Program] FOREIGN KEY ([ProgramID]) REFERENCES [dbo].[Program] ([ProgramID])
+    CONSTRAINT [FK_RegionalRequest_Ration] FOREIGN KEY ([RationID]) REFERENCES [dbo].[Ration] ([RationID])
 );
 
 

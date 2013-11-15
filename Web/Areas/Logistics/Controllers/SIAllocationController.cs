@@ -165,6 +165,15 @@ namespace Cats.Areas.Logistics.Controllers
           //  list = getIndexList(regionId);/**/
             return Json(list, JsonRequestBehavior.AllowGet); 
         }
+        public JsonResult updateRequisitionStatus(int regionId,int requisitionId)
+        {
+            ReliefRequisition req = _requisitionService.FindById(requisitionId);
+            req.Status = 4;
+            _requisitionService.EditReliefRequisition(req);
+            List<RequestAllocationViewModel> list = getIndexList(regionId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult http_getSIPCLists(int reqId, int CommodityID)
         {
             var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
@@ -174,5 +183,6 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(free, JsonRequestBehavior.AllowGet);
         }
 
+        
     }
 }

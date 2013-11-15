@@ -5,9 +5,6 @@
   -->
 <configuration>
   <configSections>
-    <!--
-    log4mehowt 
-      -->
     <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler,Log4net" />
     <sectionGroup name="elmah">
       <section name="security" requirePermission="false" type="Elmah.SecuritySectionHandler, Elmah" />
@@ -26,7 +23,7 @@
     <appender name="ADONetAppender" type="log4net.Appender.AdoNetAppender">
       <bufferSize value="100" />
       <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-      <connectionString value="Data Source=10.24.65.244;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+      <connectionString value="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
       <commandText value="INSERT INTO Log ([Date],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)" />
       <parameter>
         <parameterName value="@log_date" />
@@ -73,28 +70,29 @@
       </parameter>
     </appender>
   </log4net>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0912bee109d4772a17086d9e61b86acc515a31e9
   <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-  </connectionStrings>
-
 <<<<<<< HEAD
-  <!--<connectionStrings>
+  </connectionStrings>
+	<!--
+  <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
-  </connectionStrings>-->
-
-
+    </connectionStrings> -->
   
 =======
- 
->>>>>>> 89866417e7f28c991106dbfdd469bc6cb0271a1c
-  <appSettings>
+ </connectionStrings> 
+>>>>>>> 0912bee109d4772a17086d9e61b86acc515a31e9
+	<appSettings>
     <add key="log4net.Internal.Debug" value="true" />
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
     <add key="webpages:Enabled" value="false" />
@@ -110,7 +108,6 @@
     <add key="elmah.mvc.route" value="elmah" />
   </appSettings>
   <system.web>
-
     <httpModules>
       <add name="ErrorLog" type="Elmah.ErrorLogModule, Elmah" />
       <add name="ErrorMail" type="Elmah.ErrorMailModule, Elmah" />
@@ -139,12 +136,9 @@
     <authentication mode="Forms">
       <forms loginUrl="~/Login" timeout="2880" name="Authen" />
     </authentication>
-
     <authorization>
-      <deny users="?"/>
+      <deny users="?" />
     </authorization>
-   
-
     <machineKey decryptionKey="A225194E99BCCB0F6B92BC9D82F12C2907BD07CF069BC8B4" validationKey="6FA5B7DB89076816248243B8FD7336CCA360DAF8" />
     <!--<customErrors mode="On" defaultRedirect="~/Error">
       <error redirect="~/Error" statusCode="400"/>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using log4net;
 using Cats.Data.UnitWork;
 using Cats.Helpers;
@@ -31,7 +33,9 @@ namespace Cats.ViewModelBinder
                 NeedACreaterName = need.UserProfile1.UserName,
                 NeedACreatedBy = need.NeddACreatedBy,
                 TypeOfNeedAssessment = need.TypeOfNeedAssessment1.TypeOfNeedAssessmentID,
-                Date = need.NeedADate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
+                Date = need.NeedADate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                IsApproved = (bool) need.NeedAApproved
+               
             });
         }
         public static IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved(List<NeedAssessment> needAssessmentMain)
@@ -120,6 +124,24 @@ namespace Cats.ViewModelBinder
                 NonPSNPFromWoredasDOA = viewModel.NonPSNPFromWoredasDOA,
 
             }).ToList();
+        }
+        public static IEnumerable<NeedAssessmentPlanViewModel> GetNeedAssessmentPlanInfo(IEnumerable<Plan> plans, List<WorkflowStatus> statuses)
+        {
+            
+            return plans.Select(viewModel => new NeedAssessmentPlanViewModel
+                {
+                    AssessmentName = viewModel.PlanName,
+                    PlanID = viewModel.PlanID,
+                    //NeedAssessmentID = viewModel.NeedAssessments.First().NeedAID,
+                    StartDate = viewModel.StartDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                    EndDate = viewModel.EndDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                    StatuID = viewModel.Status,
+                    //Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.Plan && t.StatusID == viewModel.Status).Description
+                    //Year = (int) viewModel.NeedAssessments.First().Year
+
+                });
+
+
         }
     }
 }

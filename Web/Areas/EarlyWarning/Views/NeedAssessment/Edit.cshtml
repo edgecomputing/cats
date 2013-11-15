@@ -107,22 +107,7 @@
             setTimeout(function () { input.select(); },100);
         });
         
-        $(grid.tbody).on("change", "td", function (e) {
-
-            var row = $(this).closest("tr");
-            var rowIdx = $("tr", grid.tbody).index(row);
-            var kendoRow = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
-            var psnpBeneficiaries = kendoRow.get('PSNP');
-            var nonPsnpBeneficiaries = kendoRow.get('NonPSNP');
-            var contigency = kendoRow.get('Contingencybudget');
-            var woreda = kendoRow.get('WoredaName');
-            alert(woreda);
-            //alert(nonPsnpBeneficiaries.toString());
-            var total = psnpBeneficiaries + nonPsnpBeneficiaries;
-            kendoRow.set('Total', total);
-            kendoRow.set('TotalBeneficiaries', total - contigency);
-        }
-        );
+       
     }
    
     

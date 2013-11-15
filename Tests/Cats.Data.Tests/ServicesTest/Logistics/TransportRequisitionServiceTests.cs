@@ -314,19 +314,22 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         [Test]
         public void ShouldCreateTransportRequision()
         {
+            //Arrange
+            var reqList = new List<List<int>>();
+            reqList.Add(_reliefRequisitions);
             //Act
-            var result = _transportRequisitionService.CreateTransportRequisition(_reliefRequisitions);
+            var result = _transportRequisitionService.CreateTransportRequisition(reqList,1);
             //Assert
-            Assert.IsInstanceOf<TransportRequisition>(result);
+            Assert.IsTrue(result);
         }
 
         [Test]
         public void SholdNotCreateTransportRequisitionIfNoReliefRequisition()
         {
             //Act
-            var result = _transportRequisitionService.CreateTransportRequisition(new List<int>());
+            var result = _transportRequisitionService.CreateTransportRequisition(new List<List<int>>(),1);
             //Assert
-            Assert.IsNull(result);
+            Assert.False(result);
         }
 
 
@@ -359,7 +362,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         {
             //Act
 
-            var result = _transportRequisitionService.ApproveTransportRequisition(1);
+            var result = _transportRequisitionService.ApproveTransportRequisition(1,1);
 
             //Assert
             var status = _transportRequisition.Status;
