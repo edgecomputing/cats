@@ -7,6 +7,7 @@ using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using log4net;
@@ -49,7 +50,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         //
         // GET: /EarlyWarning/NeedAssessment/
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment)]
         public ActionResult Index()
         {
 
