@@ -74,6 +74,7 @@
     <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
+    <Compile Include="Constant\Application.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />
     <Compile Include="MetaData\PlanMetaData.cs" />
     <Compile Include="Notification.cs" />

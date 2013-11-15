@@ -61,6 +61,8 @@ namespace Cats.Services.Common
         {
             return _unitOfWork.NotificationRepository.FindBy(predicate);
         }
+
+      
         #endregion
 
 
