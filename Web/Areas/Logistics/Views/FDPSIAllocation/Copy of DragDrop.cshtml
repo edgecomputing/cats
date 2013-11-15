@@ -1,0 +1,290 @@
+﻿@using Cats.Services.Security
+@using Cats.Helpers;
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Hub Allocated Requesitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+   
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+<div id="debug2"></div>
+}
+@section Toolbar
+{
+
+    <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
+}
+
+<fieldset>
+    <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
+   
+</fieldset>
+
+<script src="~/Scripts/angular/angular-dragdrop.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui.min.js"> </script>
+<div id="debug" style="display:none;">deb</div>
+
+<div ng-app="drag-and-drop">
+
+    <div ng-controller="oneCtrl">
+        <div>
+
+            <div style="border: solid 1px #00a;" class="span4">
+                 <div style="height:30px; background:#EEE;" data-drop="true" ng-model='list1' data-jqyoui-options="optionsList2" jqyoui-droppable="{multiple:true}"">
+                        <b>Requisitions</b>
+                </div>
+                <div data-index="{{zone.id}}" ng-repeat="zone in requests" class="list-zone btn-draggable" ng-model="unallocated" data-drag="1" 
+                    data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{zone.id}},placeholder:'keep',animate:true, onStart:'startCallback(zone, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}" ng-hide="zone.allocated">
+                   
+                     <div class="admin-list">{{zone.name}} [{{zone.requestedAmount}}]</div>
+                    
+                    <div data-index="{{woreda.id}}" ng-repeat="woreda in zone.woredas" class="list-woreda btn-draggable" ng-model="unallocated" data-drag="1" 
+                        data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{woreda.index}},placeholder:'keep',animate:true, onStart:'startCallback(woreda, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}" ng-hide="woreda.allocated">
+                        <div class="admin-list">
+                            {{woreda.name}} [{{woreda.requestedAmount}}]
+
+                        </div>
+                        <div class="list-fdp" ng-repeat="fdp in woreda.fdps">
+                            <div data-allocated="0" data-index="{{fdp.index}}" class="admin-list btn-draggable" ng-model="unallocated" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" 
+                                jqyoui-draggable="{index: {{fdp.id}},placeholder:'keep',animate:true, onStart:'startCallback(fdp, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}"
+                                 ng-hide="fdp.allocated">
+                                {{fdp.name}} [{{fdp.requestedAmount}}]
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="span4">
+            <div style="padding:5px;">  
+                 
+                <div>SI-10034</div>
+            <div  style="border: solid 1px #CCC; height: 100px;" data-drop="true" ng-model='list1' data-id="si-001"  data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
+                <ul class="nav nav-list ">
+                    <li class="btn-draggable" data-allocated="1" ng-repeat="item in list1" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}" >
+                        <a href="#dropdowns"><i class="icon-chevron-right"></i><span>{{item.allocated}} {{item.name}}</span></a></li>
+                </ul>
+
+            </div>
+                </div> 
+                <div style="padding:5px;"> 
+                    <div>SI-10044</div>
+            <div  style="border: solid 1px #CCC; height: 100px;" data-drop="true" ng-model='allocations.si002' id="si002" data-id="si-002"  data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
+                <ul class="nav nav-list ">
+                    <li class="btn-draggable" data-allocated="1" ng-repeat="item in allocations.si002" data-drag="1" data-jqyoui-options="{revert: 'invalid'}"  jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}" >
+                        <a href="#dropdowns"><i class="icon-chevron-right"></i><span>{{item.allocated}} {{item.name}}</span></a></li>
+                </ul>
+
+            </div>
+                     </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var App = angular.module('drag-and-drop', ['ngDragDrop']);
+
+    App.controller('oneCtrl', function ($scope, $timeout) {
+        $scope.list1 = [];
+        $scope.list2 = [];
+        $scope.list3 = [];
+        $scope.list4 = [];
+        $scope.unallocated = [];
+        $scope.allocations = { "si001": [], "si002": [] };
+        $scope.list5 = [
+          { 'title': 'Item 1', 'drag': true },
+          { 'title': 'Item 2', 'drag': true },
+          { 'title': 'Item 3', 'drag': true },
+          { 'title': 'Item 4', 'drag': true },
+          { 'title': 'Item 5', 'drag': true },
+          { 'title': 'Item 6', 'drag': true },
+          { 'title': 'Item 7', 'drag': true },
+          { 'title': 'Item 8', 'drag': true }
+        ];
+        $scope.fdps = [];
+        $scope.allAdminRegions = [];
+        $scope.initUi = function () {
+            var i = 0;
+            for (var z in $scope.requests) {
+                $scope.addItemToList($scope.requests[z]);
+                for (var w in $scope.requests[z].woredas) {
+                    var woreda = $scope.requests[z].woredas[w];
+                    $scope.addItemToList(woreda);
+                    for (var f in woreda.fdps) {
+                        $scope.addItemToList(woreda.fdps[f]);
+                    }
+                }
+            }
+        };
+        $scope.addItemToList = function (item) {
+            item.id = $scope.unallocated.length;
+            item.index = $scope.unallocated.length;
+            $scope.unallocated.push(item);
+            $scope.allAdminRegions.push(item);
+            item.allocated = 0;
+        };
+        $scope.refreshList = function () {
+            for (var i in $scope.fdps) {
+                $scope.fdps[i].index = i;
+
+            }
+        };
+        $scope.requests = [
+                {
+                    name: "Zone1", requestedAmount: 200,
+                    woredas:
+                     [
+                         {
+                             name: "Worda 1", requestedAmount: 100,
+                             fdps:
+                                 [
+                                     { name: "FDP11", requestedAmount: 20 }
+                                     , { name: "FDP12", requestedAmount: 30 }
+                                     , { name: "FDP13", requestedAmount: 50 }
+                                 ]
+                         }
+                     , {
+                         name: "Worda 2", requestedAmount: 100,
+                         fdps:
+                         [
+                             { name: "FDP21", requestedAmount: 20 }
+                             , { name: "FDP22", requestedAmount: 30 }
+                             , { name: "FDP23", requestedAmount: 50 }
+                         ]
+                     }
+
+                     ]
+                }
+                , {
+                    name: "Zone2", requestedAmount: 100,
+                    woredas:
+                    [
+                        {
+                            name: "Worda 2", requestedAmount: 100,
+                            fdps:
+                                [
+                                    { name: "FDP11", requestedAmount: 20 }
+                                    , { name: "FDP12", requestedAmount: 30 }
+                                    , { name: "FDP13", requestedAmount: 50 }
+                                ]
+                        }
+                    ]
+                }
+        ];
+        $scope.initUi();
+
+
+        $scope.startCallback = function (event, ui, item) {
+            console.log('You started draggin: ' + item.name);
+            $scope.draggedItem = item;
+            if (item.requestedAmount > 30) {
+                $("#si002").css("visibility", "hidden");
+            }
+            else {
+                $("#si002").css("visibility", "visible");
+            }
+        };
+
+        $scope.stopCallback = function (event, ui) {
+            console.log('Why did you stop draggin me?');
+            $("#si002").css("visibility", "visible");
+        };
+
+        $scope.dragCallback = function (event, ui) {
+            // console.log('hey, look I`m flying');
+        };
+
+        $scope.dropCallback = function (event, ui) {
+            var index = $scope.draggedItem.index;
+            $scope.allAdminRegions[index].allocated = 1;
+            $scope.refreshList();
+            var target = $(event.target).data("id");
+            console.log('hey, you dumped on ' + target + ' :-(', event);
+        };
+        $scope.overCallback = function (event, ui) {
+            console.log('Look, I`m over you');
+        };
+
+        $scope.outCallback = function (event, ui) {
+            console.log('I`m not, hehe');
+        };
+        $scope.on_drop_on_allocation = function (item) {
+            $("#debug2").html("droped");
+            if (item) {
+
+                $("#debug2").html(item);
+                //item.allocated = 1;
+            }
+        };
+        $scope.optionsList1 = {
+            accept: function (dragEl) {
+                if (dragEl.data("allocated")) {
+                    return false;
+                }
+                return true;
+            }
+        };
+
+        // Limit items to be dropped in list1
+        $scope.optionsList2 = {
+            accept: function (dragEl) {
+                $("#debug").html("Reset " + dragEl.data("allocated"));
+                return false;
+                var ret = false;
+                if (dragEl.data("index") && $scope.allAdminRegions[dragEl.data("index")].allocated) {
+                    var msg = $("#debug").html();
+
+                    $("#debug").html(msg + " --- back " + dragEl.data("index"));
+                    $scope.allAdminRegions[dragEl.data("index")].allocated = 0;
+                    $scope.refreshList();
+                    ret = true;
+                }
+                return ret;
+
+
+            }
+        };
+    });
+
+</script>
+
+
+<style>
+    .list-zone
+    {
+        padding-left: 0px;
+        font-size: 14px;
+    }
+
+    .list-woreda
+    {
+        padding-left: 20px;
+    }
+
+    .list-fdp
+    {
+        padding-left: 40px;
+    }
+
+    .admin-list
+    {
+        line-height: 30px;
+        padding-left: 5px;
+    }
+
+        .admin-list:hover
+        {
+            background: #EEE;
+        }
+</style>
