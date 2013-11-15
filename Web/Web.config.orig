@@ -70,29 +70,47 @@
       </parameter>
     </appender>
   </log4net>
-<<<<<<< HEAD
-=======
 
->>>>>>> 0912bee109d4772a17086d9e61b86acc515a31e9
+<<<<<<< HEAD
+  <!--<connectionStrings>
+=======
+   <!--	<connectionStrings>
+
+
+    <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+
+  </connectionStrings>-->
+
+ <connectionStrings>
+>>>>>>> c3257f0f5a84baae2c74d2df57b6b2106b22a573
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+<<<<<<< HEAD
+  </connectionStrings>-->
+	
   <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-<<<<<<< HEAD
   </connectionStrings>
-	<!--
-  <connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
-    </connectionStrings> -->
   
-=======
- </connectionStrings> 
->>>>>>> 0912bee109d4772a17086d9e61b86acc515a31e9
 	<appSettings>
+=======
+    
+</connectionStrings> 
+
+
+
+  <appSettings>
+
+
+>>>>>>> c3257f0f5a84baae2c74d2df57b6b2106b22a573
     <add key="log4net.Internal.Debug" value="true" />
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
     <add key="webpages:Enabled" value="false" />
@@ -197,6 +215,14 @@
       <dependentAssembly>
         <assemblyIdentity name="System.Web.WebPages" publicKeyToken="31bf3856ad364e35" />
         <bindingRedirect oldVersion="0.0.0.0-2.0.0.0" newVersion="2.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-2.0.1.0" newVersion="2.0.1.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-2.0.1.0" newVersion="2.0.1.0" />
       </dependentAssembly>
     </assemblyBinding>
   </runtime>
