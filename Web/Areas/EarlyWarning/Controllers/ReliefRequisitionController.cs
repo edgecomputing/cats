@@ -221,7 +221,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 
                 var notification = new Notification
                 {
-                    Text = "Approved Requistion",
+                    Text = "Approved Requistion" + requisitioNo ,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
                     Role = 1,

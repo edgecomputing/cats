@@ -1,0 +1,56 @@
+﻿
+@using LanguageHelpers.Localization
+@model Cats.Areas.EarlyWarning.Models.PlanWithHRDViewModel
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail</h2>
+<div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Plan Name"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Plan.PlanName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Program"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Plan.Program.Name)
+                </div>
+            </div>
+
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Plan.StartDate,Translator.Translate("From Date"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Plan.StartDate)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Plan.EndDate,Translator.Translate("TO Date"))
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.Plan.EndDate)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Plan.Remark)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextAreaFor(m=>m.Plan.Remark)
+                </div>
+        
+            </div>
+        </div>

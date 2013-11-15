@@ -45,7 +45,7 @@
                             @Html.LabelFor(m => m.Year,"Year (Specified in GC)")
                         </div>
                         <div class="controls">
-                            @Html.Editor("Year")
+                            @Html.TextBox("Year")
                             @Html.ValidationMessageFor(m=>m.Year)
                             @if(@ViewBag.Error!=null)
                             {

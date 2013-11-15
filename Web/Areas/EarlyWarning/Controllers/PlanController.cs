@@ -22,11 +22,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IPlanService _hrdPlanService;
         private IUserAccountService _userAccountService;
         private ICommonService _commonService;
-        public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService,ICommonService commonService)
+        private INeedAssessmentService _needAssessmentService;
+        private IHRDService _hrdService;
+        public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService,
+                              ICommonService commonService,INeedAssessmentService needAssessmentService,IHRDService hrdService)
         {
             _hrdPlanService = hrdPlanService;
             _userAccountService = userAccountService;
             _commonService = commonService;
+            _needAssessmentService = needAssessmentService;
         }
         public ActionResult Index()
         {
@@ -76,6 +80,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 return RedirectToAction("Index");
 
             }
+            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
             return View(plan);
         }
         public ActionResult Edit(int id)
@@ -86,6 +91,21 @@ namespace Cats.Areas.EarlyWarning.Controllers
               
             }
             return View ();
+        }
+        public ActionResult Detail(int id)
+        {
+            var plan = _hrdPlanService.FindById(id);
+
+            var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == plan.PlanID).ToList();
+            var hrd = _hrdService.FindBy(m => m.PlanID == plan.PlanID).ToList();
+            var planWithHrdViewModel = new PlanWithHRDViewModel()
+                {
+                    Plan = plan,
+                    HRDs = hrd,
+                    NeedAssessments = needAssessment
+                };
+
+            return View(planWithHrdViewModel);
         }
     }
 }

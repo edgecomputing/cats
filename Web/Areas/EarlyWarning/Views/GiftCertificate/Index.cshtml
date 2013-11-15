@@ -1,4 +1,5 @@
 ﻿@using Cats.Helpers
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @model IEnumerable<Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel>
@@ -14,11 +15,13 @@
 {
 @Html.Partial("_giftLeftBar")}
 
-    <h4>
+    <h4 class="page-header">
         @Translator.Translate(ViewBag.Title)</h4>
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "GiftCertificate")"></a>
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Create", "GiftCertificate", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.New_Gift_Certificate, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
 }
  
       
@@ -38,13 +41,19 @@
                         
     @if(item.StatusID ==1)
     {
-        <a href="@Url.Action("Edit", new { id = item.GiftCertificateID })" ><i class="icon-edit-sign"></i> Edit</a>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Edit", new { id = item.GiftCertificateID }),
+                        EarlyWarningCheckAccess.Operation.Edit_Gift_Certificate, "<i class=\"icon-edit-sign\"></i> Edit")
         <i> </i>
-         <a id="btnApprove" class="btn-Approve-Gift" href="@Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID })"><i class="icon-ok"></i> Approve </a>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID }),
+                        EarlyWarningCheckAccess.Operation.Approve_Gift_Certeficate, "<i class=\"icon-ok\"></i> Approve", "btn-Approve-Gift", "", "btnApprove")
     }
     else
     {
-        <a class="btn-Print-gift" href="@Url.Action("GenerateTemplate", new { id = item.GiftCertificateID })"  ><i class="icon-print"></i> </a>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("GenerateTemplate", new { id = item.GiftCertificateID }),
+                        EarlyWarningCheckAccess.Operation.Generate_Gift_Certificate_Template, "<i class=\"icon-print\"></i>", "btn-Print-gift")
     }
     </text>
 

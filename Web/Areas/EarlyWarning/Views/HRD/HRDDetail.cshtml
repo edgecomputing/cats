@@ -29,7 +29,33 @@
     <h4>HRD Detail for @ViewBag.SeasonID @ViewBag.Year</h4>
    
 </div>
+ <div class="control-group form-horizontal well">
+     <div class="row">
+         <div class="span4">
+         <div class="control-group">
+             <div class="control-label">
+                 @Html.Label(Translator.Translate("Ration"))
+             </div>
+             <div class="controls">
+                 @Html.TextBoxFor(m=>m.Ration.RefrenceNumber)
+             </div>
 
+         </div>
+     </div>
+         <div class="span6">
+             <div class="control-group">
+                 <div class="control-label">
+                     @Html.Label(Translator.Translate("Year"))
+                 </div>
+                 <div class="controls">
+                     @Html.TextBoxFor(m=>m.Year)
+                 </div>
+
+             </div>
+         </div>
+     
+     </div>
+     </div>
 
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
 .Name("grid").Columns(columns =>
@@ -58,10 +84,14 @@
       .Sortable()
      .HtmlAttributes(new { style = "height: 450px" })
       .Navigatable()
-      .Filterable()
       .DataSource(datasource=>datasource
       .Ajax()
-       //.PageSize(15)
+       .Group(group =>
+           {
+               group.Add(m => m.Region);
+               group.Add(m => m.Zone);
+           })
+              //.PageSize(15)
       .Events(events => events.Error("error_handler"))
        .Events(events => events.Change("onGridKeydown"))
        .Model(model =>

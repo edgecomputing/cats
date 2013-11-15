@@ -1,0 +1,19 @@
+﻿@model List<int>
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@using(Html.BeginForm())
+{
+    <input type="hidden" value="@Model[0]" name="requisitionId"/>
+    <input type="hidden" value="@Model[1]" name="regionId"/>
+    <div class="row-fluid">
+        <h4 >@Translator.Translate("Are you sure, you want to adjust SI/Project Allocation?")</h4>
+        <article>
+            @Translator.Translate("If you press yes,allocated SI/Project code for this requisition will be descarded.")
+        </article>
+    </div>
+    <input class="btn btn-primary" type="submit" value="Yes"/>
+    <a  class="btn "href="@Url.Action("Index","DispatchAllocation",new {Area="Logistics",regionId=Model[1]})">No</a>
+}
