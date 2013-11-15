@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Cats.Helpers;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
 using Cats.Models.ViewModels;
 using Cats.Services.Common;
+using Cats.Services.Security;
+using Kendo.Mvc.Extensions;
 
 
 namespace Cats.Controllers
@@ -15,9 +18,12 @@ namespace Cats.Controllers
         private readonly IDashboardService _IDashboardService;
         private readonly  INeedAssessmentSummaryService _INeedAssessmentSummaryService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
-
-        public DashboardController()
+        private readonly IUserAccountService _userAccountService;
+        private readonly INotificationService _notificationService;
+        public DashboardController(INotificationService notificationService, IUserAccountService userAccountService)
         {
+            _notificationService = notificationService;
+            _userAccountService = userAccountService;
             this._IDashboardService = new Cats.Services.EarlyWarning.DashboardService();
             this._INeedAssessmentSummaryService = new Cats.Services.Common.NeedAssessmentSummaryService();
         }
@@ -94,5 +100,19 @@ namespace Cats.Controllers
         {
             return Json(_IDashboardService.ZonalMonthlyBeneficiaries(RegionName, ZoneName), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetUnreadNotifications()
+        {
+            var user = System.Web.HttpContext.Current.User.Identity.Name;
+
+            var notifications = _IDashboardService.GetUnreadNotifications();
+            var application = _userAccountService.GetUserPermissions(user).Select(a => a.ApplicationName);
+            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && application.Contains(n.RoleName)).ToList();
+
+            //var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(totalUnread.ToList());
+            return Json(totalUnread, JsonRequestBehavior.AllowGet);
+        }
+
+        
     }
 }

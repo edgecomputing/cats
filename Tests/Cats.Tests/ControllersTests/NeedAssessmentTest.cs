@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Models;
+using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
 using NUnit.Framework;
@@ -214,13 +216,41 @@ NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="
             var planService = new Mock<IPlanService>();
             planService.Setup(m => m.GetAllPlan()).Returns(plan);
 
+            var _status = new List<Cats.Models.WorkflowStatus>()
+                              {
+                                  new WorkflowStatus()
+                                      {
+                                          Description = "Draft",
+                                          StatusID = 1,
+                                          WorkflowID = 1
+                                      },
+                                  new WorkflowStatus()
+                                      {
+                                          Description = "Approved",
+                                          StatusID = 2,
+                                          WorkflowID = 1
+                                     },
+                                  new WorkflowStatus()
+                                      {
+                                          Description = "AssessmentCreated",
+                                          StatusID = 3,
+                                          WorkflowID = 1
+                                      }
+                              };
+            var commonService = new Mock<ICommonService>();
+            commonService.Setup(t => t.GetAminUnits(It.IsAny<Expression<Func<AdminUnit, bool>>>(),
+                      It.IsAny<Func<IQueryable<AdminUnit>, IOrderedQueryable<AdminUnit>>>(),
+                      It.IsAny<string>())).Returns(adminUnit);
+            commonService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(_status);
+
+
             _needAssessmentController=new NeedAssessmentController(needAssessmentService.Object,
                                                                     adminUnitService.Object,
                                                                     needAssessmentHeaderService.Object,
                                                                     needAssessmentDetailService.Object,
                                                                     seasonService.Object,
                                                                     typeOfNeedAssessmentService.Object,
-                                                                    log.Object,planService.Object);
+                                                                    log.Object, planService.Object, commonService.Object);
         }
         [TearDown]
         public void Dispose()

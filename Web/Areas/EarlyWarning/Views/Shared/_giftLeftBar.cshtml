@@ -1,3 +1,13 @@
-﻿    <li class="nav-header">Gift Cerificate</li>
-    <li><a href="@Url.Action("Index","GiftCertificate",new{id=1})">Draft Gifts</a></li>
-    <li><a  href="@Url.Action("Index","GiftCertificate",new{id=2})">Approved Gifts</a></li>
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+    <li class="nav-header">Gift Cerificate</li>
+<li>
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "GiftCertificate",new{id=1}),
+                        EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list, "Draft Gifts")
+</li>
+<li>
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "GiftCertificate",new{id=2}),
+                        EarlyWarningCheckAccess.Operation.View_Approved_Gift_Certificate, "Approved Gifts")
+</li>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Cats.Models;
@@ -103,6 +104,56 @@ namespace Cats.Services.EarlyWarning
         public void Dispose()
         {
             _unitOfWork.Dispose();
+        }
+
+
+        public Plan GetPlan(int id)
+        {
+            return _unitOfWork.PlanRepository.FindById(id);
+        }
+
+
+        public bool AddHRDFromAssessment(HRD hrd)
+        {
+            _unitOfWork.HRDRepository.Add(hrd);
+            _unitOfWork.Save();
+            var plan=_unitOfWork.PlanRepository.FindById(hrd.PlanID);
+            plan.Status = (int) PlanStatus.HRDCreated;
+            _unitOfWork.PlanRepository.Edit(plan);
+            _unitOfWork.Save();
+            return true;
+
+        }
+
+
+        public bool AddHRD(int year, int userID, int seasonID, int rationID, int planID)
+        {
+            var woredas = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitTypeID == 4);
+            var hrd = new HRD()
+                {
+                    Year = year,
+                    CreatedBY = userID,
+                    SeasonID = seasonID,
+                    RationID = rationID,
+                    PlanID = planID,
+                    CreatedDate = DateTime.Now,
+                    PublishedDate = DateTime.Now,
+                    Status = (int?) HRDStatus.Draft
+                };
+            var hrdDetails = (from detail in woredas
+                              select new HRDDetail
+                              {
+                                  WoredaID = detail.AdminUnitID,
+                                  StartingMonth = 1,
+                                  NumberOfBeneficiaries = 0,
+                                  DurationOfAssistance = 0
+                              }).ToList();
+
+            hrd.HRDDetails = hrdDetails;
+            _unitOfWork.HRDRepository.Add(hrd);
+            _unitOfWork.Save();
+            return true;
+
         }
     }
 }

@@ -57,15 +57,25 @@
             }
         }
 
+
         <ul class="dropdown-menu">
             <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">Hub allocation</a></li>
             <li><a href="@Url.Action("Index", "SIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId })">PC/SI code allocation</a></li>
             <li><a href="@Url.Action("CreateTransportRequisition", "TransportRequisition", new { regionId = ViewBag.regionId })">Generate TR</a></li>
+
             <li><a href="#"></a></li>
         </ul>
 
     </div>
 </div>
+
+
+<fieldset>
+    <legend>
+        @Translator.Translate("Allocated amount  by Region and Hub")
+    </legend>
+</fieldset>
+
 
 
 @*<fieldset>
@@ -133,7 +143,6 @@
 </fieldset>*@
 
 
-
 <script>
 
     $(document).ready(function () {
@@ -163,3 +172,4 @@
 
     }
 </script>
+

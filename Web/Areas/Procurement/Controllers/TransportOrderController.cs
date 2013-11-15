@@ -62,9 +62,7 @@ namespace Cats.Areas.Procurement.Controllers
 
             return View();
         }
-     
 
-        
         public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
@@ -93,7 +91,15 @@ namespace Cats.Areas.Procurement.Controllers
 
 
         }
+
+
+        
+
+
        
+
+
+
         public ViewResult Index(int id = 0)
         {
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");

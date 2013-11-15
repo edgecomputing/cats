@@ -234,10 +234,17 @@ namespace Cats.Services.Procurement
             }
             
             _unitOfWork.Save();
+
+            
+          
+
+
             return true;
         }
 
+
         private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)
+
         {
            
             var transportRequision = _unitOfWork.TransportRequisitionDetailRepository.Get(

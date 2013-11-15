@@ -165,6 +165,7 @@ namespace Cats.Services.Security
                 //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
                 
             // Check if the passwords match
+
             if (user.Password == HashPassword(password))
             {
                 //Add the current Identity and Principal to the current thread.               
@@ -356,13 +357,21 @@ namespace Cats.Services.Security
         public List<Application> GetUserPermissions(string UserName)
         {
             var apps = new List<Application>();
-
-            Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
-            foreach (var app in Application)
+            try
             {
-                apps.Add(new Application() { ApplicationName = app.Value.Name, Roles = GetUserPermissions(UserName, "CATS", app.Value.Name) });
+                _provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
+                Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
+                foreach (var app in Application)
+                {
+                    apps.Add(new Application() { ApplicationName = app.Value.Name, Roles = GetUserPermissions(UserName, "CATS", app.Value.Name) });
+                }
+                return apps;
             }
-            return apps;
+            catch
+            {
+                return apps;
+            }
+
         }
         
         /// <summary>
@@ -373,8 +382,18 @@ namespace Cats.Services.Security
 
         public string[] GetRoles(string application)
         {
+          
             _provider.ApplicationName = application;
             return  _provider.GetAllRoles();
+        }
+
+
+        public string[] GetUserRoles(string username)
+        {
+            
+
+            string[] roles = _provider.GetRolesForUser(username);
+            return roles;
         }
 
         public List<Role> GetRolesList(string application)

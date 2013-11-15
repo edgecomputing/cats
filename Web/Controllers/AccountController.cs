@@ -216,11 +216,11 @@ namespace Cats.Controllers
         public ActionResult RedirectToHub()
         {
            
-            return Redirect("http://locahost/hub");
+            return Redirect("/hub");
         }
         public ActionResult Administration()
         {
-            return Redirect("http://localhost/admin/home");
+            return Redirect("/home");
         }
         
     }

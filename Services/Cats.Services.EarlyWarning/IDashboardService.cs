@@ -22,6 +22,6 @@ namespace Cats.Services.EarlyWarning
         IEnumerable<ZonalBeneficiaries> ZonalMonthlyBeneficiaries(string RegionName, string ZoneName);
 
         IEnumerable<RegionalMonthlyRequest> RMRequests();
-
+        IEnumerable<Notification> GetUnreadNotifications();
     }
 }

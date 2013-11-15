@@ -106,7 +106,7 @@ namespace Cats.Services.EarlyWarning
        }
        public int GetNeedAssessmentBeneficiaryNoFromPlan(int planID, int woredaID)
        {
-           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(m => m.NeedAssessmentHeader.NeedAssessment.PlanID == planID && m.Woreda == woredaID && m.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).FirstOrDefault();
+           var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(m => m.NeedAssessmentHeader.NeedAssessment.PlanID == planID && m.Woreda == woredaID).FirstOrDefault();
            if (beneficiaryNo != null)
            {
                var totalBeneficiaties = (int)(beneficiaryNo.PSNPFromWoredasMale + beneficiaryNo.PSNPFromWoredasFemale + beneficiaryNo.NonPSNPFromWoredasMale + beneficiaryNo.NonPSNPFromWoredasFemale);
@@ -116,7 +116,7 @@ namespace Cats.Services.EarlyWarning
        }
        public int GetNeedAssessmentMonthsFromPlan(int planID, int woredaID)
        {
-           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.PlanID == planID && w.Woreda == woredaID && w.NeedAssessmentHeader.NeedAssessment.NeedAApproved == true).SingleOrDefault();
+           var months = _unitOfWork.NeedAssessmentDetailRepository.FindBy(w => w.NeedAssessmentHeader.NeedAssessment.PlanID == planID && w.Woreda == woredaID).SingleOrDefault();
 
            if (months != null)
            {

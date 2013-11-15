@@ -12,6 +12,7 @@ using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.ViewModelBinder;
@@ -36,7 +37,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IRationService _rationService;
-               
+        private readonly INotificationService _notificationService;
         
         public TransportRequisitionController(
             ITransportRequisitionService transportRequisitionService,
@@ -49,8 +50,7 @@ namespace Cats.Areas.Logistics.Controllers
             IHubAllocationService hubAllocationService,
             IProjectCodeAllocationService projectCodeAllocationService,
             IReliefRequisitionDetailService reliefRequisitionDetailService,
-            IRationService  rationService
-            )
+            IRationService  rationService, INotificationService notificationService)
         
     {
             this._transportRequisitionService = transportRequisitionService;
@@ -65,7 +65,8 @@ namespace Cats.Areas.Logistics.Controllers
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
             _reliefRequisitionService = reliefRequisitionService;
             _rationService = rationService;
-        }
+            _notificationService = notificationService;
+    }
         //
         // GET: /Logistics/TransportRequisition/
 
@@ -232,10 +233,31 @@ namespace Cats.Areas.Logistics.Controllers
         //    return CreateTransportRequisition(req);
 
         //}
+ private void AddNotification(int transportRequisitionID)
+        {
+            if (Request.Url != null)
+            {
+                var notification = new Notification
+                {
+                    Text = "Transport Requisition",
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Role = 2,
+                    RecordId = transportRequisitionID,
+                    Url = Request.Url.AbsoluteUri,
+                    TypeOfNotification = "Transport Requisition"
+                };
 
+                _notificationService.AddNotification(notification);
+
+            }
+
+
+        }
         public ActionResult CreateTransportRequisition(int regionId)
         {
             try
+
             {
                 var requisitions = _reliefRequisitionService.FindBy(t => t.RegionID == regionId && t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned);
                 var programs = (from item in requisitions select item.ProgramID).ToList();

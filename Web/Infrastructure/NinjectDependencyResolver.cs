@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
+using Cats.Models;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
+using Logistics.Security;
 using NetSqlAzMan;
 using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
@@ -132,7 +134,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
 
             kernel.Bind<ILogReadService>().To<LogReadService>();
-
+            kernel.Bind<INotificationService>().To<NotificationService>();
             kernel.Bind<IUserDashboardPreferenceService>().To<UserDashboardPreferenceService>();
             kernel.Bind<IForgetPasswordRequestService>().To<ForgetPasswordRequestService>();
             kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();
@@ -142,6 +144,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ITransportOrderDetailService>().To<TransportOrderDetailService>();
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
             kernel.Bind<IPlanService>().To<PlanService>();
+            kernel.Bind<IDashboardService>().To<DashboardService>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.

@@ -27,13 +27,25 @@
 
         <div class="well form-horizontal">
             <div class="row">
+                 <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(Translator.Translate("HRD Name"))
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(m=>m.Plan.PlanName)
+                            @Html.ValidationMessageFor(m=>m.Plan.PlanName)
+                        </div>
+        
+                    </div>
+                </div>
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(m => m.Year,"Year (Specified in GC)")
                         </div>
                         <div class="controls">
-                            @Html.Editor("Year")
+                            @Html.TextBox("Year")
                             @Html.ValidationMessageFor(m=>m.Year)
                             @if(@ViewBag.Error!=null)
                             {
@@ -45,7 +57,36 @@
         
                     </div>
                 </div>
-                <div class="span6">
+            </div>
+            <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("HRD From"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.EndDate)
+                </div>
+
+            </div>
+        </div>
+    </div>
+            <div class="row">
+                
+                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(m => m.SeasonID)
@@ -57,8 +98,6 @@
         
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
@@ -70,20 +109,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="span6">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.PlanID,Translator.Translate("Plan Name"))
-                    </div>
-                    <div class="controls">
-                        @Html.DropDownList("PlanID",String.Empty)
-                        @Html.ValidationMessageFor(m=>m.Plan.PlanName)
-                    </div>
-                   </div>
-                </div>
             </div>
            
         </div>
     }
-@Html.Partial("HRDFromPlan")
 

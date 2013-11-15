@@ -1495,6 +1495,7 @@
     <Content Include="Scripts\HubScripts\ReportFileter.js" />
     <Content Include="Scripts\HubScripts\ReportingDateFilters.js" />
     <Content Include="Scripts\HubScripts\utility.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />

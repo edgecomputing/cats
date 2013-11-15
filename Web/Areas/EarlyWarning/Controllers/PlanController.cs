@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
+using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
@@ -19,10 +21,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         // GET: /EarlyWarning/Plan/
         private IPlanService _hrdPlanService;
         private IUserAccountService _userAccountService;
-        public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService)
+        private ICommonService _commonService;
+        private INeedAssessmentService _needAssessmentService;
+        private IHRDService _hrdService;
+        public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService,
+                              ICommonService commonService,INeedAssessmentService needAssessmentService,IHRDService hrdService)
         {
             _hrdPlanService = hrdPlanService;
             _userAccountService = userAccountService;
+            _commonService = commonService;
+            _needAssessmentService = needAssessmentService;
         }
         public ActionResult Index()
         {
@@ -48,27 +56,32 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             StartDate = plan.StartDate.ToCTSPreferedDateFormat(datePref),
                             EndDate = plan.EndDate.ToCTSPreferedDateFormat(datePref),
                             ProgramID = plan.ProgramID,
-                            Program = plan.Program.Name
-
+                            Program = plan.Program.Name,
+                            StatusID = plan.Status,
+                            Status = _commonService.GetStatusName(WORKFLOW.Plan, plan.Status) 
                         });
         }
         public ActionResult Create()
         {
             var plan = new Plan();
             ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(),"ProgramID", "Name");
+            plan.StartDate = DateTime.Now;
+            plan.EndDate = DateTime.Now;
             return View(plan);
         }
 
         [HttpPost]
-        public ActionResult Create(Plan Plan)
+        public ActionResult Create(Plan plan)
         {
             if (ModelState.IsValid)
             {
-                _hrdPlanService.AddPlan(Plan);
+                plan.Status = (int)PlanStatus.Draft;
+                _hrdPlanService.AddPlan(plan);
                 return RedirectToAction("Index");
 
             }
-            return View(Plan);
+            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
+            return View(plan);
         }
         public ActionResult Edit(int id)
         {
@@ -78,6 +91,21 @@ namespace Cats.Areas.EarlyWarning.Controllers
               
             }
             return View ();
+        }
+        public ActionResult Detail(int id)
+        {
+            var plan = _hrdPlanService.FindById(id);
+
+            var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == plan.PlanID).ToList();
+            var hrd = _hrdService.FindBy(m => m.PlanID == plan.PlanID).ToList();
+            var planWithHrdViewModel = new PlanWithHRDViewModel()
+                {
+                    Plan = plan,
+                    HRDs = hrd,
+                    NeedAssessments = needAssessment
+                };
+
+            return View(planWithHrdViewModel);
         }
     }
 }

@@ -115,12 +115,86 @@ namespace Cats.Services.Security
             this.mStorage.CloseConnection();
         }
         /// <summary>
+        /// Retrieve Item name from a Role Enum.
+        /// </summary>
+        /// <param name="role">The role.</param>
+        /// <returns>The Role Name.</returns>
+        public virtual string ItemName(Role role)
+        {
+            if ((role == Role.Procurement_Unit_Coordinator))
+            {
+                return "Procurement Unit Coordinator";
+            }
+            if ((role == Role.Procurement_Data_Encoder))
+            {
+                return "Procurement-Data Encoder";
+            }
+            if ((role == Role.Procurement_Purchaser))
+            {
+                return "Procurement-Purchaser";
+            }
+            throw new System.ArgumentException("Unknown Role name", "role");
+        }
+        /// <summary>
+        /// Retrieve Item name from a Task Enum.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <returns>The Task Name.</returns>
+        public virtual string ItemName(Task task)
+        {
+            if ((task == Task.Bid_plan))
+            {
+                return "Bid plan";
+            }
+            if ((task == Task.Manage_bid))
+            {
+                return "Manage bid";
+            }
+            if ((task == Task.Price_Quotation_Data_Entries))
+            {
+                return "Price Quotation Data Entries";
+            }
+            if ((task == Task.Request_For_Quotation__RFQ))
+            {
+                return "Request For Quotation (RFQ)";
+            }
+            if ((task == Task.Transport_Order))
+            {
+                return "Transport Order";
+            }
+            if ((task == Task.Transport_Supplier))
+            {
+                return "Transport Supplier";
+            }
+            if ((task == Task.Winners_Dispatch_Location))
+            {
+                return "Winners Dispatch Location";
+            }
+            throw new System.ArgumentException("Unknown Task name", "task");
+        }
+        /// <summary>
         /// Retrieve Item name from a Operation Enum.
         /// </summary>
         /// <param name="operation">The operation.</param>
         /// <returns>The Operation Name.</returns>
         public virtual string ItemName(Operation operation)
         {
+            if ((operation == Operation.Add_TO))
+            {
+                return "Add TO";
+            }
+            if ((operation == Operation.Approve_TO))
+            {
+                return "Approve TO";
+            }
+            if ((operation == Operation.Assign_Transporter))
+            {
+                return "Assign Transporter";
+            }
+            if ((operation == Operation.Bid_Planning))
+            {
+                return "Bid Planning";
+            }
             if ((operation == Operation.Create_new_bid))
             {
                 return "Create new bid";
@@ -129,9 +203,17 @@ namespace Cats.Services.Security
             {
                 return "Create new bid plan";
             }
+            if ((operation == Operation.Delet_Price_Quotation_Data_Entry))
+            {
+                return "Delet Price Quotation Data Entry";
+            }
             if ((operation == Operation.Delete_bid_plan))
             {
                 return "Delete bid plan";
+            }
+            if ((operation == Operation.Delete_Transport_Supplier))
+            {
+                return "Delete Transport Supplier";
             }
             if ((operation == Operation.Edit_bid))
             {
@@ -141,6 +223,18 @@ namespace Cats.Services.Security
             {
                 return "Edit bid plan";
             }
+            if ((operation == Operation.Edit_Price_Quotation_Data_Entry))
+            {
+                return "Edit Price Quotation Data Entry";
+            }
+            if ((operation == Operation.Edit_TO))
+            {
+                return "Edit TO";
+            }
+            if ((operation == Operation.Edit_Transport_Supplier))
+            {
+                return "Edit Transport Supplier";
+            }
             if ((operation == Operation.Export_bid))
             {
                 return "Export bid";
@@ -149,6 +243,18 @@ namespace Cats.Services.Security
             {
                 return "Export bid plan";
             }
+            if ((operation == Operation.Manage_Bids))
+            {
+                return "Manage Bids";
+            }
+            if ((operation == Operation.New_Transport_Supplier))
+            {
+                return "New Transport Supplier";
+            }
+            if ((operation == Operation.Price_Quotation_Data_Entry))
+            {
+                return "Price Quotation Data Entry";
+            }
             if ((operation == Operation.Print_bid))
             {
                 return "Print bid";
@@ -156,6 +262,14 @@ namespace Cats.Services.Security
             if ((operation == Operation.Print_bid_plan))
             {
                 return "Print bid plan";
+            }
+            if ((operation == Operation.Request_For_Quotations__RFQ))
+            {
+                return "Request For Quotations (RFQ)";
+            }
+            if ((operation == Operation.Transport_Suppliers))
+            {
+                return "Transport Suppliers";
             }
             if ((operation == Operation.Transport_warehouse_assignment))
             {
@@ -176,6 +290,30 @@ namespace Cats.Services.Security
             if ((operation == Operation.View_current_bid))
             {
                 return "View current bid";
+            }
+            if ((operation == Operation.View_Dispath_Locations))
+            {
+                return "View Dispath Locations";
+            }
+            if ((operation == Operation.View_Price_Quotation_Data_Entries))
+            {
+                return "View Price Quotation Data Entries";
+            }
+            if ((operation == Operation.View_Request_For_Quotation))
+            {
+                return "View Request For Quotation";
+            }
+            if ((operation == Operation.View_Transport_Order))
+            {
+                return "View Transport Order";
+            }
+            if ((operation == Operation.View_Transport_Suppliers))
+            {
+                return "View Transport Suppliers";
+            }
+            if ((operation == Operation.Winners_Dispatch_Locations))
+            {
+                return "Winners Dispatch Locations";
             }
             throw new System.ArgumentException("Unknown Operation name", "operation");
         }
@@ -255,6 +393,140 @@ namespace Cats.Services.Security
         /// <summary>
         /// Gets the Authorization Type [FOR Windows Users ONLY].
         /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), dbUserName, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), customSID, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), dbUserName, false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), customSID, false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), dbUserName, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The Custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), customSID, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), dbUserName, false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The Custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), customSID, false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
         /// <param name="operation">The Operation.</param>
         /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
         /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
@@ -318,6 +590,164 @@ namespace Cats.Services.Security
         public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
             return this.CheckAccess(this.ItemName(operation), customSID, true, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, dbUserName, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, customSID, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, dbUserName, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, customSID, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, dbUserName, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The Custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, customSID, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, dbUserName, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, customSID, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
         }
         /// <summary>
         /// Checks the access [FOR Windows Users ONLY].
@@ -401,10 +831,78 @@ namespace Cats.Services.Security
         #endregion
         #region Enums
         /// <summary>
+        /// Roles Enumeration
+        /// </summary>
+        public enum Role
+        {
+            /// <summary>
+            /// Role Procurement Unit Coordinator
+            /// </summary>
+            Procurement_Unit_Coordinator,
+            /// <summary>
+            /// Role Procurement-Data Encoder
+            /// </summary>
+            Procurement_Data_Encoder,
+            /// <summary>
+            /// Role Procurement-Purchaser
+            /// </summary>
+            Procurement_Purchaser,
+        }
+        /// <summary>
+        /// Tasks Enumeration
+        /// </summary>
+        public enum Task
+        {
+            /// <summary>
+            /// Task Bid plan
+            /// </summary>
+            Bid_plan,
+            /// <summary>
+            /// Task Manage bid
+            /// </summary>
+            Manage_bid,
+            /// <summary>
+            /// Task Price Quotation Data Entries
+            /// </summary>
+            Price_Quotation_Data_Entries,
+            /// <summary>
+            /// Task Request For Quotation (RFQ)
+            /// </summary>
+            Request_For_Quotation__RFQ,
+            /// <summary>
+            /// Task Transport Order
+            /// </summary>
+            Transport_Order,
+            /// <summary>
+            /// Task Transport Supplier
+            /// </summary>
+            Transport_Supplier,
+            /// <summary>
+            /// Task Winners Dispatch Location
+            /// </summary>
+            Winners_Dispatch_Location,
+        }
+        /// <summary>
         /// Operations Enumeration
         /// </summary>
         public enum Operation
         {
+            /// <summary>
+            /// Operation Add TO
+            /// </summary>
+            Add_TO,
+            /// <summary>
+            /// Operation Approve TO
+            /// </summary>
+            Approve_TO,
+            /// <summary>
+            /// Operation Assign Transporter
+            /// </summary>
+            Assign_Transporter,
+            /// <summary>
+            /// Operation Bid Planning
+            /// </summary>
+            Bid_Planning,
             /// <summary>
             /// Operation Create new bid
             /// </summary>
@@ -414,9 +912,17 @@ namespace Cats.Services.Security
             /// </summary>
             Create_new_bid_plan,
             /// <summary>
+            /// Operation Delet Price Quotation Data Entry
+            /// </summary>
+            Delet_Price_Quotation_Data_Entry,
+            /// <summary>
             /// Operation Delete bid plan
             /// </summary>
             Delete_bid_plan,
+            /// <summary>
+            /// Operation Delete Transport Supplier
+            /// </summary>
+            Delete_Transport_Supplier,
             /// <summary>
             /// Operation Edit bid
             /// </summary>
@@ -426,6 +932,18 @@ namespace Cats.Services.Security
             /// </summary>
             Edit_bid_plan,
             /// <summary>
+            /// Operation Edit Price Quotation Data Entry
+            /// </summary>
+            Edit_Price_Quotation_Data_Entry,
+            /// <summary>
+            /// Operation Edit TO
+            /// </summary>
+            Edit_TO,
+            /// <summary>
+            /// Operation Edit Transport Supplier
+            /// </summary>
+            Edit_Transport_Supplier,
+            /// <summary>
             /// Operation Export bid
             /// </summary>
             Export_bid,
@@ -434,6 +952,18 @@ namespace Cats.Services.Security
             /// </summary>
             Export_bid_plan,
             /// <summary>
+            /// Operation Manage Bids
+            /// </summary>
+            Manage_Bids,
+            /// <summary>
+            /// Operation New Transport Supplier
+            /// </summary>
+            New_Transport_Supplier,
+            /// <summary>
+            /// Operation Price Quotation Data Entry
+            /// </summary>
+            Price_Quotation_Data_Entry,
+            /// <summary>
             /// Operation Print bid
             /// </summary>
             Print_bid,
@@ -441,6 +971,14 @@ namespace Cats.Services.Security
             /// Operation Print bid plan
             /// </summary>
             Print_bid_plan,
+            /// <summary>
+            /// Operation Request For Quotations (RFQ)
+            /// </summary>
+            Request_For_Quotations__RFQ,
+            /// <summary>
+            /// Operation Transport Suppliers
+            /// </summary>
+            Transport_Suppliers,
             /// <summary>
             /// Operation Transport warehouse assignment
             /// </summary>
@@ -461,6 +999,30 @@ namespace Cats.Services.Security
             /// Operation View current bid
             /// </summary>
             View_current_bid,
+            /// <summary>
+            /// Operation View Dispath Locations
+            /// </summary>
+            View_Dispath_Locations,
+            /// <summary>
+            /// Operation View Price Quotation Data Entries
+            /// </summary>
+            View_Price_Quotation_Data_Entries,
+            /// <summary>
+            /// Operation View Request For Quotation
+            /// </summary>
+            View_Request_For_Quotation,
+            /// <summary>
+            /// Operation View Transport Order
+            /// </summary>
+            View_Transport_Order,
+            /// <summary>
+            /// Operation View Transport Suppliers
+            /// </summary>
+            View_Transport_Suppliers,
+            /// <summary>
+            /// Operation Winners Dispatch Locations
+            /// </summary>
+            Winners_Dispatch_Locations,
         }
         #endregion
     }
@@ -495,10 +1057,79 @@ namespace Procurement.Security
     using System;
 
     /// <summary>
+    /// NetSqlAzMan ROLE Helper Class for NetSqlAzMan 'Procurement' Application 
+    /// </summary>
+    public partial class ROLE
+    {
+        /// <summary>
+        /// ROLE 'Procurement Unit Coordinator'
+        /// </summary>
+        public const string PROCUREMENT_UNIT_COORDINATOR = "Procurement Unit Coordinator";
+        /// <summary>
+        /// ROLE 'Procurement-Data Encoder'
+        /// </summary>
+        public const string PROCUREMENT_DATA_ENCODER = "Procurement-Data Encoder";
+        /// <summary>
+        /// ROLE 'Procurement-Purchaser'
+        /// </summary>
+        public const string PROCUREMENT_PURCHASER = "Procurement-Purchaser";
+    }
+    /// <summary>
+    /// NetSqlAzMan TASK Helper Class for NetSqlAzMan 'Procurement' Application 
+    /// </summary>
+    public partial class TASK
+    {
+        /// <summary>
+        /// TASK 'Bid plan'
+        /// </summary>
+        public const string BID_PLAN = "Bid plan";
+        /// <summary>
+        /// TASK 'Manage bid'
+        /// </summary>
+        public const string MANAGE_BID = "Manage bid";
+        /// <summary>
+        /// TASK 'Price Quotation Data Entries'
+        /// </summary>
+        public const string PRICE_QUOTATION_DATA_ENTRIES = "Price Quotation Data Entries";
+        /// <summary>
+        /// TASK 'Request For Quotation (RFQ)'
+        /// </summary>
+        public const string REQUEST_FOR_QUOTATION__RFQ = "Request For Quotation (RFQ)";
+        /// <summary>
+        /// TASK 'Transport Order'
+        /// </summary>
+        public const string TRANSPORT_ORDER = "Transport Order";
+        /// <summary>
+        /// TASK 'Transport Supplier'
+        /// </summary>
+        public const string TRANSPORT_SUPPLIER = "Transport Supplier";
+        /// <summary>
+        /// TASK 'Winners Dispatch Location'
+        /// </summary>
+        public const string WINNERS_DISPATCH_LOCATION = "Winners Dispatch Location";
+    }
+
+    /// <summary>
     /// NetSqlAzMan OPERATION Helper Class for NetSqlAzMan 'Procurement' Application 
     /// </summary>
     public partial class OPERATION
     {
+        /// <summary>
+        /// OPERATION 'Add TO'
+        /// </summary>
+        public const string ADD_TO = "Add TO";
+        /// <summary>
+        /// OPERATION 'Approve TO'
+        /// </summary>
+        public const string APPROVE_TO = "Approve TO";
+        /// <summary>
+        /// OPERATION 'Assign Transporter'
+        /// </summary>
+        public const string ASSIGN_TRANSPORTER = "Assign Transporter";
+        /// <summary>
+        /// OPERATION 'Bid Planning'
+        /// </summary>
+        public const string BID_PLANNING = "Bid Planning";
         /// <summary>
         /// OPERATION 'Create new bid'
         /// </summary>
@@ -508,9 +1139,17 @@ namespace Procurement.Security
         /// </summary>
         public const string CREATE_NEW_BID_PLAN = "Create new bid plan";
         /// <summary>
+        /// OPERATION 'Delet Price Quotation Data Entry'
+        /// </summary>
+        public const string DELET_PRICE_QUOTATION_DATA_ENTRY = "Delet Price Quotation Data Entry";
+        /// <summary>
         /// OPERATION 'Delete bid plan'
         /// </summary>
         public const string DELETE_BID_PLAN = "Delete bid plan";
+        /// <summary>
+        /// OPERATION 'Delete Transport Supplier'
+        /// </summary>
+        public const string DELETE_TRANSPORT_SUPPLIER = "Delete Transport Supplier";
         /// <summary>
         /// OPERATION 'Edit bid'
         /// </summary>
@@ -520,6 +1159,18 @@ namespace Procurement.Security
         /// </summary>
         public const string EDIT_BID_PLAN = "Edit bid plan";
         /// <summary>
+        /// OPERATION 'Edit Price Quotation Data Entry'
+        /// </summary>
+        public const string EDIT_PRICE_QUOTATION_DATA_ENTRY = "Edit Price Quotation Data Entry";
+        /// <summary>
+        /// OPERATION 'Edit TO'
+        /// </summary>
+        public const string EDIT_TO = "Edit TO";
+        /// <summary>
+        /// OPERATION 'Edit Transport Supplier'
+        /// </summary>
+        public const string EDIT_TRANSPORT_SUPPLIER = "Edit Transport Supplier";
+        /// <summary>
         /// OPERATION 'Export bid'
         /// </summary>
         public const string EXPORT_BID = "Export bid";
@@ -528,6 +1179,18 @@ namespace Procurement.Security
         /// </summary>
         public const string EXPORT_BID_PLAN = "Export bid plan";
         /// <summary>
+        /// OPERATION 'Manage Bids'
+        /// </summary>
+        public const string MANAGE_BIDS = "Manage Bids";
+        /// <summary>
+        /// OPERATION 'New Transport Supplier'
+        /// </summary>
+        public const string NEW_TRANSPORT_SUPPLIER = "New Transport Supplier";
+        /// <summary>
+        /// OPERATION 'Price Quotation Data Entry'
+        /// </summary>
+        public const string PRICE_QUOTATION_DATA_ENTRY = "Price Quotation Data Entry";
+        /// <summary>
         /// OPERATION 'Print bid'
         /// </summary>
         public const string PRINT_BID = "Print bid";
@@ -535,6 +1198,14 @@ namespace Procurement.Security
         /// OPERATION 'Print bid plan'
         /// </summary>
         public const string PRINT_BID_PLAN = "Print bid plan";
+        /// <summary>
+        /// OPERATION 'Request For Quotations (RFQ)'
+        /// </summary>
+        public const string REQUEST_FOR_QUOTATIONS__RFQ = "Request For Quotations (RFQ)";
+        /// <summary>
+        /// OPERATION 'Transport Suppliers'
+        /// </summary>
+        public const string TRANSPORT_SUPPLIERS = "Transport Suppliers";
         /// <summary>
         /// OPERATION 'Transport warehouse assignment'
         /// </summary>
@@ -555,5 +1226,29 @@ namespace Procurement.Security
         /// OPERATION 'View current bid'
         /// </summary>
         public const string VIEW_CURRENT_BID = "View current bid";
+        /// <summary>
+        /// OPERATION 'View Dispath Locations'
+        /// </summary>
+        public const string VIEW_DISPATH_LOCATIONS = "View Dispath Locations";
+        /// <summary>
+        /// OPERATION 'View Price Quotation Data Entries'
+        /// </summary>
+        public const string VIEW_PRICE_QUOTATION_DATA_ENTRIES = "View Price Quotation Data Entries";
+        /// <summary>
+        /// OPERATION 'View Request For Quotation'
+        /// </summary>
+        public const string VIEW_REQUEST_FOR_QUOTATION = "View Request For Quotation";
+        /// <summary>
+        /// OPERATION 'View Transport Order'
+        /// </summary>
+        public const string VIEW_TRANSPORT_ORDER = "View Transport Order";
+        /// <summary>
+        /// OPERATION 'View Transport Suppliers'
+        /// </summary>
+        public const string VIEW_TRANSPORT_SUPPLIERS = "View Transport Suppliers";
+        /// <summary>
+        /// OPERATION 'Winners Dispatch Locations'
+        /// </summary>
+        public const string WINNERS_DISPATCH_LOCATIONS = "Winners Dispatch Locations";
     }
 }

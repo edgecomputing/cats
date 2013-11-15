@@ -118,7 +118,7 @@ namespace Cats.Data
         public DbSet<Plan> HrdPlans { get; set; }
 
         public DbSet<PromisedContribution> PromisedContribution { get; set; }
-               
+        public DbSet<Notification> Notifications { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new PromisedContributionMap());
@@ -219,6 +219,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TransReqWithoutTransporterMap());
             modelBuilder.Configurations.Add(new AllocationByRegionMap());
             modelBuilder.Configurations.Add(new PlanMap());
+            modelBuilder.Configurations.Add(new NotificationMap());
         }
 
     }

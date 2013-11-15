@@ -26,5 +26,8 @@ namespace Cats.Services.EarlyWarning
        List<Program> GetPrograms();
        void AddNeedAssessmentPlan(NeedAssessment needAssessment);
        void AddPlan(string planName, DateTime startDate, DateTime endDate);
+       void AddHRDPlan(string planName, DateTime startDate, DateTime endDate);
+       List<NeedAssessment> PlannedNeedAssessment(int planID);
+       List<HRD> PlannedHRD(int planID);
     }
 }

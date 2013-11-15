@@ -69,7 +69,7 @@ namespace Cats.Services.Security
         #endregion
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:ProcurementCheckAccess"/> class [Windows Users ONLY].
+        /// Initializes a new instance of the <see cref="T:PSNPCheckAccess"/> class [Windows Users ONLY].
         /// </summary>
         /// <param name="storageConnectionString">The storage connection string.</param>
         /// <param name="windowsIdentity">The Windows Principal Identity.</param>
@@ -79,7 +79,7 @@ namespace Cats.Services.Security
             this.windowsIdentity = windowsIdentity;
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:ProcurementCheckAccess"/> class [DB Users ONLY].
+        /// Initializes a new instance of the <see cref="T:PSNPCheckAccess"/> class [DB Users ONLY].
         /// </summary>
         /// <param name="storageConnectionString">The storage connection string.</param>
         public PSNPCheckAccess(string storageConnectionString)
@@ -115,6 +115,60 @@ namespace Cats.Services.Security
             this.mStorage.CloseConnection();
         }
         /// <summary>
+        /// Retrieve Item name from a Role Enum.
+        /// </summary>
+        /// <param name="role">The role.</param>
+        /// <returns>The Role Name.</returns>
+        public virtual string ItemName(Role role)
+        {
+            if ((role == Role.PSNP_Case_Team_Coordinator))
+            {
+                return "PSNP Case Team Coordinator";
+            }
+            if ((role == Role.PSNP_FIC_Expert))
+            {
+                return "PSNP-FIC Expert";
+            }
+            if ((role == Role.PSNP_Food_Security_Director))
+            {
+                return "PSNP-Food Security Director";
+            }
+            if ((role == Role.PSNP_FSCD_Staffs))
+            {
+                return "PSNP-FSCD Staffs";
+            }
+            if ((role == Role.PSNP_M_E_Expert))
+            {
+                return "PSNP-M&E Expert";
+            }
+            if ((role == Role.PSNP_Resource_Mobilization___Planning_Expert))
+            {
+                return "PSNP-Resource Mobilization & Planning Expert";
+            }
+            if ((role == Role.PSNP_RIC_Expert))
+            {
+                return "PSNP-RIC Expert";
+            }
+            throw new System.ArgumentException("Unknown Role name", "role");
+        }
+        /// <summary>
+        /// Retrieve Item name from a Task Enum.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <returns>The Task Name.</returns>
+        public virtual string ItemName(Task task)
+        {
+            if ((task == Task.Approve_annual_plan))
+            {
+                return "Approve annual plan";
+            }
+            if ((task == Task.Manage_annual_plan))
+            {
+                return "Manage annual plan";
+            }
+            throw new System.ArgumentException("Unknown Task name", "task");
+        }
+        /// <summary>
         /// Retrieve Item name from a Operation Enum.
         /// </summary>
         /// <param name="operation">The operation.</param>
@@ -145,6 +199,10 @@ namespace Cats.Services.Security
             {
                 return "Print annual plan";
             }
+            if ((operation == Operation.Regional_PSNP_Plan))
+            {
+                return "Regional PSNP Plan";
+            }
             if ((operation == Operation.Request_plan_revision))
             {
                 return "Request plan revision";
@@ -168,7 +226,7 @@ namespace Cats.Services.Security
         /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
         protected virtual NetSqlAzMan.Interfaces.AuthorizationType CheckAccess(string itemName, bool operationsOnly, params KeyValuePair<string, object>[] contextParameters)
         {
-            return this.mStorage.CheckAccess(ProcurementCheckAccess.STORE_NAME, ProcurementCheckAccess.APPLICATION_NAME, itemName, this.windowsIdentity, DateTime.Now, operationsOnly, contextParameters);
+            return this.mStorage.CheckAccess(PSNPCheckAccess.STORE_NAME, PSNPCheckAccess.APPLICATION_NAME, itemName, this.windowsIdentity, DateTime.Now, operationsOnly, contextParameters);
         }
         /// <summary>
         /// Checks the access [FOR DB Users ONLY].
@@ -180,7 +238,7 @@ namespace Cats.Services.Security
         /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
         protected virtual NetSqlAzMan.Interfaces.AuthorizationType CheckAccess(string itemName, string dbUserName, bool operationsOnly, params KeyValuePair<string, object>[] contextParameters)
         {
-            return this.mStorage.CheckAccess(ProcurementCheckAccess.STORE_NAME, ProcurementCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(dbUserName), DateTime.Now, operationsOnly, contextParameters);
+            return this.mStorage.CheckAccess(PSNPCheckAccess.STORE_NAME, PSNPCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(dbUserName), DateTime.Now, operationsOnly, contextParameters);
         }
         /// <summary>
         /// Checks the access [FOR custom SID ONLY].
@@ -192,7 +250,7 @@ namespace Cats.Services.Security
         /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
         protected virtual NetSqlAzMan.Interfaces.AuthorizationType CheckAccess(string itemName, NetSqlAzMan.Interfaces.IAzManSid customSID, bool operationsOnly, params KeyValuePair<string, object>[] contextParameters)
         {
-            return this.mStorage.CheckAccess(ProcurementCheckAccess.STORE_NAME, ProcurementCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(customSID), DateTime.Now, operationsOnly, contextParameters);
+            return this.mStorage.CheckAccess(PSNPCheckAccess.STORE_NAME, PSNPCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(customSID), DateTime.Now, operationsOnly, contextParameters);
         }
         /// <summary>
         /// Checks the access [FOR Windows Users ONLY].
@@ -204,7 +262,7 @@ namespace Cats.Services.Security
         /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
         protected virtual NetSqlAzMan.Interfaces.AuthorizationType CheckAccess(string itemName, bool operationsOnly, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
-            return this.mStorage.CheckAccess(ProcurementCheckAccess.STORE_NAME, ProcurementCheckAccess.APPLICATION_NAME, itemName, this.windowsIdentity, DateTime.Now, operationsOnly, out attributes, contextParameters);
+            return this.mStorage.CheckAccess(PSNPCheckAccess.STORE_NAME, PSNPCheckAccess.APPLICATION_NAME, itemName, this.windowsIdentity, DateTime.Now, operationsOnly, out attributes, contextParameters);
         }
         /// <summary>
         /// Checks the access [FOR DB Users ONLY].
@@ -217,7 +275,7 @@ namespace Cats.Services.Security
         /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
         protected virtual NetSqlAzMan.Interfaces.AuthorizationType CheckAccess(string itemName, string dbUserName, bool operationsOnly, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
-            return this.mStorage.CheckAccess(ProcurementCheckAccess.STORE_NAME, ProcurementCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(dbUserName), DateTime.Now, operationsOnly, out attributes, contextParameters);
+            return this.mStorage.CheckAccess(PSNPCheckAccess.STORE_NAME, PSNPCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(dbUserName), DateTime.Now, operationsOnly, out attributes, contextParameters);
         }
         /// <summary>
         /// Checks the access [FOR Custom SID ONLY].
@@ -230,7 +288,142 @@ namespace Cats.Services.Security
         /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
         protected virtual NetSqlAzMan.Interfaces.AuthorizationType CheckAccess(string itemName, NetSqlAzMan.Interfaces.IAzManSid customSID, bool operationsOnly, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
-            return this.mStorage.CheckAccess(ProcurementCheckAccess.STORE_NAME, ProcurementCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(customSID), DateTime.Now, operationsOnly, out attributes, contextParameters);
+            return this.mStorage.CheckAccess(PSNPCheckAccess.STORE_NAME, PSNPCheckAccess.APPLICATION_NAME, itemName, this.mStorage.GetDBUser(customSID), DateTime.Now, operationsOnly, out attributes, contextParameters);
+        }
+
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), dbUserName, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), customSID, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), dbUserName, false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(role), customSID, false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), dbUserName, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The Custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), customSID, false, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), dbUserName, false, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Gets the Authorization Type [FOR custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The Custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>The Authorization Type [AllowWithDelegation, Allow, Deny, Neutral].</returns>
+        public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            return this.CheckAccess(this.ItemName(task), customSID, false, out attributes, contextParameters);
         }
         /// <summary>
         /// Gets the Authorization Type [FOR Windows Users ONLY].
@@ -298,6 +491,164 @@ namespace Cats.Services.Security
         public virtual NetSqlAzMan.Interfaces.AuthorizationType GetAuthorizationType(Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
         {
             return this.CheckAccess(this.ItemName(operation), customSID, true, out attributes, contextParameters);
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, dbUserName, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, customSID, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, dbUserName, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="role">The Role.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Role role, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(role, customSID, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, string dbUserName, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, dbUserName, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The Custom SID.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, customSID, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Windows Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR DB Users ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="dbUserName">The DB UserName.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, string dbUserName, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, dbUserName, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
+        }
+        /// <summary>
+        /// Checks the access [FOR Custom SID ONLY].
+        /// </summary>
+        /// <param name="task">The Task.</param>
+        /// <param name="customSID">The custom SID.</param>
+        /// <param name="attributes">Retrieved attributes.</param>
+        /// <param name="contextParameters">Context Parameters for Biz Rules.</param>
+        /// <returns>True for Access Granted, False for Access Denied.</returns>
+        public virtual bool CheckAccess(Task task, NetSqlAzMan.Interfaces.IAzManSid customSID, out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> attributes, params KeyValuePair<string, object>[] contextParameters)
+        {
+            NetSqlAzMan.Interfaces.AuthorizationType result = this.GetAuthorizationType(task, customSID, out attributes, contextParameters);
+            return ((result == AuthorizationType.AllowWithDelegation)
+                        || (result == AuthorizationType.Allow));
         }
         /// <summary>
         /// Checks the access [FOR Windows Users ONLY].
@@ -381,6 +732,54 @@ namespace Cats.Services.Security
         #endregion
         #region Enums
         /// <summary>
+        /// Roles Enumeration
+        /// </summary>
+        public enum Role
+        {
+            /// <summary>
+            /// Role PSNP Case Team Coordinator
+            /// </summary>
+            PSNP_Case_Team_Coordinator,
+            /// <summary>
+            /// Role PSNP-FIC Expert
+            /// </summary>
+            PSNP_FIC_Expert,
+            /// <summary>
+            /// Role PSNP-Food Security Director
+            /// </summary>
+            PSNP_Food_Security_Director,
+            /// <summary>
+            /// Role PSNP-FSCD Staffs
+            /// </summary>
+            PSNP_FSCD_Staffs,
+            /// <summary>
+            /// Role PSNP-M&E Expert
+            /// </summary>
+            PSNP_M_E_Expert,
+            /// <summary>
+            /// Role PSNP-Resource Mobilization & Planning Expert
+            /// </summary>
+            PSNP_Resource_Mobilization___Planning_Expert,
+            /// <summary>
+            /// Role PSNP-RIC Expert
+            /// </summary>
+            PSNP_RIC_Expert,
+        }
+        /// <summary>
+        /// Tasks Enumeration
+        /// </summary>
+        public enum Task
+        {
+            /// <summary>
+            /// Task Approve annual plan
+            /// </summary>
+            Approve_annual_plan,
+            /// <summary>
+            /// Task Manage annual plan
+            /// </summary>
+            Manage_annual_plan,
+        }
+        /// <summary>
         /// Operations Enumeration
         /// </summary>
         public enum Operation
@@ -409,6 +808,10 @@ namespace Cats.Services.Security
             /// Operation Print annual plan
             /// </summary>
             Print_annual_plan,
+            /// <summary>
+            /// Operation Regional PSNP Plan
+            /// </summary>
+            Regional_PSNP_Plan,
             /// <summary>
             /// Operation Request plan revision
             /// </summary>
@@ -451,8 +854,55 @@ namespace Cats.Services.Security
 // ------------------------------------------------------------------------------
 // 
 
-  
 
+    /// <summary>
+    /// NetSqlAzMan ROLE Helper Class for NetSqlAzMan 'PSNP' Application 
+    /// </summary>
+    public partial class ROLE
+    {
+        /// <summary>
+        /// ROLE 'PSNP Case Team Coordinator'
+        /// </summary>
+        public const string PSNP_CASE_TEAM_COORDINATOR = "PSNP Case Team Coordinator";
+        /// <summary>
+        /// ROLE 'PSNP-FIC Expert'
+        /// </summary>
+        public const string PSNP_FIC_EXPERT = "PSNP-FIC Expert";
+        /// <summary>
+        /// ROLE 'PSNP-Food Security Director'
+        /// </summary>
+        public const string PSNP_FOOD_SECURITY_DIRECTOR = "PSNP-Food Security Director";
+        /// <summary>
+        /// ROLE 'PSNP-FSCD Staffs'
+        /// </summary>
+        public const string PSNP_FSCD_STAFFS = "PSNP-FSCD Staffs";
+        /// <summary>
+        /// ROLE 'PSNP-M&E Expert'
+        /// </summary>
+        public const string PSNP_M_E_EXPERT = "PSNP-M&E Expert";
+        /// <summary>
+        /// ROLE 'PSNP-Resource Mobilization & Planning Expert'
+        /// </summary>
+        public const string PSNP_RESOURCE_MOBILIZATION___PLANNING_EXPERT = "PSNP-Resource Mobilization & Planning Expert";
+        /// <summary>
+        /// ROLE 'PSNP-RIC Expert'
+        /// </summary>
+        public const string PSNP_RIC_EXPERT = "PSNP-RIC Expert";
+    }
+    /// <summary>
+    /// NetSqlAzMan TASK Helper Class for NetSqlAzMan 'PSNP' Application 
+    /// </summary>
+    public partial class TASK
+    {
+        /// <summary>
+        /// TASK 'Approve annual plan'
+        /// </summary>
+        public const string APPROVE_ANNUAL_PLAN = "Approve annual plan";
+        /// <summary>
+        /// TASK 'Manage annual plan'
+        /// </summary>
+        public const string MANAGE_ANNUAL_PLAN = "Manage annual plan";
+    }
     /// <summary>
     /// NetSqlAzMan OPERATION Helper Class for NetSqlAzMan 'PSNP' Application 
     /// </summary>
@@ -482,6 +932,10 @@ namespace Cats.Services.Security
         /// OPERATION 'Print annual plan'
         /// </summary>
         public const string PRINT_ANNUAL_PLAN = "Print annual plan";
+        /// <summary>
+        /// OPERATION 'Regional PSNP Plan'
+        /// </summary>
+        public const string REGIONAL_PSNP_PLAN = "Regional PSNP Plan";
         /// <summary>
         /// OPERATION 'Request plan revision'
         /// </summary>

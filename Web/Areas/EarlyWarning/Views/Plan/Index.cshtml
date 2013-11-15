@@ -31,7 +31,10 @@
             columns.Bound(p => p.StartDate);
             columns.Bound(p => p.EndDate);
             columns.Bound(p => p.Program);
-          
+           // columns.Bound(p => p.Status);
+
+           // columns.Command(m => m.Custom("Detail").Click("onEdit"));
+
         })
             .Sortable()
             .Scrollable()
@@ -42,6 +45,14 @@
                     .Model(model => model.Id(p => p.planID))
                     .Read(read => read.Action("plan_Read", "Plan"))
 
-             )
+             ))
 
-      )
+@*<script>
+    function onEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Detail", "Plan")" + "/" + dataItem.planID;
+
+    }
+</script>*@

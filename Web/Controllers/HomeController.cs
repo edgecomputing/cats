@@ -25,15 +25,20 @@ namespace Cats.Controllers
         private IUserDashboardPreferenceService _userDashboardPreferenceService;
         private IDashboardWidgetService _dashboardWidgetService;
         private IUserAccountService userService;
-
+        private readonly IDashboardService _IDashboardService;
+        private readonly IUserAccountService _userAccountService;
+        private readonly INotificationService _notificationService;
         public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService, 
             IDashboardWidgetService dashboardWidgetService, 
             IUserAccountService _userService,
             IUnitOfWork unitOfWork,
             IRegionalRequestService regionalRequestService,
-            IReliefRequisitionService reliefRequisitionService) {
+            IReliefRequisitionService reliefRequisitionService, IDashboardService iDashboardService, IUserAccountService userAccountService, INotificationService notificationService) {
             _regionalRequestService = regionalRequestService;
             _reliefRequistionService =  reliefRequisitionService;
+            _IDashboardService = iDashboardService;
+            this._userAccountService = userAccountService;
+            _notificationService = notificationService;
             _userDashboardPreferenceService = userDashboardPreferenceService;
             _dashboardWidgetService = dashboardWidgetService;
             this.userService = _userService;
@@ -154,50 +159,24 @@ namespace Cats.Controllers
             return Redirect("/hub");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        //public UserPreferenceViewModel UserPreference()
-        //{
-        //    var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-        //    //var userPreference = new UserPreferenceEditModel
-        //    //{
-        //    //    Language = user.LanguageCode,
-        //    //    KeyboardLanguage = user.Keyboard,
-        //    //    PreferedWeightMeasurement = user.PreferedWeightMeasurment,
-        //    //    DatePreference = user.DatePreference,
-        //    //    DefaultTheme = user.DefaultTheme
-        //    //};
-        //    var userPreferenceViewModel = new UserPreferenceViewModel(user);
-            
-        //    return View();
 
-        //    var userPreferences = userService.GetUserPreferences();
-        //    //UserPreferenceViewModel userPreferencesModel = new UserPreferenceViewModel
-        //    //{
-        //    //    Language = new List<LanguageCode>(),
-        //    //    KeyboardLanguage = new List<Keyboard>(),
-        //    //    PreferedWeightMeasurement = new List<PreferedWeightMeasurementUnit>(),
-        //    //    DatePreference = new List<Cats.Areas.Settings.Models.Calendar>(),
-        //    //    DefaultTheme = new List<Theme>()
-        //    //};
+        public ActionResult GetUnreadNotification([DataSourceRequest] DataSourceRequest request)
+        {
+           
+            var user = System.Web.HttpContext.Current.User.Identity.Name;
+
+            var notifications = _IDashboardService.GetUnreadNotifications();
+            var application = _userAccountService.GetUserPermissions(user).Select(a => a.ApplicationName);
+            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && application.Contains(n.RoleName)).ToList();
+
+            var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(totalUnread.ToList());
+            return Json(notificationViewModel.ToDataSourceResult(request));
+        }
+        public ActionResult GetUnreadNotificationDetail([DataSourceRequest] DataSourceRequest request)
+        {
+            return View();
+        }
 
 
-        //    //foreach (var preferences in userPreferences)
-        //    //{
-        //    //    if (!Language.Exists(t => t.Language == preferences.LanguageCode))
-        //    //        Language.Add(new LanguageCode { Language = preferences.LanguageCode });
-        //    //    if (!KeyboardLanguage.Exists(t => t.KeyboardLanguage == preferences.Keyboard))
-        //    //        KeyboardLanguage.Add(new Keyboard { KeyboardLanguage = preferences.Keyboard });
-        //    //    if (!PreferedWeightMeasurement.Exists(t => t.PreferedWeightMeasurement == preferences.PreferedWeightMeasurment))
-        //    //        PreferedWeightMeasurement.Add(new PreferedWeightMeasurementUnit { PreferedWeightMeasurement = preferences.PreferedWeightMeasurment });
-        //    //    if (!DatePreference.Exists(t => t.DatePreference == preferences.DatePreference))
-        //    //        DatePreference.Add(new Cats.Areas.Settings.Models.Calendar { DatePreference = preferences.DatePreference });
-        //    //    if (!DefaultTheme.Exists(t => t.DefaultTheme == preferences.DefaultTheme))
-        //    //        DefaultTheme.Add(new Theme { DefaultTheme = preferences.DefaultTheme });
-        //    //}
-            
-        //}
     }
 }
