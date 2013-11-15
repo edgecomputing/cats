@@ -1458,6 +1458,7 @@
     <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
     <Content Include="Scripts\HubScripts\Cascade.js" />
     <Content Include="Scripts\HubScripts\DialogForm.js" />
     <Content Include="Scripts\HubScripts\dispatch.js" />
