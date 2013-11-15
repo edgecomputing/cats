@@ -458,7 +458,7 @@
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
-    <Compile Include="Areas\Logistics\Controllers\StockStatusController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
@@ -1459,8 +1459,9 @@
     <Content Include="Scripts\HubScripts\Cascade.js" />
     <Content Include="Scripts\HubScripts\DialogForm.js" />
     <Content Include="Scripts\HubScripts\dispatch.js" />
-    <Content Include="Areas\Logistics\Views\StockStatus\AngularGrid.cshtml" />
-    <Content Include="Areas\Logistics\Views\StockStatus\angu.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\AngularGrid.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\angu.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Copy of Index.cshtml" />
     <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />
@@ -1512,8 +1513,8 @@
     <Content Include="Areas\Logistics\Views\PromisedContribution\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PromisedContribution\Edit.cshtml" />
     <Content Include="Areas\Hub\Views\Web.config" />
-    <Content Include="Areas\Logistics\Views\StockStatus\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\StockStatus\Status.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Status.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\panel.cshtml" />
     <Content Include="Areas\Hub\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Hub\Views\About\Index.cshtml" />

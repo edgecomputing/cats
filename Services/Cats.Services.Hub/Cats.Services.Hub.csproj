@@ -124,6 +124,7 @@
     <Compile Include="Interfaces\ISMSService.cs" />
     <Compile Include="Interfaces\IStackEventService.cs" />
     <Compile Include="Interfaces\IStackEventTypeService.cs" />
+    <Compile Include="Interfaces\IStockStatusService.cs" />
     <Compile Include="Interfaces\IStoreService.cs" />
     <Compile Include="Interfaces\ITransactionGroupService.cs" />
     <Compile Include="Interfaces\ITransactionService.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="SMSService.cs" />
     <Compile Include="StackEventService.cs" />
     <Compile Include="StackEventTypeService.cs" />
+    <Compile Include="StockStatusService.cs" />
     <Compile Include="StoreService.cs" />
     <Compile Include="TransactionGroupService.cs" />
     <Compile Include="TransactionService.cs" />

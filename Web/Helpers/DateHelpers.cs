@@ -46,6 +46,7 @@ namespace Cats.Helpers
             return quantity;
 
         }
+        
         public static Decimal ToPreferedWeightUnit(this Decimal amount, string unit = "MT")
         {
             string currentUnit;
@@ -68,7 +69,6 @@ namespace Cats.Helpers
                 return amount;
 
             // For the other unit (quintal)  multiply by 10
-
 
             return amount * 10;
         }

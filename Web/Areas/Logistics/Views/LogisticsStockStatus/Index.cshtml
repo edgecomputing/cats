@@ -1,0 +1,450 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@using Cats.Models.Constant
+
+@model IEnumerable<FreeStockStatusViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@*<div>
+    <div ng-controller="StockStatusSummary">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="font: normal">Stock Status Summary</h3>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div ng-app>
+    <div ng-controller="StockController">
+        <div class="row-fluid form-horizontal ">
+            <div class="span12">
+                <div class="span3 ">
+                    <div class="control-group">
+                        <div class="toolbar">
+                            <label class="category-label" for="category">Select a hub</label>
+                            <select ng-model="requestParam.hub">
+                                <option ng-repeat="hb in HubsCollection" value="{{hb.HubId}}">{{hb.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span3">
+                    <div class="control-group">
+                        <div class="toolbar">
+                            <label class="category-label" for="category">Select a Program</label>
+
+                            <select ng-model="requestParam.program">
+                                <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
+                            </select>
+
+                        </div>
+                        <div class="controls">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span3">
+
+                    <label>Select As of Date</label>
+
+                    @*<select ng-model="requestParam.hub">
+                                <option ng-repeat="hb in HubsCollection" value="{{hb.HubId}}">{{hb.Name}}</option>
+                    </select>*@
+
+                    <input ng-model="requestParam.date" class="cats-datepicker2">
+                </div>
+
+                <div class="span3" style="vertical-align:middle">
+                    @*<button type="button" class="btn btn-default btn-lg" onclick="show()">
+                        <span class="glyphicon glyphicon-star"></span> Show
+                    </button>*@
+
+                    <button type="button" class="btn btn-default btn-lg" ng-click="getStockStatus()">Get</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="font: normal">Free Stock Status</h3>
+            </div>
+            <div class="panel-body">
+                
+                <div style="float: left; width: 65%">
+                    <table class="table table-striped">
+                    <tr>
+                        <th>Commodity</th>
+                        <th>Free Stock</th>
+                        <th>Physical Stock</th>
+                    </tr>
+                    <tr ng-repeat="sd in stockData">
+                        <td>{{sd.CommodityName}}</td>
+                        <td>{{sd.FreeStock}}</td>
+                        <td>{{sd.PhysicalStock}}</td>
+                    </tr>
+
+                </table> 
+                </div>
+
+                <div class="chart-wrapper" style="width: 35%; float: right">
+                    <div class="chart-inner">
+                        <div id="pieChart-main" style="width: 100%; height: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function StockController($scope, $http) {
+
+        $scope.requestParam = { hub: 1, program: 1, date: "11/14/2013" };
+        $scope.stockData = [];
+        $scope.HubsCollection = [];
+        $scope.ProgramsCollection = [];
+
+        var onSuccess = function (data) {
+            $scope.stockData = data;
+        }
+
+        var onHubGetSuccess = function (data) {
+            $scope.HubsCollection = data;
+        }
+
+        var onProgramGetSuccess = function (data) {
+            $scope.ProgramsCollection = data;
+        }
+
+        $scope.getStockStatus = function () {
+            $http.post("/LogisticsStockStatus/GetStockStatusD", $scope.requestParam).success(onSuccess);
+        };
+
+        $scope.getHubs = function () {
+            $http.post("/LogisticsStockStatus/GetHubs", null).success(onHubGetSuccess);
+        }
+        $scope.getPrograms = function () {
+            $http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
+        }
+
+        $scope.getStockStatus();
+        $scope.getHubs();
+        $scope.getPrograms();
+    }
+
+</script>
+
+<style>
+    .panel {
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+
+        .panel-body:before,
+        .panel-body:after {
+            display: table;
+            content: " ";
+        }
+
+        .panel-body:after {
+            clear: both;
+        }
+
+        .panel-body:before,
+        .panel-body:after {
+            display: table;
+            content: " ";
+        }
+
+        .panel-body:after {
+            clear: both;
+        }
+
+    .panel > .list-group {
+        margin-bottom: 0;
+    }
+
+        .panel > .list-group .list-group-item {
+            border-width: 1px 0;
+        }
+
+            .panel > .list-group .list-group-item:first-child {
+                border-top-right-radius: 0;
+                border-top-left-radius: 0;
+            }
+
+            .panel > .list-group .list-group-item:last-child {
+                border-bottom: 0;
+            }
+
+    .panel-heading + .list-group .list-group-item:first-child {
+        border-top-width: 0;
+    }
+
+    .panel > .table,
+    .panel > .table-responsive {
+        margin-bottom: 0;
+    }
+
+    .panel > .panel-body + .table,
+    .panel > .panel-body + .table-responsive {
+        border-top: 1px solid #dddddd;
+    }
+
+    .panel > .table-bordered,
+    .panel > .table-responsive > .table-bordered {
+        border: 0;
+    }
+
+        .panel > .table-bordered > thead > tr > th:first-child,
+        .panel > .table-responsive > .table-bordered > thead > tr > th:first-child,
+        .panel > .table-bordered > tbody > tr > th:first-child,
+        .panel > .table-responsive > .table-bordered > tbody > tr > th:first-child,
+        .panel > .table-bordered > tfoot > tr > th:first-child,
+        .panel > .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+        .panel > .table-bordered > thead > tr > td:first-child,
+        .panel > .table-responsive > .table-bordered > thead > tr > td:first-child,
+        .panel > .table-bordered > tbody > tr > td:first-child,
+        .panel > .table-responsive > .table-bordered > tbody > tr > td:first-child,
+        .panel > .table-bordered > tfoot > tr > td:first-child,
+        .panel > .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+            border-left: 0;
+        }
+
+        .panel > .table-bordered > thead > tr > th:last-child,
+        .panel > .table-responsive > .table-bordered > thead > tr > th:last-child,
+        .panel > .table-bordered > tbody > tr > th:last-child,
+        .panel > .table-responsive > .table-bordered > tbody > tr > th:last-child,
+        .panel > .table-bordered > tfoot > tr > th:last-child,
+        .panel > .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+        .panel > .table-bordered > thead > tr > td:last-child,
+        .panel > .table-responsive > .table-bordered > thead > tr > td:last-child,
+        .panel > .table-bordered > tbody > tr > td:last-child,
+        .panel > .table-responsive > .table-bordered > tbody > tr > td:last-child,
+        .panel > .table-bordered > tfoot > tr > td:last-child,
+        .panel > .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+            border-right: 0;
+        }
+
+        .panel > .table-bordered > thead > tr:last-child > th,
+        .panel > .table-responsive > .table-bordered > thead > tr:last-child > th,
+        .panel > .table-bordered > tbody > tr:last-child > th,
+        .panel > .table-responsive > .table-bordered > tbody > tr:last-child > th,
+        .panel > .table-bordered > tfoot > tr:last-child > th,
+        .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+        .panel > .table-bordered > thead > tr:last-child > td,
+        .panel > .table-responsive > .table-bordered > thead > tr:last-child > td,
+        .panel > .table-bordered > tbody > tr:last-child > td,
+        .panel > .table-responsive > .table-bordered > tbody > tr:last-child > td,
+        .panel > .table-bordered > tfoot > tr:last-child > td,
+        .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+            border-bottom: 0;
+        }
+
+    .panel-heading {
+        padding: 3px 10px;
+        border-bottom: 1px solid transparent;
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
+    }
+
+        .panel-heading > .dropdown .dropdown-toggle {
+            color: inherit;
+        }
+
+    .panel-title {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: lighter;
+    }
+
+        .panel-title > a {
+            color: inherit;
+        }
+
+    .panel-footer {
+        padding: 10px 15px;
+        background-color: #f5f5f5;
+        border-top: 1px solid #dddddd;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+
+    .panel-group .panel {
+        margin-bottom: 0;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+
+        .panel-group .panel + .panel {
+            margin-top: 5px;
+        }
+
+    .panel-group .panel-heading {
+        border-bottom: 0;
+    }
+
+        .panel-group .panel-heading + .panel-collapse .panel-body {
+            border-top: 1px solid #dddddd;
+        }
+
+    .panel-group .panel-footer {
+        border-top: 0;
+    }
+
+        .panel-group .panel-footer + .panel-collapse .panel-body {
+            border-bottom: 1px solid #dddddd;
+        }
+
+    .panel-default {
+        border-color: #dddddd;
+    }
+
+        .panel-default > .panel-heading {
+            color: #333333;
+            background-color: #f5f5f5;
+            border-color: #dddddd;
+        }
+
+            .panel-default > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #dddddd;
+            }
+
+            .panel-default > .panel-heading > .dropdown .caret {
+                border-color: #333333 transparent;
+            }
+
+        .panel-default > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #dddddd;
+        }
+
+    .panel-primary {
+        border-color: #428bca;
+    }
+
+        .panel-primary > .panel-heading {
+            color: #ffffff;
+            background-color: #428bca;
+            border-color: #428bca;
+        }
+
+            .panel-primary > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #428bca;
+            }
+
+            .panel-primary > .panel-heading > .dropdown .caret {
+                border-color: #ffffff transparent;
+            }
+
+        .panel-primary > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #428bca;
+        }
+
+    .panel-success {
+        border-color: #d6e9c6;
+    }
+
+        .panel-success > .panel-heading {
+            color: #468847;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+            .panel-success > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #d6e9c6;
+            }
+
+            .panel-success > .panel-heading > .dropdown .caret {
+                border-color: #468847 transparent;
+            }
+
+        .panel-success > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #d6e9c6;
+        }
+
+    .panel-warning {
+        border-color: #faebcc;
+    }
+
+        .panel-warning > .panel-heading {
+            color: #c09853;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+
+            .panel-warning > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #faebcc;
+            }
+
+            .panel-warning > .panel-heading > .dropdown .caret {
+                border-color: #c09853 transparent;
+            }
+
+        .panel-warning > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #faebcc;
+        }
+
+    .panel-danger {
+        border-color: #ebccd1;
+    }
+
+        .panel-danger > .panel-heading {
+            color: #b94a48;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+            .panel-danger > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #ebccd1;
+            }
+
+            .panel-danger > .panel-heading > .dropdown .caret {
+                border-color: #b94a48 transparent;
+            }
+
+        .panel-danger > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #ebccd1;
+        }
+
+    .panel-info {
+        border-color: #bce8f1;
+    }
+
+        .panel-info > .panel-heading {
+            color: #3a87ad;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }
+
+            .panel-info > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #bce8f1;
+            }
+
+            .panel-info > .panel-heading > .dropdown .caret {
+                border-color: #3a87ad transparent;
+            }
+
+        .panel-info > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #bce8f1;
+        }
+</style>

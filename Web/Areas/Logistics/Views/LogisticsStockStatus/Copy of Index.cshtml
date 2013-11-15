@@ -13,6 +13,21 @@
 <script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
 
 <script type="text/javascript">
+
+    var stockData = [
+                        { CommodityName: "Cereal", PhysicalStock: 50, FreeStock: 50 },
+                        { CommodityName: "Wheat Flour", PhysicalStock: 43, FreeStock: 14 },
+                        { CommodityName: "CSB/Famix", PhysicalStock: 27, FreeStock: 25 },
+                        { CommodityName: "Pulses", PhysicalStock: 29, FreeStock: 39 },
+                        { CommodityName: "V.Oil", PhysicalStock: 34, FreeStock: 58 }
+                    ];
+
+    
+    $.getJSON('/LogisticsStockStatus/GetStockStatusd', $$scope.requestParam, function (data) {
+        stockData = data;
+    })
+    
+
     $(function () {
         //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
         $.getJSON('/Dashboard/PieRequests', {}, function (data) {
@@ -68,220 +83,69 @@
             });
         });
     });
-</script>
+   
+    var app = angular.module('myApp', ['ngGrid']);
+    $$scope;
+    function angularController($scope) {
 
-<script type="text/javascript">
-    $(function () {
-        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
-        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'pieChart-adama',
-                    type: 'pie',
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false
+        $scope.myData = stockData;
+        $$scope = $scope;
+        $scope.requestParam = { programId: "1", hubId: 1 };
+        $scope.gridOptions = {
+            data: 'myData',
+            columnDefs: [
+                { field: 'CommodityName', displayName: 'Commodity' },
+                { field: 'FreeStock', displayName: 'Free Stock' },
+                { field: 'PhysicalStock', displayName: 'Physical Stock' }
+            ],
 
-                },
-                title: {
-                    text: null
-                },
+            jqueryUITheme: false,
+        };
+        
+        /*
+        $scope.gridOptions = {
+            data: 'myData',
+            columnDefs: [
+                { field: 'CommodityName', displayName: 'Commodity' },
+                { field: 'PhysicalStock', displayName: 'Physical Stock' },
+                { field: 'FreeStock', displayName: 'Free Stock' },
+            ],
+            jqueryUITheme: false,
+        };
 
-                exporting: {
-                    enabled: false
-                },
-
-                credits: {
-                    enabled: false
-                },
-
-                plotOptions: {
-                    pie: {
-                        showInLegend: false,
-                        animation: false,
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-
-                        dataLabels: {
-                            enabled: false,
-                            color: '#000000',
-                            connectorColor: '#000000',
-                            formatter: function () {
-                                var percent = this.percentage;
-                                return /*'<b>' + this.point.name + '</b>: ' +*/ percent.toFixed(2) + ' %';
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: false
-                },
-                series: [{
-                    name: 'Requests',
-                    type: 'pie',
-                    data: [75, 25]
-                }]
-            });
+        http.post('http://localhost:1786/Logistics/LogisticsStockStatus/GetStockStatus', {}, function (data) {
+            $scope.stockData = data;
         });
-    });
-</script>
+*/
+    }
 
-<script type="text/javascript">
-    $(function () {
-        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
-        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'pieChart-dire',
-                    type: 'pie',
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false
+    //var stockD = [
+    //                         { Commodity: "Hhh", PhysicalStock: 50, FreeStock: 50 },
+    //                         { Commodity: "Wheat Flour", PhysicalStock: 43, FreeStock: 14 },
+    //                         { Commodity: "CSB/Famix", PhysicalStock: 27, FreeStock: 25 },
+    //                         { Commodity: "Pulses", PhysicalStock: 29, FreeStock: 39 },
+    //                         { Commodity: "V.Oil", PhysicalStock: 34, FreeStock: 58 }
+    //];
 
-                },
-                title: {
-                    text: null
-                },
-                exporting: {
-                    enabled: false
-                },
-                credits: {
-                    enabled: false
-                },
+   
+    //function show() {
+    var app = angular.module('myApp', ['ngGrid']);
+    //app.controller('MyCtrl', function ($scope,http) {
+    //    $scope.myData = stockData;
 
-                plotOptions: {
-                    pie: {
-                        showInLegend: false,
-                        animation: false,
-                        allowPointSelect: true,
-                        cursor: 'pointer',
+    //    $scope.gridOptions = {
+    //        data: 'myData',
+    //        columnDefs: [
+    //            { field: 'CommodityName', displayName: 'Commodity' },
+    //            { field: 'PhysicalStock', displayName: 'Physical Stock' },
+    //            { field: 'FreeStock', displayName: 'Free Stock' },
+    //        ],
+    //        jqueryUITheme: false,
+    //    };
 
-                        dataLabels: {
-                            enabled: false,
-                            color: '#000000',
-                            connectorColor: '#000000',
-                            formatter: function () {
-                                var percent = this.percentage;
-                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: false
-                },
-                series: [{
-                    name: 'Requests',
-                    type: 'pie',
-                    data: [15, 85]
-                }]
-            });
-        });
-    });
-</script>
+    //});
 
-<script type="text/javascript">
-    $(function () {
-        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
-        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'pieChart-meke',
-                    type: 'pie',
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false
-
-                },
-                title: {
-                    text: null
-                },
-                credits: {
-                    enabled: false
-                },
-
-                plotOptions: {
-                    pie: {
-                        showInLegend: false,
-                        animation: false,
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-
-                        dataLabels: {
-                            enabled: false,
-                            color: '#000000',
-                            connectorColor: '#000000',
-                            formatter: function () {
-                                var percent = this.percentage;
-                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: false
-                },
-                series: [{
-                    name: 'Requests',
-                    type: 'pie',
-                    data: [40, 60]
-                }]
-            });
-        });
-    });
-</script>
-
-<script type="text/javascript">
-    $(function () {
-        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
-        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'pieChart-komb',
-                    type: 'pie',
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false
-
-                },
-                title: {
-                    text: null
-                },
-                exporting: {
-                    enabled: false
-                },
-                credits: {
-                    enabled: false
-                },
-                plotOptions: {
-                    pie: {
-                        showInLegend: false,
-                        animation: false,
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-
-                        dataLabels: {
-                            enabled: false,
-                            color: '#000000',
-                            connectorColor: '#000000',
-                            formatter: function () {
-                                var percent = this.percentage;
-                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: false
-                },
-                series: [{
-                    name: 'Stock Status',
-                    type: 'pie',
-                    data: [90, 10]
-                }]
-            });
-        });
-    });
+    //}
 </script>
 
 <style>
@@ -613,33 +477,34 @@
     }
 </style>
 
-<script>
-    var app = angular.module('myApp', ['ngGrid']);
-    app.controller('MyCtrl', function ($scope) {
-        $scope.myData = [
-                             { Commodity: "Cereal", PhysicalStock: 50, FreeStock: 50 },
-                             { Commodity: "Wheat Flour", PhysicalStock: 43, FreeStock: 14 },
-                             { Commodity: "CSB/Famix", PhysicalStock: 27, FreeStock: 25 },
-                             { Commodity: "Pulses", PhysicalStock: 29, FreeStock: 39 },
-                             { Commodity: "V.Oil", PhysicalStock: 34, FreeStock: 58 }
-        ];
+@*<script>
+    //function show() {
+        var app = angular.module('myApp', ['ngGrid']);
+        app.controller('MyCtrl', function ($scope) {
+            $scope.myData = [
+                                 { Commodity: "Cereal", PhysicalStock: 50, FreeStock: 50 },
+                                 { Commodity: "Wheat Flour", PhysicalStock: 43, FreeStock: 14 },
+                                 { Commodity: "CSB/Famix", PhysicalStock: 27, FreeStock: 25 },
+                                 { Commodity: "Pulses", PhysicalStock: 29, FreeStock: 39 },
+                                 { Commodity: "V.Oil", PhysicalStock: 34, FreeStock: 58 }
+            ];
 
-        $scope.gridOptions = {
-            data: 'myData',
-            columnDefs: [
-                { field: 'Commodity', displayName: 'Commodity' },
-                { field: 'PhysicalStock', displayName: 'Physical Stock' },
-                { field: 'FreeStock', displayName: 'Free Stock' },
-            ],
-            jqueryUITheme: false,
-        };
-    });
-</script>
+            $scope.gridOptions = {
+                data: 'myData',
+                columnDefs: [
+                    { field: 'Commodity', displayName: 'Commodity' },
+                    { field: 'PhysicalStock', displayName: 'Physical Stock' },
+                    { field: 'FreeStock', displayName: 'Free Stock' },
+                ],
+                jqueryUITheme: false,
+            };
+        });
+    //}
+</script>*@
 
-<script>
+@*<script>
     var app = angular.module('main', ['ngTable']).
     controller('DemoCtrl', function ($scope) {
-
         $scope.users = [
                 { name: "Moroni", age: 50 },
                 { name: "Tiancum", age: 43 },
@@ -647,57 +512,83 @@
                 { name: "Nephi", age: 29 },
                 { name: "Enos", age: 34 }
         ];
-
     })
-</script>
+</script>*@
 
 <div class="row-fluid form-horizontal ">
     <div class="well span12">
-        <div class="span5 ">
+        <div class="span3 ">
             <div class="control-group">
                 <div class="toolbar">
-                    <label class="category-label" for="category">Show Zones by Region:</label>
+                    <label class="category-label" for="category">Select a hub</label>
                     @(Html.Kendo().DropDownList()
-                                        .Name("regions")
+                                        .Name("hubs")
                                         .OptionLabel("All")
                                         .DataTextField("Name")
-                                        .DataValueField("AdminUnitID")
+                                        .DataValueField("HubID")
                                         .AutoBind(false)
-                                        .Events(e => e.Change("regionsChange"))
+                                        //.Events(e => e.Change("hubsChange"))
                                         .DataSource(ds =>
                                         {
-                                            ds.Read("GetRegions", "NeedAssessment");
+                                            ds.Read("GetHubs", "LogisticsStockStatus");
                                         })
                         )
                 </div>
             </div>
         </div>
 
-        <div class="span5">
+        <div class="span3">
             <div class="control-group">
-                <div class="control-label">
-                    Select
+                <div class="toolbar">
+                    <label class="category-label" for="category">Select a Program</label>
+                    @(Html.Kendo().DropDownList()
+                                        .Name("programs")
+                                        .OptionLabel("Select")
+                                        .DataTextField("Name")
+                                        .DataValueField("ProgramID")
+                                        .AutoBind(false)
+                                        //.Events(e => e.Change("hubsChange"))
+                                        .DataSource(ds =>
+                                        {
+                                            ds.Read("GetPrograms", "LogisticsStockStatus");
+                                        })
+                        )
                 </div>
                 <div class="controls">
                 </div>
             </div>
         </div>
+
+        <div class="span3">
+            <label>Select As of Date</label>
+            <input class="cats-datepicker2"">
+        </div>
+
+        <div class="span3">
+            <button type="button" class="btn btn-default btn-lg" onclick="show()">
+                <span class="glyphicon glyphicon-star"></span> Show
+            </button>
+        </div>
+
     </div>
 </div>
 
 <div class="panel panel-default">
+
     <div class="panel-heading">
-        <h3 class="panel-title" style="font: normal">Free Stock Status of all hubs</h3>
+        <h3 class="panel-title" style="font: normal">Free Stock Status</h3>
     </div>
+    
     <div class="panel-body">
         <div style="float: left; width: 65%">
             <div ng-app="myApp">
-                <div ng-controller="MyCtrl">
+                <div ng-controller="angularController">
+                    <input value="{{requestParam.hubId}}" placeholder="hubId" />
                     @*<div class="gridstyle" ng-grid="gridOptions"></div>*@
                     <table class="table table-striped" style="height: auto" ng-grid="gridOptions"></table>
                 </div>
             </div>
-            @*   <div ng-app="main" ng-controller="DemoCtrl">
+            @*<div ng-app="main" ng-controller="DemoCtrl">
                     <table ng-table class="table">
                         <tr ng-repeat="user in users">
                             <td data-title="'Name'">{{user.name}}</td>
@@ -714,9 +605,26 @@
             </div>
         </div>
     </div>
+
 </div>
 
-<div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div>
     <div class="panel panel-default" style="float: left; width: 49%">
         <div class="panel-heading">
             <h3 class="panel-title">Adamahub</h3>
@@ -839,4 +747,219 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
+
+
+@*<script type="text/javascript">
+    $(function () {
+        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
+        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'pieChart-adama',
+                    type: 'pie',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+
+                },
+                title: {
+                    text: null
+                },
+
+                exporting: {
+                    enabled: false
+                },
+
+                credits: {
+                    enabled: false
+                },
+
+                plotOptions: {
+                    pie: {
+                        showInLegend: false,
+                        animation: false,
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+
+                        dataLabels: {
+                            enabled: false,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function () {
+                                var percent = this.percentage;
+                                return /*'<b>' + this.point.name + '</b>: ' +*/ percent.toFixed(2) + ' %';
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Requests',
+                    type: 'pie',
+                    data: [75, 25]
+                }]
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
+        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'pieChart-dire',
+                    type: 'pie',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+
+                },
+                title: {
+                    text: null
+                },
+                exporting: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                },
+
+                plotOptions: {
+                    pie: {
+                        showInLegend: false,
+                        animation: false,
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+
+                        dataLabels: {
+                            enabled: false,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function () {
+                                var percent = this.percentage;
+                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Requests',
+                    type: 'pie',
+                    data: [15, 85]
+                }]
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
+        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'pieChart-meke',
+                    type: 'pie',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+
+                },
+                title: {
+                    text: null
+                },
+                credits: {
+                    enabled: false
+                },
+
+                plotOptions: {
+                    pie: {
+                        showInLegend: false,
+                        animation: false,
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+
+                        dataLabels: {
+                            enabled: false,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function () {
+                                var percent = this.percentage;
+                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Requests',
+                    type: 'pie',
+                    data: [40, 60]
+                }]
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
+        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'pieChart-komb',
+                    type: 'pie',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+
+                },
+                title: {
+                    text: null
+                },
+                exporting: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                },
+                plotOptions: {
+                    pie: {
+                        showInLegend: false,
+                        animation: false,
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+
+                        dataLabels: {
+                            enabled: false,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function () {
+                                var percent = this.percentage;
+                                return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Stock Status',
+                    type: 'pie',
+                    data: [90, 10]
+                }]
+            });
+        });
+    });
+</script>*@

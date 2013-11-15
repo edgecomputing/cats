@@ -16,6 +16,7 @@ using Cats.Services.Transaction;
 using Cats.Services.Common;
 using log4net;
 using Early_Warning.Security;
+//using Cats.Services.Hub.Interfaces;
 //using Cats.Services.Hub;
 
 namespace Cats.Infrastructure
@@ -170,7 +171,7 @@ namespace Cats.Infrastructure
                                                                                       ConnectionStrings[
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
-            //kernel.Bind<IStockStatusService>().To<StockStatusService>();
+            kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
         }
         private void AddBindingsHub()
         {
@@ -234,6 +235,7 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.Hub.ISessionHistoryService>().To<Cats.Services.Hub.SessionHistoryService>();
             kernel.Bind<Cats.Services.Hub.ISessionAttemptService>().To<Cats.Services.Hub.SessionAttemptService>();
             kernel.Bind<Cats.Services.Hub.IDetailService>().To<Cats.Services.Hub.DetailService>();
+            //kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.DetailService>();
            
         }
     }
