@@ -5,6 +5,7 @@ using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
+using Logistics.Security;
 using NetSqlAzMan;
 using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
