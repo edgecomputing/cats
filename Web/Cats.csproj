@@ -1273,7 +1273,6 @@
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
     <Content Include="Scripts\angular\allocation-angular.js" />
-    <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1492,8 +1491,6 @@
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
-    <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
-    <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cats-print-script.js" />
