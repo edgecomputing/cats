@@ -402,7 +402,6 @@
     <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
-    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
@@ -454,6 +453,7 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
@@ -1241,6 +1241,7 @@
     <Content Include="Scripts\2013.1.219\telerik.upload.min.js" />
     <Content Include="Scripts\2013.1.219\telerik.window.min.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular\angular-dragdrop.min.js" />
     <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
@@ -1461,6 +1462,8 @@
     <Content Include="Scripts\HubScripts\DialogForm.js" />
     <Content Include="Scripts\HubScripts\dispatch.js" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\ConfirmGenerateTransportOrder.cshtml" />
+    <Content Include="Areas\Logistics\Views\FDPSIAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\FDPSIAllocation\DragDrop.cshtml" />
     <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />
@@ -1492,6 +1495,7 @@
     <Content Include="Scripts\HubScripts\ReportFileter.js" />
     <Content Include="Scripts\HubScripts\ReportingDateFilters.js" />
     <Content Include="Scripts\HubScripts\utility.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />

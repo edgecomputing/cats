@@ -259,7 +259,7 @@
                                 </a>
                             </div>
                             <div class="progress progress-success  progress-striped" style="margin: 2px; height: 10px; border: solid 1px rgb(12, 219, 86);">
-                                <div class="bar" style="width: {{request.AllocatedPercent}}%"></div>
+                                <div class="bar" style="width:{{request.AllocatedPercent}}%"></div>
                             </div>
                         </div>
                         <div id="collapse{{$index}}" class="accordion-body collapse">
@@ -287,7 +287,7 @@
 
                             </div>
                         </div>
-                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn {{request.DoneStatus}}">Promot</button>
+                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn btn-mini btn-primary {{request.DoneStatus}}">Promot</button>
                     </div>
 
                 </td>
@@ -365,6 +365,7 @@
                     </ul>
 
                 </td>
+                
             </tr>
 
         </table>
@@ -439,7 +440,7 @@
                    // alert(requisitionId);
                     
                         var param1={regionId:$scope.regionId,requisitionId:requisitionId};
-                        $('#modalContent').html("Updating...");
+                        $('#modalContent').html("Promoting...");
                         $('#myModal').modal('show');
                         $http.post( $scope.promoteUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
                    

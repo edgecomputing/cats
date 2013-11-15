@@ -1,0 +1,152 @@
+﻿@using Cats.Services.Security
+@using Cats.Helpers;
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Hub Allocated Requesitions";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    // Cats.Models.ShippingInstruction si=new Cats.Models.ShippingInstruction();
+    // si.Value
+    var UserUnit = @Translator.Translate(@Html.UserUnitPreference());
+    decimal amount = 12.5M;
+   
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+@section Toolbar
+{
+
+    <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
+}
+
+<fieldset>
+    <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
+  <!--  <div>@amount  MT is  @amount.ToPreferedWeightUnit()</div>-->
+</fieldset>
+
+<style>
+    .list-zone
+    {
+        padding-left:0px;
+       
+        font-size:14px;
+    }
+    .list-woreda
+    {
+        padding-left:20px;
+
+    }
+    .list-fdp
+    {
+        padding-left:40px;
+
+        
+    }
+    .admin-list
+    {
+        line-height:30px;
+        padding-left:5px;
+    }
+    .admin-list:hover
+    {
+        background:#EEE;
+        
+    }
+</style>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 100px; height: 50px; right: 50%; top: 50%; margin: auto;">
+    <div id="modalContent" style="line-height: 40px; text-align: center;">Saving</div>
+</div>
+
+<div ng-app  ng-controller="SIAllocationController">
+    <div>
+        <div class="btn btn-primary" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title">{{list1.title}}</div>
+    </div>
+
+   
+
+    <div class="span4">
+        
+            <div class="list-zone" ng-repeat="zone in requests">
+                <div class="admin-list">{{zone.name}}</div>
+                <div class="list-woreda" ng-repeat="woreda in zone.woredas">
+                    <div class="admin-list">{{woreda.name}} {{woreda.requestedAmount}}</div>
+                    <div class="list-fdp" ng-repeat="fdp in woreda.fdps">
+                        <div class="admin-list">{{fdp.name}} {{fdp.requestedAmount}}</div>
+
+                    </div>
+                </div>   
+            </div>
+
+    </div>
+
+</div>
+<script>
+    function SIAllocationController($scope, $http) {
+
+        $scope.requests = [
+                {
+                    name: "Zone1",
+                    woredas:
+                     [
+                         {
+                             name: "Worda 1", requestedAmount: 100,
+                             fdps:
+                                 [
+                                     { name: "FDP11", requestedAmount: 20 }
+                                     , { name: "FDP12", requestedAmount: 30 }
+                                     , { name: "FDP13", requestedAmount: 50 }
+                                 ]
+                         }
+                     , {
+                         name: "Worda 2", requestedAmount: 100,
+                         fdps:
+                         [
+                             { name: "FDP21", requestedAmount: 20 }
+                             , { name: "FDP22", requestedAmount: 30 }
+                             , { name: "FDP23", requestedAmount: 50 }
+                         ]
+                     }
+
+                     ]
+                }
+                , {
+                    name: "Zone2",
+                    woredas:
+                    [
+                        {
+                            name: "Worda 2", requestedAmount: 100,
+                            fdps:
+                                [
+                                    { name: "FDP11", requestedAmount: 20 }
+                                    , { name: "FDP12", requestedAmount: 30 }
+                                    , { name: "FDP13", requestedAmount: 50 }
+                                ]
+                        }
+                    ]
+                }
+        ];
+
+   
+        $scope.selections = {};
+        $scope.NewAllocation = { RequisitionId: "", AllocatedAmount: 0, ShippingInstructionCode: "", ShippingInstructionId: "" };
+        $scope.SICodesHash = {};
+        $scope.DeletedAllocations = [];
+        $scope.hasError=false;
+                
+        $scope.on_Allocation_Done=function(requisitionId)
+        {
+        };
+    }
+</script>
+
+
+
+
+</div>
