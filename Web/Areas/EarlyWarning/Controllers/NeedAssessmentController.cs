@@ -122,32 +122,36 @@ namespace Cats.Areas.EarlyWarning.Controllers
              string planName = collection["Plan.PlanName"].ToString(CultureInfo.InvariantCulture);
              DateTime startDate = DateTime.Parse(collection["Plan.StartDate"].ToString(CultureInfo.InvariantCulture));
              DateTime endDate = DateTime.Parse(collection["Plan.EndDate"].ToString(CultureInfo.InvariantCulture));
+             if (ModelState.IsValid)
+             {
+                 //_planService.AddNeedAssessmentPlan(needAssessment);
+                 try
+                 {
+                     _planService.AddPlan(planName, startDate, endDate);
+                     var plan = _planService.Get(p => p.PlanName == planName).Single();
+                     var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+                     _needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);
+                     return RedirectToAction("Index");
+                 }
 
-             //_planService.AddNeedAssessmentPlan(needAssessment);
-            _planService.AddPlan(planName, startDate, endDate);
-            var plan = _planService.Get(p => p.PlanName == planName).Single();
-            var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+                 catch (Exception exception)
+                 {
+                     var log = new Logger();
+                     log.LogAllErrorsMesseges(exception, _log);
+                     ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+                     ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+                     ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
+                     ViewBag.Error = "Plan Name Already Exists Please Change Plan Name";
+                     ModelState.AddModelError("Errors", ViewBag.Error);
+                     return View();
+                 }
+                 //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
+             }
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+           ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+           ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
+            return View(needAssessment);
 
-            try
-            {
-                _needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);
-                return RedirectToAction("Index");
-            }
-
-            catch (Exception exception)
-            {
-                var log = new Logger();
-                log.LogAllErrorsMesseges(exception, _log);
-
-                //ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-                //ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
-                //ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
-                ViewBag.Error = "Need Assessment is already Created for this region";
-                ModelState.AddModelError("Errors", ViewBag.Error);
-                return RedirectToAction("Detail","NeedAssessment",new {id=plan.PlanID});
-            }
-             //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
-          
         }
         public ActionResult NeedAssessmentPlan()
         {
@@ -337,9 +341,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var log = new Logger();
             log.LogAllErrorsMesseges(exception, _log);
+            //ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            //ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+            //ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
             ViewBag.Error = "Need Assessment is already Created for this region";
             ModelState.AddModelError("Errors", ViewBag.Error);
-            return RedirectToAction("Detail", "NeedAssessment", new { id = needAssessment.PlanID });
+            return RedirectToAction("AddNeedAssessment", "NeedAssessment", new { id = needAssessment.PlanID });
         }
     }
 
