@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -66,7 +67,18 @@ namespace Cats.Areas.Procurement.Controllers
         public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
-            var reportData = _transportOrderService.GeTransportOrderRpt(id);
+             var reportData = _transportOrderService.GeTransportOrderRpt(id);
+
+            //var transportOrder = _transportOrderService.FindById(id);
+            //var reportHeader = GetTransportOrderReport(transportOrder);
+            //var reportDetail = GetTransportContract(transportOrder);
+            //var reportData = new object[2];
+            //reportData[0] = reportHeader;
+            //reportData[1] = reportHeader;
+            //var dataSourceName = new string[2];
+            //dataSourceName[0] = "TransportOrder";
+            //dataSourceName[1] = "TransportOrderDetail";
+
             var dataSourceName = "TransportOrders";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 
@@ -91,12 +103,6 @@ namespace Cats.Areas.Procurement.Controllers
 
 
         }
-
-
-        
-
-
-       
 
 
 
@@ -476,6 +482,35 @@ namespace Cats.Areas.Procurement.Controllers
                 ModelState.AddModelError("Errors", "Unable to approve");
             }
             return RedirectToAction("Index");
+        }
+
+        private TransportContractReportViewModel GetTransportOrderReport(TransportOrder transportOrder)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportOrderReport = new TransportContractReportViewModel()
+            {
+                TransportOrderID = transportOrder.TransportOrderID,
+                TransportOrderNo = transportOrder.TransportOrderNo,
+                TransporterID = transportOrder.TransporterID,
+                RequisitionNo = transportOrder.TransportOrderDetails.First().ReliefRequisition.RequisitionNo,
+                TransporterName = transportOrder.Transporter.Name,
+                BidDocumentNo = transportOrder.BidDocumentNo,
+                ConsignerName = transportOrder.ConsignerName,
+                ContractNumber = transportOrder.ContractNumber,
+                OrderDate = transportOrder.OrderDate.ToCTSPreferedDateFormat(datePref),
+                OrderExpiryDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref),
+                RequestedDispatchDate = transportOrder.RequestedDispatchDate.ToCTSPreferedDateFormat(datePref),
+                ConsignerDate = transportOrder.ConsignerDate.ToCTSPreferedDateFormat(datePref),
+                PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo,
+                TransporterSignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
+                TransporterSignedName = transportOrder.TransporterSignedName,
+                ZoneName = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.Name,
+                ZoneID = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnitID,
+                RegionName = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                RequisitionID = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID
+                
+            };
+            return transportOrderReport;
         }
     }
 }
