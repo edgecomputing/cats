@@ -32,7 +32,7 @@ app.factory("savefactory", function ($http) {
     return {
         save: function (hubAllocated) {
           
-            $http.post("/DispatchAllocation/Save", { allocation: hubAllocated }).success(function (responseData) {
+            $http.post(UrlPOST, { allocation: hubAllocated }).success(function (responseData) {
                
                
             });

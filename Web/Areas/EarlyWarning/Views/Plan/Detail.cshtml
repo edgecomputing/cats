@@ -12,7 +12,7 @@
                     @Html.Label(Translator.Translate("Plan Name"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.Plan.PlanName)
+                    @Html.TextBoxFor(m=>m.Plan.PlanName,new {Disabled=true})
                 </div>
             </div>
             <div class="control-group">
@@ -20,7 +20,7 @@
                     @Html.Label(Translator.Translate("Program"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.Plan.Program.Name)
+                    @Html.TextBoxFor(m=>m.Plan.Program.Name,new {Disabled=true})
                 </div>
             </div>
 
@@ -29,7 +29,7 @@
                     @Html.LabelFor(m => m.Plan.StartDate,Translator.Translate("From Date"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.Plan.StartDate)
+                    @Html.TextBoxFor(m=>m.Plan.StartDate,new {Disabled=true})
                 </div>
         
             </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
-                    @Html.TextBoxFor(m=>m.Plan.EndDate)
+                    @Html.TextBoxFor(m=>m.Plan.EndDate,new {Disabled=true})
                 </div>
         
             </div>

@@ -1,5 +1,6 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@model Cats.Models.NeedAssessment
 @{
     ViewBag.Title = Translator.Translate("Edit NeedAssessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -11,7 +12,7 @@
 }
 @section Toolbar
 { 
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","NeedAssessment")"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Detail","NeedAssessment",new {id=Model.PlanID})"></a>
 }
 <fieldset>
     <legend>
