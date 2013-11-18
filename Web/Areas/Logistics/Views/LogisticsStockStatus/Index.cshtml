@@ -11,13 +11,12 @@
 }
 
 <div ng-app>
-
     <div ng-controller="SummaryController">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title" style="font: normal">Free Stock Status of all hubs</h3>
             </div>
-            <div class="panel-body" id="container">
+            <div class="panel-body">
 
                 <div class="row-fluid form-horizontal ">
 
@@ -49,7 +48,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div style="float: left; width: 50%">
                    <table class="table table-bordered table-striped">
                         <tr>
                             <th style="text-align: center">Hub</th>
@@ -69,14 +68,22 @@
                     </table>
                 </div>
                 
+                <div id="containerNA">
+                </div>
+                
+                <div>
+                    <chart value='{{basiBarGraph}}' type="bar" height="400">
+
+                    </chart>
+                </div>
+
             </div>
         </div>
     </div>
-
     <div ng-controller="StockController">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title" style="font: normal">Free Stock Status for {{hb.Name}} </h3>
+                <h3 class="panel-title" style="font: normal">Free Stock Status</h3>
             </div>
             <div class="panel-body">
 
@@ -160,7 +167,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -168,12 +174,8 @@
         $scope.reqParam = { program: 1, date: "11/18/2013" }
         $scope.summaryData = [];
         $scope.programsCollection = [];
-        //$scope.requestParam.program = 2;
         $scope.freeStockSum=0;
         $scope.physicalStockSum = 0;
-        //$scope.selectedProgram = 1;
-
-        //$scope.selectedProgram = $scope.programsCollection[2]; // red
 
         var onSuccess = function (data) {
             $scope.summaryData = data;
@@ -185,8 +187,6 @@
             }
             $scope.freeStockSum = f;
             $scope.physicalStockSum = p;
-
-            //alert("H");
         }
 
         var onProgramGetSuccess = function (data) {
@@ -194,17 +194,17 @@
         }
 
         $scope.getSummary = function () {
-            $http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);
+            //$http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);
+            $http.post("@Url.Action("GetStockStatusSummaryP", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.reqParam).success(onSuccess);
         };
-
         $scope.getPrograms = function () {
 
-            $http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
-        }
+            //$http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
+            $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
 
+        }
         $scope.getSummary();
         $scope.getPrograms();
-
     }
 </script>
 
@@ -257,17 +257,20 @@
         }
 
         $scope.getStockStatus = function () {
-            $http.post("/LogisticsStockStatus/GetStockStatus", $scope.requestParam).success(onSuccess);
+            //$http.post("/LogisticsStockStatus/GetStockStatus", $scope.requestParam).success(onSuccess);
+            $http.post("@Url.Action("GetStockStatus", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.requestParam).success(onSuccess);
         };
 
         $scope.getHubs = function () {
-            $http.post("/LogisticsStockStatus/GetHubs", null).success(onHubGetSuccess);
+            //$http.post("/LogisticsStockStatus/GetHubs", null).success(onHubGetSuccess);
+            $http.post("@Url.Action("GetHubs", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onHubGetSuccess);
         }
         $scope.getPrograms = function () {
 
-            $http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
-
+            // $http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
+            $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
         }
+
         $scope.getStockStatus();
         $scope.getHubs();
         $scope.getPrograms();
@@ -387,6 +390,84 @@
         //    }
         //}
     }
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var CurrentDate = new Date();
+        CurrentDate.getFullYear();
+        drawBar(CurrentDate);
+    });
+
+    function drawBar(year) {
+
+        $.getJSON('@Url.Action("BarNeedAssessmentbY", "Dashboard")' + "?year=" + year, {},
+            function (data) {
+                var json = data;
+
+                var jsonRegions = [];
+                var jsonBelg = [];
+                var jsonMeher = [];
+
+                for (var i in json) {
+                    jsonRegions.push(json[i].RegionName);
+                    jsonBelg.push(json[i].Belg_Beneficiaries);
+                    jsonMeher.push(json[i].Meher_Beneficiaries);
+                }
+
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'containerNA',
+                        type: 'column',
+                    },
+                    title: {
+                        text: 'Total Beneficiaries'
+                    },
+
+                    xAxis: {
+                        categories: jsonRegions
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Beneficiaries'
+                        },
+                    },
+
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table><br/>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    exporting: false,
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+
+                        }
+                    },
+                    series: [
+                            {
+                                name: 'Belg',
+                                data: jsonBelg
+                            },
+                            {
+                                name: 'Meher',
+                                data: jsonMeher
+                            }]
+                });
+            });
+        //end of function
+    }
+
+
+    function refresh() {
+        drawBar(this.value());
+    }
+
 </script>
 
 <style>

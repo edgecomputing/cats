@@ -70,6 +70,10 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
+        public ActionResult nghigh() {
+            return View();
+        }
+
         public JsonResult Result() {
             //var x = 1;
             //if(true){

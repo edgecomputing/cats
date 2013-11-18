@@ -16,7 +16,7 @@ namespace Cats.Services.Hub
         private readonly IProgramService _programService;
         private readonly ITransactionService _transactionService;
 
-        public StockStatusService( IUnitOfWork unitOfWork,
+        public StockStatusService(IUnitOfWork unitOfWork,
                                    IProgramService programService,
                                    ITransactionService transactionService)
         {
@@ -173,7 +173,7 @@ namespace Cats.Services.Hub
         public List<HubFreeStockSummaryView> GetStockSummary(int program, string date)
         {
             DateTime _date = Convert.ToDateTime(date);
-            var status = _transactionService.Get(t => t.HubID !=null &&t.ProgramID == program && DateTime.Compare(t.TransactionDate, _date) <= 0);
+            var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, _date) <= 0);
             var grouped = (
                            from s in status
                            group s by s.HubID into g
@@ -187,7 +187,7 @@ namespace Cats.Services.Hub
 
                 decimal phys = 0;
                 decimal free = 0;
-               
+
                 var hubName = "";
 
                 foreach (var s in i.Transactions)
@@ -254,7 +254,7 @@ namespace Cats.Services.Hub
 
         public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
         {
-            var status = _transactionService.Get(t => t.HubID!=null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
+            var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
 
             var grouped = (
                            from s in status
@@ -289,8 +289,6 @@ namespace Cats.Services.Hub
                 var item = new HubFreeStockSummaryView()
                 {
                     HubName = hubName,
-                    //PhysicalStock = phys,
-                    //FreeStock = free
                     TotalPhysicalStock = phys,
                     TotalFreestock = free
                 };
@@ -298,43 +296,8 @@ namespace Cats.Services.Hub
                 result.Add(item);
             }
             return result.ToList();
-
-            //var _date = Convert.ToDateTime(date);
-
-            //var summary = _transactionService.Get(s => s.ProgramID == program && DateTime.Compare(s.TransactionDate, _date) <= 0);
-
-            //var grouped = (
-            //                   from s in summary
-            //                   group s by s.ParentCommodityID into g
-            //                   select g
-            //              );
-
-            //var result = new List<HubFreeStockSummaryView>();
-
-            //foreach (var i in grouped)
-            //{
-            //    var phys = i.Sum(s => s.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED);
-            //    var free = i.Sum(f => f.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED);
-            //    var Hub = "";
-
-            //    foreach (var s in i)
-            //    {
-            //        Hub = i.Key.ToString();
-
-            //        var item = new HubFreeStockSummaryView()
-            //        {
-            //            HubName = Hub,
-            //            TotalPhysicalStock = phys,
-            //            TotalFreestock = free
-            //        };
-
-            //        result.Add(item);
-
-            //    }
-            //}
-            //return result.ToList();
         }
-        
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
