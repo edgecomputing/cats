@@ -19,8 +19,6 @@ namespace Cats.ViewModelBinder
         }
         public static TransportRequisitionViewModel BindTransportRequisitionViewModel(TransportRequisition transportRequisition,List<WorkflowStatus> statuses,string datePrefrence,List<UserInfo> users  )
         {
-           
-
             TransportRequisitionViewModel transportRequisitionViewModel = null;
             if (transportRequisition != null)
             {
@@ -59,9 +57,6 @@ namespace Cats.ViewModelBinder
                 transportRequisitionDetailViewModel.RequisitionID = requisitionToDispatch.RequisitionID;
                 //transportRequisitionDetailViewModel.DonorID = requisitionToDispatch.DonorID;
                 //transportRequisitionDetailViewModel.Donor = requisitionToDispatch.Donor;
-
-
-
             }
             return transportRequisitionDetailViewModel;
         }

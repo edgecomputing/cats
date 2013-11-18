@@ -27,7 +27,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ILog _log;
         private readonly IPlanService _planService;
         private readonly ICommonService _commonService;
-
+       
 
 
         public NeedAssessmentController(INeedAssessmentService needAssessmentService,
@@ -80,7 +80,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (region != null) ViewBag.Zones = _adminUnitService.GetZones(region.Region).ToList();
 
-            return View();
+            var needAssessment = _needAssessmentService.FindById(id);
+            return View(needAssessment);
         }
         public ActionResult Approved()
         {
@@ -98,6 +99,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(zones, JsonRequestBehavior.AllowGet);
 
         }
+       
         public ActionResult AddRegion()
         {
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");

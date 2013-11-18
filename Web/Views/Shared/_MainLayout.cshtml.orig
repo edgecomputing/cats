@@ -1,6 +1,11 @@
 ﻿@using Cats.Helpers;
-@using Cats.Services.Security
+@using Cats.Services.Security;
+@using LanguageHelpers.Localization
+@{
+    UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
 
+    string theme = "default";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +15,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    <!-- Le styles 
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">-->
+    <link href="~/Content/themes/@theme/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 
@@ -19,36 +25,79 @@
     <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
 
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.uniform.min.css")" rel="stylesheet" type="text/css" />
-    <!--
+    <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/ng-grid.css" rel="stylesheet" />
+    <link href="~/Content/ng-table.css" rel="stylesheet" />
+   
+     <!--
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
-	
         -->
+    
     <script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
-
+    <script type="text/javascript" src="~/Scripts/angular/angular.js"> </script>
+<<<<<<< HEAD
+     <script src="~/Scripts/angular/angular-resource.js"></script>
+    <script src="~/Scripts/ng-table.js"></script>
+    <script src="~/Scripts/ng-grid.js"></script>
+    @*<script data-require="ng-table@@*" data-semver="0.3.0" src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js"></script>*@
+=======
+    <script src="~/Scripts/angular/angular-resource.js"></script>
+>>>>>>> fb07f6acc3241f282543924814cf475129a4d403
+    
     <style type="text/css">
-        body
-        {
+        body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
 
-        table .single-line
-        {
+        table .single-line {
             width: 90%;
             margin: 0;
         }
 
-        .field-validation-error
-        {
+        .field-validation-error {
             color: #A00;
         }
 
-        footer
-        {
+        footer {
             bottom: 0;
+        }
+
+        .cats_info, .cats_success, .cats_warning, .cats_error {
+            margin: 10px 0px;
+            padding: 8px 10px 8px 50px;
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            -moz-border-radius: .5em;
+            -webkit-border-radius: .5em;
+            border-radius: .5em;
+        }
+
+        .cats_info {
+            color: #00529B;
+            background-color: #BDE5F8;
+            background-image: url('../../Content/images/info.png');
+        }
+
+        .cats_success {
+            color: #4F8A10;
+            background-color: #DFF2BF;
+            background-image: url('../../Content/images/success.png');
+        }
+
+        .cats_warning {
+            color: #9F6000;
+            background-color: #FEEFB3;
+            background-image: url('../../Content/images/warning.png');
+        }
+
+        .cats_error {
+            color: #D8000C;
+            background-color: #FFBABA;
+            background-image: url('../../Content/images/error.png');
         }
     </style>
     <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet" />
@@ -67,12 +116,26 @@
     <title>@ViewBag.Title</title>
     @*    @Styles.Render("~/Content/css")*@
     @*@Scripts.Render("~/bundles/modernizr")*@
+    <script>
+
+        $(function () {
+
+            var timer = 3000;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                $(".message-window").html('');
+            }, 3000);
+            //alert(timer);
+
+        });
+    </script>
 </head>
 <body>
 
     @Html.Partial("_MainMenu")
-
+   
     <div class="container-fluid">
+
         <div class="row-fluid">
             <div class="span2 column-divider">
                 <div class="sidebar-nav">
@@ -86,41 +149,21 @@
             <div class="span10">
                 <div>
                     <div class="span7">
-<<<<<<< HEAD
-                        <ul class="breadcrumb">
-                            <li><a href="~/">Home</a> </li>
-                        @{
-                        string home=Url.Action("Index", "Home", new { Area = "" });
-                        string[] page_url = PageContext.Page.Context.Request.Url.Segments;
-                        string separator="";
-                        string url = home;
-                        
-                        for (int i=1;i<page_url.Length-1;i++) 
-                        {
-                            string item =page_url[i];
-                            string urlitem=item.Replace("/","");
-                            url += item;
-                            <li><span class="divider">|</span><a href="@url"> @urlitem </a> </li>
-                            
-                        }
-                        }
-                            
-                            <!--<li><a href="#">Home</a> <span class="divider">/</span></li>
-                            <li><a href="#">Request</a> <span class="divider">/</span></li>
-                            <li class="active">Rations</li>--->
-                        </ul>
-=======
                         @RenderSection("Breadcrumb", required: false)
->>>>>>> f917e22e7e6480041f6446e54092a9b021d62c0b
+
+                        @Html.Partial("_BreadCrumb")
                     </div>
+
+
+
                     <div class="span5">
                         <div class=" btn-group toolbar">
                             @RenderSection("Toolbar", required: false)
                         </div>
                         @Html.Partial("_ToolbarCommon")
-                   </div>
+                    </div>
                 </div>
-
+                <div style="clear: both;" class="message-window">@RenderSection("Errors", required: false)@Html.CustomValidationSummary()</div>
                 <div style="clear: both;">
                     @RenderBody()
                 </div>
@@ -132,6 +175,46 @@
         <footer>
             <p>CATS &copy; DRMFSS @DateTime.Now.Year.ToString()</p>
         </footer>
+
+        <div id="div_help_panel" style="display:none;">
+            <style>
+                .left_panel
+                {
+                    position:fixed; left:-510px; top:0px; border:solid 1px #ccc;width:25%;bottom:0px;background:rgba(0,0,0,0.8);
+                }
+                .left_panel *
+                {
+                    color:#FFF;
+                }
+                .left_panel .content
+                {
+                    margin-top:60px;
+                    padding:4px;
+                }
+
+            </style>
+            <script>
+                $(document).ready(function () {
+
+                    $("#toolbar_btn_help").click(function () {
+                        var curPosition = $("#div_content_panel").css("left");
+                        if (curPosition == '0px') {
+                            $("#div_content_panel").animate({ "left": "-=510px" }, "slow");
+                        }
+                        if (curPosition == '-510px') {
+                            $("#div_content_panel").animate({ "left": "+=510px" }, "slow");
+                        }
+                    });
+
+                });
+
+            </script>
+            <div id="div_content_panel" class="left_panel">
+                <div class="content">
+                    Help Content
+                </div>
+            </div>
+        </div>
     </div>
     <!--/.fluid-container-->
 
@@ -159,20 +242,23 @@
     <script src="~/Content/assets/js/jquery.validate.js"></script>
 
 
-    <link href="/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+    <link href="~/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="/Scripts/Beka.EthDate/Beka.EthDate.js"> </script>
-    <script type="text/javascript" src="/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"> </script>
-    <script type="text/javascript" src="/Scripts/js/CatsUI.js"> </script>
+    <script type="text/javascript" src="~/Scripts/Beka.EthDate/Beka.EthDate.js"> </script>
+    <script type="text/javascript" src="~/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"> </script>
+    <script type="text/javascript" src="~/Scripts/js/CatsUI.js"> </script>
 
+
+    <script type="text/javascript"></script>
     @{
-        var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-        var unitPreference = user.Profile.Calendar.ToString();
-        if (unitPreference != "EC")
+        var calendarPreference = Html.UserCalendarPreference();
+
+        
+        if (calendarPreference != "AM")
         {
         <script>
             $(function () {
-                $(".cats-datepicker").datepicker();
+                $(".cats-datepicker2").datepicker();
             });
         </script>
         }
@@ -184,6 +270,18 @@
         }
         <script>
             //Script to generate row number
+            $(function () {
+                var date = new Date();
+                $(".cats-datepicker2").each(function () {
+                    
+                    if ($(this).val() == "") {
+                       // $(this).val(new Date().toLocaleDateString());
+                    } else {
+                        date = new Date(Date.parse($(this).val()));
+                    }
+                    $(this).val(date.toLocaleDateString());
+                })
+            });
             var rowNumber = 0;
 
             function resetRowNumber(e) {
@@ -195,7 +293,32 @@
             }
 
         </script>
+        
+       
     }
+    <script type="text/javascript">
+        var datepreferencedisplay = "@Translator.Translate(@Html.UserCalendarPreference())";
+        var unitpreferencedisplay = "@Translator.Translate(@Html.UserUnitPreference())";
+
+        $(function () {
+
+            //For label
+            $(".cats-date-pref").append(' (' + datepreferencedisplay + ')');
+            $(".cats-unit-pref").append(' (' + unitpreferencedisplay + ')');
+            //For grid
+            $(".cats-date-pref-grid >.k-link").append("(" + datepreferencedisplay + ")");
+            $(".cats-unit-pref-grid >.k-link").append("(" + unitpreferencedisplay + ")");
+            /*each(function () {
+                $(this).append("(" + datepeferencedisplay + ")");
+                
+            });*/
+        }
+        );
+    </script>
+    
+    
+    
+    
 
 </body>
 </html>

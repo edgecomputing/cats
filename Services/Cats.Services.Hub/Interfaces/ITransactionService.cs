@@ -35,7 +35,6 @@ namespace Cats.Services.Hub
         /// <param name="hubId">The hub id.</param>
         /// <returns></returns>
         decimal GetTotalReceiptAllocation(int siNumber, int commodityId, int hubId);
-
         /// <summary>
         /// Gets the total received from receipt allocation.
         /// </summary>
@@ -43,6 +42,9 @@ namespace Cats.Services.Hub
         /// <param name="hubId">The hub id.</param>
         /// <returns></returns>
         decimal GetTotalReceivedFromReceiptAllocation(int siNumber, int commodityId, int hubId);
+
+        //IEnumerable<Object> FreeStockStatus();
+
         decimal GetTotalReceivedFromReceiptAllocation(string siNumber, int commodityId, int hubId);
         /// <summary>
         /// Saves the receipt transaction.
@@ -57,7 +59,6 @@ namespace Cats.Services.Hub
         /// <param name="dispatchModel">The dispatch model.</param>
         /// <param name="user">The user.</param>
         void SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user);
-
 
         /// <summary>
         /// Gets the grouped transportation reports.
@@ -141,7 +142,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         decimal GetCommodityBalanceForStack(int storeId, int stack, int parentCommodityId, int si, int project);
 
-       decimal GetCommodityBalanceForStack2(int storeId, int parentCommodityId, int si, int project);
+        decimal GetCommodityBalanceForStack2(int storeId, int parentCommodityId, int si, int project);
         void SaveStartingBalanceTransaction(StartingBalanceViewModel startingBalance, UserProfile user);
 
         List<StartingBalanceViewModelDto> GetListOfStartingBalances(int hubID);
@@ -158,7 +159,5 @@ namespace Cats.Services.Hub
            Expression<Func<Transaction, bool>> filter = null,
            Func<IQueryable<Transaction>, IOrderedQueryable<Transaction>> orderBy = null,
            string includeProperties = "");
-
-
     }
 }

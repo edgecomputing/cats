@@ -11,7 +11,6 @@ namespace Cats.Services.Hub
 {
     public interface IInternalMovementService
     {
-
         bool AddInternalMovement(InternalMovement entity);
         bool DeleteInternalMovement(InternalMovement entity);
         bool DeleteById(int id);
@@ -19,11 +18,6 @@ namespace Cats.Services.Hub
         InternalMovement FindById(int id);
          List<InternalMovementLogViewModel> GetAllInternalMovmentLog();
         List<InternalMovement> FindBy(Expression<Func<InternalMovement, bool>> predicate);
-
-       void AddNewInternalMovement(InternalMovementViewModel viewModel, UserProfile user);
-      
-
+        void AddNewInternalMovement(InternalMovementViewModel viewModel, UserProfile user);
     }
 }
-
-

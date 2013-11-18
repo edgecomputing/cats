@@ -1,16 +1,14 @@
 ﻿@using Cats.Helpers
+@using Cats.Models
 @using Cats.Models.Security;
 @using Cats.Services.Security
-<<<<<<< HEAD
-=======
-@using LanguageHelpers.Localization
->>>>>>> fd7c4043039af87da38f96d249b68dbc7e6e7741
 
 @{
+<<<<<<< HEAD
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //var user = (UserIdentity)HttpContext.Current.User.Identity;
-    //var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
-    //var lang = user.Profile.LanguageCode;
-    //Translator.LoadTexts();
-    //Translator.CurrentLanguage = lang;
+=======
+   // Layout = "~/Views/Shared/_Layout.cshtml";
+   
+   
+>>>>>>> 4f11e5aae064207b24c499472fd58668ea08bf95
 }
