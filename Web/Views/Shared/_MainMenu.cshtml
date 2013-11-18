@@ -43,8 +43,9 @@
                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list, @Html.Translate("Gift Certificate"))</li>
                                 <li class="divider"></li>
-                                    
-                                <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
+                                <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate("Plan")</a></li>
+                               
+                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment, @Html.Translate("Needs Assessment"))</li>
                                     
                                 
@@ -113,7 +114,7 @@
                                 <li class="divider" />
                                 @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
                                  <li><a href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Stock Status") </a></li>
-                                <li><a href="#">@Html.Translate("Stock")</a></li>
+                                @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
                             </ul>
                                 
                         </li>

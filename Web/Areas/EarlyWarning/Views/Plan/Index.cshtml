@@ -1,7 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 @using Cats.Helpers
 
-@model List<Cats.Models.Plan>
+@*@model List<Cats.Models.Plan>*@
 
 @{
     ViewBag.Title = "Create";
@@ -36,7 +36,6 @@
            // columns.Command(m => m.Custom("Detail").Click("onEdit"));
 
         })
-            .Sortable()
             .Scrollable()
             .Filterable()
             .DataSource(dataSource => dataSource
@@ -47,7 +46,7 @@
 
              ))
 
-@*<script>
+<script>
     function onEdit(e) {
         e.preventDefault();
 
@@ -55,4 +54,4 @@
         window.location = "@Url.Action("Detail", "Plan")" + "/" + dataItem.planID;
 
     }
-</script>*@
+</script>

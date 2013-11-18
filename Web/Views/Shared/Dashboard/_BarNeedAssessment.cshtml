@@ -13,13 +13,9 @@
 <script type="text/javascript">
    
     $(document).ready(function () {
-        var CurrentDate = new Date();
-        CurrentDate.getFullYear();
-        drawBar(CurrentDate);
+        drawBar("2013");
     });
-
     function drawBar(year) {
-
         $.getJSON('@Url.Action("BarNeedAssessmentbY", "Dashboard")' + "?year=" + year, {},
             function (data) {
                 var json = data;
@@ -78,14 +74,7 @@
                             }]
                 });
             });
-        //end of function
     }
-   
-
-    function refresh() {
-        drawBar(this.value());
-    }
-
 </script>
 
 
