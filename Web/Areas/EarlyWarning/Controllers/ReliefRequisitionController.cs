@@ -218,7 +218,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (Request.Url != null)
             {
-                
+                string destinationURl;
+                if (Request.Url.Host == "localhost")
+                {
+                    destinationURl = "http://" + Request.Url.Authority +
+                                     "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId +
+                                     "&recordId=" + requisitionID;
+                }
+                else
+                {
+                    destinationURl = "http://" + Request.Url.Authority  + Request.ApplicationPath +
+                                     "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId +
+                                     "&recordId=" + requisitionID;
+                }
                 var notification = new Notification
                 {
                     Text = "Approved Requistion" + requisitioNo ,
@@ -226,7 +238,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     IsRead = false,
                     Role = 1,
                     RecordId = requisitionID,
-                    Url = "http://" + Request.Url.Authority + "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId + "&recordId=" + requisitionID,
+                    Url = destinationURl,
                     TypeOfNotification = "Requisition Approval",
                     RoleName = Application.LOGISTICS
                 };
