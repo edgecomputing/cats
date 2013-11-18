@@ -85,7 +85,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IShippingInstructionService>().To<ShippingInstructionService>();
 
             kernel.Bind<ITransactionService>().To<TransactionService>();
-            kernel.Bind<ITransactionService>().To<TransactionService>();
+           // kernel.Bind<ITransactionService>().To<TransactionService>();
             //kernel.Bind<ITransactionGroupService>().To<TransactionGroupService>();
             kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
 

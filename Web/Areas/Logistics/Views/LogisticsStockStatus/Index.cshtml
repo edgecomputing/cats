@@ -7,105 +7,139 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-@*<div>
-    <div ng-controller="StockStatusSummary">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title" style="font: normal">Stock Status Summary</h3>
-            </div>
-            <div class="panel-body">
-            </div>
-        </div>
-    </div>
-</div>*@
-
-<div id="graph">
-    
-</div>
-
 <div ng-app>
+
     <div ng-controller="SummaryController">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title" style="font: normal">Free Stock Status</h3>
+                <h3 class="panel-title" style="font: normal">Free Stock Status of all hubs</h3>
             </div>
             <div class="panel-body" id="container">
-                Hello
+
+                <div class="row-fluid form-horizontal ">
+
+                    <div class="form-control span12">
+                        <div class="span3">
+
+                            <label>Select As of Date</label>
+
+                            <input ng-model="reqParam.date" class="cats-datepicker2">
+                        </div>
+
+                        <div class="span3">
+                            <div class="control-group">
+                                <div class="toolbar">
+                                    <label class="category-label" for="category">Select a Program</label>
+                                    <select ng-model="reqParam.program">
+                                        <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
+                                    </select>
+                                    @*<select ng-model="selectedProgram" ng-options="p.Name for p in ProgramsCollection">*@
+                                </div>
+                                <div class="controls">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span3">
+                            <button type="button" class="btn btn-default btn-lg" ng-click="getSummary()">Get</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                   <table class="table table-bordered table-striped">
+                        <tr>
+                            <th style="text-align: center">Hub</th>
+                            <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
+                            <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
+                        </tr>
+                        <tr ng-repeat="sd in summaryData">
+                            <td>{{sd.HubName}}</td>
+                            <td style="text-align: right">{{sd.TotalFreestock}}</td>
+                            <td style="text-align: right">{{sd.TotalPhysicalStock}}</td>
+                        </tr>
+                        <tr style="font-size: 16px; font-weight: bold">
+                            <td style="text-align: right">Total</td>
+                            <td style="text-align: right">{{freeStockSum}}</td>
+                            <td style="text-align: right">{{physicalStockSum}}</td>
+                        </tr>
+                    </table>
+                </div>
+                
             </div>
         </div>
     </div>
+
     <div ng-controller="StockController">
-
-        <div class="row-fluid form-horizontal ">
-            <div class="form-control span12">
-                <div class="span3 ">
-                    <div class="control-group">
-                        <div class="toolbar">
-                            <label class="category-label" for="category">Select a hub</label>
-                            <select ng-model="requestParam.hub">
-                                <option ng-repeat="hb in HubsCollection" value="{{hb.HubId}}">{{hb.Name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="span3">
-                    <div class="control-group">
-                        <div class="toolbar">
-                            <label class="category-label" for="category">Select a Program</label>
-
-                            <select ng-model="requestParam.program">
-                                <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
-                            </select>
-
-                        </div>
-                        <div class="controls">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="span3">
-
-                    <label>Select As of Date</label>
-
-                    @*<select ng-model="requestParam.hub">
-                                <option ng-repeat="hb in HubsCollection" value="{{hb.HubId}}">{{hb.Name}}</option>
-                    </select>*@
-
-                    <input ng-model="requestParam.date" class="cats-datepicker2">
-                </div>
-
-                <div class="span3" style="vertical-align: middle">
-                    @*<button type="button" class="btn btn-default btn-lg" onclick="show()">
-                        <span class="glyphicon glyphicon-star"></span> Show
-                    </button>*@
-
-                    <button type="button" class="btn btn-default btn-lg" ng-click="getStockStatus()">Get</button>
-
-                </div>
-            </div>
-        </div>
-
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title" style="font: normal">Free Stock Status</h3>
+                <h3 class="panel-title" style="font: normal">Free Stock Status for {{hb.Name}} </h3>
             </div>
             <div class="panel-body">
 
-                <div style="float: left; width: 65%">
+                <div class="row-fluid form-horizontal ">
+                    <div class="form-control span12">
+                        <div class="span3">
+                            <label>Select As of Date</label>
+                            <input ng-model="requestParam.date" class="cats-datepicker2">
+                        </div>
+
+                        <div class="span3">
+                            <div class="control-group">
+                                <div class="toolbar">
+                                    <label class="category-label" for="category">Select a hub</label>
+                                    <select ng-model="requestParam.hub">
+                                        <option ng-repeat="hb in HubsCollection" value="{{hb.HubId}}">{{hb.Name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span3">
+                            <div class="control-group">
+                                <div class="toolbar">
+                                    <label class="category-label" for="category">Select a Program</label>
+
+                                    <select ng-model="requestParam.program">
+                                        <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
+                                    </select>
+
+                                </div>
+                                <div class="controls">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span3">
+                            <p></p>
+                            <button type="button" class="btn btn-default btn-lg" ng-click="getStockStatus()">Get</button>
+                        </div>
+
+                        @*<div class="span3" style="vertical-align: middle">
+                    <button type="button" class="btn btn-default btn-lg" onclick="show()">
+                        <span class="glyphicon glyphicon-star"></span> Show
+                    </button>
+
+                   @*<button type="button" class="btn btn-default btn-lg" ng-click="getStockStatus()">Get</button>
+
+                </div>*@
+                    </div>
+                </div>
+
+                <div style="float: left; width: 100%">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th>Commodity</th>
+                            <th style="text-align: center">Commodity</th>
                             <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
                             <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
                         </tr>
                         <tr ng-repeat="sd in stockData">
                             <td>{{sd.CommodityName}}</td>
-                            <td style="text-align: right">{{sd.FreeStock}}.00</td>
-                            <td style="text-align: right">{{sd.PhysicalStock}}.00</td>
+                            <td style="text-align: right">{{sd.FreeStock}}</td>
+                            <td style="text-align: right">{{sd.PhysicalStock}}</td>
                         </tr>
                         <tr style="font-size: 16px; font-weight: bold">
                             <td style="text-align: right">Total</td>
@@ -116,106 +150,67 @@
                     </table>
                 </div>
 
-                <div class="chart-wrapper" style="width: 35%; float: right">
+                @*<div class="chart-wrapper" style="width: 35%; float: right">
                     <div class="chart-inner">
                         <div id="pieChart-main" style="width: 100%; height: 100%;">
                         </div>
                     </div>
-                </div>
+                </div>*@
 
             </div>
         </div>
     </div>
+
 </div>
 
 <script>
     function SummaryController($scope, $http) {
-        $scope.requestParam = { program: 1, date: "11/14/2013" }
+        $scope.reqParam = { program: 1, date: "11/18/2013" }
         $scope.summaryData = [];
         $scope.programsCollection = [];
+        //$scope.requestParam.program = 2;
+        $scope.freeStockSum=0;
+        $scope.physicalStockSum = 0;
+        //$scope.selectedProgram = 1;
+
+        //$scope.selectedProgram = $scope.programsCollection[2]; // red
 
         var onSuccess = function (data) {
-            summaryData = data;
+            $scope.summaryData = data;
+            var f = 0;
+            var p = 0;
+            for (var i = 0; i < $scope.summaryData.length; i++) {
+                f = f + $scope.summaryData[i].TotalFreestock;
+                p = p + $scope.summaryData[i].TotalPhysicalStock;
+            }
+            $scope.freeStockSum = f;
+            $scope.physicalStockSum = p;
+
+            //alert("H");
+        }
+
+        var onProgramGetSuccess = function (data) {
+            $scope.ProgramsCollection = data;
         }
 
         $scope.getSummary = function () {
-            $http.post("/LogisticsStockStatus/GetStockSummary", $scope.requestParam).success(onSuccess);
+            $http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);
         };
+
+        $scope.getPrograms = function () {
+
+            $http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
+        }
+
+        $scope.getSummary();
+        $scope.getPrograms();
+
     }
 </script>
 
 <script>
-    $(function () {
-        $('#graph').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Monthly Average Rainfall'
-            },
-            subtitle: {
-                text: 'Source: WorldClimate.com'
-            },
-            xAxis: {
-                categories: [
-                    'Jan',
-                    'Feb',
-                    'Mar',
-                    'Apr',
-                    'May',
-                    'Jun',
-                    'Jul',
-                    'Aug',
-                    'Sep',
-                    'Oct',
-                    'Nov',
-                    'Dec'
-                ]
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Rainfall (mm)'
-                }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: 'Tokyo',
-                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-            }, {
-                name: 'New York',
-                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-            }, {
-                name: 'London',
-                data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-            }, {
-                name: 'Berlin',
-                data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-            }]
-        });
-    });
-</script>
-
-<script>
     function StockController($scope, $http) {
-        $scope.requestParam = { hub: 1, program: 1, date: "11/14/2013" };
+        $scope.requestParam = { hub: 1, program: 1, date: "11/18/2013" };
         $scope.stockData = [];
         $scope.HubsCollection = [];
         $scope.ProgramsCollection = [];
@@ -237,9 +232,8 @@
             //alert(s);
 
             for (var i = 0; i < $scope.stockData.length; i++) {
-                f = f + $scope.StockData[i].FreeStock;
-                p = p + $scope.StockData[i].PhysicalStock;
-                // s +="h";
+                f = f + $scope.stockData[i].FreeStock;
+                p = p + $scope.stockData[i].PhysicalStock;
             }
 
             @*var s;
@@ -263,7 +257,7 @@
         }
 
         $scope.getStockStatus = function () {
-            $http.post("/LogisticsStockStatus/GetStockStatusD", $scope.requestParam).success(onSuccess);
+            $http.post("/LogisticsStockStatus/GetStockStatus", $scope.requestParam).success(onSuccess);
         };
 
         $scope.getHubs = function () {
@@ -278,121 +272,121 @@
         $scope.getHubs();
         $scope.getPrograms();
 
-        $scope.chart = {
-            "type": "PieChart",
-            "displayed": true,
-            "cssStyle": "height:600px; width:100%;",
-            "data": {
-                "cols": [
-                  {
-                      "id": "month",
-                      "label": "Month",
-                      "type": "string"
-                  },
-                  {
-                      "id": "laptop-id",
-                      "label": "Laptop",
-                      "type": "number"
-                  },
-                  {
-                      "id": "desktop-id",
-                      "label": "Desktop",
-                      "type": "number"
-                  },
-                  {
-                      "id": "server-id",
-                      "label": "Server",
-                      "type": "number"
-                  },
-                  {
-                      "id": "cost-id",
-                      "label": "Shipping",
-                      "type": "number"
-                  }
-                ],
-                "rows": [
-                  {
-                      "c": [
-                        {
-                            "v": "January"
-                        },
-                        {
-                            "v": 19,
-                            "f": "42 items"
-                        },
-                        {
-                            "v": 12,
-                            "f": "Ony 12 items"
-                        },
-                        {
-                            "v": 7,
-                            "f": "7 servers"
-                        },
-                        {
-                            "v": 4
-                        }
-                      ]
-                  },
-                  {
-                      "c": [
-                        {
-                            "v": "February"
-                        },
-                        {
-                            "v": 13
-                        },
-                        {
-                            "v": 1,
-                            "f": "1 unit (Out of stock this month)"
-                        },
-                        {
-                            "v": 12
-                        },
-                        {
-                            "v": 2
-                        }
-                      ]
-                  },
-                  {
-                      "c": [
-                        {
-                            "v": "March"
-                        },
-                        {
-                            "v": 24
-                        },
-                        {
-                            "v": 5
-                        },
-                        {
-                            "v": 11
-                        },
-                        {
-                            "v": 6
-                        }
-                      ]
-                  }
-                ]
-            },
-            "options": {
-                "title": "Sales per month",
-                "isStacked": "true",
-                "fill": 20,
-                "displayExactValues": true,
-                "vAxis": {
-                    "title": "Sales unit",
-                    "gridlines": {
-                        "count": 10
-                    }
-                },
-                "hAxis": {
-                    "title": "Date"
-                }
-            },
-            "formatters": {}
-        }
+        //    $scope.chart = {
+        //        "type": "PieChart",
+        //        "displayed": true,
+        //        "cssStyle": "height:600px; width:100%;",
+        //        "data": {
+        //            "cols": [
+        //              {
+        //                  "id": "month",
+        //                  "label": "Month",
+        //                  "type": "string"
+        //              },
+        //              {
+        //                  "id": "laptop-id",
+        //                  "label": "Laptop",
+        //                  "type": "number"
+        //              },
+        //              {
+        //                  "id": "desktop-id",
+        //                  "label": "Desktop",
+        //                  "type": "number"
+        //              },
+        //              {
+        //                  "id": "server-id",
+        //                  "label": "Server",
+        //                  "type": "number"
+        //              },
+        //              {
+        //                  "id": "cost-id",
+        //                  "label": "Shipping",
+        //                  "type": "number"
+        //              }
+        //            ],
+        //            "rows": [
+        //              {
+        //                  "c": [
+        //                    {
+        //                        "v": "January"
+        //                    },
+        //                    {
+        //                        "v": 19,
+        //                        "f": "42 items"
+        //                    },
+        //                    {
+        //                        "v": 12,
+        //                        "f": "Ony 12 items"
+        //                    },
+        //                    {
+        //                        "v": 7,
+        //                        "f": "7 servers"
+        //                    },
+        //                    {
+        //                        "v": 4
+        //                    }
+        //                  ]
+        //              },
+        //              {
+        //                  "c": [
+        //                    {
+        //                        "v": "February"
+        //                    },
+        //                    {
+        //                        "v": 13
+        //                    },
+        //                    {
+        //                        "v": 1,
+        //                        "f": "1 unit (Out of stock this month)"
+        //                    },
+        //                    {
+        //                        "v": 12
+        //                    },
+        //                    {
+        //                        "v": 2
+        //                    }
+        //                  ]
+        //              },
+        //              {
+        //                  "c": [
+        //                    {
+        //                        "v": "March"
+        //                    },
+        //                    {
+        //                        "v": 24
+        //                    },
+        //                    {
+        //                        "v": 5
+        //                    },
+        //                    {
+        //                        "v": 11
+        //                    },
+        //                    {
+        //                        "v": 6
+        //                    }
+        //                  ]
+        //              }
+        //            ]
+        //        },
+        //        "options": {
+        //            "title": "Sales per month",
+        //            "isStacked": "true",
+        //            "fill": 20,
+        //            "displayExactValues": true,
+        //            "vAxis": {
+        //                "title": "Sales unit",
+        //                "gridlines": {
+        //                    "count": 10
+        //                }
+        //            },
+        //            "hAxis": {
+        //                "title": "Date"
+        //            }
+        //        },
+        //        "formatters": {}
+        //    }
+        //}
     }
-
 </script>
 
 <style>

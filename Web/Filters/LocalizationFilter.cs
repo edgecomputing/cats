@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LanguageHelpers.Localization;
-
 using Cats.Services.Security;
+
 namespace Cats.Filters
 {
     public class LocalizationFilter : ActionFilterAttribute
@@ -22,7 +22,6 @@ namespace Cats.Filters
                 }
             }
             catch(Exception e){}
-            
         }
     }
 }
