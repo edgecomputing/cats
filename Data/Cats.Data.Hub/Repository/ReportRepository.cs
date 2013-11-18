@@ -277,8 +277,7 @@ namespace DRMFSS.BLL.Repository
         }
         public DataTable RPTStockStatus(int hubID, int commodityID)
         {
-
-            /*
+                        /*
              select *,StoreID = 0 from 
             (select s.Number as StoreNo,
              * pc.Value as Project,
@@ -308,10 +307,6 @@ namespace DRMFSS.BLL.Repository
             //    select new {transaction.HubID} as 
             //}
             //)
-
-
-
-
 
 
             var result = (from t in _context.Transactions

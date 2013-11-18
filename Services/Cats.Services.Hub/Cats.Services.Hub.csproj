@@ -124,6 +124,7 @@
     <Compile Include="Interfaces\ISMSService.cs" />
     <Compile Include="Interfaces\IStackEventService.cs" />
     <Compile Include="Interfaces\IStackEventTypeService.cs" />
+    <Compile Include="Interfaces\IStockStatusService.cs" />
     <Compile Include="Interfaces\IStoreService.cs" />
     <Compile Include="Interfaces\ITransactionGroupService.cs" />
     <Compile Include="Interfaces\ITransactionService.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="SMSService.cs" />
     <Compile Include="StackEventService.cs" />
     <Compile Include="StackEventTypeService.cs" />
+    <Compile Include="StockStatusService.cs" />
     <Compile Include="StoreService.cs" />
     <Compile Include="TransactionGroupService.cs" />
     <Compile Include="TransactionService.cs" />
@@ -181,6 +183,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -81,6 +81,7 @@
     <Compile Include="HubOwner.cs" />
     <Compile Include="HubSetting.cs" />
     <Compile Include="HubSettingValue.cs" />
+    <Compile Include="HubView.cs" />
     <Compile Include="InternalMovement.cs" />
     <Compile Include="Ledger.cs" />
     <Compile Include="LedgerType.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="StackEventType.cs" />
     <Compile Include="StatusReportBySI_Result.cs" />
     <Compile Include="StockStatusReport.cs" />
+    <Compile Include="StockStatusViewModel.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="sysdiagram.cs" />
     <Compile Include="Transaction.cs" />

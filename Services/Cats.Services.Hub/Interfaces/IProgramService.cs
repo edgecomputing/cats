@@ -12,7 +12,6 @@ namespace Cats.Services.Hub
 {
     public interface IProgramService
     {
-
         bool AddProgram(Program program);
         bool DeleteProgram(Program program);
         bool DeleteById(int id);
@@ -21,7 +20,6 @@ namespace Cats.Services.Hub
         List<Program> GetAllProgram();
         List<Program> FindBy(Expression<Func<Program, bool>> predicate);
         List<ProgramViewModel> GetAllProgramsForReport();
-
     }
 }
 

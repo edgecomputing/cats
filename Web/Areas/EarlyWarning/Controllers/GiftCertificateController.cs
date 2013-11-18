@@ -94,10 +94,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             PopulateLookup();
-            //var gift = new GiftCertificateViewModel();
-            //gift.GiftDate = ;
-            //gift.ETA = DateTime.Today;
-            //gift.CommodityTypeID = 1;
+            var gift = new GiftCertificateViewModel();
+            gift.GiftDate = DateTime.Today;
+           gift.ETA = DateTime.Today;
+            gift.CommodityTypeID = 1;
             return View();
         }
 

@@ -27,15 +27,21 @@
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <!--
+    <link href="~/Content/ng-grid.css" rel="stylesheet" />
+    <link href="~/Content/ng-table.css" rel="stylesheet" />
+   
+     <!--
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
-	
         -->
+    
     <script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="~/Scripts/angular/angular.js"> </script>
     <script src="~/Scripts/angular/angular-resource.js"></script>
+    <script src="~/Scripts/ng-table.js"></script>
+    <script src="~/Scripts/ng-grid.js"></script>
+    @*<script data-require="ng-table@@*" data-semver="0.3.0" src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js"></script>*@
     
     <style type="text/css">
         body {
@@ -125,7 +131,6 @@
     @Html.Partial("_MainMenu")
    
     <div class="container-fluid">
-        
 
         <div class="row-fluid">
             <div class="span2 column-divider">
@@ -261,18 +266,18 @@
         }
         <script>
             //Script to generate row number
-            //$(function () {
-            //    var date = new Date();
-            //    $(".cats-datepicker2").each(function () {
+            $(function () {
+                var date = new Date();
+                $(".cats-datepicker2").each(function () {
                     
-            //        if ($(this).val() == "") {
-            //           // $(this).val(new Date().toLocaleDateString());
-            //        } else {
-            //            date = new Date(Date.parse($(this).val()));
-            //        }
-            //        $(this).val(date.toLocaleDateString());
-            //    })
-            //});
+                    if ($(this).val() == "") {
+                       // $(this).val(new Date().toLocaleDateString());
+                    } else {
+                        date = new Date(Date.parse($(this).val()));
+                    }
+                    $(this).val(date.toLocaleDateString());
+                })
+            });
             var rowNumber = 0;
 
             function resetRowNumber(e) {

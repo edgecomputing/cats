@@ -233,7 +233,7 @@
     var admin_zone_hash = {};
     
     $(function() {
-        $.getJSON("/Procurement/Transporter/GetAdminUnits", {}, function(data) {
+        $.getJSON("@Url.Action("GetAdminUnits", "Transporter", new { Area = "Procurement" })" /*"/Procurement/Transporter/GetAdminUnits"*/, {}, function(data) {
             
             document.getElementById("ZoneID").disabled = true;
             document.getElementById("WoredaID").disabled = true;

@@ -72,7 +72,6 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            
             return View();
 
         }
