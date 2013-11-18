@@ -58,7 +58,7 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
     $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
     $scope.allocated = [];
 
-   
+    
     $scope.newRequisitions = {
         
         0: "No requisitions in " + RegionName +" region ",

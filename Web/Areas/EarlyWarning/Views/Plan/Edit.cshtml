@@ -1,20 +1,38 @@
 ﻿
 @using LanguageHelpers.Localization
-@*@model Cats.Areas.EarlyWarning.Models.PlanWithHRDViewModel*@
 @model Cats.Models.Plan
+
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+@section LeftBar
+{
+   
+    
+   
+}
 
-<h4>Detail</h4>
-<div class="well form-horizontal">
+@section Toolbar
+{   
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_plan"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Plan")" title="save"></a>
+}
+<div>
+    <h4>Edit Plan</h4>
+</div>
+    @using (Html.BeginForm("Create", "Plan", FormMethod.Post, new { id = "frm_edit_plan" }))
+
+    {
+        @Html.HiddenFor(m=>m.PlanID)
+        <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Plan Name"))
+                    @Html.LabelFor(m => m.PlanName,Translator.Translate("Plan Name"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.PlanName,new {Disabled=true})
+                    @Html.TextBoxFor(m=>m.PlanName)
+                    @Html.ValidationMessageFor(m=>m.PlanName)
                 </div>
             </div>
             <div class="control-group">
@@ -22,7 +40,8 @@
                     @Html.Label(Translator.Translate("Program"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.Program.Name,new {Disabled=true})
+                    @Html.DropDownList("ProgramID",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.ProgramID)
                 </div>
             </div>
 
@@ -31,7 +50,9 @@
                     @Html.LabelFor(m => m.StartDate,Translator.Translate("From Date"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.StartDate,new {Disabled=true})
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.StartDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m => m.StartDate)
                 </div>
         
             </div>
@@ -41,7 +62,8 @@
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
-                    @Html.TextBoxFor(m=>m.EndDate,new {Disabled=true})
+                    @Html.TextBoxFor(m=>m.EndDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m => m.EndDate)
                 </div>
         
             </div>
@@ -52,7 +74,12 @@
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
                     @Html.TextAreaFor(m=>m.Remark)
+                    @Html.ValidationMessageFor(m => m.Remark)
                 </div>
         
             </div>
         </div>
+    }
+
+
+

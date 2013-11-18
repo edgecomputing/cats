@@ -86,11 +86,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Edit(int id)
         {
             var plan = _hrdPlanService.FindById(id);
+            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name",plan.ProgramID);
             if (plan==null)
             {
               
             }
-            return View ();
+            return View (plan);
+        }
+        [HttpPost]
+        public ActionResult Edit(Plan plan)
+        {
+            if(ModelState.IsValid)
+            {
+                _hrdPlanService.EditPlan(plan);
+                return RedirectToAction("Index");
+            }
+            return View(plan);
         }
         public ActionResult Detail(int id)
         {
@@ -105,7 +116,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     NeedAssessments = needAssessment
                 };
 
-            return View(planWithHrdViewModel);
+            return View(plan);
         }
     }
 }

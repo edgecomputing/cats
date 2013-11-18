@@ -1442,6 +1442,7 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Edit.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1511,6 +1512,9 @@
     <Content Include="Scripts\ICanHaz.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\ReceivedCommodity.cshtml" />
+
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\nghigh.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\basicAreaChart.json" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />

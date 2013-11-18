@@ -24,6 +24,6 @@ namespace Cats.Models
         public string Hub { get; set; }
         public decimal AmountAllocated { get; set; }
         public string StrRequisitionDate { get; set; }
-
+       
     }
 }
