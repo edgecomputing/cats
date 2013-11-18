@@ -142,8 +142,6 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(q, JsonRequestBehavior.AllowGet);
         }
 
-
-
        public ActionResult ReceivedCommodity()
        {
           ViewBag.SelectHubID=new SelectList(_stockStatusService.GetHubs(),"HubID","Name");
