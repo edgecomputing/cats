@@ -96,16 +96,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var plan = _hrdPlanService.FindById(id);
 
-            var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == plan.PlanID).ToList();
-            var hrd = _hrdService.FindBy(m => m.PlanID == plan.PlanID).ToList();
-            var planWithHrdViewModel = new PlanWithHRDViewModel()
-                {
-                    Plan = plan,
-                    HRDs = hrd,
-                    NeedAssessments = needAssessment
-                };
+            //var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == plan.PlanID).ToList();
+            //var hrd = _hrdService.FindBy(m => m.PlanID == plan.PlanID).ToList();
+            //var planWithHrdViewModel = new PlanWithHRDViewModel()
+            //    {
+            //        Plan = plan,
+            //        HRDs = hrd,
+            //        NeedAssessments = needAssessment
+            //    };
 
-            return View(planWithHrdViewModel);
+            return View(plan);
         }
     }
 }
