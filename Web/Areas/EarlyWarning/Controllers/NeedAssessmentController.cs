@@ -80,7 +80,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (region != null) ViewBag.Zones = _adminUnitService.GetZones(region.Region).ToList();
 
-            return View();
+            var needAssessment = _needAssessmentService.FindById(id);
+            return View(needAssessment);
         }
         public ActionResult Approved()
         {
