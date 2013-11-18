@@ -130,6 +130,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult AllocateProjectCode([DataSourceRequest]DataSourceRequest request, int regionId,int status)
         {
+            ViewBag.requestStatus = status;
             List<ReliefRequisition> requisititions = null;
             if (regionId == -1 || status == -1) return Json((new List<RequisitionViewModel>()).ToDataSourceResult(request));
             requisititions = _reliefRequisitionService.FindBy(

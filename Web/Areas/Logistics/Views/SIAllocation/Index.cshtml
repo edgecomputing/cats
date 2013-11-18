@@ -20,7 +20,7 @@
 
     <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"></a>
 }
 
 <fieldset>
