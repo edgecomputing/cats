@@ -32,7 +32,7 @@ app.factory("savefactory", function ($http) {
     return {
         save: function (hubAllocated) {
           
-            $http.post("/DispatchAllocation/Save", { allocation: hubAllocated }).success(function (responseData) {
+            $http.post(UrlPOST, { allocation: hubAllocated }).success(function (responseData) {
                
                
             });
@@ -58,7 +58,7 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
     $scope.Requisitions = dragDropService.getRequisitions.query({}, isArray = true);
     $scope.allocated = [];
 
-   
+    
     $scope.newRequisitions = {
         
         0: "No requisitions in " + RegionName +" region ",

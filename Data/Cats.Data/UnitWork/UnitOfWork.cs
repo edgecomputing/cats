@@ -364,14 +364,14 @@ namespace Cats.Data.UnitWork
         {
             try
             {
-_context.SaveChanges();
+                _context.SaveChanges();
             }
             catch (DbEntityValidationException ex)
             {
-                
+
                 throw;
             }
-            
+
         }
 
         private bool disposed = false;

@@ -15,10 +15,13 @@ namespace Cats.Services.Hub.Interfaces
         //IEnumerable<Object> FreeStockByHubAsOF(DateTime date, int hubID);
         IOrderedEnumerable<HubView> GetHubs();
         IEnumerable<ProgramView> GetPrograms();
-        List<HubFreeStockView> GetFreeStockStatus(int hub, int program, DateTime date);
+        List<HubFreeStockView> GetFreeStockStatusD(int hub, int program, DateTime date);
         List<HubFreeStockView> GetFreeStockStatus(int hub, int program, string date);
         List<HubFreeStockSummaryView> GetStockSummary(int program, string date);
-        List<VWCommodityReceived> GetReceivedCommodity(Expression<Func<VWCommodityReceived, bool>> filter = null);
+        List<VWCommodityReceived>
+        GetReceivedCommodity(Expression<Func<VWCommodityReceived, bool>> filter = null);
+        List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date);
+
 
     }
 }

@@ -72,6 +72,10 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
+        public ActionResult nghigh() {
+            return View();
+        }
+
         public JsonResult Result() {
             //var x = 1;
             //if(true){
@@ -98,27 +102,28 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(programs, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetStockStatus() {
-            var status = _stockStatusService.GetFreeStockStatus(1, 1, DateTime.Now);
+        public JsonResult GetStockStatusN() {
+            var status = _stockStatusService.GetFreeStockStatusD(1, 1, DateTime.Now);
             return Json(status, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetStockStatusD(int hub, int program, DateTime date ) {
-            var st = _stockStatusService.GetFreeStockStatus(hub, program, date);
+            var st = _stockStatusService.GetFreeStockStatusD(hub, program, date);
             return Json(st, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetStockStatusSDate(int hub, int program, string date)
+        public JsonResult GetStockStatus(int hub, int program, string date)
         {
             var st = _stockStatusService.GetFreeStockStatus(hub, program, date);
             return Json(st, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetStockStatusSummary()
+        public JsonResult GetStockStatusSummaryN()
         {
-            var st = _stockStatusService.GetStockSummary(1, "11/15/2013");
+            var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
             return Json(st, JsonRequestBehavior.AllowGet);
         }
+
 
 
        public ActionResult ReceivedCommodity()
@@ -139,5 +144,11 @@ namespace Cats.Areas.Logistics.Controllers
         //    //var x = (from h in hello select new { h.LedgerID, h.Month });
         //    return Json(_stockStatusService.FreeStockByHub(1), JsonRequestBehavior.AllowGet);
         //}
+
+        public JsonResult GetStockStatusSummaryP(int program, DateTime date) {
+            var st = _stockStatusService.GetStockSummaryD(program, date);
+            return Json(st, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
