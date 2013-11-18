@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Models.Hubs;
@@ -17,5 +18,7 @@ namespace Cats.Services.Hub.Interfaces
         List<HubFreeStockView> GetFreeStockStatus(int hub, int program, DateTime date);
         List<HubFreeStockView> GetFreeStockStatus(int hub, int program, string date);
         List<HubFreeStockSummaryView> GetStockSummary(int program, string date);
+        List<VWCommodityReceived> GetReceivedCommodity(Expression<Func<VWCommodityReceived, bool>> filter = null);
+
     }
 }

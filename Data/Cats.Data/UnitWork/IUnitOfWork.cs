@@ -132,7 +132,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Plan> PlanRepository { get; } 
         IGenericRepository<PromisedContribution> PromisedContributionRepository { get; }
 
-        IGenericRepository<Notification> NotificationRepository { get; } 
+        IGenericRepository<Notification> NotificationRepository { get; }
+       
         void Save();
 
     }

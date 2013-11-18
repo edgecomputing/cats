@@ -1510,6 +1510,7 @@
     <Content Include="Scripts\ICanHaz.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\ReceivedCommodity.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
