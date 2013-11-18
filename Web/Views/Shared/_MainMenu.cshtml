@@ -115,8 +115,10 @@
                                 @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
                                  <li><a href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Stock Status") </a></li>
 
-                                <li><a href="@Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Commodity Received Stock")</a></li>
-
+                               
+                                 <li>@Html.LogisticOperationMenuItem(@Html.Translate("Commodity Received Stock"),
+                                                               @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                                LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
                                 @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
 
                             </ul>

@@ -34,13 +34,13 @@
                                                            col.Bound(t => t.ProjectCode);
                                                            col.Bound(t => t.Donor);
                                                            col.Bound(t => t.Program);
-                                                           col.Bound(t => t.DonorAll).HeaderHtmlAttributes(new {@class="cats-unit-pref"}).Format("{0:n}");
-                                                           col.Bound(t => t.Received).HeaderHtmlAttributes(new {@class="cats-unit-pref"}).Format("{0:n}");
-                                                           col.Bound(t => t.Expected).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}");
-                                                           col.Bound(t => t.Commited).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}");
-                                                           col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Translator.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" });
-                                                           col.Bound(t => t.Dispatched).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}");
-                                                           col.Template(c => { }).ClientTemplate("#=calculatePhysicalStock(data)#").Title(Translator.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" });
+                                                           col.Bound(t => t.DonorAll).HeaderHtmlAttributes(new {@class = "cats-unit-pref"}).Format("{0:n}").HtmlAttributes(new {align = "right"});
+                                                           col.Bound(t => t.Received).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Bound(t => t.Expected).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Bound(t => t.Commited).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Translator.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+                                                           col.Bound(t => t.Dispatched).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => { }).ClientTemplate("#=calculatePhysicalStock(data)#").Title(Translator.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
 
                                                        }).DataSource(datasource =>
                                                                              datasource.Ajax().Read(read => read.Action("CommodityReceived_read", "LogisticsStockStatus").Data("filterData"))
