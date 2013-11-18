@@ -1,0 +1,77 @@
+﻿@using Cats.Models.Hubs
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "ReceivedCommodity";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+<h4 class="page-header">@Translator.Translate("Received Commodity")</h4>
+<div class="row-fluid form-inline">
+    <div class="control-group span2">
+        <div class="control-label">
+            @Translator.Translate("Hub")
+        </div>
+        <div class="">
+            @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub",new {@class="controls span11"})
+        </div>
+    </div>
+    <div class="control-group span2">
+        <div class="control-label">
+            @Translator.Translate("Program")
+        </div>
+        <div class="">
+            @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
+        </div>
+    </div>
+
+</div>
+@(Html.Kendo().Grid<VWCommodityReceived>().Name("grid").Columns(col =>
+                                                       {
+
+                                                           col.Bound(t => t.ShippingInstruction);
+                                                           col.Bound(t => t.Commodity);
+                                                           col.Bound(t => t.ProjectCode);
+                                                           col.Bound(t => t.Donor);
+                                                           col.Bound(t => t.Program);
+                                                           col.Bound(t => t.DonorAll).HeaderHtmlAttributes(new {@class = "cats-unit-pref"}).Format("{0:n}").HtmlAttributes(new {align = "right"});
+                                                           col.Bound(t => t.Received).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Bound(t => t.Expected).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Bound(t => t.Commited).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Translator.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+                                                           col.Bound(t => t.Dispatched).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => { }).ClientTemplate("#=calculatePhysicalStock(data)#").Title(Translator.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+
+                                                       }).DataSource(datasource =>
+                                                                             datasource.Ajax().Read(read => read.Action("CommodityReceived_read", "LogisticsStockStatus").Data("filterData"))
+                                                                                 .Group(t => t.Add(m => m.Commodity))
+
+                                                                         ).Sortable()
+      )
+<script type="text/javascript">
+
+    function calculatePhysicalStock(data) {
+        return data.Received - data.Dispatched;
+    }
+    function calculateUnCommitedStock(data) {
+        return data.Received - data.Dispatched-data.Commited;
+    }
+    function filterData() {
+
+        return {
+            hubId: $("#SelectHubID").val(),
+            programId: $("#SelectProgramID").val()
+        };
+    }
+
+    $(document).ready(function () {
+        $("#SelectHubID").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $("#SelectProgramID").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+    });
+</script>

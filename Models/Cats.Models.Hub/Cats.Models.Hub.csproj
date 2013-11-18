@@ -145,6 +145,7 @@
     <Compile Include="Mapping\UserHubMap.cs" />
     <Compile Include="Mapping\UserProfileMap.cs" />
     <Compile Include="Mapping\UserRoleMap.cs" />
+    <Compile Include="Mapping\VWCommodityReceivedMap.cs" />
     <Compile Include="Master.cs" />
     <Compile Include="MetaModels\AccountMetaModel.cs" />
     <Compile Include="MetaModels\AdjustmentMetaModel.cs" />
@@ -393,6 +394,7 @@
     <Compile Include="ViewModels\UserRolesModel.cs" />
     <Compile Include="ViewModels\UserWarehouseModel.cs" />
     <Compile Include="ViewModels\Warehouse.cs" />
+    <Compile Include="VWCommodityReceived.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -377,6 +377,14 @@ namespace Cats.Areas.Logistics.Controllers
             transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
             transportRequisitonViewModel.TransportRequisitionDetailViewModels =
             GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+
+            foreach (var transportRequisitionDetailViewModel in transportRequisitonViewModel.TransportRequisitionDetailViewModels)
+            {
+                var count =
+                    _reliefRequisitionDetailService.FindBy(
+                        t => t.RequisitionID == transportRequisitionDetailViewModel.RequisitionID).Count;
+                transportRequisitionDetailViewModel.DestinationsCount = count;
+            }
             }
 
             catch(Exception ex)

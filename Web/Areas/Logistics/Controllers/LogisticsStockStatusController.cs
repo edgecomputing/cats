@@ -13,6 +13,8 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Areas.Logistics.Models;
 using Cats.Models.Hubs;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -122,9 +124,31 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(st, JsonRequestBehavior.AllowGet);
         }
 
+
+
+       public ActionResult ReceivedCommodity()
+       {
+          ViewBag.SelectHubID=new SelectList(_stockStatusService.GetHubs(),"HubID","Name");
+          ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
+           return View();
+       }
+        public JsonResult CommodityReceived_read([DataSourceRequest]DataSourceRequest request,int hubId=-1,int programId=-1)
+        {
+            var data = (hubId==-1|| programId==-1) ? null:_stockStatusService.GetReceivedCommodity(t=>t.HubID==hubId && t.ProgramID==programId);
+          return  Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+     
+            
+        }
+        //public ActionResult FreeStock()
+        //{
+        //    //var x = (from h in hello select new { h.LedgerID, h.Month });
+        //    return Json(_stockStatusService.FreeStockByHub(1), JsonRequestBehavior.AllowGet);
+        //}
+
         public JsonResult GetStockStatusSummaryP(int program, DateTime date) {
             var st = _stockStatusService.GetStockSummaryD(program, date);
             return Json(st, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

@@ -1471,6 +1471,9 @@
     <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Log\List.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\ReceivedCommodity.cshtml" />
+
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\nghigh.cshtml" />
     <Content Include="Areas\Logistics\Views\Shared\basicAreaChart.json" />
     <Content Include="Scripts\ng-google-chart.js" />
