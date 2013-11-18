@@ -16,20 +16,19 @@ namespace Cats.ViewModelBinder
             var result = (from req in requisition
                          select new RequisitionViewModel()
                                      {
-                                                        RequisitionNo =req.RequisitionNo,
-                                                        RequisitionId = req.RequisitionID,
-                                                        RequisitionDate = DateTime.Parse(req.RequestedDate.ToString()),
-                                                        Commodity = req.Commodity.Name,
-                                                        BenficiaryNo = req.ReliefRequisitionDetails.Sum(a=>a.BenficiaryNo),
-                                                        Amount = req.ReliefRequisitionDetails.Sum(a => a.Amount).ToPreferedWeightUnit(),
-                                                        Status = int.Parse( req.Status.ToString()),
-                                                        Region = req.AdminUnit.Name,
-                                                        RegionId = (int) req.RegionID,
-                                                        Zone = req.AdminUnit1.Name,
+                                        RequisitionNo =req.RequisitionNo,
+                                        RequisitionId = req.RequisitionID,
+                                        RequisitionDate = DateTime.Parse(req.RequestedDate.ToString()),
+                                        Commodity = req.Commodity.Name,
+                                        BenficiaryNo = req.ReliefRequisitionDetails.Sum(a=>a.BenficiaryNo),
+                                        Amount = req.ReliefRequisitionDetails.Sum(a => a.Amount).ToPreferedWeightUnit(),
+                                        Status = int.Parse( req.Status.ToString()),
+                                        Region = req.AdminUnit.Name,
+                                        RegionId = (int) req.RegionID,
+                                        Zone = req.AdminUnit1.Name,
                                                        
-                                                       
-                                                        AmountAllocated = req.ReliefRequisitionDetails.Sum(a=>a.Amount),
-                                                        StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
+                                        AmountAllocated = req.ReliefRequisitionDetails.Sum(a=>a.Amount),
+                                        StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
                                      });
                                                    
 

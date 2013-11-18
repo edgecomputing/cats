@@ -486,10 +486,13 @@
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
@@ -592,6 +595,7 @@
     <Compile Include="Helpers\Hub\VersionHelper.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
@@ -679,6 +683,7 @@
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
     <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
+    <Content Include="Areas\Procurement\Controllers\Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
     <Content Include="Content\2013.1.219\Black\loading.gif" />
@@ -1150,6 +1155,8 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\slider-v.gif" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
+    <Content Include="Content\ng-grid.css" />
+    <Content Include="Content\ng-table.css" />
     <Content Include="Content\PrintReport.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1275,7 +1282,6 @@
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
     <Content Include="Scripts\angular\allocation-angular.js" />
-    <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1495,8 +1501,6 @@
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
     <Content Include="Scripts\angular\css\jquery-ui.css" />
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
-    <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
-    <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cats-print-script.js" />
@@ -1506,6 +1510,7 @@
     <Content Include="Scripts\ICanHaz-no-mustache.js" />
     <Content Include="Scripts\ICanHaz.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -1630,6 +1635,7 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <None Include="Scripts\signalR\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\ng-google-chart.js" />
     <Content Include="Scripts\signalR\jquery-1.8.2.js" />
     <Content Include="Scripts\signalR\jquery-1.8.2.min.js" />
     <Content Include="Scripts\signalR\jquery.signalR-1.0.0.js" />
@@ -1638,8 +1644,11 @@
     <Content Include="Scripts\HubScripts\Cascade.js" />
     <Content Include="Scripts\HubScripts\DialogForm.js" />
     <Content Include="Scripts\HubScripts\dispatch.js" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\AngularGrid.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\angu.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\ConfirmGenerateTransportOrder.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocationAdjustment.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Copy of Index.cshtml" />
     <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />
@@ -1671,6 +1680,8 @@
     <Content Include="Scripts\HubScripts\ReportFileter.js" />
     <Content Include="Scripts\HubScripts\ReportingDateFilters.js" />
     <Content Include="Scripts\HubScripts\utility.js" />
+    <Content Include="Scripts\ng-grid.js" />
+    <Content Include="Scripts\ng-table.js" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
@@ -1689,6 +1700,9 @@
     <Content Include="Areas\Logistics\Views\PromisedContribution\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PromisedContribution\Edit.cshtml" />
     <Content Include="Areas\Hub\Views\Web.config" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Status.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\panel.cshtml" />
     <Content Include="Areas\Hub\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Hub\Views\About\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Account\_Standalone.cshtml" />
@@ -2258,6 +2272,10 @@
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
       <Name>Cats.Services.Hub</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
       <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
       <Name>Cats.Services.Logistics</Name>
@@ -2363,6 +2381,7 @@
     <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

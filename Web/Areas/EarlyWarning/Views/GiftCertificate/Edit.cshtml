@@ -27,10 +27,9 @@
     @Html.HiddenFor(model => model.GiftCertificateID)
     @Html.HiddenFor(model => model.rowCount)
  
-    <div class="form-horizontal">
-        <table class="borderless" style="vertical-align: top">
-            <tr>
-                <td style="vertical-align: top">
+    <div class="form-horizontal row-fluid">
+       
+                <div class="span6" style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"),new {@class="cats-date-pref"})
@@ -77,7 +76,7 @@
                         </div>
                         <div class="controls">
 
-                            @Html.EditorFor(model=>model.DeclarationNumber)
+                            @Html.TextBoxFor(model=>model.DeclarationNumber)
 
                             @Html.ValidationMessageFor(model => model.DeclarationNumber)
 
@@ -95,14 +94,14 @@
 
                         </div>
                     </div>
-                </td>
-                <td style="vertical-align: top">
+                </div>
+                <div class="span6" style="vertical-align: top">
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number")) 
                         </div>
                         <div class="controls">
-                            @Html.EditorFor(model => model.SINumber)
+                            @Html.TextBoxFor(model => model.SINumber)
                             @Html.ValidationMessageFor(model => model.SINumber)
                         </div>
                     </div>
@@ -111,7 +110,7 @@
                             @Html.LabelFor(model => model.PortName, Translator.Translate("Port Name"))
                         </div>
                         <div class="controls">
-                            @Html.EditorFor(model => model.PortName)
+                            @Html.TextBoxFor(model => model.PortName)
                             @Html.ValidationMessageFor(model => model.PortName)
                         </div>
                     </div>
@@ -120,7 +119,7 @@
                             @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number")) 
                         </div>
                         <div class="controls">
-                            @Html.EditorFor(model => model.ReferenceNo)
+                            @Html.TextBoxFor(model => model.ReferenceNo)
                             @Html.ValidationMessageFor(model => model.ReferenceNo)
                         </div>
                     </div>
@@ -129,7 +128,7 @@
                             @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel")) 
                         </div>
                         <div class="controls">
-                            @Html.EditorFor(model => model.Vessel)
+                            @Html.TextBoxFor(model => model.Vessel)
                             @Html.ValidationMessageFor(model => model.Vessel)
                         </div>
                     </div>
@@ -143,9 +142,8 @@
                             @Html.ValidationMessageFor(model => model.ETA)
                         </div>
                     </div>
-                </td>
-            </tr>
-        </table>        
+                </div>
+                  
     </div>
    
 

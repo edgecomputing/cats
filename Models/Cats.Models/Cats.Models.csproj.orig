@@ -50,8 +50,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v11.2, Version=11.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Xpo.v11.2, Version=11.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework">
       <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -72,7 +70,23 @@
   <ItemGroup>
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
+    <Compile Include="Allocation.cs" />
     <Compile Include="ApplicationSetting.cs" />
+    <Compile Include="Audit.cs" />
+    <Compile Include="AllocationByRegion.cs" />
+<<<<<<< HEAD
+    <Compile Include="CHubViewModel.cs" />
+=======
+    <Compile Include="Mapping\NotificationMap.cs" />
+    <Compile Include="MetaData\PlanMetaData.cs" />
+    <Compile Include="Notification.cs" />
+    <Compile Include="NotificationViewModel.cs" />
+    <Compile Include="Partial\Plan.cs" />
+>>>>>>> fb07f6acc3241f282543924814cf475129a4d403
+    <Compile Include="Plan.cs" />
+    <Compile Include="HubAllocationByRegionViewModel.cs" />
+    <Compile Include="Mapping\AllocationByRegionMap.cs" />
+    <Compile Include="Mapping\AuditMap.cs" />
     <Compile Include="BeneficiaryInfo.cs" />
     <Compile Include="Bid.cs" />
     <Compile Include="BidDetail.cs" />
@@ -82,6 +96,9 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityGrade.cs" />
     <Compile Include="CommoditySource.cs" />
+    <Compile Include="HubOwner.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Mapping\CommoditySourceMap.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="Contribution.cs" />
@@ -106,7 +123,6 @@
     <Compile Include="HubAllocation.cs" />
     <Compile Include="HRD.cs" />
     <Compile Include="HRDDetail.cs" />
-    <Compile Include="HubOwner.cs" />
     <Compile Include="InKindContributionDetail.cs" />
     <Compile Include="InternalMovement.cs" />
     <Compile Include="LetterTemplate.cs" />
@@ -135,11 +151,9 @@
     <Compile Include="Mapping\HRDCommodityDetailMap.cs" />
     <Compile Include="Mapping\HRDDetailMap.cs" />
     <Compile Include="Mapping\HRDMap.cs" />
+    <Compile Include="Mapping\PlanMap.cs" />
     <Compile Include="Mapping\HubAllocationMap.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="Mapping\HubMap.cs" />
->>>>>>> 9ee38a9cb30bf61799f6dd54721c6f7c0c254614
     <Compile Include="Mapping\HubOwnerMap.cs" />
     <Compile Include="Mapping\InKindContributionDetailMap.cs" />
     <Compile Include="Mapping\LetterTemplateMap.cs" />
@@ -151,6 +165,7 @@
     <Compile Include="Mapping\ProgramMap.cs" />
     <Compile Include="Mapping\ProjectCodeAllocationMap.cs" />
     <Compile Include="Mapping\ProjectCodeMap.cs" />
+    <Compile Include="Mapping\PromisedContributionMap.cs" />
     <Compile Include="Mapping\RationDetailMap.cs" />
     <Compile Include="Mapping\RationMap.cs" />
     <Compile Include="Mapping\ReceiptAllocationMap.cs" />
@@ -166,6 +181,7 @@
     <Compile Include="Mapping\ShippingInstructionMap.cs" />
     <Compile Include="Mapping\StateTemplateMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
+    <Compile Include="Mapping\StoreMap.cs" />
     <Compile Include="Mapping\TransactionMap.cs" />
     <Compile Include="Mapping\TransportBidPlanDetailMap.cs" />
     <Compile Include="Mapping\TransportBidPlanMap.cs" />
@@ -175,6 +191,7 @@
     <Compile Include="Mapping\TransportOrderMap.cs" />
     <Compile Include="Mapping\TransportRequisitionDetailMap.cs" />
     <Compile Include="Mapping\TransportRequisitionMap.cs" />
+    <Compile Include="Mapping\TransReqWithoutTransporterMap.cs" />
     <Compile Include="Mapping\TypeOfNeedAssessmentMap.cs" />
     <Compile Include="Mapping\UnitMap.cs" />
     <Compile Include="Mapping\UserDashboardPreferenceMap.cs" />
@@ -214,6 +231,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectCode.cs" />
     <Compile Include="ProjectCodeAllocation.cs" />
+    <Compile Include="PromisedContribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ration.cs" />
     <Compile Include="RationDetail.cs" />
@@ -223,6 +241,7 @@
     <Compile Include="RegionalPSNPPledge.cs" />
     <Compile Include="RegionalRequest.cs" />
     <Compile Include="RegionalRequestDetail.cs" />
+    <Compile Include="RegionalRequisitionSummary.cs" />
     <Compile Include="RegionsViewModel.cs" />
     <Compile Include="ReliefRequisition.cs" />
     <Compile Include="ReliefRequisitionDetial.cs" />
@@ -232,6 +251,7 @@
     <Compile Include="ShippingInstruction.cs" />
     <Compile Include="StateTemplate.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="Store.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionGroup.cs" />
     <Compile Include="TransportBidPlan.cs" />
@@ -242,12 +262,14 @@
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
     <Compile Include="TransportRequisitionDetail.cs" />
+    <Compile Include="TransReqWithoutTransporter.cs" />
     <Compile Include="TypeOfNeedAssessment.cs" />
     <Compile Include="UIWidget.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserDashboard.cs" />
     <Compile Include="UserDashboardPreference.cs" />
+    <Compile Include="UserHub.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ViewModels\BeneficiaryAllocation.cs" />
     <Compile Include="ViewModels\Bid\BidDetailViewModel.cs" />
@@ -255,6 +277,8 @@
     <Compile Include="ViewModels\FDPsCoveredByDonors.cs" />
     <Compile Include="ViewModels\HRD\HRDViewModel.cs" />
     <Compile Include="ViewModels\HRD\HRDDetailViewModel.cs" />
+    <Compile Include="ViewModels\LookupViewModel.cs" />
+    <Compile Include="ViewModels\TransportRequisitionWithoutWinnerModel.cs" />
     <Compile Include="ViewModels\PSNP\RegionalPSNPPlanDetailViewModel.cs" />
     <Compile Include="ViewModels\PSNP\RegionalPSNPPlanViewModel.cs" />
     <Compile Include="ViewModels\RegionalSummaryViewModel.cs" />
@@ -264,6 +288,7 @@
     <Compile Include="ViewModels\RequisitionToDispatch.cs" />
     <Compile Include="ViewModels\RequestView.cs" />
     <Compile Include="ViewModels\SINumber.cs" />
+    <Compile Include="ViewModels\UserPreferenceViewModel.cs" />
     <Compile Include="vwPSNPAnnualPlan.cs" />
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="NeedAssessmentSummary.cs" />
@@ -284,6 +309,10 @@
     <ProjectReference Include="..\..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Models.Security\Cats.Models.Security.csproj">
+      <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
+      <Name>Cats.Models.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

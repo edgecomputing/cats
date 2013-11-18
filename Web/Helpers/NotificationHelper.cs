@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
 using Cats.Services.Common;
-
+using Cats.Services.EarlyWarning;
 namespace Cats.Helpers
 {
     public static class  NotificationHelper
@@ -18,12 +18,22 @@ namespace Cats.Helpers
         {
             try
             {
+                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
-                var userID = UserAccountHelper.GetUser(user).UserProfileID;
-                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Count(n => n.IsRead == false && n.Role == userID);
+                var application = accountService.GetUserPermissions(user);
 
-                return totallUnread;
+                List<string> parameter = (from userCredentials in application where userCredentials.Roles.Count > 0 select userCredentials.ApplicationName).ToList();
+
+              
+               
+                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && parameter.Contains(n.RoleName)).ToList();
+                
+
+                
+               
+
+                return totallUnread.Count();
             }
             catch (Exception)
             {
@@ -39,15 +49,20 @@ namespace Cats.Helpers
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
               
                 var user = HttpContext.Current.User.Identity.Name;
-                var userID = UserAccountHelper.GetUser(user).UserProfileID;
+               
 
-               // var roles = accountService.GetUserRoles(user);
+                var application = accountService.GetUserPermissions(user);
+              
+                List<string> parameter= (from userCredentials in application where userCredentials.Roles.Count > 0 select userCredentials.ApplicationName).ToList();
+
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Role == userID).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && parameter.Contains(n.RoleName)).ToList();
                 int max = 0;
 
+                if (totallUnread.Count < 1)
+                    return MvcHtmlString.Create("");
                 max = totallUnread.Count > 5 ? 5 : totallUnread.Count;
 
                 for (int i = 0; i < max;i ++ )
@@ -79,6 +94,9 @@ namespace Cats.Helpers
             try
             {
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
+                //var reliefRequisitionService =
+                //    (IReliefRequisitionService)DependencyResolver.Current.GetService(typeof(IReliefRequisitionService));
+
                 var notification = notificationService.FindBy(i => i.RecordId == recordId).Single();
                 notification.IsRead = true;
                 notificationService.EditNotification(notification); 

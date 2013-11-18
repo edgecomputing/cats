@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
 using Early_Warning.Security;
+using Logistics.Security;
 using Ninject;
 
 namespace Cats.Helpers

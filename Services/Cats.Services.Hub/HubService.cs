@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
 using Cats.Models.Hubs;
+using Cats.Models;
 using Cats.Models.Hubs.ViewModels.Common;
 using Cats.Models.Hubs.ViewModels.Report;
 using Cats.Models.Hubs.ViewModels.Report.Data;
@@ -176,6 +177,7 @@ namespace Cats.Services.Hub
                     where v.HubOwnerID != hub.HubOwnerID
                     select v).ToList();
         }
+       
         public void Dispose()
         {
             _unitOfWork.Dispose();
