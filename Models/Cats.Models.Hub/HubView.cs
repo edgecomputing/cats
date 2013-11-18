@@ -31,4 +31,6 @@ namespace Cats.Models.Hubs
         public decimal TotalPhysicalStock { get; set; }
     }
 
+
+
 }
