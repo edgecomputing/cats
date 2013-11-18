@@ -67,16 +67,15 @@ namespace Cats.Areas.Procurement.Controllers
         public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
-             var reportData = _transportOrderService.GeTransportOrderRpt(id);
-
+            var reportData = _transportOrderService.GeTransportOrderRpt(id);
             //var transportOrder = _transportOrderService.FindById(id);
             //var reportHeader = GetTransportOrderReport(transportOrder);
             //var reportDetail = GetTransportContract(transportOrder);
             //var reportData = new object[2];
             //reportData[0] = reportHeader;
-            //reportData[1] = reportHeader;
+            //reportData[1] = reportDetail;
             //var dataSourceName = new string[2];
-            //dataSourceName[0] = "TransportOrder";
+            //dataSourceName[0] = "TransportOrderHeader";
             //dataSourceName[1] = "TransportOrderDetail";
 
             var dataSourceName = "TransportOrders";
@@ -507,6 +506,8 @@ namespace Cats.Areas.Procurement.Controllers
                 ZoneName = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.Name,
                 ZoneID = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnitID,
                 RegionName = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                CommodityID = transportOrder.TransportOrderDetails.First().CommodityID,
+                CommodityName = transportOrder.TransportOrderDetails.First().Commodity.Name,
                 RequisitionID = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID
                 
             };
