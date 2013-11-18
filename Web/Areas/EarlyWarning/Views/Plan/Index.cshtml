@@ -33,7 +33,7 @@
             columns.Bound(p => p.Program);
            // columns.Bound(p => p.Status);
 
-           // columns.Command(m => m.Custom("Detail").Click("onEdit"));
+            columns.Command(m => m.Custom("Edit").Click("onEdit"));
 
         })
             .Scrollable()
@@ -51,7 +51,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("Detail", "Plan")" + "/" + dataItem.planID;
+        window.location = "@Url.Action("Edit", "Plan")" + "/" + dataItem.planID;
 
     }
 </script>
