@@ -13,6 +13,8 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Areas.Logistics.Models;
 using Cats.Models.Hubs;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -75,11 +77,6 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         public JsonResult Result() {
-            //var x = 1;
-            //if(true){
-            //    x = 2;     
-            //}
-
             var re = new FreeStockSummaryModel()
             {
                 freeStock = 50,
@@ -107,24 +104,75 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult GetStockStatusD(int hub, int program, DateTime date ) {
             var st = _stockStatusService.GetFreeStockStatusD(hub, program, date);
-            return Json(st, JsonRequestBehavior.AllowGet);
+            var q = (from s in st
+                     select new HubFreeStockView
+                     {
+                         CommodityName = s.CommodityName,
+                         FreeStock = s.FreeStock.ToPreferedWeightUnit(),
+                         PhysicalStock = s.PhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetStockStatus(int hub, int program, string date)
         {
             var st = _stockStatusService.GetFreeStockStatus(hub, program, date);
-            return Json(st, JsonRequestBehavior.AllowGet);
+            var q = (from s in st
+                     select new HubFreeStockView
+                     {
+                         CommodityName = s.CommodityName,
+                         FreeStock = s.FreeStock.ToPreferedWeightUnit(),
+                         PhysicalStock = s.PhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetStockStatusSummaryN()
         {
             var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
-            return Json(st, JsonRequestBehavior.AllowGet);
+            
+            var q = (from s in st
+                     select new HubFreeStockSummaryView
+                     {
+                         HubName = s.HubName,
+                         TotalFreestock = s.TotalFreestock.ToPreferedWeightUnit(),
+                         TotalPhysicalStock = s.TotalPhysicalStock.ToPreferedWeightUnit()
+                     });
+
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
+
+       public ActionResult ReceivedCommodity()
+       {
+          ViewBag.SelectHubID=new SelectList(_stockStatusService.GetHubs(),"HubID","Name");
+          ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
+           return View();
+       }
+        public JsonResult CommodityReceived_read([DataSourceRequest]DataSourceRequest request,int hubId=-1,int programId=-1)
+        {
+            var data = (hubId==-1|| programId==-1) ? null:_stockStatusService.GetReceivedCommodity(t=>t.HubID==hubId && t.ProgramID==programId);
+          return  Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+     
+            
+        }
+        //public ActionResult FreeStock()
+        //{
+        //    //var x = (from h in hello select new { h.LedgerID, h.Month });
+        //    return Json(_stockStatusService.FreeStockByHub(1), JsonRequestBehavior.AllowGet);
+        //}
 
         public JsonResult GetStockStatusSummaryP(int program, DateTime date) {
             var st = _stockStatusService.GetStockSummaryD(program, date);
-            return Json(st, JsonRequestBehavior.AllowGet);
+
+            var q = (from s in st
+                     select new HubFreeStockSummaryView
+                     {
+                         HubName = s.HubName,
+                         TotalFreestock = s.TotalFreestock.ToPreferedWeightUnit(),
+                         TotalPhysicalStock = s.TotalPhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

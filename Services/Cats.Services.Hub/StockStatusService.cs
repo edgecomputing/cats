@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Services.Hub.Interfaces;
@@ -255,7 +256,6 @@ namespace Cats.Services.Hub
         public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
         {
             var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
-
             var grouped = (
                            from s in status
                            group s by s.HubID into g
@@ -285,7 +285,6 @@ namespace Cats.Services.Hub
                         free = free + Math.Abs(s.QuantityInMT);
                     }
                 }
-
                 var item = new HubFreeStockSummaryView()
                 {
                     HubName = hubName,
@@ -297,6 +296,12 @@ namespace Cats.Services.Hub
             }
             return result.ToList();
         }
+
+
+      public List<VWCommodityReceived> GetReceivedCommodity (Expression<Func<VWCommodityReceived, bool>> filter = null)
+      {
+          return _unitOfWork.VWCommodityReceived.Get(filter,null,string.Empty).ToList();
+      }
 
         public void Dispose()
         {

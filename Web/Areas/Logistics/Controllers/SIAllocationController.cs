@@ -149,20 +149,7 @@ namespace Cats.Areas.Logistics.Controllers
                 }
             }
             List<RequestAllocationViewModel> list = getIndexList(regionId);
-            
-            
-            foreach(RequestAllocationViewModel item in list)
-            {
-                /*if(item.AllocatedAmount>=item.Amount)
-                {
-                    ReliefRequisition req = _requisitionService.FindById(item.RequisitionId);
-                  //  req.Status = 4;
-                    _requisitionService.EditReliefRequisition(req);
 
-                }*/
-            }
-           // for(geteAllocatedAmount(_requisitionService
-          //  list = getIndexList(regionId);/**/
             return Json(list, JsonRequestBehavior.AllowGet); 
         }
         public JsonResult updateRequisitionStatus(int regionId,int requisitionId)

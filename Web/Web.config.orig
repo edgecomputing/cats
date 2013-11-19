@@ -71,7 +71,11 @@
     </appender>
   </log4net>
 
+<<<<<<< HEAD
+<connectionStrings>
+=======
  <connectionStrings>
+>>>>>>> e4402bbcb6ad4ba4d8fcfc8adae95a4cae5968cc
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
@@ -79,20 +83,25 @@
 </connectionStrings>
 <<<<<<< HEAD
 
-  <!--<connectionStrings>
-      <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+<!--
+  <connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+
+</connectionStrings>
+	-->
 =======
   
-
  
   <!--</connectionStrings>
-
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
->>>>>>> 2ad0c88670805ecf92f37786568f9aa68c481609
+      <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
 </connectionStrings>-->
+>>>>>>> e4402bbcb6ad4ba4d8fcfc8adae95a4cae5968cc
 
 
   <appSettings>

@@ -743,5 +743,7 @@ namespace Cats.Data.UnitWork
         {
             get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
         }
+
+       
     }
 }

@@ -19,7 +19,7 @@
 
     <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"></a>
 }
 
 <fieldset>
@@ -285,7 +285,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn {{request.DoneStatus}}">Promot</button>
+                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn btn-mini btn-primary {{request.DoneStatus}}">Promot</button>
                     </div>
                 </td>
                 <td>
@@ -362,6 +362,7 @@
                     </ul>
 
                 </td>
+                
             </tr>
         </table>
 
@@ -434,7 +435,7 @@
                    // alert(requisitionId);
                     
                         var param1={regionId:$scope.regionId,requisitionId:requisitionId};
-                        $('#modalContent').html("Updating...");
+                        $('#modalContent').html("Promoting...");
                         $('#myModal').modal('show');
                         $http.post( $scope.promoteUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
                    
