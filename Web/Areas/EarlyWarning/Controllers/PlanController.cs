@@ -89,7 +89,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name",plan.ProgramID);
             if (plan==null)
             {
-              
+                return HttpNotFound();
             }
             return View (plan);
         }
