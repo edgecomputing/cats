@@ -5,23 +5,19 @@
 <h2>High</h2>
 
 <div ng-app="chartsExample">
-    <div>
+    <div ng-controller="MainCtrl">
         <chart value='basicAreaChart' type="area" height="400"></chart>
     </div>
 </div>
 
 <script>
     'use strict';
-    angular.module('chartsExample', ['chartsExample.directives', 'chartsExample.controllers'],
-            function ($routeProvider, $locationProvider) {
-                $routeProvider.when('/', {
-                    templateUrl: 'views/main.html',
-                    controller: 'MainCtrl',
-                }).otherwise({ //for example when running locally (No '/' at the url), this will be loaded
-                    templateUrl: 'views/main.htm',
-                    controller: 'MainCtrl',
+    angular.module('chartsExample.controllers', []).controller('MainCtrl', ['$scope', '$http',
+            function ($scope, $http) {
+                $http.get("/basicAreaChart.json").success(function (data) {
+                    $scope.basicAreaChart = data;
                 });
-            });
+            }]);
 </script>
 
 <script>

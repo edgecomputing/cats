@@ -48,22 +48,22 @@
                     </div>
                 </div>
 
-                <div style="float: left; width: 50%">
+                <div style="float: left; width: 100%">
                    <table class="table table-bordered table-striped">
                         <tr>
-                            <th style="text-align: center">Hub</th>
+                            <th style="text-align: center; font-size:16px">Hub</th>
                             <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
                             <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
                         </tr>
                         <tr ng-repeat="sd in summaryData">
                             <td>{{sd.HubName}}</td>
-                            <td style="text-align: right">{{sd.TotalFreestock}}</td>
-                            <td style="text-align: right">{{sd.TotalPhysicalStock}}</td>
+                            <td style="text-align: right">{{sd.TotalFreestock | number:2}}</td>
+                            <td style="text-align: right">{{sd.TotalPhysicalStock | number:2}}</td>
                         </tr>
-                        <tr style="font-size: 16px; font-weight: bold">
+                        <tr style="font-weight: bold">
                             <td style="text-align: right">Total</td>
-                            <td style="text-align: right">{{freeStockSum}}</td>
-                            <td style="text-align: right">{{physicalStockSum}}</td>
+                            <td style="text-align: right" >{{freeStockSum | number:2}}</td>
+                            <td style="text-align: right">{{physicalStockSum | number:2}}</td>
                         </tr>
                     </table>
                 </div>
@@ -139,19 +139,19 @@
                 <div style="float: left; width: 100%">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th style="text-align: center">Commodity</th>
+                            <th style="text-align: center; font-size:16px">Commodity</th>
                             <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
                             <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
                         </tr>
                         <tr ng-repeat="sd in stockData">
                             <td>{{sd.CommodityName}}</td>
-                            <td style="text-align: right">{{sd.FreeStock}}</td>
-                            <td style="text-align: right">{{sd.PhysicalStock}}</td>
+                            <td style="text-align: right">{{sd.FreeStock | number:2}}</td>
+                            <td style="text-align: right">{{sd.PhysicalStock | number:2}}</td>
                         </tr>
-                        <tr style="font-size: 16px; font-weight: bold">
+                        <tr style="font-weight: bold">
                             <td style="text-align: right">Total</td>
-                            <td style="text-align: right">{{freeStockSum}}</td>
-                            <td style="text-align: right">{{physicalSum}}</td>
+                            <td style="text-align: right">{{freeStockSum | number:2}}</td>
+                            <td style="text-align: right">{{physicalSum | number:2}}</td>
                         </tr>
 
                     </table>
@@ -171,7 +171,7 @@
 
 <script>
     function SummaryController($scope, $http) {
-        $scope.reqParam = { program: 1, date: "11/18/2013" }
+        $scope.reqParam = { program: 1, date: "11/18/2013"}
         $scope.summaryData = [];
         $scope.programsCollection = [];
         $scope.freeStockSum=0;
@@ -197,12 +197,13 @@
             //$http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);
             $http.post("@Url.Action("GetStockStatusSummaryP", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.reqParam).success(onSuccess);
         };
+
         $scope.getPrograms = function () {
 
             //$http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
             $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
-
         }
+
         $scope.getSummary();
         $scope.getPrograms();
     }
@@ -217,6 +218,10 @@
 
         $scope.freeStockSum = 0;
         $scope.physicalSum = 0;
+
+        var changeDate = function (data) {
+
+        }
 
         var onSuccess = function (data) {
 
@@ -274,130 +279,15 @@
         $scope.getStockStatus();
         $scope.getHubs();
         $scope.getPrograms();
-
-        //    $scope.chart = {
-        //        "type": "PieChart",
-        //        "displayed": true,
-        //        "cssStyle": "height:600px; width:100%;",
-        //        "data": {
-        //            "cols": [
-        //              {
-        //                  "id": "month",
-        //                  "label": "Month",
-        //                  "type": "string"
-        //              },
-        //              {
-        //                  "id": "laptop-id",
-        //                  "label": "Laptop",
-        //                  "type": "number"
-        //              },
-        //              {
-        //                  "id": "desktop-id",
-        //                  "label": "Desktop",
-        //                  "type": "number"
-        //              },
-        //              {
-        //                  "id": "server-id",
-        //                  "label": "Server",
-        //                  "type": "number"
-        //              },
-        //              {
-        //                  "id": "cost-id",
-        //                  "label": "Shipping",
-        //                  "type": "number"
-        //              }
-        //            ],
-        //            "rows": [
-        //              {
-        //                  "c": [
-        //                    {
-        //                        "v": "January"
-        //                    },
-        //                    {
-        //                        "v": 19,
-        //                        "f": "42 items"
-        //                    },
-        //                    {
-        //                        "v": 12,
-        //                        "f": "Ony 12 items"
-        //                    },
-        //                    {
-        //                        "v": 7,
-        //                        "f": "7 servers"
-        //                    },
-        //                    {
-        //                        "v": 4
-        //                    }
-        //                  ]
-        //              },
-        //              {
-        //                  "c": [
-        //                    {
-        //                        "v": "February"
-        //                    },
-        //                    {
-        //                        "v": 13
-        //                    },
-        //                    {
-        //                        "v": 1,
-        //                        "f": "1 unit (Out of stock this month)"
-        //                    },
-        //                    {
-        //                        "v": 12
-        //                    },
-        //                    {
-        //                        "v": 2
-        //                    }
-        //                  ]
-        //              },
-        //              {
-        //                  "c": [
-        //                    {
-        //                        "v": "March"
-        //                    },
-        //                    {
-        //                        "v": 24
-        //                    },
-        //                    {
-        //                        "v": 5
-        //                    },
-        //                    {
-        //                        "v": 11
-        //                    },
-        //                    {
-        //                        "v": 6
-        //                    }
-        //                  ]
-        //              }
-        //            ]
-        //        },
-        //        "options": {
-        //            "title": "Sales per month",
-        //            "isStacked": "true",
-        //            "fill": 20,
-        //            "displayExactValues": true,
-        //            "vAxis": {
-        //                "title": "Sales unit",
-        //                "gridlines": {
-        //                    "count": 10
-        //                }
-        //            },
-        //            "hAxis": {
-        //                "title": "Date"
-        //            }
-        //        },
-        //        "formatters": {}
-        //    }
-        //}
     }
 </script>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-        var CurrentDate = new Date();
-        CurrentDate.getFullYear();
-        drawBar(CurrentDate);
+        //var CurrentDate = new Date();
+        //CurrentDate.getFullYear();
+        drawBar('2013');
     });
 
     function drawBar(year) {
@@ -462,12 +352,9 @@
             });
         //end of function
     }
-
-
-    function refresh() {
-        drawBar(this.value());
-    }
-
+    //    function refresh() {
+    //    drawBar(this.value());
+    //}
 </script>
 
 <style>

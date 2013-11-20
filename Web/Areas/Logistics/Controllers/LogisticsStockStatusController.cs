@@ -77,11 +77,6 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         public JsonResult Result() {
-            //var x = 1;
-            //if(true){
-            //    x = 2;     
-            //}
-
             var re = new FreeStockSummaryModel()
             {
                 freeStock = 50,
@@ -109,22 +104,43 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult GetStockStatusD(int hub, int program, DateTime date ) {
             var st = _stockStatusService.GetFreeStockStatusD(hub, program, date);
-            return Json(st, JsonRequestBehavior.AllowGet);
+            var q = (from s in st
+                     select new HubFreeStockView
+                     {
+                         CommodityName = s.CommodityName,
+                         FreeStock = s.FreeStock.ToPreferedWeightUnit(),
+                         PhysicalStock = s.PhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetStockStatus(int hub, int program, string date)
         {
             var st = _stockStatusService.GetFreeStockStatus(hub, program, date);
-            return Json(st, JsonRequestBehavior.AllowGet);
+            var q = (from s in st
+                     select new HubFreeStockView
+                     {
+                         CommodityName = s.CommodityName,
+                         FreeStock = s.FreeStock.ToPreferedWeightUnit(),
+                         PhysicalStock = s.PhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetStockStatusSummaryN()
         {
             var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
-            return Json(st, JsonRequestBehavior.AllowGet);
+            
+            var q = (from s in st
+                     select new HubFreeStockSummaryView
+                     {
+                         HubName = s.HubName,
+                         TotalFreestock = s.TotalFreestock.ToPreferedWeightUnit(),
+                         TotalPhysicalStock = s.TotalPhysicalStock.ToPreferedWeightUnit()
+                     });
+
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
-
-
 
        public ActionResult ReceivedCommodity()
        {
@@ -147,7 +163,15 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult GetStockStatusSummaryP(int program, DateTime date) {
             var st = _stockStatusService.GetStockSummaryD(program, date);
-            return Json(st, JsonRequestBehavior.AllowGet);
+
+            var q = (from s in st
+                     select new HubFreeStockSummaryView
+                     {
+                         HubName = s.HubName,
+                         TotalFreestock = s.TotalFreestock.ToPreferedWeightUnit(),
+                         TotalPhysicalStock = s.TotalPhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
 
     }

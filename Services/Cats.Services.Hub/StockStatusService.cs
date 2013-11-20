@@ -256,7 +256,6 @@ namespace Cats.Services.Hub
         public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
         {
             var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
-
             var grouped = (
                            from s in status
                            group s by s.HubID into g
@@ -286,7 +285,6 @@ namespace Cats.Services.Hub
                         free = free + Math.Abs(s.QuantityInMT);
                     }
                 }
-
                 var item = new HubFreeStockSummaryView()
                 {
                     HubName = hubName,
