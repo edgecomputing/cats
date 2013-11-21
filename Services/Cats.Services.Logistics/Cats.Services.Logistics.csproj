@@ -69,6 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeneficiaryAllocationService.cs" />
+    <Compile Include="SIPCAllocationService.cs" />
+    <Compile Include="ISIPCAllocationService.cs" />
     <Compile Include="IBeneficiaryAllocationService.cs" />
     <Compile Include="IPromisedContributionService.cs" />
     <Compile Include="ITransportRequisitionService.cs" />

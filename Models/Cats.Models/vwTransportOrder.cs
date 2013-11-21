@@ -13,6 +13,8 @@ namespace Cats.Models
         public System.DateTime OrderDate { get; set; }
         public System.DateTime RequestedDispatchDate { get; set; }
         public System.DateTime OrderExpiryDate { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime EndDate { get; set; }
         public string BidDocumentNo { get; set; }
         public string PerformanceBondReceiptNo { get; set; }
         public int TransporterID { get; set; }
@@ -41,4 +43,3 @@ namespace Cats.Models
         public string TransporterName { get; set; }
     }
 }
-

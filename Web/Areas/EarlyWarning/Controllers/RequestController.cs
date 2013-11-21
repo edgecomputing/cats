@@ -87,6 +87,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
+            regionalRequest.PlanID = hrdpsnpPlanInfo.HRDPSNPPlan.PlanID;
             if (hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.HasValue)
                 regionalRequest.Season = hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.Value;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
@@ -114,6 +115,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
             ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
+            ViewBag.PlanID = new SelectList(_commonService.GetPlan("Relief"), "PlanID", "PlanName");
+            ViewBag.Plan = new SelectList(_commonService.GetPlan("PSNP"), "PlanID", "PlanName");
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
@@ -121,7 +124,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", regionalRequest.ProgramId);
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name", regionalRequest.Month);
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber", regionalRequest.RationID);
-
+            //ViewBag.PlanID = new SelectList(_commonService.GetPlan(), "PlanID", "PlanName", regionalRequest.PlanID);
         }
         //
         // GET: /ReliefRequisitoin/Details/5

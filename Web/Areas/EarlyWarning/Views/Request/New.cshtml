@@ -1,4 +1,5 @@
 ﻿@using System.Collections
+@using LanguageHelpers.Localization
 @model  Cats.Models.HRDPSNPPlan
 
 
@@ -23,7 +24,7 @@
 @using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
 {
     <div class="form-horizontal ">
-        <div class="control-group">
+        <div class="control-group pull-left">
             <div class="control-label">
                 @Html.LabelFor(model => model.ProgramID, "Program")
             </div>
@@ -32,29 +33,47 @@
                 @Html.ValidationMessageFor(model => model.ProgramID)
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group pull-left" id="Relief_Plan">
             <div class="control-label">
-                @Html.LabelFor(model => model.RegionID, "Region")
+                @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
             </div>
             <div class="controls">
-                @Html.DropDownList("RegionID", string.Empty)
-                @Html.ValidationMessageFor(model => model.RegionID)
+                @Html.DropDownList("PlanID", null, new { @id = "cmb_planID" })
+                @Html.ValidationMessageFor(model => model.PlanID)
             </div>
         </div>
-
-
-        <div class="control-group" id="div_month">
+        <div class="control-group pull-left" id="PSNP_Plan">
             <div class="control-label">
-                @Html.LabelFor(model => model.Month, "Month")
+                @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
             </div>
             <div class="controls">
-                @Html.DropDownList("Month", String.Empty)
-                @Html.ValidationMessageFor(model => model.Month)
+                @Html.DropDownList("Plan", null, new { @id = "cmb_planID" })
+                @Html.ValidationMessageFor(model => model.PlanID)
             </div>
         </div>
+            <div class="control-group pull-left">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RegionID, "Region")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionID", string.Empty)
+                    @Html.ValidationMessageFor(model => model.RegionID)
+                </div>
+           
+           </div>
+      
+            <div class="control-group pull-left" id="div_month">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Month, "Month")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("Month", String.Empty)
+                    @Html.ValidationMessageFor(model => model.Month)
+                </div>
+            </div>
         
-        
-        <div class="control-group" id="div_round">
+  
+        <div class="control-group pull-left" id="div_round">
             <div class="control-label">
                 @Html.LabelFor(model => model.Round, "Round")
             </div>
@@ -65,18 +84,18 @@
         </div>
         
 
-        <div class="control-group">
+        <div class="control-group pull-left">
             <div class="control-label">
                 @Html.LabelFor(model => model.Year,"Year")
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.Year)
+                @Html.TextBoxFor(model => model.Year)
                 @Html.ValidationMessageFor(model => model.Year)
-                <p id="Year_description">As specified on the current HRD</p>
+               @* <p id="Year_description">As specified on the current HRD</p>*@
             </div>
         </div>
 
-        <div class="control-group" id="div_season">
+        <div class="control-group pull-left" id="div_season">
             <div class="control-label">
                 @Html.LabelFor(model => model.SeasonID, "Season")
             </div>
@@ -85,7 +104,7 @@
                 @Html.ValidationMessageFor(model => model.SeasonID)
             </div>
         </div>
-        <div class="control-group" id="div_donor">
+        <div class="control-group pull-left" id="div_donor">
             <div class="control-label">
                 @Html.LabelFor(model => model.DonorID, "Donor")
             </div>
@@ -109,6 +128,8 @@
             var div_donor = $("#div_donor");
             var div_month = $("#div_month");
             var div_round = $("#div_round");
+            var Relief_Plan = $("#Relief_Plan");
+            var PSNP_Plan = $("#PSNP_Plan");
            
             
             //var div_desc = $("#Year_description");
@@ -120,10 +141,14 @@
                 div_donor.hide();
                 div_month.show();
                 div_round.show();
+                Relief_Plan.show();
+                PSNP_Plan.hide();
                 var htm = "<p id ='Year_description'>As specified on the current HRD</p>";
                 $("#Year_description").html(htm);
             }
             else if (prog == "PSNP") {
+                Relief_Plan.hide();
+                PSNP_Plan.show();
                 div_season.hide();
                 div_donor.show();
                 div_month.show();

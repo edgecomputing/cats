@@ -58,9 +58,6 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpGet]
         public ViewResult TransportRequisitions()
         {
-            
-
-
             return View();
         }
 

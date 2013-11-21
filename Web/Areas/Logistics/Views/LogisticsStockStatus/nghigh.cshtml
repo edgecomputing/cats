@@ -12,7 +12,7 @@
 
 <script>
     'use strict';
-    angular.module('chartsExample.controllers', []).controller('MainCtrl', ['$scope', '$http',
+    angular.module('chartsExample', []).controller('MainCtrl', ['$scope', '$http',
             function ($scope, $http) {
                 $http.get("/basicAreaChart.json").success(function (data) {
                     $scope.basicAreaChart = data;

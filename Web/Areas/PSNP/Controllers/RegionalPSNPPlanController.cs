@@ -176,6 +176,7 @@ namespace Cats.Areas.PSNP
 
                                                                 };
                         _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
+                       _planService.ChangePlanStatus(regionalpsnpplan.PlanId);
                         BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP,
                                                                                            regionalpsnpplan.
                                                                                                RegionalPSNPPlanID,
