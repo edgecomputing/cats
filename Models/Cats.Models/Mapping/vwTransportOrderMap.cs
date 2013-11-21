@@ -115,6 +115,8 @@ namespace Cats.Models.Mapping
             this.Property(t => t.WoredaName).HasColumnName("WoredaName");
             this.Property(t => t.ZoneName).HasColumnName("ZoneName");
             this.Property(t => t.TransporterName).HasColumnName("TransporterName");
+            this.Property(t => t.StartDate).HasColumnName("StartDate");
+            this.Property(t => t.EndDate).HasColumnName("EndDate");
         }
     }
 }
