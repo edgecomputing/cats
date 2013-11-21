@@ -1279,7 +1279,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox33</rd:DefaultName>
-                          <Top>3.26735in</Top>
+                          <Top>3.1979in</Top>
                           <Left>3.07164in</Left>
                           <Height>0.17708in</Height>
                           <Width>1.83333in</Width>
@@ -1315,7 +1315,7 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox34</rd:DefaultName>
                           <Top>3.48609in</Top>
-                          <Left>2.77872in</Left>
+                          <Left>2.76955in</Left>
                           <Height>0.19792in</Height>
                           <Width>2.13542in</Width>
                           <ZIndex>14</ZIndex>
@@ -1406,7 +1406,7 @@
                                 <TextRun>
                                   <Value>=First(Fields!OrderDate.Value)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>nyala</FontFamily>
                                     <Format>MM/dd/yyyy</Format>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
@@ -1424,9 +1424,7 @@
                           <Width>1.4075in</Width>
                           <ZIndex>17</ZIndex>
                           <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
+                            <Border />
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1442,7 +1440,7 @@
                                 <TextRun>
                                   <Value>=First(Fields!RequestedDispatchDate.Value)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>nyala</FontFamily>
                                     <Format>MM/dd/yyyy</Format>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
@@ -1489,7 +1487,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>BidDocumentNo</rd:DefaultName>
-                          <Top>3.26735in</Top>
+                          <Top>3.1979in</Top>
                           <Left>4.94665in</Left>
                           <Height>0.1875in</Height>
                           <Width>1.4075in</Width>
@@ -1886,7 +1884,7 @@
                                 <TextRun>
                                   <Value>=First(Fields!ConsignerDate.Value)</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontFamily>nyala</FontFamily>
                                     <Format>dd MMMM, yyyy</Format>
                                   </Style>
                                 </TextRun>
@@ -1895,7 +1893,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>ConsignerDate</rd:DefaultName>
-                          <Top>6.3564in</Top>
+                          <Top>6.34252in</Top>
                           <Left>0.9129in</Left>
                           <Height>0.19444in</Height>
                           <Width>1.97in</Width>
@@ -1967,7 +1965,7 @@
                                 <TextRun>
                                   <Value>=First(Fields!TransporterSignedDate.Value)</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontFamily>nyala</FontFamily>
                                     <Format>dd MMMM, yyyy</Format>
                                   </Style>
                                 </TextRun>
@@ -2016,7 +2014,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Transport Order Expiry Date:</Value>
+                                  <Value>Transport Order End Date:</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2053,7 +2051,7 @@
                                 <TextRun>
                                   <Value>=First(Fields!OrderExpiryDate.Value)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>nyala</FontFamily>
                                     <Format>MM/dd/yyyy</Format>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
@@ -2257,7 +2255,7 @@
                         </Tablix>
                         <Line Name="Line3">
                           <Top>3.68401in</Top>
-                          <Left>4.96248in</Left>
+                          <Left>4.95331in</Left>
                           <Height>0in</Height>
                           <Width>1.41001in</Width>
                           <ZIndex>42</ZIndex>
@@ -2274,7 +2272,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Transport Order Expiry Date:</Value>
+                                  <Value>End Date:</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2287,7 +2285,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox33</rd:DefaultName>
-                          <Top>3.02082in</Top>
+                          <Top>2.96527in</Top>
                           <Left>3.07164in</Left>
                           <Height>0.17708in</Height>
                           <Width>1.83333in</Width>
@@ -2309,9 +2307,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!OrderExpiryDate.Value)</Value>
+                                  <Value>=First(Fields!OrderEndDate.Value)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>nyala</FontFamily>
                                     <Format>MM/dd/yyyy</Format>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
@@ -2323,7 +2321,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>BidDocumentNo</rd:DefaultName>
-                          <Top>3.02082in</Top>
+                          <Top>2.96527in</Top>
                           <Left>4.93997in</Left>
                           <Height>0.20486in</Height>
                           <Width>1.4075in</Width>
@@ -2345,7 +2343,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Transport Order Expiry Date:</Value>
+                                  <Value>Start Date:</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -2380,9 +2378,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!OrderExpiryDate.Value)</Value>
+                                  <Value>=First(Fields!OrderStartDate.Value)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontFamily>Nyala</FontFamily>
                                     <Format>MM/dd/yyyy</Format>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
@@ -2394,7 +2392,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>BidDocumentNo</rd:DefaultName>
-                          <Top>2.74651in</Top>
+                          <Top>2.73263in</Top>
                           <Left>4.93997in</Left>
                           <Height>0.20486in</Height>
                           <Width>1.4075in</Width>
@@ -2530,6 +2528,10 @@
           <DataField>ContractNumber</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="StatusID">
+          <DataField>StatusID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="TransportOrderDetailID">
           <DataField>TransportOrderDetailID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -2602,10 +2604,18 @@
           <DataField>TransporterName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="OrderEndDate">
+          <DataField>OrderEndDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="OrderStartDate">
+          <DataField>OrderStartDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>CTSDataSet</rd:DataSetName>
-        <rd:SchemaPath>C:\Source\cats\Web\CTSDataSet.xsd</rd:SchemaPath>
+        <rd:SchemaPath>C:\store\EDGE\cats\Web\CTSDataSet.xsd</rd:SchemaPath>
         <rd:TableName>vwTransportOrder</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
