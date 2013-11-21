@@ -29,6 +29,7 @@ namespace Cats.Models
         public int RationID { get; set; }
         public int? DonorID { get; set; }
         public int? Round { get; set; }
+        public int PlanID { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
@@ -36,6 +37,8 @@ namespace Cats.Models
         public virtual Program Program { get; set; }
         public virtual Ration Ration { get; set; }
         public virtual  Donor Donor { get; set; }
+        public virtual Plan Plan { get; set; }
+
 
         public string MonthName { get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Month); } }
         //public string MonthName { get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Month); } }
