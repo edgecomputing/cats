@@ -18,7 +18,20 @@ namespace Cats.Services.Common
            private decimal _amount;
            private int? _siCodeId;
            private string _SIcode;
+           private string _hubName;
+           private int _hubId;
 
+           public int HubId
+           {
+               get { return _hubId; }
+               set { _hubId = value; }
+           }
+
+           public string HubName
+           {
+               get { return _hubName; }
+               set { _hubName = value; }
+           }
            public decimal amount
            {
                get { return _amount; }
@@ -45,6 +58,20 @@ namespace Cats.Services.Common
            private decimal _amount;
            private int? _pcCodeId;
            private string _PCcode;
+           private string _hubName;
+           private int _hubId;
+
+           public int HubId
+           {
+               get { return _hubId; }
+               set { _hubId = value; }
+           }
+
+           public string HubName
+           {
+               get { return _hubName; }
+               set { _hubName = value; }
+           }
 
            public decimal amount
            {
@@ -62,6 +89,7 @@ namespace Cats.Services.Common
                get { return _PCcode; }
                set { _PCcode = value; }
            }
+
        }
 
 #endregion
@@ -119,15 +147,24 @@ namespace Cats.Services.Common
         /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public List<AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
-
+            List<Transaction> listOfTrans=new List<Transaction>();
+            if (hubId > 0)
+            {
+                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+            }
+            else
+            {
+                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+            }
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
                     a => new
                     {
                         availableAmount = a.Sum(t => t.QuantityInMT),
                         SICodeId = a.Select(t => t.ShippingInstructionID),
-                        SICode = a.Select(t => t.ShippingInstruction.Value)
+                        SICode = a.Select(t => t.ShippingInstruction.Value),
+                        HubID = a.Select(t => t.HubID),
+
                     }).Where(s => s.availableAmount > 0);
 
             var siCodeList = new List<AvailableShippingCodes>();
@@ -137,6 +174,7 @@ namespace Cats.Services.Common
                 freeSILists.amount = listOfSICode.availableAmount;
                 freeSILists.siCodeId = listOfSICode.SICodeId.FirstOrDefault();
                 freeSILists.SIcode = listOfSICode.SICode.FirstOrDefault();
+                freeSILists.HubId = (int)listOfSICode.HubID.FirstOrDefault();
                 siCodeList.Add(freeSILists);
             }
 
@@ -173,7 +211,8 @@ namespace Cats.Services.Common
                     {
                         availableAmount = a.Sum(t => t.QuantityInMT),
                         PCCodeId = a.Select(t => t.ProjectCodeID),
-                        PCCode = a.Select(t => t.ProjectCode.Value)
+                        PCCode = a.Select(t => t.ProjectCode.Value),
+                        HubID = a.Select(t => t.HubID)
                     }).Where(s=>s.availableAmount> 0);
 
             var pcCodeList = new List<AvailableProjectCodes>();
@@ -183,6 +222,7 @@ namespace Cats.Services.Common
                 freePCLists.amount = listOfSICode.availableAmount;
                 freePCLists.pcCodeId = listOfSICode.PCCodeId.FirstOrDefault();
                 freePCLists.PCcode = listOfSICode.PCCode.FirstOrDefault();
+                freePCLists.HubId = (int)listOfSICode.HubID.FirstOrDefault();
                 pcCodeList.Add(freePCLists);
             }
 
@@ -192,8 +232,15 @@ namespace Cats.Services.Common
 
         public List<AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int commodityId)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
-
+            List<Transaction> listOfTrans = new List<Transaction>();
+            if (hubId > 0)
+            {
+                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+            }
+            else
+            {
+                _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+            }
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ProjectCodeID).Select(
                     a => new

@@ -189,8 +189,6 @@ namespace Cats.Tests.ControllersTests
         public void ShouldGenerateTransportOrderForSelectedTransportRequisition()
         {
             //Act
-            
-          
             _transportOrderController.CreateTransportOrder(1);
             var request =new Kendo.Mvc.UI.DataSourceRequest();
             var result = _transportOrderController.TransportOrder_Read(request);

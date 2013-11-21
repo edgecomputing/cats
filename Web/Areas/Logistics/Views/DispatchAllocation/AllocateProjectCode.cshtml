@@ -6,17 +6,27 @@
 @{
     var gridid = Guid.NewGuid().ToString();
 }
-@ViewBag.requestStatus
+<style>
+    .action-link
+    {
+        display: none;
+    }
+    .assign-code3
+    {
+        display: block;
+    }
+</style>
 @(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
     .Name("ProjectCodegrid" +gridid)
     .Columns(columns =>
     {
-        columns.Bound(e => e.RequisitionNo).Width(100).Title("Requisition No").ClientTemplate("<a href='" + @Url.Action("Index", "FDPSIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId }) + "&RequisitionID=#=RequisitionId#'>#=RequisitionNo#</a>  ");
-        columns.Bound(e => e.Region).Width(100).Title("Region");
-        columns.Bound(e => e.Commodity).Width(100);
-        columns.Bound(e => e.Amount).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal; ", title = "Amount Allocated" ,@class = "cats-unit-pref-grid"}).Format("{0:N2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
-        columns.Bound(e => e.StrRequisitionDate).Width(80);
-        columns.Bound(e => e.BenficiaryNo).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Benficiary No" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
+        columns.Bound(e => e.RequisitionNo).Width(120).Title("Requisition No");
+        columns.Bound(e => e.Region).Width(120).Title("Region");
+        columns.Bound(e => e.Commodity).Width(110);
+        columns.Bound(e => e.Amount).Width(140).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal; ", title = "Amount Allocated", @class = "cats-unit-pref-grid" }).Format("{0:N2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
+        columns.Bound(e => e.StrRequisitionDate).Title("Requested On").Width(140);
+        columns.Bound(e => e.BenficiaryNo).Title("Beneficiaries").Width(120).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Benficiary No" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
+        columns.Bound(e => e.Status).Title("").ClientTemplate("<a class='action-link assign-code#=Status#' href='" + @Url.Action("Index", "FDPSIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId }) + "&RequisitionID=#=RequisitionId#'>PC/SI Allocate</a>  ");
        
     })
     .DataSource(dataSource => dataSource

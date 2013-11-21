@@ -16,22 +16,25 @@ namespace Cats.Areas.Logistics.Controllers
 {
     public class FDPSIAllocationController : Controller
     {
-        private IReliefRequisitionService _requisitionService;
-        private ILedgerService _ledgerService;
-        private IHubAllocationService _hubAllocationService;
-        private IProjectCodeAllocationService _projectCodeAllocationService;
+        private readonly IReliefRequisitionService _requisitionService;
+        private readonly ILedgerService _ledgerService;
+        private readonly IHubAllocationService _hubAllocationService;
+        private readonly IProjectCodeAllocationService _projectCodeAllocationService;
+        private readonly IHubService _hubService;
         public FDPSIAllocationController
             (
              IReliefRequisitionService requisitionService
             , ILedgerService ledgerService
             , IHubAllocationService hubAllocationService
             , IProjectCodeAllocationService projectCodeAllocationService
+            , IHubService hubService
             )
             {
                 this._requisitionService = requisitionService;
                 this._ledgerService = ledgerService;
                 this._hubAllocationService = hubAllocationService;
                 this._projectCodeAllocationService = projectCodeAllocationService;
+                this._hubService = hubService;
             }
 
         public List<RequestAllocationViewModel> getIndexList(int regionId = 0,int RequisitionID=0)
@@ -69,16 +72,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public List<FDPRequestViewModel> getRequestDetail(ReliefRequisition Request)
         {
-            /*RequisitionId { get; set; }
-        public int RequestDetailId { get; set; }
-        public int FDPId { get; set; }
-        public string FDPName { get; set; }
-        public string Name { get; set; }
-        public decimal RequestedAmount { get; set; }
-        public int WoredaId { get; set; }
-        public string WoredaName { get; set; }
-             * */
-           
+
             var result = Request.ReliefRequisitionDetails.ToList().Select(item => new FDPRequestViewModel
             {
                 RequisitionId=Request.RequisitionID,
@@ -95,7 +89,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public FreeSIPC getSIPCLists(int reqId, int CommodityID)
         {
-            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
+            var hubId = 0;// _hubAllocationService.GetAllocatedHubId(reqId);
             List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId, CommodityID);
             List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId, CommodityID);
             FreeSIPC free = new FreeSIPC { FreePCCodes = freePCCodes, FreeSICodes = freeSICodes };
@@ -105,6 +99,7 @@ namespace Cats.Areas.Logistics.Controllers
         {
             ViewBag.regionId = regionId;
             ViewBag.RequisitionID = RequisitionID;
+            ViewBag.Hubs = _hubService.GetAllHub();
             return View();
         }
 
@@ -118,6 +113,14 @@ namespace Cats.Areas.Logistics.Controllers
 
             return View();
         }
-        
+        public JsonResult updateRequisitionStatus(int RequisitionId)
+        {
+            ReliefRequisition req = _requisitionService.FindById(RequisitionId);
+            req.Status = 4;
+            _requisitionService.EditReliefRequisition(req);
+            List<RequestAllocationViewModel> list = new List<RequestAllocationViewModel> ();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }
