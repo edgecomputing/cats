@@ -31,6 +31,16 @@ namespace Cats.Areas.Logistics.Models
         public int WoredaId { get; set; }
         public string WoredaName { get; set; }
         public string Commodity { get; set; }
+        public List<SIPCAllocationViewModel> Allocations { get; set; }
+    }
+    public class SIPCAllocationViewModel
+    {
+        public int SIPCAllocationID { get; set; }
+        public int FDPID { get; set; }
+        public int RequisitionDetailID { get; set; }
+        public int Code { get; set; }
+        public decimal AllocatedAmount { get; set; }
+        public int AllocationType { get; set; }
     }
     public class SIAllocation
     {

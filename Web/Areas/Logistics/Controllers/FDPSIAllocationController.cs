@@ -11,6 +11,7 @@ using Cats.ViewModelBinder;
 using log4net;
 using Cats.Services.Common;
 using Cats.Areas.Logistics.Models;
+using Cats.Services.Logistics;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -21,6 +22,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IHubAllocationService _hubAllocationService;
         private readonly IProjectCodeAllocationService _projectCodeAllocationService;
         private readonly IHubService _hubService;
+        private readonly ISIPCAllocationService _allocationService;
         public FDPSIAllocationController
             (
              IReliefRequisitionService requisitionService
@@ -28,6 +30,7 @@ namespace Cats.Areas.Logistics.Controllers
             , IHubAllocationService hubAllocationService
             , IProjectCodeAllocationService projectCodeAllocationService
             , IHubService hubService
+            ,ISIPCAllocationService allocationService
             )
             {
                 this._requisitionService = requisitionService;
@@ -35,6 +38,7 @@ namespace Cats.Areas.Logistics.Controllers
                 this._hubAllocationService = hubAllocationService;
                 this._projectCodeAllocationService = projectCodeAllocationService;
                 this._hubService = hubService;
+                this._allocationService = allocationService;
             }
 
         public List<RequestAllocationViewModel> getIndexList(int regionId = 0,int RequisitionID=0)
@@ -60,7 +64,7 @@ namespace Cats.Areas.Logistics.Controllers
                 Amount = item.ReliefRequisitionDetails.Sum(a => a.Amount),
                 HubAllocationID = item.HubAllocations.ToList()[0].HubAllocationID,
                 HubName = item.HubAllocations.ToList()[0].Hub.Name,
-   //             SIAllocations=item.RegionalRequest.RegionalRequestDetails.First().Fdpid
+           //     SIAllocations=item.ReliefRequisitionDetails.RegionalRequestDetails.First().Fdpid
 //                AllocatedAmount = geteAllocatedAmount(item),
  //               SIAllocations = getSIAllocations(item.HubAllocations.ToList()[0].ProjectCodeAllocations.ToList()),
                 FDPRequests=getRequestDetail(item),
@@ -83,7 +87,20 @@ namespace Cats.Areas.Logistics.Controllers
                 RequestedAmount=item.Amount,
                 WoredaId=item.FDP.AdminUnitID,
                 WoredaName=item.FDP.AdminUnit.Name,
-                Commodity = item.Commodity.Name
+                Commodity = item.Commodity.Name,
+                Allocations = ToAllocationViewModel(item.SIPCAllocations.ToList())
+            }).ToList();
+            return result;
+        }
+        public List<SIPCAllocationViewModel> ToAllocationViewModel( List<SIPCAllocation> allocation)
+        {
+            var result = allocation.Select(item => new SIPCAllocationViewModel
+            {
+                SIPCAllocationID=item.ISPCAllocationID,
+                Code=item.Code,
+                AllocatedAmount=item.AllocatedAmount,
+                AllocationType=item.AllocationType,
+                RequisitionDetailID = item.RequisitionDetailID
             }).ToList();
             return result;
         }
@@ -100,6 +117,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.regionId = regionId;
             ViewBag.RequisitionID = RequisitionID;
             ViewBag.Hubs = _hubService.GetAllHub();
+            ViewBag.Allocations = _allocationService.GetAll();
             return View();
         }
 
@@ -108,11 +126,7 @@ namespace Cats.Areas.Logistics.Controllers
             List<RequestAllocationViewModel> list = getIndexList(regionId, RequisitionID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult DragDrop(int regionId = 0)
-        {
 
-            return View();
-        }
         public JsonResult updateRequisitionStatus(int RequisitionId)
         {
             ReliefRequisition req = _requisitionService.FindById(RequisitionId);

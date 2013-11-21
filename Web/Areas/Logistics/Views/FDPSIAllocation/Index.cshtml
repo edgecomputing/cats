@@ -11,6 +11,11 @@
 @section LeftBar
 {
     @Html.Partial("_AllocationLeftBar")
+    <div>Allocations</div>
+    @foreach(var i in ViewBag.Allocations)
+    {
+        <div>@i.AllocatedAmount</div>
+    }
     <div id="debug2"></div>
 }
 @section Toolbar
@@ -136,7 +141,8 @@
                                             <div class="list-fdp" ng-repeat="fdp in woreda.fdps">
                                                 <div data-allocated="0" data-index="{{fdp.index}}" class="admin-list btn-draggable" ng-model="unallocated" data-drag="fdp.allocatedAmount<fdp.requestedAmount" data-jqyoui-options="{revert: 'invalid'}"
                                                     jqyoui-draggable="{index: {{fdp.id}},placeholder:'keep',animate:true, onStart:'startCallback(fdp, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
-                                                    <i class="icon-move"></i>{{fdp.name}} [{{fdp.allocatedAmount}} of {{fdp.requestedAmount}}]
+                                                    <i class="icon-move"></i>{{fdp.RequestDetailId}} {{fdp.name}} [{{fdp.allocatedAmount}} of {{fdp.requestedAmount}}] 
+                                                    <span ng-repeat="allocation in fdp.Allocations"> {{allocation.Code}} {{allocation.AllocatedAmount}}  </span>
                                                 </div>
 
                                             </div>
@@ -162,7 +168,7 @@
             <div ng-repeat="si in SIPCCodes" class="span3" style="margin:0; margin-right:2px; " ng-show="si.HubId==selectedHub">
                 <div class="drag-reciever {{si.type}}" style="padding:4px;">
 
-                    <div>{{si.name}} <span>[{{si.availableAmount}}]</span></div>
+                    <div>{{si.codeId}} - {{si.name}} <span>[{{si.availableAmount}}]</span></div>
                     <div class="allocated-list" style="background:#FFF; overflow:hidden;  border-radius: 4px;  height: 120px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}" data-index="{{si.index}}" data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
                         <ul class="nav nav-list ">
                             <li class="btn-draggable" data-allocated="1" ng-repeat="item in si.allocatedRequests" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}">
@@ -357,7 +363,7 @@
                     $scope.allocateAdminRegion(location.woredas[w],index);
                 }
             }
-            if (location.type == "woreda") {
+            else if (location.type == "woreda") {
                 for (var f in location.fdps) {
                     var fdp = location.fdps[f];
                     if (!fdp.allocatedAmount) {
@@ -367,6 +373,11 @@
                     }
 
                 }
+            }
+            else
+            {
+                
+                location.Allocations[0]={Code:$scope.SIPCCodes[index-1].codeId,AllocatedAmount:location.requestedAmount};
             }
         }
         
@@ -447,7 +458,8 @@
                     }
                     if(fdpRequest.RequestedAmount)
                     {
-                        woredasHash[fdpRequest.WoredaName].fdps.push({FDPId:fdpRequest.FDPId,type: "FDP", name: fdpRequest.FDPName, requestedAmount: fdpRequest.RequestedAmount})
+                        var requisitionDetail={Allocations:fdpRequest.Allocations,RequestDetailId:fdpRequest.RequestDetailId,FDPId:fdpRequest.FDPId,type: "FDP", name: fdpRequest.FDPName, requestedAmount: fdpRequest.RequestedAmount};
+                        woredasHash[fdpRequest.WoredaName].fdps.push(requisitionDetail)
                     }
                 }
                 for(var ws in woredasHash)
@@ -458,7 +470,7 @@
                 for(var sii in request.FreeSIPCCodes.FreeSICodes)
                 {
                     var si=request.FreeSIPCCodes.FreeSICodes[sii];
-                    var sicode={codeId: si.SIcode, name:si.SIcode, availableAmount:si.amount/1, type: "SI",HubId:si.HubId/1,HubName:si.HubName, allocatedRequests: [], index: availSi};
+                    var sicode={codeId: si.siCodeId, name:si.SIcode, availableAmount:si.amount/1, type: "SI",HubId:si.HubId/1,HubName:si.HubName, allocatedRequests: [], index: availSi};
                     $scope.SIPCCodes.push(sicode);
                     availSi++;
                 }
