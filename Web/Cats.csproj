@@ -502,6 +502,7 @@
     <Compile Include="Areas\Procurement\Models\TransportBidPlanViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransporterPOCO.cs" />
     <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
+    <Compile Include="Areas\Procurement\Models\vwTransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
@@ -539,6 +540,10 @@
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserPreferenceController.cs" />
+    <Compile Include="CTSDataSet.cs">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -650,6 +655,7 @@
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Hub\Views\Dispatch\EditorTemplates\GridForeignKey.ascx" />
@@ -1423,6 +1429,7 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

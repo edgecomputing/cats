@@ -70,22 +70,22 @@
                         if (enumerable != null)
                         {
                             foreach (var hub in  enumerable)
-                            {
+                            { 
                                 if (hub.HubOwnerID == 1)
                                 {
-                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll; overflow-x:hidden" id="@hub.HubID">
                                         <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
                                     </div>
                                 }
                                 else if (hub.HubOwnerID == 2)
                                 {
-                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style=" grid-column-align; overflow-y:scroll; overflow-x:hidden" id="@hub.HubID">
                                         <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
                                     </div>
                                 }
                                 else
                                 {
-                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll;" id="@hub.HubID">
+                                    <div class="thumbnail span4" droppable="true" drop="handleDrop('@hub.HubID')" style="overflow-y:scroll; overflow-x:hidden" id="@hub.HubID">
                                         <div class="btn btn-navbar btn-droppable"  >@hub.Name (@hub.HubOwner.Name)</div>
                                     </div>
                                 }

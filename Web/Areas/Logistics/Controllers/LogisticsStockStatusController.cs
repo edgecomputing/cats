@@ -22,10 +22,8 @@ namespace Cats.Areas.Logistics.Controllers
     public class LogisticsStockStatusController : Controller
     {
         private readonly Cats.Services.Hub.ITransactionService _transcationService;
-        //private readonly ITransactionGroupService _transactionGroupService;
         private readonly IStockStatusService _stockStatusService;
         private readonly IHubService _hubService;
-        
         private IUnitOfWork _unitOfWork;
         private IUserDashboardPreferenceService _userDashboardPreferenceService;
         private IDashboardWidgetService _dashboardWidgetService;
@@ -38,20 +36,14 @@ namespace Cats.Areas.Logistics.Controllers
             IDashboardWidgetService dashboardWidgetservice,
             IUserAccountService userService,
             IHubService hubService,
-
-            //ITransactionService transactionService
-            //ITransactionGroupService transactionGroupService,
             IStockStatusService stockStatusService
         )
         {
             _unitOfWork = unitOfWork;
             _userDashboardPreferenceService = userDashboardPreferenceService;
-            dashboardWidgetservice = dashboardWidgetservice;
+            _dashboardWidgetService = dashboardWidgetservice;
             _userService = userService;
             _hubService = hubService;
-        
-            //_transcationService = transactionService;
-            //_transactionGroupService = transactionGroupService;
             _stockStatusService = stockStatusService;
         }
                
@@ -179,11 +171,6 @@ namespace Cats.Areas.Logistics.Controllers
             var result = ReportHelper.PrintReport(reportPath, data, dataSources,isPdf,isPortrait);
             return File(result.RenderBytes, result.MimeType);
         }
-        //public ActionResult FreeStock()
-        //{
-        //    //var x = (from h in hello select new { h.LedgerID, h.Month });
-        //    return Json(_stockStatusService.FreeStockByHub(1), JsonRequestBehavior.AllowGet);
-        //}
 
         public JsonResult GetStockStatusSummaryP(int program, DateTime date) {
             var st = _stockStatusService.GetStockSummaryD(program, date);

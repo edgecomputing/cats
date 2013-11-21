@@ -51,9 +51,10 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransporterSignedDate).HasColumnName("TransporterSignedDate");
             this.Property(t => t.ContractNumber).HasColumnName("ContractNumber");
             this.Property(t => t.StatusID).HasColumnName("StatusID");
+            this.Property(t => t.StartDate).HasColumnName("StartDate");
+            this.Property(t => t.EndDate).HasColumnName("EndDate");
 
             // Relationships
-           
             this.HasRequired(t => t.Transporter)
                 .WithMany(t => t.TransportOrders)
                 .HasForeignKey(d => d.TransporterID);

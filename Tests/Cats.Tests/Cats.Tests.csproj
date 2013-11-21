@@ -132,6 +132,7 @@
     <Compile Include="ControllersTests\HRDControllerTest.cs" />
     <Compile Include="ControllersTests\HRDControllerTests.cs" />
     <Compile Include="ControllersTests\NeedAssessmentTest.cs" />
+    <Compile Include="ControllersTests\PlanControllerTest.cs" />
     <Compile Include="ControllersTests\RationControllerTest.cs" />
     <Compile Include="ControllersTests\RequestControllerTests.cs" />
     <Compile Include="ControllersTests\TransportOrderControllerTests.cs" />
