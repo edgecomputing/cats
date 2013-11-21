@@ -7,52 +7,6 @@
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsContext" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsContext (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsContext.ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwTransportOrderTableAdapter" GeneratorDataComponentClassName="vwTransportOrderTableAdapter" Name="vwTransportOrder" UserDataComponentName="vwTransportOrderTableAdapter">
-            <MainSource>
-              <DbSource ConnectionRef="CatsContext (Web.config)" DbObjectName="CTS.dbo.vwTransportOrder" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT TransportOrderID, TransportOrderNo, OrderDate, RequestedDispatchDate, OrderExpiryDate, BidDocumentNo, PerformanceBondReceiptNo, TransporterID, ConsignerName, TransporterSignedName, ConsignerDate, TransporterSignedDate, ContractNumber, TransportOrderDetailID, FdpID, SourceWarehouseID, QuantityQtl, DistanceFromOrigin, TariffPerQtl, RequisitionID, CommodityID, ZoneID, DonorID, FDPName, HubName, RequisitionNo, CommodityName, DonorName, WoredaName, ZoneName, TransporterName FROM dbo.vwTransportOrder</CommandText>
-                    <Parameters />
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </MainSource>
-            <Mappings>
-              <Mapping SourceColumn="TransportOrderID" DataSetColumn="TransportOrderID" />
-              <Mapping SourceColumn="TransportOrderNo" DataSetColumn="TransportOrderNo" />
-              <Mapping SourceColumn="OrderDate" DataSetColumn="OrderDate" />
-              <Mapping SourceColumn="RequestedDispatchDate" DataSetColumn="RequestedDispatchDate" />
-              <Mapping SourceColumn="OrderExpiryDate" DataSetColumn="OrderExpiryDate" />
-              <Mapping SourceColumn="BidDocumentNo" DataSetColumn="BidDocumentNo" />
-              <Mapping SourceColumn="PerformanceBondReceiptNo" DataSetColumn="PerformanceBondReceiptNo" />
-              <Mapping SourceColumn="TransporterID" DataSetColumn="TransporterID" />
-              <Mapping SourceColumn="ConsignerName" DataSetColumn="ConsignerName" />
-              <Mapping SourceColumn="TransporterSignedName" DataSetColumn="TransporterSignedName" />
-              <Mapping SourceColumn="ConsignerDate" DataSetColumn="ConsignerDate" />
-              <Mapping SourceColumn="TransporterSignedDate" DataSetColumn="TransporterSignedDate" />
-              <Mapping SourceColumn="ContractNumber" DataSetColumn="ContractNumber" />
-              <Mapping SourceColumn="TransportOrderDetailID" DataSetColumn="TransportOrderDetailID" />
-              <Mapping SourceColumn="FdpID" DataSetColumn="FdpID" />
-              <Mapping SourceColumn="SourceWarehouseID" DataSetColumn="SourceWarehouseID" />
-              <Mapping SourceColumn="QuantityQtl" DataSetColumn="QuantityQtl" />
-              <Mapping SourceColumn="DistanceFromOrigin" DataSetColumn="DistanceFromOrigin" />
-              <Mapping SourceColumn="TariffPerQtl" DataSetColumn="TariffPerQtl" />
-              <Mapping SourceColumn="RequisitionID" DataSetColumn="RequisitionID" />
-              <Mapping SourceColumn="CommodityID" DataSetColumn="CommodityID" />
-              <Mapping SourceColumn="ZoneID" DataSetColumn="ZoneID" />
-              <Mapping SourceColumn="DonorID" DataSetColumn="DonorID" />
-              <Mapping SourceColumn="FDPName" DataSetColumn="FDPName" />
-              <Mapping SourceColumn="HubName" DataSetColumn="HubName" />
-              <Mapping SourceColumn="RequisitionNo" DataSetColumn="RequisitionNo" />
-              <Mapping SourceColumn="CommodityName" DataSetColumn="CommodityName" />
-              <Mapping SourceColumn="DonorName" DataSetColumn="DonorName" />
-              <Mapping SourceColumn="WoredaName" DataSetColumn="WoredaName" />
-              <Mapping SourceColumn="ZoneName" DataSetColumn="ZoneName" />
-              <Mapping SourceColumn="TransporterName" DataSetColumn="TransporterName" />
-            </Mappings>
-            <Sources />
-          </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwPSNPAnnualPlanTableAdapter" GeneratorDataComponentClassName="vwPSNPAnnualPlanTableAdapter" Name="vwPSNPAnnualPlan" UserDataComponentName="vwPSNPAnnualPlanTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="CatsContext (Web.config)" DbObjectName="CTS.dbo.vwPSNPAnnualPlan" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
@@ -79,6 +33,55 @@
               <Mapping SourceColumn="WoredaID" DataSetColumn="WoredaID" />
               <Mapping SourceColumn="ZoneID" DataSetColumn="ZoneID" />
               <Mapping SourceColumn="ZoneName" DataSetColumn="ZoneName" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwTransportOrderTableAdapter" GeneratorDataComponentClassName="vwTransportOrderTableAdapter" Name="vwTransportOrder" UserDataComponentName="vwTransportOrderTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="CatsContext (Web.config)" DbObjectName="CatsMaster.dbo.vwTransportOrder" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT TransportOrderID, TransportOrderNo, OrderDate, RequestedDispatchDate, OrderExpiryDate, BidDocumentNo, PerformanceBondReceiptNo, TransporterID, ConsignerName, TransporterSignedName, ConsignerDate, TransporterSignedDate, ContractNumber, StatusID, TransportOrderDetailID, FdpID, SourceWarehouseID, QuantityQtl, DistanceFromOrigin, TariffPerQtl, RequisitionID, CommodityID, ZoneID, DonorID, FDPName, HubName, RequisitionNo, CommodityName, DonorName, WoredaName, ZoneName, TransporterName, OrderEndDate, OrderStartDate FROM dbo.vwTransportOrder</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="TransportOrderID" DataSetColumn="TransportOrderID" />
+              <Mapping SourceColumn="TransportOrderNo" DataSetColumn="TransportOrderNo" />
+              <Mapping SourceColumn="OrderDate" DataSetColumn="OrderDate" />
+              <Mapping SourceColumn="RequestedDispatchDate" DataSetColumn="RequestedDispatchDate" />
+              <Mapping SourceColumn="OrderExpiryDate" DataSetColumn="OrderExpiryDate" />
+              <Mapping SourceColumn="BidDocumentNo" DataSetColumn="BidDocumentNo" />
+              <Mapping SourceColumn="PerformanceBondReceiptNo" DataSetColumn="PerformanceBondReceiptNo" />
+              <Mapping SourceColumn="TransporterID" DataSetColumn="TransporterID" />
+              <Mapping SourceColumn="ConsignerName" DataSetColumn="ConsignerName" />
+              <Mapping SourceColumn="TransporterSignedName" DataSetColumn="TransporterSignedName" />
+              <Mapping SourceColumn="ConsignerDate" DataSetColumn="ConsignerDate" />
+              <Mapping SourceColumn="TransporterSignedDate" DataSetColumn="TransporterSignedDate" />
+              <Mapping SourceColumn="ContractNumber" DataSetColumn="ContractNumber" />
+              <Mapping SourceColumn="StatusID" DataSetColumn="StatusID" />
+              <Mapping SourceColumn="TransportOrderDetailID" DataSetColumn="TransportOrderDetailID" />
+              <Mapping SourceColumn="FdpID" DataSetColumn="FdpID" />
+              <Mapping SourceColumn="SourceWarehouseID" DataSetColumn="SourceWarehouseID" />
+              <Mapping SourceColumn="QuantityQtl" DataSetColumn="QuantityQtl" />
+              <Mapping SourceColumn="DistanceFromOrigin" DataSetColumn="DistanceFromOrigin" />
+              <Mapping SourceColumn="TariffPerQtl" DataSetColumn="TariffPerQtl" />
+              <Mapping SourceColumn="RequisitionID" DataSetColumn="RequisitionID" />
+              <Mapping SourceColumn="CommodityID" DataSetColumn="CommodityID" />
+              <Mapping SourceColumn="ZoneID" DataSetColumn="ZoneID" />
+              <Mapping SourceColumn="DonorID" DataSetColumn="DonorID" />
+              <Mapping SourceColumn="FDPName" DataSetColumn="FDPName" />
+              <Mapping SourceColumn="HubName" DataSetColumn="HubName" />
+              <Mapping SourceColumn="RequisitionNo" DataSetColumn="RequisitionNo" />
+              <Mapping SourceColumn="CommodityName" DataSetColumn="CommodityName" />
+              <Mapping SourceColumn="DonorName" DataSetColumn="DonorName" />
+              <Mapping SourceColumn="WoredaName" DataSetColumn="WoredaName" />
+              <Mapping SourceColumn="ZoneName" DataSetColumn="ZoneName" />
+              <Mapping SourceColumn="TransporterName" DataSetColumn="TransporterName" />
+              <Mapping SourceColumn="OrderEndDate" DataSetColumn="OrderEndDate" />
+              <Mapping SourceColumn="OrderStartDate" DataSetColumn="OrderStartDate" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -315,6 +318,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="StatusID" msprop:Generator_ColumnVarNameInTable="columnStatusID" msprop:Generator_ColumnPropNameInRow="StatusID" msprop:Generator_ColumnPropNameInTable="StatusIDColumn" msprop:Generator_UserColumnName="StatusID" type="xs:int" minOccurs="0" />
               <xs:element name="TransportOrderDetailID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderDetailID" msprop:Generator_ColumnPropNameInRow="TransportOrderDetailID" msprop:Generator_ColumnPropNameInTable="TransportOrderDetailIDColumn" msprop:Generator_UserColumnName="TransportOrderDetailID" type="xs:int" />
               <xs:element name="FdpID" msprop:Generator_ColumnVarNameInTable="columnFdpID" msprop:Generator_ColumnPropNameInRow="FdpID" msprop:Generator_ColumnPropNameInTable="FdpIDColumn" msprop:Generator_UserColumnName="FdpID" type="xs:int" />
               <xs:element name="SourceWarehouseID" msprop:Generator_ColumnVarNameInTable="columnSourceWarehouseID" msprop:Generator_ColumnPropNameInRow="SourceWarehouseID" msprop:Generator_ColumnPropNameInTable="SourceWarehouseIDColumn" msprop:Generator_UserColumnName="SourceWarehouseID" type="xs:int" />
@@ -374,13 +378,15 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="TransporterName" msprop:Generator_ColumnVarNameInTable="columnTransporterName" msprop:Generator_ColumnPropNameInRow="TransporterName" msprop:Generator_ColumnPropNameInTable="TransporterNameColumn" msprop:Generator_UserColumnName="TransporterName" minOccurs="0">
+              <xs:element name="TransporterName" msprop:Generator_ColumnVarNameInTable="columnTransporterName" msprop:Generator_ColumnPropNameInRow="TransporterName" msprop:Generator_ColumnPropNameInTable="TransporterNameColumn" msprop:Generator_UserColumnName="TransporterName">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
+                    <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="OrderEndDate" msprop:Generator_ColumnVarNameInTable="columnOrderEndDate" msprop:Generator_ColumnPropNameInRow="OrderEndDate" msprop:Generator_ColumnPropNameInTable="OrderEndDateColumn" msprop:Generator_UserColumnName="OrderEndDate" type="xs:dateTime" />
+              <xs:element name="OrderStartDate" msprop:Generator_ColumnVarNameInTable="columnOrderStartDate" msprop:Generator_ColumnPropNameInRow="OrderStartDate" msprop:Generator_ColumnPropNameInTable="OrderStartDateColumn" msprop:Generator_UserColumnName="OrderStartDate" type="xs:dateTime" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
