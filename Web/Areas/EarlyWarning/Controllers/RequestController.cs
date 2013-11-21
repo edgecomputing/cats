@@ -117,6 +117,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
             ViewBag.PlanID = new SelectList(_commonService.GetPlan("Relief"), "PlanID", "PlanName");
             ViewBag.Plan = new SelectList(_commonService.GetPlan("PSNP"), "PlanID", "PlanName");
+            ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
@@ -188,6 +189,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
 
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
+                if (psnphrdPlanInfo.BeneficiaryInfos.Count < 1)
+                {
+                    ModelState.AddModelError("Errors", "There is no Beneficiary for the selected Region and HRD Plan");
+                    PopulateLookup();
+                    return View(hrdpsnpPlan);
+                }
                 //  RedirectToAction("PreparePlan");
                 return View("PreparePlan", psnphrdPlanInfo);
             }
