@@ -59,6 +59,7 @@ namespace Cats.Models.Constant
         Draft=1,
         Approved=2,
         AssessmentCreated=3,
-        HRDCreated=4
+        HRDCreated=4,
+        PSNPCreated=5
     }
 }

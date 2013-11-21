@@ -119,9 +119,12 @@ namespace Cats.Data
 
         public DbSet<PromisedContribution> PromisedContribution { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-      
+
+        public DbSet<SIPCAllocation> SIPCAllocation { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new SIPCAllocationMap());
             modelBuilder.Configurations.Add(new PromisedContributionMap());
             modelBuilder.Configurations.Add(new DashboardWidgetMap());
             modelBuilder.Configurations.Add(new UserDashboardPreferenceMap());

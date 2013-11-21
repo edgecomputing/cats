@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
@@ -117,6 +118,7 @@ namespace Cats.Services.Logistics
                 }
 
                 AddTransportRequisition(transportRequisition);
+                AddNotification(transportRequisition);
                 var year = transportRequisition.RequestedDate.Year;
                 transportRequisition.TransportRequisitionNo = string.Format("{0}/{1}/{2}/{3}",
                                                                             program.ShortCode, region.AdminUnitID,
@@ -130,6 +132,44 @@ namespace Cats.Services.Logistics
 
         }
 
+
+
+        private void AddNotification(TransportRequisition transportRequisition)
+        {
+            try
+            {
+                if (HttpContext.Current == null) return;
+                string destinationURl;
+                if (HttpContext.Current.Request.Url.Host == "localhost")
+                {
+                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                     "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
+                }
+                else
+                {
+                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                     HttpContext.Current.Request.ApplicationPath +
+                                     "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
+                }
+                var notification = new Notification
+                {
+                    Text = "Transport Requisition No:" + transportRequisition.TransportRequisitionNo,
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Role = 1,
+                    RecordId = transportRequisition.TransportRequisitionID,
+                    Url = destinationURl,
+                    TypeOfNotification = "New Transport Requisition",
+                    RoleName = Application.TRANSPORT_ORDER_CREATER
+                };
+                _unitOfWork.NotificationRepository.Add(notification);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public void Dispose()
         {

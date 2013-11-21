@@ -240,7 +240,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     RecordId = requisitionID,
                     Url = destinationURl,
                     TypeOfNotification = "Requisition Approval",
-                    RoleName = Application.LOGISTICS
+                    RoleName = Application.HUB_ALLOCATER
                 };
 
                 _notificationService.AddNotification(notification);

@@ -13,7 +13,11 @@ namespace Cats.Models.Constant
        public static string FINANCE = "Finance";
        public static string PROCUREMENT = "Procurement";
        public static string PSNP = "PSNP";
+       public static string HUB = "Hub";
 
 
+       public static string HUB_MANAGER = "Hub Manager";
+       public static string HUB_ALLOCATER = "LG-Allocation Award & Followup";
+       public static string TRANSPORT_ORDER_CREATER = "Procurement Unit Coordinator";
    }
 }
