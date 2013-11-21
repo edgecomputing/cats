@@ -103,8 +103,20 @@ namespace Cats.Areas.Procurement.Controllers
 
         }
 
+        public ActionResult NotificationIndex(int recordId)
+        {
+            
+            NotificationHelper.MakeNotificationRead(recordId);
+            return RedirectToAction("Index", new { id = 2 });//get approved transport orders
 
+        }
+        public ActionResult NotificationNewRequisitions(int recordId)
+        {
 
+            NotificationHelper.MakeNotificationRead(recordId);
+            return RedirectToAction("TransportRequisitions");//get newly created transp[ort requisitions
+
+        }
         public ViewResult Index(int id = 0)
         {
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");

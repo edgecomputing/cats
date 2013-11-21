@@ -20,14 +20,15 @@ namespace Cats.Helpers
             {
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
-                var application = accountService.GetUserPermissions(user);
+                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+                var allUserRollsInAllApplications = new List<string>();
 
-                List<string> parameter = (from userCredentials in application where userCredentials.Roles.Count > 0 select userCredentials.ApplicationName).ToList();
-
-              
-               
+                foreach (var app in roles)
+                {
+                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+                }
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && parameter.Contains(n.RoleName)).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
                 
 
                 
@@ -49,16 +50,19 @@ namespace Cats.Helpers
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
               
                 var user = HttpContext.Current.User.Identity.Name;
-               
 
-                var application = accountService.GetUserPermissions(user);
-              
-                List<string> parameter= (from userCredentials in application where userCredentials.Roles.Count > 0 select userCredentials.ApplicationName).ToList();
+                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+                var allUserRollsInAllApplications = new List<string>();
+
+                foreach (var app in roles)
+                {
+                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+                }
 
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && parameter.Contains(n.RoleName)).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
                 int max = 0;
 
                 if (totallUnread.Count < 1)
