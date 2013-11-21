@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Infrastructure;
 using Cats.Services.Logistics;
 using Cats.Services.Hub;
 using Cats.Services.Hub.Interfaces;
@@ -148,12 +149,35 @@ namespace Cats.Areas.Logistics.Controllers
           ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
            return View();
        }
-        public JsonResult CommodityReceived_read([DataSourceRequest]DataSourceRequest request,int hubId=-1,int programId=-1)
+       public JsonResult CommodityReceived_read([DataSourceRequest]DataSourceRequest request, int hubId = -1, int programId = -1)
+       {
+           var data = (hubId == -1 || programId == -1)
+                          ? new List<VWCommodityReceived>()
+                          : _stockStatusService.GetReceivedCommodity(t => t.HubID == hubId && t.ProgramID == programId);
+           return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+
+       }
+        
+       public ActionResult PrintReceivedCommodity(int hubId = -1,int programId=-1)
+       {
+           return GetReceivedCommodity(hubId, programId, true, false);
+        }
+
+       public ActionResult ExportReceivedCommodity(int hubId = -1, int programId = -1)
+       {
+           return GetReceivedCommodity(hubId, programId, false, false);
+       }
+         
+        private ActionResult GetReceivedCommodity(int hubId,int programId,bool isPdf=true,bool isPortrait=true)
         {
-            var data = (hubId==-1|| programId==-1) ? null:_stockStatusService.GetReceivedCommodity(t=>t.HubID==hubId && t.ProgramID==programId);
-          return  Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-     
-            
+            var data = (hubId == -1)
+                           ? null
+                           : _stockStatusService.GetReceivedCommodity(t => t.HubID == hubId);
+            var reportPath = Server.MapPath("~/Report/Logisitcs/ReceivedCommodityStatus.rdlc");
+            var dataSources = "dataset";
+
+            var result = ReportHelper.PrintReport(reportPath, data, dataSources,isPdf,isPortrait);
+            return File(result.RenderBytes, result.MimeType);
         }
         //public ActionResult FreeStock()
         //{

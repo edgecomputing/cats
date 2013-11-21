@@ -34,27 +34,29 @@
                                                            col.Bound(t => t.ProjectCode);
                                                            col.Bound(t => t.Donor);
                                                            col.Bound(t => t.Program);
-                                                           col.Bound(t => t.DonorAll).HeaderHtmlAttributes(new {@class = "cats-unit-pref"}).Format("{0:n}").HtmlAttributes(new {align = "right"});
-                                                           col.Bound(t => t.Received).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
-                                                           col.Bound(t => t.Expected).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
-                                                           col.Bound(t => t.Commited).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Donor All"));
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Received"));
+                                                           col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Expected"));
+                                                           col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Commited"));
+                                                       
                                                            col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Translator.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
-                                                           col.Bound(t => t.Dispatched).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Format("{0:n}").HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Dispatched"));
+                                                       
                                                            col.Template(c => { }).ClientTemplate("#=calculatePhysicalStock(data)#").Title(Translator.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
 
                                                        }).DataSource(datasource =>
                                                                              datasource.Ajax().Read(read => read.Action("CommodityReceived_read", "LogisticsStockStatus").Data("filterData"))
                                                                                  .Group(t => t.Add(m => m.Commodity))
 
-                                                                         ).Sortable()
+                                                                         ).Sortable().Filterable()
       )
 <script type="text/javascript">
-
+  
     function calculatePhysicalStock(data) {
-        return data.Received - data.Dispatched;
+        return toCatsPreferedUnit(data.Received - data.Dispatched);
     }
     function calculateUnCommitedStock(data) {
-        return data.Received - data.Dispatched-data.Commited;
+        return toCatsPreferedUnit(data.Received - data.Dispatched - data.Commited);
     }
     function filterData() {
 
@@ -73,5 +75,30 @@
             var grid = $("#grid").data("kendoGrid");
             grid.dataSource.read();
         });
+        $("#toolbar_button_print").click(function (e) {
+            e.preventDefault();
+            var hubid = $("#SelectHubID").val();
+            var programid = $("#SelectProgramID").val();
+            var url = '@Url.Action("PrintReceivedCommodity", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
+            
+            url = url.replace("__id__", hubid);
+            url = url.replace("__id2__", programid);
+           
+            window.open(url, "_blank");
+           
+        });
+        $("#toolbar_button_export").click(function (e) {
+            e.preventDefault();
+            var hubid = $("#SelectHubID").val();
+            var programid = $("#SelectProgramID").val();
+            var url = '@Url.Action("ExportReceivedCommodity", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
+
+            url = url.replace("__id__", hubid);
+            url = url.replace("__id2__", programid);
+
+            window.open(url, "_blank");
+
+        });
     });
+    
 </script>
