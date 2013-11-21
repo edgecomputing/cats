@@ -28,5 +28,6 @@ namespace Cats.Models
        public virtual ICollection<NeedAssessment> NeedAssessments { get; set;} 
        public virtual Program Program { get; set; }
        public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
+       public virtual ICollection<RegionalRequest> RegionalRequests { get; set; } 
     }
 }

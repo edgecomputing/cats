@@ -195,7 +195,7 @@ namespace Cats.Services.EarlyWarning
             result.HRDPSNPPlan = plan;
             if (plan.ProgramID == 2)
             {
-                RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.Year == plan.Year).FirstOrDefault();
+                RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.PlanId == plan.PlanID).FirstOrDefault();
                 result.HRDPSNPPlan.RationID = psnpplan.RationID;
                 if (psnpplan != null)
                 {
@@ -204,7 +204,7 @@ namespace Cats.Services.EarlyWarning
             }
             else if (plan.ProgramID == 1)
             {
-                HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
+                HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).FirstOrDefault();
 
                 if (hrd != null)
                 {

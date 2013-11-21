@@ -31,6 +31,8 @@ namespace Cats.Models
 
         public int? RationID { get; set; }
         public int? Round { get; set; }
+         [Required]
+        public int PlanID { get; set; }
 
     }
 }

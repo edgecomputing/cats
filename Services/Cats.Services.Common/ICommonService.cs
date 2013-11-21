@@ -48,6 +48,9 @@ namespace Cats.Services.Common
             Expression<Func<Season, bool>> filter = null,
             Func<IQueryable<Season>, IOrderedQueryable<Season>> orderBy = null,
             string includeProperties = "");
+
+       List<Plan> GetPlan(string programName);
+
     }
 }
 
