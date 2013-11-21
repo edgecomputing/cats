@@ -49,9 +49,9 @@
                 </div>
 
                 <div style="float: left; width: 100%">
-                   <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped">
                         <tr>
-                            <th style="text-align: center; font-size:16px">Hub</th>
+                            <th style="text-align: center; font-size: 16px">Hub</th>
                             <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
                             <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
                         </tr>
@@ -62,15 +62,15 @@
                         </tr>
                         <tr style="font-weight: bold">
                             <td style="text-align: right">Total</td>
-                            <td style="text-align: right" >{{freeStockSum | number:2}}</td>
+                            <td style="text-align: right">{{freeStockSum | number:2}}</td>
                             <td style="text-align: right">{{physicalStockSum | number:2}}</td>
                         </tr>
                     </table>
                 </div>
-                
+
                 <div id="containerNA">
                 </div>
-                
+
                 <div>
                     <chart value='{{basiBarGraph}}' type="bar" height="400">
 
@@ -129,9 +129,7 @@
                     <button type="button" class="btn btn-default btn-lg" onclick="show()">
                         <span class="glyphicon glyphicon-star"></span> Show
                     </button>
-
                    @*<button type="button" class="btn btn-default btn-lg" ng-click="getStockStatus()">Get</button>
-
                 </div>*@
                     </div>
                 </div>
@@ -139,7 +137,7 @@
                 <div style="float: left; width: 100%">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th style="text-align: center; font-size:16px">Commodity</th>
+                            <th style="text-align: center; font-size: 16px">Commodity</th>
                             <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
                             <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
                         </tr>
@@ -171,10 +169,10 @@
 
 <script>
     function SummaryController($scope, $http) {
-        $scope.reqParam = { program: 1, date: "11/18/2013"}
+        $scope.reqParam = { program: 1, date: new Date() }
         $scope.summaryData = [];
         $scope.programsCollection = [];
-        $scope.freeStockSum=0;
+        $scope.freeStockSum = 0;
         $scope.physicalStockSum = 0;
 
         var onSuccess = function (data) {

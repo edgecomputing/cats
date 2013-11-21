@@ -738,6 +738,12 @@ namespace Cats.Data.UnitWork
             get { return this._PromisedContributionRepository ?? (this._PromisedContributionRepository = new GenericRepository<PromisedContribution>(_context)); }
         }
 
+        private IGenericRepository<SIPCAllocation> _SIPCAllocationRepository = null;
+        public IGenericRepository<SIPCAllocation> SIPCAllocationRepository
+        {
+            get { return this._SIPCAllocationRepository ?? (this._SIPCAllocationRepository = new GenericRepository<SIPCAllocation>(_context)); }
+        }
+
         private IGenericRepository<Notification> notificationRepository = null;
         public IGenericRepository<Notification> NotificationRepository
         {

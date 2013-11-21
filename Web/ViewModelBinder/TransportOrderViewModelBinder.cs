@@ -35,6 +35,8 @@ namespace Cats.ViewModelBinder
                 transportOrderViewModel.TransportOrderNo = transportOrder.TransportOrderNo;
                 transportOrderViewModel.TransportOrderID = transportOrder.TransportOrderID;
                 transportOrderViewModel.StatusID = transportOrder.StatusID;
+                transportOrderViewModel.StartDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref);
+                transportOrderViewModel.EndDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref);
                 transportOrderViewModel.Status =transportOrder.StatusID.HasValue?
                     statuses.Find(t => t.StatusID == transportOrder.StatusID.Value).Description:string.Empty;
 

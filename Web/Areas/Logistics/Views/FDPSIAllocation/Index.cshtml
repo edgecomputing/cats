@@ -32,6 +32,10 @@
     {
         overflow: visible;
     }
+    #accordion_zone *
+    {
+        font-size:12px;
+    }
 
     #accordion_zone .ui-draggable-disabled
     {
@@ -43,13 +47,13 @@
             visibility: hidden;
         }
 
-    [ng-app] .PC, [ng-app] .SI
+    .drag-reciever
     {
         margin-top: 5px;
         border: solid 1px #EEE;
         border-radius: 4px;
     }
-
+    
     [ng-app] .SI
     {
         background: #95d0db;
@@ -58,7 +62,27 @@
     {
         background: #6e8f96;
     }
+     .label2
+    {
+        width: 50%;
+        float: left;
+        color: #777;
+        text-align: right;
+        font-size: 12px;
+    }
+
+    .value2
+    {
+        width: 50%;
+        float: left;
+        color: #000;
+        text-align: left;
+        font-size: 12px;
+    }
 </style>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 100px; height: 50px; right: 50%; top: 50%; margin: auto;">
+    <div id="modalContent" style="line-height: 40px; text-align: center;">Saving</div>
+</div>
 <div ng-app="drag-and-drop" ng-controller="oneCtrl">
     <fieldset>
         <legend style="font-size:16px;">@Translator.Translate("SI/ProjectCode Allocation ")</legend>
@@ -78,12 +102,27 @@
                     data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{zone.id}},placeholder:'keep',animate:true, onStart:'startCallback(zone, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
 
                     <div class="accordion-heading">
+                        
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_zone" href="#collapse_zone{{zone.zoneId}}">
-                            <i class="icon-move icon-align-right"></i><span>{{zone.name}} [{{zone.allocatedAmount}} of {{zone.requestedAmount}}]</span>
+                            <button ng-show="zone.allocatedAmount==zone.requestedAmount" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i></button>
+                            <i class="icon-move icon-align-right"></i><span> {{zone.name}} [{{zone.allocatedAmount}} of {{zone.requestedAmount}}]</span>
+                            
                         </a>
-                    </div>
+                          </div>
                     <div id="collapse_zone{{zone.zoneId}}" class="accordion-body collapse">
+                            <div style="height:70px;">
+                                <div class="label2">@Translator.Translate("Region"): </div>
+                                <div class="value2">{{zone.RegionName}}</div>
+
+                                <div class="label2">@Translator.Translate("Zone"): </div>
+                                <div class="value2">{{zone.name}}</div>
+
+                                <div class="label2">@Translator.Translate("Commodity"): </div>
+                                <div class="value2">{{zone.Commodity}}</div>
+                            </div>
+                        <br />
                         <div class="accordion-inner">
+                            <div>Woredas</div>
                             <div class="accordion" id="woredas_inzone{{zone.zoneId}}">
                                 <div class="accordion-group" data-index="{{woreda.id}}" ng-repeat="woreda in zone.woredas" class="list-woreda btn-draggable" ng-model="unallocated" data-drag="woreda.allocatedAmount<woreda.requestedAmount"
                                     data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{woreda.index}},placeholder:'keep',animate:true, onStart:'startCallback(woreda, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
@@ -112,25 +151,51 @@
             </div>
         </div>
         <div class="span9">
-            <div ng-repeat="si in SIPCCodes" class="span3" style="margin:0; margin-right:2px; ">
-                <div class="{{si.type}}" style="padding:4px;">
+            <div>Hub 
+                <select ng-model="selectedHub">
+                    @foreach (var hub in ViewBag.Hubs)
+                    {
+                        <option value="@hub.HubID">@hub.Name</option>
+                    }
+                </select> 
+            </div>
+            <div ng-repeat="si in SIPCCodes" class="span3" style="margin:0; margin-right:2px; " ng-show="si.HubId==selectedHub">
+                <div class="drag-reciever {{si.type}}" style="padding:4px;">
 
-                    <div>{{si.type}} {{si.name}} <span>[{{si.availableAmount}}]</span></div>
-                    <div style="background:#FFF; overflow:hidden;  border-radius: 4px;  height: 120px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}" data-index="{{si.index}}" data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
+                    <div>{{si.name}} <span>[{{si.availableAmount}}]</span></div>
+                    <div class="allocated-list" style="background:#FFF; overflow:hidden;  border-radius: 4px;  height: 120px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}" data-index="{{si.index}}" data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
                         <ul class="nav nav-list ">
                             <li class="btn-draggable" data-allocated="1" ng-repeat="item in si.allocatedRequests" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}">
-                                <a href="#dropdowns" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount}}]</span></a></li>
+                                <a href="#" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount}}]</span></a></li>
                         </ul>
 
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
+    <!--
+    <div class="span12">
+        <table class="table table-stripped">
+            <tr>
+                <td>Type</td>
+                <td>Name</td>
+                <td>Id</td>
+                <td>PC/SI</td>
+            </tr>
+            <tr ng-repeat="item in allAdminRegions">
+                <td>{{item.type}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.FDPId}}</td>
+                <td>{{item.allocatedIndirect}}</td>
+            </tr>
+    <tr >
+         
+    </tr>
 
-
+            </table>
+    </div>
+        -->
 </div>
 
 <script type="text/javascript">
@@ -143,8 +208,8 @@
         $scope.RequisitionID=@ViewBag.RequisitionID;
         $scope.getListUrl="@Url.Action("getRequisitionList", "FDPSIAllocation", new { Area = "Logistics" })"
         $scope.updateUrl="@Url.Action("updateAllocation", "SIAllocation", new { Area = "Logistics" })"
-        $scope.promoteUrl="@Url.Action("updateRequisitionStatus", "SIAllocation", new { Area = "Logistics" })"
-
+        $scope.promoteUrl="@Url.Action("updateRequisitionStatus", "FDPSIAllocation", new { Area = "Logistics" })"
+        $scope.selectedHub=3;
 
         $scope.list1 = [];
         $scope.list2 = [];
@@ -152,6 +217,7 @@
         $scope.list4 = [];
         $scope.unallocated = [];
         $scope.allocations = { "si001": [], "si002": [] };
+        
         $scope.list5 = [
 
         ];
@@ -209,8 +275,20 @@
         };
 
         
-
-
+        $scope.on_Allocation_Done=function(index)
+        {
+            var Requisition=$scope.allAdminRegions[index];
+            //alert(Requisition.RequisitionId);
+            $scope.promot(Requisition.RequisitionId,1);
+        };
+        $scope.promot = function (RequisitionId,showmodal) {
+            var param = { RequisitionId:RequisitionId };
+            $http.post($scope.promoteUrl, param).success(function (){ $('#myModal').modal('hide');});
+            if (showmodal) {
+                $('#modalContent').html("...");
+                $('#myModal').modal('show');
+            }
+        }
         $scope.startCallback = function (event, ui, item) {
             console.log('You started draggin: ' + item.name + " Requested " +item.requestedAmount);
             $scope.draggedItem = item;
@@ -245,6 +323,18 @@
         $scope.dragCallback = function (event, ui) {
             // console.log('hey, look I`m flying');
         };
+
+        $scope.dropCallback = function (event, ui) {
+            var requestIndex = $scope.draggedItem.index;
+            var siIndex = $(event.target).data("index") / 1 - 1;
+            $scope.assigneAllocation(requestIndex, siIndex);
+            //$scope.allAdminRegions[requestIndex].allocated = $(event.target).data("index") / 1;
+
+            $scope.refreshList();
+            var target = $(event.target).data("id");
+            console.log('hey, you dumped on ' + target + ' :-(', event);
+        };
+
         $scope.assigneAllocation = function (requestIndex, siIndex, amount) {
             var location = $scope.allAdminRegions[requestIndex];
             amount = location.requestedAmount - location.allocatedAmount;
@@ -256,15 +346,15 @@
             $scope.SIPCCodes[siIndex].allocatedRequests.push($scope.allAdminRegions[requestIndex]);
 
 
-            $scope.allocateAdminRegion(location);
+            $scope.allocateAdminRegion(location,siIndex + 1);
 
 
             $scope.calculateAllocated();
         }
-        $scope.allocateAdminRegion = function (location) {
+        $scope.allocateAdminRegion = function (location,index) {
             if (location.type == "zone") {
                 for (var w in location.woredas) {
-                    $scope.allocateAdminRegion(location.woredas[w]);
+                    $scope.allocateAdminRegion(location.woredas[w],index);
                 }
             }
             if (location.type == "woreda") {
@@ -272,21 +362,14 @@
                     var fdp = location.fdps[f];
                     if (!fdp.allocatedAmount) {
                         fdp.allocatedAmount = fdp.requestedAmount;
+                        fdp.allocatedIndirect = index;
+
                     }
 
                 }
             }
         }
-        $scope.dropCallback = function (event, ui) {
-            var requestIndex = $scope.draggedItem.index;
-            var siIndex = $(event.target).data("index") / 1 - 1;
-            $scope.assigneAllocation(requestIndex, siIndex);
-            //$scope.allAdminRegions[requestIndex].allocated = $(event.target).data("index") / 1;
-
-            $scope.refreshList();
-            var target = $(event.target).data("id");
-            console.log('hey, you dumped on ' + target + ' :-(', event);
-        };
+        
         $scope.overCallback = function (event, ui) {
             console.log('Look, I`m over you');
         };
@@ -347,7 +430,10 @@
             var availSi=1;
             for(var i in $scope.response)
             {
-                var request={name: $scope.response[i].ZoneName, type: "zone", zoneId:$scope.response[i].RequisitionId,commodity:$scope.response[i].Commodity, woredas:[]};
+                var requisition=$scope.response[i];
+                var request={name: $scope.response[i].ZoneName, type: "zone", zoneId:$scope.response[i].RequisitionId,Commodity:$scope.response[i].Commodity, woredas:[]
+                    ,RequisitionId:requisition.RequisitionId,RegionName:requisition.RegionName};
+                
                 var woredasHash={};
                 
                 request.FreeSIPCCodes=$scope.response[i].FreeSIPCCodes;
@@ -361,7 +447,7 @@
                     }
                     if(fdpRequest.RequestedAmount)
                     {
-                        woredasHash[fdpRequest.WoredaName].fdps.push({ name: fdpRequest.FDPName, requestedAmount: fdpRequest.RequestedAmount})
+                        woredasHash[fdpRequest.WoredaName].fdps.push({FDPId:fdpRequest.FDPId,type: "FDP", name: fdpRequest.FDPName, requestedAmount: fdpRequest.RequestedAmount})
                     }
                 }
                 for(var ws in woredasHash)
@@ -372,18 +458,38 @@
                 for(var sii in request.FreeSIPCCodes.FreeSICodes)
                 {
                     var si=request.FreeSIPCCodes.FreeSICodes[sii];
-                    var sicode={codeId: si.SIcode, name:si.SIcode, availableAmount:si.amount, type: "SI", allocatedRequests: [], index: availSi};
+                    var sicode={codeId: si.SIcode, name:si.SIcode, availableAmount:si.amount/1, type: "SI",HubId:si.HubId/1,HubName:si.HubName, allocatedRequests: [], index: availSi};
                     $scope.SIPCCodes.push(sicode);
                     availSi++;
                 }
                 for(var pci in request.FreeSIPCCodes.FreePCCodes)
                 {
                     var pc=request.FreeSIPCCodes.FreePCCodes[pci];
-                    var pccode={codeId: pc.pcCodeId.SIcode, name:pc.PCcode, availableAmount:pc.amount, type: "PC", allocatedRequests: [], index: availSi};
+                    var pccode={codeId: pc.pcCodeId.SIcode, name:pc.PCcode, availableAmount:pc.amount/1, type: "PC",HubId:pc.HubId/1,HubName:pc.HubName, allocatedRequests: [], index: availSi};
                     $scope.SIPCCodes.push(pccode);
                     availSi++;
                 }
 
+            }
+            var sortPCSI=function(v1,v2)
+            {
+                if(v1.HubId<v2.HubId)
+                {
+                    return -1;
+                }
+                if(v1.HubId>v2.HubId)
+                {
+                    return 1;
+                }
+                return v1.availableAmount>v2.availableAmount?-1:1;
+            };
+           // var arry=[];
+            $scope.SIPCCodes.sort(sortPCSI)
+            var availSi=1;
+            for(var i in $scope.SIPCCodes)
+            {
+                $scope.SIPCCodes[i].index=availSi;
+                availSi++;
             }
             
         };

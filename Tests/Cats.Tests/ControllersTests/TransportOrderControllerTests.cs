@@ -65,6 +65,8 @@ namespace Cats.Tests.ControllersTests
                                                 ConsignerDate=DateTime.Today,
                                                 OrderDate=DateTime.Today,
                                                 OrderExpiryDate=DateTime.Today,
+                                                StartDate = DateTime.Today,
+                                                EndDate = DateTime.Today,
                                                 Transporter=new Transporter
                                                                 {
                                                                     TransporterID=1,
@@ -74,7 +76,7 @@ namespace Cats.Tests.ControllersTests
                                             }
                                     };
             var mockTransportOrderService = new Mock<ITransportOrderService>();
-           // mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
+            //mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
             mockTransportOrderService.Setup(t => t.GetAllTransportOrder()).Returns(transportOrders);
 
             var mockTransportRequisitionService = new Mock<ITransportRequisitionService>();
@@ -187,8 +189,6 @@ namespace Cats.Tests.ControllersTests
         public void ShouldGenerateTransportOrderForSelectedTransportRequisition()
         {
             //Act
-            
-          
             _transportOrderController.CreateTransportOrder(1);
             var request =new Kendo.Mvc.UI.DataSourceRequest();
             var result = _transportOrderController.TransportOrder_Read(request);
@@ -202,6 +202,5 @@ namespace Cats.Tests.ControllersTests
         //    var result = _transportOrderController.TransportContract(1);
         //    Assert.IsNotNull(result);
         //}
-        
     }
 }
