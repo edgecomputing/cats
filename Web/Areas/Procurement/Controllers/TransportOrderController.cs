@@ -21,6 +21,7 @@ using Cats.Areas.Logistics.Models;
 using log4net;
 using Cats.ViewModelBinder;
 
+
 namespace Cats.Areas.Procurement.Controllers
 {
     public class TransportOrderController : Controller
@@ -64,7 +65,10 @@ namespace Cats.Areas.Procurement.Controllers
         public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
-            var reportData = _transportOrderService.GeTransportOrderRpt(id);
+            var Data = _transportOrderService.GeTransportOrderRpt(id);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var reportData = vwTransportOrderViewModelBinder.BindListvwTransportOrderViewModel(Data, datePref);
+            
             //var transportOrder = _transportOrderService.FindById(id);
             //var reportHeader = GetTransportOrderReport(transportOrder);
             //var reportDetail = GetTransportContract(transportOrder);
@@ -74,7 +78,7 @@ namespace Cats.Areas.Procurement.Controllers
             //var dataSourceName = new string[2];
             //dataSourceName[0] = "TransportOrderHeader";
             //dataSourceName[1] = "TransportOrderDetail";
-
+            
             var dataSourceName = "TransportOrders";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 
@@ -100,8 +104,20 @@ namespace Cats.Areas.Procurement.Controllers
 
         }
 
+        public ActionResult NotificationIndex(int recordId)
+        {
+            
+            NotificationHelper.MakeNotificationRead(recordId);
+            return RedirectToAction("Index", new { id = 2 });//get approved transport orders
 
+        }
+        public ActionResult NotificationNewRequisitions(int recordId)
+        {
 
+            NotificationHelper.MakeNotificationRead(recordId);
+            return RedirectToAction("TransportRequisitions");//get newly created transp[ort requisitions
+
+        }
         public ViewResult Index(int id = 0)
         {
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");

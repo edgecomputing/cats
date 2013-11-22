@@ -162,12 +162,17 @@ namespace Cats.Controllers
 
         public ActionResult GetUnreadNotification([DataSourceRequest] DataSourceRequest request)
         {
-           
-            var user = System.Web.HttpContext.Current.User.Identity.Name;
 
-            var notifications = _IDashboardService.GetUnreadNotifications();
-            var application = _userAccountService.GetUserPermissions(user).Select(a => a.ApplicationName);
-            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && application.Contains(n.RoleName)).ToList();
+                var user = System.Web.HttpContext.Current.User.Identity.Name;
+                var roles = _userAccountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+                var allUserRollsInAllApplications = new List<string>();
+
+                foreach (var app in roles)
+                {
+                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+                }
+             
+                var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
 
             var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(totalUnread.ToList());
             return Json(notificationViewModel.ToDataSourceResult(request));

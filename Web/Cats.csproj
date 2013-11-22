@@ -502,6 +502,7 @@
     <Compile Include="Areas\Procurement\Models\TransportBidPlanViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransporterPOCO.cs" />
     <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
+    <Compile Include="Areas\Procurement\Models\vwTransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
@@ -539,10 +540,19 @@
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserPreferenceController.cs" />
+    <Compile Include="CTSDataSet.cs">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dataset.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dataset.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
@@ -645,6 +655,7 @@
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Hub\Views\Dispatch\EditorTemplates\GridForeignKey.ascx" />
@@ -1487,6 +1498,17 @@
     <Content Include="Areas\Logistics\Views\FDPSIAllocation\DragDrop.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Copy of Index.cshtml" />
     <Content Include="Areas\Logistics\Views\FDPSIAllocation\Copy of DragDrop.cshtml" />
+    <Content Include="dataset.xsc">
+      <DependentUpon>dataset.xsd</DependentUpon>
+    </Content>
+    <None Include="dataset.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dataset.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="dataset.xss">
+      <DependentUpon>dataset.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />
@@ -2407,6 +2429,7 @@
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\ReceivedCommodityStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />

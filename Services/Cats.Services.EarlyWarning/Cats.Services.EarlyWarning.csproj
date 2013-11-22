@@ -58,6 +58,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -155,9 +156,21 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
+      <Project>{E3C4D9FC-AD84-4E19-A475-6ADBD134AF68}</Project>
+      <Name>Cats.Models.Security</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Security\Cats.Services.Security.csproj">
+      <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
+      <Name>Cats.Services.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

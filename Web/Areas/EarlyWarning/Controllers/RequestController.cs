@@ -187,7 +187,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
                 if (psnphrdPlanInfo.BeneficiaryInfos.Count < 1)
                 {
@@ -536,6 +535,4 @@ namespace Cats.Areas.EarlyWarning.Controllers
              return Json(planID, JsonRequestBehavior.AllowGet);
          }
     }
-
-   
 }

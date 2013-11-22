@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Cats.Helpers;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
-using Cats.Models.ViewModels;
 using Cats.Services.Common;
 using Cats.Services.Security;
-using Kendo.Mvc.Extensions;
 
 
 namespace Cats.Controllers
@@ -104,12 +99,15 @@ namespace Cats.Controllers
         public JsonResult GetUnreadNotifications()
         {
             var user = System.Web.HttpContext.Current.User.Identity.Name;
-
             var notifications = _IDashboardService.GetUnreadNotifications();
-            var application = _userAccountService.GetUserPermissions(user).Select(a => a.ApplicationName);
-            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && application.Contains(n.RoleName)).ToList();
+            var roles = _userAccountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+            var allUserRollsInAllApplications = new List<string>();
 
-            //var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(totalUnread.ToList());
+            foreach (var app in roles)
+            {
+                allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+            }
+            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
             return Json(totalUnread, JsonRequestBehavior.AllowGet);
         }
 
