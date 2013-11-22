@@ -115,8 +115,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
             ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
-            ViewBag.PlanID = new SelectList(_commonService.GetPlan("Relief"), "PlanID", "PlanName");
-            ViewBag.Plan = new SelectList(_commonService.GetPlan("PSNP"), "PlanID", "PlanName");
+            ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
+            ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
@@ -529,7 +529,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     });
 
         }
+         public JsonResult GetPlan(int programID)
+         {
+             var plan = _commonService.GetPlan(programID);
+             var planID = new SelectList(_commonService.GetPlan(programID), "PlanID", "PlanName");
+             return Json(planID, JsonRequestBehavior.AllowGet);
+         }
     }
 
-
+   
 }
