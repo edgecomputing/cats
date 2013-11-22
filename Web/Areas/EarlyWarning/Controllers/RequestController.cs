@@ -186,7 +186,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
                 //  RedirectToAction("PreparePlan");
                 return View("PreparePlan", psnphrdPlanInfo);
@@ -523,6 +522,4 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
     }
-
-
 }

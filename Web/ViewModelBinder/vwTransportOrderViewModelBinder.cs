@@ -56,7 +56,6 @@ namespace Cats.ViewModelBinder
                 vwTransportOrderView.OrderEndDate = vwTransportOrder.OrderEndDate.ToCTSPreferedDateFormat(datePref);
                 vwTransportOrderView.OrderStartDate = vwTransportOrder.OrderStartDate.ToCTSPreferedDateFormat(datePref);
             }
-
             return vwTransportOrderView;
         }
     }
