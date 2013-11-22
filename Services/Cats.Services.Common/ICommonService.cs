@@ -50,7 +50,7 @@ namespace Cats.Services.Common
             string includeProperties = "");
 
        List<Plan> GetPlan(string programName);
-
+        List<Plan> GetPlan(int ProgramID);
     }
 }
 

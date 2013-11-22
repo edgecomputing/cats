@@ -21,7 +21,7 @@
 <div>
     <h4>Edit Plan</h4>
 </div>
-    @using (Html.BeginForm("Create", "Plan", FormMethod.Post, new { id = "frm_edit_plan" }))
+    @using (Html.BeginForm("Edit", "Plan", FormMethod.Post, new { id = "frm_edit_plan" }))
 
     {
         @Html.HiddenFor(m=>m.PlanID)
