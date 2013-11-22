@@ -10,10 +10,10 @@ namespace Cats.Infrastructure
 {
     public static class  ReportHelper
     {
-        public static ReportDTO PrintReport(string reportPath, object data, string dataSourceName)
-        {
-            return PrintReport(reportPath, data, dataSourceName, "PDF");
-        }
+        //public static ReportDTO PrintReport(string reportPath, object data, string dataSourceName)
+        //{
+        //    return PrintReport(reportPath, data, dataSourceName);
+        //}
 
         public static ReportDTO PrintReport(string reportPath, object[] data, string[] dataSourceName)
         {
@@ -42,7 +42,7 @@ namespace Cats.Infrastructure
             string mimeType;
             string encoding;
             string fileNameExtension;
-
+            
             //The DeviceInfo settings should be changed based on the reportType
             //http://msdn2.microsoft.com/en-us/library/ms155397.aspx
             string deviceInfo =
@@ -78,7 +78,7 @@ namespace Cats.Infrastructure
             return result;
         }
 
-        public static ReportDTO PrintReport(string reportPath, object data, string dataSourceName, string reportType)
+        public static ReportDTO PrintReport(string reportPath, object data, string dataSourceName, bool isPdf=true, bool isPortriat = true)
         {
             var localReport = new LocalReport();
             localReport.ReportPath = reportPath;
@@ -94,8 +94,10 @@ namespace Cats.Infrastructure
             //    localReport.DataSources.Add(reportDataSource);     
             //}
 
-            // string reportType = "PDF";
-
+                string reportType = isPdf ? "PDF" : "Excel";
+            string pageLayout = isPortriat
+                                    ? "  <PageWidth>8.5in</PageWidth> <PageHeight>11in</PageHeight> "
+                                    : "  <PageWidth>11in</PageWidth> <PageHeight>8.5in</PageHeight> ";
             string mimeType;
             string encoding;
             string fileNameExtension;
@@ -105,11 +107,10 @@ namespace Cats.Infrastructure
             string deviceInfo =
             "<DeviceInfo>" +
             "  <OutputFormat>" + reportType + "</OutputFormat>" +
-            "  <PageWidth>8.5in</PageWidth>" +
-            "  <PageHeight>11in</PageHeight>" +
+           pageLayout+
             "  <MarginTop>1in</MarginTop>" +
-            "  <MarginLeft>1in</MarginLeft>" +
-            "  <MarginRight>0.5in</MarginRight>" +
+            "  <MarginLeft>0.25in</MarginLeft>" +
+            "  <MarginRight>0.25in</MarginRight>" +
             "  <MarginBottom>0.5in</MarginBottom>" +
             "</DeviceInfo>";
 

@@ -311,8 +311,16 @@
                 $(this).append("(" + datepeferencedisplay + ")");
                 
             });*/
+        });
+
+        function toCatsPreferedUnit(data) {
+            if (unitpreferencedisplay.toLowerCase()!="mt") {
+                return data / 10;
+            } else {
+                return data;
+            }
         }
-        );
+        
     </script>
     
     
