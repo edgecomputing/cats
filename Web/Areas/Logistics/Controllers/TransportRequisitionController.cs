@@ -619,5 +619,6 @@ namespace Cats.Areas.Logistics.Controllers
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSources);
             return File(result.RenderBytes, result.MimeType);
         }
+       
     }
 }

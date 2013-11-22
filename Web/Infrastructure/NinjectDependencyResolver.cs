@@ -47,7 +47,8 @@ namespace Cats.Infrastructure
         
         private void AddBindings()
         {
-           
+
+            kernel.Bind<ISIPCAllocationService>().To<SIPCAllocationService>();
             kernel.Bind<IPromisedContributionService>().To<PromisedContributionService>();
             kernel.Bind<IBusinessProcessStateService>().To<BusinessProcessStateService>();
             kernel.Bind<IBusinessProcessService>().To<BusinessProcessService>();
