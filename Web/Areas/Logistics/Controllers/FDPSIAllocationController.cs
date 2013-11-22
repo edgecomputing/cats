@@ -96,11 +96,12 @@ namespace Cats.Areas.Logistics.Controllers
         {
             var result = allocation.Select(item => new SIPCAllocationViewModel
             {
-                SIPCAllocationID=item.ISPCAllocationID,
+                SIPCAllocationID = item.SIPCAllocationID,
+                RequisitionDetailID=item.RequisitionDetailID,
                 Code=item.Code,
                 AllocatedAmount=item.AllocatedAmount,
-                AllocationType=item.AllocationType,
-                RequisitionDetailID = item.RequisitionDetailID
+                AllocationType=item.AllocationType
+                
             }).ToList();
             return result;
         }

@@ -180,31 +180,44 @@
             </div>
         </div>
     </div>
-    <!--
+   
     <div class="span12">
         <table class="table table-stripped">
             <tr>
-                <td>Type</td>
-                <td>Name</td>
-                <td>Id</td>
-                <td>PC/SI</td>
+                <td>SIPCAllocationID</td>
+                <td>RequisitionDetailID</td>
+                <td>Code</td>
+                <td>AllocatedAmount</td>
+                <td>AllocationType</td>
             </tr>
-            <tr ng-repeat="item in allAdminRegions">
-                <td>{{item.type}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.FDPId}}</td>
-                <td>{{item.allocatedIndirect}}</td>
-            </tr>
+            <tbody ng-repeat="item in requisitionDetail">
+                <tr ng-repeat="alloc in item.Allocations">
+                    <td>{{alloc.SIPCAllocationID}}</td>
+                    <td>{{item.RequestDetailId}}</td>
+                    <td>{{alloc.Code}}</td>
+                    <td>{{alloc.AllocatedAmount}}</td>                
+                     <td>{{alloc.AllocationType}}</td>  
+                </tr>
+
+            </tbody>
     <tr >
          
     </tr>
 
             </table>
     </div>
-        -->
+        
 </div>
 
 <script type="text/javascript">
+
+    /*
+    SIPCAllocationID
+    RequisitionDetailID
+    Code
+    AllocatedAmount
+    AllocationType
+    */
 
     var App = angular.module('drag-and-drop', ['ngDragDrop']);
 
@@ -231,6 +244,7 @@
         $scope.allAdminRegions = [];
         $scope.SIPCCodes = []
         $scope.requests = [];
+        $scope.requisitionDetail=[];
         $scope.initUi = function () {
             var i = 0;
 
@@ -242,6 +256,7 @@
                     for (var f in woreda.fdps) {
                         $scope.addItemToList(woreda.fdps[f]);
                         woreda.fdps[f].allocatedAmount = 0;
+                        $scope.requisitionDetail.push(woreda.fdps[f]);
                     }
                 }
             }
@@ -377,7 +392,7 @@
             else
             {
                 
-                location.Allocations[0]={Code:$scope.SIPCCodes[index-1].codeId,AllocatedAmount:location.requestedAmount};
+                location.Allocations[0]={Code:$scope.SIPCCodes[index-1].codeId,AllocatedAmount:location.requestedAmount,AllocationType:$scope.SIPCCodes[index-1].type};
             }
         }
         

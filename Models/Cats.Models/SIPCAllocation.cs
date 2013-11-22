@@ -8,7 +8,7 @@ namespace Cats.Models
 {
     public partial class SIPCAllocation
     {
-        public int ISPCAllocationID { get; set; }
+        public int SIPCAllocationID { get; set; }
         public int FDPID { get; set; }
         public int RequisitionDetailID { get; set; }
         public int Code { get; set; }
