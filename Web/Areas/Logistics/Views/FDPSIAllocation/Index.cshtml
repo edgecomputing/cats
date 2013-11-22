@@ -141,7 +141,7 @@
                                             <div class="list-fdp" ng-repeat="fdp in woreda.fdps">
                                                 <div data-allocated="0" data-index="{{fdp.index}}" class="admin-list btn-draggable" ng-model="unallocated" data-drag="fdp.allocatedAmount<fdp.requestedAmount" data-jqyoui-options="{revert: 'invalid'}"
                                                     jqyoui-draggable="{index: {{fdp.id}},placeholder:'keep',animate:true, onStart:'startCallback(fdp, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
-                                                    <i class="icon-move"></i>{{fdp.RequestDetailId}} {{fdp.name}} [{{fdp.allocatedAmount}} of {{fdp.requestedAmount}}] 
+                                                    <i class="icon-move"></i>{{fdp.index}} ] {{fdp.RequestDetailId}} {{fdp.name}} [{{fdp.allocatedAmount}} of {{fdp.requestedAmount}}] 
                                                     <span ng-repeat="allocation in fdp.Allocations"> {{allocation.Code}} {{allocation.AllocatedAmount}}  </span>
                                                 </div>
 
@@ -391,8 +391,16 @@
             }
             else
             {
-                
-                location.Allocations[0]={Code:$scope.SIPCCodes[index-1].codeId,AllocatedAmount:location.requestedAmount,AllocationType:$scope.SIPCCodes[index-1].type};
+               
+                if(!location.Allocations[0])
+                {
+                    location.Allocations[0]={};
+                }
+
+                location.Allocations[0].Code=$scope.SIPCCodes[index-1].codeId;
+                location.Allocations[0].AllocationType=$scope.SIPCCodes[index-1].type;
+                location.Allocations[0].AllocatedAmount=location.requestedAmount
+
             }
         }
         
