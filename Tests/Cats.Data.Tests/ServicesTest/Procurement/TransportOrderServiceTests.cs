@@ -102,7 +102,18 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                TransportRequisitionID=1
                                                            }
                                                    };
-            _transportOrders = new List<TransportOrder>();
+            _transportOrders = new List<TransportOrder>()
+                                   {
+                                       new TransportOrder()
+                                           {
+                                               TransporterID=1,
+                                               TransportOrderID=1,
+                                               StatusID = 1,
+                                               StartDate=DateTime.Today,
+                                               EndDate=DateTime.Today,
+                                               BidDocumentNo="xyz"
+                                           }
+                                   };
 
             var _transportRequisitons = new List<TransportRequisition>
                                             {
@@ -168,22 +179,29 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
             mockUnitOfWork.Setup(t => t.HubAllocationRepository).Returns(hubAllocationRepository.Object);
             var transportOrderRepository =
                 new Mock<IGenericRepository<TransportOrder>>();
-            transportOrderRepository.Setup(
-                t => t.Get(It.IsAny<Expression<Func<TransportOrder, bool>>>(), null, It.IsAny<string>())).Returns(
-                    (Expression<Func<TransportOrder, bool>> perdicate, string prop) =>
-                    {
-                        var
-                            result
-                                =
-                                _transportOrders
-                                    .
-                                    AsQueryable
-                                    ();
-                        return result;
-                    }
-                );
+             transportOrderRepository.Setup(
+                 t => t.Get(It.IsAny<Expression<Func<TransportOrder, bool>>>(), It.IsAny<Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>>>(), It.IsAny<string>())).Returns(
+                     _transportOrders.AsQueryable());
+                       
             transportOrderRepository.Setup(t => t.Add(It.IsAny<TransportOrder>())).Returns(true);
             mockUnitOfWork.Setup(t => t.TransportOrderRepository).Returns(transportOrderRepository.Object);
+
+             var transportOrderDetailRepository = new Mock<IGenericRepository<TransportOrderDetail>>();
+             transportOrderDetailRepository.Setup(
+                 t =>
+                 t.Get(It.IsAny<Expression<Func<TransportOrderDetail, bool>>>(),
+                       It.IsAny<Func<IQueryable<TransportOrderDetail>, IOrderedQueryable<TransportOrderDetail>>>(),
+                       It.IsAny<string>())).Returns(new List<TransportOrderDetail>(){new TransportOrderDetail(){CommodityID=1,FdpID=1,DonorID = 1,RequisitionID = 1,QuantityQtl = 1,SourceWarehouseID=1,
+                       ReliefRequisition=new ReliefRequisition
+                                             {
+                                                 ProgramID=1,
+                                                 Round=1,
+                                                 Month=1,
+                                                 RequisitionID=1,
+                                                 RequisitionNo= "1"
+                                             }}});
+             mockUnitOfWork.Setup(t => t.TransportOrderDetailRepository).Returns(transportOrderDetailRepository.Object);
+           
             var transportRequisition = new Mock<IGenericRepository<TransportRequisition>>();
 
             transportRequisition.Setup(
@@ -227,6 +245,9 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                            Name = "TRANS"
                                                                                        });
              mockUnitOfWork.Setup(t => t.TransporterRepository).Returns(transporterRepository.Object);
+             var dispatchAllocationRepository = new Mock<IGenericRepository<DispatchAllocation>>();
+             dispatchAllocationRepository.Setup(t => t.Add(It.IsAny<DispatchAllocation>())).Returns(true);
+             mockUnitOfWork.Setup(t => t.DispatchAllocationRepository).Returns(dispatchAllocationRepository.Object);
             var transporterService = new Mock<ITransporterService>();
             transporterService.Setup(t => t.GetCurrentBidWinner(It.IsAny<int>(), It.IsAny<int>())).Returns(new TransportBidQuotation
                                                                                                                ()
@@ -318,6 +339,13 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
             var result = _transportOrderService.CreateTransportOrder(1);
 
             //Assert
+
+            Assert.IsTrue(result);
+        }
+        [Test]
+        public  void ShouldGenerateDispatchAllocation()
+        {
+            var result = _transportOrderService.GeneratDispatchPlan(1);
 
             Assert.IsTrue(result);
         }
