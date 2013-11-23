@@ -87,6 +87,13 @@ namespace Cats.Services.Common
             }
             return  _unitOfWork.PlanRepository.FindBy(m => m.Program.Name == programName && m.Status == (int)PlanStatus.HRDCreated);
         }
-       
+       public List<Plan> GetPlan(int ProgramID)
+       {
+           if (ProgramID==2)
+           {
+               return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == ProgramID && m.Status == (int)PlanStatus.PSNPCreated);
+           }
+           return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == ProgramID && m.Status == (int)PlanStatus.HRDCreated);
+       }
     }
 }

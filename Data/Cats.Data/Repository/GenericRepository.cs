@@ -43,7 +43,6 @@ namespace Cats.Data.Repository
             return true;
         }
 
-
         public virtual bool Delete(T entity)
         {
             _context.Set<T>().Remove(entity);

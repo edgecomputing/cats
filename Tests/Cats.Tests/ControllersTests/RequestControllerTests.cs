@@ -118,6 +118,10 @@ namespace Cats.Tests.ControllersTests
                                             AdminUnitID = 1
                                         }
                                 };
+            var plan = new List<Plan>
+                {
+                    new Plan {PlanID = 1,PlanName = "Plan1",ProgramID = 1,StartDate = new DateTime(12/12/12),EndDate =new DateTime(12/12/12) }
+                };
                var _status = new List<Cats.Models.WorkflowStatus>()
                               {
                                   new WorkflowStatus()
@@ -144,7 +148,7 @@ namespace Cats.Tests.ControllersTests
                       It.IsAny<Func<IQueryable<AdminUnit>, IOrderedQueryable<AdminUnit>>>(),
                       It.IsAny<string>())).Returns(adminUnit);
             commonService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(_status);
-
+            commonService.Setup(t => t.GetPlan(plan.First().ProgramID)).Returns(plan);
             var mockRegionalRequestService = new Mock<IRegionalRequestService>();
             mockRegionalRequestService.Setup(
                 t => t.GetSubmittedRequest(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(
@@ -386,6 +390,13 @@ namespace Cats.Tests.ControllersTests
                                      RefrenceNumber = "RE1",
 
                                  },
+                    Plan = new Plan()
+                        {
+                            PlanID = 1,
+                            PlanName = "Plan1",
+                            StartDate = DateTime.Parse("7/3/2013"),
+                            EndDate = DateTime.Parse("7/3/2013")
+                        },
                     RegionalRequestDetails = new List<RegionalRequestDetail>
                                                  {
                                                      new RegionalRequestDetail

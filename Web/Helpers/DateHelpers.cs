@@ -16,15 +16,36 @@ namespace Cats.Helpers
             {
                 IFormatProvider provider = new CultureInfo("en-GB");
                 return date.ToString("dd-MMM-yyyy", provider);
-
             }
             else
             {
                 EthiopianDate ethiopianDate = new EthiopianDate(date);
                 return ethiopianDate.ToLongDateString();
             }
-
         }
+
+        //public static string ToCTSPreferedDateFormat(this Nullable<DateTime> date, string lang)
+        //{
+        //    if (date != null)
+        //    {
+        //        DateTime d = date;
+
+        //        if (lang.ToLower() == "gc")
+        //        {
+        //            IFormatProvider provider = new CultureInfo("en-GB");
+        //            return d.ToString("dd-MMM-yyyy", provider);
+        //        }
+        //        else
+        //        {
+        //            EthiopianDate ethiopianDate = new EthiopianDate(date);
+        //            return ethiopianDate.ToLongDateString();
+        //        }
+        //    }
+        //    else {
+        //        return String.Empty;
+        //    }
+        //}
+
         public static string CTSPreferedDateLabel(this string label)
         {
             return string.Format("{0}( {1})", label, UserAccountHelper.UserCalendarPreference());
