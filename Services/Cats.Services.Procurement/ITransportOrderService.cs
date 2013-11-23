@@ -35,6 +35,7 @@ namespace Cats.Services.Procurement
        List<vwTransportOrder> GeTransportOrderRpt(int id);
        List<Transporter> GetTransporter();
        List<Hub> GetHubs();
+       
     }
 }
 

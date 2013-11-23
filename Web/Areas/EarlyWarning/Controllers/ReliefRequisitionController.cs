@@ -214,41 +214,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-        private void AddNotification(int requisitionID,int regionId,string requisitioNo)
-        {
-            if (Request.Url != null)
-            {
-                string destinationURl;
-                if (Request.Url.Host == "localhost")
-                {
-                    destinationURl = "http://" + Request.Url.Authority +
-                                     "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId +
-                                     "&recordId=" + requisitionID;
-                }
-                else
-                {
-                    destinationURl = "http://" + Request.Url.Authority  + Request.ApplicationPath +
-                                     "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" + regionId +
-                                     "&recordId=" + requisitionID;
-                }
-                var notification = new Notification
-                {
-                    Text = "Approved Requistion" + requisitioNo ,
-                    CreatedDate = DateTime.Now.Date,
-                    IsRead = false,
-                    Role = 1,
-                    RecordId = requisitionID,
-                    Url = destinationURl,
-                    TypeOfNotification = "Requisition Approval",
-                    RoleName = Application.HUB_ALLOCATER
-                };
-
-                _notificationService.AddNotification(notification);
-
-            }
-
-
-        }
+       
 
         [HttpPost]
         public ActionResult ConfirmSendToLogistics(int requisitionid)
@@ -257,8 +223,44 @@ namespace Cats.Areas.EarlyWarning.Controllers
             requisition.Status = (int)ReliefRequisitionStatus.Approved;
             _reliefRequisitionService.EditReliefRequisition(requisition);
             //send notification
-            AddNotification(requisition.RequisitionID,(int) requisition.RegionID,requisition.RequisitionNo);
+            SendNotification(requisition);
             return RedirectToAction("Index", "ReliefRequisition");
+        }
+
+        private void SendNotification(ReliefRequisition requisition)
+        {
+            try
+            {
+                string destinationURl;
+                if (Request.Url.Host != null)
+                {
+                    if (Request.Url.Host == "localhost")
+                    {
+                        destinationURl = "http://" + Request.Url.Authority +
+                                         "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" +
+                                         requisition.RegionID +
+                                         "&recordId=" + requisition.RequisitionID;
+                    }
+                    else
+                    {
+                        destinationURl = "http://" + Request.Url.Authority +
+                                        Request.ApplicationPath +
+                                         "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" +
+                                         requisition.RegionID +
+                                         "&recordId=" + requisition.RequisitionID;
+                    }
+
+                    _notificationService.AddNotificationForLogistcisFromEarlyWaring(destinationURl,
+                                                                                    requisition.RequisitionID,
+                                                                                    (int) requisition.RegionID,
+                                                                                    requisition.RequisitionNo);
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
 
         public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request, int id = 0)

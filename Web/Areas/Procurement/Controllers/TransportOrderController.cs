@@ -65,15 +65,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
             var reportData = _transportOrderService.GeTransportOrderRpt(id);
-            //var transportOrder = _transportOrderService.FindById(id);
-            //var reportHeader = GetTransportOrderReport(transportOrder);
-            //var reportDetail = GetTransportContract(transportOrder);
-            //var reportData = new object[2];
-            //reportData[0] = reportHeader;
-            //reportData[1] = reportDetail;
-            //var dataSourceName = new string[2];
-            //dataSourceName[0] = "TransportOrderHeader";
-            //dataSourceName[1] = "TransportOrderDetail";
+          
 
             var dataSourceName = "TransportOrders";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);

@@ -196,7 +196,7 @@ namespace Cats.Areas.Logistics.Controllers
                      
 
                      _HubAllocationService.AddHubAllocation(newHubAllocation);
-                     AddNotification(newHubAllocation.HubAllocationID);
+                    
                  }
                 
                  return Json(new { success = true });
@@ -209,28 +209,7 @@ namespace Cats.Areas.Logistics.Controllers
            
         }
 
-        private void AddNotification(int hubAllocationId)
-        {
-            if (Request.Url != null)
-            {
-                var notification = new Notification
-                                       {
-                                           Text = "Hub Allocation",
-                                           CreatedDate = DateTime.Now.Date,
-                                           IsRead = false,
-                                           Role = 2,
-                                           RecordId = hubAllocationId,
-                                           Url = Request.Url.AbsoluteUri,
-                                           TypeOfNotification = "Hub Allocation"
-                                       };
-
-                _notificationService.AddNotification(notification);
-
-            }
-
-
-        }
-
+       
         public ActionResult RegionId(int id)
         {
            return RedirectToAction("Index", new {regionId = id});

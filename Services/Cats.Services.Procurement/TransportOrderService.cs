@@ -7,8 +7,7 @@ using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
-using System.Web.Mvc;
-using log4net.Repository.Hierarchy;
+using Cats.Services.Common;
 
 namespace Cats.Services.Procurement
 {
@@ -17,12 +16,13 @@ namespace Cats.Services.Procurement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITransporterService _transporterService;
+        private readonly INotificationService _notificationService;
 
-
-        public TransportOrderService(IUnitOfWork unitOfWork,ITransporterService transporterService)
+        public TransportOrderService(IUnitOfWork unitOfWork,ITransporterService transporterService, INotificationService notificationService)
         {
             this._unitOfWork = unitOfWork;
             this._transporterService = transporterService;
+            _notificationService = notificationService;
         }
 
         #region Default Service Implementation
@@ -245,42 +245,7 @@ namespace Cats.Services.Procurement
             return true;
         }
 
-        private void AddNotification(int transportOrderId, string transportOrderNo)
-        {
-            try
-            {
-                if (HttpContext.Current == null) return;
-                string destinationURl;
-                if (HttpContext.Current.Request.Url.Host == "localhost")
-                {
-                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
-                                     "/Procurement/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
-                }
-                else
-                {
-                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
-                                     HttpContext.Current.Request.ApplicationPath +
-                                     "/Procurement/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
-                }
-                var notification = new Notification
-                                       {
-                                           Text = "Transport Order No:" + transportOrderNo,
-                                           CreatedDate = DateTime.Now.Date,
-                                           IsRead = false,
-                                           Role = 1,
-                                           RecordId = transportOrderId,
-                                           Url = destinationURl,
-                                           TypeOfNotification = "New Transport Order",
-                                           RoleName = Application.HUB_MANAGER
-                                       };
-                _unitOfWork.NotificationRepository.Add(notification);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+       
 
         private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)
 
@@ -423,7 +388,7 @@ namespace Cats.Services.Procurement
             {
                 try
                 {
-                    AddNotification(transportOrder.TransportOrderID, transportOrder.TransportOrderNo);
+                    AddToNotification(transportOrder.TransportOrderID, transportOrder.TransportOrderNo);
                 }
                 catch 
                 {
@@ -441,6 +406,34 @@ namespace Cats.Services.Procurement
             }
             return false;
 
+        }
+
+        private void AddToNotification(int transportOrderId,string transportOrderNo)
+        {
+            try
+            {
+                if (HttpContext.Current == null) return;
+                string destinationURl;
+                if (HttpContext.Current.Request.Url.Host == "localhost")
+                {
+                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                     "/Procurement/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
+                }
+                else
+                {
+                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                     HttpContext.Current.Request.ApplicationPath +
+                                     "/Procurement/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
+                }
+                _notificationService.AddNotificationForHubManagersFromTransportOrder(destinationURl, transportOrderId,
+                                                                                     transportOrderNo);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+           
         }
     }
 }
