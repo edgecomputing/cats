@@ -179,6 +179,9 @@
                                 <li class="divider" />
                                 <li><a href="@Url.Action("Index", "TransportationReport", new { Area = "Hub" })">@Html.Translate("Transportation Reports")</a></li>
                                 <li><a href="@Url.Action("Home", "Admin", new { Area = "Hub" })">@Html.Translate("Admin")</a></li>
+                                
+                                 <li class="divider" />
+                                <li><a href="@Url.Action("ReturnListOfApprovedListFromMainMenu", "TransportOrder", new { Area = "Hub"})">@Html.Translate("Transport Order List")</a></li>
                             </ul>
                         </li>
 
@@ -188,7 +191,7 @@
                     <li class="divider-vertical"></li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"><span class="badge" style="color: red; background: white">@Html.GetUnreadNotifications()</span></i><b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"><span class="badge-info">@Html.GetUnreadNotifications()</span></i><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.GetActiveNotifications()</li>
                         </ul>

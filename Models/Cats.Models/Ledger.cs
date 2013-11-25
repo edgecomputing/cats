@@ -2,18 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Cats.Models.Hubs
+namespace Cats.Models
 {
-    /// <summary>
-    /// Leger Class
-    /// </summary>
-    public partial class Ledger
+    public class Ledger
     {
-
-        /// <summary>
-        /// Constants in the Ledger 
-        /// </summary>
         public class Constants
         {
 
@@ -34,6 +28,5 @@ namespace Cats.Models.Hubs
             public const int PLEDGED_TO_FDP = 15;
             public const int COMMITED_TO_FDP = 16;
         }
-
     }
 }

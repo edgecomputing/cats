@@ -446,6 +446,7 @@
     <Compile Include="Areas\Hub\Controllers\StoreController.cs" />
     <Compile Include="Areas\Hub\Controllers\TransactionController.cs" />
     <Compile Include="Areas\Hub\Controllers\TransporterController.cs" />
+    <Compile Include="Areas\Hub\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Hub\Controllers\UnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\UserAccountHelper.cs" />
     <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
@@ -1503,6 +1504,8 @@
       <DependentUpon>dataset.xsd</DependentUpon>
     </Content>
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

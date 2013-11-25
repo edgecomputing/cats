@@ -11,17 +11,12 @@
 @section LeftBar
 {
     @Html.Partial("_AllocationLeftBar")
-    <div>Allocations</div>
-    @foreach(var i in ViewBag.Allocations)
-    {
-        <div>@i.AllocatedAmount</div>
-    }
     <div id="debug2"></div>
 }
 @section Toolbar
 {
 
-    <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
+<a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"></a>
 }
@@ -232,15 +227,20 @@
     AllocatedAmount
     AllocationType
     */
-
+    function submitform()
+    {
+        $$scope.Save(1);
+    }
     var App = angular.module('drag-and-drop', ['ngDragDrop']);
+    var $$scope;
+
 
     App.controller('oneCtrl', function ($scope, $http) {
         $scope.response=[];
         $scope.regionId=@ViewBag.regionId;
         $scope.RequisitionID=@ViewBag.RequisitionID;
         $scope.getListUrl="@Url.Action("getRequisitionList", "FDPSIAllocation", new { Area = "Logistics" })"
-        $scope.updateUrl="@Url.Action("updateAllocation", "SIAllocation", new { Area = "Logistics" })"
+        $scope.updateUrl="@Url.Action("UpdateAllocation", "FDPSIAllocation", new { Area = "Logistics" })"
         $scope.promoteUrl="@Url.Action("updateRequisitionStatus", "FDPSIAllocation", new { Area = "Logistics" })"
         $scope.selectedHub=3;
 
@@ -332,7 +332,7 @@
                     if (!fdp.allocatedAmount) {
                         fdp.allocatedAmount = fdp.requestedAmount;
                         fdp.allocatedIndirect = index;
-
+                        $scope.allocateAdminRegion(location.fdps[f],index);
                     }
 
                 }
@@ -553,6 +553,7 @@
         };
 
         var GetListSuccessCB = function (resp, status, headers, config) {
+            $$scope=$scope;
             $scope.response=resp;
             $scope.MapViewModel(resp)
             $scope.initUi();
@@ -640,7 +641,26 @@
                 $('#modalContent').html("...");
                 $('#myModal').modal('show');
             }
-        }
+        };
+        $scope.Save=function(showmodal)
+        {
+            var param = [];
+            for(var i in $scope.requisitionDetail)
+            {
+                var item=$scope.requisitionDetail[i];
+                for(var alloc in item.Allocations)
+                {
+                    item.Allocations[alloc].RequisitionDetailID=item.RequestDetailId;
+                    param.push(item.Allocations[alloc]);
+                }
+
+            }
+            $http.post($scope.updateUrl, param)  
+            if (showmodal) {
+                $('#modalContent').html("...");
+                $('#myModal').modal('show');
+            }
+        };
         $scope.loadPage();
     });
 
