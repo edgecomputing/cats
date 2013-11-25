@@ -8,11 +8,11 @@ namespace Cats.Models.Mapping
         public SIPCAllocationMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ISPCAllocationID, t.FDPID, t.RequisitionDetailID, t.Code, t.AllocatedAmount, t.AllocationType });
+            this.HasKey(t =>  t.SIPCAllocationID);
 
             // Table & Column Mappings
             this.ToTable("SIPCAllocation");
-            this.Property(t => t.ISPCAllocationID).HasColumnName("ISPCAllocationID");
+            this.Property(t => t.SIPCAllocationID).HasColumnName("SIPCAllocationID");
             this.Property(t => t.FDPID).HasColumnName("FDPID");
             this.Property(t => t.RequisitionDetailID).HasColumnName("RequisitionDetailID");
             this.Property(t => t.Code).HasColumnName("Code");

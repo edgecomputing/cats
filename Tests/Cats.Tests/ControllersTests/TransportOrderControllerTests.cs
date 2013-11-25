@@ -95,12 +95,14 @@ namespace Cats.Tests.ControllersTests
                 UserName = "x",
                 DatePreference = "en"
             });
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
             var TransReqWithoutTransporter = new List<TransReqWithoutTransporter>
                 {
                     new TransReqWithoutTransporter {TransReqWithoutTransporterID = 1,TransportRequisitionDetailID = 1,IsAssigned = false},
@@ -195,12 +197,10 @@ namespace Cats.Tests.ControllersTests
             //Assert
             Assert.IsInstanceOf<JsonResult>(result);
         }
+
+
+
         #endregion
-        //[Test]
-        //public void CanShowTransportContract()
-        //{
-        //    var result = _transportOrderController.TransportContract(1);
-        //    Assert.IsNotNull(result);
-        //}
+       
     }
 }

@@ -11,17 +11,12 @@
 @section LeftBar
 {
     @Html.Partial("_AllocationLeftBar")
-    <div>Allocations</div>
-    @foreach(var i in ViewBag.Allocations)
-    {
-        <div>@i.AllocatedAmount</div>
-    }
     <div id="debug2"></div>
 }
 @section Toolbar
 {
 
-    <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
+<a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"></a>
 }
@@ -37,7 +32,7 @@
     {
         overflow: visible;
     }
-    #accordion_zone *
+    .allocationscreen *
     {
         font-size:12px;
     }
@@ -46,12 +41,20 @@
     {
         opacity: 0.75;
     }
+    .button-remove
+        {
+            display: none;
+        }
 
         #accordion_zone .ui-draggable-disabled .icon-move
         {
             visibility: hidden;
         }
-
+        #accordion_zone .ui-draggable-disabled .button-remove
+        {
+            
+            display: inline;
+        }
     .drag-reciever
     {
         margin-top: 5px;
@@ -88,7 +91,7 @@
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 100px; height: 50px; right: 50%; top: 50%; margin: auto;">
     <div id="modalContent" style="line-height: 40px; text-align: center;">Saving</div>
 </div>
-<div ng-app="drag-and-drop" ng-controller="oneCtrl">
+<div ng-app="drag-and-drop" ng-controller="oneCtrl" class="allocationscreen">
     <fieldset>
         <legend style="font-size:16px;">@Translator.Translate("SI/ProjectCode Allocation ")</legend>
 
@@ -141,8 +144,14 @@
                                             <div class="list-fdp" ng-repeat="fdp in woreda.fdps">
                                                 <div data-allocated="0" data-index="{{fdp.index}}" class="admin-list btn-draggable" ng-model="unallocated" data-drag="fdp.allocatedAmount<fdp.requestedAmount" data-jqyoui-options="{revert: 'invalid'}"
                                                     jqyoui-draggable="{index: {{fdp.id}},placeholder:'keep',animate:true, onStart:'startCallback(fdp, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
-                                                    <i class="icon-move"></i>{{fdp.RequestDetailId}} {{fdp.name}} [{{fdp.allocatedAmount}} of {{fdp.requestedAmount}}] 
+                                                    <i class="icon-move"></i>
+
+                                                    <button class="button-remove" ng-click="on_remove_allocation(fdp.index)"><i class="icon-remove"></i></button>
+                                                   
+                                                     {{fdp.name}} [{{fdp.allocatedAmount}} of {{fdp.requestedAmount}}] 
+                                                    <!--
                                                     <span ng-repeat="allocation in fdp.Allocations"> {{allocation.Code}} {{allocation.AllocatedAmount}}  </span>
+                                                        -->
                                                 </div>
 
                                             </div>
@@ -168,52 +177,70 @@
             <div ng-repeat="si in SIPCCodes" class="span3" style="margin:0; margin-right:2px; " ng-show="si.HubId==selectedHub">
                 <div class="drag-reciever {{si.type}}" style="padding:4px;">
 
-                    <div>{{si.codeId}} - {{si.name}} <span>[{{si.availableAmount}}]</span></div>
+                    <div>{{si.name}} <span style="font-style:italic">[Available={{si.availableAmount}}]</span></div>
                     <div class="allocated-list" style="background:#FFF; overflow:hidden;  border-radius: 4px;  height: 120px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}" data-index="{{si.index}}" data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
                         <ul class="nav nav-list ">
                             <li class="btn-draggable" data-allocated="1" ng-repeat="item in si.allocatedRequests" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}">
-                                <a href="#" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount}}]</span></a></li>
+                                <a href="#" ng-shows="si.index==item.allocated">{{item.name}} {{item.id}} [{{item.allocatedAmount}}]</span></a></li>
                         </ul>
-
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--
-    <div class="span12">
+   
+    <div class="span12" style="display:none;">
         <table class="table table-stripped">
             <tr>
-                <td>Type</td>
-                <td>Name</td>
-                <td>Id</td>
-                <td>PC/SI</td>
+                <td>SIPCAllocationID</td>
+                <td>RequisitionDetailID</td>
+                <td>Code</td>
+                <td>AllocatedAmount</td>
+                <td>AllocationType</td>
             </tr>
-            <tr ng-repeat="item in allAdminRegions">
-                <td>{{item.type}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.FDPId}}</td>
-                <td>{{item.allocatedIndirect}}</td>
-            </tr>
+            <tbody ng-repeat="item in requisitionDetail">
+                <tr ng-repeat="alloc in item.Allocations">
+                    <td>{{alloc.SIPCAllocationID}}</td>
+                    <td>{{item.RequestDetailId}}</td>
+                    <td>{{alloc.Code}}</td>
+                    <td>{{alloc.AllocatedAmount}}</td>                
+                     <td>{{alloc.AllocationType}}</td>  
+                </tr>
+
+            </tbody>
     <tr >
          
     </tr>
 
             </table>
     </div>
-        -->
+        
 </div>
 
 <script type="text/javascript">
 
+    /*
+    SIPCAllocationID
+    RequisitionDetailID
+    Code
+    AllocatedAmount
+    AllocationType
+    */
+    function submitform()
+    {
+        $$scope.Save(1);
+    }
     var App = angular.module('drag-and-drop', ['ngDragDrop']);
+    var $$scope;
+
 
     App.controller('oneCtrl', function ($scope, $http) {
         $scope.response=[];
         $scope.regionId=@ViewBag.regionId;
         $scope.RequisitionID=@ViewBag.RequisitionID;
         $scope.getListUrl="@Url.Action("getRequisitionList", "FDPSIAllocation", new { Area = "Logistics" })"
-        $scope.updateUrl="@Url.Action("updateAllocation", "SIAllocation", new { Area = "Logistics" })"
+        $scope.updateUrl="@Url.Action("UpdateAllocation", "FDPSIAllocation", new { Area = "Logistics" })"
         $scope.promoteUrl="@Url.Action("updateRequisitionStatus", "FDPSIAllocation", new { Area = "Logistics" })"
         $scope.selectedHub=3;
 
@@ -231,6 +258,99 @@
         $scope.allAdminRegions = [];
         $scope.SIPCCodes = []
         $scope.requests = [];
+        $scope.requisitionDetail=[];
+        $scope.on_remove_allocation=function(adminIndex)
+        {
+           // alert(adminIndex);
+            var location = $scope.allAdminRegions[adminIndex]; 
+            $scope.removeAllocation(location);
+
+            $scope.calculateAllocated();
+        }
+        $scope.removeAllocation=function(location)
+        {
+            // alert(location.allocated);
+            
+            if(location.allocated)
+            {
+                $scope.deleteSIPCAllocation(location.allocated-1,location.index);
+            }
+            if (location.type == "zone") {
+                for (var w in location.woredas) {
+                    $scope.removeAllocation(location.woredas[w]);
+                }
+            }
+            else if (location.type == "woreda") {
+                for (var f in location.fdps) {
+                    var fdp = location.fdps[f];
+                    if (!fdp.allocatedAmount) {
+                        fdp.allocatedAmount = 0;
+                        fdp.allocatedIndirect = 0;
+                        fdp.allocated = 0;
+                    }
+
+                }
+            }
+            else
+            {
+                location.allocatedAmount = 0;
+                location.allocatedIndirect = 0;
+                location.allocated = 0;
+                if(location.Allocations[0])
+                {
+                    location.Allocations[0].Code="";
+                    location.Allocations[0].AllocationType="";
+                    location.Allocations[0].AllocatedAmount=0
+                }
+
+                
+
+            }
+        }
+        $scope.deleteSIPCAllocation = function(siindex,fdpindex)
+        {
+            var si=$scope.SIPCCodes[siindex];
+            for(var i in si.allocatedRequests)
+            {
+                if(si.allocatedRequests[i].index==fdpindex)
+                {
+                    si.availableAmount = si.availableAmount/1 +  si.allocatedRequests[i].allocatedAmount/1;
+                    si.allocatedRequests.splice(i,1);
+                    return;
+                }
+            }
+        }
+        $scope.allocateAdminRegion = function (location,index) {
+            if (location.type == "zone") {
+                for (var w in location.woredas) {
+                    $scope.allocateAdminRegion(location.woredas[w],index);
+                }
+            }
+            else if (location.type == "woreda") {
+                for (var f in location.fdps) {
+                    var fdp = location.fdps[f];
+                    if (!fdp.allocatedAmount) {
+                        fdp.allocatedAmount = fdp.requestedAmount;
+                        fdp.allocatedIndirect = index;
+                        $scope.allocateAdminRegion(location.fdps[f],index);
+                    }
+
+                }
+            }
+            else
+            {
+               
+                if(!location.Allocations[0])
+                {
+                    location.Allocations[0]={};
+                }
+
+                location.Allocations[0].Code=$scope.SIPCCodes[index-1].codeId;
+                location.Allocations[0].AllocationType=$scope.SIPCCodes[index-1].type;
+                location.Allocations[0].AllocatedAmount=location.requestedAmount
+
+            }
+        }
         $scope.initUi = function () {
             var i = 0;
 
@@ -242,6 +362,7 @@
                     for (var f in woreda.fdps) {
                         $scope.addItemToList(woreda.fdps[f]);
                         woreda.fdps[f].allocatedAmount = 0;
+                        $scope.requisitionDetail.push(woreda.fdps[f]);
                     }
                 }
             }
@@ -342,44 +463,50 @@
         };
 
         $scope.assigneAllocation = function (requestIndex, siIndex, amount) {
+           // alert(requestIndex + "," + siIndex);
             var location = $scope.allAdminRegions[requestIndex];
             amount = location.requestedAmount - location.allocatedAmount;
             var avail=$scope.SIPCCodes[siIndex].availableAmount-amount;
 
-            $scope.allAdminRegions[requestIndex].allocated = siIndex + 1;
+            $scope.allAdminRegions[requestIndex].allocated = siIndex/1 + 1;
             $scope.allAdminRegions[requestIndex].allocatedAmount = amount;
             $scope.SIPCCodes[siIndex].availableAmount = Math.round(100*avail)/100;
             $scope.SIPCCodes[siIndex].allocatedRequests.push($scope.allAdminRegions[requestIndex]);
 
 
-            $scope.allocateAdminRegion(location,siIndex + 1);
+            $scope.allocateAdminRegion(location,siIndex/1 + 1);
 
 
             $scope.calculateAllocated();
         }
-        $scope.allocateAdminRegion = function (location,index) {
-            if (location.type == "zone") {
-                for (var w in location.woredas) {
-                    $scope.allocateAdminRegion(location.woredas[w],index);
-                }
-            }
-            else if (location.type == "woreda") {
-                for (var f in location.fdps) {
-                    var fdp = location.fdps[f];
-                    if (!fdp.allocatedAmount) {
-                        fdp.allocatedAmount = fdp.requestedAmount;
-                        fdp.allocatedIndirect = index;
-
-                    }
-
-                }
-            }
-            else
+        $scope.getSIPCIndex=function(id,type)
+        {
+            for(var i in $scope.SIPCCodes)
             {
-                
-                location.Allocations[0]={Code:$scope.SIPCCodes[index-1].codeId,AllocatedAmount:location.requestedAmount};
+                var si=$scope.SIPCCodes[i];
+                if(si.codeId==id && si.type==type)
+                {
+                    return i;
+                }
             }
         }
+        $scope.updateSavedAllocations = function()
+        {
+            for(var i in $scope.allAdminRegions)
+            {
+                var location=$scope.allAdminRegions[i];
+               // location.name=location.name + i;
+                
+                for(var a in location.Allocations)
+                {
+                    var siindex=$scope.getSIPCIndex(location.Allocations[a].Code,location.Allocations[a].AllocationType)
+                    if(siindex>=0)
+                    {
+                        $scope.assigneAllocation(i, siindex, location.Allocations[a].AllocatedAmount);
+                    }
+                }
+            }
+        };
         
         $scope.overCallback = function (event, ui) {
             console.log('Look, I`m over you');
@@ -426,9 +553,11 @@
         };
 
         var GetListSuccessCB = function (resp, status, headers, config) {
+            $$scope=$scope;
             $scope.response=resp;
             $scope.MapViewModel(resp)
             $scope.initUi();
+            $scope.updateSavedAllocations();
         };
         $scope.MapViewModel=function(response)
         {
@@ -512,7 +641,26 @@
                 $('#modalContent').html("...");
                 $('#myModal').modal('show');
             }
-        }
+        };
+        $scope.Save=function(showmodal)
+        {
+            var param = [];
+            for(var i in $scope.requisitionDetail)
+            {
+                var item=$scope.requisitionDetail[i];
+                for(var alloc in item.Allocations)
+                {
+                    item.Allocations[alloc].RequisitionDetailID=item.RequestDetailId;
+                    param.push(item.Allocations[alloc]);
+                }
+
+            }
+            $http.post($scope.updateUrl, param)  
+            if (showmodal) {
+                $('#modalContent').html("...");
+                $('#myModal').modal('show');
+            }
+        };
         $scope.loadPage();
     });
 

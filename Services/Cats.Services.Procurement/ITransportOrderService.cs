@@ -36,6 +36,7 @@ namespace Cats.Services.Procurement
        List<Transporter> GetTransporter();
        List<Hub> GetHubs();
         bool GeneratDispatchPlan(int transportOrderId);
+
     }
 }
 

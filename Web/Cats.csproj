@@ -374,6 +374,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\AddFDPViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
@@ -445,6 +446,7 @@
     <Compile Include="Areas\Hub\Controllers\StoreController.cs" />
     <Compile Include="Areas\Hub\Controllers\TransactionController.cs" />
     <Compile Include="Areas\Hub\Controllers\TransporterController.cs" />
+    <Compile Include="Areas\Hub\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Hub\Controllers\UnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\UserAccountHelper.cs" />
     <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
@@ -1502,6 +1504,9 @@
       <DependentUpon>dataset.xsd</DependentUpon>
     </Content>
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\CarryOverStock.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

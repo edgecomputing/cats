@@ -7,6 +7,7 @@ using System.Text;
 using Cats.Data.Repository;
 using Cats.Data.UnitWork;
 using Cats.Models.ViewModels;
+using Cats.Services.Common;
 using Moq;
 using NUnit.Framework;
 using Cats.Services.Procurement;
@@ -23,9 +24,12 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
         private TransportOrderService _transportOrderService;
         private IList<BidWinner> _transportBidWinners;
         private IList<ApplicationSetting> _applicationSettings;
+        private INotificationService _notificationService;
          [SetUp]
         public void Init()
         {
+            var unitOfWorkNotify = new Mock<IUnitOfWork>();
+
             _transportBidWinners = new List<BidWinner>()
                                        {
                                            new BidWinner()
@@ -277,8 +281,8 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                                                        =
                                                                                                                        1
                                                                                                                });
-
-            _transportOrderService = new TransportOrderService(mockUnitOfWork.Object,transporterService.Object);
+            _notificationService = new NotificationService(unitOfWorkNotify.Object);
+            _transportOrderService = new TransportOrderService(mockUnitOfWork.Object, transporterService.Object, _notificationService);
             //Act 
         }
 

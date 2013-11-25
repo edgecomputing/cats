@@ -34,5 +34,6 @@ namespace Cats.Models
          [Required]
         public int PlanID { get; set; }
 
+       public int PSNPPlanID { get; set; }
     }
 }

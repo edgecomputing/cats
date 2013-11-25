@@ -23,6 +23,8 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IProjectCodeAllocationService _projectCodeAllocationService;
         private readonly IHubService _hubService;
         private readonly ISIPCAllocationService _allocationService;
+        private readonly ITransactionService _transactionService;
+
         public FDPSIAllocationController
             (
              IReliefRequisitionService requisitionService
@@ -31,6 +33,7 @@ namespace Cats.Areas.Logistics.Controllers
             , IProjectCodeAllocationService projectCodeAllocationService
             , IHubService hubService
             ,ISIPCAllocationService allocationService
+            ,ITransactionService transactionService
             )
             {
                 this._requisitionService = requisitionService;
@@ -39,6 +42,7 @@ namespace Cats.Areas.Logistics.Controllers
                 this._projectCodeAllocationService = projectCodeAllocationService;
                 this._hubService = hubService;
                 this._allocationService = allocationService;
+                this._transactionService = transactionService;
             }
 
         public List<RequestAllocationViewModel> getIndexList(int regionId = 0,int RequisitionID=0)
@@ -96,11 +100,12 @@ namespace Cats.Areas.Logistics.Controllers
         {
             var result = allocation.Select(item => new SIPCAllocationViewModel
             {
-                SIPCAllocationID=item.ISPCAllocationID,
+                SIPCAllocationID = item.SIPCAllocationID,
+                RequisitionDetailID=item.RequisitionDetailID,
                 Code=item.Code,
                 AllocatedAmount=item.AllocatedAmount,
-                AllocationType=item.AllocationType,
-                RequisitionDetailID = item.RequisitionDetailID
+                AllocationType=item.AllocationType
+                
             }).ToList();
             return result;
         }
@@ -117,7 +122,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.regionId = regionId;
             ViewBag.RequisitionID = RequisitionID;
             ViewBag.Hubs = _hubService.GetAllHub();
-            ViewBag.Allocations = _allocationService.GetAll();
+          //  ViewBag.Allocations = _allocationService.GetAll();
             return View();
         }
 
@@ -126,13 +131,56 @@ namespace Cats.Areas.Logistics.Controllers
             List<RequestAllocationViewModel> list = getIndexList(regionId, RequisitionID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult UpdateAllocation(List<SIPCAllocationViewModel> allocations)
+        {
+            //SIPCAllocation allocation2 = _allocationService.FindById(6);
+           // int RequisitionID = 1;
+            foreach(SIPCAllocationViewModel item in allocations)
+            {
+                if (item.SIPCAllocationID > 0)
+                {
+                    SIPCAllocation allocation = _allocationService.FindById(item.SIPCAllocationID);
+                    if (item.AllocatedAmount == 0)
+                    {
+                        _allocationService.Delete(allocation);
+                    }
+                    else
+                    {
+                        allocation.Code = item.Code;
+                        allocation.AllocatedAmount = item.AllocatedAmount;
+                        allocation.AllocationType = item.AllocationType;
+                        _allocationService.Update(allocation);
+                    }
+                }
+                else
+                {
+                    if (item.AllocatedAmount > 0)
+                    {
+                        SIPCAllocation allocation = new SIPCAllocation {
+                            Code = item.Code,
+                            AllocatedAmount = item.AllocatedAmount,
+                            AllocationType = item.AllocationType,
+                            RequisitionDetailID = item.RequisitionDetailID
+                        };
+                        _allocationService.Create(allocation);
+                    }
+                }
+            }
+            //List<RequestAllocationViewModel> list = getIndexList(regionId, RequisitionID);
+            return Json(allocations, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult updateRequisitionStatus(int RequisitionId)
         {
+
             ReliefRequisition req = _requisitionService.FindById(RequisitionId);
-            req.Status = 4;
-            _requisitionService.EditReliefRequisition(req);
-            List<RequestAllocationViewModel> list = new List<RequestAllocationViewModel> ();
+            if (req.Status == 3)
+            {
+                var tnx = _transactionService.PostSIAllocation(RequisitionId);
+            }
+            List<RequestAllocationViewModel> list = getIndexList((int)req.RegionID, RequisitionId);
+            /*
+            List<RequestAllocationViewModel> list = new List<RequestAllocationViewModel> ();*/
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }

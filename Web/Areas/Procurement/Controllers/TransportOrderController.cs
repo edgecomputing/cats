@@ -65,6 +65,11 @@ namespace Cats.Areas.Procurement.Controllers
         public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
+
+            
+          
+
+
             var Data = _transportOrderService.GeTransportOrderRpt(id);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var reportData = vwTransportOrderViewModelBinder.BindListvwTransportOrderViewModel(Data, datePref);
@@ -79,6 +84,7 @@ namespace Cats.Areas.Procurement.Controllers
             //dataSourceName[0] = "TransportOrderHeader";
             //dataSourceName[1] = "TransportOrderDetail";
             
+
             var dataSourceName = "TransportOrders";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 
@@ -115,7 +121,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
 
             NotificationHelper.MakeNotificationRead(recordId);
-            return RedirectToAction("TransportRequisitions");//get newly created transp[ort requisitions
+            return RedirectToAction("TransportRequisitions");//get newly created transport requisitions
 
         }
         public ViewResult Index(int id = 0)

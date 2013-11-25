@@ -40,7 +40,7 @@ namespace Cats.Areas.Logistics.Models
         public int RequisitionDetailID { get; set; }
         public int Code { get; set; }
         public decimal AllocatedAmount { get; set; }
-        public int AllocationType { get; set; }
+        public string AllocationType { get; set; }
     }
     public class SIAllocation
     {

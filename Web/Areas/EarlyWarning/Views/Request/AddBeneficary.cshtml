@@ -1,0 +1,67 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Areas.EarlyWarning.Models.AddFDPViewModel
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Add FDP with Beneficaries</h3>
+</div>
+
+@using (Html.BeginForm("AddBeneficary", "Request", FormMethod.Post, new { @class = "modal-form"}))
+{
+    //@Html.HiddenFor(m=>m.RegionalRequest.RegionID)
+    @Html.HiddenFor(m=>m.RegionalRequestID)
+    <div class="modal-body">
+        
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Zone"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("ZoneID",String.Empty)
+                    @Html.ValidationMessageFor(m => m.ZoneID)
+               
+                </div>
+
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.WoredaID,Translator.Translate("Woreda"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("WoredaID", String.Empty)
+                    @Html.ValidationMessageFor(m => m.WoredaID)
+                </div>
+
+            </div>
+
+            <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.FDPID, Translator.Translate("FDP"))
+            </div>
+            <div class="controls">
+                @Html.DropDownList("FDPID", String.Empty)
+                @Html.ValidationMessageFor(m => m.FDPID)
+            </div>
+        </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Beneficiaries)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Beneficiaries)
+                    @Html.ValidationMessageFor(m => m.Beneficiaries)
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+    </div>
+
+}
+
