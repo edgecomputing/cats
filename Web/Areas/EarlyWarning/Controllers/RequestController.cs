@@ -534,5 +534,75 @@ namespace Cats.Areas.EarlyWarning.Controllers
              var planID = new SelectList(_commonService.GetPlan(programID), "PlanID", "PlanName");
              return Json(planID, JsonRequestBehavior.AllowGet);
          }
+
+        public ActionResult AddBeneficary(int id)
+        {
+            var request = _regionalRequestService.FindById(id);
+            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+            ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+            ViewBag.FDPID =new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID==4),"AdminUnitID", "Name");
+            var addFDPWithBeneficary = new AddFDPViewModel();
+            addFDPWithBeneficary.RegionalRequestID = request.RegionalRequestID;
+            return PartialView(addFDPWithBeneficary);
+        }
+
+
+       private RegionalRequestDetail GetRequestDetail(AddFDPViewModel addFdpViewModel)
+       {
+           var requestdetail = new RegionalRequestDetail()
+               {
+                   RegionalRequestID = addFdpViewModel.RegionalRequestID,
+                   Fdpid = addFdpViewModel.FDPID,
+                   Beneficiaries = addFdpViewModel.Beneficiaries
+               };
+           return requestdetail;
+       }
+        [HttpPost]
+        public ActionResult AddBeneficary(AddFDPViewModel requestDetail)
+         {
+             if (ModelState.IsValid)
+             {
+                 try
+                 {
+                     var detail = GetRequestDetail(requestDetail);
+                     _regionalRequestDetailService.AddRegionalRequestDetail(detail);
+                     return RedirectToAction("Details", new { id = requestDetail.RegionalRequestID });
+                 }
+                 catch (Exception ex)
+                 {
+                     
+                     ModelState.AddModelError("Errors","Unable to Add new fpd");
+                     ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3 ), "AdminUnitID", "Name");
+                     ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+                     ViewBag.FDPID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+                     return PartialView(requestDetail);
+                 }
+                 
+             }
+             return PartialView(requestDetail);
+         }
+
+        public ActionResult DeleteFDP(int id)
+        {
+            var requestDetail = _regionalRequestDetailService.FindById(id);
+            if (requestDetail!=null)
+            {
+                _regionalRequestDetailService.DeleteRegionalRequestDetail(requestDetail);
+                return RedirectToAction("Details", new {id = requestDetail.RegionalRequestID});
+            }
+            ModelState.AddModelError("Errors","unable to delete fdp");
+            return RedirectToAction("Index");
+        }
+
+     // public JsonResult GetZones(int regionID)
+     // {
+     //     var zones = new SelectList(_commonService.GetAminUnits(t =>t.AdminUnitTypeID==3 && t.ParentID == regionID), "AdminUnitID", "Name");
+     //     return Json(zones, JsonRequestBehavior.AllowGet);
+     // }
+     //public JsonResult GetWoredas(int zoneID)
+     //{
+     //    if(zoneID!=null)
+     //}
     }
 }

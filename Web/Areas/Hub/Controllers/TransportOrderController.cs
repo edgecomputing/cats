@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
@@ -35,7 +36,7 @@ namespace Cats.Areas.Hub.Controllers
         {
 
             NotificationHelper.MakeNotificationRead(recordId);
-            return RedirectToAction("Index", new { id = WORKFLOW.TRANSPORT_ORDER });//get approved transport orders
+            return RedirectToAction("Index", new { id = (int) TransportOrderStatus.Approved });//get approved transport orders
 
         }
 
@@ -43,7 +44,7 @@ namespace Cats.Areas.Hub.Controllers
         {
 
 
-            return RedirectToAction("Index", new { id = TransportOrderStatus.Approved });//get approved transport orders
+            return RedirectToAction("Index", new { id = (int)TransportOrderStatus.Approved });//get approved transport orders
 
         }
 
@@ -67,5 +68,78 @@ namespace Cats.Areas.Hub.Controllers
                 transportOrders, datePref, statuses);
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult TransportContract(int id)
+        {
+            var transportOrder = _transportOrderService.FindById(id);
+            ViewBag.HubID = _transportOrderService.GetHubs();
+            ViewBag.TransportOrderID = id;
+            var transportContract = GetTransportOrder(transportOrder);
+            return View(transportContract);
+        }
+        public ActionResult Contract_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
+            var transportOrder = _transportOrderService.Get(m => m.TransportOrderID == id, null, "TransportOrderDetails").OrderByDescending(m => m.TransportOrderID).FirstOrDefault();
+            if (transportOrder != null)
+            {
+                var detailToDisplay = GetTransportContract(transportOrder).ToList();
+                return Json(detailToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        private IEnumerable<TransportOrderDetailViewModel> GetTransportContract(TransportOrder transportOrder)
+        {
+            var transportContractDetail = transportOrder.TransportOrderDetails;
+            return (from detail in transportContractDetail
+                    select new TransportOrderDetailViewModel()
+                    {
+                        TransportOrderID = detail.TransportOrderID,
+                        CommodityID = detail.CommodityID,
+                        SourceWarehouseID = detail.SourceWarehouseID,
+                        QuantityQtl = detail.QuantityQtl.ToPreferedWeightUnit(),
+                        RequisitionID = detail.RequisitionID,
+                        TariffPerQtl = detail.TariffPerQtl,
+                        Commodity = detail.Commodity.Name,
+                        OriginWarehouse = detail.Hub.Name,
+                        HubID = detail.Hub.HubID,
+                        Woreda = detail.FDP.AdminUnit.Name,
+                        FDP = detail.FDP.Name,
+                        RequisitionNo = detail.ReliefRequisition.RequisitionNo
+
+                    });
+
+            // return transportContractDetail;
+        }
+        private TransportContractViewModel GetTransportOrder(TransportOrder transportOrder)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportContract = new TransportContractViewModel()
+            {
+                TransportOrderID = transportOrder.TransportOrderID,
+                TransportOrderNo = transportOrder.TransportOrderNo,
+                TransporterID = transportOrder.TransporterID,
+                RequisitionNo = transportOrder.TransportOrderDetails.First().ReliefRequisition.RequisitionNo,
+                Transporter = transportOrder.Transporter.Name,
+                BidDocumentNo = transportOrder.BidDocumentNo,
+                ConsignerName = transportOrder.ConsignerName,
+                ContractNumber = transportOrder.ContractNumber,
+                OrderDate = transportOrder.OrderDate.ToCTSPreferedDateFormat(datePref),
+                OrderExpiryDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref),
+                RequestedDispatchDate = transportOrder.RequestedDispatchDate.ToCTSPreferedDateFormat(datePref),
+                ConsignerDate = transportOrder.ConsignerDate.ToCTSPreferedDateFormat(datePref),
+                PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo,
+                TransporterSignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
+                TransporterSignedName = transportOrder.TransporterSignedName,
+                StatusID = transportOrder.StatusID,
+                Zone = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.Name,
+                Region = transportOrder.TransportOrderDetails.First().FDP.AdminUnit.AdminUnit2.AdminUnit2.Name
+
+            };
+            return transportContract;
+        }
+
     }
 }
