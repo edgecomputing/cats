@@ -121,7 +121,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
 
             NotificationHelper.MakeNotificationRead(recordId);
-            return RedirectToAction("TransportRequisitions");//get newly created transp[ort requisitions
+            return RedirectToAction("TransportRequisitions");//get newly created transport requisitions
 
         }
         public ViewResult Index(int id = 0)
