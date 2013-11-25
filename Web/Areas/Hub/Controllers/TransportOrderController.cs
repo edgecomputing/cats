@@ -35,7 +35,15 @@ namespace Cats.Areas.Hub.Controllers
         {
 
             NotificationHelper.MakeNotificationRead(recordId);
-            return RedirectToAction("Index", new { id = 2 });//get approved transport orders
+            return RedirectToAction("Index", new { id = WORKFLOW.TRANSPORT_ORDER });//get approved transport orders
+
+        }
+
+        public ActionResult ReturnListOfApprovedListFromMainMenu()
+        {
+
+
+            return RedirectToAction("Index", new { id = TransportOrderStatus.Approved });//get approved transport orders
 
         }
 
