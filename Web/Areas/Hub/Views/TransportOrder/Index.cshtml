@@ -17,7 +17,7 @@
 <div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
       {
-          columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("TransportContract", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+          columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("TransportContract", "TransportOrder", new { Area = "Hub", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
    
     columns.Bound(to => to.Transporter);
     columns.Bound(to => to.BidDocumentNo).Width(100).Title(Translator.Translate("Bid Document #"));
