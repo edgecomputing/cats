@@ -9,10 +9,7 @@
 
 <html data-ng-app="">
     <h4>Transport Contract</h4>
-    <div id="modalWindow">
-        
-    </div>
-    
+    <div id="modalWindow"></div>
 
     <script>
         var wnd;
@@ -203,7 +200,7 @@
                 ConfirmGenerateTOs();
             });
             
-            $(document).on('click', '.cancelGenerateTO', function(ev) {
+            $(document).on('click', '.cancelAction', function(ev) {
                 CancelGenerateTOs();
             });
 
@@ -257,10 +254,12 @@
             entries += '</tr>';
             entries += '<tr>';
             entries += '<td style="padding:0px;text-align:center;">';
-            entries += '<a type="button" class="confirmGenerateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">I\'m sure!</a>';
+            //entries += '<a type="button" class="confirmGenerateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">I\'m sure!</a>';
+            entries += '<button id="yes" class="k-button confirmGenerateTO">I\'m sure!</button>';
             entries += '</td>';
             entries += '<td style="padding:0px;text-align:center;">';
-            entries += '<a type="button" class="cancelAction" style="margin:20px;height:30px;width:200px;cursor:pointer;">Cancel</a>';
+            entries += '<button id="yes" class="k-button cancelAction">Cancel</button>';
+            //entries += '<a type="button" class="cancelAction" style="margin:20px;height:30px;width:200px;cursor:pointer;">Cancel</a>';
             entries += '</td>';
             entries += '</tr>';
             entries += '</table>';
@@ -277,10 +276,10 @@
             
         }
         function GenerateTOsCompleted(results) {
-            
+            window.location.replace("/Procurement/TransportOrder/Index");
         }
 
-        function GenerateTOsFailed(request, status, error) {
+        function GenerateTOsFailed(request, status, error){
             
         }
         
@@ -315,13 +314,16 @@
                 success: GenerateTOsCompleted,
                 error: GenerateTOsFailed
             });
+            $("#modalWindow").html("");
+            $(".transChange").hide();
             wnd.center().close();
-            window.location("/Procurement/TransportOrder/Index");
+            //window.location.replace("/Procurement/TransportOrder/Index");
         }
         
         function CancelGenerateTOs() {
+            $("#modalWindow").html("");
             wnd.center().close();
-            window.location("/Procurement/TransportOrder/Index");
+            //window.location.replace("/Procurement/TransportOrder/Index");
         }
     
         

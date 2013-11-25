@@ -269,18 +269,20 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 uniqueWoredas.Add(changedTransportOrderDetail.FDP.AdminUnitID);
             }
+            
             var substituteTransportersStanding = (from uniqueWoreda in uniqueWoredas
                                                   let woreda = uniqueWoreda
-                                                  let woredaWinnersList = _bidQuotationService.Get(t => t.DestinationID == woreda && t.Position != 1).ToList().OrderBy(t=>t.Position)
+                                                  let changedTransporterPostition = _bidQuotationService.Get(t => t.TransporterID == changedTransportOrderObj.TransporterID && t.DestinationID == woreda).Select(t => t.Position).FirstOrDefault()
+                                                  let woredaWinnersList = _bidQuotationService.Get(t => t.DestinationID == woreda && t.Position >= changedTransporterPostition && t.TransporterID != changedTransportOrderObj.TransporterID).ToList().OrderBy(t => t.Position)
                                                   let substituteTransportersStandingList = woredaWinnersList.ToList()
                                                   select new SubstituteTransporterOrder
                                                       {
-                                                          WoredaID = uniqueWoreda,
-                                                          Woreda = _adminUnitService.FindById(uniqueWoreda).Name,
-                                                          TransportersStandingList = TransportBidQuotationBinding.TransportBidQuotationListViewModelBinder(substituteTransportersStandingList)
+                                                          WoredaID = uniqueWoreda, Woreda = _adminUnitService.FindById(uniqueWoreda).Name, TransportersStandingList = TransportBidQuotationBinding.TransportBidQuotationListViewModelBinder(substituteTransportersStandingList)
                                                       }).ToList();
             return Json(substituteTransportersStanding.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
+        
 
         public ActionResult ChangeTransporters([DataSourceRequest] DataSourceRequest request, List<SubstituteTransporterOrder> listOfSubTransporterOrders, int changedTransportOrderID)
         {
@@ -292,6 +294,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 foreach (var transporter in subTransporterOrders.TransportersStandingList)
                 {
+                    changedTransportOrderObj = _transportOrderService.FindById(changedTransportOrderID);
                     var transporterObj = _transporterService.FindById(transporter.TransporterID);
                     var transportOrder =
                         _transportOrderService.Get(t => t.TransporterID == transporterObj.TransporterID &&
@@ -299,7 +302,7 @@ namespace Cats.Areas.Procurement.Controllers
                             FirstOrDefault();
                     if (transportOrder != null)
                     {
-                        foreach (var transportOrderDetail in changedTransportOrderObj.TransportOrderDetails)
+                        foreach (var transportOrderDetail in changedTransportOrderObj.TransportOrderDetails.ToList())
                         {
                             if (transportOrderDetail.FDP.AdminUnitID == subTransporterOrders.WoredaID)
                             {
@@ -338,25 +341,28 @@ namespace Cats.Areas.Procurement.Controllers
                             StartDate = DateTime.Today,
                             EndDate = DateTime.Today.AddDays(10),
                         };
-                        
+                        _transportOrderService.AddTransportOrder(transportOrderObj);
                         //var transportOrderDetailList = subTransporterOrders.TransportOrderDetails;
-                        foreach (var transportOrderDetail in changedTransportOrderObj.TransportOrderDetails)
+                        foreach (var transportOrderDetail in changedTransportOrderObj.TransportOrderDetails.ToList())
                         {
                             if (transportOrderDetail.FDP.AdminUnitID==subTransporterOrders.WoredaID)
                             {
-                                var transportOrderDetailObj = new TransportOrderDetail();
+                                var transportOrderDetailObj = new TransportOrderDetail
+                                    {
+                                        TransportOrderID = transportOrderObj.TransportOrderID,
+                                        CommodityID = transportOrderDetail.CommodityID,
+                                        FdpID = transportOrderDetail.FdpID,
+                                        RequisitionID = transportOrderDetail.RequisitionID,
+                                        QuantityQtl =
+                                            transportOrderDetail.QuantityQtl.ToPreferedWeightUnit()/transporterCount,
+                                        TariffPerQtl = transportOrderDetail.TariffPerQtl,
+                                        SourceWarehouseID = transportOrderDetail.Hub.HubID
+                                    };
                                 //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;
-                                transportOrderDetailObj.CommodityID = transportOrderDetail.CommodityID;
-                                transportOrderDetailObj.FdpID = transportOrderDetail.FdpID;
-                                transportOrderDetailObj.RequisitionID = transportOrderDetail.RequisitionID;
-                                transportOrderDetailObj.QuantityQtl =
-                                    transportOrderDetail.QuantityQtl.ToPreferedWeightUnit() / transporterCount;
-                                transportOrderDetailObj.TariffPerQtl = transportOrderDetail.TariffPerQtl;
-                                transportOrderDetailObj.SourceWarehouseID = transportOrderDetail.Hub.HubID;
-                                transportOrderObj.TransportOrderDetails.Add(transportOrderDetail);
+                                _transportOrderDetailService.AddTransportOrderDetail(transportOrderDetailObj);
                             }
                         }
-                        _transportOrderService.AddTransportOrder(transportOrderObj);
+                        
                         returnedObj.Add(transportOrderObj);
 
                     }
