@@ -58,6 +58,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _planService = planService;
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_list)]
         public ActionResult Index()
         {
             var hrd = _hrdService.GetAllHRD();
@@ -65,11 +66,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrd);
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Print_HRD)]
         public ActionResult HRDPrintOut()
         {
             return View("HRDPrintOut");
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_Detail)]
         public ActionResult HRDDetail(int id = 0)
         {
             ViewData["Month"] = RequestHelper.GetMonthList();
@@ -83,15 +86,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Approve_HRD)]
         public ActionResult ApprovedHRDs()
         {
             return View();
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Current_HRD)]
         public ActionResult CurrentHRDs()
         {
             return View();
         }
+
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_list)]
         public ActionResult HRD_Read([DataSourceRequest] DataSourceRequest request)
         {
 
@@ -100,6 +108,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_Detail)]
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
 
@@ -115,6 +124,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return RedirectToAction("Index");
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Approved_HRD)]
         public ActionResult ApprovedHRD_Read([DataSourceRequest] DataSourceRequest request)
         {
 
@@ -122,6 +132,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
+
         //get published hrds information
         public ActionResult CurrentHRD_Read([DataSourceRequest] DataSourceRequest request)
         {
