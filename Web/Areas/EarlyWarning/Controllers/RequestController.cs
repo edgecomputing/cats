@@ -188,12 +188,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-                if (psnphrdPlanInfo.BeneficiaryInfos.Count < 1)
-                {
-                    ModelState.AddModelError("Errors", "There is no Beneficiary for the selected Region and HRD Plan");
-                    PopulateLookup();
-                    return View(hrdpsnpPlan);
-                }
+                //if (psnphrdPlanInfo.BeneficiaryInfos.Count < 1)
+                //{
+                //    ModelState.AddModelError("Errors", "There is no Beneficiary for the selected Region and HRD Plan");
+                //    PopulateLookup();
+                //    return View(hrdpsnpPlan);
+                //}
                 //  RedirectToAction("PreparePlan");
                 return View("PreparePlan", psnphrdPlanInfo);
             }

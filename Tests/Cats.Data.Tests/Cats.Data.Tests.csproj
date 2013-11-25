@@ -91,6 +91,10 @@
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
