@@ -335,6 +335,8 @@ namespace Cats.Areas.Procurement.Controllers
                             RequestedDispatchDate = DateTime.Today,
                             ConsignerDate = DateTime.Today,
                             StatusID = (int)TransportOrderStatus.Draft,
+                            StartDate = DateTime.Today,
+                            EndDate = DateTime.Today.AddDays(10),
                         };
                         
                         //var transportOrderDetailList = subTransporterOrders.TransportOrderDetails;
