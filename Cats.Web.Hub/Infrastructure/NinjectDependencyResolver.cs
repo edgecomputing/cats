@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Data.Hub;
 using Cats.Models.Hubs;
 using Cats.Services.Hub;
+using Cats.Services.Hub.Interfaces;
 using Cats.Services.Security;
 using Early_Warning.Security;
 using NetSqlAzMan;
@@ -97,7 +98,8 @@ namespace Cats.Web.Hub.Infrastructure
             kernel.Bind<ITranslationService>().To<TranslationService>();
             kernel.Bind<ITransactionGroupService>().To<TransactionGroupService>();
             kernel.Bind<IStackEventTypeService>().To<StackEventTypeService>();
-            kernel.Bind<IStackEventService>().To<StackEventService>();
+            kernel.Bind<IStackEventTypeService>().To<StackEventTypeService>();
+            kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
             kernel.Bind<ISMSService>().To<SMSService>();
             kernel.Bind<ISessionHistoryService>().To<SessionHistoryService>();
             kernel.Bind<ISessionAttemptService>().To<SessionAttemptService>();

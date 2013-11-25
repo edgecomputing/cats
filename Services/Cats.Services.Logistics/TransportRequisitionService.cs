@@ -4,23 +4,27 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
+using Cats.Services.Common;
 
 namespace Cats.Services.Logistics
 {
     public class TransportRequisitionService : ITransportRequisitionService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly INotificationService _notificationService;
 
-
-        public TransportRequisitionService(IUnitOfWork unitOfWork)
+        public TransportRequisitionService(IUnitOfWork unitOfWork, INotificationService notificationService)
         {
             this._unitOfWork = unitOfWork;
+            _notificationService = notificationService;
         }
+
         #region Default Service Implementation
         public bool AddTransportRequisition(TransportRequisition transportRequisition)
         {
@@ -117,6 +121,7 @@ namespace Cats.Services.Logistics
                 }
 
                 AddTransportRequisition(transportRequisition);
+                
                 var year = transportRequisition.RequestedDate.Year;
                 transportRequisition.TransportRequisitionNo = string.Format("{0}/{1}/{2}/{3}",
                                                                             program.ShortCode, region.AdminUnitID,
@@ -124,12 +129,33 @@ namespace Cats.Services.Logistics
                                                                             year);
 
                 _unitOfWork.Save();
+                //calling the notification 
+                AddToNotification(transportRequisition);
             }
             return true;
 
 
         }
 
+
+        private void AddToNotification(TransportRequisition transportRequisition)
+        {
+            if (HttpContext.Current == null) return;
+            string destinationURl;
+            if (HttpContext.Current.Request.Url.Host == "localhost")
+            {
+                destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                 "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
+            }
+            else
+            {
+                destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                 HttpContext.Current.Request.ApplicationPath +
+                                 "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
+            }
+            _notificationService.AddNotificationForProcurementFromLogistics(destinationURl, transportRequisition);
+        }
+        
 
         public void Dispose()
         {

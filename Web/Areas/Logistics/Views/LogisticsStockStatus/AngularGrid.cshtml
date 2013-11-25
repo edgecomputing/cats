@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "AngularGrid";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>AngularGrid</h2>
+
+<script>
+    var app = angular.module('myApp', ['ngGrid']);
+    app.controller('MyCtrl', function ($scope) {
+        $scope.myData = [{ name: "Moroni", age: 50 },
+                         { name: "Tiancum", age: 43 },
+                         { name: "Jacob", age: 27 },
+                         { name: "Nephi", age: 29 },
+                         { name: "Enos", age: 34 }];
+        $scope.gridOptions = {
+            data: 'myData',
+            columnDefs: [{ field: 'name', displayName: 'Name' }, { field: 'age', displayName: 'Age' }]
+        };
+    });
+</script>
+
+<script>
+    var app = angular.module('main', ['ngTable']).
+    controller('DemoCtrl', function ($scope, $filter, ngTableParams) {
+        var data = [{ name: "Moroni", age: 50 },
+                    { name: "Tiancum", age: 43 },
+                    { name: "Jacob", age: 27 },
+                    { name: "Nephi", age: 29 },
+                    { name: "Enos", age: 34 },
+                    { name: "Tiancum", age: 43 },
+                    { name: "Jacob", age: 27 },
+                    { name: "Nephi", age: 29 },
+                    { name: "Enos", age: 34 },
+                    { name: "Tiancum", age: 43 },
+                    { name: "Jacob", age: 27 },
+                    { name: "Nephi", age: 29 },
+                    { name: "Enos", age: 34 },
+                    { name: "Tiancum", age: 43 },
+                    { name: "Jacob", age: 27 },
+                    { name: "Nephi", age: 29 },
+                    { name: "Enos", age: 34 }];
+
+        $scope.tableParams = new ngTableParams({
+            page: 1,            // show first page
+            count: 10,          // count per page
+            filter: {
+                name: 'M'       // initial filter
+            }
+        }, {
+            total: data.length, // length of data
+            getData: function ($defer, params) {
+                // use build-in angular filter
+                var orderedData = params.filter() ?
+                       $filter('filter')(data, params.filter()) :
+                       data;
+
+                $scope.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+
+                params.total(orderedData.length); // set total for recalc pagination
+                $defer.resolve($scope.users);
+            }
+        });
+    });
+</script>
+
+<style>
+    .gridStyle {
+        border: 1px solid rgb(212,212,212);
+        width: 400px;
+        height: 250px;
+    }
+
+    body {
+        padding: 10px !important;
+    }
+
+    .ng-table {
+        border: 1px solid #000;
+    }
+</style>
+
+<div ng-app="myApp">
+    <div ng-controller="MyCtrl">
+        <div class="gridStyle" ng-grid="gridOptions"></div>
+    </div>
+</div>
+
+@*<div ng-app="main" ng-controller="DemoCtrl">
+    <p>
+        <strong>Filter:</strong> {{tableParams.filter()|json}}
+
+    <table ng-table="tableParams" show-filter="true" class="table">
+        <tr ng-repeat="user in $data">
+            <td data-title="'Name'" filter="{ 'name': 'text' }">{{user.name}}
+            </td>
+            <td data-title="'Age'">{{user.age}}
+            </td>
+        </tr>
+    </table>
+</div>*@

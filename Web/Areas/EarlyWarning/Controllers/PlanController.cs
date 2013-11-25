@@ -75,10 +75,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-                plan.Status = (int)PlanStatus.Draft;
-                _hrdPlanService.AddPlan(plan);
-                return RedirectToAction("Index");
-
+                try
+                {
+                    plan.Status = (int)PlanStatus.Draft;
+                    _hrdPlanService.AddPlan(plan);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    
+                   ModelState.AddModelError("Errors","Plan with this name already Existed");
+                   ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
+                   return View(plan);
+                }
+                
             }
             ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
             return View(plan);
@@ -86,11 +96,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Edit(int id)
         {
             var plan = _hrdPlanService.FindById(id);
+            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name",plan.ProgramID);
             if (plan==null)
             {
-              
+                return HttpNotFound();
             }
-            return View ();
+            return View (plan);
+        }
+        [HttpPost]
+        public ActionResult Edit(Plan plan)
+        {
+            if(ModelState.IsValid)
+            {
+                _hrdPlanService.EditPlan(plan);
+                return RedirectToAction("Index");
+            }
+            return View(plan);
         }
         public ActionResult Detail(int id)
         {
@@ -105,7 +126,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     NeedAssessments = needAssessment
                 };
 
-            return View(planWithHrdViewModel);
+            return View(plan);
         }
     }
 }

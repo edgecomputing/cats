@@ -195,7 +195,7 @@ namespace Cats.Services.EarlyWarning
             result.HRDPSNPPlan = plan;
             if (plan.ProgramID == 2)
             {
-                RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.Year == plan.Year).FirstOrDefault();
+                RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.PlanId == plan.PSNPPlanID).FirstOrDefault();
                 result.HRDPSNPPlan.RationID = psnpplan.RationID;
                 if (psnpplan != null)
                 {
@@ -204,17 +204,24 @@ namespace Cats.Services.EarlyWarning
             }
             else if (plan.ProgramID == 1)
             {
-                HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.Year == plan.Year && r.SeasonID == plan.SeasonID).FirstOrDefault();
+                HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).FirstOrDefault();
 
-                if (hrd != null)
+                var lastrequestDate= _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1). Max(r => r.RequistionDate);
+                var lastreliefRequest =_unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.RequistionDate==lastrequestDate).FirstOrDefault();
+                if (lastreliefRequest!=null)
                 {
-                    result.HRDPSNPPlan.RationID = hrd.RationID;
-                    List<HRDDetail> hrddetail =
-                    (from woreda in hrd.HRDDetails
-                     where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.NumberOfBeneficiaries > 0
-                     select woreda).ToList();
-                    beneficiaryInfos = HRDToRequest(hrddetail);
+                    beneficiaryInfos = LastReliefRequest(lastreliefRequest);
                 }
+
+                //if (hrd != null)
+                //{
+                //    result.HRDPSNPPlan.RationID = hrd.RationID;
+                //    List<HRDDetail> hrddetail =
+                //    (from woreda in hrd.HRDDetails
+                //     where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.NumberOfBeneficiaries > 0
+                //     select woreda).ToList();
+                //    beneficiaryInfos = HRDToRequest(hrddetail);
+                //}
             }
             result.BeneficiaryInfos = beneficiaryInfos;
             return result;
@@ -240,6 +247,12 @@ namespace Cats.Services.EarlyWarning
                  select new BeneficiaryInfo { FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name, Beneficiaries = pd.BeneficiaryCount }).ToList();
             return benficiaries;
 
+        }
+        List<BeneficiaryInfo> LastReliefRequest(RegionalRequest request)
+        {
+            var benficiaries = (from lastRequestDetail in request.RegionalRequestDetails
+                                select new BeneficiaryInfo { FDPID = lastRequestDetail.Fdpid, FDPName = lastRequestDetail .Fdp.Name,Beneficiaries =lastRequestDetail.Beneficiaries }).ToList();
+            return benficiaries;
         }
     }
 

@@ -8,7 +8,6 @@
     // si.Value
     var UserUnit = @Translator.Translate(@Html.UserUnitPreference());
     decimal amount = 12.5M;
-   
 }
 
 @section LeftBar
@@ -20,7 +19,7 @@
 
     <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics" })"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"></a>
 }
 
 <fieldset>
@@ -88,7 +87,7 @@
 
         .SI_Row .new_allocation:hover
         {
-            background: rgb(255, 216, 0);
+            background: rgb(255, 216, 120);
         }
 
             .SI_Row .new_allocation:hover .new_allocation_input
@@ -239,7 +238,6 @@
                         <input ng-model="request.RequisitionId" />
                         <input ng-model="item.ShippingInstructionId" />
                         <input ng-model="item.AllocatedAmount" />
-
                     </div>
                 </div>
                 Deleted
@@ -247,6 +245,7 @@
                 {{allocation}}
             </div>
             </form>
+
         </div>
         <table class="table table-striped  table-bordered  table-condensed" style="width: 1020px;">
             <tr ng-repeat="request in requests">
@@ -255,11 +254,11 @@
                         <div class="accordion-heading">
                             <div>
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$index}}">{{request.RegionName}}-{{request.ZoneName}}
-                              [{{request.Commodity}} {{request.Amount}}<i>@UserUnit</i>]  
+                                [{{request.Commodity}} {{request.Amount}}<i>@UserUnit</i>]  
                                 </a>
                             </div>
                             <div class="progress progress-success  progress-striped" style="margin: 2px; height: 10px; border: solid 1px rgb(12, 219, 86);">
-                                <div class="bar" style="width: {{request.AllocatedPercent}}%"></div>
+                                <div class="bar" style="width:{{request.AllocatedPercent}}%"></div>
                             </div>
                         </div>
                         <div id="collapse{{$index}}" class="accordion-body collapse">
@@ -279,17 +278,15 @@
                                 <div class="label2">@Translator.Translate("Remaining Qty"): </div>
                                 <div class="value2">{{request.RemainingAmount}}<i> @UserUnit</i></div>
                                 <div class="debug">
-                                    <div class="label2">RequisitionId</div>
-                                    <div class="value2">{{request.RequisitionId}}</div>
-                                    <div class="label2">HubAllocationID</div>
-                                    <div class="value2">{{request.HubAllocationID}}</div>
+                                <div class="label2">RequisitionId</div>
+                                <div class="value2">{{request.RequisitionId}}</div>
+                                <div class="label2">HubAllocationID</div>
+                                <div class="value2">{{request.HubAllocationID}}</div>
                                 </div>
-
                             </div>
                         </div>
-                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn {{request.DoneStatus}}">Promot</button>
+                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn btn-mini btn-primary {{request.DoneStatus}}">Promot</button>
                     </div>
-
                 </td>
                 <td>
                     <div style="display: none;">
@@ -365,10 +362,9 @@
                     </ul>
 
                 </td>
+                
             </tr>
-
         </table>
-
 
 
         <script>
@@ -439,7 +435,7 @@
                    // alert(requisitionId);
                     
                         var param1={regionId:$scope.regionId,requisitionId:requisitionId};
-                        $('#modalContent').html("Updating...");
+                        $('#modalContent').html("Promoting...");
                         $('#myModal').modal('show');
                         $http.post( $scope.promoteUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
                    

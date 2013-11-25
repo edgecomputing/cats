@@ -9,10 +9,12 @@ namespace Cats.Models
     public partial class vwTransportOrder
     {
         public int TransportOrderID { get; set; }
-        public string TransportOrderNo { get; set; }
+        public string TransportOrderNo { get; set;}
         public System.DateTime OrderDate { get; set; }
         public System.DateTime RequestedDispatchDate { get; set; }
         public System.DateTime OrderExpiryDate { get; set; }
+        public System.DateTime OrderStartDate { get; set; }
+        public System.DateTime OrderEndDate { get; set; }
         public string BidDocumentNo { get; set; }
         public string PerformanceBondReceiptNo { get; set; }
         public int TransporterID { get; set; }
@@ -41,4 +43,3 @@ namespace Cats.Models
         public string TransporterName { get; set; }
     }
 }
-

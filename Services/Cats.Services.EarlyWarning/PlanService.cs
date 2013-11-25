@@ -160,5 +160,17 @@ namespace Cats.Services.EarlyWarning
             return null;
 
         }
+
+
+        public void ChangePlanStatus(int planID)
+        {
+            var plan = _unitOfWork.PlanRepository.FindById(planID);
+            if(plan!=null)
+            {
+                plan.Status = (int) PlanStatus.PSNPCreated;
+                _unitOfWork.PlanRepository.Edit(plan);
+                _unitOfWork.Save();
+            }
+        }
    }
 }

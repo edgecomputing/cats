@@ -167,7 +167,6 @@ namespace Cats.Services.EarlyWarning
                        join _adminUnitType in _IUnitOfWork.AdminUnitTypeRepository.GetAll() on _adminUnit.AdminUnitTypeID equals _adminUnitType.AdminUnitTypeID 
                        where _adminUnitType.Name == "Region" group _hrd by _hrd.AdminUnit.Name into _HRD 
                        select new { RegionName = _HRD.Key, Amount = _HRD.Sum(t => t.NumberOfBeneficiaries) }).Where(t => t.RegionName == RegionName).FirstOrDefault();
-
             return hrd == null ? 0 : hrd.Amount;
 
         }
@@ -199,9 +198,9 @@ namespace Cats.Services.EarlyWarning
 
         }
 
-        public IEnumerable<Notification> GetUnreadNotifications(int userId)
+        public IEnumerable<Notification> GetUnreadNotifications()
         {
-            var notifications = _IUnitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false && n.Role == userId);
+            var notifications = _IUnitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false);
             return notifications;
         }
 

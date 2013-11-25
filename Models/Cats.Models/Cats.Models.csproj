@@ -74,7 +74,9 @@
     <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
+    <Compile Include="Constant\Application.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />
+    <Compile Include="Mapping\SIPCAllocationMap.cs" />
     <Compile Include="MetaData\PlanMetaData.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationViewModel.cs" />
@@ -245,6 +247,7 @@
     <Compile Include="RequisitionViewModel.cs" />
     <Compile Include="Season.cs" />
     <Compile Include="ShippingInstruction.cs" />
+    <Compile Include="SIPCAllocation.cs" />
     <Compile Include="StateTemplate.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Store.cs" />

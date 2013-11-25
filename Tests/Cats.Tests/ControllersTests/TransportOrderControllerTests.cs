@@ -65,6 +65,8 @@ namespace Cats.Tests.ControllersTests
                                                 ConsignerDate=DateTime.Today,
                                                 OrderDate=DateTime.Today,
                                                 OrderExpiryDate=DateTime.Today,
+                                                StartDate = DateTime.Today,
+                                                EndDate = DateTime.Today,
                                                 Transporter=new Transporter
                                                                 {
                                                                     TransporterID=1,
@@ -74,7 +76,7 @@ namespace Cats.Tests.ControllersTests
                                             }
                                     };
             var mockTransportOrderService = new Mock<ITransportOrderService>();
-           // mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
+            //mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
             mockTransportOrderService.Setup(t => t.GetAllTransportOrder()).Returns(transportOrders);
 
             var mockTransportRequisitionService = new Mock<ITransportRequisitionService>();
@@ -93,12 +95,14 @@ namespace Cats.Tests.ControllersTests
                 UserName = "x",
                 DatePreference = "en"
             });
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
             var TransReqWithoutTransporter = new List<TransReqWithoutTransporter>
                 {
                     new TransReqWithoutTransporter {TransReqWithoutTransporterID = 1,TransportRequisitionDetailID = 1,IsAssigned = false},

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.Common
 {
@@ -13,7 +15,7 @@ namespace Cats.Services.Common
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public NotificationService(UnitOfWork unitOfWork)
+        public NotificationService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
@@ -61,12 +63,105 @@ namespace Cats.Services.Common
         {
             return _unitOfWork.NotificationRepository.FindBy(predicate);
         }
+
+      
         #endregion
 
+        #region notification for hub managers
 
-       
+        public bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl,int transportOrderId, string transportOrderNo)
+        {
+            try
+            {
+                
+                var notification = new Notification
+                {
+                    Text = "Transport Order No:" + transportOrderNo,
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Role = 1,
+                    RecordId = transportOrderId,
+                    Url = destinationUrl,
+                    TypeOfNotification = "New Transport Order",
+                    RoleName = Application.HUB_MANAGER
+                };
+                AddNotification(notification);
+                return true;
+            }
+            catch (Exception)
+            {
 
-       
+                return false;
+            }
+        }
+        #endregion
+
+        #region notification for procurement"
+
+        public bool AddNotificationForProcurementFromLogistics(string destinationURl, TransportRequisition transportRequisition)
+        {
+            try
+            {
+                
+                var notification = new Notification
+                {
+                    Text = "Transport Requisition No:" + transportRequisition.TransportRequisitionNo,
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Role = 1,
+                    RecordId = transportRequisition.TransportRequisitionID,
+                    Url = destinationURl,
+                    TypeOfNotification = "New Transport Requisition",
+                    RoleName = Application.TRANSPORT_ORDER_CREATER
+                };
+                AddNotification(notification);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+        #endregion
+
+        #region notification for Logistics"
+
+        public bool AddNotificationForLogistcisFromEarlyWaring(string destinationURl,int requisitionID, int regionId, string requisitioNo)
+        {
+            try
+            {
+                    var notification = new Notification
+                                           {
+                                               Text = "Approved Requistion" + requisitioNo,
+                                               CreatedDate = DateTime.Now.Date,
+                                               IsRead = false,
+                                               Role = 1,
+                                               RecordId = requisitionID,
+                                               Url = destinationURl,
+                                               TypeOfNotification = "Requisition Approval",
+                                               RoleName = Application.HUB_ALLOCATER
+                                           };
+
+                    AddNotification(notification);
+                    return true;
+               
+            }
+            catch (Exception)
+            {
+                return false;
+
+            }
+
+        }
+        #endregion
+
+        
+
+
+
+
+
         public void Dispose()
         {
             _unitOfWork.Dispose();

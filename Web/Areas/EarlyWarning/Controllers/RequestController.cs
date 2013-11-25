@@ -87,6 +87,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
+            regionalRequest.PlanID = hrdpsnpPlanInfo.HRDPSNPPlan.PlanID;
             if (hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.HasValue)
                 regionalRequest.Season = hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.Value;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
@@ -114,6 +115,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
             ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
+            ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
+            ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
+            ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
@@ -121,7 +125,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", regionalRequest.ProgramId);
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name", regionalRequest.Month);
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber", regionalRequest.RationID);
-
+            //ViewBag.PlanID = new SelectList(_commonService.GetPlan(), "PlanID", "PlanName", regionalRequest.PlanID);
         }
         //
         // GET: /ReliefRequisitoin/Details/5
@@ -183,8 +187,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
+                //if (psnphrdPlanInfo.BeneficiaryInfos.Count < 1)
+                //{
+                //    ModelState.AddModelError("Errors", "There is no Beneficiary for the selected Region and HRD Plan");
+                //    PopulateLookup();
+                //    return View(hrdpsnpPlan);
+                //}
                 //  RedirectToAction("PreparePlan");
                 return View("PreparePlan", psnphrdPlanInfo);
             }
@@ -519,7 +528,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     });
 
         }
+         public JsonResult GetPlan(int programID)
+         {
+             var plan = _commonService.GetPlan(programID);
+             var planID = new SelectList(_commonService.GetPlan(programID), "PlanID", "PlanName");
+             return Json(planID, JsonRequestBehavior.AllowGet);
+         }
     }
-
-
 }

@@ -57,6 +57,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -96,6 +101,10 @@
     <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

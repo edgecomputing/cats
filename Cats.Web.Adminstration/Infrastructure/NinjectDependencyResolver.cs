@@ -15,7 +15,6 @@ using ICommodityTypeService = Cats.Services.Administration.ICommodityTypeService
 using IDonorService = Cats.Services.Administration.IDonorService;
 
 
-
 namespace Cats.Web.Administration.Infrastructure
 {
     public class NinjectDependencyResolver : IDependencyResolver

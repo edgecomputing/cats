@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cats.Data.UnitWork;
+using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.Common
 {
@@ -75,5 +77,23 @@ namespace Cats.Services.Common
         {
           return  _unitOfWork.SeasonRepository.GetAll();
         }
+
+
+        public List<Models.Plan> GetPlan(string programName)
+        {
+            if (programName=="PSNP")
+            {
+                return _unitOfWork.PlanRepository.FindBy(m => m.Program.Name == programName && m.Status==(int)PlanStatus.PSNPCreated);
+            }
+            return  _unitOfWork.PlanRepository.FindBy(m => m.Program.Name == programName && m.Status == (int)PlanStatus.HRDCreated);
+        }
+       public List<Plan> GetPlan(int ProgramID)
+       {
+           if (ProgramID==2)
+           {
+               return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == ProgramID && m.Status == (int)PlanStatus.PSNPCreated);
+           }
+           return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == ProgramID && m.Status == (int)PlanStatus.HRDCreated);
+       }
     }
 }

@@ -364,14 +364,14 @@ namespace Cats.Data.UnitWork
         {
             try
             {
-_context.SaveChanges();
+                _context.SaveChanges();
             }
             catch (DbEntityValidationException ex)
             {
-                
+
                 throw;
             }
-            
+
         }
 
         private bool disposed = false;
@@ -738,10 +738,18 @@ _context.SaveChanges();
             get { return this._PromisedContributionRepository ?? (this._PromisedContributionRepository = new GenericRepository<PromisedContribution>(_context)); }
         }
 
+        private IGenericRepository<SIPCAllocation> _SIPCAllocationRepository = null;
+        public IGenericRepository<SIPCAllocation> SIPCAllocationRepository
+        {
+            get { return this._SIPCAllocationRepository ?? (this._SIPCAllocationRepository = new GenericRepository<SIPCAllocation>(_context)); }
+        }
+
         private IGenericRepository<Notification> notificationRepository = null;
         public IGenericRepository<Notification> NotificationRepository
         {
             get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
         }
+
+       
     }
 }

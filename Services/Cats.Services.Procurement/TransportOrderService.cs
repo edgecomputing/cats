@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
-
+using Cats.Services.Common;
 
 namespace Cats.Services.Procurement
 {
@@ -15,12 +16,13 @@ namespace Cats.Services.Procurement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITransporterService _transporterService;
+        private readonly INotificationService _notificationService;
 
-
-        public TransportOrderService(IUnitOfWork unitOfWork,ITransporterService transporterService)
+        public TransportOrderService(IUnitOfWork unitOfWork,ITransporterService transporterService, INotificationService notificationService)
         {
             this._unitOfWork = unitOfWork;
             this._transporterService = transporterService;
+            _notificationService = notificationService;
         }
 
         #region Default Service Implementation
@@ -205,6 +207,7 @@ namespace Cats.Services.Procurement
                 }
                 _unitOfWork.TransportOrderRepository.Add(transportOrder);
                 transportOrders.Add(transportOrder);
+               
 
             }
 
@@ -242,6 +245,7 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+       
 
         private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)
 
@@ -382,13 +386,54 @@ namespace Cats.Services.Procurement
         {
             if (transportOrder!=null)
             {
+                try
+                {
+                    AddToNotification(transportOrder.TransportOrderID, transportOrder.TransportOrderNo);
+                }
+                catch 
+                {
+                    
+                   
+                    
+                   
+                }
+
                 transportOrder.StatusID = (int)TransportOrderStatus.Approved;
                 _unitOfWork.TransportOrderRepository.Edit(transportOrder);
                 _unitOfWork.Save();
+               
                 return true;
             }
             return false;
 
+        }
+
+        private void AddToNotification(int transportOrderId,string transportOrderNo)
+        {
+            try
+            {
+                if (HttpContext.Current == null) return;
+                string destinationURl;
+                if (HttpContext.Current.Request.Url.Host == "localhost")
+                {
+                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                     "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
+                }
+                else
+                {
+                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                     HttpContext.Current.Request.ApplicationPath +
+                                     "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
+                }
+                _notificationService.AddNotificationForHubManagersFromTransportOrder(destinationURl, transportOrderId,
+                                                                                     transportOrderNo);
+            }
+            catch (Exception)
+            {
+                
+                ;
+            }
+           
         }
     }
 }

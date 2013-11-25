@@ -25,9 +25,6 @@ namespace Cats.Areas.Logistics.Models
         public string Zone { get; set; }
         public int RegionID { get; set; }
         public string  Region { get; set; }
-
-
-
-
+        public int DestinationsCount { get; set; }
     }
 }

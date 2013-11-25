@@ -14,7 +14,8 @@ namespace Cats.ViewModelBinder
         {
             return transportOrders.Select(transportOrder => BindTransportOrderViewModel(transportOrder, datePref, statuses)).ToList();
         }
-        public  static TransportOrderViewModel BindTransportOrderViewModel(TransportOrder transportOrder, string datePref,List<WorkflowStatus> statuses )
+        
+        public static TransportOrderViewModel BindTransportOrderViewModel(TransportOrder transportOrder, string datePref,List<WorkflowStatus> statuses )
         {
             TransportOrderViewModel transportOrderViewModel = null;
             if (transportOrder != null)
@@ -35,13 +36,12 @@ namespace Cats.ViewModelBinder
                 transportOrderViewModel.TransportOrderNo = transportOrder.TransportOrderNo;
                 transportOrderViewModel.TransportOrderID = transportOrder.TransportOrderID;
                 transportOrderViewModel.StatusID = transportOrder.StatusID;
+                transportOrderViewModel.StartDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref);
+                transportOrderViewModel.EndDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref);
                 transportOrderViewModel.Status =transportOrder.StatusID.HasValue?
-                    statuses.Find(t => t.StatusID == transportOrder.StatusID.Value).Description:string.Empty;
-
-
+                statuses.Find(t => t.StatusID == transportOrder.StatusID.Value).Description:string.Empty;
             }
             return transportOrderViewModel;
-
         }
     }
 }

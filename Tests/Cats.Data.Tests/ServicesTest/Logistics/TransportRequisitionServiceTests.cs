@@ -10,7 +10,7 @@ using Cats.Models.ViewModels;
 using Cats.Services.Logistics;
 using Moq;
 using NUnit.Framework;
-
+using Cats.Services.Common;
 namespace Cats.Data.Tests.ServicesTest.Logistics
 {
     [TestFixture]
@@ -23,12 +23,14 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
         private TransportRequisitionService _transportRequisitionService;
         private TransportRequisition _transportRequisition;
         private IList<ReliefRequisition> reliefRequisitions;
+        private INotificationService _notificationService;
         [SetUp]
         public void Init()
         {
             _transportRequisitions = new List<TransportRequisition>();
             _reliefRequisitions = new List<int> { 1 };
             var unitOfWork = new Mock<IUnitOfWork>();
+            var unitOfWorkNotify = new Mock<IUnitOfWork>();
             _transportRequisition = new TransportRequisition
             {
                 Status = 1,
@@ -283,7 +285,8 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                                                   });
             unitOfWork.Setup(t => t.ProgramRepository).Returns(programRepository.Object);
 
-            _transportRequisitionService = new TransportRequisitionService(unitOfWork.Object);
+            _notificationService = new NotificationService(unitOfWorkNotify.Object);
+            _transportRequisitionService = new TransportRequisitionService(unitOfWork.Object, _notificationService);
 
 
         }

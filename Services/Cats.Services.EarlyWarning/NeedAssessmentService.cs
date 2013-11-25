@@ -170,8 +170,8 @@ namespace Cats.Services.EarlyWarning
                                                        Name = adminUnit.Name, AdminUnitID = adminUnit.AdminUnitID
                                                    }).OrderBy(e => e.Name);
         
-
         }
+
         public IOrderedEnumerable<RegionsViewModel> GetZoness(int region)
         {
             var zones = _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitTypeID == 3 && t.ParentID == region).ToList();

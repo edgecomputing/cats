@@ -18,6 +18,29 @@ namespace Cats.Areas.Logistics.Models
         public FreeSIPC FreeSIPCCodes { get; set; }
         public int HubAllocationID { get; set; }
         public string HubName { get; set; }
+        public List<FDPRequestViewModel> FDPRequests { get; set; }
+    }
+    public class FDPRequestViewModel
+    {
+        public int RequisitionId { get; set; }
+        public int RequestDetailId { get; set; }
+        public int FDPId { get; set; }
+        public string FDPName { get; set; }
+        public string Name { get; set; }
+        public decimal RequestedAmount { get; set; }
+        public int WoredaId { get; set; }
+        public string WoredaName { get; set; }
+        public string Commodity { get; set; }
+        public List<SIPCAllocationViewModel> Allocations { get; set; }
+    }
+    public class SIPCAllocationViewModel
+    {
+        public int SIPCAllocationID { get; set; }
+        public int FDPID { get; set; }
+        public int RequisitionDetailID { get; set; }
+        public int Code { get; set; }
+        public decimal AllocatedAmount { get; set; }
+        public string AllocationType { get; set; }
     }
     public class SIAllocation
     {

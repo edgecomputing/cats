@@ -43,8 +43,9 @@
                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list, @Html.Translate("Gift Certificate"))</li>
                                 <li class="divider"></li>
-                                    
-                                <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
+                                <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate("Plan")</a></li>
+                               
+                                 <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment, @Html.Translate("Needs Assessment"))</li>
                                     
                                 
@@ -96,6 +97,9 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Logistics") <b class="caret"></b></a>
+
+
+                           
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Index","Home", new{Area="Logistics"})">Logistics Dashboard</a></li>
 
@@ -108,7 +112,15 @@
                                                                 LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
                                     
                                 <li class="divider" />
-                                <li><a href="#">@Html.Translate("Stock")</a></li>
+                                @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
+                                 <li><a href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Free Stock Status") </a></li>
+
+                               
+                                 <li>@Html.LogisticOperationMenuItem(@Html.Translate("Commodity Received Stock"),
+                                                               @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                                LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
+                                @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
+
                             </ul>
                                 
                         </li>
@@ -176,9 +188,9 @@
                     <li class="divider-vertical"></li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"></i><b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"><span class="badge-info">@Html.GetUnreadNotifications()</span></i><b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.Translate("Messages")</li>
+                            <li>@Html.GetActiveNotifications()</li>
                         </ul>
                     </li>
 

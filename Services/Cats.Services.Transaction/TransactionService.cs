@@ -210,6 +210,8 @@ namespace Cats.Services.Transaction
                 transaction.TransactionDate = transactionDate;
                 transaction.UnitID = 1;
                 transaction.LedgerID = 5;
+                transaction.CommodityID = giftCertificateDetail.CommodityID;
+               // transaction.ShippingInstructionID = giftCertificate.SINumber;
                 _unitOfWork.TransactionRepository.Add(transaction);
 
                 transaction = new Models.Transaction();

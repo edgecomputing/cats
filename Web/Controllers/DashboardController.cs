@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Cats.Helpers;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
-using Cats.Models.ViewModels;
 using Cats.Services.Common;
+using Cats.Services.Security;
 
 
 namespace Cats.Controllers
@@ -16,9 +13,12 @@ namespace Cats.Controllers
         private readonly IDashboardService _IDashboardService;
         private readonly  INeedAssessmentSummaryService _INeedAssessmentSummaryService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
-
-        public DashboardController()
+        private readonly IUserAccountService _userAccountService;
+        private readonly INotificationService _notificationService;
+        public DashboardController(INotificationService notificationService, IUserAccountService userAccountService)
         {
+            _notificationService = notificationService;
+            _userAccountService = userAccountService;
             this._IDashboardService = new Cats.Services.EarlyWarning.DashboardService();
             this._INeedAssessmentSummaryService = new Cats.Services.Common.NeedAssessmentSummaryService();
         }
@@ -99,8 +99,16 @@ namespace Cats.Controllers
         public JsonResult GetUnreadNotifications()
         {
             var user = System.Web.HttpContext.Current.User.Identity.Name;
-            var userID = UserAccountHelper.GetUser(user).UserProfileID;
-            return Json(_IDashboardService.GetUnreadNotifications(userID),JsonRequestBehavior.AllowGet);
+            var notifications = _IDashboardService.GetUnreadNotifications();
+            var roles = _userAccountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+            var allUserRollsInAllApplications = new List<string>();
+
+            foreach (var app in roles)
+            {
+                allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+            }
+            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+            return Json(totalUnread, JsonRequestBehavior.AllowGet);
         }
 
         

@@ -22,12 +22,9 @@ namespace Cats.Services.EarlyWarning
         List<ReliefRequisition> FindBy(Expression<Func<ReliefRequisition, bool>> predicate);
         void AddReliefRequisions(List<ReliefRequisition> reliefRequisitions);
 
-        List<ReliefRequisition> GetApprovedRequistions();
+       
         List<RegionalRequisitionsSummary> GetRequisitionsSentToLogistics();
-        //IEnumerable<ReliefRequisition> Get(
-        //   Expression<Func<ReliefRequisition, bool>> filter = null,
-        //   Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
-        //   string includeProperties = "");
+      
 
 
         IEnumerable<ReliefRequisition> Get(

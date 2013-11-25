@@ -27,6 +27,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IHubAllocationService _hubAllocationService;
         private readonly ILog _log;
         private readonly IUserAccountService _userAccountService;
+
         public HubAllocationController(
            IReliefRequisitionDetailService reliefRequisitionDetailService,
            IHubService hubService,
@@ -47,8 +48,6 @@ namespace Cats.Areas.Logistics.Controllers
         {
             return View("Index");
         }
-      
-      
 
         public ActionResult AssignHub()
         {

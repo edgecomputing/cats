@@ -26,16 +26,19 @@ namespace Cats.Controllers
         private IDashboardWidgetService _dashboardWidgetService;
         private IUserAccountService userService;
         private readonly IDashboardService _IDashboardService;
-
+        private readonly IUserAccountService _userAccountService;
+        private readonly INotificationService _notificationService;
         public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService, 
             IDashboardWidgetService dashboardWidgetService, 
             IUserAccountService _userService,
             IUnitOfWork unitOfWork,
             IRegionalRequestService regionalRequestService,
-            IReliefRequisitionService reliefRequisitionService, IDashboardService iDashboardService) {
+            IReliefRequisitionService reliefRequisitionService, IDashboardService iDashboardService, IUserAccountService userAccountService, INotificationService notificationService) {
             _regionalRequestService = regionalRequestService;
             _reliefRequistionService =  reliefRequisitionService;
             _IDashboardService = iDashboardService;
+            this._userAccountService = userAccountService;
+            _notificationService = notificationService;
             _userDashboardPreferenceService = userDashboardPreferenceService;
             _dashboardWidgetService = dashboardWidgetService;
             this.userService = _userService;
@@ -159,10 +162,19 @@ namespace Cats.Controllers
 
         public ActionResult GetUnreadNotification([DataSourceRequest] DataSourceRequest request)
         {
-            var user = System.Web.HttpContext.Current.User.Identity.Name;
-            var userID = UserAccountHelper.GetUser(user).UserProfileID;
-            var notifications = _IDashboardService.GetUnreadNotifications(userID);
-            var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(notifications.ToList());
+
+                var user = System.Web.HttpContext.Current.User.Identity.Name;
+                var roles = _userAccountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+                var allUserRollsInAllApplications = new List<string>();
+
+                foreach (var app in roles)
+                {
+                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+                }
+             
+                var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+
+            var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(totalUnread.ToList());
             return Json(notificationViewModel.ToDataSourceResult(request));
         }
         public ActionResult GetUnreadNotificationDetail([DataSourceRequest] DataSourceRequest request)

@@ -1,0 +1,45 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model Cats.Models.ViewModels.TransportRequisitionWithTransporter
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@*@section LeftBar{
+    @Html.Partial("_TransportOrderLeftBar");
+}*@
+
+<h4 class="page-header">@ViewBag.TransportOrderTitle Transport Orders</h4>
+
+<div>
+@(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
+      {
+          columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("TransportContract", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+   
+    columns.Bound(to => to.Transporter);
+    columns.Bound(to => to.BidDocumentNo).Width(100).Title(Translator.Translate("Bid Document #"));
+    columns.Bound(to => to.OrderExpiryDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.StartDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.EndDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.TransportOrderNo).Width(150);
+    columns.Bound(to => to.Status);
+         
+
+
+
+      })
+     .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model =>model.Id(p => p.TransportOrderID))
+        .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
+    )
+      )
+    </div>
+
+
+

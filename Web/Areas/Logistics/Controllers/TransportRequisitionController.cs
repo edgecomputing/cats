@@ -72,7 +72,6 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            
             return View();
 
         }
@@ -233,27 +232,7 @@ namespace Cats.Areas.Logistics.Controllers
         //    return CreateTransportRequisition(req);
 
         //}
- private void AddNotification(int transportRequisitionID)
-        {
-            if (Request.Url != null)
-            {
-                var notification = new Notification
-                {
-                    Text = "Transport Requisition",
-                    CreatedDate = DateTime.Now.Date,
-                    IsRead = false,
-                    Role = 2,
-                    RecordId = transportRequisitionID,
-                    Url = Request.Url.AbsoluteUri,
-                    TypeOfNotification = "Transport Requisition"
-                };
-
-                _notificationService.AddNotification(notification);
-
-            }
-
-
-        }
+ 
         public ActionResult CreateTransportRequisition(int regionId)
         {
             try
@@ -378,6 +357,14 @@ namespace Cats.Areas.Logistics.Controllers
             transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
             transportRequisitonViewModel.TransportRequisitionDetailViewModels =
             GetDetail(transportRequisition.TransportRequisitionDetails.ToList());
+
+            foreach (var transportRequisitionDetailViewModel in transportRequisitonViewModel.TransportRequisitionDetailViewModels)
+            {
+                var count =
+                    _reliefRequisitionDetailService.FindBy(
+                        t => t.RequisitionID == transportRequisitionDetailViewModel.RequisitionID).Count;
+                transportRequisitionDetailViewModel.DestinationsCount = count;
+            }
             }
 
             catch(Exception ex)
@@ -612,5 +599,6 @@ namespace Cats.Areas.Logistics.Controllers
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSources);
             return File(result.RenderBytes, result.MimeType);
         }
+       
     }
 }

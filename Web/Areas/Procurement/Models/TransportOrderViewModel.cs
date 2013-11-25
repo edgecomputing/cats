@@ -35,6 +35,8 @@ namespace Cats.Areas.Procurement.Models
         public string TransporterSignedDateET { get; set; }
         [Display(Name ="Status")]
         public int? StatusID { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
 
         public string Status { get; set; }
     }
