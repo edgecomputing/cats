@@ -182,28 +182,28 @@ namespace Cats.Tests.ControllersTests
 
         #endregion
 
-        #region Tests
+        //#region Tests
 
         //[Test]
         //public void CanDisplayTransportRequisitions()
         //{
-          
+
         //    //Act
         //    var result = _transportOrderController.TransportRequisitions();
 
         //    //Assert
 
         //    Assert.IsInstanceOf<ViewResult>(result);
-           
+
         //}
         //[Test]
         //public void ShouldGenerateTransportOrderForSelectedTransportRequisition()
         //{
         //    //Act
-            
-          
+
+
         //    _transportOrderController.CreateTransportOrder(1);
-        //    var request =new Kendo.Mvc.UI.DataSourceRequest();
+        //    var request = new Kendo.Mvc.UI.DataSourceRequest();
         //    var result = _transportOrderController.TransportOrder_Read(request);
         //    //Assert
         //    Assert.IsInstanceOf<JsonResult>(result);
@@ -243,7 +243,7 @@ namespace Cats.Tests.ControllersTests
         //    //Assert
         //    Assert.IsInstanceOf<JsonResult>(result);
         //}
-        #endregion
+        //#endregion
         //[Test]
         //public void CanShowTransportContract()
         //{
