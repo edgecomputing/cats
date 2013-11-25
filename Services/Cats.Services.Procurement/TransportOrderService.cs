@@ -417,13 +417,13 @@ namespace Cats.Services.Procurement
                 if (HttpContext.Current.Request.Url.Host == "localhost")
                 {
                     destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
-                                     "/Procurement/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
+                                     "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
                 }
                 else
                 {
                     destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
                                      HttpContext.Current.Request.ApplicationPath +
-                                     "/Procurement/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
+                                     "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
                 }
                 _notificationService.AddNotificationForHubManagersFromTransportOrder(destinationURl, transportOrderId,
                                                                                      transportOrderNo);
@@ -431,7 +431,7 @@ namespace Cats.Services.Procurement
             catch (Exception)
             {
                 
-                throw;
+                ;
             }
            
         }
