@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Web.Hub.Controllers;
 using Moq;
@@ -49,18 +49,18 @@ namespace Cats.Web.Hub.Tests
             
             var userHubs = new List<UserHub>
                 {
-                    new UserHub {UserHubID = 1, UserProfileID = 1, HubID = 1},
-                    new UserHub {UserHubID = 2, UserProfileID = 2, HubID = 2},
-                    new UserHub {UserHubID = 3, UserProfileID = 1, HubID = 3},
+                    new UserHub {UserHubID = 1, UserProfileID = 1, HubID = 1,UserProfile=new UserProfile {UserProfileID = 1, UserName = "Nathnael", Password = "passWord", Email = "123@edge.com"}},
+                    new UserHub {UserHubID = 2, UserProfileID = 2, HubID = 2,UserProfile=new UserProfile {UserProfileID = 1, UserName = "Nathnael", Password = "passWord", Email = "123@edge.com"}},
+                    new UserHub {UserHubID = 3, UserProfileID = 1, HubID = 3,UserProfile=new UserProfile {UserProfileID = 1, UserName = "Nathnael", Password = "passWord", Email = "123@edge.com"}},
                 };
             var userHUbService = new Mock<IUserHubService>();
             userHUbService.Setup(t => t.GetAllUserHub()).Returns(userHubs);
 
-            var hubs = new List<Models.Hub.Hub>
+            var hubs = new List<Models.Hubs.Hub>
                 {
-                    new Models.Hub.Hub {HubID = 1, Name = "Adama", HubOwnerID = 1},
-                    new Models.Hub.Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2},
-                    new Models.Hub.Hub {HubID = 3, Name = "Diredawa", HubOwnerID = 3},
+                    new Models.Hubs.Hub {HubID = 1, Name = "Adama", HubOwnerID = 1,HubOwner = new HubOwner{HubOwnerID = 1,Name="Nat1"}},
+                    new Models.Hubs.Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2,HubOwner = new HubOwner{HubOwnerID = 2,Name="Nat2"}},
+                    new Models.Hubs.Hub {HubID = 3, Name = "Diredawa", HubOwnerID = 3,HubOwner = new HubOwner{HubOwnerID = 3,Name="Nat3"}},
                 };
             var hubService = new Mock<IHubService>();
             hubService.Setup(t => t.GetAllHub()).Returns(hubs);

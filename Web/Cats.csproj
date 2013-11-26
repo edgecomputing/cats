@@ -1505,6 +1505,7 @@
     <Content Include="dataset.xsc">
       <DependentUpon>dataset.xsd</DependentUpon>
     </Content>
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\CarryOverStock.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
@@ -2436,6 +2437,7 @@
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\ReceivedCommodityStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />

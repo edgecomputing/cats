@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using NUnit.Framework;
 using Cats.Web.Hub.Controllers;
@@ -75,7 +75,7 @@ namespace Cats.Web.Hub.Tests
         {
             //ACT
             var fdp = new FDP {Name = "..."};
-            var result = _fdpController.Create(fdp);
+            var result = _fdpController.Create(1);
             //Assert
             Assert.IsInstanceOf<ActionResult>(result);
             Assert.IsInstanceOf<int>(fdp.FDPID);
