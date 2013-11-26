@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   For more information on how to configure your ASP.NET application, please visit
   http://go.microsoft.com/fwlink/?LinkId=152368
@@ -71,24 +71,33 @@
     </appender>
   </log4net>
 
-<connectionStrings>
+<!--<connectionStrings>
+
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
+</connectionStrings>-->
+    
+    <connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=true" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=true" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=true" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=true" providerName="System.Data.SqlClient" />
 </connectionStrings>
 <<<<<<< HEAD
-   <!--
+ <!--   
 <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
 </connectionStrings>
-  -->
+--> 
+
 =======
-   
->>>>>>> 78b021f0334257c329f30a8054b12e9d7e3e4ef7
+  
+>>>>>>> 360cbd53ec04ea0891fa53234e56d6568bbe12c2
   <appSettings>
     <add key="log4net.Internal.Debug" value="true" />
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
