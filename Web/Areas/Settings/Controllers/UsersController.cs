@@ -106,8 +106,10 @@ namespace Cats.Areas.Settings.Controllers
             user.FailedAttempts = 0;
             user.LoggedInInd = false;
 
-            userService.Add(user, roles);
-
+            if(userService.Add(user, roles))
+            {
+                return View("Index");
+            }
 
             return View();
 
