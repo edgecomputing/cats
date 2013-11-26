@@ -374,6 +374,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\AddCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\AddFDPViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
@@ -1509,7 +1510,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\_FilterRequestLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_AddCommodity.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
