@@ -542,8 +542,16 @@ namespace Cats.Areas.Procurement.Controllers
         {
             try
             {
-              _transportOrderService.GeneratDispatchPlan(transportOrderId);
-            return RedirectToAction("Index", "DispatchAllocation", new {Area = "Hub"});
+             var result=  _transportOrderService.GeneratDispatchPlan(transportOrderId);
+                if (result)
+                {
+                     return RedirectToAction("Index", "DispatchAllocation", new {Area = "Hub"});
+                }
+                else
+                {
+                    ModelState.AddModelError("Errors", "Unable to generate dispatch allocation.");
+                    return RedirectToAction("Index", "TransportOrder", new { Area = "Hub" });
+                }
             }
             catch (Exception ex)
             {
