@@ -20,16 +20,49 @@
     var unit = user.Profile.PreferedWeightMeasurment;
 }
 
+<div style="float: right; margin-right: 100px;width: 100px">
+    <div class="btn-group">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+
+
+        <ul class="dropdown-menu">
+            <li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>
+             @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+             {
+         
+               <li> <a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                <li> <a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+               <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
+         }
+            
+
+            <li><a href="#"></a></li>
+        </ul>
+
+    </div>
+</div>
+
+
+
 @section Toolbar
 {
-
+    @*<a class="btn toolbar-btn " id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" data-buttontype="btn_new_record"></a>*@
     <a class="btn toolbar-btn " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" data-buttontype="btn_back_to_list"></a>
-    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+     @*@if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
     {
-        <a class="btn toolbar-btn " href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype="btn_edit"></a>
+         
+         <a class="btn toolbar-btn " href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype="btn_edit"></a>
         <a class="btn toolbar-btn " href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"  data-buttontype="">Allocation</a>
         <a class="btn toolbar-btn " href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })" data-buttontype="">Approve</a>
-    }
+    }*@
     
    @* @if(modelRequest.Program != "PSNP"){
         <a class="btn toolbar-btn " href="@Url.Action("ReconcileRequest", "Request", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID})" data-buttontype="">Reconcile</a>
@@ -42,6 +75,26 @@
 
 
 }
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddFDP').click(function () {
+
+           // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
 
 <h4 class="page-header">Regional Request Allocaiton</h4>
 <div class="">
@@ -52,7 +105,7 @@
                     <td>
 
                        
-                            <b>@Translator.Translate("Reference Number:")</b>
+                        <b>@Translator.Translate("Reference Number:")</b>
                         @modelRequest.ReferenceNumber
 
 
@@ -89,7 +142,7 @@
                             <b>Status
                                    :</b>
                             @modelRequest.Status
-                        </p>
+
                     </td>
                 </tr>
             
@@ -105,7 +158,9 @@
 
 }
 
-
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 
 @(Html.Kendo().Grid(Model)
     .Name("Grid")
@@ -135,6 +190,4 @@
     .Groupable()
     
 )
-
-
 

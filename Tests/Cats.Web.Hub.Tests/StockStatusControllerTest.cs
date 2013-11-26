@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Web.Hub.Controllers.Reports;
 using Moq;
@@ -35,11 +35,11 @@ namespace Cats.Web.Hub.Tests
             var commodityService = new Mock<ICommodityService>();
             commodityService.Setup(t => t.GetAllCommodity()).Returns(commodity);
 
-            var hub = new List<Models.Hub.Hub>
+            var hub = new List<Models.Hubs.Hub>
                 {
-                    new Models.Hub.Hub {HubID = 1,Name = "Adama",HubOwnerID = 1},
-                    new Models.Hub.Hub { HubID =2,Name = "Kombolcha",HubOwnerID = 1},
-                    new Models.Hub.Hub { HubID =3,Name = "Diredawa",HubOwnerID = 1}
+                    new Models.Hubs.Hub {HubID = 1,Name = "Adama",HubOwnerID = 1},
+                    new Models.Hubs.Hub { HubID =2,Name = "Kombolcha",HubOwnerID = 1},
+                    new Models.Hubs.Hub { HubID =3,Name = "Diredawa",HubOwnerID = 1}
 
                 };
             var hubService = new Mock<IHubService>();
@@ -66,7 +66,7 @@ namespace Cats.Web.Hub.Tests
             Assert.IsNotNull(result);
 
             var model = result.Model;
-            Assert.IsInstanceOf<Models.Hub.Hub>(model);
+            Assert.IsInstanceOf<Models.Hubs.Hub>(model);
 
         }
 
@@ -77,7 +77,7 @@ namespace Cats.Web.Hub.Tests
             Assert.IsNotNull(result);
 
             var model = result.Model;
-            Assert.IsInstanceOf<Models.Hub.Hub>(model);
+            Assert.IsInstanceOf<Models.Hubs.Hub>(model);
         }
         [Test]
         public void CanShowCommodityByID()

@@ -132,6 +132,7 @@
           columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
           columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
           columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
+          columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
 
       })
       .ToolBar(toolbar => toolbar.Save())
@@ -196,6 +197,14 @@
             update_ui(rowIdx, $(this));
             rowIdx++;
         });
+    }
+    
+    
+    function onDelete(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("DeleteFDP", "Request")" + "/" + dataItem.RegionalRequestDetailID;         
     }
 </script>
 <style>

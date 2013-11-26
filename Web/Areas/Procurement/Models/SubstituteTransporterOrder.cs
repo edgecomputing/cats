@@ -9,8 +9,9 @@ namespace Cats.Areas.Procurement.Models
     public class SubstituteTransporterOrder
     {
         public int WoredaID { get; set; }
+        public string Woreda { get; set; }
         public List<TransportOrderDetail> TransportOrderDetails { get; set; }
-        public List<int> TransporterIDs { get; set; }
+        public List<TransportBidQuotationViewModel> TransportersStandingList { get; set; }
     }
 
 }

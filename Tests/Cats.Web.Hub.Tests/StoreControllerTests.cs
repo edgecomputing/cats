@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using NUnit.Framework;
 using Cats.Web.Hub.Controllers;

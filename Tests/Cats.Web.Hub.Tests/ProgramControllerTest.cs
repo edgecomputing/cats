@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Web.Hub.Controllers;
 using Moq;
