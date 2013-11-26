@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Web.Hub.Controllers;
 using Moq;
@@ -21,10 +21,10 @@ namespace Cats.Web.Hub.Tests
         [SetUp]
         public void Init()
         {
-            var hubs = new List<Cats.Models.Hub.Hub>
+            var hubs = new List<Cats.Models.Hubs.Hub>
                 {
-                    new Models.Hub.Hub {HubID = 1, Name = "Adama", HubOwnerID = 1},
-                    new Models.Hub.Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2},
+                    new Models.Hubs.Hub {HubID = 1, Name = "Adama", HubOwnerID = 1},
+                    new Models.Hubs.Hub {HubID = 2, Name = "Kombolcha", HubOwnerID = 2},
                 };
             var hubServices = new Mock<IHubService>();
             hubServices.Setup(t => t.GetAllHub()).Returns(hubs);
@@ -59,7 +59,7 @@ namespace Cats.Web.Hub.Tests
             //ASSERT
             Assert.NotNull(viewResult);
             var model = viewResult.Model;
-            Assert.IsInstanceOf<IEnumerable<Models.Hub.Hub>>(model);
+            Assert.IsInstanceOf<IEnumerable<Models.Hubs.Hub>>(model);
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace Cats.Web.Hub.Tests
             //ASSERT
             Assert.NotNull(viewResult);
             var model = viewResult.Model;
-            Assert.IsInstanceOf<Models.Hub.Hub>(model);
+            Assert.IsInstanceOf<Models.Hubs.Hub>(model);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace Cats.Web.Hub.Tests
         public void CanDoCreatePostBack()
         {
             //ACT
-            var hub = new Models.Hub.Hub { Name = "Diredawa", HubOwnerID = 1 };
+            var hub = new Models.Hubs.Hub { Name = "Diredawa", HubOwnerID = 1 };
             var jsonResult = _hubController.Create(hub) as JsonResult;
 
             //ASSERT
@@ -108,7 +108,7 @@ namespace Cats.Web.Hub.Tests
             Assert.NotNull(viewResult);
             var model = viewResult.Model;
             Assert.IsInstanceOf<SelectList>(viewResult.ViewBag.HubOwnerID);
-            Assert.IsInstanceOf<Models.Hub.Hub>(model);
+            Assert.IsInstanceOf<Models.Hubs.Hub>(model);
             #endregion
         }
 
@@ -116,7 +116,7 @@ namespace Cats.Web.Hub.Tests
         public void CanEditPostBack()
         {
             //ACT
-            var hub = new Models.Hub.Hub { HubID = 1, Name = "Adama", HubOwnerID = 1 };
+            var hub = new Models.Hubs.Hub { HubID = 1, Name = "Adama", HubOwnerID = 1 };
             var jsonResult = _hubController.Edit(hub) as JsonResult;
 
             //ASSERT

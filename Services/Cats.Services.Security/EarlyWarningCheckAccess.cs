@@ -426,6 +426,10 @@
                 {
                     return "View Gift Certificate list";
                 }
+                if ((operation == Operation.View_HRD_Detail))
+                {
+                    return "View HRD Detail";
+                }
                 if ((operation == Operation.View_HRD_list))
                 {
                     return "View HRD list";
@@ -1282,6 +1286,10 @@
                 /// </summary>
                 View_Gift_Certificate_list,
                 /// <summary>
+                /// Operation View HRD Detail
+                /// </summary>
+                View_HRD_Detail,
+                /// <summary>
                 /// Operation View HRD list
                 /// </summary>
                 View_HRD_list,
@@ -1640,6 +1648,10 @@
             /// OPERATION 'View Gift Certificate list'
             /// </summary>
             public const string VIEW_GIFT_CERTIFICATE_LIST = "View Gift Certificate list";
+            /// <summary>
+            /// OPERATION 'View HRD Detail'
+            /// </summary>
+            public const string VIEW_HRD_DETAIL = "View HRD Detail";
             /// <summary>
             /// OPERATION 'View HRD list'
             /// </summary>

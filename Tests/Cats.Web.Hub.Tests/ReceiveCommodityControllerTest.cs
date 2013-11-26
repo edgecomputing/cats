@@ -4,7 +4,7 @@ using Cats.Services.Hub;
 using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 namespace Cats.Web.Hub.Tests
 {
     public class ReceiveCommodityControllerTest

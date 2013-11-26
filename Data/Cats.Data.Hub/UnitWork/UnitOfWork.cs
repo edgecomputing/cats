@@ -677,6 +677,11 @@ namespace Cats.Data.Hub
        {
            get { return this.vwCommodityReceived ?? (this.vwCommodityReceived = new GenericRepository<VWCommodityReceived>(_context)); }
        }
+       private IGenericRepository<VWCarryOver> vwCarryOver = null;
+       public IGenericRepository<VWCarryOver> VWCarryOver
+       {
+           get { return this.vwCarryOver ?? (this.vwCarryOver = new GenericRepository<VWCarryOver>(_context)); }
+       }
       
     }
 }

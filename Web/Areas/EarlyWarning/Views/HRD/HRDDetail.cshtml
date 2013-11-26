@@ -1,4 +1,5 @@
 ﻿@using System.Collections
+@using Cats.Helpers
 @using Cats.Models
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
@@ -17,7 +18,9 @@
 }
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Detail", "HRD", new {id = ViewBag.HRDID})"></a>
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Detail", "HRD", new {id = ViewBag.HRDID}),
+                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-edit\"></i>", "btn", "btn_back_to_list")
 }
 
 @section LeftBar

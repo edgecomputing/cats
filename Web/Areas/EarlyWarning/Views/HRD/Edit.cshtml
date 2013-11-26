@@ -1,4 +1,6 @@
 ﻿
+@using Cats.Helpers
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @model Cats.Models.HRD
 
@@ -15,7 +17,10 @@
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Edit_hrd"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="save Changes"></a>
+    
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "HRD", new {Area = "EarlyWarning"}),
+                        EarlyWarningCheckAccess.Operation.View_HRD_list, "save Changes", "btn", "btn_cancel")
 }
 <div><h4>Edit HRD</h4></div>
     @using (Html.BeginForm("Edit", "HRD", FormMethod.Post, new { id = "frm_Edit_hrd" }))

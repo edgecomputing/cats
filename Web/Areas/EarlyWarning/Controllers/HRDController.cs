@@ -58,6 +58,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _planService = planService;
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_list)]
         public ActionResult Index()
         {
             var hrd = _hrdService.GetAllHRD();
@@ -65,11 +66,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrd);
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Print_HRD)]
         public ActionResult HRDPrintOut()
         {
             return View("HRDPrintOut");
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_Detail)]
         public ActionResult HRDDetail(int id = 0)
         {
             ViewData["Month"] = RequestHelper.GetMonthList();
@@ -83,15 +86,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Approve_HRD)]
         public ActionResult ApprovedHRDs()
         {
             return View();
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Current_HRD)]
         public ActionResult CurrentHRDs()
         {
             return View();
         }
+
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_list)]
         public ActionResult HRD_Read([DataSourceRequest] DataSourceRequest request)
         {
 
@@ -100,6 +108,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_Detail)]
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
 
@@ -115,6 +124,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return RedirectToAction("Index");
         }
 
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Approved_HRD)]
         public ActionResult ApprovedHRD_Read([DataSourceRequest] DataSourceRequest request)
         {
 
@@ -122,6 +132,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
+
         //get published hrds information
         public ActionResult CurrentHRD_Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -166,7 +177,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //    }
         //    return RedirectToAction("Index");
         //}
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.HRD_Summary)]
         public ActionResult RegionalSummary(int id = 0)
         {
             var hrd = _hrdService.Get(m => m.HRDID == id).FirstOrDefault();
@@ -219,7 +230,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Pulse = pulseCoefficient * total.Duration
                         });
         }
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_Detail)]
         public ActionResult Detail(int id)
         {
             var hrd = _hrdService.Get(m => m.HRDID == id).FirstOrDefault();
@@ -264,6 +275,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                     });
         }
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_HRD)]
         public ActionResult Create()
         {
             var hrd = new HRD();
@@ -276,7 +288,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             return View(hrd);
         }
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Ration_List)]
         public JsonResult GetRation()
         {
 
@@ -292,6 +304,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         //update HRD detail information
         [AcceptVerbs(HttpVerbs.Post)]
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Modify_HRD)]
         public ActionResult HRDDetail_Update([DataSourceRequest] DataSourceRequest request, HRDDetailViewModel hrdDetails)
         {
             if (hrdDetails != null && ModelState.IsValid)
@@ -328,6 +341,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_HRD)]
         public ActionResult Create(HRD hrd)
         {
             //DateTime dateCreated = DateTime.Now;
@@ -394,6 +408,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrd);
         }
         //HRD/Edit/2
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Modify_HRD)]
         public ActionResult Edit(int id)
         {
             var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
@@ -406,6 +421,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Modify_HRD)]
         public ActionResult Edit(HRD hrd)
         {
             var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
@@ -418,14 +434,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return View(hrd);
         }
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Print_HRD)]
         public ActionResult Print()
         {
             var allHrd = _hrdService.GetAllHRD();
             var hrdViewModel = GetHrds(allHrd);
             return View();//ViewPdf("HRD report", "Print", hrdViewModel);
         }
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Print_HRD)]
         public ActionResult PrintSummary(int? id)
         {
             if (id == null)
@@ -459,7 +475,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
             return File(result.RenderBytes, result.MimeType);
         }
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Approved_HRD)]
         public ActionResult ApproveHRD(int id)
         {
             var hrd = _hrdService.FindById(id);
@@ -473,7 +489,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _hrdService.PublishHrd(id);
             return RedirectToAction("ApprovedHRDs");
         }
-
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Compare_HRD)]
         public ActionResult Compare()
         {
             var hrds = _hrdService.Get(null, null, "Season");
@@ -489,6 +505,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
         [HttpPost]
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Compare_HRD)]
         public ActionResult Compare_HRD([DataSourceRequest] DataSourceRequest request, int? firstHrd, int? secondHrd, int? regionId)
         {
             int hrd1Id = firstHrd ?? 0;
@@ -511,6 +528,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(hrdsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
         }
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_HRD)]
         public ActionResult CreateHRD(int id)
         {
             var plan = _hrdService.GetPlan(id);
@@ -522,6 +540,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrd);
         }
         [HttpPost]
+        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_HRD)]
         public ActionResult CreateHRD(HRD hrd)
         {
              DateTime dateCreated = DateTime.Now;

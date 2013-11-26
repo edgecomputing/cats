@@ -7,7 +7,23 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";    
 }
 
-<h4>Transport Contract</h4>
+<html data-ng-app="">
+    <h4>Transport Contract</h4>
+    <div id="modalWindow"></div>
+
+    <script>
+        var wnd;
+        $(document).ready(function () {
+            wnd = $("#modalWindow").kendoWindow({
+                title: "Substitute transporter for each woreda.",
+                modal: true,
+                visible: false,
+                resizable: false,
+                width: 600,
+                height: 500,
+            }).data("kendoWindow");
+        });
+    </script>
 <div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">
@@ -17,7 +33,7 @@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
-                    <a href="@Url.Action("TransportContract","TransportOrder")">Change</a>
+                    <a href="#" class="transChange">Change</a>
                 </div>
             </div>
         </div>
@@ -157,17 +173,289 @@
 
       )
 <script>
-    $(function () {
-        var printurl = "@Url.Action("Print", "TransportOrder",new{id= ViewBag.TransportOrderID })";
-        $("#toolbar_button_print").attr("href", printurl);
-    });
-    function onDataBound(e) {
-
-        var grid = $("#grid").data("kendoGrid");
-        $(grid.tbody).on("focus", "input", function (e) {
-            var input = $(this);
-            setTimeout(function () { input.select(); }, 100);
-
-        });
-    }
+    
 </script>
+    <script>
+        var woredaWithTransportersStanding = null;
+        $(function () {
+            var printurl = "@Url.Action("Print", "TransportOrder", new{id= ViewBag.TransportOrderID })";
+            $("#toolbar_button_print").attr("href", printurl);
+        
+            $(".transChange").click(function (e) {
+                changeTransporter();
+            });
+        
+            $(document).on('click', '.generateTO', function(ev) {
+                generateSubstituteTransporterOrders();
+            });
+            
+            $(document).on('change',".anotherTransporter", function(){
+                //alert(this.value);
+                var woredaId = $(this).attr("id");
+                var position = this.value;
+                PositionChanged4Woreda(woredaId, position);
+            }); 
+            
+            $(document).on('click', '.confirmGenerateTO', function(ev) {
+                ConfirmGenerateTOs();
+            });
+            
+            $(document).on('click', '.cancelAction', function(ev) {
+                CancelGenerateTOs();
+            });
+
+            //$('.generateTO').live('click',function(ev) {
+            //    generateSubstituteTransporterOrders();
+            //});
+        });
+        function onDataBound(e) {
+
+            var grid = $("#grid").data("kendoGrid");
+            $(grid.tbody).on("focus", "input", function (e) {
+                var input = $(this);
+                setTimeout(function () { input.select(); }, 100);
+
+            });
+        }
+        
+        function getIndexOfValue(array, value){
+            for(var i=0; i<array.length; i++){
+                //alert(i);
+                //alert(value);
+                //alert( printR(array[i]) );
+                
+                //var index = array[i].indexOf(value);
+                if (array[i].WoredaID == value){
+                    return {i:i};
+                }
+            }
+            alert("No index found in an array.");
+            return null;
+        }
+
+    
+        function generateSubstituteTransporterOrders() {
+            //alert();
+            
+            //alert(changedTransportOrderID);
+            //var listOfSubTransporterOrders = woredaWithTransportersStanding.Data.concat(changedTransportOrderID);
+            //var transportingArray = new Array();
+            //transportingArray.concat(listOfSubTransporterOrders);
+            //transportingArray.concat(changedTransportOrderID);
+            //alert( printR(transportingArray) );
+            
+            //wnd.center().close();
+            var entries = '<table style="margin:20px;border:1px solid #ececec;width:550px;">';
+            entries += '<tr>';
+            entries += '<td style="padding:0px;text-align:center;" colspan="2">';
+            entries += 'This action might generate more than one transport order as a substitute to the changed one.';
+            entries += '<h5>Are you really sure you want to continue?</h5>';
+            entries += '</td>';
+            entries += '</tr>';
+            entries += '<tr>';
+            entries += '<td style="padding:0px;text-align:center;">';
+            //entries += '<a type="button" class="confirmGenerateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">I\'m sure!</a>';
+            entries += '<button id="yes" class="k-button confirmGenerateTO">I\'m sure!</button>';
+            entries += '</td>';
+            entries += '<td style="padding:0px;text-align:center;">';
+            entries += '<button id="yes" class="k-button cancelAction">Cancel</button>';
+            //entries += '<a type="button" class="cancelAction" style="margin:20px;height:30px;width:200px;cursor:pointer;">Cancel</a>';
+            entries += '</td>';
+            entries += '</tr>';
+            entries += '</table>';
+            
+            //alert(entries);
+            //var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
+            $("#modalWindow").html(entries);
+            
+        }
+        
+        
+        
+        function BeforeSendGenerateTOs() {
+            
+        }
+        function GenerateTOsCompleted(results) {
+            window.location.replace("/Procurement/TransportOrder/Index");
+        }
+
+        function GenerateTOsFailed(request, status, error){
+            
+        }
+        
+        function ConfirmGenerateTOs() {
+            $(".anotherTransporter option:selected").each(function(i){
+                //alert($(this).text() + " : " + $(this).val());
+                //alert( printR(woredaWithTransportersStanding) );
+                var index = getIndexOfValue(woredaWithTransportersStanding.Data, $(this).attr("woredaID"));
+                var position = $(this).attr("value");
+                //var transportBidQuotationId = $(this).attr("transportBidQuotationID");
+                if(position!=null) {
+                    for(var z in woredaWithTransportersStanding.Data[index.i].TransportersStandingList) {
+                        if(woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z].Position != position) {
+                            woredaWithTransportersStanding.Data[index.i].TransportersStandingList.splice(z, 1);
+                        }
+                    }
+                }
+                else {
+                    
+                }
+                //alert( printR(woredaWithTransportersStanding) );
+            });
+            var TOID = @ViewBag.TransportOrderID;
+            var transportingArray = {listOfSubTransporterOrders:woredaWithTransportersStanding.Data, changedTransportOrderID : TOID};
+            $.ajax({
+                type: "POST",
+                url: "/Procurement/TransportOrder/ChangeTransporters/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(transportingArray),
+                dataType: "json",
+                beforeSend: BeforeSendGenerateTOs,
+                success: GenerateTOsCompleted,
+                error: GenerateTOsFailed
+            });
+            $("#modalWindow").html("");
+            $(".transChange").hide();
+            wnd.center().close();
+            //window.location.replace("/Procurement/TransportOrder/Index");
+        }
+        
+        function CancelGenerateTOs() {
+            $("#modalWindow").html("");
+            wnd.center().close();
+            //window.location.replace("/Procurement/TransportOrder/Index");
+        }
+    
+        
+        function changeTransporter() {
+            wnd.center().open();
+            var TOID = @ViewBag.TransportOrderID;
+            var selectedTransportOrderId = { changedTransportOrderID: TOID };
+            
+            $.ajax({
+                type: "POST",
+                url: "/Procurement/TransportOrder/SuggestedSubstituteTransporters/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(selectedTransportOrderId),
+                dataType: "json",
+                beforeSend: BeforeSendChangeTransporter,
+                success: ChangeTransporterSendCompleted,
+                error: ChangeTransporterSendFailed
+            });
+        }
+    
+        function BeforeSendChangeTransporter() {
+            //alert();
+            //var msg = '<div class="cats_success">Loading...</div>';
+            //$(".message-window").html(msg).delay(800).hide().fadeIn();
+        }
+        function ChangeTransporterSendCompleted(results) {
+            woredaWithTransportersStanding = results;
+            //var entries='<h4>Change Transporter for each Woreda</h4>';
+            var entries='<table style="margin:20px;border:1px solid #ececec;width:550px;">';
+            entries+='<tr>';
+            entries+='<td style="padding:0px;text-align:center;">';
+            entries+='<h5>Woreda</h5>';
+            entries+='</td>';
+            entries+='<td style="padding:0px;text-align:center;">';
+            entries+='<h5>Position</h5>';
+            entries+='</td>';
+            entries+='<td style="padding:0px;text-align:center;">';
+            entries+='<h5>Transporters</h5>';
+            entries+='</td>';
+            entries+='</tr>';
+            entries+='<tr>';
+            entries+='<td colspan="3" style="text-align:center;color:#ececec;">';
+            entries+='<hr>';
+            entries+='</td>';
+            entries+='</tr>';
+            for (var i in results.Data){
+                var availablePositions=new Array();
+                //var count = 0;
+                var substituteTransport=results.Data[i];
+                entries+='<tr>';
+                entries+='<td style="text-align:center;">';
+                entries+=substituteTransport.Woreda;
+                entries+='</td>';
+                entries+='<td style="text-align:center;">';
+                entries+='<select class="anotherTransporter" id="'+substituteTransport.WoredaID+'">';
+                entries+='<option value=""> Select a Position </option>';
+                for (var j in substituteTransport.TransportersStandingList) {
+                    var transportersStandingPosition = results.Data[i].TransportersStandingList[j];
+                    //if(!availablePositions.contains(results.Data[i].TransportersStandingList[j].Position)) {
+                    if(($.inArray(results.Data[i].TransportersStandingList[j].Position, availablePositions))==-1) {
+                        //alert(printR(availablePositions));
+                        availablePositions.push(results.Data[i].TransportersStandingList[j].Position);
+                        entries+='<option value="'+transportersStandingPosition.Position+'" transportBidQuotationID="'+transportersStandingPosition.TransportBidQuotationID+'"' +
+                    ' woredaID="'+substituteTransport.WoredaID+'"> [ #'+ transportersStandingPosition.Position+ ' ]' +' </option>';
+                        //count++;
+                    }
+                        
+                }
+                entries+='</select>';
+                entries+='</td>';
+                entries+='<td style="text-align:center;">';
+                entries+='<div id="TransportersList4-'+substituteTransport.WoredaID+'"></div>';
+                entries+='</td>';
+                entries+='</tr>';
+                entries+='<tr>';
+                entries+='<td colspan="3" style="text-align:center;color:#ececec;">';
+                entries+='<hr>';
+                entries+='</td>';
+                entries+='</tr>';
+            }
+            entries+='</table>';
+            entries+='<a type="button" class="generateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">Generate Transport Order(s)</a>';
+            //alert(entries);
+            //var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
+            $("#modalWindow").html(entries);
+        }
+        
+        function PositionChanged4Woreda(woredaId, position) {
+            //alert(printR(woredaWithTransportersStanding));
+            
+            var index = getIndexOfValue(woredaWithTransportersStanding.Data, woredaId);
+            //alert(position);
+            var entries = '';
+            for(var z in woredaWithTransportersStanding.Data[index.i].TransportersStandingList) {
+                if(woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z].Position == position) {
+                    var transportersStanding = woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z];
+                    entries+='<div value="'+transportersStanding.TransporterID+'" transportBidQuotationID="'+transportersStanding.TransportBidQuotationID+'"' +
+                    ' woredaID="'+woredaId+'">'+transportersStanding.Transporter +'</div>';
+                }
+            }
+            $('#TransportersList4-' + woredaId).html(entries);
+        }
+
+        function ChangeTransporterSendFailed(request, status, error) {
+            //var msg = '<div class="cats_error">Error: ' + error + '. Status: ' + status + '</div>';
+            var msg = '<div class="cats_error">Error: Dashboard preference not updated.';
+            $(".modalWindow").html(msg);
+        }
+        
+        function printR(arr,level) {
+            var dumpedText = "";
+            if(!level) level = 0;
+
+            //The padding given at the beginning of the line.
+            var levelPadding = "";
+            for(var j=0;j<level+1;j++) levelPadding += "    ";
+
+            if(typeof(arr) == 'object') { //Array/Hashes/Objects 
+                for(var item in arr) {
+                    var value = arr[item];
+
+                    if(typeof(value) == 'object') { //If it is an array,
+                        dumpedText += levelPadding + "'" + item + "' ...\n";
+                        dumpedText += printR(value,level+1);
+                    } else {
+                        dumpedText += levelPadding + "'" + item + "' => \"" + value + "\"\n";
+                    }
+                }
+            } else { //Stings/Chars/Numbers etc.
+                dumpedText = "===>"+arr+"<===("+typeof(arr)+")";
+            }
+            return dumpedText;
+        }
+    </script>
+</html>
