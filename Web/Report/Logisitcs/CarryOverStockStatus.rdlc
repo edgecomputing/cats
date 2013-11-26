@@ -96,7 +96,6 @@
                         </Border>
                       </Style>
                     </Rectangle>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -1050,14 +1049,14 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox22">
+                                      <Textbox Name="UnCommited">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Received.Value-Fields!Dispatched.Value-Fields!Commited.Value</Value>
+                                                <Value>=Fields!UnCommited.Value</Value>
                                                 <Style>
                                                   <FontSize>9pt</FontSize>
                                                   <Format>#,0.00;(#,0.00)</Format>
@@ -1069,7 +1068,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox22</rd:DefaultName>
+                                        <rd:DefaultName>UnCommited</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -1120,14 +1119,14 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox26">
+                                      <Textbox Name="PhysicalStock">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!Received.Value-Fields!Dispatched.Value</Value>
+                                                <Value>=Fields!PhysicalStock.Value</Value>
                                                 <Style>
                                                   <FontSize>9pt</FontSize>
                                                   <Format>#,0.00;(#,0.00)</Format>
@@ -1139,7 +1138,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox26</rd:DefaultName>
+                                        <rd:DefaultName>PhysicalStock</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -1500,14 +1499,14 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox44">
+                                      <Textbox Name="UnCommited1">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Sum(Fields!Received.Value-Fields!Dispatched.Value-Fields!Commited.Value)</Value>
+                                                <Value>=Sum(Fields!UnCommited.Value)</Value>
                                                 <Style>
                                                   <FontSize>8pt</FontSize>
                                                   <FontWeight>Bold</FontWeight>
@@ -1520,7 +1519,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox44</rd:DefaultName>
+                                        <rd:DefaultName>UnCommited1</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -1572,14 +1571,14 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox46">
+                                      <Textbox Name="PhysicalStock1">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Sum(Fields!Received.Value-Fields!Dispatched.Value)</Value>
+                                                <Value>=Sum(Fields!PhysicalStock.Value)</Value>
                                                 <Style>
                                                   <FontSize>8pt</FontSize>
                                                   <FontWeight>Bold</FontWeight>
@@ -1592,7 +1591,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox46</rd:DefaultName>
+                                        <rd:DefaultName>PhysicalStock1</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -1857,6 +1856,34 @@
           <DataField>DonorID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="CarryOver">
+          <DataField>CarryOver</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Received">
+          <DataField>Received</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Expected">
+          <DataField>Expected</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Commited">
+          <DataField>Commited</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="UnCommited">
+          <DataField>UnCommited</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Dispatched">
+          <DataField>Dispatched</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PhysicalStock">
+          <DataField>PhysicalStock</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="Program">
           <DataField>Program</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -1880,26 +1907,6 @@
         <Field Name="Donor">
           <DataField>Donor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CarryOver">
-          <DataField>CarryOver</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Received">
-          <DataField>Received</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Expected">
-          <DataField>Expected</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Commited">
-          <DataField>Commited</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Dispatched">
-          <DataField>Dispatched</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>

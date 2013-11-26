@@ -826,6 +826,20 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnDonorID;
             
+            private global::System.Data.DataColumn columnCarryOver;
+            
+            private global::System.Data.DataColumn columnReceived;
+            
+            private global::System.Data.DataColumn columnExpected;
+            
+            private global::System.Data.DataColumn columnCommited;
+            
+            private global::System.Data.DataColumn columnUnCommited;
+            
+            private global::System.Data.DataColumn columnDispatched;
+            
+            private global::System.Data.DataColumn columnPhysicalStock;
+            
             private global::System.Data.DataColumn columnProgram;
             
             private global::System.Data.DataColumn columnHub;
@@ -837,16 +851,6 @@ namespace Cats {
             private global::System.Data.DataColumn columnProjectCode;
             
             private global::System.Data.DataColumn columnDonor;
-            
-            private global::System.Data.DataColumn columnCarryOver;
-            
-            private global::System.Data.DataColumn columnReceived;
-            
-            private global::System.Data.DataColumn columnExpected;
-            
-            private global::System.Data.DataColumn columnCommited;
-            
-            private global::System.Data.DataColumn columnDispatched;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -931,6 +935,62 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CarryOverColumn {
+                get {
+                    return this.columnCarryOver;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ReceivedColumn {
+                get {
+                    return this.columnReceived;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ExpectedColumn {
+                get {
+                    return this.columnExpected;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CommitedColumn {
+                get {
+                    return this.columnCommited;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn UnCommitedColumn {
+                get {
+                    return this.columnUnCommited;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DispatchedColumn {
+                get {
+                    return this.columnDispatched;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PhysicalStockColumn {
+                get {
+                    return this.columnPhysicalStock;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn ProgramColumn {
                 get {
                     return this.columnProgram;
@@ -979,46 +1039,6 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CarryOverColumn {
-                get {
-                    return this.columnCarryOver;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ReceivedColumn {
-                get {
-                    return this.columnReceived;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ExpectedColumn {
-                get {
-                    return this.columnExpected;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CommitedColumn {
-                get {
-                    return this.columnCommited;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DispatchedColumn {
-                get {
-                    return this.columnDispatched;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1061,17 +1081,19 @@ namespace Cats {
                         int ProjectCodeID, 
                         int ShippingInstructionID, 
                         int DonorID, 
+                        decimal CarryOver, 
+                        decimal Received, 
+                        int Expected, 
+                        decimal Commited, 
+                        decimal UnCommited, 
+                        decimal Dispatched, 
+                        decimal PhysicalStock, 
                         string Program, 
                         string Hub, 
                         string Commodity, 
                         string ShippingInstruction, 
                         string ProjectCode, 
-                        string Donor, 
-                        decimal CarryOver, 
-                        decimal Received, 
-                        decimal Expected, 
-                        decimal Commited, 
-                        decimal Dispatched) {
+                        string Donor) {
                 VWCarryOverRow rowVWCarryOverRow = ((VWCarryOverRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ProgramID,
@@ -1080,17 +1102,19 @@ namespace Cats {
                         ProjectCodeID,
                         ShippingInstructionID,
                         DonorID,
+                        CarryOver,
+                        Received,
+                        Expected,
+                        Commited,
+                        UnCommited,
+                        Dispatched,
+                        PhysicalStock,
                         Program,
                         Hub,
                         Commodity,
                         ShippingInstruction,
                         ProjectCode,
-                        Donor,
-                        CarryOver,
-                        Received,
-                        Expected,
-                        Commited,
-                        Dispatched};
+                        Donor};
                 rowVWCarryOverRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVWCarryOverRow);
                 return rowVWCarryOverRow;
@@ -1119,17 +1143,19 @@ namespace Cats {
                 this.columnProjectCodeID = base.Columns["ProjectCodeID"];
                 this.columnShippingInstructionID = base.Columns["ShippingInstructionID"];
                 this.columnDonorID = base.Columns["DonorID"];
+                this.columnCarryOver = base.Columns["CarryOver"];
+                this.columnReceived = base.Columns["Received"];
+                this.columnExpected = base.Columns["Expected"];
+                this.columnCommited = base.Columns["Commited"];
+                this.columnUnCommited = base.Columns["UnCommited"];
+                this.columnDispatched = base.Columns["Dispatched"];
+                this.columnPhysicalStock = base.Columns["PhysicalStock"];
                 this.columnProgram = base.Columns["Program"];
                 this.columnHub = base.Columns["Hub"];
                 this.columnCommodity = base.Columns["Commodity"];
                 this.columnShippingInstruction = base.Columns["ShippingInstruction"];
                 this.columnProjectCode = base.Columns["ProjectCode"];
                 this.columnDonor = base.Columns["Donor"];
-                this.columnCarryOver = base.Columns["CarryOver"];
-                this.columnReceived = base.Columns["Received"];
-                this.columnExpected = base.Columns["Expected"];
-                this.columnCommited = base.Columns["Commited"];
-                this.columnDispatched = base.Columns["Dispatched"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1147,6 +1173,20 @@ namespace Cats {
                 base.Columns.Add(this.columnShippingInstructionID);
                 this.columnDonorID = new global::System.Data.DataColumn("DonorID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDonorID);
+                this.columnCarryOver = new global::System.Data.DataColumn("CarryOver", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCarryOver);
+                this.columnReceived = new global::System.Data.DataColumn("Received", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReceived);
+                this.columnExpected = new global::System.Data.DataColumn("Expected", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnExpected);
+                this.columnCommited = new global::System.Data.DataColumn("Commited", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCommited);
+                this.columnUnCommited = new global::System.Data.DataColumn("UnCommited", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnCommited);
+                this.columnDispatched = new global::System.Data.DataColumn("Dispatched", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDispatched);
+                this.columnPhysicalStock = new global::System.Data.DataColumn("PhysicalStock", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPhysicalStock);
                 this.columnProgram = new global::System.Data.DataColumn("Program", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnProgram);
                 this.columnHub = new global::System.Data.DataColumn("Hub", typeof(string), null, global::System.Data.MappingType.Element);
@@ -1159,28 +1199,16 @@ namespace Cats {
                 base.Columns.Add(this.columnProjectCode);
                 this.columnDonor = new global::System.Data.DataColumn("Donor", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDonor);
-                this.columnCarryOver = new global::System.Data.DataColumn("CarryOver", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCarryOver);
-                this.columnReceived = new global::System.Data.DataColumn("Received", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnReceived);
-                this.columnExpected = new global::System.Data.DataColumn("Expected", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnExpected);
-                this.columnCommited = new global::System.Data.DataColumn("Commited", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCommited);
-                this.columnDispatched = new global::System.Data.DataColumn("Dispatched", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDispatched);
                 this.columnProgramID.AllowDBNull = false;
+                this.columnExpected.ReadOnly = true;
+                this.columnCommited.AllowDBNull = false;
+                this.columnDispatched.AllowDBNull = false;
                 this.columnProgram.MaxLength = 50;
                 this.columnHub.MaxLength = 50;
                 this.columnCommodity.MaxLength = 50;
                 this.columnShippingInstruction.MaxLength = 50;
                 this.columnProjectCode.MaxLength = 50;
                 this.columnDonor.MaxLength = 50;
-                this.columnCarryOver.ReadOnly = true;
-                this.columnReceived.ReadOnly = true;
-                this.columnExpected.ReadOnly = true;
-                this.columnCommited.ReadOnly = true;
-                this.columnDispatched.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1890,6 +1918,108 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal CarryOver {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableVWCarryOver.CarryOverColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CarryOver\' in table \'VWCarryOver\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVWCarryOver.CarryOverColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal Received {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableVWCarryOver.ReceivedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Received\' in table \'VWCarryOver\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVWCarryOver.ReceivedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int Expected {
+                get {
+                    try {
+                        return ((int)(this[this.tableVWCarryOver.ExpectedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Expected\' in table \'VWCarryOver\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVWCarryOver.ExpectedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal Commited {
+                get {
+                    return ((decimal)(this[this.tableVWCarryOver.CommitedColumn]));
+                }
+                set {
+                    this[this.tableVWCarryOver.CommitedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal UnCommited {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableVWCarryOver.UnCommitedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UnCommited\' in table \'VWCarryOver\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVWCarryOver.UnCommitedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal Dispatched {
+                get {
+                    return ((decimal)(this[this.tableVWCarryOver.DispatchedColumn]));
+                }
+                set {
+                    this[this.tableVWCarryOver.DispatchedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal PhysicalStock {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableVWCarryOver.PhysicalStockColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PhysicalStock\' in table \'VWCarryOver\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVWCarryOver.PhysicalStockColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Program {
                 get {
                     try {
@@ -1986,86 +2116,6 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal CarryOver {
-                get {
-                    try {
-                        return ((decimal)(this[this.tableVWCarryOver.CarryOverColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CarryOver\' in table \'VWCarryOver\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableVWCarryOver.CarryOverColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal Received {
-                get {
-                    try {
-                        return ((decimal)(this[this.tableVWCarryOver.ReceivedColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Received\' in table \'VWCarryOver\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableVWCarryOver.ReceivedColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal Expected {
-                get {
-                    try {
-                        return ((decimal)(this[this.tableVWCarryOver.ExpectedColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Expected\' in table \'VWCarryOver\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableVWCarryOver.ExpectedColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal Commited {
-                get {
-                    try {
-                        return ((decimal)(this[this.tableVWCarryOver.CommitedColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Commited\' in table \'VWCarryOver\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableVWCarryOver.CommitedColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal Dispatched {
-                get {
-                    try {
-                        return ((decimal)(this[this.tableVWCarryOver.DispatchedColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Dispatched\' in table \'VWCarryOver\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableVWCarryOver.DispatchedColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsHubIDNull() {
                 return this.IsNull(this.tableVWCarryOver.HubIDColumn);
             }
@@ -2122,6 +2172,66 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDonorIDNull() {
                 this[this.tableVWCarryOver.DonorIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCarryOverNull() {
+                return this.IsNull(this.tableVWCarryOver.CarryOverColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCarryOverNull() {
+                this[this.tableVWCarryOver.CarryOverColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsReceivedNull() {
+                return this.IsNull(this.tableVWCarryOver.ReceivedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetReceivedNull() {
+                this[this.tableVWCarryOver.ReceivedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsExpectedNull() {
+                return this.IsNull(this.tableVWCarryOver.ExpectedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetExpectedNull() {
+                this[this.tableVWCarryOver.ExpectedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsUnCommitedNull() {
+                return this.IsNull(this.tableVWCarryOver.UnCommitedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetUnCommitedNull() {
+                this[this.tableVWCarryOver.UnCommitedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPhysicalStockNull() {
+                return this.IsNull(this.tableVWCarryOver.PhysicalStockColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPhysicalStockNull() {
+                this[this.tableVWCarryOver.PhysicalStockColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2194,66 +2304,6 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDonorNull() {
                 this[this.tableVWCarryOver.DonorColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCarryOverNull() {
-                return this.IsNull(this.tableVWCarryOver.CarryOverColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCarryOverNull() {
-                this[this.tableVWCarryOver.CarryOverColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsReceivedNull() {
-                return this.IsNull(this.tableVWCarryOver.ReceivedColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetReceivedNull() {
-                this[this.tableVWCarryOver.ReceivedColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsExpectedNull() {
-                return this.IsNull(this.tableVWCarryOver.ExpectedColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetExpectedNull() {
-                this[this.tableVWCarryOver.ExpectedColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCommitedNull() {
-                return this.IsNull(this.tableVWCarryOver.CommitedColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCommitedNull() {
-                this[this.tableVWCarryOver.CommitedColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDispatchedNull() {
-                return this.IsNull(this.tableVWCarryOver.DispatchedColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDispatchedNull() {
-                this[this.tableVWCarryOver.DispatchedColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2641,17 +2691,19 @@ namespace Cats.datasetTableAdapters {
             tableMapping.ColumnMappings.Add("ProjectCodeID", "ProjectCodeID");
             tableMapping.ColumnMappings.Add("ShippingInstructionID", "ShippingInstructionID");
             tableMapping.ColumnMappings.Add("DonorID", "DonorID");
+            tableMapping.ColumnMappings.Add("CarryOver", "CarryOver");
+            tableMapping.ColumnMappings.Add("Received", "Received");
+            tableMapping.ColumnMappings.Add("Expected", "Expected");
+            tableMapping.ColumnMappings.Add("Commited", "Commited");
+            tableMapping.ColumnMappings.Add("UnCommited", "UnCommited");
+            tableMapping.ColumnMappings.Add("Dispatched", "Dispatched");
+            tableMapping.ColumnMappings.Add("PhysicalStock", "PhysicalStock");
             tableMapping.ColumnMappings.Add("Program", "Program");
             tableMapping.ColumnMappings.Add("Hub", "Hub");
             tableMapping.ColumnMappings.Add("Commodity", "Commodity");
             tableMapping.ColumnMappings.Add("ShippingInstruction", "ShippingInstruction");
             tableMapping.ColumnMappings.Add("ProjectCode", "ProjectCode");
             tableMapping.ColumnMappings.Add("Donor", "Donor");
-            tableMapping.ColumnMappings.Add("CarryOver", "CarryOver");
-            tableMapping.ColumnMappings.Add("Received", "Received");
-            tableMapping.ColumnMappings.Add("Expected", "Expected");
-            tableMapping.ColumnMappings.Add("Commited", "Commited");
-            tableMapping.ColumnMappings.Add("Dispatched", "Dispatched");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -2659,7 +2711,7 @@ namespace Cats.datasetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsMasterConnectionString"].ConnectionString;
+            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["LocalizationContext"].ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2669,8 +2721,9 @@ namespace Cats.datasetTableAdapters {
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ProgramID, HubID, CommodityID, ProjectCodeID, ShippingInstructionID, Donor" +
-                "ID, Program, Hub, Commodity, ShippingInstruction, ProjectCode, Donor, CarryOver," +
-                " Received, Expected, Commited, Dispatched FROM dbo.VWCarryOver";
+                "ID, CarryOver, Received, Expected, Commited, UnCommited, Dispatched, PhysicalSto" +
+                "ck, Program, Hub, Commodity, ShippingInstruction, ProjectCode, Donor FROM dbo.VW" +
+                "CarryOver";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         

@@ -45,6 +45,8 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.Commited);
 
             this.Property(t => t.Dispatched);
+            this.Property(t => t.UnCommited);
+            this.Property(t => t.PhysicalStock);
 
             // Table & Column Mappings
             this.ToTable("VWCarryOver");
@@ -65,6 +67,8 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.Expected).HasColumnName("Expected");
             this.Property(t => t.Commited).HasColumnName("Commited");
             this.Property(t => t.Dispatched).HasColumnName("Dispatched");
+            this.Property(t => t.UnCommited).HasColumnName("UnCommited");
+            this.Property(t => t.PhysicalStock).HasColumnName("PhysicalStock");
         }
     }
 }
