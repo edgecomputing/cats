@@ -622,5 +622,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     );
             return Json(cascadeAdminUnit, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult AddCommodity(int requestID )
+        {
+            var addCommodityViewModel = new AddCommodityViewModel();
+            addCommodityViewModel.RegionalRequestID = requestID;
+            return PartialView("_AddCommodity");
+        }
+
+        public ActionResult AddCommodity(AddCommodityViewModel addCommodity)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID);
+                return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
+            }
+            return RedirectToAction("Allocation", new {id = addCommodity.RegionalRequestID});
+        }
     }
 }

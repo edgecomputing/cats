@@ -86,8 +86,8 @@
         
         var regionId = $("#RegionID").val();
         //alert(regionId);
-        $.getJSON("/EarlyWarning/Request/GetCascadedAdminUnits", { RegionID: regionId }, function (data) {
-           
+        $.getJSON('@Url.Action("GetCascadedAdminUnits", "Request")', { RegionID: regionId }, function (data) {
+            
             document.getElementById("WoredaID").disabled = true;
             document.getElementById("FDPID").disabled = true;
             var msg = "";
