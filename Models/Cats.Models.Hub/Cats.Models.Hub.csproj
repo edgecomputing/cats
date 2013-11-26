@@ -66,6 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contact.cs" />
+    <Compile Include="VWCarryOver.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="Dispatch.cs" />
     <Compile Include="DispatchAllocation.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Mapping\CommoditySourceMap.cs" />
     <Compile Include="Mapping\CommodityTypeMap.cs" />
     <Compile Include="Mapping\ContactMap.cs" />
+    <Compile Include="Mapping\VWCarryOverMap.cs" />
     <Compile Include="Mapping\DetailMap.cs" />
     <Compile Include="Mapping\DispatchAllocationMap.cs" />
     <Compile Include="Mapping\DispatchDetailMap.cs" />

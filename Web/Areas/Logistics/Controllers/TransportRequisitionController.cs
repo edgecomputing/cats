@@ -232,27 +232,7 @@ namespace Cats.Areas.Logistics.Controllers
         //    return CreateTransportRequisition(req);
 
         //}
- private void AddNotification(int transportRequisitionID)
-        {
-            if (Request.Url != null)
-            {
-                var notification = new Notification
-                {
-                    Text = "Transport Requisition",
-                    CreatedDate = DateTime.Now.Date,
-                    IsRead = false,
-                    Role = 2,
-                    RecordId = transportRequisitionID,
-                    Url = Request.Url.AbsoluteUri,
-                    TypeOfNotification = "Transport Requisition"
-                };
-
-                _notificationService.AddNotification(notification);
-
-            }
-
-
-        }
+ 
         public ActionResult CreateTransportRequisition(int regionId)
         {
             try

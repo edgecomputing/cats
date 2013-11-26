@@ -54,6 +54,12 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransportBidQuotationRepository.FindBy(predicate);
 
         }
+        public IEnumerable<TransportBidQuotation> Get(System.Linq.Expressions.Expression<Func<TransportBidQuotation, bool>> filter = null,
+                                    Func<IQueryable<TransportBidQuotation>, IOrderedQueryable<TransportBidQuotation>> orderBy = null,
+                                    string includeProperties = "")
+        {
+            return _unitOfWork.TransportBidQuotationRepository.Get(filter, orderBy, includeProperties);
+        }
         //public 
     }
 }

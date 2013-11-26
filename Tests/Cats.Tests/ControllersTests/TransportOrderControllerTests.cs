@@ -71,13 +71,92 @@ namespace Cats.Tests.ControllersTests
                                                                 {
                                                                     TransporterID=1,
                                                                      Name="Trans"
-                                                                }
+                                                                },
+                                                TransportOrderDetails = new List<TransportOrderDetail>
+                                                    {
+                                                        new TransportOrderDetail
+                                                            {
+                                                                TransportOrderID = 5,
+                                                                FdpID = 73,
+                                                                FDP = new FDP
+                                                                    {
+                                                                        FDPID = 1,
+                                                                        Name = "Elidar",
+                                                                        AdminUnitID = 1,
+                                                                        AdminUnit = new AdminUnit
+                                                                            {
+                                                                                AdminUnitID = 1, 
+                                                                                Name = "Woreda", 
+                                                                                AdminUnitTypeID = 2,
+                                                                                AdminUnit2 = new AdminUnit
+                                                                                    {
+                                                                                        AdminUnitID = 2, 
+                                                                                        Name = "Zone", 
+                                                                                        AdminUnitTypeID = 1,
+                                                                                        AdminUnit2 = new AdminUnit
+                                                                                            {
+                                                                                                AdminUnitID = 3, 
+                                                                                                Name = "Region", 
+                                                                                                AdminUnitTypeID = 0
+                                                                                            }
+                                                                                    }
+                                                                            },
+                                                                    },
+                                                                SourceWarehouseID = 2,
+                                                                QuantityQtl = 630,
+                                                                TariffPerQtl = 0,
+                                                                RequisitionID = 2,
+                                                                CommodityID = 1,
+                                                                Hub = new Hub
+                                                                    {
+                                                                        HubID = 1,
+                                                                        Name = "Adama",
+                                                                        HubOwnerID = 1
+                                                                    },
+                                                                ReliefRequisition = new ReliefRequisition
+                                                                    {
+                                                                        CommodityID = 1,
+                                                                        RegionID = 1,
+                                                                        ZoneID = 1,
+                                                                        Round = 9,
+                                                                        RequisitionNo = "REQ-1",
+                                                                        RequestedDate = DateTime.Now,
+                                                                        Status = 6,
+                                                                        ProgramID = 1,
+                                                                        RegionalRequestID = 10,
+                                                                        Month = 0
+                                                                    },
+                                                            },
+                                                        new TransportOrderDetail
+                                                            {
+                                                                TransportOrderID = 5,
+                                                                FdpID = 74,
+                                                                FDP = new FDP
+                                                                    {
+                                                                        FDPID = 1,
+                                                                        Name = "Elidar",
+                                                                        AdminUnitID = 1
+                                                                    },
+                                                                SourceWarehouseID = 2,
+                                                                QuantityQtl = 180,
+                                                                TariffPerQtl = 0,
+                                                                RequisitionID = 2,
+                                                                CommodityID = 1,
+                                                                Hub = new Hub
+                                                                    {
+                                                                        HubID = 1,
+                                                                        Name = "Adama",
+                                                                        HubOwnerID = 1
+                                                                    }
+                                                            },
+                                                    },
                                                 
                                             }
                                     };
             var mockTransportOrderService = new Mock<ITransportOrderService>();
             //mockTransportOrderService.Setup(t => t.GetRequisitionToDispatch()).Returns(requisitionsToDispatch);
             mockTransportOrderService.Setup(t => t.GetAllTransportOrder()).Returns(transportOrders);
+            mockTransportOrderService.Setup(t => t.FindById(It.IsAny<int>())).Returns(transportOrders[0]);
 
             var mockTransportRequisitionService = new Mock<ITransportRequisitionService>();
             mockTransportRequisitionService.Setup(t => t.Get(It.IsAny<Expression<Func<TransportRequisition, bool>>>(), null, It.IsAny<string>())).Returns(requisitionsToDispatch);
@@ -95,12 +174,14 @@ namespace Cats.Tests.ControllersTests
                 UserName = "x",
                 DatePreference = "en"
             });
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
             var TransReqWithoutTransporter = new List<TransReqWithoutTransporter>
                 {
                     new TransReqWithoutTransporter {TransReqWithoutTransporterID = 1,TransportRequisitionDetailID = 1,IsAssigned = false},
@@ -143,6 +224,7 @@ namespace Cats.Tests.ControllersTests
                 };
             var adminUnitService = new Mock<IAdminUnitService>();
             adminUnitService.Setup(m => m.GetAllAdminUnit()).Returns(adminUnit);
+            adminUnitService.Setup(t => t.FindById(It.IsAny<int>())).Returns(adminUnit[0]);
 
             var transporter = new List<Transporter>
                 {
@@ -152,10 +234,84 @@ namespace Cats.Tests.ControllersTests
 
             var transporterService = new Mock<ITransporterService>();
             transporterService.Setup(m => m.GetAllTransporter()).Returns(transporter);
+
+            var transportBidQuotation = new List<TransportBidQuotation>
+                {
+                    new TransportBidQuotation{
+                        TransportBidQuotationID = 1,
+                        BidID = 1,
+                        Bid = new Bid
+                            {
+                                BidID = 1,
+                                StartDate = DateTime.Now,
+                                EndDate = DateTime.Today.AddDays(10),
+                                BidNumber = "123"
+                            },
+                        TransporterID = 1,
+                        Transporter = new Transporter
+                            {
+                                TransporterID = 1,
+                                Name = "waliya"
+                            },
+                        SourceID = 1,
+                        Source = new Hub
+                            {
+                                HubID = 1,
+                                Name = "Adama",
+                                HubOwnerID = 1
+                            },
+                        DestinationID = 1,
+                        Destination = new AdminUnit
+                            {
+                                AdminUnitID = 1, Name = "Adminunit name", AdminUnitTypeID = 2
+                            },
+                        Tariff = 123,
+                        IsWinner = false,
+                        Position = 2,
+                        Remark = "Sample Remark"
+                    },
+                    new TransportBidQuotation{
+                        TransportBidQuotationID = 2,
+                        BidID = 1,
+                        Bid = new Bid
+                            {
+                                BidID = 1,
+                                StartDate = DateTime.Now,
+                                EndDate = DateTime.Today.AddDays(10),
+                                BidNumber = "123"
+                            },
+                        TransporterID = 2,
+                        Transporter = new Transporter
+                            {
+                                TransporterID = 2,
+                                Name = "woyera"
+                            },
+                        SourceID = 1,
+                        Source = new Hub
+                            {
+                                HubID = 1,
+                                Name = "Adama",
+                                HubOwnerID = 1
+                            },
+                        DestinationID = 2,
+                        Destination = new AdminUnit
+                            {
+                                AdminUnitID = 2, Name = "Adminunit name", AdminUnitTypeID = 2
+                            },
+                        Tariff = 123,
+                        IsWinner = false,
+                        Position = 2,
+                        Remark = "Sample remark"
+                    },
+                };
+            var transportBidQuotationService = new Mock<ITransportBidQuotationService>();
+            transportBidQuotationService.Setup(m => m.GetAllTransportBidQuotation()).Returns(transportBidQuotation);
+            transportBidQuotationService.Setup(t => t.Get(It.IsAny<Expression<Func<TransportBidQuotation, bool>>>(), null, It.IsAny<string>())).Returns(transportBidQuotation);
+
             _transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,
                                                                      workflowStatusService.Object, logService.Object, userAccountService.Object,
                                                                      transReqWithoutTransporterService.Object, transporterOrderDetailService.Object,
-                                                                     adminUnitService.Object, transporterService.Object);
+                                                                     adminUnitService.Object, transporterService.Object, transportBidQuotationService.Object);
             //var transporterOrderDetailService = new Mock<ITransportOrderDetailService>();
             //transporterOrderDetailService.Setup(m => m.GetAllTransportOrderDetail()).Returns(transporterOrderDetail);
             //_transportOrderController = new TransportOrderController(mockTransportOrderService.Object, mockTransportRequisitionService.Object,
@@ -176,31 +332,70 @@ namespace Cats.Tests.ControllersTests
         [Test]
         public void CanDisplayTransportRequisitions()
         {
-          
+
             //Act
             var result = _transportOrderController.TransportRequisitions();
 
             //Assert
 
             Assert.IsInstanceOf<ViewResult>(result);
-           
+
         }
         [Test]
         public void ShouldGenerateTransportOrderForSelectedTransportRequisition()
         {
             //Act
+
+
             _transportOrderController.CreateTransportOrder(1);
-            var request =new Kendo.Mvc.UI.DataSourceRequest();
+            var request = new Kendo.Mvc.UI.DataSourceRequest();
             var result = _transportOrderController.TransportOrder_Read(request);
             //Assert
             Assert.IsInstanceOf<JsonResult>(result);
         }
+
+        [Test]
+        public void CanShowSubstituteTransporters()
+        {
+            //Act
+            var request = new Kendo.Mvc.UI.DataSourceRequest();
+            var result = _transportOrderController.SuggestedSubstituteTransporters(request, 1);
+            //Assert
+            Assert.IsInstanceOf<JsonResult>(result);
+        }
+
+        [Test]
+        public void CanChangeTransportersForTransportOrderContract()
+        {
+            //Act
+            var request = new Kendo.Mvc.UI.DataSourceRequest();
+            var substituteTransporterOrder = new List<SubstituteTransporterOrder>
+                {
+                    new SubstituteTransporterOrder
+                        {
+                            WoredaID = 1,
+                            Woreda = "Woreda 1",
+                            TransportersStandingList = new List<TransportBidQuotationViewModel>
+                                {
+                                    new TransportBidQuotationViewModel {TransportBidQuotationID = 1,BidID = 1,TransporterID = 1,SourceID = 1,DestinationID = 55,Tariff=123,IsWinner=false,Position = 2},
+                                    new TransportBidQuotationViewModel {TransportBidQuotationID = 1,BidID = 1,TransporterID = 2,SourceID = 1,DestinationID = 55,Tariff=123,IsWinner=false,Position = 2},
+
+                                }
+                        }
+                };
+
+
+            var result = _transportOrderController.ChangeTransporters(request, substituteTransporterOrder, 1);
+            //Assert
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+        }
         #endregion
-        //[Test]
-        //public void CanShowTransportContract()
-        //{
-        //    var result = _transportOrderController.TransportContract(1);
-        //    Assert.IsNotNull(result);
-        //}
+        [Test]
+        public void CanShowTransportContract()
+        {
+            var result = _transportOrderController.TransportContract(1);
+            Assert.IsNotNull(result);
+        }
+        
     }
 }

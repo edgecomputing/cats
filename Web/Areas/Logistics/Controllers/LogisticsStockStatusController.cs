@@ -149,7 +149,20 @@ namespace Cats.Areas.Logistics.Controllers
            return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
        }
-        
+       public ActionResult CarryOverStock()
+       {
+           ViewBag.SelectHubID = new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
+           ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
+           return View();
+       }
+       public JsonResult CarryOverStock_read([DataSourceRequest]DataSourceRequest request, int hubId = -1, int programId = -1)
+       {
+           var data = (hubId == -1 || programId == -1)
+                          ? new List<VWCarryOver>()
+                          : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId && t.ProgramID == programId);
+           return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+
+       } 
        public ActionResult PrintReceivedCommodity(int hubId = -1,int programId=-1)
        {
            return GetReceivedCommodity(hubId, programId, true, false);
@@ -159,18 +172,38 @@ namespace Cats.Areas.Logistics.Controllers
        {
            return GetReceivedCommodity(hubId, programId, false, false);
        }
-         
-        private ActionResult GetReceivedCommodity(int hubId,int programId,bool isPdf=true,bool isPortrait=true)
-        {
-            var data = (hubId == -1)
-                           ? null
-                           : _stockStatusService.GetReceivedCommodity(t => t.HubID == hubId);
-            var reportPath = Server.MapPath("~/Report/Logisitcs/ReceivedCommodityStatus.rdlc");
-            var dataSources = "dataset";
+       public ActionResult PrintCarryOverStock(int hubId = -1, int programId = -1)
+       {
+           return GetCarryOverStock(hubId, programId, true, false);
+       }
 
-            var result = ReportHelper.PrintReport(reportPath, data, dataSources,isPdf,isPortrait);
-            return File(result.RenderBytes, result.MimeType);
-        }
+       public ActionResult ExportCarryOverStock(int hubId = -1, int programId = -1)
+       {
+           return GetCarryOverStock(hubId, programId, false, false);
+       }
+
+       private ActionResult GetReceivedCommodity(int hubId, int programId, bool isPdf = true, bool isPortrait = true)
+       {
+           var data = (hubId == -1)
+                          ? null
+                          : _stockStatusService.GetReceivedCommodity(t => t.HubID == hubId);
+           var reportPath = Server.MapPath("~/Report/Logisitcs/ReceivedCommodityStatus.rdlc");
+           var dataSources = "dataset";
+
+           var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
+           return File(result.RenderBytes, result.MimeType);
+       }
+       private ActionResult GetCarryOverStock(int hubId, int programId, bool isPdf = true, bool isPortrait = true)
+       {
+           var data = (hubId == -1)
+                          ? null
+                          : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId);
+           var reportPath = Server.MapPath("~/Report/Logisitcs/CarryOverStockStatus.rdlc");
+           var dataSources = "dataset";
+
+           var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
+           return File(result.RenderBytes, result.MimeType);
+       }
 
         public JsonResult GetStockStatusSummaryP(int program, DateTime date) {
             var st = _stockStatusService.GetStockSummaryD(program, date);

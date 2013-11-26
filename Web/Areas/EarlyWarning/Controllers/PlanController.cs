@@ -75,10 +75,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-                plan.Status = (int)PlanStatus.Draft;
-                _hrdPlanService.AddPlan(plan);
-                return RedirectToAction("Index");
-
+                try
+                {
+                    plan.Status = (int)PlanStatus.Draft;
+                    _hrdPlanService.AddPlan(plan);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    
+                   ModelState.AddModelError("Errors","Plan with this name already Existed");
+                   ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
+                   return View(plan);
+                }
+                
             }
             ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
             return View(plan);

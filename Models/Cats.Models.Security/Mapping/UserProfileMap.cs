@@ -40,7 +40,7 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.PreferedWeightMeasurment)
                 .IsRequired()
                 .IsFixedLength()
-                .HasMaxLength(2);
+                .HasMaxLength(3);
 
             this.Property(t => t.MobileNumber)
                 .HasMaxLength(20);

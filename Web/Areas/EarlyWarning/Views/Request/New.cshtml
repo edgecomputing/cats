@@ -22,99 +22,235 @@
 }
 
 @using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
-{
-    <div class="form-horizontal ">
-        <div class="control-group pull-left">
-            <div class="control-label">
-                @Html.LabelFor(model => model.ProgramID, "Program")
-            </div>
-            <div class="controls">
-                @Html.DropDownList("ProgramID", null, new { @id = "cmb_programId" })
-                @Html.ValidationMessageFor(model => model.ProgramID)
-            </div>
+{   
+    
+    <div class="form-horizontal well">
+        @*<div class="controls">
+            <label class="control-label" for="ProgramID">Program</label>
+            @Html.DropDownList("ProgramID", null, new { @id = "cmb_programId",@class="span6"})
+            @Html.ValidationMessageFor(model => model.ProgramID)
+            
         </div>
-        <div class="control-group pull-left" id="Relief_Plan">
-            <div class="control-label">
-                @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
-            </div>
-            <div class="controls">
-                @Html.DropDownList("PlanID", null, new { @id = "cmb_planID" })
-                @Html.ValidationMessageFor(model => model.PlanID)
-            </div>
-        </div>
-        <div class="control-group pull-left" id="PSNP_Plan">
-            <div class="control-label">
-                @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
-            </div>
-            <div class="controls">
-                @Html.DropDownList("Plan", null, new { @id = "cmb_planID" })
-                @Html.ValidationMessageFor(model => model.PlanID)
-            </div>
-        </div>
-            <div class="control-group pull-left">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.RegionID, "Region")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("RegionID", string.Empty)
-                    @Html.ValidationMessageFor(model => model.RegionID)
-                </div>
-           
-           </div>
-      
-            <div class="control-group pull-left" id="div_month">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Month, "Month")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("Month", String.Empty)
-                    @Html.ValidationMessageFor(model => model.Month)
-                </div>
-            </div>
-        
-  
-        <div class="control-group pull-left" id="div_round">
-            <div class="control-label">
-                @Html.LabelFor(model => model.Round, "Round")
-            </div>
-            <div class="controls">
-                @Html.DropDownList("Round", String.Empty)
-                @Html.ValidationMessageFor(model => model.Round)
-            </div>
-        </div>
-        
+        <div class="controls">
+             <label class="control-label" for="ProgramID">Program</label>
+            @Html.DropDownList("ProgramID", null, new { @id = "cmb_programId",@class="span6"})
+            @Html.ValidationMessageFor(model => model.ProgramID)
+            
+        </div>*@
+        <table border="0" style="width: 100px;">
+            <tr>
+                <td style="width: 50%">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ProgramID, "Program")
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("ProgramID", null, new { @id = "cmb_programId" })
+                        @Html.ValidationMessageFor(model => model.ProgramID)
+                    </div>
+                </td>
 
-        <div class="control-group pull-left">
-            <div class="control-label">
-                @Html.LabelFor(model => model.Year,"Year")
-            </div>
-            <div class="controls">
-                @Html.TextBoxFor(model => model.Year)
-                @Html.ValidationMessageFor(model => model.Year)
-               @* <p id="Year_description">As specified on the current HRD</p>*@
-            </div>
-        </div>
 
-        <div class="control-group pull-left" id="div_season">
-            <div class="control-label">
-                @Html.LabelFor(model => model.SeasonID, "Season")
-            </div>
-            <div class="controls">
-                @Html.DropDownList("SeasonID", string.Empty)
-                @Html.ValidationMessageFor(model => model.SeasonID)
-            </div>
+                <td style="width: 50%">
+                    
+                    
+                  
+                    <div>
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.Year, "Year")
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Year)
+                            @Html.ValidationMessageFor(model => model.Year)
+                            @* <p id="Year_description">As specified on the current HRD</p>*@
+                        </div>
+                    </div>
+             
+                </td>
+
+
+            </tr>
+            <tr>
+                <td style="width: 50%">
+                    <div id="Relief_Plan">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("PlanID", null, new { @id = "cmb_planId" })
+                            @Html.ValidationMessageFor(model => model.PlanID)
+                        </div>
+                    </div>
+                    <div id="PSNP_Plan">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("PSNPPlanID", null, new { @id = "cmb_psnpPlanId" })
+                            @Html.ValidationMessageFor(model => model.PlanID)
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 50%">
+                    
+                    
+                    <div id="div_round">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.Round, "Round")
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("Round", String.Empty)
+                            @Html.ValidationMessageFor(model => model.Round)
+                        </div>
+                    </div>
+                    <div id="div_donor">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.DonorID, "Donor")
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("DonorID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.DonorID)
+                        </div>
+                    </div>
+                    
+
+                   
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%">
+                    <div>
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.RegionID, "Region")
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("RegionID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.RegionID)
+                        </div>
+
+                    </div>
+                </td>
+                <td style="width: 50%">
+                     <div id="div_season">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.SeasonID, "Season")
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("SeasonID", string.Empty)
+                            @Html.ValidationMessageFor(model => model.SeasonID)
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%">
+                    <div id="div_month">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.Month, "Month")
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("Month", String.Empty)
+                            @Html.ValidationMessageFor(model => model.Month)
+                        </div>
+                    </div>
+
+                </td>
+
+            </tr>
+            
+        </table>
+    </div>
+@*
+    <div class="control-group pull-left">
+        <div class="control-label">
+            @Html.LabelFor(model => model.ProgramID, "Program")
         </div>
-        <div class="control-group pull-left" id="div_donor">
-            <div class="control-label">
-                @Html.LabelFor(model => model.DonorID, "Donor")
-            </div>
-            <div class="controls">
-                @Html.DropDownList("DonorID", string.Empty)
-                @Html.ValidationMessageFor(model => model.DonorID)
-            </div>
+        <div class="controls">
+            @Html.DropDownList("ProgramID", null, new { @id = "cmb_programId" })
+            @Html.ValidationMessageFor(model => model.ProgramID)
         </div>
     </div>
+    <div class="control-group pull-left" id="Relief_Plan">
+        <div class="control-label">
+            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+        </div>
+        <div class="controls">
+            @Html.DropDownList("PlanID", null, new { @id = "cmb_planId" })
+            @Html.ValidationMessageFor(model => model.PlanID)
+        </div>
+    </div>
+    <div class="control-group pull-left" id="PSNP_Plan">
+        <div class="control-label">
+            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+        </div>
+        <div class="controls">
+            @Html.DropDownList("PSNPPlanID", null, new { @id = "cmb_psnpPlanId" })
+            @Html.ValidationMessageFor(model => model.PlanID)
+        </div>
+    </div>
+    <div class="control-group pull-left">
+        <div class="control-label">
+            @Html.LabelFor(model => model.RegionID, "Region")
+        </div>
+        <div class="controls">
+            @Html.DropDownList("RegionID", string.Empty)
+            @Html.ValidationMessageFor(model => model.RegionID)
+        </div>
+
+    </div>
+      
+    <div class="control-group pull-left" id="div_month">
+        <div class="control-label">
+            @Html.LabelFor(model => model.Month, "Month")
+        </div>
+        <div class="controls">
+            @Html.DropDownList("Month", String.Empty)
+            @Html.ValidationMessageFor(model => model.Month)
+        </div>
+    </div>
+        
   
+    <div class="control-group pull-left" id="div_round">
+        <div class="control-label">
+            @Html.LabelFor(model => model.Round, "Round")
+        </div>
+        <div class="controls">
+            @Html.DropDownList("Round", String.Empty)
+            @Html.ValidationMessageFor(model => model.Round)
+        </div>
+    </div>
+        
+
+    <div class="control-group pull-left">
+        <div class="control-label">
+            @Html.LabelFor(model => model.Year, "Year")
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Year)
+            @Html.ValidationMessageFor(model => model.Year)
+           
+        </div>
+    </div>
+
+    <div class="control-group pull-left" id="div_season">
+        <div class="control-label">
+            @Html.LabelFor(model => model.SeasonID, "Season")
+        </div>
+        <div class="controls">
+            @Html.DropDownList("SeasonID", string.Empty)
+            @Html.ValidationMessageFor(model => model.SeasonID)
+        </div>
+    </div>
+    <div class="control-group pull-left" id="div_donor">
+        <div class="control-label">
+            @Html.LabelFor(model => model.DonorID, "Donor")
+        </div>
+        <div class="controls">
+            @Html.DropDownList("DonorID", string.Empty)
+            @Html.ValidationMessageFor(model => model.DonorID)
+        </div>
+    </div>
+   *@
 }
 <script>
 
@@ -130,10 +266,10 @@
             var div_round = $("#div_round");
             var Relief_Plan = $("#Relief_Plan");
             var PSNP_Plan = $("#PSNP_Plan");
-           
-            
+
+
             //var div_desc = $("#Year_description");
-            
+
             var prog = this.options[this.selectedIndex].innerHTML;
 
             if (prog == "Relief") {

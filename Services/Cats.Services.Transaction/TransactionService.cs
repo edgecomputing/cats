@@ -7,6 +7,7 @@ using Cats.Models;
 
 namespace Cats.Services.Transaction
 {
+   
     public class TransactionService : ITransactionService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -185,7 +186,71 @@ namespace Cats.Services.Transaction
             return entries;
             
         }
+        public List<Models.Transaction> PostSIAllocation(int requisitionID)
+        {
+            List<Models.Transaction> result = new List<Models.Transaction>();
+            var allocationDetails = _unitOfWork.SIPCAllocationRepository.Get(t => t.ReliefRequisitionDetail.RequisitionID == requisitionID);
+            if (allocationDetails == null) return result;
 
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
+
+            //ProjectCodeID	ShippingInstructionID ProgramID QuantityInMT	QuantityInUnit	UnitID	TransactionDate	RegionID	Month	Round	DonorID	CommoditySourceID	GiftTypeID	FDP
+
+
+
+            foreach (var allocationDetail in allocationDetails)
+            {
+                var transaction = new Models.Transaction();
+                transaction.TransactionID = Guid.NewGuid();
+                transaction.TransactionGroupID = transactionGroup;
+                transaction.TransactionDate = transactionDate;
+                transaction.UnitID = 1;
+
+                transaction.QuantityInMT = -allocationDetail.AllocatedAmount;
+                transaction.QuantityInUnit = -allocationDetail.AllocatedAmount;
+                transaction.LedgerID = Models.Ledger.Constants.COMMITED_TO_FDP;
+                transaction.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
+                transaction.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
+                transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
+                transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
+
+                if (allocationDetail.AllocationType == "SI")
+                {
+                    transaction.ShippingInstructionID = allocationDetail.Code;
+                }
+                else
+                {
+                    transaction.ProjectCodeID = allocationDetail.Code;
+                }
+                _unitOfWork.TransactionRepository.Add(transaction);
+               // result.Add(transaction);
+
+                /*post Debit-Pledged To FDP*/
+                var transaction2 = new Models.Transaction();
+                transaction2.TransactionID = Guid.NewGuid();
+                transaction2.TransactionGroupID = transactionGroup;
+                transaction2.TransactionDate = transactionDate;
+                transaction2.UnitID = 1;
+
+                transaction2.QuantityInMT = allocationDetail.AllocatedAmount;
+                transaction2.QuantityInUnit = allocationDetail.AllocatedAmount;
+                transaction2.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
+                transaction2.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
+                transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
+                transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
+                transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
+                _unitOfWork.TransactionRepository.Add(transaction2);
+
+                //result.Add(transaction);
+
+            }
+            ReliefRequisition requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
+            requisition.Status = 4;
+           _unitOfWork.Save();
+              return result;
+        }
 
 
         public bool PostGiftCertificate(int giftCertificateId)

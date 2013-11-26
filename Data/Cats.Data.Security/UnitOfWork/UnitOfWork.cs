@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using Cats.Models.Security;
 using System.Data.Entity;
@@ -14,7 +15,7 @@ namespace Cats.Data.Security
         #region Ctors and private vars
 
         private readonly SecurityContext _context;
-              
+
         public UnitOfWork()
         {
             this._context = new SecurityContext();
@@ -26,7 +27,7 @@ namespace Cats.Data.Security
         private IGenericRepository<UserInfo> userInfoRepo;
         private IGenericRepository<UserProfile> userProfileRepo;
         private IGenericRepository<ForgetPasswordRequest> forgetPasswordRequestRepo;
-        private IGenericRepository<Setting> settingRepo; 
+        private IGenericRepository<Setting> settingRepo;
 
         public IGenericRepository<UserInfo> UserInfoRepository
         {
@@ -46,14 +47,23 @@ namespace Cats.Data.Security
         {
             get { return settingRepo ?? (this.settingRepo = new GenericRepository<Setting>(_context)); }
         }
-    
+
         #endregion
 
         #region UnitOfWork CRUD method(s)
 
         public void Save()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbEntityValidationException exception)
+            {
+
+
+            }
+
         }
 
         private bool disposed = false;
