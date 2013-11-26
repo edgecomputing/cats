@@ -214,9 +214,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult RequestFromPlan(HRDPSNPPlanInfo psnphrdPlanInfo)
         {
-            CretaeRegionalRequest(psnphrdPlanInfo);
+            RegionalRequest req=CretaeRegionalRequest(psnphrdPlanInfo);
+            var model = getRequestDetai(req.RegionalRequestID);
             ViewBag.message = "Request Created";
-            return RedirectToAction("Index");
+            return View("Details",model);
         }
 
         #region Regional Request Detail
@@ -237,6 +238,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewData["AvailableCommodities"] = _commonService.GetCommodities();
 
             return View(requestModelView);
+        }
+        public object getRequestDetai(int id)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            //  datePref = "gc";
+            var request =
+               _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
+
+            if (request == null)
+            {
+                return HttpNotFound();
+            }
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
+
+            var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
+            var dt = RequestViewModelBinder.TransposeData(requestDetails);
+            ViewData["Request_main_data"] = requestModelView;
+            return dt;
         }
         public ActionResult Details(int id)
         {
