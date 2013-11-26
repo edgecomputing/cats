@@ -31,19 +31,115 @@
         <a class="btn toolbar-btn " href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })" data-buttontype="">Approve</a>
     }
     
-   @* @if(modelRequest.Program != "PSNP"){
+@* @if(modelRequest.Program != "PSNP"){
         <a class="btn toolbar-btn " href="@Url.Action("ReconcileRequest", "Request", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID})" data-buttontype="">Reconcile</a>
     }*@
 
-     @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
     {
         <a class="btn toolbar-btn "   href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype=""><i class="icon-plus"></i>Requisiton</a>
     }
-
-
 }
 
 <h4 class="page-header">Regional Request Allocaiton</h4>
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.ReferenceNumber)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.ReferenceNumber, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Program)
+                    @*@Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Program, new { Disabled = true })
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Region)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Region, new { Disabled = true })
+                </div>
+            </div>
+        </div> 
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.MonthName)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.MonthName, new { Disabled = true })
+                </div>
+            </div>
+        </div> 
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.RequestDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.RequestDate, new { Disabled = true, @class = "cats-date-pref" })
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Year)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Year, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Ration)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Ration)
+                    <div>
+                        <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">View Ration Detail
+                       </a> | <a href="@Url.Action("Edit", "Request", new { id = modelRequest.RegionalRequestID })">Change
+                       </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Status)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Status, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
 <div class="">
     <div>
         <div class="form-horizontal ">
@@ -51,48 +147,47 @@
                 <tr>
                     <td>
 
-                       
-                            <b>@Translator.Translate("Reference Number:")</b>
+
+                        <b>@Translator.Translate("Reference Number:")</b>
                         @modelRequest.ReferenceNumber
 
 
-                    
-                      
-                            <b >@Translator.Translate("Region")
-                                :</b>
+
+
+                        <b>@Translator.Translate("Region")
+                            :</b>
                         @modelRequest.Region
 
-                    
-                       
-                            <b>@Translator.Translate("Month")
-                                :</b>
-                              @modelRequest.MonthName
-                            <b>@Translator.Translate("Year"):</b> @modelRequest.Year
-                        
+
+
+                        <b>@Translator.Translate("Month")
+                            :</b>
+                        @modelRequest.MonthName
+                        <b>@Translator.Translate("Year"):</b> @modelRequest.Year
+
                     </td>
                 </tr>
                 <tr>
 
                     <td>
-                        
-                            <b class="cats-date-pref">@Html.Translate("Request Date")</b> 
-                                :
+
+                        <b class="cats-date-pref">@Html.Translate("Request Date")</b>
+                        :
                             @modelRequest.RequestDate
-                        
-                            <b>Program
+
+                        <b>Program
                                 :</b>
-                            @modelRequest.Program
-                       
-                            <b>Ration:</b>
-                            <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">@modelRequest.Ration</a>
-                       
-                            <b>Status
+                        @modelRequest.Program
+
+                        <b>Ration:</b>
+                        <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">@modelRequest.Ration</a>
+
+                        <b>Status
                                    :</b>
-                            @modelRequest.Status
+                        @modelRequest.Status
                         </p>
                     </td>
                 </tr>
-            
             </table>
 
         </div>
@@ -115,13 +210,13 @@
         {
             if (column.DataType == typeof(decimal))
             {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}").HeaderHtmlAttributes(new {@class="cats-unit-pref-grid"});
-                
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+
             }
-            else if(column.DataType==typeof(int))
+            else if (column.DataType == typeof(int))
             {
                 columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
-                
+
             }
             else
             {
@@ -133,7 +228,7 @@
     .Sortable()
     .Scrollable()
     .Groupable()
-    
+
 )
 
 

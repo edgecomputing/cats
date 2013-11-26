@@ -203,7 +203,5 @@ namespace Cats.Services.EarlyWarning
             var notifications = _IUnitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false);
             return notifications;
         }
-
-
     }
 }
