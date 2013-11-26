@@ -1,10 +1,32 @@
-﻿<ul class="nav nav-list">
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+<ul class="nav nav-list">
     <li class="nav-header">HRD Management</li>
-    <li><a href="@Url.Action("Index", "HRD")"><i class="icon-inbox"></i> HRD Lists </a></li>
-    <li><a href="@Url.Action("ApprovedHRDs","HRD")"><i class="icon-inbox"></i> Approved HRD</a></li>
-    <li><a href="@Url.Action("CurrentHRDs","HRD")"><i class="icon-inbox"></i> Current HRD</a></li>
-     <li><a href="@Url.Action("Compare", "HRD")"><i class="icon-inbox"></i> Compare HRD </a></li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Index", "HRD"),
+                            EarlyWarningCheckAccess.Operation.View_HRD_list, "<i class=\"icon-inbox\"></i> HRD Lists")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("ApprovedHRDs", "HRD"),
+                            EarlyWarningCheckAccess.Operation.View_Approved_HRD, "<i class=\"icon-inbox\"></i> Approved HRD")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("CurrentHRDs", "HRD"),
+                            EarlyWarningCheckAccess.Operation.View_Current_HRD, "<i class=\"icon-inbox\"></i> Current HRD")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Compare", "HRD"),
+                            EarlyWarningCheckAccess.Operation.View_Current_HRD, "<i class=\"icon-inbox\"></i> Compare HRD ")
+    </li>
    
      <li class="divider"></li>
-    <li><a href="@Url.Action("Index","Contribution")"><i class="icon-plus"></i> Donors Contribution</a></li>  
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Index", "HRD"),
+                            EarlyWarningCheckAccess.Operation.View_Current_HRD, "<i class=\"icon-plus\"></i> Donors Contribution")
+    </li>  
 </ul>

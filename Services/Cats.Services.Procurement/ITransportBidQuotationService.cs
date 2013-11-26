@@ -19,5 +19,10 @@ namespace Cats.Services.Procurement
         TransportBidQuotation FindById(int id);
         List<TransportBidQuotation> GetAllTransportBidQuotation();
         List<TransportBidQuotation> FindBy(Expression<Func<TransportBidQuotation, bool>> predicate);
+
+        IEnumerable<TransportBidQuotation> Get(
+            System.Linq.Expressions.Expression<Func<TransportBidQuotation, bool>> filter = null,
+            Func<IQueryable<TransportBidQuotation>, IOrderedQueryable<TransportBidQuotation>> orderBy = null,
+            string includeProperties = "");
     }
 }
