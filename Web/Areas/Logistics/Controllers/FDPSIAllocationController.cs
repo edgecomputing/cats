@@ -122,6 +122,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.regionId = regionId;
             ViewBag.RequisitionID = RequisitionID;
             ViewBag.Hubs = _hubService.GetAllHub();
+            ViewBag.AllocatedHub = _hubAllocationService.GetAllocatedHubId(RequisitionID);
           //  ViewBag.Allocations = _allocationService.GetAll();
             return View();
         }

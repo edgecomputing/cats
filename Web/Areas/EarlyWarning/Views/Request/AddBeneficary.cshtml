@@ -9,16 +9,27 @@
 
 @using (Html.BeginForm("AddBeneficary", "Request", FormMethod.Post, new { @class = "modal-form"}))
 {
-    //@Html.HiddenFor(m=>m.RegionalRequest.RegionID)
+    @Html.HiddenFor(m=>m.RegionID)
     @Html.HiddenFor(m=>m.RegionalRequestID)
     <div class="modal-body">
         
         <div class="well form-horizontal">
+            @* <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Region"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionID",String.Empty)
+                    @Html.ValidationMessageFor(m => m.RegionID)
+               
+                </div>
+
+            </div>*@
             <div class="control-group">
                 <div class="control-label">
                     @Html.Label(Translator.Translate("Zone"))
                 </div>
-                <div class="controls">
+                <div class="controls" id="div_zone">
                     @Html.DropDownList("ZoneID",String.Empty)
                     @Html.ValidationMessageFor(m => m.ZoneID)
                
@@ -29,8 +40,8 @@
                 <div class="control-label">
                     @Html.LabelFor(m => m.WoredaID,Translator.Translate("Woreda"))
                 </div>
-                <div class="controls">
-                    @Html.DropDownList("WoredaID", String.Empty)
+                <div class="controls" id="div_woreda" >
+                    @Html.DropDownList( "Woreda",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})
                     @Html.ValidationMessageFor(m => m.WoredaID)
                 </div>
 
@@ -40,8 +51,8 @@
             <div class="control-label">
                 @Html.LabelFor(m => m.FDPID, Translator.Translate("FDP"))
             </div>
-            <div class="controls">
-                @Html.DropDownList("FDPID", String.Empty)
+            <div class="controls" id="div_fdp">
+                @Html.DropDownList( "FDP",ViewBag.FDPID as SelectList, new {@id="FDPID"})
                 @Html.ValidationMessageFor(m => m.FDPID)
             </div>
         </div>
@@ -64,4 +75,79 @@
     </div>
 
 }
+
+
+<script>
+
+    var admin_region_hash = {};
+    var admin_zone_hash = {};
+    
+    $(function () {
+        
+        var regionId = $("#RegionID").val();
+        //alert(regionId);
+        $.getJSON("/EarlyWarning/Request/GetCascadedAdminUnits", { RegionID: regionId }, function (data) {
+           
+            document.getElementById("WoredaID").disabled = true;
+            document.getElementById("FDPID").disabled = true;
+            var msg = "";
+            
+            for (var i in data) {
+                msg += "\n" + data[i].ZoneName;
+                var key = data[i].ZoneID;
+                admin_region_hash[key] = data[i];
+
+                var count = data[i].Woredas.length;
+                
+                for (var j=0; j<count;j++){
+                    var keyz = data[i].Woredas[j].WoredaID;
+                    admin_zone_hash[keyz] = data[i].Woredas[j].fdps;
+                }
+            }
+    
+        });
+
+        $("#ZoneID").change(function() {
+            var zoneId = $("#ZoneID").val();
+            var zone = admin_region_hash[zoneId];
+            var woredas = zone.Woredas;
+
+            //var msg = "";
+            var htm = "<select name='WoredaID' id ='WoredaID' > ";
+            for (var z in woredas) {
+                //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
+                htm += "<option value='" + woredas[z].WoredaID + "'>" + woredas[z].WoredaName + "</option>";
+                //msg += "\n" + zones[z].ZoneName;
+            }
+
+            htm += "</select>";
+            $("#div_woreda").html(htm);
+            
+            $("#WoredaID").change(function () {
+                //var l = $("#WoredaID").val();
+                //alert(l);
+                popoulateFdps();
+            });
+        });
+
+        function popoulateFdps() {
+            var woredaId = $("#WoredaID").val();
+            //alert(woredaId);
+            var fdps = admin_zone_hash[woredaId];
+            var s = "<select name ='FDPID' id='FDPID' >";
+            for (w in fdps) {
+                s += "<option value='" + fdps[w].FDPID + "'>" + fdps[w].FDPName + "</option>";
+            }
+            s += "</select>";
+            $("#div_fdp").html(s);
+        }
+        
+        $("#WoredaID").change(function () {
+            popoulateFdps();
+        });
+
+  
+        
+    });
+</script>
 

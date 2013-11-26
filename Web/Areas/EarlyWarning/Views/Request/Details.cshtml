@@ -34,7 +34,7 @@
 
 
         <ul class="dropdown-menu">
-            <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })">ADD FDP </a></li>
+            <li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>
              @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
              {
          
@@ -75,6 +75,26 @@
 
 
 }
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddFDP').click(function () {
+
+           // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
 
 <h4 class="page-header">Regional Request Allocaiton</h4>
 <div class="">
@@ -122,7 +142,7 @@
                             <b>Status
                                    :</b>
                             @modelRequest.Status
-                        </p>
+
                     </td>
                 </tr>
             
@@ -171,21 +191,3 @@
     
 )
 
-<script type="text/javascript">
-    $(function () {
-
-        //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
-
-        $('#btnAddFDP').click(function () {
-            $('#dialogContent').load(this.href, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
-            return false;
-        });
-    });
-</script>
