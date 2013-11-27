@@ -2,6 +2,7 @@
 @model RegionalRequestViewModel
 @using Cats.Models
 @using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -9,8 +10,54 @@
 }
 
 @section Toolbar    {
-     <a class="btn icon-reply" href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
+   
+         <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+        <ul class="dropdown-menu">
+             <li><a id="btnAddCommodity"  href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })" >ADD Commodity </a></li>
+               <li><a   href="#" >Return </a></li> 
+        
+        </ul>
+
+    </div>
+     <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
+               
+          
 }
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddCommodity').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
 <fieldset>
     <legend>
         Regional Request Resource Allocation
@@ -21,7 +68,7 @@
       <tr>
           <td style="width: 40%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.ReferenceNumber)
+                  @Html.LabelFor(model => model.ReferenceNumber,Translator.Translate("Reference Number:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.ReferenceNumber,new {disabled=true})
@@ -29,39 +76,17 @@
           </td>
           <td style="width: 40%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.Program)
+                  @Html.LabelFor(model => model.Program,Translator.Translate("Program:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.Program,new {disabled=true})
               </div>
           </td>
-          <td class="span8" style="float: right;width:10%">
-              <div style="float: right; margin-right: 200px;width: 200px">
-    <div class="btn-group">
-        <button class="btn">Action</button>
-        @{
-            
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-           
-        }
-        <ul class="dropdown-menu">
-            <li><a  href="#" >Save </a></li>
-             <li><a  href="#" >Add Commodity </a></li>
-               <li><a   href="#" >Return </a></li> 
-        
-        </ul>
-
-    </div>
-</div>
-                
-          </td>
       </tr>
       <tr>
           <td style="width: 50%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.Region)
+                  @Html.LabelFor(model => model.Region,Translator.Translate("Region:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.Region,new {disabled=true})
@@ -69,7 +94,7 @@
           </td>
           <td style="width: 50%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.MonthName)
+                  @Html.LabelFor(model => model.MonthName,Translator.Translate("Month:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.MonthName,new {disabled=true})
@@ -79,7 +104,7 @@
       <tr>
           <td style="width: 50%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.RequestDate)
+                  @Html.LabelFor(model => model.RequestDate,Translator.Translate("Date of Request:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.RequestDate,new {disabled=true})
@@ -87,7 +112,7 @@
           </td>
           <td style="width: 50%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.Year)
+                  @Html.LabelFor(model => model.Year,Translator.Translate("Year:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.Year,new {disabled=true})
@@ -97,7 +122,7 @@
        <tr>
           <td style="width: 50%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.Ration)
+                  @Html.LabelFor(model => model.Ration,Translator.Translate("Ration:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.Ration,new {disabled=true})
@@ -105,7 +130,7 @@
           </td>
           <td style="width: 50%">
               <div class="control-label">
-                  @Html.LabelFor(model => model.Status)
+                  @Html.LabelFor(model => model.Status,Translator.Translate("Status:"))
               </div>
               <div class="controls">
                   @Html.TextBoxFor(model=>model.Status,new {disabled=true})
@@ -118,9 +143,10 @@
 @section LeftBar
 {
     @Html.Partial("_RegionalRequestLeftBar")
-   
+    
 }
-<h5 class="well-small">Commodities Allocation</h5>
+
+@*<h5 class="well-small">Commodities Allocation</h5>
 <div style="width: 400px">
 @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
       .Name("commodityGrid")
@@ -150,50 +176,64 @@
             .Update(update => update.Action("Commodity_Update", "Request"))
             .Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID })))
       )
-</div>
+</div>*@
 
+<table class="borderless">
+    <td>
+        <div style="float: left;">
+            @Html.Partial("_commdityList",Model) 
+        </div>
+    </td>
+    <td>
+       
+    <div>
+    
+  
+   
+        <h4>Number of Beneficiaries</h4>
 
-<h5 class="well-small">Number of Beneficiaries</h5>
+        @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
+              .Name("grid")
+              .Columns(columns =>
+                  {
+                      columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
+                      columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                      columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                      columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                      columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
+                      columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
+                      columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
 
-@(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
-      .Name("grid")
-      .Columns(columns =>
-      {
-          columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-          columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-          columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-          columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-          columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
-          columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
-          columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
-
-      })
-      .ToolBar(toolbar => toolbar.Save())
-      .Editable(editable => editable.Mode(GridEditMode.InCell))
-        //.Events(events => events.DataBound("onDataBound"))
-      .Scrollable()
-      .Selectable(t => t.Mode(GridSelectionMode.Single))
-      .Navigatable()
-      .HtmlAttributes(new { style = "height:430px;" })
-      .Events(events => events.DataBound("onDataBound"))
-      .DataSource(dataSource => dataSource
-                                    .Ajax()
+                  })
+              .ToolBar(toolbar => toolbar.Save())
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              //.Events(events => events.DataBound("onDataBound"))
+              .Scrollable()
+              .Selectable(t => t.Mode(GridSelectionMode.Single))
+              .Navigatable()
+              .HtmlAttributes(new { style = "height:430px;" })
+              .Events(events => events.DataBound("onDataBound"))
+              .DataSource(dataSource => dataSource
+                                            .Ajax()
                                    
-                                    .Model(model =>
-                                               {
-                                                   model.Id(p => p.RegionalRequestDetailID);
-                                                   model.Field(detail => detail.FDP).Editable(false);
-                                                   model.Field(detail => detail.Zone).Editable(false);
-                                                   model.Field(detail => detail.Woreda).Editable(false);
-                                                   model.Field(detail => detail.PlannedBeneficiaries).Editable(false);
-                                               })
-                                    .Create(update => update.Action("Allocation_Create", "Request"))
+                                            .Model(model =>
+                                                {
+                                                    model.Id(p => p.RegionalRequestDetailID);
+                                                    model.Field(detail => detail.FDP).Editable(false);
+                                                    model.Field(detail => detail.Zone).Editable(false);
+                                                    model.Field(detail => detail.Woreda).Editable(false);
+                                                    model.Field(detail => detail.PlannedBeneficiaries).Editable(false);
+                                                })
+                                            .Create(update => update.Action("Allocation_Create", "Request"))
 
-                                    .Read(read => read.Action("Allocation_Read", "Request", new { id = ViewBag.RequestID }))
-                                    .Update(update => update.Action("Allocation_Update", "Request"))
-                                    .Destroy(update => update.Action("Allocation_Destroy", "Request"))
-      ))
-<script type="text/javascript">
+                                            .Read(read => read.Action("Allocation_Read", "Request", new { id = ViewBag.RequestID }))
+                                            .Update(update => update.Action("Allocation_Update", "Request"))
+                                            .Destroy(update => update.Action("Allocation_Destroy", "Request"))
+              ))
+        </td>
+    </div>
+</table>        
+ <script type="text/javascript">
 
     function onDataBound(e) {
         //alert("");

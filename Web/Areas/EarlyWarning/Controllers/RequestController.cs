@@ -415,7 +415,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
             var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
 
-            var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID, RequestDetailCommodityID = itm.RequestCommodityID });
+            var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID,Commodity = itm.Commodity.Name, RequestDetailCommodityID = itm.RequestCommodityID });
             ViewData["AvailableCommodities"] = _commonService.GetCommodities();
 
             return Json(commodities.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -642,13 +642,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     );
             return Json(cascadeAdminUnit, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult AddCommodity(int requestID )
+        public ActionResult AddCommodity(int id )
         {
+            var request = _regionalRequestService.FindById(id);
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
             var addCommodityViewModel = new AddCommodityViewModel();
-            addCommodityViewModel.RegionalRequestID = requestID;
-            return PartialView("_AddCommodity");
+            addCommodityViewModel.RegionalRequestID = request.RegionalRequestID;
+            return PartialView(addCommodityViewModel);
         }
 
+        [HttpPost]
         public ActionResult AddCommodity(AddCommodityViewModel addCommodity)
         {
             if (ModelState.IsValid)

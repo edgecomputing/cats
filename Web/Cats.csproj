@@ -1510,7 +1510,8 @@
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Request\_AddCommodity.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\AddCommodity.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
