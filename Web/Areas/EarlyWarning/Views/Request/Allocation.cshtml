@@ -11,7 +11,7 @@
 
 @section Toolbar    {
    
-         <div class="btn-group" style="margin-right:8px;">
+    <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>
         @{
             
@@ -22,12 +22,13 @@
            
         }
         <ul class="dropdown-menu">
+            <li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID })" >ADD FDP </a></li>
             <li><a id="btnAddCommodity"  href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })" >ADD Commodity </a></li>
-               <li><a   href="#" >Return </a></li> 
-        
+            <li><a   href="#" >Return </a></li> 
         </ul>
 
     </div>
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
      <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
                
           
@@ -40,6 +41,19 @@
         $.ajaxSetup({ cache: false });
 
         $('#btnAddCommodity').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+        
+        $('#btnAddFDP').click(function () {
 
             // alert("");
             $('#dialogContent').load(this.href, function () {
@@ -221,7 +235,7 @@
                       columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
 
                   })
-              .ToolBar(toolbar => toolbar.Save())
+              //.ToolBar(toolbar => toolbar.Save())
               .Editable(editable => editable.Mode(GridEditMode.InCell))
               //.Events(events => events.DataBound("onDataBound"))
               .Scrollable()
@@ -310,5 +324,9 @@
         
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("DeleteCommodity", "Request")" + "?commodityID=" + dataItem.CommodityID + "&requestID=" + requestId;         
+    }
+    
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
     }
 </script>

@@ -587,7 +587,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 try
                 {
                     var detail = GetRequestDetail(requestDetail);
-                    _regionalRequestDetailService.AddRegionalRequestDetail(detail);
+                    _regionalRequestDetailService.AddCommodityFdp(detail);
                     return RedirectToAction("Details", new { id = requestDetail.RegionalRequestID });
                 }
                 catch (Exception ex)
@@ -668,6 +668,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 _regionalRequestDetailService.DeleteRequestDetailCommodity((int) commodityID, requestID);
                 return RedirectToAction("Allocation", new {id = requestID});
+            }
+            return RedirectToAction("Allocation", new { id = requestID });
+        }
+        public ActionResult ChangeRation(int requestID,int rationID )
+        {
+            if(rationID!=null)
+            {
+                var request = _regionalRequestService.FindById(requestID);
+                request.RationID = rationID;
+                _regionalRequestService.EditRegionalRequest(request);
+                return RedirectToAction("Allocation", new { id = requestID });
             }
             return RedirectToAction("Allocation", new { id = requestID });
         }
