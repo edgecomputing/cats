@@ -14,17 +14,6 @@
     <div class="modal-body">
         
         <div class="well form-horizontal">
-            @* <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Region"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("RegionID",String.Empty)
-                    @Html.ValidationMessageFor(m => m.RegionID)
-               
-                </div>
-
-            </div>*@
             <div class="control-group">
                 <div class="control-label">
                     @Html.Label(Translator.Translate("Zone"))
@@ -86,8 +75,8 @@
         
         var regionId = $("#RegionID").val();
         //alert(regionId);
-        $.getJSON("/EarlyWarning/Request/GetCascadedAdminUnits", { RegionID: regionId }, function (data) {
-           
+        $.getJSON('@Url.Action("GetCascadedAdminUnits", "Request")', { RegionID: regionId }, function (data) {
+            
             document.getElementById("WoredaID").disabled = true;
             document.getElementById("FDPID").disabled = true;
             var msg = "";

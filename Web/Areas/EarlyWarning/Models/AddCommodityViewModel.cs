@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Cats.Areas.EarlyWarning.Models
 {
-    public class RequestDetailCommodityViewModel
+    public class AddCommodityViewModel
     {
         public int CommodityID { get; set; }
-        public string Commodity { get; set; }
-        public int RequestDetailCommodityID { get; set; }
+        public int RegionalRequestDetailID { get; set; }
+        public int RegionalRequestID { get; set; }
     }
 }
