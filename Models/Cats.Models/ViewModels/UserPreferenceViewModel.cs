@@ -48,7 +48,7 @@ namespace Cats.Models.ViewModels
                                         };
             WeightPerferences = new List<LookupViewModel>
                                     {
-                                        new LookupViewModel() {Name = "Quintals", StringID = "qn"},
+                                        new LookupViewModel() {Name = "Quintals", StringID = "Qtl"},
                                         new LookupViewModel() {Name = "Metric Tonne", StringID = "mt"}
                                     };
             ThemePreferences = new List<LookupViewModel>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Cats.Services.Hub;
-using Cats.Models.Hub.ViewModels;
+using Cats.Models.Hubs.ViewModels;
 using Cats.Web.Hub.Controllers.Reports;
 using Moq;
 using NUnit.Framework;

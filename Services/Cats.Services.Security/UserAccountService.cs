@@ -207,6 +207,7 @@ namespace Cats.Services.Security
                     return true;
                 }
             }
+             
             catch (Exception e)
             {
                 //throw new ApplicationException("Error changing password", e);

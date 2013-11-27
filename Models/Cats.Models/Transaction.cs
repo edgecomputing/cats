@@ -31,6 +31,8 @@ namespace Cats.Models
         public Nullable<int> DonorID { get; set; }
         public Nullable<int> CommoditySourceID { get; set; }
         public Nullable<int> GiftTypeID { get; set; }
+        public Nullable<int> FDPID { get; set; }
+
 //        public virtual Account Account { get; set; }
         //public virtual Commodity Commodity { get; set; }
         //public virtual Commodity Commodity1 { get; set; }

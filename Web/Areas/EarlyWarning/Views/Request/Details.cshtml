@@ -20,92 +20,162 @@
     var unit = user.Profile.PreferedWeightMeasurment;
 }
 
+<div style="float: right; margin-right: 100px; width: 100px; display:none;">
+    <div class="btn-group">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+
+
+        <ul class="dropdown-menu">
+            <li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>
+            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+            {
+         
+                <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
+            }
+
+
+            <li><a href="#"></a></li>
+        </ul>
+
+    </div>
+</div>
+
+
+
 @section Toolbar
 {
+        <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
 
+
+        <ul class="dropdown-menu">
+            <li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>
+            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+            {
+         
+                <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
+            }
+
+
+            <li><a href="#"></a></li>
+        </ul>
+
+    </div>
     <a class="btn toolbar-btn " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" data-buttontype="btn_back_to_list"></a>
-    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
-    {
-        <a class="btn toolbar-btn " href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype="btn_edit"></a>
-        <a class="btn toolbar-btn " href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"  data-buttontype="">Allocation</a>
-        <a class="btn toolbar-btn " href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })" data-buttontype="">Approve</a>
-    }
-    
-   @* @if(modelRequest.Program != "PSNP"){
-        <a class="btn toolbar-btn " href="@Url.Action("ReconcileRequest", "Request", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID})" data-buttontype="">Reconcile</a>
-    }*@
 
-     @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+
+    @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
     {
         <a class="btn toolbar-btn "   href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype=""><i class="icon-plus"></i>Requisiton</a>
     }
 
 
 }
+<script type="text/javascript">
+    $(function () {
 
-<h4 class="page-header">Regional Request Allocaiton</h4>
-<div class="">
-    <div>
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddFDP').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+@if (ViewBag.message!=null)
+{
+ <div class="alert alert-success">
+  @ViewBag.message
+</div>
+}
+
+<h4 class="page-header">Regional Request Detail</h4>
+
         <div class="form-horizontal ">
-            <table class="table-condensed">
+            <table class="table-condensed" style="width: 90%;">
                 <tr>
                     <td>
-
-                       
-                            <b>@Translator.Translate("Reference Number:")</b>
+                        <b>@Translator.Translate("Reference Number"): </b>
                         @modelRequest.ReferenceNumber
-
-
-                    
-                      
-                            <b >@Translator.Translate("Region")
-                                :</b>
+                    </td>
+                    <td>
+                        <b>@Translator.Translate("Region"): </b>
                         @modelRequest.Region
 
-                    
-                       
-                            <b>@Translator.Translate("Month")
-                                :</b>
-                              @modelRequest.MonthName
-                            <b>@Translator.Translate("Year"):</b> @modelRequest.Year
-                        
+                    </td>
+                    <td>
+                        <b>@Translator.Translate("Month"): </b>
+                        @modelRequest.MonthName
+                    </td>
+                    <td>
+                        <b>@Translator.Translate("Year"):</b>
+                        @modelRequest.Year
+
                     </td>
                 </tr>
                 <tr>
 
                     <td>
-                        
-                            <b class="cats-date-pref">@Html.Translate("Request Date")</b> 
-                                :
-                            @modelRequest.RequestDate
-                        
-                            <b>Program
-                                :</b>
-                            @modelRequest.Program
-                       
-                            <b>Ration:</b>
-                            <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">@modelRequest.Ration</a>
-                       
-                            <b>Status
-                                   :</b>
-                            @modelRequest.Status
-                        </p>
+                        <b class="cats-date-pref">@Html.Translate("Request Date"): </b>
+                        @modelRequest.RequestDate
+                    </td>
+                    <td>
+                        <b>Program: </b>
+                        @modelRequest.Program
+                    </td>
+                    <td>
+                        <b>Ration: </b>
+                        <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">@modelRequest.Ration</a>
+                    </td>
+                    <td>
+                        <b>Status:</b>
+                        @modelRequest.Status
+
                     </td>
                 </tr>
-            
+
             </table>
 
         </div>
-    </div>
 
-</div>
 @section LeftBar
 {
     @Html.Partial("_RegionalRequestLeftBar")
 
 }
 
-
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 
 @(Html.Kendo().Grid(Model)
     .Name("Grid")
@@ -115,13 +185,13 @@
         {
             if (column.DataType == typeof(decimal))
             {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}").HeaderHtmlAttributes(new {@class="cats-unit-pref-grid"});
-                
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+
             }
-            else if(column.DataType==typeof(int))
+            else if (column.DataType == typeof(int))
             {
                 columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
-                
+
             }
             else
             {
@@ -133,8 +203,6 @@
     .Sortable()
     .Scrollable()
     .Groupable()
-    
+
 )
-
-
 

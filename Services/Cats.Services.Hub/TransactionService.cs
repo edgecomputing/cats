@@ -27,7 +27,7 @@ namespace Cats.Services.Hub
             this._accountService = accountService;
             this._shippingInstructionService = shippingInstructionService;
             this._projectCodeService = projectCodeService;
-            
+
         }
 
 
@@ -1408,7 +1408,7 @@ namespace Cats.Services.Hub
         //public IEnumerable<Object> FreeStockStatus()
         //{
         //    var allTransactions = getTransactionsAsof(DateTime.Now);
-            
+
         //    var r = from all in allTransactions
         //            group all by all.ParentCommodityID into hubstockstatus
         //            select new
@@ -1416,7 +1416,7 @@ namespace Cats.Services.Hub
         //                Commodity = hubstockstatus.Key,
         //                detail = hubstockstatus
         //            };
-            
+
         //   foreach(var d in r){
         //        foreach(var h in d.detail){
         //            return (from u in h select new { });

@@ -22,7 +22,12 @@ namespace Cats.Services.Hub.Interfaces
         GetReceivedCommodity(Expression<Func<VWCommodityReceived, bool>> filter = null);
         List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date);
 
+
         List<VWDispatchCommodity>
         GetDispatchedCommodity(Expression<Func<VWDispatchCommodity, bool>> filter = null);
+
+        List<VWCarryOver> GetCarryOverStock(Expression<Func<VWCarryOver, bool>> filter = null);
+        List<VWTransferredStock> GetTransferredStock(Expression<Func<VWTransferredStock, bool>> filter = null);
+
     }
 }

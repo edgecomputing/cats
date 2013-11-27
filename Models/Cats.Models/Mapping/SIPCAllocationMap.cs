@@ -8,7 +8,7 @@ namespace Cats.Models.Mapping
         public SIPCAllocationMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.SIPCAllocationID, t.FDPID, t.RequisitionDetailID, t.Code, t.AllocatedAmount, t.AllocationType });
+            this.HasKey(t =>  t.SIPCAllocationID);
 
             // Table & Column Mappings
             this.ToTable("SIPCAllocation");

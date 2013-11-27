@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Cats.Models.Hub;
+using Cats.Models.Hubs;
 using Cats.Services.Hub;
-using Cats.Models.Hub.ViewModels;
-using Cats.Models.Hub.ViewModels.Common;
+using Cats.Models.Hubs.ViewModels;
+using Cats.Models.Hubs.ViewModels.Common;
 using Cats.Web.Hub.Controllers;
 using Moq;
 using NUnit.Framework;

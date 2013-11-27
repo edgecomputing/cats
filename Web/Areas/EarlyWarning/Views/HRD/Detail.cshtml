@@ -1,4 +1,6 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
 @model System.Data.DataTable
 @{
     ViewBag.Title = "Detail";
@@ -13,9 +15,14 @@
     
 }
 @section Toolbar
-{ <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","HRD")"><i class="icon-list"></i></a>
+{ 
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.View_HRD_list, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
 
-    <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("HRDDetail", "HRD", new {id = ViewBag.HRDID})"><i class="icon-edit"></i></a>
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("HRDDetail", "HRD", new {id = ViewBag.HRDID}),
+                        EarlyWarningCheckAccess.Operation.Modify_HRD, "<i class=\"icon-edit\"></i>", "btn", "btn_edit")
 }
 @(Html.Kendo().Grid(Model)
     .Name("Grid")

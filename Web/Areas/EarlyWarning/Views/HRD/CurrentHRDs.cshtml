@@ -12,7 +12,9 @@
 
 @section Toolbar
 {
-        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "HRD")"></a>
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
 }
 <div>
     <h4 class="page-header">Current HRD</h4>
@@ -25,7 +27,10 @@
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate("<a href='" + Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }) + " '>#=Ration#</a>  ");
+        columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate(
+            @Html.EarlyWarningOperationButton(
+                    @Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }),
+                    EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=Ration#").ToString());
         columns.Bound(p => p.Season);
         columns.Bound(p => p.Year);
         columns.Bound(p => p.CreatedBy);

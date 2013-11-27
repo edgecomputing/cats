@@ -303,9 +303,20 @@ namespace Cats.Services.Hub
           return _unitOfWork.VWCommodityReceived.Get(filter,null,string.Empty).ToList();
       }
 
+
       public List<VWDispatchCommodity> GetDispatchedCommodity(Expression<Func<VWDispatchCommodity, bool>> filter = null)
       {
           return _unitOfWork.VWDispatchCommodity.Get(filter, null, string.Empty).ToList();
+      }
+
+        public List<VWCarryOver> GetCarryOverStock(Expression<Func<VWCarryOver, bool>> filter = null)
+      {
+          return _unitOfWork.VWCarryOver.Get(filter, null, string.Empty).ToList();
+      }
+      public List<VWTransferredStock> GetTransferredStock(Expression<Func<VWTransferredStock, bool>> filter = null)
+      {
+          return _unitOfWork.VWTransferredStock.Get(filter, null, string.Empty).ToList();
+
       }
         public void Dispose()
         {
