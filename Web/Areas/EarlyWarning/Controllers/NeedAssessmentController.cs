@@ -143,7 +143,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                      ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
                      ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
                      ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
-                     ViewBag.Error = "Plan Name Already Exists Please Change Plan Name";
+                     ViewBag.Error = "Need Assessment Already Exists Please Change Plan Name or Region Name";
                      ModelState.AddModelError("Errors", ViewBag.Error);
                      return View();
                  }

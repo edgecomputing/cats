@@ -662,5 +662,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Allocation", new {id = addCommodity.RegionalRequestID});
         }
+        public ActionResult DeleteCommodity(int? commodityID, int requestID)
+        {
+            if (commodityID != null)
+            {
+                _regionalRequestDetailService.DeleteRequestDetailCommodity((int) commodityID, requestID);
+                return RedirectToAction("Allocation", new {id = requestID});
+            }
+            return RedirectToAction("Allocation", new { id = requestID });
+        }
     }
 }
