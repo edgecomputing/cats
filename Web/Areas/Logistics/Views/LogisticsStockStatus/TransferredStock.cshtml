@@ -2,11 +2,11 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
-    ViewBag.Title = "Carry Over Stock";
+    ViewBag.Title = "Transferred Stock";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 
-<h4 class="page-header">@Translator.Translate("Carry Over Stock")</h4>
+<h4 class="page-header">@Translator.Translate("Transferred Stock")</h4>
 <div class="row-fluid form-inline">
     <div class="control-group span2">
         <div class="control-label">
@@ -26,15 +26,14 @@
     </div>
 
 </div>
-@(Html.Kendo().Grid<VWCarryOver>().Name("grid").Columns(col =>
+@(Html.Kendo().Grid<VWTransferredStock>().Name("grid").Columns(col =>
                                                        {
 
                                                            col.Bound(t => t.ShippingInstruction);
                                                            col.Bound(t => t.Commodity);
                                                            col.Bound(t => t.ProjectCode);
-                                                           col.Bound(t => t.Donor);
-                                                           col.Bound(t => t.Program);
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.CarryOver)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Carry Over"));
+                                                          col.Bound(t => t.Program);
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Carry Over"));
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Received"));
                                                            col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Expected"));
                                                            col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Commited"));
@@ -45,7 +44,7 @@
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.PhysicalStock)#").Title(Translator.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
 
                                                        }).DataSource(datasource =>
-                                                                             datasource.Ajax().Read(read => read.Action("CarryOverStock_read", "LogisticsStockStatus").Data("filterData"))
+                                                                             datasource.Ajax().Read(read => read.Action("TransferredStock_read", "LogisticsStockStatus").Data("filterData"))
                                                                                  .Group(t => t.Add(m => m.Commodity))
 
                                                                          ).Sortable().Filterable()
@@ -79,7 +78,7 @@
             e.preventDefault();
             var hubid = $("#SelectHubID").val();
             var programid = $("#SelectProgramID").val();
-            var url = '@Url.Action("PrintCarryOverStock", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
+            var url = '@Url.Action("PrintTransferredStock", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
             
             url = url.replace("__id__", hubid);
             url = url.replace("__id2__", programid);
@@ -91,7 +90,7 @@
             e.preventDefault();
             var hubid = $("#SelectHubID").val();
             var programid = $("#SelectProgramID").val();
-            var url = '@Url.Action("ExportCarryOverStock", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
+            var url = '@Url.Action("ExportTransferredStock", "LogisticsStockStatus",new{hubId="__id__",programId="__id2__"})';
 
             url = url.replace("__id__", hubid);
             url = url.replace("__id2__", programid);
