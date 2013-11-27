@@ -5,11 +5,16 @@
         <div class="content">
             <div class="flag {{regionFlag}}"></div>
             <div style="text-align: center; vertical-align: central">{{regionName}}</div>
-        <div>{{program}}</div>
+            <div>{{program}}</div>
         </div>
 
-        <div class="content">
-            <div style="font-size: xx-large; color: blue;">{{HubAssigned}}<a style="font-size: small;" > out of </a>{{Total}} </div>
+        <div class="content" style="horiz-align: center">
+            <div style="color: blue;">{{HubAssigned}}<a> out of </a>{{Total}} </div>
+            <div class="progress progress-success">
+                <div class="bar" style="width:{{HubAssigned}}%">
+                    <span class="sr-only">{{HubAssigned}}% Completed</span>
+                </div>
+             </div>
         </div>
         
         <div class="content">

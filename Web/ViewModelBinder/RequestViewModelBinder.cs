@@ -71,6 +71,7 @@ namespace Cats.ViewModelBinder
             //  request.DonorID=
             return request;
         }
+        
         public static RegionalRequest BindRegionalRequest(RegionalRequest origin, RegionalRequest request = null)
         {
             if (request == null) request = new RegionalRequest();
@@ -89,7 +90,94 @@ namespace Cats.ViewModelBinder
             return request;
         }
 
-        public static DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails)
+        public static DataTable TransposeDataNew(IEnumerable<PLANWithRegionalRequestViewModel> woredaRequestDetail)
+        {
+            var dt = new DataTable("Transpose");
+
+            var colZone = new DataColumn("Zone", typeof(string));
+            colZone.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colZone);
+
+            var colWoreda = new DataColumn("Woreda", typeof(string));
+            colWoreda.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colWoreda);
+
+            var colNoBeneficiary = new DataColumn("Beneficiaries", typeof(int));
+            colNoBeneficiary.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colNoBeneficiary);
+
+            var colNoPlannedBeneficiary = new DataColumn("Planned Beneficiaries", typeof(int));
+            colNoPlannedBeneficiary.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colNoPlannedBeneficiary);
+
+            var colDifference = new DataColumn("Difference", typeof(int));
+            colDifference.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colDifference);
+
+            //var requestdetail = requestDetails.FirstOrDefault();
+
+            foreach (var requestDetail in woredaRequestDetail)
+            {
+                var dr = dt.NewRow();
+
+                dr[colZone] = requestDetail.zone;
+                dr[colWoreda] = requestDetail.Woreda;
+                dr[colNoBeneficiary] = requestDetail.RequestedBeneficiaryNo;
+                dr[colNoPlannedBeneficiary] = requestDetail.PlannedBeneficaryNo;
+                dr[colDifference] = requestDetail.Difference;
+                
+                dt.Rows.Add(dr);
+            }
+
+            return dt;
+           
+		    /*
+            if (requestdetail != null)
+            {
+                foreach (var ds in requestdetail.RequestDetailCommodities)
+                {
+                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                    col.ExtendedProperties.Add("ID", ds.CommodityID);
+                    dt.Columns.Add(col);
+                }
+
+                //int rowID = 0;
+                //bool addRow = false;
+                //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
+                foreach (var requestDetail in requestDetails)
+                {
+                    var dr = dt.NewRow();
+                    //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
+                    dr[colNoBeneficiary] = requestDetail.Beneficiaries;
+                    dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
+                    dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;
+                    //dr[colFDP] = requestDetail.Fdp.Name;
+
+                    foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
+                    {
+                        DataColumn col = null;
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            if (requestDetailCommodity.CommodityID.ToString() == column.ExtendedProperties["ID"].ToString())
+                            {
+                                col = column;
+                                break;
+                            }
+                        }
+
+                        if (col != null)
+                        {
+                            dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
+
+                        }
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }*/
+           // return dt;
+        }
+
+        public static  DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails )
         {
             var dt = new DataTable("Transpose");
             //var colRequstDetailID = new DataColumn("RequstDetailID", typeof(int));
@@ -111,7 +199,11 @@ namespace Cats.ViewModelBinder
             var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(int));
             colNoBeneficiary.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colNoBeneficiary);
+
             var requestdetail = requestDetails.FirstOrDefault();
+
+            //requestdetail.
+
             if (requestdetail != null)
             {
                 foreach (var ds in requestdetail.RequestDetailCommodities)
@@ -121,9 +213,16 @@ namespace Cats.ViewModelBinder
                     dt.Columns.Add(col);
                 }
 
-                //int rowID = 0;
+                //int rowID = 0; 
                 //bool addRow = false;
                 //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
+                var groupedByWoreda = (
+                                        from regionalRequestDetail in requestDetails
+                                        group regionalRequestDetail by regionalRequestDetail.Fdp.AdminUnit
+                                        into g
+                                        select g
+                                      );
+
                 foreach (var requestDetail in requestDetails)
                 {
                     var dr = dt.NewRow();
@@ -133,10 +232,8 @@ namespace Cats.ViewModelBinder
                     dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;
                     dr[colFDP] = requestDetail.Fdp.Name;
 
-
                     foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
                     {
-
                         DataColumn col = null;
                         foreach (DataColumn column in dt.Columns)
                         {
@@ -147,22 +244,16 @@ namespace Cats.ViewModelBinder
                                 break;
                             }
                         }
+
                         if (col != null)
                         {
                             dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
-
                         }
                     }
                     dt.Rows.Add(dr);
                 }
             }
-            //var dta = (from DataRow row in dt.Rows select new
-            //                                                  {
-
-            //                                                  }).ToList();
-
             return dt;
         }
-
     }
 }

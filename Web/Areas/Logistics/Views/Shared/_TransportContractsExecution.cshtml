@@ -1,51 +1,46 @@
-﻿<div ng-app="TRNCON">
-    <table class="table">
-        <tr>
-            <th>Contract Number</th>
-            <th>Progress</th>
-        </tr>
-        <tr ng-repeat="sd in contracts">
-            <td>{{sd.ContractNumber}}</td>
-            <td>
-                <div class="progress progress-success">
-                    <div class="bar" style="width: 60%">
-                        <span class="sr-only">60% Completeted</span>
-                    </div>
-                </div>
-                <div>
-                    Days before contract ends: {{sd.days}} 
-                </div>
-                <div>
-                    Last Dispatched on: {{sd.lastdate}}
-                </div>
-            </td>
-        </tr>
-        <tr ng-repeat="sd in contracts">
-            <td>{{sd.ContractNumber}}</td>
-            <td>
-                <div class="progress progress-success">
-                    <div class="bar" style="width: 20%">
-                        <span class="sr-only">20% Completeted</span>
-                    </div>
-                </div>
-            </td>
+﻿<div ng-app>
+    <div ng-controller="ContractsController">
+        <table class="table">
+            <tr>
+                <th>Contract Number</th>
+                <th>Progress</th>
+            </tr>
 
-        </tr>
-        <tr ng-repeat="sd in contracts">
-            <td>{{sd.ContractNumber}}</td>
-            <td>
-                <div class="progress progress-success">
-                    <div class="bar" style="width: 75%">
-                        <span class="sr-only">75% Completeted</span>
-                        @*<span class="sr-only">50% Remaining</span>>*@
+            <tr ng-repeat="sd in contractsData">
+                <td>{{sd.contract}}
+                </td>
+                <td>
+                    <div class="progress progress-success">
+                        <div class="bar" style="width:{{sd.percentage | number:2}}%">
+                            <span class="sr-only">{{sd.percentage | number:2}}% Completed</span>
+                        </div>
                     </div>
-                </div>
-            </td>
+                    <div>
+                        Days before contract ends: {{sd.daysLeft}} 
+                    </div>
+                    <div>
+                        Total contract duration: {{sd.duration}}
+                    </div>
+                </td>
+            </tr>
 
-        </tr>
-    </table>
+        </table>
+    </div>
 </div>
 
-<script>
+<script type="text/javascript">
+    function ContractsController($scope, $http) {
 
+        $scope.contractsData = [];
+        var onSuccess = function (data) {
+            $scope.contractsData = data;
+        };
+
+        $scope.getContracts = function () {
+            $http.post("@Url.Action("GetTransportConstractInfo", "Home", new { Area = "Logistics" })", null).success(onSuccess);
+        };
+
+        $scope.getContracts();
+    }
+    
 </script>

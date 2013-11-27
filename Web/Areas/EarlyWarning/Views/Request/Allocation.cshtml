@@ -177,6 +177,7 @@
         }
             );
     }
+    
     function update_ui(rowIdx,row) {
         var grid = $("#grid").data("kendoGrid");
         var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
@@ -189,6 +190,7 @@
             row.removeClass("surplus");
         }
     }
+    
     function check_planned() {
         var grid = $("#grid").data("kendoGrid");
         var rowIdx = 0;

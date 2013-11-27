@@ -88,14 +88,18 @@ namespace Cats.Areas.Logistics.Controllers
 
         public  JsonResult GetTransportConstractInfo()
         {
-            var contracts = _transportOrderService.FindBy(t => t.StatusID >= 1);
+            var contracts = _transportOrderService.FindBy(t => t.StatusID >= 3);
             var info = (
                         from contract in contracts 
                         select new
                             {
+                                contract = contract.ContractNumber,
                                 daysLeft = (int)(contract.EndDate - DateTime.Now).TotalDays,
                                 daysToStart = (int)(contract.StartDate - DateTime.Now).TotalDays,
-                                daysElapsed = (int)(DateTime.Now - DateTime.Now)
+                                daysElapsed = (int)(DateTime.Now - contract.StartDate).TotalDays,
+                                //percentage = 50
+                                duration = (int)(contract.EndDate - contract.StartDate).TotalDays,
+                                percentage = ((contract.EndDate - DateTime.Now).TotalDays / (contract.EndDate - contract.StartDate).TotalDays) * 100
                             }
                        );
             return Json(info,JsonRequestBehavior.AllowGet);
