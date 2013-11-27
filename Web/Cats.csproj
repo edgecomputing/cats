@@ -404,6 +404,7 @@
     <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
@@ -1510,6 +1511,7 @@
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_FilterRequestLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\TransferredStock.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2439,6 +2441,7 @@
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\TransferredStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\ReceivedCommodityStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />

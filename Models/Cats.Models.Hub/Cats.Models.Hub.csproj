@@ -66,6 +66,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contact.cs" />
+    <Compile Include="Mapping\VWTransferredStockMap.cs" />
+    <Compile Include="VWTransferredStock.cs" />
     <Compile Include="VWCarryOver.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="Dispatch.cs" />

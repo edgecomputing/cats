@@ -306,6 +306,10 @@ namespace Cats.Services.Hub
       {
           return _unitOfWork.VWCarryOver.Get(filter, null, string.Empty).ToList();
       }
+      public List<VWTransferredStock> GetTransferredStock(Expression<Func<VWTransferredStock, bool>> filter = null)
+      {
+          return _unitOfWork.VWTransferredStock.Get(filter, null, string.Empty).ToList();
+      }
         public void Dispose()
         {
             _unitOfWork.Dispose();
