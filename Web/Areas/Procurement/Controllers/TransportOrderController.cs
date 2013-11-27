@@ -538,11 +538,11 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return RedirectToAction("Index");
         }
-        public ActionResult GenerateDispatchAllocation(int transportOrderId)
+        public ActionResult GenerateDispatchAllocation(int id)
         {
             try
             {
-             var result=  _transportOrderService.GeneratDispatchPlan(transportOrderId);
+             var result=  _transportOrderService.GeneratDispatchPlan(id);
                 if (result)
                 {
                      return RedirectToAction("Index", "DispatchAllocation", new {Area = "Hub"});
