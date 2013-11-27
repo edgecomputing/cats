@@ -677,7 +677,20 @@ namespace Cats.Data.Hub
        {
            get { return this.vwCommodityReceived ?? (this.vwCommodityReceived = new GenericRepository<VWCommodityReceived>(_context)); }
        }
-       private IGenericRepository<VWCarryOver> vwCarryOver = null;
+
+
+       private IGenericRepository<VWDispatchCommodity> vwDispatchCommodity = null;
+
+        public IGenericRepository<VWDispatchCommodity> VWDispatchCommodity
+        {
+            get
+            {
+                return this.vwDispatchCommodity ??
+                       (this.vwDispatchCommodity = new GenericRepository<VWDispatchCommodity>(_context));
+            }
+        }
+
+        private IGenericRepository<VWCarryOver> vwCarryOver = null;
        public IGenericRepository<VWCarryOver> VWCarryOver
        {
            get { return this.vwCarryOver ?? (this.vwCarryOver = new GenericRepository<VWCarryOver>(_context)); }
@@ -686,6 +699,7 @@ namespace Cats.Data.Hub
        public IGenericRepository<VWTransferredStock> VWTransferredStock
        {
            get { return this.vwTransferredStock ?? (this.vwTransferredStock = new GenericRepository<VWTransferredStock>(_context)); }
+
        }
     }
 }
