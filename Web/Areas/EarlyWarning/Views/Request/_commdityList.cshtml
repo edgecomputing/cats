@@ -5,14 +5,13 @@
 }
 
 
-<h4>Commodities </h4>
 <div style="width: 200px">
 @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
       .Name("commodityGrid")
           .Columns(columns =>
               {
                   columns.Bound(p => p.Commodity);
-                  columns.Command(p => p.Custom("Delete").Click("onDelete"));
+                  columns.Command(p => p.Custom("Delete").Click("onCommodityDelete"));
               }
 
       )
@@ -27,11 +26,3 @@
             )
       )
 </div>
-<script type="text/javascript">
-    function onDelete(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        //window.location = "@Url.Action("DeleteCommodity", "Request")" + "/" + dataItem.CommodityID;         
-    }
-</script>

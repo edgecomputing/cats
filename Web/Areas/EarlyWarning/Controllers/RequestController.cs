@@ -118,6 +118,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
             ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
+
+            List<RequestStatus> statuslist = new List<RequestStatus>();
+
+            statuslist.Add(new RequestStatus { StatusID = 1, StatusName="Draft" });
+            statuslist.Add(new RequestStatus { StatusID = 2, StatusName = "Approved" });
+            statuslist.Add(new RequestStatus { StatusID = 3, StatusName = "Closed" });
+            statuslist.Add(new RequestStatus { StatusID = 4, StatusName = "FederalApproved" });
+
+            ViewBag.StatusID = new SelectList(statuslist, "StatusID", "StatusName");
+
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
@@ -480,6 +490,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult List()
+        {
+            SearchRequsetViewModel filter = new SearchRequsetViewModel();
+            ViewBag.Filter = filter;
+            PopulateLookup();
+            return View(filter);
+        }
+
+        [HttpPost]
+        public ActionResult List(SearchRequsetViewModel filter)
+        {
+            ViewBag.Filter = filter;
+            PopulateLookup();
+            return View(filter);
+        }
 
         public ActionResult Request_Read([DataSourceRequest] DataSourceRequest request, int id = -1)
         {
@@ -491,7 +517,21 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Request_Search([DataSourceRequest] DataSourceRequest request, int RegionID, int ProgramID, int StatusID, DateTime DateFrom, DateTime DateTo)// SearchRequsetViewModel filter)
+        {
+            var requests = _regionalRequestService.FindBy(t => t.RegionID == RegionID
+                                                        && t.ProgramId == ProgramID
+                                                        && t.Status == StatusID
+                                                        && t.RequistionDate <= DateTo
+                                                        && t.RequistionDate >= DateFrom
+                                                        ).OrderByDescending(m => m.RegionalRequestID);
 
+///            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == id);
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);
+            return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
 
 
 
@@ -661,6 +701,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
             }
             return RedirectToAction("Allocation", new {id = addCommodity.RegionalRequestID});
+        }
+        public ActionResult DeleteCommodity(int? commodityID, int requestID)
+        {
+            if (commodityID != null)
+            {
+                _regionalRequestDetailService.DeleteRequestDetailCommodity((int) commodityID, requestID);
+                return RedirectToAction("Allocation", new {id = requestID});
+            }
+            return RedirectToAction("Allocation", new { id = requestID });
         }
     }
 }
