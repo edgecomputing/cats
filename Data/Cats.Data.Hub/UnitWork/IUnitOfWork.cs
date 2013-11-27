@@ -239,7 +239,12 @@ namespace Cats.Data.Hub
 		  IReportRepository ReportRepository { get; }
 		    IGenericRepository<ErrorLog> ErrorLogRepository { get; }
             IGenericRepository<VWCommodityReceived> VWCommodityReceived { get; }
-            IGenericRepository<VWCarryOver> VWCarryOver { get; } 
+
+            IGenericRepository<VWDispatchCommodity> VWDispatchCommodity { get; } 
+
+            IGenericRepository<VWCarryOver> VWCarryOver { get; }
+            IGenericRepository<VWTransferredStock> VWTransferredStock { get; } 
+
         }
 }
 

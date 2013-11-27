@@ -66,6 +66,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contact.cs" />
+    <Compile Include="Mapping\VWTransferredStockMap.cs" />
+    <Compile Include="VWTransferredStock.cs" />
     <Compile Include="VWCarryOver.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="Dispatch.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Mapping\UserProfileMap.cs" />
     <Compile Include="Mapping\UserRoleMap.cs" />
     <Compile Include="Mapping\VWCommodityReceivedMap.cs" />
+    <Compile Include="Mapping\VWDispatchCommodityMap.cs" />
     <Compile Include="Master.cs" />
     <Compile Include="MetaModels\AccountMetaModel.cs" />
     <Compile Include="MetaModels\AdjustmentMetaModel.cs" />
@@ -397,6 +400,7 @@
     <Compile Include="ViewModels\UserWarehouseModel.cs" />
     <Compile Include="ViewModels\Warehouse.cs" />
     <Compile Include="VWCommodityReceived.cs" />
+    <Compile Include="VWDispatchCommodity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

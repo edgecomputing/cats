@@ -1,0 +1,39 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Areas.EarlyWarning.Models.AddCommodityViewModel
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Add Commodity</h3>
+</div>
+
+@using (Html.BeginForm("AddCommodity", "Request", FormMethod.Post, new { @class = "modal-form"}))
+{
+    
+    @Html.HiddenFor(m=>m.RegionalRequestID)
+    <div class="modal-body">
+        
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Commodity"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityID",String.Empty)
+                    @Html.ValidationMessageFor(m => m.CommodityID)
+               
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+    </div>
+
+}
+

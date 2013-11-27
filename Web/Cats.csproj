@@ -374,6 +374,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
     <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\AddCommodityViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\AddFDPViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
@@ -404,6 +405,7 @@
     <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
@@ -1509,6 +1511,15 @@
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\DispatchCommodity.cshtml" />
+
+
+    <Content Include="Areas\EarlyWarning\Views\Request\_FilterRequestLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\TransferredStock.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\AddCommodity.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2438,6 +2449,7 @@
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\TransferredStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\ReceivedCommodityStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />

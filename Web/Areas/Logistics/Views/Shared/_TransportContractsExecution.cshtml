@@ -11,15 +11,18 @@
                 </td>
                 <td>
                     <div class="progress progress-success">
-                        <div class="bar" style="width:{{sd.percentage | number:2}}%">
-                            <span class="sr-only">{{sd.percentage | number:2}}% Completed</span>
+                        <div class="bar" style="width:{{sd.percentage | number:0}}%">
+                            <span class="sr-only">{{sd.percentage | number:0}}% Completed</span>
                         </div>
                     </div>
                     <div>
-                        Days before contract ends: {{sd.daysLeft}} 
+                        <p style="font-size: larger">{{sd.daysLeft}} </p>
+                        days remain contract ends
                     </div>
                     <div>
-                        Total contract duration: {{sd.duration}}
+                        Total contract Duration: 
+                        <p>{{sd.duration}} </p>
+                        days
                     </div>
                 </td>
             </tr>
