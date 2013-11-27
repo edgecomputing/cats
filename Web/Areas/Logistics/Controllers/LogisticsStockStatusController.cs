@@ -28,7 +28,8 @@ namespace Cats.Areas.Logistics.Controllers
         private IUserDashboardPreferenceService _userDashboardPreferenceService;
         private IDashboardWidgetService _dashboardWidgetService;
         private IUserAccountService _userService;
-
+        private IAdminUnitService _adminUnitService;
+        
         public LogisticsStockStatusController
         (
             IUnitOfWork unitOfWork, 
@@ -36,8 +37,7 @@ namespace Cats.Areas.Logistics.Controllers
             IDashboardWidgetService dashboardWidgetservice,
             IUserAccountService userService,
             IHubService hubService,
-            IStockStatusService stockStatusService
-        )
+            IStockStatusService stockStatusService, IAdminUnitService adminUnitService)
         {
             _unitOfWork = unitOfWork;
             _userDashboardPreferenceService = userDashboardPreferenceService;
@@ -45,6 +45,7 @@ namespace Cats.Areas.Logistics.Controllers
             _userService = userService;
             _hubService = hubService;
             _stockStatusService = stockStatusService;
+            _adminUnitService = adminUnitService;
         }
                
         // GET:/Logistics/StockStatus/
@@ -185,5 +186,72 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(q, JsonRequestBehavior.AllowGet);
         }
 
+
+
+        public ActionResult DispatchCommodity()
+        {
+            try
+            {
+                ViewBag.SelectHubID = new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
+                ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
+                ViewBag.SelectRegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+                ViewBag.SelectZoneID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 2), "AdminUnitID", "Name");
+                ViewBag.SelectWoredaID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 3), "AdminUnitID", "Name");
+                ViewBag.SelectFDPID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 4), "AdminUnitID", "Name");
+                return View();
+            }
+            catch (Exception)
+            {
+               
+                
+                throw;
+            }
+           
+        }
+
+        public JsonResult DispatchedReceived_read([DataSourceRequest]DataSourceRequest request, 
+                                                                                                                                    int hubId = -1, 
+                                                                                                                                    int programId = -1,
+                                                                                                                                    int regionId = -1,
+                                                                                                                                    int zoneId=-1
+                                                                                                                                    )
+        {
+            List<VWDispatchCommodity> data;
+            if (regionId!=-1 && zoneId == -1)
+            {
+                data = (hubId == -1 || programId == -1 || regionId == -1)
+                           ? new List<VWDispatchCommodity>()
+                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId);
+            }
+            else if (regionId!=-1 && zoneId!=-1)
+            {
+                data = (hubId == -1 || programId == -1 || regionId == -1)
+                           ? new List<VWDispatchCommodity>()
+                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId && t.ZoneId == zoneId);
+            }
+            else
+            {
+                data = (hubId == -1 || programId == -1)
+                            ? new List<VWDispatchCommodity>()
+                            : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId);
+               
+            }
+
+
+            return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetZonesByRegion(int regionId = -1)
+        {
+            return Json(new SelectList(_adminUnitService.GetAllAdminUnit().Where(p => p.ParentID == regionId).ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetWoredsByZone(int zoneId = -1)
+        {
+            return Json(new SelectList(_adminUnitService.GetAllAdminUnit().Where(p => p.ParentID == zoneId).ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetFDPsByWoreda(int woredaId = -1)
+        {
+            return Json(new SelectList(_adminUnitService.GetAllAdminUnit().Where(p => p.ParentID == woredaId).ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
+        }
     }
 }
