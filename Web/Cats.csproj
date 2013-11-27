@@ -395,6 +395,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateDetailsViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\SearchRequsetViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1510,6 +1511,7 @@
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_FilterRequestLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\List.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
