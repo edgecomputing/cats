@@ -120,7 +120,10 @@
                                                                     @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
                                                                     LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
                                 <li>@Html.LogisticOperationMenuItem(@Html.Translate("Carry Over Stock"),
-                                                               @Url.Action("CarryOverStock", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                                    @Url.Action("CarryOverStock", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                                    LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
+                                 <li>@Html.LogisticOperationMenuItem(@Html.Translate("Transferred Stock"),
+                                                               @Url.Action("TransferredStock", "LogisticsStockStatus", new { Area = "Logistics" }),
                                                                 LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
                                 @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
 
