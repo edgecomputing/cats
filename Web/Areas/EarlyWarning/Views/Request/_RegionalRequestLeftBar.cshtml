@@ -1,11 +1,29 @@
-﻿@using Cats.Models.Constant
+﻿@using Cats.Helpers
+@using Cats.Models.Constant
+@using Cats.Services.Security
 <ul class="nav nav-list">
 
     <li class="nav-header">Regional Request</li>      
     
-    <li><a href="@Url.Action("Index","Request",new{id=(int)RegionalRequestStatus.Draft})"><i class="icon-inbox"></i> Draft </a></li>
-    <li><a href="@Url.Action("Index","Request",new{id=(int)RegionalRequestStatus.Approved})"><i class="icon-envelope"></i> Submited </a></li>
-    <li><a href="@Url.Action("Index","Request",new{id=(int)RegionalRequestStatus.FederalApproved})"><i class="icon-check-sign"></i> Approved </a></li>
-      <li><a href="@Url.Action("Index","Request",new{id=-1})"><i class="icon-list-ul"></i> All </a></li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.Draft}),
+                        EarlyWarningCheckAccess.Operation.View_Draft_requests, "<i class=\"icon-inbox\"></i> Draft ")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.Approved}),
+                        EarlyWarningCheckAccess.Operation.View_submitted_requests, "<i class=\"icon-envelope\"></i> Submited ")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.FederalApproved}),
+                        EarlyWarningCheckAccess.Operation.View_Approved_Request, "<i class=\"icon-check-sign\"></i> Approved ")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=-1}),
+                        EarlyWarningCheckAccess.Operation.View_request, "<i class=\"icon-list-ul\"></i> All ")
+    </li>
    
 </ul>

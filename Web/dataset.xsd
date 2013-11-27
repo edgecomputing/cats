@@ -5,7 +5,7 @@
       <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsContext" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsContext (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsContext.ConnectionString" Provider="System.Data.SqlClient" />
-          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsMasterConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsMasterConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsMasterConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsMasterConnectionString" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsMasterConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsMasterConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VWCommodityReceivedTableAdapter" GeneratorDataComponentClassName="VWCommodityReceivedTableAdapter" Name="VWCommodityReceived" UserDataComponentName="VWCommodityReceivedTableAdapter">
@@ -72,6 +72,29 @@
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VWFreePhysicalStockTableAdapter" GeneratorDataComponentClassName="VWFreePhysicalStockTableAdapter" Name="VWFreePhysicalStock" UserDataComponentName="VWFreePhysicalStockTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="CatsContext (Web.config)" DbObjectName="CatsMaster.dbo.VWFreePhysicalStock" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Hub, Program, Commodity, PhysicalStock, HubID, CommodityID, ProgramID, FreeStock FROM dbo.VWFreePhysicalStock</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Hub" DataSetColumn="Hub" />
+              <Mapping SourceColumn="Program" DataSetColumn="Program" />
+              <Mapping SourceColumn="Commodity" DataSetColumn="Commodity" />
+              <Mapping SourceColumn="PhysicalStock" DataSetColumn="PhysicalStock" />
+              <Mapping SourceColumn="HubID" DataSetColumn="HubID" />
+              <Mapping SourceColumn="CommodityID" DataSetColumn="CommodityID" />
+              <Mapping SourceColumn="ProgramID" DataSetColumn="ProgramID" />
+              <Mapping SourceColumn="FreeStock" DataSetColumn="FreeStock" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -80,7 +103,7 @@
   <xs:element name="dataset" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="dataset" msprop:Generator_UserDSName="dataset">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="VWCommodityReceived" msprop:Generator_TableClassName="VWCommodityReceivedDataTable" msprop:Generator_TableVarName="tableVWCommodityReceived" msprop:Generator_RowChangedName="VWCommodityReceivedRowChanged" msprop:Generator_TablePropName="VWCommodityReceived" msprop:Generator_RowDeletingName="VWCommodityReceivedRowDeleting" msprop:Generator_RowChangingName="VWCommodityReceivedRowChanging" msprop:Generator_RowEvHandlerName="VWCommodityReceivedRowChangeEventHandler" msprop:Generator_RowDeletedName="VWCommodityReceivedRowDeleted" msprop:Generator_RowClassName="VWCommodityReceivedRow" msprop:Generator_UserTableName="VWCommodityReceived" msprop:Generator_RowEvArgName="VWCommodityReceivedRowChangeEvent">
+        <xs:element name="VWCommodityReceived" msprop:Generator_TableClassName="VWCommodityReceivedDataTable" msprop:Generator_TableVarName="tableVWCommodityReceived" msprop:Generator_TablePropName="VWCommodityReceived" msprop:Generator_RowDeletingName="VWCommodityReceivedRowDeleting" msprop:Generator_RowChangingName="VWCommodityReceivedRowChanging" msprop:Generator_RowEvHandlerName="VWCommodityReceivedRowChangeEventHandler" msprop:Generator_RowDeletedName="VWCommodityReceivedRowDeleted" msprop:Generator_UserTableName="VWCommodityReceived" msprop:Generator_RowChangedName="VWCommodityReceivedRowChanged" msprop:Generator_RowEvArgName="VWCommodityReceivedRowChangeEvent" msprop:Generator_RowClassName="VWCommodityReceivedRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ProgramID" msprop:Generator_ColumnVarNameInTable="columnProgramID" msprop:Generator_ColumnPropNameInRow="ProgramID" msprop:Generator_ColumnPropNameInTable="ProgramIDColumn" msprop:Generator_UserColumnName="ProgramID" type="xs:int" />
@@ -139,7 +162,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="VWCarryOver" msprop:Generator_TableClassName="VWCarryOverDataTable" msprop:Generator_TableVarName="tableVWCarryOver" msprop:Generator_TablePropName="VWCarryOver" msprop:Generator_RowDeletingName="VWCarryOverRowDeleting" msprop:Generator_RowChangingName="VWCarryOverRowChanging" msprop:Generator_RowEvHandlerName="VWCarryOverRowChangeEventHandler" msprop:Generator_RowDeletedName="VWCarryOverRowDeleted" msprop:Generator_UserTableName="VWCarryOver" msprop:Generator_RowChangedName="VWCarryOverRowChanged" msprop:Generator_RowEvArgName="VWCarryOverRowChangeEvent" msprop:Generator_RowClassName="VWCarryOverRow">
+        <xs:element name="VWCarryOver" msprop:Generator_TableClassName="VWCarryOverDataTable" msprop:Generator_TableVarName="tableVWCarryOver" msprop:Generator_RowChangedName="VWCarryOverRowChanged" msprop:Generator_TablePropName="VWCarryOver" msprop:Generator_RowDeletingName="VWCarryOverRowDeleting" msprop:Generator_RowChangingName="VWCarryOverRowChanging" msprop:Generator_RowEvHandlerName="VWCarryOverRowChangeEventHandler" msprop:Generator_RowDeletedName="VWCarryOverRowDeleted" msprop:Generator_RowClassName="VWCarryOverRow" msprop:Generator_UserTableName="VWCarryOver" msprop:Generator_RowEvArgName="VWCarryOverRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ProgramID" msprop:Generator_ColumnVarNameInTable="columnProgramID" msprop:Generator_ColumnPropNameInRow="ProgramID" msprop:Generator_ColumnPropNameInTable="ProgramIDColumn" msprop:Generator_UserColumnName="ProgramID" type="xs:int" />
@@ -195,6 +218,38 @@
               <xs:element name="Expected" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnExpected" msprop:Generator_ColumnPropNameInRow="Expected" msprop:Generator_ColumnPropNameInTable="ExpectedColumn" msprop:Generator_UserColumnName="Expected" type="xs:decimal" minOccurs="0" />
               <xs:element name="Commited" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCommited" msprop:Generator_ColumnPropNameInRow="Commited" msprop:Generator_ColumnPropNameInTable="CommitedColumn" msprop:Generator_UserColumnName="Commited" type="xs:decimal" minOccurs="0" />
               <xs:element name="Dispatched" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnDispatched" msprop:Generator_ColumnPropNameInRow="Dispatched" msprop:Generator_ColumnPropNameInTable="DispatchedColumn" msprop:Generator_UserColumnName="Dispatched" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="VWFreePhysicalStock" msprop:Generator_TableClassName="VWFreePhysicalStockDataTable" msprop:Generator_TableVarName="tableVWFreePhysicalStock" msprop:Generator_TablePropName="VWFreePhysicalStock" msprop:Generator_RowDeletingName="VWFreePhysicalStockRowDeleting" msprop:Generator_RowChangingName="VWFreePhysicalStockRowChanging" msprop:Generator_RowEvHandlerName="VWFreePhysicalStockRowChangeEventHandler" msprop:Generator_RowDeletedName="VWFreePhysicalStockRowDeleted" msprop:Generator_UserTableName="VWFreePhysicalStock" msprop:Generator_RowChangedName="VWFreePhysicalStockRowChanged" msprop:Generator_RowEvArgName="VWFreePhysicalStockRowChangeEvent" msprop:Generator_RowClassName="VWFreePhysicalStockRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Hub" msprop:Generator_ColumnVarNameInTable="columnHub" msprop:Generator_ColumnPropNameInRow="Hub" msprop:Generator_ColumnPropNameInTable="HubColumn" msprop:Generator_UserColumnName="Hub" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Program" msprop:Generator_ColumnVarNameInTable="columnProgram" msprop:Generator_ColumnPropNameInRow="Program" msprop:Generator_ColumnPropNameInTable="ProgramColumn" msprop:Generator_UserColumnName="Program" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Commodity" msprop:Generator_ColumnVarNameInTable="columnCommodity" msprop:Generator_ColumnPropNameInRow="Commodity" msprop:Generator_ColumnPropNameInTable="CommodityColumn" msprop:Generator_UserColumnName="Commodity" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PhysicalStock" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPhysicalStock" msprop:Generator_ColumnPropNameInRow="PhysicalStock" msprop:Generator_ColumnPropNameInTable="PhysicalStockColumn" msprop:Generator_UserColumnName="PhysicalStock" type="xs:decimal" minOccurs="0" />
+              <xs:element name="HubID" msprop:Generator_ColumnVarNameInTable="columnHubID" msprop:Generator_ColumnPropNameInRow="HubID" msprop:Generator_ColumnPropNameInTable="HubIDColumn" msprop:Generator_UserColumnName="HubID" type="xs:int" minOccurs="0" />
+              <xs:element name="CommodityID" msprop:Generator_ColumnVarNameInTable="columnCommodityID" msprop:Generator_ColumnPropNameInRow="CommodityID" msprop:Generator_ColumnPropNameInTable="CommodityIDColumn" msprop:Generator_UserColumnName="CommodityID" type="xs:int" minOccurs="0" />
+              <xs:element name="ProgramID" msprop:Generator_ColumnVarNameInTable="columnProgramID" msprop:Generator_ColumnPropNameInRow="ProgramID" msprop:Generator_ColumnPropNameInTable="ProgramIDColumn" msprop:Generator_UserColumnName="ProgramID" type="xs:int" />
+              <xs:element name="FreeStock" msprop:Generator_ColumnVarNameInTable="columnFreeStock" msprop:Generator_ColumnPropNameInRow="FreeStock" msprop:Generator_ColumnPropNameInTable="FreeStockColumn" msprop:Generator_UserColumnName="FreeStock" type="xs:decimal" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

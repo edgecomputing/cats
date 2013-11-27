@@ -66,6 +66,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contact.cs" />
+    <Compile Include="Mapping\VWFreePhysicalStockMap.cs" />
+    <Compile Include="SummaryFreeAndPhysicalStockModel.cs" />
     <Compile Include="VWCarryOver.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="Dispatch.cs" />
@@ -397,6 +399,7 @@
     <Compile Include="ViewModels\UserWarehouseModel.cs" />
     <Compile Include="ViewModels\Warehouse.cs" />
     <Compile Include="VWCommodityReceived.cs" />
+    <Compile Include="VWFreePhysicalStock.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

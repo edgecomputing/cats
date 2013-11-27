@@ -1509,6 +1509,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\SummaryForFreeAndPhysicalStock.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2439,6 +2440,7 @@
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\ReceivedCommodityStatus.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\SummaryFreePhysicalStock.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />

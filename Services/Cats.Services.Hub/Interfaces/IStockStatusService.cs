@@ -18,10 +18,11 @@ namespace Cats.Services.Hub.Interfaces
         List<HubFreeStockView> GetFreeStockStatusD(int hub, int program, DateTime date);
         List<HubFreeStockView> GetFreeStockStatus(int hub, int program, string date);
         List<HubFreeStockSummaryView> GetStockSummary(int program, string date);
+        List<SummaryFreeAndPhysicalStockModel> GetFreeAndPhysicalStockSummary();
         List<VWCommodityReceived>
         GetReceivedCommodity(Expression<Func<VWCommodityReceived, bool>> filter = null);
         List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date);
         List<VWCarryOver> GetCarryOverStock(Expression<Func<VWCarryOver, bool>> filter = null);
-
+        List<VWFreePhysicalStock> GetSummaryFreePhysicalStock(Expression<Func<VWFreePhysicalStock, bool>> filter = null);
     }
 }
