@@ -315,7 +315,6 @@ namespace Cats.Areas.Logistics.Controllers
         #region Dispatch Report Status
        
 
-
         public ActionResult DispatchCommodity()
         {
             try

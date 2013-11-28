@@ -104,7 +104,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation();
             regionalRequest.Round = hrdpsnpPlanInfo.HRDPSNPPlan.Round;
             regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
-                                                      where item.Selected == true
+                                                      where item.Selected == false
                                                       select new RegionalRequestDetail()
                                                                  {
                                                                      Beneficiaries = item.Beneficiaries,
@@ -510,7 +510,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
             var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
 
-            var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID, RequestDetailCommodityID = itm.RequestCommodityID });
+            var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID,Commodity = itm.Commodity.Name, RequestDetailCommodityID = itm.RequestCommodityID });
             ViewData["AvailableCommodities"] = _commonService.GetCommodities();
 
             return Json(commodities.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -770,7 +770,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     var detail = GetRequestDetail(requestDetail);
                     _regionalRequestDetailService.AddCommodityFdp(detail);
-                    return RedirectToAction("Details", new { id = requestDetail.RegionalRequestID });
+                    return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID });
                 }
 
                 catch (Exception ex)
@@ -779,7 +779,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
                     ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
                     ViewBag.FDPID = new SelectList(_commonService.GetFDPs(2), "FDPID", "FDPName");
-                    return RedirectToAction("Details", new { id = requestDetail.RegionalRequestID });
+                    return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID });
                 }
 
             }
