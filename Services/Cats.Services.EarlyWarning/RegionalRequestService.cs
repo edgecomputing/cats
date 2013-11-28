@@ -206,22 +206,27 @@ namespace Cats.Services.EarlyWarning
             {
                 HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).FirstOrDefault();
 
-                var lastrequestDate= _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1). Max(r => r.RequistionDate);
-                var lastreliefRequest =_unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.RequistionDate==lastrequestDate).Last();
-                if (lastreliefRequest!=null)
-                {
-                    beneficiaryInfos = LastReliefRequest(lastreliefRequest);
-                }
+                var lastRequest= _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1).LastOrDefault();
 
-                //if (hrd != null)
-                //{
-                //    result.HRDPSNPPlan.RationID = hrd.RationID;
-                //    List<HRDDetail> hrddetail =
-                //    (from woreda in hrd.HRDDetails
-                //     where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.NumberOfBeneficiaries > 0
-                //     select woreda).ToList();
-                //    beneficiaryInfos = HRDToRequest(hrddetail);
-                //}
+                if (lastRequest!=null)
+                {
+
+                    //var lastreliefRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1);
+
+                    beneficiaryInfos = LastReliefRequest(lastRequest);
+                   
+                }
+                else
+                {
+                    result.HRDPSNPPlan.RationID = hrd.RationID;
+                    List<HRDDetail> hrddetail =
+                    (from woreda in hrd.HRDDetails
+                     where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID 
+                     select woreda).ToList();
+                    beneficiaryInfos = HRDToRequest(hrddetail);
+                }
+                   
+                
             }
             result.BeneficiaryInfos = beneficiaryInfos;
             return result;

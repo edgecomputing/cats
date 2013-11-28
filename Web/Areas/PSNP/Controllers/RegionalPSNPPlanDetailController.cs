@@ -159,6 +159,39 @@ namespace Cats.Areas.PSNP.Controllers
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        private IEnumerable<PSNPPlanDetailView> getDetailView(int id=0)
+        {
+            IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
+            IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
+            RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
+            if (plan != null)
+            {
+
+                ViewBag.PsnpPlan = plan;
+                filledData = plan.RegionalPSNPPlanDetails;
+                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.Region.AdminUnitID);
+                allFDPData = from fdp in allFDPs
+                             join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
+                             into fdpBeneficiary
+                             from fdb in fdpBeneficiary.DefaultIfEmpty(new RegionalPSNPPlanDetail { RegionalPSNPPlanID = plan.RegionalPSNPPlanID })
+                             select new PSNPPlanDetailView
+                             {
+                                 FDPID = fdp.FDPID,
+                                 FDPName = fdp.Name,
+                                 WoredaID = fdp.AdminUnit.AdminUnitID,
+                                 WoredaName = fdp.AdminUnit.Name,
+                                 ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
+                                 ZoneName = fdp.AdminUnit.AdminUnit2.Name,
+                                 RegionalPSNPPlanDetailID = fdb.RegionalPSNPPlanDetailID,
+                                 BeneficiaryCount = fdb.BeneficiaryCount,
+                                 RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
+                                 FoodRatio = fdb.FoodRatio,
+                                 CashRatio = fdb.CashRatio
+                             };
+            }
+
+            return allFDPData;
+        }
         public ActionResult GetListAjax([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
             IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
@@ -195,9 +228,12 @@ namespace Cats.Areas.PSNP.Controllers
 
         public ActionResult EditAjax([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<PSNPPlanDetailView> items)
         {
-
+            int planId = 0;
+            List<PSNPPlanDetailView> updated = new List<PSNPPlanDetailView>();
             foreach (PSNPPlanDetailView item in items)
             {
+                updated.Add(item);
+                planId = item.RegionalPSNPPlanID;
                 if (item.BeneficiaryCount > 0)
                 {
                     RegionalPSNPPlanDetail bm;
@@ -207,10 +243,12 @@ namespace Cats.Areas.PSNP.Controllers
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
+                       
                         _regionalPSNPPlanDetailService.UpdateRegionalPSNPPlanDetail(bm);
                     }
                     else
                     {
+                       
                         bm = new RegionalPSNPPlanDetail();
                         bm.RegionalPSNPPlanID = item.RegionalPSNPPlanID;
                         bm.PlanedFDPID = item.FDPID;
@@ -225,11 +263,17 @@ namespace Cats.Areas.PSNP.Controllers
                 {
                     if (item.RegionalPSNPPlanDetailID >= 0)
                     {
+                       
+                        
                         _regionalPSNPPlanDetailService.DeleteById(item.RegionalPSNPPlanDetailID);
                     }
                 }
             }
-            return Json(ModelState.ToDataSourceResult());
+            /*var allFDPData = getDetailView(planId);
+           return Json(new[] { regionalRequestDetail }.ToDataSourceResult(request, ModelState)); */
+            return Json(updated.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+
+           // return Json(ModelState.ToDataSourceResult(request, ModelState));
 
         }
         public ActionResult DeleteAjax(int id = 0)

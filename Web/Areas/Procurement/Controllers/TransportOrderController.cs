@@ -549,7 +549,7 @@ namespace Cats.Areas.Procurement.Controllers
              var result=  _transportOrderService.GeneratDispatchPlan(id);
                 if (result)
                 {
-                     return RedirectToAction("Index", "DispatchAllocation", new {Area = "Hub"});
+                     return RedirectToAction("Index", "Dispatch", new {Area = "Hub"});
                 }
                 else
                 {
