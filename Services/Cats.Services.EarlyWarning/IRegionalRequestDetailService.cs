@@ -26,7 +26,7 @@ namespace Cats.Services.EarlyWarning
         bool AddRequestDetailCommodity(int commodityId,int requestId);
         bool DeleteRequestDetailCommodity(int commodityId, int requestId);
         bool UpdateRequestDetailCommodity(int commodityId, int requestCommodityId);
-        
+        bool AddCommodityFdp(RegionalRequestDetail requestDetail);
         bool Save();
 
     }

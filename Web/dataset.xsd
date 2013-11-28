@@ -5,7 +5,6 @@
       <DataSource DefaultConnectionIndex="2" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsContext" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsContext (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsContext.ConnectionString" Provider="System.Data.SqlClient" />
-          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsMasterConnectionString" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsMasterConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsMasterConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="LocalizationContext" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="LocalizationContext (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.LocalizationContext.ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
@@ -104,6 +103,29 @@
               <Mapping SourceColumn="Commodity" DataSetColumn="Commodity" />
               <Mapping SourceColumn="ShippingInstruction" DataSetColumn="ShippingInstruction" />
               <Mapping SourceColumn="ProjectCode" DataSetColumn="ProjectCode" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VWFreePhysicalStockTableAdapter" GeneratorDataComponentClassName="VWFreePhysicalStockTableAdapter" Name="VWFreePhysicalStock" UserDataComponentName="VWFreePhysicalStockTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="CatsContext (Web.config)" DbObjectName="CatsMaster.dbo.VWFreePhysicalStock" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Hub, Program, Commodity, PhysicalStock, HubID, CommodityID, ProgramID, FreeStock FROM dbo.VWFreePhysicalStock</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Hub" DataSetColumn="Hub" />
+              <Mapping SourceColumn="Program" DataSetColumn="Program" />
+              <Mapping SourceColumn="Commodity" DataSetColumn="Commodity" />
+              <Mapping SourceColumn="PhysicalStock" DataSetColumn="PhysicalStock" />
+              <Mapping SourceColumn="HubID" DataSetColumn="HubID" />
+              <Mapping SourceColumn="CommodityID" DataSetColumn="CommodityID" />
+              <Mapping SourceColumn="ProgramID" DataSetColumn="ProgramID" />
+              <Mapping SourceColumn="FreeStock" DataSetColumn="FreeStock" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -285,6 +307,38 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="VWFreePhysicalStock" msprop:Generator_TableClassName="VWFreePhysicalStockDataTable" msprop:Generator_TableVarName="tableVWFreePhysicalStock" msprop:Generator_TablePropName="VWFreePhysicalStock" msprop:Generator_RowDeletingName="VWFreePhysicalStockRowDeleting" msprop:Generator_RowChangingName="VWFreePhysicalStockRowChanging" msprop:Generator_RowEvHandlerName="VWFreePhysicalStockRowChangeEventHandler" msprop:Generator_RowDeletedName="VWFreePhysicalStockRowDeleted" msprop:Generator_UserTableName="VWFreePhysicalStock" msprop:Generator_RowChangedName="VWFreePhysicalStockRowChanged" msprop:Generator_RowEvArgName="VWFreePhysicalStockRowChangeEvent" msprop:Generator_RowClassName="VWFreePhysicalStockRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Hub" msprop:Generator_ColumnVarNameInTable="columnHub" msprop:Generator_ColumnPropNameInRow="Hub" msprop:Generator_ColumnPropNameInTable="HubColumn" msprop:Generator_UserColumnName="Hub" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Program" msprop:Generator_ColumnVarNameInTable="columnProgram" msprop:Generator_ColumnPropNameInRow="Program" msprop:Generator_ColumnPropNameInTable="ProgramColumn" msprop:Generator_UserColumnName="Program" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Commodity" msprop:Generator_ColumnVarNameInTable="columnCommodity" msprop:Generator_ColumnPropNameInRow="Commodity" msprop:Generator_ColumnPropNameInTable="CommodityColumn" msprop:Generator_UserColumnName="Commodity" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PhysicalStock" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPhysicalStock" msprop:Generator_ColumnPropNameInRow="PhysicalStock" msprop:Generator_ColumnPropNameInTable="PhysicalStockColumn" msprop:Generator_UserColumnName="PhysicalStock" type="xs:decimal" minOccurs="0" />
+              <xs:element name="HubID" msprop:Generator_ColumnVarNameInTable="columnHubID" msprop:Generator_ColumnPropNameInRow="HubID" msprop:Generator_ColumnPropNameInTable="HubIDColumn" msprop:Generator_UserColumnName="HubID" type="xs:int" minOccurs="0" />
+              <xs:element name="CommodityID" msprop:Generator_ColumnVarNameInTable="columnCommodityID" msprop:Generator_ColumnPropNameInRow="CommodityID" msprop:Generator_ColumnPropNameInTable="CommodityIDColumn" msprop:Generator_UserColumnName="CommodityID" type="xs:int" minOccurs="0" />
+              <xs:element name="ProgramID" msprop:Generator_ColumnVarNameInTable="columnProgramID" msprop:Generator_ColumnPropNameInRow="ProgramID" msprop:Generator_ColumnPropNameInTable="ProgramIDColumn" msprop:Generator_UserColumnName="ProgramID" type="xs:int" />
+              <xs:element name="FreeStock" msprop:Generator_ColumnVarNameInTable="columnFreeStock" msprop:Generator_ColumnPropNameInRow="FreeStock" msprop:Generator_ColumnPropNameInTable="FreeStockColumn" msprop:Generator_UserColumnName="FreeStock" type="xs:decimal" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

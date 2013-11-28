@@ -19,28 +19,25 @@
 
     <a class="btn toolbar-btn desabled" data-buttontype="btn_save" id="btn_save_submitform" href="javascript:submitform()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:reloadPage()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics",regionid = ViewBag.regionId  })"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "DispatchAllocation", new { Area = "Logistics", regionid = ViewBag.regionId })"></a>
 }
 
 <fieldset>
     <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
-  <!--  <div>@amount  MT is  @amount.ToPreferedWeightUnit()</div>-->
+    <!--  <div>@amount  MT is  @amount.ToPreferedWeightUnit()</div>-->
 </fieldset>
 
 <style>
-    .debug
-    {
+    .debug {
         display: none;
     }
 
-    .SI_Row
-    {
+    .SI_Row {
         margin: 0;
         padding: 0;
     }
 
-        .SI_Row .list-item1 /*li*/
-        {
+        .SI_Row .list-item1 /*li*/ {
             padding: 2px;
             margin: 2px;
             border: solid 1px #DDD;
@@ -50,145 +47,120 @@
             line-height: 32px;
             clear: both;
         }
-        .SI_Row .list-item2 /*li*/
-        {
+
+        .SI_Row .list-item2 /*li*/ {
             margin: 2px;
             list-style: none;
             clear: both;
         }
 
-        .SI_Row li .modified1
-        {
+        .SI_Row li .modified1 {
             border-color: red;
         }
 
-        .SI_Row .new_allocation .new_allocation_input
-        {
+        .SI_Row .new_allocation .new_allocation_input {
             visibility: hidden;
         }
 
-        .SI_Row .SI_Remove
-        {
+        .SI_Row .SI_Remove {
             visibility: hidden;
         }
 
-        .SI_Row input
-        {
+        .SI_Row input {
             background: transparent;
             border: none;
             box-shadow: none;
             padding-left: 5px;
         }
 
-        .SI_Row .old_allocation:hover
-        {
+        .SI_Row .old_allocation:hover {
             background: rgb(201, 221, 237);
         }
 
-        .SI_Row .new_allocation:hover
-        {
+        .SI_Row .new_allocation:hover {
             background: rgb(255, 216, 120);
         }
 
-            .SI_Row .new_allocation:hover .new_allocation_input
-            {
+            .SI_Row .new_allocation:hover .new_allocation_input {
                 visibility: visible;
             }
 
-            .SI_Row .new_allocation:hover .new_allocation_message
-            {
+            .SI_Row .new_allocation:hover .new_allocation_message {
                 display: none;
             }
 
-        .SI_Row li:hover input
-        {
+        .SI_Row li:hover input {
             background: #FFF;
         }
 
-        .SI_Row li:hover .SI_Remove
-        {
+        .SI_Row li:hover .SI_Remove {
             visibility: visible;
         }
 
-    .select_list
-    {
+    .select_list {
         width: 200px;
     }
 
-        .select_list .available
-        {
+        .select_list .available {
             width: 90px;
             float: left;
             color: #CCC;
         }
 
-        .select_list .SICode
-        {
+        .select_list .SICode {
             width: 100px;
         }
 
-    .SI_Row .dropdown
-    {
+    .SI_Row .dropdown {
         float: left;
     }
 
-    .new_allocation_unsaved .SI_Add
-    {
+    .new_allocation_unsaved .SI_Add {
         visibility: hidden;
     }
 
-    #new_allocation_form
-    {
+    #new_allocation_form {
         float: left;
     }
 
-    .allocation_saved .frm_edit
-    {
+    .allocation_saved .frm_edit {
         display: none;
     }
 
-    .allocation_saved .frm_view
-    {
+    .allocation_saved .frm_view {
         display: block;
     }
 
-    .allocation_unsaved .frm_edit
-    {
+    .allocation_unsaved .frm_edit {
         display: block;
     }
 
-    .allocation_unsaved .frm_view
-    {
+    .allocation_unsaved .frm_view {
         display: none;
     }
 
-    .modified, .modified1
-    {
+    .modified, .modified1 {
         width: 2px;
         float: left;
         height: 2px;
     }
 
-    .modified1
-    {
+    .modified1 {
         border: solid 1px red;
         background: red;
     }
 
-    .label1
-    {
+    .label1 {
         min-width: 200px;
         float: left;
         margin-right: 5px;
     }
 
-        .label1 .gray
-        {
+        .label1 .gray {
             color: #808080;
         }
 
-    .label2
-    {
+    .label2 {
         width: 50%;
         float: left;
         color: #777;
@@ -196,8 +168,7 @@
         font-size: 12px;
     }
 
-    .value2
-    {
+    .value2 {
         width: 50%;
         float: left;
         color: #000;
@@ -205,17 +176,16 @@
         font-size: 12px;
     }
 
-    .accordion-heading
-    {
+    .accordion-heading {
         font-size: 12px;
     }
-    .AllocationUnDone
-    {
-        display:none;
+
+    .AllocationUnDone {
+        display: none;
     }
-    .AllocationDone
-    {
-        float:right;
+
+    .AllocationDone {
+        float: right;
     }
 </style>
 
@@ -258,7 +228,7 @@
                                 </a>
                             </div>
                             <div class="progress progress-success  progress-striped" style="margin: 2px; height: 10px; border: solid 1px rgb(12, 219, 86);">
-                                <div class="bar" style="width:{{request.AllocatedPercent}}%"></div>
+                                <div class="bar" style="width: {{request.AllocatedPercent}}%"></div>
                             </div>
                         </div>
                         <div id="collapse{{$index}}" class="accordion-body collapse">
@@ -278,10 +248,10 @@
                                 <div class="label2">@Translator.Translate("Remaining Qty"): </div>
                                 <div class="value2">{{request.RemainingAmount}}<i> @UserUnit</i></div>
                                 <div class="debug">
-                                <div class="label2">RequisitionId</div>
-                                <div class="value2">{{request.RequisitionId}}</div>
-                                <div class="label2">HubAllocationID</div>
-                                <div class="value2">{{request.HubAllocationID}}</div>
+                                    <div class="label2">RequisitionId</div>
+                                    <div class="value2">{{request.RequisitionId}}</div>
+                                    <div class="label2">HubAllocationID</div>
+                                    <div class="value2">{{request.HubAllocationID}}</div>
                                 </div>
                             </div>
                         </div>
@@ -362,7 +332,7 @@
                     </ul>
 
                 </td>
-                
+
             </tr>
         </table>
 
@@ -432,12 +402,12 @@
                 
                 $scope.on_Allocation_Done=function(requisitionId)
                 {
-                   // alert(requisitionId);
+                    // alert(requisitionId);
                     
-                        var param1={regionId:$scope.regionId,requisitionId:requisitionId};
-                        $('#modalContent').html("Promoting...");
-                        $('#myModal').modal('show');
-                        $http.post( $scope.promoteUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
+                    var param1={regionId:$scope.regionId,requisitionId:requisitionId};
+                    $('#modalContent').html("Promoting...");
+                    $('#myModal').modal('show');
+                    $http.post( $scope.promoteUrl, param1).success(GetListSuccessCB).error(GetListErrorCB);
                    
                 };
                 $scope.ModelToView = function (model, view) {
@@ -486,7 +456,7 @@
                         for(var i in $scope.requests[r].FreeSIPCCodes.FreeSICodes)
                         {
                             message +=" " + $scope.requests[r].FreeSIPCCodes.FreeSICodes[i].amount;
-                           // $scope.requests[r].FreeSIPCCodes.FreeSICodes[i].amount=0;
+                            // $scope.requests[r].FreeSIPCCodes.FreeSICodes[i].amount=0;
                         }
                         $scope.requests[r].ErrMessage=message;
                     }

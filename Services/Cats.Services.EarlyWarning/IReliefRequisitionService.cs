@@ -25,8 +25,6 @@ namespace Cats.Services.EarlyWarning
        
         List<RegionalRequisitionsSummary> GetRequisitionsSentToLogistics();
       
-
-
         IEnumerable<ReliefRequisition> Get(
           Expression<Func<ReliefRequisition, bool>> filter = null,
           Func<IQueryable<ReliefRequisition>, IOrderedQueryable<ReliefRequisition>> orderBy = null,
