@@ -311,7 +311,12 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
+<<<<<<< HEAD
+=======
+        #region Dispatch Report Status
+       
 
+>>>>>>> e13dadcef9d3392182fc66572051e8e24ffb9544
         public ActionResult DispatchCommodity()
         {
             try
@@ -319,9 +324,7 @@ namespace Cats.Areas.Logistics.Controllers
                 ViewBag.SelectHubID = new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
                 ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
                 ViewBag.SelectRegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
-                ViewBag.SelectZoneID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 2), "AdminUnitID", "Name");
-                ViewBag.SelectWoredaID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 3), "AdminUnitID", "Name");
-                ViewBag.SelectFDPID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 4), "AdminUnitID", "Name");
+               
                 return View();
             }
             catch (Exception)
@@ -341,23 +344,29 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                                                                     )
         {
             List<VWDispatchCommodity> data;
+
+            //if (hubId == -1 && programId == -1 && regionId == -1 && zoneId == -1)
+            //{
+            //    data =  _stockStatusService.GetDispatchedCommodity(t=>t.IsClosed == false);
+            //}
+            //else
             if (regionId!=-1 && zoneId == -1)
             {
                 data = (hubId == -1 || programId == -1 || regionId == -1)
                            ? new List<VWDispatchCommodity>()
-                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId);
+                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId && t.IsClosed ==false);
             }
             else if (regionId!=-1 && zoneId!=-1)
             {
                 data = (hubId == -1 || programId == -1 || regionId == -1)
                            ? new List<VWDispatchCommodity>()
-                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId && t.ZoneId == zoneId);
+                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId && t.ZoneId == zoneId && t.IsClosed == false);
             }
             else
             {
                 data = (hubId == -1 || programId == -1)
                             ? new List<VWDispatchCommodity>()
-                            : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId);
+                            : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.IsClosed == false);
                
             }
 
@@ -377,6 +386,10 @@ namespace Cats.Areas.Logistics.Controllers
         {
             return Json(new SelectList(_adminUnitService.GetAllAdminUnit().Where(p => p.ParentID == woredaId).ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
+
+
+
+        #endregion
 
     }
 }

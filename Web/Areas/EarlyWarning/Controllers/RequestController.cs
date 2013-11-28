@@ -298,10 +298,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 return HttpNotFound();
             }
-
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
-
+            
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
 
             var result = GetRequestWithPLAN(request);
@@ -647,8 +646,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(regionalRequest);
         }
 
-        private IEnumerable<PLANWithRegionalRequestViewModel> GetRequestWithPLAN(RegionalRequest regionalRequest)
+        private List<PLANWithRegionalRequestViewModel> GetRequestWithPLAN(RegionalRequest regionalRequest)
         {
+
+           var result = new List<PLANWithRegionalRequestViewModel>();
+
+           if(regionalRequest.ProgramId==1){
             //var regionalRequest = _regionalRequestService.FindById(id);
             var details = regionalRequest.RegionalRequestDetails;
 
@@ -679,7 +682,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                          detailsf = woredaDetail
                                      });
 
-            return (from woredaDetail in woredaGrouped
+            result =  (from woredaDetail in woredaGrouped
                     select new PLANWithRegionalRequestViewModel
                     {
                         zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
@@ -687,7 +690,43 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
                         PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
                         Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries
-                    });
+                    }).ToList();
+           }
+
+           if(regionalRequest.ProgramId==2)
+           {
+               var details = regionalRequest.RegionalRequestDetails;
+               var psnp = _RegionalPSNPPlanService.FindBy(m => m.PlanId == regionalRequest.PlanID);
+              
+               var psnpBeneficiary = psnp != null
+                                         ? psnp.First().RegionalPSNPPlanDetails.First(
+                                             m => m.PlanedFDPID == 16).BeneficiaryCount
+                                         : 0;
+
+               var woredaGrouped = (from detail in details
+                                    group detail by detail.Fdp.AdminUnit
+                                        into woredaDetail
+                                        select new
+                                        {
+                                            Woreda = woredaDetail.Key,
+                                            NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
+                                            psnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDPID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
+                                            detailsf = woredaDetail
+                                        });
+
+              result = (from woredaDetail in woredaGrouped
+                       select new PLANWithRegionalRequestViewModel
+                       {
+                           zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
+                           Woreda = woredaDetail.Woreda.Name,
+                           RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
+                           PlannedBeneficaryNo = woredaDetail.psnpBeneficiary,
+                           //PlannedBeneficaryNo = 52,
+                           Difference = woredaDetail.psnpBeneficiary - woredaDetail.NoOfBeneficiaries
+                           //Difference =  woredaDetail.NoOfBeneficiaries
+                       }).ToList();
+                }
+            return result;
         }
 
         public JsonResult GetPlan(int programID)
