@@ -90,7 +90,7 @@ namespace Cats.ViewModelBinder
             return request;
         }
 
-        public static DataTable TransposeDataNew(IEnumerable<PLANWithRegionalRequestViewModel> woredaRequestDetail)
+        public static DataTable TransposeDataNew(IEnumerable<PLANWithRegionalRequestViewModel> woredaRequestDetail, IEnumerable<RegionalRequestDetail> requestDetails)
         {
             var dt = new DataTable("Transpose");
 
@@ -114,9 +114,15 @@ namespace Cats.ViewModelBinder
             colDifference.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colDifference);
 
-            //var requestdetail = requestDetails.FirstOrDefault();
-            //woredaRequestDetail.First().
+            var requestdetail = requestDetails.FirstOrDefault();
             
+            foreach (var ds in requestdetail.RequestDetailCommodities)
+            {
+                var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                col.ExtendedProperties.Add("ID", ds.CommodityID);
+                dt.Columns.Add(col);
+            }
+
             foreach (var requestDetail in woredaRequestDetail)
             {
                 var dr = dt.NewRow();
@@ -127,6 +133,34 @@ namespace Cats.ViewModelBinder
                 dr[colNoPlannedBeneficiary] = requestDetail.PlannedBeneficaryNo;
                 dr[colDifference] = requestDetail.Difference;
                 
+                var groupedByWoreda = (
+                                        from regionalRequestDetail in requestDetails
+                                        group regionalRequestDetail by regionalRequestDetail.Fdp.AdminUnit
+                                        into g
+                                        select g
+                                      );
+                
+                decimal accumelate = 0;
+              
+                foreach (var requestDetailCommodity in requestdetail.RequestDetailCommodities)
+                    {
+                        DataColumn col = null;
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            if (requestDetailCommodity.CommodityID.ToString() ==
+                                column.ExtendedProperties["ID"].ToString())
+                            {
+                                col = column;
+                                break;
+                            }
+                        }
+
+                        if (col != null)
+                        {
+
+                            dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
+                        }
+                    }
                 dt.Rows.Add(dr);
             }
 

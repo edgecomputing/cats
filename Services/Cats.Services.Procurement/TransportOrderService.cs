@@ -19,8 +19,7 @@ namespace Cats.Services.Procurement
         private readonly INotificationService _notificationService;
 
 
-        public TransportOrderService(IUnitOfWork unitOfWork,ITransporterService transporterService, INotificationService notificationService)
-
+        public TransportOrderService(IUnitOfWork unitOfWork, ITransporterService transporterService, INotificationService notificationService)
         {
             this._unitOfWork = unitOfWork;
             this._transporterService = transporterService;
@@ -247,7 +246,7 @@ namespace Cats.Services.Procurement
             return true;
         }
 
-       
+
 
         private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)
         {
@@ -441,19 +440,25 @@ namespace Cats.Services.Procurement
                 dispatchAllocation.FDPID = transportOrderDetail.FdpID;
                 dispatchAllocation.HubID = transportOrderDetail.SourceWarehouseID;
                 dispatchAllocation.TransporterID = transportOrder.TransporterID;
-                // dispatchAllocation.IsClosed=false;
+                dispatchAllocation.IsClosed = false;
                 dispatchAllocation.Month = requisition.Month;
                 dispatchAllocation.Round = requisition.Round;
-                //dispatchAllocation.Year= requisition.Year ; //Year is not available 
+
                 dispatchAllocation.ProgramID = requisition.ProgramID;
                 dispatchAllocation.RequisitionNo = requisition.RequisitionNo;
                 dispatchAllocation.PartitionID = 0;
-
-                //dispatchAllocation.ProjectCodeID = 0;
-                //dispatchAllocation.ShippingInstructionID = 0;
+                var sipc =
+                    _unitOfWork.SIPCAllocationRepository.FindBy(
+                        t => t.RequisitionDetailID == requisitionDetail.RequisitionDetailID);
+                var si = sipc.Find(t => t.AllocationType == "SI");
+                if (si != null)
+                    dispatchAllocation.ProjectCodeID = si.Code;
+                var pc = sipc.Find(t => t.AllocationType == "PC");
+                if (pc != null)
+                    dispatchAllocation.ShippingInstructionID = pc.Code;
                 //dispatchAllocation.Unit //i have no idea where to get it
                 // dispatchAllocation.StoreID  //Would be set null and filled by user later
-
+                //dispatchAllocation.Year= requisition.Year ; //Year is not available 
                 _unitOfWork.DispatchAllocationRepository.Add(dispatchAllocation);
             }
             transportOrder.StatusID = (int)TransportOrderStatus.Closed;
@@ -463,7 +468,7 @@ namespace Cats.Services.Procurement
         }
 
 
-        private void AddToNotification(int transportOrderId,string transportOrderNo)
+        private void AddToNotification(int transportOrderId, string transportOrderNo)
         {
             try
             {
@@ -485,10 +490,10 @@ namespace Cats.Services.Procurement
             }
             catch (Exception)
             {
-                
+
                 ;
             }
-           
+
         }
 
     }
