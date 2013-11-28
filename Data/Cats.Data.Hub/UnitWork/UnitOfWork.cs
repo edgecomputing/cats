@@ -695,12 +695,19 @@ namespace Cats.Data.Hub
        {
            get { return this.vwCarryOver ?? (this.vwCarryOver = new GenericRepository<VWCarryOver>(_context)); }
        }
+
+       private IGenericRepository<VWFreePhysicalStock> vwFreePhysicalStock = null;
+       public IGenericRepository<VWFreePhysicalStock> VWFreePhysicalStock
+       {
+           get { return this.vwFreePhysicalStock ?? (this.vwFreePhysicalStock = new GenericRepository<VWFreePhysicalStock>(_context)); }
+       }
        private IGenericRepository<VWTransferredStock> vwTransferredStock = null;
        public IGenericRepository<VWTransferredStock> VWTransferredStock
        {
            get { return this.vwTransferredStock ?? (this.vwTransferredStock = new GenericRepository<VWTransferredStock>(_context)); }
 
        }
+      
     }
 }
 

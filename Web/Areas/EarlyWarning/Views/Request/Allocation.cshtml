@@ -1,6 +1,8 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @model RegionalRequestViewModel
+@using Cats.Helpers
 @using Cats.Models
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 
@@ -10,6 +12,9 @@
 }
 
 @section Toolbar    {
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID }),
+                        EarlyWarningCheckAccess.Operation.View_request, "", "btn icon-reply", "btn_back_to_list")
    
     <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>

@@ -1512,6 +1512,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\SummaryForFreeAndPhysicalStock.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\DispatchCommodity.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_FilterRequestLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\List.cshtml" />
@@ -2449,6 +2450,7 @@
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransferredStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\ReceivedCommodityStatus.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\SummaryFreePhysicalStock.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />

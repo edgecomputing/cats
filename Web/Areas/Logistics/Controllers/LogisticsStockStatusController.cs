@@ -128,6 +128,21 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(q, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetFreeAndphysicalStockStatus()
+        {
+            var st = _stockStatusService.GetFreeAndPhysicalStockSummary();
+            var q = (from s in st
+                     select new SummaryFreeAndPhysicalStockModel
+                     {
+                         CommodityName = s.CommodityName,
+                         HubName = s.HubName,
+                         Program = s.Program,
+                         FreeStock = s.FreeStock.ToPreferedWeightUnit(),
+                         PhysicalStock = s.PhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetStockStatusSummaryN()
         {
             var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
@@ -159,12 +174,21 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
+       public ActionResult PrintSummaryFreePhysicalStock()
+       {
+           return GetSummaryFreePhysicalStock(true, false);
+       }
 
-        public ActionResult PrintReceivedCommodity(int hubId = -1, int programId = -1)
-        {
-            return GetReceivedCommodity(hubId, programId, true, false);
+       public ActionResult ExportSummaryFreePhysicalStock()
+       {
+           return GetSummaryFreePhysicalStock(false, false);
+       }
+
+       public ActionResult PrintReceivedCommodity(int hubId = -1,int programId=-1)
+       {
+           return GetReceivedCommodity(hubId, programId, true, false);
         }
-
+       
         public ActionResult ExportReceivedCommodity(int hubId = -1, int programId = -1)
         {
             return GetReceivedCommodity(hubId, programId, false, false);
@@ -196,8 +220,27 @@ namespace Cats.Areas.Logistics.Controllers
                            : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId && t.ProgramID == programId);
             return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
-        }
+       }
+       private ActionResult GetSummaryFreePhysicalStock(bool isPdf = true, bool isPortrait = true)
+       {
+           var data = _stockStatusService.GetSummaryFreePhysicalStock();
+           var reportPath = Server.MapPath("~/Report/Logisitcs/SummaryFreePhysicalStock.rdlc");
+           var dataSources = "dataset";
 
+           var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
+           return File(result.RenderBytes, result.MimeType);
+       }
+       private ActionResult GetCarryOverStock(int hubId, int programId, bool isPdf = true, bool isPortrait = true)
+       {
+           var data = (hubId == -1)
+                          ? null
+                          : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId);
+           var reportPath = Server.MapPath("~/Report/Logisitcs/CarryOverStockStatus.rdlc");
+           var dataSources = "dataset";
+
+           var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
+           return File(result.RenderBytes, result.MimeType);
+       }
         public ActionResult PrintCarryOverStock(int hubId = -1, int programId = -1)
         {
             return GetCarryOverStock(hubId, programId, true, false);
@@ -208,18 +251,6 @@ namespace Cats.Areas.Logistics.Controllers
             return GetCarryOverStock(hubId, programId, false, false);
         }
 
-
-        private ActionResult GetCarryOverStock(int hubId, int programId, bool isPdf = true, bool isPortrait = true)
-        {
-            var data = (hubId == -1)
-                           ? null
-                           : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId);
-            var reportPath = Server.MapPath("~/Report/Logisitcs/CarryOverStockStatus.rdlc");
-            var dataSources = "dataset";
-
-            var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
-            return File(result.RenderBytes, result.MimeType);
-        }
         #endregion
 
         #region Transferred Stock Status
@@ -275,6 +306,10 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(q, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult SummaryForFreeAndPhysicalStock()
+        {
+            return View();
+        }
 
 
         public ActionResult DispatchCommodity()
@@ -342,5 +377,6 @@ namespace Cats.Areas.Logistics.Controllers
         {
             return Json(new SelectList(_adminUnitService.GetAllAdminUnit().Where(p => p.ParentID == woredaId).ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
+
     }
 }

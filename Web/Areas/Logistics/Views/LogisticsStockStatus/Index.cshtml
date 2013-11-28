@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="span3">
-                            <button type="button" class="btn btn-default btn-lg" ng-click="getSummary()">Get</button>
+                            <button type="button" class="btn btn-default btn-lg" style="margin-top:23px;" ng-click="getSummary()">Get</button>
                         </div>
                     </div>
                 </div>
@@ -286,6 +286,21 @@
         //var CurrentDate = new Date();
         //CurrentDate.getFullYear();
         drawBar('2013');
+        
+        $("#toolbar_button_print").click(function (e) {
+            e.preventDefault();
+            var url = '@Url.Action("PrintSummaryFreePhysicalStock", "LogisticsStockStatus")';
+
+            window.open(url, "_blank");
+
+        });
+        $("#toolbar_button_export").click(function (e) {
+            e.preventDefault();
+            var url = '@Url.Action("ExportSummaryFreePhysicalStock", "LogisticsStockStatus")';
+
+            window.open(url, "_blank");
+
+        });
     });
 
     function drawBar(year) {
