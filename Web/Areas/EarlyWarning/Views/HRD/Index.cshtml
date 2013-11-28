@@ -57,7 +57,7 @@
             columns.Bound(p => p.Ration).Title("Ration No");
             columns.Bound(p => p.Season);
             columns.Bound(p => p.Year);
-            columns.Bound(p => p.CreatedBy);
+            columns.Bound(p => p.CreatedBy).Width(160);
             columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
             // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
@@ -68,7 +68,7 @@
                 p.Custom("Approve").Click("approveHRD");
                 p.Custom("Summary").Click("showSummary");
 
-            });
+            }).Width(250);
             //{
             //   // p.Custom("ViewDetails").Click("showDetails");
             //    p.Custom("Edit").Click("hrdEdit");
@@ -80,12 +80,12 @@
             //});
 
         })
-            .Pageable()
             .Sortable()
             .Filterable()
+            .Scrollable()
+            .HtmlAttributes(new { style = "height:430px;" })
             .DataSource(dataSource => dataSource
                   .Ajax()
-                  .PageSize(8)
                     .Model(model => model.Id(p => p.HRDID))
                     .Read(read => read.Action("HRD_Read", "HRD"))
 

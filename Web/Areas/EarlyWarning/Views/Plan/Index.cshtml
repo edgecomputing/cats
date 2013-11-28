@@ -31,13 +31,14 @@
             columns.Bound(p => p.StartDate);
             columns.Bound(p => p.EndDate);
             columns.Bound(p => p.Program);
-           // columns.Bound(p => p.Status);
+           // columns.Bound(p => p.StatusID);
 
             columns.Command(m => m.Custom("Edit").Click("onEdit"));
 
         })
             .Scrollable()
             .Filterable()
+            .HtmlAttributes(new { style = "height:430px;" })
             .DataSource(dataSource => dataSource
                   .Ajax()
                   .PageSize(8)

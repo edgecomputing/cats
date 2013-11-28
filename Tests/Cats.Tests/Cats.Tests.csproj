@@ -131,6 +131,7 @@
     <Compile Include="ControllersTests\GiftCertificateControllerTests.cs" />
     <Compile Include="ControllersTests\HRDControllerTest.cs" />
     <Compile Include="ControllersTests\HRDControllerTests.cs" />
+    <Compile Include="ControllersTests\LogisticsStockStatusTests.cs" />
     <Compile Include="ControllersTests\NeedAssessmentTest.cs" />
     <Compile Include="ControllersTests\PlanControllerTest.cs" />
     <Compile Include="ControllersTests\RationControllerTest.cs" />
@@ -146,9 +147,17 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
+      <Project>{065612EC-B087-492F-ABEE-029598960744}</Project>
+      <Name>Cats.Data.Security</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
+      <Name>Cats.Models.Hub</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
@@ -161,6 +170,10 @@
     <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
       <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>

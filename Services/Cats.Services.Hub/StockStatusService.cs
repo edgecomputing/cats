@@ -50,6 +50,7 @@ namespace Cats.Services.Hub
 
         public List<HubFreeStockView> GetFreeStockStatusD(int hub, int program, DateTime date)
         {
+            
             var status = _transactionService.Get(t => t.HubID == hub && t.ProgramID == program && t.TransactionDate <= date);
             var grouped = (
                             from s in status
@@ -183,7 +184,7 @@ namespace Cats.Services.Hub
 
             var result = new List<HubFreeStockSummaryView>();
 
-            foreach (var i in grouped)
+             foreach (var i in grouped)
             {
 
                 decimal phys = 0;
