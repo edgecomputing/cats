@@ -181,6 +181,8 @@ namespace Cats.Services.Procurement
                 transportOrder.TransporterSignedDate = DateTime.Today;
                 transportOrder.RequestedDispatchDate = DateTime.Today;
                 transportOrder.ConsignerDate = DateTime.Today;
+                transportOrder.StartDate = DateTime.Today.AddDays(3);
+                transportOrder.EndDate = DateTime.Today.AddDays(13);
                 transportOrder.StatusID = (int)TransportOrderStatus.Draft;
                 var transportLocations = transporterAssignedRequisionDetails.FindAll(t => t.TransporterID == transporter).Distinct();
 
