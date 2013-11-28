@@ -7,7 +7,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 
 <div ng-app>
@@ -19,13 +19,11 @@
             <div class="panel-body">
 
                 <div class="row-fluid form-horizontal ">
-
                     <div class="form-control span12">
                         <div class="span3">
 
                             <label>Select As of Date</label>
-
-                            <input ng-model="reqParam.date" class="cats-datepicker2">
+                            <input ng-model="reqParam.date" class="cats-datepicker2  input-medium" type="text">
                         </div>
 
                         <div class="span3">
@@ -80,6 +78,7 @@
             </div>
         </div>
     </div>
+
     <div ng-controller="StockController">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -91,7 +90,8 @@
                     <div class="form-control span12">
                         <div class="span3">
                             <label>Select As of Date</label>
-                            <input ng-model="requestParam.date" class="cats-datepicker2">
+                            <input ng-model="requestParam.date" class="cats-datepicker2 input-medium" type="text">
+                            @*<input ng-model="reqParam.date" class="cats-datepicker2  input-medium" type="text">*@
                         </div>
 
                         <div class="span3">
@@ -170,13 +170,14 @@
 
 <script>
     function SummaryController($scope, $http) {
-        $scope.reqParam = { program: 1, date: new Date() }
+        
+        $scope.reqParam = { program: 1, date: new Date()};
         $scope.summaryData = [];
         $scope.programsCollection = [];
         $scope.freeStockSum = 0;
         $scope.physicalStockSum = 0;
 
-        var onSuccess = function (data) {
+        var onSuccess = function(data) {
             $scope.summaryData = data;
             var f = 0;
             var p = 0;
@@ -186,22 +187,22 @@
             }
             $scope.freeStockSum = f;
             $scope.physicalStockSum = p;
-        }
+        };
 
-        var onProgramGetSuccess = function (data) {
+        var onProgramGetSuccess = function(data) {
             $scope.ProgramsCollection = data;
-        }
+        };
 
         $scope.getSummary = function () {
             //$http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);
             $http.post("@Url.Action("GetStockStatusSummaryP", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.reqParam).success(onSuccess);
         };
 
-        $scope.getPrograms = function () {
+        $scope.getPrograms = function() {
 
             //$http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
             $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
-        }
+        };
 
         $scope.getSummary();
         $scope.getPrograms();
@@ -210,7 +211,7 @@
 
 <script>
     function StockController($scope, $http) {
-        $scope.requestParam = { hub: 1, program: 1, date: "11/18/2013" };
+        $scope.requestParam = { hub: 1, program: 1, date: new Date() };
         $scope.stockData = [];
         $scope.HubsCollection = [];
         $scope.ProgramsCollection = [];

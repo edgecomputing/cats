@@ -311,7 +311,6 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
-
         public ActionResult DispatchCommodity()
         {
             try
