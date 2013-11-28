@@ -31,7 +31,7 @@
                     EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=Ration#").ToString());
         columns.Bound(p => p.Season);
         columns.Bound(p => p.Year);
-        columns.Bound(p => p.CreatedBy);
+        columns.Bound(p => p.CreatedBy).Width(170);
         columns.Bound(p => p.CreatedDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})", Html.UserCalendarPreference()));
         //columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
@@ -42,15 +42,15 @@
                     p.Custom("Publish").Click("publishHRD");
                     p.Custom("Summary").Click("showSummary");
 
-                });     
+                }).Width(250);     
 
         })
-    .Pageable()
+    .Scrollable()
     .Sortable()
     .Filterable()
+     .HtmlAttributes(new { style = "height:430px;" })
     .DataSource(dataSource => dataSource
           .Ajax()
-          .PageSize(8)
             .Model(model => model.Id(p => p.HRDID))
             .Read(read => read.Action("ApprovedHRD_Read", "HRD"))
  
