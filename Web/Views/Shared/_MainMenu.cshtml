@@ -42,7 +42,7 @@
                         <ul class="dropdown-menu">
                             <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list, @Html.Translate("Gift Certificate"))</li>
-                            <li class="divider"></li>                            
+                            <li class="divider"></li>
                             <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate("Plan")</a></li>
 
                             <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
@@ -59,7 +59,7 @@
                                 <ul class="dropdown-menu">
                                     <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_request, @Html.Translate("Requests"))</li>
-                                    <li><a href="@Url.Action("New", "Request",new{Area="EarlyWarning"})">New Request</a></li>
+                                    <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">New Request</a></li>
                                 </ul>
                             </li>
 
@@ -118,20 +118,25 @@
                                                                 LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
 
                             <li class="divider" />
-                            @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
-                            <li><a href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Free Stock Status") </a></li>
+                            <li class="dropdown-submenu">
+                                <a href="#" data-toggle="dropdown">Reports</a>
+                                <ul class="dropdown-menu">
+                                    @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
+                                    <li><a href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">@Html.Translate("Free Stock Status") </a></li>
 
 
-                            <li>@Html.LogisticOperationMenuItem(@Html.Translate("Commodity Received Stock"),
+                                    <li>@Html.LogisticOperationMenuItem(@Html.Translate("Commodity Received Stock"),
                                                                     @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
                                                                     LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
-                            <li>@Html.LogisticOperationMenuItem(@Html.Translate("Carry Over Stock"),
+                                    <li>@Html.LogisticOperationMenuItem(@Html.Translate("Carry Over Stock"),
                                                                     @Url.Action("CarryOverStock", "LogisticsStockStatus", new { Area = "Logistics" }),
                                                                     LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
-                            <li>@Html.LogisticOperationMenuItem(@Html.Translate("Transferred Stock"),
+                                    <li>@Html.LogisticOperationMenuItem(@Html.Translate("Transferred Stock"),
                                                                @Url.Action("TransferredStock", "LogisticsStockStatus", new { Area = "Logistics" }),
                                                                 LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
-                            @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
+                                    @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
+                                </ul>
+                            </li>
 
                         </ul>
 
