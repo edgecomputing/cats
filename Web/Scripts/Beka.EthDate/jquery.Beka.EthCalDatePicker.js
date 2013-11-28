@@ -53,7 +53,7 @@
 
 
         return this.filter('input:text')
-         //   .css('opacity', 0.5)
+            .css('opacity', 0)
             .css('display', 'none');
 
     }

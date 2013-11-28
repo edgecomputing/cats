@@ -140,7 +140,7 @@ namespace Cats.ViewModelBinder
                                         select g
                                       );
                 
-                decimal accumelate = 0;
+                //decimal accumelate = 0;
               
                 foreach (var requestDetailCommodity in requestdetail.RequestDetailCommodities)
                     {
@@ -164,59 +164,7 @@ namespace Cats.ViewModelBinder
                 dt.Rows.Add(dr);
             }
 
-            //foreach (var ds in requestdetail.RequestDetailCommodities)
-            //{
-            //    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
-            //    col.ExtendedProperties.Add("ID", ds.CommodityID);
-            //    dt.Columns.Add(col);
-            //}
-
             return dt;
-           
-		    /*
-            if (requestdetail != null)
-            {
-                foreach (var ds in requestdetail.RequestDetailCommodities)
-                {
-                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
-                    col.ExtendedProperties.Add("ID", ds.CommodityID);
-                    dt.Columns.Add(col);
-                }
-
-                //int rowID = 0;
-                //bool addRow = false;
-                //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
-                foreach (var requestDetail in requestDetails)
-                {
-                    var dr = dt.NewRow();
-                    //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
-                    dr[colNoBeneficiary] = requestDetail.Beneficiaries;
-                    dr[colZone] = requestDetail.Fdp.AdminUnit.AdminUnit2.Name;
-                    dr[colWoreda] = requestDetail.Fdp.AdminUnit.Name;
-                    //dr[colFDP] = requestDetail.Fdp.Name;
-
-                    foreach (var requestDetailCommodity in requestDetail.RequestDetailCommodities)
-                    {
-                        DataColumn col = null;
-                        foreach (DataColumn column in dt.Columns)
-                        {
-                            if (requestDetailCommodity.CommodityID.ToString() == column.ExtendedProperties["ID"].ToString())
-                            {
-                                col = column;
-                                break;
-                            }
-                        }
-
-                        if (col != null)
-                        {
-                            dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
-
-                        }
-                    }
-                    dt.Rows.Add(dr);
-                }
-            }*/
-           // return dt;
         }
 
         public static  DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails )
