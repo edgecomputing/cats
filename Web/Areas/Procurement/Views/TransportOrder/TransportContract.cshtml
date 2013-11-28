@@ -154,7 +154,7 @@
              .ToolBar(toolBar => toolBar.Save())
              .Editable(editable => editable.Mode(GridEditMode.InCell))
              .Events(events => events.DataBound("onDataBound"))
-            .Pageable()
+            .Scrollable()
             .Sortable()
             .Filterable()
             .DataSource(dataSource => dataSource

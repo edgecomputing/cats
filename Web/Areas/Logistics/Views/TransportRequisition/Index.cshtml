@@ -29,7 +29,6 @@ Transport Requisition Code: <input id="searchIndex" style="width: 300px; height:
     columns.Bound(requisiton => requisiton.Status);
 })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable()
     .Sortable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
@@ -38,7 +37,7 @@ Transport Requisition Code: <input id="searchIndex" style="width: 300px; height:
         .PageSize(20)
         .Model(model =>model.Id(p => p.TransportRequisitionID))
         .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition").Data("searchIndexObj"))
-    ).Pageable()
+    )
 )
 
 
