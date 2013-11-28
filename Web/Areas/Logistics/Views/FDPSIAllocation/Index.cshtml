@@ -115,7 +115,7 @@
                             <i class="icon-move icon-align-right"></i><span> {{zone.name}} [{{zone.allocatedAmount}} of {{zone.requestedAmount}}]</span>
                         </a>
                         <div style="margin:auto; text-align:center;">
-                         <button ng-show="zone.allocatedAmount==zone.requestedAmount && saved==1" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i> Promote</button>
+                         <button ng-show="zone.allocatedAmount==zone.requestedAmount && saved==1" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i> Commit</button>
 
                         </div>   
                      </div>
@@ -276,7 +276,7 @@
         {
             //$('#modalContent').html("Error");
             //$('#myModal').modal('hide');
-            $('#modalContent').html("Promoted");
+            $('#modalContent').html("Commited");
             setTimeout(function(){window.history.back();},3000);
 
             
