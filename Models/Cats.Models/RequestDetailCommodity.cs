@@ -15,6 +15,14 @@ namespace Cats.Models
         public decimal Amount { get; set; }
         public Nullable<int> UnitID { get; set; }
         public virtual Commodity Commodity { get; set; }
-        public virtual RegionalRequestDetail RegionalRequestDetail { get; set; }
+        public virtual RegionalRequestDetail RegionalRequestDetail { get; set;}
     }
+
+    public partial class RequestDetailCommodityGroupedByWoreda
+    {
+        public int commodityID { get; set; }
+        public decimal Amount { get; set; }
+        public string CommodityName { get; set; }
+    }
+
 }

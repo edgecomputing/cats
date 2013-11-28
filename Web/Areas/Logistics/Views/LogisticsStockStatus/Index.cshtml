@@ -165,6 +165,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 
 <script>
@@ -251,28 +252,29 @@
             $scope.physicalSum = p;
         }
 
-        var onHubGetSuccess = function (data) {
+        var onHubGetSuccess = function(data) {
             $scope.HubsCollection = data;
-        }
+        };
 
-        var onProgramGetSuccess = function (data) {
+        var onProgramGetSuccess = function(data) {
             $scope.ProgramsCollection = data;
-        }
+        };
 
         $scope.getStockStatus = function () {
             //$http.post("/LogisticsStockStatus/GetStockStatus", $scope.requestParam).success(onSuccess);
             $http.post("@Url.Action("GetStockStatus", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.requestParam).success(onSuccess);
         };
 
-        $scope.getHubs = function () {
+        $scope.getHubs = function() {
             //$http.post("/LogisticsStockStatus/GetHubs", null).success(onHubGetSuccess);
             $http.post("@Url.Action("GetHubs", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onHubGetSuccess);
-        }
-        $scope.getPrograms = function () {
+        };
+
+        $scope.getPrograms = function() {
 
             // $http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
             $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
-        }
+        };
 
         $scope.getStockStatus();
         $scope.getHubs();

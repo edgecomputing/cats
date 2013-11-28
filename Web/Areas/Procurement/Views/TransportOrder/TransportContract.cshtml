@@ -26,12 +26,15 @@
             }).data("kendoWindow");
         });
     </script>
+    
     <style>
         .redFailed {
             background-color: #crimson;
         }
     </style>
+   
     <div id="statusWindow" style="font-size: large;color: darkred;text-align: center;"></div>
+    
     <div class="control-group form-horizontal well" id="ContractHeader">
         
         <div class="row">
@@ -133,6 +136,25 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div>
+    <table>
+        <tr>
+            <td>
+                <a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back</a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { Controller = "TransportOrder", Area = "Procurement", id = Model.TransportOrderID })
+            </td>
+            <td>
+                @*  @Html.ActionLink("Print", "Print", new {Controller="TransportOrder" ,id = Model.TransportOrderID })*@
+                <a target="_blank" href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })"><i class="icon-print"></i>Print</a>
+            </td>
+            @* <td>
+                @Html.ActionLink("Approve", "Approve", new {Controller="TransportOrder" ,id = Model.TransporterID })
+            </td>*@
+        </tr>
+    </table>
     </div>
 
 @(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportOrderDetailViewModel>()
