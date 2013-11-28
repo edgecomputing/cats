@@ -4,7 +4,7 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 
-@model IEnumerable<RegionalRequestViewModel>
+@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -25,6 +25,7 @@
 }
 
           @Html.Partial("_FilterRequestLeftBar")
+
 
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
@@ -68,25 +69,16 @@ else
             {
                 model.Id(p => p.RegionalRequestID);
             })
-       .Read(read => read.Action("Request_Read", "Request",new{id=ViewBag.Status}))
+       .Read(read => read.Action("Request_Search", "Request",
+                                new {
+                                    DateFrom=@ViewBag.Filter.DateFrom,
+                                    DateTo=@ViewBag.Filter.DateTo,
+                                    RegionID=@ViewBag.Filter.RegionID,
+                                    ProgramID=@ViewBag.Filter.ProgramID,
+                                    StatusID=@ViewBag.Filter.StatusID
+                                    }
+                                    ))
 
       )
       )
 
-<script>
-    var readUrl = "@Url.Action("Request_Read", "Request")";
-    $('#btnRefresh').click(function (e) {
-        var grid = $("#RequestListGrid").data("kendoGrid");
-        //grid.dataSource.data=grid.dataSource.transport.read({ url: readUrl + "?id=1" });
-       /* grid.dataSource = new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: readUrl,
-                    dataType: "json", // "jsonp" is required for cross-domain requests; use "json" for same-domain requests
-                    data: { id: 1 } // search for tweets that contain "html5"
-                }
-            }
-        });*/
-        grid.dataSource.read();
-    });
-</script>
