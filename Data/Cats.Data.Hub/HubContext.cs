@@ -82,6 +82,7 @@ namespace Cats.Data.Hub
         public DbSet<VWDispatchCommodity> VWDispatchCommodity { get; set; }
 
         public DbSet<VWCarryOver> VWCarryOvers { get; set; }
+        public DbSet<VWFreePhysicalStock> VWFreePhysicalStocks { get; set; }
         public DbSet<VWTransferredStock> VWTransferredStocks { get; set; }
 
 
@@ -150,6 +151,7 @@ namespace Cats.Data.Hub
             modelBuilder.Configurations.Add(new VWDispatchCommodityMap());
 
             modelBuilder.Configurations.Add(new VWCarryOverMap());
+            modelBuilder.Configurations.Add(new VWFreePhysicalStockMap());
             modelBuilder.Configurations.Add(new VWTransferredStockMap());
 
 

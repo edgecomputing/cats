@@ -1,5 +1,7 @@
 ﻿@model Cats.Areas.Procurement.Models.TransportContractViewModel
 @using System.Collections
+@using Cats.Helpers
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
@@ -24,7 +26,15 @@
             }).data("kendoWindow");
         });
     </script>
+    <style>
     <div class="control-group form-horizontal well">
+        .redFailed {
+            background-color: #crimson;
+        }
+    </style>
+    <div id="statusWindow" style="font-size: large;color: darkred;text-align: center;"></div>
+    <div class="control-group form-horizontal well" id="ContractHeader">
+        
         <div class="row">
             <div class="span6">
                 <div class="control-group">
@@ -143,7 +153,7 @@
             </td>*@
         </tr>
     </table>
-</div>
+    </div>
 
 @(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportOrderDetailViewModel>()
     .Name("grid")
@@ -335,6 +345,8 @@
             });
             $("#modalWindow").html("");
             $(".transChange").hide();
+            $('#ContractHeader').addClass('cats_error');
+            $("#statusWindow").html('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.');
             wnd.center().close();
             //window.location.replace("/Procurement/TransportOrder/Index");
         }

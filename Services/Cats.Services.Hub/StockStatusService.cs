@@ -253,6 +253,63 @@ namespace Cats.Services.Hub
             //return result.ToList();
         }
 
+        public List<SummaryFreeAndPhysicalStockModel> GetFreeAndPhysicalStockSummary()
+        {
+            var status = _transactionService.Get(t => DateTime.Compare(t.TransactionDate, DateTime.Now) <= 0, null, "Hub,Program,Commodity");
+
+            var grouped = from c in status
+                            group c by new
+                            {
+                                c.HubID,
+                                c.Hub,
+                                c.ProgramID,
+                                c.Program,
+                                c.ParentCommodityID,
+                                c.Commodity1
+                            } into g
+                            select new { HubID = g.Key.HubID, Hub = g.Key.Hub, ProgramID = g.Key.ProgramID, Program = g.Key.Program, 
+                                CommodityId = g.Key.ParentCommodityID, ParentCommodity = g.Key.Commodity1, Transactions = g };
+
+            var result = new List<SummaryFreeAndPhysicalStockModel>();
+
+            foreach (var i in grouped)
+            {
+                decimal phys = 0;
+                decimal free = 0;
+
+                var hubName = i.Hub.Name;
+                var program = i.Program.Name;
+                var commodity = "";
+
+                foreach (var s in i.Transactions)
+                {
+                    commodity = s.Commodity.Name;
+                    
+                    if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
+                    {
+                        phys = phys + Math.Abs(s.QuantityInMT);
+                    }
+
+                    if (s.LedgerID == 2)
+                    {
+                        free = free + Math.Abs(s.QuantityInMT);
+                    }
+                }
+
+                var item = new SummaryFreeAndPhysicalStockModel()
+                {
+                    HubName = hubName,
+                    Program = program,
+                    CommodityName = commodity,
+                    PhysicalStock = phys,
+                    FreeStock = free
+                };
+
+                result.Add(item);
+            }
+            return result.ToList();
+        }
+
         public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
         {
             var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
@@ -302,9 +359,15 @@ namespace Cats.Services.Hub
       {
           return _unitOfWork.VWCommodityReceived.Get(filter,null,string.Empty).ToList();
       }
+ 
+      public List<VWFreePhysicalStock> GetSummaryFreePhysicalStock(Expression<Func<VWFreePhysicalStock, bool>> filter = null)
+      {
+          return _unitOfWork.VWFreePhysicalStock.Get(filter, null, string.Empty).ToList();
+      }
 
+        public List<VWDispatchCommodity> GetDispatchedCommodity(
+            Expression<Func<VWDispatchCommodity, bool>> filter = null)
 
-      public List<VWDispatchCommodity> GetDispatchedCommodity(Expression<Func<VWDispatchCommodity, bool>> filter = null)
       {
           return _unitOfWork.VWDispatchCommodity.Get(filter, null, string.Empty).ToList();
       }
