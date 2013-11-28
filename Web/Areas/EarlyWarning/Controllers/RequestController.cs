@@ -205,19 +205,30 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-                //if (psnphrdPlanInfo.BeneficiaryInfos.Count < 1)
-                //{
-                //    ModelState.AddModelError("Errors", "There is no Beneficiary for the selected Region and HRD Plan");
-                //    PopulateLookup();
-                //    return View(hrdpsnpPlan);
-                //}
-                //  RedirectToAction("PreparePlan");
+                RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
+                var model = getRequestDetai(req.RegionalRequestID);
+                ViewBag.message = "Request Created";
+                return View("Details", model);
+                //return View("PreparePlan", psnphrdPlanInfo);
+            }
+            ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
+            PopulateLookup();
+            return View(hrdpsnpPlan);
+        }
+        /*
+        [HttpPost]
+        public ActionResult New(HRDPSNPPlan hrdpsnpPlan)
+        {
+            if (ModelState.IsValid)
+            {
+                var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
                 return View("PreparePlan", psnphrdPlanInfo);
             }
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             PopulateLookup();
             return View(hrdpsnpPlan);
         }
+        */
         public ActionResult PreparePlan(HRDPSNPPlanInfo psnphrdPlanInfo)
         {
             //CretaeRegionalRequest(psnphrdPlanInfo);
@@ -553,7 +564,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         #region Reguest
 
-
+        /*
         public ActionResult Index(int id = -1)
         {
             var regions = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2);
@@ -567,9 +578,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.StatusID = new SelectList(statuses, "StatusID", "Description");
             return View();
         }
-
+        */
         [HttpGet]
-        public ActionResult List()
+        public ActionResult Index()
         {
             SearchRequsetViewModel filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
@@ -578,7 +589,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        public ActionResult List(SearchRequsetViewModel filter)
+        public ActionResult Index(SearchRequsetViewModel filter)
         {
             ViewBag.Filter = filter;
             PopulateLookup();

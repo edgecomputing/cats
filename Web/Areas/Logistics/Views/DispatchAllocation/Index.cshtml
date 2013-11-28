@@ -12,34 +12,23 @@
     </legend>
 </fieldset>
 
-@*@section LeftBar{
-    
-    @Html.Partial("_AllocationLeftBar")
-
-}*@
-
-
-
-@{
-
-
-    var ddl = Html.Kendo().DropDownList()
-        .Name("Region")
-        .OptionLabel("Select a Region...")
-        .DataTextField("Name")
-        .DataValueField("AdminUnitID")
-        .HtmlAttributes(new { style = "width:200px" })
-        .Events(e => e.Change("regionsChange"))
-        .DataSource(source => source.Read("GetRegions", "DispatchAllocation"));
-
-
-    ddl.Render(); //displays the dropdown list
-
-    var selected = ddl.ToComponent().Value;//gets the selected value
-}
-
-
-<div style="float: right; margin-right: 100px">
+@section Toolbar
+{
+   <!-- <select>
+        <option value="1">One</option>
+        <option value="2">One</option>
+        <option value="3">One</option>
+        <option value="4">One</option>
+    </select>-->
+    <div class="input-prepend" style="margin-top:10px; margin-right:5px; ">
+        <span class="add-on">Region</span>
+        <select>
+            <option value="1">One</option>
+            <option value="2">One</option>
+            <option value="3">One</option>
+            <option value="4">One</option>
+        </select>
+    </div>
     <div class="btn-group">
         <button class="btn">Action</button>
         @{
@@ -67,28 +56,34 @@
         </ul>
 
     </div>
+
+}
+
+
+
+@{
+
+
+    var ddl = Html.Kendo().DropDownList()
+        .Name("Region")
+        .OptionLabel("Select a Region...")
+        .DataTextField("Name")
+        .DataValueField("AdminUnitID")
+        .HtmlAttributes(new { style = "width:200px" })
+        .Events(e => e.Change("regionsChange"))
+        .DataSource(source => source.Read("GetRegions", "DispatchAllocation"));
+
+
+    ddl.Render(); //displays the dropdown list
+
+    var selected = ddl.ToComponent().Value;//gets the selected value
+}
+
+
+<div style="float: right; margin-right: 100px">
+    
 </div>
 
-
-<fieldset>
-    <legend>
-        @Translator.Translate("Allocated amount  by Region and Hub")
-    </legend>
-</fieldset>
-
-
-
-@*<fieldset>
-    <legend>
-        @Translator.Translate("Hub allocated requisitions")
-    </legend>
-</fieldset>
-<fieldset>
-    <legend>
-        <span style="font-size: small">@Translator.Translate(" Requisition to be allocated PC/SI code")</span>
-    </legend>
-</fieldset>*@
-<hr/>
 <div class="row-fluid">
     <div class="span3 column-divider">
         <div id="HubAllocationPartial">
@@ -115,17 +110,17 @@
         <div class="tab-content ">
             <div id="tab0" class="tab-pane active">
                 <div id="ApprovedRequisitionPartial">
-                    @Html.Partial("AllocateProjectCode", new List<int?>(){{ViewBag.regionId},{(int)Cats.Models.Constant.ReliefRequisitionStatus.Approved}})
+                    @Html.Partial("AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.Approved } })
                 </div>
             </div>
             <div id="tab1" class="tab-pane">
                 <div id="HubAllocatedPartial">
-                    @Html.Partial("AllocateProjectCode", new List<int?>(){{ViewBag.regionId},{(int)Cats.Models.Constant.ReliefRequisitionStatus.HubAssigned}})
+                    @Html.Partial("AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.HubAssigned } })
                 </div>
             </div>
             <div id="tab2" class="tab-pane">
                 <div id="ProjectCodeAllocatedPartial">
-                    @Html.Partial("AllocateProjectCode", new List<int?>(){{ViewBag.regionId},{(int)Cats.Models.Constant.ReliefRequisitionStatus.ProjectCodeAssigned}})
+                    @Html.Partial("AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.ProjectCodeAssigned } })
                 </div>
             </div>
         </div>
@@ -133,15 +128,6 @@
         
     </div>
 </div>
-
-@*<br/>
-<br/>
-<fieldset>
-    <legend>
-        @Translator.Translate("Allocated amount  by Region and Hub")
-    </legend>
-</fieldset>*@
-
 
 <script>
 
