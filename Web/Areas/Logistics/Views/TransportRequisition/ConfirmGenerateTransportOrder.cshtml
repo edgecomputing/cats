@@ -15,7 +15,7 @@
 </div>
 
 <h5 class="offset1">@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to generate transported order for selected Transport Requisition?")</h5>
-@using (Html.BeginForm("CreateTransportOrder", "TransportOrder", FormMethod.Post, new { @class = "modal-form" }))}
+@using (Html.BeginForm("CreateTransportOrder", "TransportOrder",new{Area="Procurement"}, FormMethod.Post, new { @class = "modal-form" }))
 {
     
     <div class="modal-body form-horizontal">
