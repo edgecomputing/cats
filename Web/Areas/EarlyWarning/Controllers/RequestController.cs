@@ -305,7 +305,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var result = GetRequestWithPLAN(request);
 
-            var dt = RequestViewModelBinder.TransposeDataNew(result);
+            var dt = RequestViewModelBinder.TransposeDataNew(result, requestDetails);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
 
@@ -679,7 +679,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                          NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
                                          hrdBeneficiary = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).NumberOfBeneficiaries : 0,
                                          //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
-                                         detailsf = woredaDetail
+                                         detailsf = woredaDetail,
+                                         
+
                                      });
 
             result =  (from woredaDetail in woredaGrouped
