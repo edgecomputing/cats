@@ -7,15 +7,15 @@
             </tr>
 
             <tr ng-repeat="sd in contractsData">
-                <td>{{sd.contract}}
-                     <div>
-                         <p> Transporter in charge is</p>
-                         <b>{{sd.transporter}} ({{sd.owner}})</b>
+                <td><b>{{sd.contract}}</b>
+                    <div>
+                        <p>&nbsp;</p>
+                        <p>Transporter in charge is<b>{{sd.transporter}}</b></p>
                     </div>
                 </td>
                 <td>
                     <div class="progress progress-success">
-                        <div class="bar" style="width:{{sd.percentage | number:0}}%">
+                        <div class="bar" style="width: {{sd.percentage | number:0}}%">
                             <span class="sr-only">{{sd.percentage | number:0}}% Completed</span>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
         };
 
         $scope.getContracts = function () {
-            $http.post("@Url.Action("GetTransportConstractInfo", "Home", new { Area = "Logistics" })", null).success(onSuccess);
+            $http.post("@Url.Action("GetTransportContractInfo", "Home", new { Area = "Logistics" })", null).success(onSuccess);
         };
 
         $scope.getContracts();

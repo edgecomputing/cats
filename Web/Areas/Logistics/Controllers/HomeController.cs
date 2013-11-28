@@ -86,7 +86,7 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(requisitions, JsonRequestBehavior.AllowGet);
         }
 
-        public  JsonResult GetTransportConstractInfo()
+        public  JsonResult GetTransportContractInfo()
         {
             var contracts = _transportOrderService.FindBy(t => t.StatusID >= 3);
             var info = (
