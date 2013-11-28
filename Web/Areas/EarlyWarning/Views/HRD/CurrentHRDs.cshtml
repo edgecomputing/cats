@@ -33,7 +33,7 @@
                     EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=Ration#").ToString());
         columns.Bound(p => p.Season);
         columns.Bound(p => p.Year);
-        columns.Bound(p => p.CreatedBy);
+        columns.Bound(p => p.CreatedBy).Width(160);
         columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
         columns.Bound(p => p.PublishedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
             columns.Bound(p => p.Status);
@@ -43,15 +43,14 @@
                     p.Custom("Edit").Click("hrdEdit");
                     p.Custom("Summary").Click("showSummary");
 
-                });     
+                }).Width(200);     
 
         })
-    .Pageable()
+    .Scrollable()
     .Sortable()
     .Filterable()
     .DataSource(dataSource => dataSource
           .Ajax()
-          .PageSize(8)
             .Model(model => model.Id(p => p.HRDID))
             .Read(read => read.Action("CurrentHRD_Read", "HRD"))
  
