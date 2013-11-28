@@ -106,7 +106,7 @@ namespace Cats.Areas.Procurement.Controllers
                 var log = new Logger();
                 log.LogAllErrorsMesseges(exception, _log);
                 return RedirectToAction("ConfirmGenerateTransportOrder", "TransportRequisition",
-                                        new { id = id });
+                                        new { Area="Logistics", id = id });
             }
         }
 
