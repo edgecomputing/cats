@@ -33,6 +33,6 @@ namespace Cats.Models
       public int FDPID {get; set;}
       public int? ShippingInstructionID {get; set;}
       public int? ProjectCodeID {get; set;}
-      public char IsClosed {get; set;}
+      public bool IsClosed {get; set;}
     }
 }
