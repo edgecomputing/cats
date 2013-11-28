@@ -72,14 +72,12 @@
   </log4net>
 
 
-
+ <connectionStrings>
 <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
-</connectionStrings>
-
     
 
 <!--<connectionStrings>
@@ -93,15 +91,16 @@
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
 <<<<<<< HEAD
-</connectionStrings> 
- 
-<appSettings>
+</connectionStrings>
+-->
+
+  <appSettings>
 =======
-
-
-</connectionStrings> -->
-
-
+</connectionStrings>--> 
+ 
+  
+<appSettings>
+>>>>>>> 4c3fdff9a29136ba9e70e1df96f78c91204c5ddf
   <appSettings>
 
 
