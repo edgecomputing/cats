@@ -72,10 +72,10 @@ namespace Cats.Tests.ControllersTests
 
 
 
+       
            Mock<IStockStatusService> mockStatusService = new Mock<IStockStatusService>();
 
             mockStatusService.Setup(s => s.GetDispatchedCommodity(It.IsAny<Expression<Func<VWDispatchCommodity,bool>>>())).Returns(dispatch);
-
 
             _stockStatusService = mockStatusService.Object;
             _logisticsStockStatusController = new LogisticsStockStatusController(null, null,null, null, null, _stockStatusService, null);

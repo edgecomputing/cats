@@ -320,6 +320,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public ActionResult ConfirmGenerateTransportOrder(int id)
         {
+            ViewBag.RequisistionId = id;
             var transportRequisition = _transportRequisitionService.FindById(id);
             if (transportRequisition == null)
             {
