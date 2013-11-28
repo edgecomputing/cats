@@ -1,0 +1,49 @@
+﻿<div ng-app>
+    <div ng-controller="ContractsController">
+        <table class="table">
+            <tr>
+                <th>Contract Number</th>
+                <th>Progress</th>
+            </tr>
+
+            <tr ng-repeat="sd in contractsData">
+                <td><b>{{sd.contract}}</b>
+                    <div>
+                        <p>&nbsp;</p>
+                        <p>Transporter in charge is<b>{{sd.transporter}}</b></p>
+                    </div>
+                </td>
+                <td>
+                    <div class="progress progress-success">
+                        <div class="bar" style="width: {{sd.percentage | number:0}}%">
+                            <span class="sr-only">{{sd.percentage | number:0}}% Completed</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p><b>{{sd.daysLeft}}</b> days remain before contract ends </p>
+                    </div>
+                    <div>
+                        <p> Total contract Duration is <b>{{sd.duration}} </b> days</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ContractsController($scope, $http) {
+
+        $scope.contractsData = [];
+        var onSuccess = function (data) {
+            $scope.contractsData = data;
+        };
+
+        $scope.getContracts = function () {
+            $http.post("@Url.Action("GetTransportContractInfo", "Home", new { Area = "Logistics" })", null).success(onSuccess);
+        };
+
+        $scope.getContracts();
+    }
+    
+</script>

@@ -1492,7 +1492,6 @@
     <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\ReceivedCommodity.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\nghigh.cshtml" />
-    <Content Include="Areas\Logistics\Views\Shared\basicAreaChart.json" />
     <Content Include="Scripts\ng-google-chart.js" />
     <Content Include="Scripts\ng-highchart.js" />
     <Content Include="Scripts\HubScripts\Cascade.js" />
@@ -1509,6 +1508,7 @@
       <DependentUpon>dataset.xsd</DependentUpon>
     </Content>
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\CarryOverStock.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_TransportContractsExecution.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />

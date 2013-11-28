@@ -30,5 +30,6 @@ namespace Cats.Services.EarlyWarning
        List<NeedAssessment> PlannedNeedAssessment(int planID);
        List<HRD> PlannedHRD(int planID);
        void ChangePlanStatus(int planID);
+       void AssessmentPlanStatus(Plan plan);
     }
 }

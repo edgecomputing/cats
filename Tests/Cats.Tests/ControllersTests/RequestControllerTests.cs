@@ -303,8 +303,16 @@ namespace Cats.Tests.ControllersTests
 
             var hrdServiceDetail = new Mock<IHRDDetailService>();
             var RegionalPSNPPlanDetailService = new Mock<IRegionalPSNPPlanDetailService>();
+            var RegionalPSNPPlanService = new Mock<IRegionalPSNPPlanService>();
 
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object, userAccountService.Object, log.Object, hrdServiceDetail.Object, RegionalPSNPPlanDetailService.Object);
+            _requestController = new RequestController(
+                mockRegionalRequestService.Object, 
+                fdpService.Object, requestDetailService.Object,
+                commonService.Object, hrdService.Object,
+                appService.Object, userAccountService.Object,
+                log.Object, hrdServiceDetail.Object, 
+                RegionalPSNPPlanDetailService.Object,
+                RegionalPSNPPlanService.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      

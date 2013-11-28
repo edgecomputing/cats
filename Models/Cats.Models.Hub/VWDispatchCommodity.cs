@@ -17,8 +17,8 @@ namespace Cats.Models.Hubs
             public Nullable<decimal> RemainingInUnit { get; set; }
             public int FDPID { get; set; }
             public string Hub { get; set; }
-       public int HubId { get; set; }
-       public string ProjectCode { get; set; }
+            public int HubId { get; set; }
+            public string ProjectCode { get; set; }
             public string ShippingInstruction { get; set; }
             public string FDPName { get; set; }
             public Nullable<int> AdminUnitTypeID { get; set; }
