@@ -558,10 +558,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Index(int id = -1)
         {
             var regions = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2);
-            ViewData["adminunits"] = regions;
+            ViewBag.RegionID = new SelectList(regions, "AdminUnitID", "Name");
+            //ViewData["adminunits"] = regions;
             var programs = _commonService.GetPrograms();
-            ViewData["programs"] = programs;
-            ViewBag.Status = id;
+            ViewBag.ProgramID = new SelectList(programs, "ProgramID", "Name");
+            //ViewData["programs"] = programs;
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            //ViewBag.StatusID = id;
+            ViewBag.StatusID = new SelectList(statuses, "StatusID", "Description");
             return View();
         }
 
