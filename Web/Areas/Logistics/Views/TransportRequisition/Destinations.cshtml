@@ -1,6 +1,8 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
+@using Logistics.Security
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -15,9 +17,10 @@
 }
 @section Toolbar
 {
-   
+   @Html.LogisticsOperationButton(
+                        @Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id=@ViewBag.RequisistionId }),
+                        LogisticsCheckAccess.Operation.View_Transport_Requisition_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
     
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="#"></a>
 }
 @{
     
@@ -43,7 +46,6 @@
     })
   
    
-    .Pageable()
    .Groupable()
     .Sortable()
     .Navigatable()
