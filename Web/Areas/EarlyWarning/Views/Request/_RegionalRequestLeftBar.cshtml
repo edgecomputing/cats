@@ -3,8 +3,6 @@
 @using Cats.Services.Security
 <ul class="nav nav-list">
 
-    <li class="nav-header">Regional Request</li>      
-    
     <li>
         @Html.EarlyWarningOperationButton(
                         @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.Draft}),

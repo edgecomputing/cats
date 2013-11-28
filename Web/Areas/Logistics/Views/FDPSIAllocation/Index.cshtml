@@ -88,8 +88,12 @@
         font-size: 12px;
     }
 </style>
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 100px; height: 50px; right: 50%; top: 50%; margin: auto;">
-    <div id="modalContent" style="line-height: 40px; text-align: center;">Saving</div>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 150px;  right: 50%; top: 50%; margin: auto;">
+    <div class="progress progress-success  progress-striped active" style="height: 20px;">
+        <div class="bar" style="width:100%"></div>
+    </div>
+    <div id="modalContent" style="text-align: center;">
+    </div>
 </div>
 <div ng-app="drag-and-drop" ng-controller="oneCtrl" class="allocationscreen">
     <fieldset>
@@ -112,7 +116,7 @@
                     <div class="accordion-heading">
                         
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_zone" href="#collapse_zone{{zone.zoneId}}">
-                            <button ng-show="zone.allocatedAmount==zone.requestedAmount" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i></button>
+                            <button ng-show="zone.allocatedAmount==zone.requestedAmount && saved==1" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i></button>
                             <i class="icon-move icon-align-right"></i><span> {{zone.name}} [{{zone.allocatedAmount}} of {{zone.requestedAmount}}]</span>
                             
                         </a>
@@ -181,7 +185,7 @@
                     <div class="allocated-list" style="background:#FFF; overflow:hidden;  border-radius: 4px;  height: 120px;" data-drop="true" ng-model='list1' id="SIPC{{si.index}}" data-index="{{si.index}}" data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true,onDrop:dropCallback,onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}">
                         <ul class="nav nav-list ">
                             <li class="btn-draggable" data-allocated="1" ng-repeat="item in si.allocatedRequests" data-drag="1" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}" data-index="{{item.index}}">
-                                <a href="#" ng-shows="si.index==item.allocated">{{item.name}} {{item.id}} [{{item.allocatedAmount}}]</span></a></li>
+                                <a href="#" ng-show="si.index==item.allocated">{{item.name}} [{{item.allocatedAmount}}]</span></a></li>
                         </ul>
                         
                     </div>
@@ -236,13 +240,14 @@
 
 
     App.controller('oneCtrl', function ($scope, $http) {
+        $scope.saved=1;
         $scope.response=[];
         $scope.regionId=@ViewBag.regionId;
         $scope.RequisitionID=@ViewBag.RequisitionID;
         $scope.getListUrl="@Url.Action("getRequisitionList", "FDPSIAllocation", new { Area = "Logistics" })"
         $scope.updateUrl="@Url.Action("UpdateAllocation", "FDPSIAllocation", new { Area = "Logistics" })"
         $scope.promoteUrl="@Url.Action("updateRequisitionStatus", "FDPSIAllocation", new { Area = "Logistics" })"
-        $scope.selectedHub=3;
+        $scope.selectedHub=@ViewBag.AllocatedHub;
 
         $scope.list1 = [];
         $scope.list2 = [];
@@ -259,9 +264,19 @@
         $scope.SIPCCodes = []
         $scope.requests = [];
         $scope.requisitionDetail=[];
+        var updateSuccess=function()
+        {
+            //$('#modalContent').html("Error");
+            $('#myModal').modal('hide');
+        }
+        var updateError=function()
+        {
+            $('#modalContent').html("Error");
+        }
         $scope.on_remove_allocation=function(adminIndex)
         {
-           // alert(adminIndex);
+            // alert(adminIndex);
+            $scope.saved=0;
             var location = $scope.allAdminRegions[adminIndex]; 
             $scope.removeAllocation(location);
 
@@ -410,9 +425,9 @@
         };
         $scope.promot = function (RequisitionId,showmodal) {
             var param = { RequisitionId:RequisitionId };
-            $http.post($scope.promoteUrl, param).success(function (){ $('#myModal').modal('hide');});
+            $http.post($scope.promoteUrl, param).success(updateSuccess).error(updateError);  
             if (showmodal) {
-                $('#modalContent').html("...");
+                $('#modalContent').html("");
                 $('#myModal').modal('show');
             }
         }
@@ -463,7 +478,8 @@
         };
 
         $scope.assigneAllocation = function (requestIndex, siIndex, amount) {
-           // alert(requestIndex + "," + siIndex);
+            // alert(requestIndex + "," + siIndex);
+            $scope.saved=0;
             var location = $scope.allAdminRegions[requestIndex];
             amount = location.requestedAmount - location.allocatedAmount;
             var avail=$scope.SIPCCodes[siIndex].availableAmount-amount;
@@ -558,6 +574,7 @@
             $scope.MapViewModel(resp)
             $scope.initUi();
             $scope.updateSavedAllocations();
+            $scope.saved=1;
         };
         $scope.MapViewModel=function(response)
         {
@@ -642,8 +659,10 @@
                 $('#myModal').modal('show');
             }
         };
+
         $scope.Save=function(showmodal)
         {
+            $scope.saved=1;
             var param = [];
             for(var i in $scope.requisitionDetail)
             {
@@ -655,7 +674,7 @@
                 }
 
             }
-            $http.post($scope.updateUrl, param)  
+            $http.post($scope.updateUrl, param).success(updateSuccess).error(updateError);  
             if (showmodal) {
                 $('#modalContent').html("...");
                 $('#myModal').modal('show');

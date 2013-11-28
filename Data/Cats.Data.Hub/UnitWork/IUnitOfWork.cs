@@ -241,6 +241,9 @@ namespace Cats.Data.Hub
             IGenericRepository<VWCommodityReceived> VWCommodityReceived { get; }
             IGenericRepository<VWCarryOver> VWCarryOver { get; }
 		    IGenericRepository<VWFreePhysicalStock> VWFreePhysicalStock { get; }
+            IGenericRepository<VWDispatchCommodity> VWDispatchCommodity { get; } 
+            IGenericRepository<VWTransferredStock> VWTransferredStock { get; } 
+
         }
 }
 

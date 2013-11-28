@@ -78,8 +78,13 @@ namespace Cats.Data.Hub
         public DbSet<UserRole> UserRoles { get; set; }
        // public DbSet<RPT_Distribution_Result> RPT_Distribution_Results { get; set; }
         public DbSet<VWCommodityReceived> VwCommodityReceiveds { get; set; }
+
+        public DbSet<VWDispatchCommodity> VWDispatchCommodity { get; set; }
+
         public DbSet<VWCarryOver> VWCarryOvers { get; set; }
         public DbSet<VWFreePhysicalStock> VWFreePhysicalStocks { get; set; }
+        public DbSet<VWTransferredStock> VWTransferredStocks { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -142,8 +147,14 @@ namespace Cats.Data.Hub
             modelBuilder.Configurations.Add(new UserProfileMap());
             modelBuilder.Configurations.Add(new UserRoleMap());
             modelBuilder.Configurations.Add(new VWCommodityReceivedMap());
+
+            modelBuilder.Configurations.Add(new VWDispatchCommodityMap());
+
             modelBuilder.Configurations.Add(new VWCarryOverMap());
             modelBuilder.Configurations.Add(new VWFreePhysicalStockMap());
+            modelBuilder.Configurations.Add(new VWTransferredStockMap());
+
+
            
 
        /*     modelBuilder.Entity<UserProfile>()

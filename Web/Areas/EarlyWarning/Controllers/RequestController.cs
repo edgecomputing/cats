@@ -118,6 +118,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
             ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
+
+            List<RequestStatus> statuslist = new List<RequestStatus>();
+
+            statuslist.Add(new RequestStatus { StatusID = 1, StatusName="Draft" });
+            statuslist.Add(new RequestStatus { StatusID = 2, StatusName = "Approved" });
+            statuslist.Add(new RequestStatus { StatusID = 3, StatusName = "Closed" });
+            statuslist.Add(new RequestStatus { StatusID = 4, StatusName = "FederalApproved" });
+
+            ViewBag.StatusID = new SelectList(statuslist, "StatusID", "StatusName");
+
         }
         private void PopulateLookup(RegionalRequest regionalRequest)
         {
@@ -214,9 +224,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult RequestFromPlan(HRDPSNPPlanInfo psnphrdPlanInfo)
         {
-            CretaeRegionalRequest(psnphrdPlanInfo);
+            RegionalRequest req=CretaeRegionalRequest(psnphrdPlanInfo);
+            var model = getRequestDetai(req.RegionalRequestID);
             ViewBag.message = "Request Created";
-            return RedirectToAction("Index");
+            return View("Details",model);
         }
 
         #region Regional Request Detail
@@ -237,6 +248,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewData["AvailableCommodities"] = _commonService.GetCommodities();
 
             return View(requestModelView);
+        }
+        public object getRequestDetai(int id)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            //  datePref = "gc";
+            var request =
+               _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
+
+            if (request == null)
+            {
+                return HttpNotFound();
+            }
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
+
+            var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
+            var dt = RequestViewModelBinder.TransposeData(requestDetails);
+            ViewData["Request_main_data"] = requestModelView;
+            return dt;
         }
         public ActionResult Details(int id)
         {
@@ -395,7 +425,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
             var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
 
-            var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID, RequestDetailCommodityID = itm.RequestCommodityID });
+            var commodities = (from itm in requestDetailCommodities select new RequestDetailCommodityViewModel() { CommodityID = itm.CommodityID,Commodity = itm.Commodity.Name, RequestDetailCommodityID = itm.RequestCommodityID });
             ViewData["AvailableCommodities"] = _commonService.GetCommodities();
 
             return Json(commodities.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -460,18 +490,48 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult List()
+        {
+            SearchRequsetViewModel filter = new SearchRequsetViewModel();
+            ViewBag.Filter = filter;
+            PopulateLookup();
+            return View(filter);
+        }
+
+        [HttpPost]
+        public ActionResult List(SearchRequsetViewModel filter)
+        {
+            ViewBag.Filter = filter;
+            PopulateLookup();
+            return View(filter);
+        }
 
         public ActionResult Request_Read([DataSourceRequest] DataSourceRequest request, int id = -1)
         {
 
-            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m=>m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == id);
+            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == id);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Request_Search([DataSourceRequest] DataSourceRequest request, int RegionID, int ProgramID, int StatusID, DateTime DateFrom, DateTime DateTo)// SearchRequsetViewModel filter)
+        {
+            var requests = _regionalRequestService.FindBy(t => t.RegionID == RegionID
+                                                        && t.ProgramId == ProgramID
+                                                        && t.Status == StatusID
+                                                        && t.RequistionDate <= DateTo
+                                                        && t.RequistionDate >= DateFrom
+                                                        ).OrderByDescending(m => m.RegionalRequestID);
 
+///            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == id);
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);
+            return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
 
 
 
@@ -528,81 +588,128 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     });
 
         }
-         public JsonResult GetPlan(int programID)
-         {
-             var plan = _commonService.GetPlan(programID);
-             var planID = new SelectList(_commonService.GetPlan(programID), "PlanID", "PlanName");
-             return Json(planID, JsonRequestBehavior.AllowGet);
-         }
+        public JsonResult GetPlan(int programID)
+        {
+            var plan = _commonService.GetPlan(programID);
+            var planID = new SelectList(_commonService.GetPlan(programID), "PlanID", "PlanName");
+            return Json(planID, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult AddBeneficary(int id)
         {
             var request = _regionalRequestService.FindById(id);
-            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+            //ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3 && t.ParentID==request.RegionID), "AdminUnitID", "Name");
             ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
-            ViewBag.FDPID =new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID==4),"AdminUnitID", "Name");
+            ViewBag.FDPID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
             var addFDPWithBeneficary = new AddFDPViewModel();
             addFDPWithBeneficary.RegionalRequestID = request.RegionalRequestID;
+            addFDPWithBeneficary.RegionID = request.RegionID;
             return PartialView(addFDPWithBeneficary);
         }
 
 
-       private RegionalRequestDetail GetRequestDetail(AddFDPViewModel addFdpViewModel)
-       {
-           var requestdetail = new RegionalRequestDetail()
-               {
-                   RegionalRequestID = addFdpViewModel.RegionalRequestID,
-                   Fdpid = addFdpViewModel.FDPID,
-                   Beneficiaries = addFdpViewModel.Beneficiaries
-               };
-           return requestdetail;
-       }
+        private RegionalRequestDetail GetRequestDetail(AddFDPViewModel addFdpViewModel)
+        {
+            var requestdetail = new RegionalRequestDetail()
+                {
+                    RegionalRequestID = addFdpViewModel.RegionalRequestID,
+                    Fdpid = addFdpViewModel.FDPID,
+                    Beneficiaries = addFdpViewModel.Beneficiaries,
+                };
+            return requestdetail;
+        }
         [HttpPost]
         public ActionResult AddBeneficary(AddFDPViewModel requestDetail)
-         {
-             if (ModelState.IsValid)
-             {
-                 try
-                 {
-                     var detail = GetRequestDetail(requestDetail);
-                     _regionalRequestDetailService.AddRegionalRequestDetail(detail);
-                     return RedirectToAction("Details", new { id = requestDetail.RegionalRequestID });
-                 }
-                 catch (Exception ex)
-                 {
-                     
-                     ModelState.AddModelError("Errors","Unable to Add new fpd");
-                     ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3 ), "AdminUnitID", "Name");
-                     ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
-                     ViewBag.FDPID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
-                     return PartialView(requestDetail);
-                 }
-                 
-             }
-             return PartialView(requestDetail);
-         }
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var detail = GetRequestDetail(requestDetail);
+                    _regionalRequestDetailService.AddRegionalRequestDetail(detail);
+                    return RedirectToAction("Details", new { id = requestDetail.RegionalRequestID });
+                }
+                catch (Exception ex)
+                {
+
+                    ModelState.AddModelError("Errors", "Unable to Add new fpd");
+                    ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+                    ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+                    ViewBag.FDPID = new SelectList(_commonService.GetFDPs(2), "FDPID", "FDPName");
+                    return RedirectToAction("Details",new {id=requestDetail.RegionalRequestID});
+                }
+
+            }
+            return PartialView(requestDetail);
+        }
 
         public ActionResult DeleteFDP(int id)
         {
             var requestDetail = _regionalRequestDetailService.FindById(id);
-            if (requestDetail!=null)
+            if (requestDetail != null)
             {
                 _regionalRequestDetailService.DeleteRegionalRequestDetail(requestDetail);
-                return RedirectToAction("Details", new {id = requestDetail.RegionalRequestID});
+                return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID });
             }
-            ModelState.AddModelError("Errors","unable to delete fdp");
+            ModelState.AddModelError("Errors", "unable to delete fdp");
             return RedirectToAction("Index");
         }
+       
+        public JsonResult GetCascadedAdminUnits(int regionID)
+        {
+            var cascadeAdminUnit = (from zone in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 3 && m.ParentID == regionID)
+                     
+                                 select new
+                                 {
+                                     ZoneID = zone.AdminUnitID,
+                                     ZoneName = zone.Name,
+                                     Woredas = from woreda in _commonService.GetAminUnits(m=>m.ParentID==zone.AdminUnitID)
+                                               select new
+                                               {
+                                                   WoredaID = woreda.AdminUnitID,
+                                                   WoredaName = woreda.Name,
+                                                   fdps=from fdp in _commonService.GetFDPs(woreda.AdminUnitID)
+                                                        select new
+                                                            {
+                                                                FDPID=fdp.FDPID,
+                                                                FDPName=fdp.Name
+                                                            }
+                                               }
+                                     
+                                 }
+                     
+                    );
+            return Json(cascadeAdminUnit, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult AddCommodity(int id )
+        {
+            var request = _regionalRequestService.FindById(id);
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            var addCommodityViewModel = new AddCommodityViewModel();
+            addCommodityViewModel.RegionalRequestID = request.RegionalRequestID;
+            return PartialView(addCommodityViewModel);
+        }
 
-     // public JsonResult GetZones(int regionID)
-     // {
-     //     var zones = new SelectList(_commonService.GetAminUnits(t =>t.AdminUnitTypeID==3 && t.ParentID == regionID), "AdminUnitID", "Name");
-     //     return Json(zones, JsonRequestBehavior.AllowGet);
-     // }
-     //public JsonResult GetWoredas(int zoneID)
-     //{
-     //    if(zoneID!=null)
-     //}
+        [HttpPost]
+        public ActionResult AddCommodity(AddCommodityViewModel addCommodity)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID);
+                return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
+            }
+            return RedirectToAction("Allocation", new {id = addCommodity.RegionalRequestID});
+        }
+        public ActionResult DeleteCommodity(int? commodityID, int requestID)
+        {
+            if (commodityID != null)
+            {
+                _regionalRequestDetailService.DeleteRequestDetailCommodity((int) commodityID, requestID);
+                return RedirectToAction("Allocation", new {id = requestID});
+            }
+            return RedirectToAction("Allocation", new { id = requestID });
+        }
     }
 }
