@@ -18,7 +18,6 @@ namespace Cats.Models
       
         public int Beneficiaries { get; set; }
       
-
         #region Navigation Properties
         public virtual RegionalRequest RegionalRequest { get; set; }
         public virtual FDP Fdp { get; set; }

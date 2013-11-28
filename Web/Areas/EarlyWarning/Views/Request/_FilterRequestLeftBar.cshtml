@@ -1,46 +1,63 @@
 ﻿@using Cats.Models.Constant
-<div class="form-verticalw" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
-        <!--
-    <div class="input-prepend input-append">
-        <span class="add-on">$</span>
-        <input  id="appendedPrependedInput" type="text">
-        <span class="add-on">.00</span>
-    </div>
-            -->
-    <div class="span5 form-vertical" >
+@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
+   
 
-            <div class="control-group">
-            <div class="control-label">
-                <label>Request Date:</label>
-            </div>
-            <div class="controls">
-                Between <input type="text" class="input-small" /> and <input type="text" class="input-small" />
+@using (Html.BeginForm())
+{
+    <div class="form-verticalw" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
+
+        <div class="span6 form-vertical" >
+
+                <div class="control-group">
+                <div class="control-label">
+                    <label>Request Date Between:</label>
+                </div>
+                <div class="controls">
+                    
+                    @Html.TextBoxFor(m=>m.DateFrom,new {@class="cats-datepicker2  input-small",@type="text"})
+                    and
+                    @Html.TextBoxFor(m=>m.DateTo,new {@class="cats-datepicker2  input-small",@type="text"})
+                     <!--<input name="dateFrom" type="" class="" /> and <input type="text" class="cats-datepicker2 input-small" />-->
                 
+                </div>
             </div>
-        </div>
 
-    </div>
-    <div class="span3 form-vertical">
-        <div class="control-group">
-            <div class="control-label">
-                <label>Region:</label>
-            </div>
-            <div class="controls ">
-                <select class="input-medium" ></select>
-            </div>
         </div>
+        <div class="span6 form-vertical">
+            <div class="control-group">
+                <div class="control-label">
+                    <label>Region:</label>
+                </div>
+                <div class="controls ">
+                    @Html.DropDownList("RegionID", null, new { @class="input-large"})
+                </div>
+            </div>
            
-    </div>
-    <div class="span3 form-vertical" >
-        <div class="control-group">
-            <div class="control-label">
-                <label>Program:</label>
-            </div>
-            <div class="controls ">
-                <select class="input-medium"></select>
+        </div>
+        <div style="clear:both;">
+   
+        <div class="span6 form-vertical" >
+            <div class="control-group">
+                <div class="control-label">
+                    <label>Program:</label>
+                </div>
+                <div class="controls ">
+                     @Html.DropDownList("ProgramID", null, new { @class="input-large"})
+                </div>
             </div>
         </div>
+        <div class="span6 form-vertical" >
+            <div class="control-group">
+                <div class="control-label">
+                    <label>Status:</label>
+                </div>
+                <div class="controls ">
+                     @Html.DropDownList("StatusID", null, new { @class="input-large"})
+                </div>
+            </div>
+        </div>
+             </div>
+        <div style="clear:both;"><input type="submit" id="btnRefresh" value="Refresh"/>
     </div>
-    <div style="clear:both;"></div>
-</div>
-
+     </div>                   
+}

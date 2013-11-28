@@ -121,6 +121,7 @@ namespace Cats.Services.EarlyWarning
                 _unitOfWork.PlanRepository.Add(plan);
                 _unitOfWork.Save();
             }
+            AssessmentPlanStatus(oldPlan);
         }
 
 
@@ -172,5 +173,23 @@ namespace Cats.Services.EarlyWarning
                 _unitOfWork.Save();
             }
         }
+       public void AssessmentPlanStatus(Plan plan)
+       {
+           if (plan !=null)
+           {
+               plan.Status = (int)PlanStatus.AssessmentCreated;
+               _unitOfWork.PlanRepository.Edit(plan);
+               _unitOfWork.Save();
+           }
+       }
+       //public void HRDPlanStatus(Plan plan)
+       //{
+       //    if (plan != null)
+       //    {
+       //        plan.Status = (int)PlanStatus.HRDCreated;
+       //        _unitOfWork.PlanRepository.Edit(plan);
+       //        _unitOfWork.Save();
+       //    }
+       //}
    }
 }

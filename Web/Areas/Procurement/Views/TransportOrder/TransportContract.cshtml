@@ -1,5 +1,7 @@
 ﻿@model Cats.Areas.Procurement.Models.TransportContractViewModel
 @using System.Collections
+@using Cats.Helpers
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
@@ -24,107 +26,136 @@
             }).data("kendoWindow");
         });
     </script>
-<div class="control-group form-horizontal well">
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Transporter)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
-                    <a href="#" class="transChange">Change</a>
+    
+    <style>
+        .redFailed {
+            background-color: #crimson;
+        }
+    </style>
+   
+    <div id="statusWindow" style="font-size: large;color: darkred;text-align: center;"></div>
+    
+    <div class="control-group form-horizontal well" id="ContractHeader">
+        
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.Transporter)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
+                        <a href="#" class="transChange">Change</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.BidDocumentNo)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.BidDocumentNo, new { Disabled = true })
-                </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.BidDocumentNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.BidDocumentNo, new { Disabled = true })
+                    </div>
 
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Requisition No"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.RequisitionNo, new { Disabled = true })
                 </div>
             </div>
         </div>
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Contract Number"))
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Requisition No"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.RequisitionNo, new { Disabled = true })
+                    </div>
                 </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
-                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Contract Number"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                    @*@foreach (var detail in Model.TransportOrderDetails)
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @*@foreach (var detail in Model.TransportOrderDetails)
                     {
                        
                     }*@
-                    @Html.TextBoxFor(m => m.RequestedDispatchDate, new { Disabled = true })
+                        @Html.TextBoxFor(m => m.RequestedDispatchDate, new { Disabled = true })
+                    </div>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Transport Order Expiry"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.OrderExpiryDate, new { Disabled = true })
+                    </div>
+
                 </div>
             </div>
         </div>
-
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Transport Order Expiry"))
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Region"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Region, new { Disabled = true })
+                    </div>
                 </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.OrderExpiryDate, new { Disabled = true })
-                </div>
+            </div>
 
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Zone"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Zone, new { Disabled = true })
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Region"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Region, new { Disabled = true })
-                </div>
-            </div>
-        </div>
-
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Zone"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Zone, new { Disabled = true })
-                </div>
-
-            </div>
-        </div>
+    <div>
+    <table>
+        <tr>
+            <td>
+                <a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back</a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { Controller = "TransportOrder", Area = "Procurement", id = Model.TransportOrderID })
+            </td>
+            <td>
+                @*  @Html.ActionLink("Print", "Print", new {Controller="TransportOrder" ,id = Model.TransportOrderID })*@
+                <a target="_blank" href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })"><i class="icon-print"></i>Print</a>
+            </td>
+            @* <td>
+                @Html.ActionLink("Approve", "Approve", new {Controller="TransportOrder" ,id = Model.TransporterID })
+            </td>*@
+        </tr>
+    </table>
     </div>
-</div>
 
 @(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportOrderDetailViewModel>()
     .Name("grid")
@@ -316,6 +347,8 @@
             });
             $("#modalWindow").html("");
             $(".transChange").hide();
+            $('#ContractHeader').addClass('cats_error');
+            $("#statusWindow").html('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.');
             wnd.center().close();
             //window.location.replace("/Procurement/TransportOrder/Index");
         }

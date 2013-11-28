@@ -103,7 +103,7 @@ namespace Cats.Services.EarlyWarning
                                             NumberOfHubUnAssignedRequisitions = 
                                             _unitOfWork.ReliefRequisitionRepository.FindBy(s => (s.RegionID == regionalRequistions.Key.RegionID && s.ProgramID == final.Key.ProgramID && s.Status==2)).Count,
                                             NumberOfTotalRequisitions = regionalRequistions.Count(p=>p.ProgramID == final.Key.ProgramID),
-                                            ProgramType = final.Key.Program.Name,
+                                            ProgramType = final.Key.Program.Name
                                             //Percentage = (NumberOfHubAssignedRequisitions / regionalRequistions.Count()) * 100,
                                         }
                     }
