@@ -252,7 +252,11 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
              var dispatchAllocationRepository = new Mock<IGenericRepository<DispatchAllocation>>();
              dispatchAllocationRepository.Setup(t => t.Add(It.IsAny<DispatchAllocation>())).Returns(true);
              mockUnitOfWork.Setup(t => t.DispatchAllocationRepository).Returns(dispatchAllocationRepository.Object);
-            var transporterService = new Mock<ITransporterService>();
+
+             var sipcAllocationRepository = new Mock<IGenericRepository<SIPCAllocation>>();
+             sipcAllocationRepository.Setup(t => t.FindBy(It.IsAny<Expression<Func<SIPCAllocation, bool>>>())).Returns(new List<SIPCAllocation>());
+             mockUnitOfWork.Setup(t => t.SIPCAllocationRepository).Returns(sipcAllocationRepository.Object);
+             var transporterService = new Mock<ITransporterService>();
             transporterService.Setup(t => t.GetCurrentBidWinner(It.IsAny<int>(), It.IsAny<int>())).Returns(new TransportBidQuotation
                                                                                                                ()
                                                                                                                {

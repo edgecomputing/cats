@@ -24,15 +24,14 @@
         columns.Bound(p => p.Woreda);
         columns.Bound(p => p.RequestedBeneficiaryNo).Format("{0:N0}").HtmlAttributes(new { align = "right" });
         columns.Bound(p => p.HRDBeneficaryNo).Format("{0:N0}").HtmlAttributes(new { align = "right" });
-         columns.Bound(p => p.Difference).Format("{0:N0}").HtmlAttributes(new { align = "right" });
+        columns.Bound(p => p.Difference).Format("{0:N0}").HtmlAttributes(new { align = "right" });
         
-            columns.Bound(p => p.Color).ClientTemplate("# if(HRDBeneficaryNo < RequestedBeneficiaryNo) {#" +
-                "<div style='background-color: Red;'>" +
-                "<#} else {#" +
-                "<div style='background-color: Green;'>" +
-                "<#}#").Title("Status")             
-                .Width(80);
-                  
+        columns.Bound(p => p.Color).ClientTemplate("# if(HRDBeneficaryNo < RequestedBeneficiaryNo) {#" +
+                    "<div style='background-color: Red;'>" +
+                    "<#} else {#" +
+                    "<div style='background-color: Green;'>" +
+                    "<#}#").Title("Status")             
+                    .Width(80);
                   })
     .Pageable()
     .Sortable()
@@ -43,9 +42,7 @@
           .PageSize(12)
             .Model(model => model.Id(p => p.RegionalRequestID))
             .Read(read => read.Action("ReconcileRequest_Read", "Request",new{id=Model.RegionalRequestID}))
- 
      )
-   
       )
 
 

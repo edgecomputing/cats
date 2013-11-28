@@ -193,6 +193,69 @@ namespace Cats.Tests.ControllersTests
                     return true;
                 });
             mockRegionalRequestService.Setup(t => t.GetAllRegionalRequest()).Returns(regionalRequests);
+            mockRegionalRequestService.Setup(t => t.PlanToRequest(It.IsAny<HRDPSNPPlan>())).Returns(new HRDPSNPPlanInfo()
+                                                                                                        {
+                                                                                                            BeneficiaryInfos
+                                                                                                                =
+                                                                                                                new List
+                                                                                                                <
+                                                                                                                BeneficiaryInfo
+                                                                                                                >()
+                                                                                                                    {
+                                                                                                                        new BeneficiaryInfo
+                                                                                                                            ()
+                                                                                                                            {
+                                                                                                                                Beneficiaries
+                                                                                                                                    =
+                                                                                                                                    1,
+                                                                                                                                FDPID
+                                                                                                                                    =
+                                                                                                                                    1,
+                                                                                                                                FDPName
+                                                                                                                                    =
+                                                                                                                                    "F1",
+                                                                                                                                Selected
+                                                                                                                                    =
+                                                                                                                                    true
+                                                                                                                            }
+                                                                                                                    }
+                                                                                                            ,
+                                                                                                            HRDPSNPPlan
+                                                                                                                =
+                                                                                                                new HRDPSNPPlan
+                                                                                                                    {
+                                                                                                                        DonorID
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        Month
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        PlanID
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        ProgramID
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        PSNPPlanID
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        RationID
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        RegionID
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        Round
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        SeasonID
+                                                                                                                            =
+                                                                                                                            1,
+                                                                                                                        Year
+                                                                                                                            =
+                                                                                                                            1
+                                                                                                                    }
+                                                                                                        });
             var mockAdminUnitService = new Mock<IAdminUnitService>();
             mockAdminUnitService.Setup(t => t.FindBy(It.IsAny<Expression<Func<AdminUnit, bool>>>())).Returns(adminUnit);
 
@@ -303,8 +366,16 @@ namespace Cats.Tests.ControllersTests
 
             var hrdServiceDetail = new Mock<IHRDDetailService>();
             var RegionalPSNPPlanDetailService = new Mock<IRegionalPSNPPlanDetailService>();
+            var RegionalPSNPPlanService = new Mock<IRegionalPSNPPlanService>();
 
-            _requestController = new RequestController(mockRegionalRequestService.Object, fdpService.Object, requestDetailService.Object, commonService.Object, hrdService.Object, appService.Object, userAccountService.Object, log.Object, hrdServiceDetail.Object, RegionalPSNPPlanDetailService.Object);
+            _requestController = new RequestController(
+                mockRegionalRequestService.Object, 
+                fdpService.Object, requestDetailService.Object,
+                commonService.Object, hrdService.Object,
+                appService.Object, userAccountService.Object,
+                log.Object, hrdServiceDetail.Object, 
+                RegionalPSNPPlanDetailService.Object,
+                RegionalPSNPPlanService.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      
@@ -423,7 +494,9 @@ namespace Cats.Tests.ControllersTests
                 };
 
             //Act
-            _requestController.New(new HRDPSNPPlan());
+            var plan = new HRDPSNPPlan(){PlanID=1,DonorID=1,Month=1,ProgramID=1,PSNPPlanID=1,RationID=1,RegionID=1,Round=1,SeasonID=1,Year=1};
+
+            _requestController.New(plan);
             var request = new DataSourceRequest();
             var result = (JsonResult)_requestController.Request_Read(request);
             //Assert

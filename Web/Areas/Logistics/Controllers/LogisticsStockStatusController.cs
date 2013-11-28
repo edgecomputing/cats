@@ -128,6 +128,21 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(q, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetFreeAndphysicalStockStatus()
+        {
+            var st = _stockStatusService.GetFreeAndPhysicalStockSummary();
+            var q = (from s in st
+                     select new SummaryFreeAndPhysicalStockModel
+                     {
+                         CommodityName = s.CommodityName,
+                         HubName = s.HubName,
+                         Program = s.Program,
+                         FreeStock = s.FreeStock.ToPreferedWeightUnit(),
+                         PhysicalStock = s.PhysicalStock.ToPreferedWeightUnit()
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetStockStatusSummaryN()
         {
             var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
@@ -159,12 +174,21 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
+       public ActionResult PrintSummaryFreePhysicalStock()
+       {
+           return GetSummaryFreePhysicalStock(true, false);
+       }
 
-        public ActionResult PrintReceivedCommodity(int hubId = -1, int programId = -1)
-        {
-            return GetReceivedCommodity(hubId, programId, true, false);
+       public ActionResult ExportSummaryFreePhysicalStock()
+       {
+           return GetSummaryFreePhysicalStock(false, false);
+       }
+
+       public ActionResult PrintReceivedCommodity(int hubId = -1,int programId=-1)
+       {
+           return GetReceivedCommodity(hubId, programId, true, false);
         }
-
+       
         public ActionResult ExportReceivedCommodity(int hubId = -1, int programId = -1)
         {
             return GetReceivedCommodity(hubId, programId, false, false);
@@ -196,8 +220,27 @@ namespace Cats.Areas.Logistics.Controllers
                            : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId && t.ProgramID == programId);
             return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
-        }
+       }
+       private ActionResult GetSummaryFreePhysicalStock(bool isPdf = true, bool isPortrait = true)
+       {
+           var data = _stockStatusService.GetSummaryFreePhysicalStock();
+           var reportPath = Server.MapPath("~/Report/Logisitcs/SummaryFreePhysicalStock.rdlc");
+           var dataSources = "dataset";
 
+           var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
+           return File(result.RenderBytes, result.MimeType);
+       }
+       private ActionResult GetCarryOverStock(int hubId, int programId, bool isPdf = true, bool isPortrait = true)
+       {
+           var data = (hubId == -1)
+                          ? null
+                          : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId);
+           var reportPath = Server.MapPath("~/Report/Logisitcs/CarryOverStockStatus.rdlc");
+           var dataSources = "dataset";
+
+           var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
+           return File(result.RenderBytes, result.MimeType);
+       }
         public ActionResult PrintCarryOverStock(int hubId = -1, int programId = -1)
         {
             return GetCarryOverStock(hubId, programId, true, false);
@@ -208,18 +251,6 @@ namespace Cats.Areas.Logistics.Controllers
             return GetCarryOverStock(hubId, programId, false, false);
         }
 
-
-        private ActionResult GetCarryOverStock(int hubId, int programId, bool isPdf = true, bool isPortrait = true)
-        {
-            var data = (hubId == -1)
-                           ? null
-                           : _stockStatusService.GetCarryOverStock(t => t.HubID == hubId);
-            var reportPath = Server.MapPath("~/Report/Logisitcs/CarryOverStockStatus.rdlc");
-            var dataSources = "dataset";
-
-            var result = ReportHelper.PrintReport(reportPath, data, dataSources, isPdf, isPortrait);
-            return File(result.RenderBytes, result.MimeType);
-        }
         #endregion
 
         #region Transferred Stock Status
@@ -275,7 +306,13 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(q, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult SummaryForFreeAndPhysicalStock()
+        {
+            return View();
+        }
 
+        #region Dispatch Report Status
+       
 
         public ActionResult DispatchCommodity()
         {
@@ -284,9 +321,7 @@ namespace Cats.Areas.Logistics.Controllers
                 ViewBag.SelectHubID = new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
                 ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
                 ViewBag.SelectRegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
-                ViewBag.SelectZoneID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 2), "AdminUnitID", "Name");
-                ViewBag.SelectWoredaID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 3), "AdminUnitID", "Name");
-                ViewBag.SelectFDPID = new SelectList(_adminUnitService.GetAllAdminUnit().Where(a => a.ParentID == 4), "AdminUnitID", "Name");
+               
                 return View();
             }
             catch (Exception)
@@ -306,23 +341,29 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                                                                     )
         {
             List<VWDispatchCommodity> data;
+
+            //if (hubId == -1 && programId == -1 && regionId == -1 && zoneId == -1)
+            //{
+            //    data =  _stockStatusService.GetDispatchedCommodity(t=>t.IsClosed == false);
+            //}
+            //else
             if (regionId!=-1 && zoneId == -1)
             {
                 data = (hubId == -1 || programId == -1 || regionId == -1)
                            ? new List<VWDispatchCommodity>()
-                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId);
+                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId && t.IsClosed ==false);
             }
             else if (regionId!=-1 && zoneId!=-1)
             {
                 data = (hubId == -1 || programId == -1 || regionId == -1)
                            ? new List<VWDispatchCommodity>()
-                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId && t.ZoneId == zoneId);
+                           : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.RegionId == regionId && t.ZoneId == zoneId && t.IsClosed == false);
             }
             else
             {
                 data = (hubId == -1 || programId == -1)
                             ? new List<VWDispatchCommodity>()
-                            : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId);
+                            : _stockStatusService.GetDispatchedCommodity(t => t.HubId == hubId && t.ProgramID == programId && t.IsClosed == false);
                
             }
 
@@ -342,5 +383,10 @@ namespace Cats.Areas.Logistics.Controllers
         {
             return Json(new SelectList(_adminUnitService.GetAllAdminUnit().Where(p => p.ParentID == woredaId).ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
+
+
+
+        #endregion
+
     }
 }

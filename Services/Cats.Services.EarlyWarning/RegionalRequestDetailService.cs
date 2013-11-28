@@ -122,6 +122,34 @@ namespace Cats.Services.EarlyWarning
             _unitOfWork.Save();
             return true;
         }
+        
+        public bool AddCommodityFdp(RegionalRequestDetail requestDetail)
+        {
+            if (AddRegionalRequestDetail(requestDetail))
+            {
+
+
+                var detail =_unitOfWork.RegionalRequestDetailRepository.FindBy(m => m.RegionalRequestID == requestDetail.RegionalRequestID).First();
+                var commodityDetail =_unitOfWork.RequestDetailCommodityRepository.FindBy( m => m.RegionalRequestDetailID == detail.RegionalRequestDetailID);
+                if (commodityDetail != null)
+                {
+                    foreach (var requestDetailCommodity in commodityDetail)
+                    {
+                        requestDetail.RequestDetailCommodities.Add(new RequestDetailCommodity
+                            {
+                                CommodityID = requestDetailCommodity.CommodityID,
+                                Amount =
+                                    requestDetail.Beneficiaries*
+                                    GetCommodityRation(requestDetail.RegionalRequestID,
+                                                       requestDetailCommodity.CommodityID)
+
+                            });
+                    }
+                }
+            }
+            _unitOfWork.Save();
+            return true;
+        }
         private decimal GetCommodityRation(int requestId, int commodityId)
         {
             var rationID = _unitOfWork.RegionalRequestRepository.FindById(requestId).RationID;
@@ -159,7 +187,7 @@ namespace Cats.Services.EarlyWarning
             CalculateAllocation(requestDetail);
             return true;
         }
-        
+
     }
 }
 

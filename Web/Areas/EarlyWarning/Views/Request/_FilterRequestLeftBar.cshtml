@@ -4,9 +4,6 @@
 
 @using (Html.BeginForm())
 {
-
-                    
-
     <div class="form-verticalw" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
 
         <div class="span6 form-vertical" >
@@ -45,7 +42,6 @@
                     <label>Program:</label>
                 </div>
                 <div class="controls ">
-                    
                      @Html.DropDownList("ProgramID", null, new { @class="input-large"})
                 </div>
             </div>
@@ -56,7 +52,6 @@
                     <label>Status:</label>
                 </div>
                 <div class="controls ">
-                    
                      @Html.DropDownList("StatusID", null, new { @class="input-large"})
                 </div>
             </div>
@@ -66,6 +61,3 @@
     </div>
      </div>                   
 }
-     
-
-

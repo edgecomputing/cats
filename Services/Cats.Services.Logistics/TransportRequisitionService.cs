@@ -129,8 +129,7 @@ namespace Cats.Services.Logistics
                                                                             year);
 
                 _unitOfWork.Save();
-                //calling the notification 
-                AddToNotification(transportRequisition);
+               
             }
             return true;
 
@@ -215,6 +214,8 @@ namespace Cats.Services.Logistics
             transportRequisition.CertifiedBy = approvedBy;
             transportRequisition.CertifiedDate = DateTime.Today;
             _unitOfWork.Save();
+            //calling the notification 
+            AddToNotification(transportRequisition);
             return true;
         }
 
