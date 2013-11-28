@@ -66,12 +66,14 @@
 
                                                           
                                                            col.Bound(t => t.Commodity).Width(60);
+                                                           col.Bound(t => t.Beneficiery).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Benefiaciaries")).Width(50);
+                                                          
                                                            col.Bound(t => t.ShippingInstruction).Width(50);
                                                            col.Bound(t => t.ProjectCode).Width(50);
                                                            col.Bound(t => t.Donor).Width(200);
                                                            col.Bound(t => t.Region).Width(50);
                                                            col.Bound(t => t.Zone).Width(50);
-                                                           col.Bound(t => t.FDPName).Width(50);
+                                                          
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Amount)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Donor Allocated")).Width(50);
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DispatchedAmountInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Dispatched")).Width(50);
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.RemainingInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Remaining")).Width(50);
@@ -79,7 +81,7 @@
 
                                                        }).DataSource(datasource =>
                                                                              datasource.Ajax().Read(read => read.Action("DispatchedReceived_read", "LogisticsStockStatus").Data("filterData"))
-                                                                                 .Group(t => t.Add(m => m.Commodity))
+                                                                                 .Group(t => t.Add(m => m.FDPName))
                                                                                  
 
                                                                          ).Sortable().Filterable()

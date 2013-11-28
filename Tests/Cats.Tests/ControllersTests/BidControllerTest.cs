@@ -20,7 +20,7 @@ namespace Cats.Tests.ControllersTests
     public class BidControllerTest
     {
 
-        private IBidService MockBidService  ;
+        private IBidService MockBidService ;
         private IBidDetailService MockBidDetail;
         private IAdminUnitService MockAdminUnitService;
         private IStatusService MockStatusService;
