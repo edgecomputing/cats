@@ -93,7 +93,7 @@ namespace Cats.Areas.Procurement.Controllers
             return File(result.RenderBytes, result.MimeType);
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult CreateTransportOrder(int id)
         {
             try
@@ -344,6 +344,10 @@ namespace Cats.Areas.Procurement.Controllers
                             EndDate = DateTime.Today.AddDays(10),
                         };
                         _transportOrderService.AddTransportOrder(transportOrderObj);
+                        var transporterName = _transporterService.FindById(transportOrderObj.TransporterID).Name;
+                        transportOrderObj.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrderObj.TransportOrderID);
+                        transportOrderObj.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day, DateTime.Today.Year, transporterName.Substring(0, 2));
+                        _transportOrderService.EditTransportOrder(transportOrderObj);
                         //var transportOrderDetailList = subTransporterOrders.TransportOrderDetails;
                         foreach (var transportOrderDetail in changedTransportOrderObj.TransportOrderDetails.ToList())
                         {
