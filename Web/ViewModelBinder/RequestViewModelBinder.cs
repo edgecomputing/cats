@@ -115,11 +115,12 @@ namespace Cats.ViewModelBinder
             dt.Columns.Add(colDifference);
 
             //var requestdetail = requestDetails.FirstOrDefault();
-
+            //woredaRequestDetail.First().
+            
             foreach (var requestDetail in woredaRequestDetail)
             {
                 var dr = dt.NewRow();
-
+                
                 dr[colZone] = requestDetail.zone;
                 dr[colWoreda] = requestDetail.Woreda;
                 dr[colNoBeneficiary] = requestDetail.RequestedBeneficiaryNo;
@@ -128,6 +129,13 @@ namespace Cats.ViewModelBinder
                 
                 dt.Rows.Add(dr);
             }
+
+            //foreach (var ds in requestdetail.RequestDetailCommodities)
+            //{
+            //    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+            //    col.ExtendedProperties.Add("ID", ds.CommodityID);
+            //    dt.Columns.Add(col);
+            //}
 
             return dt;
            
