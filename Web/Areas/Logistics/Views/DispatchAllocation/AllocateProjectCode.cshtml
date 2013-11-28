@@ -33,13 +33,14 @@
         .Ajax()
         .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation",new {regionId = Model[0],status=Model[1]}))
        
-        .PageSize(5)
+       // .PageSize(5)
      )
-     .Scrollable(scroll => scroll.Height(200))
+     .Scrollable()
      .Selectable(select => select.Mode(GridSelectionMode.Single))
      .Navigatable()
-     .Filterable()
+     //.Filterable()
      .Sortable()
-     .Pageable()
+     .HtmlAttributes(new { style = "height:300px;" })
+     //.Pageable()
 )
 
