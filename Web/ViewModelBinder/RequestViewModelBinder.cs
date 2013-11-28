@@ -130,12 +130,12 @@ namespace Cats.ViewModelBinder
                 dt.Rows.Add(dr);
             }
 
-            foreach (var ds in requestdetail.RequestDetailCommodities)
-            {
-                var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
-                col.ExtendedProperties.Add("ID", ds.CommodityID);
-                dt.Columns.Add(col);
-            }
+            //foreach (var ds in requestdetail.RequestDetailCommodities)
+            //{
+            //    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+            //    col.ExtendedProperties.Add("ID", ds.CommodityID);
+            //    dt.Columns.Add(col);
+            //}
 
             return dt;
            
