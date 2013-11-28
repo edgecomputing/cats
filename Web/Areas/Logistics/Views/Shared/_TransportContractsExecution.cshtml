@@ -8,6 +8,10 @@
 
             <tr ng-repeat="sd in contractsData">
                 <td>{{sd.contract}}
+                     <div>
+                         <p> Transporter in charge is</p>
+                         <b>{{sd.transporter}} ({{sd.owner}})</b>
+                    </div>
                 </td>
                 <td>
                     <div class="progress progress-success">
@@ -16,17 +20,13 @@
                         </div>
                     </div>
                     <div>
-                        <p style="font-size: larger">{{sd.daysLeft}} </p>
-                        days remain contract ends
+                        <p><b>{{sd.daysLeft}}</b> days remain before contract ends </p>
                     </div>
                     <div>
-                        Total contract Duration: 
-                        <p>{{sd.duration}} </p>
-                        days
+                        <p> Total contract Duration is <b>{{sd.duration}} </b> days</p>
                     </div>
                 </td>
             </tr>
-
         </table>
     </div>
 </div>

@@ -94,6 +94,8 @@ namespace Cats.Areas.Logistics.Controllers
                         select new
                             {
                                 contract = contract.ContractNumber,
+                                transporter = contract.Transporter.Name ,
+                                owner = contract.Transporter.OwnerName,
                                 daysLeft = (int)(contract.EndDate - DateTime.Now).TotalDays,
                                 daysToStart = (int)(contract.StartDate - DateTime.Now).TotalDays,
                                 daysElapsed = (int)(DateTime.Now - contract.StartDate).TotalDays,
