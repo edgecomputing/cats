@@ -71,26 +71,39 @@
     </appender>
   </log4net>
 
-
+<<<<<<< HEAD
 <connectionStrings>
+=======
+ <connectionStrings>
+
+>>>>>>> 59f5652df253f520e77fa6fcb3ee2fcb6bdfeb94
     <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient" />
 </connectionStrings>
-
-
-   
-
+<<<<<<< HEAD
+    
 <!--<connectionStrings>
+=======
+ <!--   
+
+<connectionStrings>
+>>>>>>> 59f5652df253f520e77fa6fcb3ee2fcb6bdfeb94
     <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;;" providerName="System.Data.SqlClient" />
+<<<<<<< HEAD
 </connectionStrings>-->
  
+<appSettings>
+=======
+</connectionStrings> -->
+
 
   <appSettings>
+>>>>>>> 59f5652df253f520e77fa6fcb3ee2fcb6bdfeb94
     <add key="log4net.Internal.Debug" value="true" />
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
     <add key="webpages:Enabled" value="false" />
@@ -105,7 +118,7 @@
     <add key="elmah.mvc.allowedUsers" value="*" />
     <add key="elmah.mvc.route" value="elmah" />
   </appSettings>
-  <system.web>
+<system.web>
     <httpModules>
       <add name="ErrorLog" type="Elmah.ErrorLogModule, Elmah" />
       <add name="ErrorMail" type="Elmah.ErrorMailModule, Elmah" />

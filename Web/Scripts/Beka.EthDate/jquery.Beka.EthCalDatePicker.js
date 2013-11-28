@@ -13,11 +13,19 @@
                 var greg_date = eth_date.toGreg();
                 $(that).val(greg_date.toLocaleDateString());
             }
-           // $(this).focus(function () { check_parse(this) });
+
+            var eth_date_input = $($(that).clone()).insertAfter($(this))
+                .removeClass("cats-datepicker2").attr("name","")
+                .val(eth_date.toString())
+                .click(function () { _ethdatepicker_show(this); });
+
+            /*
             var eth_date_input = $(htm).insertAfter($(this))
                 .val(eth_date.toString())
                 .click(function () { _ethdatepicker_show(this); });
-                    
+            */
+            
+
            /* if ($(that).attr("readonly") == "readonly") {
                 eth_date_input.attr("readonly", "readonly");
 
@@ -28,9 +36,24 @@
             eth_date_input.blur(function (e) { _handle_blur(e,this) });
             _build_date_picker(eth_date_input);
             $(this).data("eth_date_input", eth_date_input);
+
+            /*var copyClass = function (source, dest) {
+                var classList = source.attr('class').split(/\s+/);
+                $.each(classList, function (index, item) {
+                    if (item != 'someClass') {
+                        dest.addClass(item);
+                    }
+                });
+            }
+            copyClass($(this), eth_date_input);*/
+
         });
+
+
+
+
         return this.filter('input:text')
-            .css('opacity', 0.5)
+         //   .css('opacity', 0.5)
             .css('display', 'none');
 
     }
