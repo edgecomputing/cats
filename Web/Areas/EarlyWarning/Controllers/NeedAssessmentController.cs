@@ -100,7 +100,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
        
-        public ActionResult AddRegion()
+        public ActionResult CreateNeedAssessment()
         {
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
@@ -112,7 +112,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
         [HttpPost]
-        public ActionResult AddRegion(NeedAssessment needAssessment, FormCollection collection)
+        public ActionResult CreateNeedAssessment(NeedAssessment needAssessment, FormCollection collection)
         {
            
            
