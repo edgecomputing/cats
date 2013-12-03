@@ -23,7 +23,7 @@
                         <div class="span3">
 
                             <label>Select As of Date</label>
-                            <input ng-model="reqParam.date" class="cats-datepicker2  input-medium" type="text"  placeholder="Today">
+                            <input id="txtDate1" class="cats-datepicker2  input-medium" type="text"  placeholder="As of date">
                         </div>
 
                         <div class="span3">
@@ -78,7 +78,6 @@
             </div>
         </div>
     </div>
-
     <div ng-controller="StockController">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -90,7 +89,8 @@
                     <div class="form-control span12">
                         <div class="span3">
                             <label>Select As of Date</label>
-                            <input ng-model="requestParam.date" class="cats-datepicker2 input-medium" type="text" placeholder="Username">
+                            <input id="txtDate2" class="cats-datepicker2  input-medium"  type="text" placeholder="As of date">
+                            @*<input id="txtDate1" class="cats-datepicker2  input-medium" type="text"  placeholder="As of date">*@
                             @*<input ng-model="reqParam.date" class="cats-datepicker2  input-medium" type="text">*@
                         </div>
 
@@ -165,7 +165,6 @@
             </div>
         </div>
     </div>
-    
 </div>
 
 <script>
@@ -195,6 +194,7 @@
 
         $scope.getSummary = function () {
             //$http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);
+            $scope.reqParam.date = $("#txtDate1").val();
             $http.post("@Url.Action("GetStockStatusSummaryP", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.reqParam).success(onSuccess);
         };
 
@@ -219,11 +219,11 @@
         $scope.freeStockSum = 0;
         $scope.physicalSum = 0;
 
-        var changeDate = function (data) {
+        var changeDate = function(data) {
 
-        }
+        };
 
-        var onSuccess = function (data) {
+        var onSuccess = function(data) {
 
             $scope.stockData = data;
 
@@ -241,17 +241,16 @@
                 p = p + $scope.stockData[i].PhysicalStock;
             }
 
-            @*var s;
+                        @*var s;
             @{
                 var user = (UserIdentity)HttpContext.Current.User.Identity;
                 currentUnit = user.Profile.PreferedWeightMeasurment;
                 s = user;
             }
-
             $scope.preferedUnit = s;*@
             $scope.freeStockSum = f;
             $scope.physicalSum = p;
-        }
+        };
 
         var onHubGetSuccess = function(data) {
             $scope.HubsCollection = data;
@@ -263,7 +262,8 @@
 
         $scope.getStockStatus = function () {
             //$http.post("/LogisticsStockStatus/GetStockStatus", $scope.requestParam).success(onSuccess);
-            $http.post("@Url.Action("GetStockStatus", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.requestParam).success(onSuccess);
+            $scope.requestParam.date = $("#txtDate2").val();
+            $http.post("@Url.Action("GetStockStatusD", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.requestParam).success(onSuccess);
         };
 
         $scope.getHubs = function() {
