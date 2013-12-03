@@ -407,8 +407,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     WoredaId = regionalRequestDetail.Fdp.AdminUnit.AdminUnitID,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                     PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year,
-                        (int)regionalRequestDetail.RegionalRequest.Season,
-                        regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
+                    (int)regionalRequestDetail.RegionalRequest.Season,
+                    regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
                 };
             }
             else
@@ -680,8 +680,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                          hrdBeneficiary = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).NumberOfBeneficiaries : 0,
                                          //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
                                          detailsf = woredaDetail,
-                                         
-
                                      });
 
             result =  (from woredaDetail in woredaGrouped
@@ -761,6 +759,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 };
             return requestdetail;
         }
+
         [HttpPost]
         public ActionResult AddBeneficary(AddFDPViewModel requestDetail)
         {
