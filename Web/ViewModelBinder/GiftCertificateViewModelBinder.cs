@@ -26,7 +26,7 @@ namespace Cats.ViewModelBinder
             giftCertificateViewModel.GiftCertificateID = giftCertificateModel.GiftCertificateID;
             giftCertificateViewModel.GiftDate = giftCertificateModel.GiftDate;
             giftCertificateViewModel.DonorID = giftCertificateModel.DonorID;
-            giftCertificateViewModel.SINumber = giftCertificateModel.SINumber;
+            giftCertificateViewModel.SINumber = giftCertificateModel.ShippingInstruction.Value;
             giftCertificateViewModel.ReferenceNo = giftCertificateModel.ReferenceNo;
             giftCertificateViewModel.Vessel = giftCertificateModel.Vessel;
             giftCertificateViewModel.ETA = giftCertificateModel.ETA;
@@ -65,7 +65,7 @@ namespace Cats.ViewModelBinder
 
             giftCertificate.GiftCertificateID = giftCertificateViewModel.GiftCertificateID;
             giftCertificate.GiftDate = giftCertificateViewModel.GiftDate;
-            giftCertificate.SINumber = giftCertificateViewModel.SINumber;
+           // giftCertificate.SINumber = giftCertificateViewModel.SINumber;
             giftCertificate.DonorID = giftCertificateViewModel.DonorID;
             giftCertificate.ReferenceNo = giftCertificateViewModel.ReferenceNo;
             giftCertificate.Vessel = giftCertificateViewModel.Vessel;
