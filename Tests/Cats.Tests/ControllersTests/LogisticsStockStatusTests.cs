@@ -84,13 +84,13 @@ namespace Cats.Tests.ControllersTests
             
         }
 
-        [Test]
-        public void canItGenerateDispatchedList()
-        {
+        //[Test]
+        //public void canItGenerateDispatchedList()
+        //{
 
-            ActionResult actual = _logisticsStockStatusController.DispatchCommodity();
-            ViewResult result = actual as ViewResult;
-            Assert.IsNotNull(result);
-        }
+        //    ActionResult actual = _logisticsStockStatusController.DispatchCommodity();
+        //    ViewResult result = actual as ViewResult;
+        //    Assert.IsNotNull(result);
+        //}
     }
 }
