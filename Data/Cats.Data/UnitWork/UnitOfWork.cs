@@ -360,13 +360,15 @@ namespace Cats.Data.UnitWork
 
         }
 
+       
+
         public void Save()
         {
             try
             {
                 _context.SaveChanges();
             }
-            catch (DbEntityValidationException ex)
+            catch (Exception ex)
             {
 
                 throw;
@@ -750,6 +752,10 @@ namespace Cats.Data.UnitWork
             get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
         }
 
-       
+        private IGenericRepository<WoredasByDonor> woredasByDonorRepository = null;
+        public IGenericRepository<WoredasByDonor> WoredaByDonorRepository
+        {
+            get { return this.woredasByDonorRepository ?? (this.woredasByDonorRepository = new GenericRepository<WoredasByDonor>(_context)); }
+        }
     }
 }
