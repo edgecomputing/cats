@@ -53,7 +53,6 @@ using Cats.Areas.Procurement.Models;
 
             List<Cats.Models.TransportBidQuotation> list = this._bidQuotationService.GetAllTransportBidQuotation();
             return View(list);
-            //return View();
         }
  
 
@@ -97,7 +96,38 @@ using Cats.Areas.Procurement.Models;
             return View(bidPlan);
         }
 
+        List<RfqViewModel> getViewModelList(int BidPlanID,int RegionID)
+        {
+            TransportBidPlan bidPlan = _transportBidPlanService.FindById(BidPlanID);
 
+            List<TransportBidPlanDetail> regionalPlan = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == RegionID);
+
+            var regionalPlanSorted =
+                (from planDetail in regionalPlan
+                 orderby planDetail.Source.Name, planDetail.Destination.AdminUnit2.Name, planDetail.DestinationID, planDetail.ProgramID
+                 select planDetail
+
+                 ).ToList();
+
+
+            List<RfqViewModel> regionPlanDistinct = (from rg in regionalPlanSorted
+
+                                      select new RfqViewModel
+                                      {
+                                          SourceWarehouse = rg.Source.Name,
+                                          DestinationZone = rg.Destination.AdminUnit2.Name,
+                                          RegionName = rg.Destination.AdminUnit2.AdminUnit2.Name,
+                                          DestinationWoreda = rg.Destination.Name
+                                      })
+
+             .GroupBy(rg => new { rg.SourceWarehouse, rg.DestinationZone, rg.DestinationWoreda })
+
+             .Select(s => s.FirstOrDefault()).ToList();
+
+            return regionPlanDistinct;
+
+        }
        
     }
+
     }
