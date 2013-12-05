@@ -206,7 +206,7 @@ namespace Cats.Services.EarlyWarning
             {
                 HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).FirstOrDefault();
 
-                var lastRequest= _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1).LastOrDefault();
+                var lastRequest= _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID==plan.PlanID).LastOrDefault();
 
                 if (lastRequest!=null)
                 {
