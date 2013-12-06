@@ -29,7 +29,7 @@
         {
         columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate(
             @Html.EarlyWarningOperationButton(
-                    @Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }),
+                    @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
                     EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=Ration#").ToString());
         columns.Bound(p => p.Season);
         columns.Bound(p => p.Year);
