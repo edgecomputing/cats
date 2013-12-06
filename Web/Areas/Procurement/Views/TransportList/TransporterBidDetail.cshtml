@@ -1,0 +1,49 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "TransporterBidDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<fieldset>
+    <legend>
+        Transporter Bid Detail
+    </legend>
+</fieldset>
+
+
+<figure>
+    <legend>
+        List of bids @ViewBag.Transporter has won 
+    </legend>
+</figure>
+
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportBidQuotationViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        
+        columns.Bound(p => p.Bid).Width(100);
+        columns.Bound(p => p.Source).Width(100);
+        columns.Bound(p => p.Destination).Width(100);
+        columns.Bound(p => p.Tariff).Width(100);
+        columns.Bound(p => p.Position).Width(100);
+        
+        
+    
+    })
+    
+   
+    
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+   
+    .DataSource(dataSource => dataSource
+        .Ajax()
+       
+      
+        .Model(model => model.Id(p => p.TransporterID))
+        .Read(read => read.Action("ShowBidByTransporter", "TransportList", new { transporterId = @ViewBag.transporterId } ))
+        
+    )
+)

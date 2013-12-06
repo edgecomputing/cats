@@ -75,9 +75,12 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
+    <Compile Include="ViewModels\TransporterViewModel.cs" />
+    <Compile Include="WoredasByDonor.cs" />
     <Compile Include="Ledger.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />
     <Compile Include="Mapping\SIPCAllocationMap.cs" />
+    <Compile Include="Mapping\WoredaByDonorMap.cs" />
     <Compile Include="MetaData\PlanMetaData.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationViewModel.cs" />
