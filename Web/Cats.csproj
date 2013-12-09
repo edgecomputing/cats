@@ -481,6 +481,8 @@
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
     <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationBinding.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationViewModel.cs" />
@@ -661,6 +663,7 @@
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
@@ -1521,6 +1524,8 @@
     <Content Include="Areas\EarlyWarning\Views\Request\AddCommodity.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

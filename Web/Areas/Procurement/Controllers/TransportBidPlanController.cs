@@ -193,8 +193,8 @@ namespace Cats.Areas.Procurement.Controllers
                     {
                         WarehouseID = hub.HubID,
                         WarehouseName = hub.Name,
-                        PSNP=0,
-                        Relief=0,
+                        PSNP =_transportBidPlanDetailService.GetPsnpCommodityAmount(WoredaID),
+                        Relief=_transportBidPlanDetailService.GetHrdCommodityAmount(WoredaID),
                         BidPlanID=BidPlanID,
                         WoredaID=WoredaID
                     }).ToList();

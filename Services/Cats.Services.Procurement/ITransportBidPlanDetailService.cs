@@ -21,5 +21,7 @@ namespace Cats.Services.Procurement
         List<TransportBidPlanDetail> FindBy(Expression<Func<TransportBidPlanDetail, bool>> predicate);
 
         double GetRegionPlanTotal(int bidplanid, int regionId, int programId);
+        decimal GetHrdCommodityAmount(int woredaID);
+        decimal GetPsnpCommodityAmount(int woredaID);
     }
 }
