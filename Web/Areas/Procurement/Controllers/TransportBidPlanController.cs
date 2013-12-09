@@ -358,6 +358,18 @@ namespace Cats.Areas.Procurement.Controllers
                 _transportBidPlanDetailService.UpdateTransportBidPlanDetail(bpd_orignal);
             }
         }
+        public ActionResult DeleteBidPlan(int id)
+        {
+            var bidPlan = _transportBidPlanService.FindById(id);
+            if (bidPlan!=null)
+            {
+                _transportBidPlanService.DeleteTransportBidPlan(bidPlan);
+                _transportBidPlanDetailService.DeleteByBidPlanID(bidPlan.TransportBidPlanID);
+                return RedirectToAction("Index");
+            }
+           ModelState.AddModelError("Errors","Unable to delete");
+           return RedirectToAction("Index");
+        }
         
     }
 }

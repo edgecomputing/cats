@@ -16,7 +16,7 @@ namespace Cats.Services.Procurement
 
         bool DeleteTransportBidPlanDetail(TransportBidPlanDetail item);
         bool DeleteById(int id);
-
+        bool DeleteByBidPlanID(int id);
         TransportBidPlanDetail FindById(int id);
         List<TransportBidPlanDetail> GetAllTransportBidPlanDetail();
         List<TransportBidPlanDetail> FindBy(Expression<Func<TransportBidPlanDetail, bool>> predicate);

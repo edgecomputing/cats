@@ -41,6 +41,21 @@ namespace Cats.Services.Procurement
             var item = _unitOfWork.TransportBidPlanDetailRepository.FindById(id);
             return DeleteTransportBidPlanDetail(item);
         }
+        public bool DeleteByBidPlanID(int id)
+        {
+            var bidPlan = _unitOfWork.TransportBidPlanDetailRepository.FindBy(m => m.BidPlanID == id);
+            if (bidPlan!=null)
+            {
+                foreach (var transportBidPlanDetail in bidPlan)
+                {
+                    _unitOfWork.TransportBidPlanDetailRepository.Delete(transportBidPlanDetail);
+                    _unitOfWork.Save();                    
+                }
+                return true;
+            }
+            return false;
+
+        }
         public TransportBidPlanDetail FindById(int id)
         {
             return _unitOfWork.TransportBidPlanDetailRepository.FindById(id);
