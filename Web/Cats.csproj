@@ -652,6 +652,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
@@ -1519,6 +1520,7 @@
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\TransferredStock.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\AddCommodity.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
