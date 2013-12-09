@@ -106,7 +106,43 @@
                 </div>
                 <div class="controls">
                     @*<input type="text" id="siNumber" placeholder="Type SINumber" />*@
-                     @Html.TextBoxFor(model => model.SINumber)
+                    @*@(Html.Kendo().AutoComplete()
+      .Name("siAutoComplete")
+      .DataTextField("Value") //Specifies which property of the Product to be used by the autocomplete.
+      .DataSource(source =>
+      {
+              source.Read(read =>
+             {
+                 read.Action("AutoCompleteSiNumber", "GiftCertificate")
+                          .Data("onAdditionalData");
+             });
+      })
+)*@
+                    @(Html.Kendo().AutoComplete()
+          .Name("SINumber")
+          .HtmlAttributes(new { style = "width:215px;" })
+          .Filter("startswith")
+          .Placeholder("Enter or Select SINumber...")
+          .DataSource(source=>source.Read(read=>read.Action("AutoCompleteSiNumber","GiftCertificate").Data("onAdditionalData")).ServerFiltering(true))
+          //.BindTo(new string[] {
+          //      "123/456",
+          //      "245/254",
+          //      "857/458",
+          //      "1254",
+          //      "02102",
+          //      "002547",
+          //      "12354",
+          //      "0123456",
+          //      "004587",
+          //      "00789654",
+          //      "1235647",
+          //      "963258"
+          //})
+          //.Separator(", ")
+    )
+
+
+                    @* @Html.TextBoxFor(model => model.SINumber)*@
                     @Html.ValidationMessageFor(model => model.SINumber)
                 </div>
             </div>
@@ -154,7 +190,44 @@
 
     </div>
 }
-
+<script type="text/javascript">
+    function onAdditionalData(e) {
+       // var filterValue = e.filter.filters[0].value;
+        //alert($("#SINumber").val());
+       // alert(filterValue);
+        return {
+            term: $("#SINumber").val()
+            //term:filterValue
+        };
+    }
+</script>
+@*<script>
+            $(document).ready(function() {
+                $("#sites").kendoAutoComplete({
+                    placeholder: "Enter site ...",
+                    dataTextField: "SiteName",
+                    filter: "startswith",
+                    minLength: 3,
+                    dataSource: {
+                        type: "json",
+                        serverFiltering: true,
+                        serverPaging: true,
+                        pageSize: 20,
+                        transport: {
+                            read:
+                                {
+                                    url: '@Url.Action("AutoCompleteSiNumber", "GiftCertificate")'
+                                }, //read
+                            parameterMap: function() {// send value of autocomplete as the "startsWith" parameter
+                                        return { 
+                                            term: $("#sites").data("kendoAutoComplete").value()
+                                        };
+                            }
+                        } //transport
+                    } //datasource
+                }); //kendoAutoComplete
+            }); //DocumentReady
+        </script>*@
 @*<script type="text/javascript">
     $(document).ready(function () {
         $("#siNumber").autocomplete({
@@ -200,6 +273,13 @@
 
         });
     });
+</script>*@
+@*<script>
+    function onAdditionalData() {
+        return {
+            text: $("#siAutoComplete").val()
+        };
+    }
 </script>*@
 
 

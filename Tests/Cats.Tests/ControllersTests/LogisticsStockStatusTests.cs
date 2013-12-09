@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Cats.Data.UnitWork;
-using Cats.Services.Common;
 using Cats.Services.Hub;
 using Cats.Services.Hub.Interfaces;
-using Cats.Services.Security;
+using Kendo.Mvc.UI;
 using NUnit.Framework;
 using Moq;
 using Cats.Areas.Logistics.Controllers;
@@ -16,7 +14,8 @@ namespace Cats.Tests.ControllersTests
     [TestFixture]
    public class LogisticsStockStatusTests
     {
-        private IStockStatusService _stockStatusService;
+        
+
         private LogisticsStockStatusController _logisticsStockStatusController;
        
         [SetUp]
@@ -71,23 +70,38 @@ namespace Cats.Tests.ControllersTests
                                                      };
 
 
+            var woredas = new List<AdminUnit>()
+                              {
+                                  new AdminUnit()
+                                      {
+                                          Name = "Chefera",
+                                          AdminUnitID = 56
+                                      }
+                              };
+                                                                
+
+
 
        
            Mock<IStockStatusService> mockStatusService = new Mock<IStockStatusService>();
+           Mock<IAdminUnitService> mockAdminUnitService = new Mock<IAdminUnitService>();
+
 
             mockStatusService.Setup(s => s.GetDispatchedCommodity(It.IsAny<Expression<Func<VWDispatchCommodity,bool>>>())).Returns(dispatch);
+            mockAdminUnitService.Setup(a => a.GetAllAdminUnit()).Returns(woredas);
 
-            _stockStatusService = mockStatusService.Object;
-            _logisticsStockStatusController = new LogisticsStockStatusController(null, null,null, null, null, _stockStatusService, null);
+
+
+            _logisticsStockStatusController = new LogisticsStockStatusController(null, null, null, null, null, mockStatusService.Object, mockAdminUnitService.Object);
 
 
             
         }
 
         //[Test]
-        //public void canItGenerateDispatchedList()
+        //public void CanItGenerateDispatchedList()
         //{
-
+        //    var request = new DataSourceRequest();
         //    ActionResult actual = _logisticsStockStatusController.DispatchCommodity();
         //    ViewResult result = actual as ViewResult;
         //    Assert.IsNotNull(result);

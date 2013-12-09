@@ -1,0 +1,35 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<fieldset>
+    <legend>
+        List of transporters
+    </legend>
+</fieldset>
+
+@(Html.Kendo().Grid<Cats.Models.ViewModels.TransporterViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Name).Width(100).ClientTemplate("<a href='" + Url.Action("TransporterBidDetail", "TransportList", new { Area = "Procurement", transporterId = "#=TransporterID#" }) + " '>#=Name#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); 
+        columns.Bound(p => p.MobileNo).Width(100);
+        columns.Bound(p => p.SubCity).Width(100);
+        columns.Bound(p => p.TelephoneNo).Width(100);
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+   
+    .DataSource(dataSource => dataSource
+        .Ajax()
+       
+      
+        .Model(model => model.Id(p => p.TransporterID))
+        .Read(read => read.Action("ReadTransporters", "TransportList"))
+        
+    )
+)
