@@ -136,7 +136,7 @@ namespace DRMFSS.BLL.Repository
                     select new
                     {
                         Transporter = transporter1.Name,
-                        transporter1.NameAM,
+                       // transporter1.NameAM,
                         item.DriverName,
                         item.PlateNo_Prime,
                         Date = item.DispatchDate,
@@ -202,7 +202,7 @@ namespace DRMFSS.BLL.Repository
                         select new BinCardReport()
                             {
                                 Transporter = transporter1.Name,
-                                TransporterAM = transporter1.NameAM,
+                                //TransporterAM = transporter1.NameAM,
                                 DriverName = item.DriverName,
                                 PlateNoPrime = item.PlateNo_Prime,
                                 Date = item.DispatchDate,
@@ -230,7 +230,7 @@ namespace DRMFSS.BLL.Repository
                         select new BinCardReport()
                             {
                                 Transporter = transporter.Name,
-                                TransporterAM = transporter.NameAM,
+                                //TransporterAM = transporter.NameAM,
                                 DriverName = bin.DriverName,
                                 PlateNoPrime = bin.PlateNo_Prime,
                                 Date = bin.ReceiptDate,

@@ -214,7 +214,7 @@
 
                        col.Bound(dis => dis.DispatchAllocationID).
                            ClientTemplate("<div style='min-width:120px'><a href='"
-                                          + @Url.Action("Create", "Dispatch", new { @allocationId = "<#= DispatchAllocationID #>", @type = "<#= 1 #>" })
+                                          + @Url.Action("CreateDispatch", "Dispatch", new { @allocationId = "<#= DispatchAllocationID #>", @type = "<#= 1 #>" })
                                           + "' >" + @Html.Translate("Dispatch") + "</a><span>   </span>  "
 
                                           + "<a href='#' onclick='EditFDPAllocation(\"<#= DispatchAllocationID #>\")'"

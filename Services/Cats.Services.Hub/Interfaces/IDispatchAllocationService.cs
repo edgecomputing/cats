@@ -176,7 +176,10 @@ namespace Cats.Services.Hub
         DispatchAllocation FindById(System.Guid id);
 
         List<BidRefViewModel> GetAllBidRefsForReport();
-
+        IEnumerable<DispatchAllocation> Get(
+           Expression<Func<DispatchAllocation, bool>> filter = null,
+           Func<IQueryable<DispatchAllocation>, IOrderedQueryable<DispatchAllocation>> orderBy = null,
+           string includeProperties = "");
     }
 }
 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Models.Hubs;
 using Cats.Services.Hub;
+using Cats.ViewModelBinder;
 using Cats.Web.Hub;
 using Cats.Web.Hub.Helpers;
 using Newtonsoft.Json;
@@ -173,7 +174,75 @@ namespace Cats.Areas.Hub.Controllers
         }
         //
         // GET: /Dispatch/Create
+        public ActionResult CreateDispatch(string allocationId, int type, string ginNo)
+       {
+           ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name");
+           var id = Guid.Parse(allocationId);
+           DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(id, 0);
 
+            var fdp = _fdpService.Get(t => t.FDPID == dispatch.FDPID,null,"AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").FirstOrDefault();
+           dispatch.UserProfileID = UserProfile.UserProfileID;
+           dispatch.Region = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name;
+           dispatch.Zone = fdp.AdminUnit.AdminUnit2.Name;
+           dispatch.Woreda = fdp.AdminUnit.Name;
+            dispatch.FDP = fdp.Name;
+            var transporter = _transporterService.FindById(dispatch.TransporterID);
+           
+            dispatch.Transporter = transporter.Name;
+            var dispatchAllocation =
+                _dispatchAllocationService.Get(t => t.DispatchAllocationID == dispatch.DispatchAllocationID, null,
+                                               "ShippingInstruction,ProjectCode").FirstOrDefault();
+           
+            if (dispatchAllocation.ShippingInstruction != null)
+                dispatch.SINumber = dispatchAllocation.ShippingInstruction.Value;
+            if (dispatchAllocation.ProjectCode != null)
+                dispatch.ProjectNumber = dispatchAllocation.ProjectCode.Value;
+           
+            Commodity commodity=null;
+          
+                var id1 = dispatch.CommodityID;
+                 commodity = _commodityService.FindById(id1);
+            
+
+            
+
+                //DispatchViewModel dispatchViewModel = DispatchViewModelBinder.BindDispatchViewModelBinder(dispatch);
+          if(commodity!=null)
+          {
+              dispatch.Commodity = commodity.Name;
+          }
+
+           return View(dispatch);
+
+
+       }
+        [HttpPost]
+        public ActionResult CreateDispatch(DispatchViewModel dispatchviewmodel)
+        {
+            ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name", dispatchviewmodel.UnitID);
+            if(ModelState.IsValid)
+            {
+                DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(dispatchviewmodel.DispatchAllocationID, 0);
+
+                dispatch.UserProfileID = dispatchviewmodel.UserProfileID;
+                dispatch.PlateNo_Prime = dispatchviewmodel.PlateNo_Prime;
+                dispatch.PlateNo_Trailer = dispatchviewmodel.PlateNo_Trailer;
+                dispatch.GIN = dispatchviewmodel.GIN;
+                dispatch.DispatchDate = dispatchviewmodel.DispatchDate;
+                dispatch.DispatchedByStoreMan = dispatchviewmodel.DispatchedByStoreMan;
+                dispatch.WeighBridgeTicketNumber = dispatchviewmodel.WeighBridgeTicketNumber;
+                dispatch.DriverName = dispatchviewmodel.DriverName;
+                dispatch.Remark = dispatchviewmodel.Remark;
+                dispatch.UnitID = dispatchviewmodel.UnitID;
+                dispatch.QuantityInUnit = dispatchviewmodel.QuantityInUnit;
+
+                dispatch.Quantity = dispatchviewmodel.Quantity;//UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity/10 : dispatchviewmodel.Quantity;
+             _transactionService.SaveDispatchTransaction(dispatch);
+                return RedirectToAction("Index", "Dispatch");
+            }
+
+            return View(dispatchviewmodel);
+        }
         public   ActionResult Create(string ginNo, int type)
         {
             
@@ -297,6 +366,7 @@ namespace Cats.Areas.Hub.Controllers
             if (dispatchId != null)
             {
                 var user = _userProfileService.GetUser(User.Identity.Name);
+                
                 commodities = DispatchDetailModel.GenerateDispatchDetailModels(_dispatchService.FindById(Guid.Parse(dispatchId)).DispatchDetails);
                 //commodities = (from c in repository.DispatchDetail.GetDispatchDetail(Guid.Parse(dispatchId))
                 //              select new Models.DispatchDetailModel()

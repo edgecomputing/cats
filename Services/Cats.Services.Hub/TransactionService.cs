@@ -520,6 +520,147 @@ namespace Cats.Services.Hub
             }
         }
 
+        public void SaveDispatchTransaction(DispatchViewModel dispatchViewModel)
+        {
+           
+
+            var dispatch = new Dispatch();
+            dispatch.BidNumber = dispatchViewModel.BidNumber;
+            dispatch.CreatedDate = dispatchViewModel.CreatedDate;
+            dispatch.DispatchAllocationID = dispatchViewModel.DispatchAllocationID;
+            dispatch.DispatchDate = dispatchViewModel.DispatchDate;
+            dispatch.DispatchID = Guid.NewGuid();
+            dispatch.DispatchedByStoreMan = dispatchViewModel.DispatchedByStoreMan;
+            dispatch.DriverName = dispatchViewModel.DriverName;
+            dispatch.FDPID = dispatchViewModel.FDPID;
+            dispatch.GIN = dispatchViewModel.GIN;
+            dispatch.HubID = dispatchViewModel.HubID;
+            dispatch.PeriodMonth = dispatchViewModel.Month;
+            dispatch.PeriodYear = dispatchViewModel.Year;
+            dispatch.PlateNo_Prime = dispatchViewModel.PlateNo_Prime;
+            dispatch.PlateNo_Trailer = dispatchViewModel.PlateNo_Trailer;
+            dispatch.Remark = dispatchViewModel.Remark;
+            dispatch.RequisitionNo = dispatchViewModel.RequisitionNo;
+            dispatch.Round = dispatchViewModel.Round;
+            dispatch.TransporterID = dispatchViewModel.TransporterID;
+            //dispatch.Type = dispatchViewModel.Type;
+            dispatch.UserProfileID = dispatchViewModel.UserProfileID;
+            dispatch.WeighBridgeTicketNumber = dispatchViewModel.WeighBridgeTicketNumber;
+
+            TransactionGroup group = new TransactionGroup();
+            group.TransactionGroupID = Guid.NewGuid();
+          
+            DispatchDetail dispatchDetail = new DispatchDetail();
+            dispatchDetail.DispatchID = dispatch.DispatchID;
+            dispatchDetail.CommodityID = dispatchViewModel.CommodityID;
+            dispatchDetail.Description = dispatchViewModel.Commodity;
+            dispatchDetail.DispatchDetailID = Guid.NewGuid();
+            dispatchDetail.RequestedQuantityInMT = dispatchViewModel.Quantity;
+            dispatchDetail.RequestedQunatityInUnit = dispatchViewModel.QuantityInUnit;
+            dispatchDetail.UnitID = dispatchViewModel.UnitID;
+            dispatchDetail.TransactionGroupID = group.TransactionGroupID;
+
+               
+           
+
+                //if (dispatchViewModel.Type == 1)
+                //{
+                    Transaction transaction2 = new Transaction();
+                    transaction2.TransactionID = Guid.NewGuid();
+                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID);
+                    transaction2.ProgramID = dispatchViewModel.ProgramID;
+                    transaction2.ParentCommodityID = dispatchViewModel.CommodityID;
+                    transaction2.CommodityID = dispatchViewModel.CommodityID;
+                    transaction2.HubID = dispatchViewModel.HubID;
+                    transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
+                    transaction2.LedgerID = Ledger.Constants.GOODS_DISPATCHED;
+                    transaction2.QuantityInMT = +dispatchViewModel.Quantity;
+                    transaction2.QuantityInUnit = +dispatchViewModel.QuantityInUnit;
+                    transaction2.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
+                    transaction2.ProjectCodeID = dispatchViewModel.ProjectCodeID;
+                    //transaction2.Stack = dispatchModel.StackNumber;
+                    //transaction2.StoreID = dispatchModel.StoreID;
+                    transaction2.TransactionDate = DateTime.Now;
+                    transaction2.UnitID = dispatchViewModel.UnitID;
+                    transaction2.TransactionGroupID = group.TransactionGroupID;
+                    //group.Transactions.Add(transaction2);
+
+                 
+
+                    Transaction transaction = new Transaction();
+                    transaction.TransactionID = Guid.NewGuid();
+                    transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID);
+                    transaction.ProgramID = dispatchViewModel.ProgramID;
+                    transaction.ParentCommodityID = dispatchViewModel.CommodityID;
+                    transaction.CommodityID = dispatchViewModel.CommodityID;
+                    transaction.HubID = dispatchViewModel.HubID;
+                    transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
+                    transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+                    transaction.QuantityInMT = -dispatchViewModel.Quantity;
+                    transaction.QuantityInUnit = -dispatchViewModel.QuantityInUnit;
+                    transaction.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
+                    transaction.ProjectCodeID = dispatchViewModel.ProjectCodeID;
+                    //transaction.Stack = dispatch.StackNumber;
+                    //transaction.StoreID = dispatch.StoreID;
+                    transaction.TransactionDate = DateTime.Now;
+                    transaction.UnitID = dispatchViewModel.UnitID;
+                    transaction.TransactionGroupID = group.TransactionGroupID;
+                  
+                    // group.Transactions.Add(transaction);
+               // }
+                //else
+                //{
+                //    Transaction transaction2 = GetPositiveHUBTransaction(dispatchModel, dispatch, detail);
+                //    group.Transactions.Add(transaction2);
+
+                //    Transaction transaction = GetNegativeHUBTransaction(dispatchModel, dispatch, detail);
+                //    group.Transactions.Add(transaction);
+                //}
+
+
+
+
+
+
+
+
+           
+
+            
+           
+
+
+                dispatch.DispatchDetails.Add(dispatchDetail);
+
+           // }
+            // Try to save this transaction
+            //    db.Database.Connection.Open();
+            //  DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
+            try
+            {
+                _unitOfWork.TransactionGroupRepository.Add(group);
+                _unitOfWork.TransactionRepository.Add(transaction2);
+                _unitOfWork.TransactionRepository.Add(transaction);
+                _unitOfWork.DispatchRepository.Add(dispatch);
+                _unitOfWork.Save();
+                //repository.Dispatch.Add(dispatch);
+                //dbTransaction.Commit();
+            }
+                
+            catch (Exception exp)
+            {
+                // dbTransaction.Rollback();
+                //TODO: Save the detail of this exception somewhere
+                throw new Exception("The Dispatch Transaction Cannot be saved. <br />Detail Message :" + exp.Message);
+            }
+
+            //if (dispatchViewModel.Type == 1)
+            //{
+            //    string sms = dispatchViewModel.GetSMSText();
+            //    SMS.SendSMS(dispatchViewModel.FDPID.Value, sms);
+            //}
+        }
+
         #region dispatch transaction helpers
         //TODO: this section has to be cleaned
         /// <summary>
