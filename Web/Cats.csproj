@@ -1521,6 +1521,8 @@
     <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposal.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\bidProposals.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\GenerateWinners.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

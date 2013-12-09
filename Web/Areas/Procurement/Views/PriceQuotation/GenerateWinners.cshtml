@@ -1,0 +1,45 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Generate Winners";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<h4>Generate Winners</h4>
+<div class="row">
+    @Html.Partial("_GenerateWinnersIgnitor")
+</div>
+
+<div class="row">
+    @(Html.Kendo().Grid<BidWinnerViewModel>()
+                .Name("grid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.SourceWarehouse);
+                        columns.Bound(p => p.Zone);
+                        columns.Bound(p => p.Woreda);
+                        columns.Bound(p => p.TransporterName);
+                        columns.Bound(p => p.Rank);
+                        columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}"); ;
+                    })
+                .Scrollable()
+                .Filterable()
+                .Groupable()
+                //.Events(events => events.DataBound("onDataBound"))
+                .HtmlAttributes(new { style = "height:430px;" })
+                .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .Group(group => group.Add(m => m.SourceWarehouse))
+                                    .PageSize(8)
+                                    .Model(model => model.Id(p => p.BidWinnnerID))
+                                    .Read(read => read.Action("ReadBidProposals", "PriceQuotation",
+                                                                new
+                                                                {
+                                                                    //bidNumber = @ViewBag.Filter.BidID,
+                                                                    //regionID = @ViewBag.Filter.RegionID,
+                                                                   a = 1,
+                                                                   b=  2,
+                                                                   c=  1
+                                                                    
+                                                                }))
+))
+</div>

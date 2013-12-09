@@ -27,6 +27,7 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IBidService _bidService;
         private readonly ITransporterService _transporterService;
         private readonly ITransportBidQuotationService _transportBidQuotationService;
+        private readonly IBidWinnerService _bidWinnerService;
 
 
         public PriceQuotationController(ITransportBidPlanService transportBidPlanServiceParam
@@ -38,6 +39,7 @@ namespace Cats.Areas.Procurement.Controllers
                                             , ITransporterService transporterServiceParam
                                             , IBidService bidServiceParam
                                             , ITransportBidQuotationService transportBidQuotationService
+                                            , IBidWinnerService bidWinnerService
             )
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
@@ -49,6 +51,7 @@ namespace Cats.Areas.Procurement.Controllers
             this._bidService = bidServiceParam;
             this._transporterService = transporterServiceParam;
             this._transportBidQuotationService = transportBidQuotationService;
+            this._bidWinnerService = bidWinnerService;
         }
 
         public void LoadLookups()
@@ -233,29 +236,28 @@ namespace Cats.Areas.Procurement.Controllers
         //}
         
         [AcceptVerbs(HttpVerbs.Post)]
-        [ProcurementAuthorize(operation = ProcurementCheckAccess.Operation.Bid_Planning)]
-        public ActionResult SaveBidProposals([DataSourceRequest] DataSourceRequest request, List<PriceQuotationDetail> bidProposals)
+        //[ProcurementAuthorize(operation = ProcurementCheckAccess.Operation.Bid_Planning)]
+        public ActionResult SaveBidProposals([DataSourceRequest] DataSourceRequest request, PriceQuotationDetail bidProposal)
         {
-            if (bidProposals != null && ModelState.IsValid)
+            if (bidProposal != null && ModelState.IsValid)
             {
-                foreach (var priceQuotationDetail in bidProposals)
-                {
-                    var detail = _transportBidQuotationService.FindById(priceQuotationDetail.TransportBidQuotationID);
+
+                var detail = _transportBidQuotationService.FindById(bidProposal.TransportBidQuotationID);
                     
                     if (detail != null)
                     {
-                        detail.TransportBidQuotationID = priceQuotationDetail.TransportBidQuotationID;
-                        detail.BidID = priceQuotationDetail.BidID;
-                        detail.TransporterID = priceQuotationDetail.TransporterID;
-                        detail.SourceID = priceQuotationDetail.SourceID;
-                        detail.DestinationID = priceQuotationDetail.DestinationID;
+                        detail.TransportBidQuotationID = bidProposal.TransportBidQuotationID;
+                        detail.BidID = bidProposal.BidID;
+                        detail.TransporterID = bidProposal.TransporterID;
+                        detail.SourceID = bidProposal.SourceID;
+                        detail.DestinationID = bidProposal.DestinationID;
+                        detail.Tariff = bidProposal.Tariff;
+                        detail.Remark = bidProposal.Remark;
                         _transportBidQuotationService.UpdateTransportBidQuotation(detail);
                     }
-                }
-                
-
             }
-            return Json(new[] { bidProposals }.ToDataSourceResult(request, ModelState));
+            
+            return Json(new[] { bidProposal }.ToDataSourceResult(request, ModelState));
             //return Json(ModelState.ToDataSourceResult());
         }
 
@@ -270,22 +272,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult EditStart(PriceQuotationFilterViewModel model)
         {
             List<PriceQuotationDetailViewModel> qoutation = populateForm(model);
-
             Session["PriceQuotationFilter"] = model;
-            /*LoadLookups();
-            ViewBag.ModelFilter = model;
-            ViewBag.SelectedRegion = _adminUnitService.FindById(model.RegionID);
-            int bidID = model.BidPlanID;
-            
-
-            ViewBag.SelectedTransporter = _transporterService.FindById(model.TransporterID);
-            Bid SelectedBid = _bidService.FindById(bidID);
-             ViewBag.SelectedBid =SelectedBid;
-             int bidPlanID = SelectedBid.TransportBidPlanID;
-
-             List<GoodsMovementDetailViewModel> quotationDestinations = GetPlannedDistribution(bidPlanID, model.RegionID);
-             List<PriceQuotationDetailViewModel> qoutation = GetPriceQuotation(quotationDestinations,model.TransporterID, bidID);
-             */
             return View(qoutation);
 
         }
@@ -293,7 +280,7 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpGet]
         public ActionResult BidProposal()
         {
-            PriceQuotationFilterViewModel filter = new PriceQuotationFilterViewModel();
+            var filter = new PriceQuotationFilterViewModel();
             ViewBag.Filter = filter;
             LoadLookups();
             return View(filter);
@@ -302,50 +289,28 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost]
         public  ActionResult BidProposal(PriceQuotationFilterViewModel filter)
         {
-            
             ViewBag.filter = filter;
             LoadLookups();
+            ModelState.AddModelError("Success", "Your changes have been Saved.");
             return View(filter);
-            //ViewBag.BidPlanID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber",filter.BidPlanID);
-            //ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name",filter.RegionID);
-            //ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name",filter.TransporterID);
-           
-            //ViewBag.SelectedRegion = _adminUnitService.FindById(filter.RegionID);
-            //ViewBag.SelectedTransporter = _transporterService.FindById(filter.RegionID);
-            
-            //ViewBag.SelectedRegion = _adminUnitService.FindById(filter.RegionID);
-            //Bid SelectedBid = _bidService.FindById(filter.BidPlanID);
-            
-            //ViewBag.SelectedBid = SelectedBid;
-            
-            //var proposals  = _transportBidQuotationService.FindBy(m => m.BidID == filter.BidPlanID
-            //                                          && m.TransporterID == filter.TransporterID
-            //                                          && m.RegionID == filter.RegionID);
-            
-            //var s = (
-            //            from proposal in proposals
-            //            select new PriceQuotationDetail
-            //                {
-            //                    SourceWarehouse = proposal.Source.Name,
-            //                    Zone = proposal.Destination.AdminUnit2.Name,
-            //                    Woreda = proposal.Destination.AdminUnit2.AdminUnit2.Name,
-            //                    Tariff = proposal.Tariff,
-            //                    Remark = proposal.Remark
-            //                }
-            //        );
+        }
 
-            // List<PriceQuotationDetail> f = new List<PriceQuotationDetail>();
-            
-            //f.Add(new PriceQuotationDetail()
-            //    {
-            //        SourceWarehouse = "Addis Ababa",
-            //        Zone = "Anjuak",
-            //        Woreda = "Abobo",
-            //        Tariff = 25,
-            //        Remark = "Well done"
-            //    });
+        [HttpGet]
+        public ActionResult GenerateWinners()
+        {
+            var filter = new WinnersGeneratorParameters();
+            ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            return View(filter);
+        }
 
-            //return View();
+        [HttpPost]
+        public ActionResult GenerateWinners(WinnersGeneratorParameters filter)
+        {
+            ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Filter = filter;
+            return View(filter);
         }
 
         public ActionResult DeleteAjax(int TransportBidQuotationID)
@@ -356,8 +321,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult ReadBidProposals([DataSourceRequest] DataSourceRequest request, int bidNumber, int regionID, int transporterID)
         {
-            //var d = _transportBidQuotationService.GetAllTransportBidQuotation();
-            var d = _transportBidQuotationService.FindBy(t=>t.BidID==bidNumber
+           var d = _transportBidQuotationService.FindBy(t=>t.BidID==bidNumber
                                                          && t.TransporterID==transporterID 
                                                          && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID==regionID
                                                          );
@@ -376,6 +340,26 @@ namespace Cats.Areas.Procurement.Controllers
                          TransporterID = transportBidQuotation.TransporterID
                      }
                     );
+            return Json(s.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ReadBidWinners([DataSourceRequest] DataSourceRequest request, int bidNumber, int regionID)
+        {
+            var d = _bidWinnerService.FindBy(t => t.BidID == bidNumber
+                                            && t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                            );
+            var s = (from bidWinner in d
+                     select new BidWinnerViewModel()
+                     {
+                         BidWinnnerID = bidWinner.BidWinnerID,
+                         SourceWarehouse = bidWinner.Hub.Name,
+                         Zone = bidWinner.AdminUnit.AdminUnit2.Name,
+                         Woreda = bidWinner.AdminUnit.Name,
+                         TransporterName = bidWinner.Transporter.Name,
+                         Rank = bidWinner.Position,
+                         WinnerTariff = bidWinner.Tariff
+                     }
+                     );
             return Json(s.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

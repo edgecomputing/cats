@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Cats.Models;
-namespace Cats.Areas.Procurement.Models
+﻿namespace Cats.Areas.Procurement.Models
 {
     public class PriceQuotationFilterViewModel
     {
         public int BidPlanID { get; set; }
         public int TransporterID { get; set; }
         public int RegionID { get; set; }
+    }
+
+    public class WinnersGeneratorParameters
+    {
+        public int RegionID { get; set; }
+        public int BidID { get; set; }
     }
 
     public class GoodsMovementDetailViewModel
@@ -51,5 +52,19 @@ namespace Cats.Areas.Procurement.Models
         public int TransporterID { get; set; }
         public int SourceID { get; set; }
         public int DestinationID { get; set; }
+    }
+
+    public class BidWinnerViewModel  
+    {
+        public int BidWinnnerID { get; set; }
+        public string SourceWarehouse { get; set; }
+        public int SourceId { get; set; }
+        public int DestinationId { get; set; }
+        public string Zone { get; set; }
+        public string Woreda { get; set; }
+        public int TransporterID { get; set; }
+        public string TransporterName { get; set; }
+        public int Rank { get; set; }
+        public decimal WinnerTariff { get; set;}
     }
 }

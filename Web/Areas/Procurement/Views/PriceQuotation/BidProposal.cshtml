@@ -6,25 +6,13 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-@section LeftBar
-    {
-    @*@Html.Partial("_BidSelectionPartial")*@
+@section Toolbar{
+      <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
 }
-
-
-
-@*<div>
-    <p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p>
-    <p>Transporter : <b>@ViewBag.SelectedTransporter.Name
-                         <!--@ViewBag.SelectedTransporter.TransporterID-->
-                     </b></p>
-    <p>Bid : <b>@ViewBag.SelectedBid.BidNumber
-                 <!-- @ViewBag.SelectedBid.BidID-->
-             </b></p>
-</div>*@
 <div class="row">
-@Html.Partial("_BidSelectionPartial")
-    </div>
+    @Html.Partial("_BidSelectionPartial")
+</div>
+
 <div class="row">
     @(Html.Kendo().Grid<PriceQuotationDetail>()
                 .Name("grid")
@@ -38,7 +26,7 @@
                     })
                 .Scrollable()
                 .Filterable()
-                .ToolBar(toolBar => toolBar.Save())
+                //.ToolBar(toolBar => toolBar.Save())
                 .Groupable()
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 .Events(events => events.DataBound("onDataBound"))
@@ -62,17 +50,20 @@
                                                       transporterID = @ViewBag.filter.TransporterID,
                                                       regionID = @ViewBag.filter.RegionID
                                                   }))
-                                              .Update(update => update.Action("SaveBidProposals", "PriceQuotation", new { Area = "Procurement" }))
-                ))
+                                              .Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
+          ))
 </div>
+
 <script>
     function onDataBound(e) {
-
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("focus", "input", function (e) {
             var input = $(this);
             setTimeout(function () { input.select(); }, 100);
-
         });
+    }
+    
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
     }
 </script>

@@ -80,39 +80,39 @@
          
       .ToolBar(toolBar => toolBar.Save())
       .Editable(editable => editable.Mode(GridEditMode.InCell))
-       .Events(events => events.DataBound("onDataBound"))
+      .Events(events => events.DataBound("onDataBound"))
       //.Pageable()
       .Scrollable()
       .Groupable()
       .Sortable()
-     .HtmlAttributes(new { style = "height: 450px" })
+      .HtmlAttributes(new { style = "height: 450px" })
       .Navigatable()
       .DataSource(datasource=>datasource
       .Ajax()
-       .Group(group =>
+      .Group(group =>
            {
                group.Add(m => m.Region);
                group.Add(m => m.Zone);
            })
               //.PageSize(15)
-      .Events(events => events.Error("error_handler"))
+       .Events(events => events.Error("error_handler"))
        .Events(events => events.Change("onGridKeydown"))
        .Model(model =>
-                              {
-                                  model.Id(p => p.HRDID);
-                                  model.Field(p => p.HRDDetailID);
-                                  model.Field(p => p.StartingMonth);
-                                  //model.Field(p => p.Oil).Editable(false);
-                                  //model.Field(p => p.Pulse).Editable(false);
-                                  //model.Field(p => p.Cereal).Editable(false);
-                                  //model.Field(p => p.BlendedFood).Editable(false);
-                                  model.Field(p => p.Region).Editable(false);
-                                  model.Field(p => p.Woreda).Editable(false);
-                                  model.Field(p => p.Zone).Editable(false);
-                              }) 
+                    {
+                        model.Id(p => p.HRDID);
+                        model.Field(p => p.HRDDetailID);
+                        model.Field(p => p.StartingMonth);
+                        //model.Field(p => p.Oil).Editable(false);
+                        //model.Field(p => p.Pulse).Editable(false);
+                        //model.Field(p => p.Cereal).Editable(false);
+                        //model.Field(p => p.BlendedFood).Editable(false);
+                        model.Field(p => p.Region).Editable(false);
+                        model.Field(p => p.Woreda).Editable(false);
+                        model.Field(p => p.Zone).Editable(false);
+                    }) 
       
-      //.Model(model=>model.Id(p=>p.HRDID))
-         // .Read(read => read.Action("HRDDetail_Read", "HRD", new{ id = Model.HRDID }))
+          //.Model(model=>model.Id(p=>p.HRDID))
+          // .Read(read => read.Action("HRDDetail_Read", "HRD", new{ id = Model.HRDID }))
           .Read(read => read.Action("HRDDetail_Read", "HRD",new{id=Model.HRDID}))
           .Update(update => update.Action("HRDDetail_Update", "HRD"))
       )
