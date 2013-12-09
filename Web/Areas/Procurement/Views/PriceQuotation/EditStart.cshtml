@@ -7,16 +7,16 @@
     }
     @section LeftBar
     {
-       @Html.Partial("_BidSelectionPartial")
+        @*@Html.Partial("_BidSelectionPartial")*@
+
     }
-
-
+@Html.Partial("_BidSelectionPartial")
 <div >
     <p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
     <p>Transporter : <b>@ViewBag.SelectedTransporter.Name <!--@ViewBag.SelectedTransporter.TransporterID--></b> </p>
     <p>Bid : <b>@ViewBag.SelectedBid.BidNumber <!-- @ViewBag.SelectedBid.BidID--></b> </p>
-
 </div>
+
 @(Html.Kendo().Grid<PriceQuotationDetailViewModel>()
     .Name("grid")
     .Columns(columns =>
@@ -27,8 +27,8 @@
         columns.Bound(p => p.DestinationName).Width(130).Title("Destination Woreda");
         columns.Bound(p => p.Tariff).Width(130).Title("Tariff [Birr/Quintal]");
         columns.Bound(p => p.Remark).Width(100);
-        columns.Bound(p => p.IsWinner).Width(70).Title("Winner?");
-        columns.Bound(p => p.Rank).Width(50);
+        //columns.Bound(p => p.IsWinner).Width(70).Title("Winner?");
+        //columns.Bound(p => p.Rank).Width(50);
 
         columns.Command(command => { command.Edit(); command.Custom("Delete").Click("deleteRecord"); }).Width(200);
     })

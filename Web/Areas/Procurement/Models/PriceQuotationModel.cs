@@ -11,14 +11,15 @@ namespace Cats.Areas.Procurement.Models
         public int TransporterID { get; set; }
         public int RegionID { get; set; }
     }
+
     public class GoodsMovementDetailViewModel
     {
-       // public string SourceWarehouse { get; set; }
+        //public string SourceWarehouse { get; set; }
         public string SourceName { get; set; }
         public int SourceID { get; set; }
-    //    public Hub SourceWarehouse { get; set; }
+        //public Hub SourceWarehouse { get; set; }
         public string DestinationZone { get; set; }
-    //    public AdminUnit DestinationWoreda { get; set; }
+        //public AdminUnit DestinationWoreda { get; set; }
         public string DestinationName { get; set; }
         public int DestinationID { get; set; }
        
@@ -36,6 +37,19 @@ namespace Cats.Areas.Procurement.Models
         public int TransportBidQuotationID { get; set; }
         public int BidID { get; set; }
         public int TransporterID { get; set; }
-       
+    }
+
+    public class PriceQuotationDetail
+    {
+        public int TransportBidQuotationID { get; set; }
+        public string SourceWarehouse { get; set; }
+        public string Zone { get; set; }
+        public string Woreda { get; set; }
+        public decimal Tariff { get; set; }
+        public string Remark { get; set; }
+        public int BidID { get; set; }
+        public int TransporterID { get; set; }
+        public int SourceID { get; set; }
+        public int DestinationID { get; set; }
     }
 }

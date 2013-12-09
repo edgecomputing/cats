@@ -54,25 +54,6 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
-        public ActionResult AngularGrid()
-        {
-            return View();
-        }
-
-        public ActionResult angu()
-        {
-            return View();
-        }
-        public ActionResult Status()
-        {
-            return View();
-        }
-
-        public ActionResult nghigh()
-        {
-            return View();
-        }
-
         public JsonResult Result()
         {
             var re = new FreeStockSummaryModel()
