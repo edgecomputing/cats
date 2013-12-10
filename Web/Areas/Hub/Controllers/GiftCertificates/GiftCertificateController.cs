@@ -153,7 +153,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             if (ModelState.IsValid)
             {
-                Models.Hubs.GiftCertificate giftCertificateModel = giftcertificate.GenerateGiftCertificate();
+                Cats.Models.Hubs.GiftCertificate giftCertificateModel = giftcertificate.GenerateGiftCertificate();
 
                 InsertGiftCertificate(giftcertificate, giftCertificateModel);
                 //repository.Add( giftCertificate );
@@ -174,7 +174,7 @@ namespace Cats.Areas.Hub.Controllers
             return Create(); //GiftCertificateViewModel.GiftCertificateModel(giftcertificate));
         }
 
-        private void InsertGiftCertificate(Cats.Models.Hubs.GiftCertificateViewModel giftcertificate, Models.Hubs.GiftCertificate giftCertificateModel)
+        private void InsertGiftCertificate(Cats.Models.Hubs.GiftCertificateViewModel giftcertificate, Cats.Models.Hubs.GiftCertificate giftCertificateModel)
         {
             List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> giftCertificateDetails = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
             var giftDetails = GenerateGiftCertificate(giftCertificateDetails);

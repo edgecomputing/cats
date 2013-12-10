@@ -75,7 +75,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult GetListJson([DataSourceRequest] DataSourceRequest request)
         {
             //JsonRequestBehavior.AllowGet ;
-            IEnumerable<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan();
+            IEnumerable<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan().OrderByDescending(m=>m.TransportBidPlanID);
             return Json(CopyListToView(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         //
@@ -109,6 +109,28 @@ namespace Cats.Areas.Procurement.Controllers
             if (ModelState.IsValid)
             {
                 ViewBag.Message = "Invalid Model";
+
+                var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
+                var psnptransportBidPlanDetail = (from detail in woredas
+                                  select new TransportBidPlanDetail()
+                                  {
+                                      DestinationID = detail.AdminUnitID,
+                                      SourceID = _hubService.GetNearestWarehouse(detail.AdminUnitID).HubID,
+                                      ProgramID = 2,
+                                      Quantity = _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)
+                                      
+                                  }).ToList();
+
+                var relieftransportBidPlanDetail = (from detail in woredas
+                                              select new TransportBidPlanDetail()
+                                                  {
+                                                      DestinationID = detail.AdminUnitID,
+                                                      SourceID = _hubService.GetNearestWarehouse(detail.AdminUnitID).HubID,
+                                                      ProgramID = 1,
+                                                      Quantity = _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)
+                                                  }).ToList();
+                var transportbidplanDetail = psnptransportBidPlanDetail.Union(relieftransportBidPlanDetail).ToList();                                            
+                transportbidplan.TransportBidPlanDetails = transportbidplanDetail;
                 _transportBidPlanService.AddTransportBidPlan(transportbidplan);
                 return RedirectToAction("Index");
             }
@@ -185,15 +207,16 @@ namespace Cats.Areas.Procurement.Controllers
         {
             //this._transportBidPlanDetailService.get
             List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.DestinationID == WoredaID);
+            //var planDetail = _transportBidPlanDetailService.FindBy(m => m.BidPlanID == BidPlanID && m.DestinationID == WoredaID).FirstOrDefault();
             List<Cats.Models.Hub> hubs = _hubService.GetAllHub();
-            
+
             List<WarehouseProgramViewModel> ret=
                ( from hub in hubs
                     select new WarehouseProgramViewModel
                     {
                         WarehouseID = hub.HubID,
                         WarehouseName = hub.Name,
-                        PSNP=0,
+                        PSNP =0,
                         Relief=0,
                         BidPlanID=BidPlanID,
                         WoredaID=WoredaID
@@ -334,6 +357,18 @@ namespace Cats.Areas.Procurement.Controllers
                 bpd_orignal.Quantity = bpd.Quantity;
                 _transportBidPlanDetailService.UpdateTransportBidPlanDetail(bpd_orignal);
             }
+        }
+        public ActionResult DeleteBidPlan(int id)
+        {
+            var bidPlan = _transportBidPlanService.FindById(id);
+            if (bidPlan!=null)
+            {
+                _transportBidPlanService.DeleteTransportBidPlan(bidPlan);
+                _transportBidPlanDetailService.DeleteByBidPlanID(bidPlan.TransportBidPlanID);
+                return RedirectToAction("Index");
+            }
+           ModelState.AddModelError("Errors","Unable to delete");
+           return RedirectToAction("Index");
         }
         
     }

@@ -357,7 +357,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public JsonResult AutoCompleteSiNumber(string term)
         {
             var result = (from siNumber in _shippingInstructionService.GetAllShippingInstruction()
-                          where siNumber.Value.ToLower().Contains(term.ToLower())
+                          where siNumber.Value.ToLower().StartsWith(term.ToLower())
                           select siNumber.Value );
             return Json(result, JsonRequestBehavior.AllowGet);
         }
