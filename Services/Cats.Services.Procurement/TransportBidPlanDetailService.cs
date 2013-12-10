@@ -146,7 +146,6 @@ namespace Cats.Services.Procurement
                                                    foodRation=woredaDtail.First().FoodRatio,
                                                    detail = woredaDtail
                                                });
-
                         decimal amout = rationTotalAmout;
                         result = (from woredaDetail in woredaGroup
                                   select new PSNPCommodityAmmountViewModel

@@ -1,5 +1,7 @@
-﻿@using Kendo.Mvc.UI
+﻿@using System.Collections
+@using Kendo.Mvc.UI
 @using Cats.Areas.Procurement.Models
+@using LanguageHelpers.Localization
 
 @model List<Cats.Areas.Procurement.Models.WarehouseProgramViewModel>
 
@@ -39,17 +41,22 @@
     {
         //columns.Bound(p => p.BidPlanID).Width(100);
        // columns.Bound(p => p.WoredaID).Width(100); 
-      //  columns.Bound(p => p.WarehouseID).Width(100); 
-        columns.Bound(p => p.WarehouseName).Width(100);
+        columns.ForeignKey(p => p.WarehouseID, (IEnumerable)ViewBag.WarehouseID, "HubID", "Name").Title(Translator.Translate("Warehouse")).Width(100);
+        //columns.Bound(p => p.WarehouseName).Width(100);
         columns.Bound(p => p.PSNP).Width(100);
         columns.Bound(p => p.Relief).Width(100);
+        
 
         
         columns.Command(command => { 
-            //command.Edit(); 
+            command.Edit(); 
             command.Custom("Delete").Click("deleteRecord");            
         }).Width(172);
     })
+     //.ToolBar(toolbar => toolbar.Create())
+     
+.ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext k-grid-add' href='#' onlick='customCommand()'>Add Warehouse</a>"))
+
     .Editable(editable => editable.Mode(GridEditMode.InLine))
     .Pageable()
     .Sortable()
@@ -63,8 +70,11 @@
         {
            model.Id(p => p.WarehouseID);
            model.Field(p => p.WarehouseName).Editable(false);
+            model.Field(p => p.PSNP).Editable(false);
+            model.Field(p => p.Relief).Editable(false);
+
         })
-        .Create(update => update.Action("CreateWarehouseSelectionAjax", "TransportBidPlan"))
+        .Create(update => update.Action("UpdateWarehouseSelectionAjax", "TransportBidPlan"))
         .Read(read => read.Action("ReadJson", "TransportBidPlan").Data("filterInfo"))
         .Update(update => update.Action("UpdateWarehouseSelectionAjax", "TransportBidPlan"))
         .Destroy(update => update.Action("DeleteWarehouseSelectionAjax", "TransportBidPlan"))
