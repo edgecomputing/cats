@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Models;
 using Cats.Data;
+using Cats.Models;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
 
@@ -207,9 +208,13 @@ namespace Cats.Areas.Procurement.Controllers
         {
             //this._transportBidPlanDetailService.get
             List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.DestinationID == WoredaID);
-            //var planDetail = _transportBidPlanDetailService.FindBy(m => m.BidPlanID == BidPlanID && m.DestinationID == WoredaID).FirstOrDefault();
-            List<Cats.Models.Hub> hubs = _hubService.GetAllHub();
+            var planDetail = _transportBidPlanDetailService.FindBy(m =>m.BidPlanID == BidPlanID && m.DestinationID == WoredaID && m.ProgramID==1);
+            var hubs = (from hub in planDetail
+                        select new Cats.Models.Hub
+                            {
+                                HubID = hub.SourceID
 
+                            });
             List<WarehouseProgramViewModel> ret=
                ( from hub in hubs
                     select new WarehouseProgramViewModel
@@ -255,6 +260,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult WarehouseSelection(int id = 0)
         {
             TransportBidPlan transportbidplan = fetchFromDB(id);
+            ViewBag.WarehouseID = _hubService.GetAllHub();
             @ViewBag.bidPlan = transportbidplan;
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             List<WarehouseProgramViewModel> table = GetWoredaWarehouseProgram(id,0);
