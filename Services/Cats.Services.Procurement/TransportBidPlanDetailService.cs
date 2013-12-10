@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.ViewModels;
 
 namespace Cats.Services.Procurement
 {
@@ -39,6 +40,21 @@ namespace Cats.Services.Procurement
         {
             var item = _unitOfWork.TransportBidPlanDetailRepository.FindById(id);
             return DeleteTransportBidPlanDetail(item);
+        }
+        public bool DeleteByBidPlanID(int id)
+        {
+            var bidPlan = _unitOfWork.TransportBidPlanDetailRepository.FindBy(m => m.BidPlanID == id);
+            if (bidPlan!=null)
+            {
+                foreach (var transportBidPlanDetail in bidPlan)
+                {
+                    _unitOfWork.TransportBidPlanDetailRepository.Delete(transportBidPlanDetail);
+                    _unitOfWork.Save();                    
+                }
+                return true;
+            }
+            return false;
+
         }
         public TransportBidPlanDetail FindById(int id)
         {
@@ -90,47 +106,63 @@ namespace Cats.Services.Procurement
             }
             return 0;
         }
-        public decimal GetPsnpCommodityAmount(int WoredaID)
+        public decimal GetWoredaGroupedPsnpAmount(int woredaID)
         {
-            var applicationSettingPsnp = _unitOfWork.ApplicationSettingRepository.FindBy(m => m.SettingName == "CurentPSNPPlan").FirstOrDefault();
-            var planID = Int32.Parse(applicationSettingPsnp.SettingValue);
-            var psnpPlan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(m => m.PlanId == planID);
-            decimal rationTotalAmout=0;
-            decimal detail=0;
-            if (psnpPlan!=null)
+            var allResult = GetPsnpCommodityAmount();
+            if (allResult != null)
             {
-                foreach(var psnpDetail in psnpPlan)
+                var totalCommodity= allResult.FirstOrDefault(m => m.WoredaID == woredaID);
+                if (totalCommodity != null) return totalCommodity.TotalAmount;
+            }
+            return 0;
+        }
+        public List<PSNPCommodityAmmountViewModel> GetPsnpCommodityAmount()
+        {
+            var applicationSettingPsnp = _unitOfWork.ApplicationSettingRepository.FindBy(m => m.SettingName == "PSNPWorkflow").FirstOrDefault();
+            decimal rationTotalAmout = 0;
+            if (applicationSettingPsnp != null)
+            {
+                var planID = Int32.Parse(applicationSettingPsnp.SettingValue);
+                var psnpPlan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(m => m.PlanId == planID);
+               
+                var result=new List<PSNPCommodityAmmountViewModel>();
+                if (psnpPlan!=null)
                 {
-                    var ration =_unitOfWork.RationRepository.FindBy(m => m.RationID == psnpDetail.RationID).FirstOrDefault();
-                    if (ration!=null)
+                    foreach(var psnpDetail in psnpPlan)
                     {
-                        rationTotalAmout = ration.RationDetails.Sum(m => m.Amount);
-                    }
-                    //var psnpPlanDetail = psnpDetail.RegionalPSNPPlanDetails.Where(m=>m.PlanedFDP.AdminUnit.AdminUnitID==WoredaID);
-                    //var woredaGroup = (from groupedPsnp in psnpPlanDetail
-                    //                   group groupedPsnp by groupedPsnp.PlanedFDP.AdminUnit
-                    //                   into woredaDtail
-                    //                   select new
-                    //                       {
-                    //                           woreda = woredaDtail.Key,
-                    //                           numberOfBeneficiary = woredaDtail.Sum(m => m.BeneficiaryCount),
-                    //                           detail=woredaDtail
-                    //                       });
-                    //foreach(var psnpplanDetail in woredaGroup)
-                    //{
-                    //    detail = psnpplanDetail.numberOfBeneficiary*rationTotalAmout;
-                    //}
-                    
-                    foreach (var psnpPlanDetail in psnpDetail.RegionalPSNPPlanDetails.Where(m=>m.PlanedFDP.AdminUnit.AdminUnitID==WoredaID))
-                    {
+                        var ration =_unitOfWork.RationRepository.FindBy(m => m.RationID == psnpDetail.RationID).FirstOrDefault();
+                        if (ration!=null)
+                        {
+                            rationTotalAmout = ration.RationDetails.Sum(m => m.Amount);
+                        }
+                        var psnpPlanDetail = psnpDetail.RegionalPSNPPlanDetails;
+                        var woredaGroup = (from groupedPsnp in psnpPlanDetail
+                                           group groupedPsnp by groupedPsnp.PlanedFDP.AdminUnit
+                                           into woredaDtail
+                                           select new
+                                               {
+                                                   woreda = woredaDtail.Key,
+                                                   numberOfBeneficiary = woredaDtail.Sum(m => m.BeneficiaryCount),
+                                                   foodRation=woredaDtail.First().FoodRatio,
+                                                   detail = woredaDtail
+                                               });
 
-                        detail = psnpPlanDetail.BeneficiaryCount * psnpPlanDetail.FoodRatio * rationTotalAmout;
+                        decimal amout = rationTotalAmout;
+                        result = (from woredaDetail in woredaGroup
+                                  select new PSNPCommodityAmmountViewModel
+                                      {
+                                          WoredaID = woredaDetail.woreda.AdminUnitID,
+                                          TotalAmount = woredaDetail.numberOfBeneficiary * woredaDetail.foodRation * amout
+
+                                      }).ToList();
+
+                   
                     }
+                    return result;
                 }
-                return detail;
             }
 
-            return 0;
+            return null;
         }
         
     }

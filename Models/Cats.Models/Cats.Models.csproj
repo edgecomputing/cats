@@ -77,6 +77,7 @@
     <Compile Include="Constant\Application.cs" />
     <Compile Include="Mapping\PaymentRequestMap.cs" />
     <Compile Include="PaymentRequest.cs" />
+    <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
     <Compile Include="WoredasByDonor.cs" />
     <Compile Include="Ledger.cs" />
