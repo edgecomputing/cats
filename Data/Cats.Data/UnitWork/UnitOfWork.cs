@@ -44,6 +44,12 @@ namespace Cats.Data.UnitWork
             get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
         }
 
+        private IGenericRepository<PaymentRequest> _PaymentRequestRepository = null;
+        public IGenericRepository<PaymentRequest> PaymentRequestRepository
+        {
+            get { return this._PaymentRequestRepository ?? (this._PaymentRequestRepository = new GenericRepository<PaymentRequest>(_context)); }
+        }
+        
         private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
         public IGenericRepository<DashboardWidget> DashboardWidgetRepository
         {
