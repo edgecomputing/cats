@@ -1,6 +1,6 @@
 ﻿@using System.Collections
 @using LanguageHelpers.Localization
-@model  Cats.Models.HRDPSNPPlan
+@model Cats.Models.HRDPSNPPlan
 
 
 @{
@@ -8,7 +8,11 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h4>New Regional Request</h4>
+<fieldset>
+    <legend>
+        New  Request
+    </legend>
+</fieldset> 
 
 @section LeftBar
 {
@@ -58,7 +62,7 @@
 
 
             </tr>
-            <tr>
+            <tr id="psnp_relif_Plan">
                 <td style="width: 50%">
                     <div id="Relief_Plan">
                         <div class="control-label">
@@ -119,8 +123,8 @@
 
                     </div>
                 </td>
-                <td style="width: 50%">
-                     <div id="div_season">
+                <td style="width: 50%" id="div_season">
+                     <div >
                         <div class="control-label">
                             @Html.LabelFor(model => model.SeasonID, "Season")
                         </div>
@@ -131,9 +135,9 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            <tr id="div_month">
                 <td style="width: 50%">
-                    <div id="div_month">
+                    <div >
                         <div class="control-label">
                             @Html.LabelFor(model => model.Month, "Month")
                         </div>
@@ -146,7 +150,56 @@
                 </td>
 
             </tr>
+            <tr id="IDPS_Ration">
+                <td style="width: 50%">
+                    <div >
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.RationID, Translator.Translate("Ration"))
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("RationID")
+                            @Html.ValidationMessageFor(model => model.RationID)
+                        </div>
+                    </div>
+                    
+
+                </td>
+
+            </tr>
+            <tr id="Plan">
+                <td style="width: 50%">
+                    
+                        <label class="control-label"> @Translator.Translate("Plan")</label>
+                        <div class="controls">
+                            <input type="text"   name="Plan" placeholder="Plan">
+                        </div>
+                    
+                </td>
+
+            </tr>
+            <tr id="StartDate" >
+                <td style="width: 50%">
+                    
+                        <label class="control-label"> @Translator.Translate("Start Date")</label>
+                        <div class="controls">
+                            <input type="text"  class="cats-datepicker2" name="StartDate">
+                        </div>
+                    
+                </td>
+
+            </tr>
             
+            <tr id="EndDate">
+                <td style="width: 50%">
+                 
+                        <label class="control-label"> @Translator.Translate("End Date")</label>
+                        <div class="controls" >
+                            <input type="text"  class="cats-datepicker2" name="EndDate">
+                        </div>
+                   
+                </td>
+
+            </tr>
         </table>
     </div>
 @*
@@ -255,10 +308,13 @@
             var div_round = $("#div_round");
             var Relief_Plan = $("#Relief_Plan");
             var PSNP_Plan = $("#PSNP_Plan");
+            var IDPS_Ration = $("#IDPS_Ration");
 
+            var EndDate = $("#EndDate");
+            var StartDate = $("#StartDate");
+            var Plan = $("#Plan");
 
-            //var div_desc = $("#Year_description");
-
+            var psnp_relif_Plan = $("#psnp_relif_Plan");
             var prog = this.options[this.selectedIndex].innerHTML;
 
             if (prog == "Relief") {
@@ -266,20 +322,44 @@
                 div_donor.hide();
                 div_month.show();
                 div_round.show();
+                psnp_relif_Plan.show();
                 Relief_Plan.show();
                 PSNP_Plan.hide();
+                IDPS_Ration.hide();
+                EndDate.hide();
+                StartDate.hide();
+                Plan.hide();
                 var htm = "<p id ='Year_description'>As specified on the current HRD</p>";
                 $("#Year_description").html(htm);
             }
             else if (prog == "PSNP") {
                 Relief_Plan.hide();
+                psnp_relif_Plan.show();
                 PSNP_Plan.show();
                 div_season.hide();
                 div_donor.show();
                 div_month.show();
                 div_round.hide();
+                IDPS_Ration.hide();
+                EndDate.hide();
+                StartDate.hide();
+                Plan.hide();
+                
                 var htm = "<p id ='Year_description'>As specified on the current PSNP</p>";
                 $("#Year_description").html(htm);
+            }
+            else if (prog=="IDPS") {
+                Relief_Plan.hide();
+                PSNP_Plan.hide();
+                div_season.show();
+                div_donor.show();
+                div_month.show();
+                div_round.show();
+                IDPS_Ration.show();
+                EndDate.show();
+                StartDate.show();
+                Plan.show();
+                psnp_relif_Plan.hide();
             }
         });
         $("#cmb_programId").change();

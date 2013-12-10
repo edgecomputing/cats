@@ -233,7 +233,7 @@ namespace Cats.Services.EarlyWarning
                 //if program is IDPS
                 List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
                 List<AdminUnit> woredas = new List<AdminUnit>();
-                var zones  = _unitOfWork.AdminUnitRepository.FindBy(w => w.AdminUnitTypeID == 3 && w.ParentID == 2);
+                var zones  = _unitOfWork.AdminUnitRepository.FindBy(w => w.AdminUnitTypeID == 3 && w.ParentID == plan.RegionID);
                 foreach (var zone   in zones)
                 {
                     AdminUnit zone1 = zone;
