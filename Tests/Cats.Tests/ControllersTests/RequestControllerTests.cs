@@ -375,7 +375,7 @@ namespace Cats.Tests.ControllersTests
                 appService.Object, userAccountService.Object,
                 log.Object, hrdServiceDetail.Object, 
                 RegionalPSNPPlanDetailService.Object,
-                RegionalPSNPPlanService.Object);
+                RegionalPSNPPlanService.Object,null);
                _requestController.ControllerContext = controllerContext.Object; 
          
      

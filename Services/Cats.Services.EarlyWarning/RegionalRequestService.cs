@@ -228,6 +228,32 @@ namespace Cats.Services.EarlyWarning
                    
                 
             }
+            else
+            {
+                //if program is IDPS
+                List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
+                List<AdminUnit> woredas = new List<AdminUnit>();
+                var zones  = _unitOfWork.AdminUnitRepository.FindBy(w => w.AdminUnitTypeID == 3 && w.ParentID == 2);
+                foreach (var zone   in zones)
+                {
+                    AdminUnit zone1 = zone;
+                    woredas.AddRange(_unitOfWork.AdminUnitRepository.FindBy(w => w.ParentID == zone1.AdminUnitID));
+                }
+
+                //var 
+                foreach (var woreda in woredas)
+                {
+                    AdminUnit woreda1 = woreda;
+                    List<FDP> WoredaFDPs =
+                        _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == woreda1.AdminUnitID);
+                    ICollection<BeneficiaryInfo> woredabeneficiaries =
+                        (from FDP fdp in WoredaFDPs
+                         select new BeneficiaryInfo {FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0}).ToList();
+                    benficiaries.AddRange(woredabeneficiaries);
+                }
+
+                beneficiaryInfos = benficiaries;
+            }
             result.BeneficiaryInfos = beneficiaryInfos;
             return result;
 

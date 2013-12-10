@@ -39,7 +39,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ILog _log;
         private readonly IRegionalPSNPPlanDetailService _RegionalPSNPPlanDetailService;
         private readonly IRegionalPSNPPlanService _RegionalPSNPPlanService;
-
+        private readonly IAdminUnitService _adminUnitService;
         public RequestController(IRegionalRequestService reliefRequistionService,
                                 IFDPService fdpService,
                                 IRegionalRequestDetailService reliefRequisitionDetailService,
@@ -50,7 +50,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 ILog log,
                                 IHRDDetailService hrdDetailService,
                                 IRegionalPSNPPlanDetailService regionalPSNPPlanDetailService,
-                                IRegionalPSNPPlanService RegionalPSNPPlanService)
+                                IRegionalPSNPPlanService RegionalPSNPPlanService, IAdminUnitService adminUnitService)
         {
             _regionalRequestService = reliefRequistionService;
             _fdpService = fdpService;
@@ -63,6 +63,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _HRDDetailService = hrdDetailService;
             _RegionalPSNPPlanDetailService = regionalPSNPPlanDetailService;
             _RegionalPSNPPlanService = RegionalPSNPPlanService;
+            _adminUnitService = adminUnitService;
         }
 
 
@@ -84,6 +85,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             PopulateLookup();
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
+            
             //ViewBag.CurrentHRDYear = _hrdService.FindBy(y => y.Status == 3).SingleOrDefault().Year;
             return View();
         }
@@ -110,6 +112,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                      Beneficiaries = item.Beneficiaries,
                                                                      Fdpid = item.FDPID
                                                                  }).ToList();
+            _regionalRequestService.AddRegionalRequest(regionalRequest);
+
+            return regionalRequest;
+        }
+
+        private RegionalRequest CreateRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo,HRDPSNPPlan plan)
+        {
+            var regionalRequest = new RegionalRequest();
+            regionalRequest.Status = (int)RegionalRequestStatus.Draft;
+            regionalRequest.RequistionDate = DateTime.Today;
+            regionalRequest.Year = plan.Year;
+            regionalRequest.PlanID = plan.PlanID;
+            if (hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.HasValue)
+                regionalRequest.Season = plan.SeasonID.Value;
+            regionalRequest.Month = plan.Month;
+            regionalRequest.RegionID = plan.RegionID;
+            regionalRequest.ProgramId = plan.ProgramID;
+            regionalRequest.DonorID = plan.DonorID;
+            regionalRequest.RationID = 1003;// hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation();
+            regionalRequest.Round = plan.Round;
+            regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
+                                                      where item.Selected == false
+                                                      select new RegionalRequestDetail()
+                                                      {
+                                                          Beneficiaries = item.Beneficiaries,
+                                                          Fdpid = item.FDPID
+                                                      }).ToList();
             _regionalRequestService.AddRegionalRequest(regionalRequest);
 
             return regionalRequest;
@@ -205,7 +234,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
                 var psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-                RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
+                RegionalRequest req;
+                req = hrdpsnpPlan.ProgramID == 3 ? CreateRegionalRequest(psnphrdPlanInfo, hrdpsnpPlan) : CretaeRegionalRequest(psnphrdPlanInfo);
+                
                 var model = getRequestDetai(req.RegionalRequestID);
                 ViewBag.message = "Request Created";
                 return View("Details", model);
@@ -382,7 +413,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(dt.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        private void Details_Read_IDPS([DataSourceRequest] DataSourceRequest request, int regionId)
+        {
+            ViewBag.regionId = regionId;
+            var zones = _adminUnitService.GetZones(regionId);
+            var woredas = new List<AdminUnit>();
+            var fdps = new List<FDP>();
 
+            foreach (var zone in zones)
+            {
+                woredas.AddRange(_adminUnitService.GetWoreda(zone.AdminUnitID));
+            }
+            foreach (var woreda in woredas)
+            {
+                fdps.AddRange(_fdpService.GetAllFDP().Where(f=>f.AdminUnitID ==  woreda.AdminUnitID));
+            }
+            
+
+        }
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 

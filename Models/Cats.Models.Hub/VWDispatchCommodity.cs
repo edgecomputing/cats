@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Cats.Models.Hubs
 {
-   public class VWDispatchCommodity
+    public class VWDispatchCommodity
     {
-        
+
+            [Key]
+            public Guid TransactionID { get; set; }
             public decimal DispatchedAmountInMT { get; set; }
             public decimal DispatchedAmountInUnit { get; set; }
             public int LedgerID { get; set; }
