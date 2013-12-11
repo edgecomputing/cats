@@ -116,6 +116,13 @@ namespace Cats.Services.Hub
         {
             throw new NotImplementedException();
         }
+
+
+
+        public IEnumerable<FDP> Get(Expression<Func<FDP, bool>> filter = null, Func<IQueryable<FDP>, IOrderedQueryable<FDP>> orderBy = null, string includeProperties = "")
+        {
+          return  _unitOfWork.FDPRepository.Get(filter, orderBy, includeProperties);
+        }
     }
 }
 

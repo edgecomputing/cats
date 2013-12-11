@@ -687,6 +687,12 @@ namespace Cats.Services.Hub
 
         }
 
+
+
+        public IEnumerable<DispatchAllocation> Get(Expression<Func<DispatchAllocation, bool>> filter = null, Func<IQueryable<DispatchAllocation>, IOrderedQueryable<DispatchAllocation>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.DispatchAllocationRepository.Get(filter, null, includeProperties);
+        }
     }
 }
 

@@ -14,7 +14,8 @@ namespace Cats.Models
         public int GiftCertificateID { get; set; }
         public System.DateTime GiftDate { get; set; }
         public int DonorID { get; set; }
-        public string SINumber { get; set; }
+        //public string SINumber { get; set; }
+        public int ShippingInstructionID { get; set; }
         public string ReferenceNo { get; set; }
         public string Vessel { get; set; }
         public System.DateTime ETA { get; set; }
@@ -29,7 +30,7 @@ namespace Cats.Models
         public virtual Donor Donor { get; set; }
         public virtual Program Program { get; set; }
         public virtual IList<GiftCertificateDetail> GiftCertificateDetails { get; set; }
-
+        public virtual ShippingInstruction ShippingInstruction { get; set; }
         public Dictionary<string,string> ToDictionary()
         {
             var dictionary = new Dictionary<string, string>
@@ -38,7 +39,7 @@ namespace Cats.Models
                                      {"GiftDate", this.GiftDate.ToString()},
                                      {"DonorID", this.DonorID.ToString()},
                                      {"Donor", this.Donor.Name},
-                                     {"SINumber", this.SINumber.ToString()},
+                                     {"ShippingInstructionID", this.ShippingInstructionID.ToString()},
                                      {"Vessel", this.Vessel.ToString()},
                                      {"ETA", this.ETA.ToString()},
                                      {"ReferenceNo", this.ReferenceNo.ToString()},

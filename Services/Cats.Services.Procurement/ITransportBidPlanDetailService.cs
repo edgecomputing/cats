@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Models;
+using Cats.Models.ViewModels;
 
 namespace Cats.Services.Procurement
 {
@@ -15,11 +16,14 @@ namespace Cats.Services.Procurement
 
         bool DeleteTransportBidPlanDetail(TransportBidPlanDetail item);
         bool DeleteById(int id);
-
+        bool DeleteByBidPlanID(int id);
         TransportBidPlanDetail FindById(int id);
         List<TransportBidPlanDetail> GetAllTransportBidPlanDetail();
         List<TransportBidPlanDetail> FindBy(Expression<Func<TransportBidPlanDetail, bool>> predicate);
 
         double GetRegionPlanTotal(int bidplanid, int regionId, int programId);
+        decimal GetHrdCommodityAmount(int woredaID);
+        List<PSNPCommodityAmmountViewModel> GetPsnpCommodityAmount();
+        decimal GetWoredaGroupedPsnpAmount(int woredaID);
     }
 }

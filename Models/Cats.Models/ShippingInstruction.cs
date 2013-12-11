@@ -21,6 +21,7 @@ namespace Cats.Models
         //public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         //public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public virtual ICollection<ProjectCodeAllocation> ProjectCodeAllocations { get; set; }
+        public virtual ICollection<GiftCertificate> GiftCertificates { get; set; } 
         public virtual ICollection<Transaction> Transactions { get; set; }
         public List<ShippingInstruction> GetSIList()
         {
