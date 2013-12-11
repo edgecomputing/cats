@@ -92,13 +92,20 @@ namespace Cats.Areas.Procurement.Controllers
                         return RedirectToAction("Index");
 
                     }
-                    ViewBag.ErrorMessage1 = "The workflow assosiated with PSNP planning doesnot exist.";
+                    ViewBag.ErrorMessage1 = "The workflow assosiated with Payment Request doesnot exist.";
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
                 ModelState.AddModelError("Errors", "Could not create Request Plan.");
                 return View(request);
             }
+
+        public ActionResult Promote(BusinessProcessState st)
+        {
+            _BusinessProcessService.PromotWorkflow(st);
+            return RedirectToAction("Index");
+
+        }
 
       
     }
