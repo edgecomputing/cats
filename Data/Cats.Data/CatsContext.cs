@@ -122,7 +122,10 @@ namespace Cats.Data
 
         public DbSet<SIPCAllocation> SIPCAllocation { get; set; }
         public DbSet<WoredasByDonor> WoredasByDonors { get; set; }
+        public DbSet<Distribution> Distributions { get; set; }
+        public DbSet<DistributionDetail> DistributionDetails { get; set; }
         public DbSet<PaymentRequest> PaymentRequests { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -229,6 +232,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new PlanMap());
             modelBuilder.Configurations.Add(new NotificationMap());
             modelBuilder.Configurations.Add(new WoredasByDonorMap());
+            modelBuilder.Configurations.Add(new DistributionMap());
+            modelBuilder.Configurations.Add(new DistributionDetailMap());
         }
 
     }

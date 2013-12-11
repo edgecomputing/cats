@@ -777,5 +777,18 @@ namespace Cats.Data.UnitWork
         {
             get { return this.woredasByDonorRepository ?? (this.woredasByDonorRepository = new GenericRepository<WoredasByDonor>(_context)); }
         }
+
+        private IGenericRepository<Distribution> distributionRepositiory;
+        public IGenericRepository<Distribution> DistributionRepository
+        {
+            get { return this.distributionRepositiory ?? (this.distributionRepositiory = new GenericRepository<Distribution>(_context)); }
+      
+        }
+        private IGenericRepository<DistributionDetail> distributionDetailRepository;
+        public IGenericRepository<DistributionDetail> DistributionDetailRepository
+        {
+            get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DistributionDetail>(_context)); }
+      
+        }
     }
 }

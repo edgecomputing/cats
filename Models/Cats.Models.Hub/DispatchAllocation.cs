@@ -32,6 +32,7 @@ namespace Cats.Models.Hubs
         public int FDPID { get; set; }
         public Nullable<int> ShippingInstructionID { get; set; }
         public Nullable<int> ProjectCodeID { get; set; }
+        public Nullable<int> TransportOrderID { get; set; } 
         public bool IsClosed { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual ICollection<Dispatch> Dispatches { get; set; }
