@@ -10,7 +10,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var index = 0;
     UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
-    
+    ViewBag.TargetController = "RegionalPSNPPlan";    
    // string userPreference = userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
 }
 
@@ -93,17 +93,6 @@
                             }
                             <li class="divider"></li>
                             <li class="edit_button"><a href="javascript:workflow_history(@item.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
-
-<!--                            <li class="divider"></li>
-                            @if (state.AllowedAccessLevel > 1)
-                            {
-                                <li>@Html.ActionLink("Edit", "Edit")</li>
-                            }
-                            @if (state.AllowedAccessLevel >= 1)
-                            {
-                                <li>@Html.ActionLink("Details", "Details")</li>
-                            }
-    -->
                         </ul>
                     </div>
 
