@@ -18,36 +18,106 @@ namespace Cats.Areas.Procurement.Controllers
     public class BidWinnerController : Controller
     {
         // GET: /Procurement/Bid/
-        private IBidService _bidService;
-        private IApplicationSettingService _applicationSettingService;
-        private ITransportBidQuotationService _bidQuotationService;
-        private ITransporterService _transporterService;
-
-        public BidWinnerController(IBidService bidService, IApplicationSettingService applicationSettingService,
-                             ITransportBidQuotationService bidQuotationService, ITransporterService transporterService)
+        private readonly IBidWinnerService _bidWinnerService;
+        
+        public BidWinnerController(IBidWinnerService bidWinnerService)
         {
-            this._bidService = bidService;
-            this._applicationSettingService = applicationSettingService;
-            this._bidQuotationService = bidQuotationService;
-            this._transporterService = transporterService;
+            this._bidWinnerService = bidWinnerService;
+           
         }
 
-        [HttpGet]
-        public ActionResult BidWinner(int sourceID,int DestinationID)
+        public ActionResult Index()
         {
-            var bidId = _applicationSettingService.FindValue("CurrentBid");
-            ViewBag.currentBidId = bidId;
-            /*int currentBidId=int.Parse(bidId);
-            ViewBag.CurrentBid = _bidService.FindById(currentBidId);
-
-            List<TransportBidQuotation> Winners = _bidQuotationService.FindBy(q => q.BidID==currentBidId &&  q.SourceID == sourceID && q.DestinationID == DestinationID && q.IsWinner == true);
-            Winners.OrderBy(t=>t.Position);*/
-            List<TransportBidQuotation> Winners = _transporterService.GetBidWinner(sourceID, DestinationID);
-            ViewBag.Winners=Winners; 
+            var bidWinner = _bidWinnerService.GetAllBidWinner();
             return View();
         }
-       
-     
+        public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            var bid = _bidWinnerService.GetAllBidWinner().OrderByDescending(m => m.BidWinnerID);
+            var winnerToDisplay = GetBids(bid).ToList();
+            return Json(winnerToDisplay.ToDataSourceResult(request));
+        }
+        private IEnumerable<BidWithWinnerViewModel> GetBids(IEnumerable<BidWinner> bids)
+        {
+            return (from bid in bids
+                    select new BidWithWinnerViewModel()
+                        {
+                            BidID = bid.BidID,
+                            BidNumber = bid.Bid.BidNumber,
+                            Year = bid.Bid.OpeningDate.Year,
+                            BidWinnerID = bid.BidWinnerID,
+                        });
+        }
+
+        public ActionResult Details(int id)
+        {
+            var biwWinners = _bidWinnerService.FindBy(m => m.BidID == id).FirstOrDefault();
+            if (biwWinners == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(biwWinners);
+        }
+
+        public ActionResult BidWinner_Read([DataSourceRequest] DataSourceRequest request,int id=0)
+        {
+
+            var bidWinner = _bidWinnerService.FindBy(m=>m.BidID==id).OrderByDescending(m => m.BidWinnerID);
+            var winnerToDisplay = GetBidWinner(bidWinner).ToList();
+            return Json(winnerToDisplay.ToDataSourceResult(request));
+        }
+
+        private IEnumerable<BidWinnerViewModel> GetBidWinner(IEnumerable<BidWinner> bidWinners)
+        {
+            return (from bidWinner in bidWinners
+                    select new BidWinnerViewModel()
+                        {
+                            BidWinnnerID = bidWinner.BidWinnerID,
+                            TransporterID = bidWinner.TransporterID,
+                            TransporterName = bidWinner.Transporter.Name,
+                            SourceWarehouse = bidWinner.Hub.Name,
+                            Woreda = bidWinner.AdminUnit.AdminUnit2.Name,
+                            WinnerTariff = bidWinner.Amount,
+
+                        });
+        }
+     public ActionResult DispatchLocation(int bidID,int transporterID)
+     {
+         var winnerWithLocation = _bidWinnerService.FindBy(m => m.BidID==bidID && m.TransporterID==transporterID);
+         if (winnerWithLocation == null)
+         {
+             return HttpNotFound();
+         }
+         return View(winnerWithLocation);
+     }
+
+      public ActionResult WinnerWithLocation_Read([DataSourceRequest] DataSourceRequest request,int id=0,int bidID=0)
+      {
+          var winnerWithLocation = _bidWinnerService.FindBy(m => m.BidID == bidID && m.TransporterID == id);
+          var winnerToDisplay = GetBidWinner(winnerWithLocation).ToList();
+          return Json(winnerToDisplay.ToDataSourceResult(request));
+      }
+        public ActionResult EditWinnerStatus(int id)
+        {
+            var bidWinner = _bidWinnerService.FindBy(m => m.BidWinnerID == id);
+            if (bidWinner==null)
+            {
+                return HttpNotFound();
+            }
+            return View(bidWinner);
+        }
+        [HttpPost]
+        public ActionResult EditWinnerStatus(BidWinner bidWinner)
+        {
+            if (ModelState.IsValid)
+            {
+                _bidWinnerService.EditBidWinner(bidWinner);
+                return RedirectToAction("Index");
+            }
+            return View(bidWinner);
+        }
 
     }
 }

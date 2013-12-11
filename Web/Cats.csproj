@@ -459,6 +459,7 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DistributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -480,6 +481,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Logistics\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
@@ -515,6 +517,7 @@
     <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
@@ -1524,10 +1527,21 @@
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\TransferredStock.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\AddCommodity.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposal.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\bidProposals.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\GenerateWinners.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
+
     <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
