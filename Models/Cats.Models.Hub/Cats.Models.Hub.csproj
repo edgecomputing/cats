@@ -69,6 +69,7 @@
     <Compile Include="Mapping\VWFreePhysicalStockMap.cs" />
     <Compile Include="SummaryFreeAndPhysicalStockModel.cs" />
     <Compile Include="Mapping\VWTransferredStockMap.cs" />
+    <Compile Include="ViewModels\DispatchReportViewModel.cs" />
     <Compile Include="VWTransferredStock.cs" />
     <Compile Include="VWCarryOver.cs" />
     <Compile Include="Detail.cs" />

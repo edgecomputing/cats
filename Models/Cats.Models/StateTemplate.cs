@@ -30,7 +30,7 @@ namespace Cats.Models
 
         public virtual ICollection<FlowTemplate> InitialStateFlowTemplates { get; set; }
 
-        /*********** StateTemplate.cs **************/
+       
         public virtual ICollection<FlowTemplate> FinalStateFlowTemplates { get; set; }
 
 //        public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }

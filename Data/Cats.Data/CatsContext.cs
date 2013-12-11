@@ -124,8 +124,13 @@ namespace Cats.Data
         public DbSet<WoredasByDonor> WoredasByDonors { get; set; }
         public DbSet<Distribution> Distributions { get; set; }
         public DbSet<DistributionDetail> DistributionDetails { get; set; }
+        public DbSet<PaymentRequest> PaymentRequests { get; set; }
+
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new PaymentRequestMap());
             modelBuilder.Configurations.Add(new SIPCAllocationMap());
             modelBuilder.Configurations.Add(new PromisedContributionMap());
             modelBuilder.Configurations.Add(new DashboardWidgetMap());

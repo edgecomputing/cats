@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using Cats.Models;
@@ -44,6 +45,12 @@ namespace Cats.Data.UnitWork
             get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
         }
 
+        private IGenericRepository<PaymentRequest> _PaymentRequestRepository = null;
+        public IGenericRepository<PaymentRequest> PaymentRequestRepository
+        {
+            get { return this._PaymentRequestRepository ?? (this._PaymentRequestRepository = new GenericRepository<PaymentRequest>(_context)); }
+        }
+        
         private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
         public IGenericRepository<DashboardWidget> DashboardWidgetRepository
         {
@@ -368,9 +375,22 @@ namespace Cats.Data.UnitWork
             {
                 _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (System.Data.Entity.Validation.DbEntityValidationException e)
             {
-
+                var outputLines = new List<string>();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    outputLines.Add(string.Format(
+                        "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
+                        DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        outputLines.Add(string.Format(
+                            "- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage));
+                    }
+                }
+                System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
                 throw;
             }
 
