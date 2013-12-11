@@ -137,7 +137,7 @@ namespace Cats.Data.UnitWork
 
 
         IGenericRepository<Notification> NotificationRepository { get; }
-       
+        IGenericRepository<WoredasByDonor> WoredaByDonorRepository { get; } 
         void Save();
 
     }

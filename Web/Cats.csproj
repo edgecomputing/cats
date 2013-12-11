@@ -481,6 +481,8 @@
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
     <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationBinding.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationViewModel.cs" />
@@ -652,6 +654,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
+
+    <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
+
+    <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
+
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
@@ -660,6 +667,7 @@
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
@@ -1522,6 +1530,9 @@
     <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposal.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\bidProposals.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\GenerateWinners.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
@@ -2509,6 +2520,10 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
+  <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
+<Target Name="BeforeBuild">
+   <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
+</Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

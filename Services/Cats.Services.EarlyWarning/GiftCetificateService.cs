@@ -77,7 +77,7 @@ namespace Cats.Services.EarlyWarning
 
         public GiftCertificate FindBySINumber(string siNumber)
         {
-            return _unitOfWork.GiftCertificateRepository.FindBy(t => t.SINumber == siNumber).FirstOrDefault();
+            return _unitOfWork.GiftCertificateRepository.FindBy(t => t.ShippingInstruction.Value == siNumber).FirstOrDefault();
         }
 
         public bool IsSINumberNewOrEdit(string siNumber, int giftCertificateID)
@@ -98,6 +98,7 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.GiftCertificateRepository.Get(filter, orderBy, includeProperties);
         }
+        
       
     }
 }

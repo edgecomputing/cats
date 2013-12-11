@@ -26,7 +26,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ILetterTemplateService _letterTemplateService;
         private readonly IUnitOfWork _unitofwork;
         private readonly IUserAccountService _userAccountService;
-        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService, ICommonService commonService,ITransactionService transactionService, ILetterTemplateService letterTemplateService, IUnitOfWork unitofwork,IUserAccountService userAccountService)
+        private readonly IShippingInstructionService _shippingInstructionService;
+        public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService,
+                                         ICommonService commonService, ITransactionService transactionService, ILetterTemplateService letterTemplateService,
+                                         IUnitOfWork unitofwork,IUserAccountService userAccountService,IShippingInstructionService shippingInstructionService)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
@@ -35,6 +38,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _letterTemplateService = letterTemplateService;
             _unitofwork = unitofwork;
             _userAccountService = userAccountService;
+            _shippingInstructionService = shippingInstructionService;
         }
 
         [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list)]
@@ -60,7 +64,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                       Program = item.GiftCertificate.Program.Name,
                                                                       ReferenceNo = item.GiftCertificate.ReferenceNo,
                                                                       GiftCertificateID = item.GiftCertificateID,
-                                                                      SINumber = item.GiftCertificate.SINumber,
+                                                                      SINumber = item.GiftCertificate.ShippingInstruction.Value,
                                                                       PortName = item.GiftCertificate.PortName
                                                                   }).ToList();
 
@@ -109,7 +113,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 var giftCertificate = GiftCertificateViewModelBinder.BindGiftCertificate(giftcertificateViewModel);
                 giftCertificate.StatusID = 1;
-
+                var shippingInstructionID = _shippingInstructionService.GetSiNumber(giftcertificateViewModel.SINumber).ShippingInstructionID;
+                giftCertificate.ShippingInstructionID = shippingInstructionID;
                 _giftCertificateService.AddGiftCertificate(giftCertificate);
                 return RedirectToAction("Edit", new { id=giftCertificate.GiftCertificateID});
             }
@@ -332,5 +337,29 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _giftCertificateService.Dispose();
         }
 
+        //[HttpGet]
+        //public JsonResult GetSINumber(string term)
+        //{
+        //    // A list of names to mimic results from a database
+        //    var sINumber = _giftCertificateService.GetAllGiftCertificate();
+        //    var listOfSI = (from siList in sINumber
+        //                    select siList.SINumber);
+
+        //    var results = listOfSI.Where(n => n.StartsWith(term, StringComparison.OrdinalIgnoreCase));
+
+        //    return new JsonResult()
+        //    {
+        //        Data = results.ToArray(),
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
+        [HttpGet]
+        public JsonResult AutoCompleteSiNumber(string term)
+        {
+            var result = (from siNumber in _shippingInstructionService.GetAllShippingInstruction()
+                          where siNumber.Value.ToLower().StartsWith(term.ToLower())
+                          select siNumber.Value );
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

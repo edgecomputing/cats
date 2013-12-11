@@ -16,6 +16,8 @@ using Cats.Areas.Logistics.Models;
 using Cats.Models.Hubs;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Cats.Models.Hubs;
+using Cats.ViewModelBinder;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -348,7 +350,7 @@ namespace Cats.Areas.Logistics.Controllers
                
             }
 
-
+            
             return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

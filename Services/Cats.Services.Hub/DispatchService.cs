@@ -24,6 +24,7 @@ namespace Cats.Services.Hub
         public bool AddDispatch(Dispatch dispatch)
         {
             _unitOfWork.DispatchRepository.Add(dispatch);
+
             _unitOfWork.Save();
             return true;
 
@@ -225,6 +226,58 @@ namespace Cats.Services.Hub
             return query.ToList();
         }
 
+        #region Added by banty
+        public DispatchViewModel CreateDispatchFromDispatchAllocation(Guid dispatchAllocationId,decimal quantityInUnit)
+        {
+           
+            var dispatchAllocation = _unitOfWork.DispatchAllocationRepository.FindById(dispatchAllocationId);
+            
+            var dispatch = new DispatchViewModel();
+            dispatch.BidNumber = dispatchAllocation.BidRefNo;
+            dispatch.CreatedDate = DateTime.Today;
+            dispatch.DispatchAllocationID = dispatchAllocation.DispatchAllocationID;
+            dispatch.DispatchDate = DateTime.Today;
+            dispatch.DispatchID = Guid.NewGuid();
+            dispatch.DispatchedByStoreMan = string.Empty;
+            dispatch.DriverName = string.Empty;
+            dispatch.FDPID = dispatchAllocation.FDPID;
+            dispatch.GIN = string.Empty;
+            dispatch.HubID = dispatchAllocation.HubID;
+           // dispatch.ProgramID = dispatchAllocation.ProgramID;
+            if (dispatchAllocation.Month.HasValue)
+                dispatch.Month = dispatchAllocation.Month.Value;
+            if (dispatchAllocation.Year.HasValue)
+                dispatch.Year = dispatchAllocation.Year.Value;
+            dispatch.PlateNo_Prime = string.Empty;
+            dispatch.PlateNo_Trailer = string.Empty;
+            dispatch.Remark = string.Empty;
+            dispatch.RequisitionNo = dispatchAllocation.RequisitionNo;
+            dispatch.ProgramID = dispatchAllocation.ProgramID.HasValue?dispatchAllocation.ProgramID.Value:0;
+            if (dispatchAllocation.Round.HasValue)
+                dispatch.Round = dispatchAllocation.Round.Value;
+            if (dispatchAllocation.TransporterID.HasValue)
+                dispatch.TransporterID = dispatchAllocation.TransporterID.Value;
+          
+            dispatch.WeighBridgeTicketNumber = string.Empty;
+
+          //  Dispatch dispatchDetail = new DispatchDetail();
+            dispatch.CommodityID = dispatchAllocation.CommodityID;
+            dispatch.Commodity = dispatchAllocation.Commodity.Name;
+            //dispatch.DispatchDetailID = Guid.NewGuid();
+            dispatch.DispatchID = dispatch.DispatchID;
+            dispatch.Quantity = 0;
+            dispatch.QuantityInUnit = 0;
+            dispatch.UnitID = dispatchAllocation.Unit;
+            dispatch.ShippingInstructionID = dispatchAllocation.ShippingInstructionID;
+            dispatch.ProjectCodeID = dispatchAllocation.ProjectCodeID;
+
+           // dispatch.PartitionID = 0;
+
+            //dispatch.DispatchDetails.Add(dispatchDetail);
+
+            return dispatch;
+        }
+        #endregion
         public void Dispose()
         {
             _unitOfWork.Dispose();

@@ -45,11 +45,11 @@ namespace Cats.Tests.ControllersTests
             var gifts = new List<GiftCertificate>()
                             {
                                 new GiftCertificate()
-                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001",DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails},
+                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", ShippingInstructionID = 1,ShippingInstruction =new ShippingInstruction() {ShippingInstructionID = 1,Value ="SI-001" },DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails},
                                 new GiftCertificate()
-                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001",DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails},
+                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", ShippingInstructionID = 1,ShippingInstruction =new ShippingInstruction() {ShippingInstructionID = 1,Value ="SI-001" },DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails},
                                 new GiftCertificate()
-                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", SINumber = "SI-001",DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails}
+                                    {GiftCertificateID = 1, ProgramID = 1, ReferenceNo = "1", ShippingInstructionID = 1,ShippingInstruction =new ShippingInstruction() {ShippingInstructionID = 1,Value ="SI-001" },DonorID=1,Donor=new Donor(){DonorID=1,Name="WFP"},GiftCertificateDetails=giftDetails}
                             };
 
 
@@ -106,8 +106,16 @@ namespace Cats.Tests.ControllersTests
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
 
             UnitOfWork _unitOfWork = new UnitOfWork();
+            var shippingInstruction = new List<ShippingInstruction> 
+                {
+                    new ShippingInstruction { ShippingInstructionID = 1, Value = "40401/32664.23"},
+                    new ShippingInstruction {ShippingInstructionID = 2, Value = "00020272"}
+                };
+            var shippingInstructionService = new Mock<IShippingInstructionService>();
+            shippingInstructionService.Setup(m => m.GetAllShippingInstruction()).Returns(shippingInstruction);
 
-            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object, transactionService.Object, letterTemplateService.Object, _unitOfWork, userAccountService.Object);
+            _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object,
+                                         transactionService.Object, letterTemplateService.Object, _unitOfWork, userAccountService.Object,shippingInstructionService.Object);
             _giftCertificateController.ControllerContext = controllerContext.Object; 
         }
 

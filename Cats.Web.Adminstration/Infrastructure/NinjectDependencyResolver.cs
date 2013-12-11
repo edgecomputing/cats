@@ -68,6 +68,7 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<IUserProfileService>().To<UserProfileService>();
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
             kernel.Bind<IFDPService>().To<FDPService>();
+            kernel.Bind<IWoredaDonorService>().To<WoredaDonorService>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                   System.Configuration.
                                                                                       ConfigurationManager.
@@ -75,6 +76,7 @@ namespace Cats.Web.Administration.Infrastructure
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
+            
         }
     }
 }
