@@ -17,8 +17,8 @@ namespace Cats.Models
     {
         public int PaymentRequestID {get;set;}
         public int TransportOrderID {get;set;}
-        public int RequestedAmount {get;set;}
-        public int ReferenceNo {get;set;}
+        public decimal RequestedAmount { get; set; }
+        public string ReferenceNo {get;set;}
         public int BusinessProcessID { get; set; }
     }
 

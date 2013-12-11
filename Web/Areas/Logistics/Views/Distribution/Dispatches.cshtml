@@ -1,0 +1,182 @@
+﻿@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model Cats.Areas.Logistics.Models.TransportOrderDispatchViewModel
+
+@{
+    ViewBag.Title = "Dispatches";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    
+}
+
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.TransportOrderNo)
+
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.TransportOrderNo, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.Transporter)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.Transporter, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.ContractNumber)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.ContractNumber, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.OrderDateET)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.OrderDateET, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.RequestedDispatchDateET, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.RequestedDispatchDateET, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.OrderExpiryDateET, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.OrderExpiryDateET, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.StartDate, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.StartDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderViewModel.EndDate, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderViewModel.EndDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  <div >
+        <div class="row-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Dispatch Waiting Receiving Note")</b></a>
+            </li>
+
+            <li>
+                <a href="#tab1" data-toggle="tab"><b>@Translator.Translate("Dispatch With Receiving Note")</b></a>
+            </li>
+           
+
+        </ul>
+        <div class="tab-content ">
+            <div id="tab0" class="tab-pane active">
+               @(Html.Kendo().Grid(Model.DispatchViewModels).Name("gridWaitingGRN")
+.Columns(col =>
+             {
+                 col.Template(
+                     @<text>
+
+<a href="@Url.Action("ReviveGRN", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Translator.Translate("Receive")</a>
+
+</text>);
+                 col.Bound(t => t.GIN);
+
+                 col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.Program);
+                 col.Bound(t => t.Region);
+                 col.Bound(t => t.Zone);
+                 col.Bound(t => t.Woreda);
+                 col.Bound(t => t.FDP);
+                 col.Bound(t => t.BidNumber);
+                 col.Bound(t => t.PlateNo_Prime).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.PlateNo_Trailer).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.DriverName).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.DispatchDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+                 col.Bound(t => t.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+
+             }).Scrollable(t => t.Height(400)))
+
+
+            </div>
+            <div id="tab1" class="tab-pane">
+               @(Html.Kendo().Grid(Model.DispatchViewModels).Name("gridWithGRN")
+.Columns(col =>
+             {
+                 col.Template(
+                     @<text>
+
+<a href="@Url.Action("ReceivingNote", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Translator.Translate("GRN")</a>
+
+</text>);
+                 col.Bound(t => t.GIN);
+
+                 col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.Program);
+                 col.Bound(t => t.Region);
+                 col.Bound(t => t.Zone);
+                 col.Bound(t => t.Woreda);
+                 col.Bound(t => t.FDP);
+                 col.Bound(t => t.BidNumber);
+                 col.Bound(t => t.PlateNo_Prime).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.PlateNo_Trailer).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.DriverName).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.DispatchDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+                 col.Bound(t => t.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+
+             }).Scrollable(t => t.Height(400)))
+
+
+            </div>
+           
+        </div>
+</div>
+        
+    </div>

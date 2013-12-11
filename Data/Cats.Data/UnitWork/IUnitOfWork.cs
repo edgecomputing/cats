@@ -138,11 +138,9 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<Notification> NotificationRepository { get; }
         IGenericRepository<WoredasByDonor> WoredaByDonorRepository { get; }
+        IGenericRepository<Distribution> DistributionRepository { get; }
+        IGenericRepository<DistributionDetail> DistributionDetailRepository { get; } 
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
-
-        
-
-        
         void Save();
 
     }
