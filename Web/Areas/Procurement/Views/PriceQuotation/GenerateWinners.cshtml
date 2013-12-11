@@ -4,7 +4,9 @@
     ViewBag.Title = "Generate Winners";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-<h4>Generate Winners</h4>
+<div class="row">
+    <h4>Bid Winner Transporters</h4>
+</div>
 <div class="row">
     @Html.Partial("_GenerateWinnersIgnitor")
 </div>
@@ -28,18 +30,18 @@
                 .HtmlAttributes(new { style = "height:430px;" })
                 .DataSource(dataSource => dataSource
                                     .Ajax()
-                                    .Group(group => group.Add(m => m.SourceWarehouse))
-                                    .PageSize(8)
+                                            .Group(group =>
+                                                {
+                                                    group.Add(m => m.Zone);
+                                                    group.Add(m => m.Woreda);
+                                    })
+                                    //.PageSize(8)
                                     .Model(model => model.Id(p => p.BidWinnnerID))
-                                    .Read(read => read.Action("ReadBidProposals", "PriceQuotation",
-                                                                new
-                                                                {
-                                                                    //bidNumber = @ViewBag.Filter.BidID,
-                                                                    //regionID = @ViewBag.Filter.RegionID,
-                                                                   a = 1,
-                                                                   b=  2,
-                                                                   c=  1
-                                                                    
-                                                                }))
-))
+                                    .Read(read => read.Action("ReadBidWinners", "PriceQuotation", new
+                                                  {
+                                                      bidNumber = @ViewBag.filter.BidID,
+                                                      regionID = @ViewBag.filter.RegionID
+                                                  }))
+                                    .Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
+          ))
 </div>
