@@ -63,6 +63,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         //
         // GET: /Procurement/RFQ/EditStart
+        
         [HttpGet]
         public ActionResult Index()
         {
