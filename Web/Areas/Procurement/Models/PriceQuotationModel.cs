@@ -68,5 +68,13 @@ namespace Cats.Areas.Procurement.Models
         public string TransporterName { get; set; }
         public int Rank { get; set; }
         public decimal WinnerTariff { get; set;}
+       
+    }
+    public class BidWithWinnerViewModel
+    {
+        public int BidWinnerID { get; set; }
+        public int BidID { get; set; }
+        public string BidNumber { get; set; }
+        public int Year { get; set; }
     }
 }

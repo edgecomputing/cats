@@ -313,6 +313,31 @@ namespace Cats.Areas.Procurement.Controllers
 
             return Json(new[] { transportbidplan }.ToDataSourceResult(request, ModelState));
         }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request, WarehouseProgramViewModel warehouseProgramViewModel)
+        {
+            if (warehouseProgramViewModel != null && ModelState.IsValid)
+            {
+                _transportBidPlanDetailService.AddTransportBidPlanDetail(BindBidPlanDetail(warehouseProgramViewModel));
+            }
+
+            return Json(new[] { warehouseProgramViewModel }.ToDataSourceResult(request, ModelState));
+        }
+
+        private TransportBidPlanDetail BindBidPlanDetail(WarehouseProgramViewModel model)
+        {
+            if (model == null) return null;
+            var donor = new TransportBidPlanDetail()
+            {
+                BidPlanID = model.BidPlanID,
+                DestinationID = model.WoredaID,
+                SourceID = model.WarehouseID,
+                //ProgramID = model.p,
+                 Quantity = model.PSNP
+            };
+            return donor;
+        }
+
         public ActionResult UpdateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request, WarehouseProgramViewModel WarehouseAllocation)
         {
             if (WarehouseAllocation != null && ModelState.IsValid)
@@ -373,7 +398,7 @@ namespace Cats.Areas.Procurement.Controllers
                 _transportBidPlanDetailService.DeleteByBidPlanID(bidPlan.TransportBidPlanID);
                 return RedirectToAction("Index");
             }
-           ModelState.AddModelError("Errors","Unable to delete");
+           ModelState.AddModelError("Errors","Unable to delete Bid Plan");
            return RedirectToAction("Index");
         }
         

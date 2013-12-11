@@ -252,7 +252,8 @@ namespace Cats.Services.EarlyWarning
                     benficiaries.AddRange(woredabeneficiaries);
                 }
 
-                beneficiaryInfos = benficiaries;
+                //beneficiaryInfos = benficiaries;
+                //beneficiaryInfos = null; 
             }
             result.BeneficiaryInfos = beneficiaryInfos;
             return result;

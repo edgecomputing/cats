@@ -180,6 +180,8 @@ namespace Cats.Services.Hub
            Expression<Func<DispatchAllocation, bool>> filter = null,
            Func<IQueryable<DispatchAllocation>, IOrderedQueryable<DispatchAllocation>> orderBy = null,
            string includeProperties = "");
+
+        List<DispatchViewModel> GetTransportOrderDispatches(int transportOrderId);
     }
 }
 

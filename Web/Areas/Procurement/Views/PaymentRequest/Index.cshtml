@@ -1,0 +1,102 @@
+﻿@using Kendo.Mvc.UI
+@using Kendo.Mvc.UI
+@using Cats.Models.PSNP
+@using Cats.Models
+@using Cats.Services.Security;
+@using Cats.Helpers
+@model IEnumerable<PaymentRequest>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.TargetController = "PaymentRequest";
+}
+@section LeftBar
+{
+
+}
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "PaymentRequest")"></a>
+}
+@{
+    int index = 0;
+}
+    <h3>Payment Request</h3>
+
+<table class="table table-striped table-bordered">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ReferenceNo)</th>
+            <th>Transport Order</th>
+            <th>Requested Amount</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+
+        @foreach (PaymentRequest item in Model)
+        {
+            index++;
+            StateTemplate state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+            <tr>
+                <td>
+                   @item.ReferenceNo
+                </td>
+                <td>
+                   @item.TransportOrder.TransportOrderNo
+                </td>
+                <td>
+                   @item.RequestedAmount
+                </td>
+                <td>
+                   @state.Name
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn edit_button" id="action_@index">Workflow</button>
+                        <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                            {
+                                <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.PaymentRequestID)" title="@actions.Name">@actions.Name</a></li>            
+                            }
+                            <li class="divider"></li>
+                            <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
+                        </ul>
+                    </div>
+
+
+                </td>
+        </tr>
+        }
+</table>
+
+<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
+    <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 id="modalHistoryLabel">Activity History</h4>
+        </div>
+    <div class="modal-body" id="modalHistoryBody">History</div>
+
+</div>
+@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+<script>
+    var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
+
+    function promot_workflow(BusinessProcessID, nextstate, actionname) {
+        $('#ParentBusinessProcessID').val(BusinessProcessID);
+        $('#stateID').val(nextstate);
+        $('#modalPromotionLabel').html(actionname);
+
+        $('#modalPromotion').modal();
+    }
+    function workflow_history(BusinessProcessID) {
+        $('#modalHistory').modal();
+        $.post(history_link + BusinessProcessID, {},
+            function (data) {
+                $("#modalHistoryBody").html(data);
+            }
+            );
+
+    }
+</script>

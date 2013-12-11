@@ -40,6 +40,7 @@ namespace Cats.Models
         //public virtual ICollection<Contribution> Contributions1 { get; set; }
 
         public virtual ICollection<PromisedContribution> PromisedContributions { get; set; }
-        public virtual ICollection<WoredasByDonor> WoredasByDonors { get; set; } 
+        public virtual ICollection<WoredasByDonor> WoredasByDonors { get; set; }
+        public virtual ICollection<Distribution> Distributions { get; set; }
     }
 }
