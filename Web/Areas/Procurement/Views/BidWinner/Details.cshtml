@@ -1,0 +1,35 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model  Cats.Models.BidWinner
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>List of Winners</h2>
+<h4 >List of Bids</h4>
+@(Html.Kendo().Grid<BidWinnerViewModel>()
+    .Name("grid")
+    .Columns(columns=>
+        {
+            columns.Bound(t => t.TransporterName).ClientTemplate(
+                @Html.EarlyWarningOperationButton(
+                    @Url.Action("DispatchLocation", "BidWinner", new { id = "#=BidID#" }),
+                    EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=BidNumber#").ToString()); 
+        columns.Bound(t => t.SourceWarehouse);
+        columns.Bound(t => t.Woreda);
+        columns.Bound(t => t.WinnerTariff);
+
+
+        })
+     .Scrollable()
+     .HtmlAttributes(new { style = "height:430px;" })
+        .DataSource(datasource=>
+            datasource                 
+            .Ajax()
+    .Model(model=>model.Id(p=>p.BidWinnnerID))
+    .Read("BidWinner_Read","BidWinner",new{id=Model.BidID})
+    
+      ))
