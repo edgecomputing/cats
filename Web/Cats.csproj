@@ -515,7 +515,7 @@
     <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
-    <Compile Include="Areas\Procurement\PaymentRequestController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
@@ -655,11 +655,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
-
     <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
-
     <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
-
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
@@ -1536,6 +1533,7 @@
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Create.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
