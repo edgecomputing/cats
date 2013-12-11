@@ -41,6 +41,7 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.FDPID).HasColumnName("FDPID");
             this.Property(t => t.ShippingInstructionID).HasColumnName("ShippingInstructionID");
             this.Property(t => t.ProjectCodeID).HasColumnName("ProjectCodeID");
+            this.Property(t => t.TransportOrderID).HasColumnName("TransportOrderID");
             this.Property(t => t.IsClosed).HasColumnName("IsClosed");
 
             // Relationships

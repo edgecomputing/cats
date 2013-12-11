@@ -35,6 +35,7 @@ namespace Cats.Models
 
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
 
-        public virtual ICollection<PromisedContribution> PromisedContributions { get; set; } 
+        public virtual ICollection<PromisedContribution> PromisedContributions { get; set; }
+        public virtual ICollection<Distribution> Distributions { get; set; }
     }
 }

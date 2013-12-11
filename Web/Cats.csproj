@@ -459,6 +459,7 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DistributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -480,6 +481,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Logistics\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
@@ -1526,6 +1528,8 @@
     <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

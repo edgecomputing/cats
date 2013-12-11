@@ -75,6 +75,10 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
+    <Compile Include="Distribution.cs" />
+    <Compile Include="DistributionDetail.cs" />
+    <Compile Include="Mapping\DistributionDetailMap.cs" />
+    <Compile Include="Mapping\DistributionMap.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
     <Compile Include="WoredasByDonor.cs" />
