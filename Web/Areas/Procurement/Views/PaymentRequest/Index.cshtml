@@ -1,0 +1,51 @@
+﻿@using Kendo.Mvc.UI
+@using Kendo.Mvc.UI
+@using Cats.Models.PSNP
+@using Cats.Models
+@using Cats.Services.Security;
+@using Cats.Helpers
+@model IEnumerable<PaymentRequest>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+}
+@section LeftBar
+{
+
+}
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "TransportBidPlan")"></a>
+}
+    <h3>Payment Request</h3>
+
+<table class="table table-striped table-bordered">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ReferenceNo)</th>
+            <th>Transport Order</th>
+            <th>Requested Amount</th>
+            <th>Status</th>
+        </tr>
+
+        @foreach (PaymentRequest item in Model)
+        {
+            StateTemplate state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+            <tr>
+                <td>
+                   @item.ReferenceNo
+                </td>
+                <td>
+                   @item.TransportOrder.TransportOrderNo
+                </td>
+                <td>
+                   @item.RequestedAmount
+                </td>
+                <td>
+                   @state.Name
+                </td>
+        </tr>
+        }
+</table>

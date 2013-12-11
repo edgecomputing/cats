@@ -33,6 +33,8 @@ namespace Cats.Models
 
         public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
 
+        public virtual ICollection<PaymentRequest> PaymentRequests { get; set; }
+
         public virtual ICollection<BusinessProcessState> BusinessProcessStates { get; set; }
         
     }

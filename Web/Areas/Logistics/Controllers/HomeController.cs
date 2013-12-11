@@ -7,6 +7,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
 using hub = Cats.Services.Hub;
+using Cats.Models;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -96,15 +97,51 @@ namespace Cats.Areas.Logistics.Controllers
                                 contract = contract.ContractNumber,
                                 transporter = contract.Transporter.Name ,
                                 owner = contract.Transporter.OwnerName,
-                                daysLeft = (int)(contract.EndDate - DateTime.Now).TotalDays,
-                                daysToStart = (int)(contract.StartDate - DateTime.Now).TotalDays,
-                                daysElapsed = (int)(DateTime.Now - contract.StartDate).TotalDays,
+                                //daysLeft = (int)(contract.EndDate - DateTime.Now).TotalDays,
+                                daysLeft = DaysLeft(contract),
+                                //daysToStart = (int)(contract.StartDate - DateTime.Now).TotalDays,
+                                daysToStart = DaysToStart(contract),
+                                //daysElapsed = (int)(DateTime.Now - contract.StartDate).TotalDays,
+                                daysElapsed = DaysElapsed(contract),
                                 //percentage = 50
                                 duration = (int)(contract.EndDate - contract.StartDate).TotalDays,
                                 percentage = ((contract.EndDate - DateTime.Now).TotalDays / (contract.EndDate - contract.StartDate).TotalDays) * 100
                             }
                        );
             return Json(info,JsonRequestBehavior.AllowGet);
+        }
+
+        public int DaysLeft( TransportOrder transportOrder)
+        {
+            var days = -1;
+
+            if ((int)(transportOrder.StartDate - DateTime.Now).TotalDays>0)
+            {
+                days = (int) (transportOrder.EndDate - DateTime.Now).TotalDays;
+            }
+            return days;
+        }
+
+        public int DaysToStart(TransportOrder transportOrder)
+        {
+            var days = -1;
+
+            if ((int)(transportOrder.StartDate - DateTime.Now).TotalDays < 0)
+            {
+                days = (int)(DateTime.Now - transportOrder.StartDate).TotalDays;
+            }
+            return days;
+        }
+
+        public int DaysElapsed(TransportOrder transportOrder)
+        {
+            var days = -1;
+
+            if ((int)(transportOrder.StartDate - DateTime.Now).TotalDays > 0)
+            {
+                days = (int)(DateTime.Now - transportOrder.StartDate).TotalDays;
+            }
+            return days;
         }
     }
 }
