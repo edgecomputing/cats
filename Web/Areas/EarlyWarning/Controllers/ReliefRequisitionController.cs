@@ -294,6 +294,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return Json(new[] { reliefRequisitionViewModel }.ToDataSourceResult(request, ModelState));
         }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Requisition_Destroy([DataSourceRequest] DataSourceRequest request,
                                                   ReliefRequisition reliefRequisition)

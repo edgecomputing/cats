@@ -1,5 +1,4 @@
-﻿@using Cats.Models.Constant
-@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
+﻿@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
    
 
 @using (Html.BeginForm())
@@ -13,7 +12,6 @@
                     <label>Request Date Between:</label>
                 </div>
                 <div class="controls">
-                    
                     @Html.TextBoxFor(m=>m.DateFrom,new {@class="cats-datepicker2  input-small",@type="text"})
                     and
                     @Html.TextBoxFor(m=>m.DateTo,new {@class="cats-datepicker2  input-small",@type="text"})
@@ -56,7 +54,7 @@
             </div>
         </div>
              </div>
-        <div style="clear:both;"><input type="submit" id="btnRefresh" value="Refresh"/>
+        <div style="clear:both;"><input type="submit"  value="Refresh"/>
     </div>
      </div>                   
 }

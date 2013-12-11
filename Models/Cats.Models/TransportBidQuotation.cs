@@ -20,6 +20,13 @@ namespace Cats.Models
         [Display(Name = "Bid ID")]
         public int BidID { get; set; }
 
+        ////Region
+        //[Display(Name = "Region")]
+        //public virtual AdminUnit Region { get; set; }
+
+        ////RegionID
+        //[Display(Name = "Region ID")]
+        //public int RegionID { get; set; }
 
         //Transporter
         [Display(Name = "Transporter")]
