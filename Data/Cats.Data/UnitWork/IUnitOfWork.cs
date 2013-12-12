@@ -13,7 +13,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<HubOwner> HubOwnerRepository { get; }
         IGenericRepository<Log> LogRepository { get; }
         IGenericRepository<RegionalPSNPPledge> RegionalPSNPPledgeRepository { get; }
-
+        IGenericRepository<TransporterAgreementVersion> TransporterAgreementVersionRepository { get; }
         IGenericRepository<BusinessProcessState> BusinessProcessStateRepository { get; }
         IGenericRepository<BusinessProcess> BusinessProcessRepository { get; }
         IGenericRepository<ProcessTemplate> ProcessTemplateRepository { get; }
@@ -134,10 +134,10 @@ namespace Cats.Data.UnitWork
         IGenericRepository<PromisedContribution> PromisedContributionRepository { get; }
         IGenericRepository<SIPCAllocation> SIPCAllocationRepository { get; }
 
-
+        IGenericRepository<WoredaHub> WoredaHubRepository { get; }
 
         IGenericRepository<Notification> NotificationRepository { get; }
-       
+        IGenericRepository<WoredaHubLink> WoredaHubLinkRepository { get; }
         void Save();
 
     }

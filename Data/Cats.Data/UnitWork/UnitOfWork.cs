@@ -38,10 +38,28 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<TransporterAgreementVersion> _TransporterAgreementVersionRepository = null;
+        public IGenericRepository<TransporterAgreementVersion> TransporterAgreementVersionRepository
+        {
+            get { return this._TransporterAgreementVersionRepository ?? (this._TransporterAgreementVersionRepository = new GenericRepository<TransporterAgreementVersion>(_context)); }
+        }
+
         private IGenericRepository<HubOwner> _HubOwnerRepository = null;
         public IGenericRepository<HubOwner> HubOwnerRepository
         {
             get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+        }
+
+        private IGenericRepository<WoredaHubLink> _WoredaHubLinkRepository = null;
+        public IGenericRepository<WoredaHubLink> WoredaHubLinkRepository
+        {
+            get { return this._WoredaHubLinkRepository ?? (this._WoredaHubLinkRepository = new GenericRepository<WoredaHubLink>(_context)); }
+        }
+
+        private IGenericRepository<WoredaHub> _WoredaHubRepository = null;
+        public IGenericRepository<WoredaHub> WoredaHubRepository
+        {
+            get { return this._WoredaHubRepository ?? (this._WoredaHubRepository = new GenericRepository<WoredaHub>(_context)); }
         }
 
         private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;

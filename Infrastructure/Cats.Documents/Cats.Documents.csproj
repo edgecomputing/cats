@@ -47,6 +47,12 @@
     <Compile Include="DocumentGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
+      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
+      <Name>Cats.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

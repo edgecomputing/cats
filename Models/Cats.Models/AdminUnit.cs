@@ -52,7 +52,7 @@ namespace Cats.Models
         public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; } 
         
         public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
-      
+        public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
 
     }
 }

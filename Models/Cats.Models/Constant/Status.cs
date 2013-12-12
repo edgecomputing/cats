@@ -62,4 +62,16 @@ namespace Cats.Models.Constant
         HRDCreated=4,
         PSNPCreated=5
     }
+    public enum WoredaHubLinkVersionStatus
+    {
+        Draft = 1,
+        Approved = 2,
+        Closed = 3
+    }
+
+    public enum BIDWINNER
+    {
+        Awarded = 1,
+        Signed = 2
+    }
 }

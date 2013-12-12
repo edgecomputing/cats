@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+@section Toolbar
+{
+    <div class="btn-group">
+        <button class="btn">Action</button>
+    
+        <button class="btn dropdown-toggle " data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("AddDeliveryNote", "ContractAdministration", new {regionid = ViewBag.regionId})">Add Delivery Note</a></li>
+            <li><a href="@Url.Action("RequestPayment", "ContractAdministration", new {regionid = ViewBag.regionId})">Request Payment</a></li>
+            <li><a href="@Url.Action("PrintContract", "ContractAdministration", new {regionId = ViewBag.regionId})">Print Contract</a></li>
+        </ul>
+
+    </div>
+}
+
+<h3>Contract Administration</h3>
+
+<div class="row-fluid">
+    <table>
+        <tr>
+            <td>Transporter:</td>
+            <td><input type="text" style="width: 400px;margin-left:0px;"/></td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><input type="text" style="width: 400px;margin-left:0px;"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><a href="#">Click here to see active agreement contract</a></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div>Outstanding Delivery Notes</div>
+        @Html.Partial("DeliveryNotes",  new {  transporterID = ViewBag.transporterID  });
+    </div>
+    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div>Payment Requests</div>
+        @Html.Partial("PaymentRequest", new {  transporterID = ViewBag.transporterID  })
+    </div>
+</div>
+<div>
+    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div>Active Transport Orders</div>
+        @Html.Partial("ActiveTransportOrders", new {  transporterID = ViewBag.transporterID  })
+    </div>
+    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div>FDPs in Current Contract</div>
+        @Html.Partial("FDPsInCurrentContract", new {  transporterID = ViewBag.transporterID  })
+    </div>
+</div>
+
+
+
+
