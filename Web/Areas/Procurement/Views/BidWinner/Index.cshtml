@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h4 >List of Bid Winners</h4>
+<h4 >List of Bids</h4>
 @(Html.Kendo().Grid<BidWithWinnerViewModel>()
     .Name("grid")
     .Columns(columns=>
@@ -17,10 +17,8 @@
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Details", "BidWinner", new { id = "#=BidID#" }),
                     EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=BidNumber#").ToString()); 
-        columns.Bound(t => t.BidID);
         columns.Bound(t => t.Year);
-        columns.Bound(t => t.BidWinnerID);
-
+        columns.Bound(t => t.OpeningDate);
 
         })
      .Scrollable()
@@ -28,7 +26,7 @@
         .DataSource(datasource=>
             datasource                 
             .Ajax()
-    .Model(model=>model.Id(p=>p.BidWinnerID))
+    .Model(model=>model.Id(p=>p.BidID))
     .Read("Bid_Read","BidWinner")
     
       ))

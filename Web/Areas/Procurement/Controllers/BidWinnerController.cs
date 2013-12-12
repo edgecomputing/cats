@@ -4,12 +4,14 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
+using Cats.Models.Constant;
 using Cats.Models.ViewModels.Bid;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Common;
 using System;
 using Cats.Models;
+using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
@@ -19,46 +21,57 @@ namespace Cats.Areas.Procurement.Controllers
     {
         // GET: /Procurement/Bid/
         private readonly IBidWinnerService _bidWinnerService;
-        
-        public BidWinnerController(IBidWinnerService bidWinnerService)
+        private readonly IUserAccountService _userAccountService;
+        private readonly IWorkflowStatusService _workflowStatusService;
+        public BidWinnerController(IBidWinnerService bidWinnerService,IUserAccountService userAccountService,IWorkflowStatusService workflowStatusService)
         {
-            this._bidWinnerService = bidWinnerService;
-           
+           _bidWinnerService = bidWinnerService;
+            _userAccountService = userAccountService;
+            _workflowStatusService = workflowStatusService;
+
         }
 
         public ActionResult Index()
         {
-            var bidWinner = _bidWinnerService.GetAllBidWinner();
+            var bidWinner = _bidWinnerService.GetBidsWithWinner();
             return View();
         }
         public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {
 
-            var bid = _bidWinnerService.GetAllBidWinner().OrderByDescending(m => m.BidWinnerID);
+            var bid = _bidWinnerService.GetBidsWithWinner().OrderByDescending(m => m.BidID);
             var winnerToDisplay = GetBids(bid).ToList();
             return Json(winnerToDisplay.ToDataSourceResult(request));
         }
-        private IEnumerable<BidWithWinnerViewModel> GetBids(IEnumerable<BidWinner> bids)
+        private IEnumerable<BidWithWinnerViewModel> GetBids(IEnumerable<Bid> bids)
         {
+             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from bid in bids
                     select new BidWithWinnerViewModel()
                         {
                             BidID = bid.BidID,
-                            BidNumber = bid.Bid.BidNumber,
-                            Year = bid.Bid.OpeningDate.Year,
-                            BidWinnerID = bid.BidWinnerID,
+                            BidNumber = bid.BidNumber,
+                            Year = bid.OpeningDate.Year,
+                            OpeningDate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref)
+                            
                         });
         }
 
         public ActionResult Details(int id)
         {
-            var biwWinners = _bidWinnerService.FindBy(m => m.BidID == id).FirstOrDefault();
-            if (biwWinners == null)
+            var bidWinners = _bidWinnerService.FindBy(m => m.BidID == id);
+            ViewBag.BidNumber = bidWinners.First().Bid.BidNumber;
+            if (bidWinners == null)
             {
                 return HttpNotFound();
             }
+            var bidWinnersViewModel = new WinnersByBidViewModel
+                {
+                    BidID = id,
+                    BidWinners = GetBidWinner(bidWinners)
+                };
 
-            return View(biwWinners);
+            return View(bidWinnersViewModel);
         }
 
         public ActionResult BidWinner_Read([DataSourceRequest] DataSourceRequest request,int id=0)
@@ -69,7 +82,7 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(winnerToDisplay.ToDataSourceResult(request));
         }
 
-        private IEnumerable<BidWinnerViewModel> GetBidWinner(IEnumerable<BidWinner> bidWinners)
+        private  IEnumerable<BidWinnerViewModel> GetBidWinner(IEnumerable<BidWinner> bidWinners)
         {
             return (from bidWinner in bidWinners
                     select new BidWinnerViewModel()
@@ -78,38 +91,27 @@ namespace Cats.Areas.Procurement.Controllers
                             TransporterID = bidWinner.TransporterID,
                             TransporterName = bidWinner.Transporter.Name,
                             SourceWarehouse = bidWinner.Hub.Name,
-                            Woreda = bidWinner.AdminUnit.AdminUnit2.Name,
-                            WinnerTariff = bidWinner.Amount,
+                            Woreda = bidWinner.AdminUnit.Name,
+                            WinnerTariff = bidWinner.Tariff,
+                            Quantity = bidWinner.Amount,
+                            StatusID = bidWinner.Status,
+                            Status =_workflowStatusService.GetStatusName(WORKFLOW.BidWinner,bidWinner.Status)
 
                         });
         }
-     public ActionResult DispatchLocation(int bidID,int transporterID)
-     {
-         var winnerWithLocation = _bidWinnerService.FindBy(m => m.BidID==bidID && m.TransporterID==transporterID);
-         if (winnerWithLocation == null)
-         {
-             return HttpNotFound();
-         }
-         return View(winnerWithLocation);
-     }
-
-      public ActionResult WinnerWithLocation_Read([DataSourceRequest] DataSourceRequest request,int id=0,int bidID=0)
-      {
-          var winnerWithLocation = _bidWinnerService.FindBy(m => m.BidID == bidID && m.TransporterID == id);
-          var winnerToDisplay = GetBidWinner(winnerWithLocation).ToList();
-          return Json(winnerToDisplay.ToDataSourceResult(request));
-      }
-        public ActionResult EditWinnerStatus(int id)
+     
+        public ActionResult Edit(int id)
         {
-            var bidWinner = _bidWinnerService.FindBy(m => m.BidWinnerID == id);
+            var bidWinner = _bidWinnerService.FindById(id);
             if (bidWinner==null)
             {
                 return HttpNotFound();
             }
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(WORKFLOW.BidWinner),"WorkflowID","Description");
             return View(bidWinner);
         }
         [HttpPost]
-        public ActionResult EditWinnerStatus(BidWinner bidWinner)
+        public ActionResult Edit(BidWinner bidWinner)
         {
             if (ModelState.IsValid)
             {
@@ -117,6 +119,30 @@ namespace Cats.Areas.Procurement.Controllers
                 return RedirectToAction("Index");
             }
             return View(bidWinner);
+        }
+
+        public ActionResult SignedContract(int id)
+        {
+            var bidWinner = _bidWinnerService.FindById(id);
+            if(bidWinner!=null)
+            {
+                _bidWinnerService.SignContract(bidWinner);
+                return RedirectToAction("Details", "BidWinner", new {id = bidWinner.BidID});
+            }
+            ModelState.AddModelError("Errors","Unable to change status");
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DisqualifiedWinner(int id)
+        {
+            var bidWinner = _bidWinnerService.FindById(id);
+            if (bidWinner != null)
+            {
+                _bidWinnerService.Disqualified(bidWinner);
+                return RedirectToAction("Details", "BidWinner", new { id = bidWinner.BidID });
+            }
+            ModelState.AddModelError("Errors","Unable to change Status");
+            return RedirectToAction("Index");
         }
 
     }

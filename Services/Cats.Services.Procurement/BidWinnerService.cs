@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 
 namespace Cats.Services.Procurement
@@ -69,10 +70,44 @@ namespace Cats.Services.Procurement
             return _unitOfWork.BidWinnerRepository.Get(filter, orderBy, includeProperties);
         }
 
+        public List<Bid> GetBidsWithWinner()
+        {
+            //var bidIDsWithWinner = _unitOfWork.BidWinnerRepository.GetAll(m => m.BidID != null)
+            var bidIDsWithWinner = _unitOfWork.BidWinnerRepository.GetAll().Select(m => m.BidID).Distinct();
+            var bidsWithWinner =_unitOfWork.BidRepository.FindBy(m =>bidIDsWithWinner.Contains(m.BidID));
+            
+            return bidsWithWinner.ToList();
+        }
+
+        public bool SignContract(BidWinner bidWinner)
+        {
+            if (bidWinner!=null)
+            {
+                bidWinner.Status = (int) BidWinnerStatus.Signed;
+                _unitOfWork.BidWinnerRepository.Edit(bidWinner);
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
+
+        public bool Disqualified(BidWinner bidWinner)
+        {
+            if (bidWinner != null)
+            {
+                bidWinner.Status = (int)BidWinnerStatus.Disqualified;
+                _unitOfWork.BidWinnerRepository.Edit(bidWinner);
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
+
         public bool Save()
         {
             _unitOfWork.Save();
             return true;
         }
+
     }
 }

@@ -66,8 +66,9 @@ namespace Cats.Models.Constant
     public enum BidWinnerStatus
     {
         Draft=1,
-        Signed=2,
-        Disqualified=3,
+        Approved = 2,
+        Signed=3,
+        Disqualified=4,
         
 
     }

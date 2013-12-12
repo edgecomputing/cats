@@ -21,6 +21,9 @@ namespace Cats.Services.Procurement
              Func<IQueryable<BidWinner>, IOrderedQueryable<BidWinner>> orderBy = null,
              string includeProperties = "");
 
+        List<Bid> GetBidsWithWinner();
+        bool SignContract(BidWinner bidWinner);
+        bool Disqualified(BidWinner bidWinner);
         bool Save();
     }
 }
