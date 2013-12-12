@@ -71,50 +71,33 @@
     </appender>
   </log4net>
 <<<<<<< HEAD
+ <connectionStrings>
 
 
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster; Integrated Security=True;" providerName="System.Data.SqlClient" />
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient" />
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient" />
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+=======
+  <!--<connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
+    <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
+    <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
+    <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
+</connectionStrings>-->
+>>>>>>> 54330c47b0a0351e26600e68f5b9e4323991dc34
+  
   <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
   </connectionStrings>
-
-  <!--<connectionStrings>
-=======
   
-  
-  
- <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-    <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-    <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-    <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-</connectionStrings>-->
-
-  
-    
-    
-
- <connectionStrings>
->>>>>>> 85ec464e371dd750c409f05ff8bf844aa8f797f4
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster; Integrated Security=True;" providerName="System.Data.SqlClient"/>
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient"/>
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient"/>
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient"/>
-<<<<<<< HEAD
-  </connectionStrings>-->
-=======
-</connectionStrings>  
-
-
-  
->>>>>>> 85ec464e371dd750c409f05ff8bf844aa8f797f4
-
-<appSettings>
-
-    <add key="log4net.Internal.Debug" value="true" />
-
+  <appSettings>
+    <add key="log4net.Internal.Debug" value="true"/>
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
     <add key="webpages:Enabled" value="false"/>
     <add key="PreserveLoginUrl" value="true"/>

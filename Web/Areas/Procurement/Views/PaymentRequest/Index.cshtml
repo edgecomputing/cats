@@ -96,6 +96,7 @@
     }
     function workflow_history(BusinessProcessID) {
         $('#modalHistory').modal();
+        $('#modalHistoryBody').html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");
         $.post(history_link + BusinessProcessID, {},
             function (data) {
                 $("#modalHistoryBody").html(data);
