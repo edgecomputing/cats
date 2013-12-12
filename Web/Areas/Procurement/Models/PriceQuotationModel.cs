@@ -66,12 +66,16 @@
         public string TransporterName { get; set; }
         public int Rank { get; set; }
         public decimal WinnerTariff { get; set;}
+        public decimal Quantity { get; set; }
+        public string Status { get; set; }
+        public int StatusID { get; set; }
        
     }
     public class BidWithWinnerViewModel
     {
         public int BidWinnerID { get; set; }
         public int BidID { get; set; }
+        public string OpeningDate { get; set; }
         public string BidNumber { get; set; }
         public int Year { get; set; }
     }

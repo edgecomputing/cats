@@ -2,25 +2,29 @@
 @using Cats.Helpers
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@model  Cats.Models.BidWinner
+@using LanguageHelpers.Localization
+@model  WinnersByBidViewModel
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
-<h2>List of Winners</h2>
-<h4 >List of Bids</h4>
-@(Html.Kendo().Grid<BidWinnerViewModel>()
+@section Toolbar{
+    <a class="btn toolbar-btn " href="@Url.Action("Index", "BidWinner", new { Area = "Procurement" })" data-buttontype="btn_back_to_list"></a>
+}
+<h4>List of Winners for Bid  @ViewBag.BidNumber </h4>
+@(Html.Kendo().Grid<BidWinnerViewModel>(Model.BidWinners)
     .Name("grid")
     .Columns(columns=>
         {
             columns.Bound(t => t.TransporterName).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
-                    @Url.Action("DispatchLocation", "BidWinner", new { id = "#=BidID#" }),
-                    EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=BidNumber#").ToString()); 
+                    @Url.Action("Edit", "BidWinner", new { id = "#=BidWinnnerID#" }),
+                    EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=TransporterName#").ToString()); 
         columns.Bound(t => t.SourceWarehouse);
         columns.Bound(t => t.Woreda);
-        columns.Bound(t => t.WinnerTariff);
+        columns.Bound(t => t.Quantity);
+        columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
+        columns.Bound(t => t.StatusID);
 
 
         })
@@ -30,6 +34,7 @@
             datasource                 
             .Ajax()
     .Model(model=>model.Id(p=>p.BidWinnnerID))
-    .Read("BidWinner_Read","BidWinner",new{id=Model.BidID})
+    
+    //.Read("BidWinner_Read","BidWinner",new{id=Model.BidID})
     
       ))
