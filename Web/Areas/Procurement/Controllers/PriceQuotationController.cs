@@ -547,7 +547,6 @@ namespace Cats.Areas.Procurement.Controllers
                 winner.SourceID = proposal.SourceID;
                 winner.DestinationID = proposal.DestinationID;
                 winner.BidID = proposal.BidID;
-                winner.TransportOrderID = 5;
                 winner.CommodityID = 1;
                 winner.TransporterID = proposal.TransporterID;
                 winner.Amount = 500;
