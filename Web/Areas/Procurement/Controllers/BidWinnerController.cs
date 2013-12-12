@@ -12,6 +12,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Common;
 using Cats.Models;
+using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
@@ -28,33 +29,59 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IUnitOfWork _unitofwork;
         private readonly ITransporterAgreementVersionService _transporterAgreementVersionService;
+        private readonly IWorkflowStatusService _workflowStatusService;
+        private readonly IUserAccountService _userAccountService;
 
         public BidWinnerController(IBidService bidService, IApplicationSettingService applicationSettingService,
                              ITransportBidQuotationService bidQuotationService, ITransporterService transporterService, IBidWinnerService bidWinnerService,
-            IUnitOfWork unitofwork, ITransporterAgreementVersionService transporterAgreementVersionService)
+            IUnitOfWork unitofwork, ITransporterAgreementVersionService transporterAgreementVersionService, IWorkflowStatusService workflowStatusService, IUserAccountService userAccountService)
         {
-            this._bidService = bidService;
-            this._applicationSettingService = applicationSettingService;
-            this._bidQuotationService = bidQuotationService;
-            this._transporterService = transporterService;
+            _bidService = bidService;
+            _applicationSettingService = applicationSettingService;
+            _bidQuotationService = bidQuotationService;
             this._bidWinnerService = bidWinnerService;
             this._unitofwork = unitofwork;
             this._transporterAgreementVersionService = transporterAgreementVersionService;
+            _transporterService = transporterService;
+            _workflowStatusService = workflowStatusService;
+            _userAccountService = userAccountService;
+        }
+        public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            var bid = _bidWinnerService.GetBidsWithWinner().OrderByDescending(m => m.BidID);
+            var winnerToDisplay = GetBids(bid).ToList();
+            return Json(winnerToDisplay.ToDataSourceResult(request));
+        }
+        private IEnumerable<BidWithWinnerViewModel> GetBids(IEnumerable<Bid> bids)
+        {
+             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            return (from bid in bids
+                    select new BidWithWinnerViewModel()
+                        {
+                            BidID = bid.BidID,
+                            BidNumber = bid.BidNumber,
+                            Year = bid.OpeningDate.Year,
+                            OpeningDate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref)
+                            
+                        });
         }
 
-        [HttpGet]
-        public ActionResult BidWinner(int sourceID,int DestinationID)
+        public ActionResult Details(int id)
         {
-            var bidId = _applicationSettingService.FindValue("CurrentBid");
-            ViewBag.currentBidId = bidId;
-            /*int currentBidId=int.Parse(bidId);
-            ViewBag.CurrentBid = _bidService.FindById(currentBidId);
+            var bidWinners = _bidWinnerService.FindBy(m => m.BidID == id);
+            ViewBag.BidNumber = bidWinners.First().Bid.BidNumber;
+            if (bidWinners == null)
+            {
+                return HttpNotFound();
+            }
+            var bidWinnersViewModel = new WinnersByBidViewModel
+                {
+                    BidID = id,
+                    BidWinners = GetBidWinner(bidWinners)
+                };
 
-            List<TransportBidQuotation> Winners = _bidQuotationService.FindBy(q => q.BidID==currentBidId &&  q.SourceID == sourceID && q.DestinationID == DestinationID && q.IsWinner == true);
-            Winners.OrderBy(t=>t.Position);*/
-            List<TransportBidQuotation> Winners = _transporterService.GetBidWinner(sourceID, DestinationID);
-            ViewBag.Winners=Winners; 
-            return View();
+            return View(bidWinnersViewModel);
         }
         
         public ActionResult BidWinningTransporters_read([DataSourceRequest] DataSourceRequest request)
@@ -62,6 +89,76 @@ namespace Cats.Areas.Procurement.Controllers
             var winningTransprters = _bidWinnerService.Get(t => t.Position == 1 && t.Status == 1).Select(t => t.Transporter).Distinct();
             var winningTransprterViewModels = TransporterListViewModelBinder(winningTransprters.ToList());
             return Json(winningTransprterViewModels.ToDataSourceResult(request));
+        }
+        public ActionResult BidWinner_Read([DataSourceRequest] DataSourceRequest request,int id=0)
+        {
+
+            var bidWinner = _bidWinnerService.FindBy(m=>m.BidID==id).OrderByDescending(m => m.BidWinnerID);
+            var winnerToDisplay = GetBidWinner(bidWinner).ToList();
+            return Json(winnerToDisplay.ToDataSourceResult(request));
+        }
+
+        private  IEnumerable<BidWinnerViewModel> GetBidWinner(IEnumerable<BidWinner> bidWinners)
+        {
+            return (from bidWinner in bidWinners
+                    select new BidWinnerViewModel()
+                        {
+                            BidWinnnerID = bidWinner.BidWinnerID,
+                            TransporterID = bidWinner.TransporterID,
+                            TransporterName = bidWinner.Transporter.Name,
+                            SourceWarehouse = bidWinner.Hub.Name,
+                            Woreda = bidWinner.AdminUnit.Name,
+                            WinnerTariff = bidWinner.Tariff,
+                            Quantity = bidWinner.Amount,
+                            StatusID = bidWinner.Status,
+                            Status =_workflowStatusService.GetStatusName(WORKFLOW.BidWinner,bidWinner.Status)
+
+                        });
+        }
+     
+        public ActionResult Edit(int id)
+        {
+            var bidWinner = _bidWinnerService.FindById(id);
+            if (bidWinner==null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Status = new SelectList(_workflowStatusService.GetStatus(WORKFLOW.BidWinner),"WorkflowID","Description");
+            return View(bidWinner);
+        }
+        [HttpPost]
+        public ActionResult Edit(BidWinner bidWinner)
+        {
+            if (ModelState.IsValid)
+            {
+                _bidWinnerService.EditBidWinner(bidWinner);
+                return RedirectToAction("Index");
+            }
+            return View(bidWinner);
+        }
+
+        public ActionResult SignedContract(int id)
+        {
+            var bidWinner = _bidWinnerService.FindById(id);
+            if(bidWinner!=null)
+            {
+                _bidWinnerService.SignContract(bidWinner);
+                return RedirectToAction("Details", "BidWinner", new {id = bidWinner.BidID});
+            }
+            ModelState.AddModelError("Errors","Unable to change status");
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DisqualifiedWinner(int id)
+        {
+            var bidWinner = _bidWinnerService.FindById(id);
+            if (bidWinner != null)
+            {
+                _bidWinnerService.Disqualified(bidWinner);
+                return RedirectToAction("Details", "BidWinner", new { id = bidWinner.BidID });
+            }
+            ModelState.AddModelError("Errors","Unable to change Status");
+            return RedirectToAction("Index");
         }
 
         public List<TransporterViewModel> TransporterListViewModelBinder(List<Transporter> transporters)

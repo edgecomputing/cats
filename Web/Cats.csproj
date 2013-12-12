@@ -459,6 +459,7 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DistributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -481,9 +482,12 @@
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
+    <Compile Include="Areas\Logistics\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
     <Compile Include="Areas\Procurement\Models\AgreementVersionViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
     <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationBinding.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationViewModel.cs" />
@@ -517,8 +521,10 @@
     <Compile Include="Areas\Procurement\Models\vwTransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WinnersByBidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubBinding.cs" />
+    <Compile Include="Areas\Procurement\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
@@ -661,6 +667,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
@@ -669,6 +677,7 @@
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
@@ -1539,6 +1548,21 @@
     <Content Include="Areas\Procurement\Views\ContractAdministration\PaymentRequest.cshtml" />
     <Content Include="Areas\Procurement\Views\ContractAdministration\ActiveTransportOrders.cshtml" />
     <Content Include="Areas\Procurement\Views\ContractAdministration\FDPsInCurrentContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposal.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\bidProposals.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\GenerateWinners.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
+
+    <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2525,6 +2549,10 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
+  <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
+  <Target Name="BeforeBuild">
+    <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

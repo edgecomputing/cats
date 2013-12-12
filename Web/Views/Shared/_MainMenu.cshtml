@@ -60,6 +60,7 @@
                                     <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_request, @Html.Translate("Requests"))</li>
                                     <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">New Request</a></li>
+                                    <li><a href="@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" })">New IDPS Request</a></li>
                                 </ul>
                             </li>
 
@@ -168,13 +169,13 @@
                                                                     ProcurementCheckAccess.Operation.View_Request_For_Quotation)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Price Quotation"),
-                                                                    @Url.Action("Index", "PriceQuotation", new { Area = "Procurement" }),
+                                                                    @Url.Action("BidProposal", "PriceQuotation", new { Area = "Procurement" }),
                                                                     ProcurementCheckAccess.Operation.View_Price_Quotation_Data_Entries)</li>
 
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Dispatch Locations"),
-                                                                   @Url.Action("Index", "DispatchLocations", new { Area = "Procurement" }),
-                                                                   ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                                                                    @Url.Action("GenerateWinners", "PriceQuotation", new { Area = "Procurement" }),
+                                                                    ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
                         </ul>
                     </li>
                     <li class="dropdown">

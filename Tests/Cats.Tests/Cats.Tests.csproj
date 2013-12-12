@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="ControllersTests\BeneficiaryAllocationControllerTests.cs" />
     <Compile Include="ControllersTests\BidControllerTest.cs" />
+    <Compile Include="ControllersTests\BidWinnerControllerTest.cs" />
     <Compile Include="ControllersTests\ContributionControllerTest.cs" />
     <Compile Include="ControllersTests\CurrencyControllerTest.cs" />
     <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="ControllersTests\PlanControllerTest.cs" />
     <Compile Include="ControllersTests\RationControllerTest.cs" />
     <Compile Include="ControllersTests\RequestControllerTests.cs" />
+    <Compile Include="ControllersTests\TransportListTest.cs" />
     <Compile Include="ControllersTests\TransportOrderControllerTests.cs" />
     <Compile Include="ControllersTests\TransportRequisitionControllerTests.cs" />
     <Compile Include="ProjectAllocationControllerTest.cs" />

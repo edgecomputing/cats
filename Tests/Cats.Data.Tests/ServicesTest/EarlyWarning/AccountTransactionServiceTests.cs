@@ -33,7 +33,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                    GiftCertificateID = 1,
                                                    ETA = DateTime.Today,
                                                    ReferenceNo = "REF-001",
-                                                   SINumber = "SI-001",
+                                                   ShippingInstruction = new ShippingInstruction{ShippingInstructionID = 1,Value = "123/456"},
                                                    Vessel = "MRSEL",
                                                    PortName = "Semera",
                                                    IsPrinted = false,

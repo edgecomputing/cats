@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Models;
 using Cats.Data;
+using Cats.Models;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
 
@@ -75,7 +76,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult GetListJson([DataSourceRequest] DataSourceRequest request)
         {
             //JsonRequestBehavior.AllowGet ;
-            IEnumerable<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan();
+            IEnumerable<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan().OrderByDescending(m=>m.TransportBidPlanID);
             return Json(CopyListToView(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         //
@@ -109,6 +110,28 @@ namespace Cats.Areas.Procurement.Controllers
             if (ModelState.IsValid)
             {
                 ViewBag.Message = "Invalid Model";
+
+                var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
+                var psnptransportBidPlanDetail = (from detail in woredas
+                                  select new TransportBidPlanDetail()
+                                  {
+                                      DestinationID = detail.AdminUnitID,
+                                      SourceID = _hubService.GetNearestWarehouse(detail.AdminUnitID).HubID,
+                                      ProgramID = 2,
+                                      Quantity = _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)
+                                      
+                                  }).ToList();
+
+                var relieftransportBidPlanDetail = (from detail in woredas
+                                              select new TransportBidPlanDetail()
+                                                  {
+                                                      DestinationID = detail.AdminUnitID,
+                                                      SourceID = _hubService.GetNearestWarehouse(detail.AdminUnitID).HubID,
+                                                      ProgramID = 1,
+                                                      Quantity = _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)
+                                                  }).ToList();
+                var transportbidplanDetail = psnptransportBidPlanDetail.Union(relieftransportBidPlanDetail).ToList();                                            
+                transportbidplan.TransportBidPlanDetails = transportbidplanDetail;
                 _transportBidPlanService.AddTransportBidPlan(transportbidplan);
                 return RedirectToAction("Index");
             }
@@ -185,15 +208,20 @@ namespace Cats.Areas.Procurement.Controllers
         {
             //this._transportBidPlanDetailService.get
             List<TransportBidPlanDetail> bidDetails = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.DestinationID == WoredaID);
-            List<Cats.Models.Hub> hubs = _hubService.GetAllHub();
-            
+            var planDetail = _transportBidPlanDetailService.FindBy(m =>m.BidPlanID == BidPlanID && m.DestinationID == WoredaID && m.ProgramID==1);
+            var hubs = (from hub in planDetail
+                        select new Cats.Models.Hub
+                            {
+                                HubID = hub.SourceID
+
+                            });
             List<WarehouseProgramViewModel> ret=
                ( from hub in hubs
                     select new WarehouseProgramViewModel
                     {
                         WarehouseID = hub.HubID,
                         WarehouseName = hub.Name,
-                        PSNP=0,
+                        PSNP =0,
                         Relief=0,
                         BidPlanID=BidPlanID,
                         WoredaID=WoredaID
@@ -232,6 +260,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult WarehouseSelection(int id = 0)
         {
             TransportBidPlan transportbidplan = fetchFromDB(id);
+            ViewBag.WarehouseID = _hubService.GetAllHub();
             @ViewBag.bidPlan = transportbidplan;
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             List<WarehouseProgramViewModel> table = GetWoredaWarehouseProgram(id,0);
@@ -284,6 +313,35 @@ namespace Cats.Areas.Procurement.Controllers
 
             return Json(new[] { transportbidplan }.ToDataSourceResult(request, ModelState));
         }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request,WarehouseProgramViewModel warehouseAllocation,
+                                                                                                      int transportBidPlanID, int selectedWoreda = 0)
+        {
+            if (warehouseAllocation!=null && ModelState.IsValid)
+            {
+                var reliefDetail = new TransportBidPlanDetail()
+                {
+                    BidPlanID = transportBidPlanID,
+                    DestinationID = selectedWoreda,
+                    SourceID = warehouseAllocation.WarehouseID,
+                    ProgramID = 1,
+                    Quantity = _transportBidPlanDetailService.GetHrdCommodityAmount(selectedWoreda),
+                };
+                UpdateBidPlanDetail(reliefDetail);
+                var psnpDetail = new TransportBidPlanDetail()
+                {
+                    BidPlanID = transportBidPlanID,
+                    DestinationID = selectedWoreda,
+                    SourceID = warehouseAllocation.WarehouseID,
+                    ProgramID = 2,
+                    Quantity = _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(selectedWoreda),
+                };
+                UpdateBidPlanDetail(psnpDetail);
+            }
+
+            return Json(new[] { warehouseAllocation }.ToDataSourceResult(request, ModelState));
+        }
+
         public ActionResult UpdateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request, WarehouseProgramViewModel WarehouseAllocation)
         {
             if (WarehouseAllocation != null && ModelState.IsValid)
@@ -334,6 +392,18 @@ namespace Cats.Areas.Procurement.Controllers
                 bpd_orignal.Quantity = bpd.Quantity;
                 _transportBidPlanDetailService.UpdateTransportBidPlanDetail(bpd_orignal);
             }
+        }
+        public ActionResult DeleteBidPlan(int id)
+        {
+            var bidPlan = _transportBidPlanService.FindById(id);
+            if (bidPlan!=null)
+            {
+                _transportBidPlanService.DeleteTransportBidPlan(bidPlan);
+                _transportBidPlanDetailService.DeleteByBidPlanID(bidPlan.TransportBidPlanID);
+                return RedirectToAction("Index");
+            }
+           ModelState.AddModelError("Errors","Unable to delete Bid Plan");
+           return RedirectToAction("Index");
         }
         
     }

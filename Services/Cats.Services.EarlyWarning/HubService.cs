@@ -78,6 +78,31 @@ namespace Cats.Services.EarlyWarning
 
         }
 
+
+
+        public Hub GetNearestWarehouse(int woredaID)
+        {
+            var adminUnit = _unitOfWork.AdminUnitRepository.FindById(woredaID);
+            var region = adminUnit.AdminUnit2.AdminUnit2.Name;
+            if (adminUnit!=null)
+            {
+                if (region == "Afar" || region=="Oromia" ||region == "SNNPR")
+                {
+                    return _unitOfWork.HubRepository.FindById(1);
+                }
+                else if (region == "Amhara" || region == "Tigray" || region == "Gambella")
+                {
+                    return _unitOfWork.HubRepository.FindById(2);
+                    
+                }
+                else
+                {
+                    return _unitOfWork.HubRepository.FindById(3);
+                }
+
+            }
+            return null;
+        }
     }
 }
 

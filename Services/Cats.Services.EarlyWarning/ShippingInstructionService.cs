@@ -68,7 +68,20 @@ namespace Cats.Services.EarlyWarning
 
         }
 
-
-
+        public ShippingInstruction GetSiNumber(string siNumber)
+        {
+            var oldSiNumber = _unitOfWork.ShippingInstructionRepository.FindBy(m => m.Value == siNumber).SingleOrDefault();
+            if (oldSiNumber == null)
+            {
+                var shippingInstruction = new ShippingInstruction()
+                {
+                    Value = siNumber
+                };
+                _unitOfWork.ShippingInstructionRepository.Add(shippingInstruction);
+                _unitOfWork.Save();
+                return _unitOfWork.ShippingInstructionRepository.FindBy(m => m.Value == siNumber).SingleOrDefault();
+            }
+            return oldSiNumber;
+        }
     }
 }

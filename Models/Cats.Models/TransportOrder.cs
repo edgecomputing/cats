@@ -33,6 +33,8 @@ namespace Cats.Models
 
        public virtual Transporter Transporter { get; set; }
        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
+       public virtual ICollection<PaymentRequest> PaymentRequests { get; set; }
+       
        //public virtual ICollection<BidWinner> BidWinners  { get; set; }
     }
 }

@@ -687,6 +687,85 @@ namespace Cats.Services.Hub
 
         }
 
+
+
+        public IEnumerable<DispatchAllocation> Get(Expression<Func<DispatchAllocation, bool>> filter = null, Func<IQueryable<DispatchAllocation>, IOrderedQueryable<DispatchAllocation>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.DispatchAllocationRepository.Get(filter, null, includeProperties);
+        }
+
+
+        public List<DispatchViewModel> GetTransportOrderDispatches(int transportOrderId)
+        {
+           //Get List of dispatch allocation with passed transporterId
+            var dispatchAllocationIds =
+                _unitOfWork.DispatchAllocationRepository.Get(t => t.TransportOrderID == transportOrderId).Select(t=>t.DispatchAllocationID).ToList();
+            var dispatches =
+                _unitOfWork.DispatchRepository.Get(t => dispatchAllocationIds.Contains(t.DispatchAllocationID.Value), null, "DispatchDetails,FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2.AdminUnit2,FDP.AdminUnit.AdminUnit2").ToList();
+        
+            var dispatchViewModels = MapDispatchToDispatchViewModel(dispatches);
+            return dispatchViewModels;
+        }
+        private List<DispatchViewModel> MapDispatchToDispatchViewModel(List<Dispatch> dispatches )
+        {
+            List< DispatchViewModel> dispatchViewModels=new List<DispatchViewModel>();
+            foreach (var dispatch in dispatches)
+            {
+                var id1 = dispatch.DispatchAllocationID.Value;
+               var dispatchAllocation = _unitOfWork.DispatchAllocationRepository.Get(t=>t.DispatchAllocationID==id1,null,"Program").FirstOrDefault();
+
+                var dispatchViewModel = new DispatchViewModel();
+                dispatchViewModel.BidNumber = dispatch.BidNumber;
+                dispatchViewModel.CreatedDate = dispatch.CreatedDate;
+               
+                dispatchViewModel.DispatchAllocationID = dispatch.DispatchAllocationID.Value;
+                dispatchViewModel.DispatchDate = dispatch.DispatchDate;
+                dispatchViewModel.DispatchID = dispatch.DispatchID;
+                dispatchViewModel.DispatchedByStoreMan = dispatch.DispatchedByStoreMan;
+                dispatchViewModel.DriverName = string.Empty;
+                if(dispatch.FDPID.HasValue)
+                dispatchViewModel.FDPID = dispatch.FDPID.Value;
+                dispatchViewModel.FDP = dispatch.FDP.Name;
+                dispatchViewModel.Region = dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
+                dispatchViewModel.Zone = dispatch.FDP.AdminUnit.AdminUnit2.Name;
+                dispatchViewModel.Woreda = dispatch.FDP.AdminUnit.Name;
+                dispatchViewModel.GIN = dispatch.GIN;
+                dispatchViewModel.HubID = dispatch.HubID;
+                // dispatch.ProgramID = dispatchAllocation.ProgramID;
+                dispatchViewModel.Program = dispatchAllocation.Program.Name;
+
+                    dispatchViewModel.Month = dispatch.PeriodMonth;
+                
+                    dispatchViewModel.Year = dispatch.PeriodYear;
+                dispatchViewModel.PlateNo_Prime = dispatch.PlateNo_Prime;
+                dispatchViewModel.PlateNo_Trailer = dispatch.PlateNo_Trailer;
+                dispatchViewModel.Remark = dispatch.Remark;
+                dispatchViewModel.RequisitionNo = dispatch.RequisitionNo;
+                dispatchViewModel.ProgramID = dispatchAllocation.ProgramID.HasValue ? dispatchAllocation.ProgramID.Value : 0;
+               
+                    dispatchViewModel.Round = dispatch.Round;
+              
+                    dispatchViewModel.TransporterID = dispatch.TransporterID;
+
+                dispatchViewModel.WeighBridgeTicketNumber = dispatch.WeighBridgeTicketNumber;
+
+                 var dispatchDetail = dispatch.DispatchDetails.FirstOrDefault();
+                 dispatchViewModel.CommodityID = dispatchDetail.CommodityID;
+                 dispatchViewModel.Commodity = dispatchDetail.Commodity.Name;
+                //dispatch.DispatchDetailID = Guid.NewGuid();
+                 dispatchViewModel.DispatchID = dispatchDetail.DispatchID;
+                dispatchViewModel.Quantity = dispatchDetail.RequestedQuantityInMT;
+                dispatchViewModel.QuantityInUnit = dispatchDetail.RequestedQunatityInUnit;
+                dispatchViewModel.UnitID = dispatchDetail.UnitID;
+                dispatchViewModel.ShippingInstructionID = dispatchAllocation.ShippingInstructionID;
+                dispatchViewModel.ProjectCodeID = dispatchAllocation.ProjectCodeID;
+
+                
+                dispatchViewModels.Add(dispatchViewModel);
+               
+            }
+            return dispatchViewModels;
+        } 
     }
 }
 

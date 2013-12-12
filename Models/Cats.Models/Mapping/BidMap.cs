@@ -15,7 +15,7 @@ namespace Cats.Models.Mapping
                 .IsRequired();
           
             // Table & Column Mappings
-            this.ToTable("Bid","dbo");
+            this.ToTable("Bid","procurement");
             this.Property(t => t.BidNumber).HasColumnName("BidNumber");
             this.Property(t => t.BidID).HasColumnName("BidID");
             this.Property(t => t.StartDate).HasColumnName("StartDate");
@@ -24,14 +24,6 @@ namespace Cats.Models.Mapping
             this.Property(t => t.StatusID).HasColumnName("StatusID");
             this.Property(t => t.TransportBidPlanID).HasColumnName("TransportBidPlanID");
 
-            // Relationships
-            this.HasRequired(t => t.Status)
-                .WithMany(t => t.Bids)
-                .HasForeignKey(d => d.StatusID);
-
-            this.HasRequired(t => t.TransportBidPlan)
-                .WithMany(t => t.Bids)
-                .HasForeignKey(d => d.TransportBidPlanID);
             
         }
     }

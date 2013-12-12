@@ -44,6 +44,12 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <returns></returns>
         List<AreaViewModel> GetAllFDPForReport();
+
+        IEnumerable<FDP> Get(
+                  Expression<Func<FDP, bool>> filter = null,
+                  Func<IQueryable<FDP>, IOrderedQueryable<FDP>> orderBy = null,
+                  string includeProperties = "");
+
     }
 }
 
