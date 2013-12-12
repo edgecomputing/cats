@@ -25,8 +25,7 @@
         columns.Bound(t => t.Quantity);
         columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
         columns.Bound(t => t.StatusID);
-
-
+       // columns.Bound(t => t.Status);
         })
      .Scrollable()
      .HtmlAttributes(new { style = "height:430px;" })

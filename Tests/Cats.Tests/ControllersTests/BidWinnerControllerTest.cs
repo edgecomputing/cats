@@ -55,6 +55,20 @@ namespace Cats.Tests.ControllersTests
             var bidWinnerService = new Mock<IBidWinnerService>();
             bidWinnerService.Setup(m => m.GetAllBidWinner()).Returns(bidWinner);
 
+            bidWinnerService.Setup(m => m.GetBidsWithWinner()).Returns(new List<Bid>()
+                {
+                    new Bid()
+                        {
+                            BidID = 1,
+                            BidNumber = "PP452",
+                            StartDate = new DateTime(2012/10/10),
+                            EndDate = new DateTime(2013/12/11),
+                            OpeningDate = new DateTime(2013/12/12),
+                            StatusID = 1
+                        }
+                });
+                                   
+
             var workFlowStatus = new List<WorkflowStatus>
                 {
                      new WorkflowStatus {
@@ -97,6 +111,7 @@ namespace Cats.Tests.ControllersTests
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
            _bidWinnerController=new BidWinnerController(bidWinnerService.Object,userAccountService.Object,workFlowStatusService.Object);
+           _bidWinnerController.ControllerContext = controllerContext.Object; 
         }
         [TearDown]
         public void Dispose()
@@ -111,21 +126,14 @@ namespace Cats.Tests.ControllersTests
             var result = _bidWinnerController.Index();
             Assert.IsNotNull(result);
         }
-        //[Test]
-        //public void WinnersForSingleBid()
-        //{
-        //    var bidID = 2;
-        //    var result = _bidWinnerController.Details(bidID);
-        //    Assert.IsNotNull(result);
-        //}
-        //[Test]
-        //public void CanReadBid()
-        //{
-        //    var request = new DataSourceRequest();
-        //    var result = (RedirectToRouteResult)_bidWinnerController.Bid_Read(request);
-        //    Assert.IsNotNull(result);
+        [Test]
+        public void CanReadBid()
+        {
+            var request = new DataSourceRequest();
+            var result = (JsonResult)_bidWinnerController.Bid_Read(request);
+            Assert.IsNotNull(result);
 
-        //}
+        }
         [Test]
         public void CanDisqualifyWinner()
         {
