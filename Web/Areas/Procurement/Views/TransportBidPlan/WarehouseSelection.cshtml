@@ -74,7 +74,7 @@
             model.Field(p => p.Relief).Editable(false);
 
         })
-        .Create(update => update.Action("UpdateWarehouseSelectionAjax", "TransportBidPlan"))
+        .Create(update => update.Action("CreateWarehouseSelectionAjax", "TransportBidPlan"))
         .Read(read => read.Action("ReadJson", "TransportBidPlan").Data("filterInfo"))
         .Update(update => update.Action("UpdateWarehouseSelectionAjax", "TransportBidPlan"))
         .Destroy(update => update.Action("DeleteWarehouseSelectionAjax", "TransportBidPlan"))
