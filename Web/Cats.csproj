@@ -1534,6 +1534,8 @@
     <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
+
+    <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
     <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />

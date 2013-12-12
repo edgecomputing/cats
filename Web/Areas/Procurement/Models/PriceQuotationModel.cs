@@ -1,4 +1,6 @@
-﻿namespace Cats.Areas.Procurement.Models
+﻿using System;
+
+namespace Cats.Areas.Procurement.Models
 {
     public class PriceQuotationFilterViewModel
     {
