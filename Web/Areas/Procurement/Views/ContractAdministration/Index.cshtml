@@ -20,7 +20,6 @@
         </button>
 
         <ul class="dropdown-menu">
-            <li><a href="@Url.Action("AddDeliveryNote", "ContractAdministration", new {transporterID = ViewBag.TransporterID})">Add Delivery Note</a></li>
             <li><a href="@Url.Action("Create", "PaymentRequest", new {transporterID = ViewBag.TransporterID})">Request Payment</a></li>
             <li><a href="@Url.Action("PrintContract", "ContractAdministration", new {transporterID = ViewBag.TransporterID})">Print Contract</a></li>
         </ul>
