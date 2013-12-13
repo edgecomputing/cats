@@ -23,8 +23,8 @@ namespace Cats.Areas.Procurement.Controllers
     {
         // GET: /Procurement/Bid/
         private readonly IBidService _bidService;
-        private readonly IApplicationSettingService _applicationSettingService;
-        private readonly ITransportBidQuotationService _bidQuotationService;
+        //private readonly IApplicationSettingService _applicationSettingService;
+        //private readonly ITransportBidQuotationService _bidQuotationService;
         private readonly ITransporterService _transporterService;
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IUnitOfWork _unitofwork;
@@ -32,13 +32,13 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IUserAccountService _userAccountService;
 
-        public BidWinnerController(IBidService bidService, IApplicationSettingService applicationSettingService,
-                             ITransportBidQuotationService bidQuotationService, ITransporterService transporterService, IBidWinnerService bidWinnerService,
-            IUnitOfWork unitofwork, ITransporterAgreementVersionService transporterAgreementVersionService, IWorkflowStatusService workflowStatusService, IUserAccountService userAccountService)
+        public BidWinnerController(IBidService bidService, ITransporterService transporterService, IBidWinnerService bidWinnerService,
+            IUnitOfWork unitofwork, ITransporterAgreementVersionService transporterAgreementVersionService, IWorkflowStatusService workflowStatusService, 
+            IUserAccountService userAccountService)
         {
             _bidService = bidService;
-            _applicationSettingService = applicationSettingService;
-            _bidQuotationService = bidQuotationService;
+            //_applicationSettingService = applicationSettingService;
+            //_bidQuotationService = bidQuotationService;
             this._bidWinnerService = bidWinnerService;
             this._unitofwork = unitofwork;
             this._transporterAgreementVersionService = transporterAgreementVersionService;
@@ -46,6 +46,13 @@ namespace Cats.Areas.Procurement.Controllers
             _workflowStatusService = workflowStatusService;
             _userAccountService = userAccountService;
         }
+
+        public ActionResult Index()
+        {
+
+            return View();
+        }
+
         public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {
 
