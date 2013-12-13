@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="ControllersTests\BeneficiaryAllocationControllerTests.cs" />
     <Compile Include="ControllersTests\BidControllerTest.cs" />
+    <Compile Include="ControllersTests\BidWinnerControllerTest.cs" />
     <Compile Include="ControllersTests\ContributionControllerTest.cs" />
     <Compile Include="ControllersTests\CurrencyControllerTest.cs" />
     <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />

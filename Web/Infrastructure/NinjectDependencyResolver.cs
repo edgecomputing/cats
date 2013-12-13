@@ -160,7 +160,13 @@ namespace Cats.Infrastructure
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
             kernel.Bind<IPlanService>().To<PlanService>();
             kernel.Bind<IDashboardService>().To<DashboardService>();
+
             kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
+
+            kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
+            kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
+            kernel.Bind<ITransporterAgreementVersionService>().To<TransporterAgreementVersionService>();
+
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.
@@ -193,6 +199,8 @@ namespace Cats.Infrastructure
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
             kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
+            kernel.Bind<Cats.Services.Logistics.IDistributionService>().To<Cats.Services.Logistics.DistributionService>();
+            kernel.Bind<Cats.Services.Logistics.IDistributionDetailService>().To<Cats.Services.Logistics.DistributionDetailService>();
         }
         private void AddBindingsHub()
         {

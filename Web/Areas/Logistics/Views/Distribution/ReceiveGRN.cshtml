@@ -1,0 +1,188 @@
+﻿@model Cats.Areas.Logistics.Models.DistributionViewModel
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "ReceiveGRN";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmCreate"></a>
+
+}
+
+<div class="page-header">@Translator.Translate("Register Transport Goods Receiving Note")</div>
+@using (Html.BeginForm("ReceiveGRN", "Distribution", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
+{
+    @Html.HiddenFor(model => model.DistributionID)
+    @Html.HiddenFor(model => model.DispatchID)
+    @Html.HiddenFor(model => model.HubID)
+    @Html.HiddenFor(model => model.FDPID)
+    @Html.HiddenFor(model => model.TransporterID)
+    @Html.HiddenFor(model => model.DonorID)
+    @Html.HiddenFor(model => model.DocumentReceivedBy)
+    @Html.HiddenFor(model=>model.InvoiceNo)
+    @Html.HiddenFor(model=>model.RequisitionNo)
+    @Html.HiddenFor(model=>model.Transporter)
+    @Html.HiddenFor(model => model.Region);
+    @Html.HiddenFor(model=>model.Zone)
+    @Html.HiddenFor(model => model.Woreda);
+    @Html.HiddenFor(model=>model.FDP)
+    <div class="control-group form-horizontal well">
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceivingNumber)
+
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ReceivingNumber)
+                        @Html.ValidationMessageFor(model => model.ReceivingNumber);
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.InvoiceNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.InvoiceNo, new { Disabled = true })
+                    </div>
+                </div>
+              
+               
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.WayBillNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.WayBillNo)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.RequisitionNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.RequisitionNo, new { Disabled = true })
+                    </div>
+                </div>
+               <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceivedBy)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ReceivedBy)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceivedDate, new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "cats-datepicker2" })
+                    </div>
+                </div>
+                  
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Transporter)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Transporter, new { Disabled = true })
+                    </div>
+                </div>
+                 <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DriverName)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DriverName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.PlateNoPrimary)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.PlateNoPrimary)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.PlateNoTrailler)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.PlateNoTrailler)
+                    </div>
+                </div>
+               
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DeliveryBy)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DeliveryBy)
+                    </div>
+                </div>
+                 <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DeliveryDate, new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "cats-datepicker2" })
+                    </div>
+                </div>
+               
+            </div>
+            <div class="span4">
+                  <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Region)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Region)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Zone)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Zone)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Woreda)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Woreda)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.FDP)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.FDP)
+                    </div>
+                </div>
+                 <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DocumentReceivedDate, new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DocumentReceivedDate, new { @class = "cats-datepicker2" })
+                    </div>
+
+                </div>
+               
+            </div>
+        </div>
+
+
+    </div>
+
+}

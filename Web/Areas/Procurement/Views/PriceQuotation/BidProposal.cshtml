@@ -10,6 +10,9 @@
       <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
 }
 <div class="row">
+    <h4>Bid Proposal Data Entry</h4>
+</div>
+<div class="row">
     @Html.Partial("_BidSelectionPartial")
 </div>
 
@@ -34,7 +37,7 @@
                 .DataSource(dataSource => dataSource
                                               .Ajax()
                                               .Group(group => group.Add(m => m.SourceWarehouse))
-                                              .PageSize(8)
+                                              //.PageSize(8)
                                               .Model(model =>
                                                   {
                                                       model.Id(p => p.TransportBidQuotationID);
@@ -46,7 +49,7 @@
                                                   })
                                               .Read(read => read.Action("ReadBidProposals", "PriceQuotation", new
                                                   {
-                                                      bidNumber = @ViewBag.filter.BidPlanID,
+                                                      bidID = @ViewBag.filter.BidID,
                                                       transporterID = @ViewBag.filter.TransporterID,
                                                       regionID = @ViewBag.filter.RegionID
                                                   }))

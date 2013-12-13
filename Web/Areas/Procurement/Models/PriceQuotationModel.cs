@@ -1,8 +1,10 @@
-﻿namespace Cats.Areas.Procurement.Models
+﻿using System;
+
+namespace Cats.Areas.Procurement.Models
 {
     public class PriceQuotationFilterViewModel
     {
-        public int BidPlanID { get; set; }
+        public int BidID { get; set; }
         public int TransporterID { get; set; }
         public int RegionID { get; set; }
     }
@@ -66,12 +68,16 @@
         public string TransporterName { get; set; }
         public int Rank { get; set; }
         public decimal WinnerTariff { get; set;}
+        public decimal Quantity { get; set; }
+        public string Status { get; set; }
+        public int StatusID { get; set; }
        
     }
     public class BidWithWinnerViewModel
     {
         public int BidWinnerID { get; set; }
         public int BidID { get; set; }
+        public string OpeningDate { get; set; }
         public string BidNumber { get; set; }
         public int Year { get; set; }
     }

@@ -1,9 +1,7 @@
 ﻿@*@using (Html.BeginForm("BidProposal", "PriceQuotation", FormMethod.Post)) ;*@
 @model Cats.Areas.Procurement.Models.PriceQuotationFilterViewModel
 
-
 @using (Html.BeginForm())
-
 {
     <div>
         <div class="span12" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
@@ -13,7 +11,7 @@
                     <div class="controls">
                         <label>BID Reference Number</label>
                         <div>
-                            @Html.DropDownList("BidPlanID")
+                            @Html.DropDownList("BidID")
                         </div>
                     </div>
                 </div>

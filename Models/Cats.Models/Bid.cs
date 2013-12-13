@@ -21,13 +21,11 @@ namespace Cats.Models
         public int TransportBidPlanID { get; set; }
 
         #region Navigation Properties
-
+        public Status Status { get; set; }
         public ICollection<BidDetail> BidDetails { get; set; }
-        public virtual Status Status { get; set; }
-        public virtual TransportBidPlan TransportBidPlan { get; set; }
         public ICollection<BidWinner> BidWinners { get; set; }
-        public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
-       
+        public ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
+       public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         #endregion
     }
 }
