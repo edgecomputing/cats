@@ -1,7 +1,6 @@
-﻿@model int
-@using Kendo.Mvc.UI
+﻿@using Kendo.Mvc.UI
 @using Cats.Helpers
-
+@model int
 <style>
     .action-link
     {
@@ -12,12 +11,14 @@
         display: block;
     }
 </style>
-@(Html.Kendo().Grid<Cats.Models.TOViewModel>()
+@(Html.Kendo().Grid<Cats.Models.TransportOrder>()
     .Name("ActiveTransportOrders")
     .Columns(columns =>
-    {
-        columns.Bound(e => e.TOID).Width(120).Title("TO ID");
-    })
+        {
+            columns.Bound(e => e.TransportOrderID).Visible(false).Width(120);
+            columns.Bound(e => e.TransportOrderNo).Title("Transport Order #").Width(120).Title("TO ID");
+            columns.Bound(e => e.TransportOrderNo).Title("Transport Order #").Width(120).Title("TO ID");
+        })
     .DataSource(dataSource => dataSource
         .Ajax()
         .Read(read => read.Action("ActiveTO_Read", "ContractAdministration",new {TransporterID = 1}))

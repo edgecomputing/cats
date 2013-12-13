@@ -759,7 +759,7 @@ namespace Cats.Services.Hub
                 dispatchViewModel.UnitID = dispatchDetail.UnitID;
                 dispatchViewModel.ShippingInstructionID = dispatchAllocation.ShippingInstructionID;
                 dispatchViewModel.ProjectCodeID = dispatchAllocation.ProjectCodeID;
-
+            
                 
                 dispatchViewModels.Add(dispatchViewModel);
                

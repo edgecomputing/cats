@@ -56,5 +56,12 @@ namespace Cats.Services.Procurement
             var item = _unitOfWork.PaymentRequestRepository.FindById(id);
             return Delete(item);
         }
+
+        public IEnumerable<PaymentRequest> Get(System.Linq.Expressions.Expression<Func<PaymentRequest, bool>> filter = null,
+                                    Func<IQueryable<PaymentRequest>, IOrderedQueryable<PaymentRequest>> orderBy = null,
+                                    string includeProperties = "")
+        {
+            return _unitOfWork.PaymentRequestRepository.Get(filter, orderBy, includeProperties);
+        }
     }
 }

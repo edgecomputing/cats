@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
     
 }
-
+<h4 class="page-header">@Translator.Translate("Transport Order Dispatches")</h4>
 <div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">
@@ -124,7 +124,7 @@
                  col.Template(
                      @<text>
 
-<a href="@Url.Action("ReviveGRN", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Translator.Translate("Receive")</a>
+<a href="@Url.Action("ReceiveGRN", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Translator.Translate("Receive")</a>
 
 </text>);
                  col.Bound(t => t.GIN);
@@ -147,13 +147,13 @@
 
             </div>
             <div id="tab1" class="tab-pane">
-               @(Html.Kendo().Grid(Model.DispatchViewModels).Name("gridWithGRN")
+               @(Html.Kendo().Grid(Model.DispatchViewModelsWithGRN).Name("gridWithGRN")
 .Columns(col =>
              {
                  col.Template(
                      @<text>
 
-<a href="@Url.Action("ReceivingNote", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Translator.Translate("GRN")</a>
+<a href="@Url.Action("EditGRN", "Distribution", new { Area = "Logistics", id = item.DistributionID })">@Translator.Translate("GRN")</a>
 
 </text>);
                  col.Bound(t => t.GIN);
