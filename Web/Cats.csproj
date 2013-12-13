@@ -485,6 +485,7 @@
     <Compile Include="Areas\Logistics\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
+    <Compile Include="Areas\Procurement\Models\ActiveTransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\AgreementVersionViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Cats.Areas.Procurement.Models
+@using Cats.Models
+@using Kendo.Mvc.UI
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
@@ -13,9 +16,9 @@
         </button>
 
         <ul class="dropdown-menu">
-            <li><a href="@Url.Action("AddDeliveryNote", "ContractAdministration", new {regionid = ViewBag.regionId})">Add Delivery Note</a></li>
-            <li><a href="@Url.Action("RequestPayment", "ContractAdministration", new {regionid = ViewBag.regionId})">Request Payment</a></li>
-            <li><a href="@Url.Action("PrintContract", "ContractAdministration", new {regionId = ViewBag.regionId})">Print Contract</a></li>
+            <li><a href="@Url.Action("AddDeliveryNote", "ContractAdministration", new {transporterID = ViewBag.TransporterID})">Add Delivery Note</a></li>
+            <li><a href="@Url.Action("Create", "PaymentRequest", new {transporterID = ViewBag.TransporterID})">Request Payment</a></li>
+            <li><a href="@Url.Action("PrintContract", "ContractAdministration", new {transporterID = ViewBag.TransporterID})">Print Contract</a></li>
         </ul>
 
     </div>
@@ -27,11 +30,11 @@
     <table>
         <tr>
             <td>Transporter:</td>
-            <td><input type="text" style="width: 400px;margin-left:0px;"/></td>
+            <td><div style="width: 400px;margin-left:0px;border:1px solid #ececec;border-radius: 5px;">@ViewBag.TransporterName</div></td>
         </tr>
         <tr>
             <td>Address:</td>
-            <td><input type="text" style="width: 400px;margin-left:0px;"/></td>
+            <td><div style="width: 400px;margin-left:0px;border:1px solid #ececec;border-radius: 5px;">@ViewBag.TransporterAddress</div></td>
         </tr>
         <tr>
             <td colspan="2"><a href="#">Click here to see active agreement contract</a></td>
@@ -40,23 +43,79 @@
 </div>
 
 <div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div>Outstanding Delivery Notes</div>
-        @Html.Partial("DeliveryNotes",  new {  transporterID = ViewBag.transporterID  });
+    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div style="font-weight: bold;margin:10px;">Outstanding Delivery Notes</div>
+        @*@Html.Partial("DeliveryNotes",  new {  transporterID = ViewBag.transporterID  })*@
     </div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div>Payment Requests</div>
-        @Html.Partial("PaymentRequest", new {  transporterID = ViewBag.transporterID  })
+    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div style="font-weight: bold;margin:10px;">Payment Requests</div>
+        @{
+            int index = 0;
+            var paymentRequest = ViewBag.PaymentRequests;
+        }
+        <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Reference No</th>
+                    <th>Transporter</th>
+                    <th>Transport Order</th>
+                    <th>Requested Amount</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+
+                @foreach (PaymentRequest item in paymentRequest)
+                {
+                    index++;
+                    StateTemplate state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+                    <tr>
+                        <td>
+                           @item.ReferenceNo
+                        </td>
+                        <td>
+                           @item.TransportOrder.Transporter.Name
+                        </td>
+                        <td>
+                           @item.TransportOrder.TransportOrderNo
+                        </td>
+                        <td>
+                           @item.RequestedAmount
+                        </td>
+                        <td>
+                           @state.Name
+                        </td>
+                </tr>
+                }
+        </table>
     </div>
 </div>
 <div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div>Active Transport Orders</div>
-        @Html.Partial("ActiveTransportOrders", new {  transporterID = ViewBag.transporterID  })
+    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div style="font-weight: bold;margin:10px;">Active Transport Orders</div>
+        @(Html.Kendo().Grid<ActiveTransportOrderViewModel>()
+            .Name("ActiveTransportOrders")
+            .Columns(columns =>
+                {
+                    columns.Bound(e => e.TransportOrderID).Visible(false).Width(120);
+                    columns.Bound(e => e.TransportOderNo).Title("Transport Order #").Width(130);
+                    columns.Bound(e => e.SignedDate).Title("Signed Date").Width(120);
+                    columns.Bound(e => e.StartedOn).Title("Started On").Width(120);
+                    columns.Bound(e => e.RemainingDays).Title("Remaining Dates").Width(120);
+                    columns.Bound(e => e.Progress).Title("Progress").Width(120);
+                })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("ActiveTO_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}))
+             )
+             .Scrollable(scroll => scroll.Height(350))
+             .Selectable(select => select.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .Sortable()
+             .HtmlAttributes(new { style = "height:200px;" })
+        )
     </div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #acacac; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div>FDPs in Current Contract</div>
-        @Html.Partial("FDPsInCurrentContract", new {  transporterID = ViewBag.transporterID  })
+    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+        <div style="font-weight: bold;margin:10px;">FDPs in Current Contract</div>
+       @* @Html.Partial("FDPsInCurrentContract", new {  transporterID = ViewBag.transporterID  })*@
     </div>
 </div>
 
