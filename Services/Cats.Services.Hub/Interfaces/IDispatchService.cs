@@ -50,6 +50,12 @@ namespace Cats.Services.Hub
         List<DispatchModelModelDto> ByHubIdAndAllocationIDetached(int hubId, Guid dispatchAllocationId);
         List<DispatchModelModelDto> ByHubIdAndOtherAllocationIDetached(int hubId, Guid otherDispatchAllocationId);
         DispatchViewModel CreateDispatchFromDispatchAllocation(Guid dispatchAllocationId, decimal quantityInUnit);
+
+
+        IEnumerable<Dispatch> Get(Expression<Func<Dispatch, bool>> filter = null,
+                                            Func<IQueryable<Dispatch>, IOrderedQueryable<Dispatch>>
+                                                orderBy = null, string includeProperties = "");
+
     }
 }
 

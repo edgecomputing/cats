@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -62,6 +63,13 @@ namespace Cats.Services.Logistics
         {
             return _unitOfWork.DistributionRepository.FindBy(predicate);
         }
+        public IEnumerable<Distribution> Get(
+           Expression<Func<Distribution, bool>> filter = null,
+           Func<IQueryable<Distribution>, IOrderedQueryable<Distribution>> orderBy = null,
+           string includeProperties = "")
+        {
+            return _unitOfWork.DistributionRepository.Get(filter, orderBy, includeProperties);
+        }
         #endregion
 
         public void Dispose()
@@ -70,6 +78,9 @@ namespace Cats.Services.Logistics
 
         }
 
+
+
+       
     }
 }
 

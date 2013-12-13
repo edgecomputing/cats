@@ -791,5 +791,9 @@ namespace Cats.Models.Hubs
         public int UserProfileID { get; set; }
         public int? ShippingInstructionID { get; set; }
         public int? ProjectCodeID { get; set; }
+
+        public bool GRNReceived { get; set; }
+
+        public Guid DistributionID { get; set; }
     }
 }
