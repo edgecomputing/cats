@@ -164,7 +164,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private void PopulateLookup()
         {
             ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
