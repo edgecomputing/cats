@@ -4,7 +4,7 @@ namespace Cats.Areas.Procurement.Models
 {
     public class PriceQuotationFilterViewModel
     {
-        public int BidPlanID { get; set; }
+        public int BidID { get; set; }
         public int TransporterID { get; set; }
         public int RegionID { get; set; }
     }

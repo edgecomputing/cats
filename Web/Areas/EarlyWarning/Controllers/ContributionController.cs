@@ -54,7 +54,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.DonorID = new SelectList(_donorService.GetAllDonor(), "DonorID", "Name");
             ViewBag.Year = DateTime.Now.Year;
             return View(contribution);
-
         }
 
         [HttpPost]
