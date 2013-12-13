@@ -8,6 +8,27 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+@section Toolbar    {
+ 
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+        <ul class="dropdown-menu">
+            <li><a id="btnAddFDP"  href="@Url.Action("BidWinningTransporters", "BidWinner")" >All Agreements </a></li>
+            <li><a id="btnAddCommodity"  href="@Url.Action("SignedTransporterContract", "BidWinner")" >Signed Agrrements </a></li>
+        </ul>
+
+    </div>            
+          
+}
+
 <h4 >List of Bids</h4>
 @(Html.Kendo().Grid<BidWithWinnerViewModel>()
     .Name("grid")
@@ -18,7 +39,7 @@
                     @Url.Action("Details", "BidWinner", new { id = "#=BidID#" }),
                     EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=BidNumber#").ToString()); 
         columns.Bound(t => t.Year);
-        columns.Bound(t => t.OpeningDate);
+        columns.Bound(t => t.OpeningDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }); 
 
         })
      .Scrollable()
