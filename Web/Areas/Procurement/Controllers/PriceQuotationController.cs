@@ -56,7 +56,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public void LoadLookups()
         {
-            ViewBag.BidPlanID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
         }
@@ -186,7 +186,7 @@ namespace Cats.Areas.Procurement.Controllers
             LoadLookups();
             ViewBag.ModelFilter = model;
             ViewBag.SelectedRegion = _adminUnitService.FindById(model.RegionID);
-            int bidID = model.BidPlanID;
+            int bidID = model.BidID;
 
 
             ViewBag.SelectedTransporter = _transporterService.FindById(model.TransporterID);
@@ -310,7 +310,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var filter = new PriceQuotationFilterViewModel();
             ViewBag.filter = filter;
-            LoadPLookups();
+            LoadLookups();
             return View(filter);
         }
 
@@ -318,7 +318,7 @@ namespace Cats.Areas.Procurement.Controllers
         public  ActionResult BidProposal(PriceQuotationFilterViewModel filter)
         {
             ViewBag.filter = filter;
-            LoadPLookups();
+            LoadLookups();
             return View(filter);
         }
 
@@ -348,7 +348,7 @@ namespace Cats.Areas.Procurement.Controllers
             return Json("{}");
         }
 
-        public ActionResult ReadBidProposals([DataSourceRequest] DataSourceRequest request, int bidPlanID, int regionID, int transporterID)
+        public ActionResult ReadBidProposals([DataSourceRequest] DataSourceRequest request, int bidID, int regionID, int transporterID)
         {
             //var d = _transportBidQuotationService.FindBy(t=>t.BidID==bidPlanID
             //                                             && t.TransporterID==transporterID 
@@ -358,11 +358,23 @@ namespace Cats.Areas.Procurement.Controllers
             //bid.BidID;
 
             //ModelState.AddModelError("Success", "Reading....");
+            int planID = _bidService.FindById(bidID).TransportBidPlanID;
             
             var bidPlanDetail =
-                _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID 
-                                                        && t.BidPlanID == bidPlanID
-                );
+                _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                                        && t.BidPlanID == planID
+                                                        /*&& t.Quantity > 0*/);
+            var df = (from planDetail in bidPlanDetail 
+                     group planDetail by new
+                         {
+                             planDetail.DestinationID,
+                             planDetail.SourceID
+                         }
+                         into  gr select gr
+                      );
+            
+            var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
+
 
             //var s = (from transportBidQuotation in d
             //         select new PriceQuotationDetail()
@@ -379,14 +391,14 @@ namespace Cats.Areas.Procurement.Controllers
             //             TransporterID = transportBidQuotation.TransporterID
             //         }
             //        );
+
             var result = new List<PriceQuotationDetail>();
 
-            foreach (var transportBidPlanDetail in bidPlanDetail)
+            foreach (var transportBidPlanDetail in detailPlans)
             {
                 var pdetail = transportBidPlanDetail;
 
-                var detail = _transportBidQuotationService.FindBy(t =>
-                                                                   t.BidID == pdetail.BidPlanID
+                var detail = _transportBidQuotationService.FindBy(t => t.BidID == bidID
                                                                 && t.SourceID == pdetail.SourceID
                                                                 && t.DestinationID == pdetail.DestinationID
                                                                 && t.TransporterID == transporterID).FirstOrDefault();
@@ -404,6 +416,7 @@ namespace Cats.Areas.Procurement.Controllers
                             SourceID = detail.SourceID,
                             TransportBidQuotationID = detail.TransportBidQuotationID*10 + transporterID,
                             TransporterID = detail.TransporterID
+                            
                         };
                     result.Add(t);
                     continue;
@@ -417,7 +430,7 @@ namespace Cats.Areas.Procurement.Controllers
                         Woreda = transportBidPlanDetail.Destination.Name,
                         Tariff = 0,
                         Remark = String.Empty,
-                        BidID = bidPlanID,
+                        BidID = bidID,
                         DestinationID = transportBidPlanDetail.DestinationID,
                         SourceID = transportBidPlanDetail.SourceID,
                         TransportBidQuotationID = transportBidPlanDetail.TransportBidPlanDetailID * 10 + transporterID,
@@ -482,6 +495,7 @@ namespace Cats.Areas.Procurement.Controllers
                                             secondCadidate =>
                                             secondCadidate.Tariff == transportBidQuotations.Min(t => t.Tariff))
                                         );
+                    
                     var firstBidWinners = TransformBidQuotationToBidWinner(firstWinners.ToList(), 1);
                     var secondBidWinners = TransformBidQuotationToBidWinner(secondWinners.ToList(), 2);
 
@@ -547,14 +561,15 @@ namespace Cats.Areas.Procurement.Controllers
                 winner.SourceID = proposal.SourceID;
                 winner.DestinationID = proposal.DestinationID;
                 winner.BidID = proposal.BidID;
-                winner.TransportOrderID = 5;
+                //winner.TransportOrderID = 3072;
                 winner.CommodityID = 1;
                 winner.TransporterID = proposal.TransporterID;
-                winner.Amount = 500;
+                winner.Amount = 0;
                 winner.Tariff = proposal.Tariff;
                 winner.Position = rank;
                 winner.Status = 1;
                 winner.ExpiryDate = DateTime.Today;
+                winner.BidWinnerID = 0;
 
                 winners.Add(winner);
             }
