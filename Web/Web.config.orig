@@ -70,51 +70,33 @@
       </parameter>
     </appender>
   </log4net>
-<<<<<<< HEAD
-
-
+	 
   <connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
-  </connectionStrings>
-
-  <!--<connectionStrings>
-=======
-  
-  
-  
- <!--<connectionStrings>
-    <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
+    <add name="elmah-sql" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster; User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
     <add name="CatsContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
     <add name="SecurityContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
     <add name="LocalizationContext" connectionString="Data Source=192.168.1.248;Initial Catalog=CatsMaster;User=sa;Password=P@ssw0rd;" providerName="System.Data.SqlClient"/>
+<<<<<<< HEAD
 </connectionStrings>-->
-
-  
-    
-    
-
- <connectionStrings>
->>>>>>> 85ec464e371dd750c409f05ff8bf844aa8f797f4
+  <connectionStrings>
     <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster; Integrated Security=True;" providerName="System.Data.SqlClient"/>
     <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient"/>
     <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient"/>
     <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=True;" providerName="System.Data.SqlClient"/>
-<<<<<<< HEAD
-  </connectionStrings>-->
+  </connectionStrings>
 =======
-</connectionStrings>  
-
-
-  
->>>>>>> 85ec464e371dd750c409f05ff8bf844aa8f797f4
-
-<appSettings>
-
-    <add key="log4net.Internal.Debug" value="true" />
-
+  </connectionStrings>
+	
+ <!--<connectionStrings>
+    <add name="elmah-sql" connectionString="Data Source=.;Initial Catalog=CatsMaster; Integrated Security=true;" providerName="System.Data.SqlClient"/>
+    <add name="CatsContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=true;" providerName="System.Data.SqlClient"/>
+    <add name="SecurityContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=true;" providerName="System.Data.SqlClient"/>
+    <add name="LocalizationContext" connectionString="Data Source=.;Initial Catalog=CatsMaster;Integrated Security=true;" providerName="System.Data.SqlClient"/>
+</connectionStrings>-->
+	
+>>>>>>> f186952b2a8f234a4fadbab0ad7903758091a647
+  <appSettings>
+    <add key="log4net.Internal.Debug" value="true"/>
     <!--<add key="webpages:Version" value="2.0.0.0" C:\store\EDGE\cats\Web\ClientBin\/>-->
     <add key="webpages:Enabled" value="false"/>
     <add key="PreserveLoginUrl" value="true"/>
@@ -141,7 +123,7 @@
       <add verb="GET,HEAD" path="asset.axd" validate="false" type="Telerik.Web.Mvc.WebAssetHttpHandler, Telerik.Web.Mvc"/>
     </httpHandlers>
     <httpRuntime targetFramework="4.5"/>
-    <compilation targetFramework="4.5">
+    <compilation targetFramework="4.5" debug="true">
       <assemblies>
         <add assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91"/>
         <add assembly="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91"/>

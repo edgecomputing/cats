@@ -28,6 +28,7 @@
 <table class="table table-striped table-bordered">
         <tr>
             <th>@Html.DisplayNameFor(model => model.ReferenceNo)</th>
+            <th>Transporter</th>
             <th>Transport Order</th>
             <th>Requested Amount</th>
             <th>Status</th>
@@ -41,6 +42,9 @@
             <tr>
                 <td>
                    @item.ReferenceNo
+                </td>
+                <td>
+                   @item.TransportOrder.Transporter.Name
                 </td>
                 <td>
                    @item.TransportOrder.TransportOrderNo
@@ -92,6 +96,7 @@
     }
     function workflow_history(BusinessProcessID) {
         $('#modalHistory').modal();
+        $('#modalHistoryBody').html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");
         $.post(history_link + BusinessProcessID, {},
             function (data) {
                 $("#modalHistoryBody").html(data);

@@ -113,6 +113,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                 var psnptransportBidPlanDetail = (from detail in woredas
+                                                  where _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)>0
                                   select new TransportBidPlanDetail()
                                   {
                                       DestinationID = detail.AdminUnitID,
@@ -123,6 +124,7 @@ namespace Cats.Areas.Procurement.Controllers
                                   }).ToList();
 
                 var relieftransportBidPlanDetail = (from detail in woredas
+                                                    where _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)>0
                                               select new TransportBidPlanDetail()
                                                   {
                                                       DestinationID = detail.AdminUnitID,
@@ -314,28 +316,32 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(new[] { transportbidplan }.ToDataSourceResult(request, ModelState));
         }
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CreateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request, WarehouseProgramViewModel warehouseProgramViewModel)
+        public ActionResult CreateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request,WarehouseProgramViewModel warehouseAllocation,
+                                                                                                      int transportBidPlanID, int selectedWoreda = 0)
         {
-            if (warehouseProgramViewModel != null && ModelState.IsValid)
+            if (warehouseAllocation!=null && ModelState.IsValid)
             {
-                _transportBidPlanDetailService.AddTransportBidPlanDetail(BindBidPlanDetail(warehouseProgramViewModel));
+                var reliefDetail = new TransportBidPlanDetail()
+                {
+                    BidPlanID = transportBidPlanID,
+                    DestinationID = selectedWoreda,
+                    SourceID = warehouseAllocation.WarehouseID,
+                    ProgramID = 1,
+                    Quantity = _transportBidPlanDetailService.GetHrdCommodityAmount(selectedWoreda),
+                };
+                UpdateBidPlanDetail(reliefDetail);
+                var psnpDetail = new TransportBidPlanDetail()
+                {
+                    BidPlanID = transportBidPlanID,
+                    DestinationID = selectedWoreda,
+                    SourceID = warehouseAllocation.WarehouseID,
+                    ProgramID = 2,
+                    Quantity = _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(selectedWoreda),
+                };
+                UpdateBidPlanDetail(psnpDetail);
             }
 
-            return Json(new[] { warehouseProgramViewModel }.ToDataSourceResult(request, ModelState));
-        }
-
-        private TransportBidPlanDetail BindBidPlanDetail(WarehouseProgramViewModel model)
-        {
-            if (model == null) return null;
-            var donor = new TransportBidPlanDetail()
-            {
-                BidPlanID = model.BidPlanID,
-                DestinationID = model.WoredaID,
-                SourceID = model.WarehouseID,
-                //ProgramID = model.p,
-                 Quantity = model.PSNP
-            };
-            return donor;
+            return Json(new[] { warehouseAllocation }.ToDataSourceResult(request, ModelState));
         }
 
         public ActionResult UpdateWarehouseSelectionAjax([DataSourceRequest] DataSourceRequest request, WarehouseProgramViewModel WarehouseAllocation)
