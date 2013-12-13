@@ -394,7 +394,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
        
         public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
-
             ViewBag.RequestID = id;
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
             var dt = RequestViewModelBinder.TransposeData(requestDetails);
@@ -685,37 +684,41 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         private IEnumerable<PLANWithRegionalRequestViewModel> GetRequestWithPlan(RegionalRequest regionalRequest)
         {
-
            var result = new List<PLANWithRegionalRequestViewModel>();
 
            if(regionalRequest.ProgramId==1)
            
            {
+            
             var details = regionalRequest.RegionalRequestDetails;
             var hrd = _hrdService.FindBy(m => m.PlanID == regionalRequest.PlanID);
             
-
             var woredaGrouped = (from detail in details
                                  group detail by detail.Fdp.AdminUnit
+                                 into woredaDetail
+                                 select new
+                                {
+                                    Woreda = woredaDetail.Key,
+                                    NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
+                                    hrdBeneficiary = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).NumberOfBeneficiaries : 0,
+                                    //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
+                                    detailsf = woredaDetail,
+                                });
+
+            var woredaG = (from detail in details
+                                 group detail by detail.Fdp.AdminUnit
                                      into woredaDetail
-                                     select new
-                                     {
-                                         Woreda = woredaDetail.Key,
-                                         NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
-                                         hrdBeneficiary = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).NumberOfBeneficiaries : 0,
-                                         //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
-                                         detailsf = woredaDetail,
-                                     });
+                                     select woredaDetail);
 
             result =  (from woredaDetail in woredaGrouped
-                    select new PLANWithRegionalRequestViewModel
-                    {
-                        zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
-                        Woreda = woredaDetail.Woreda.Name,
-                        RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-                        PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
-                        Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries
-                    }).ToList();
+                       select new PLANWithRegionalRequestViewModel
+                        {
+                            zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
+                            Woreda = woredaDetail.Woreda.Name,
+                            RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
+                            PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
+                            Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries,
+                        }).ToList();
            }
 
            if(regionalRequest.ProgramId==2)

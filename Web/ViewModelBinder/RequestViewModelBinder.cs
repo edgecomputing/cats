@@ -7,12 +7,20 @@ using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Common;
+using Cats.Services.EarlyWarning;
+using Cats.Services.PSNP;
 
 namespace Cats.ViewModelBinder
 {
     public class RequestViewModelBinder
     {
-
+        private static IRequestDetailCommodityService _requestDetailCommodityService;
+       
+        public RequestViewModelBinder(IRequestDetailCommodityService requestDetailCommodityService)
+        {
+            _requestDetailCommodityService = requestDetailCommodityService;
+        }
 
         public static IEnumerable<RegionalRequestViewModel> BindRegionalRequestListViewModel(
           IEnumerable<RegionalRequest> requests, List<WorkflowStatus> statuses, string userPreference)
@@ -116,7 +124,6 @@ namespace Cats.ViewModelBinder
 
             var requestdetail = requestDetails.FirstOrDefault();
 
-
             if (requestdetail !=null)
             {
                 foreach (var ds in requestdetail.RequestDetailCommodities)
@@ -127,15 +134,15 @@ namespace Cats.ViewModelBinder
                 }
             }
 
-            foreach (var requestDetail in woredaRequestDetail)
+            foreach (var singleWoreda in woredaRequestDetail)
             {
                 var dr = dt.NewRow();
                 
-                dr[colZone] = requestDetail.zone;
-                dr[colWoreda] = requestDetail.Woreda;
-                dr[colNoBeneficiary] = requestDetail.RequestedBeneficiaryNo;
-                dr[colNoPlannedBeneficiary] = requestDetail.PlannedBeneficaryNo;
-                dr[colDifference] = requestDetail.Difference;
+                dr[colZone] = singleWoreda.zone;
+                dr[colWoreda] = singleWoreda.Woreda;
+                dr[colNoBeneficiary] = singleWoreda.RequestedBeneficiaryNo;
+                dr[colNoPlannedBeneficiary] = singleWoreda.PlannedBeneficaryNo;
+                dr[colDifference] = singleWoreda.Difference;
                 
                 var groupedByWoreda = (
                                         from regionalRequestDetail in requestDetails
@@ -146,6 +153,7 @@ namespace Cats.ViewModelBinder
                 
                 //decimal accumelate = 0;
               
+
                 foreach (var requestDetailCommodity in requestdetail.RequestDetailCommodities)
                     {
                         DataColumn col = null;
@@ -161,10 +169,11 @@ namespace Cats.ViewModelBinder
 
                         if (col != null)
                         {
-
+                            //_requestDetailCommodityService.FindBy(y=>y.CommodityID)
                             dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
                         }
                     }
+
                 dt.Rows.Add(dr);
             }
 
@@ -241,6 +250,7 @@ namespace Cats.ViewModelBinder
 
                         if (col != null)
                         {
+                            
                             dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
                         }
                     }
