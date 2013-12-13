@@ -11,7 +11,7 @@ namespace Cats.Models
         }
 
         public System.Guid DistributionID { get; set; }
-        public int ReceivingNumber { get; set; }
+        public string ReceivingNumber { get; set; }
         public Nullable<int> DonorID { get; set; }
         public int TransporterID { get; set; }
         public string PlateNoPrimary { get; set; }
@@ -22,7 +22,7 @@ namespace Cats.Models
         public string WayBillNo { get; set; }
         public string RequisitionNo { get; set; }
         public Nullable<int> HubID { get; set; }
-        public Nullable<int> InvoiceNo { get; set; }
+        public string InvoiceNo { get; set; }
         public string DeliveryBy { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public string ReceivedBy { get; set; }
