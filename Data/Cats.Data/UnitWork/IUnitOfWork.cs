@@ -141,6 +141,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Distribution> DistributionRepository { get; }
         IGenericRepository<DistributionDetail> DistributionDetailRepository { get; } 
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
+        IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; } 
         void Save();
 
     }

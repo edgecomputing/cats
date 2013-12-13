@@ -77,8 +77,10 @@
     <Compile Include="Constant\Application.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="DistributionDetail.cs" />
+    <Compile Include="IDPSReasonType.cs" />
     <Compile Include="Mapping\DistributionDetailMap.cs" />
     <Compile Include="Mapping\DistributionMap.cs" />
+    <Compile Include="Mapping\IDPSReasonTypeMap.cs" />
     <Compile Include="Mapping\PaymentRequestMap.cs" />
     <Compile Include="PaymentRequest.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />

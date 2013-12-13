@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Linq;
 using Cats.Models;
 using Cats.Data.Repository;
 
@@ -282,11 +283,11 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
-        //private IGenericRepository<HubOwner> hubOwnerRepository;
-        //public IGenericRepository<HubOwner> HubOwnerRepository
-        //{
-        //    get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
-        //}
+        private IGenericRepository<IDPSReasonType> iDPSReasonTypeRepository;
+        public IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository
+        {
+            get { return this.iDPSReasonTypeRepository ?? (this.iDPSReasonTypeRepository = new GenericRepository<IDPSReasonType>(_context)); }
+        }
 
 
 
@@ -383,14 +384,9 @@ namespace Cats.Data.UnitWork
                     outputLines.Add(string.Format(
                         "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
                         DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        outputLines.Add(string.Format(
-                            "- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage));
-                    }
+                    outputLines.AddRange(eve.ValidationErrors.Select(ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
                 }
-                System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
+                // System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
                 throw;
             }
 
