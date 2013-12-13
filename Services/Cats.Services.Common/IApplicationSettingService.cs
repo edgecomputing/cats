@@ -16,7 +16,9 @@ namespace Cats.Services.Common
         bool DeleteApplicationSetting(ApplicationSetting item);
         bool DeleteById(int id);
         int getPSNPWorkflow();
+        int getPaymentRequestWorkflow();
         int getDefaultRation();
+
         ApplicationSetting FindById(int id);
         List<ApplicationSetting> GetAllApplicationSetting();
         List<ApplicationSetting> FindBy(Expression<Func<ApplicationSetting, bool>> predicate);

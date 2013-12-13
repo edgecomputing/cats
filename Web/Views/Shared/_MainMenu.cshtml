@@ -60,6 +60,7 @@
                                     <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                                         EarlyWarningCheckAccess.Operation.View_request, @Html.Translate("Requests"))</li>
                                     <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">New Request</a></li>
+                                    <li><a href="@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" })">New IDPS Request</a></li>
                                 </ul>
                             </li>
 
@@ -156,7 +157,9 @@
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
                                                                     @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
                                                                     ProcurementCheckAccess.Operation.View_Transport_Order)</li>
-
+                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
+                                                                    @Url.Action("Index", "PaymentRequest", new { Area = "Procurement" }),
+                                                                    ProcurementCheckAccess.Operation.View_Transport_Order)</li>
                             <li class="divider" />
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Suppliers"),

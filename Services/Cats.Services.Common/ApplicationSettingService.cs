@@ -91,7 +91,11 @@ namespace Cats.Services.Common
         {
             return getIntValue("PSNPWorkflow");
         }
-
+        public int getPaymentRequestWorkflow()
+        {
+            return getIntValue("PaymentRequestWorkflow");
+        }
+       
         public int getDefaultRation()
         {
             return getIntValue("DefaultRation");

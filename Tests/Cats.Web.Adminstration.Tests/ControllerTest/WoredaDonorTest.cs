@@ -28,13 +28,23 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
                                       {
                                           DonorWoredaId = 2,
                                           WoredaId = 56,
-                                          DonorId = 1
+                                          DonorId = 1,
+                                          AdminUnit = new AdminUnit
+                                              {
+                                                  Name = "AdminUnit1",
+                                                  ParentID = 1
+                                              }
                                       },
                                   new WoredasByDonor()
                                       {
                                           DonorWoredaId = 4,
                                           WoredaId = 57,
-                                          DonorId = 2
+                                          DonorId = 2,
+                                          AdminUnit = new AdminUnit
+                                              {
+                                                  Name = "AdminUnit2",
+                                                  ParentID = 2
+                                              }
                                       }
                               };
 
@@ -62,7 +72,7 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
             var request = new DataSourceRequest();
             var result = _donorWoredaController.DonorWoredaRead(request);
 
-            Assert.IsInstanceOf<JsonResult>(request);
+            Assert.IsInstanceOf<DataSourceRequest>(request);
             Assert.IsNotNull(result);
         }
 
@@ -80,7 +90,7 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
             var result = _donorWoredaController.DonorWoredaCreate(request, woredaViewModel);
             
 
-            Assert.IsInstanceOf<JsonResult>(request);
+            Assert.IsInstanceOf<DataSourceRequest>(request);
 
         }
 

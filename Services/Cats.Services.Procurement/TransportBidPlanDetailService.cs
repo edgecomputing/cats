@@ -118,7 +118,7 @@ namespace Cats.Services.Procurement
         }
         public List<PSNPCommodityAmmountViewModel> GetPsnpCommodityAmount()
         {
-            var applicationSettingPsnp = _unitOfWork.ApplicationSettingRepository.FindBy(m => m.SettingName == "PSNPWorkflow").FirstOrDefault();
+            var applicationSettingPsnp = _unitOfWork.ApplicationSettingRepository.FindBy(m => m.SettingName == "CurentPSNPPlan").FirstOrDefault();
             decimal rationTotalAmout = 0;
             if (applicationSettingPsnp != null)
             {
@@ -142,18 +142,19 @@ namespace Cats.Services.Procurement
                                            select new
                                                {
                                                    woreda = woredaDtail.Key,
-                                                   numberOfBeneficiary = woredaDtail.Sum(m => m.BeneficiaryCount),
+                                                   numberOfBeneficiary = woredaDtail.Sum(m => m.BeneficiaryCount * m.FoodRatio),
                                                    foodRation=woredaDtail.First().FoodRatio,
                                                    detail = woredaDtail
                                                });
-                        decimal amout = rationTotalAmout;
-                        result = (from woredaDetail in woredaGroup
+                        decimal amount = rationTotalAmout;
+                        var singleResult = (from woredaDetail in woredaGroup
                                   select new PSNPCommodityAmmountViewModel
                                       {
                                           WoredaID = woredaDetail.woreda.AdminUnitID,
-                                          TotalAmount = woredaDetail.numberOfBeneficiary * woredaDetail.foodRation * amout
+                                          TotalAmount = woredaDetail.numberOfBeneficiary * amount
 
                                       }).ToList();
+                        result.AddRange(singleResult);
 
                    
                     }

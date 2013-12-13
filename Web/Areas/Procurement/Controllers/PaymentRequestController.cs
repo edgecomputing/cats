@@ -13,7 +13,7 @@ using Cats.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
-namespace Cats.Areas.Procurement
+namespace Cats.Areas.Procurement.Controllers
 {
     public class PaymentRequestController:Controller
     {
@@ -41,7 +41,7 @@ namespace Cats.Areas.Procurement
         public void LoadLookups()
         {
 
-            ViewBag.TransportOrderID = new SelectList(_TransportOrderService.GetAllTransportOrder(), "AdminUnitID", "Name");
+            ViewBag.TransportOrderID = new SelectList(_TransportOrderService.GetAllTransportOrder(), "TransportOrderID", "TransportOrderNo");
 
         }
         //
@@ -53,10 +53,61 @@ namespace Cats.Areas.Procurement
             IEnumerable<Cats.Models.PaymentRequest> list = (IEnumerable<Cats.Models.PaymentRequest>)_PaymentRequestservice.GetAll();
 
             return View(list);
+        }
+        public ActionResult Create()
+        {
+            LoadLookups();
+            return View();
+        }
+
+
+        //
+        // POST: /PSNP/RegionalPSNPPlan/Create
+
+        [HttpPost]
+        public ActionResult Create(PaymentRequest request)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+
+
+                    int BP_PR = _ApplicationSettingService.getPaymentRequestWorkflow();
+                    if (BP_PR != 0)
+                    {
+                        BusinessProcessState createdstate = new BusinessProcessState
+                        {
+                            DatePerformed = DateTime.Now,
+                            PerformedBy = "System",
+                            Comment = "Created workflow for Payment Request"
+
+                        };
+                        _PaymentRequestservice.Create(request);
+
+                        BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PR,request.PaymentRequestID,
+                                                                                           "PaymentRequest", createdstate);
+                        request.BusinessProcessID = bp.BusinessProcessID;
+                        _PaymentRequestservice.Update(request);
+                        return RedirectToAction("Index");
+
+                    }
+                    ViewBag.ErrorMessage1 = "The workflow assosiated with Payment Request doesnot exist.";
+                    ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
+                }
+                LoadLookups();
+                ModelState.AddModelError("Errors", "Could not create Request Plan.");
+                return View(request);
+            }
+
+        public ActionResult Promote(BusinessProcessState st)
+        {
+            _BusinessProcessService.PromotWorkflow(st);
+            return RedirectToAction("Index");
 
         }
 
-    
+      
     }
 }
 

@@ -46,16 +46,14 @@
         columns.Bound(p => p.PSNP).Width(100);
         columns.Bound(p => p.Relief).Width(100);
         
-
-        
         columns.Command(command => { 
             command.Edit(); 
             command.Custom("Delete").Click("deleteRecord");            
         }).Width(172);
     })
-     //.ToolBar(toolbar => toolbar.Create())
-     
-.ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext k-grid-add' href='#' onlick='customCommand()'>Add Warehouse</a>"))
+    // .ToolBar(toolbar => toolbar.Create())
+
+          .ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext k-grid-add' href='#' onlick='customCommand()'>Add Warehouse</a>"))
 
     .Editable(editable => editable.Mode(GridEditMode.InLine))
     .Pageable()
@@ -74,7 +72,7 @@
             model.Field(p => p.Relief).Editable(false);
 
         })
-        .Create(update => update.Action("UpdateWarehouseSelectionAjax", "TransportBidPlan"))
+        .Create(update => update.Action("CreateWarehouseSelectionAjax", "TransportBidPlan").Data("filterInfo"))
         .Read(read => read.Action("ReadJson", "TransportBidPlan").Data("filterInfo"))
         .Update(update => update.Action("UpdateWarehouseSelectionAjax", "TransportBidPlan"))
         .Destroy(update => update.Action("DeleteWarehouseSelectionAjax", "TransportBidPlan"))
@@ -85,7 +83,7 @@
 
 </div>
 <script type="text/javascript">
-    var TransportBidPlanID= @ViewBag.bidPlan.TransportBidPlanID
+    var TransportBidPlanID = @ViewBag.bidPlan.TransportBidPlanID
     var selectedWoreda;
     var deleteURL="@Url.Action("DeleteWarehouseSelectionAjax", "TransportBidPlan", new { Area = "Procurement" })"
     function error_handler(e) {    

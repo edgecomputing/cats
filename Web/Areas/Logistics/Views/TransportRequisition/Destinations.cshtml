@@ -18,7 +18,7 @@
 @section Toolbar
 {
    @Html.LogisticsOperationButton(
-                        @Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id=@ViewBag.RequisistionId }),
+                        @Url.Action("Details", "TransportRequisition", new { id=ViewBag.TransportRequisitonID }),
                         LogisticsCheckAccess.Operation.View_Transport_Requisition_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
     
 }
