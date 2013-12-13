@@ -382,8 +382,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
 
-            var result = GetRequestWithPLAN(request);
-
+            var result = GetRequestWithPlan(request);
+            //var dt = RequestViewModelBinder.TransposeData(requestDetails);
             var dt = RequestViewModelBinder.TransposeDataNew(result, requestDetails);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
@@ -670,7 +670,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (regionalRequest != null)
             {
-                var detailsToDisplay = GetRequestWithPLAN(regionalRequest).ToList();
+                var detailsToDisplay = GetRequestWithPlan(regionalRequest).ToList();
                 return Json(detailsToDisplay.ToDataSourceResult(request));
             }
             return RedirectToAction("Index");
@@ -683,7 +683,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(regionalRequest);
         }
 
-        private List<PLANWithRegionalRequestViewModel> GetRequestWithPLAN(RegionalRequest regionalRequest)
+        private IEnumerable<PLANWithRegionalRequestViewModel> GetRequestWithPlan(RegionalRequest regionalRequest)
         {
 
            var result = new List<PLANWithRegionalRequestViewModel>();
@@ -751,6 +751,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                            //Difference =  woredaDetail.NoOfBeneficiaries
                        }).ToList();
                 }
+
            else if (regionalRequest.ProgramId == 3)
            {
                var details = regionalRequest.RegionalRequestDetails;
@@ -775,7 +776,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                              zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
                              Woreda = woredaDetail.Woreda.Name,
                              RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-                             PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
+                             PlannedBeneficaryNo = 0,
                              Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries
                          }).ToList();
            }

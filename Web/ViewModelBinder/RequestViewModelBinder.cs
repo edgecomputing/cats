@@ -115,12 +115,16 @@ namespace Cats.ViewModelBinder
             dt.Columns.Add(colDifference);
 
             var requestdetail = requestDetails.FirstOrDefault();
-            
-            foreach (var ds in requestdetail.RequestDetailCommodities)
+
+
+            if (requestdetail !=null)
             {
-                var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
-                col.ExtendedProperties.Add("ID", ds.CommodityID);
-                dt.Columns.Add(col);
+                foreach (var ds in requestdetail.RequestDetailCommodities)
+                {
+                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof (decimal));
+                    col.ExtendedProperties.Add("ID", ds.CommodityID);
+                    dt.Columns.Add(col);
+                }
             }
 
             foreach (var requestDetail in woredaRequestDetail)
