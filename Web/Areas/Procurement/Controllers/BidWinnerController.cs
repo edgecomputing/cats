@@ -73,7 +73,7 @@ namespace Cats.Areas.Procurement.Controllers
                             
                         });
         }
-
+       
         public ActionResult Details(int id)
         {
             var bidWinners = _bidWinnerService.FindBy(m => m.BidID == id);
@@ -97,6 +97,13 @@ namespace Cats.Areas.Procurement.Controllers
             var winningTransprterViewModels = TransporterListViewModelBinder(winningTransprters.ToList());
             return Json(winningTransprterViewModels.ToDataSourceResult(request));
         }
+        public ActionResult SignedContract_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var signedTransporters =_bidWinnerService.Get(t => t.Position == 1 && t.Status == (int)BidWinnerStatus.Signed).Select(t => t.Transporter).Distinct();
+            var winningTransprterViewModels = TransporterListViewModelBinder(signedTransporters.ToList());
+            return Json(winningTransprterViewModels.ToDataSourceResult(request));
+        }
+
         public ActionResult BidWinner_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
 
@@ -274,6 +281,12 @@ namespace Cats.Areas.Procurement.Controllers
             Response.AddHeader("Content-Disposition", @"filename= FrameworkPucrhaseContract.docx");
             Response.TransmitFile(documentPath);
             Response.End();
+        }
+
+        public ActionResult SignedTransporterContract()
+        {
+            
+            return View();
         }
 
     }

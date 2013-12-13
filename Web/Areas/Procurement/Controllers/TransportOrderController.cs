@@ -93,7 +93,7 @@ namespace Cats.Areas.Procurement.Controllers
             return File(result.RenderBytes, result.MimeType);
         }
 
-        [HttpPost]
+       
         public ActionResult CreateTransportOrder(int id)
         {
             try

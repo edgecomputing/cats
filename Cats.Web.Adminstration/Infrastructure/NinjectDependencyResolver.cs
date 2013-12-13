@@ -69,6 +69,7 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
             kernel.Bind<IFDPService>().To<FDPService>();
             kernel.Bind<IWoredaDonorService>().To<WoredaDonorService>();
+            kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                   System.Configuration.
                                                                                       ConfigurationManager.

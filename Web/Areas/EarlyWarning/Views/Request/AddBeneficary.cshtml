@@ -7,13 +7,29 @@
     <h3 id="myModalLabel">Add FDP with Beneficaries</h3>
 </div>
 
-@using (Html.BeginForm("AddBeneficary", "Request", FormMethod.Post, new { @class = "modal-form"}))
+@using (Html.BeginForm("AddBeneficary", "Request", new { _programId = @ViewBag.programId }, FormMethod.Post, new { @class = "modal-form" }))
 {
-    @Html.HiddenFor(m=>m.RegionID)
+    if (@ViewBag.programId ==-1)
+    {
+        @Html.HiddenFor(m => m.RegionID)
+    }
     @Html.HiddenFor(m=>m.RegionalRequestID)
     <div class="modal-body">
         
         <div class="form-horizontal">
+            
+            <div class="control-group" id="region">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Region"))
+                </div>
+                <div class="controls" id="div_region">
+                    @Html.DropDownList("RegionID",String.Empty)
+                    @Html.ValidationMessageFor(m => m.RegionID)
+               
+                </div>
+
+            </div>
+
             <div class="control-group">
                 <div class="control-label">
                     @Html.Label(Translator.Translate("Zone"))
@@ -37,14 +53,14 @@
             </div>
 
             <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(m => m.FDPID, Translator.Translate("FDP"))
+                <div class="control-label">
+                    @Html.LabelFor(m => m.FDPID, Translator.Translate("FDP"))
+                </div>
+                <div class="controls" id="div_fdp">
+                    @Html.DropDownList( "FDP",ViewBag.FDPID as SelectList, new {@id="FDPID"})
+                    @Html.ValidationMessageFor(m => m.FDPID)
+                </div>
             </div>
-            <div class="controls" id="div_fdp">
-                @Html.DropDownList( "FDP",ViewBag.FDPID as SelectList, new {@id="FDPID"})
-                @Html.ValidationMessageFor(m => m.FDPID)
-            </div>
-        </div>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.Beneficiaries)
@@ -70,55 +86,109 @@
 
     var admin_region_hash = {};
     var admin_zone_hash = {};
+    var admin_regions = {};
     
     $(function () {
+        var programId = '@ViewBag.programId';
+        var regionDiv = $("#region");
         
         var regionId = $("#RegionID").val();
-        //alert(regionId);
-        $.getJSON('@Url.Action("GetCascadedAdminUnits", "Request")', { RegionID: regionId }, function (data) {
+        if (!regionId) {
+            regionId = '@ViewBag.CurrentRegion';
+        }
+       
+        $.getJSON('@Url.Action("GetCascadedAdminUnits", "Request")', { RegionID: regionId , programId: programId}, function (data) {
             
-            document.getElementById("WoredaID").disabled = true;
-            document.getElementById("FDPID").disabled = true;
-            var msg = "";
+           
+               
+            //document.getElementById("ZoneID").disabled = true;
+            //document.getElementById("WoredaID").disabled = true;
+            //document.getElementById("FDPID").disabled = true;
             
-            for (var i in data) {
-                msg += "\n" + data[i].ZoneName;
-                var key = data[i].ZoneID;
-                admin_region_hash[key] = data[i];
 
-                var count = data[i].Woredas.length;
+            var msg = "";
+
+            
+            if (programId != -1) {
                 
-                for (var j=0; j<count;j++){
-                    var keyz = data[i].Woredas[j].WoredaID;
-                    admin_zone_hash[keyz] = data[i].Woredas[j].fdps;
+                for (var i in data) {
+                    
+                    msg += "\n" + data[i].RegionName;
+                   
+                    var keyr = data[i].RegionID;
+                    admin_regions[keyr] = data[i];
+                   
+                    var zoneCount = data[i].zones.length;
+                   
+                    for (var r = 0; r < zoneCount; r++) {
+                        var keyZone = data[i].zones[r].ZoneID;
+                        admin_region_hash[keyZone] = data[i].zones[r];
+                       
+                        var countw = data[i].zones[r].Woredas.length;
+                       
+                        for (var jj = 0; jj < countw; jj++) {
+                            var keyw = data[i].zones[r].Woredas[jj].WoredaID;
+                            admin_zone_hash[keyw] = data[i].zones[r].Woredas[jj].fdps;
+                        }
+                    }
                 }
             }
-    
-        });
+            else {
+                regionDiv.hide();
+                
+                for ( index in data) {
+                    msg += "\n" + data[index].ZoneName;
+                    var key = data[index].ZoneID;
+                    admin_region_hash[key] = data[index];
 
-        $("#ZoneID").change(function() {
-            var zoneId = $("#ZoneID").val();
-            var zone = admin_region_hash[zoneId];
-            var woredas = zone.Woredas;
+                    var count = data[index].Woredas.length;
 
-            //var msg = "";
-            var htm = "<select name='WoredaID' id ='WoredaID' > ";
-            for (var z in woredas) {
-                //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
-                htm += "<option value='" + woredas[z].WoredaID + "'>" + woredas[z].WoredaName + "</option>";
-                //msg += "\n" + zones[z].ZoneName;
+                    for (var j = 0; j < count; j++) {
+                        var keyz = data[index].Woredas[j].WoredaID;
+                        admin_zone_hash[keyz] = data[index].Woredas[j].fdps;
+                    }
+                }
             }
 
-            htm += "</select>";
-            $("#div_woreda").html(htm);
-            
-            $("#WoredaID").change(function () {
-                //var l = $("#WoredaID").val();
-                //alert(l);
-                popoulateFdps();
-            });
         });
 
+
+        $("#RegionID").change(function () {
+         
+            var selectedRegionId = $("#RegionID").val();
+            var region = admin_regions[selectedRegionId];
+            var zones = region.zones;
+            
+           
+            var htmr = "<select name='ZoneID' id ='ZoneID' > ";
+            for (var r in zones) {
+
+                htmr += "<option value='" + zones[r].ZoneID + "'>" + zones[r].ZoneName + "</option>";
+               
+            }
+            htmr += "</select>";
+            $("#div_zone").html(htmr);
+            
+           
+            $("#ZoneID").change(function() {
+                var zoneId = $("#ZoneID").val();
+                var zone = admin_region_hash[zoneId];
+                var woredas = zone.Woredas;
+
+               
+                var htm = "<select name='WoredaID' id ='WoredaID' > ";
+                for (var z in woredas) { 
+                    htm += "<option value='" + woredas[z].WoredaID + "'>" + woredas[z].WoredaName + "</option>";  
+                }
+
+                htm += "</select>";
+                $("#div_woreda").html(htm);
+
+                $("#WoredaID").change(function() {
+                    popoulateFdps();
+                });
+            });
+        });
         function popoulateFdps() {
             var woredaId = $("#WoredaID").val();
             //alert(woredaId);
@@ -130,6 +200,27 @@
             s += "</select>";
             $("#div_fdp").html(s);
         }
+
+       
+        $("#ZoneID").change(function () {
+           
+            var zoneId = $("#ZoneID").val();
+            var zone = admin_region_hash[zoneId];
+            var woredas = zone.Woredas;
+
+
+            var htm = "<select name='WoredaID' id ='WoredaID' > ";
+            for (var z in woredas) {
+                htm += "<option value='" + woredas[z].WoredaID + "'>" + woredas[z].WoredaName + "</option>";
+            }
+
+            htm += "</select>";
+            $("#div_woreda").html(htm);
+
+            $("#WoredaID").change(function () {
+                popoulateFdps();
+            });
+        });
         
         $("#WoredaID").change(function () {
             popoulateFdps();
