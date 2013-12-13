@@ -879,7 +879,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult AddCommodity(int id )
         {
             var request = _regionalRequestService.FindById(id);
-            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            ViewBag.CommodityID = new SelectList(_commonService.GetRationCommodity(request.RationID), "CommodityID", "Name");
             var addCommodityViewModel = new AddCommodityViewModel();
             addCommodityViewModel.RegionalRequestID = request.RegionalRequestID;
             return PartialView(addCommodityViewModel);
