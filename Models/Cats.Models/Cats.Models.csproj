@@ -88,6 +88,9 @@
     <Compile Include="Mapping\NotificationMap.cs" />
     <Compile Include="Mapping\SIPCAllocationMap.cs" />
     <Compile Include="Mapping\WoredaByDonorMap.cs" />
+    <Compile Include="Mapping\TransporterAgreementVersionMap.cs" />
+    <Compile Include="Mapping\WoredaHubLinkMap.cs" />
+    <Compile Include="Mapping\WoredaHubMap.cs" />
     <Compile Include="MetaData\PlanMetaData.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationViewModel.cs" />
@@ -263,11 +266,14 @@
     <Compile Include="Status.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Transaction.cs" />
+    <Compile Include="TransactionDetail.cs" />
     <Compile Include="TransactionGroup.cs" />
     <Compile Include="TransportBidPlan.cs" />
     <Compile Include="TransportBidPlanDetail.cs" />
     <Compile Include="TransportBidQuotation.cs" />
     <Compile Include="Transporter.cs" />
+    <Compile Include="TransporterAgreementTemplate.cs" />
+    <Compile Include="TransporterAgreementVersion.cs" />
     <Compile Include="TransportOrder.cs" />
     <Compile Include="TransportOrderDetail.cs" />
     <Compile Include="TransportRequisition.cs" />
@@ -302,6 +308,8 @@
     <Compile Include="vwPSNPAnnualPlan.cs" />
     <Compile Include="vwTransportOrder.cs" />
     <Compile Include="NeedAssessmentSummary.cs" />
+    <Compile Include="WoredaHub.cs" />
+    <Compile Include="WoredaHubLink.cs" />
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowStatus.cs" />
     <Compile Include="ZonesViewModel.cs" />

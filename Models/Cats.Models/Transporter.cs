@@ -18,7 +18,7 @@ namespace Cats.Models
      
         [Key]
         public int TransporterID { get; set; }
-
+        
         //Transporter Address
         [Required]
         [Display(Name = "Name")]
@@ -43,7 +43,6 @@ namespace Cats.Models
         public decimal LiftCapacityTotal { get; set; }
         public decimal Capital { get; set; }
 
-
         public int EmployeeCountMale { get; set; }
         public int EmployeeCountFemale { get; set; }
 
@@ -58,7 +57,9 @@ namespace Cats.Models
         public virtual ICollection<TransportOrder> TransportOrders { get; set; }
         public virtual ICollection<BidWinner> BidWinners { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
+        public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         //public  List<AdminUnit> Regions { get; set; }
 
+        
     }
 }

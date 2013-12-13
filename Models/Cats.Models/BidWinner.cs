@@ -32,5 +32,18 @@ namespace Cats.Models
 
         #endregion
 
+       //public Dictionary<string, object> ToDictionary()
+       //{
+       //    var dictionary = new Dictionary<string, object>
+       //                          {
+       //                              {"Region", AdminUnit.AdminUnit2.AdminUnit2},
+       //                              {"Zone", AdminUnit.AdminUnit2},
+       //                              {"Woreda", AdminUnit},
+       //                              {"WarehouseID", SourceID},
+       //                              {"Tariff", Tariff}
+       //                          };
+       //    return dictionary;
+       //}
+
     }
 }

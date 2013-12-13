@@ -383,10 +383,10 @@ namespace Cats.Areas.Logistics.Controllers
 
         [HttpGet]
         //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
-        public ActionResult Destinations(int id)
+            public ActionResult Destinations(int id, int transportRequistionId)
         {
             ViewBag.RequisitionID = id;
-           // ViewBag.TransportRequisitonID = transportRequistionId;
+            ViewBag.TransportRequisitonID = transportRequistionId;
             return View();
         }
 

@@ -1,0 +1,30 @@
+﻿@model int
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+<style>
+    .action-link
+    {
+        display: none;
+    }
+    .assign-code3
+    {
+        display: block;
+    }
+</style>
+@(Html.Kendo().Grid<Cats.Models.TOViewModel>()
+    .Name("ActiveTransportOrders")
+    .Columns(columns =>
+    {
+        columns.Bound(e => e.TOID).Width(120).Title("TO ID");
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("ActiveTO_Read", "ContractAdministration",new {TransporterID = 1}))
+     )
+     .Scrollable(scroll => scroll.Height(350))
+     .Selectable(select => select.Mode(GridSelectionMode.Single))
+     .Navigatable()
+     .Sortable()
+     .HtmlAttributes(new { style = "height:350px;" })
+)
