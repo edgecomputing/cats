@@ -176,7 +176,11 @@
 
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Dispatch Locations"),
-                                                                    @Url.Action("Index", "BidWinner", new { Area = "Procurement" }),
+                                                                   @Url.Action("Index", "BidWinner", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                            
+                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Contract Admin"),
+                                                                    @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
                                                                     ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
                         </ul>
                     </li>
