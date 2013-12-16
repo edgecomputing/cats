@@ -101,5 +101,18 @@ namespace Cats.Services.Common
        {
            return _unitOfWork.FDPRepository.FindBy(m => m.AdminUnitID == woredaID);
        }
+
+
+       public List<Commodity> GetRationCommodity(int id)
+       {
+           var ration = _unitOfWork.RationRepository.FindById(id);
+           var commodity = (from detail in ration.RationDetails
+                            select new Commodity()
+                                {
+                                    CommodityID = detail.CommodityID,
+                                    Name = detail.Commodity.Name
+                                }).ToList();
+           return commodity;
+       }
     }
 }

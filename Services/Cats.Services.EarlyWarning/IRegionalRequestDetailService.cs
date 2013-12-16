@@ -23,6 +23,7 @@ namespace Cats.Services.EarlyWarning
                  Func<IQueryable<RegionalRequestDetail>, IOrderedQueryable<RegionalRequestDetail>> orderBy = null,
                  string includeProperties = "");
 
+        bool AddRegionalRequestDetailWithBeneficiary(RegionalRequestDetail regionalRequestDetail);
         bool AddRequestDetailCommodity(int commodityId,int requestId);
         bool DeleteRequestDetailCommodity(int commodityId, int requestId);
         bool UpdateRequestDetailCommodity(int commodityId, int requestCommodityId);

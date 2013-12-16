@@ -32,6 +32,7 @@
         .DataSource(datasource=>
             datasource                 
             .Ajax()
+            .Group(group=>group.Add(m=>m.TransporterName))
     .Model(model=>model.Id(p=>p.BidWinnnerID))
     
     //.Read("BidWinner_Read","BidWinner",new{id=Model.BidID})

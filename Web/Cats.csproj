@@ -1573,6 +1573,7 @@
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2195,6 +2196,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
