@@ -1568,9 +1568,11 @@
     <Content Include="Areas\Logistics\Views\Distribution\ReceivingNote.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
-
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
-
+    <Content Include="Areas\Procurement\Views\ContractAdministration\BusinessProcessHistory.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
