@@ -5,13 +5,15 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
+    using Cats.Infrastructure;
     using Cats.Models;
     using Cats.Data;
     using Cats.Services.Procurement;
     using Cats.Services.EarlyWarning;
 using Cats.Areas.Procurement.Models;
+    using Cats.ViewModelBinder;
 
-    namespace Cats.Areas.Procurement.Controllers
+namespace Cats.Areas.Procurement.Controllers
     {
     public class RFQController : Controller
     {
@@ -54,14 +56,40 @@ using Cats.Areas.Procurement.Models;
             List<Cats.Models.TransportBidQuotation> list = this._bidQuotationService.GetAllTransportBidQuotation();
             return View(list);
         }
- 
 
+        public FileResult Print(int bidPlanID, int regionID)
+        {
+            var reportPath = Server.MapPath("~/Report/Procurment/RFQ.rdlc");
+
+            TransportBidPlan bidPlan = _transportBidPlanService.FindById(bidPlanID);
+
+            List<TransportBidPlanDetail> regionalPlan = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == bidPlanID && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID);
+
+            var r = (from transportBidPlanDetail in regionalPlan 
+                     select new
+                         {
+                             Source=transportBidPlanDetail.Source.Name,
+                             Zone = transportBidPlanDetail.Destination.AdminUnit2.Name,
+                             Woreda = transportBidPlanDetail.Destination.Name
+                             //region = transportBidPlanDetail.Destination.AdminUnit2.AdminUnit2.Name,
+                         }
+                    );
+
+            var reportData = r;
+
+            var dataSourceName = "RFQDataset";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+
+            return File(result.RenderBytes, result.MimeType);
+        }
         public ActionResult Details(int BidPlanID = 0, int RegionID = 0)
         {
             //ViewBag.RegionID = new SelectList(_adminUnitService.GetAllAdminUnit(), "AdminUnitID", "Name", RegionID);
             ViewBag.SelectedRegion = _adminUnitService.FindById(RegionID);
             ViewBag.BidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", BidPlanID);
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", RegionID);
+            ViewBag.bid = BidPlanID;
+            ViewBag.reg = RegionID;
             TransportBidPlan bidPlan = _transportBidPlanService.FindById(BidPlanID);
 
             List<TransportBidPlanDetail> regionalPlan = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == BidPlanID && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == RegionID);

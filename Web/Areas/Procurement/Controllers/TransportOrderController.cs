@@ -68,10 +68,6 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
 
-
-
-
-
             var Data = _transportOrderService.GeTransportOrderRpt(id);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var reportData = vwTransportOrderViewModelBinder.BindListvwTransportOrderViewModel(Data, datePref);

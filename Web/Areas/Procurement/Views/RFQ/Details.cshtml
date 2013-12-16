@@ -8,6 +8,8 @@
    @Html.Partial("_RFQFilterPartial")
 }
 
+ 
+
 <style>
      th
     {
@@ -16,7 +18,7 @@
 </style>
 <h2 style="text-align:center;">Disaster Risk Management and Food Security Sector <br />REQUEST FOR QUOTATION</h2>
 
-<p>Transport Quotation Delivery Datasheet for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
+<p>Transport Quotation Delivery Datasheet for Region <b>@*@ViewBag.SelectedRegion.Name*@</b></p> 
 <p>Transporter Name:_________________________________</p>
 
 <div>
@@ -76,3 +78,13 @@
 }
 }
 </table>
+
+<script>
+    $(function () {
+        var b = @ViewBag.bid;
+        var r = @ViewBag.reg;
+
+        var printurl = "@Url.Action("Print", "RFQ")" + "?bidPlanID="+ b + "&regionID="+r;
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>
