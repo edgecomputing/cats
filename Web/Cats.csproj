@@ -1301,6 +1301,7 @@
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cats-print-script.js" />
@@ -1568,7 +1569,6 @@
     <Content Include="Areas\Logistics\Views\Distribution\ReceivingNote.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
-
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
     <None Include="dataset.xsd">
