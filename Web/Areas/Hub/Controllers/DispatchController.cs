@@ -236,7 +236,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.UnitID = dispatchviewmodel.UnitID;
                 dispatch.QuantityInUnit = dispatchviewmodel.QuantityInUnit;
 
-                dispatch.Quantity = dispatchviewmodel.Quantity;//UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity/10 : dispatchviewmodel.Quantity;
+                dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity/10;
              _transactionService.SaveDispatchTransaction(dispatch);
                 return RedirectToAction("Index", "Dispatch");
             }

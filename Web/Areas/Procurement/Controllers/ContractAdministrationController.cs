@@ -68,7 +68,11 @@ namespace Cats.Areas.Procurement.Controllers
             return View();
         }
 
-        
+        public ActionResult BusinessProcessHistory(int id)
+        {
+            ViewBag.BusinessProcessID = id;
+            return View();
+        }
 
         public ActionResult ActiveTO_Read([DataSourceRequest] DataSourceRequest request, int transporterID)
         {
@@ -89,25 +93,34 @@ namespace Cats.Areas.Procurement.Controllers
                         StartedOn = transportOrder.StartDate.ToCTSPreferedDateFormat(datePref),
                         SignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
                         RemainingDays = (transportOrder.EndDate - transportOrder.StartDate).TotalDays.ToString(),
-                        Progress = ((((DateTime.Now - transportOrder.StartDate).TotalDays) / ((transportOrder.EndDate - transportOrder.StartDate).TotalDays)) * 100).ToString() + "%"
+                        Progress = ((((DateTime.Now - transportOrder.StartDate).TotalDays) / ((transportOrder.EndDate - transportOrder.StartDate).TotalDays)) * 100) > 100 ? 100.ToString() 
+                        : ((((DateTime.Now - transportOrder.StartDate).TotalDays) / ((transportOrder.EndDate - transportOrder.StartDate).TotalDays)) * 100).ToString("#0.00") + "%"
 
                     });
         }
 
         public ActionResult OutstandingDeliveryNotes_Read([DataSourceRequest] DataSourceRequest request, int transporterID)
         {
-            var dispatch = _dispatchAllocationService.GetTransportOrderDispatches(transporterID);
-
-            foreach (var dispatchViewModel in dispatch)
+            var transportOrderObj = _transportOrderService.Get(t => t.StatusID == 3 && t.TransporterID == transporterID).FirstOrDefault();
+            if (transportOrderObj == null)
             {
-                var dispatchId = dispatchViewModel.DispatchID;
-                var distribution = _distributionService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
-                dispatchViewModel.GRNReceived = distribution != null;
-                if (distribution != null)
-                    dispatchViewModel.DistributionID = distribution.DistributionID;
+                return null;
             }
-            var dispatchView = SetDatePreference(dispatch);
-            return Json(dispatchView.ToDataSourceResult(request));
+            else
+            {
+                var dispatch = _dispatchAllocationService.GetTransportOrderDispatches(transportOrderObj.TransportOrderID);
+
+                foreach (var dispatchViewModel in dispatch)
+                {
+                    var dispatchId = dispatchViewModel.DispatchID;
+                    var distribution = _distributionService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
+                    dispatchViewModel.GRNReceived = distribution != null;
+                    if (distribution != null)
+                        dispatchViewModel.DistributionID = distribution.DistributionID;
+                }
+                var dispatchView = SetDatePreference(dispatch);
+                return Json(dispatchView.ToDataSourceResult(request));
+            }
         }
 
         private List<DispatchViewModel> SetDatePreference(List<DispatchViewModel> dispatches)

@@ -1570,7 +1570,13 @@
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
 
+
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\CreateRequisitionForIDPS.cshtml" />
+
+
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
+      <SubType>Code</SubType>
+    </Content>
 
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
 
@@ -1964,7 +1970,7 @@
     <Content Include="CatsMasterDataSet.xss">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Content>
-    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\OrderDetail.cshtml" />
     <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />

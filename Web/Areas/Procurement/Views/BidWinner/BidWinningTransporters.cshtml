@@ -15,7 +15,9 @@
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.TransporterName).Title(Translator.Translate("Transporter Name"));
+        columns.Bound(p => p.TransporterName).Title(Translator.Translate("Transporter Name"))
+            .ClientTemplate("<a href='" + Url.Action("Index", "ContractAdministration",
+                        new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
         columns.Bound(p => p.BidContract).Title(Translator.Translate("Bid Number"));
         columns.Bound(p => p.TransporterID).Title(Translator.Translate("Actions"))
                         .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner", 
