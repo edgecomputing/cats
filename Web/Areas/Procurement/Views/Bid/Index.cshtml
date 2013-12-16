@@ -39,7 +39,7 @@
                 });
 
         })
-    .Pageable()
+   .HtmlAttributes(new { style = "height:430px;" })
     .Sortable()
     .Filterable()
     .ClientDetailTemplateId("template")
@@ -48,7 +48,6 @@
     .Navigatable()
     .DataSource(dataSource => dataSource
           .Ajax()
-          .PageSize(5)
             .Model(model => model.Id(p => p.BidID))
             .Read(read => read.Action("Bid_Read", "Bid"))
  

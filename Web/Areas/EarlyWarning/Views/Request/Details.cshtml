@@ -67,7 +67,11 @@
                             <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
                             <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
                         }
-                        @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+                        @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
+                        {
+                            <li> <a id = "btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID,programId = modelRequest.ProgramId })"><i class="icon-plus"></i> IDPS Requisiton</a></li>                       
+                        }
+                        else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
                         {
                             <li> <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i> Requisiton</a></li>
                         }
@@ -88,6 +92,19 @@
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
+        $('#btnEditPlan').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+        
         $('#btnAddFDP').click(function () {
 
             // alert("");
@@ -101,7 +118,13 @@
             return false;
         });
     });
+    
+
 </script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 
 @if (ViewBag.message!=null)
 {

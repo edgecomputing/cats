@@ -25,7 +25,7 @@ namespace Cats.Areas.EarlyWarning.Models
        // [ScaffoldColumn(false)]
         public string RequestDate { get; set; }
         public int Year { get; set; }
-       
+        public int? PlanId { get; set; }
        
        // [ScaffoldColumn(false)]
         public int StatusID { get; set; }
