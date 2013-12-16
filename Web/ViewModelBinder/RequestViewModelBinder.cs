@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Services.Common;
-using Cats.Services.EarlyWarning;
-using Cats.Services.PSNP;
 
 namespace Cats.ViewModelBinder
 {
     public class RequestViewModelBinder
     {
-        private static IRequestDetailCommodityService _requestDetailCommodityService;
-       
-        public RequestViewModelBinder(IRequestDetailCommodityService requestDetailCommodityService)
-        {
-            _requestDetailCommodityService = requestDetailCommodityService;
-        }
-
         public static IEnumerable<RegionalRequestViewModel> BindRegionalRequestListViewModel(
           IEnumerable<RegionalRequest> requests, List<WorkflowStatus> statuses, string userPreference)
         {
@@ -98,7 +86,7 @@ namespace Cats.ViewModelBinder
             return request;
         }
 
-        public static DataTable TransposeDataNew(IEnumerable<PLANWithRegionalRequestViewModel> woredaRequestDetail, IEnumerable<RegionalRequestDetail> requestDetails)
+        public static DataTable TransposeDataNew(List<PLANWithRegionalRequestViewModel> woredaRequestDetail)
         {
             var dt = new DataTable("Transpose");
 
@@ -122,40 +110,62 @@ namespace Cats.ViewModelBinder
             colDifference.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colDifference);
 
-            var requestdetail = requestDetails.FirstOrDefault();
+            //var requestdetail = requestDetails.FirstOrDefault();
 
-            if (requestdetail !=null)
+            if (woredaRequestDetail.Count != 0)
             {
-                foreach (var ds in requestdetail.RequestDetailCommodities)
+                var requestdetail = woredaRequestDetail.FirstOrDefault().RegionalRequestDetails.FirstOrDefault();
+
+                if (requestdetail !=null)
                 {
-                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof (decimal));
-                    col.ExtendedProperties.Add("ID", ds.CommodityID);
-                    dt.Columns.Add(col);
+                    foreach (var ds in requestdetail.RequestDetailCommodities)
+                    {
+                        var col = new DataColumn(ds.Commodity.Name.Trim(), typeof (decimal));
+                        col.ExtendedProperties.Add("ID", ds.CommodityID);
+                        dt.Columns.Add(col);
+                    }
                 }
-            }
 
-            foreach (var singleWoreda in woredaRequestDetail)
-            {
-                var dr = dt.NewRow();
+                foreach (var singleWoreda in woredaRequestDetail)
+                {
+                    var dr = dt.NewRow();
                 
-                dr[colZone] = singleWoreda.zone;
-                dr[colWoreda] = singleWoreda.Woreda;
-                dr[colNoBeneficiary] = singleWoreda.RequestedBeneficiaryNo;
-                dr[colNoPlannedBeneficiary] = singleWoreda.PlannedBeneficaryNo;
-                dr[colDifference] = singleWoreda.Difference;
+                    dr[colZone] = singleWoreda.zone;
+                    dr[colWoreda] = singleWoreda.Woreda;
+                    dr[colNoBeneficiary] = singleWoreda.RequestedBeneficiaryNo;
+                    dr[colNoPlannedBeneficiary] = singleWoreda.PlannedBeneficaryNo;
+                    dr[colDifference] = singleWoreda.Difference;
+                    var details = singleWoreda.RegionalRequestDetails;
+                    //var groupedByWoreda = (
+                    //                          from regionalRequestDetail in requestDetails
+                    //                          group regionalRequestDetail by regionalRequestDetail.Fdp.AdminUnit
+                    //                          into g
+                    //                          select g
+                    //                      );
                 
-                var groupedByWoreda = (
-                                        from regionalRequestDetail in requestDetails
-                                        group regionalRequestDetail by regionalRequestDetail.Fdp.AdminUnit
-                                        into g
-                                        select g
-                                      );
-                
-                //decimal accumelate = 0;
+                    //decimal accumelate = 0;
               
 
-                foreach (var requestDetailCommodity in requestdetail.RequestDetailCommodities)
+                    foreach (var requestDetailCommodity in requestdetail.RequestDetailCommodities)
                     {
+                        decimal amount = 0;
+
+                        foreach (var requestDetail in details)
+                        {
+                            foreach (var commodity in requestDetail.RequestDetailCommodities)
+                            {
+                                if (commodity.CommodityID == requestDetailCommodity.CommodityID)
+                                {
+                                    amount  = amount + commodity.Amount;
+                                }
+                                
+                            }
+                            
+                        }
+
+                        var rDetatils = singleWoreda.RegionalRequestDetails;
+                        //_requestDetailCommodityService.FindBy(requestDetailCommodity.CommodityID);
+                        
                         DataColumn col = null;
                         foreach (DataColumn column in dt.Columns)
                         {
@@ -170,11 +180,13 @@ namespace Cats.ViewModelBinder
                         if (col != null)
                         {
                             //_requestDetailCommodityService.FindBy(y=>y.CommodityID)
-                            dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
+                            //dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
+                            dr[col.ColumnName] = amount.ToPreferedWeightUnit();
                         }
                     }
 
-                dt.Rows.Add(dr);
+                    dt.Rows.Add(dr);
+                }
             }
 
             return dt;
