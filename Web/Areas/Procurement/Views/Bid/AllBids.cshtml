@@ -101,7 +101,7 @@ else
 
 
         })
-        .Pageable()
+        .HtmlAttributes(new { style = "height:430px;" })
         .Sortable()
         .Filterable()
         .ClientDetailTemplateId("template")
@@ -109,7 +109,6 @@ else
         .Editable(editable => editable.Mode(GridEditMode.PopUp))
         .DataSource(dataSource => dataSource
               .Ajax()
-              .PageSize(5)
                 .Model(model => model.Id(p => p.BidID))
                 .Read(read => read.Action("All_Bids", "Bid"))
 

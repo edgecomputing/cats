@@ -1568,7 +1568,6 @@
     <Content Include="Areas\Logistics\Views\Distribution\ReceivingNote.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
-
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
     <None Include="dataset.xsd">
@@ -1961,7 +1960,7 @@
     <Content Include="CatsMasterDataSet.xss">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Content>
-    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\OrderDetail.cshtml" />
     <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />

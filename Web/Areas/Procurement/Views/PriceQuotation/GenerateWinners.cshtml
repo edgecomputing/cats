@@ -13,35 +13,44 @@
 
 <div class="row">
     @(Html.Kendo().Grid<BidWinnerViewModel>()
-                .Name("grid")
-                .Columns(columns =>
-                    {
-                        columns.Bound(p => p.SourceWarehouse);
-                        columns.Bound(p => p.Zone);
-                        columns.Bound(p => p.Woreda);
-                        columns.Bound(p => p.TransporterName);
-                        columns.Bound(p => p.Rank);
-                        columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}"); ;
-                    })
-                .Scrollable()
-                .Filterable()
-                .Groupable()
-                //.Events(events => events.DataBound("onDataBound"))
-                .HtmlAttributes(new { style = "height:430px;" })
-                .DataSource(dataSource => dataSource
-                                    .Ajax()
-                                            .Group(group =>
-                                                {
-                                                    group.Add(m => m.Zone);
-                                                    group.Add(m => m.Woreda);
-                                    })
-                                    //.PageSize(8)
-                                    .Model(model => model.Id(p => p.BidWinnnerID))
-                                    .Read(read => read.Action("ReadBidWinners", "PriceQuotation", new
-                                                  {
-                                                      bidNumber = @ViewBag.filter.BidID,
-                                                      regionID = @ViewBag.filter.RegionID
-                                                  }))
-                                    .Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
+          .Name("grid")
+          .Columns(columns =>
+              {
+                  columns.Bound(p => p.SourceWarehouse);
+                  columns.Bound(p => p.Zone);
+                  columns.Bound(p => p.Woreda);
+                  columns.Bound(p => p.TransporterName);
+                  columns.Bound(p => p.Rank);
+                  columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}");
+                  columns.Command(p => p.Custom("change Status").Click("onChangeStatus"));
+              })
+          .Scrollable()
+          .Filterable()
+          .Groupable()
+          //.Events(events => events.DataBound("onDataBound"))
+          .HtmlAttributes(new { style = "height:430px;" })
+          .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Group(group =>
+                                            {
+                                                group.Add(m => m.Zone);
+                                                group.Add(m => m.Woreda);
+                                            })
+                                        //.PageSize(8)
+                                        .Model(model => model.Id(p => p.BidWinnnerID))
+                                        .Read(read => read.Action("ReadBidWinners", "PriceQuotation", new
+                                            {
+                                                bidNumber = @ViewBag.filter.BidID,
+                                                regionID = @ViewBag.filter.RegionID
+                                            }))
+                                        .Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
           ))
 </div>
+<script>
+    function onChangeStatus(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Edit", "BidWinner")" + "/" + dataItem.BidWinnnerID;
+    }
+</script>
