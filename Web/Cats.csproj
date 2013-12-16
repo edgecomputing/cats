@@ -1534,7 +1534,6 @@
     <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
@@ -1543,6 +1542,7 @@
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
