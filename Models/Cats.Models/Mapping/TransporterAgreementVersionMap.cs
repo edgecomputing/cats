@@ -25,6 +25,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransporterID).HasColumnName("TransporterID");
             this.Property(t => t.AgreementDocxFile).HasColumnName("AgreementDocxFile");
             this.Property(t => t.IssueDate).HasColumnName("IssueDate");
+            this.Property(t => t.Current).HasColumnName("Current");
 
             // Relationships
             this.HasRequired(t => t.Bid)

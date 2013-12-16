@@ -13,6 +13,7 @@ namespace Cats.Models
         public int TransporterID { get; set; }
         public byte[] AgreementDocxFile { get; set; }
         public System.DateTime IssueDate { get; set; }
+        public bool Current { get; set; }
         public virtual Bid Bid { get; set; }
         public virtual Transporter Transporter { get; set; }
     }
