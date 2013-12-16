@@ -126,7 +126,7 @@ namespace Cats.Data
         public DbSet<DistributionDetail> DistributionDetails { get; set; }
         public DbSet<PaymentRequest> PaymentRequests { get; set; }
 
-
+        public DbSet<IDPSReasonType> IDPSReasonTypes { get; set; }
 
         public DbSet<WoredaHubLink> WoredaHubLinks { get; set; }
 
@@ -236,6 +236,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new WoredasByDonorMap());
             modelBuilder.Configurations.Add(new DistributionMap());
             modelBuilder.Configurations.Add(new DistributionDetailMap());
+            modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
         }
 
     }

@@ -19,6 +19,9 @@ using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using log4net;
+using Cats.Services.Administration;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
+using IFDPService = Cats.Services.EarlyWarning.IFDPService;
 using Workflow = Cats.Models.Constant.WORKFLOW;
 
 
@@ -42,7 +45,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IRegionalPSNPPlanService _RegionalPSNPPlanService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly IPlanService _planService;
-        private readonly IRationService _rationService;
+        private readonly IIDPSReasonTypeServices _idpsReasonTypeServices;
         public RequestController(IRegionalRequestService reliefRequistionService,
                                 IFDPService fdpService,
                                 IRegionalRequestDetailService reliefRequisitionDetailService,
@@ -53,7 +56,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 ILog log,
                                 IHRDDetailService hrdDetailService,
                                 IRegionalPSNPPlanDetailService regionalPSNPPlanDetailService,
-                                IRegionalPSNPPlanService RegionalPSNPPlanService, IAdminUnitService adminUnitService, IPlanService planService, IRationService rationService)
+                                IRegionalPSNPPlanService RegionalPSNPPlanService, 
+            IAdminUnitService adminUnitService, 
+            IPlanService planService, 
+            IIDPSReasonTypeServices idpsReasonTypeServices)
         {
             _regionalRequestService = reliefRequistionService;
             _fdpService = fdpService;
@@ -68,7 +74,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _RegionalPSNPPlanService = RegionalPSNPPlanService;
             _adminUnitService = adminUnitService;
             _planService = planService;
-            _rationService = rationService;
+            _idpsReasonTypeServices = idpsReasonTypeServices;
+           
         }
 
 
@@ -120,30 +127,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return regionalRequest;
         }
 
-        private RegionalRequest 
-            
-            
- CreateRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo,FormCollection collection ,int planid)
+        private RegionalRequest CreateRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo, FormCollection collection, int planid, int reasonTypeID)
         {
 
             int regionId = Convert.ToInt32(collection["RegionId"].ToString(CultureInfo.InvariantCulture));
-            int year = Convert.ToInt32(collection["Year"].ToString(CultureInfo.InvariantCulture));
             var programId = 3;
-            var rationId = int.Parse(collection["RationID"].ToString(CultureInfo.InvariantCulture));
+           
             
             var regionalRequest = new RegionalRequest
                                       {
                                           Status = (int) RegionalRequestStatus.Draft,
                                           RequistionDate = DateTime.Today,
-                                          Year = year,
+                                          Year = DateTime.Now.Year,
                                           PlanID = planid,
                                           Season = 1,
-                                          Month = 1,
+                                          Month = DateTime.Now.Month,
                                           RegionID = regionId,
                                           ProgramId = programId,
                                           DonorID = null,
                                           RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation(),
                                           Round = null,
+                                          IDPSReasonType = reasonTypeID,
                                           RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
                                                                     where item.Selected == false
                                                                     select new RegionalRequestDetail()
@@ -160,7 +164,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private void PopulateLookup()
         {
             ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
@@ -265,7 +269,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult NewIdps()
         {
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
-            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name",0);
+            ViewBag.IDPSReasonType = new SelectList(_idpsReasonTypeServices.GetAllIDPSReasonType(), "IDPSId", "Name");
             return View();
         }
         [HttpPost]
@@ -274,6 +279,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             Plan plan = null;
 
+            var reasonTypeID = int.Parse(collection["ReasonType"].ToString(CultureInfo.InvariantCulture));
 
             DateTime startDate = DateTime.Now.Date;
             DateTime endDate = DateTime.Now.Add(new TimeSpan(DateTime.Now.Year));
@@ -288,9 +294,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
 
             HRDPSNPPlanInfo psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-            RegionalRequest req = CreateRegionalRequest(psnphrdPlanInfo,collection, plan.PlanID);
+            RegionalRequest req = CreateRegionalRequest(psnphrdPlanInfo, collection, plan.PlanID, reasonTypeID);
 
-            return RedirectToAction("Allocation", new { id = req.RegionalRequestID });
+            return RedirectToAction("Allocation", new { id = req.RegionalRequestID, programid = 3 });
 
         }
 
@@ -330,9 +336,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         #region Regional Request Detail
 
 
-        public ActionResult Allocation(int id)
+        public ActionResult Allocation(int id,int programId = -1)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            ViewBag.programId = programId;
             ViewBag.RequestID = id;
             var request =
                 _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
@@ -380,21 +387,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
             
-            var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
+            //var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
 
-            var result = GetRequestWithPLAN(request);
-
-            var dt = RequestViewModelBinder.TransposeDataNew(result, requestDetails);
+            var result = GetRequestWithPlan(request);
+            //var dt = RequestViewModelBinder.TransposeData(requestDetails);
+            var dt = RequestViewModelBinder.TransposeDataNew(result);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
 
-            
         }
 
        
         public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
-
             ViewBag.RequestID = id;
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
             var dt = RequestViewModelBinder.TransposeData(requestDetails);
@@ -670,7 +675,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (regionalRequest != null)
             {
-                var detailsToDisplay = GetRequestWithPLAN(regionalRequest).ToList();
+                var detailsToDisplay = GetRequestWithPlan(regionalRequest).ToList();
                 return Json(detailsToDisplay.ToDataSourceResult(request));
             }
             return RedirectToAction("Index");
@@ -683,39 +688,58 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(regionalRequest);
         }
 
-        private List<PLANWithRegionalRequestViewModel> GetRequestWithPLAN(RegionalRequest regionalRequest)
+        private List<PLANWithRegionalRequestViewModel> GetRequestWithPlan(RegionalRequest regionalRequest)
         {
-
            var result = new List<PLANWithRegionalRequestViewModel>();
 
            if(regionalRequest.ProgramId==1)
-           
            {
+            
             var details = regionalRequest.RegionalRequestDetails;
             var hrd = _hrdService.FindBy(m => m.PlanID == regionalRequest.PlanID);
             
+            //var woredaGrouped = (from detail in details
+            //                     group detail by detail.Fdp.AdminUnit
+            //                     into woredaDetail
+            //                     select new
+            //                    {
+            //                        Woreda = woredaDetail.Key,
+            //                        NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
+            //                        hrdBeneficiary = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).NumberOfBeneficiaries : 0,
+            //                        //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
+            //                        detailsf = woredaDetail,
+            //                    });
 
-            var woredaGrouped = (from detail in details
+            var woredaG = (from detail in details
                                  group detail by detail.Fdp.AdminUnit
-                                     into woredaDetail
-                                     select new
-                                     {
-                                         Woreda = woredaDetail.Key,
-                                         NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
-                                         hrdBeneficiary = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).NumberOfBeneficiaries : 0,
-                                         //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
-                                         detailsf = woredaDetail,
-                                     });
+                                 into woredaDetail 
+                                 select woredaDetail);
 
-            result =  (from woredaDetail in woredaGrouped
-                    select new PLANWithRegionalRequestViewModel
-                    {
-                        zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
-                        Woreda = woredaDetail.Woreda.Name,
-                        RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-                        PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
-                        Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries
-                    }).ToList();
+            //var res =  (from woredaDetail in woredaGrouped
+            //           let regionalRequestDetail = woredaDetail.detailsf.FirstOrDefault()
+            //           where regionalRequestDetail != null
+            //           select new PLANWithRegionalRequestViewModel
+            //            {
+            //                zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
+            //                Woreda = woredaDetail.Woreda.Name,
+            //                RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
+            //                PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
+            //                Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries,
+            //            }).ToList();
+
+               result.AddRange(from sw in woredaG
+                               let oneWoreda = sw.ToList()
+                               let regionalRequestDetail = oneWoreda.FirstOrDefault()
+                               where regionalRequestDetail != null
+                               select new PLANWithRegionalRequestViewModel()
+                                   {
+                                       zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
+                                       Woreda = sw.Key.Name, 
+                                       RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
+                                       PlannedBeneficaryNo = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0,
+                                       Difference = ((hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0) - (sw.Sum(m => m.Beneficiaries))),
+                                       RegionalRequestDetails = oneWoreda
+                                   });
            }
 
            if(regionalRequest.ProgramId==2)
@@ -723,40 +747,58 @@ namespace Cats.Areas.EarlyWarning.Controllers
                var details = regionalRequest.RegionalRequestDetails;
                var psnp = _RegionalPSNPPlanService.FindBy(m => m.PlanId == regionalRequest.PlanID);
               
-               var psnpBeneficiary = psnp != null
-                                         ? psnp.First().RegionalPSNPPlanDetails.First(
-                                             m => m.PlanedFDPID == 16).BeneficiaryCount
-                                         : 0;
+               //var psnpBeneficiary = psnp != null
+               //                          ? psnp.First().RegionalPSNPPlanDetails.First(
+               //                              m => m.PlanedFDPID == 16).BeneficiaryCount
+               //                          : 0;
 
-               var woredaGrouped = (from detail in details
-                                    group detail by detail.Fdp.AdminUnit
-                                        into woredaDetail
-                                        select new
-                                        {
-                                            Woreda = woredaDetail.Key,
-                                            NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
-                                            psnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDPID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
-                                            detailsf = woredaDetail
-                                        });
+               //var woredaGrouped = (from detail in details
+               //                     group detail by detail.Fdp.AdminUnit
+               //                         into woredaDetail
+               //                         select new
+               //                         {
+               //                             Woreda = woredaDetail.Key,
+               //                             NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
+               //                             psnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDPID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
+               //                             detailsf = woredaDetail
+               //                         });
 
-              result = (from woredaDetail in woredaGrouped
-                       select new PLANWithRegionalRequestViewModel
-                       {
-                           zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
-                           Woreda = woredaDetail.Woreda.Name,
-                           RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-                           PlannedBeneficaryNo = woredaDetail.psnpBeneficiary,
-                           //PlannedBeneficaryNo = 52,
-                           Difference = woredaDetail.psnpBeneficiary - woredaDetail.NoOfBeneficiaries
-                           //Difference =  woredaDetail.NoOfBeneficiaries
-                       }).ToList();
+               var woredaG = (from detail in details
+                              group detail by detail.Fdp.AdminUnit
+                                  into woredaDetail
+                                  select woredaDetail);
+
+               result.AddRange(from sw in woredaG
+                               let oneWoreda = sw.ToList()
+                               let regionalRequestDetail = oneWoreda.FirstOrDefault()
+                               where regionalRequestDetail != null
+                               select new PLANWithRegionalRequestViewModel()
+                               {
+                                   zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
+                                   Woreda = sw.Key.Name,
+                                   RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
+                                   PlannedBeneficaryNo = psnp != null ? psnp.First().RegionalPSNPPlanDetails.TakeWhile(d=>d.PlanedFDP.AdminUnitID==sw.Key.AdminUnitID).Sum(a=>a.BeneficiaryCount) : 0,
+                                   Difference = ((psnp != null ? psnp.First().RegionalPSNPPlanDetails.TakeWhile(d => d.PlanedFDP.AdminUnitID == sw.Key.AdminUnitID).Sum(a => a.BeneficiaryCount) : 0) - (sw.Sum(m => m.Beneficiaries))),
+                                   RegionalRequestDetails = oneWoreda
+                               });
+
+              //result = (from woredaDetail in woredaGrouped
+              //         select new PLANWithRegionalRequestViewModel
+              //         {
+              //             zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
+              //             Woreda = woredaDetail.Woreda.Name,
+              //             RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
+              //             PlannedBeneficaryNo = woredaDetail.psnpBeneficiary,
+              //             //PlannedBeneficaryNo = 52,
+              //             Difference = woredaDetail.psnpBeneficiary - woredaDetail.NoOfBeneficiaries
+              //             //Difference =  woredaDetail.NoOfBeneficiaries
+              //         }).ToList();
                 }
+
            else if (regionalRequest.ProgramId == 3)
            {
                var details = regionalRequest.RegionalRequestDetails;
               
-
-
                var woredaGrouped = (from detail in details
                                     group detail by detail.Fdp.AdminUnit
                                         into woredaDetail
@@ -775,7 +817,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                              zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
                              Woreda = woredaDetail.Woreda.Name,
                              RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-                             PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
+                             PlannedBeneficaryNo = 0,
                              Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries
                          }).ToList();
            }
@@ -789,16 +831,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(planID, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AddBeneficary(int id)
+        public ActionResult AddBeneficary(int id,int programId = -1)
         {
             var request = _regionalRequestService.FindById(id);
-            //ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3 && t.ParentID == request.RegionID), "AdminUnitID", "Name");
+            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.programId = programId;
+            ViewBag.ZoneID = programId != -1 ? new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name") : new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3 && t.ParentID == request.RegionID), "AdminUnitID", "Name");
+           
             ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
             ViewBag.FDPID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
             var addFDPWithBeneficary = new AddFDPViewModel();
             addFDPWithBeneficary.RegionalRequestID = request.RegionalRequestID;
             addFDPWithBeneficary.RegionID = request.RegionID;
+            ViewBag.CurrentRegion = request.RegionID;
             return PartialView(addFDPWithBeneficary);
         }
 
@@ -814,15 +859,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddBeneficary(AddFDPViewModel requestDetail)
+        public ActionResult AddBeneficary(AddFDPViewModel requestDetail,int _programId = -1)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    ViewBag.programId = _programId;
                     var detail = GetRequestDetail(requestDetail);
                     _regionalRequestDetailService.AddCommodityFdp(detail);
-                    return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID });
+                    return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID, programId = _programId });
                 }
 
                 catch (Exception ex)
@@ -831,7 +877,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
                     ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
                     ViewBag.FDPID = new SelectList(_commonService.GetFDPs(2), "FDPID", "FDPName");
-                    return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID });
+                    return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID, programId = _programId });
                 }
 
             }
@@ -850,36 +896,78 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult GetCascadedAdminUnits(int regionID)
+        public JsonResult GetCascadedAdminUnits(int regionID,int programId = -1)
         {
-            var cascadeAdminUnit = (from zone in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 3 && m.ParentID == regionID)
+            
+            if (programId!=-1)
+            {
+                var cascadeAdminUnitAllRegions = (from region in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 2)
 
-                                    select new
-                                    {
-                                        ZoneID = zone.AdminUnitID,
-                                        ZoneName = zone.Name,
-                                        Woredas = from woreda in _commonService.GetAminUnits(m => m.ParentID == zone.AdminUnitID)
                                                   select new
                                                   {
-                                                      WoredaID = woreda.AdminUnitID,
-                                                      WoredaName = woreda.Name,
-                                                      fdps = from fdp in _commonService.GetFDPs(woreda.AdminUnitID)
-                                                             select new
+                                                      RegionID = region.AdminUnitID,
+                                                      RegionName = region.Name,
+
+                                                      zones = from zone in _commonService.GetAminUnits(z => z.ParentID == region.AdminUnitID)
+                                                              select new
+                                                              {
+                                                                  ZoneID = zone.AdminUnitID,
+                                                                  ZoneName = zone.Name,
+
+
+                                                                  Woredas = from woreda in _commonService.GetAminUnits(m => m.ParentID == zone.AdminUnitID)
+                                                                            select new
+                                                                            {
+                                                                                WoredaID = woreda.AdminUnitID,
+                                                                                WoredaName = woreda.Name,
+                                                                                fdps = from fdp in _commonService.GetFDPs(woreda.AdminUnitID)
+                                                                                       select new
+                                                                                       {
+                                                                                           FDPID = fdp.FDPID,
+                                                                                           FDPName = fdp.Name
+                                                                                       }
+                                                                            }
+
+                                                              }
+                                                  }
+
+
+                  );
+                return Json(cascadeAdminUnitAllRegions, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+               var cascadeAdminUnit = (from zone in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 3 && m.ParentID == regionID)
+
+                                        select new
+                                        {
+                                            ZoneID = zone.AdminUnitID,
+                                            ZoneName = zone.Name,
+                                            Woredas = from woreda in _commonService.GetAminUnits(m => m.ParentID == zone.AdminUnitID)
+                                                      select new
+                                                      {
+                                                          WoredaID = woreda.AdminUnitID,
+                                                          WoredaName = woreda.Name,
+                                                          fdps = from fdp in _commonService.GetFDPs(woreda.AdminUnitID)
+                                                                 select new
                                                                  {
                                                                      FDPID = fdp.FDPID,
                                                                      FDPName = fdp.Name
                                                                  }
-                                                  }
+                                                      }
 
-                                    }
+                                        }
 
-                    );
-            return Json(cascadeAdminUnit, JsonRequestBehavior.AllowGet);
+                  );
+               return Json(cascadeAdminUnit, JsonRequestBehavior.AllowGet);
+            }
+          
+           
         }
         public ActionResult AddCommodity(int id )
         {
             var request = _regionalRequestService.FindById(id);
-            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            ViewBag.CommodityID = new SelectList(_commonService.GetRationCommodity(request.RationID), "CommodityID", "Name");
             var addCommodityViewModel = new AddCommodityViewModel();
             addCommodityViewModel.RegionalRequestID = request.RegionalRequestID;
             return PartialView(addCommodityViewModel);
@@ -890,12 +978,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-                
                 _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID);
                 return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
             }
             return RedirectToAction("Allocation", new {id = addCommodity.RegionalRequestID});
         }
+
         public ActionResult DeleteCommodity(int? commodityID, int requestID)
         {
             if (commodityID != null)

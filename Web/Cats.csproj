@@ -484,9 +484,10 @@
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
-    <Compile Include="Areas\Logistics\Models\TransportOrderDispatchViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
+    <Compile Include="Areas\Procurement\Models\ActiveTransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\AgreementVersionViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
@@ -530,6 +531,7 @@
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredasInCurrentContract.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
@@ -1566,7 +1568,9 @@
     <Content Include="Areas\Logistics\Views\Distribution\ReceivingNote.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
+
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2189,6 +2193,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -2306,6 +2311,10 @@
     <ProjectReference Include="..\ReportLib\ReportLib.csproj">
       <Project>{2db02a2c-8e7b-4a3c-9a4c-af7736a66990}</Project>
       <Name>ReportLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
+      <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
+      <Name>Cats.Services.Administration</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
