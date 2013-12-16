@@ -143,8 +143,9 @@ namespace Cats.Areas.WorkflowManager.Controllers
 
             return View(item);
         }
-        public ActionResult History(int id = 0)
+        public ActionResult History(int id = 0, int partial = 1)
         {
+            ViewBag.Partial = partial;
             BusinessProcess item = _BusinessProcessService.FindById(id);
             if (item == null)
             {

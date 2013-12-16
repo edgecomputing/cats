@@ -218,6 +218,7 @@ namespace Cats.Areas.Procurement.Controllers
                 BidNo = _bidService.FindById(transporterAgreementVersion.BidID).BidNumber,
                 BidID = transporterAgreementVersion.BidID,
                 IssueDate = transporterAgreementVersion.IssueDate.ToString(),
+                Current = transporterAgreementVersion.Current.ToString(),
                 TransportAgreementVersionID = transporterAgreementVersion.TransporterAgreementVersionID
             }).ToList();
         }
@@ -249,8 +250,16 @@ namespace Cats.Areas.Procurement.Controllers
             fs.Read(data, 0, fileLen);
             fs.Close();
 
+            var allPreviousDocs =
+                _transporterAgreementVersionService.Get(t => t.TransporterID == transporterID);
+            foreach (var agreementVersion in allPreviousDocs)
+            {
+                agreementVersion.Current = false;
+                _transporterAgreementVersionService.EditTransporterAgreementVersion(agreementVersion);
+            }
+
             var transporterAgreementVersion = new TransporterAgreementVersion
-                {BidID = bidID, TransporterID = transporterID, AgreementDocxFile = data, IssueDate = DateTime.Now};
+                {BidID = bidID, TransporterID = transporterID, AgreementDocxFile = data, IssueDate = DateTime.Now, Current = true};
             _transporterAgreementVersionService.AddTransporterAgreementVersion(transporterAgreementVersion);
 
             Response.Clear();
@@ -280,6 +289,32 @@ namespace Cats.Areas.Procurement.Controllers
             Response.ContentType = "application/text";
             Response.AddHeader("Content-Disposition", @"filename= FrameworkPucrhaseContract.docx");
             Response.TransmitFile(documentPath);
+            Response.End();
+        }
+
+        public void ViewCurrentAgreement(int transporterID)
+        {
+            // TODO: Make sure to use DI to get the template generator instance
+
+            var transportAgreementVersionObj = _transporterAgreementVersionService.Get(t => t.TransporterID == transporterID && t.Current).FirstOrDefault();
+            //var filePath = template.GenerateTemplate(transporterID, 7, "FrameworkPucrhaseContract"); //here you have to send the name of the tempalte and the id of the TransporterID
+
+            if (transportAgreementVersionObj != null)
+            {
+                var data = (byte[])transportAgreementVersionObj.AgreementDocxFile;
+                var guid = new Guid();
+                var documentPath =
+                    System.Web.HttpContext.Current.Server.MapPath(string.Format("~/Templates/{0}.docx", Guid.NewGuid().ToString()));
+                using (var stream = new FileStream(documentPath, FileMode.Create))
+                {
+                    stream.Write(data, 0, data.Length);
+                };
+
+                Response.Clear();
+                Response.ContentType = "application/text";
+                Response.AddHeader("Content-Disposition", @"filename= FrameworkPucrhaseContract.docx");
+                Response.TransmitFile(documentPath);
+            }
             Response.End();
         }
 

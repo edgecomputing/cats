@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Cats.Models;
 
 namespace Cats.Areas.EarlyWarning.Models
 {
@@ -18,8 +19,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int Difference { get; set; }
         public int Color { get; set; }
     }
-
-
+    
     public class PLANWithRegionalRequestViewModel
     {
         public int PlanID { get; set; }
@@ -32,5 +32,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int PlannedBeneficaryNo { get; set; }
         public int Difference { get; set; }
         public int Color { get; set; }
+
+        public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
     }
 }

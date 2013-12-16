@@ -196,9 +196,10 @@ namespace Cats.Services.EarlyWarning
             if (plan.ProgramID == 2)
             {
                 RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.PlanId == plan.PSNPPlanID).FirstOrDefault();
-                result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                
                 if (psnpplan != null)
                 {
+                    result.HRDPSNPPlan.RationID = psnpplan.RationID;
                     beneficiaryInfos = PSNPToRequest(psnpplan);
                 }
             }
