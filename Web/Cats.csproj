@@ -671,6 +671,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
+    <Compile Include="RFQModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RFQModel.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
@@ -1301,6 +1306,7 @@
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cats-print-script.js" />
@@ -1569,9 +1575,15 @@
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
+
+
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\CreateRequisitionForIDPS.cshtml" />
+
+
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
       <SubType>Code</SubType>
     </Content>
+
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
     <None Include="dataset.xsd">
@@ -1581,6 +1593,17 @@
     </None>
     <Content Include="dataset.xss">
       <DependentUpon>dataset.xsd</DependentUpon>
+    </Content>
+    <Content Include="RFQModel.xsc">
+      <DependentUpon>RFQModel.xsd</DependentUpon>
+    </Content>
+    <None Include="RFQModel.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RFQModel.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="RFQModel.xss">
+      <DependentUpon>RFQModel.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
@@ -2514,6 +2537,7 @@
     <EmbeddedResource Include="Report\Logisitcs\SummaryFreePhysicalStock.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
+    <EmbeddedResource Include="Report\Procurment\RFQ.rdlc" />
     <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
