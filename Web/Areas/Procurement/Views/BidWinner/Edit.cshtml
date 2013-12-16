@@ -91,7 +91,7 @@
                          @Html.LabelFor(model => model.Tariff)
                      </div>
                      <div class="controls">
-                         @Html.TextBoxFor(model=>model.Tariff,new {Disabled=true})
+                         @Html.TextBoxFor(model=>model.Tariff,new {Disabled=true,Value = String.Format("{0:C}",Model.Tariff)})
                      </div>
                  </div>
              </div>
