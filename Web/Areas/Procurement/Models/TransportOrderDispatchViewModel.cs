@@ -11,5 +11,6 @@ namespace Cats.Areas.Logistics.Models
     {
         public TransportOrderViewModel TransportOrderViewModel { get; set; }
         public List<DispatchViewModel> DispatchViewModels { get; set; }
+        public List<DispatchViewModel> DispatchViewModelsWithGRN { get; set; } 
     }
 }

@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
-      <HintPath>..\..\packages\EntityFramework.4.3.0\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -78,9 +78,11 @@
     <Compile Include="ICommoditySourceService.cs" />
     <Compile Include="ICommodityTypeService.cs" />
     <Compile Include="IDonorService.cs" />
+    <Compile Include="IDPSReasonTypeServices.cs" />
     <Compile Include="IFDPService.cs" />
     <Compile Include="IHubOwnerService.cs" />
     <Compile Include="IHubService.cs" />
+    <Compile Include="IIDPSReasonTypeServices.cs" />
     <Compile Include="IProgramService.cs" />
     <Compile Include="IStoreService.cs" />
     <Compile Include="IUnitService.cs" />

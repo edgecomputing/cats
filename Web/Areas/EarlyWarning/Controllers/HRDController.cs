@@ -545,7 +545,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_HRD)]
         public ActionResult CreateHRD(HRD hrd)
         {
-             DateTime dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.Now;
             DateTime DatePublished = DateTime.Now;
 
             hrd.CreatedDate = dateCreated;

@@ -116,17 +116,19 @@ namespace Cats.Data
         public DbSet<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; }
         public DbSet<AllocationByRegion> AllocationByRegion { get; set; }
         public DbSet<Plan> HrdPlans { get; set; }
-
+        public DbSet<WoredaHub> WoredaHubs { get; set; }
         public DbSet<PromisedContribution> PromisedContribution { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-
+        public DbSet<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         public DbSet<SIPCAllocation> SIPCAllocation { get; set; }
         public DbSet<WoredasByDonor> WoredasByDonors { get; set; }
         public DbSet<Distribution> Distributions { get; set; }
         public DbSet<DistributionDetail> DistributionDetails { get; set; }
         public DbSet<PaymentRequest> PaymentRequests { get; set; }
 
+        public DbSet<IDPSReasonType> IDPSReasonTypes { get; set; }
 
+        public DbSet<WoredaHubLink> WoredaHubLinks { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -143,7 +145,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new ProcessTemplateMap());
             modelBuilder.Configurations.Add(new StateTemplateMap());
             modelBuilder.Configurations.Add(new FlowTemplateMap());
-
+            modelBuilder.Configurations.Add(new WoredaHubLinkMap());
             modelBuilder.Configurations.Add(new RegionalRequestMap());
             modelBuilder.Configurations.Add(new RegionalRequestDetailMap());
             modelBuilder.Configurations.Add(new ReliefRequisitionMap());
@@ -157,7 +159,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new BidDetailMap());
             modelBuilder.Configurations.Add(new BidMap());
             modelBuilder.Configurations.Add(new StatusMap());
-       
+            modelBuilder.Configurations.Add(new TransporterAgreementVersionMap());
             modelBuilder.Configurations.Add(new TransporterMap());
             modelBuilder.Configurations.Add(new TransportBidPlanMap());
             modelBuilder.Configurations.Add(new TransportBidPlanDetailMap());
@@ -197,7 +199,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new RegionalPSNPPlanMap());
             modelBuilder.Configurations.Add(new RegionalPSNPPlanDetailMap());
-            
+            modelBuilder.Configurations.Add(new WoredaHubMap());
 
             modelBuilder.Configurations.Add(new RequestDetailCommodityMap());
 
@@ -234,6 +236,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new WoredasByDonorMap());
             modelBuilder.Configurations.Add(new DistributionMap());
             modelBuilder.Configurations.Add(new DistributionDetailMap());
+            modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
         }
 
     }

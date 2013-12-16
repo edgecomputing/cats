@@ -35,15 +35,18 @@ namespace Cats.Services.PSNP
             _unitOfWork.Save();
             return true;
         }
+        
         public bool DeleteById(int id)
         {
             var item = _unitOfWork.RegionalPSNPPlanRepository.FindById(id);
             return DeleteRegionalPSNPPlan(item);
         }
+        
         public RegionalPSNPPlan FindById(int id)
         {
             return _unitOfWork.RegionalPSNPPlanRepository.FindById(id);
         }
+
         public List<RegionalPSNPPlan> GetAllRegionalPSNPPlan()
         {
             return _unitOfWork.RegionalPSNPPlanRepository.GetAll();
@@ -52,7 +55,6 @@ namespace Cats.Services.PSNP
         public List<RegionalPSNPPlan> FindBy(Expression<Func<RegionalPSNPPlan, bool>> predicate)
         {
             return _unitOfWork.RegionalPSNPPlanRepository.FindBy(predicate);
-
         }
 
 

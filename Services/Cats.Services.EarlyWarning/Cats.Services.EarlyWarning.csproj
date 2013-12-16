@@ -144,6 +144,8 @@
     <Compile Include="RegionalRequestService.cs" />
     <Compile Include="ReliefRequisitionDetailService.cs" />
     <Compile Include="ReliefRequisitionService.cs" />
+    <Compile Include="IRequestDetailCommodityService.cs" />
+    <Compile Include="RequestDetailCommodityService.cs" />
     <Compile Include="SeasonService.cs" />
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="StateTemplateService.cs" />

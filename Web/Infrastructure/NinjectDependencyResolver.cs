@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Services.Administration;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
 using Logistics.Security;
@@ -18,6 +19,21 @@ using Cats.Services.Transaction;
 using Cats.Services.Common;
 using log4net;
 using Early_Warning.Security;
+using AdminUnitService = Cats.Services.EarlyWarning.AdminUnitService;
+using CommodityService = Cats.Services.EarlyWarning.CommodityService;
+using DonorService = Cats.Services.EarlyWarning.DonorService;
+using FDPService = Cats.Services.EarlyWarning.FDPService;
+using HubService = Cats.Services.EarlyWarning.HubService;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
+using ICommodityService = Cats.Services.EarlyWarning.ICommodityService;
+using IDonorService = Cats.Services.EarlyWarning.IDonorService;
+using IFDPService = Cats.Services.EarlyWarning.IFDPService;
+using IHubService = Cats.Services.EarlyWarning.IHubService;
+using IProgramService = Cats.Services.EarlyWarning.IProgramService;
+using IUnitService = Cats.Services.EarlyWarning.IUnitService;
+using ProgramService = Cats.Services.EarlyWarning.ProgramService;
+using UnitService = Cats.Services.EarlyWarning.UnitService;
+
 //using Cats.Services.Hub.Interfaces;
 //using Cats.Services.Hub;
 
@@ -144,6 +160,13 @@ namespace Cats.Infrastructure
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
             kernel.Bind<IPlanService>().To<PlanService>();
             kernel.Bind<IDashboardService>().To<DashboardService>();
+
+            kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
+
+            kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
+            kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
+            kernel.Bind<ITransporterAgreementVersionService>().To<TransporterAgreementVersionService>();
+
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.
@@ -176,6 +199,8 @@ namespace Cats.Infrastructure
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
             kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
+            kernel.Bind<Cats.Services.Logistics.IDistributionService>().To<Cats.Services.Logistics.DistributionService>();
+            kernel.Bind<Cats.Services.Logistics.IDistributionDetailService>().To<Cats.Services.Logistics.DistributionDetailService>();
         }
         private void AddBindingsHub()
         {

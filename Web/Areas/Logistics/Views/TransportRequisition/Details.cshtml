@@ -104,7 +104,7 @@
                               columns.Bound(trd => trd.Zone);
 
                               columns.Template(@<text>
-<a href="@Url.Action("Destinations", "TransportRequisition", new { id = item.RequisitionID })">@Translator.Translate("Destinations") (@item.DestinationsCount) </a>
+<a href="@Url.Action("Destinations", "TransportRequisition", new { id = item.RequisitionID, transportRequistionId = Model.TransportRequisitionID })">@Translator.Translate("Destinations") (@item.DestinationsCount) </a>
 </text>);
                           }).Scrollable()
                           .Groupable()

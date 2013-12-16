@@ -234,6 +234,7 @@ namespace Cats.Tests.ControllersTests
 
             var transporterService = new Mock<ITransporterService>();
             transporterService.Setup(m => m.GetAllTransporter()).Returns(transporter);
+            transporterService.Setup(t => t.FindById(It.IsAny<int>())).Returns(transporter[0]);
 
             var transportBidQuotation = new List<TransportBidQuotation>
                 {

@@ -15,10 +15,13 @@ namespace Cats.Services.Logistics
         bool DeleteDistributionDetail(DistributionDetail distributionDetail);
         bool DeleteById(int id);
         bool EditDistributionDetail(DistributionDetail distributionDetail);
-        DistributionDetail FindById(int id);
+        DistributionDetail FindById(Guid id);
         List<DistributionDetail> GetAllDistributionDetail();
         List<DistributionDetail> FindBy(Expression<Func<DistributionDetail, bool>> predicate);
-
+        IEnumerable<DistributionDetail> Get(
+            Expression<Func<DistributionDetail, bool>> filter = null,
+            Func<IQueryable<DistributionDetail>, IOrderedQueryable<DistributionDetail>> orderBy = null,
+            string includeProperties = "");
 
     }
 }

@@ -19,6 +19,12 @@ namespace Cats.Services.Logistics
         List<Distribution> GetAllDistribution();
         List<Distribution> FindBy(Expression<Func<Distribution, bool>> predicate);
 
+        IEnumerable<Distribution> Get(
+            Expression<Func<Distribution, bool>> filter = null,
+            Func<IQueryable<Distribution>, IOrderedQueryable<Distribution>> orderBy = null,
+            string includeProperties = "");
+
+   
 
     }
 }

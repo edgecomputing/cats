@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Cats.Areas.Procurement.Models;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -29,6 +30,7 @@ namespace Cats.Documents
 
         private string _templateFileName;
         private string _targetFileName;
+        private List<TransactionDetail> _transactionDetailsList;
         private Dictionary<string, string> _values;
 
         /// <summary>
@@ -37,11 +39,14 @@ namespace Cats.Documents
         /// <param name="templateFileName">File to base the document off of</param>
         /// <param name="targetPath">File path for the generated document</param>
         /// <param name="values">Key value pair containing items to be replaced in the document</param>
-        public DocumentGenerator(string templateFileName, string targetPath, Dictionary<string, string> values)
+        /// <param name="transactionDetailsList"> </param>
+      
+        public DocumentGenerator(string templateFileName, string targetPath, Dictionary<string, string> values, List<TransactionDetail> transactionDetailsList)
         {
             _templateFileName = templateFileName;
             _targetFileName = targetPath;
             _values = values;
+            _transactionDetailsList = transactionDetailsList;
         }
 
         /// <summary>
@@ -119,7 +124,9 @@ namespace Cats.Documents
                     foreach (FieldCode field in docGenerated.MainDocumentPart.RootElement.Descendants<FieldCode>())
                     {
                         var fieldNameStart = field.Text.LastIndexOf(FieldDelimeter, System.StringComparison.Ordinal);
+                        //var index = field.Text.LastIndexOf(" ", System.StringComparison.Ordinal) + 1;
                         var fieldname = field.Text.Substring(fieldNameStart + FieldDelimeter.Length).Trim();
+                        fieldname = fieldname.Replace("\\* MERGEFORMAT", "").Trim();
                         var fieldValue = _values[fieldname];
 
                         // Go through all of the Run elements and replace the Text Elements Text Property
@@ -132,6 +139,167 @@ namespace Cats.Documents
                         }
                     }
 
+                    if(_transactionDetailsList.Any())
+                    {
+                        var table = new Table();
+
+                        var props = new TableProperties(
+                            new TableBorders(
+                            new TopBorder
+                            {
+                                Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                Size = 6,
+                                Color = "grey"
+                            },
+                            new BottomBorder
+                            {
+                                Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                Size = 6,
+                                Color = "grey"
+                            },
+                            new LeftBorder
+                            {
+                                Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                Size = 6,
+                                Color = "grey"
+                            },
+                            new RightBorder
+                            {
+                                Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                Size = 6,
+                                Color = "grey"
+                            },
+                            new InsideHorizontalBorder
+                            {
+                                Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                Size = 6,
+                                Color = "grey"
+                            },
+                            new InsideVerticalBorder
+                            {
+                                Val = new EnumValue<BorderValues>(BorderValues.Single),
+                                Size = 6,
+                                Color = "grey"
+                            }));
+
+                        //table.AppendChild<TableProperties>(props);
+                        var uniqueRegions = _transactionDetailsList.Select(t => t.Region).Distinct();
+                        var enumerable = uniqueRegions as List<string> ?? uniqueRegions.ToList();
+                        foreach (var uniqueRegion in uniqueRegions)
+                        {
+                            var transactionDetailsListOfARegion = _transactionDetailsList.Where(t => t.Region == uniqueRegion);
+                            var detailsListOfARegion = transactionDetailsListOfARegion as List<TransactionDetail> ?? transactionDetailsListOfARegion.ToList();
+                            var firstOrDefault = detailsListOfARegion.FirstOrDefault();
+
+                            var regionTr = new TableRow();
+                            var regionTc = new TableCell();
+                            var regionTcContent = new TableCell();
+                            regionTc.Append(new Paragraph(new Run(new Text("Region: "))));
+                            regionTcContent.Append(new Paragraph(new Run(new Text(uniqueRegion))));
+                            regionTr.Append(regionTc);
+                            regionTr.Append(regionTcContent);
+                            table.Append(regionTr);
+
+                            var bidNumberTr = new TableRow();
+                            var bidNumberTc = new TableCell();
+                            var bidNumberTcContent = new TableCell();
+                            bidNumberTc.Append(new Paragraph(new Run(new Text("Bid Contract: "))));
+                            if (firstOrDefault != null)
+                                bidNumberTcContent.Append(new Paragraph(new Run(new Text(firstOrDefault.BidNumber))));
+                            bidNumberTr.Append(bidNumberTc);
+                            bidNumberTr.Append(bidNumberTcContent);
+                            table.Append(bidNumberTr);
+
+                            var bidDateTr = new TableRow();
+                            var bidDateTc = new TableCell();
+                            var bidDateTcContent = new TableCell();
+                            bidDateTc.Append(new Paragraph(new Run(new Text("Bid Date: "))));
+                            if (firstOrDefault != null)
+                                bidDateTcContent.Append(new Paragraph(new Run(new Text(firstOrDefault.BidStratingDate))));
+                            bidDateTr.Append(bidDateTc);
+                            bidDateTr.Append(bidDateTcContent);
+                            table.Append(bidDateTr);
+
+                            var transactionTh = new TableRow();
+
+                            var rowNoTh = new TableCell();
+                            rowNoTh.Append(new Paragraph(new Run(new Text("No."))));
+                            //zoneTh.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto}));
+                            transactionTh.Append(rowNoTh);
+
+                            var zoneTh = new TableCell();
+                            zoneTh.Append(new Paragraph(new Run(new Text("Zone"))));
+                            //zoneTh.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto}));
+                            transactionTh.Append(zoneTh);
+
+                            var woredaTh = new TableCell();
+                            woredaTh.Append(new Paragraph(new Run(new Text("Woreda"))));
+                            //woredaTh.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto}));
+                            transactionTh.Append(woredaTh);
+
+                            var warehouseTh = new TableCell();
+                            warehouseTh.Append(new Paragraph(new Run(new Text("Warehouse (Origin)"))));
+                            //warehouseTh.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto}));
+                            transactionTh.Append(warehouseTh);
+
+                            var distanceTh = new TableCell();
+                            distanceTh.Append(new Paragraph(new Run(new Text("Distance From Origin"))));
+                            //warehouseTh.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto}));
+                            transactionTh.Append(distanceTh);
+
+                            var tariffTh = new TableCell();
+                            tariffTh.Append(new Paragraph(new Run(new Text("Tariff/Qtl (in birr)"))));
+                            //tariffTh.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto}));
+                            transactionTh.Append(tariffTh);
+                            table.Append(transactionTh);
+                            var rowNoCount = 1;
+                            foreach (var transaction in detailsListOfARegion)
+                            {
+                                var transactionTr = new TableRow();
+
+                                var rowNoTc = new TableCell();
+                                rowNoTc.Append(new Paragraph(new Run(new Text(rowNoCount.ToString()))));
+                                //zoneTc.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+                                transactionTr.Append(rowNoTc);
+
+                                var zoneTc = new TableCell();
+                                zoneTc.Append(new Paragraph(new Run(new Text(transaction.Zone))));
+                                //zoneTc.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+                                transactionTr.Append(zoneTc);
+
+                                var woredaTc = new TableCell();
+                                woredaTc.Append(new Paragraph(new Run(new Text(transaction.Woreda))));
+                                //woredaTc.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+                                transactionTr.Append(woredaTc);
+                                
+                                var warehouseTc = new TableCell();
+                                warehouseTc.Append(new Paragraph(new Run(new Text(transaction.Warehouse))));
+                                //warehouseTc.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+                                transactionTr.Append(warehouseTc);
+
+                                var distanceTc = new TableCell();
+                                distanceTc.Append(new Paragraph(new Run(new Text(transaction.DistanceFromOrigin))));
+                                //warehouseTc.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+                                transactionTr.Append(distanceTc);
+
+                                var tariffTc = new TableCell();
+                                tariffTc.Append(new Paragraph(new Run(new Text(transaction.Tariff.ToString()))));
+                                //tariffTc.Append(new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+                                transactionTr.Append(tariffTc);
+                                table.Append(transactionTr);
+
+                                rowNoCount++;
+                            }
+                            var spacingTr = new TableRow();
+                            var spacingTc = new TableCell();
+                            spacingTc.Append(new Paragraph(new Run(new Text(" "))));
+                            spacingTr.Append(spacingTc);
+                            table.Append(spacingTr);
+                            //table.Append(spacingTr);
+                        }
+                        docGenerated.MainDocumentPart.Document.Append(table);
+                    }
+                    
                     // If the Document has settings remove them so the end user doesn't get prompted to use the data source
                     DocumentSettingsPart settingsPart = docGenerated.MainDocumentPart.GetPartsOfType<DocumentSettingsPart>().First();
 
@@ -154,5 +322,70 @@ namespace Cats.Documents
                 return new TemplateGenerationResult { Value = false, Exception = "DocumentGeneration::generateDocument() - " + ex.ToString() };
             }
         }
+
+        
+
+        //public static void GenerateWord(DataTable dtSource, WordprocessingDocument docGenerated)
+        //{
+        //    var sbDocBody = new StringBuilder(); ;
+        //    try
+        //    {
+        //        // Declare Styles
+        //        sbDocBody.Append("<style>");
+        //        sbDocBody.Append(".Header {  background-color:Navy; color:#ffffff; font-weight:bold;font-family:Verdana; font-size:12px;}");
+        //        sbDocBody.Append(".SectionHeader { background-color:#8080aa; color:#ffffff; font-family:Verdana; font-size:12px;font-weight:bold;}");
+        //        sbDocBody.Append(".Content { background-color:#ccccff; color:#000000; font-family:Verdana; font-size:12px;text-align:left}");
+        //        sbDocBody.Append(".Label { background-color:#ccccee; color:#000000; font-family:Verdana; font-size:12px; text-align:right;}");
+        //        sbDocBody.Append("</style>");
+        //        //
+        //        var sbContent = new StringBuilder(); ;
+        //        sbDocBody.Append("<br><table align=\"center\" cellpadding=1 cellspacing=0 style=\"background-color:#000000;\">");
+        //        sbDocBody.Append("<tr><td width=\"500\">");
+        //        sbDocBody.Append("<table width=\"100%\" cellpadding=1 cellspacing=2 style=\"background-color:#ffffff;\">");
+        //        //
+        //        if (dtSource.Rows.Count > 0)
+        //        {
+        //            sbDocBody.Append("<tr><td>");
+        //            sbDocBody.Append("<table width=\"600\" cellpadding=\"0\" cellspacing=\"2\"><tr><td>");
+        //            //
+        //            // Add Column Headers
+        //            sbDocBody.Append("<tr><td width=\"25\"> </td></tr>");
+        //            sbDocBody.Append("<tr>");
+        //            sbDocBody.Append("<td> </td>");
+        //            for (int i = 0; i < dtSource.Columns.Count; i++)
+        //            {
+        //                sbDocBody.Append("<td class=\"Header\" width=\"120\">" + dtSource.Columns[i].ToString().Replace(".", "<br>") + "</td>");
+        //            }
+        //            sbDocBody.Append("</tr>");
+        //            //
+        //            // Add Data Rows
+        //            for (int i = 0; i < dtSource.Rows.Count; i++)
+        //            {
+        //                sbDocBody.Append("<tr>");
+        //                sbDocBody.Append("<td> </td>");
+        //                for (int j = 0; j < dtSource.Columns.Count; j++)
+        //                {
+        //                    sbDocBody.Append("<td class=\"Content\">" + dtSource.Rows[i][j].ToString() + "</td>");
+        //                }
+        //                sbDocBody.Append("</tr>");
+        //            }
+        //            sbDocBody.Append("</table>");
+        //            sbDocBody.Append("</td></tr></table>");
+        //            sbDocBody.Append("</td></tr></table>");
+        //        }
+        //        //
+        //        HttpContext.Current.Response.Clear();
+        //        HttpContext.Current.Response.Buffer = true;
+        //        //
+        //        HttpContext.Current.Response.AppendHeader("Content-Type", "application/msword");
+        //        HttpContext.Current.Response.AppendHeader("Content-disposition", "attachment; filename=EmployeeDetails.doc");
+        //        HttpContext.Current.Response.Write(sbDocBody.ToString());
+        //        HttpContext.Current.Response.End();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Ignore this error as this is caused due to termination of the Response Stream.
+        //    }
+        //}
     }
 }
