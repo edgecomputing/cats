@@ -40,7 +40,8 @@
                   columns.Bound(p => p.Woreda);
                   columns.Bound(p => p.TransporterName);
                   columns.Bound(p => p.Rank);
-                  columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}"); ;
+                  columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}");
+                  columns.Command(p => p.Custom("change Status").Click("onChangeStatus"));
               })
           .Scrollable()
           .Filterable()
@@ -64,5 +65,11 @@
                                         .Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
           ))
 </div>
+<script>
+    function onChangeStatus(e) {
+        e.preventDefault();
 
-<script></script>
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Edit", "BidWinner")" + "/" + dataItem.BidWinnnerID;
+    }
+</script>

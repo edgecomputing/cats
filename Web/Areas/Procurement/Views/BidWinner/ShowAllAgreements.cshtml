@@ -17,6 +17,7 @@
         {
         columns.Bound(p => p.BidNo).Title("Bid Number");
         columns.Bound(p => p.IssueDate).Title("Issue Date").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+        columns.Bound(p => p.Current).Title("Current").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
         columns.Bound(p => p.TransporterID).Title("Actions")
                         .ClientTemplate("<a href='" + Url.Action("ViewAgreementTemplate", "BidWinner", new { transportAgreementVersionID = "#=TransportAgreementVersionID#" }) + " '>View Agreement</a>  ");
                            

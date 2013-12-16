@@ -1,6 +1,12 @@
 ﻿@using Cats.Models;
 @model Cats.Models.BusinessProcess
-
+@{
+    if(ViewBag.Partial == 0)
+    {
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
+    }
+        
+}
 
 <table class="table table-striped table-bordered">
     <tr>

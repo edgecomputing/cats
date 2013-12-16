@@ -1,0 +1,491 @@
+﻿@model Cats.Areas.Procurement.Models.TransportContractViewModel
+@using System.Collections
+@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+<html data-ng-app="">
+    <h4>Transport Order Detail</h4>
+    <div id="modalWindow"></div>
+
+    <script>
+        var wnd;
+        $(document).ready(function () {
+            wnd = $("#modalWindow").kendoWindow({
+                title: "Substitute transporter for each woreda.",
+                modal: true,
+                visible: false,
+                resizable: false,
+                width: 600,
+                height: 500,
+            }).data("kendoWindow");
+        });
+    </script>
+    
+    <style>
+        .redFailed {
+            background-color: #crimson;
+        }
+    </style>
+   
+    <div id="statusWindow" style="font-size: large;color: darkred;text-align: center;"></div>
+    
+    <div class="control-group form-horizontal well" id="ContractHeader">
+        
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.Transporter)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
+                        <a href="#" class="transChange">Change</a>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.BidDocumentNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.BidDocumentNo, new { Disabled = true })
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Requisition No"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.RequisitionNo, new { Disabled = true })
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Contract Number"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @*@foreach (var detail in Model.TransportOrderDetails)
+                    {
+                       
+                    }*@
+                        @Html.TextBoxFor(m => m.RequestedDispatchDate, new { Disabled = true })
+                    </div>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Transport Order Expiry"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.OrderExpiryDate, new { Disabled = true })
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Region"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Region, new { Disabled = true })
+                    </div>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Zone"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Zone, new { Disabled = true })
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+    <table>
+        <tr>
+            <td>
+                <a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back</a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { Controller = "TransportOrder", Area = "Procurement", id = Model.TransportOrderID })
+            </td>
+            <td>
+                <a target="_blank" href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })"><i class="icon-print"></i>Print</a>
+            </td>
+        </tr>
+    </table>
+    </div>
+
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportOrderDetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+
+            columns.Bound(p => p.Woreda);
+            columns.Bound(p => p.RequisitionNo);
+            columns.Bound(p => p.Commodity);
+            columns.Bound(p => p.FDP);
+            columns.ForeignKey(p => p.HubID, (IEnumerable) ViewBag.HubID, "hubID", "Name").Width(100).Title(Translator.Translate("Origin Warehouse")).ClientFooterTemplate(Translator.Translate("Total")); 
+           // columns.Bound(p => p.DistanceFromOrigin);
+            columns.Bound(p => p.QuantityQtl).Title("Qantity").ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+            columns.Bound(p => p.TariffPerQtl).Title("Tariff").HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
+            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"}); 
+
+        })   
+             .ToolBar(toolBar => toolBar.Save())
+             .Editable(editable => editable.Mode(GridEditMode.InCell))
+             .Events(events => events.DataBound("onDataBound"))
+            .Scrollable()
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
+                  .Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
+                  .PageSize(8)
+                    .Model(model =>
+                        {
+                            model.Id(p => p.TransportOrderID);
+                            model.Field(p=>p.TransportOrderDetailID);
+                            model.Field(p => p.TariffPerQtl);
+                            model.Field(p => p.RequisitionNo).Editable(false);
+                            model.Field(p => p.Woreda).Editable(false);
+                            model.Field(p => p.Commodity).Editable(false);
+                            model.Field(p => p.FDP).Editable(false);
+                            model.Field(p => p.QuantityQtl).Editable(false);
+                            model.Field(p => p.TotalAmount).Editable(false);
+                            model.Field(p => p.HubID).Editable(false);
+                        })
+                    .Read(read => read.Action("Contract_Read", "TransportOrder", new { id = Model.TransportOrderID }))
+                    .Update(update => update.Action("TransportOrder_Update", "TransportOrder"))
+
+             )
+
+      )
+<script>
+    
+</script>
+    <script>
+        var woredaWithTransportersStanding = null;
+        $(function () {
+            var printurl = "@Url.Action("Print", "TransportOrder", new{id= ViewBag.TransportOrderID })";
+            $("#toolbar_button_print").attr("href", printurl);
+        
+            $(".transChange").click(function (e) {
+                changeTransporter();
+            });
+        
+            $(document).on('click', '.generateTO', function(ev) {
+                generateSubstituteTransporterOrders();
+            });
+            
+            $(document).on('change',".anotherTransporter", function(){
+                //alert(this.value);
+                var woredaId = $(this).attr("id");
+                var position = this.value;
+                PositionChanged4Woreda(woredaId, position);
+            }); 
+            
+            $(document).on('click', '.confirmGenerateTO', function(ev) {
+                ConfirmGenerateTOs();
+            });
+            
+            $(document).on('click', '.cancelAction', function(ev) {
+                CancelGenerateTOs();
+            });
+
+            //$('.generateTO').live('click',function(ev) {
+            //    generateSubstituteTransporterOrders();
+            //});
+        });
+        function onDataBound(e) {
+
+            var grid = $("#grid").data("kendoGrid");
+            $(grid.tbody).on("focus", "input", function (e) {
+                var input = $(this);
+                setTimeout(function () { input.select(); }, 100);
+
+            });
+        }
+        
+        function getIndexOfValue(array, value){
+            for(var i=0; i<array.length; i++){
+                //alert(i);
+                //alert(value);
+                //alert( printR(array[i]) );
+                
+                //var index = array[i].indexOf(value);
+                if (array[i].WoredaID == value){
+                    return {i:i};
+                }
+            }
+            alert("No index found in an array.");
+            return null;
+        }
+
+    
+        function generateSubstituteTransporterOrders() {
+            //alert();
+            
+            //alert(changedTransportOrderID);
+            //var listOfSubTransporterOrders = woredaWithTransportersStanding.Data.concat(changedTransportOrderID);
+            //var transportingArray = new Array();
+            //transportingArray.concat(listOfSubTransporterOrders);
+            //transportingArray.concat(changedTransportOrderID);
+            //alert( printR(transportingArray) );
+            
+            //wnd.center().close();
+            var entries = '<table style="margin:20px;border:1px solid #ececec;width:550px;">';
+            entries += '<tr>';
+            entries += '<td style="padding:0px;text-align:center;" colspan="2">';
+            entries += 'This action might generate more than one transport order as a substitute to the changed one.';
+            entries += '<h5>Are you really sure you want to continue?</h5>';
+            entries += '</td>';
+            entries += '</tr>';
+            entries += '<tr>';
+            entries += '<td style="padding:0px;text-align:center;">';
+            //entries += '<a type="button" class="confirmGenerateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">I\'m sure!</a>';
+            entries += '<button id="yes" class="k-button confirmGenerateTO">I\'m sure!</button>';
+            entries += '</td>';
+            entries += '<td style="padding:0px;text-align:center;">';
+            entries += '<button id="yes" class="k-button cancelAction">Cancel</button>';
+            //entries += '<a type="button" class="cancelAction" style="margin:20px;height:30px;width:200px;cursor:pointer;">Cancel</a>';
+            entries += '</td>';
+            entries += '</tr>';
+            entries += '</table>';
+            
+            //alert(entries);
+            //var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
+            $("#modalWindow").html(entries);
+            
+        }
+        
+        
+        
+        function BeforeSendGenerateTOs() {
+            
+        }
+        function GenerateTOsCompleted(results) {
+            window.location.replace("/Procurement/TransportOrder/Index");
+        }
+
+        function GenerateTOsFailed(request, status, error){
+            
+        }
+        
+        function ConfirmGenerateTOs() {
+            $(".anotherTransporter option:selected").each(function(i){
+                //alert($(this).text() + " : " + $(this).val());
+                //alert( printR(woredaWithTransportersStanding) );
+                var index = getIndexOfValue(woredaWithTransportersStanding.Data, $(this).attr("woredaID"));
+                var position = $(this).attr("value");
+                //var transportBidQuotationId = $(this).attr("transportBidQuotationID");
+                if(position!=null) {
+                    for(var z in woredaWithTransportersStanding.Data[index.i].TransportersStandingList) {
+                        if(woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z].Position != position) {
+                            woredaWithTransportersStanding.Data[index.i].TransportersStandingList.splice(z, 1);
+                        }
+                    }
+                }
+                else {
+                    
+                }
+                //alert( printR(woredaWithTransportersStanding) );
+            });
+            var TOID = @ViewBag.TransportOrderID;
+            var transportingArray = {listOfSubTransporterOrders:woredaWithTransportersStanding.Data, changedTransportOrderID : TOID};
+            $.ajax({
+                type: "POST",
+                url: "/Procurement/TransportOrder/ChangeTransporters/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(transportingArray),
+                dataType: "json",
+                beforeSend: BeforeSendGenerateTOs,
+                success: GenerateTOsCompleted,
+                error: GenerateTOsFailed
+            });
+            $("#modalWindow").html("");
+            $(".transChange").hide();
+            $('#ContractHeader').addClass('cats_error');
+            $("#statusWindow").html('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.');
+            wnd.center().close();
+            //window.location.replace("/Procurement/TransportOrder/Index");
+        }
+        
+        function CancelGenerateTOs() {
+            $("#modalWindow").html("");
+            wnd.center().close();
+            //window.location.replace("/Procurement/TransportOrder/Index");
+        }
+    
+        
+        function changeTransporter() {
+            wnd.center().open();
+            var TOID = @ViewBag.TransportOrderID;
+            var selectedTransportOrderId = { changedTransportOrderID: TOID };
+            
+            $.ajax({
+                type: "POST",
+                url: "/Procurement/TransportOrder/SuggestedSubstituteTransporters/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(selectedTransportOrderId),
+                dataType: "json",
+                beforeSend: BeforeSendChangeTransporter,
+                success: ChangeTransporterSendCompleted,
+                error: ChangeTransporterSendFailed
+            });
+        }
+    
+        function BeforeSendChangeTransporter() {
+            //alert();
+            //var msg = '<div class="cats_success">Loading...</div>';
+            //$(".message-window").html(msg).delay(800).hide().fadeIn();
+        }
+        function ChangeTransporterSendCompleted(results) {
+            woredaWithTransportersStanding = results;
+            //var entries='<h4>Change Transporter for each Woreda</h4>';
+            var entries='<table style="margin:20px;border:1px solid #ececec;width:550px;">';
+            entries+='<tr>';
+            entries+='<td style="padding:0px;text-align:center;">';
+            entries+='<h5>Woreda</h5>';
+            entries+='</td>';
+            entries+='<td style="padding:0px;text-align:center;">';
+            entries+='<h5>Position</h5>';
+            entries+='</td>';
+            entries+='<td style="padding:0px;text-align:center;">';
+            entries+='<h5>Transporters</h5>';
+            entries+='</td>';
+            entries+='</tr>';
+            entries+='<tr>';
+            entries+='<td colspan="3" style="text-align:center;color:#ececec;">';
+            entries+='<hr>';
+            entries+='</td>';
+            entries+='</tr>';
+            for (var i in results.Data){
+                var availablePositions=new Array();
+                //var count = 0;
+                var substituteTransport=results.Data[i];
+                entries+='<tr>';
+                entries+='<td style="text-align:center;">';
+                entries+=substituteTransport.Woreda;
+                entries+='</td>';
+                entries+='<td style="text-align:center;">';
+                entries+='<select class="anotherTransporter" id="'+substituteTransport.WoredaID+'">';
+                entries+='<option value=""> Select a Position </option>';
+                for (var j in substituteTransport.TransportersStandingList) {
+                    var transportersStandingPosition = results.Data[i].TransportersStandingList[j];
+                    //if(!availablePositions.contains(results.Data[i].TransportersStandingList[j].Position)) {
+                    if(($.inArray(results.Data[i].TransportersStandingList[j].Position, availablePositions))==-1) {
+                        //alert(printR(availablePositions));
+                        availablePositions.push(results.Data[i].TransportersStandingList[j].Position);
+                        entries+='<option value="'+transportersStandingPosition.Position+'" transportBidQuotationID="'+transportersStandingPosition.TransportBidQuotationID+'"' +
+                    ' woredaID="'+substituteTransport.WoredaID+'"> [ #'+ transportersStandingPosition.Position+ ' ]' +' </option>';
+                        //count++;
+                    }
+                        
+                }
+                entries+='</select>';
+                entries+='</td>';
+                entries+='<td style="text-align:center;">';
+                entries+='<div id="TransportersList4-'+substituteTransport.WoredaID+'"></div>';
+                entries+='</td>';
+                entries+='</tr>';
+                entries+='<tr>';
+                entries+='<td colspan="3" style="text-align:center;color:#ececec;">';
+                entries+='<hr>';
+                entries+='</td>';
+                entries+='</tr>';
+            }
+            entries+='</table>';
+            entries+='<a type="button" class="generateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">Generate Transport Order(s)</a>';
+            //alert(entries);
+            //var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
+            $("#modalWindow").html(entries);
+        }
+        
+        function PositionChanged4Woreda(woredaId, position) {
+            //alert(printR(woredaWithTransportersStanding));
+            
+            var index = getIndexOfValue(woredaWithTransportersStanding.Data, woredaId);
+            //alert(position);
+            var entries = '';
+            for(var z in woredaWithTransportersStanding.Data[index.i].TransportersStandingList) {
+                if(woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z].Position == position) {
+                    var transportersStanding = woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z];
+                    entries+='<div value="'+transportersStanding.TransporterID+'" transportBidQuotationID="'+transportersStanding.TransportBidQuotationID+'"' +
+                    ' woredaID="'+woredaId+'">'+transportersStanding.Transporter +'</div>';
+                }
+            }
+            $('#TransportersList4-' + woredaId).html(entries);
+        }
+
+        function ChangeTransporterSendFailed(request, status, error) {
+            //var msg = '<div class="cats_error">Error: ' + error + '. Status: ' + status + '</div>';
+            var msg = '<div class="cats_error">Error: Dashboard preference not updated.';
+            $(".modalWindow").html(msg);
+        }
+        
+        function printR(arr,level) {
+            var dumpedText = "";
+            if(!level) level = 0;
+
+            //The padding given at the beginning of the line.
+            var levelPadding = "";
+            for(var j=0;j<level+1;j++) levelPadding += "    ";
+
+            if(typeof(arr) == 'object') { //Array/Hashes/Objects 
+                for(var item in arr) {
+                    var value = arr[item];
+
+                    if(typeof(value) == 'object') { //If it is an array,
+                        dumpedText += levelPadding + "'" + item + "' ...\n";
+                        dumpedText += printR(value,level+1);
+                    } else {
+                        dumpedText += levelPadding + "'" + item + "' => \"" + value + "\"\n";
+                    }
+                }
+            } else { //Stings/Chars/Numbers etc.
+                dumpedText = "===>"+arr+"<===("+typeof(arr)+")";
+            }
+            return dumpedText;
+        }
+    </script>
+</html>

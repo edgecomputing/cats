@@ -156,7 +156,7 @@ namespace Cats.Areas.PSNP
             //regionalpsnpplan.StatusID = 1;
 
             //check if this psnp plan exitsts for this region
-            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.Year,
+            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,
                                                                                  regionalpsnpplan.RegionID);
 
              if (ModelState.IsValid)
@@ -190,7 +190,7 @@ namespace Cats.Areas.PSNP
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
-                ModelState.AddModelError("Errors", "PSNP plan already made for this year and region.");
+                ModelState.AddModelError("Errors", "PSNP plan already made for this period and region.");
                 return View(regionalpsnpplan);
             }
             LoadLookups();

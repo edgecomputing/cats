@@ -30,11 +30,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IRationService  _rationService;
         private readonly IDonorService _donorService;
         private readonly INotificationService _notificationService;
+        private readonly IPlanService _planService;
 
         public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService, IDonorService donorService, INotificationService notificationService)
+            IRationService rationService, IDonorService donorService, INotificationService notificationService, IPlanService planService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -43,12 +44,76 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _rationService = rationService;
             _donorService = donorService;
             _notificationService = notificationService;
+            _planService = planService;
         }
 
         public ViewResult Index(int id = 1)
         {
             ViewBag.Status = id;
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult CreateRequisitionForIDPS(int id,int programId=-1)
+        {
+            try
+            {
+                if (programId == (int)Programs.IDPS)
+                {
+                    var planToBeEdited = _planService.FindBy(p => p.PlanID == programId).Single();
+                    if (planToBeEdited != null)
+                    {
+                        //var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+                        //var planViewModel = new PlanViewModel()
+                        //                        {
+                        //                            planID = planToBeEdited.PlanID,
+                        //                            planName = planToBeEdited.PlanName,
+                        //                            StartDate = planToBeEdited.StartDate.ToCTSPreferedDateFormat(datePref),
+                        //                            EndDate = planToBeEdited.EndDate.ToCTSPreferedDateFormat(datePref),
+                        //                            ProgramID = planToBeEdited.ProgramID,
+                        //                            Program = planToBeEdited.Program.Name,
+                        //                            StatusID = planToBeEdited.Status,
+                        //                        };
+
+                        return PartialView(planToBeEdited);
+                    }
+                }
+                
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult CreateRequisitionForIDPS(Plan plan, int id)
+        {
+            try
+            {
+                var planToBeEdited = _planService.FindBy(p => p.PlanID == plan.PlanID).Single();
+
+                if (planToBeEdited != null)
+                {
+                    planToBeEdited.PlanName = plan.PlanName;
+                    planToBeEdited.StartDate = plan.StartDate;
+                    planToBeEdited.EndDate = plan.EndDate;
+
+                    _planService.EditPlan(planToBeEdited);
+                    return RedirectToAction("CreateRequisiton", new { id = id });
+                }
+                ModelState.AddModelError("Error", errorMessage: "Can not edit Plan");
+                return null;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+            
         }
 
         [HttpGet]
@@ -63,8 +128,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var input = _reliefRequisitionService.GetRequisitionByRequestId(id);
             return View(input);
-
-
         }
 
         [HttpPost]
