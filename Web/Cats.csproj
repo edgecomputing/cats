@@ -484,9 +484,10 @@
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
-    <Compile Include="Areas\Logistics\Models\TransportOrderDispatchViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
+    <Compile Include="Areas\Procurement\Models\ActiveTransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\AgreementVersionViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
@@ -530,6 +531,7 @@
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredasInCurrentContract.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
@@ -1567,7 +1569,11 @@
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
+
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\CreateRequisitionForIDPS.cshtml" />
+
+    <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2190,6 +2196,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
