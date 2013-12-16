@@ -16,7 +16,12 @@ namespace Cats.Models.Constant
       Plan=7,
       BidWinner=8
   }
-
+    public enum Programs
+    {
+        Releif =1,
+        PSNP = 2,
+        IDPS =3
+    }
     public enum RegionalRequestStatus
     {
         Draft=1,

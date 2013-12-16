@@ -50,7 +50,7 @@ namespace Cats.ViewModelBinder
             regionalRequestViewModel.Ration = regionalRequest.Ration.RefrenceNumber;
             regionalRequestViewModel.RationID = regionalRequest.RationID;
             regionalRequestViewModel.Year = regionalRequest.Year;
-
+            regionalRequestViewModel.PlanId = regionalRequest.PlanID;
             return regionalRequestViewModel;
         }
 

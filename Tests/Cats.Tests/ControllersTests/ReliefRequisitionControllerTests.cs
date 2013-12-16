@@ -185,7 +185,7 @@ namespace Cats.Tests.ControllersTests
                 mockReliefRequistionDetailService.Object, 
                 userAccountService.Object,
                 rationService.Object,
-                donorService.Object, notificationService.Object);
+                donorService.Object, notificationService.Object,null);
 
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
           //  _input = input;

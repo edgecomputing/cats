@@ -96,6 +96,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult New()
         {
             PopulateLookup();
+            
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             return View();
         }
@@ -629,6 +630,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             SearchRequsetViewModel filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
             PopulateLookup();
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 
@@ -637,6 +639,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Filter = filter;
             PopulateLookup();
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 
