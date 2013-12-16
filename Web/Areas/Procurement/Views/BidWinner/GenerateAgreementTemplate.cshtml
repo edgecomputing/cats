@@ -1,0 +1,32 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "GenerateAgreementTemplate";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Generate Agreement Template</h2>
+
+@(Html.Kendo().Grid<Cats.>()
+    .Name("gridselect")
+    .Columns(columns =>
+                {
+                    columns.Bound(p => p.LetterTemplateID).Title("Select a template")
+                        .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner", new { fileName = "FrameworkPucrhaseContract", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>Select</a>  ");
+                    columns.Bound(p => p.Name);
+
+
+                })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+
+    .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .PageSize(5)
+                                .Model(model => model.Id(p => p.LetterTemplateID))
+                                .Read(read => read.Action("ShowLetterTemplates", "GiftCertificate"))
+
+    ).Selectable(select => select.Mode(GridSelectionMode.Single))
+)
+
+

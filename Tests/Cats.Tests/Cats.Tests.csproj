@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="ControllersTests\BeneficiaryAllocationControllerTests.cs" />
     <Compile Include="ControllersTests\BidControllerTest.cs" />
+    <Compile Include="ControllersTests\BidWinnerControllerTest.cs" />
     <Compile Include="ControllersTests\ContributionControllerTest.cs" />
     <Compile Include="ControllersTests\CurrencyControllerTest.cs" />
     <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />
@@ -163,6 +164,10 @@
     <ProjectReference Include="..\..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
       <Name>Cats.Models.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
+      <Project>{2F5BAA46-25C9-4B3B-AAF6-7DF39E9A696A}</Project>
+      <Name>Cats.Services.Administration</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>

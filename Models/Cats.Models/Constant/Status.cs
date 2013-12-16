@@ -13,9 +13,15 @@ namespace Cats.Models.Constant
       TRANSPORT_REQUISITION=3,
       TRANSPORT_ORDER=4,
       HRD=5,
-      Plan=7
+      Plan=7,
+      BidWinner=8
   }
-
+    public enum Programs
+    {
+        Releif =1,
+        PSNP = 2,
+        IDPS =3
+    }
     public enum RegionalRequestStatus
     {
         Draft=1,
@@ -61,5 +67,26 @@ namespace Cats.Models.Constant
         AssessmentCreated=3,
         HRDCreated=4,
         PSNPCreated=5
+    }
+    public enum WoredaHubLinkVersionStatus
+    {
+        Draft = 1,
+        Approved = 2,
+        Closed = 3
+    }
+
+    public enum BIDWINNER
+    {
+        Awarded = 1,
+        Signed = 2
+    }
+    public enum BidWinnerStatus
+    {
+        Draft=1,
+        Approved = 2,
+        Signed=3,
+        Disqualified=4,
+        
+
     }
 }

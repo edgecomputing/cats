@@ -302,6 +302,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                               });
             return Json(rationViewModel, JsonRequestBehavior.AllowGet);
         }
+
         //update HRD detail information
         [AcceptVerbs(HttpVerbs.Post)]
         [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Modify_HRD)]
@@ -325,6 +326,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(new[] { hrdDetails }.ToDataSourceResult(request, ModelState));
             //return Json(ModelState.ToDataSourceResult());
         }
+
         private DateTime GetGregorianDate(string ethiopianDate)
         {
             DateTime convertedGregorianDate;
@@ -543,7 +545,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_HRD)]
         public ActionResult CreateHRD(HRD hrd)
         {
-             DateTime dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.Now;
             DateTime DatePublished = DateTime.Now;
 
             hrd.CreatedDate = dateCreated;

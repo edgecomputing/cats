@@ -459,6 +459,7 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DistributionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -471,6 +472,8 @@
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DistributionDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DistributionViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
@@ -480,7 +483,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
+    <Compile Include="Areas\Procurement\Models\ActiveTransportOrderViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\AgreementVersionViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
     <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
     <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
@@ -488,6 +496,8 @@
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportContractReportViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportContractViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransporterAgreementViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransporterViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
@@ -514,7 +524,14 @@
     <Compile Include="Areas\Procurement\Models\vwTransportOrderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WinnersByBidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubBinding.cs" />
+    <Compile Include="Areas\Procurement\Controllers\PaymentRequestController.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredasInCurrentContract.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
@@ -654,6 +671,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RequisitionSummary.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
@@ -1523,9 +1541,45 @@
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\TransferredStock.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\AddCommodity.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\ActiveTransporters.cshtml" />
+    <Content Include="Areas\Procurement\Views\WoredaHub\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\WoredaHub\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\BidWinningTransporters.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\GenerateAgreementTemplate.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\ShowAllAgreements.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\DeliveryNotes.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\PaymentRequest.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\ActiveTransportOrders.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\FDPsInCurrentContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposal.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\bidProposals.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\GenerateWinners.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\ReceiveGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\EditGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\ReceivingNote.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
+
+
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\CreateRequisitionForIDPS.cshtml" />
+
+
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+
+    <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -1916,7 +1970,7 @@
     <Content Include="CatsMasterDataSet.xss">
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Content>
-    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\OrderDetail.cshtml" />
     <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
@@ -2144,9 +2198,11 @@
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -2264,6 +2320,10 @@
     <ProjectReference Include="..\ReportLib\ReportLib.csproj">
       <Project>{2db02a2c-8e7b-4a3c-9a4c-af7736a66990}</Project>
       <Name>ReportLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
+      <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
+      <Name>Cats.Services.Administration</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
@@ -2513,9 +2573,9 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
-<Target Name="BeforeBuild">
-   <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
-</Target>
+  <Target Name="BeforeBuild">
+    <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,44 @@
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "ActiveTransporters";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>ActiveTransporters</h2>
+<div>
+    <h4>List of Programs</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Models.Transporter>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.Name).Title(Translator.Translate("Transporter Name")).ClientTemplate(
+                            @Html.EarlyWarningOperationButton(
+                                @Url.Action("Details", "Transporter", new { id = "#=HRDID#" }),
+                                EarlyWarningCheckAccess.Operation.New_HRD, "#=HRDName#").ToString());
+        columns.Bound(p => p.OwnerName);
+        columns.Bound(p => p.ManagerName);
+       //columns.Command(command => command.Destroy());
+       columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+    })
+    .ToolBar(toolbar =>
+        {
+            toolbar.Create();
+            toolbar.Save();
+        })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+           .Model(model => model.Id(p => p.TransporterID))
+           .Read(read => read.Action("ActiveTransporters", "TransportBidPlan"))
+ 
+    )
+   
+)

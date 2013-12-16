@@ -41,10 +41,8 @@
             .HtmlAttributes(new { style = "height:430px;" })
             .DataSource(dataSource => dataSource
                   .Ajax()
-                  .PageSize(8)
                     .Model(model => model.Id(p => p.planID))
                     .Read(read => read.Action("plan_Read", "Plan"))
-
              ))
 
 <script>

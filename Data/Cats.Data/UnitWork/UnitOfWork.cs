@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Linq;
 using Cats.Models;
 using Cats.Data.Repository;
 
@@ -38,10 +40,34 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<TransporterAgreementVersion> _TransporterAgreementVersionRepository = null;
+        public IGenericRepository<TransporterAgreementVersion> TransporterAgreementVersionRepository
+        {
+            get { return this._TransporterAgreementVersionRepository ?? (this._TransporterAgreementVersionRepository = new GenericRepository<TransporterAgreementVersion>(_context)); }
+        }
+
         private IGenericRepository<HubOwner> _HubOwnerRepository = null;
         public IGenericRepository<HubOwner> HubOwnerRepository
         {
             get { return this._HubOwnerRepository ?? (this._HubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
+        }
+
+        private IGenericRepository<PaymentRequest> _PaymentRequestRepository = null;
+        public IGenericRepository<PaymentRequest> PaymentRequestRepository
+        {
+            get { return this._PaymentRequestRepository ?? (this._PaymentRequestRepository = new GenericRepository<PaymentRequest>(_context)); }
+        }
+        
+        private IGenericRepository<WoredaHubLink> _WoredaHubLinkRepository = null;
+        public IGenericRepository<WoredaHubLink> WoredaHubLinkRepository
+        {
+            get { return this._WoredaHubLinkRepository ?? (this._WoredaHubLinkRepository = new GenericRepository<WoredaHubLink>(_context)); }
+        }
+
+        private IGenericRepository<WoredaHub> _WoredaHubRepository = null;
+        public IGenericRepository<WoredaHub> WoredaHubRepository
+        {
+            get { return this._WoredaHubRepository ?? (this._WoredaHubRepository = new GenericRepository<WoredaHub>(_context)); }
         }
 
         private IGenericRepository<DashboardWidget> _dashboardWidgetRepository;
@@ -275,11 +301,11 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
-        //private IGenericRepository<HubOwner> hubOwnerRepository;
-        //public IGenericRepository<HubOwner> HubOwnerRepository
-        //{
-        //    get { return this.hubOwnerRepository ?? (this.hubOwnerRepository = new GenericRepository<HubOwner>(_context)); }
-        //}
+        private IGenericRepository<IDPSReasonType> iDPSReasonTypeRepository;
+        public IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository
+        {
+            get { return this.iDPSReasonTypeRepository ?? (this.iDPSReasonTypeRepository = new GenericRepository<IDPSReasonType>(_context)); }
+        }
 
 
 
@@ -368,9 +394,17 @@ namespace Cats.Data.UnitWork
             {
                 _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (System.Data.Entity.Validation.DbEntityValidationException e)
             {
-
+                var outputLines = new List<string>();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    outputLines.Add(string.Format(
+                        "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
+                        DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                    outputLines.AddRange(eve.ValidationErrors.Select(ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
+                }
+                // System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
                 throw;
             }
 
@@ -756,6 +790,19 @@ namespace Cats.Data.UnitWork
         public IGenericRepository<WoredasByDonor> WoredaByDonorRepository
         {
             get { return this.woredasByDonorRepository ?? (this.woredasByDonorRepository = new GenericRepository<WoredasByDonor>(_context)); }
+        }
+
+        private IGenericRepository<Distribution> distributionRepositiory;
+        public IGenericRepository<Distribution> DistributionRepository
+        {
+            get { return this.distributionRepositiory ?? (this.distributionRepositiory = new GenericRepository<Distribution>(_context)); }
+      
+        }
+        private IGenericRepository<DistributionDetail> distributionDetailRepository;
+        public IGenericRepository<DistributionDetail> DistributionDetailRepository
+        {
+            get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DistributionDetail>(_context)); }
+      
         }
     }
 }

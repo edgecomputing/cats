@@ -196,9 +196,10 @@ namespace Cats.Services.EarlyWarning
             if (plan.ProgramID == 2)
             {
                 RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.PlanId == plan.PSNPPlanID).FirstOrDefault();
-                result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                
                 if (psnpplan != null)
                 {
+                    result.HRDPSNPPlan.RationID = psnpplan.RationID;
                     beneficiaryInfos = PSNPToRequest(psnpplan);
                 }
             }
@@ -227,6 +228,33 @@ namespace Cats.Services.EarlyWarning
                 }
                    
                 
+            }
+            else
+            {
+                //if program is IDPS
+                List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
+                List<AdminUnit> woredas = new List<AdminUnit>();
+                var zones  = _unitOfWork.AdminUnitRepository.FindBy(w => w.AdminUnitTypeID == 3 && w.ParentID == plan.RegionID);
+                foreach (var zone   in zones)
+                {
+                    AdminUnit zone1 = zone;
+                    woredas.AddRange(_unitOfWork.AdminUnitRepository.FindBy(w => w.ParentID == zone1.AdminUnitID));
+                }
+
+                //var 
+                foreach (var woreda in woredas)
+                {
+                    AdminUnit woreda1 = woreda;
+                    List<FDP> WoredaFDPs =
+                        _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == woreda1.AdminUnitID);
+                    ICollection<BeneficiaryInfo> woredabeneficiaries =
+                        (from FDP fdp in WoredaFDPs
+                         select new BeneficiaryInfo {FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0}).ToList();
+                    benficiaries.AddRange(woredabeneficiaries);
+                }
+
+                //beneficiaryInfos = benficiaries;
+                //beneficiaryInfos = null; 
             }
             result.BeneficiaryInfos = beneficiaryInfos;
             return result;

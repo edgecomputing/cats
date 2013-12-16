@@ -26,6 +26,7 @@ namespace Cats.Models
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
+        public virtual ICollection<Distribution> Distributions { get; set; }
   
 
     }

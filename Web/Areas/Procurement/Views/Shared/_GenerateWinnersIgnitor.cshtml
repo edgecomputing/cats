@@ -1,0 +1,40 @@
+﻿@*@using (Html.BeginForm("BidProposal", "PriceQuotation", FormMethod.Post)) ;*@
+@model Cats.Areas.Procurement.Models.WinnersGeneratorParameters
+
+
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="span12" style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin-bottom: 6px;">
+            <div class="span4" align="center">
+                <div class="control-group">
+                    <div class="controls">
+                        <label>BID Reference Number</label>
+                        <div>
+                            @Html.DropDownList("BidID")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4" align="center">
+                <div class="control-group">
+                    <div class="controls">
+                        <label>Region</label>
+                        <div>
+                            @Html.DropDownList("RegionID")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4" align="left">
+                <div class="controls">
+                    <label>&nbsp;</label>
+                    <div>
+                        <input type="submit" value="Show" class="btn btn-default" />
+                        <a type="button" href="@Url.Action("ClearBidWinners", "PriceQuotation")" > Clear Exisiting Winners </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

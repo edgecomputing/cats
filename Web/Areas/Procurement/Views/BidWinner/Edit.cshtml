@@ -1,0 +1,100 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Models.BidWinner
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+    <ul class="dropdown-menu">
+        <li><a   href="@Url.Action("SignedContract", "BidWinner", new { id = Model.BidWinnerID })" >Agreement Signed </a></li>
+        <li><a   href="@Url.Action("DisqualifiedWinner", "BidWinner", new { id = Model.BidWinnerID })" >Disqualified </a></li>
+    </ul>
+        </div>
+     <a class="btn toolbar-btn " href="@Url.Action("Details", "BidWinner", new { Area = "Procurement",id=Model.BidID })" data-buttontype="btn_back_to_list"></a>
+}
+<h4>Edit</h4>
+ @using (Html.BeginForm("Edit", "BidWinner", FormMethod.Post, new { id = "frm_edit_bid" }))
+    {
+         @Html.ValidationSummary(true)
+       
+     <div class="control-group form-horizontal well" >
+        
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Bid, Translator.Translate("BidNumber"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model=>model.Bid.BidNumber,new {Disabled=true})
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="control-group" >
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Transporter.Name, Translator.Translate("Transporter"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model=>model.Transporter.Name,new {Disabled=true})
+                    </div>
+                </div>
+                </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group" >
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Hub.Name, Translator.Translate("Warehouse"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model=>model.Hub.Name,new {Disabled=true})
+                    </div>
+                </div>
+            </div>
+             <div class="span6">
+                 <div class="control-group" >
+                     <div class="control-label">
+                         @Html.LabelFor(model => model.AdminUnit.Name, Translator.Translate("Destination"))
+                     </div>
+                     <div class="controls">
+                         @Html.TextBoxFor(model=>model.AdminUnit.Name,new {Disabled=true})
+                     </div>
+                 </div>
+                 </div>
+        </div>
+         <div class="row">
+             <div class="span6">
+                 <div class="control-group" >
+                     <div class="control-label">
+                         @Html.LabelFor(model => model.Amount)
+                     </div>
+                     <div class="controls">
+                         @Html.TextBoxFor(model=>model.Amount,new {Disabled=true})
+                     </div>
+                 </div>
+             </div>
+             <div class="span6">
+                 <div class="control-group" >
+                     <div class="control-label">
+                         @Html.LabelFor(model => model.Tariff)
+                     </div>
+                     <div class="controls">
+                         @Html.TextBoxFor(model=>model.Tariff,new {Disabled=true,Value = String.Format("{0:C}",Model.Tariff)})
+                     </div>
+                 </div>
+             </div>
+         </div>
+    </div>
+    }

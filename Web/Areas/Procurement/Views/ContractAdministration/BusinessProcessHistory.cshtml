@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "BusinessProcessHistory";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3>Business Process History</h3>
+@Html.Partial("AllocateProjectCode", new List<int?>() { ViewBag.BusinessProcessID })

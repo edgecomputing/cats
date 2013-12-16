@@ -692,7 +692,7 @@ namespace Cats.Models.Hubs
         [Required]
         [Display(Name = "Dispatch Date")]
         public DateTime DispatchDate { get; set; }
-
+         [Display(Name = "Requisition No")]
         public string RequisitionNo { get; set; }
 
         [Required]
@@ -724,7 +724,7 @@ namespace Cats.Models.Hubs
 
         public string Transporter { get; set; }
 
-
+         [Display(Name = "Project Code")]
         public string ProjectNumber { get; set; }
 
         public int Year { get; set; }
@@ -732,7 +732,7 @@ namespace Cats.Models.Hubs
         public int Month { get; set; }
 
 
-        public int Program { get; set; }
+        public String Program { get; set; }
 
 
         [Display(Name = "Weigh Bridge Ticket Number")]
@@ -752,6 +752,7 @@ namespace Cats.Models.Hubs
         public string Remark { get; set; }
 
         public int Type { get; set; }
+         [Display(Name = "Quantity In Unit")]
         public decimal QuantityInUnit { get; set; }
         public decimal Quantity { get; set; }
         [Display(Name = "Unit")]
@@ -777,15 +778,22 @@ namespace Cats.Models.Hubs
             get;
             set;
         }
-
+ [Display(Name = "Created Date")]
         public DateTime CreatedDate
         {
             get;
             set;
         }
-
+        [Display(Name="Created Date")]
+        public string CreatedDatePref { get; set; }
+        [Display(Name="Dispatched Date")]
+        public string DispatchDatePref { get; set; }
         public int UserProfileID { get; set; }
         public int? ShippingInstructionID { get; set; }
         public int? ProjectCodeID { get; set; }
+
+        public bool GRNReceived { get; set; }
+
+        public Guid DistributionID { get; set; }
     }
 }

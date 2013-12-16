@@ -51,7 +51,7 @@ namespace Cats.Services.Common
        List<Plan> GetPlan(string programName);
         List<Plan> GetPlan(int programID);
         List<FDP> GetFDPs(int woredaID);
-
+        List<Commodity> GetRationCommodity(int id);
     }
 }
 

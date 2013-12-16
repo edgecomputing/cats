@@ -277,6 +277,15 @@ namespace Cats.Services.Hub
 
             return dispatch;
         }
+
+
+
+
+        public IEnumerable<Dispatch> Get(Expression<Func<Dispatch, bool>> filter = null, Func<IQueryable<Dispatch>, IOrderedQueryable<Dispatch>> orderBy = null, string includeProperties = "")
+        {
+            return _unitOfWork.DispatchRepository.Get(filter, null, includeProperties);
+        }
+
         #endregion
         public void Dispose()
         {

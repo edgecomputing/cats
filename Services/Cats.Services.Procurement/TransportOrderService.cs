@@ -442,10 +442,10 @@ namespace Cats.Services.Procurement
                 dispatchAllocation.FDPID = transportOrderDetail.FdpID;
                 dispatchAllocation.HubID = transportOrderDetail.SourceWarehouseID;
                 dispatchAllocation.TransporterID = transportOrder.TransporterID;
-                dispatchAllocation.IsClosed = false;
+               // dispatchAllocation.IsClosed = false;
                 dispatchAllocation.Month = requisition.Month;
                 dispatchAllocation.Round = requisition.Round;
-
+                dispatchAllocation.TransportOrderID = transportOrderId;
                 dispatchAllocation.ProgramID = requisition.ProgramID;
                 dispatchAllocation.RequisitionNo = requisition.RequisitionNo;
                 dispatchAllocation.PartitionID = 0;

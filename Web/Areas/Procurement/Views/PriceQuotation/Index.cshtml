@@ -1,13 +1,7 @@
 ﻿@{
     ViewBag.Title = "rfq";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-
-}
-
-@section LeftBar
-{
-   @Html.Partial("_BidSelectionPartial")
 }
 
 <h4>Price Quotation Data Entry</h4>
-<h5>Please specify the bid no, Region and Transporter to continue</h5>
+@Html.Partial("_BidSelectionPartial")

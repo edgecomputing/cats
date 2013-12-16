@@ -29,8 +29,7 @@ namespace Cats.Data.Repository
             IQueryable<T> query = _context.Set<T>();
             return query.ToList();
         }
-
-
+       
         public List<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> query = _context.Set<T>().Where(predicate);

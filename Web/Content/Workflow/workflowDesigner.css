@@ -5,7 +5,7 @@
 }
 .designer_window
 {
-    position:fixed;border:solid 1px #CCC;left:18%;right:10px;top:100px;bottom:40px;
+    position:absolute;border:solid 1px #CCC;left:18%;right:10px;top:100px
 }
 .left_bar
 {

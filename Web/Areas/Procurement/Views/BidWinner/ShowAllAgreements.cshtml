@@ -1,0 +1,36 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "ShowAllAgreements";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3>Show All Agreements of a Transporter</h3>
+
+<div><span style="font-weight: bold; font-size: 14px">Transporter:</span> @ViewBag.TransporterName</div>
+@(Html.Kendo().Grid<AgreementVersionViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.BidNo).Title("Bid Number");
+        columns.Bound(p => p.IssueDate).Title("Issue Date").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+        columns.Bound(p => p.Current).Title("Current").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+        columns.Bound(p => p.TransporterID).Title("Actions")
+                        .ClientTemplate("<a href='" + Url.Action("ViewAgreementTemplate", "BidWinner", new { transportAgreementVersionID = "#=TransportAgreementVersionID#" }) + " '>View Agreement</a>  ");
+                           
+        //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
+    })
+    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Scrollable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            //.PageSize(8)
+            //.Model(model => model.Id(p => p.WoredaHubID))
+            .Read(read => read.Action("ShowAllAgreements_read", "BidWinner", new { transporterID     = @ViewBag.TransporterID }))
+     )
+)
