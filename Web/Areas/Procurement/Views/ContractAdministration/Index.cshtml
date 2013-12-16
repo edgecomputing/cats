@@ -21,7 +21,10 @@
 
         <ul class="dropdown-menu">
             <li><a href="@Url.Action("Create", "PaymentRequest", new {transporterID = ViewBag.TransporterID})">Request Payment</a></li>
-            <li><a href="@Url.Action("PrintContract", "ContractAdministration", new {transporterID = ViewBag.TransporterID})">Print Contract</a></li>
+            <li>
+                <a href="@Url.Action("ViewCurrentAgreement", "BidWinner", 
+                        new { transporterID = ViewBag.TransporterID })">Print Contract</a>
+            </li>
         </ul>
 
     </div>
@@ -40,7 +43,10 @@
             <td><div style="width: 400px;margin-left:0px;border:1px solid #ececec;border-radius: 5px;">@ViewBag.TransporterAddress</div></td>
         </tr>
         <tr>
-            <td colspan="2"><a href="#">Click here to see active agreement contract</a></td>
+            <td colspan="2">
+                <a href="@Url.Action("ViewCurrentAgreement", "BidWinner", 
+                        new { transporterID = ViewBag.TransporterID })">Click here to see active agreement contract</a>
+            </td>
         </tr>
     </table>
 </div>
@@ -49,19 +55,17 @@
     <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">Outstanding Delivery Notes</div>
         @(Html.Kendo().Grid<DispatchViewModel>().Name("gridWithGRN")
-        .Columns(col =>                {
-                    col.Template(
-                        @<text>
-                            <a href="@Url.Action("EditGRN", "Distribution", new { Area = "Logistics", id = item.DistributionID })">@Translator.Translate("GRN")</a>
-                        </text>);
-                    col.Bound(t => t.GIN);
+        .Columns(col => {
+                    
+                    //col.Bound(t => t.RequisitionNoGRNReceived).ClientTemplate("<a href='" +
+                    //            Url.Action("EditGRN", "Distribution", new { Area = "Logistics", id = "#=DistributionID#" }) + " '>#=GRNReceived#</a>  ").Width(130);
 
-                     col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                    col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                    col.Bound(t => t.GIN);
+                    col.Bound(t => t.DispatchDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
                      col.Bound(t => t.PlateNo_Prime).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                     col.Bound(t => t.PlateNo_Trailer).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                     col.Bound(t => t.DriverName).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                     col.Bound(t => t.DispatchDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
-                     col.Bound(t => t.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+                     col.Bound(t => t.Commodity).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                     col.Bound(t => t.Quantity).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
 
                  })
                  .DataSource(dataSource => dataSource
@@ -69,7 +73,7 @@
                     .Read(read => read.Action("OutstandingDeliveryNotes_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}))
                  )
                  .Scrollable(scroll => scroll.Height(350))
-                 .Selectable(select => select.Mode(GridSelectionMode.Single))
+                // .Selectable(select => select.Mode(GridSelectionMode.Single))
                  .Navigatable()
                  .Sortable()
                  .HtmlAttributes(new { style = "height:200px;" }))
@@ -81,14 +85,13 @@
             int index = 0;
             var paymentRequest = ViewBag.PaymentRequests;
         }
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered" style="min-height: 200px;">
                 <tr>
                     <th>Reference No</th>
                     <th>Transporter</th>
                     <th>Transport Order</th>
                     <th>Requested Amount</th>
                     <th>Status</th>
-                    <th></th>
                 </tr>
 
                 @foreach (PaymentRequest item in paymentRequest)
@@ -97,7 +100,7 @@
                     StateTemplate state = item.BusinessProcess.CurrentState.BaseStateTemplate;
                     <tr>
                         <td>
-                            <a href="@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = item.BusinessProcessID })">@item.ReferenceNo</a>
+                            <a href="@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = item.BusinessProcessID, partial = 0 })">@item.ReferenceNo</a>
                         </td>
                         <td>
                            @item.TransportOrder.Transporter.Name
@@ -124,10 +127,8 @@
             .Columns(columns =>
                 {
                     columns.Bound(e => e.TransportOrderID).Visible(false).Width(120);
-                    columns.Bound(p => p.TransportOderNo).Title(Translator.Translate("Transport Order #")).ClientTemplate(
-                            @Html.ProcurementOperationButton(
-                                @Url.Action("Dispatches", "Distribution", new { Area = "Logistics", id = "#TransportOrderID" }),
-                                ProcurementCheckAccess.Operation.View_Transport_Order).ToString()).Width(130);
+                    columns.Bound(e => e.TransportOderNo).ClientTemplate("<a href='" +
+                        Url.Action("Dispatches", "Distribution", new { Area = "Logistics", id = "#=TransportOrderID#" }) + " '>#=TransportOderNo#</a>  ").Width(130);
                     columns.Bound(e => e.SignedDate).Title("Signed Date").Width(120);
                     columns.Bound(e => e.StartedOn).Title("Started On").Width(120);
                     columns.Bound(e => e.RemainingDays).Title("Remaining Dates").Width(120);
@@ -138,7 +139,7 @@
                 .Read(read => read.Action("ActiveTO_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}))
              )
              .Scrollable(scroll => scroll.Height(350))
-             .Selectable(select => select.Mode(GridSelectionMode.Single))
+             //.Selectable(select => select.Mode(GridSelectionMode.Single))
              .Navigatable()
              .Sortable()
              .HtmlAttributes(new { style = "height:200px;" })
@@ -147,7 +148,7 @@
     <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">FDPs in Current Contract</div>
         @(Html.Kendo().Grid<WoredasInCurrentContract>()
-            .Name("ActiveTransportOrders")
+            .Name("FDPsinCurrentContract")
             .Columns(columns =>
                 {
                     columns.Bound(e => e.Region).Title("Region").Width(120);
@@ -157,10 +158,10 @@
                 })
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("WoredasInCurrentContract_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}))
+                .Read(read => read.Action("WoredasInCurrentContract_Read", "ContractAdministration",new {TransporterID = ViewBag.TransporterID}))
                 )
                 .Scrollable(scroll => scroll.Height(200))
-                .Selectable(select => select.Mode(GridSelectionMode.Single))
+                //.Selectable(select => select.Mode(GridSelectionMode.Single))
                 .Navigatable()
                 .Sortable()
                 .HtmlAttributes(new { style = "height:200px;" })
