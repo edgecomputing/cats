@@ -380,7 +380,7 @@ namespace Cats.Areas.Procurement.Controllers
             //return Json(returnedObj.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult TransportContract(int id)
+        public ActionResult OrderDetail(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
             ViewBag.HubID = _transportOrderService.GetHubs();

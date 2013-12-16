@@ -127,7 +127,7 @@ namespace Cats.Services.EarlyWarning
         {
             var oldRequestDetail = _unitOfWork.RegionalRequestDetailRepository.FindBy(m => m.RegionalRequestID==regionalRequestDetail.RegionalRequestID
                                                                                       && m.Fdpid==regionalRequestDetail.Fdpid);
-            if (oldRequestDetail != null) return false;
+            if (oldRequestDetail.Count > 0) return false;
             _unitOfWork.RegionalRequestDetailRepository.Add(regionalRequestDetail);
             _unitOfWork.Save();
             return true;
