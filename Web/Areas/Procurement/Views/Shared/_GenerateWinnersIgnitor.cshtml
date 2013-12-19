@@ -31,10 +31,58 @@
                     <label>&nbsp;</label>
                     <div>
                         <input type="submit" value="Show" class="btn btn-default" />
-                        <a type="button" href="@Url.Action("ClearBidWinners", "PriceQuotation")" > Clear Exisiting Winners </a>
+                        @*<a type="button" href="@Url.Action("ClearBidWinners", "PriceQuotation")" > Clear Exisiting Winners </a>*@
+                        @*<input type="button" value="Generate" class="btn btn-default" onclick="confirmActions()" />*@
+                        
+                       @* <button class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">
+                            Generate
+                        </button>*@
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">Are you sure you want to generate now?</h4>
+                                    </div>
+                                    <div id="modalContent" class="alert alert-danger" align="center">
+                                        Once you generate winners for the specific Bid and region,
+                                        you can't do it again. So Before you proceed make sure that
+                                        the bid proposals are compelete and correct.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                                        @*<button type="button" class="btn btn-default" id="genBtn" onclick="generate()">Yes</button>*@
+                                    </div>
+                                </div>
+                               
+                            </div>
+                           
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 }
+
+<script>
+    var bidNumber = 15;
+    var regionID = 2;
+    
+    var postUrl = "@Url.Action("IdentifyWinners", "PriceQuotation")";
+    var onSuccess = function (data) {
+        $('#myModal').modal('hide');
+    };
+    var onFail = function (data) {
+        $('#modalContent').html("Error");
+    };
+
+    function generate() {
+        var reqParam = { bidNumber :bidNumber , regionID : regionID };
+        $.post(postUrl,reqParam,onSuccess,onFail);
+    }
+    
+</script>

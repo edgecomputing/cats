@@ -487,7 +487,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
         }
 
-        private bool IdentifyWinners(int bidNumber, int regionID)
+        public bool IdentifyWinners(int bidNumber, int regionID)
         {
             bool result = false;
 
@@ -636,7 +636,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 _bidWinnerService.Save();
 
-                string name = d.FirstOrDefault().Hub.Name;
+                //string name = d.FirstOrDefault().Hub.Name;
                 
                 if (d !=null)
                 {
