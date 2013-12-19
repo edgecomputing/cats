@@ -1,0 +1,79 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Cats.Models.Hubs
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "WoredasWithOutBidOffer";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+<h3>Woredas Without Bid Offer</h3>
+<div class="row">
+    @using (Html.BeginForm())
+    {
+        <div>
+            <div class="span12" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
+                @*<div><h5>Please specify the BID number, Region and Transporter to continue</h5></div>*@
+                <div class="span4" align="center">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label>BID Reference Number</label>
+                            <div>
+                                @Html.DropDownList("BidID")
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="span4" align="center">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label>Region</label>
+                            <div>
+                                @Html.DropDownList("RegionID")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4" align="center">
+                    <div class="controls">
+                        <div>
+                            <input type="submit" value="Continue" class="btn btn-default" style="margin-top: 25px"/>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+    }
+</div>
+
+<div class="row">
+    @(Html.Kendo().Grid<PriceQuotationDetail>().Name("gridOfWoredasWithOutOffer")
+        .Columns(columns =>
+            {
+                columns.Bound(p => p.SourceWarehouse);
+                columns.Bound(p => p.Zone);
+                columns.Bound(p => p.Woreda);
+            })
+        .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .Read(read => read.Action("ReadBidProposals", "Bid", new
+                                        {
+                                            bidID = @ViewBag.filter.BidID,
+                                            regionID = @ViewBag.filter.RegionID
+                                        }
+                                                        )
+                                    )
+        )
+        .Scrollable(scroll => scroll.Height(350))
+        .HtmlAttributes(new { style = "height:200px;" })
+    )
+</div>
+
+
+<script>
+    $(function () {
+        $("#continue").click(function () {
+            var grid = $("#gridOfWoredasWithOutOffer").data("kendoGrid");
+            grid.dataSource.read();
+        });
+    });
+</script>

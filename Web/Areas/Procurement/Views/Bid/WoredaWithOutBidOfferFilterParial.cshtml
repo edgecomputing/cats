@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "WoredasWithOutBidOffer";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+<h3>Woredas Without Bid Offer</h3>
+@using (Html.BeginForm())
+    {
+        <div>
+            <div class="span12" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
+                @*<div><h5>Please specify the BID number, Region and Transporter to continue</h5></div>*@
+                <div class="span4" align="center">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label>BID Reference Number</label>
+                            <div>
+                                @Html.DropDownList("BidID")
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="span4" align="center">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label>Region</label>
+                            <div>
+                                @Html.DropDownList("RegionID")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4" align="center">
+                    <div class="controls">
+                        <div>
+                            <input type="submit" value="Continue" class="btn btn-default" />  
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+    }

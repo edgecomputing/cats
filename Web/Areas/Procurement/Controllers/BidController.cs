@@ -28,13 +28,15 @@ namespace Cats.Areas.Procurement.Controllers
         private ITransportBidPlanDetailService _transportBidPlanDetailService;
         private IApplicationSettingService _applicationSettingService;
         private IUserAccountService _userAccountService;
+        private ITransportBidQuotationService _transportBidQuotationService;
 
         public BidController(IBidService bidService, IBidDetailService bidDetailService,
                              IAdminUnitService adminUnitService,
                              IStatusService statusService,
                              ITransportBidPlanService transportBidPlanService,
                              ITransportBidPlanDetailService transportBidPlanDetailService,
-                             IApplicationSettingService applicationSettingService,IUserAccountService userAccountService)
+                             IApplicationSettingService applicationSettingService,IUserAccountService userAccountService,
+                             ITransportBidQuotationService transportBidQuotationService)
         {
             this._bidService = bidService;
             this._bidDetailService = bidDetailService;
@@ -44,6 +46,7 @@ namespace Cats.Areas.Procurement.Controllers
             this._transportBidPlanDetailService = transportBidPlanDetailService;
             this._applicationSettingService = applicationSettingService;
             _userAccountService = userAccountService;
+            _transportBidQuotationService = transportBidQuotationService;
         }
 
         public ActionResult Index()
@@ -52,6 +55,70 @@ namespace Cats.Areas.Procurement.Controllers
             //var bidsToDisplay = GetBids(bids).ToList();
             //return View(bidsToDisplay);
             return View();
+        }
+        [HttpGet]
+        public ActionResult WoredasWithOutBidOffer()
+        {
+            var filter = new PriceQuotationFilterViewModel();
+            ViewBag.filter = filter;
+            ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            return View("WoredaWithOutBidOfferFilterParial", filter);
+        }
+
+        [HttpPost]
+        public ActionResult WoredasWithOutBidOffer(PriceQuotationFilterOfferlessViewModel filter)
+        {
+            ViewBag.filter = filter;
+            ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            return View("WoredasWithOutBidOffer",filter);
+        }
+        public ActionResult ReadBidProposals([DataSourceRequest] DataSourceRequest request, int bidID, int regionID)
+        {
+            var planID = _bidService.FindById(bidID).TransportBidPlanID;
+
+            var bidPlanDetail =
+                _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                                           && t.BidPlanID == planID);
+            var df = (from planDetail in bidPlanDetail
+                      group planDetail by new
+                      {
+                          planDetail.DestinationID,
+                          planDetail.SourceID
+                      }
+                          into gr
+                          select gr
+                      );
+
+            var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
+
+            var result = new List<PriceQuotationDetail>();
+
+            foreach (var transportBidPlanDetail in detailPlans)
+            {
+                var pdetail = transportBidPlanDetail;
+
+                var detail = _transportBidQuotationService.FindBy(t => t.BidID == bidID
+                                                                && t.SourceID == pdetail.SourceID
+                                                                && t.DestinationID == pdetail.DestinationID).FirstOrDefault();
+                if(detail==null)
+                {
+                    var n = new PriceQuotationDetail()
+                    {
+                        SourceWarehouse = pdetail.Source.Name,
+                        Zone = pdetail.Destination.AdminUnit2.Name,
+                        Woreda = pdetail.Destination.Name,
+                        Tariff = 0,
+                        Remark = String.Empty,
+                        BidID = bidID,
+                        DestinationID = pdetail.DestinationID,
+                        SourceID = pdetail.SourceID
+                    };
+                    result.Add(n);
+                }
+            }
+            return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {

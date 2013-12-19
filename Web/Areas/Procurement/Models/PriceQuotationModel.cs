@@ -9,6 +9,12 @@ namespace Cats.Areas.Procurement.Models
         public int RegionID { get; set; }
     }
 
+    public class PriceQuotationFilterOfferlessViewModel
+    {
+        public int BidID { get; set; }
+        public int RegionID { get; set; }
+    }
+
     public class WinnersGeneratorParameters
     {
         public int RegionID { get; set; }
