@@ -29,7 +29,8 @@ namespace Cats.Models
         public string BidDocumentNo { get; set; }
         [Display(Name = "Performance Bond Receipt No")]
         public string PerformanceBondReceiptNo { get; set; }
-
+         [Display(Name = "Perf.Bond Amount")]
+        public decimal PerformanceBondAmount { get; set; }
         public int TransporterID { get; set; }
 
         [Display(Name = "Consigner Name")]

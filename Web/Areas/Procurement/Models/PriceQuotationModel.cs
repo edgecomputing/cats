@@ -71,7 +71,7 @@ namespace Cats.Areas.Procurement.Models
         public decimal Quantity { get; set; }
         public string Status { get; set; }
         public int StatusID { get; set; }
-       
+        public int BidID { get; set; }
     }
     public class BidWithWinnerViewModel
     {
