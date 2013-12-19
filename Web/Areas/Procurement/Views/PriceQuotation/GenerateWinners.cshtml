@@ -41,7 +41,6 @@
                   columns.Bound(p => p.TransporterName);
                   columns.Bound(p => p.Rank);
                   columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}");
-                  columns.Command(p => p.Custom("change Status").Click("onChangeStatus"));
               })
           .Scrollable()
           .Filterable()

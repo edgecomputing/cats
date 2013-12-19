@@ -179,6 +179,7 @@ namespace Cats.Areas.Procurement.Controllers
                 target.OrderExpiryDate = transportOrder.OrderExpiryDate;
                 target.RequestedDispatchDate = transportOrder.RequestedDispatchDate;
                 target.PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo;
+                target.PerformanceBondAmount = transportOrder.PerformanceBondAmount;
                 target.BidDocumentNo = transportOrder.BidDocumentNo;
                 target.TransporterSignedDate = transportOrder.TransporterSignedDate;
                 target.TransporterSignedName = transportOrder.TransporterSignedName;

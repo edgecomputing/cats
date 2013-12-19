@@ -14,8 +14,7 @@
   
 }
 
-@Html.HiddenFor(m=>m.BidID)
-<h4 >List of Winners for bid ViewBag.BidID</h4>
+<h4 >List of Winners for bid @ViewBag.BidID</h4>
 @(Html.Kendo().Grid<WinnerTransporterViewModel>(Model.Transporters)
     .Name("grid")
     .Columns(columns=>
