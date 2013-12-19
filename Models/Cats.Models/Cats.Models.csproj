@@ -82,7 +82,9 @@
     <Compile Include="Mapping\DistributionMap.cs" />
     <Compile Include="Mapping\IDPSReasonTypeMap.cs" />
     <Compile Include="Mapping\PaymentRequestMap.cs" />
+    <Compile Include="Mapping\TransportBidQuotationHeaderMap.cs" />
     <Compile Include="PaymentRequest.cs" />
+    <Compile Include="TransportBidQuotationHeader.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
     <Compile Include="WoredasByDonor.cs" />

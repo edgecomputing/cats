@@ -237,6 +237,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new DistributionMap());
             modelBuilder.Configurations.Add(new DistributionDetailMap());
             modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
+            modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
         }
 
     }

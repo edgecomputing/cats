@@ -1575,15 +1575,10 @@
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
-
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\CreateRequisitionForIDPS.cshtml" />
-
-
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
       <SubType>Code</SubType>
     </Content>
-
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
     <None Include="dataset.xsd">
@@ -2475,6 +2470,7 @@
     <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.bg-BG.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\EditorLocalization.zh-CN.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

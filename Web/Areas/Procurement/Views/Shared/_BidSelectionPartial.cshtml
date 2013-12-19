@@ -6,7 +6,7 @@
     <div>
         <div class="span12" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
             @*<div><h5>Please specify the BID number, Region and Transporter to continue</h5></div>*@
-            <div class="span4" align="center">
+            <div class="span3" align="center">
                 <div class="control-group">
                     <div class="controls">
                         <label>BID Reference Number</label>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span4" align="center">
+            <div class="span3" align="center">
                 <div class="control-group">
                     <div class="controls">
                         <label>Region</label>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span4" align="center">
+            <div class="span3" align="center">
                 <div class="controls">
                     <label>Transporter</label>
                     <div>
@@ -35,7 +35,16 @@
                     <div>
                         <input type="submit" value="Continue" class="btn btn-default" />  
                     </div>
+                </div>
+            </div>
+            <div class="span3" align="center">
+                <div class="controls">
+                    <label>Bid Bond </label>
+                    <div>
+                        @Html.TextBox("BidBond", "",new { @onkeypress = "OnlyNumeric(this);" })
                     </div>
+                    
+                </div>
             </div>
             @* <div class="span3" style="vertical-align: central">
                 <input type="submit" value="Select" class="btn btn-primary" />     
@@ -43,3 +52,20 @@
         </div>
    </div>
 }
+
+<script type="text/javascript">
+    function OnlyNumeric(e) {
+        if (!e)
+            e = window.event;
+        alert(e.keyCode);
+    if (e.which < 48 || e.which > 57) {
+                if (e.which == 8 || e.which == 46 || e.which == 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+    return false;
+}
+</script>

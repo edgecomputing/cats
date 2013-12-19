@@ -12,6 +12,10 @@ namespace Cats.Models
         [Display(Name = "ID")]
         public int TransportBidQuotationID { get; set; }
 
+        //TransportBidQuotationID
+        [Display(Name = "HeaderID")]
+        public Nullable<int> TransportBidQuotationHeaddrID { get; set; }
+
         //Bid
         [Display(Name = "Bid")]
         public virtual Bid Bid { get; set; }
@@ -70,5 +74,6 @@ namespace Cats.Models
         //Remark
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+        public virtual TransportBidQuotationHeader TransportBidQuotationHeader { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace Cats.Models.Mapping
             this.ToTable("Procurement.TransportBidQuotation");
            // this.ToTable("Procurement.Transporter");
             this.Property(t => t.TransportBidQuotationID).HasColumnName("TransportBidQuotationID");
+            this.Property(t => t.TransportBidQuotationHeaddrID).HasColumnName("TransportBidQuotationHeaddrID");
 
             this.HasRequired(t => t.Bid)
                     .WithMany(t => t.TransportBidQuotations)
@@ -40,6 +41,11 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Remark).HasColumnName("Remark");
 
             //this.Property(t => t.RegionID).HasColumnName("RegionID");
+
+            // Relationships
+            this.HasOptional(t => t.TransportBidQuotationHeader)
+                .WithMany(t => t.TransportBidQuotations)
+                .HasForeignKey(d => d.TransportBidQuotationHeaddrID);
         }
     }
 }

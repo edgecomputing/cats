@@ -307,6 +307,7 @@ namespace Cats.Data.UnitWork
             get { return this.iDPSReasonTypeRepository ?? (this.iDPSReasonTypeRepository = new GenericRepository<IDPSReasonType>(_context)); }
         }
 
+       
 
 
         private IGenericRepository<ReliefRequisition> reliefRequistionRepository;
@@ -803,6 +804,13 @@ namespace Cats.Data.UnitWork
         {
             get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DistributionDetail>(_context)); }
       
+        }
+
+        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+        public IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository
+        {
+            get { return this.transportBidQuotationHeaderRepository ?? (this.transportBidQuotationHeaderRepository = new GenericRepository<TransportBidQuotationHeader>(_context)); }
+
         }
     }
 }

@@ -143,8 +143,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<DistributionDetail> DistributionDetailRepository { get; } 
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
 
-        IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; } 
-
+        IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; }
+        IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
         void Save();
 
     }
