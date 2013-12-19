@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,6 +29,7 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransporterService _transporterService;
         private readonly ITransportBidQuotationService _transportBidQuotationService;
         private readonly IBidWinnerService _bidWinnerService;
+        
 
 
         public PriceQuotationController(ITransportBidPlanService transportBidPlanServiceParam
@@ -245,10 +247,24 @@ namespace Cats.Areas.Procurement.Controllers
         
         [AcceptVerbs(HttpVerbs.Post)]
         //[ProcurementAuthorize(operation = ProcurementCheckAccess.Operation.Bid_Planning)]
-        public ActionResult SaveBidProposals([DataSourceRequest] DataSourceRequest request, PriceQuotationDetail bidProposal)
+        public ActionResult SaveBidProposals([DataSourceRequest] DataSourceRequest request, PriceQuotationDetail bidProposal,FormCollection collection)
         {
+            double bidBondAmount = 0;
             if (bidProposal != null && ModelState.IsValid)
             {
+                 var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+
+                try
+                {
+                    bidBondAmount = double.Parse(collection["BidBond"].ToString(CultureInfo.InvariantCulture));
+                }
+                catch (Exception)
+                {
+                    
+                    
+                }
+
+
                 //var detail = _transportBidQuotationService.FindById(bidProposal.TransportBidQuotationID);
                 var detai = _transportBidQuotationService.FindBy(t=>
                                                                     t.BidID==bidProposal.BidID
@@ -274,15 +290,26 @@ namespace Cats.Areas.Procurement.Controllers
 
                     else
                     {
-                        var newProposal = new TransportBidQuotation();
+                        var transportBidQuotationHeader = new TransportBidQuotationHeader
+                                                              {
+                                                                  BidQuotationDate = DateTime.Now,
+                                                                  BidBondAmount = (float?) bidBondAmount,
+                                                                  EnteredBy = userid
+                                                              };
+
+                        var newProposal = new TransportBidQuotation
+                                              {
+                                                  BidID = bidProposal.BidID,
+                                                  TransporterID = bidProposal.TransporterID,
+                                                  SourceID = bidProposal.SourceID,
+                                                  DestinationID = bidProposal.DestinationID,
+                                                  Tariff = bidProposal.Tariff,
+                                                  Remark = bidProposal.Remark,
+                                                  IsWinner = false,
+                                                  TransportBidQuotationHeader = transportBidQuotationHeader
+                                              };
                         //newProposal.TransportBidQuotationID = bidProposal.TransportBidQuotationID;
-                        newProposal.BidID = bidProposal.BidID;
-                        newProposal.TransporterID = bidProposal.TransporterID;
-                        newProposal.SourceID = bidProposal.SourceID;
-                        newProposal.DestinationID = bidProposal.DestinationID;
-                        newProposal.Tariff = bidProposal.Tariff;
-                        newProposal.Remark = bidProposal.Remark;
-                        newProposal.IsWinner = false;
+
                         _transportBidQuotationService.AddTransportBidQuotation(newProposal);
                     }
 

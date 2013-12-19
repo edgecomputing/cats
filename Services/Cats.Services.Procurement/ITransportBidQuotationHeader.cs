@@ -8,7 +8,7 @@ using Cats.Models;
 
 namespace Cats.Services.Procurement
 {
-   public interface ITransportBidQuotationHeaderHeader
+   public interface ITransportBidQuotationHeader
     {
         bool AddTransportBidQuotationHeader(TransportBidQuotationHeader transportBidQuotationHeader);
         bool UpdateTransportBidQuotationHeader(TransportBidQuotationHeader transportBidQuotationHeader);
