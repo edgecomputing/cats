@@ -1,0 +1,61 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+<h2>Index</h2>
+<div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+   <div style="font-weight: bold;margin:10px;">Agreement unsigned bid winners</div>
+     @(Html.Kendo().Grid<BidWinnerViewModel>()
+    .Name("grid1")
+    .Columns(columns=>
+        {
+            
+         columns.Bound(t => t.TransporterName);      
+        columns.Bound(t => t.SourceWarehouse);
+        columns.Bound(t => t.Woreda);
+        //columns.Bound(t => t.Quantity);
+        columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
+        //columns.Bound(t => t.StatusID);
+       //columns.Bound(t => t.Status);
+        })
+     .Scrollable()
+     .HtmlAttributes(new { style = "height:250px;" })
+        .DataSource(datasource=>
+            datasource                 
+            .Ajax()
+    .Model(model=>model.Id(p=>p.BidWinnnerID))
+    .Group(group=>group.Add(m=>m.TransporterName))
+    .Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
+    
+           ))
+
+</div>
+<div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
+    <div style="font-weight: bold;margin:10px;">Agreement signed bid winners</div>
+    @(Html.Kendo().Grid<BidWinnerViewModel>()
+          .Name("grid2")
+          .Columns(columns=>
+              {
+                  columns.Bound(t => t.TransporterName);      
+                  columns.Bound(t => t.SourceWarehouse);
+                  columns.Bound(t => t.Woreda);
+                  //columns.Bound(t => t.Quantity);
+                  columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
+                  //columns.Bound(t => t.StatusID);
+                  //columns.Bound(t => t.Status);
+              })
+          .Scrollable()
+          .HtmlAttributes(new { style = "height:250px;" })
+          .DataSource(datasource=>
+                      datasource                 
+                          .Ajax()
+                          .Model(model=>model.Id(p=>p.BidWinnnerID))
+                          .Group(group=>group.Add(m=>m.TransporterName))
+                          .Read("BidAdminSigned_Read","BidAdministration",new{id=ViewBag.BidID})
+    
+          ))
+</div>
