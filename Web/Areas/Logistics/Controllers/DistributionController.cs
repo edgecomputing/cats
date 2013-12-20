@@ -17,7 +17,7 @@ using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-
+using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
     public class DistributionController : Controller
@@ -53,6 +53,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.TransportOrderId = 3073;
             return View();
         }
         public ActionResult Dispatches(int id)
@@ -170,15 +171,15 @@ namespace Cats.Areas.Logistics.Controllers
             var distributionViewModel = EditGoodsReceivingNote(distribution);
             return View(distributionViewModel);
         }
-        public ActionResult ReadDeliveryNotes(int id)
+        public ActionResult ReadDeliveryNotes([DataSourceRequest]DataSourceRequest request, int id)
         {
             var dispatchIds =
                 _dispatchService.Get(t => t.DispatchAllocation.TransportOrderID == id).Select(t => t.DispatchID).ToList();
 
-            var distributions = _distributionService.Get(t => dispatchIds.Contains(t.DispatchID.Value)).ToList();
+            var distributions = _distributionService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DistributionDetails").ToList();
 
             var distributionViewModels = distributions.Select(EditGoodsReceivingNote);
-            return Json(distributionViewModels, JsonRequestBehavior.AllowGet);
+            return Json(distributionViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult EditGRN(DistributionViewModel distributionViewModel)
@@ -392,8 +393,20 @@ namespace Cats.Areas.Logistics.Controllers
             distributionViewModel.WayBillNo = distribution.WayBillNo;
             distributionViewModel.RequisitionNo = distribution.RequisitionNo;
             distributionViewModel.Transporter = dispatch.Transporter.Name;
+            var pref = UserAccountHelper.UserCalendarPreference();
+            distributionViewModel.DeliveryDatePref = distribution.DeliveryDate.HasValue
+                                                         ? distribution.DeliveryDate.Value.ToCTSPreferedDateFormat(pref)
+                                                         : "";
+            distributionViewModel.ReceivedDatePref = distribution.ReceivedDate.HasValue
+                                                         ? distribution.ReceivedDate.Value.ToCTSPreferedDateFormat(pref)
+                                                         : "";
+            distributionViewModel.DocumentReceivedDatePref = distribution.DocumentReceivedDate.HasValue
+                                                                 ? distribution.DocumentReceivedDate.Value.
+                                                                       ToCTSPreferedDateFormat(pref)
+                                                                 : "";
 
-
+            distributionViewModel.ContainsDiscripancy =
+                distribution.DistributionDetails.Any(t => t.ReceivedQuantity < t.SentQuantity);
             //foreach (var dispatchDetail in dispatch.DispatchDetails)
             //{
             //    var distributionDetail = new DistributionDetail();

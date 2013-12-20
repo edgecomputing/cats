@@ -171,7 +171,7 @@ namespace Cats.Services.Common
                     RecordId = transportOrderId,
                     Url = destinationURl,
                     TypeOfNotification = "GRN With loss",
-                    RoleName = Application.PROCUREMENT
+                    RoleName = Application.TRANSPORT_ORDER_CREATER
                 };
 
                 AddNotification(notification);
