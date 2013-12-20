@@ -82,7 +82,7 @@
             function (event) {
                 $(this).parent().toggleClass("k-state-selected");
                 update_selection_data();
-                update_selected_transporter();
+               // update_selected_transporter();
             });
     }
     );
@@ -101,29 +101,12 @@
         });
     }
 
-    function update_selected_transporter() {
+    $("#TransporterID").change(function () {
         var selected = $("#TransporterID").val();
         $("#SelectedTransporterID").val(selected);
-    }
+    });
    
-    //function validate_selection_data() {
-    //    var i = 0;
-    //    var count = 0;
-    //    $("#div_select tbody tr").each(function () {
-    //        var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
-    //        if ($(this).hasClass("k-state-selected")) {
-    //            //inp.val(true);
-    //            count++;
-    //            //alert("Selected");
-    //        } 
-    //        i++;
-    //        if (count == 0) {
-
-    //            alert("Please Select Transporter and Requisitions");
-    //        }
-    //    });
-        
-    //}
+    
     
 </script>
 <style>
