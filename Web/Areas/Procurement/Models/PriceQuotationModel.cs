@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Cats.Areas.Procurement.Models
 {
@@ -55,7 +56,10 @@ namespace Cats.Areas.Procurement.Models
         public int SourceID { get; set; }
         public int DestinationID { get; set; }
     }
-
+    public class SelectedBidWinnerViewModel
+    {
+        public List<BidWinnerViewModel> Bidwinners { get; set; }
+    }
     public class BidWinnerViewModel  
     {
         public int BidWinnnerID { get; set; }
@@ -72,6 +76,12 @@ namespace Cats.Areas.Procurement.Models
         public string Status { get; set; }
         public int StatusID { get; set; }
         public int BidID { get; set; }
+        public int BidPlanID { get; set; }
+        public string BidMumber { get; set; }
+        public string BidStartDate { get; set; }
+        public string BidEndDate { get; set; }
+        public string BidOpeningDate { get; set; }
+        public bool Selected { get; set; }
     }
     public class BidWithWinnerViewModel
     {

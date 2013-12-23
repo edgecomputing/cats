@@ -1,61 +1,114 @@
 ﻿@using Cats.Areas.Procurement.Models
+@using Cats.Models.Constant
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@model Cats.Areas.Procurement.Models.SelectedBidWinnerViewModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @Html.Partial("LeftBar")
+    
 }
 
-<h2>Index</h2>
-<div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-   <div style="font-weight: bold;margin:10px;">Agreement unsigned bid winners</div>
-     @(Html.Kendo().Grid<BidWinnerViewModel>()
-    .Name("grid1")
-    .Columns(columns=>
-        {
-            
-         columns.Bound(t => t.TransporterName);      
-        columns.Bound(t => t.SourceWarehouse);
-        columns.Bound(t => t.Woreda);
-        //columns.Bound(t => t.Quantity);
-        columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
-        //columns.Bound(t => t.StatusID);
-       //columns.Bound(t => t.Status);
-        })
-     .Scrollable()
-     .HtmlAttributes(new { style = "height:250px;" })
-        .DataSource(datasource=>
-            datasource                 
-            .Ajax()
-    .Model(model=>model.Id(p=>p.BidWinnnerID))
-    .Group(group=>group.Add(m=>m.TransporterName))
-    .Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
-    
-           ))
 
+@section Toolbar    {
+   
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+        <ul class="dropdown-menu">
+            @if (ViewBag.RFQGenerated==false)
+            {
+                <li><a id="btnAddFDP"  href="@Url.Action("bidProposal", "PriceQuotation")" >Encode Price </a></li>
+            }
+        </ul>
+
+    </div>
+           
+}
+
+<div class="form-horizontal well">
+  <table border="0" style="width: 80px;">
+      <tr>
+          <td style="width: 40%">
+              <div class="control-label">
+                  @Html.LabelFor(model => model.Bidwinners.First().BidMumber)
+              </div>
+              <div class="controls">
+                @Html.TextBoxFor(model=>model.Bidwinners.First().BidMumber,new {disabled=true})
+               @*<a href="@Url.Action("WarehouseSelection","TransportBidPlan",new{id=Model.Bidwinners.FirstOrDefault().BidPlanID})">View Plan</a></>*@
+              </div>
+          </td>
+          <td style="width: 40%">
+               <div class="control-label">
+                  @Html.LabelFor(model => model.Bidwinners.First().BidStartDate)
+              </div>
+              <div class="controls">
+                  @Html.TextBoxFor(model=>model.Bidwinners.First().BidStartDate,new {disabled=true})
+              </div>
+          </td>
+      </tr>
+      <tr>
+          <td style="width: 50%">
+               <div class="control-label">
+                  @Html.LabelFor(model => model.Bidwinners.First().BidOpeningDate)
+              </div>
+              <div class="controls">
+                  @Html.TextBoxFor(model=>model.Bidwinners.First().BidOpeningDate,new {disabled=true})
+              </div>
+          </td>
+          <td style="width: 50%">
+               <div class="control-label">
+                  @Html.LabelFor(model => model.Bidwinners.First().BidEndDate)
+              </div>
+              <div class="controls">
+                  @Html.TextBoxFor(model=>model.Bidwinners.First().BidEndDate,new {disabled=true})
+              </div>
+          </td>
+      </tr>
+     
+ </table>
 </div>
-<div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-    <div style="font-weight: bold;margin:10px;">Agreement signed bid winners</div>
-    @(Html.Kendo().Grid<BidWinnerViewModel>()
-          .Name("grid2")
-          .Columns(columns=>
-              {
-                  columns.Bound(t => t.TransporterName);      
-                  columns.Bound(t => t.SourceWarehouse);
-                  columns.Bound(t => t.Woreda);
-                  //columns.Bound(t => t.Quantity);
-                  columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
-                  //columns.Bound(t => t.StatusID);
-                  //columns.Bound(t => t.Status);
-              })
-          .Scrollable()
-          .HtmlAttributes(new { style = "height:250px;" })
-          .DataSource(datasource=>
-                      datasource                 
-                          .Ajax()
-                          .Model(model=>model.Id(p=>p.BidWinnnerID))
-                          .Group(group=>group.Add(m=>m.TransporterName))
-                          .Read("BidAdminSigned_Read","BidAdministration",new{id=ViewBag.BidID})
+   @if (ViewBag.BidAdminStatus==(int)BidWinnerStatus.Draft)
+   {
+       @(Html.Kendo().Grid<BidWinnerViewModel>(Model.Bidwinners)
+             .Name("grid1")
+             .Columns(columns =>
+                 {
+
+                     columns.Bound(t => t.TransporterName);
+                     columns.Bound(t => t.SourceWarehouse);
+                     columns.Bound(t => t.Woreda);
+                     //columns.Bound(t => t.Quantity);
+                     columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
+                     //columns.Bound(t => t.StatusID);
+                     //columns.Bound(t => t.Status);
+                 })
+             .Scrollable()
+             .HtmlAttributes(new {style = "height:250px;"})
+             .DataSource(datasource =>
+                         datasource
+                             .Ajax()
+                             .Model(model => model.Id(p => p.BidWinnnerID))
+                             .Group(group => group.Add(m => m.Woreda))
+             //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
+
+             ))
+
+   }
+@if(ViewBag.BidAdminStatus==(int)BidWinnerStatus.Signed)
+{
+    @Html.Partial("_WoredasWithoutOffer", Model)
+}
+
     
-          ))
-</div>
