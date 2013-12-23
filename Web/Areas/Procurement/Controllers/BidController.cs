@@ -99,7 +99,7 @@ namespace Cats.Areas.Procurement.Controllers
                         StartDate = bid.StartDate,
                         EndDate = bid.EndDate,
                         OpeningDate = bid.OpeningDate,
-                        Status = bid.Status.Name,
+                        //Status = bid.Status.Name,
                         StatusID = bid.StatusID,
                         StartDatePref = bid.StartDate.ToCTSPreferedDateFormat(datePref),
                         OpeningDatePref = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),

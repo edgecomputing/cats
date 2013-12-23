@@ -487,7 +487,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
         }
 
-        private bool IdentifyWinners(int bidNumber, int regionID)
+        public bool IdentifyWinners(int bidNumber, int regionID)
         {
             bool result = false;
 

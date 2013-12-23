@@ -22,6 +22,7 @@ namespace Cats.Models
        public DateTime OrderExpiryDate { get; set; }
        public string BidDocumentNo { get; set; }
        public string PerformanceBondReceiptNo { get; set; }
+       public decimal? PerformanceBondAmount { get; set; }
        public int TransporterID { get; set; }
        public string ConsignerName { get; set; }
        public string TransporterSignedName { get; set; }

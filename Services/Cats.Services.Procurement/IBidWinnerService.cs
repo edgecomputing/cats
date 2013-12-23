@@ -22,7 +22,7 @@ namespace Cats.Services.Procurement
              string includeProperties = "");
 
         List<Bid> GetBidsWithWinner();
-        bool SignContract(BidWinner bidWinner);
+        bool SignContract(List<BidWinner> bidWinner);
         bool Disqualified(BidWinner bidWinner);
         bool Save();
     }

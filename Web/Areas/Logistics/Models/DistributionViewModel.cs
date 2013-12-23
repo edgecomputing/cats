@@ -40,13 +40,22 @@ namespace Cats.Areas.Logistics.Models
         public string DeliveryBy { get; set; }
         [Display(Name = "Delivery Date")]
         public Nullable<System.DateTime> DeliveryDate { get; set; }
+        [Display(Name = "Delivery Date")]
+        public string DeliveryDatePref { get; set; }
+
         [Display(Name = "Received By")]
         public string ReceivedBy { get; set; }
         [Display(Name = "Received Date")]
         public Nullable<System.DateTime> ReceivedDate { get; set; }
+        [Display(Name = "Received Date")]
+        public string ReceivedDatePref { get; set; }
         [Display(Name = "Document Received Date")]
         public Nullable<System.DateTime> DocumentReceivedDate { get; set; }
         [Display(Name="Document Received By")]
+        public string DocumentReceivedDatePref { get; set; }
+        [Display(Name = "Document Received By")]
         public Nullable<int> DocumentReceivedBy { get; set; }
+
+        public bool ContainsDiscripancy { get; set; }
     }
 }

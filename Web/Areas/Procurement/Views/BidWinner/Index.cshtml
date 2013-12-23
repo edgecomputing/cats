@@ -37,7 +37,7 @@
         {
             columns.Bound(t => t.BidNumber).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
-                    @Url.Action("Details", "BidWinner", new { id = "#=BidID#" }),
+                    @Url.Action("ListOfWinners", "BidWinner", new { id = "#=BidID#" }),
                     EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=BidNumber#").ToString()); 
         columns.Bound(t => t.Year);
         columns.Bound(t => t.OpeningDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }); 
