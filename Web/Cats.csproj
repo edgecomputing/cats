@@ -612,6 +612,7 @@
     <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="Helpers\TemplateHelper.cs" />
     <Compile Include="Helpers\UnitConversion.cs" />
+    <Compile Include="Helpers\VersionHelperExtension.cs" />
     <Compile Include="HRDDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1580,11 +1581,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
-
     <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
-
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
-
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2275,6 +2273,7 @@
     <Content Include="Views\Shared\Edit.cshtml" />
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Shared\_Version.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
