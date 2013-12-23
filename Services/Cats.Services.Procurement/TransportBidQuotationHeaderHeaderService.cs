@@ -9,7 +9,7 @@ using Cats.Models;
 
 namespace Cats.Services.Procurement
 {
-    class TransportBidQuotationHeaderHeaderService:ITransportBidQuotationHeader
+   public class TransportBidQuotationHeaderHeaderService:ITransportBidQuotationHeader
     {
         private readonly IUnitOfWork _unitOfWork;
 
