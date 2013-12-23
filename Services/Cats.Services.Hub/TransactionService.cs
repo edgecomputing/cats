@@ -557,6 +557,7 @@ namespace Cats.Services.Hub
             dispatchDetail.DispatchDetailID = Guid.NewGuid();
             dispatchDetail.RequestedQuantityInMT = dispatchViewModel.Quantity;
             dispatchDetail.RequestedQunatityInUnit = dispatchViewModel.QuantityInUnit;
+            dispatchDetail.QuantityPerUnit = dispatchViewModel.QuantityPerUnit;
             dispatchDetail.UnitID = dispatchViewModel.UnitID;
             dispatchDetail.TransactionGroupID = group.TransactionGroupID;
 

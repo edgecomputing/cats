@@ -181,6 +181,16 @@ namespace Cats.Areas.Logistics.Controllers
             var distributionViewModels = distributions.Select(EditGoodsReceivingNote);
             return Json(distributionViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ReadDeliveryNotesDiscripancy([DataSourceRequest]DataSourceRequest request, int id)
+        {
+            var dispatchIds =
+                _dispatchService.Get(t => t.DispatchAllocation.TransporterID == id).Select(t => t.DispatchID).ToList();
+
+            var distributions = _distributionService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DistributionDetails").ToList();
+
+            var distributionViewModels = distributions.Select(EditGoodsReceivingNote).Select(t=>t.ContainsDiscripancy);
+            return Json(distributionViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public ActionResult EditGRN(DistributionViewModel distributionViewModel)
         {

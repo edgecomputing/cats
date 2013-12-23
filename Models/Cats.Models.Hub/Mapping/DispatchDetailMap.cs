@@ -24,6 +24,7 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.RequestedQunatityInUnit).HasColumnName("RequestedQunatityInUnit");
             this.Property(t => t.UnitID).HasColumnName("UnitID");
             this.Property(t => t.RequestedQuantityInMT).HasColumnName("RequestedQuantityInMT");
+            this.Property(t => t.QuantityPerUnit).HasColumnName("QuantityPerUnit");
             this.Property(t => t.Description).HasColumnName("Description");
 
             // Relationships
