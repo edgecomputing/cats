@@ -1581,6 +1581,11 @@
     </Content>
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
+
+    <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

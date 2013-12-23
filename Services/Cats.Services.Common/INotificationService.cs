@@ -20,5 +20,9 @@ namespace Cats.Services.Common
         bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl,int transportOrderId, string transportOrderNo);
        bool AddNotificationForProcurementFromLogistics(string destinationUrl,TransportRequisition transportRequisition);
        bool AddNotificationForLogistcisFromEarlyWaring(string destinationUrl,int requisitionID, int regionId, string requisitioNo);
+
+       bool AddNotificationForProcurmentForGRNDiscripancy(string destinationURl, int transportOrderId,
+                                                          string transportOrderNo);
+
     }
 }

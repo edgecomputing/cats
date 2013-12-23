@@ -68,8 +68,8 @@
         {
            model.Id(p => p.WarehouseID);
            model.Field(p => p.WarehouseName).Editable(false);
-            model.Field(p => p.PSNP).Editable(false);
-            model.Field(p => p.Relief).Editable(false);
+           model.Field(p => p.PSNP).Editable(true);
+           model.Field(p => p.Relief).Editable(true);
 
         })
         .Create(update => update.Action("CreateWarehouseSelectionAjax", "TransportBidPlan").Data("filterInfo"))

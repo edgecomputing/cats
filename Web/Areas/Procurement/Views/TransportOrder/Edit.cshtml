@@ -18,10 +18,10 @@
     {
 
         @Html.ValidationSummary(true)
-        <div class="form-horizontal ">
-        
-            @Html.HiddenFor(model => model.TransportOrderID)
-
+         @Html.HiddenFor(model => model.TransportOrderID)
+     <div class="form-horizontal row-fluid">
+          <div class="span6" style="vertical-align: top">     
+               
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.TransportOrderNo)
@@ -77,15 +77,18 @@
                     @Html.ValidationMessageFor(model => model.StartDate)
                 </div>
             </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.EndDate)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.EndDate, new {@class = "cats-datepicker2"})
-                    @Html.ValidationMessageFor(model => model.EndDate)
-                </div>
-            </div>
+                 <div class="control-group">
+                     <div class="control-label">
+                         @Html.LabelFor(model => model.EndDate)
+                     </div>
+                     <div class="controls">
+                         @Html.TextBoxFor(model => model.EndDate, new {@class = "cats-datepicker2"})
+                         @Html.ValidationMessageFor(model => model.EndDate)
+                     </div>
+                 </div>
+                 </div>
+        <div class="span6" style="vertical-align: top">
+          
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.BidDocumentNo)
@@ -104,15 +107,15 @@
                     @Html.ValidationMessageFor(model => model.PerformanceBondReceiptNo)
                 </div>
             </div>
-            @* <div class="control-group">
+            <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.TransporterID)
+                    @Html.LabelFor(model => model.PerformanceBondAmount)
                 </div>
                 <div class="controls">
-                    @Html.HiddenFor(model => model.TransporterID)
-
+                    @Html.TextBoxFor(model => model.PerformanceBondAmount)
+                    @Html.ValidationMessageFor(model => model.PerformanceBondAmount)
                 </div>
-            </div>*@
+            </div>
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.ConsignerName)
@@ -150,6 +153,7 @@
                 </div>
             </div>
 
-        </div>
+          </div>
+    </div>
     }
 
