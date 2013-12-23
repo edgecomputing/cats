@@ -18,6 +18,7 @@ namespace Cats.Models
        public int Position { get; set; }
        public int Status { get; set; }
        public DateTime ExpiryDate { get; set; }
+
        //public int TransportOrderID { get; set; }
 
 

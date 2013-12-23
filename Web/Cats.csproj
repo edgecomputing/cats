@@ -1573,6 +1573,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Create.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2193,10 +2194,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -2252,6 +2249,10 @@
     <Content Include="Views\Shared\Edit.cshtml" />
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

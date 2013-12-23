@@ -20,6 +20,10 @@ namespace Cats.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Graphic Data")]
+        public string GraphicsData { get; set; }
+
+
         public virtual ICollection<StateTemplate> ParentProcessTemplateStateTemplates { get; set; }
         //Relationships
         public virtual ICollection<BusinessProcess> ProcessTypeBusinessProcesss { get; set; }
