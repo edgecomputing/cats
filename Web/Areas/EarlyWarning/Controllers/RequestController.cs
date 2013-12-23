@@ -77,7 +77,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _idpsReasonTypeServices = idpsReasonTypeServices;
            
         }
-
+        public  ActionResult RegionalRequestsPieChart()
+        {
+            return View();
+        }
 
         public ViewResult SubmittedRequest(int id)
         {
@@ -91,6 +94,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var userPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return View(RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, userPref));
         }
+
 
         [HttpGet]
         public ActionResult New()

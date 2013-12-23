@@ -1575,17 +1575,12 @@
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
-
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\CreateRequisitionForIDPS.cshtml" />
-
-
     <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
       <SubType>Code</SubType>
     </Content>
-
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
-
+    <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2276,6 +2271,7 @@
     <Content Include="Views\Shared\Edit.cshtml" />
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Dashboard\RegionalRequestsPieChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,7 +8,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using Cats.Web.Administration.Helpers;
 using Cats.Services.Security;
-using Cats.Web.Administration.Infrastructure;
+using Cats.Web.Adminstration.Infrastructure;
 
 namespace Cats.Web.Adminstration
 {

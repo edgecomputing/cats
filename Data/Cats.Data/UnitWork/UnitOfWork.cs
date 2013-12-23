@@ -266,6 +266,7 @@ namespace Cats.Data.UnitWork
 
 
         private IGenericRepository<FDP> fdpRepository;
+        private IGenericRepository<Contact> contactRepository;
 
         public IGenericRepository<FDP> FDPRepository
         {
@@ -274,6 +275,12 @@ namespace Cats.Data.UnitWork
 
         }
 
+        public IGenericRepository<Contact> ContactRepository
+        {
+
+            get { return this.contactRepository ?? (this.contactRepository = new GenericRepository<Contact>(_context)); }
+
+        }
 
         private IGenericRepository<Program> programRepository;
 

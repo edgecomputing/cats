@@ -13,6 +13,7 @@ namespace Cats.Models
             this.RegionalRequestDetails = new List<RegionalRequestDetail>();
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
+            this.Contacts = new List<Contact>();
         }
 
         public int FDPID { get; set; }
@@ -20,7 +21,8 @@ namespace Cats.Models
         public string NameAM { get; set; }
         public int AdminUnitID { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
-      
+
+        public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }

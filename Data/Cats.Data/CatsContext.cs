@@ -27,6 +27,7 @@ namespace Cats.Data
         public DbSet<AdminUnit> AdminUnits { get; set; }
         public DbSet<Commodity> Commodities { get; set; }
         public DbSet<CommodityType> CommodityTypes { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<FDP> Fdps { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }

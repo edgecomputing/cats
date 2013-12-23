@@ -111,6 +111,10 @@ namespace Cats.Controllers
             return Json(totalUnread, JsonRequestBehavior.AllowGet);
         }
 
-        
+        public ActionResult RegionalRequestsPieChart()
+        {
+            return View();
+        }
+
     }
 }

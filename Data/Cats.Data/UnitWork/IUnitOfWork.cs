@@ -27,6 +27,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Commodity> CommodityRepository { get; }
         IGenericRepository<CommodityType> CommodityTypeRepository { get; }
         IGenericRepository<FDP> FDPRepository { get; }
+        IGenericRepository<Contact> ContactRepository { get; }
         IGenericRepository<Program> ProgramRepository { get; }
         IGenericRepository<Hub> HubRepository { get; }
         IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository { get; }
@@ -92,7 +93,7 @@ namespace Cats.Data.UnitWork
 
 
         IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; }
-
+        
         IGenericRepository<GiftCertificate> GiftCertificateRepository { get; }
         IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository { get; }
 

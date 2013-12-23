@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.ModelConfiguration;
 
-namespace Cats.Models.Hubs.Mapping
+namespace Cats.Models.Mapping
 {
     public class ContactMap : EntityTypeConfiguration<Contact>
     {

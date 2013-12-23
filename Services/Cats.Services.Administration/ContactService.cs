@@ -1,13 +1,11 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cats.Data.Hub;
-using Cats.Models.Hubs;
+using Cats.Data.UnitWork;
+using Cats.Models;
 
 
-namespace Cats.Services.Hub
+namespace Cats.Services.Administration
 {
 
     public class ContactService : IContactService
@@ -17,7 +15,7 @@ namespace Cats.Services.Hub
 
         public ContactService()
         {
-            this._unitOfWork = new UnitOfWork();
+            _unitOfWork = new UnitOfWork();
         }
         #region Default Service Implementation
 

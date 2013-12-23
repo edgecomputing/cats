@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressBook.cs" />
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="Allocation.cs" />
@@ -75,9 +76,12 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
+    <Compile Include="Contact.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="DistributionDetail.cs" />
     <Compile Include="IDPSReasonType.cs" />
+    <Compile Include="Mapping\AddressBookMap.cs" />
+    <Compile Include="Mapping\ContactMap.cs" />
     <Compile Include="Mapping\DistributionDetailMap.cs" />
     <Compile Include="Mapping\DistributionMap.cs" />
     <Compile Include="Mapping\IDPSReasonTypeMap.cs" />
