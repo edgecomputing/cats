@@ -100,7 +100,7 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult SignedContract_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var signedTransporters =_bidWinnerService.Get(t => t.Position == 1 && t.Status == (int)BidWinnerStatus.Signed).Select(t => t.Transporter).Distinct();
+            var signedTransporters =_bidWinnerService.Get(t => t.Position == 1 && t.Status == 3).Select(t => t.Transporter).Distinct();
             var winningTransprterViewModels = TransporterListViewModelBinder(signedTransporters.ToList());
             return Json(winningTransprterViewModels.ToDataSourceResult(request));
         }
@@ -135,7 +135,9 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var bidWinners = _bidWinnerService.FindBy(m => m.BidID == id).Select(m=>m.TransporterID).Distinct();
             var transporter = _transporterService.FindBy(m => bidWinners.Contains(m.TransporterID));
-           // ViewBag.BidID = _bidWinnerService.FindById(id).Bid.BidNumber;
+            var bid = _bidWinnerService.FindBy(m => m.BidID == id).FirstOrDefault();
+            if (bid != null)
+                ViewBag.BidID = bid.Bid.BidNumber;
             if (transporter == null)
             {
                 return HttpNotFound();
@@ -189,13 +191,13 @@ namespace Cats.Areas.Procurement.Controllers
             return View(bidWinner);
         }
 
-        public ActionResult SignedContract(int id,int transporterID)
+        public ActionResult SignedContract(int id,int transporterID=0)
         {
             var bidWinner = _bidWinnerService.FindBy(m=>m.BidID==id && m.TransporterID==transporterID);
             if(bidWinner!=null)
             {
                 _bidWinnerService.SignContract(bidWinner);
-               // return RedirectToAction("SignedContract", "BidWinner", new {id = bidWinner.BidID});
+                return RedirectToAction("SignedTransporterContract", "BidWinner");
             }
             ModelState.AddModelError("Errors","Unable to change status");
             return RedirectToAction("Index");
@@ -217,7 +219,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             return transporters.Select(transporter =>
                 {
-                    var firstOrDefault = _bidWinnerService.Get(t => t.TransporterID == transporter.TransporterID && t.Status == 1, null, "Bid").FirstOrDefault();
+                    var firstOrDefault = _bidWinnerService.Get(t => t.TransporterID == transporter.TransporterID, null, "Bid").FirstOrDefault();
                     return firstOrDefault != null ? new TransporterViewModel
                                                               {
                                                                   TransporterID = transporter.TransporterID,

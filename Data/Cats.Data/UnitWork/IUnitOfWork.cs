@@ -29,6 +29,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<FDP> FDPRepository { get; }
         IGenericRepository<Program> ProgramRepository { get; }
         IGenericRepository<Hub> HubRepository { get; }
+        IGenericRepository<ActionTypes> ActionTypesRepository { get; }
         IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository { get; }
         IGenericRepository<ReliefRequisition> ReliefRequisitionRepository { get; }
         IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }

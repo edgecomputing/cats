@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="Allocation.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Distribution.cs" />
     <Compile Include="DistributionDetail.cs" />
     <Compile Include="IDPSReasonType.cs" />
+    <Compile Include="Mapping\ActionMap.cs" />
     <Compile Include="Mapping\DistributionDetailMap.cs" />
     <Compile Include="Mapping\DistributionMap.cs" />
     <Compile Include="Mapping\IDPSReasonTypeMap.cs" />

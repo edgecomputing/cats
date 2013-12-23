@@ -162,6 +162,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IDashboardService>().To<DashboardService>();
 
             kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
+            kernel.Bind<IActionTypesService>().To<IActionTypesService>();
 
             kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
             kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
