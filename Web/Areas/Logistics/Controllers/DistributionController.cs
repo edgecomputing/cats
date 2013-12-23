@@ -30,6 +30,7 @@ namespace Cats.Areas.Logistics.Controllers
         private IDispatchService _dispatchService;
         private IDistributionDetailService _distributionDetailService;
         private INotificationService _notificationService;
+        private IUserAccountService _userAccountService;
 
         public DistributionController(ITransportOrderService transportOrderService,
                                       IWorkflowStatusService workflowStatusService,
@@ -37,7 +38,8 @@ namespace Cats.Areas.Logistics.Controllers
                                       IDistributionService distributionService,
             IDispatchService dispatchService,
             IDistributionDetailService distributionDetailService,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            IUserAccountService userAccountService)
         {
             _transportOrderService = transportOrderService;
             _workflowStatusService = workflowStatusService;
@@ -46,6 +48,7 @@ namespace Cats.Areas.Logistics.Controllers
             _dispatchService = dispatchService;
             _distributionDetailService = distributionDetailService;
             _notificationService = notificationService;
+            _userAccountService = userAccountService;
 
         }
         //
@@ -53,7 +56,8 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.TransportOrderId = 3073;
+          
+          //  ViewBag.TransportOrderId = 3073;
             return View();
         }
         public ActionResult Dispatches(int id)
@@ -61,7 +65,10 @@ namespace Cats.Areas.Logistics.Controllers
             //id--transportorderid
             var transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "Transporter").FirstOrDefault();
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
-            var datePref = UserAccountHelper.UserCalendarPreference();
+            var currentUser =  _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+
+            var datePref = currentUser.DatePreference;
+        
             ViewBag.TransportOrderId = id;
             var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder,
                                                                                                     datePref, statuses);
@@ -82,12 +89,14 @@ namespace Cats.Areas.Logistics.Controllers
         }
         private List<DispatchViewModel> SetDatePreference(List<DispatchViewModel> dispatches)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+
             foreach (var dispatchViewModel in dispatches)
             {
                 dispatchViewModel.CreatedDatePref =
-                    dispatchViewModel.CreatedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+                    dispatchViewModel.CreatedDate.ToCTSPreferedDateFormat(datePref);
                 dispatchViewModel.DispatchDatePref =
-                    dispatchViewModel.DispatchDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+                    dispatchViewModel.DispatchDate.ToCTSPreferedDateFormat(datePref);
             }
             return dispatches;
         }
@@ -183,10 +192,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public ActionResult ReadDeliveryNotesDiscripancy([DataSourceRequest]DataSourceRequest request, int id)
         {
-            var dispatchIds =
-                _dispatchService.Get(t => t.DispatchAllocation.TransporterID == id).Select(t => t.DispatchID).ToList();
-
-            var distributions = _distributionService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DistributionDetails").ToList();
+           var distributions = _distributionService.Get(t => t.TransporterID==id, null, "DistributionDetails").ToList();
 
             var distributionViewModels = distributions.Select(EditGoodsReceivingNote).Select(t=>t.ContainsDiscripancy);
             return Json(distributionViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -432,5 +438,6 @@ namespace Cats.Areas.Logistics.Controllers
             return distributionViewModel;
         }
 
+       
     }
 }
