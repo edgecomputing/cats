@@ -5,17 +5,23 @@
 }
 .designer_window
 {
-    position:absolute;border:solid 1px #CCC;left:18%;right:10px;top:100px
+    position:absolute;border:solid 1px #CCC;left:18%;right:10px;top:100px;bottom:100px;
+    
+}
+.canvas
+{
+    background:rgba(255,248,200,0.5);
+
 }
 .left_bar
 {
     position:fixed; 
     top:60px; 
-    bottom:40px; 
+    bottom:100px; 
     
     left:10px; 
-    width:16%;
-    border:solid 1px #CCC;
+    width:150px;
+    /*border:solid 1px #CCC;*/
     background:#FFF;
 }
 .state,.flow
@@ -37,7 +43,7 @@
         
         text-align:center;
         border-radius:4px;
-        background:#FFF;
+        background:rgba(255,255,255,.9);
        /*
             
            */ 
@@ -57,11 +63,14 @@
 
  .statetype-0 .content
 {
-    background:#b6ff00;
+   /*background:#b6ff00;*/ 
+    background:rgba(200,255,0,.9);
 }
 .statetype-2 .content
 {
-    background:#ffa5a5;
+    /*
+    background:#ffa5a5;*/ 
+    background:rgba(255,200,200,.9);
 }
 .state .connector
 {

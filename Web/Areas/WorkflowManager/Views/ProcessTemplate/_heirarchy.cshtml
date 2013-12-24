@@ -14,9 +14,9 @@
         columns.Command(
             command =>
             {
-                command.Edit().Text("Modify");
-                command.Destroy().Text("Destroy");
-                command.Custom("Detail").Click("detailProcess");
+                //command.Edit().Text("Modify");
+                //command.Destroy().Text("Destroy");
+                //command.Custom("Detail").Click("detailProcess");
             }
             ).Width(300);
     })
@@ -30,16 +30,14 @@
    .Events(events => events.DataBound("dataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(20)
-        //.Batch(true)
         .Model(model => model.Id(p => p.ProcessTemplateID))
         .Create(update => update.Action("CreateKendo", "ProcessTemplate"))
         .Read(read => read.Action("ReadKendo", "ProcessTemplate"))
         .Update(update => update.Action("EditKendo", "ProcessTemplate"))
         .Destroy(update => update.Action("DeleteKendo", "ProcessTemplate"))
+        
         .Model(model =>
         {
-            //model.Id(p => p.TransportBidQuotationID);
             model.Field(p => p.ProcessTemplateID).Editable(false);
         })
     )
@@ -58,7 +56,7 @@
 
         //  columns.Bound(p => p.ParentProcessTemplateID).Width(100);
         columns.Bound(p => p.Name).Width(200);
-        //  columns.Bound(p => p.StateType).Width(100);
+        columns.Bound(p => p.StateNo).Width(100);
         columns.Bound(p => p.AllowedAccessLevel).Width(100);
         columns.ForeignKey(t => t.StateType, (IEnumerable<LookupData>)ViewData["StateTypeList"], "ID", "Name").Width(100);
         // columns.ForeignKey(t => t.AllowedAccessLevel, (IEnumerable<LookupData>)ViewData["AccessLevelList"], "ID", "Name"); 
