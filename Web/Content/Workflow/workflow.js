@@ -52,14 +52,29 @@ function processCtrl($scope, $http) {
 
         var GraphicsDataStr = $scope.ProcessTemplateData.GraphicsData;
         var GraphicsData = { states: {}, flows: {} };
-        if (GraphicsData) {
+        if (GraphicsDataStr) {
             eval("GraphicsData=" + GraphicsDataStr);
             $scope.ProcessTemplateData.DiagramData = GraphicsData;
         }
         $scope.initData();
     };
     $scope.AddState = function () {
-        $scope.newInstances++;
+        var newState = { "Name": "New State", "AllowedAccessLevel": 3, "StateType": 2, "StateNo": 0, "ParentProcessTemplateID": $scope.ProcessTemplateData.ProcessTemplateID};
+
+        $http.post($scope.serverURL + "AddStateAddState", { item: newState }).success(
+            function (resp, status, headers, config)
+            {
+                newState.StateTemplateID = resp.StateTemplateID;
+                newState.pos = { left: 700, top: 100 };
+                $scope.ProcessTemplateData.StateTemplates.push(newState);
+                setTimeout(function () {
+                    $scope.initalizeDrag();
+                    $scope.editState($scope.ProcessTemplateData.StateTemplates.length - 1);
+                }, 1000);
+              //  alert(resp.StateTemplateID);
+            });
+
+/*        $scope.newInstances++;
         var pos = { left: 700, top: 100 };
         var newState = { "StateTemplateID": -$scope.newInstances, "Name": "New State", "AllowedAccessLevel": 3, "StateType": 2, "StateNo": 0, "ParentProcessTemplateID": $scope.ProcessTemplateData.ProcessTemplateID, pos: pos };
         $scope.ProcessTemplateData.StateTemplates.push(newState);
@@ -69,6 +84,7 @@ function processCtrl($scope, $http) {
             $scope.initalizeDrag();
             $scope.editState($scope.ProcessTemplateData.StateTemplates.length - 1);
         }, 1000);
+        */
         //alert($scope.EditedStateId);
     };
     $scope.AddFlow = function () {
@@ -99,7 +115,7 @@ function processCtrl($scope, $http) {
 
         for (var i in $scope.ProcessTemplateData.StateTemplates) {
             var state = $scope.ProcessTemplateData.StateTemplates[i];
-            var pos = { left: 0, top: 40 * i };
+            var pos = { left: 100, top: 50 * i };
             if (GraphicsData && GraphicsData.states["state_" + state.StateTemplateID]) {
                 var pos = GraphicsData.states["state_" + state.StateTemplateID];
             }
@@ -112,8 +128,8 @@ function processCtrl($scope, $http) {
           //  flow.InitialStateID = "" + flow.InitialStateID;
           //  flow.FinalStateID = "" + flow.FinalStateID;
 
-            var pos = { left: 0, top: 40 * i };
-            if (GraphicsData.flows["flow_" + flow.FlowTemplateID]) {
+            var pos = { left: 400, top: 50 * i +25 };
+            if (GraphicsData && GraphicsData.flows["flow_" + flow.FlowTemplateID]) {
                 var pos = GraphicsData.flows["flow_" + flow.FlowTemplateID];
             }
             $scope.ProcessTemplateData.FlowTemplates[i].pos = pos;
@@ -185,7 +201,39 @@ function processCtrl($scope, $http) {
         }
     };
 
+    $scope.saveGraphicsData = function (showmodal) {
+        var param = { processId: $scope.processId, graphicsData: $scope.GetDiagramDataJson() }
+
+        $http.post($scope.serverURL + "saveGraphics", param).success(function () { alert("saved"); });
+        if (showmodal) {
+            // $('#modalContent').html("...");
+            // $('#myModal').modal('show');
+        }
+    };
+    $scope.GetDiagramDataJson=function()
+    {
+        var statePosJson = "";
+        var comma = "";
+        for (var i in $scope.ProcessTemplateData.StateTemplates) {
+            var state = $scope.ProcessTemplateData.StateTemplates[i];
+            var state_div = (document.getElementById("states_" + state.StateTemplateID));
+            statePosJson += comma + "state_" + state.StateTemplateID + ":{left:" + state_div.offsetLeft + ",top:" + state_div.offsetTop + "}";
+            comma=","
+        }
+        var flowPosJson = "";
+        comma = "";
+        for (var i in $scope.ProcessTemplateData.FlowTemplates) {
+            var flow = $scope.ProcessTemplateData.FlowTemplates[i];
+            var flow_div = (document.getElementById("flows_" + flow.FlowTemplateID));
+            flowPosJson += comma + "flow_" + flow.FlowTemplateID + ":{left:" + flow_div.offsetLeft + ",top:" + flow_div.offsetTop + "}";
+            comma = ","
+        }
+        var posJson = "{states:{" + statePosJson + "},flows:{" + flowPosJson + "}}";
+        return posJson;
+    }
     $scope.loadProcessTemplateData();
+}function onSaveProcesss() {
+    $$scope.saveGraphicsData();
 }function onRedraw() {
     DrawAllFlows($$scope.ProcessTemplateData.FlowTemplates);}function onAddState() {
     $$scope.AddState();}function DrawAllFlows(flows) {

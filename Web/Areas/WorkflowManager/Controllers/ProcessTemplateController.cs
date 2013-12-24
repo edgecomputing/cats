@@ -60,6 +60,7 @@ namespace Cats.Areas.WorkflowManager.Controllers
                         FinalStateID=item.FinalStateID,
                         FlowTemplateID=item.FlowTemplateID,
                         InitialStateID=item.InitialStateID,
+                        ParentProcessTemplateID = item.ParentProcessTemplateID,
                         Name = item.Name
                     }
                     );
@@ -110,6 +111,16 @@ namespace Cats.Areas.WorkflowManager.Controllers
             {
                 item.GraphicsData = graphicsData;
                 _ProcessTemplateService.Update(item);
+            }
+            return Json("{}");
+        }
+        public ActionResult AddState(StateTemplate item)
+        {
+            if (item != null)
+            {
+                  
+                _StateTemplateService.Add(item);
+                return Json("{StateTemplateID:" + item.StateTemplateID + "}");
             }
             return Json("{}");
         }
