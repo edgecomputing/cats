@@ -113,3 +113,9 @@
     position:fixed;
     bottom:0px;
 }
+
+.saving,.saving .content, .saving .content
+{
+    background:#ffff83;
+    color: #F0F;
+}

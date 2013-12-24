@@ -8,7 +8,11 @@ function processCtrl($scope, $http) {
     $scope.EditedFlowIndex = 0;
     $scope.StateDictionary = {};
     $scope.newInstances = 0;
+
     $scope.editState = function (stateIndex) {
+        $scope.closeStateEdit();
+        $scope.closeFlowEdit();
+
         $scope.EditedStateId = stateIndex;
         var state = $scope.ProcessTemplateData.StateTemplates[stateIndex];
         var state_div = document.getElementById("states_" + state.StateTemplateID);
@@ -22,6 +26,9 @@ function processCtrl($scope, $http) {
        
     };
     $scope.editflow = function (flowIndex) {
+        $scope.closeStateEdit();
+        $scope.closeFlowEdit();
+
         $scope.EditedFlowIndex = flowIndex;
         var flow = $scope.ProcessTemplateData.FlowTemplates[flowIndex];
         var flow_div = document.getElementById("flows_" + flow.FlowTemplateID);
@@ -36,16 +43,48 @@ function processCtrl($scope, $http) {
 
         }, 1000);
     };
+    $scope.closeStateEdit = function () {
+        var popup = document.getElementById("popover_state_editor")
+        if (popup.style.display == "block") {
+            var state = $scope.ProcessTemplateData.StateTemplates[$scope.EditedStateId];
+            $scope.SaveState(state);
+            $("#popover_state_editor").hide();
+        }
+    };
+    $scope.closeFlowEdit = function () {
+        var popup = document.getElementById("popover_flow_editor")
+        if (popup.style.display == "block") {
+            var flow = $scope.ProcessTemplateData.FlowTemplates[$scope.EditedFlowIndex];
+            $scope.SaveFlow(flow);
+            $("#popover_flow_editor").hide();
+        }
+    };
     $scope.cancelStateEdit = function () {
-        $("#popover_state_editor").hide();
+        $scope.closeStateEdit();
     };
     $scope.cancelFlowEdit = function () {
-        $("#popover_flow_editor").hide();
+        $scope.closeFlowEdit();
+       
     };
     $scope.showEditorWindow = function (state_div, editor) {
 
     };
-    
+    $scope.SaveState = function (editedState) {
+        $("#states_" + editedState.StateTemplateID).addClass("saving");
+
+        $http.post($scope.serverURL + "EditStateJSON", { item: editedState }).success(
+                    function (resp, status, headers, config) {
+                        $("#states_" + editedState.StateTemplateID).removeClass("saving");
+                    });
+    };
+    $scope.SaveFlow = function (editedFlow) {
+        $("#flows_" + editedFlow.FlowTemplateID).addClass("saving");
+
+        $http.post($scope.serverURL + "EditFlowJSON", { item: editedFlow }).success(
+                    function (resp, status, headers, config) {
+                        $("#flows_" + editedFlow.FlowTemplateID).removeClass("saving");
+                    });
+    };
     var GetProcessTemplateDataSuccessCB = function (resp, status, headers, config) {
         $$scope = $scope;
         $scope.ProcessTemplateData = resp;
@@ -58,47 +97,47 @@ function processCtrl($scope, $http) {
         }
         $scope.initData();
     };
+    $scope.toObj=function(JsonString)
+    {
+        var tempObj = "";
+        eval("tempObj=" + JsonString);
+        return tempObj;
+    }
     $scope.AddState = function () {
-        var newState = { "Name": "New State", "AllowedAccessLevel": 3, "StateType": 2, "StateNo": 0, "ParentProcessTemplateID": $scope.ProcessTemplateData.ProcessTemplateID};
+        var newState = { "Name": "New State", "AllowedAccessLevel": 3, "StateType": 1, "StateNo": 0, "ParentProcessTemplateID": $scope.ProcessTemplateData.ProcessTemplateID};
 
-        $http.post($scope.serverURL + "AddStateAddState", { item: newState }).success(
+        $http.post($scope.serverURL + "AddState", { item: newState }).success(
             function (resp, status, headers, config)
             {
+               // var responseobj = $scope.toObj(resp)
                 newState.StateTemplateID = resp.StateTemplateID;
                 newState.pos = { left: 700, top: 100 };
                 $scope.ProcessTemplateData.StateTemplates.push(newState);
+                var editindex = $scope.ProcessTemplateData.StateTemplates.length - 1;
                 setTimeout(function () {
                     $scope.initalizeDrag();
-                    $scope.editState($scope.ProcessTemplateData.StateTemplates.length - 1);
+                   // alert(editindex);
+                  //  $scope.editState(editindex);
                 }, 1000);
-              //  alert(resp.StateTemplateID);
             });
 
-/*        $scope.newInstances++;
-        var pos = { left: 700, top: 100 };
-        var newState = { "StateTemplateID": -$scope.newInstances, "Name": "New State", "AllowedAccessLevel": 3, "StateType": 2, "StateNo": 0, "ParentProcessTemplateID": $scope.ProcessTemplateData.ProcessTemplateID, pos: pos };
-        $scope.ProcessTemplateData.StateTemplates.push(newState);
-       
-        
-        setTimeout(function () {
-            $scope.initalizeDrag();
-            $scope.editState($scope.ProcessTemplateData.StateTemplates.length - 1);
-        }, 1000);
-        */
-        //alert($scope.EditedStateId);
     };
-    $scope.AddFlow = function () {
-        $scope.newInstances++;
-        var pos = { left: 700, top: 300 };
-        var newFlow = { "FlowTemplateID": -$scope.newInstances, "Name": "Flow", "InitialStateID": 0, "FinalStateID": 0, "ParentProcessTemplateID": $scope.ProcessTemplateData.ProcessTemplateID, pos: pos };
-        $scope.ProcessTemplateData.FlowTemplates.push(newFlow);
 
-        setTimeout(function () {
-            $scope.initalizeDrag();
-            $scope.editflow($scope.ProcessTemplateData.FlowTemplates.length - 1);
-        }, 1000);
-      //  $scope.EditedStateId = $scope.ProcessTemplateData.StateTemplates.length - 1;
-        //alert($scope.EditedStateId);
+    $scope.AddFlow = function () {
+
+        $scope.newInstances++;
+        var newFlow = { "Name": "Flow", "InitialStateID": 0, "FinalStateID": 0, "ParentProcessTemplateID": $scope.ProcessTemplateData.ProcessTemplateID };
+
+        $http.post($scope.serverURL + "AddFlow", { item: newFlow }).success(
+           function (resp, status, headers, config) {
+               newFlow.FlowTemplateID = resp.FlowTemplateID;
+               newFlow.pos = { left: 700, top: 300 };
+               $scope.ProcessTemplateData.FlowTemplates.push(newFlow);
+               setTimeout(function () {
+                   $scope.initalizeDrag();
+                  // $scope.editflow($scope.ProcessTemplateData.FlowTemplates.length - 1);
+               }, 1000);
+           });
     };
     $scope.onFlowChange = function () {
         var flow = $scope.ProcessTemplateData.FlowTemplates[$scope.EditedFlowIndex];
