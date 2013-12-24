@@ -14,7 +14,7 @@
         columns.Command(
             command =>
             {
-                //command.Edit().Text("Modify");
+                command.Edit().Text("Modify");
                 //command.Destroy().Text("Destroy");
                 //command.Custom("Detail").Click("detailProcess");
             }
@@ -26,7 +26,7 @@
         //.Sortable()
     //.Scrollable()
    // .HtmlAttributes(new { style = "height:430px;" })
-   .ClientDetailTemplateId("template")
+  // .ClientDetailTemplateId("template")
    .Events(events => events.DataBound("dataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()

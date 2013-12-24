@@ -1,3 +1,10 @@
+/*
+    workflow.js
+    The workflow builder user interface is controlled with in this javascript.
+    This handles the canvas drawing, dragging event, inplace editing, postback to server for CRUD oprations and diagram [graphics] data persistance.
+
+*/
+
 function processCtrl($scope, $http) {
     $scope.saved = 1;
     $scope.processId = processId;
@@ -289,14 +296,15 @@ function processCtrl($scope, $http) {
 
     var is = flow.InitialState;
     var fs = flow.FinalState;
-
+    try {
     var init_state_div = document.getElementById("states_" + flow.InitialState.StateTemplateID);
     var final_state_div = document.getElementById("states_" + flow.FinalState.StateTemplateID);
     var flow_div = document.getElementById("flows_" + flow.FlowTemplateID);
 
-    var ispos = { left: init_state_div.offsetLeft, top: init_state_div.offsetTop, width: init_state_div.offsetWidth, height: init_state_div.offsetHeight };
-    var flpos = { left: flow_div.offsetLeft, top: flow_div.offsetTop, width: flow_div.offsetWidth, height: flow_div.offsetHeight };
-    var fspos = { left: final_state_div.offsetLeft, top: final_state_div.offsetTop, width: final_state_div.offsetWidth, height: final_state_div.offsetHeight };
+  
+        var ispos = { left: init_state_div.offsetLeft, top: init_state_div.offsetTop, width: init_state_div.offsetWidth, height: init_state_div.offsetHeight };
+        var flpos = { left: flow_div.offsetLeft, top: flow_div.offsetTop, width: flow_div.offsetWidth, height: flow_div.offsetHeight };
+        var fspos = { left: final_state_div.offsetLeft, top: final_state_div.offsetTop, width: final_state_div.offsetWidth, height: final_state_div.offsetHeight };
    
 
 
@@ -319,30 +327,17 @@ function processCtrl($scope, $http) {
 
         //ctx.closePath();
         ctx.stroke();
+    }
+    catch (e) { }
   
-}var lastTarget;
+}
 function show_state_editor(elem) {
     var editor = $("#popover_state_editor");
     //$(elem).popover('show')
     $target = $(elem);
     $$scope.editState($target.data("index"));
     return;
-    var htm = "<div class='small_form' id='frm_current'>" + $("#frm_state_template").clone().html() + "</div>";
     
-    if (lastTarget) {
-        if ($target.attr("id") == lastTarget.attr("id")) {
-            return;
-        }
-        else {
-            lastTarget.popover('destroy');
-        }
-    }
-
-    $target.popover({ html: true, trigger: "manual", title: "Edit Title", content: htm,placement:'bottom' });
-    $target.popover('show');
-    lastTarget = $target;
-    $(".btn_popup_cancel").click(function () { lastTarget.popover('destroy'); });
-    return;
 }
 
 function show_popup(popup, left, top) {
