@@ -32,6 +32,9 @@ namespace Cats.Models
         public virtual Donor Donor { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual Hub Hub { get; set; }
+        public int? Status { get; set; }
+        public int? ActionType { get; set; }
+        public string ActionTypeRemark { get; set; }
         public virtual ICollection<DistributionDetail> DistributionDetails { get; set; }
     }
 }

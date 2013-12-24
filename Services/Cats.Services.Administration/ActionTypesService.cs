@@ -5,7 +5,7 @@ using Cats.Models;
 
 namespace Cats.Services.Administration
 {
-    class ActionTypesService:IActionTypesService
+    public class ActionTypesService:IActionTypesService
     {
          private readonly IUnitOfWork _unitOfWork;
 

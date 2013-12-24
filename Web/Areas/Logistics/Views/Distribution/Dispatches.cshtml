@@ -8,6 +8,7 @@
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
     
 }
+
 <h4 class="page-header">@Translator.Translate("Transport Order Dispatches")</h4>
 <div class="control-group form-horizontal well">
     <div class="row">
@@ -156,7 +157,7 @@
                                        col.Template(
                                            @<text>
 
-                                                <a href="@Url.Action("EditGRN", "Distribution", new { Area = "Logistics", id = item.DistributionID })">@Translator.Translate("GRN")</a>
+                                                <a  href="@Url.Action("EditGRN", "Distribution", new { Area = "Logistics", id = item.DistributionID })">@Translator.Translate("GRN")</a>
 
                                             </text>);
                                        col.Bound(t => t.GIN);
@@ -183,6 +184,7 @@
                 @(Html.Kendo().Grid<DistributionViewModel>().Name("grid")
                       .Columns(col =>
                                    {
+                                       
                                        col.Bound(request => request.ReceivingNumber).ClientTemplate("<a href='" + Url.Action("EditGRN", "Distribution", new { id = "#=DistributionID#" }) + " '>#=ReceivingNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
                                        col.Bound(t => t.InvoiceNo).Title(Translator.Translate("GIN"));
                                        col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
@@ -195,7 +197,15 @@
                                        col.Bound(t => t.DriverName).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
                                        col.Bound(t => t.DeliveryDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
                                        col.Bound(t => t.DocumentReceivedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
-                                       
+                                       col.Bound(request => request.Status).ClientTemplate("# if (Status == " + (int)Cats.Models.Constant.DistributionStatus.Draft + " && ContainsDiscripancy) { #<a href='" + @Url.Action("DiscripancyAction", "Distribution", new { id = "#=DistributionID#", transportOrderId = Model.TransportOrderViewModel.TransportOrderID }) + "'>Action</a>#} " +
+                                                                                           "else if (ActionTypeRemark == null && Status == " + (int)Cats.Models.Constant.DistributionStatus.Closed + ")" +
+                                                                                           "{" + "#Closed#" + "} " +
+                                                                                           "else if (ActionTypeRemark == null)" +
+                                                                                           "{" + string.Empty + "} " +
+                                                                                           "else  " +
+                                                                                           "{#<a href='" + @Url.Action("DiscripancyAction", "Distribution", new { id = "#=DistributionID#", transportOrderId = Model.TransportOrderViewModel.TransportOrderID }) + "'>#=ActionTypeRemark#</a>#} #");
+                                                                                                   
+                                      
                                    })
                       .Events(es=>es.DataBound("onDataBound"))
                       
@@ -212,6 +222,8 @@
 
                                            
 <script>
+    
+    
     function onDataBound(e) {
         check_planned();
         var grid = $("#grid").data("kendoGrid");
@@ -236,7 +248,7 @@
        
         } else  {
             row.removeClass("alert-danger");
-         //   row.addClass("alert-danger");
+            //   row.addClass("alert-danger");
         }
        
     }
@@ -252,3 +264,30 @@
         });
     }
 </script>
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAction').click(function () {
+
+            alert("yes");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+       
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
