@@ -180,7 +180,10 @@
                                                                    ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
                             
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Contract Admin"),
-                                                                    @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
+                                                                   @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Bid Administration"),
+                                                                    @Url.Action("Index", "BidAdministration", new { Area = "Procurement" }),
                                                                     ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
                         </ul>
                     </li>

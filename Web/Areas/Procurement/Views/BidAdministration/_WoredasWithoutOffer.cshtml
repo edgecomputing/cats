@@ -6,10 +6,10 @@
     ViewBag.Title = "_WoredasWithoutOffer";
 }
 
-<h4>Woredas Without Bid Offer</h4>
+@*<h4>Woredas Without Bid Offer</h4>*@
 
      @(Html.Kendo().Grid<BidWinnerViewModel>(Model.Bidwinners)
-    .Name("grid1")
+    .Name("grid2")
     .Columns(columns=>
         {
               
@@ -20,7 +20,7 @@
         //columns.Bound(t => t.Status);
         })
      .Scrollable()
-     .HtmlAttributes(new { style = "height:250px;" })
+    // .HtmlAttributes(new { style = "height:400px;" })
         .DataSource(datasource=>
             datasource                 
             .Ajax()

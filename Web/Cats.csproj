@@ -485,6 +485,7 @@
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
+    <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
@@ -1585,6 +1586,8 @@
     <Content Include="Areas\Procurement\Views\BidAdministration\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\LeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_WoredasWithoutOffer.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidAdministration\WithoutRFQ.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidAdministration\_BidPlanDetail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
