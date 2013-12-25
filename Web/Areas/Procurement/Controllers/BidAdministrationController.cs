@@ -50,7 +50,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
             ViewBag.BidID=currentBid.SettingValue;
             ViewBag.BidAdminStatus = id;
-            //ViewBag.RFQGenerated = _bidWinnerService.IsRfqGenerated(int.Parse(currentBid.SettingValue));
+            ViewBag.BidPlanID = _bidService.FindById(int.Parse(currentBid.SettingValue)).TransportBidPlanID;
             var bidWinnerViewModel = GetListOfBidWinners(int.Parse(currentBid.SettingValue));
             if (bidWinnerViewModel == null || !bidWinnerViewModel.Bidwinners.Any())
                 return RedirectToAction("WithoutRFQ","BidAdministration");

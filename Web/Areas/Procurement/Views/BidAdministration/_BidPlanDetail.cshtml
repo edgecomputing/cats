@@ -21,6 +21,7 @@
                  })
              .Scrollable()
              .HtmlAttributes(new {style = "height:510px;"})
+             //.Events(events => events.DataBound("collapseGroupRowsbyDefault"))
              .DataSource(datasource =>
                          datasource
                              .Ajax()
@@ -29,4 +30,5 @@
                              .Group(group => group.Add(m => m.Program))
              .Read("BidPlanDetail_Read","BidAdministration",new{id=Model.Bidwinners.First().BidPlanID})
 
-             ))
+      ))
+    

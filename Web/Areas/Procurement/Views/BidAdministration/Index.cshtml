@@ -28,8 +28,7 @@
         }
         <ul class="dropdown-menu">
            
-                <li><a  href="@Url.Action("WarehouseSelection", "TransportBidPlan")" >View Bid Plan </a></li>
-                <li><a  href="@Url.Action("bidProposal", "PriceQuotation")" >Encode Price </a></li>
+                <li><a  href="@Url.Action("WarehouseSelection", "TransportBidPlan", new { id = ViewBag.BidPlanID })" >View Bid Plan </a></li>
         </ul>
 
     </div>
@@ -95,13 +94,14 @@
                       //columns.Bound(t => t.Status);
                   })
               .Scrollable()
-              //.Events(events => events.DataBound("onDataBound"))
+              .Events(events => events.DataBound("collapseGroupRows"))
               .DataSource(datasource =>
                           datasource
                               .Ajax()
                               .Model(model => model.Id(p => p.BidWinnnerID))
                               .Group(group => group.Add(m => m.SourceWarehouse))
                               .Group(group=> group.Add(m=>m.TransporterName))
+                              .Group(group=> group.Add(m=>m.Woreda))
               //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
 
               ))
@@ -119,11 +119,13 @@
     </div> 
    
 </div>
-@*<script type="text/javascript">
-function dataBound(e) {
-    if ($("#grid1").dataSource.group().length > 0) {
-        var firstGroup = $(".k-grouping-row").first();
-        this.collapseGroup(firstGroup);
+<script type="text/javascript">
+    function collapseGroupRows() {
+        var grid = $("#grid1").data("kendoGrid");
+        grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
+        $('tr[role*="row"]').hide();
     }
-}
-</script>*@
+</script>
+
+
+
