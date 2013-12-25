@@ -8,14 +8,14 @@
 
 @*<h4>Woredas Without Bid Offer</h4>*@
 
-     @(Html.Kendo().Grid<BidWinnerViewModel>(Model.Bidwinners)
+     @(Html.Kendo().Grid<BidWinnerViewModel>()
     .Name("withOutOffer")
     .Columns(columns=>
         {
               
         columns.Bound(t => t.SourceWarehouse);
         columns.Bound(t => t.Woreda);
-        //columns.Bound(t => t.Quantity);
+        //columns.Bound(t => t.Zone);
         //columns.Bound(t => t.StatusID);
         //columns.Bound(t => t.Status);
         })
@@ -24,8 +24,8 @@
         .DataSource(datasource=>
             datasource                 
             .Ajax()
-    .Model(model=>model.Id(p=>p.BidWinnnerID))
-    //.Group(group=>group.Add(m=>m.TransporterName))
-    //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
+    .Model(model=>model.Id(p=>p.BidID))
+    .Group(group=>group.Add(m=>m.Zone))
+    .Read("WoredasWithoutOffer_Read","BidAdministration",new{id=Model.Bidwinners.First().BidID})
     
            ))
