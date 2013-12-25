@@ -171,28 +171,25 @@
 </div>
 <div>
      <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">Active Transport Orders</div>
+        <div style="font-weight: bold;margin:10px;">@Translator.Translate("GRN with delivery discripancy")</div>
         @(Html.Kendo().Grid<DistributionViewModel>().Name("gridGRNWithDiscripancy")
                       .Columns(col =>
                                    {
                                        col.Bound(request => request.ReceivingNumber).ClientTemplate("<a href='" + Url.Action("EditGRN", "Distribution", new { id = "#=DistributionID#" }) + " '>#=ReceivingNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
                                        col.Bound(t => t.InvoiceNo).Title(Translator.Translate("GIN"));
                                        col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                                       col.Bound(t => t.Region);
-                                       col.Bound(t => t.Zone);
-                                       col.Bound(t => t.Woreda);
-                                       col.Bound(t => t.FDP);
-                                       col.Bound(t => t.PlateNoPrimary).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                                       col.Bound(t => t.PlateNoTrailler).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                                       col.Bound(t => t.DriverName).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-                                       col.Bound(t => t.DeliveryDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+                                       //col.Bound(t => t.Region);
+                                       //col.Bound(t => t.Zone);
+                                       //col.Bound(t => t.Woreda);
+                                       //col.Bound(t => t.FDP);
+                                        col.Bound(t => t.DeliveryDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
                                        col.Bound(t => t.DocumentReceivedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
                                        
                                    })
                      
                       
-                      .DataSource(datasource=>datasource.Ajax().Read(read=>read.Action("ReadDeliveryNotesDiscripancy","Distribution",new{id=ViewBag.TransportId})))
-                      .Scrollable(t => t.Height(400))
+                      .DataSource(datasource=>datasource.Ajax().Read(read=>read.Action("ReadDeliveryNotesDiscripancy","Distribution",new{id=ViewBag.TransporterID,Area="Logistics"})))
+                      .Scrollable(t => t.Height(200))
                      )
     </div>
 </div>

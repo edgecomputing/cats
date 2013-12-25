@@ -32,7 +32,7 @@ namespace Cats.Services.EarlyWarning
         IOrderedEnumerable<RegionsViewModel> GetRegions();
         IOrderedEnumerable<RegionsViewModel> GetZoness(int region);
         //IEnumerable<NeedAssessmentHeaderViewModel> ReturnViewModelApproved();
-        bool IsNeedAssessmentUsedInHrd(int season, int year);
+        bool IsNeedAssessmentUsedInHrd(int planId);
     }
 }
 

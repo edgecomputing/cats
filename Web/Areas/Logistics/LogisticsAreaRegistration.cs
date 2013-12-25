@@ -20,14 +20,14 @@ namespace Cats.Areas.Logistics
                defaults: new { controller = "Home", action = "Index" },
                namespaces: new[] { "Cats.Areas.Logistics.Controllers" }
                );
-            
+
             context.MapRoute(
                 "Logistics_default",
                 "Logistics/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
 
-           
+
         }
     }
 }
