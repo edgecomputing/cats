@@ -125,7 +125,7 @@ namespace Cats.Areas.Procurement.Controllers
                             WinnerTariff = bidWinner.Tariff,
                             Quantity = bidWinner.Amount,
                             StatusID = bidWinner.Status,
-                            Status =_workflowStatusService.GetStatusName(WORKFLOW.BidWinner,bidWinner.Status)
+                            //Status =_workflowStatusService.GetStatusName(WORKFLOW.BidWinner,bidWinner.Status)
 
                         });
         }

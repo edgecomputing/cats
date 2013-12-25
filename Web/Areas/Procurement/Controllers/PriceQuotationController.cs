@@ -647,8 +647,8 @@ namespace Cats.Areas.Procurement.Controllers
                             Zone = bidWinner.AdminUnit.AdminUnit2.Name,
                             Woreda = bidWinner.AdminUnit.Name,
                             TransporterName = bidWinner.Transporter.Name,
-                            Rank = bidWinner.Position,
-                            WinnerTariff = bidWinner.Tariff,
+                            Rank = bidWinner.Position??0,
+                            WinnerTariff = bidWinner.Tariff??0,
                             SourceId = bidWinner.SourceID,
                             DestinationId = bidWinner.DestinationID,
                             TransporterID = bidWinner.TransporterID
