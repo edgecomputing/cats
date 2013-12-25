@@ -15,7 +15,7 @@
 }
 
 
-@using (Html.BeginForm("SaveDiscripancy", "Distribution", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
+@using (Html.BeginForm("SaveDiscripancy", "Distribution", new { Area = "Logistics" }, FormMethod.Post,  new { id = "frmCreate" }))
 {
 
     @Html.HiddenFor(model => model.DistributionID)
@@ -210,7 +210,7 @@
                             </div>
                             <div class="controls">
                                 @Html.TextArea("Remark")
-                             
+                                
                             </div>
                         </div>
              
