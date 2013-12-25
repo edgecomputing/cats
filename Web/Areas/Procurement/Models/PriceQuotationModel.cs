@@ -10,6 +10,13 @@ namespace Cats.Areas.Procurement.Models
         public int RegionID { get; set; }
     }
 
+    public class PriceQuotationFilterOfferlessViewModel
+    {
+        public int BidID { get; set; }
+        public int RegionID { get; set; }
+        public int HubID { get; set; }
+    }
+
     public class WinnersGeneratorParameters
     {
         public int RegionID { get; set; }
@@ -71,10 +78,10 @@ namespace Cats.Areas.Procurement.Models
         public int TransporterID { get; set; }
         public string TransporterName { get; set; }
         public int Rank { get; set; }
-        public decimal WinnerTariff { get; set;}
-        public decimal Quantity { get; set; }
-        public string Status { get; set; }
-        public int StatusID { get; set; }
+        public Nullable<decimal> WinnerTariff { get; set; }
+        public Nullable<decimal> Quantity { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<int> StatusID { get; set; }
         public int BidID { get; set; }
         public int BidPlanID { get; set; }
         public string BidMumber { get; set; }
@@ -82,6 +89,28 @@ namespace Cats.Areas.Procurement.Models
         public string BidEndDate { get; set; }
         public string BidOpeningDate { get; set; }
         public bool Selected { get; set; }
+    }
+    public class BidWinnerViewingModel
+    {
+        public BidWinnerViewingModel()
+        {
+            TransporterID = new List<string>();
+            TransporterName = new List<string>();
+        }
+        public string BidID { get; set; }
+        public string SourceWarehouse { get; set; }
+        public string SourceId { get; set; }
+        public string DestinationId { get; set; }
+        public string Zone { get; set; }
+        public string Woreda { get; set; }
+        public List<string> TransporterID { get; set; }
+        public List<string> TransporterName { get; set; }
+        public string Rank { get; set; }
+        public string WinnerTariff { get; set; }
+        public string Quantity { get; set; }
+        public string Status { get; set; }
+        public string StatusID { get; set; }
+
     }
     public class BidWithWinnerViewModel
     {

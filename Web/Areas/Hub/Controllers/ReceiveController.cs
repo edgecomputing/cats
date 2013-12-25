@@ -19,7 +19,7 @@ namespace Cats.Areas.Hub.Controllers
     [Authorize]
     public partial class ReceiveController : BaseController
     {
-        
+
         private readonly IReceiveService _receiveService;
         private readonly IGiftCertificateService _giftCertificateService;
         private readonly IReceiptAllocationService _receiptAllocationService;
@@ -38,12 +38,12 @@ namespace Cats.Areas.Hub.Controllers
         private readonly ICommoditySourceService _commoditySourceService;
         private readonly IDonorService _donorService;
 
-        public ReceiveController(IReceiveService receiveService,IGiftCertificateService giftCertificateService,
-                                 IReceiptAllocationService receiptAllocationService,IUserProfileService userProfileService,
-                                 ICommodityTypeService commodityTypeService ,IReceiveDetailService receiveDetailService,
-                                 ICommodityService commodityService,IStoreService storeService,ITransactionService transactionService,
-                                 IUnitService unitService,IShippingInstructionService shippingInstructionService,IHubService hubService,
-                                 ICommodityGradeService commodityGradeService,IProgramService programService,ITransporterService transporterService,
+        public ReceiveController(IReceiveService receiveService, IGiftCertificateService giftCertificateService,
+                                 IReceiptAllocationService receiptAllocationService, IUserProfileService userProfileService,
+                                 ICommodityTypeService commodityTypeService, IReceiveDetailService receiveDetailService,
+                                 ICommodityService commodityService, IStoreService storeService, ITransactionService transactionService,
+                                 IUnitService unitService, IShippingInstructionService shippingInstructionService, IHubService hubService,
+                                 ICommodityGradeService commodityGradeService, IProgramService programService, ITransporterService transporterService,
                                  ICommoditySourceService commoditySourceService, IDonorService donorService)
             : base(userProfileService)
         {
@@ -62,7 +62,7 @@ namespace Cats.Areas.Hub.Controllers
             _commodityGradeService = commodityGradeService;
             _programService = programService;
             _transporterService = transporterService;
-            _commoditySourceService=commoditySourceService;
+            _commoditySourceService = commoditySourceService;
             _donorService = donorService;
 
         }
@@ -100,8 +100,8 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult NotFoundSI(String SINumber, int CommodityID)
         {
             return
-                Json(_receiptAllocationService.GetAvailableCommodities(SINumber,_userProfileService.GetUser(User.Identity.Name).DefaultHub.HubID).Select(
-                    p => p.CommodityID == CommodityID).Any(), JsonRequestBehavior.AllowGet );
+                Json(_receiptAllocationService.GetAvailableCommodities(SINumber, _userProfileService.GetUser(User.Identity.Name).DefaultHub.HubID).Select(
+                    p => p.CommodityID == CommodityID).Any(), JsonRequestBehavior.AllowGet);
 
         }
 
@@ -118,9 +118,18 @@ namespace Cats.Areas.Hub.Controllers
         [GridAction]
         public ActionResult AllocationListGrid(int type, bool? closedToo, int? CommodityType)
         {
-            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
-            return View(new GridModel(list));
+            try
+            {
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+                return View(new GridModel(list));
+            }
+            catch (Exception ex)
+            {
+                return View();
+
+            }
+
         }
 
 
@@ -145,14 +154,17 @@ namespace Cats.Areas.Hub.Controllers
             if (receive == null || (receive.ReceiveID != Guid.Empty) && (receive.ReceiveID == guidParse))// new one or edit no problem 
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
-            } else {
+            }
+            else
+            {
 
                 if (receive.HubID == user.DefaultHub.HubID)
                 {
                     return Json(string.Format("{0} is invalid, there is an existing record with the same GRN", grn),
                         JsonRequestBehavior.AllowGet);
                 }
-                else {
+                else
+                {
                     return Json(string.Format("{0} is invalid, there is an existing record with the same GRN at another Warehouse", grn),
                     JsonRequestBehavior.AllowGet);
                 }
@@ -163,7 +175,7 @@ namespace Cats.Areas.Hub.Controllers
         /// Shows a list of receive transactions.
         /// </summary>
         /// <returns></returns>
-        
+
         public virtual ActionResult Index()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
@@ -176,12 +188,12 @@ namespace Cats.Areas.Hub.Controllers
             List<Receive> receives = _receiveService.ByHubId(GetCurrentUserProfile().DefaultHub.HubID);
             return View(receives);
         }
-        
+
         [GridAction]
         public ActionResult ReceiveListGrid(string ReceiptAllocationID)
         {
-            UserProfile user =  _userProfileService.GetUser(User.Identity.Name);
-           //TODO cascade using allocation id
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            //TODO cascade using allocation id
             List<ReceiveViewModelDto> receives = _receiveService.ByHubIdAndAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(ReceiptAllocationID));
             return View(new GridModel(receives));
         }
@@ -189,15 +201,15 @@ namespace Cats.Areas.Hub.Controllers
         [GridAction]
         public ActionResult ReceiveListGridListGrid(string ReceiveID)
         {
-            UserProfile user =  _userProfileService.GetUser(User.Identity.Name);
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             //(user.DefaultHub.HubID)
-            List<ReceiveDetailViewModelDto> receiveDetails = _receiveDetailService.ByReceiveIDetached(Guid.Parse(ReceiveID),user.PreferedWeightMeasurment);
+            List<ReceiveDetailViewModelDto> receiveDetails = _receiveDetailService.ByReceiveIDetached(Guid.Parse(ReceiveID), user.PreferedWeightMeasurment);
             return View(new GridModel(receiveDetails));
         }
 
         //
         // GET: /Receive/Create
-        
+
         public virtual ActionResult Create(string receiveId)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
@@ -211,7 +223,7 @@ namespace Cats.Areas.Hub.Controllers
             var programs = _programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var donors = _donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var units = _unitService.GetAllUnit().OrderBy(o => o.Name).ToList();
-      
+
 
             var hubs = _hubService.GetAllWithoutId(user.DefaultHub.HubID).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
@@ -221,23 +233,23 @@ namespace Cats.Areas.Hub.Controllers
                 var stacks = new List<AdminUnitItem>();
                 if (receive != null && (receive.HubID == user.DefaultHub.HubID))
                 {
-                  var rViewModel=  ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades, transporters,
-                                                          commodityTypes, commoditySources, programs, donors, hubs, user, units);
-                    
+                    var rViewModel = ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades, transporters,
+                                                            commodityTypes, commoditySources, programs, donors, hubs, user, units);
+
                     //TODO:=====================================Refactored from viewmodel needs refactor============================
-                  
+
                     if (rViewModel.StoreID != 0)
                     {
                         Store store = _storeService.FindById(rViewModel.StoreID);
-                        
+
                         foreach (var i in store.Stacks)
                         {
                             stacks.Add(new AdminUnitItem { Name = i.ToString(), Id = i });
                         }
-                        
+
                     }
                     rViewModel.Stacks = stacks;
-                   //===============================================================================================================
+                    //===============================================================================================================
 
 
                     return View("Create", rViewModel);
@@ -256,7 +268,7 @@ namespace Cats.Areas.Hub.Controllers
             List<ReceiveDetailViewModel> receiveCommodities = new List<ReceiveDetailViewModel>();
             ViewBag.ReceiveCommodities = receiveCommodities;
             //TODO:Stacks shuld be sent basend storeID
-            var receiveViewModel = new ReceiveViewModel(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user,units);
+            var receiveViewModel = new ReceiveViewModel(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units);
             if (Request["type"] != null)
             {
                 receiveViewModel.CommoditySourceID = Convert.ToInt32(Request["type"]);
@@ -321,8 +333,7 @@ namespace Cats.Areas.Hub.Controllers
                         if (rAllocation.Commodity.ParentID != null)
                         {
                             //TODO if we were to load multiple commoditites don't forget to derecement the allocation id in the neative direction
-                            receiveCommodities.Add(new ReceiveDetailViewModel()
-                                                       {ReceiveDetailID = null, ReceiveDetailCounter = -1, CommodityID = rAllocation.CommodityID});
+                            receiveCommodities.Add(new ReceiveDetailViewModel() { ReceiveDetailID = null, ReceiveDetailCounter = -1, CommodityID = rAllocation.CommodityID });
                             receiveViewModel.JSONPrev = JsonConvert.SerializeObject(receiveCommodities);
                         }
                     }
@@ -342,15 +353,15 @@ namespace Cats.Areas.Hub.Controllers
         public virtual ActionResult _ReceivePartial(string grnNo)
         {
 
-           var commodities=_commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var commodityGrades=_commodityGradeService.GetAllCommodityGrade().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-           var transporters=_transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var commoditySources=_commoditySourceService.GetAllCommoditySource().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var commodityTypes=_commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-        
-            var programs=_programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-           var donors=_donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-           var units = _unitService.GetAllUnit().OrderBy(o => o.Name).ToList();
+            var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var commodityGrades = _commodityGradeService.GetAllCommodityGrade().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var transporters = _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var commoditySources = _commoditySourceService.GetAllCommoditySource().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+
+            var programs = _programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var donors = _donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var units = _unitService.GetAllUnit().OrderBy(o => o.Name).ToList();
 
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             var hubs = _hubService.GetAllWithoutId(user.DefaultHub.HubID).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
@@ -358,19 +369,19 @@ namespace Cats.Areas.Hub.Controllers
             Receive receive = Receive.GetReceiveByGRN(grnNo);
             if (receive != null && (receive.HubID == user.DefaultHub.HubID))
             {
-                return PartialView("_ReceivePartial", ReceiveViewModel.GenerateReceiveModel(receive,commodities,commodityGrades,transporters,commodityTypes,commoditySources,programs,donors,hubs,user,units));
+                return PartialView("_ReceivePartial", ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units));
             }
             else if (receive != null && (receive.HubID != user.DefaultHub.HubID))
             {
-                ViewBag.Message = string.Format("The selected GRN Number {0} doesn't exist in your default warehouse. Try changing your default warehouse.",grnNo);
+                ViewBag.Message = string.Format("The selected GRN Number {0} doesn't exist in your default warehouse. Try changing your default warehouse.", grnNo);
             }
-            
+
 
             ViewBag.Stacks = new SelectList(Enumerable.Empty<SelectListItem>());
             List<ReceiveDetailViewModel> ReceiveCommodities = new List<ReceiveDetailViewModel>();
             ViewBag.ReceiveCommodities = ReceiveCommodities;
-            var viewmode = new ReceiveViewModel(commodities,commodityGrades,transporters,commodityTypes,commoditySources,programs,donors,hubs,user,units);
-           // viewmode.GRN = grnNo;
+            var viewmode = new ReceiveViewModel(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units);
+            // viewmode.GRN = grnNo;
             return PartialView("_ReceivePartial", viewmode);
         }
 
@@ -447,7 +458,7 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
                 }
-                
+
                 //TODO add check against the commodity type for each commodity 
                 string errorMessage = null;
                 foreach (var receiveDetailViewModel in prevCommodities)
@@ -498,13 +509,13 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     Store storeTobeChanged = _storeService.FindById(receiveModels.StoreID);
                     if (storeTobeChanged != null && receiveModels.ChangeStoreManPermanently == true)
-                    storeTobeChanged.StoreManName = receiveModels.ReceivedByStoreMan;
+                        storeTobeChanged.StoreManName = receiveModels.ReceivedByStoreMan;
                     //repository.Store.SaveChanges(storeTobeChanged);
                 }
 
                 Receive receive = receiveModels.GenerateReceive();
                 //if (receive.ReceiveID == null )
-                if(receiveModels.ReceiveID == null)
+                if (receiveModels.ReceiveID == null)
                 {
                     //List<ReceiveDetailViewModel> commodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
                     receiveModels.ReceiveDetails = prevCommodities;
@@ -523,7 +534,7 @@ namespace Cats.Areas.Hub.Controllers
                     //List<ReceiveDetailViewModel>
                     //insertCommodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
                     List<ReceiveDetailViewModel> deletedCommodities = GetSelectedCommodities(receiveModels.JSONDeletedCommodities);
-                   // List<ReceiveDetailViewModel> updateCommodities = GetSelectedCommodities(receiveModels.JSONUpdatedCommodities);
+                    // List<ReceiveDetailViewModel> updateCommodities = GetSelectedCommodities(receiveModels.JSONUpdatedCommodities);
                     receive.HubID = user.DefaultHub.HubID;
                     receive.UserProfileID = user.UserProfileID;
                     receive.Update(GenerateReceiveDetail(insertCommodities),
@@ -534,8 +545,8 @@ namespace Cats.Areas.Hub.Controllers
 
                 return RedirectToAction("Index");
             }
-            receiveModels.InitializeEditLists(commodities,commodityGrades,transporters,commodityTypes,commoditySources,programs,donors,hubs,user ,units);
-            if(receiveModels.ReceiveID != null)
+            receiveModels.InitializeEditLists(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units);
+            if (receiveModels.ReceiveID != null)
             {
                 receiveModels.IsEditMode = true;
             }
@@ -595,14 +606,14 @@ namespace Cats.Areas.Hub.Controllers
                 //return Json(new EmptyResult(), JsonRequestBehavior.AllowGet);
                 return new EmptyResult();
             }
-       }
+        }
 
         /// <summary>
         /// Loads the data by SI.
         /// </summary>
         /// <param name="SINumber">The SI number.</param>
         /// <returns></returns>
-        public ActionResult LoadDataBySI(string SINumber,string receiptAllocationID )
+        public ActionResult LoadDataBySI(string SINumber, string receiptAllocationID)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
@@ -629,63 +640,65 @@ namespace Cats.Areas.Hub.Controllers
                 SourceDonorID = gCertificate.DonorID;
                 ProgramID = gCertificate.ProgramID;
             }
-            
+
             if (receiptAllocationID != null && receiptAllocationID != "")
             {
                 var theAllocation = _receiptAllocationService.FindById(Guid.Parse(receiptAllocationID));
-                if(theAllocation!=null)
+                if (theAllocation != null)
                 {
-                   ProjectCode = theAllocation.ProjectNumber;
-                   PurchaseOrder = theAllocation.PurchaseOrder;
-                   SupplierName = theAllocation.SupplierName;
-                   SourceHubID = theAllocation.SourceHubID;
-                   CommodityTypeID = theAllocation.Commodity.CommodityTypeID;
-                   ProgramID = theAllocation.ProgramID;
-                   //ResponsibleDonorID = theAllocation.DonorID;
-                   //SourceDonorID = theAllocation.DonorID;
+                    ProjectCode = theAllocation.ProjectNumber;
+                    PurchaseOrder = theAllocation.PurchaseOrder;
+                    SupplierName = theAllocation.SupplierName;
+                    SourceHubID = theAllocation.SourceHubID;
+                    CommodityTypeID = theAllocation.Commodity.CommodityTypeID;
+                    ProgramID = theAllocation.ProgramID;
+                    //ResponsibleDonorID = theAllocation.DonorID;
+                    //SourceDonorID = theAllocation.DonorID;
 
                 }
             }
-            else{
-            if (_receiptAllocationService.FindBySINumber(SINumber) != null &&
-                _receiptAllocationService.FindBySINumber(SINumber).Any())
+            else
             {
-                ReceiptAllocation rAllocation =
-                    _receiptAllocationService.GetAllReceiptAllocation().FirstOrDefault(
-                        p => p.SINumber == SINumber && p.HubID == user.DefaultHub.HubID);
-
-                if (rAllocation != null)
+                if (_receiptAllocationService.FindBySINumber(SINumber) != null &&
+                    _receiptAllocationService.FindBySINumber(SINumber).Any())
                 {
-                    ProjectCode = rAllocation.ProjectNumber;
-                    PurchaseOrder = rAllocation.PurchaseOrder;
-                    SupplierName = rAllocation.SupplierName;
-                    SourceHubID = rAllocation.SourceHubID;
+                    ReceiptAllocation rAllocation =
+                        _receiptAllocationService.GetAllReceiptAllocation().FirstOrDefault(
+                            p => p.SINumber == SINumber && p.HubID == user.DefaultHub.HubID);
 
-                    if (ProgramID == null)
+                    if (rAllocation != null)
                     {
-                        ProgramID = rAllocation.ProgramID;
-                    }
+                        ProjectCode = rAllocation.ProjectNumber;
+                        PurchaseOrder = rAllocation.PurchaseOrder;
+                        SupplierName = rAllocation.SupplierName;
+                        SourceHubID = rAllocation.SourceHubID;
 
-                    if (CommodityTypeID == null)
-                    {
-                        CommodityTypeID = rAllocation.Commodity.CommodityTypeID;
-                    }
+                        if (ProgramID == null)
+                        {
+                            ProgramID = rAllocation.ProgramID;
+                        }
 
+                        if (CommodityTypeID == null)
+                        {
+                            CommodityTypeID = rAllocation.Commodity.CommodityTypeID;
+                        }
+
+                    }
                 }
             }
-        }
 
-    return Json( new{ 
-                            WayBillNo,
-                            ProjectCode,
-                            CommodityTypeID,
-                            ProgramID,
-                            ResponsibleDonorID,
-                            SourceDonorID,
-                            PurchaseOrder,
-                            SupplierName,
-                            SourceHubID
-                            }, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                WayBillNo,
+                ProjectCode,
+                CommodityTypeID,
+                ProgramID,
+                ResponsibleDonorID,
+                SourceDonorID,
+                PurchaseOrder,
+                SupplierName,
+                SourceHubID
+            }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -696,7 +709,7 @@ namespace Cats.Areas.Hub.Controllers
         /// <returns></returns>
         public ActionResult IsSIValid(string SINumber)
         {
-            
+
             bool resultGC = true;
             bool resultRA = true;
             ArrayList result = new ArrayList();
@@ -726,7 +739,7 @@ namespace Cats.Areas.Hub.Controllers
         [GridAction]
         public virtual ActionResult isReceiveNull(string grnNo)
         {
-            
+
             Receive receive = Receive.GetReceiveByGRN(grnNo);
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
@@ -736,7 +749,8 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     return Json(new { success = true, defaultWareHouse = true }, JsonRequestBehavior.AllowGet);
                 }
-                else {
+                else
+                {
                     return Json(new { success = true, defaultWareHouse = false }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -744,7 +758,7 @@ namespace Cats.Areas.Hub.Controllers
             {
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
-        
+
         }
 
         /// <summary>
@@ -755,14 +769,15 @@ namespace Cats.Areas.Hub.Controllers
         [GridAction]
         public virtual ActionResult GetGrnByReceiveID(string receiveId)
         {
-             //  db.Receives.SingleOrDefault(p => p.ReceiveID == receiveId);
+            //  db.Receives.SingleOrDefault(p => p.ReceiveID == receiveId);
 
             if (receiveId != null && receiveId != "") // && receiveGrn != null)
             {
                 var receiveGrn = _receiveService.FindById(Guid.Parse(receiveId));
                 return Json(new { receive = receiveGrn.GRN }, JsonRequestBehavior.AllowGet);
             }
-            else {
+            else
+            {
                 return new EmptyResult();
             }
         }
@@ -780,7 +795,7 @@ namespace Cats.Areas.Hub.Controllers
             if (receiveId != "" && receiveId != null)
             {
                 commodities = ReceiveDetailViewModel.GenerateReceiveDetailModels(_receiveService.FindById(Guid.Parse(receiveId)).ReceiveDetails);
-                
+
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
                 foreach (var gridCommodities in commodities)
@@ -808,7 +823,7 @@ namespace Cats.Areas.Hub.Controllers
                         //
                         // TODO the lines below are too nice to have but we need to look into the performance issue and 
                         //policies (i.e. editing should not be allowed ) may be only for quanitities 
-                         
+
                         else //replace the commodity read from the db by what's comming from the user
                         {
                             commodities.Remove(commodities.Find(p => p.ReceiveDetailID == receiveDetailViewModelComms.ReceiveDetailID));
@@ -820,9 +835,9 @@ namespace Cats.Areas.Hub.Controllers
             else
             {
                 string str = Request["prev"];
-                if ( GetSelectedCommodities( str ) != null)
+                if (GetSelectedCommodities(str) != null)
                 {
-                    commodities = GetSelectedCommodities(Request["prev"].ToString()) ;
+                    commodities = GetSelectedCommodities(Request["prev"].ToString());
                     int count = -1;
                     foreach (var rdm in commodities)
                     {
@@ -835,8 +850,8 @@ namespace Cats.Areas.Hub.Controllers
                     }
                 }
             }
-          
-            ViewData["Commodities"] =  _commodityService.GetAllSubCommodities().Select(c => new CommodityModel() { Id = c.CommodityID, Name = c.Name }).ToList();
+
+            ViewData["Commodities"] = _commodityService.GetAllSubCommodities().Select(c => new CommodityModel() { Id = c.CommodityID, Name = c.Name }).ToList();
             ViewData["Units"] = _unitService.GetAllUnit().Select(u => new UnitModel() { Id = u.UnitID, Name = u.Name }).ToList();
             return View(new GridModel(commodities));
         }
@@ -851,7 +866,7 @@ namespace Cats.Areas.Hub.Controllers
         {
 
             ArrayList optGroupedList = new ArrayList();
-            List <Commodity> comms = new List<Commodity>();
+            List<Commodity> comms = new List<Commodity>();
             if (receiptAllocationID != null && receiptAllocationID != "")
             {
                 var theComm = _receiptAllocationService.FindById(Guid.Parse(receiptAllocationID)).Commodity;
@@ -869,16 +884,17 @@ namespace Cats.Areas.Hub.Controllers
                                                                                      HubID);
             if (comms.Any())
             {
-            foreach (var availableCommodity in comms )
-            {
-                if(availableCommodity.ParentID == null)
+                foreach (var availableCommodity in comms)
                 {
-                    optGroupedList.Add(new { Value = availableCommodity.CommodityID, Text = availableCommodity.Name, unselectable = false, id = availableCommodity.ParentID });
-                }else
-                {
-                    optGroupedList.Add(new { Value = availableCommodity.CommodityID, Text = availableCommodity.Name, unselectable = true, id = availableCommodity.ParentID });
+                    if (availableCommodity.ParentID == null)
+                    {
+                        optGroupedList.Add(new { Value = availableCommodity.CommodityID, Text = availableCommodity.Name, unselectable = false, id = availableCommodity.ParentID });
+                    }
+                    else
+                    {
+                        optGroupedList.Add(new { Value = availableCommodity.CommodityID, Text = availableCommodity.Name, unselectable = true, id = availableCommodity.ParentID });
+                    }
                 }
-            }
             }
             else
             {
@@ -887,7 +903,8 @@ namespace Cats.Areas.Hub.Controllers
                 if (commodityTypeId.HasValue)
                 {
                     Parents = _commodityService.GetAllParents().Where(p => p.CommodityTypeID == commodityTypeId).ToList();
-                }else
+                }
+                else
                 {
                     Parents = _commodityService.GetAllParents();
                 }
@@ -898,7 +915,7 @@ namespace Cats.Areas.Hub.Controllers
                     if (subCommodities != null) //only if it has a subCommodity
                     {
                         optGroupedList.Add(
-                            new {Value = Parent.CommodityID, Text = Parent.Name, unselectable = false, id = Parent.ParentID});
+                            new { Value = Parent.CommodityID, Text = Parent.Name, unselectable = false, id = Parent.ParentID });
 
                         foreach (Commodity subCommodity in subCommodities)
                         {
@@ -914,7 +931,7 @@ namespace Cats.Areas.Hub.Controllers
                     }
                 }
             }
-            return Json(optGroupedList,JsonRequestBehavior.AllowGet);
+            return Json(optGroupedList, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -929,13 +946,13 @@ namespace Cats.Areas.Hub.Controllers
             decimal receivedAllocation = 0;
             decimal remainingAllocation = 0;
             string commodity = "";
-            int multiplier =  1;
+            int multiplier = 1;
             string mesure = "MT";
 
             //
-           var list = new ArrayList()
-                {
-                };
+            var list = new ArrayList()
+                 {
+                 };
             if (SINumber != null)
             {
                 // 
@@ -943,7 +960,7 @@ namespace Cats.Areas.Hub.Controllers
 
                 if (receiptAllocationID != null && receiptAllocationID != "")
                 {
-                    ReceiptAllocation theCurrentAllocation =_receiptAllocationService.FindById(Guid.Parse(receiptAllocationID));
+                    ReceiptAllocation theCurrentAllocation = _receiptAllocationService.FindById(Guid.Parse(receiptAllocationID));
                     if (theCurrentAllocation != null)
                     {
                         Commodity commodity1 = theCurrentAllocation.Commodity;
@@ -953,48 +970,49 @@ namespace Cats.Areas.Hub.Controllers
                         if (commodity1.CommodityTypeID == 1)
                         {
 
-                        decimal tAllocation = theCurrentAllocation.QuantityInMT;
-                        
-                        decimal recAllocation = _receiptAllocationService.GetReceivedAlready(theCurrentAllocation);
+                            decimal tAllocation = theCurrentAllocation.QuantityInMT;
 
-                        list.Add(
-                            new
-                                {
-                                    totalAllocation = tAllocation,
-                                    receivedAllocation = recAllocation,
-                                    remainingAllocation = tAllocation - recAllocation,
-                                    commodity = commodityName,
-                                    multiplier = (user.PreferedWeightMeasurment.ToUpperInvariant() == "QN") ? 10 : 1,
-                                    mesure = (user.PreferedWeightMeasurment.ToUpperInvariant() == "QN") ? "Qtl" : "MT"
-                                });
-                        
-                        
-                        }else
+                            decimal recAllocation = _receiptAllocationService.GetReceivedAlready(theCurrentAllocation);
+
+                            list.Add(
+                                new
+                                    {
+                                        totalAllocation = tAllocation,
+                                        receivedAllocation = recAllocation,
+                                        remainingAllocation = tAllocation - recAllocation,
+                                        commodity = commodityName,
+                                        multiplier = (user.PreferedWeightMeasurment.ToUpperInvariant() == "QN") ? 10 : 1,
+                                        mesure = (user.PreferedWeightMeasurment.ToUpperInvariant() == "QN") ? "Qtl" : "MT"
+                                    });
+
+
+                        }
+                        else
                         {
                             decimal tAllocation = 0;
                             if (theCurrentAllocation.QuantityInUnit != null)
                             {
-                                 tAllocation = theCurrentAllocation.QuantityInUnit.Value;
+                                tAllocation = theCurrentAllocation.QuantityInUnit.Value;
                             }
-                            
+
                             decimal recAllocation = _receiptAllocationService.GetReceivedAlreadyInUnit(theCurrentAllocation);
-                               
-                                list.Add(
-                                    new
-                                        {
-                                            totalAllocation = tAllocation,
-                                            receivedAllocation = recAllocation,
-                                            remainingAllocation = tAllocation - recAllocation,
-                                            commodity = commodityName,
-                                            multiplier = 1,
-                                            mesure = "Unit"
 
-                                        });
+                            list.Add(
+                                new
+                                    {
+                                        totalAllocation = tAllocation,
+                                        receivedAllocation = recAllocation,
+                                        remainingAllocation = tAllocation - recAllocation,
+                                        commodity = commodityName,
+                                        multiplier = 1,
+                                        mesure = "Unit"
 
-                                                        
+                                    });
+
+
                         }
-                }
-                    
+                    }
+
                 }
                 else
                 {
@@ -1010,25 +1028,26 @@ namespace Cats.Areas.Hub.Controllers
                         {
                             decimal tAllocation = _receiptAllocationService.GetTotalAllocation(SINumber,
                                                                                                   commodity1.CommodityID,
-                                                                                                  user.DefaultHub.HubID,CommoditySourceID);
-                            
+                                                                                                  user.DefaultHub.HubID, CommoditySourceID);
+
                             int sI = _shippingInstructionService.GetShipingInstructionId(SINumber);
 
                             //TODO ask the details from elias about the line below
                             decimal sum = 0;
-                               if(commodity1.CommodityTypeID == 1){
-                                   foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.HubID && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
-                                    {
-                                        sum = sum + _receiptAllocationService.GetReceivedAlready(rAllocates);
-                                    }
-                               }
-                               else
-                               {
-                                   foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.HubID && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
-                                   {
-                                       sum = sum + _receiptAllocationService.GetReceivedAlreadyInUnit(rAllocates);
-                                   }
-                               } 
+                            if (commodity1.CommodityTypeID == 1)
+                            {
+                                foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.HubID && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
+                                {
+                                    sum = sum + _receiptAllocationService.GetReceivedAlready(rAllocates);
+                                }
+                            }
+                            else
+                            {
+                                foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.HubID && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
+                                {
+                                    sum = sum + _receiptAllocationService.GetReceivedAlreadyInUnit(rAllocates);
+                                }
+                            }
                             decimal recAllocation = sum;
 
                             string commodityName = commodity1.Name;
@@ -1037,7 +1056,8 @@ namespace Cats.Areas.Hub.Controllers
                             {
                                 multiplier = (user.PreferedWeightMeasurment.ToUpperInvariant() == "QN") ? 10 : 1;
                                 mesure = (user.PreferedWeightMeasurment.ToUpperInvariant() == "QN") ? "Qtl" : "MT";
-                            }else
+                            }
+                            else
                             {
                                 multiplier = 1;
                                 mesure = "Unit";
@@ -1056,15 +1076,16 @@ namespace Cats.Areas.Hub.Controllers
                                     });
                         }
 
-                    }else //TODO try to get some from receipt allocation
+                    }
+                    else //TODO try to get some from receipt allocation
                     {
-                        
+
 
                     }
                 }
             }
-            return Json(list,JsonRequestBehavior.AllowGet);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
-        
+
     }
-} 
+}

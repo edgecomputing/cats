@@ -126,7 +126,7 @@ namespace Cats.Areas.Procurement.Controllers
                             WinnerTariff = bidWinner.Tariff,
                             Quantity = bidWinner.Amount,
                             StatusID = bidWinner.Status,
-                            Status =_workflowStatusService.GetStatusName(WORKFLOW.BidWinner,bidWinner.Status)
+                            //Status =_workflowStatusService.GetStatusName(WORKFLOW.BidWinner,bidWinner.Status)
 
                         });
         }
@@ -275,7 +275,7 @@ namespace Cats.Areas.Procurement.Controllers
             // TODO: Make sure to use DI to get the template generator instance
 
             var template = new TemplateHelper(_unitofwork);
-            var filePath = template.GenerateTemplate(transporterID, 7, "FrameworkPucrhaseContract"); //here you have to send the name of the tempalte and the id of the TransporterID
+            var filePath = template.GenerateTemplate(transporterID, 7, "FrameworkPurchaseContract"); //here you have to send the name of the tempalte and the id of the TransporterID
 
             var bidID = new int();
             var firstOrDefault = _bidWinnerService.Get(t => t.TransporterID == transporterID && t.Status == 1).FirstOrDefault();
@@ -304,7 +304,7 @@ namespace Cats.Areas.Procurement.Controllers
 
             Response.Clear();
             Response.ContentType = "application/text";
-            Response.AddHeader("Content-Disposition", @"filename= FrameworkPucrhaseContract.docx");
+            Response.AddHeader("Content-Disposition", @"filename= FrameworkPurchaseContract.docx");
             Response.TransmitFile(filePath);
             Response.End();
         }
@@ -327,7 +327,7 @@ namespace Cats.Areas.Procurement.Controllers
 
             Response.Clear();
             Response.ContentType = "application/text";
-            Response.AddHeader("Content-Disposition", @"filename= FrameworkPucrhaseContract.docx");
+            Response.AddHeader("Content-Disposition", @"filename= FrameworkPurchaseContract.docx");
             Response.TransmitFile(documentPath);
             Response.End();
         }
@@ -352,7 +352,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 Response.Clear();
                 Response.ContentType = "application/text";
-                Response.AddHeader("Content-Disposition", @"filename= FrameworkPucrhaseContract.docx");
+                Response.AddHeader("Content-Disposition", @"filename= FrameworkPurchaseContract.docx");
                 Response.TransmitFile(documentPath);
             }
             Response.End();

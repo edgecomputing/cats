@@ -239,7 +239,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
 
                 var needAssessment = _needAssessmentService.FindBy(r => r.NeedAID == id).Single();
-                if (!_needAssessmentService.IsNeedAssessmentUsedInHrd((int)needAssessment.Season, (int)needAssessment.Year))
+                if (!_needAssessmentService.IsNeedAssessmentUsedInHrd(needAssessment.PlanID))
                 {
                     _needAssessmentService.DeleteById(id);
                     //ModelState.AddModelError("Success", "Need Requirment is deleted.");
@@ -304,12 +304,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public ActionResult Detail(int id=0)
         {
-            var plannedNeedAssessment = _needAssessmentService.FindBy(m => m.PlanID == id).OrderByDescending(m=>m.NeedAID).FirstOrDefault();
-            if (plannedNeedAssessment==null)
+            var plan = _planService.FindBy(m => m.PlanID == id).OrderByDescending(m=>m.PlanID).FirstOrDefault();
+            if (plan == null)
             {
                 return null;
             }
-            return View(plannedNeedAssessment);
+            return View(plan);
         }
       public ActionResult PlannedNeedAssessmentInfo_Read([DataSourceRequest] DataSourceRequest request,int id=0)
       {

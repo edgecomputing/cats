@@ -89,7 +89,29 @@ namespace Cats.Services.Procurement
                 throw;
             }
         }
+        public string AutogenerateBidNo()
+        {
+            try
+            {
+                var bids = GetAllBid();
+                string maxBidNo = (from bid in bids
+                                   select bid.BidNumber).Max();
 
+                var numericoutput = new string(maxBidNo.ToCharArray().Where(char.IsDigit).ToArray());
+                int intNumericOutput = int.Parse(numericoutput);
+                intNumericOutput = intNumericOutput + 1;
+
+                var stringOutput = new string(maxBidNo.ToCharArray().Where(char.IsLetter).ToArray());
+                var newBidNo = stringOutput + "-" + intNumericOutput;
+                return newBidNo;
+
+            }
+            catch
+            {
+                return "Bid-001";
+            }
+
+        }
         public bool Save()
         {
             _unitOfWork.Save();

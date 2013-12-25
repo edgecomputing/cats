@@ -112,7 +112,7 @@
 
         </div>
     </div>
-    <h6 class="page-header">Dispatch Header</h6>
+    <h6 class="page-header">Dispatch Quantity</h6>
     <div class="row form-horizontal">
 
         <div class="span4">
@@ -138,6 +138,14 @@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.QuantityInUnit)
+                </div>
+            </div>
+            <div class="control-group ">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.QuantityPerUnit)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.QuantityPerUnit)
                 </div>
             </div>
               <div class="control-group ">

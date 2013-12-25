@@ -8,11 +8,9 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
-@section LeftBar{
-    @Html.Partial("_TransportOrderLeftBar");
-}
+
 
 <h4 class="page-header">@ViewBag.TransportOrderTitle Transport Orders</h4>
 @section Toolbar

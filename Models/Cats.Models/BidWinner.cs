@@ -6,18 +6,18 @@ namespace Cats.Models
 {
    public class BidWinner
     {
-
-       public int BidWinnerID { get; set; }
-       public int BidID { get; set; }
-       public int SourceID { get; set; }
-       public int DestinationID { get; set; }
-       public int TransporterID { get; set; }
-       public int CommodityID { get; set; }
-       public decimal Amount { get; set; }
-       public decimal Tariff { get; set; }
-       public int Position { get; set; }
-       public int Status { get; set; }
-       public DateTime ExpiryDate { get; set; }
+           public int BidWinnerID { get; set; }
+           public int BidID { get; set; }
+           public int SourceID { get; set; }
+           public int DestinationID { get; set; }
+           public Nullable<int> CommodityID { get; set; }
+           public int TransporterID { get; set; }
+           public Nullable<decimal> Amount { get; set; }
+           public Nullable<decimal> Tariff { get; set; }
+           public Nullable<int> Position { get; set; }
+           public Nullable<int> Status { get; set; }
+           public Nullable<System.DateTime> ExpiryDate { get; set; }
+           
        //public int TransportOrderID { get; set; }
 
 

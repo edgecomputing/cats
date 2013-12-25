@@ -29,6 +29,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<FDP> FDPRepository { get; }
         IGenericRepository<Program> ProgramRepository { get; }
         IGenericRepository<Hub> HubRepository { get; }
+        IGenericRepository<ActionTypes> ActionTypesRepository { get; }
         IGenericRepository<ReliefRequisitionDetail> ReliefRequisitionDetailRepository { get; }
         IGenericRepository<ReliefRequisition> ReliefRequisitionRepository { get; }
         IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
@@ -143,8 +144,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<DistributionDetail> DistributionDetailRepository { get; } 
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
 
-        IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; } 
-
+        IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; }
+        IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
         void Save();
 
     }

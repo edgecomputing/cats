@@ -79,6 +79,7 @@
     <Compile Include="IStatusService.cs" />
     <Compile Include="ITransportBidPlanDetailService.cs" />
     <Compile Include="ITransportBidPlanService.cs" />
+    <Compile Include="ITransportBidQuotationHeader.cs" />
     <Compile Include="ITransportBidQuotationService.cs" />
     <Compile Include="ITransporteOrderDetailService.cs" />
     <Compile Include="ITransporterAgreementVersionService.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="StatusService.cs" />
     <Compile Include="TransportBidPlanDetailService.cs" />
     <Compile Include="TransportBidPlanService.cs" />
+    <Compile Include="TransportBidQuotationHeaderHeaderService.cs" />
     <Compile Include="TransportBidQuotationService.cs" />
     <Compile Include="TransporterAgreementVersionService.cs" />
     <Compile Include="TransporterService.cs" />

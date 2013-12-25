@@ -9,6 +9,7 @@ using Cats.Services.Hub;
 using Cats.ViewModelBinder;
 using Cats.Web.Hub;
 using Cats.Web.Hub.Helpers;
+using LanguageHelpers.Localization;
 using Newtonsoft.Json;
 using Telerik.Web.Mvc;
 using System;
@@ -148,6 +149,11 @@ namespace Cats.Areas.Hub.Controllers
             var user = _userProfileService.GetUser(User.Identity.Name);
             return View(dispatches.Where(p => p.HubID == user.DefaultHub.HubID).ToList());
         }
+        public virtual ActionResult CheckDeliveredQuanity(decimal receivedQuantity, decimal sentQuantity)
+        {
+            if (sentQuantity >= receivedQuantity) return Json(true, JsonRequestBehavior.AllowGet);
+            return Json(Translator.Translate("Delivered quantity can't exceed sent quantity."));
+        }
 
         //GIN unique validation
 
@@ -235,6 +241,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.Remark = dispatchviewmodel.Remark;
                 dispatch.UnitID = dispatchviewmodel.UnitID;
                 dispatch.QuantityInUnit = dispatchviewmodel.QuantityInUnit;
+                dispatch.QuantityPerUnit = dispatchviewmodel.QuantityPerUnit;
 
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity/10;
              _transactionService.SaveDispatchTransaction(dispatch);

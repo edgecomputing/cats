@@ -151,7 +151,7 @@ namespace Cats.Areas.Procurement.Controllers
                         Region = _adminUnitService.FindById(bidWinnerDestination.DestinationID).Name,
                         Zone = bidWinnerDestination.AdminUnit.AdminUnit2.Name,
                         Woreda = bidWinnerDestination.AdminUnit.AdminUnit2.AdminUnit2.Name,
-                        Tariff = bidWinnerDestination.Tariff.ToString("#0.00")
+                        Tariff = bidWinnerDestination.Tariff.ToString()
                     });
         }
 
