@@ -190,7 +190,7 @@ namespace Cats.Areas.Procurement.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        [ProcurementAuthorize(operation = ProcurementCheckAccess.Operation.Bid_Planning)]
+        //[ProcurementAuthorize(operation = ProcurementCheckAccess.Operation.Bid_Planning)]
         public ActionResult SaveBidProposals([DataSourceRequest] DataSourceRequest request, PriceQuotationDetail bidProposal)
         {
             if (bidProposal != null && ModelState.IsValid)
@@ -224,11 +224,12 @@ namespace Cats.Areas.Procurement.Controllers
                         var newProposal = new TransportBidQuotation();
                         //newProposal.TransportBidQuotationID = bidProposal.TransportBidQuotationID;
                         newProposal.BidID = bidProposal.BidID;
+                        newProposal.TransportBidQuotationHeaderID = bidProposal.HeaderId;
                         newProposal.TransporterID = bidProposal.TransporterID;
                         newProposal.SourceID = bidProposal.SourceID;
                         newProposal.DestinationID = bidProposal.DestinationID;
                         newProposal.Tariff = bidProposal.Tariff;
-                        newProposal.Remark = bidProposal.Remark;
+                        newProposal.Remark = bidProposal.Remark??String.Empty;
                         newProposal.IsWinner = false;
                         _transportBidQuotationService.AddTransportBidQuotation(newProposal);
                     }
@@ -471,9 +472,9 @@ namespace Cats.Areas.Procurement.Controllers
                     {
                         var t = new PriceQuotationDetail
                         {
-                            SourceWarehouse = "Source Check"/*detail.Source.Name*/,
-                            Zone = "Zone Check"/*detail.Destination.AdminUnit2.Name*/,
-                            Woreda = "Woreda Check"/*detail.Destination.Name*/,
+                            SourceWarehouse = detail.Hub.Name,
+                            Zone = detail.AdminUnit.AdminUnit2.Name,
+                            Woreda = detail.AdminUnit.Name,
                             Tariff = detail.Tariff,
                             Remark = detail.Remark,
                             BidID = detail.BidID,
@@ -550,9 +551,9 @@ namespace Cats.Areas.Procurement.Controllers
                     {
                         var t = new PriceQuotationDetail
                         {
-                            SourceWarehouse = "Source Check"/*detail.Source.Name*/,
-                            Zone = "Zone Check"/*detail.Destination.AdminUnit2.Name*/,
-                            Woreda = "Woreda Check"/*detail.Destination.Name*/,
+                            SourceWarehouse = detail.Hub.Name,
+                            Zone = detail.AdminUnit.AdminUnit2.Name,
+                            Woreda = detail.AdminUnit.Name,
                             Tariff = detail.Tariff,
                             Remark = detail.Remark,
                             //

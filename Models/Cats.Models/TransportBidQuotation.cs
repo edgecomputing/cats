@@ -1,4 +1,6 @@
-﻿namespace Cats.Models
+﻿using System;
+
+namespace Cats.Models
 {
     public partial class TransportBidQuotation
     {
