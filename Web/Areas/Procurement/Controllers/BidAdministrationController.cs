@@ -108,7 +108,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var selectedBidWinners = new SelectedBidWinnerViewModel();
             //req.Transporters = _transportOrderService.GetTransporter();
-            var bidWinner = _bidWinnerService.FindBy(m => m.BidID == id);
+            var bidWinner = _bidWinnerService.FindBy(m => m.BidID == id && m.Position==1);
             if (bidWinner != null)
             {
                 selectedBidWinners.Bidwinners = GetBidWinners(bidWinner).ToList();

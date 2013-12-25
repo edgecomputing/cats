@@ -87,7 +87,7 @@
                   {
 
                       columns.Bound(t => t.TransporterName);
-                      columns.Bound(t => t.SourceWarehouse);
+                      //columns.Bound(t => t.SourceWarehouse);
                       columns.Bound(t => t.Woreda);
                       //columns.Bound(t => t.Quantity);
                       columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
@@ -95,26 +95,35 @@
                       //columns.Bound(t => t.Status);
                   })
               .Scrollable()
-              //.HtmlAttributes(new {style = "height:400px;"})
+              //.Events(events => events.DataBound("onDataBound"))
               .DataSource(datasource =>
                           datasource
                               .Ajax()
                               .Model(model => model.Id(p => p.BidWinnnerID))
-                              .Group(group => group.Add(m => m.Woreda))
+                              .Group(group => group.Add(m => m.SourceWarehouse))
+                              .Group(group=> group.Add(m=>m.TransporterName))
               //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
 
               ))
 
     </div>
- <div style="float: right; width:600px; height:550px; border:1px solid #ececec; margin-top:10px;margin-right:85px;margin-bottom:20px;">
+    <div style="float: right; width:600px; height:541px; border:1px solid #ececec; margin-top:10px;margin-right:85px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">Bid Plan Detail</div>
 
         @Html.Partial("_BidPlanDetail", Model)
     </div> 
-<div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
+    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">Woredas With out bid Offer</div>
 
-     @Html.Partial("_WoredasWithoutOffer", Model)
-</div> 
+        @Html.Partial("_WoredasWithoutOffer", Model)
+    </div> 
    
 </div>
+@*<script type="text/javascript">
+function dataBound(e) {
+    if ($("#grid1").dataSource.group().length > 0) {
+        var firstGroup = $(".k-grouping-row").first();
+        this.collapseGroup(firstGroup);
+    }
+}
+</script>*@
