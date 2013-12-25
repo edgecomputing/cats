@@ -182,13 +182,11 @@ namespace Cats.Services.EarlyWarning
                                                      AdminUnitID = adminUnit.AdminUnitID
                                                  }).OrderBy(e => e.Name);
         }
-        public bool IsNeedAssessmentUsedInHrd(int season, int year)
+        public bool IsNeedAssessmentUsedInHrd(int planId)
         {
            
-            List<HRD> used = _unitOfWork.HRDRepository.Get(h => h.Season.SeasonID == season && h.Year == year).ToList();
-            if (used.Count > 0)
-                return true;
-            else return true;
+           return _unitOfWork.HRDRepository.Get(h => h.PlanID==planId).Any();
+          
         }
         public List<string> GetRegionsFromNeedAssessment()
         {

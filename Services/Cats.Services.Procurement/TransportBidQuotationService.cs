@@ -21,6 +21,8 @@ namespace Cats.Services.Procurement
             _unitOfWork.Save();
             return true;
         }
+
+        
         public bool UpdateTransportBidQuotation(TransportBidQuotation item)
         {
             if (item == null) return false;

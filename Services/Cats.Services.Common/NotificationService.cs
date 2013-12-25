@@ -156,7 +156,36 @@ namespace Cats.Services.Common
         }
         #endregion
 
-        
+        #region notification for Procurment GRN Discripancy"
+
+        public bool AddNotificationForProcurmentForGRNDiscripancy(string destinationURl, int transportOrderId,string transportOrderNo)
+        {
+            try
+            {
+                var notification = new Notification
+                {
+                    Text = "GRN with loss from transport order " + transportOrderNo,
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Role = 1,
+                    RecordId = transportOrderId,
+                    Url = destinationURl,
+                    TypeOfNotification = "GRN With loss",
+                    RoleName = Application.TRANSPORT_ORDER_CREATER
+                };
+
+                AddNotification(notification);
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+
+            }
+
+        }
+        #endregion
 
 
 

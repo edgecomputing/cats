@@ -245,7 +245,7 @@ namespace Cats.Areas.Procurement.Controllers
                         StartDate = bid.StartDate,
                         EndDate = bid.EndDate,
                         OpeningDate = bid.OpeningDate,
-                        Status = bid.Status.Name,
+                        //Status = bid.Status.Name,
                         StatusID = bid.StatusID,
                         StartDatePref = bid.StartDate.ToCTSPreferedDateFormat(datePref),
                         OpeningDatePref = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
@@ -286,6 +286,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create(int id = 0)
         {
+           
             var bid = new Bid();
             var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
@@ -296,7 +297,9 @@ namespace Cats.Areas.Procurement.Controllers
                                   AmountForReliefProgram = 0,
                               }).ToList();
             bid.BidDetails = bidDetails;
+            bid.BidNumber = _bidService.AutogenerateBidNo();
             ViewBag.BidPlanID = id;
+           
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
             return View(bid);
         }
@@ -442,5 +445,8 @@ namespace Cats.Areas.Procurement.Controllers
             _bidService.EditBid(bid);
             return RedirectToAction("Index");
         }
+
+
+        
     }
 }

@@ -11,6 +11,7 @@ namespace Cats.Areas.Logistics.Models
         public System.Guid DistributionID { get; set; }
          [Display(Name = "Receiving Number")]
         [Required(ErrorMessage="Goods receiving number Can't be empty.")]
+
         public string ReceivingNumber { get; set; }
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
@@ -40,13 +41,25 @@ namespace Cats.Areas.Logistics.Models
         public string DeliveryBy { get; set; }
         [Display(Name = "Delivery Date")]
         public Nullable<System.DateTime> DeliveryDate { get; set; }
+        [Display(Name = "Delivery Date")]
+        public string DeliveryDatePref { get; set; }
+
         [Display(Name = "Received By")]
         public string ReceivedBy { get; set; }
         [Display(Name = "Received Date")]
         public Nullable<System.DateTime> ReceivedDate { get; set; }
+        [Display(Name = "Received Date")]
+        public string ReceivedDatePref { get; set; }
         [Display(Name = "Document Received Date")]
         public Nullable<System.DateTime> DocumentReceivedDate { get; set; }
         [Display(Name="Document Received By")]
+        public string DocumentReceivedDatePref { get; set; }
+        [Display(Name = "Document Received By")]
         public Nullable<int> DocumentReceivedBy { get; set; }
+
+        public int? Status { get; set; }
+        public string Remark { get; set; }
+        public string ActionTypeRemark { get; set; }
+        public bool ContainsDiscripancy { get; set; }
     }
 }

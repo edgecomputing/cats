@@ -4,6 +4,25 @@
     ViewBag.Title = "Generate Winners";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section Toolbar    {
+ 
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+        }
+
+        <ul class="dropdown-menu">
+            <li><a  href="@Url.Action("ClearBidWinners", "PriceQuotation")" >Clear Winners</a></li>
+        </ul>
+
+    </div>            
+          
+}
+
 <div class="row">
     <h4>Bid Winner Transporters</h4>
 </div>
@@ -22,7 +41,6 @@
                   columns.Bound(p => p.TransporterName);
                   columns.Bound(p => p.Rank);
                   columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}");
-                  columns.Command(p => p.Custom("change Status").Click("onChangeStatus"));
               })
           .Scrollable()
           .Filterable()

@@ -79,7 +79,7 @@ namespace Cats.Areas.Procurement.Models
         public Nullable<decimal> Quantity { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> StatusID { get; set; }
-       
+        public int BidID { get; set; }
     }
     public class BidWinnerViewingModel
     {

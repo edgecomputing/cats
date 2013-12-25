@@ -129,6 +129,7 @@ namespace Cats.Data
         public DbSet<IDPSReasonType> IDPSReasonTypes { get; set; }
 
         public DbSet<WoredaHubLink> WoredaHubLinks { get; set; }
+        public DbSet<ActionTypes> ActionTypeses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -237,6 +238,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new DistributionMap());
             modelBuilder.Configurations.Add(new DistributionDetailMap());
             modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
+            modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
+            modelBuilder.Configurations.Add(new ActionTypesMap());
         }
 
     }
