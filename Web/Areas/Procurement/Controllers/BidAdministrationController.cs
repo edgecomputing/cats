@@ -100,7 +100,7 @@ namespace Cats.Areas.Procurement.Controllers
                         BidEndDate = bidWinner.Bid.EndDate.ToCTSPreferedDateFormat(datePref),
                         BidOpeningDate = bidWinner.Bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                         StatusID = bidWinner.Status,
-                        Status = _workflowStatusService.GetStatusName(WORKFLOW.BidWinner, bidWinner.Status)
+                        //Status = _workflowStatusService.GetStatusName(WORKFLOW.BidWinner, int(bidWinner.Status.Value))
 
                     });
         }
