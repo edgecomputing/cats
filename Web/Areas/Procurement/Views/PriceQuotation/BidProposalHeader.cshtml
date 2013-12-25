@@ -1,0 +1,131 @@
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+
+@section Toolbar
+{
+    @*@Html.ProcurementOperationButton(
+                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")*@
+   
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "PriceQuotation")"></a>
+}
+
+
+<div id="modalWindow">
+    <h4>Are you sure u want to approve this bid proposal?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+
+
+<div>
+    <h4>Bid Proposals</h4>
+</div>
+
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportBidQuotationHeaderViewModel>()
+      .Name("grid")
+      .Columns(columns =>
+          {
+              columns.Bound(p => p.BidNumber).ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new {id = "#=TransportBidQuotationHeaderID#"}) + " '>#=BidNumber#</a>  "); ;
+              columns.Bound(p => p.Region);
+              columns.Bound(p => p.Transporter);
+              columns.Bound(p => p.BidBondAmount);
+              columns.Bound(p => p.OffersCount);
+              columns.Bound(p => p.Status);
+
+              columns.Command(p =>
+              {
+                  p.Custom("Edit").Click("edit_Proposal");
+                  p.Custom("Approve").Click("approve_Proposal");
+                 // p.Custom("Delete").Click("delete_proposal");
+
+              }).Width(250);
+              //columns.Command(command =>command.Custom("Delete").Click("OnDelete"));
+          })
+        //.ToolBar(toolbar => toolbar.Create())
+        //.Editable(editable => editable.Mode(GridEditMode.PopUp))
+        .Sortable()
+        .Events(e => e.DataBound("onDataBound"))
+        .Filterable()
+        .Groupable()
+        .DataSource(dataSource => dataSource
+               .Ajax()
+               //.Events(events => events.Error("error_handler"))
+               .Model(model => model.Id(p => p.TransportBidQuotationHeaderID))
+               .Read(read => read.Action("Read_BidProposals", "PriceQuotation",new {Area="Procurement"}))
+               //.Update(update => update.Action("BidProposalHeader_update", "PriceQuotation", new{id=12}))
+               //.Create(create => create.Action("BidProposalHeader_create", "PriceQuotation"))
+         )
+      )
+
+
+<script>
+    function edit_Proposal(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        //window.location = "@Url.Action("Create", "PriceQuotation")" + "/" + dataItem.HRDID;
+        alert("Editing");
+    }
+</script>
+
+<script>
+
+    function approve_Proposal(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("ApproveProposal", "PriceQuotation")" + "/" + dataItem.TransportBidQuotationHeaderID;
+            //alert("Approved");
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+    
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            if (gridData[i].Status == "Approved") {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var editButton = $(currentRow).find(".k-grid-Approve");
+                editButton.hide();
+            }
+        }
+    }
+    
+</script>
+
+
+    
+

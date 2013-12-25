@@ -378,6 +378,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewData["Request_main_data"] = requestModelView;
             return dt;
         }
+
         public ActionResult Details(int id)
         {
             ViewBag.RequestID = id;
@@ -399,11 +400,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var dt = RequestViewModelBinder.TransposeDataNew(result);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
-
         }
 
-       
-        public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
+       public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
             ViewBag.RequestID = id;
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
@@ -429,6 +428,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
 
         }
+       
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
@@ -436,10 +436,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
             return Json(requestDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        
         private RegionalRequestDetailViewModel BindRegionalRequestDetailViewModel(RegionalRequestDetail regionalRequestDetail)
         {
-
-
             if (regionalRequestDetail.RegionalRequest.Program.Name == "Relief")
             {
                 return new RegionalRequestDetailViewModel()
@@ -473,11 +472,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         regionalRequestDetail.Fdpid)
                 };
             }
-
-
-
-
         }
+
         private int GetPlanned(int year, int season, int woreda)
         {
             var HRD = _HRDDetailService.Get(t => t.HRD.Season.SeasonID == season && t.HRD.Year == year && t.WoredaID == woreda).SingleOrDefault();
@@ -487,6 +483,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             else return 0;
         }
+        
         private int GetPlannedForPSNP(int year, int regionId, int fdpId)
         {
             RegionalPSNPPlanDetail psnp = null;

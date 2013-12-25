@@ -393,7 +393,14 @@ namespace Cats.Data.UnitWork
 
         }
 
-       
+        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+
+        public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
+        {
+            get { return this.transportBidQuotationHeaderRepository ?? (this.transportBidQuotationHeaderRepository = new GenericRepository<TransportBidQuotationHeader>(_context)); }
+
+        }
+        
 
         public void Save()
         {

@@ -17,6 +17,7 @@ namespace Cats.Models
             //this.Transactions = new List<Transaction>();
             //this.TransportOrderDetails = new List<TransportOrderDetail>();
            // this.HubOwner = new HubOwner();
+            this.TransportBidQuotations = new List<TransportBidQuotation>();
         }
 
         public int HubID { get; set; }

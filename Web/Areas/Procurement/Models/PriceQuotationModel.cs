@@ -45,6 +45,7 @@ namespace Cats.Areas.Procurement.Models
     public class PriceQuotationDetail
     {
         public int TransportBidQuotationID { get; set; }
+        public int HeaderId { get; set; }
         public string SourceWarehouse { get; set; }
         public string Zone { get; set; }
         public string Woreda { get; set; }

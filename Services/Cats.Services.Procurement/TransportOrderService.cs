@@ -284,8 +284,9 @@ namespace Cats.Services.Procurement
                 }
                 else
                 {
-                    transportRequisition.TransporterID = transportBidWinner.TransporterID;
-                    transportRequisition.TariffPerQtl = transportBidWinner.Tariff;
+                    //TODO: these commented lines should be figured out how they affect the rest of the code
+                    //transportRequisition.TransporterID = transportBidWinner.TransporterID;
+                    //transportRequisition.TariffPerQtl = transportBidWinner.Tariff;
 
                     transportSourceDestination.Add(transportRequisition);
                 }
@@ -372,9 +373,9 @@ namespace Cats.Services.Procurement
             return false;
 
         }
+        
         private class TransporterRequisition
         {
-
             public int HubID { get; set; }
             public int WoredaID { get; set; }
             public int RequisitionID { get; set; }
@@ -382,6 +383,7 @@ namespace Cats.Services.Procurement
             public decimal TariffPerQtl { get; set; }
             public int TransportRequisitionDetailID { get; set; }
         }
+
         public List<Hub> GetHubs()
         {
             return _unitOfWork.HubRepository.GetAll();
