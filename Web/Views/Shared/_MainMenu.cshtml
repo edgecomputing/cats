@@ -151,8 +151,8 @@
                                                                    ProcurementCheckAccess.Operation.View_bid_list)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Bid Planning"),
-                                                                   @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
-                                                                   ProcurementCheckAccess.Operation.View_bid_plan)</li>
+                                                                    @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
+                                                                    ProcurementCheckAccess.Operation.View_bid_plan)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
                                                                    @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
@@ -171,7 +171,7 @@
                                                                    ProcurementCheckAccess.Operation.View_Request_For_Quotation)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Price Quotation"),
-                                                                   @Url.Action("BidProposal", "PriceQuotation", new { Area = "Procurement" }),
+                                                                    @Url.Action("BidProposalHeader", "PriceQuotation", new { Area = "Procurement" }),
                                                                    ProcurementCheckAccess.Operation.View_Price_Quotation_Data_Entries)</li>
 
 
@@ -181,6 +181,9 @@
                             
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Contract Admin"),
                                                                    @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Bid Administration"),
+                                                                    @Url.Action("Index", "BidAdministration", new { Area = "Procurement" }),
                                                                    ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Woreda Bid Status"),
                                                                    @Url.Action("WoredasBidStatus", "Bid", new { Area = "Procurement" }),

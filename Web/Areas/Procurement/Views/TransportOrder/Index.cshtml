@@ -33,6 +33,7 @@
     columns.Bound(to => to.Status);
           columns.Command(p =>
               {
+                 
                   if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
                   {
                       p.Custom("Approve").Click("onApprove");

@@ -77,12 +77,11 @@ namespace Cats.Areas.Hub.Controllers
             if (this.UserProfile != null)
             {
                 var user = _userProfileService.GetUser(this.UserProfile.UserName);
+                var prefWeight =
+                    _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment.ToUpperInvariant();
                 var toFdps =
                     _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
-                        user.DefaultHub.HubID, _userProfileService.GetUser(this.UserProfile.UserName).
-
-            
-                            PreferedWeightMeasurment.ToUpperInvariant(), null, null, null);
+                        user.DefaultHub.HubID, prefWeight, null, null, null);
                 var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
                 var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
                 var adminUnit = new List<AdminUnit> { _adminUnitService.FindById(1) };

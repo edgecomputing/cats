@@ -10,6 +10,8 @@ namespace Cats.Models.Mapping
             //this.ToTable("Workflow.FlowTemplate");
             this.ToTable("FlowTemplate");
             this.HasKey(t => t.FlowTemplateID);
+            
+            this.Property(t => t.ParentProcessTemplateID).HasColumnName("ParentProcessTemplateID");
 
             this.Property(t => t.InitialStateID).HasColumnName("InitialStateID");
 
@@ -24,7 +26,9 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.FinalState)
                    .WithMany(t => t.FinalStateFlowTemplates)
                    .HasForeignKey(d => d.FinalStateID);
-
+            this.HasRequired(t => t.ParentProcessTemplate)
+                              .WithMany(t => t.ParentProcessTemplateFlowTemplates)
+                              .HasForeignKey(d => d.ParentProcessTemplateID);
         }
     }
 }

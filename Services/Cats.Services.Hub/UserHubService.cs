@@ -78,7 +78,24 @@ namespace Cats.Services.Hub
 
        
            
-
+         public void ChangeHub(int userProfileId,int warehouseId)
+        {
+           
+          
+            var newdefault = (from w in _unitOfWork.UserHubRepository.GetAll()
+                              where w.HubID == warehouseId && w.UserProfileID == userProfileId
+                              select w).FirstOrDefault();
+            var prevdefaults = (from t in _unitOfWork.UserHubRepository.GetAll()
+                                where t.HubID != warehouseId && t.UserProfileID == userProfileId
+                                && t.IsDefault.Trim().Equals("1")
+                                select t).ToList();
+            newdefault.IsDefault = "1";
+            foreach (UserHub uw in prevdefaults)
+            {
+                uw.IsDefault = "0";
+            }
+            _unitOfWork.Save();
+        }
        
 
         public void AddUserHub(int warehouseID, int userID)

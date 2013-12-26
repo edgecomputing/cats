@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Models
 {
-    
    public partial class Bid
     {
        public Bid()
        {
            this.BidDetails=new List<BidDetail>();
            this.BidWinners=new List<BidWinner>();
+           this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
        }
         public int BidID { get; set; }
         public DateTime StartDate { get; set; }
@@ -25,7 +25,8 @@ namespace Cats.Models
         public ICollection<BidDetail> BidDetails { get; set; }
         public ICollection<BidWinner> BidWinners { get; set; }
         public ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
-       public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
+        public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
+        public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
         #endregion
     }
 }

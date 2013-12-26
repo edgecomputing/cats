@@ -266,6 +266,7 @@ namespace Cats.Data.UnitWork
 
 
         private IGenericRepository<FDP> fdpRepository;
+        private IGenericRepository<Contact> contactRepository;
 
         public IGenericRepository<FDP> FDPRepository
         {
@@ -274,6 +275,12 @@ namespace Cats.Data.UnitWork
 
         }
 
+        public IGenericRepository<Contact> ContactRepository
+        {
+
+            get { return this.contactRepository ?? (this.contactRepository = new GenericRepository<Contact>(_context)); }
+
+        }
 
         private IGenericRepository<Program> programRepository;
 
@@ -389,9 +396,7 @@ namespace Cats.Data.UnitWork
 
         }
 
-       
-
-        public void Save()
+       public void Save()
         {
             try
             {
@@ -808,19 +813,25 @@ namespace Cats.Data.UnitWork
       
         }
 
-        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
-        public IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository
-        {
-            get { return this.transportBidQuotationHeaderRepository ?? (this.transportBidQuotationHeaderRepository = new GenericRepository<TransportBidQuotationHeader>(_context)); }
-
-        }
-
-
         private IGenericRepository<ActionTypes> actionTypesRepository;
         public IGenericRepository<ActionTypes> ActionTypesRepository
         {
             get { return this.actionTypesRepository ?? (this.actionTypesRepository = new GenericRepository<ActionTypes>(_context)); }
 
         }
+
+        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+
+        public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
+        {
+            get { return this.transportBidQuotationHeaderRepository ?? (this.transportBidQuotationHeaderRepository = new GenericRepository<TransportBidQuotationHeader>(_context)); }
+        }
+
+
+
+        //public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
+        //{
+        //    get { throw new NotImplementedException(); }
+        //}
     }
 }

@@ -326,7 +326,7 @@ namespace Cats.Areas.Procurement.Controllers
                 bid.BidDetails = bidDetails;
                 _bidService.AddBid(bid);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("AllBids");
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
@@ -436,14 +436,14 @@ namespace Cats.Areas.Procurement.Controllers
         {
             _bidService.ActivateBid(id);
             _applicationSettingService.SetValue("CurrentBid", ""+id);
-            return RedirectToAction("Index");
+            return RedirectToAction("AllBids");
         }
         public ActionResult ApproveBid(int id)
         {
             var bid = _bidService.FindById(id);
             bid.StatusID = 4;
             _bidService.EditBid(bid);
-            return RedirectToAction("Index");
+            return RedirectToAction("AllBids");
         }
 
 
