@@ -41,9 +41,9 @@ namespace Cats.Areas.Procurement.Controllers
                                             , ITransporterService transporterServiceParam
                                             , IBidService bidServiceParam
                                             , ITransportBidQuotationService transportBidQuotationService
-                                            , IBidWinnerService bidWinnerService, ITransportBidQuotationHeader transportBidQuotationHeader)
+                                            , IBidWinnerService bidWinnerService, ITransportBidQuotationHeader transportBidQuotationHeader
                                             ,IBusinessProcessService businessProcessService
-                                            ,IApplicationSettingService applicationSettingService
+                                            ,IApplicationSettingService applicationSettingService)
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
             this._adminUnitService = adminUnitServiceParam;
@@ -555,7 +555,7 @@ namespace Cats.Areas.Procurement.Controllers
                 result = true;
             }
             _bidWinnerService.Save();
-            _BusinessProcessService.Save();
+           // _BusinessProcessService.Save();
             return result;
             
            
