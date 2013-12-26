@@ -78,6 +78,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var bidWinners = _bidWinnerService.FindBy(m => m.BidID == id);
             ViewBag.BidNumber = bidWinners.First().Bid.BidNumber;
+            ViewBag.BidWinners = bidWinners;
             if (bidWinners == null)
             {
                 return HttpNotFound();

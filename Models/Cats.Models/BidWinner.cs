@@ -19,6 +19,7 @@ namespace Cats.Models
        public int Status { get; set; }
        public DateTime ExpiryDate { get; set; }
 
+       public int BusinessProcessID { get; set; }
        //public int TransportOrderID { get; set; }
 
 
@@ -29,6 +30,8 @@ namespace Cats.Models
        public virtual AdminUnit AdminUnit{ get; set; }
        public virtual Hub Hub { get; set; }
        public virtual Commodity Commodity { get; set; }
+
+       public virtual BusinessProcess BusinessProcess { get; set; }
       // public virtual TransportOrder TransportOrder { get; set; }
 
         #endregion

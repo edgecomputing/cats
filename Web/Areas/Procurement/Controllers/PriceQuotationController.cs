@@ -10,6 +10,7 @@ using Cats.Models;
 using Cats.Data;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Common;
 using Cats.Areas.Procurement.Models;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
@@ -28,8 +29,8 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransporterService _transporterService;
         private readonly ITransportBidQuotationService _transportBidQuotationService;
         private readonly IBidWinnerService _bidWinnerService;
-
-
+        private readonly IBusinessProcessService _BusinessProcessService;
+        private readonly IApplicationSettingService _ApplicationSettingService;
         public PriceQuotationController(ITransportBidPlanService transportBidPlanServiceParam
                                             , IAdminUnitService adminUnitServiceParam
                                             , IProgramService programServiceParam
@@ -40,6 +41,8 @@ namespace Cats.Areas.Procurement.Controllers
                                             , IBidService bidServiceParam
                                             , ITransportBidQuotationService transportBidQuotationService
                                             , IBidWinnerService bidWinnerService
+                                            ,IBusinessProcessService businessProcessService
+                                            ,IApplicationSettingService applicationSettingService
             )
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
@@ -52,6 +55,8 @@ namespace Cats.Areas.Procurement.Controllers
             this._transporterService = transporterServiceParam;
             this._transportBidQuotationService = transportBidQuotationService;
             this._bidWinnerService = bidWinnerService;
+            this._BusinessProcessService = businessProcessService;
+            this._ApplicationSettingService = applicationSettingService;
         }
 
         public void LoadLookups()
@@ -531,15 +536,23 @@ namespace Cats.Areas.Procurement.Controllers
                     
                     var firstBidWinners = TransformBidQuotationToBidWinner(firstWinners.ToList(), 1);
                     var secondBidWinners = TransformBidQuotationToBidWinner(secondWinners.ToList(), 2);
-
+                    
+                    int bpid=_ApplicationSettingService.getBidWinnerWorkflow();
+                    
                     foreach (var firstBidWinner in firstBidWinners)
                     {
                         _bidWinnerService.AddBidWinner(firstBidWinner);
+           
+                        BusinessProcess bp= _BusinessProcessService.CreateBusinessProcessForObject(bpid, firstBidWinner.BidWinnerID, "Bid Winner");
+                        firstBidWinner.BusinessProcess = bp;
+                        firstBidWinner.BusinessProcessID = bp.BusinessProcessID;
                     }
 
                     foreach (var secondBidWinner in secondBidWinners)
                     {
                         _bidWinnerService.AddBidWinner(secondBidWinner);
+                        BusinessProcess bp = _BusinessProcessService.CreateBusinessProcessForObject(bpid, secondBidWinner.BidWinnerID, "Bid Winner");
+                        secondBidWinner.BusinessProcess = bp;
                     }
 
                 }
@@ -553,6 +566,7 @@ namespace Cats.Areas.Procurement.Controllers
                 result = true;
             }
             _bidWinnerService.Save();
+            _BusinessProcessService.Save();
             return result;
             
             //if(rawData != null)
@@ -636,7 +650,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 _bidWinnerService.Save();
 
-                string name = d.FirstOrDefault().Hub.Name;
+               // string name = d.FirstOrDefault().Hub.Name;
                 
                 if (d !=null)
                 {

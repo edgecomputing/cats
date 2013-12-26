@@ -698,7 +698,6 @@
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
     <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
-    <Content Include="Areas\Procurement\Controllers\Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
     <Content Include="Content\2013.1.219\Black\loading.gif" />

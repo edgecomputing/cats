@@ -18,7 +18,7 @@ namespace Cats.Services.Common
         int getPSNPWorkflow();
         int getPaymentRequestWorkflow();
         int getDefaultRation();
-
+        int getBidWinnerWorkflow();
         ApplicationSetting FindById(int id);
         List<ApplicationSetting> GetAllApplicationSetting();
         List<ApplicationSetting> FindBy(Expression<Func<ApplicationSetting, bool>> predicate);
