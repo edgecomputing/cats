@@ -16,14 +16,17 @@ namespace Cats.Areas.WorkflowManager.Controllers
 
         private readonly IProcessTemplateService _ProcessTemplateService;
         private readonly IStateTemplateService _StateTemplateService;
+        private readonly IFlowTemplateService _FlowTemplateService;
 
         public ProcessTemplateController(IStateTemplateService StateTemplateServiceParam
                                        , IProcessTemplateService ProcessTemplateServiceParam
+                                        ,IFlowTemplateService FlowTemplateServiceParam
                                        )
         {
             this._StateTemplateService = StateTemplateServiceParam;
 
             this._ProcessTemplateService = ProcessTemplateServiceParam;
+            this._FlowTemplateService = FlowTemplateServiceParam;
 
         }
         public IEnumerable<ProcessTemplatePOCO> toProcessTemplatePOCOList(IEnumerable<ProcessTemplate> list)
@@ -31,13 +34,75 @@ namespace Cats.Areas.WorkflowManager.Controllers
             return (from item in list
                     select new ProcessTemplatePOCO()
                     {
-                        ProcessTemplateID = item.ProcessTemplateID
-                        ,
-                        Name = item.Name
-                        ,
-                        Description = item.Description
+                        ProcessTemplateID = item.ProcessTemplateID,
+                        Name = item.Name,
+                        Description = item.Description,
+                        
                     }
                     );
+        }
+        public IEnumerable<StateTemplatePOCO> toStateTemplatePOCOList(ICollection<StateTemplate> list)
+        {
+            return (from item in list
+                    select new StateTemplatePOCO()
+                    {
+                        AllowedAccessLevel = item.AllowedAccessLevel,
+                        Name = item.Name,
+                        ParentProcessTemplateID = item.ParentProcessTemplateID,
+                        StateNo=item.StateNo,
+                        StateTemplateID=item.StateTemplateID,
+                        StateType=item.StateType
+                    }
+                    );
+        }
+        private StateTemplatePOCO toStateTemplatePOCO(StateTemplate item)
+        {
+            return new StateTemplatePOCO()
+                    {
+                        AllowedAccessLevel = item.AllowedAccessLevel,
+                        Name = item.Name,
+                        ParentProcessTemplateID = item.ParentProcessTemplateID,
+                        StateNo = item.StateNo,
+                        StateTemplateID = item.StateTemplateID,
+                        StateType = item.StateType
+                    };
+        }
+        public IEnumerable<FlowTemplatePOCO> toFlowTemplatePOCOList(IEnumerable<FlowTemplate> list)
+        {
+            return (from item in list
+                    select new FlowTemplatePOCO()
+                    {
+                        FinalStateID=item.FinalStateID,
+                        FlowTemplateID=item.FlowTemplateID,
+                        InitialStateID=item.InitialStateID,
+                        ParentProcessTemplateID = item.ParentProcessTemplateID,
+                        Name = item.Name
+                    }
+                    );
+        }
+        private FlowTemplatePOCO toFlowTemplatePOCO(FlowTemplate item)
+        {
+            return new FlowTemplatePOCO()
+                    {
+                        FinalStateID = item.FinalStateID,
+                        FlowTemplateID = item.FlowTemplateID,
+                        InitialStateID = item.InitialStateID,
+                        ParentProcessTemplateID = item.ParentProcessTemplateID,
+                        Name = item.Name
+                    };
+        }
+        private ProcessTemplatePOCO toProcessTemplatePOCO(ProcessTemplate item)
+        {
+            ProcessTemplatePOCO ret = new ProcessTemplatePOCO()
+                    {
+                        ProcessTemplateID = item.ProcessTemplateID,
+                        Name = item.Name,
+                        Description = item.Description,
+                        GraphicsData=item.GraphicsData,
+                        StateTemplates = toStateTemplatePOCOList(item.ParentProcessTemplateStateTemplates),
+                        FlowTemplates=toFlowTemplatePOCOList(item.ParentProcessTemplateFlowTemplates)
+                    };
+            return ret;
         }
         public void loadLookups()
         {
@@ -65,6 +130,58 @@ namespace Cats.Areas.WorkflowManager.Controllers
             return View(list);
 
         }
+        public ActionResult saveGraphics(int processId, string graphicsData)
+        {
+            ProcessTemplate item = _ProcessTemplateService.FindById(processId);
+            if (item != null)
+            {
+                item.GraphicsData = graphicsData;
+                _ProcessTemplateService.Update(item);
+            }
+            return Json("{}");
+        }
+        public ActionResult AddState(StateTemplate item)
+        {
+            if (item != null)
+            {
+                  
+                _StateTemplateService.Add(item);
+                return Json(toStateTemplatePOCO(item), JsonRequestBehavior.AllowGet);
+            }
+            return Json("{}");
+        }
+        public ActionResult EditStateJSON(StateTemplate item)
+        {
+            if (item != null)
+            {
+                  
+                _StateTemplateService.Update(item);
+                return Json(toStateTemplatePOCO(item), JsonRequestBehavior.AllowGet);
+            }
+            return Json("{}");
+        }
+        public ActionResult AddFlow(FlowTemplate item)
+        {
+            if (item != null)
+            {
+
+                _FlowTemplateService.Add(item);
+               // FlowTemplateID
+                return Json(toFlowTemplatePOCO(item), JsonRequestBehavior.AllowGet);
+            }
+            return Json("{}");
+        }
+        public ActionResult EditFlowJSON(FlowTemplate item)
+        {
+            if (item != null)
+            {
+
+                _FlowTemplateService.Update(item);
+                // FlowTemplateID
+                return Json(toFlowTemplatePOCO(item), JsonRequestBehavior.AllowGet);
+            }
+            return Json("{}");
+        }
         public ActionResult Detail(int id=0)
         {
             ProcessTemplate item = _ProcessTemplateService.FindById(id);
@@ -75,7 +192,11 @@ namespace Cats.Areas.WorkflowManager.Controllers
             return View(item);
 
         }
-
+        public ActionResult DetailJson(int id)
+        {
+             ProcessTemplate item = _ProcessTemplateService.FindById(id);
+             return Json(toProcessTemplatePOCO(item), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult ReadKendo([DataSourceRequest] DataSourceRequest request)
         {
             IEnumerable<ProcessTemplate> list = _ProcessTemplateService.GetAll();

@@ -41,6 +41,9 @@ namespace Cats.Models.Mapping
                 .WithMany(t => t.BidWinners)
                 .HasForeignKey(d => d.TransporterID);
 
+            this.HasRequired(t => t.BusinessProcess)
+                         .WithMany(t => t.BidWinners)
+                         .HasForeignKey(d => d.BusinessProcessID);
         }
     }
 }

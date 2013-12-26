@@ -13,7 +13,8 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Description).HasColumnName("Description");
-
+            this.Property(t => t.GraphicsData).HasColumnName("GraphicsData");
+            
         }
     }
 }

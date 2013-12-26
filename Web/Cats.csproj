@@ -725,7 +725,6 @@
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
     <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
-    <Content Include="Areas\Procurement\Controllers\Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
     <Content Include="Content\2013.1.219\Black\loading.gif" />
@@ -1603,6 +1602,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Create.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Copy of Detail.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredasWithOutBidOffer.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredaWithOutBidOfferFilterParial.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
@@ -2253,10 +2254,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -2317,7 +2314,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Web References\ReportPortal\CacheRefreshPlan.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
+      <DependentUpon>Ref192.168.1.248erence.map</DependentUpon>
     </Content>
     <Content Include="Web References\ReportPortal\CacheRefreshPlanState.datasource">
       <DependentUpon>Reference.map</DependentUpon>
