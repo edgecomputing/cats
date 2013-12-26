@@ -15,6 +15,7 @@ namespace Cats.Models.Hubs
         public decimal RequestedQunatityInUnit { get; set; }
         public int UnitID { get; set; }
         public decimal RequestedQuantityInMT { get; set; }
+        public decimal? QuantityPerUnit { get; set; }
         public string Description { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual Dispatch Dispatch { get; set; }

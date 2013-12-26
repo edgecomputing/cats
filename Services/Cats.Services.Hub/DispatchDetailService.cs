@@ -99,8 +99,8 @@ namespace Cats.Services.Hub
 
                 DDMD.RequestedQuantityInUnit = Math.Abs(dispatchDetail.RequestedQunatityInUnit);
                 DDMD.DispatchedQuantityInUnit = Math.Abs(dispatchDetail.DispatchedQuantityInUnit);
-
-                if (PreferedWeightMeasurment.ToUpperInvariant() == "QN")
+                //TODO:Unit Measure comparison alert
+                if (PreferedWeightMeasurment.ToUpperInvariant() == "QTL")
                 {
                     DDMD.RequestedQuantityMT = Math.Abs(dispatchDetail.RequestedQuantityInMT) * 10;
                     DDMD.DispatchedQuantityMT = Math.Abs(dispatchDetail.DispatchedQuantityInMT) * 10;

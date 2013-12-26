@@ -1,0 +1,31 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model Cats.Areas.Procurement.Models.SelectedBidWinnerViewModel
+@{
+    ViewBag.Title = "_WoredasWithoutOffer";
+}
+
+@*<h4>Woredas Without Bid Offer</h4>*@
+
+     @(Html.Kendo().Grid<BidWinnerViewModel>(Model.Bidwinners)
+    .Name("withOutOffer")
+    .Columns(columns=>
+        {
+              
+        columns.Bound(t => t.SourceWarehouse);
+        columns.Bound(t => t.Woreda);
+        //columns.Bound(t => t.Quantity);
+        //columns.Bound(t => t.StatusID);
+        //columns.Bound(t => t.Status);
+        })
+     .Scrollable()
+    // .HtmlAttributes(new { style = "height:400px;" })
+        .DataSource(datasource=>
+            datasource                 
+            .Ajax()
+    .Model(model=>model.Id(p=>p.BidWinnnerID))
+    //.Group(group=>group.Add(m=>m.TransporterName))
+    //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
+    
+           ))

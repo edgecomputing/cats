@@ -9,6 +9,13 @@ namespace Cats.Areas.Procurement.Models
 {
     public class TransportBidQuotationViewModel
     {
+
+        public int TransportBidQuotationHeaddrID { get; set; }
+        public Nullable<System.DateTime> BidQuotationDate { get; set; }
+        public Nullable<float> BidBondAmount { get; set; }
+        public Nullable<int> EnteredBy { get; set; }
+        public Nullable<int> Status { get; set; }
+
         //TransportBidQuotationID
         [Display(Name = "ID")]
         public int TransportBidQuotationID { get; set; }

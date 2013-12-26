@@ -11,6 +11,7 @@ namespace Cats.Areas.Logistics.Models
         public System.Guid DistributionID { get; set; }
          [Display(Name = "Receiving Number")]
         [Required(ErrorMessage="Goods receiving number Can't be empty.")]
+
         public string ReceivingNumber { get; set; }
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
@@ -56,6 +57,9 @@ namespace Cats.Areas.Logistics.Models
         [Display(Name = "Document Received By")]
         public Nullable<int> DocumentReceivedBy { get; set; }
 
+        public int? Status { get; set; }
+        public string Remark { get; set; }
+        public string ActionTypeRemark { get; set; }
         public bool ContainsDiscripancy { get; set; }
     }
 }

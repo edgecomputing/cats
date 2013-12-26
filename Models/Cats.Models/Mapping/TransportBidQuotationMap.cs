@@ -13,7 +13,7 @@ namespace Cats.Models.Mapping
             // Properties
             this.Property(t => t.Remark)
                 .HasMaxLength(50);
-
+            
             // Table & Column Mappings
             this.ToTable("TransportBidQuotation", "Procurement");
             this.Property(t => t.TransportBidQuotationID).HasColumnName("TransportBidQuotationID");
@@ -39,6 +39,10 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Hub)
                 .WithMany(t => t.TransportBidQuotations)
                 .HasForeignKey(d => d.SourceID);
+           
+
+
+           
         }
     }
 }

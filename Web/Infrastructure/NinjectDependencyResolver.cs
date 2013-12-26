@@ -163,6 +163,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IDashboardService>().To<DashboardService>();
 
             kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
+            kernel.Bind<IActionTypesService>().To<ActionTypesService>();
 
             kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
             kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
@@ -202,6 +203,7 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
             kernel.Bind<Cats.Services.Logistics.IDistributionService>().To<Cats.Services.Logistics.DistributionService>();
             kernel.Bind<Cats.Services.Logistics.IDistributionDetailService>().To<Cats.Services.Logistics.DistributionDetailService>();
+            kernel.Bind<ITransportBidQuotationHeader>().To<TransportBidQuotationHeaderHeaderService>();
         }
         private void AddBindingsHub()
         {
@@ -265,6 +267,7 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.Hub.ISessionHistoryService>().To<Cats.Services.Hub.SessionHistoryService>();
             kernel.Bind<Cats.Services.Hub.ISessionAttemptService>().To<Cats.Services.Hub.SessionAttemptService>();
             kernel.Bind<Cats.Services.Hub.IDetailService>().To<Cats.Services.Hub.DetailService>();
+           
             //kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.DetailService>();
            
         }

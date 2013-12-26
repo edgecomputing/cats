@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Hubs;
+using Cats.Services.Administration;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Hub;
@@ -31,13 +33,19 @@ namespace Cats.Areas.Logistics.Controllers
         private IDistributionDetailService _distributionDetailService;
         private INotificationService _notificationService;
 
+        private IActionTypesService _actionTypeService;
+
+        private IUserAccountService _userAccountService;
+
+
         public DistributionController(ITransportOrderService transportOrderService,
                                       IWorkflowStatusService workflowStatusService,
                                       IDispatchAllocationService dispatchAllocationService,
                                       IDistributionService distributionService,
             IDispatchService dispatchService,
             IDistributionDetailService distributionDetailService,
-            INotificationService notificationService)
+            INotificationService notificationService, IActionTypesService actionTypeService, IUserAccountService userAccountService)
+
         {
             _transportOrderService = transportOrderService;
             _workflowStatusService = workflowStatusService;
@@ -47,13 +55,19 @@ namespace Cats.Areas.Logistics.Controllers
             _distributionDetailService = distributionDetailService;
             _notificationService = notificationService;
 
+            _actionTypeService = actionTypeService;
+
+            _userAccountService = userAccountService;
+
+
         }
         //
         // GET: /Logistics/Distribution/
 
         public ActionResult Index()
         {
-            ViewBag.TransportOrderId = 3073;
+          
+          //  ViewBag.TransportOrderId = 3073;
             return View();
         }
         public ActionResult Dispatches(int id)
@@ -61,7 +75,10 @@ namespace Cats.Areas.Logistics.Controllers
             //id--transportorderid
             var transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "Transporter").FirstOrDefault();
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
-            var datePref = UserAccountHelper.UserCalendarPreference();
+            var currentUser =  _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+
+            var datePref = currentUser.DatePreference;
+        
             ViewBag.TransportOrderId = id;
             var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder,
                                                                                                     datePref, statuses);
@@ -82,12 +99,14 @@ namespace Cats.Areas.Logistics.Controllers
         }
         private List<DispatchViewModel> SetDatePreference(List<DispatchViewModel> dispatches)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+
             foreach (var dispatchViewModel in dispatches)
             {
                 dispatchViewModel.CreatedDatePref =
-                    dispatchViewModel.CreatedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+                    dispatchViewModel.CreatedDate.ToCTSPreferedDateFormat(datePref);
                 dispatchViewModel.DispatchDatePref =
-                    dispatchViewModel.DispatchDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+                    dispatchViewModel.DispatchDate.ToCTSPreferedDateFormat(datePref);
             }
             return dispatches;
         }
@@ -179,6 +198,13 @@ namespace Cats.Areas.Logistics.Controllers
             var distributions = _distributionService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DistributionDetails").ToList();
 
             var distributionViewModels = distributions.Select(EditGoodsReceivingNote);
+            return Json(distributionViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ReadDeliveryNotesDiscripancy([DataSourceRequest]DataSourceRequest request, int id)
+        {
+           var distributions = _distributionService.Get(t => t.TransporterID==id, null, "DistributionDetails").ToList();
+
+            var distributionViewModels = distributions.Select(EditGoodsReceivingNote).Select(t=>t.ContainsDiscripancy);
             return Json(distributionViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -393,6 +419,8 @@ namespace Cats.Areas.Logistics.Controllers
             distributionViewModel.WayBillNo = distribution.WayBillNo;
             distributionViewModel.RequisitionNo = distribution.RequisitionNo;
             distributionViewModel.Transporter = dispatch.Transporter.Name;
+            distributionViewModel.Status = distribution.Status;
+            distributionViewModel.ActionTypeRemark = distribution.ActionTypeRemark;
             var pref = UserAccountHelper.UserCalendarPreference();
             distributionViewModel.DeliveryDatePref = distribution.DeliveryDate.HasValue
                                                          ? distribution.DeliveryDate.Value.ToCTSPreferedDateFormat(pref)
@@ -421,6 +449,31 @@ namespace Cats.Areas.Logistics.Controllers
             //}
             return distributionViewModel;
         }
+
+
+        public ActionResult DiscripancyAction(Guid id)
+        {
+            var distribution = _distributionService.Get(t => t.DistributionID == id, null,
+                "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,FDP.AdminUnit.AdminUnit2.AdminUnit2,Hub").FirstOrDefault();
+            ViewBag.ActionTypes = new SelectList(_actionTypeService.GetAllActionType(), "ActionId", "Name");
+            var distributionViewModel = EditGoodsReceivingNote(distribution);
+            return View(distributionViewModel);
+        }
+
+        public ActionResult SaveDiscripancy(DistributionViewModel _distributionViewModel, FormCollection collection)
+        {
+
+            var actionType = int.Parse(collection["Actiontype"].ToString(CultureInfo.InvariantCulture));
+            var remark = collection["Remark"].ToString(CultureInfo.InvariantCulture);
+            var TO = collection.Keys[2].ToString(CultureInfo.InvariantCulture);
+            var distribution = _distributionService.Get(t => t.DistributionID == _distributionViewModel.DistributionID).Single();
+            distribution.Status = (int)Cats.Models.Constant.DistributionStatus.Closed;
+            distribution.ActionType = actionType;
+            distribution.ActionTypeRemark = remark;
+            _distributionService.EditDistribution(distribution);
+            return RedirectToAction("Dispatches", new { id = TO });
+        }
+
 
     }
 }

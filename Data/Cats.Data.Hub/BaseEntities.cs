@@ -253,19 +253,20 @@ namespace Cats.Data.Hub
         {
 
             // Get all Added/Deleted/Modified entities (not Unmodified or Detached)
-            foreach (
-                var ent in
-                    this.ChangeTracker.Entries().Where(
-                        p =>
-                        p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
-                        p.State == System.Data.EntityState.Modified))
-            {
-                // For each changed record, get the audit record entries and add them
-                foreach (Audit x in GetAuditRecordsForChange(ent, userId))
-                {
-                    this.Audits.Add(x);
-                }
-            }
+            //TODO:Commented 12.23.2013 by banty
+            //foreach (
+            //    var ent in
+            //        this.ChangeTracker.Entries().Where(
+            //            p =>
+            //            p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
+            //            p.State == System.Data.EntityState.Modified))
+            //{
+            //    // For each changed record, get the audit record entries and add them
+            //    foreach (Audit x in GetAuditRecordsForChange(ent, userId))
+            //    {
+            //        this.Audits.Add(x);
+            //    }
+            //}
 
             // Call the original SaveChanges(), which will save both the changes made and the audit records
             return base.SaveChanges();

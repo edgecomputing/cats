@@ -11,6 +11,8 @@ namespace Cats.Services.Procurement
     public interface ITransportBidQuotationService
     {
         bool AddTransportBidQuotation(TransportBidQuotation item);
+
+       
         bool UpdateTransportBidQuotation(TransportBidQuotation item);
 
         bool DeleteTransportBidQuotation(TransportBidQuotation item);
