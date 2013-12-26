@@ -2415,6 +2415,9 @@
     <Content Include="Web References\ReportPortal\Warning.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

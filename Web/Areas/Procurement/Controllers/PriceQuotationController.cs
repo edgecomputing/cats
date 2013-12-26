@@ -44,7 +44,7 @@ namespace Cats.Areas.Procurement.Controllers
                                             , ITransportBidQuotationService transportBidQuotationService
                                             , IBidWinnerService bidWinnerService
                                             ,IBusinessProcessService businessProcessService
-                                            ,IApplicationSettingService applicationSettingService)
+                                            ,IApplicationSettingService applicationSettingService
                                             ,ITransportBidQuotationHeaderService transportBidQuotationHeaderService)
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
