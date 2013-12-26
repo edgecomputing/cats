@@ -111,7 +111,7 @@ namespace Cats.Services.EarlyWarning
             };         
              _unitOfWork.BusinessProcessRepository.Add(bp);
 
-            StartingState.ParentBusinessProcessID = bp.BusinessProcessID;
+            StartingState.ParentBusinessProcess = bp;
             StartingState.StateID = startingTemplate.StateTemplateID;
 
             _unitOfWork.BusinessProcessStateRepository.Add(StartingState);
