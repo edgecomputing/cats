@@ -315,9 +315,10 @@ namespace Cats.Services.Hub
         public List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId, string PreferedWeightMeasurment, bool? closedToo, int? AdminUnitId, int? CommodityType)
         {
             List<DispatchAllocationViewModelDto> GetUncloDetacheced = new List<DispatchAllocationViewModelDto>();
+            //TODO:Check whether both si and pc is required for checking
             var unclosed =
                 _unitOfWork.DispatchAllocationRepository.Get(
-                    t => t.ShippingInstructionID.HasValue && t.ProjectCodeID.HasValue
+                    t => (t.ShippingInstructionID.HasValue || t.ProjectCodeID.HasValue)
                          && hubId == t.HubID);
 
 
@@ -499,11 +500,11 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<string> GetAvailableRequisionNumbers(int HubId, bool UnCommited)
         {
-            var allocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.HubID == HubId);
-
+           var allocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.HubID == HubId);
+            
             if (UnCommited)
             {
-                allocations = allocations.Where(p => !p.ShippingInstructionID.HasValue && !p.ProjectCodeID.HasValue);
+                allocations = allocations.Where(p => !(p.ShippingInstructionID.HasValue || p.ProjectCodeID.HasValue)).ToList();
             }
 
             return allocations.Select(p => p.RequisitionNo).Distinct().ToList();
