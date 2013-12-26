@@ -24,6 +24,7 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IUserAccountService _userAccountService;
         private readonly IBidService _bidService;
         private readonly ITransportBidPlanService _bidPlanService;
+        
        
         public BidAdministrationController(IBidWinnerService bidWinnerService,IApplicationSettingService applicationSettingService,
                                            IWorkflowStatusService workflowStatusService,IUserAccountService userAccountService,
@@ -37,6 +38,7 @@ namespace Cats.Areas.Procurement.Controllers
             _userAccountService = userAccountService;
             _bidService = bidService;
             _bidPlanService = bidPlanService;
+            
 
         }
         // GET: /Procurement/BidAdministration/
@@ -73,6 +75,42 @@ namespace Cats.Areas.Procurement.Controllers
             var bids = _bidWinnerService.Get(m => m.BidID == id).Where(m => m.Status == (int)BidWinnerStatus.Signed);
             var bidsToDisplay = GetBidWinners(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
+        }
+        public ActionResult WoredasWithoutOffer_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
+
+            var bid =_bidService.FindById(id);
+            var bidPlanDetail = _bidPlanService.FindById(bid.TransportBidPlanID);
+            var planned = (from planDetail in bidPlanDetail.TransportBidPlanDetails
+                      group planDetail by new
+                      {
+                          planDetail.DestinationID,
+                          planDetail.SourceID
+                      }
+                          into grouped
+                          select grouped
+                      );
+
+            var detailPlans = planned.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
+
+            var result = new List<BidWinnerViewModel>();
+            foreach (TransportBidPlanDetail pdetail in detailPlans)
+            {
+                var detail = _bidWinnerService.FindBy(t => t.BidID == id && t.SourceID == pdetail.SourceID && 
+                                                                                               t.DestinationID == pdetail.DestinationID).FirstOrDefault();
+                if (detail == null)
+                    result.Add(new BidWinnerViewModel()
+                    {
+                        SourceWarehouse = pdetail.Source.Name,
+                        Zone = pdetail.Destination.AdminUnit2.Name,
+                        Woreda = pdetail.Destination.Name,
+                        BidID = id,
+                        DestinationId = pdetail.DestinationID,
+                        SourceId = pdetail.SourceID
+                    });
+            }
+
+            return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult BidPlanDetail_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
