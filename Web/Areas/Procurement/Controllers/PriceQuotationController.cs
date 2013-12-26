@@ -44,7 +44,7 @@ namespace Cats.Areas.Procurement.Controllers
                                             , ITransportBidQuotationService transportBidQuotationService
                                             , IBidWinnerService bidWinnerService
                                             ,IBusinessProcessService businessProcessService
-                                            ,IApplicationSettingService applicationSettingService
+                                            ,IApplicationSettingService applicationSettingService)
                                             ,ITransportBidQuotationHeaderService transportBidQuotationHeaderService)
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
@@ -733,7 +733,7 @@ namespace Cats.Areas.Procurement.Controllers
                 result = true;
             }
             _bidWinnerService.Save();
-            _BusinessProcessService.Save();
+           // _BusinessProcessService.Save();
             return result;
             
            
