@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "WoredasWithOutBidOffer";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+<h3>Woredas Bid Status</h3>
+@using (Html.BeginForm())
+    {
+        <div>
+            <div class="span12" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
+                @*<div><h5>Please specify the BID number, Region and Transporter to continue</h5></div>*@
+                <div class="span3" align="center">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label>BID Reference Number</label>
+                            <div>
+                                @Html.DropDownList("BidID")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span3" align="center">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label>Region</label>
+                            <div>
+                                @Html.DropDownList("RegionID")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span3" align="center">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label>Warehouse</label>
+                            <div>
+                                 @Html.DropDownList("HubID", (SelectList)ViewBag.HubID, "-- ALL --")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="span3" align="center">
+                    <div class="controls">
+                        <div>
+                            <input type="submit" value="Get Data" class="btn btn-default" style="margin-top: 25px"/>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+    }

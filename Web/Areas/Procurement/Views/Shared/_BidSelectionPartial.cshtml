@@ -6,7 +6,7 @@
     <div>
         <div class="span12" style="border:solid 1px #CCC; border-radius:6px; padding:6px; margin-bottom:6px;">
             @*<div><h5>Please specify the BID number, Region and Transporter to continue</h5></div>*@
-            <div class="span4" align="center">
+            <div class="span3" align="center">
                 <div class="control-group">
                     <div class="controls">
                         <label>BID Reference Number</label>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span4" align="center">
+            <div class="span3" align="center">
                 <div class="control-group">
                     <div class="controls">
                         <label>Region</label>
@@ -26,20 +26,41 @@
                     </div>
                 </div>
             </div>
-            <div class="span4" align="center">
+            <div class="span3" align="center">
                 <div class="controls">
                     <label>Transporter</label>
                     <div>
                         @Html.DropDownList("TransporterID")
                     </div>
-                    <div>
+                    @*<div>
                         <input type="submit" value="Continue" class="btn btn-default" />  
-                    </div>
-                    </div>
+                    </div>*@
+                </div>
             </div>
-            @* <div class="span3" style="vertical-align: central">
-                <input type="submit" value="Select" class="btn btn-primary" />     
-            </div>*@
+            <div class="span3">
+                <div class="control-group">
+                    <div class="controls">
+                        <label>Bid Bond </label>
+                        <div>
+                            <input name="BidBond2" type="text" onkeypress="return OnlyNumeric(event)" />
+                        </div>
+                        <div class="span3" style="vertical-align: central">
+                            <input type="submit" value="Continue" class="btn btn-default" />     
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
         </div>
    </div>
 }
+
+<script type="text/javascript">
+    function OnlyNumeric(e) {
+       
+        var charCode = (e.which) ? e.which : e.keyChar;
+        if (charCode > 33 && (charCode < 48 || charCode > 57)) 
+                    return false;
+        return true;
+}
+</script>

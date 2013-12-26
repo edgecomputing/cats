@@ -25,5 +25,6 @@ namespace Cats.Services.Procurement
 
         void ActivateBid(int id);
         bool Save();
+        string AutogenerateBidNo();
     }
 }

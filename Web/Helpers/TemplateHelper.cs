@@ -107,7 +107,7 @@ namespace Cats.Helpers
                         BidStratingDate = bidWinnerDestination.Bid.StartDate.ToShortDateString(),
                         DistanceFromOrigin = "0 Km",
                         Warehouse = bidWinnerDestination.Hub.Name,
-                        Tariff = Convert.ToDecimal(bidWinnerDestination.Tariff.ToString("#0.00"))
+                        Tariff = Convert.ToDecimal(bidWinnerDestination.Tariff.ToString())
                     });
                 }
                 existingDestinationList.Add(bidWinnerDestination.DestinationID);

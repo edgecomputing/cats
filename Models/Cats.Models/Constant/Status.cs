@@ -89,4 +89,9 @@ namespace Cats.Models.Constant
         
 
     }
+    public enum DistributionStatus
+    {
+        Draft = 1,
+        Closed = 2
+    }
 }

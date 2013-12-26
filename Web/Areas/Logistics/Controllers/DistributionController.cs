@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Hubs;
+using Cats.Services.Administration;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Hub;
@@ -30,7 +32,11 @@ namespace Cats.Areas.Logistics.Controllers
         private IDispatchService _dispatchService;
         private IDistributionDetailService _distributionDetailService;
         private INotificationService _notificationService;
+
+        private IActionTypesService _actionTypeService;
+
         private IUserAccountService _userAccountService;
+
 
         public DistributionController(ITransportOrderService transportOrderService,
                                       IWorkflowStatusService workflowStatusService,
@@ -38,8 +44,8 @@ namespace Cats.Areas.Logistics.Controllers
                                       IDistributionService distributionService,
             IDispatchService dispatchService,
             IDistributionDetailService distributionDetailService,
-            INotificationService notificationService,
-            IUserAccountService userAccountService)
+            INotificationService notificationService, IActionTypesService actionTypeService, IUserAccountService userAccountService)
+
         {
             _transportOrderService = transportOrderService;
             _workflowStatusService = workflowStatusService;
@@ -48,7 +54,11 @@ namespace Cats.Areas.Logistics.Controllers
             _dispatchService = dispatchService;
             _distributionDetailService = distributionDetailService;
             _notificationService = notificationService;
+
+            _actionTypeService = actionTypeService;
+
             _userAccountService = userAccountService;
+
 
         }
         //
@@ -409,6 +419,8 @@ namespace Cats.Areas.Logistics.Controllers
             distributionViewModel.WayBillNo = distribution.WayBillNo;
             distributionViewModel.RequisitionNo = distribution.RequisitionNo;
             distributionViewModel.Transporter = dispatch.Transporter.Name;
+            distributionViewModel.Status = distribution.Status;
+            distributionViewModel.ActionTypeRemark = distribution.ActionTypeRemark;
             var pref = UserAccountHelper.UserCalendarPreference();
             distributionViewModel.DeliveryDatePref = distribution.DeliveryDate.HasValue
                                                          ? distribution.DeliveryDate.Value.ToCTSPreferedDateFormat(pref)
@@ -438,6 +450,30 @@ namespace Cats.Areas.Logistics.Controllers
             return distributionViewModel;
         }
 
-       
+
+        public ActionResult DiscripancyAction(Guid id)
+        {
+            var distribution = _distributionService.Get(t => t.DistributionID == id, null,
+                "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,FDP.AdminUnit.AdminUnit2.AdminUnit2,Hub").FirstOrDefault();
+            ViewBag.ActionTypes = new SelectList(_actionTypeService.GetAllActionType(), "ActionId", "Name");
+            var distributionViewModel = EditGoodsReceivingNote(distribution);
+            return View(distributionViewModel);
+        }
+
+        public ActionResult SaveDiscripancy(DistributionViewModel _distributionViewModel, FormCollection collection)
+        {
+
+            var actionType = int.Parse(collection["Actiontype"].ToString(CultureInfo.InvariantCulture));
+            var remark = collection["Remark"].ToString(CultureInfo.InvariantCulture);
+            var TO = collection.Keys[2].ToString(CultureInfo.InvariantCulture);
+            var distribution = _distributionService.Get(t => t.DistributionID == _distributionViewModel.DistributionID).Single();
+            distribution.Status = (int)Cats.Models.Constant.DistributionStatus.Closed;
+            distribution.ActionType = actionType;
+            distribution.ActionTypeRemark = remark;
+            _distributionService.EditDistribution(distribution);
+            return RedirectToAction("Dispatches", new { id = TO });
+        }
+
+
     }
 }

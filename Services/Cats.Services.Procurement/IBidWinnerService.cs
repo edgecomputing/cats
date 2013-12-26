@@ -24,6 +24,7 @@ namespace Cats.Services.Procurement
         List<Bid> GetBidsWithWinner();
         bool SignContract(List<BidWinner> bidWinner);
         bool Disqualified(BidWinner bidWinner);
+        bool IsRfqGenerated(int bidID);
         bool Save();
     }
 }
