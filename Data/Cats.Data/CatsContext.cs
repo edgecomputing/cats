@@ -190,7 +190,7 @@ namespace Cats.Data
              modelBuilder.Configurations.Add(new WorkflowMap());
             modelBuilder.Configurations.Add(new WorkflowStatusMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationMap());
-            modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
+           // modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
             modelBuilder.Configurations.Add(new ApplicationSettingMap());
             modelBuilder.Configurations.Add(new RationMap());
 
