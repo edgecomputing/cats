@@ -86,6 +86,8 @@
     <Compile Include="Mapping\PaymentRequestMap.cs" />
     <Compile Include="Mapping\TransportBidQuotationHeaderMap.cs" />
     <Compile Include="PaymentRequest.cs" />
+    <Compile Include="Report.cs" />
+    <Compile Include="ReportFolder.cs" />
     <Compile Include="TransportBidQuotationHeader.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
