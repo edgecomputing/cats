@@ -29,7 +29,6 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.AdminUnit)
                 .WithMany(t => t.FDPs)
                 .HasForeignKey(d => d.AdminUnitID);
-            
 
         }
     }

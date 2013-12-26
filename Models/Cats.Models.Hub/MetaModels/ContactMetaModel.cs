@@ -29,7 +29,5 @@ namespace Cats.Models.Hubs.MetaModels
     		public Int32 FDPID { get; set; }
 
     		public EntityCollection<FDP> FDP { get; set; }
-
 	   }
 }
-

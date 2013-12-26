@@ -27,6 +27,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Commodity> CommodityRepository { get; }
         IGenericRepository<CommodityType> CommodityTypeRepository { get; }
         IGenericRepository<FDP> FDPRepository { get; }
+        IGenericRepository<Contact> ContactRepository { get; }
         IGenericRepository<Program> ProgramRepository { get; }
         IGenericRepository<Hub> HubRepository { get; }
         IGenericRepository<ActionTypes> ActionTypesRepository { get; }
@@ -70,6 +71,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
 
         IGenericRepository<TransportBidQuotation> TransportBidQuotationRepository { get; }
+        IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository { get; }
         IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
 
         IGenericRepository<Ration> RationRepository { get; }
@@ -93,7 +95,7 @@ namespace Cats.Data.UnitWork
 
 
         IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; }
-
+        
         IGenericRepository<GiftCertificate> GiftCertificateRepository { get; }
         IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository { get; }
 
@@ -145,7 +147,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
 
         IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; }
-        IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
+        //IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
         void Save();
 
     }

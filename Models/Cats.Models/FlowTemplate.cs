@@ -14,6 +14,11 @@ namespace Cats.Models
 
 
         //Relationships
+        [Display(Name = "Process")]
+        public virtual ProcessTemplate ParentProcessTemplate { get; set; }
+
+        [Display(Name = "Process ID")]
+        public int ParentProcessTemplateID { get; set; }
 
         [Display(Name = "Initial State")]
         public virtual StateTemplate InitialState { get; set; }
@@ -38,6 +43,8 @@ namespace Cats.Models
 
 
         //Relationships
+        [Display(Name = "Process ID")]
+        public int ParentProcessTemplateID { get; set; }
 
         [Display(Name = "Initial State ID")]
         public int InitialStateID { get; set; }

@@ -109,6 +109,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IBeneficiaryAllocationService>().To<BeneficiaryAllocationService>();
             kernel.Bind<IWorkflowStatusService>().To<WorkflowStatusService>();
             kernel.Bind<ITransportBidQuotationService>().To<TransportBidQuotationService>();
+            kernel.Bind<ITransportBidQuotationHeaderService>().To<TransportBidQuotationHeaderService>();
             kernel.Bind<IApplicationSettingService>().To<ApplicationSettingService>();
             kernel.Bind<IRationService>().To<RationService>();
             kernel.Bind<IRationDetailService>().To<RationDetailService>();

@@ -1,0 +1,80 @@
+﻿
+@using LanguageHelpers.Localization
+@model Cats.Models.TransportBidQuotationHeader
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section LeftBar
+{
+   
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_plan"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Plan")" title="save"></a>
+}
+
+<div>
+    <h4>Create Bid Proposal</h4>
+</div>
+
+    @using (Html.BeginForm("Create", "PriceQuotation", FormMethod.Post, new { id = "frm_create_plan" }))
+
+    {
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.BidId,"BID")
+                </div>
+                <div class="controls">
+                    @Html.DropDownListFor(m => m.BidId, ViewBag.BIDS as SelectList)
+                    @Html.ValidationMessageFor(m=>m.BidId)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m =>m.RegionID, "Region")
+                </div>
+                <div class="controls">
+                    @Html.DropDownListFor(m =>m.RegionID, ViewBag.Regions as SelectList)
+                    @Html.ValidationMessageFor(m=>m.AdminUnit)
+                </div>
+            </div>
+
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.TransporterId,Translator.Translate("Transporter"))
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.DropDownListFor(m => m.TransporterId, ViewBag.Transporters as SelectList)
+                    @Html.ValidationMessageFor(m => m.TransporterId)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.BidBondAmount,Translator.Translate("Bid Bond"))
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.BidBondAmount)
+                    @Html.ValidationMessageFor(m => m.BidBondAmount)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.EnteredBy)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextAreaFor(m=>m.EnteredBy)
+                    @Html.ValidationMessageFor(m => m.EnteredBy)
+                </div>
+            </div>
+        </div>
+    }

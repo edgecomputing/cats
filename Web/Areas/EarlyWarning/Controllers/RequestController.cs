@@ -77,7 +77,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _idpsReasonTypeServices = idpsReasonTypeServices;
            
         }
-
+        public  ActionResult RegionalRequestsPieChart()
+        {
+            return View();
+        }
 
         public ViewResult SubmittedRequest(int id)
         {
@@ -91,6 +94,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var userPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return View(RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, userPref));
         }
+
 
         [HttpGet]
         public ActionResult New()
@@ -257,7 +261,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 
                 var model = getRequestDetai(req.RegionalRequestID);
                 ViewBag.message = "Request Created";
-                return View("Details", model);
+                //RedirectToAction(@)
+                return RedirectToAction("Details"+"/"+req.RegionalRequestID);
                 
             }
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
@@ -374,6 +379,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewData["Request_main_data"] = requestModelView;
             return dt;
         }
+
         public ActionResult Details(int id)
         {
             ViewBag.RequestID = id;
@@ -395,11 +401,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var dt = RequestViewModelBinder.TransposeDataNew(result);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
-
         }
 
-       
-        public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
+       public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
             ViewBag.RequestID = id;
             var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
@@ -425,6 +429,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
 
         }
+       
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
 
@@ -432,10 +437,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
             return Json(requestDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+        
         private RegionalRequestDetailViewModel BindRegionalRequestDetailViewModel(RegionalRequestDetail regionalRequestDetail)
         {
-
-
             if (regionalRequestDetail.RegionalRequest.Program.Name == "Relief")
             {
                 return new RegionalRequestDetailViewModel()
@@ -469,11 +473,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         regionalRequestDetail.Fdpid)
                 };
             }
-
-
-
-
         }
+
         private int GetPlanned(int year, int season, int woreda)
         {
             var HRD = _HRDDetailService.Get(t => t.HRD.Season.SeasonID == season && t.HRD.Year == year && t.WoredaID == woreda).SingleOrDefault();
@@ -483,6 +484,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             else return 0;
         }
+        
         private int GetPlannedForPSNP(int year, int regionId, int fdpId)
         {
             RegionalPSNPPlanDetail psnp = null;
