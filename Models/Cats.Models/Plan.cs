@@ -18,7 +18,9 @@ namespace Cats.Models
        public int PlanID { get; set; }
        [Required(ErrorMessage = "Enter Plan Name")]
        public string PlanName { get; set; }
+        [Required(ErrorMessage = "Enter Start Date")]
        public DateTime StartDate { get; set; }
+        [Required(ErrorMessage = "Enter End Date")]
        public DateTime EndDate { get; set; }
        public int ProgramID { get; set; }
        public string Remark { get; set; }

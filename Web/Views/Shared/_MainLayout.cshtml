@@ -29,11 +29,11 @@
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="~/Content/ng-grid.css" rel="stylesheet" />
     <link href="~/Content/ng-table.css" rel="stylesheet" />
-   
-     <!--
+
+    <!--
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
         -->
-    
+    <script src="~/Scripts/bootbox.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
@@ -132,7 +132,7 @@
 <body>
 
     @Html.Partial("_MainMenu")
-   
+
     <div class="container-fluid">
 
         <div class="row-fluid">
@@ -172,25 +172,29 @@
         <!--/row-->
         <hr>
         <footer>
-            <p>CATS &copy; DRMFSS @DateTime.Now.Year.ToString()</p>
+             @Html.Partial("_Version")
         </footer>
 
-        <div id="div_help_panel" style="display:none;">
+        <div id="div_help_panel" style="display: none;">
             <style>
-                .left_panel
-                {
-                    position:fixed; left:-510px; top:0px; border:solid 1px #ccc;width:25%;bottom:0px;background:rgba(0,0,0,0.8);
-                }
-                .left_panel *
-                {
-                    color:#FFF;
-                }
-                .left_panel .content
-                {
-                    margin-top:60px;
-                    padding:4px;
+                .left_panel {
+                    position: fixed;
+                    left: -510px;
+                    top: 0px;
+                    border: solid 1px #ccc;
+                    width: 25%;
+                    bottom: 0px;
+                    background: rgba(0,0,0,0.8);
                 }
 
+                    .left_panel * {
+                        color: #FFF;
+                    }
+
+                    .left_panel .content {
+                        margin-top: 60px;
+                        padding: 4px;
+                    }
             </style>
             <script>
                 $(document).ready(function () {
@@ -247,12 +251,12 @@
     <script type="text/javascript" src="~/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"> </script>
     <script type="text/javascript" src="~/Scripts/js/CatsUI.js"> </script>
 
-    
+
     <script type="text/javascript"></script>
     @{
         var calendarPreference = Html.UserCalendarPreference();
 
-        
+
         if (calendarPreference != "EC")
         {
         <script>
@@ -272,9 +276,9 @@
             $(function () {
                 var date = new Date();
                 $(".cats-datepicker2").each(function () {
-                    
+
                     if ($(this).val() == "") {
-                       // $(this).val(new Date().toLocaleDateString());
+                        // $(this).val(new Date().toLocaleDateString());
                     } else {
                         date = new Date(Date.parse($(this).val()));
                     }
@@ -314,18 +318,18 @@
         });
 
         function toCatsPreferedUnit(data) {
-            if (unitpreferencedisplay.toLowerCase()!="mt") {
+            if (unitpreferencedisplay.toLowerCase() != "mt") {
                 return data / 10;
             } else {
                 return data;
             }
         }
-        
+
     </script>
-    
-    
-    
-    
+
+
+
+
 
 </body>
 </html>

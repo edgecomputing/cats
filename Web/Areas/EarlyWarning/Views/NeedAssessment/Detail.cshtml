@@ -1,6 +1,6 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
-@model Cats.Models.NeedAssessment
+@model Cats.Models.Plan
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
@@ -22,8 +22,8 @@
                     @Html.Label(Translator.Translate("Assessment Name"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => m.Plan.PlanName,new {Disabled=true})
-                   @Html.ValidationMessageFor(m =>m.Plan.PlanName)
+                    @Html.TextBoxFor(m => m.PlanName,new {Disabled=true})
+                   @Html.ValidationMessageFor(m =>m.PlanName)
                 </div>
             </div>
         </div>
@@ -75,8 +75,8 @@
                     @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
-                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                     @Html.TextBoxFor(m => m.StartDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.StartDate)
                 </div>
             </div>
         </div>
@@ -87,8 +87,8 @@
                     @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.EndDate)
+                    @Html.TextBoxFor(m => m.EndDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.EndDate)
                 </div>
 
             </div>
@@ -140,7 +140,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         wn.center().open();
         $("#yesDelete").click(function () {
-            window.location = "@Url.Action("DeleteNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
+            window.location = "@Url.Action("DeleteNeedAssessment", "NeedAssessment",new {Area="EarlyWarning"})" + "?id=" + dataItem.NeedAID;
             wn.close();
         });
 

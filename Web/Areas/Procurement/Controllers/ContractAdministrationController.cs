@@ -93,7 +93,7 @@ namespace Cats.Areas.Procurement.Controllers
                         StartedOn = transportOrder.StartDate.ToCTSPreferedDateFormat(datePref),
                         SignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
                         RemainingDays = (transportOrder.EndDate - transportOrder.StartDate).TotalDays.ToString(),
-                        Progress = ((((DateTime.Now - transportOrder.StartDate).TotalDays) / ((transportOrder.EndDate - transportOrder.StartDate).TotalDays)) * 100) > 100 ? 100.ToString() 
+                        Progress = ((((DateTime.Now - transportOrder.StartDate).TotalDays) / ((transportOrder.EndDate - transportOrder.StartDate).TotalDays)) * 100) > 100 ? 100.ToString() + "%"
                         : ((((DateTime.Now - transportOrder.StartDate).TotalDays) / ((transportOrder.EndDate - transportOrder.StartDate).TotalDays)) * 100).ToString("#0.00") + "%"
 
                     });
@@ -151,7 +151,7 @@ namespace Cats.Areas.Procurement.Controllers
                         Region = _adminUnitService.FindById(bidWinnerDestination.DestinationID).Name,
                         Zone = bidWinnerDestination.AdminUnit.AdminUnit2.Name,
                         Woreda = bidWinnerDestination.AdminUnit.AdminUnit2.AdminUnit2.Name,
-                        Tariff = bidWinnerDestination.Tariff.ToString("#0.00")
+                        Tariff = bidWinnerDestination.Tariff.ToString()
                     });
         }
 

@@ -395,7 +395,7 @@ namespace Cats.Tests.ControllersTests
         [Test]
         public void CanShowTransportContract()
         {
-            var result = _transportOrderController.TransportContract(1);
+            var result = _transportOrderController.OrderDetail(1);
             Assert.IsNotNull(result);
         }
         

@@ -28,13 +28,19 @@ namespace Cats.Areas.Procurement.Controllers
         private ITransportBidPlanDetailService _transportBidPlanDetailService;
         private IApplicationSettingService _applicationSettingService;
         private IUserAccountService _userAccountService;
+        private ITransportBidQuotationService _transportBidQuotationService;
+        private readonly IBidWinnerService _bidWinnerService;
+        private readonly ITransporterService _transporterService;
+        private readonly IHubService _hubService;
 
         public BidController(IBidService bidService, IBidDetailService bidDetailService,
                              IAdminUnitService adminUnitService,
                              IStatusService statusService,
                              ITransportBidPlanService transportBidPlanService,
                              ITransportBidPlanDetailService transportBidPlanDetailService,
-                             IApplicationSettingService applicationSettingService,IUserAccountService userAccountService)
+                             IApplicationSettingService applicationSettingService,IUserAccountService userAccountService,
+                             ITransportBidQuotationService transportBidQuotationService, IBidWinnerService bidWinnerService,
+                            ITransporterService transporterService, IHubService hubService)
         {
             this._bidService = bidService;
             this._bidDetailService = bidDetailService;
@@ -44,6 +50,10 @@ namespace Cats.Areas.Procurement.Controllers
             this._transportBidPlanDetailService = transportBidPlanDetailService;
             this._applicationSettingService = applicationSettingService;
             _userAccountService = userAccountService;
+            _transportBidQuotationService = transportBidQuotationService;
+            _bidWinnerService = bidWinnerService;
+            _transporterService = transporterService;
+            _hubService = hubService;
         }
 
         public ActionResult Index()
@@ -52,6 +62,142 @@ namespace Cats.Areas.Procurement.Controllers
             //var bidsToDisplay = GetBids(bids).ToList();
             //return View(bidsToDisplay);
             return View();
+        }
+        [HttpGet]
+        public ActionResult WoredasBidStatus()
+        {
+            var filter = new PriceQuotationFilterViewModel();
+            ViewBag.filter = filter;
+            ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.HubID = new SelectList(_hubService.GetAllHub(), "HubID", "Name", "Select Hub");
+            return View("WoredaWithOutBidOfferFilterParial", filter);
+        }
+
+        [HttpPost]
+        public ActionResult WoredasBidStatus(PriceQuotationFilterOfferlessViewModel filter)
+        {
+            ViewBag.WoredaFirstBidWinners = ReadWoredasWithBidWinners(filter.BidID, filter.RegionID, 1, filter.HubID);
+            ViewBag.WoredaSecondBidWinners = ReadWoredasWithBidWinners(filter.BidID, filter.RegionID, 2, filter.HubID);
+            ViewBag.filter = filter;
+            ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.HubID = new SelectList(_hubService.GetAllHub(), "HubID", "Name", "Select Hub");
+            return View("WoredasWithOutBidOffer",filter);
+        }
+        public ActionResult ReadWoredasWithOutBidOffer([DataSourceRequest] DataSourceRequest request, int bidID, int regionID)
+        {
+            var planID = _bidService.FindById(bidID).TransportBidPlanID;
+
+            var bidPlanDetail =
+                _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                                           && t.BidPlanID == planID);
+            var df = (from planDetail in bidPlanDetail
+                      group planDetail by new
+                      {
+                          planDetail.DestinationID,
+                          planDetail.SourceID
+                      }
+                          into gr
+                          select gr
+                      );
+
+            var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
+
+            var result = new List<PriceQuotationDetail>();
+
+            foreach (var transportBidPlanDetail in detailPlans)
+            {
+                var pdetail = transportBidPlanDetail;
+
+                var detail = _transportBidQuotationService.FindBy(t => t.BidID == bidID
+                                                                && t.SourceID == pdetail.SourceID
+                                                                && t.DestinationID == pdetail.DestinationID).FirstOrDefault();
+                if(detail==null)
+                {
+                    var n = new PriceQuotationDetail()
+                    {
+                        SourceWarehouse = pdetail.Source.Name,
+                        Zone = pdetail.Destination.AdminUnit2.Name,
+                        Woreda = pdetail.Destination.Name,
+                        Tariff = 0,
+                        Remark = String.Empty,
+                        BidID = bidID,
+                        DestinationID = pdetail.DestinationID,
+                        SourceID = pdetail.SourceID
+                    };
+                    result.Add(n);
+                }
+            }
+            return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public List<BidWinnerViewingModel> ReadWoredasWithBidWinners(int bidID, int regionID, int rank, int hubID = 0)
+        {
+            List<BidWinner> bidWinners;
+            if(hubID == 0)
+            {
+                bidWinners = _bidWinnerService.Get(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID && t.BidID == bidID
+                                && t.Position == rank && t.Status == 1, null, "Transporter,AdminUnit, AdminUnit.AdminUnit2").ToList();
+            }
+            else
+            {
+                bidWinners = _bidWinnerService.Get(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID && t.BidID == bidID
+                                && t.Position == rank && t.Status == 1 && t.SourceID == hubID, null, "Transporter,AdminUnit, AdminUnit.AdminUnit2").ToList();
+            }
+            
+            //var enumerable = bidWinners as List<BidWinner> ?? bidWinners.ToList();
+            var bw = (from bidWinner in bidWinners
+                      group bidWinner by new
+                      {
+                          Woreda = bidWinner.AdminUnit.Name,
+                          Zone = bidWinner.AdminUnit.AdminUnit2.Name,
+                          bidWinner.DestinationID,
+                          Hub = bidWinner.Hub.Name,
+                          bidWinner.SourceID,
+                          bidWinner.Tariff,
+                          bidWinner.BidID,
+                          bidWinner.Position
+                      }
+                          into gr
+                          select new
+                              {
+                                  DestinationID = gr.Key.DestinationID,
+                                  Zone = gr.Key.Zone,
+                                  Woreda = gr.Key.Woreda,
+                                  SourceID = gr.Key.SourceID, 
+                                  Hub = gr.Key.Hub,
+                                  Tariff = gr.Key.Tariff,
+                                  BidID = gr.Key.BidID,
+                                  Position = gr.Key.Position,
+                                  TransporterIDs = gr.Select(t => t.TransporterID).ToList(),
+                              }
+                      );
+
+            var bidWinnersList = bw.ToList();
+
+            var result = new List<BidWinnerViewingModel>();
+
+            foreach (var bidWinner in bidWinnersList)
+            {
+                var n = new BidWinnerViewingModel();
+                n.SourceWarehouse = bidWinner.Hub.ToString();
+                n.SourceId = bidWinner.SourceID.ToString();
+                n.Zone = bidWinner.Zone.ToString();
+                n.Woreda = bidWinner.Woreda.ToString();
+                n.DestinationId = bidWinner.DestinationID.ToString();
+                n.WinnerTariff = bidWinner.Tariff.ToString();
+                n.Rank = bidWinner.Position.ToString();
+                n.BidID = bidWinner.BidID.ToString();
+                foreach (var transporter in bidWinner.TransporterIDs)
+                {
+                    n.TransporterID.Add(transporter.ToString());
+                    n.TransporterName.Add(_transporterService.FindById(transporter).Name);
+                }
+                result.Add(n);
+            }
+            return result;
         }
         public ActionResult Bid_Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -140,6 +286,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create(int id = 0)
         {
+           
             var bid = new Bid();
             var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
@@ -150,7 +297,9 @@ namespace Cats.Areas.Procurement.Controllers
                                   AmountForReliefProgram = 0,
                               }).ToList();
             bid.BidDetails = bidDetails;
+            bid.BidNumber = _bidService.AutogenerateBidNo();
             ViewBag.BidPlanID = id;
+           
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
             return View(bid);
         }
@@ -177,7 +326,7 @@ namespace Cats.Areas.Procurement.Controllers
                 bid.BidDetails = bidDetails;
                 _bidService.AddBid(bid);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("AllBids");
             }
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
@@ -287,14 +436,17 @@ namespace Cats.Areas.Procurement.Controllers
         {
             _bidService.ActivateBid(id);
             _applicationSettingService.SetValue("CurrentBid", ""+id);
-            return RedirectToAction("Index");
+            return RedirectToAction("AllBids");
         }
         public ActionResult ApproveBid(int id)
         {
             var bid = _bidService.FindById(id);
             bid.StatusID = 4;
             _bidService.EditBid(bid);
-            return RedirectToAction("Index");
+            return RedirectToAction("AllBids");
         }
+
+
+        
     }
 }

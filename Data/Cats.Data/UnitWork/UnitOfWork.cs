@@ -301,12 +301,15 @@ namespace Cats.Data.UnitWork
             get { return this.hubRepository ?? (this.hubRepository = new GenericRepository<Hub>(_context)); }
         }
 
+       
+
         private IGenericRepository<IDPSReasonType> iDPSReasonTypeRepository;
         public IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository
         {
             get { return this.iDPSReasonTypeRepository ?? (this.iDPSReasonTypeRepository = new GenericRepository<IDPSReasonType>(_context)); }
         }
 
+       
 
 
         private IGenericRepository<ReliefRequisition> reliefRequistionRepository;
@@ -803,6 +806,21 @@ namespace Cats.Data.UnitWork
         {
             get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DistributionDetail>(_context)); }
       
+        }
+
+        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+        public IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository
+        {
+            get { return this.transportBidQuotationHeaderRepository ?? (this.transportBidQuotationHeaderRepository = new GenericRepository<TransportBidQuotationHeader>(_context)); }
+
+        }
+
+
+        private IGenericRepository<ActionTypes> actionTypesRepository;
+        public IGenericRepository<ActionTypes> ActionTypesRepository
+        {
+            get { return this.actionTypesRepository ?? (this.actionTypesRepository = new GenericRepository<ActionTypes>(_context)); }
+
         }
     }
 }

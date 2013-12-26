@@ -28,7 +28,7 @@ Transport Requisition Code: <input id="searchIndex" style="width: 300px; height:
     columns.Bound(requisition => requisition.CertifiedBy);
     //columns.Bound(requisition => requisition.DateCertified).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
     columns.Bound(requisiton => requisiton.Status);
-    columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a class='btn-generate-transportorder' href='" + Url.Action("CreateTransportOrder", "TransportOrder", new { Area = "Procurement", id = "#=TransportRequisitionID#" }) + " '>Generate Transport Order</a>  ").Title(" ");
+    columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a class='btn-generate-transportorder' href='" + Url.Action("ConfirmGenerateTransportOrder", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>Generate Transport Order</a>  ").Title(" ");
 
 })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))

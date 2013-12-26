@@ -202,75 +202,74 @@
 <table class="borderless">
     <td>
         <div style="float: left;">
-           @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
-      .Name("commodityGrid")
-          .Columns(columns =>
-              {
-                  columns.Bound(p => p.Commodity);
-                  columns.Command(p => p.Custom("Delete").Click("onCommodityDelete"));
-              }
+            @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
+                  .Name("commodityGrid")
+                  .Columns(columns =>
+                      {
+                          columns.Bound(p => p.Commodity);
+                          columns.Command(p => p.Custom("Delete").Click("onCommodityDelete"));
+                      }
 
-      )
-              .HtmlAttributes(new { style = "height:430px;" })
-              .DataSource(dataSource => dataSource
-             .Ajax() 
-            .Model(model => model.Id(p => p.CommodityID))
-            //.Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
-            .Read(read => read.Action("Commodity_Read", "Request", new { id = ViewBag.RequestID }))
-            //.Update(update => update.Action("Commodity_Update", "Request"))
-            //.Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID }))
-            )
-      )
+                  )
+                  .HtmlAttributes(new { style = "height:430px;" })
+                  .DataSource(dataSource => dataSource
+                                                .Ajax() 
+                                                .Model(model => model.Id(p => p.CommodityID))
+                                                //.Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
+                                                .Read(read => read.Action("Commodity_Read", "Request", new { id = ViewBag.RequestID }))
+                  //.Update(update => update.Action("Commodity_Update", "Request"))
+                  //.Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID }))
+                  )
+                  )
         </div>
     </td>
     <td>
        
-    <div>
+        <div>
      
-        @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
-              .Name("grid")
-              .Columns(columns =>
-                  {
-                      //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-                      columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                      columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                      columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                      columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
-                      //columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
-                      columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
+            @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
+                  .Name("grid")
+                  .Columns(columns =>
+                      {
+                          //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
+                          columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
+                          //columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
+                          columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
 
-                  })
-              //.ToolBar(toolbar => toolbar.Save())
-              .Editable(editable => editable.Mode(GridEditMode.InCell))
-              //.Events(events => events.DataBound("onDataBound"))
-              .Scrollable()
-              .Selectable(t => t.Mode(GridSelectionMode.Single))
-              .Navigatable()
-              .HtmlAttributes(new { style = "height:430px;" })
-              .Events(events => events.DataBound("onDataBound"))
-              .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Group(group=>group.Add(p=>p.Woreda))
-                                            .Model(model =>
-                                                {
-                                                    model.Id(p => p.RegionalRequestDetailID);
-                                                    model.Field(detail => detail.FDP).Editable(false);
-                                                    model.Field(detail => detail.Zone).Editable(false);
-                                                    model.Field(detail => detail.Woreda).Editable(false);
-                                                    model.Field(detail => detail.PlannedBeneficiaries).Editable(false);
-                                                })
-                                            .Create(update => update.Action("Allocation_Create", "Request"))
+                      })
+                  //.ToolBar(toolbar => toolbar.Save())
+                  .Editable(editable => editable.Mode(GridEditMode.InCell))
+                  //.Events(events => events.DataBound("onDataBound"))
+                  .Scrollable()
+                  .Selectable(t => t.Mode(GridSelectionMode.Single))
+                  .Navigatable()
+                  .HtmlAttributes(new { style = "height:430px;" })
+                  .Events(events => events.DataBound("onDataBound"))
+                  .DataSource(dataSource => dataSource
+                                                .Ajax()
+                                                .Group(group=>group.Add(p=>p.Woreda))
+                                                .Model(model =>
+                                                    {
+                                                        model.Id(p => p.RegionalRequestDetailID);
+                                                        model.Field(detail => detail.FDP).Editable(false);
+                                                        model.Field(detail => detail.Zone).Editable(false);
+                                                        model.Field(detail => detail.Woreda).Editable(false);
+                                                        model.Field(detail => detail.PlannedBeneficiaries).Editable(false);
+                                                    })
+                                                .Create(update => update.Action("Allocation_Create", "Request"))
 
-                                            .Read(read => read.Action("Allocation_Read", "Request", new { id = ViewBag.RequestID }))
-                                            .Update(update => update.Action("Allocation_Update", "Request"))
-                                            .Destroy(update => update.Action("Allocation_Destroy", "Request"))
-              ))
+                                                .Read(read => read.Action("Allocation_Read", "Request", new { id = ViewBag.RequestID }))
+                                                .Update(update => update.Action("Allocation_Update", "Request"))
+                                                .Destroy(update => update.Action("Allocation_Destroy", "Request"))
+                  ))
         </div>
-        </td>
-    
-</table>        
+    </td>
+</table>
+        
  <script type="text/javascript">
-
     function onDataBound(e) {
         //alert("");
         check_planned();
@@ -282,6 +281,12 @@
             update_ui(rowIdx, row);
         }
             );
+        
+        //var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
     }
     
     function update_ui(rowIdx,row) {
@@ -335,5 +340,55 @@
     
     function saverecords() {
         $("#grid").data("kendoGrid").saveChanges();
+    }
+    
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
+    }
+</script>
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
+    function onGridKeydown(e) {
+        if (e.keyCode === kendo.keys.TAB) {
+            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+            var current = grid.current();
+            if (!current.hasClass("editable-cell")) {
+                var nextCell = current.nextAll(".editable-cell");
+                if (!nextCell[0]) {
+                    //search the next row
+                    var nextRow = current.parent().next();
+                    var nextCell = current.parent().next().children(".editable-cell:first");
+                }
+                grid.current(nextCell);
+                grid.editCell(nextCell[0]);
+            }
+        }
+    };
+
+    function onDataBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+
+        });
     }
 </script>

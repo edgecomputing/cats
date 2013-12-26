@@ -161,6 +161,8 @@ namespace Cats.Services.Procurement
                 var transportOrder = new TransportOrder();
                 transportOrder.TransporterID = transporter;
                 transportOrder.OrderDate = DateTime.Today;
+                transportOrder.StartDate = DateTime.Today;
+                transportOrder.EndDate = DateTime.Today;
                 transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
                 transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
                 var currentBid = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
@@ -311,6 +313,8 @@ namespace Cats.Services.Procurement
                 var transportOrder = new TransportOrder();
                 transportOrder.TransporterID = transporterID;
                 transportOrder.OrderDate = DateTime.Today;
+                transportOrder.StartDate = DateTime.Today;
+                transportOrder.EndDate = DateTime.Today;
                 transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
                 transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
                 var currentBid = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");

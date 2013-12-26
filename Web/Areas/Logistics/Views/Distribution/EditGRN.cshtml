@@ -168,7 +168,7 @@
                         @Html.TextBoxFor(model => model.FDP, new { Disabled = true })
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="control-group ">
                     <div class="control-label">
                         @Html.LabelFor(model => model.DocumentReceivedDate, new { @class = "cats-date-pref" })
                     </div>
@@ -186,8 +186,8 @@
 
 }
 @(Html.Kendo().Grid<DistributionDetailViewModel>()
-           .Name("Grid")
-           .ToolBar(commands =>commands.Save())
+           .Name("grid")
+           .ToolBar(commands => commands.Save())
            .Editable(editing => editing.Mode(GridEditMode.InCell))
           .Columns(col =>
                    {
@@ -198,10 +198,11 @@
                        col.Bound(t => t.SentQuantity).HtmlAttributes(new { align = "right", style = "background-color:lightgray" }).Format("{0:N2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                        col.Bound(t => t.ReceivedQuantity).Format("{0:N2}").HtmlAttributes(new { align = "right", }).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                        col.Bound(t => t.UnitID).Hidden(true);
-                       col.Bound(t => t.Unit).HtmlAttributes(new { style = "background-color:lightgray" }); 
+                       col.Bound(t => t.Unit).HtmlAttributes(new { style = "background-color:lightgray" });
 
-                   })
+                   }).Events(es=>es.DataBound("onDataBound"))
            .DataSource(binding => binding.Ajax()
+              
                                        .Read(read => read.Action("ReadDistributionDetail", "Distribution", new { distribtionId = Model.DistributionID }))
                                        .Update(update => update.Action("UpdateDistributionDetail", "Distribution"))
                                        .Model(m =>
@@ -220,3 +221,44 @@
 
 
                                             )
+<script>
+    function onDataBound(e) {
+        check_planned();
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            update_ui(rowIdx, row);
+        }
+        );
+    }
+
+    function update_ui(rowIdx, row) {
+        
+        var grid = $("#grid").data("kendoGrid");
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+        var receivedQuantity = firstItem.get('SentQuantity');
+        var dispatchedQuantity = firstItem.get('ReceivedQuantity');
+
+        if (receivedQuantity == dispatchedQuantity) {
+            row.addClass("alert-success");
+        } else if (receivedQuantity > dispatchedQuantity) {
+            row.addClass("alert-error");
+        } else if (receivedQuantity < dispatchedQuantity) {
+            row.addClass("alert-danger");
+        }
+       
+    }
+    
+   
+    function check_planned() {
+        var grid = $("#grid").data("kendoGrid");
+        var rowIdx = 0;
+        $(grid.tbody).find("tr").each(function () {
+            //$(this).addClass("surplus");
+            update_ui(rowIdx, $(this));
+            rowIdx++;
+        });
+    }
+</script>

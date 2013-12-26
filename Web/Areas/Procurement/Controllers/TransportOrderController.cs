@@ -68,10 +68,6 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
 
-
-
-
-
             var Data = _transportOrderService.GeTransportOrderRpt(id);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var reportData = vwTransportOrderViewModelBinder.BindListvwTransportOrderViewModel(Data, datePref);
@@ -183,6 +179,7 @@ namespace Cats.Areas.Procurement.Controllers
                 target.OrderExpiryDate = transportOrder.OrderExpiryDate;
                 target.RequestedDispatchDate = transportOrder.RequestedDispatchDate;
                 target.PerformanceBondReceiptNo = transportOrder.PerformanceBondReceiptNo;
+                target.PerformanceBondAmount = transportOrder.PerformanceBondAmount;
                 target.BidDocumentNo = transportOrder.BidDocumentNo;
                 target.TransporterSignedDate = transportOrder.TransporterSignedDate;
                 target.TransporterSignedName = transportOrder.TransporterSignedName;
@@ -380,7 +377,7 @@ namespace Cats.Areas.Procurement.Controllers
             //return Json(returnedObj.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult TransportContract(int id)
+        public ActionResult OrderDetail(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
             ViewBag.HubID = _transportOrderService.GetHubs();

@@ -293,8 +293,6 @@ namespace Cats.Areas.Logistics.Controllers
         {
             return View();
         }
-
-
         #region Dispatch Report Status
        
         public ActionResult DispatchCommodity()

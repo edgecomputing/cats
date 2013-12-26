@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="ActionTypesService.cs" />
     <Compile Include="AdminUnitService.cs" />
     <Compile Include="AuditSevice.cs" />
     <Compile Include="CommodityGradeService.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="FDPService.cs" />
     <Compile Include="HubOwnerService.cs" />
     <Compile Include="HubService.cs" />
+    <Compile Include="IActionTypesService.cs" />
     <Compile Include="IAdminUnitService.cs" />
     <Compile Include="IAuditService.cs" />
     <Compile Include="ICommodityGradeService.cs" />

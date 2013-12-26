@@ -90,7 +90,7 @@
                 });
                
         })
-    .Pageable()
+        .HtmlAttributes(new { style = "height:430px;" })
     .Sortable()
     .Filterable()
     .ClientDetailTemplateId("template")
@@ -98,7 +98,6 @@
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
     .DataSource(dataSource => dataSource
           .Ajax()
-          .PageSize(5)
             .Model(model => model.Id(p => p.BidID))
             .Read(read => read.Action("Approved_Bids", "Bid"))
  

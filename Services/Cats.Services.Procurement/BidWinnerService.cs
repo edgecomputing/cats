@@ -79,12 +79,15 @@ namespace Cats.Services.Procurement
             return bidsWithWinner.ToList();
         }
 
-        public bool SignContract(BidWinner bidWinner)
+        public bool SignContract(List<BidWinner> bidWinner)
         {
             if (bidWinner!=null)
             {
-                bidWinner.Status = (int) BidWinnerStatus.Signed;
-                _unitOfWork.BidWinnerRepository.Edit(bidWinner);
+                foreach (var winner in bidWinner)
+                {
+                    winner.Status = (int)BidWinnerStatus.Signed;
+                    _unitOfWork.BidWinnerRepository.Edit(winner);
+                }
                 _unitOfWork.Save();
                 return true;
             }
@@ -109,5 +112,16 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+
+
+        public bool IsRfqGenerated(int bidID)
+        {
+            var rfq = _unitOfWork.TransportBidQuotationRepository.FindBy(m => m.BidID == bidID);
+            if (rfq != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

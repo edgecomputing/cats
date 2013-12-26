@@ -147,37 +147,53 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Procurement") <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Manage Bids"),
-                                                                    @Url.Action("Index", "Bid", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_bid_list)</li>
+                                                                   @Url.Action("Index", "Bid", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_bid_list)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Bid Planning"),
-                                                                    @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_bid_plan)</li>
+                                                                   @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_bid_plan)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
-                                                                    @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_Transport_Order)</li>
+                                                                   @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Transport_Order)</li>
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
-                                                                    @Url.Action("Index", "PaymentRequest", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_Transport_Order)</li>
+                                                                   @Url.Action("Index", "PaymentRequest", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Transport_Order)</li>
                             <li class="divider" />
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Suppliers"),
-                                                                    @Url.Action("Index", "Transporter", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_Transport_Suppliers)</li>
+                                                                   @Url.Action("Index", "Transporter", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Transport_Suppliers)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Request for Quotations (RFQ)"),
-                                                                    @Url.Action("Index", "RFQ", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_Request_For_Quotation)</li>
+                                                                   @Url.Action("Index", "RFQ", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Request_For_Quotation)</li>
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Price Quotation"),
-                                                                    @Url.Action("BidProposal", "PriceQuotation", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_Price_Quotation_Data_Entries)</li>
+                                                                   @Url.Action("BidProposal", "PriceQuotation", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Price_Quotation_Data_Entries)</li>
 
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Dispatch Locations"),
-                                                                    @Url.Action("Index", "BidWinner", new { Area = "Procurement" }),
-                                                                    ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                                                                   @Url.Action("Index", "BidWinner", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                            
+                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Contract Admin"),
+                                                                   @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Bid Administration"),
+                                                                    @Url.Action("Index", "BidAdministration", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_Dispath_Locations)</li>
+                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Woreda Bid Status"),
+                                                                   @Url.Action("WoredasBidStatus", "Bid", new { Area = "Procurement" }),
+                                                                   ProcurementCheckAccess.Operation.View_approved_bid)</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Report") <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "Home", new { Area = "Report" })">@Html.Translate("Home")</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

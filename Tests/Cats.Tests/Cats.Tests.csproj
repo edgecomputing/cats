@@ -124,11 +124,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllersTests\BeneficiaryAllocationControllerTests.cs" />
+    <Compile Include="ControllersTests\BidAdministrationControllerTest.cs" />
     <Compile Include="ControllersTests\BidControllerTest.cs" />
     <Compile Include="ControllersTests\BidWinnerControllerTest.cs" />
     <Compile Include="ControllersTests\ContributionControllerTest.cs" />
     <Compile Include="ControllersTests\CurrencyControllerTest.cs" />
     <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />
+    <Compile Include="ControllersTests\DistributionControllerTest.cs" />
     <Compile Include="ControllersTests\GiftCertificateControllerTests.cs" />
     <Compile Include="ControllersTests\HRDControllerTest.cs" />
     <Compile Include="ControllersTests\HRDControllerTests.cs" />

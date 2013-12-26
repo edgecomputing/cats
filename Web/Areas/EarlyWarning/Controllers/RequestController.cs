@@ -96,6 +96,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult New()
         {
             PopulateLookup();
+            
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             return View();
         }
@@ -484,11 +485,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private int GetPlannedForPSNP(int year, int regionId, int fdpId)
         {
-            var psnp =
-                _RegionalPSNPPlanDetailService.Get(
+            RegionalPSNPPlanDetail psnp = null;
+            try
+            {
+
+                psnp = _RegionalPSNPPlanDetailService.Get(
                     p =>
                     p.RegionalPSNPPlan.Year == year && p.RegionalPSNPPlan.RegionID == regionId && p.PlanedFDPID == fdpId)
                     .SingleOrDefault();
+
+            }catch (Exception)
+            {
+                
+            }
+            
 
             if (psnp != null)
             {
@@ -627,6 +637,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             SearchRequsetViewModel filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
             PopulateLookup();
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 
@@ -635,6 +646,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Filter = filter;
             PopulateLookup();
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 
@@ -798,28 +810,29 @@ namespace Cats.Areas.EarlyWarning.Controllers
            else if (regionalRequest.ProgramId == 3)
            {
                var details = regionalRequest.RegionalRequestDetails;
-              
-               var woredaGrouped = (from detail in details
-                                    group detail by detail.Fdp.AdminUnit
-                                        into woredaDetail
-                                        select new
-                                        {
-                                            Woreda = woredaDetail.Key,
-                                            NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
-                                            hrdBeneficiary = 0,
-                                            //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
-                                            detailsf = woredaDetail,
-                                        });
 
-               result = (from woredaDetail in woredaGrouped
-                         select new PLANWithRegionalRequestViewModel
-                         {
-                             zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
-                             Woreda = woredaDetail.Woreda.Name,
-                             RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-                             PlannedBeneficaryNo = 0,
-                             Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries
-                         }).ToList();
+               var woredaG = (from detail in details
+                              group detail by detail.Fdp.AdminUnit
+                                  into woredaDetail
+                                  select woredaDetail);
+
+
+               result.AddRange(from sw in woredaG
+                               let oneWoreda = sw.ToList()
+                               let regionalRequestDetail = oneWoreda.FirstOrDefault()
+                               where regionalRequestDetail != null
+                               select new PLANWithRegionalRequestViewModel()
+                               {
+                                   zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
+                                   Woreda = sw.Key.Name,
+                                   RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
+                                   PlannedBeneficaryNo = 0,
+                                   Difference = 0 - sw.Sum(m => m.Beneficiaries),
+                                   RegionalRequestDetails = oneWoreda
+                               });
+
+
+
            }
             return result;
         }

@@ -22,14 +22,7 @@
     // @Html.HiddenFor(model => model.GiftCertificateID)
     @Html.HiddenFor(model => model.rowCount)
 
-          
-    
-    
-      
-  
     <div class="form-horizontal row-fluid">
-
-
         <div class="span6" style="vertical-align: top">
             <div class="control-group">
                 <div class="control-label">
@@ -124,21 +117,7 @@
           .Filter("startswith")
           .Placeholder("Enter or Select SINumber...")
           .DataSource(source=>source.Read(read=>read.Action("AutoCompleteSiNumber","GiftCertificate").Data("onAdditionalData")).ServerFiltering(true))
-          //.BindTo(new string[] {
-          //      "123/456",
-          //      "245/254",
-          //      "857/458",
-          //      "1254",
-          //      "02102",
-          //      "002547",
-          //      "12354",
-          //      "0123456",
-          //      "004587",
-          //      "00789654",
-          //      "1235647",
-          //      "963258"
-          //})
-          //.Separator(", ")
+         
     )
 
 

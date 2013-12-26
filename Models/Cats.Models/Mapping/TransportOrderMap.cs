@@ -44,6 +44,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.OrderExpiryDate).HasColumnName("OrderExpiryDate");
             this.Property(t => t.BidDocumentNo).HasColumnName("BidDocumentNo");
             this.Property(t => t.PerformanceBondReceiptNo).HasColumnName("PerformanceBondReceiptNo");
+            this.Property(t => t.PerformanceBondAmount).HasColumnName("PerformanceBondAmount");
             this.Property(t => t.TransporterID).HasColumnName("TransporterID");
             this.Property(t => t.ConsignerName).HasColumnName("ConsignerName");
             this.Property(t => t.TransporterSignedName).HasColumnName("TransporterSignedName");
