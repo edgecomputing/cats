@@ -261,7 +261,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 
                 var model = getRequestDetai(req.RegionalRequestID);
                 ViewBag.message = "Request Created";
-                return View("Details", model);
+                //RedirectToAction(@)
+                return RedirectToAction("Details"+"/"+req.RegionalRequestID);
                 
             }
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
