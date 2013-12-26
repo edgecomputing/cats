@@ -95,6 +95,10 @@ namespace Cats.Services.Common
         {
             return getIntValue("PaymentRequestWorkflow");
         }
+        public int getBidWinnerWorkflow()
+        {
+            return getIntValue("BidWinnerWorkflow");
+        }
        
         public int getDefaultRation()
         {
