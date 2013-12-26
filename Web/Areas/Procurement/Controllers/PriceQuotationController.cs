@@ -29,6 +29,7 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IBidService _bidService;
         private readonly ITransporterService _transporterService;
         private readonly ITransportBidQuotationService _transportBidQuotationService;
+        private readonly ITransportBidQuotationHeaderService _transportBidQuotationHeaderService;
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IBusinessProcessService _BusinessProcessService;
         private readonly IApplicationSettingService _ApplicationSettingService;
@@ -41,9 +42,10 @@ namespace Cats.Areas.Procurement.Controllers
                                             , ITransporterService transporterServiceParam
                                             , IBidService bidServiceParam
                                             , ITransportBidQuotationService transportBidQuotationService
-                                            , IBidWinnerService bidWinnerService, ITransportBidQuotationHeader transportBidQuotationHeader
+                                            , IBidWinnerService bidWinnerService
                                             ,IBusinessProcessService businessProcessService
-                                            ,IApplicationSettingService applicationSettingService)
+                                            ,IApplicationSettingService applicationSettingService
+                                            ,ITransportBidQuotationHeaderService transportBidQuotationHeaderService)
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
             this._adminUnitService = adminUnitServiceParam;
@@ -56,6 +58,7 @@ namespace Cats.Areas.Procurement.Controllers
             this._transportBidQuotationService = transportBidQuotationService;
             this._bidWinnerService = bidWinnerService;
             this._BusinessProcessService = businessProcessService;
+            this._transportBidQuotationHeaderService = transportBidQuotationHeaderService;
             this._ApplicationSettingService = applicationSettingService;
         }
 
@@ -85,36 +88,36 @@ namespace Cats.Areas.Procurement.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Edit(TransportBidQuotation transportQuote)
-        {
-            if (ModelState.IsValid)
-            {
-                List<TransportBidQuotation> existing =
-                    _bidQuotationService.FindBy(t => t.BidID == transportQuote.BidID
-                                               && t.TransporterID == transportQuote.TransporterID
-                                               && t.SourceID == transportQuote.SourceID
-                                               && t.DestinationID == transportQuote.DestinationID
-                                               );
-                if (existing.Count == 1)
-                {
-                    TransportBidQuotation edited = existing[0];
-                    //                    transportQuote.TransportBidQuotationID = edited.TransportBidQuotationID;
-                    edited.Tariff = transportQuote.Tariff;
-                    edited.Remark = transportQuote.Remark;
-                    edited.Position = transportQuote.Position;
-                    edited.IsWinner = transportQuote.IsWinner;
-                    _bidQuotationService.UpdateTransportBidQuotation(edited);
-                }
-                else
-                {
-                    _bidQuotationService.AddTransportBidQuotation(transportQuote);
-                }
-                return View(transportQuote);
+        //[HttpPost]
+        //public ActionResult Edit(TransportBidQuotation transportQuote)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        List<TransportBidQuotation> existing =
+        //            _bidQuotationService.FindBy(t => t.BidID == transportQuote.BidID
+        //                                       && t.TransporterID == transportQuote.TransporterID
+        //                                       && t.SourceID == transportQuote.SourceID
+        //                                       && t.DestinationID == transportQuote.DestinationID
+        //                                       );
+        //        if (existing.Count == 1)
+        //        {
+        //            TransportBidQuotation edited = existing[0];
+        //            //                    transportQuote.TransportBidQuotationID = edited.TransportBidQuotationID;
+        //            edited.Tariff = transportQuote.Tariff;
+        //            edited.Remark = transportQuote.Remark;
+        //            edited.Position = transportQuote.Position;
+        //            edited.IsWinner = transportQuote.IsWinner;
+        //            _bidQuotationService.UpdateTransportBidQuotation(edited);
+        //        }
+        //        else
+        //        {
+        //            _bidQuotationService.AddTransportBidQuotation(transportQuote);
+        //        }
+        //        return View(transportQuote);
 
-            }
-            return RedirectToAction("Index");
-        }
+        //    }
+        //    return RedirectToAction("Index");
+        //}
         public List<GoodsMovementDetailViewModel> GetPlannedDistribution(int BidPlanID, int RegionID)
         {
             List<TransportBidPlanDetail> regionalPlan
@@ -224,110 +227,68 @@ namespace Cats.Areas.Procurement.Controllers
             return qoutation;
         }
 
-        ////update HRD detail information
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //[EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Modify_HRD)]
-        //public ActionResult HRDDetail_Update([DataSourceRequest] DataSourceRequest request, HRDDetailViewModel hrdDetails)
-        //{
-        //    if (hrdDetails != null && ModelState.IsValid)
-        //    {
-        //        var detail = _hrdDetailService.FindById(hrdDetails.HRDDetailID);
-        //        if (detail != null)
-        //        {
-        //            detail.HRDID = hrdDetails.HRDID;
-        //            detail.DurationOfAssistance = hrdDetails.DurationOfAssistance;
-        //            detail.NumberOfBeneficiaries = hrdDetails.NumberOfBeneficiaries;
-        //            detail.StartingMonth = hrdDetails.StartingMonth;
-        //            detail.WoredaID = hrdDetails.WoredaID;
-
-        //            _hrdDetailService.EditHRDDetail(detail);
-        //        }
-
-        //    }
-        //    return Json(new[] { hrdDetails }.ToDataSourceResult(request, ModelState));
-        //    //return Json(ModelState.ToDataSourceResult());
-        //}
-        
         [AcceptVerbs(HttpVerbs.Post)]
         //[ProcurementAuthorize(operation = ProcurementCheckAccess.Operation.Bid_Planning)]
-        public ActionResult SaveBidProposals([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<TransportBidQuotation> bidProposals, FormCollection collection,  List<PriceQuotationDetail> m)
+        public ActionResult SaveBidProposals([DataSourceRequest] DataSourceRequest request, PriceQuotationDetail bidProposal)
         {
-            double bidBondAmount = 0;
-            if (bidProposals != null && ModelState.IsValid)
+            if (bidProposal != null && ModelState.IsValid)
             {
-                // var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
-
-                //try
-                //{
-                //    bidBondAmount = double.Parse(collection["BidBond"].ToString(CultureInfo.InvariantCulture));
-                //}
-                //catch (Exception)
-                //{
-                    
-                    
-                //}
-
-                //var bidHeader = _
-                //foreach (var bidProposal in bidProposals)
-                //{
-                //    var bidDetail = _transportBidQuotationService.FindBy(t =>
-                //                                                   t.BidID == bidProposal.BidID
-                //                                                && t.SourceID == bidProposal.SourceID
-                //                                                && t.DestinationID == bidProposal.DestinationID
-                //                                                && t.TransporterID == bidProposal.TransporterID);
-
-
-                //    if (bidDetail!=null)
-                //    {
-                //        _transportBidQuotationService.UpdateTransportBidQuotation(detail); 
-                //    }
-                //}
-
                 //var detail = _transportBidQuotationService.FindById(bidProposal.TransportBidQuotationID);
-               
-                //var detail = detai.FirstOrDefault();
+                var detai = _transportBidQuotationService.FindBy(t=>
+                                                                    t.BidID==bidProposal.BidID
+                                                                 && t.SourceID==bidProposal.SourceID 
+                                                                 && t.DestinationID==bidProposal.DestinationID
+                                                                 && t.TransporterID==bidProposal.TransporterID);
+                    var detail = detai.FirstOrDefault();
+                    
+                    if (detail != null)
+                    {
+                        //detail.TransportBidQuotationID = bidProposal.TransportBidQuotationID;
+                        detail.BidID = bidProposal.BidID;
+                        detail.TransportBidQuotationHeaderID = bidProposal.HeaderId;
+                        detail.TransporterID = bidProposal.TransporterID;
+                        detail.SourceID = bidProposal.SourceID;
+                        detail.DestinationID = bidProposal.DestinationID;
+                        detail.Tariff = bidProposal.Tariff;
+                        detail.Remark = bidProposal.Remark;
+                        detail.IsWinner = false;
+                        _transportBidQuotationService.UpdateTransportBidQuotation(detail);
 
-                
+                        
+                    }
 
-                //else
-                //{
-                //    var transportBidQuotationHeader = new TransportBidQuotationHeader
-                //                                          {
-                //                                              BidQuotationDate = DateTime.Now.Date,
-                //                                              BidBondAmount = (float?)bidBondAmount,
-                //                                              EnteredBy = userid,
-                //                                              Status = 0
-                //                                          };
+                    else
+                    {
+                        var newProposal = new TransportBidQuotation();
+                        //newProposal.TransportBidQuotationID = bidProposal.TransportBidQuotationID;
+                        newProposal.BidID = bidProposal.BidID;
+                        newProposal.TransportBidQuotationHeaderID = bidProposal.HeaderId;
+                        newProposal.TransporterID = bidProposal.TransporterID;
+                        newProposal.SourceID = bidProposal.SourceID;
+                        newProposal.DestinationID = bidProposal.DestinationID;
+                        newProposal.Tariff = bidProposal.Tariff;
+                        newProposal.Remark = bidProposal.Remark??String.Empty;
+                        newProposal.IsWinner = false;
+                        _transportBidQuotationService.AddTransportBidQuotation(newProposal);
+                    }
 
-                //    var newProposal = new TransportBidQuotation
-                //                          {
-                //                              BidID = bidProposal.BidID,
-                //                              TransporterID = bidProposal.TransporterID,
-                //                              SourceID = bidProposal.SourceID,
-                //                              DestinationID = bidProposal.DestinationID,
-                //                              Tariff = bidProposal.Tariff,
-                //                              Remark = bidProposal.Remark,
-                //                              IsWinner = false,
-                //                              TransportBidQuotationHeader = transportBidQuotationHeader
-                //                          };
-                //    //newProposal.TransportBidQuotationID = bidProposal.TransportBidQuotationID;
+                int region = _adminUnitService.FindById(bidProposal.DestinationID).AdminUnit2.AdminUnit2.AdminUnitID;
+                var changeable = _transportBidQuotationService.FindBy(t =>
+                                                                     t.BidID == bidProposal.BidID
+                                                                    /* && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == region*/);
 
-                //    _transportBidQuotationService.AddTransportBidQuotation(newProposal);
-                //}
-
-                //int region = _adminUnitService.FindById(bidProposal.DestinationID).AdminUnit2.AdminUnit2.AdminUnitID;
                 //var changeable = _transportBidQuotationService.FindBy(t =>
                 //                                                     t.BidID == bidProposal.BidID
                 //                                                     && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == region);
-
-                //foreach (var transportBidQuotation in changeable)
-                //{
-                //    transportBidQuotation.IsWinner = false;
-                //    _transportBidQuotationService.UpdateTransportBidQuotation(transportBidQuotation);
-                //}
+                    
+                foreach (var transportBidQuotation in  changeable)
+                    {
+                        transportBidQuotation.IsWinner = false;
+                        _transportBidQuotationService.UpdateTransportBidQuotation(transportBidQuotation);
+                    }
             }
             
-            return Json(new[] { bidProposals }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { bidProposal }.ToDataSourceResult(request, ModelState));
             //return Json(ModelState.ToDataSourceResult());
         }
 
@@ -336,17 +297,7 @@ namespace Cats.Areas.Procurement.Controllers
             LoadLookups();
             return View();
         }
-
-        //GET: /Procurement/RFQ/EditStart
-        [HttpPost]
-        public ActionResult EditStart(PriceQuotationFilterViewModel model)
-        {
-            List<PriceQuotationDetailViewModel> qoutation = populateForm(model);
-            Session["PriceQuotationFilter"] = model;
-            return View(qoutation);
-
-        }
-
+        
         [HttpGet]
         public ActionResult BidProposal()
         {
@@ -356,12 +307,142 @@ namespace Cats.Areas.Procurement.Controllers
             return View(filter);
         }
 
+        public ActionResult BidProposalHeader()
+        {
+            return View();
+        }
+
+        public ActionResult Read_BidProposals([DataSourceRequest]DataSourceRequest request)
+        {
+            var proposals = _transportBidQuotationHeaderService.GetAllTransportBidQuotation();
+            var r = (from proposal in proposals
+                     select new TransportBidQuotationHeaderViewModel()
+                     {
+                         TransportBidQuotationHeaderID = proposal.TransportBidQuotationHeaderID,
+                         BidNumber = proposal.Bid.BidNumber,
+                         BidBondAmount =proposal.BidBondAmount,
+                         OffersCount = proposal.TransportBidQuotations.Count,
+                         Region = proposal.AdminUnit.Name,
+                         Status = proposal.Status==1 ?"Draft":"Approved",
+                         Transporter = proposal.Transporter.Name,
+                         EnteredBy = proposal.EnteredBy,
+                         BidID = proposal.Bid.BidID,
+                         RegionId = proposal.AdminUnit.AdminUnitID,
+                         TransporterId = proposal.Transporter.TransporterID
+                     });
+
+            //var r = new List<TransportBidQuotationHeaderViewModel>
+            //    {
+            //        new TransportBidQuotationHeaderViewModel()
+            //            {
+            //                TransportBidQuotationHeaderID = 12,
+            //                BidNumber = "ID0021",
+            //                BidBondAmount = 201,
+            //                OffersCount = 50,
+            //                Region = "Afar",
+            //                Status = 1,
+            //                Transporter = "Woyera",
+            //                EnteredBy = "Amen"
+            //            }
+            //    };
+
+            return Json(r.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult BidProposalHeader_delete(int id)
+        {
+            var proposal = _transportBidQuotationHeaderService.FindById(id);
+            try
+            {
+                _transportBidQuotationHeaderService.DeleteTransportBidQuotation(proposal);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", @"Unable to delete bid header");
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Create()
+        {
+            ViewBag.BIDS = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
+            return View();
+        }
+
+        public ActionResult ApproveProposal(int id)
+        {
+            var proposal = _transportBidQuotationHeaderService.FindById(id);
+            proposal.Status = 2;
+            _transportBidQuotationHeaderService.UpdateTransportBidQuotation(proposal);
+            return RedirectToAction("BidProposalHeader");
+        }
+
+        [HttpPost]
+        public ActionResult Create(TransportBidQuotationHeader bidProposal)
+        {
+            ViewBag.BIDS = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
+            if (ModelState.IsValid)
+            {
+                bidProposal.Status = 1;
+                bidProposal.BidQuotationDate = DateTime.Now;
+                _transportBidQuotationHeaderService.AddTransportBidQuotation(bidProposal);
+                return RedirectToAction("BidProposalHeader");
+            }
+            return View(bidProposal);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult BidProposalHeader_create([DataSourceRequest] DataSourceRequest request, TransportBidQuotationHeaderViewModel contact)
+        {
+            if (contact != null && ModelState.IsValid)
+            {
+                var c = new TransportBidQuotationHeader()
+                {
+                    //BidID = proposal.BidId.ToString(),
+                    //BidBondAmount = 50,
+                    //Region = proposal.RegionID.ToString(),
+                    //Status = 1,
+                    //OffersCount = proposal.TransportBidQuotations.Count(),
+                    //Transporter = proposal.TransporterId.ToString(),
+                    //TransportBidQuotationHeaderID = proposal.TransportBidQuotationHeadrID
+                };
+                _transportBidQuotationHeaderService.AddTransportBidQuotation(c);
+            }
+
+            return Json(new[] { contact }.ToDataSourceResult(request, ModelState));
+        }
+
         [HttpPost]
         public  ActionResult BidProposal(PriceQuotationFilterViewModel filter)
         {
             ViewBag.filter = filter;
             LoadLookups();
             return View(filter);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var d = _transportBidQuotationHeaderService.FindById(id);
+            var s = new TransportBidQuotationHeaderViewModel
+                {
+                    TransportBidQuotationHeaderID = d.TransportBidQuotationHeaderID,
+                    BidNumber = d.Bid.BidNumber,
+                    BidBondAmount = d.BidBondAmount,
+                    OffersCount = d.TransportBidQuotations.Count,
+                    Region = d.AdminUnit.Name,
+                    Status = d.Status==1?"Draft":"Approved",
+                    Transporter = d.Transporter.Name,
+                    EnteredBy = d.EnteredBy,
+                    BidID = d.Bid.BidID,
+                    RegionId = d.AdminUnit.AdminUnitID,
+                    TransporterId = d.Transporter.TransporterID
+                };
+            return View(s);
         }
 
         [HttpGet]
@@ -393,58 +474,67 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult ReadBidProposals([DataSourceRequest] DataSourceRequest request, int bidID, int regionID, int transporterID)
         {
             
-            int planID = _bidService.FindById(bidID).TransportBidPlanID;
+            //var d = _transportBidQuotationService.FindBy(t=>t.BidID==bidPlanID
+            //                                             && t.TransporterID==transporterID 
+            //                                             && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID==regionID
+            //                                             );
+            //var bid= _bidService.FindById(bidPlanID);
+            //bid.BidID;
+
+            //ModelState.AddModelError("Success", "Reading....");
+            var bid = _bidService.FindById(bidID) ?? null;
             
-            var bidPlanDetail =
-                _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
-                                                        && t.BidPlanID == planID
-                                                        /*&& t.Quantity > 0*/);
-            var df = (from planDetail in bidPlanDetail 
-                     group planDetail by new
-                         {
-                             planDetail.DestinationID,
-                             planDetail.SourceID
-                         }
-                         into  gr select gr
-                      );
-            
-            var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
-
-
-           
-
             var result = new List<PriceQuotationDetail>();
 
-            foreach (var transportBidPlanDetail in detailPlans)
+            if (bid!=null)
             {
-                var pdetail = transportBidPlanDetail;
+                var bidPlanDetail =
+                    _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                                            && t.BidPlanID == bid.TransportBidPlanID
+                    /*&& t.Quantity > 0*/);
+                var df = (from planDetail in bidPlanDetail
+                          group planDetail by new
+                          {
+                              planDetail.DestinationID,
+                              planDetail.SourceID
+                          }
+                              into gr
+                              select gr
+                          );
 
-                var detail = _transportBidQuotationService.FindBy(t => t.BidID == bidID
-                                                                && t.SourceID == pdetail.SourceID
-                                                                && t.DestinationID == pdetail.DestinationID
-                                                                && t.TransporterID == transporterID).FirstOrDefault();
-                if (detail !=null)
+                var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
+
+
+                foreach (var transportBidPlanDetail in detailPlans)
                 {
-                    var t = new PriceQuotationDetail
+                    var pdetail = transportBidPlanDetail;
+
+                    var detail = _transportBidQuotationService.FindBy(t => t.BidID == bidID
+                                                                    && t.SourceID == pdetail.SourceID
+                                                                    && t.DestinationID == pdetail.DestinationID
+                                                                    && t.TransporterID == transporterID).FirstOrDefault();
+                    if (detail != null)
+                    {
+                        var t = new PriceQuotationDetail
                         {
-                            SourceWarehouse = detail.Source.Name,
-                            Zone = detail.Destination.AdminUnit2.Name,
-                            Woreda = detail.Destination.Name,
+                            SourceWarehouse = detail.Hub.Name,
+                            Zone = detail.AdminUnit.AdminUnit2.Name,
+                            Woreda = detail.AdminUnit.Name,
                             Tariff = detail.Tariff,
                             Remark = detail.Remark,
                             BidID = detail.BidID,
                             DestinationID = detail.DestinationID,
                             SourceID = detail.SourceID,
-                            TransportBidQuotationID = detail.TransportBidQuotationID*10 + transporterID,
+                            TransportBidQuotationID = detail.TransportBidQuotationID * 10 + transporterID,
                             TransporterID = detail.TransporterID
-                            
-                        };
-                    result.Add(t);
-                    continue;
-                   
-                }
 
-                var n = new PriceQuotationDetail()
+                        };
+                        result.Add(t);
+                        continue;
+
+                    }
+
+                    var n = new PriceQuotationDetail()
                     {
                         SourceWarehouse = transportBidPlanDetail.Source.Name,
                         Zone = transportBidPlanDetail.Destination.AdminUnit2.Name,
@@ -457,11 +547,95 @@ namespace Cats.Areas.Procurement.Controllers
                         TransportBidQuotationID = transportBidPlanDetail.TransportBidPlanDetailID * 10 + transporterID,
                         TransporterID = transporterID
                     };
-                result.Add(n);   
+                    result.Add(n);
+                }
             }
-            
-            
-            
+
+            return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);    
+        }
+
+        public ActionResult Read_Proposals([DataSourceRequest] DataSourceRequest request, int bidProposalId)
+        {
+            var s = _transportBidQuotationHeaderService.FindById(bidProposalId);
+            int bidID = s.Bid.BidID;
+            int regionID = s.AdminUnit.AdminUnitID;
+            int transporterID = s.Transporter.TransporterID;
+
+            var bid = _bidService.FindById(bidID) ?? null;
+
+            var result = new List<PriceQuotationDetail>();
+
+            if (bid != null)
+            {
+                var bidPlanDetail =
+                    _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                                            && t.BidPlanID == bid.TransportBidPlanID
+                    /*&& t.Quantity > 0*/);
+                var df = (from planDetail in bidPlanDetail
+                          group planDetail by new
+                          {
+                              planDetail.DestinationID,
+                              planDetail.SourceID
+                          }
+                              into gr
+                              select gr
+                          );
+
+                var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
+
+
+                foreach (var transportBidPlanDetail in detailPlans)
+                {
+                    var pdetail = transportBidPlanDetail;
+
+                    var detail = _transportBidQuotationService.FindBy(t => t.BidID == bidID
+                                                                    && t.SourceID == pdetail.SourceID
+                                                                    && t.DestinationID == pdetail.DestinationID
+                                                                    && t.TransporterID == transporterID).FirstOrDefault();
+                    if (detail != null)
+                    {
+                        var t = new PriceQuotationDetail
+                        {
+                            SourceWarehouse = detail.Hub.Name,
+                            Zone = detail.AdminUnit.AdminUnit2.Name,
+                            Woreda = detail.AdminUnit.Name,
+                            Tariff = detail.Tariff,
+                            Remark = detail.Remark,
+                            //
+                            BidID = detail.BidID,
+                            DestinationID = detail.DestinationID,
+                            SourceID = detail.SourceID,
+                            HeaderId = bidProposalId,
+                            TransportBidQuotationID = detail.TransportBidQuotationID * 10 + transporterID,
+                            //
+                            TransporterID = detail.TransporterID
+
+                        };
+                        result.Add(t);
+                        continue;
+
+                    }
+
+                    var n = new PriceQuotationDetail()
+                    {
+                        SourceWarehouse = transportBidPlanDetail.Source.Name,
+                        Zone = transportBidPlanDetail.Destination.AdminUnit2.Name,
+                        Woreda = transportBidPlanDetail.Destination.Name,
+                        Tariff = 0,
+                        Remark = String.Empty,
+                        //
+                        BidID = bidID,
+                        DestinationID = transportBidPlanDetail.DestinationID,
+                        SourceID = transportBidPlanDetail.SourceID,
+                        HeaderId = bidProposalId,
+                        //
+                        TransportBidQuotationID = transportBidPlanDetail.TransportBidPlanDetailID * 10 + transporterID,
+                        TransporterID = transporterID
+                    };
+                    result.Add(n);
+                }
+            }
+
             return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -485,12 +659,15 @@ namespace Cats.Areas.Procurement.Controllers
         {
             bool result = false;
 
-           
-
             var rawData = _transportBidQuotationService.FindBy(
                                                 t => t.BidID == bidNumber 
-                                                && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
-                                                && !t.IsWinner);
+                                                /*&& t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                                && !t.IsWinner*/);
+
+            //var rawData = _transportBidQuotationService.FindBy(
+            //                                    t => t.BidID == bidNumber
+            //                                    && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+            //                                    && !t.IsWinner);
 
             if (rawData !=null)
             {
@@ -528,6 +705,7 @@ namespace Cats.Areas.Procurement.Controllers
                     
                     int bpid=_ApplicationSettingService.getBidWinnerWorkflow();
                     
+
                     foreach (var firstBidWinner in firstBidWinners)
                     {
                         _bidWinnerService.AddBidWinner(firstBidWinner);
@@ -559,6 +737,38 @@ namespace Cats.Areas.Procurement.Controllers
             return result;
             
            
+            //if(rawData != null)
+            //{
+            //    foreach (var data in rawData)
+            //    {
+            //        var each = data;
+
+            //        var candidates = (from raw in rawData
+            //                          where raw.DestinationID == each.DestinationID && raw.SourceID == each.SourceID
+            //                          select raw);
+
+            //        var winner = (
+            //                         from candidate in candidates
+            //                         orderby candidate.Tariff
+            //                         select candidate
+            //                     );
+
+            //        var bidWinner = new BidWinner();
+            //        bidWinner.SourceID = winner.First().SourceID;
+            //        bidWinner.DestinationID = winner.First().DestinationID;
+            //        bidWinner.BidID = winner.First().BidID;
+            //        bidWinner.TransportOrderID = 5;
+            //        bidWinner.CommodityID = 1;
+            //        bidWinner.TransporterID = winner.First().TransporterID;
+            //        bidWinner.Amount = 500;
+            //        bidWinner.Tariff = winner.First().Tariff;
+            //        bidWinner.Position = winner.First().Position;
+            //        bidWinner.Status = 1;
+            //        bidWinner.ExpiryDate = DateTime.Today;
+
+            //        _bidWinnerService.AddBidWinner(bidWinner);
+            //    }
+            //}
         }
 
         public List<BidWinner> TransformBidQuotationToBidWinner(List<TransportBidQuotation> proposals, int rank)
@@ -608,7 +818,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 _bidWinnerService.Save();
 
-               // string name = d.FirstOrDefault().Hub.Name;
+                string name = d.FirstOrDefault().Hub.Name;
                 
                 if (d !=null)
                 {
@@ -619,8 +829,8 @@ namespace Cats.Areas.Procurement.Controllers
                             Zone = bidWinner.AdminUnit.AdminUnit2.Name,
                             Woreda = bidWinner.AdminUnit.Name,
                             TransporterName = bidWinner.Transporter.Name,
-                            Rank = bidWinner.Position??0,
-                            WinnerTariff = bidWinner.Tariff??0,
+                            Rank = bidWinner.Position??1,
+                            WinnerTariff = bidWinner.Tariff,
                             SourceId = bidWinner.SourceID,
                             DestinationId = bidWinner.DestinationID,
                             TransporterID = bidWinner.TransporterID
@@ -634,7 +844,9 @@ namespace Cats.Areas.Procurement.Controllers
 
    
         }
-
+        
+        
+        //START~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Beka's Code
         public ActionResult ReadAjax([DataSourceRequest] DataSourceRequest request)
         {
             PriceQuotationFilterViewModel model = (PriceQuotationFilterViewModel)Session["PriceQuotationFilter"];
@@ -682,5 +894,51 @@ namespace Cats.Areas.Procurement.Controllers
             }
             return Json("{}", JsonRequestBehavior.AllowGet);
         }
+       
+
+
+        //GET: /Procurement/RFQ/EditStart
+        [HttpPost]
+        public ActionResult EditStart(PriceQuotationFilterViewModel model)
+        {
+            List<PriceQuotationDetailViewModel> qoutation = populateForm(model);
+            Session["PriceQuotationFilter"] = model;
+            return View(qoutation);
+
+        }
+
+        [HttpPost]
+        public ActionResult Edit(TransportBidQuotation transportQuote)
+        {
+            if (ModelState.IsValid)
+            {
+                List<TransportBidQuotation> existing =
+                    _bidQuotationService.FindBy(t => t.BidID == transportQuote.BidID
+                                               && t.TransporterID == transportQuote.TransporterID
+                                               && t.SourceID == transportQuote.SourceID
+                                               && t.DestinationID == transportQuote.DestinationID
+                                               );
+                if (existing.Count == 1)
+                {
+                    TransportBidQuotation edited = existing[0];
+                    //                    transportQuote.TransportBidQuotationID = edited.TransportBidQuotationID;
+                    edited.Tariff = transportQuote.Tariff;
+                    edited.Remark = transportQuote.Remark;
+                    edited.Position = transportQuote.Position;
+                    edited.IsWinner = transportQuote.IsWinner;
+                    _bidQuotationService.UpdateTransportBidQuotation(edited);
+                }
+                else
+                {
+                    _bidQuotationService.AddTransportBidQuotation(transportQuote);
+                }
+                return View(transportQuote);
+
+            }
+            return RedirectToAction("Index");
+        }
+        
+        //END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Beka's Code
+ 
     }
 }

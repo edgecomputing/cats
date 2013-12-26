@@ -23,7 +23,8 @@ namespace Cats.Models
 
             this.HrdDetails=new List<HRDDetail>();
             this.WoredasByDonors = new List<WoredasByDonor>();
-
+            this.TransportBidQuotations = new List<TransportBidQuotation>();
+            this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
         }
 
         public int AdminUnitID { get; set; }
@@ -53,7 +54,9 @@ namespace Cats.Models
         
         public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
-        public virtual ICollection<WoredasByDonor> WoredasByDonors { get; set; } 
+        public virtual ICollection<WoredasByDonor> WoredasByDonors { get; set; }
+
+        public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
 
     }
 }

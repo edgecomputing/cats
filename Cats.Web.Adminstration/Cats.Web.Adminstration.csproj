@@ -136,6 +136,7 @@
     <Compile Include="Controllers\CommodityGradeController.cs" />
     <Compile Include="Controllers\CommoditySourceController.cs" />
     <Compile Include="Controllers\CommodityTypeController.cs" />
+    <Compile Include="Controllers\ContactPersonController.cs" />
     <Compile Include="Controllers\DonorController.cs" />
     <Compile Include="Controllers\DonorWoredaController.cs" />
     <Compile Include="Controllers\FDPController.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Models\ViewModels\CommoditySourceViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\CommodityViewModel.cs" />
+    <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\ViewModels\DonorModel.cs" />
     <Compile Include="Models\ViewModels\DonorWoredaViewModel.cs" />
     <Compile Include="Models\ViewModels\FDPViewModel.cs" />
@@ -893,6 +895,7 @@
     <Content Include="Views\FDP\Index.cshtml" />
     <Content Include="Views\Hub\Index.cshtml" />
     <Content Include="Views\DonorWoreda\Index.cshtml" />
+    <Content Include="Views\ContactPerson\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,5 +18,6 @@ namespace Cats.Services.EarlyWarning
          bool PromotWorkflow(BusinessProcessState state);
          BusinessProcess CreateBusinessProcess(int templateID, int DocumentID, string DocumentType, BusinessProcessState StartingState);
          BusinessProcess CreateBusinessProcessForObject(int templateID, int DocumentID, string DocumentType, bool save = false);
+         bool Save();
     }
 }

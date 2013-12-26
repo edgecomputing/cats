@@ -483,9 +483,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidProposalController.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportBidQuotationHeaderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
@@ -1605,6 +1607,7 @@
     <Content Include="Areas\Procurement\Views\PaymentRequest\Create.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Copy of Detail.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredasWithOutBidOffer.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredaWithOutBidOfferFilterParial.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
@@ -1612,13 +1615,16 @@
     <Content Include="Areas\Procurement\Views\BidAdministration\LeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_WoredasWithoutOffer.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\WithoutRFQ.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposalHeader.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidProposal\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_BidPlanDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Report\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
-
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2310,6 +2316,7 @@
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Version.cshtml" />
+    <Content Include="Views\Dashboard\RegionalRequestsPieChart.cshtml" />
     <Content Include="Web References\ReportPortal\ActiveState.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -2408,6 +2415,9 @@
     <Content Include="Web References\ReportPortal\Warning.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

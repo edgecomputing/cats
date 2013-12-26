@@ -241,31 +241,31 @@ namespace Cats.Tests.ControllersTests
                     new TransportBidQuotation{
                         TransportBidQuotationID = 1,
                         BidID = 1,
-                        Bid = new Bid
-                            {
-                                BidID = 1,
-                                StartDate = DateTime.Now,
-                                EndDate = DateTime.Today.AddDays(10),
-                                BidNumber = "123"
-                            },
+                        //Bid = new Bid
+                        //    {
+                        //        BidID = 1,
+                        //        StartDate = DateTime.Now,
+                        //        EndDate = DateTime.Today.AddDays(10),
+                        //        BidNumber = "123"
+                        //    },
                         TransporterID = 1,
-                        Transporter = new Transporter
-                            {
-                                TransporterID = 1,
-                                Name = "waliya"
-                            },
+                        //Transporter = new Transporter
+                        //    {
+                        //        TransporterID = 1,
+                        //        Name = "waliya"
+                        //    },
                         SourceID = 1,
-                        Source = new Hub
-                            {
-                                HubID = 1,
-                                Name = "Adama",
-                                HubOwnerID = 1
-                            },
+                        //Source = new Hub
+                        //    {
+                        //        HubID = 1,
+                        //        Name = "Adama",
+                        //        HubOwnerID = 1
+                        //    },
                         DestinationID = 1,
-                        Destination = new AdminUnit
-                            {
-                                AdminUnitID = 1, Name = "Adminunit name", AdminUnitTypeID = 2
-                            },
+                        //Destination = new AdminUnit
+                        //    {
+                        //        AdminUnitID = 1, Name = "Adminunit name", AdminUnitTypeID = 2
+                        //    },
                         Tariff = 123,
                         IsWinner = false,
                         Position = 2,
@@ -274,31 +274,31 @@ namespace Cats.Tests.ControllersTests
                     new TransportBidQuotation{
                         TransportBidQuotationID = 2,
                         BidID = 1,
-                        Bid = new Bid
-                            {
-                                BidID = 1,
-                                StartDate = DateTime.Now,
-                                EndDate = DateTime.Today.AddDays(10),
-                                BidNumber = "123"
-                            },
+                        //Bid = new Bid
+                        //    {
+                        //        BidID = 1,
+                        //        StartDate = DateTime.Now,
+                        //        EndDate = DateTime.Today.AddDays(10),
+                        //        BidNumber = "123"
+                        //    },
                         TransporterID = 2,
-                        Transporter = new Transporter
-                            {
-                                TransporterID = 2,
-                                Name = "woyera"
-                            },
+                        //Transporter = new Transporter
+                        //    {
+                        //        TransporterID = 2,
+                        //        Name = "woyera"
+                        //    },
                         SourceID = 1,
-                        Source = new Hub
-                            {
-                                HubID = 1,
-                                Name = "Adama",
-                                HubOwnerID = 1
-                            },
+                        //Source = new Hub
+                        //    {
+                        //        HubID = 1,
+                        //        Name = "Adama",
+                        //        HubOwnerID = 1
+                        //    },
                         DestinationID = 2,
-                        Destination = new AdminUnit
-                            {
-                                AdminUnitID = 2, Name = "Adminunit name", AdminUnitTypeID = 2
-                            },
+                        //Destination = new AdminUnit
+                        //    {
+                        //        AdminUnitID = 2, Name = "Adminunit name", AdminUnitTypeID = 2
+                        //    },
                         Tariff = 123,
                         IsWinner = false,
                         Position = 2,
