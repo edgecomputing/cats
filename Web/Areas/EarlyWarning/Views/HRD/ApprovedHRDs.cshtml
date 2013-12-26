@@ -1,6 +1,7 @@
 ﻿@using Cats.Helpers
 @using Kendo.Mvc.UI
 @using Cats.Services.Security
+@using LanguageHelpers.Localization
 @model List<Cats.Models.HRD>
 
 @{
@@ -25,15 +26,17 @@
     .Name("grid")
     .Columns(columns =>
         {
-        columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate(
-             @Html.EarlyWarningOperationButton(
-                    @Url.Action("HRDDetail", "HRD", new { id = "#=HRDID#" }),
-                    EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=Ration#").ToString());
-        columns.Bound(p => p.Season);
-        columns.Bound(p => p.Year);
-        columns.Bound(p => p.CreatedBy).Width(170);
-        columns.Bound(p => p.CreatedDatePref).Format("{0:MM/dd/yyyy}").Title(string.Format("Created Date ({0})", Html.UserCalendarPreference()));
-        //columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.HRDName).Title(Translator.Translate("HRD Name")).ClientTemplate(
+                                @Html.EarlyWarningOperationButton(
+                                    @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
+                                    EarlyWarningCheckAccess.Operation.New_HRD, "#=HRDName#").ToString());
+            columns.Bound(p => p.Plan);
+            columns.Bound(p => p.Ration).Title("Ration No");
+            //columns.Bound(p => p.Season);
+            //columns.Bound(p => p.Year);
+            columns.Bound(p => p.CreatedBy).Width(160);
+            columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+            // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 
             columns.Command(p =>
