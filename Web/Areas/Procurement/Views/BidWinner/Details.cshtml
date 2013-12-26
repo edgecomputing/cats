@@ -12,15 +12,15 @@
 @section Toolbar{
     <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>
-        @{
             
             <button class="btn dropdown-toggle " data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
            
            
-        }
-
+</div>
+    }
+    <!--
 <table class="table table-striped table-bordered">
         <tr>
            <th>Transporter</th>
@@ -53,6 +53,7 @@
          </tr>
      }
 </table>
+-->
 @(Html.Kendo().Grid<BidWinnerViewModel>(Model.BidWinners)
     .Name("grid")
     .Columns(columns=>
@@ -76,7 +77,6 @@
             .Ajax()
             .Group(group=>group.Add(m=>m.TransporterName))
     .Model(model=>model.Id(p=>p.BidWinnnerID))
+    .Read("BidWinner_Read","BidWinner",new{id=Model.BidID})
     
-    //.Read("BidWinner_Read","BidWinner",new{id=Model.BidID})
-    
-      ))
+      ))}

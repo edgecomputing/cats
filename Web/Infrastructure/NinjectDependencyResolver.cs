@@ -63,6 +63,8 @@ namespace Cats.Infrastructure
         
         private void AddBindings()
         {
+
+            kernel.Bind<IMessagingService>().To<SMSMessagingService>();
             kernel.Bind<IPaymentRequestService>().To<PaymentRequestService>();
             kernel.Bind<ISIPCAllocationService>().To<SIPCAllocationService>();
             kernel.Bind<IPromisedContributionService>().To<PromisedContributionService>();

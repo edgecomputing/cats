@@ -542,6 +542,7 @@
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Report\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Report\Controllers\SMSController.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
@@ -1618,7 +1619,8 @@
     </Content>
     <Content Include="Areas\Report\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
-
+    <Content Include="Areas\Report\Views\SMS\Index.cshtml" />
+    <Content Include="Areas\Report\Views\SMS\Copy of Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
