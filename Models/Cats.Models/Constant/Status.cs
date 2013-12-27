@@ -66,7 +66,8 @@ namespace Cats.Models.Constant
         Approved=2,
         AssessmentCreated=3,
         HRDCreated=4,
-        PSNPCreated=5
+        PSNPCreated=5,
+        Closed=6
     }
     public enum WoredaHubLinkVersionStatus
     {
