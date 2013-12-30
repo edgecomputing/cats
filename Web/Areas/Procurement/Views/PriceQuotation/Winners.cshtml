@@ -59,8 +59,8 @@
 
                                         .Read(read => read.Action("ReadBidWinners", "PriceQuotation", new
                                         {
-                                            bidNumber = @ViewBag.filter.BidID,
-                                            regionID = @ViewBag.filter.RegionID
+                                            bidNumber = @ViewBag.BidID,
+                                            regionID = @ViewBag.RegionID
                                         }))
 
                                         //.Update(update => update.Action("SaveBidProposals", "PriceQuotation"))

@@ -309,6 +309,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult BidProposalHeader()
         {
+            if (TempData["CustomError"] != null) { ModelState.AddModelError("Error", TempData["CustomError"].ToString()); }
             return View();
         }
 
@@ -400,11 +401,12 @@ namespace Cats.Areas.Procurement.Controllers
                     bidProposal.Status = 1;
                     bidProposal.BidQuotationDate = DateTime.Now;
                     _transportBidQuotationHeaderService.AddTransportBidQuotationHeader(bidProposal);
+                    TempData["CustomError"] = "Bid proposal successfully created";
                     return RedirectToAction("BidProposalHeader");
                 }
                 else
                 {
-                    ModelState.AddModelError("Error", "Such a bid proposal has already been proposed");
+                    TempData["CustomError"] = "Such a bid proposal has already been proposed";
                 }
                 
             }
@@ -657,8 +659,9 @@ namespace Cats.Areas.Procurement.Controllers
                     BidID = bidNumber,
                     RegionID = regionID
                 };
-            var comparable = _transportBidQuotationHeaderService.FindBy(m => m.RegionID == regionID && m.BidId == bidNumber && m.Status == 2);
 
+            var comparable = _transportBidQuotationHeaderService.FindBy(m => m.RegionID == regionID && m.BidId == bidNumber && m.Status == 2);
+            TempData["Error"] = "There are no new proposals, winners may already have been identified";
             var tr = new List<TransportBidQuotation>();
 
             foreach (var transportBidQuotationHeader in comparable)
@@ -753,15 +756,25 @@ namespace Cats.Areas.Procurement.Controllers
             
             _bidWinnerService.Save();
             
-            return RedirectToAction("Winners",new {filter=f});
+            //return RedirectToAction("Winners",new {filter=f});
+            //return RedirectToAction("Winners", "PriceQuotation",new{filter=f});
+            return RedirectToAction("Winners", new {BidID = bidNumber, RegionID=regionID});
+            //return RedirectToAction()
+
             // _BusinessProcessService.Save();
             //return result;
-
         }
 
-        public ActionResult Winners(WinnersGeneratorParameters filter)
+        public ActionResult Winners(int BidID , int RegionID)
         {
-            ViewBag.filter = filter;
+            if (TempData["Error"] != null)
+            {
+                ModelState.AddModelError("Error", TempData["Error"].ToString());
+            }
+
+            //ViewBag.filter = filter;
+            ViewBag.BidID = BidID;
+            ViewBag.RegionID = RegionID;
             return View();
         }
 
@@ -794,6 +807,8 @@ namespace Cats.Areas.Procurement.Controllers
 
             //if (bidPlanID != 0 && regionID != 0)
             //{
+            var s = _bidWinnerService.GetAllBidWinner();
+            
             var dr = _bidWinnerService.FindBy(t =>
                     t.BidID == bidNumber
                     && t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID
