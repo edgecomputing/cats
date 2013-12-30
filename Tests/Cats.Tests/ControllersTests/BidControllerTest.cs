@@ -155,11 +155,40 @@ namespace Cats.Tests.ControllersTests
                     new Hub() {HubID = 2, Name = "Dire Dawa", HubOwnerID = 1}
                 };
 
+             var workFlowStatus = new List<WorkflowStatus>
+                {
+                     new WorkflowStatus {
+                                          Description = "Draft",
+                                          StatusID = 1,
+                                          WorkflowID = 8
+                                        },
+                                  new WorkflowStatus
+                                      {
+                                          Description = "Approved",
+                                          StatusID = 2,
+                                          WorkflowID = 8
+                                      },
+                                  new WorkflowStatus
+                                      {
+                                          Description = "Signed",
+                                          StatusID = 3,
+                                          WorkflowID = 8
+                                      },
+                                          new WorkflowStatus
+                                      {
+                                          Description = "Disqualified",
+                                          StatusID = 4,
+                                          WorkflowID = 8
+                                      }
+                };
+             var workFlowStatusService = new Mock<IWorkflowStatusService>();
+
             var hubService = new Mock<IHubService>();
             hubService.Setup(m => m.GetAllHub()).Returns(hub);
             _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService,
                                             MockTransportBidPlanService,MockTransportBidPlanDetailService,MockApplicationSetting,
-                                            userAccountService.Object,transportBidQuotationService.Object,bidWinnerService.Object,transporterService.Object,hubService.Object);
+                                            userAccountService.Object,transportBidQuotationService.Object,bidWinnerService.Object,
+                                            transporterService.Object, hubService.Object, workFlowStatusService.Object);
 
           }
         

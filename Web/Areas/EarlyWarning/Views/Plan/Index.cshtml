@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Models.Constant
+@using Kendo.Mvc.UI
 @using Cats.Helpers
 
 @*@model List<Cats.Models.Plan>*@
@@ -20,7 +21,7 @@
 
 @section LeftBar{
 
-   
+   @Html.Partial("_PlanLeftBar")
 }
 
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.PlanViewModel>()
@@ -31,9 +32,19 @@
             columns.Bound(p => p.StartDate);
             columns.Bound(p => p.EndDate);
             columns.Bound(p => p.Program);
-           // columns.Bound(p => p.StatusID);
+            //columns.Bound(p => p.StatusID);
+            columns.Bound(p => p.Status);
 
-            columns.Command(m => m.Custom("Edit").Click("onEdit"));
+            columns.Command(m =>
+                {
+                    m.Custom("Edit").Click("onEdit");
+                    if (ViewBag.Status == (int)PlanStatus.HRDCreated || ViewBag.Status == (int)PlanStatus.PSNPCreated)
+                    {
+                        m.Custom("Close").Click("onClose");
+                    }
+                    
+
+                });
 
         })
             .Scrollable()
@@ -42,7 +53,7 @@
             .DataSource(dataSource => dataSource
                   .Ajax()
                     .Model(model => model.Id(p => p.planID))
-                    .Read(read => read.Action("plan_Read", "Plan"))
+                    .Read(read => read.Action("plan_Read", "Plan",new{id=ViewBag.Status}))
              ))
 
 <script>
@@ -52,5 +63,12 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("Edit", "Plan")" + "/" + dataItem.planID;
 
+    }
+
+    function onClose(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("ClosePlan", "Plan")" + "/" + dataItem.planID;
+  
     }
 </script>

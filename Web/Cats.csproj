@@ -1403,13 +1403,10 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_RFQFilterPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\_BidPlanLeftBar.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <!--<Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
@@ -1495,6 +1492,7 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\_PlanLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -2770,9 +2768,9 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
-  <Target Name="BeforeBuild">
+  <!--Target Name="BeforeBuild">
     <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
-  </Target>
+  </Target>-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
