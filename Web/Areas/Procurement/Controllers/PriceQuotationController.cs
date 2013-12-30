@@ -395,7 +395,7 @@ namespace Cats.Areas.Procurement.Controllers
                                                                 && m.TransporterId == bidProposal.TransporterId
                                                                 && m.RegionID == bidProposal.RegionID);
 
-                if (exisiting==null)
+                if (exisiting.Count==0)
                 {
                     bidProposal.Status = 1;
                     bidProposal.BidQuotationDate = DateTime.Now;
@@ -869,7 +869,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult ReadApprovedProposals([DataSourceRequest] DataSourceRequest request, int bidID, int regionID)
         {
             var proposals = _transportBidQuotationHeaderService.FindBy(m => m.BidId == bidID
-                && m.RegionID == regionID && m.Status == 2);
+                && m.RegionID == regionID && m.Status >= 2);
 
             var r = (from proposal in proposals
                      select new TransportBidQuotationHeaderViewModel()
