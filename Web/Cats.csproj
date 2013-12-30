@@ -1397,13 +1397,10 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_RFQFilterPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\_BidPlanLeftBar.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <!--<Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
