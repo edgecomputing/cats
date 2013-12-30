@@ -35,7 +35,7 @@
     </div>
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
      <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
-               
+             
           
 }
 
@@ -269,7 +269,7 @@
     </td>
 </table>
         
- <script type="text/javascript">
+<script type="text/javascript">
     function onDataBound(e) {
         //alert("");
         check_planned();
@@ -280,7 +280,7 @@
             var rowIdx = $("tr", grid.tbody).index(row);
             update_ui(rowIdx, row);
         }
-            );
+        );
         
         //var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("focus", "input", function (e) {
@@ -320,6 +320,7 @@
         window.location = "@Url.Action("DeleteFDP", "Request")" + "/" + dataItem.RegionalRequestDetailID;         
     }
 </script>
+
 <style>
     .surplus * {
         color: red;
@@ -350,6 +351,7 @@
         });
     }
 </script>
+
 <script type="text/javascript">
     function error_handler(e) {
         if (e.errors) {

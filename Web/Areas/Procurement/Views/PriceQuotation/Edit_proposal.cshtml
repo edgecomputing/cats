@@ -1,38 +1,27 @@
-﻿@using LanguageHelpers.Localization
-@model Cats.Models.TransportBidQuotationHeader
+﻿@model  Cats.Models.TransportBidQuotationHeader
+@using LanguageHelpers.Localization
 
-@*@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
-}
-@section LeftBar
-{
-   
-}
-
-@section Toolbar
-{
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_plan"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Plan")" title="save"></a>
-}*@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Create New Bid Proposal</h3>
+    <h3 id="myModalLabel">Edit Bid Proposal</h3>
 </div>
 
 
-@using (Html.BeginForm("Create", "PriceQuotation", FormMethod.Post, new { @class = "modal-form" }))
+@using (Html.BeginForm("Edit_proposal", "PriceQuotation", FormMethod.Post, new { id = "modal-form" }))
 {
     <div class="modal-body">
         <div class="well form-horizontal">
+            
+            @Html.HiddenFor(m => m.TransportBidQuotationHeaderID)
+            @Html.HiddenFor(m => m.Status)
             
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.BidId, "BID")
                 </div>
                 <div class="controls">
-                    @Html.DropDownListFor(m => m.BidId, ViewBag.BIDS as SelectList)
+                    @Html.DropDownListFor(m => m.BidId, ViewBag.BIDS as SelectList, new { Disabled = true })
                     @Html.ValidationMessageFor(m => m.BidId)
                 </div>
             </div>
@@ -42,47 +31,48 @@
                     @Html.LabelFor(m => m.RegionID, "Region")
                 </div>
                 <div class="controls">
-                    @Html.DropDownListFor(m => m.RegionID, ViewBag.Regions as SelectList)
+                    @Html.DropDownListFor(m => m.RegionID, ViewBag.Regions as SelectList, new { Disabled = true })
                     @Html.ValidationMessageFor(m => m.AdminUnit)
                 </div>
             </div>
+
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.TransporterId, Translator.Translate("Transporter"))
                 </div>
                 <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
-                    @Html.DropDownListFor(m => m.TransporterId, ViewBag.Transporters as SelectList)
+                    @Html.DropDownListFor(m => m.TransporterId, ViewBag.Transporters as SelectList, new { Disabled = true })
                     @Html.ValidationMessageFor(m => m.TransporterId)
                 </div>
 
             </div>
+            
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.BidBondAmount, Translator.Translate("Bid Bond"))
                 </div>
                 <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
                     @Html.TextBoxFor(m => m.BidBondAmount)
                     @Html.ValidationMessageFor(m => m.BidBondAmount)
                 </div>
 
             </div>
+
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.EnteredBy)
+                    @Html.LabelFor(m => m.EnteredBy,new { Disabled = true })
                 </div>
                 <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
                     @Html.TextAreaFor(m => m.EnteredBy)
                     @Html.ValidationMessageFor(m => m.EnteredBy)
                 </div>
             </div>
+
         </div>
-    </div>
-    
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="submit">Save</button>
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+         <div>
+                <a style="text-align: center" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Details", "PriceQuotation", new { id = Model.TransportBidQuotationHeaderID })">Edit the details</a>
+                <button class="btn btn-primary" type="submit">Update</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            </div>
     </div>
 }
