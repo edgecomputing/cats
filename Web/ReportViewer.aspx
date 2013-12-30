@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>CATS: Commodity Allocation & Tracking System</title>
     <%--<link href="~/Scripts/angular/css/bootstrap.min.css" rel="stylesheet"/>--%>
 
     <link href="Content/bootstrap.css" rel="stylesheet" />

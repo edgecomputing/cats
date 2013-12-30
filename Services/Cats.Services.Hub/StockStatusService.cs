@@ -336,7 +336,7 @@ namespace Cats.Services.Hub
                     if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
                     {
                         phys = phys + Math.Abs(s.QuantityInMT);
-                    }
+                    }   
 
                     if (s.LedgerID == 2)
                     {
