@@ -14,7 +14,7 @@
                         @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
                         EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")*@
    
-    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "PriceQuotation")"></a>
+    <a id="btnAddProposal" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "PriceQuotation")"></a>
 }
 
 
@@ -36,7 +36,32 @@
     });
 </script>
 
+<script type="text/javascript">
+    $(function () {
 
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddProposal').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 
 <div>
     <h4>Bid Proposals</h4>
@@ -49,7 +74,7 @@
               columns.Bound(p => p.BidNumber).ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new {id = "#=TransportBidQuotationHeaderID#"}) + " '>#=BidNumber#</a>  "); ;
               columns.Bound(p => p.Region);
               columns.Bound(p => p.Transporter);
-              columns.Bound(p => p.BidBondAmount);
+              columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
               columns.Bound(p => p.OffersCount);
               columns.Bound(p => p.Status);
 
@@ -67,7 +92,7 @@
         .Sortable()
         .Events(e => e.DataBound("onDataBound"))
         .Filterable()
-        .Groupable()
+        //.Groupable()
         .DataSource(dataSource => dataSource
                .Ajax()
                //.Events(events => events.Error("error_handler"))
@@ -78,14 +103,27 @@
          )
       )
 
-
 <script>
     function edit_Proposal(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        //window.location = "@Url.Action("Create", "PriceQuotation")" + "/" + dataItem.HRDID;
-        alert("Editing");
+        //window.location = "@Url.Action("Edit_proposal", "PriceQuotation")" + "/" + dataItem.TransportBidQuotationHeaderID;
+
+        var url = "@Url.Action("Edit_proposal", "PriceQuotation")" + "/" + dataItem.TransportBidQuotationHeaderID; 
+
+        // alert("");
+        $('#dialogContent').load(url, function () {
+            $('#dialogDiv').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+            //bindForm(this);
+        });
+        return false;
+        
+       
+        //alert("Editing");
     }
 </script>
 

@@ -15,14 +15,14 @@ namespace Cats.Services.Procurement
         {
             this._unitOfWork = unitOfWork;
         }
-        public bool AddTransportBidQuotation(TransportBidQuotationHeader item)
+        public bool AddTransportBidQuotationHeader(TransportBidQuotationHeader item)
         {
             _unitOfWork.TransportBidQuotationHeaderRepository.Add(item);
             _unitOfWork.Save();
             return true;
         }
 
-        public bool UpdateTransportBidQuotation(TransportBidQuotationHeader item)
+        public bool UpdateTransportBidQuotationHeader(TransportBidQuotationHeader item)
         {
             if (item == null) return false;
             _unitOfWork.TransportBidQuotationHeaderRepository.Edit(item);
@@ -30,7 +30,7 @@ namespace Cats.Services.Procurement
             return true;
         }
 
-        public bool DeleteTransportBidQuotation(TransportBidQuotationHeader item)
+        public bool DeleteTransportBidQuotationHeader(TransportBidQuotationHeader item)
         {
             if (item == null) return false;
             _unitOfWork.TransportBidQuotationHeaderRepository.Delete(item);
@@ -41,14 +41,14 @@ namespace Cats.Services.Procurement
         public bool DeleteById(int id)
         {
             var item = _unitOfWork.TransportBidQuotationHeaderRepository.FindById(id);
-            return DeleteTransportBidQuotation(item);
+            return DeleteTransportBidQuotationHeader(item);
         }
 
         public TransportBidQuotationHeader FindById(int id)
         {
             return _unitOfWork.TransportBidQuotationHeaderRepository.FindById(id);
         }
-        public List<TransportBidQuotationHeader> GetAllTransportBidQuotation()
+        public List<TransportBidQuotationHeader> GetAllTransportBidQuotationHeader()
         {
             return _unitOfWork.TransportBidQuotationHeaderRepository.GetAll();
 

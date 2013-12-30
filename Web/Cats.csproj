@@ -1380,7 +1380,6 @@
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
-    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
@@ -1632,6 +1631,13 @@
     <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
     <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
     <Content Include="Content\themes\default\variables.less" />
+
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Winners.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit_proposal.cshtml" />
+
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
