@@ -24,6 +24,20 @@ namespace Cats.Helpers
                 return "Guest User";
             }                       
         }
+
+        public static string GetUserName()
+        {
+            try
+            {
+                var user = (UserIdentity)HttpContext.Current.User.Identity;
+                return user.FullName;
+            }
+            catch (Exception)
+            {
+                return "Guest User";
+            }
+        }
+
         public static string UserLanguagePreference(this HtmlHelper helper)
         {
             try

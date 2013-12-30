@@ -9,11 +9,14 @@ namespace Cats.Areas.Hub.Controllers
     public class CurrentHubController : BaseController
     {
          private readonly IUserProfileService _userProfileService;
+         private readonly IUserHubService _userHubService;
         //
         // GET: /CurrentWarehouse/
-         public CurrentHubController(IUserProfileService userProfileService):base(userProfileService)
+         public CurrentHubController(IUserProfileService userProfileService,
+             IUserHubService userHubService):base(userProfileService)
          {
              _userProfileService = userProfileService;
+             _userHubService = userHubService;
          }
 
         public virtual ActionResult DisplayCurrentHub()
@@ -42,7 +45,8 @@ namespace Cats.Areas.Hub.Controllers
         {
 
             var user = _userProfileService.GetUser(User.Identity.Name);
-            user.ChangeHub(currentUser.DefaultHubId);
+           
+            _userHubService.ChangeHub(user.UserProfileID,currentUser.DefaultHubId);
             
             //return RedirectToAction("Index", "Dispatch");
             //return Json(new { success = true });

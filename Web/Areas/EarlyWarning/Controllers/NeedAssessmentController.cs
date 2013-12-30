@@ -51,16 +51,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //
         // GET: /EarlyWarning/NeedAssessment/
         [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment)]
-        public ActionResult Index()
+        public ActionResult Index(int id=0)
         {
 
-            //var previousModelState = TempData["ModelState"] as ModelStateDictionary;
-            //if (previousModelState != null)
-            //{
-            //    foreach (KeyValuePair<string, ModelState> kvp in previousModelState)
-            //        if (!ModelState.ContainsKey(kvp.Key))
-            //            ModelState.Add(kvp.Key, kvp.Value);
-            //}
+            ViewBag.AssessmentStatus = id;
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
             //ModelState.AddModelError("Success", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
@@ -159,16 +153,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             return View();
         }
-        public ActionResult NeedAssessment_Plan([DataSourceRequest] DataSourceRequest request)
+        public ActionResult NeedAssessment_Plan([DataSourceRequest] DataSourceRequest request,int id=0)
         {
-            //var planStatus=int(PlanStatus.AssessmentCreated);
-            var plans=_planService.FindBy(m=>m.Program.Name=="Relief" && m.Status==3).OrderByDescending(m=>m.PlanID);
+            var needAssessment = _needAssessmentService.GetAllNeedAssessment().Select(m => m.PlanID).Distinct();
+            var plans = id == 0 ? _planService.FindBy(m => m.Program.Name == "Relief" && m.Status == (int)PlanStatus.AssessmentCreated).OrderByDescending(m => m.PlanID).ToList()
+                : _planService.FindBy(m => needAssessment.Contains(m.PlanID) && m.Program.Name == "Relief" && m.Status == id).OrderByDescending(m => m.PlanID).ToList();
             var statuses = _commonService.GetStatus(WORKFLOW.Plan);
             var needAssesmentsViewModel = NeedAssessmentViewModelBinder.GetNeedAssessmentPlanInfo(plans,statuses);
             return Json(needAssesmentsViewModel.ToDataSourceResult(request));
 
         }
-
+        
         public ActionResult NeedAssessmentRead([DataSourceRequest] DataSourceRequest request)
         {
             var needAssessment = _needAssessmentService.FindBy(g => g.NeedAApproved == false).OrderByDescending(m=>m.NeedAID).ToList(); //featch unapproved need assessments

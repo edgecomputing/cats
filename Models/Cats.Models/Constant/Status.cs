@@ -14,7 +14,7 @@ namespace Cats.Models.Constant
       TRANSPORT_ORDER=4,
       HRD=5,
       Plan=7,
-      BidWinner=8
+      BidWinner=8,
   }
     public enum Programs
     {
@@ -94,4 +94,5 @@ namespace Cats.Models.Constant
         Draft = 1,
         Closed = 2
     }
+   
 }

@@ -42,6 +42,6 @@
         .PageSize(30)
         .ServerOperation(false)
         .Model(model => model.Id(p => p.PlanID))
-        .Read(read=>read.Action("NeedAssessment_Plan", "NeedAssessment"))
+        .Read(read=>read.Action("NeedAssessment_Plan", "NeedAssessment",new {id=ViewBag.AssessmentStatus}))
     )
     )

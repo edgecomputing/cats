@@ -8,9 +8,8 @@ namespace Cats.Models
 {
     public class ReportFolder
     {
-        private string Name { get; set; }
-        private string URL { get; set; }
-        private List<Report> Reports { get; set; }
-        private List<ReportFolder> ReportFolders { get; set; }
+        public string Name { get; set; }
+        public string URL { get; set; }
+        public List<ReportObj> Reports { get; set; }
     }
 }

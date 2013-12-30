@@ -52,9 +52,10 @@ namespace Cats.Areas.Procurement.Controllers
             }
             ViewBag.BidID=currentBid.SettingValue;
             ViewBag.BidAdminStatus = id;
-            ViewBag.BidPlanID = _bidService.FindById(int.Parse(currentBid.SettingValue)).TransportBidPlanID;
+            var bid=_bidService.FindById(int.Parse(currentBid.SettingValue));
+            ViewBag.BidPlanID = bid.TransportBidPlanID;
             var bidWinnerViewModel = GetListOfBidWinners(int.Parse(currentBid.SettingValue));
-            if (bidWinnerViewModel == null || !bidWinnerViewModel.Bidwinners.Any())
+            if (bidWinnerViewModel==null || !bidWinnerViewModel.Bidwinners.Any())
                 return RedirectToAction("WithoutRFQ","BidAdministration");
            
            return View(bidWinnerViewModel);
@@ -97,7 +98,7 @@ namespace Cats.Areas.Procurement.Controllers
             foreach (TransportBidPlanDetail pdetail in detailPlans)
             {
                 var detail = _bidWinnerService.FindBy(t => t.BidID == id && t.SourceID == pdetail.SourceID && 
-                                                                                               t.DestinationID == pdetail.DestinationID).FirstOrDefault();
+                                                     t.DestinationID == pdetail.DestinationID).FirstOrDefault();
                 if (detail == null)
                     result.Add(new BidWinnerViewModel()
                     {
@@ -114,8 +115,8 @@ namespace Cats.Areas.Procurement.Controllers
         }
         public ActionResult BidPlanDetail_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
-            var bidPlan = _bidPlanService.FindById(id);
-            var planDetailsToDisplay = GetBidPlanDetail(bidPlan.TransportBidPlanID).ToList();
+            //var bidPlan = _bidPlanService.FindById(id);
+            var planDetailsToDisplay = GetBidPlanDetail(id).ToList();
             return Json(planDetailsToDisplay.ToDataSourceResult(request));
         }
         private IEnumerable<BidWinnerViewModel> GetBidWinners(IEnumerable<BidWinner> bidWinners)
@@ -145,7 +146,6 @@ namespace Cats.Areas.Procurement.Controllers
         public SelectedBidWinnerViewModel GetListOfBidWinners(int id)
         {
             var selectedBidWinners = new SelectedBidWinnerViewModel();
-            //req.Transporters = _transportOrderService.GetTransporter();
             var bidWinner = _bidWinnerService.FindBy(m => m.BidID == id && m.Position==1);
             if (bidWinner != null)
             {

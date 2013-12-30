@@ -198,9 +198,10 @@ namespace Cats.Services.Hub
 
         public IEnumerable<TreeViewModel> GetTreeElts(int adminunitParentId, int hubId)
         {
+            //TODO:Check if the  t.ShippingInstructionID.HasValue && t.ProjectCodeID.HasValue ...&& to || to accoumidate SI/PC allocation
             var UnclosedDispatchAllocations = _unitOfWork.DispatchAllocationRepository.FindBy(t =>
-                                                                                      t.ShippingInstructionID.HasValue &&
-                                                                                      t.ProjectCodeID.HasValue
+                                                                                     ( t.ShippingInstructionID.HasValue ||
+                                                                                      t.ProjectCodeID.HasValue)
                                                                                       && hubId == t.HubID &&
                                                                                       t.IsClosed == false);
                 

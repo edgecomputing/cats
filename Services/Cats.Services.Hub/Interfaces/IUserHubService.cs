@@ -22,6 +22,8 @@ namespace Cats.Services.Hub
                    Expression<Func<UserHub, bool>> filter = null,
                    Func<IQueryable<UserHub>, IOrderedQueryable<UserHub>> orderBy = null,
                    string includeProperties = "");
+
+         void ChangeHub(int userProfileId, int warehouseId);
     }
 }
 

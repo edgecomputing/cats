@@ -543,7 +543,7 @@
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
-    <Compile Include="Areas\Report\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
@@ -614,6 +614,7 @@
     <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Helpers\ReportMenuHelper.cs" />
     <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="Helpers\TemplateHelper.cs" />
@@ -651,6 +652,7 @@
     <Compile Include="Infrastructure\Infrastructure\MD5Hash.cs" />
     <Compile Include="Infrastructure\Infrastructure\SendMail.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
+    <Compile Include="Library\CatsReportServerCredentials.cs" />
     <Compile Include="Library\Controllers\BaseController.cs" />
     <Compile Include="Library\ErrorHandler.cs" />
     <Compile Include="Library\FormsAuthenticationWrapper.cs" />
@@ -1257,6 +1259,11 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\dashboard.css" />
+    <Content Include="Content\themes\default\bootstrap-responsive.css" />
+    <Content Include="Content\themes\default\bootstrap-responsive.min.css" />
+    <Content Include="Content\themes\default\bootstrap.css" />
+    <Content Include="Content\themes\default\bootstrap.min.css" />
+    <Content Include="Content\themes\default\index.html" />
     <Content Include="Content\Workflow\jquery-1.8.0.js" />
     <Content Include="Content\Workflow\jquery-ui-1.8.23.custom.js" />
     <Content Include="Content\Workflow\workflow.js" />
@@ -1624,8 +1631,13 @@
     </Content>
     <Content Include="Areas\Report\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
+
     <Content Include="Areas\Procurement\Views\PriceQuotation\Winners.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Edit_proposal.cshtml" />
+
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
