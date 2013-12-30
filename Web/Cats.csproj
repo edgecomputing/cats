@@ -1631,6 +1631,8 @@
     </Content>
     <Content Include="Areas\Report\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
 
     <Content Include="Areas\Procurement\Views\PriceQuotation\Winners.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Edit_proposal.cshtml" />
