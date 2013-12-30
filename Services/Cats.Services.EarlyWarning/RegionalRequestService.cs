@@ -226,8 +226,6 @@ namespace Cats.Services.EarlyWarning
                      select woreda).ToList();
                     beneficiaryInfos = HRDToRequest(hrddetail);
                 }
-                   
-                
             }
             else
             {
@@ -240,7 +238,6 @@ namespace Cats.Services.EarlyWarning
                     AdminUnit zone1 = zone;
                     woredas.AddRange(_unitOfWork.AdminUnitRepository.FindBy(w => w.ParentID == zone1.AdminUnitID));
                 }
-
                 //var 
                 foreach (var woreda in woredas)
                 {
@@ -258,8 +255,8 @@ namespace Cats.Services.EarlyWarning
             }
             result.BeneficiaryInfos = beneficiaryInfos;
             return result;
-
         }
+
         List<BeneficiaryInfo> HRDToRequest(List<HRDDetail> plandetail)
         {
             List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();

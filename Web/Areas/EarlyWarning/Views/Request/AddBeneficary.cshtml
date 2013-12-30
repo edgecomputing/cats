@@ -9,11 +9,12 @@
 
 @using (Html.BeginForm("AddBeneficary", "Request", new { _programId = @ViewBag.programId }, FormMethod.Post, new { @class = "modal-form" }))
 {
-    if (@ViewBag.programId ==-1)
+    if (@ViewBag.programId == -1)
     {
         @Html.HiddenFor(m => m.RegionID)
     }
     @Html.HiddenFor(m=>m.RegionalRequestID)
+
     <div class="modal-body">
         
         <div class="form-horizontal">
@@ -80,7 +81,6 @@
     </div>
 
 }
-
 
 <script>
 
@@ -230,4 +230,3 @@
         
     });
 </script>
-

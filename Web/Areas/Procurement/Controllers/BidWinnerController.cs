@@ -78,7 +78,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var bidWinners = _bidWinnerService.FindBy(m => m.BidID == id && m.TransporterID==transporterID);
             ViewBag.BidNumber = bidWinners.First().Bid.BidNumber;
-            ViewBag.BidWinners = bidWinners;
+            ViewBag.BidWinners = bidWinners.ToList();
             if (bidWinners == null)
             {
                 return HttpNotFound();
@@ -126,7 +126,7 @@ namespace Cats.Areas.Procurement.Controllers
                             Woreda = bidWinner.AdminUnit.Name,
                             WinnerTariff = bidWinner.Tariff,
                             Quantity = bidWinner.Amount,
-                            StatusID = bidWinner.Status,
+                            StatusID = bidWinner.Status
                             //Status =_workflowStatusService.GetStatusName(WORKFLOW.BidWinner,bidWinner.Status)
 
                         });

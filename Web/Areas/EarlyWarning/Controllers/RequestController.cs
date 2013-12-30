@@ -108,6 +108,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private RegionalRequest CretaeRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo)
         {
             var regionalRequest = new RegionalRequest();
+
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
@@ -257,14 +258,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
                 HRDPSNPPlanInfo psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-                RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
                 
-                var model = getRequestDetai(req.RegionalRequestID);
-                ViewBag.message = "Request Created";
-                //RedirectToAction(@)
-                return RedirectToAction("Details"+"/"+req.RegionalRequestID);
+                var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
+                                                    && r.ProgramId == psnphrdPlanInfo.HRDPSNPPlan.ProgramID
+                                                    && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
+                                                    && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month);
+
+                if (exisiting==null)
+                {
+                    RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
+                    var model = getRequestDetai(req.RegionalRequestID);
+                    ViewBag.message = "Request Created";
+                    //RedirectToAction(@)
+                    return RedirectToAction("Details" + "/" + req.RegionalRequestID);
+                }
+                else
+                {
+                    ModelState.AddModelError("Error","A request with the same parameters has already been made");
+                }
                 
             }
+
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             PopulateLookup();
             return View(hrdpsnpPlan);

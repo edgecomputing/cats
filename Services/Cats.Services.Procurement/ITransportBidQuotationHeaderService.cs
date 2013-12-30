@@ -10,14 +10,14 @@ namespace Cats.Services.Procurement
 {
     public interface ITransportBidQuotationHeaderService
     {
-        bool AddTransportBidQuotation(TransportBidQuotationHeader item);
-        bool UpdateTransportBidQuotation(TransportBidQuotationHeader item);
+        bool AddTransportBidQuotationHeader(TransportBidQuotationHeader item);
+        bool UpdateTransportBidQuotationHeader(TransportBidQuotationHeader item);
 
-        bool DeleteTransportBidQuotation(TransportBidQuotationHeader item);
+        bool DeleteTransportBidQuotationHeader(TransportBidQuotationHeader item);
         bool DeleteById(int id);
 
         TransportBidQuotationHeader FindById(int id);
-        List<TransportBidQuotationHeader> GetAllTransportBidQuotation();
+        List<TransportBidQuotationHeader> GetAllTransportBidQuotationHeader();
         List<TransportBidQuotationHeader> FindBy(Expression<Func<TransportBidQuotationHeader, bool>> predicate);
 
         IEnumerable<TransportBidQuotationHeader> Get(

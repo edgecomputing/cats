@@ -80,6 +80,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -111,9 +115,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -1384,7 +1385,6 @@
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
-    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
@@ -1408,13 +1408,10 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_RFQFilterPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\_BidPlanLeftBar.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <!--<Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
@@ -1500,6 +1497,7 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\_PlanLeftBar.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1636,6 +1634,10 @@
     </Content>
     <Content Include="Areas\Report\Views\Web.config" />
     <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Winners.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit_proposal.cshtml" />
     <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
     <Content Include="Content\themes\default\variables.less" />
     <None Include="dataset.xsd">
@@ -2768,9 +2770,9 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
-  <Target Name="BeforeBuild">
+  <!--Target Name="BeforeBuild">
     <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
-  </Target>
+  </Target>-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
