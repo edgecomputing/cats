@@ -104,6 +104,7 @@ namespace Cats.Areas.Procurement.Controllers
                     {
                         SourceWarehouse = pdetail.Source.Name,
                         Zone = pdetail.Destination.AdminUnit2.Name,
+                        Region = pdetail.Destination.AdminUnit2.AdminUnit2.Name,
                         Woreda = pdetail.Destination.Name,
                         BidID = id,
                         DestinationId = pdetail.DestinationID,
@@ -130,6 +131,7 @@ namespace Cats.Areas.Procurement.Controllers
                         TransporterName = bidWinner.Transporter.Name,
                         SourceWarehouse = bidWinner.Hub.Name,
                         Woreda = bidWinner.AdminUnit.Name,
+                        Region = bidWinner.AdminUnit.AdminUnit2.AdminUnit2.Name,
                         WinnerTariff = bidWinner.Tariff,
                         Quantity = bidWinner.Amount,
                         BidID = bidWinner.BidID,
@@ -139,6 +141,7 @@ namespace Cats.Areas.Procurement.Controllers
                         BidEndDate = bidWinner.Bid.EndDate.ToCTSPreferedDateFormat(datePref),
                         BidOpeningDate = bidWinner.Bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                         StatusID = bidWinner.Status,
+                        
                         //Status = _workflowStatusService.GetStatusName(WORKFLOW.BidWinner, int(bidWinner.Status.Value))
 
                     });

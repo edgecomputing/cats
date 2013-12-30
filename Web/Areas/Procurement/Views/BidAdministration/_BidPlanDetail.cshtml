@@ -5,7 +5,7 @@
     ViewBag.Title = "_BidPlanDetail";
 }
 @(Html.Kendo().Grid<BidPlanDetailViewModel>()
-             .Name("grid3")
+             .Name("bidPlanDetail")
              .Columns(columns =>
                  {
 
@@ -21,7 +21,7 @@
                  })
              .Scrollable()
              .HtmlAttributes(new {style = "height:510px;"})
-             //.Events(events => events.DataBound("collapseGroupRowsbyDefault"))
+             .Events(events => events.DataBound("collapse"))
              .DataSource(datasource =>
                          datasource
                              .Ajax()
@@ -32,3 +32,10 @@
 
       ))
     
+<script type="text/javascript">
+    function collapse() {
+        var grid = $("#bidPlanDetail").data("kendoGrid");
+        grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
+        $('tr[role*="row"]').hide();
+    }
+</script>

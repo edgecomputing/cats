@@ -86,7 +86,7 @@
                   {
 
                       columns.Bound(t => t.TransporterName);
-                      //columns.Bound(t => t.SourceWarehouse);
+                      columns.Bound(t => t.SourceWarehouse);
                       columns.Bound(t => t.Woreda);
                       //columns.Bound(t => t.Quantity);
                       columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
@@ -99,9 +99,10 @@
                           datasource
                               .Ajax()
                               .Model(model => model.Id(p => p.BidWinnnerID))
-                              .Group(group => group.Add(m => m.SourceWarehouse))
+                              .Group(group=> group.Add(m=>m.Region))
+                              //.Group(group => group.Add(m => m.SourceWarehouse))
                               .Group(group=> group.Add(m=>m.TransporterName))
-                              .Group(group=> group.Add(m=>m.Woreda))
+                              
               //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
 
               ))
