@@ -661,7 +661,11 @@ namespace Cats.Areas.Procurement.Controllers
                 };
 
             var comparable = _transportBidQuotationHeaderService.FindBy(m => m.RegionID == regionID && m.BidId == bidNumber && m.Status == 2);
-            TempData["Error"] = "There are no new proposals, winners may already have been identified";
+           
+            ViewBag.Status = comparable==null ? 1 : 2;
+          
+            
+            //TempData["Error"] = "There are no new proposals, winners may already have been identified";
             var tr = new List<TransportBidQuotation>();
 
             foreach (var transportBidQuotationHeader in comparable)
@@ -767,9 +771,17 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Winners(int BidID , int RegionID)
         {
-            if (TempData["Error"] != null)
+            if (ViewBag.Status==1)
             {
-                ModelState.AddModelError("Error", TempData["Error"].ToString());
+                ModelState.AddModelError("Error", "There are no new proposals, winners may have already been identified");
+            }
+            else if(ViewBag.Status==2)
+            {
+                ModelState.AddModelError("Success", "Winners Successfully identified!");
+            }
+            else
+            {
+                ModelState.AddModelError("info", "Showing already generated winners");   
             }
 
             //ViewBag.filter = filter;
@@ -807,7 +819,7 @@ namespace Cats.Areas.Procurement.Controllers
 
             //if (bidPlanID != 0 && regionID != 0)
             //{
-            var s = _bidWinnerService.GetAllBidWinner();
+           // var s = _bidWinnerService.GetAllBidWinner();
             
             var dr = _bidWinnerService.FindBy(t =>
                     t.BidID == bidNumber
