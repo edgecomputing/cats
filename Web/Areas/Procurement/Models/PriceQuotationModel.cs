@@ -74,6 +74,7 @@ namespace Cats.Areas.Procurement.Models
         public string SourceWarehouse { get; set; }
         public int SourceId { get; set; }
         public int DestinationId { get; set; }
+        public string Region { get; set; }
         public string Zone { get; set; }
         public string Woreda { get; set; }
         public int TransporterID { get; set; }

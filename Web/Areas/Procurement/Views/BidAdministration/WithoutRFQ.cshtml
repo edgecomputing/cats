@@ -21,7 +21,7 @@
         }
         <ul class="dropdown-menu">
             
-         <li><a   href="@Url.Action("bidProposal", "PriceQuotation")" >Price Quoatation </a></li>
+         <li><a   href="@Url.Action("BidProposalHeader", "PriceQuotation")" >Price Quoatation </a></li>
           @*<li><a  href="@Url.Action("WarehouseSelection", "TransportBidPlan",new {id=Model.BidPlanID})" >View Bid Plan </a></li>*@
         </ul>
 
@@ -44,6 +44,7 @@
                      
                  })
              .Scrollable()
+             .Events(events => events.DataBound("collapseGroupRows"))
              .HtmlAttributes(new {style = "height:450px;"})
              .DataSource(datasource =>
                          datasource
@@ -53,4 +54,11 @@
                              .Group(group => group.Add(m => m.Program))
              //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
 
-             ))
+       ))
+<script type="text/javascript">
+    function collapseGroupRows() {
+        var grid = $("#grid1").data("kendoGrid");
+        grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
+        $('tr[role*="row"]').hide();
+    }
+</script>
