@@ -584,7 +584,6 @@
     </Compile>
     <Compile Include="dataset.cs">
       <DependentUpon>dataset.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="dataset.Designer.cs">
       <AutoGen>True</AutoGen>

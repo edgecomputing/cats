@@ -42,7 +42,7 @@ namespace Cats.Helpers
                         html += "<ul class='dropdown-menu'>";
                         foreach (var report in reports)
                         {
-                            html += "<li><a href='~/ReportViewer.aspx?path=" + report.Path + "'>" + report.Name + "</a></li>";
+                            html += "<li><a href='/ReportViewer.aspx?path=" + report.Path + "'>" + report.Name + "</a></li>";
                         }
                         html += "</ul>";
                         html += "</li>";
