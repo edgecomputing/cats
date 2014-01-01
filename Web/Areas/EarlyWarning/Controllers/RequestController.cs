@@ -278,11 +278,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("Error", "A request with the same parameters has already been made");
+                        ModelState.AddModelError("Errors", @"A request with the same parameters has already been made");
                     }
 
                 }
-                ModelState.AddModelError("Errors", @"Can not request! Duration of Assistance for this region is Completed ");
+                else
+                {
+                    ModelState.AddModelError("Errors", @"Can Not Create Request! Duration of Assistance for this region is Completed ");
+                }
+               
             }
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             PopulateLookup();

@@ -324,37 +324,32 @@ namespace Cats.Services.EarlyWarning
 
         private bool CheckDurationOfAssisstance(HRDPSNPPlan plan)
         {
-            var hrd = _unitOfWork.HRDRepository.FindBy(m => m.PlanID == plan.PlanID).LastOrDefault();
-            //var woredas=new List<>();
-            if (hrd != null)
+            if (plan.ProgramID == 1)
             {
-                var request =
-                    _unitOfWork.RegionalRequestRepository.FindBy(
-                        r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
-                var hrdDetails = (from region in hrd.HRDDetails
-                                  where region.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
-                                  select new
-                                      {
-                                          region.WoredaID,
-                                          region.DurationOfAssistance
-                                      }).ToList();
-                if(request.Count>=hrdDetails.Max(m=>m.DurationOfAssistance))
-                    return false;
-                return true;
-                //foreach (var hrdDetail in hrdDetails)
-                //{
-                //    if(request.Count<hrdDetail.DurationOfAssistance)
-                //    {
-                //        var woreda = hrdDetail.WoredaID;
-                //        woredas.Add(woreda);
-                //    }
 
-                //}
-
-
+                var hrd = _unitOfWork.HRDRepository.FindBy(m => m.PlanID == plan.PlanID).LastOrDefault();
+                //var woredas=new List<>();
+                if (hrd != null)
+                {
+                    var request =
+                        _unitOfWork.RegionalRequestRepository.FindBy(
+                            r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
+                    var hrdDetails = (from region in hrd.HRDDetails
+                                      where region.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
+                                      select new
+                                          {
+                                              region.WoredaID,
+                                              region.DurationOfAssistance
+                                          }).ToList();
+                    if (request.Count >= hrdDetails.Max(m => m.DurationOfAssistance))
+                        return false;
+                    return true;
+                }
+                
             }
-            return false;
+            return true;
         }
+        
     }
 }
 
