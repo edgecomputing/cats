@@ -28,7 +28,7 @@ namespace Cats.Services.EarlyWarning
         public bool AddRegionalRequest(RegionalRequest regionalRequest)
         {
             // regionalRequest.RegionalRequestDetails = CreateRequestDetail(regionalRequest.RegionID);
-            regionalRequest.Status = (int)RegionalRequestStatus.Draft;
+            regionalRequest.Status = (int) RegionalRequestStatus.Draft;
             // regionalRequest.RationID = 2;//TODO:SET DEFAULT Ration
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.ReferenceNumber = DateTime.Today.ToLongTimeString();
@@ -39,19 +39,21 @@ namespace Cats.Services.EarlyWarning
             return true;
 
         }
+
         private List<RegionalRequestDetail> CreateRequestDetail(int regionId)
         {
             //TODO:Filter with selected region
             var fdpList = _unitOfWork.FDPRepository.FindBy(t => t.AdminUnit.AdminUnit2.ParentID == regionId);
             var requestDetail = (from fdp in fdpList
                                  select new RegionalRequestDetail()
-                                 {
-                                     Beneficiaries = 0,
-                                     Fdpid = fdp.FDPID
+                                     {
+                                         Beneficiaries = 0,
+                                         Fdpid = fdp.FDPID
 
-                                 });
+                                     });
             return requestDetail.ToList();
         }
+
         public bool EditRegionalRequest(RegionalRequest reliefRequistion)
         {
             _unitOfWork.RegionalRequestRepository.Edit(reliefRequistion);
@@ -60,6 +62,7 @@ namespace Cats.Services.EarlyWarning
             return true;
 
         }
+
         private bool CalculateAllocation(int requestId)
         {
             var requestDetails =
@@ -73,21 +76,25 @@ namespace Cats.Services.EarlyWarning
                 foreach (var requestCommodity in requestDetail.RequestDetailCommodities)
                 {
                     var rationAmount = GetCommodityRation(requestDetail.RegionalRequestID, requestCommodity.CommodityID);
-                    var target = _unitOfWork.RequestDetailCommodityRepository.FindById(requestCommodity.RequestCommodityID);
+                    var target =
+                        _unitOfWork.RequestDetailCommodityRepository.FindById(requestCommodity.RequestCommodityID);
 
-                    target.Amount = requestDetail.Beneficiaries * rationAmount;
+                    target.Amount = requestDetail.Beneficiaries*rationAmount;
                 }
             }
             return true;
         }
+
         private decimal GetCommodityRation(int requestId, int commodityId)
         {
             var rationID = _unitOfWork.RegionalRequestRepository.FindById(requestId).RationID;
             var ration =
-                _unitOfWork.RationDetailRepository.FindBy(t => t.RationID == rationID && t.CommodityID == commodityId).FirstOrDefault();
+                _unitOfWork.RationDetailRepository.FindBy(t => t.RationID == rationID && t.CommodityID == commodityId).
+                    FirstOrDefault();
             if (ration == null) return 0;
             return ration.Amount;
         }
+
         public bool DeleteRegionalRequest(RegionalRequest reliefRequistion)
         {
             if (reliefRequistion == null) return false;
@@ -166,126 +173,189 @@ namespace Cats.Services.EarlyWarning
             if (region != 0)
             {
                 return month != 0
-                                               ? _unitOfWork.RegionalRequestRepository.Get(
-                                                   r => r.RegionID == region && r.RequistionDate.Month == month && r.Status == status,
-                                                   null,
-                                                   "AdminUnit,Program").ToList()
-                                               : _unitOfWork.RegionalRequestRepository.Get(r => r.RegionID == region && r.Status == status, null,
-                                                                             "AdminUnit,Program").ToList();
+                           ? _unitOfWork.RegionalRequestRepository.Get(
+                               r => r.RegionID == region && r.RequistionDate.Month == month && r.Status == status,
+                               null,
+                               "AdminUnit,Program").ToList()
+                           : _unitOfWork.RegionalRequestRepository.Get(r => r.RegionID == region && r.Status == status,
+                                                                       null,
+                                                                       "AdminUnit,Program").ToList();
             }
 
             return month != 0
-                                         ? _unitOfWork.RegionalRequestRepository.Get(r => r.RequistionDate.Month == month && r.Status == status, null,
-                                                                       "AdminUnit,Program").ToList()
-                                         : _unitOfWork.RegionalRequestRepository.Get(r => r.Status == status, null, "AdminUnit,Program").ToList();
+                       ? _unitOfWork.RegionalRequestRepository.Get(
+                           r => r.RequistionDate.Month == month && r.Status == status, null,
+                           "AdminUnit,Program").ToList()
+                       : _unitOfWork.RegionalRequestRepository.Get(r => r.Status == status, null, "AdminUnit,Program").
+                             ToList();
         }
 
 
         public bool ApproveRequest(int id)
         {
             var req = _unitOfWork.RegionalRequestRepository.FindById(id);
-            req.Status = (int)RegionalRequestStatus.Approved;
+            req.Status = (int) RegionalRequestStatus.Approved;
             _unitOfWork.Save();
             return true;
         }
+
         public HRDPSNPPlanInfo PlanToRequest(HRDPSNPPlan plan)
         {
-            HRDPSNPPlanInfo result = new HRDPSNPPlanInfo();
-            List<BeneficiaryInfo> beneficiaryInfos = new List<BeneficiaryInfo>();
-            result.HRDPSNPPlan = plan;
-            if (plan.ProgramID == 2)
+            if (CheckDurationOfAssisstance(plan))
             {
-                RegionalPSNPPlan psnpplan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.RegionID == plan.RegionID && r.PlanId == plan.PSNPPlanID).FirstOrDefault();
-                
-                if (psnpplan != null)
+                HRDPSNPPlanInfo result = new HRDPSNPPlanInfo();
+                List<BeneficiaryInfo> beneficiaryInfos = new List<BeneficiaryInfo>();
+                result.HRDPSNPPlan = plan;
+                if (plan.ProgramID == 2)
                 {
-                    result.HRDPSNPPlan.RationID = psnpplan.RationID;
-                    beneficiaryInfos = PSNPToRequest(psnpplan);
+                    RegionalPSNPPlan psnpplan =
+                        _unitOfWork.RegionalPSNPPlanRepository.FindBy(
+                            r => r.RegionID == plan.RegionID && r.PlanId == plan.PSNPPlanID).FirstOrDefault();
+
+                    if (psnpplan != null)
+                    {
+                        result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                        beneficiaryInfos = PSNPToRequest(psnpplan);
+                    }
                 }
-            }
-            else if (plan.ProgramID == 1)
-            {
-                HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).FirstOrDefault();
-
-                var lastRequest= _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID==plan.PlanID).LastOrDefault();
-
-                if (lastRequest!=null)
+                else if (plan.ProgramID == 1)
                 {
+                    HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).LastOrDefault();
 
-                    //var lastreliefRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1);
+                    var lastRequest =_unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID).LastOrDefault();
 
-                    beneficiaryInfos = LastReliefRequest(lastRequest);
-                   
+                    if (lastRequest != null)
+                    {
+
+                        //var lastreliefRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1);
+                       beneficiaryInfos = LastReliefRequest(lastRequest);
+                        
+
+                    }
+                    else
+                    {
+                        result.HRDPSNPPlan.RationID = hrd.RationID;
+                        List<HRDDetail> hrddetail =
+                            (from woreda in hrd.HRDDetails
+                             where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
+                             select woreda).ToList();
+                        beneficiaryInfos = HRDToRequest(hrddetail);
+                    }
                 }
                 else
                 {
-                    result.HRDPSNPPlan.RationID = hrd.RationID;
-                    List<HRDDetail> hrddetail =
-                    (from woreda in hrd.HRDDetails
-                     where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID 
-                     select woreda).ToList();
-                    beneficiaryInfos = HRDToRequest(hrddetail);
-                }
-            }
-            else
-            {
-                //if program is IDPS
-                List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
-                List<AdminUnit> woredas = new List<AdminUnit>();
-                var zones  = _unitOfWork.AdminUnitRepository.FindBy(w => w.AdminUnitTypeID == 3 && w.ParentID == plan.RegionID);
-                foreach (var zone   in zones)
-                {
-                    AdminUnit zone1 = zone;
-                    woredas.AddRange(_unitOfWork.AdminUnitRepository.FindBy(w => w.ParentID == zone1.AdminUnitID));
-                }
-                //var 
-                foreach (var woreda in woredas)
-                {
-                    AdminUnit woreda1 = woreda;
-                    List<FDP> WoredaFDPs =
-                        _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == woreda1.AdminUnitID);
-                    ICollection<BeneficiaryInfo> woredabeneficiaries =
-                        (from FDP fdp in WoredaFDPs
-                         select new BeneficiaryInfo {FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0}).ToList();
-                    benficiaries.AddRange(woredabeneficiaries);
-                }
+                    //if program is IDPS
+                    List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
+                    List<AdminUnit> woredas = new List<AdminUnit>();
+                    var zones =
+                        _unitOfWork.AdminUnitRepository.FindBy(
+                            w => w.AdminUnitTypeID == 3 && w.ParentID == plan.RegionID);
+                    foreach (var zone in zones)
+                    {
+                        AdminUnit zone1 = zone;
+                        woredas.AddRange(_unitOfWork.AdminUnitRepository.FindBy(w => w.ParentID == zone1.AdminUnitID));
+                    }
+                    //var 
+                    foreach (var woreda in woredas)
+                    {
+                        AdminUnit woreda1 = woreda;
+                        List<FDP> WoredaFDPs =
+                            _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == woreda1.AdminUnitID);
+                        ICollection<BeneficiaryInfo> woredabeneficiaries =
+                            (from FDP fdp in WoredaFDPs
+                             select new BeneficiaryInfo {FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0}).
+                                ToList();
+                        benficiaries.AddRange(woredabeneficiaries);
+                    }
 
-                //beneficiaryInfos = benficiaries;
-                //beneficiaryInfos = null; 
+                    //beneficiaryInfos = benficiaries;
+                    //beneficiaryInfos = null; 
+                }
+                result.BeneficiaryInfos = beneficiaryInfos;
+                return result;
             }
-            result.BeneficiaryInfos = beneficiaryInfos;
-            return result;
+            return null;
         }
 
-        List<BeneficiaryInfo> HRDToRequest(List<HRDDetail> plandetail)
+        private List<BeneficiaryInfo> HRDToRequest(List<HRDDetail> plandetail)
         {
             List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
             foreach (HRDDetail d in plandetail)
             {
                 List<FDP> WoredaFDPs = _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == d.AdminUnit.AdminUnitID);
                 ICollection<BeneficiaryInfo> woredabeneficiaries =
-                 (from FDP fdp in WoredaFDPs
-                  select new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0 }).ToList();
+                    (from FDP fdp in WoredaFDPs
+                     select new BeneficiaryInfo {FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0}).ToList();
                 benficiaries.AddRange(woredabeneficiaries);
             }
             return benficiaries;
         }
-        List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan)
+
+        private List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan)
         {
             List<BeneficiaryInfo> benficiaries =
                 (from RegionalPSNPPlanDetail pd in plan.RegionalPSNPPlanDetails
-                 select new BeneficiaryInfo { FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name, Beneficiaries = pd.BeneficiaryCount }).ToList();
+                 select
+                     new BeneficiaryInfo
+                         {FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name, Beneficiaries = pd.BeneficiaryCount})
+                    .ToList();
             return benficiaries;
 
         }
-        List<BeneficiaryInfo> LastReliefRequest(RegionalRequest request)
+
+        private List<BeneficiaryInfo> LastReliefRequest(RegionalRequest request)
         {
             var benficiaries = (from lastRequestDetail in request.RegionalRequestDetails
-                                select new BeneficiaryInfo { FDPID = lastRequestDetail.Fdpid, FDPName = lastRequestDetail .Fdp.Name,Beneficiaries =lastRequestDetail.Beneficiaries }).ToList();
+                                select
+                                    new BeneficiaryInfo
+                                        {
+                                            FDPID = lastRequestDetail.Fdpid,
+                                            FDPName = lastRequestDetail.Fdp.Name,
+                                            Beneficiaries = lastRequestDetail.Beneficiaries
+                                        }).ToList();
             return benficiaries;
         }
-    }
 
+        //private List<BeneficiaryInfo> DurationOfAssistanceIncompleted(RegionalRequest request)
+        //{
+            
+        
+        // }
+
+        private bool CheckDurationOfAssisstance(HRDPSNPPlan plan)
+        {
+            var hrd = _unitOfWork.HRDRepository.FindBy(m => m.PlanID == plan.PlanID).LastOrDefault();
+            //var woredas=new List<>();
+            if (hrd != null)
+            {
+                var request =
+                    _unitOfWork.RegionalRequestRepository.FindBy(
+                        r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
+                var hrdDetails = (from region in hrd.HRDDetails
+                                  where region.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
+                                  select new
+                                      {
+                                          region.WoredaID,
+                                          region.DurationOfAssistance
+                                      }).ToList();
+                if(request.Count>=hrdDetails.Max(m=>m.DurationOfAssistance))
+                    return false;
+                return true;
+                //foreach (var hrdDetail in hrdDetails)
+                //{
+                //    if(request.Count<hrdDetail.DurationOfAssistance)
+                //    {
+                //        var woreda = hrdDetail.WoredaID;
+                //        woredas.Add(woreda);
+                //    }
+
+                //}
+
+
+            }
+            return false;
+        }
+    }
 }
 
 

@@ -258,27 +258,32 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
                 HRDPSNPPlanInfo psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-                
-                var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
-                                                    && r.ProgramId == psnphrdPlanInfo.HRDPSNPPlan.ProgramID
-                                                    && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
-                                                    && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month);
+                if (psnphrdPlanInfo != null)
+                {
+                    var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
+                                                                        &&
+                                                                        r.ProgramId ==
+                                                                        psnphrdPlanInfo.HRDPSNPPlan.ProgramID
+                                                                        && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
+                                                                        && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month)
+                        .Count;
 
-                if (exisiting==null)
-                {
-                    RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
-                    var model = getRequestDetai(req.RegionalRequestID);
-                    ViewBag.message = "Request Created";
-                    //RedirectToAction(@)
-                    return RedirectToAction("Details" + "/" + req.RegionalRequestID);
+                    if (exisiting == 0)
+                    {
+                        RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
+                        var model = getRequestDetai(req.RegionalRequestID);
+                        ViewBag.message = "Request Created";
+                        //RedirectToAction(@)
+                        return RedirectToAction("Details" + "/" + req.RegionalRequestID);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Error", "A request with the same parameters has already been made");
+                    }
+
                 }
-                else
-                {
-                    ModelState.AddModelError("Error","A request with the same parameters has already been made");
-                }
-                
+                ModelState.AddModelError("Errors", @"Can not request! Duration of Assistance for this region is Completed ");
             }
-
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             PopulateLookup();
             return View(hrdpsnpPlan);

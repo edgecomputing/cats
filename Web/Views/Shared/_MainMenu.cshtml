@@ -117,6 +117,9 @@
                             <li>@Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
                                                                 @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
                                                                 LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
+                            <li>@Html.LogisticOperationMenuItem(@Html.Translate("Transport Order"),
+                                                                   @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
+                                                                   LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
 
                             <li class="divider" />
                             <li class="dropdown-submenu">
@@ -154,9 +157,7 @@
                                                                     @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
                                                                     ProcurementCheckAccess.Operation.View_bid_plan)</li>
 
-                            <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
-                                                                   @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
-                                                                   ProcurementCheckAccess.Operation.View_Transport_Order)</li>
+                            
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
                                                                    @Url.Action("Index", "PaymentRequest", new { Area = "Procurement" }),
                                                                    ProcurementCheckAccess.Operation.View_Transport_Order)</li>
