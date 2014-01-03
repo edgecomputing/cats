@@ -21,7 +21,7 @@
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-   
+
     <script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
     <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
@@ -32,7 +32,7 @@
     <script src="~/Scripts/angular/angular-resource.js"></script>
 
     <script src="~/Scripts/ICanHaz.js"></script>
-<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
 
     <style type="text/css">
         body {
@@ -65,7 +65,7 @@
         <div class="row">
             @{
                 var bodyspan = "span12";
-             }
+            }
 
             @if (ViewBag.ViewWidth != "Wide")
             {
@@ -160,5 +160,7 @@
         }
     }
 
+    <!-- JIRA Collector scripts -->
+    <script type="text/javascript" src="https://cats-edge.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-d926hj-1988229788/6207/22/1.4.3/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=630f8204"></script>
 </body>
 </html>
