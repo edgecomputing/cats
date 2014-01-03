@@ -396,7 +396,21 @@ namespace Cats.Data.UnitWork
 
         }
 
-       public void Save()
+        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+
+        public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
+        {
+
+            get
+            {
+                return this.transportBidQuotationHeaderRepository ??
+                       (this.transportBidQuotationHeaderRepository =
+                        new GenericRepository<TransportBidQuotationHeader>(_context));
+            }
+
+        }
+
+        public void Save()
         {
             try
             {
@@ -820,18 +834,39 @@ namespace Cats.Data.UnitWork
 
         }
 
-        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+     
+        
 
-        public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
+
+
+        private IGenericRepository<TemplateType> templateTypeRepository;
+
+        public IGenericRepository<TemplateType> TemplateTypeRepository
         {
-            get { return this.transportBidQuotationHeaderRepository ?? (this.transportBidQuotationHeaderRepository = new GenericRepository<TransportBidQuotationHeader>(_context)); }
+            get { return this.templateTypeRepository ?? (this.templateTypeRepository = new GenericRepository<TemplateType>(_context)); }
+
+        }
+
+        private IGenericRepository<Template> templateRepository;
+        public IGenericRepository<Template> TemplateRepository
+        {
+            get { return this.templateRepository ?? (this.templateRepository = new GenericRepository<Template>(_context)); }
+
+        }
+
+        private IGenericRepository<TemplateField> templateFieldRepository;
+        public IGenericRepository<TemplateField> TemplateFieldRepository
+        {
+            get { return this.templateFieldRepository ?? (this.templateFieldRepository = new GenericRepository<TemplateField>(_context)); }
+
         }
 
 
 
         //public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
         //{
-        //    get { throw new NotImplementedException(); }
+        //    throw new NotImplementedException(); 
         //}
+
     }
 }

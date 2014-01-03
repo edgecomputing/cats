@@ -42,6 +42,11 @@ namespace Cats.Services.Security
             this._provider = provider;
         }
 
+        public UserAccountService()
+        {
+            this._unitOfWork= new UnitOfWork();
+        }
+
         #endregion
 
         #region Default Service Implementation

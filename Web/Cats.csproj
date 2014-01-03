@@ -582,6 +582,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="dataset.cs">
+      <DependentUpon>dataset.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dataset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1616,6 +1620,9 @@
     <Content Include="Areas\Procurement\Views\Bid\WoredaWithOutBidOfferFilterParial.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
+
     <Content Include="Areas\Procurement\Views\BidAdministration\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\LeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_WoredasWithoutOffer.cshtml" />
@@ -2699,6 +2706,26 @@
     <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
   </ItemGroup>
   <ItemGroup>
+
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
@@ -2716,6 +2743,7 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Cats_ReportPortal_ReportingService2010</CachedSettingsPropName>
     </WebReferenceUrl>
+
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
