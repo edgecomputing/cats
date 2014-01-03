@@ -14,6 +14,7 @@ namespace Cats.Services.Security
         // CRUD Operations
         bool Add(UserProfile entity, Dictionary<string, List<string>> roles);
         bool Add(UserProfile entity, string store, string application);
+        bool AddRole(string user, string application, string role);
         bool Delete(UserProfile user);
         bool DeleteById(int id);
         bool Save(UserProfile user);

@@ -10,10 +10,9 @@ namespace Cats.Services.Security
 {
     public interface ILogisticsCheckAccess
     {
-       
-            IAzManStorage Storage { get; }
+        IAzManStorage Storage { get; }
 
-            bool CheckAccess(LogisticsCheckAccess.Role role, params KeyValuePair<string, object>[] contextParameters);
+        bool CheckAccess(LogisticsCheckAccess.Role role, params KeyValuePair<string, object>[] contextParameters);
 
         bool CheckAccess(LogisticsCheckAccess.Role role, string dbUserName,
                          params KeyValuePair<string, object>[] contextParameters);
@@ -52,27 +51,27 @@ namespace Cats.Services.Security
                          out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>
                              attributes, params KeyValuePair<string, object>[] contextParameters);
 
-            bool CheckAccess(LogisticsCheckAccess.Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID,
-                             out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>
-                                 attributes, params KeyValuePair<string, object>[] contextParameters);
+        bool CheckAccess(LogisticsCheckAccess.Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID,
+                         out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>
+                             attributes, params KeyValuePair<string, object>[] contextParameters);
 
-            bool CheckAccess(LogisticsCheckAccess.Operation operation, string dbUserName,
-                             out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>
-                                 attributes, params KeyValuePair<string, object>[] contextParameters);
+        bool CheckAccess(LogisticsCheckAccess.Operation operation, string dbUserName,
+                         out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>
+                             attributes, params KeyValuePair<string, object>[] contextParameters);
 
-            bool CheckAccess(LogisticsCheckAccess.Operation operation,
-                             out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>
-                                 attributes, params KeyValuePair<string, object>[] contextParameters);
+        bool CheckAccess(LogisticsCheckAccess.Operation operation,
+                         out System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>
+                             attributes, params KeyValuePair<string, object>[] contextParameters);
 
-            bool CheckAccess(LogisticsCheckAccess.Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID,
-                             params KeyValuePair<string, object>[] contextParameters);
+        bool CheckAccess(LogisticsCheckAccess.Operation operation, NetSqlAzMan.Interfaces.IAzManSid customSID,
+                         params KeyValuePair<string, object>[] contextParameters);
 
-            bool CheckAccess(LogisticsCheckAccess.Operation operation, string dbUserName,
-                             params KeyValuePair<string, object>[] contextParameters);
+        bool CheckAccess(LogisticsCheckAccess.Operation operation, string dbUserName,
+                         params KeyValuePair<string, object>[] contextParameters);
 
 
-            bool CheckAccess(LogisticsCheckAccess.Operation operation, params KeyValuePair<string, object>[] contextParameters);
+        bool CheckAccess(LogisticsCheckAccess.Operation operation, params KeyValuePair<string, object>[] contextParameters);
 
-            bool CheckAccess(LogisticsCheckAccess.Operation hubAllocation, IAzManSid dbUserName);
+        bool CheckAccess(LogisticsCheckAccess.Operation hubAllocation, IAzManSid dbUserName);
     }
-    }
+}

@@ -1,7 +1,7 @@
 ﻿@model Cats.Areas.Settings.Models.UserViewModel
-
 @{
     ViewBag.Title = "Edit User Roles";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 @section MainMenu
@@ -13,8 +13,6 @@
 {
     @Html.Partial("_AdminLeftBar")
 }
-
-<h4>Edit User Roles</h4>
 
 <h4 class="page-header">Edit User Roles</h4>
 
@@ -110,7 +108,7 @@
     <div class="control-group">
         <label class="control-label"></label>
         <div class="controls">
-            <input type="submit" name="editUserRole" class="btn btn-primary" value="Edit User Role" />
+            <input type="submit" name="editUserRole" class="btn btn-primary" value="Update Roles" />
             <a href="@Url.Action("Index", "Users")" class="btn">Cancel</a>
         </div>
     </div>
