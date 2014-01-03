@@ -71,7 +71,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Index()
         {
             List<Cats.Models.TransportBidPlan> list = _transportBidPlanService.GetAllTransportBidPlan();
-            return View(CopyListToView(list));
+            return View(CopyListToView(list).ToList());
         }
         public ActionResult GetListJson([DataSourceRequest] DataSourceRequest request)
         {

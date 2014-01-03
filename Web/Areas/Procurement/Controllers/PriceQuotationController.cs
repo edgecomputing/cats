@@ -250,7 +250,7 @@ namespace Cats.Areas.Procurement.Controllers
                     detail.SourceID = bidProposal.SourceID;
                     detail.DestinationID = bidProposal.DestinationID;
                     detail.Tariff = bidProposal.Tariff;
-                    detail.Remark = bidProposal.Remark;
+                    detail.Remark = bidProposal.Remark ?? String.Empty;
                     detail.IsWinner = false;
                     _transportBidQuotationService.UpdateTransportBidQuotation(detail);
 
