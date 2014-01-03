@@ -84,8 +84,14 @@
     <Compile Include="Mapping\DistributionMap.cs" />
     <Compile Include="Mapping\IDPSReasonTypeMap.cs" />
     <Compile Include="Mapping\PaymentRequestMap.cs" />
+    <Compile Include="Mapping\TemplateFieldMap.cs" />
+    <Compile Include="Mapping\TemplateMap.cs" />
+    <Compile Include="Mapping\TemplateTypeMap.cs" />
     <Compile Include="Mapping\TransportBidQuotationHeaderMap.cs" />
     <Compile Include="PaymentRequest.cs" />
+    <Compile Include="Template.cs" />
+    <Compile Include="TemplateField.cs" />
+    <Compile Include="TemplateType.cs" />
     <Compile Include="TransportBidQuotationHeader.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />

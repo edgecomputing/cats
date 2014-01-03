@@ -822,5 +822,29 @@ namespace Cats.Data.UnitWork
             get { return this.actionTypesRepository ?? (this.actionTypesRepository = new GenericRepository<ActionTypes>(_context)); }
 
         }
+
+
+        private IGenericRepository<TemplateType> templateTypeRepository;
+
+        public IGenericRepository<TemplateType> TemplateTypeRepository
+        {
+            get { return this.templateTypeRepository ?? (this.templateTypeRepository = new GenericRepository<TemplateType>(_context)); }
+
+        }
+
+        private IGenericRepository<Template> templateRepository;
+        public IGenericRepository<Template> TemplateRepository
+        {
+            get { return this.templateRepository ?? (this.templateRepository = new GenericRepository<Template>(_context)); }
+
+        }
+
+        private IGenericRepository<TemplateField> templateFieldRepository;
+        public IGenericRepository<TemplateField> TemplateFieldRepository
+        {
+            get { return this.templateFieldRepository ?? (this.templateFieldRepository = new GenericRepository<TemplateField>(_context)); }
+
+        }
+
     }
 }

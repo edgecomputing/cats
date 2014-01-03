@@ -240,6 +240,11 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
             modelBuilder.Configurations.Add(new ActionTypesMap());
+
+            modelBuilder.Configurations.Add(new TemplateTypeMap());
+            modelBuilder.Configurations.Add(new TemplateMap());
+            modelBuilder.Configurations.Add(new TemplateFieldMap());
+
         }
 
     }

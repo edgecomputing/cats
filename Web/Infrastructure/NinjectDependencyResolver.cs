@@ -168,6 +168,8 @@ namespace Cats.Infrastructure
             kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
             kernel.Bind<ITransporterAgreementVersionService>().To<TransporterAgreementVersionService>();
 
+            kernel.Bind<ITemplateService>().To<TemplateService>();
+
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
                                                                                        ConfigurationManager.
