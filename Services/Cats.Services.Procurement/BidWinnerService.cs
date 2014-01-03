@@ -112,5 +112,16 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+
+
+        public bool IsRfqGenerated(int bidID)
+        {
+            var rfq = _unitOfWork.TransportBidQuotationRepository.FindBy(m => m.BidID == bidID);
+            if (rfq != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -490,6 +490,9 @@ namespace Cats.Services.Security
             return _unitOfWork.UserProfileRepository.GetAll();
         }
 
+
+       
+
         #endregion
 
     }

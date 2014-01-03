@@ -9,6 +9,8 @@
 @section Toolbar{
       <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
 }
+
+
 <div class="row">
     <h4>Bid Proposal Data Entry</h4>
 </div>
@@ -24,7 +26,7 @@
                         columns.Bound(p => p.SourceWarehouse);
                         columns.Bound(p => p.Zone);
                         columns.Bound(p => p.Woreda);
-                        columns.Bound(p => p.Tariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}"); ;
+                        columns.Bound(p => p.Tariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}");
                         columns.Bound(p => p.Remark);
                     })
                 .Scrollable()

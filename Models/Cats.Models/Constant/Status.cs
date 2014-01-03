@@ -14,7 +14,8 @@ namespace Cats.Models.Constant
       TRANSPORT_ORDER=4,
       HRD=5,
       Plan=7,
-      BidWinner=8
+      BidWinner=8,
+      BID=9
   }
     public enum Programs
     {
@@ -66,7 +67,8 @@ namespace Cats.Models.Constant
         Approved=2,
         AssessmentCreated=3,
         HRDCreated=4,
-        PSNPCreated=5
+        PSNPCreated=5,
+        Closed=6
     }
     public enum WoredaHubLinkVersionStatus
     {
@@ -94,4 +96,14 @@ namespace Cats.Models.Constant
         Draft = 1,
         Closed = 2
     }
+    public enum BidStatus
+    {
+        Open=1,
+        Approved=2,
+        Cancelled=3,
+        Closed=4,
+        Active=5
+
+    }
+   
 }

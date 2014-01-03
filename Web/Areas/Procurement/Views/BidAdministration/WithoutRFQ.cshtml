@@ -1,0 +1,64 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@model Cats.Areas.Procurement.Models.BidPlanDetailListViewModel
+@{
+    ViewBag.Title = "WithoutRFQ";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h4>Bid Plan detail for Bid: @ViewBag.BidNumber </h4>
+@section Toolbar    {
+   
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+        <ul class="dropdown-menu">
+            
+         <li><a   href="@Url.Action("BidProposalHeader", "PriceQuotation")" >Price Quoatation </a></li>
+          @*<li><a  href="@Url.Action("WarehouseSelection", "TransportBidPlan",new {id=Model.BidPlanID})" >View Bid Plan </a></li>*@
+        </ul>
+
+    </div>
+           
+}
+ @(Html.Kendo().Grid<BidPlanDetailViewModel>(Model.BidPlanDetails)
+             .Name("grid1")
+             .Columns(columns =>
+                 {
+
+                     //columns.Bound(t => t.BidPlanDetailID);
+                     columns.Bound(t => t.Region);
+                     //columns.Bound(t => t.SourceID);
+                     columns.Bound(t => t.Warehouse);
+                     //columns.Bound(t => t.DestinationID);
+                     columns.Bound(t => t.Woreda);
+                     columns.Bound(t => t.Quantity);
+                     //columns.Bound(t => t.Program);
+                     
+                 })
+             .Scrollable()
+             .Events(events => events.DataBound("collapseGroupRows"))
+             .HtmlAttributes(new {style = "height:450px;"})
+             .DataSource(datasource =>
+                         datasource
+                             .Ajax()
+                             .Model(model => model.Id(p => p.BidPlanDetailID))
+                             .Group(group => group.Add(m => m.Region))
+                             .Group(group => group.Add(m => m.Program))
+             //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
+
+       ))
+<script type="text/javascript">
+    function collapseGroupRows() {
+        var grid = $("#grid1").data("kendoGrid");
+        grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
+        $('tr[role*="row"]').hide();
+    }
+</script>

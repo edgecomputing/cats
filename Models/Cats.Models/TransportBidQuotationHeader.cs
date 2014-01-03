@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cats.Models
 {
@@ -13,12 +10,17 @@ namespace Cats.Models
             this.TransportBidQuotations = new List<TransportBidQuotation>();
         }
 
-        public int TransportBidQuotationHeaddrID { get; set; }
+        public int TransportBidQuotationHeaderID { get; set; }
         public Nullable<System.DateTime> BidQuotationDate { get; set; }
-        public Nullable<float> BidBondAmount { get; set; }
-       
-        public Nullable<int> EnteredBy { get; set; }
-        public Nullable<int> Status { get; set; }
+        public float BidBondAmount { get; set; }
+        public Nullable<int> TransporterId { get; set; }
+        public Nullable<int> BidId { get; set; }
+        public Nullable<int> RegionID { get; set; }
+        public string EnteredBy { get; set; }
+        public int Status { get; set; }
+        public virtual AdminUnit AdminUnit { get; set; }
+        public virtual Bid Bid { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
+        public virtual Transporter Transporter { get; set; }
     }
 }

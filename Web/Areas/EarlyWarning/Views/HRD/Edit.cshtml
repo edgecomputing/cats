@@ -17,10 +17,8 @@
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Edit_hrd"></a>
-    
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("Index", "HRD", new {Area = "EarlyWarning"}),
-                        EarlyWarningCheckAccess.Operation.View_HRD_list, "save Changes", "btn", "btn_cancel")
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="cancel"></a>
+   
 }
 <div><h4>Edit HRD</h4></div>
     @using (Html.BeginForm("Edit", "HRD", FormMethod.Post, new { id = "frm_Edit_hrd" }))
@@ -32,7 +30,7 @@
         <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Year)
+                    @Html.LabelFor(m => m.Year,"Year (Specified in EC)")
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Year)

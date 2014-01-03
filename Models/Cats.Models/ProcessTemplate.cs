@@ -20,7 +20,12 @@ namespace Cats.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Graphic Data")]
+        public string GraphicsData { get; set; }
+
+
         public virtual ICollection<StateTemplate> ParentProcessTemplateStateTemplates { get; set; }
+        public virtual ICollection<FlowTemplate> ParentProcessTemplateFlowTemplates { get; set; }
         //Relationships
         public virtual ICollection<BusinessProcess> ProcessTypeBusinessProcesss { get; set; }
 
@@ -41,8 +46,12 @@ namespace Cats.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Graphic Data")]
+        public string GraphicsData { get; set; }
 
+        public IEnumerable<StateTemplatePOCO> StateTemplates { get; set; }
         //Relationships
+        public IEnumerable<FlowTemplatePOCO> FlowTemplates { get; set; }
 
     }
    

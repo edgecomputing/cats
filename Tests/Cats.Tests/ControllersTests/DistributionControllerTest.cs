@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Models.Constant;
 using Cats.Models.Security;
+using Cats.Services.Administration;
 using Cats.Services.Hub;
 using Cats.Services.Security;
 using NUnit.Framework;
@@ -140,6 +141,13 @@ namespace Cats.Tests.ControllersTests
             
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
+            var actionTypesService = new Mock<IActionTypesService>();
+            actionTypesService.Setup(m => m.GetAllActionType()).Returns(new List<ActionTypes>
+                {
+                    new ActionTypes() {ActionId = 1, Name = "ActionName", Description = "ActionDescription"}
+                });
+            
             
             
             _distributionController=
@@ -150,7 +158,7 @@ namespace Cats.Tests.ControllersTests
                    distributionService.Object,
                    dispatchService.Object,
                    distributionDetailService.Object,
-                   notificationService.Object,
+                   notificationService.Object,actionTypesService.Object,
                    userAccountService.Object
                );
             _distributionController.ControllerContext = controllerContext.Object;

@@ -27,6 +27,7 @@ namespace Cats.Data
         public DbSet<AdminUnit> AdminUnits { get; set; }
         public DbSet<Commodity> Commodities { get; set; }
         public DbSet<CommodityType> CommodityTypes { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<FDP> Fdps { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
@@ -64,6 +65,8 @@ namespace Cats.Data
         public DbSet<Workflow> Workflows { get; set; }
         public DbSet<WorkflowStatus> WorkflowStatuses { get; set; }
         public DbSet<TransportBidQuotation> TransportBidQuotations { get; set; }
+        public DbSet<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
+
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         public DbSet<Ration> Rations { get; set; }
 
@@ -187,6 +190,7 @@ namespace Cats.Data
              modelBuilder.Configurations.Add(new WorkflowMap());
             modelBuilder.Configurations.Add(new WorkflowStatusMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationMap());
+           // modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
             modelBuilder.Configurations.Add(new ApplicationSettingMap());
             modelBuilder.Configurations.Add(new RationMap());
 

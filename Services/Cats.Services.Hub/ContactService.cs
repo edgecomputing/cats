@@ -20,6 +20,7 @@ namespace Cats.Services.Hub
             this._unitOfWork = new UnitOfWork();
         }
         #region Default Service Implementation
+
         public bool AddContact(Contact contact)
         {
             _unitOfWork.ContactRepository.Add(contact);

@@ -103,9 +103,92 @@ namespace Cats.Tests.ControllersTests
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
 
+            var transportBidQuotationService = new Mock<ITransportBidQuotationService>();
+            transportBidQuotationService.Setup(m => m.GetAllTransportBidQuotation()).Returns(new List <TransportBidQuotation>
+                {
+                    new TransportBidQuotation() {BidID = 1,DestinationID = 1,TransportBidQuotationID = 1}
+                });
+
+             var bidWinner = new List<BidWinner>
+            {
+                new BidWinner
+                    {
+                        BidWinnerID = 1,
+                        BidID = 1,
+                        DestinationID = 23,
+                        SourceID = 4,
+                        Tariff = 12,
+                        Position = 1,
+                        Bid = new Bid
+                            {
+                                BidID = 1,
+                                StartDate = new DateTime(12/12/2004),
+                                EndDate = new DateTime(12/12/2005),
+                                TransportBidPlanID = 1
+                            }
+
+
+                    }
+            };
+            var bidWinnerService = new Mock<IBidWinnerService>();
+            bidWinnerService.Setup(m => m.GetAllBidWinner()).Returns(bidWinner);
+
+             var transporter = new List<Transporter>()
+                                  {
+                                      new Transporter()
+                                          {
+                                                          TransporterID = 1,
+                                                          Name = "Bert",
+                                                          Region = 4,
+                                                          SubCity = "Arada",
+                                                          Zone = 1,
+                                                          MobileNo = "09123786554",
+                                                          Capital = 20000
+                                          }
+                                  };
+
+            var transporterService = new Mock<ITransporterService>();
+            transporterService.Setup(m => m.GetAllTransporter()).Returns(transporter);
+            var hub = new List<Hub>
+                {
+                    new Hub() {HubID = 1, Name = "Adama", HubOwnerID = 1},
+                    new Hub() {HubID = 2, Name = "Dire Dawa", HubOwnerID = 1}
+                };
+
+             var workFlowStatus = new List<WorkflowStatus>
+                {
+                     new WorkflowStatus {
+                                          Description = "Draft",
+                                          StatusID = 1,
+                                          WorkflowID = 8
+                                        },
+                                  new WorkflowStatus
+                                      {
+                                          Description = "Approved",
+                                          StatusID = 2,
+                                          WorkflowID = 8
+                                      },
+                                  new WorkflowStatus
+                                      {
+                                          Description = "Signed",
+                                          StatusID = 3,
+                                          WorkflowID = 8
+                                      },
+                                          new WorkflowStatus
+                                      {
+                                          Description = "Disqualified",
+                                          StatusID = 4,
+                                          WorkflowID = 8
+                                      }
+                };
+             var workFlowStatusService = new Mock<IWorkflowStatusService>();
+
+            var hubService = new Mock<IHubService>();
+            hubService.Setup(m => m.GetAllHub()).Returns(hub);
             _bidController = new BidController(MockBidService, MockBidDetail, MockAdminUnitService, MockStatusService,
                                             MockTransportBidPlanService,MockTransportBidPlanDetailService,MockApplicationSetting,
-                                            userAccountService.Object);
+                                            userAccountService.Object,transportBidQuotationService.Object,bidWinnerService.Object,
+                                            transporterService.Object, hubService.Object, workFlowStatusService.Object);
 
           }
         
