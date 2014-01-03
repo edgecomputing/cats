@@ -63,17 +63,27 @@
             // group1
             // 
             this.group1.Items.Add(this.btnSetings);
+            this.group1.Label = "Server Settings";
             this.group1.Name = "group1";
             // 
             // btnSetings
             // 
-            this.btnSetings.Label = "Setting";
+            this.btnSetings.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSetings.Description = "CATS server connection url";
+            this.btnSetings.Label = "Server Settings";
             this.btnSetings.Name = "btnSetings";
+            this.btnSetings.OfficeImageId = "ServerProperties";
+            this.btnSetings.ScreenTip = "Provide connection information for CATS server";
+            this.btnSetings.ShowImage = true;
+            this.btnSetings.SuperTip = "Please provide the server information where CATS is installed on. This informatio" +
+    "n is usually in the form of a web url (eg. http://www.catsproject.org/TemplateSe" +
+    "rver.svc)";
             this.btnSetings.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
             // 
             // group2
             // 
             this.group2.Items.Add(this.btnAddNew);
+            this.group2.Label = "Templates";
             this.group2.Name = "group2";
             // 
             // btnAddNew
