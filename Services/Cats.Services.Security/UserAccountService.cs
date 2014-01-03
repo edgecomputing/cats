@@ -43,7 +43,7 @@ namespace Cats.Services.Security
 
         #region Default Service Implementation
 
-        public bool Add(UserProfile entity, Dictionary<string,List<string>> roles)
+        public bool Add(UserProfile entity, Dictionary<string, List<string>> roles)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Cats.Services.Security
                 throw new ApplicationException(string.Format("An error occurred while saving. Detail: {0} ", ex.Message));
             }
         }
-        
+
         public bool Add(UserProfile entity, string store, string application)
         {
             try
@@ -154,16 +154,16 @@ namespace Cats.Services.Security
             catch (Exception ex)
             {
                 //throw new ApplicationException("The requested user could not be found.", ex);
-                throw new userNotFoundException("",ex);
+                throw new userNotFoundException("", ex);
             }
 
             // If the user account is disabled then we dont need to allow login instead we need to throw an exception
             // stating that the account is disabled.
             if (user.Disabled == true)
-                
+
                 throw new disabledUserException();
-                //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
-                
+            //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
+
             // Check if the passwords match
 
             if (user.Password == HashPassword(password))
@@ -176,8 +176,8 @@ namespace Cats.Services.Security
             }
             else
             {
-               //throw new ApplicationException("The supplied user name and password do not match.");
-               throw new unmatchingUsernameAndPasswordException();
+                //throw new ApplicationException("The supplied user name and password do not match.");
+                throw new unmatchingUsernameAndPasswordException();
             }
 
             return false;
@@ -207,7 +207,7 @@ namespace Cats.Services.Security
                     return true;
                 }
             }
-             
+
             catch (Exception e)
             {
                 //throw new ApplicationException("Error changing password", e);
@@ -240,7 +240,7 @@ namespace Cats.Services.Security
                     _unitOfWork.Save();
 
                     // TODO: Consider sending the new password through email for the user!
-                   // SendPasswordToMail(userName, user.Email);
+                    // SendPasswordToMail(userName, user.Email);
 
                 }
                 catch (Exception e)
@@ -251,7 +251,7 @@ namespace Cats.Services.Security
             }
             return randomPassword;
         }
-       /// <summary>
+        /// <summary>
         /// Flips/Reverts the status of a user account. If an account is active it will
         /// disable it but if it is already disabled then it will activiate it by setting
         /// its value to 'enabled'.
@@ -273,7 +273,7 @@ namespace Cats.Services.Security
             catch (Exception exception)
             {
                 throw new ApplicationException("Error disabling/enabling user account", exception);
-               
+
             }
 
             return false;
@@ -374,7 +374,7 @@ namespace Cats.Services.Security
             }
 
         }
-        
+
         /// <summary>
         /// Get all roles associated with the application provided
         /// </summary>
@@ -383,15 +383,15 @@ namespace Cats.Services.Security
 
         public string[] GetRoles(string application)
         {
-          
+
             _provider.ApplicationName = application;
-            return  _provider.GetAllRoles();
+            return _provider.GetAllRoles();
         }
 
 
         public string[] GetUserRoles(string username)
         {
-            
+
 
             string[] roles = _provider.GetRolesForUser(username);
             return roles;
@@ -423,7 +423,7 @@ namespace Cats.Services.Security
             }
             return apps;
         }
-        
+
 
         public void AddUserToRoles(string userName, string[] Roles, string store, string application)
         {
@@ -486,7 +486,9 @@ namespace Cats.Services.Security
         }
 
 
-       
+
+
+
 
         #endregion
 
