@@ -159,8 +159,13 @@ namespace Cats.Areas.Settings.Controllers
                 foreach (var role in application.Roles)
                 {
                     if (role.IsChecked)
-                        //Roles = new List<Role>() { new Role() { RoleName = role.RoleName } };
-                        userService.AddRole(userInfo.UserName, application.ApplicationName, role.RoleName);        
+                    {
+                        userService.AddRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                    }      
+                    else if(!role.IsChecked)
+                    {
+                        //userService.RemoveRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                    }
                 }
                 
                 //if (Roles.Count > 0)

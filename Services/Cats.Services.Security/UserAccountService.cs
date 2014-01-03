@@ -44,7 +44,7 @@ namespace Cats.Services.Security
 
         public UserAccountService()
         {
-            this._unitOfWork= new UnitOfWork();
+            this._unitOfWork = new UnitOfWork();
         }
 
         #endregion
@@ -384,7 +384,7 @@ namespace Cats.Services.Security
 
             var allItems = storage.Storage.GetStore(store).GetApplication(application).Items;
 
-            var d = CheckAccess(AzManStore.GetDBUser(userName), application, "EW Coordinator", AzManStore);
+            //var d = CheckAccess(AzManStore.GetDBUser(userName), application, "EW Coordinator", AzManStore);
 
             var roleItems = (
                           from t in items
@@ -432,8 +432,8 @@ namespace Cats.Services.Security
             var apps = new List<Application>();
             //try
             //{
-                _provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
-                Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
+            _provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
+            Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
             foreach (var app in Application)
             {
                 apps.Add(new Application() { ApplicationName = app.Value.Name, Roles = GetUserPermissions(UserName, "CATS", app.Value.Name) });
@@ -442,7 +442,7 @@ namespace Cats.Services.Security
             //}
             //catch
             //{
-              //  return apps;
+            //  return apps;
             //}
         }
 
@@ -506,8 +506,6 @@ namespace Cats.Services.Security
 
         public void EditUserRole(string owner, string userName, Dictionary<string, List<Role>> applications)
         {
-
-
             foreach (var apps in applications)
             {
                 List<Role> UserPermissions = GetUserPermissions(_store.GetDBUser(userName).CustomSid.StringValue, "CATS", apps.Key);
@@ -558,9 +556,6 @@ namespace Cats.Services.Security
             return _unitOfWork.UserProfileRepository.GetAll();
         }
 
-
-
-
         #endregion
 
         public bool AddRole(string user, string application, string role)
@@ -572,43 +567,41 @@ namespace Cats.Services.Security
             IAzManStore mystore = storage.GetStore(store); //or storage["My Store"]
             IAzManApplication myapp = mystore.GetApplication(application);
 
-            //storage.BeginTransaction(AzManIsolationLevel.ReadUncommitted);
-
-            //foreach (var role in roles)
-            //{
             IAzManItem azManRole = myapp.GetItem(role);
 
-            //Estabilish delegate authorization (only Allow or Deny)
-            const RestrictedAuthorizationType delegateAuthorization = RestrictedAuthorizationType.Allow;
-
-
-            //IAzManAuthorization dele = azManRole.CreateDelegateAuthorization(
-            //                                        mystore.GetDBUser("Admin"),
-            //                                        mystore.GetDBUser(user).CustomSid,
-            //                                        RestrictedAuthorizationType.Allow, 
-            //                                        null,
-            //                                        null
-            //                                    );
-
             IAzManAuthorization dele = azManRole.CreateAuthorization(
-                                                   mystore.GetDBUser("Admin").CustomSid,
-                                                   WhereDefined.Database,
-                                                   mystore.GetDBUser(user).CustomSid,
-                                                   WhereDefined.Database,
-                                                   AuthorizationType.AllowWithDelegation,
-                                                   null,
-                                                   null
+                                                mystore.GetDBUser("Admin").CustomSid,
+                                                WhereDefined.Database,
+                                                mystore.GetDBUser(user).CustomSid,
+                                                WhereDefined.Database,
+                                                AuthorizationType.AllowWithDelegation,
+                                                null,
+                                                null
                                                );
 
-            //azManRole.Update("Role association");
+            //IAzManAuthorization del = azManRole.CreateDelegateAuthorization(mystore.GetDBUser("Admin"),mystore.GetDBUser(user).CustomSid,RestrictedAuthorizationType.Allow, null,null);
+
+            return true;
+        }
 
 
-            //dele.CreateAttribute("MyCustomInfoKey", "MyCustomInfoValue");
+        public bool RemoveRole(string user, string application, string role)
+        {
+            const string store = "CATS";
 
-            //}
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+            IAzManStorage storage = new SqlAzManStorage(connectionString);
+            IAzManStore mystore = storage.GetStore(store); //or storage["My Store"]
+            IAzManApplication myapp = mystore.GetApplication(application);
 
-            // storage.CommitTransaction();
+            IAzManItem azManRole = myapp.GetItem(role);
 
+            azManRole.DeleteDelegateAuthorization(
+                                                     mystore.GetDBUser(user),
+                                                     mystore.GetDBUser("Admin").CustomSid,
+                                                     RestrictedAuthorizationType.Allow
+                                                 );
+            //azManRole.DeleteDelegateAuthorization();
 
             return true;
         }
