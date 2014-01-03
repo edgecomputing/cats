@@ -276,7 +276,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
             bid.BidNumber = _bidService.AutogenerateBidNo();
             ViewBag.BidPlanID = id;
-           
+            
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", id);
             return View(bid);
         }

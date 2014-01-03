@@ -430,20 +430,21 @@ namespace Cats.Services.Security
         public List<Application> GetUserPermissions(string UserName)
         {
             var apps = new List<Application>();
-            //try
-            //{
+            try
+            {
             _provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
             Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
             foreach (var app in Application)
             {
                 apps.Add(new Application() { ApplicationName = app.Value.Name, Roles = GetUserPermissions(UserName, "CATS", app.Value.Name) });
             }
+
             return apps;
-            //}
-            //catch
-            //{
-            //  return apps;
-            //}
+            }
+            catch
+            {
+                return apps;
+            }
         }
 
         /// <summary>

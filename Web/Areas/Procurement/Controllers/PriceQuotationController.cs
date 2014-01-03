@@ -370,7 +370,10 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.BIDS = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
-            return View();
+            var header = new TransportBidQuotationHeader();
+            var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+            header.EnteredBy = user.FullName;
+            return View(header);
         }
 
         public ActionResult ApproveProposal(int id)
@@ -868,6 +871,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.BIDS = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
+            //ViewBag.EnteredBy = "Me";
             var header = _transportBidQuotationHeaderService.FindById(id);
             return View(header);
         }
