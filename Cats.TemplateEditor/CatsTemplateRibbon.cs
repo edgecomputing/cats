@@ -48,7 +48,7 @@ namespace Cats.TemplateEditor
         private void DisableRibbon()
         {
             btnAddNew.Enabled = false;
-            btnEdit.Enabled = false;
+            //btnEdit.Enabled = false;
             btnSetings.Enabled = false;
             
         }
@@ -56,7 +56,7 @@ namespace Cats.TemplateEditor
         private void EnableRibbon()
         {
             btnAddNew.Enabled = true;
-            btnEdit.Enabled = true;
+            //btnEdit.Enabled = true;
             btnSetings.Enabled = true;
             btnLogIn.Visible = false;
         }

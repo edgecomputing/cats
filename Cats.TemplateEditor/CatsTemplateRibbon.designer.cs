@@ -39,31 +39,33 @@
             this.btnSetings = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.btnAddNew = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.btnEdit = this.Factory.CreateRibbonButton();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.btnLogIn = this.Factory.CreateRibbonButton();
             this.saveDlg = new System.Windows.Forms.SaveFileDialog();
+            this.createGroup = this.Factory.CreateRibbonGroup();
+            this.button1 = this.Factory.CreateRibbonButton();
+            this.button2 = this.Factory.CreateRibbonButton();
+            this.button3 = this.Factory.CreateRibbonButton();
+            this.button4 = this.Factory.CreateRibbonButton();
+            this.button5 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
-            this.group3.SuspendLayout();
-            this.group4.SuspendLayout();
+            this.createGroup.SuspendLayout();
             // 
             // tab1
             // 
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.createGroup);
             this.tab1.Groups.Add(this.group2);
-            this.tab1.Groups.Add(this.group3);
-            this.tab1.Groups.Add(this.group4);
+            this.tab1.Groups.Add(this.group1);
             this.tab1.Label = "CATS";
             this.tab1.Name = "tab1";
             // 
             // group1
             // 
             this.group1.Items.Add(this.btnSetings);
-            this.group1.Label = "Server Settings";
+            this.group1.Items.Add(this.btnLogIn);
+            this.group1.Label = "Settings";
             this.group1.Name = "group1";
             // 
             // btnSetings
@@ -82,7 +84,9 @@
             // 
             // group2
             // 
+            this.group2.Items.Add(this.button3);
             this.group2.Items.Add(this.btnAddNew);
+            this.group2.Items.Add(this.button4);
             this.group2.Label = "Templates";
             this.group2.Name = "group2";
             // 
@@ -90,29 +94,65 @@
             // 
             this.btnAddNew.Label = "Add/EditTemplate";
             this.btnAddNew.Name = "btnAddNew";
+            this.btnAddNew.OfficeImageId = "AddToMySite";
+            this.btnAddNew.ShowImage = true;
             this.btnAddNew.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnAddNew_Click);
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.btnEdit);
-            this.group3.Name = "group3";
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Label = "Upload/Download Template";
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnEdit_Click);
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.btnLogIn);
-            this.group4.Name = "group4";
             // 
             // btnLogIn
             // 
-            this.btnLogIn.Label = "Log in to CATS";
+            this.btnLogIn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnLogIn.Label = "Login";
             this.btnLogIn.Name = "btnLogIn";
+            this.btnLogIn.OfficeImageId = "SiteCollectionAdmins";
+            this.btnLogIn.ShowImage = true;
             this.btnLogIn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnLogIn_Click);
+            // 
+            // createGroup
+            // 
+            this.createGroup.Items.Add(this.button1);
+            this.createGroup.Items.Add(this.button2);
+            this.createGroup.Items.Add(this.button5);
+            this.createGroup.Label = "Authoring";
+            this.createGroup.Name = "createGroup";
+            // 
+            // button1
+            // 
+            this.button1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button1.Label = "New Template";
+            this.button1.Name = "button1";
+            this.button1.OfficeImageId = "NewCategoryFolder";
+            this.button1.ShowImage = true;
+            // 
+            // button2
+            // 
+            this.button2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button2.Label = "Open Template";
+            this.button2.Name = "button2";
+            this.button2.OfficeImageId = "NewDocumentsTool";
+            this.button2.ShowImage = true;
+            // 
+            // button3
+            // 
+            this.button3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button3.Label = "Preview Template";
+            this.button3.Name = "button3";
+            this.button3.OfficeImageId = "PrintPreviewFullScreen";
+            this.button3.ShowImage = true;
+            // 
+            // button4
+            // 
+            this.button4.Label = "Insert Placeholder";
+            this.button4.Name = "button4";
+            this.button4.OfficeImageId = "InsertCellMenu";
+            this.button4.ShowImage = true;
+            // 
+            // button5
+            // 
+            this.button5.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button5.Label = "Save";
+            this.button5.Name = "button5";
+            this.button5.OfficeImageId = "SaveAndCloseConflictView";
+            this.button5.ShowImage = true;
             // 
             // CatsTemplateRibbon
             // 
@@ -126,10 +166,8 @@
             this.group1.PerformLayout();
             this.group2.ResumeLayout(false);
             this.group2.PerformLayout();
-            this.group3.ResumeLayout(false);
-            this.group3.PerformLayout();
-            this.group4.ResumeLayout(false);
-            this.group4.PerformLayout();
+            this.createGroup.ResumeLayout(false);
+            this.createGroup.PerformLayout();
 
         }
 
@@ -138,13 +176,16 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSetings;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnEdit;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAddNew;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group2;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnLogIn;
         private System.Windows.Forms.SaveFileDialog saveDlg;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup createGroup;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
     }
 
     partial class ThisRibbonCollection

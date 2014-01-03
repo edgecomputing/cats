@@ -59,7 +59,7 @@ namespace Cats.TemplateEditor.Forms
         private void DisableRibbon()
         {
             Globals.Ribbons.CatsTemplateRibbon.btnAddNew.Enabled = false;
-            Globals.Ribbons.CatsTemplateRibbon.btnEdit.Enabled = false;
+            //Globals.Ribbons.CatsTemplateRibbon.btnEdit.Enabled = false;
             Globals.Ribbons.CatsTemplateRibbon.btnSetings.Enabled = false;
 
         }
@@ -67,9 +67,9 @@ namespace Cats.TemplateEditor.Forms
         private void EnableRibbon()
         {
             Globals.Ribbons.CatsTemplateRibbon.btnAddNew.Enabled = true;
-            Globals.Ribbons.CatsTemplateRibbon.btnEdit.Enabled = true;
+            //Globals.Ribbons.CatsTemplateRibbon.btnEdit.Enabled = true;
             Globals.Ribbons.CatsTemplateRibbon.btnSetings.Enabled = true;
-            Globals.Ribbons.CatsTemplateRibbon.group4.Visible = false;
+            //Globals.Ribbons.CatsTemplateRibbon.group4.Visible = false;
         }
 
         private void Login_Load(object sender, EventArgs e)
