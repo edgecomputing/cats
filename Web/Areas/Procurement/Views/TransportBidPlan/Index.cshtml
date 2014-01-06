@@ -71,8 +71,9 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-       
-        window.location = "/Procurement/TransportBidPlan/Edit/" + dataItem.TransportBidPlanID
+        
+        window.location = "@Url.Action("Edit", "TransportBidPlan")" + "/" + dataItem.TransportBidPlanID;
+        //window.location = "/Procurement/TransportBidPlan/Edit/" + dataItem.TransportBidPlanID
     }
     function deleteRecord(e) {
         e.preventDefault();
@@ -85,7 +86,8 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "/Procurement/TransportBidPlan/WarehouseSelection/" + dataItem.TransportBidPlanID
+        window.location = "@Url.Action("WarehouseSelection", "TransportBidPlan")" + "/" + dataItem.TransportBidPlanID;
+        //window.location = "/Procurement/TransportBidPlan/WarehouseSelection/" + dataItem.TransportBidPlanID
 
        
     }

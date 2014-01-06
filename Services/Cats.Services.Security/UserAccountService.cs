@@ -5,14 +5,18 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using Cats.Data.Security;
 using Cats.Models.Security;
+using NetSqlAzMan;
 using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
-using Cats.Models.Security.ViewModels;
 using NetSqlAzMan.Cache;
+using System.Web.Security;
+
+using Cats.Models.Security.ViewModels;
 using Cats.Models.Exceptions;
 
 
@@ -39,20 +43,25 @@ namespace Cats.Services.Security
             this._provider = provider;
         }
 
+        public UserAccountService()
+        {
+            this._unitOfWork = new UnitOfWork();
+        }
+
         #endregion
 
         #region Default Service Implementation
 
-        public bool Add(UserProfile entity, Dictionary<string,List<string>> roles)
+        public bool Add(UserProfile entity, Dictionary<string, List<string>> roles)
         {
             try
             {
                 // Add the user account first and latter set default preference and profiles for user
                 _unitOfWork.UserProfileRepository.Add(entity);
                 _unitOfWork.Save();
-                //foreach (var Role in roles)
-                //    AddUserToRoles(entity.UserName, Role.Value.ToArray(), "CATS", Role.Key);
-                //_unitOfWork.Save();
+                foreach (var Role in roles)
+                    AddUserToRoles(entity.UserName, Role.Value.ToArray(), "CATS", Role.Key);
+                _unitOfWork.Save();
                 return true;
             }
             catch (ApplicationException ex)
@@ -60,7 +69,7 @@ namespace Cats.Services.Security
                 throw new ApplicationException(string.Format("An error occurred while saving. Detail: {0} ", ex.Message));
             }
         }
-        
+
         public bool Add(UserProfile entity, string store, string application)
         {
             try
@@ -154,16 +163,16 @@ namespace Cats.Services.Security
             catch (Exception ex)
             {
                 //throw new ApplicationException("The requested user could not be found.", ex);
-                throw new userNotFoundException("",ex);
+                throw new userNotFoundException("", ex);
             }
 
             // If the user account is disabled then we dont need to allow login instead we need to throw an exception
             // stating that the account is disabled.
             if (user.Disabled == true)
-                
+
                 throw new disabledUserException();
-                //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
-                
+            //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
+
             // Check if the passwords match
 
             if (user.Password == HashPassword(password))
@@ -176,8 +185,8 @@ namespace Cats.Services.Security
             }
             else
             {
-               //throw new ApplicationException("The supplied user name and password do not match.");
-               throw new unmatchingUsernameAndPasswordException();
+                //throw new ApplicationException("The supplied user name and password do not match.");
+                throw new unmatchingUsernameAndPasswordException();
             }
 
             return false;
@@ -207,7 +216,7 @@ namespace Cats.Services.Security
                     return true;
                 }
             }
-             
+
             catch (Exception e)
             {
                 //throw new ApplicationException("Error changing password", e);
@@ -240,7 +249,7 @@ namespace Cats.Services.Security
                     _unitOfWork.Save();
 
                     // TODO: Consider sending the new password through email for the user!
-                   // SendPasswordToMail(userName, user.Email);
+                    // SendPasswordToMail(userName, user.Email);
 
                 }
                 catch (Exception e)
@@ -251,7 +260,7 @@ namespace Cats.Services.Security
             }
             return randomPassword;
         }
-       /// <summary>
+        /// <summary>
         /// Flips/Reverts the status of a user account. If an account is active it will
         /// disable it but if it is already disabled then it will activiate it by setting
         /// its value to 'enabled'.
@@ -273,7 +282,7 @@ namespace Cats.Services.Security
             catch (Exception exception)
             {
                 throw new ApplicationException("Error disabling/enabling user account", exception);
-               
+
             }
 
             return false;
@@ -339,42 +348,119 @@ namespace Cats.Services.Security
         /// </summary>
         /// <param name="userName">User name identifying the current user</param>
         /// <returns>Array of strings containing all of the permissions from .NetSqlAzMan store</returns>
+
+        private bool CheckAccess(IAzManDBUser dbUser, string app, string role, IAzManStorage storage)
+        {
+            var result = false;
+            //IAzManDBUser dbUser = storage.GetDBUser(dbUserName);
+            AuthorizationType auth = storage.CheckAccess("CATS", app, role, dbUser, DateTime.Now, false);
+            switch (auth)
+            {
+                case AuthorizationType.AllowWithDelegation:
+                case AuthorizationType.Allow:
+                    result = true;
+                    break;
+                case AuthorizationType.Neutral:
+                case AuthorizationType.Deny:
+                    result = false;
+                    break;
+            }
+            return result;
+        }
+
         public List<Role> GetUserPermissions(string userName, string store, string application)
         {
-            // throw new NotImplementedException();
+            //throw new NotImplementedException();
             //string userSid = userId.ToString("X");
             //string zeroes = string.Empty;
             //for (int start = 0; start < 8 - userSid.Length; start++)
             //    zeroes += "0";
-            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SecurityContext"].ConnectionString;
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+
+            IAzManStorage AzManStore = new SqlAzManStorage(connectionString);
+            StorageCache storage = new StorageCache(connectionString);
+
+            //storage.BuildStorageCache(store, application);
+            //new AuthorizedItem(){}
+            //AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, AzManStore.GetDBUser(userName).CustomSid.StringValue, DateTime.Now);
+            
+            //AuthorizedItem[] items = storage.GetAuthorizedItems("CATS", application, AzManStore.GetDBUser(userName).CustomSid.StringValue, DateTime.Now, null);
+            
+            var allItems = storage.Storage.GetStore(store).GetApplication(application).Items;
+            
+            ////var d = CheckAccess(AzManStore.GetDBUser(userName), application, "EW Coordinator", AzManStore);
+
+            var roleItems = (
+                          from t in allItems
+                          where t.Value.ItemType == ItemType.Role
+                          select t
+                         );
+
+            var roles = new List<Role>();
+
+            foreach (var item in roleItems)
+            {
+                var r = new Role();
+                r.RoleName = item.Value.Name;
+                r.IsChecked = CheckAccess(AzManStore.GetDBUser(userName), application, item.Value.Name, AzManStore);
+                roles.Add(r);
+            }
+
+            //AuthorizedItem[] items = storage.GetAuthorizedItems();
+            //var f =(from t in items where t.Authorization == AuthorizationType.Allow && t.Type == ItemType.Role  select new Role { RoleName = t.Name }).ToList();
+            return roles;
+        }
+
+        public void AssociateRoles(string username)
+        {
+            string store = "CATS";
+            string application = "Early Warning";
+
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+
             IAzManStorage AzManStore = new NetSqlAzMan.SqlAzManStorage(connectionString);
             NetSqlAzMan.Cache.StorageCache storage = new NetSqlAzMan.Cache.StorageCache(connectionString);
             storage.BuildStorageCache(store, application);
-            NetSqlAzMan.Cache.AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, AzManStore.GetDBUser(userName).CustomSid.StringValue, DateTime.Now);
 
-            return (from t in items where t.Authorization == AuthorizationType.Allow select new Role { RoleName = t.Name }).ToList();
+            //storage.GetAuthorizedItems()
+            // NetSqlAzMan.Cache.AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, AzManStore.GetDBUser(username).CustomSid.StringValue, DateTime.Now);
+            //var users = new string[] {"Me"};
+            var roles = new string[] { "Create" };
+
+            AddUserToRoles("me", roles, store, application);
         }
 
         public List<Application> GetUserPermissions(string UserName)
         {
             var apps = new List<Application>();
-            try
-            {
-                _provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
-                Dictionary<string, IAzManApplication> Application = _provider.GetStorage().Stores["CATS"].Applications;
-                foreach (var app in Application)
-                {
-                    apps.Add(new Application() { ApplicationName = app.Value.Name, Roles = GetUserPermissions(UserName, "CATS", app.Value.Name) });
-                }
-                return apps;
-            }
-            catch
-            {
-                return apps;
-            }
+            //try
+            //{
+                const string store = "CATS";
 
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+                IAzManStorage storage = new SqlAzManStorage(connectionString);
+                IAzManStore mystore = storage.GetStore(store); //or storage["My Store"]
+                // IAzManApplication myapp = mystore.GetApplication(application);
+
+                List<IAzManApplication> Applications = mystore.GetApplications().ToList();
+
+                //_provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS","Early warning"));
+
+                //Dictionary<string, IAzManApplication> Applications = _provider.GetStorage().Stores["CATS"].Applications;
+                foreach (var app in Applications)
+                {
+                    apps.Add(new Application() { ApplicationName = app.Name, Roles = GetUserPermissions(UserName, "CATS", app.Name) });
+                }
+
+            return apps;
+            //}
+            //catch(Exception ex)
+            //{
+            //    var s = ex.Message;
+            //    return apps;
+            //}
         }
-        
+
         /// <summary>
         /// Get all roles associated with the application provided
         /// </summary>
@@ -383,15 +469,15 @@ namespace Cats.Services.Security
 
         public string[] GetRoles(string application)
         {
-          
+
             _provider.ApplicationName = application;
-            return  _provider.GetAllRoles();
+            return _provider.GetAllRoles();
         }
 
 
         public string[] GetUserRoles(string username)
         {
-            
+
 
             string[] roles = _provider.GetRolesForUser(username);
             return roles;
@@ -423,7 +509,7 @@ namespace Cats.Services.Security
             }
             return apps;
         }
-        
+
 
         public void AddUserToRoles(string userName, string[] Roles, string store, string application)
         {
@@ -450,10 +536,24 @@ namespace Cats.Services.Security
         {
             var config = new System.Collections.Specialized.NameValueCollection();
 
-            config["connectionStringName"] = "SecurityContext";
+            config["connectionStringName"] = "CatsContext";
             config["storeName"] = store;
             config["applicationName"] = application;
-            config["userLookupType"] = "LDAP";
+            config["userLookupType"] = "DB";
+            config["defaultDomain"] = "";
+            config["UseWCFCacheService"] = "false";
+
+            return config;
+        }
+
+        private System.Collections.Specialized.NameValueCollection ConfigureRoleProvider(string store)
+        {
+            var config = new System.Collections.Specialized.NameValueCollection();
+
+            config["connectionStringName"] = "CatsContext";
+            config["storeName"] = store;
+            //config["applicationName"] = application;
+            config["userLookupType"] = "DB";
             config["defaultDomain"] = "";
             config["UseWCFCacheService"] = "false";
 
@@ -485,10 +585,70 @@ namespace Cats.Services.Security
             return _unitOfWork.UserProfileRepository.GetAll();
         }
 
-
-       
-
         #endregion
 
+        public bool AddRole(string user, string application, string role)
+        {
+            const string store = "CATS";
+
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+            IAzManStorage storage = new SqlAzManStorage(connectionString);
+            IAzManStore mystore = storage.GetStore(store); //or storage["My Store"]
+            IAzManApplication myapp = mystore.GetApplication(application);
+            
+            //mystore.GetApplications();
+            IAzManItem azManRole = myapp.GetItem(role);
+
+            IAzManAuthorization dele = azManRole.CreateAuthorization(
+                                                mystore.GetDBUser("Admin").CustomSid,
+                                                WhereDefined.Database,
+                                                mystore.GetDBUser(user).CustomSid,
+                                                WhereDefined.Database,
+                                                AuthorizationType.AllowWithDelegation,
+                                                null,
+                                                null
+                                               );
+
+            //IAzManAuthorization del = azManRole.CreateDelegateAuthorization(mystore.GetDBUser("Admin"),mystore.GetDBUser(user).CustomSid,RestrictedAuthorizationType.Allow, null,null);
+
+            return true;
+        }
+
+
+        public bool RemoveRole(string user, string application, string role)
+        {
+            
+            
+
+            ////_provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
+            NetSqlAzMan.Providers.NetSqlAzManRoleProvider provider = ((NetSqlAzMan.Providers.NetSqlAzManRoleProvider)Roles.Provider);
+            ////var provider = new NetSqlAzManRoleProvider();
+            ////provider.Initialize("RoleProvider", ConfigureAuthorizationRoleProvider("CATS",""));
+                        //var users = new string[] { user };
+            //var userRoles = new string[] { role };  
+
+            //provider.ApplicationName = apication;
+            //provider.RemoveUsersFromRoles(users, userRoles);
+            
+            
+            //const string store = "CATS";
+
+            //string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+            //IAzManStorage storage = new SqlAzManStorage(connectionString);
+            //IAzManStore mystore = storage.GetStore("CATS"); //or storage["My Store"]
+            //IAzManApplication myapp = mystore.GetApplication(application);
+
+            //IAzManItem azManRole = myapp.GetItem(role);
+
+            //azManRole.DeleteDelegateAuthorization(
+            //                                         mystore.GetDBUser(user),
+            //                                         mystore.GetDBUser("Admin").CustomSid,
+            //                                         RestrictedAuthorizationType.Allow
+            //                                     );
+            //azManRole.DeleteDelegateAuthorization();
+            //azManRole.DeleteDelegateAuthorization();
+
+            return true;
+        }
     }
 }
