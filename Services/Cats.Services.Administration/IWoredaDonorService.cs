@@ -7,13 +7,13 @@ namespace Cats.Services.Administration
 {
     public interface IWoredaDonorService
     {
-        bool AddWoredaDonor(WoredasByDonor woredasByDonor);
-        bool DeleteWoredaDonor(WoredasByDonor woredasByDonor);
+        bool AddWoredaDonor(HrdDonorCovarage hrdDonorCovarage);
+        bool DeleteWoredaDonor(HrdDonorCovarage hrdDonorCovarage);
         bool DeleteById(int id);
-        bool EditWoredaDonor(WoredasByDonor woredasByDonor);
-        WoredasByDonor FindById(int id);
-        List<WoredasByDonor> GetAllWoredaDonor();
-        List<WoredasByDonor> FindBy(Expression<Func<WoredasByDonor, bool>> predicate);
+        bool EditWoredaDonor(HrdDonorCovarage hrdDonorCovarage);
+        HrdDonorCovarage FindById(int id);
+        List<HrdDonorCovarage> GetAllWoredaDonor();
+        List<HrdDonorCovarage> FindBy(Expression<Func<HrdDonorCovarage, bool>> predicate);
         List<AdminUnit> GetWoredasNotYetAssigned();
         List<Donor> GetDonors();
     }

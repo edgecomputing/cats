@@ -95,11 +95,11 @@
     <Compile Include="TransportBidQuotationHeader.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
-    <Compile Include="WoredasByDonor.cs" />
+    <Compile Include="HRDDonorCovarage.cs" />
     <Compile Include="Ledger.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />
     <Compile Include="Mapping\SIPCAllocationMap.cs" />
-    <Compile Include="Mapping\WoredaByDonorMap.cs" />
+    <Compile Include="Mapping\HrdDonorCovarageMap.cs" />
     <Compile Include="Mapping\TransporterAgreementVersionMap.cs" />
     <Compile Include="Mapping\WoredaHubLinkMap.cs" />
     <Compile Include="Mapping\WoredaHubMap.cs" />

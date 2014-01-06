@@ -794,10 +794,10 @@ namespace Cats.Data.UnitWork
             get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
         }
 
-        private IGenericRepository<WoredasByDonor> woredasByDonorRepository = null;
-        public IGenericRepository<WoredasByDonor> WoredaByDonorRepository
+        private IGenericRepository<HrdDonorCovarage> woredasByDonorRepository = null;
+        public IGenericRepository<HrdDonorCovarage> WoredaByDonorRepository
         {
-            get { return this.woredasByDonorRepository ?? (this.woredasByDonorRepository = new GenericRepository<WoredasByDonor>(_context)); }
+            get { return this.woredasByDonorRepository ?? (this.woredasByDonorRepository = new GenericRepository<HrdDonorCovarage>(_context)); }
         }
 
         private IGenericRepository<Distribution> distributionRepositiory;

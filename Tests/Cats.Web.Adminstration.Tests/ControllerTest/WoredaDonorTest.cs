@@ -22,9 +22,9 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
         [SetUp]
         public void Init()
         {
-            var woredas = new List<WoredasByDonor>()
+            var woredas = new List<HrdDonorCovarage>()
                               {
-                                  new WoredasByDonor()
+                                  new HrdDonorCovarage()
                                       {
                                           DonorWoredaId = 2,
                                           WoredaId = 56,
@@ -35,7 +35,7 @@ namespace Cats.Web.Adminstration.Tests.ControllerTest
                                                   ParentID = 1
                                               }
                                       },
-                                  new WoredasByDonor()
+                                  new HrdDonorCovarage()
                                       {
                                           DonorWoredaId = 4,
                                           WoredaId = 57,

@@ -17,17 +17,17 @@ namespace Cats.Services.Administration
             _unitOfWork = unitOfWork;
         }
 
-       public bool AddWoredaDonor(WoredasByDonor woredasByDonor)
+       public bool AddWoredaDonor(HrdDonorCovarage hrdDonorCovarage)
        {
-           _unitOfWork.WoredaByDonorRepository.Add(woredasByDonor);
+           _unitOfWork.WoredaByDonorRepository.Add(hrdDonorCovarage);
            _unitOfWork.Save();
            return true;
        }
 
-       public bool DeleteWoredaDonor(WoredasByDonor woredasByDonor)
+       public bool DeleteWoredaDonor(HrdDonorCovarage hrdDonorCovarage)
        {
-           if (woredasByDonor == null) return false;
-           _unitOfWork.WoredaByDonorRepository.Delete(woredasByDonor);
+           if (hrdDonorCovarage == null) return false;
+           _unitOfWork.WoredaByDonorRepository.Delete(hrdDonorCovarage);
            _unitOfWork.Save();
            return true;
        }
@@ -41,24 +41,24 @@ namespace Cats.Services.Administration
            return true;
        }
 
-       public bool EditWoredaDonor(WoredasByDonor woredasByDonor)
+       public bool EditWoredaDonor(HrdDonorCovarage hrdDonorCovarage)
        {
-           _unitOfWork.WoredaByDonorRepository.Edit(woredasByDonor);
+           _unitOfWork.WoredaByDonorRepository.Edit(hrdDonorCovarage);
            _unitOfWork.Save();
            return true;
        }
 
-       public WoredasByDonor FindById(int id)
+       public HrdDonorCovarage FindById(int id)
        {
            return _unitOfWork.WoredaByDonorRepository.FindById(id);
        }
 
-       public List<WoredasByDonor> GetAllWoredaDonor()
+       public List<HrdDonorCovarage> GetAllWoredaDonor()
        {
            return _unitOfWork.WoredaByDonorRepository.GetAll();
        }
 
-       public List<WoredasByDonor> FindBy(Expression<Func<WoredasByDonor, bool>> predicate)
+       public List<HrdDonorCovarage> FindBy(Expression<Func<HrdDonorCovarage, bool>> predicate)
        {
            return _unitOfWork.WoredaByDonorRepository.FindBy(predicate);
        }

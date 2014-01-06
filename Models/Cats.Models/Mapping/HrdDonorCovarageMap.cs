@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Mapping
 {
-    public class WoredasByDonorMap : EntityTypeConfiguration<WoredasByDonor>
+    public class HrdDonorCovarageMap : EntityTypeConfiguration<HrdDonorCovarage>
     {
-        public WoredasByDonorMap()
+        public HrdDonorCovarageMap()
         {
             // Primary Key
             this.HasKey(t => t.DonorWoredaId);
@@ -23,19 +23,23 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(1000);
 
             // Table & Column Mappings
-            this.ToTable("WoredasByDonor", "EarlyWarning");
+            this.ToTable("HRDDonorCoverage", "EarlyWarning");
             this.Property(t => t.DonorWoredaId).HasColumnName("DonorWoredaId");
+            this.Property(t => t.HRDID).HasColumnName("HRDID");
             this.Property(t => t.DonorId).HasColumnName("DonorId");
             this.Property(t => t.WoredaId).HasColumnName("WoredaId");
             this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships
             this.HasRequired(t => t.AdminUnit)
-                .WithMany(t => t.WoredasByDonors)
+                .WithMany(t => t.HrdDonorCovarages)
                 .HasForeignKey(d => d.WoredaId);
             this.HasRequired(t => t.Donor)
-                .WithMany(t => t.WoredasByDonors)
+                .WithMany(t => t.HrdDonorCovarages)
                 .HasForeignKey(d => d.DonorId);
+            this.HasRequired(t => t.HRD)
+                .WithMany(t => t.HrdDonorCovarages)
+                .HasForeignKey(t => t.HRDID);
         }
     }
 }
