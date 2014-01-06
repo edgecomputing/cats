@@ -182,12 +182,14 @@ namespace Cats.Areas.Settings.Controllers
             //model.Applications = Applications;
             //return View(model);
         }
+       
         public ActionResult ChangePassword()
         {
             //var userInfo=userService.FindById(id);
             var model = new ChangePasswordModel();
             return View(model);
         }
+       
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
