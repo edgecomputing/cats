@@ -8,34 +8,28 @@
 
 @{
     ViewBag.Title = "Regional Relief Requests";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 
 @section Toolbar    {
-  @*  @Html.EarlyWarningOperationButton(
+    @*  @Html.EarlyWarningOperationButton(
                         @Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID }),
                         EarlyWarningCheckAccess.Operation.View_request, "", "btn icon-reply", "btn_back_to_list")*@
-   
-    <div class="btn-group" style="margin-right:8px;">
-        <button class="btn">Action</button>
-        @{
-            
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-           
-           
-        }
+
+    <div class="btn-group" style="margin-right: 8px;">
+        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Translator.Translate("Actions") 
+            <span class="caret"></span>
+        </button>
         <ul class="dropdown-menu">
-            <li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID,programId = @ViewBag.programId })" >ADD FDP </a></li>
-            <li><a id="btnAddCommodity"  href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })" >ADD Commodity </a></li>
+            <li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })" >@Translator.Translate("Add FDP")</a></li>
+            <li><a id="btnAddCommodity"  href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })" >@Translator.Translate("Add Commodity")</a></li>
         </ul>
 
     </div>
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
-     <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
-             
-          
+    <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
+
+
 }
 
 <script type="text/javascript">
@@ -56,7 +50,7 @@
             });
             return false;
         });
-        
+
         $('#btnAddFDP').click(function () {
 
             // alert("");
@@ -77,94 +71,87 @@
 </div>
 
 <fieldset>
-    <legend>
-        Regional Request Resource Allocation
+    <legend>@Translator.Translate("Resource Allocation") 
     </legend>
 </fieldset>
-@Html.HiddenFor(m=>m.RegionalRequestID)
-  <div class="form-horizontal well">
-  <table border="0" style="width: 80px;">
-      <tr>
-          <td style="width: 40%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.ReferenceNumber,Translator.Translate("Reference Number:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.ReferenceNumber,new {disabled=true})
-              </div>
-          </td>
-          <td style="width: 40%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.Program,Translator.Translate("Program:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.Program,new {disabled=true})
-              </div>
-          </td>
-      </tr>
-      <tr>
-          <td style="width: 50%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.Region,Translator.Translate("Region:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.Region,new {disabled=true})
-              </div>
-          </td>
-          <td style="width: 50%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.MonthName,Translator.Translate("Month:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.MonthName,new {disabled=true})
-              </div>
-          </td>
-      </tr>
-      <tr>
-          <td style="width: 50%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.RequestDate,Translator.Translate("Date of Request:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.RequestDate,new {disabled=true})
-              </div>
-          </td>
-          <td style="width: 50%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.Year,Translator.Translate("Year:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.Year,new {disabled=true})
-              </div>
-          </td>
-      </tr>
-       <tr>
-          <td style="width: 50%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.Ration,Translator.Translate("Ration:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.Ration,new {disabled=true})
-                   @*<a href="#" class="rationChange">Change</a>*@
-              </div>
-          </td>
-          <td style="width: 50%">
-              <div class="control-label">
-                  @Html.LabelFor(model => model.Status,Translator.Translate("Status:"))
-              </div>
-              <div class="controls">
-                  @Html.TextBoxFor(model=>model.Status,new {disabled=true})
-              </div>
-          </td>
-      </tr>
- </table>
+@Html.HiddenFor(m => m.RegionalRequestID)
+<div class="form-horizontal well">
+    <table border="0" style="width: 80px;">
+        <tr>
+            <td style="width: 40%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ReferenceNumber, Translator.Translate("Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ReferenceNumber, new { disabled = true })
+                </div>
+            </td>
+            <td style="width: 40%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Program, Translator.Translate("Program"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Program, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Region, Translator.Translate("Region"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Region, new { disabled = true })
+                </div>
+            </td>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.MonthName, Translator.Translate("Month"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.MonthName, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestDate, Translator.Translate("Date of Request"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.RequestDate, new { disabled = true })
+                </div>
+            </td>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Year, Translator.Translate("Year"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Year, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Ration, Translator.Translate("Ration"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Ration, new { disabled = true })
+                    @*<a href="#" class="rationChange">Change</a>*@
+                </div>
+            </td>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Status, Translator.Translate("Status"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Status, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
-
-@section LeftBar
-{
-    @Html.Partial("_RegionalRequestLeftBar")
-    
-}
 
 @*<h5 class="well-small">Commodities Allocation</h5>
 <div style="width: 400px">
@@ -205,43 +192,43 @@
                   .Name("commodityGrid")
                   .Columns(columns =>
                       {
-                          columns.Bound(p => p.Commodity);
+                          columns.Bound(p => p.Commodity).Title(Translator.Translate("Commodity"));
                           columns.Command(p => p.Custom("Delete").Click("onCommodityDelete"));
                       }
 
                   )
                   .HtmlAttributes(new { style = "height:430px;" })
                   .DataSource(dataSource => dataSource
-                                                .Ajax() 
+                                                .Ajax()
                                                 .Model(model => model.Id(p => p.CommodityID))
-                                                //.Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
+                      //.Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
                                                 .Read(read => read.Action("Commodity_Read", "Request", new { id = ViewBag.RequestID }))
-                  //.Update(update => update.Action("Commodity_Update", "Request"))
-                  //.Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID }))
+                    //.Update(update => update.Action("Commodity_Update", "Request"))
+                    //.Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID }))
                   )
                   )
         </div>
     </td>
     <td>
-       
+
         <div>
-     
+
             @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
                   .Name("grid")
                   .Columns(columns =>
                       {
                           //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-                          columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.Beneficiaries).Width(60).HtmlAttributes(new {align="right"});
+                          columns.Bound(p => p.Zone).Width(100).Title(Translator.Translate("Zone")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Woreda).Width(100).Title(Translator.Translate("Woreda")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Beneficiaries).Width(60).Title(Translator.Translate("Beneficiaries")).HtmlAttributes(new { align = "right" });
                           //columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
                           columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
 
                       })
-                  //.ToolBar(toolbar => toolbar.Save())
+                    //.ToolBar(toolbar => toolbar.Save())
                   .Editable(editable => editable.Mode(GridEditMode.InCell))
-                  //.Events(events => events.DataBound("onDataBound"))
+                    //.Events(events => events.DataBound("onDataBound"))
                   .Scrollable()
                   .Selectable(t => t.Mode(GridSelectionMode.Single))
                   .Navigatable()
@@ -249,7 +236,7 @@
                   .Events(events => events.DataBound("onDataBound"))
                   .DataSource(dataSource => dataSource
                                                 .Ajax()
-                                                .Group(group=>group.Add(p=>p.Woreda))
+                                                .Group(group => group.Add(p => p.Woreda))
                                                 .Model(model =>
                                                     {
                                                         model.Id(p => p.RegionalRequestDetailID);
@@ -267,40 +254,40 @@
         </div>
     </td>
 </table>
-        
+
 <script type="text/javascript">
     function onDataBound(e) {
         //alert("");
         check_planned();
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("change", "td", function (e) {
-           
+
             var row = $(this).closest("tr");
             var rowIdx = $("tr", grid.tbody).index(row);
             update_ui(rowIdx, row);
         }
         );
-        
+
         //var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("focus", "input", function (e) {
             var input = $(this);
             setTimeout(function () { input.select(); }, 100);
         });
     }
-    
-    function update_ui(rowIdx,row) {
+
+    function update_ui(rowIdx, row) {
         var grid = $("#grid").data("kendoGrid");
         var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
         var plannedBeneficiaries = firstItem.get('PlannedBeneficiaries');
         var beneficiaries = firstItem.get('Beneficiaries');
-        
+
         if (plannedBeneficiaries < beneficiaries) {
             row.addClass("surplus");
         } else {
             row.removeClass("surplus");
         }
     }
-    
+
     function check_planned() {
         var grid = $("#grid").data("kendoGrid");
         var rowIdx = 0;
@@ -310,13 +297,13 @@
             rowIdx++;
         });
     }
-    
-    
+
+
     function onDelete(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("DeleteFDP", "Request")" + "/" + dataItem.RegionalRequestDetailID;         
+        window.location = "@Url.Action("DeleteFDP", "Request")" + "/" + dataItem.RegionalRequestDetailID;
     }
 </script>
 
@@ -324,6 +311,7 @@
     .surplus * {
         color: red;
     }
+
     .surplus {
         color: red;
     }
@@ -333,15 +321,15 @@
     function onCommodityDelete(e) {
         e.preventDefault();
         var requestId = $("#RegionalRequestID").val();
-        
+
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("DeleteCommodity", "Request")" + "?commodityID=" + dataItem.CommodityID + "&requestID=" + requestId;         
+        window.location = "@Url.Action("DeleteCommodity", "Request")" + "?commodityID=" + dataItem.CommodityID + "&requestID=" + requestId;
     }
-    
+
     function saverecords() {
         $("#grid").data("kendoGrid").saveChanges();
     }
-    
+
     function onDataBound(e) {
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("focus", "input", function (e) {
