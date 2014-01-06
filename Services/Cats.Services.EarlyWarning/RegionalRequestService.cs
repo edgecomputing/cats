@@ -226,10 +226,17 @@ namespace Cats.Services.EarlyWarning
 
                     if (lastRequest != null)
                     {
+                        var requests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
+                        var numberOfRequestsPerRegion = requests.Count;
+                        var applicableWoredas = (from detail in hrd.HRDDetails
+                                                 where
+                                                     detail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID &&
+                                                     detail.DurationOfAssistance > numberOfRequestsPerRegion
+                                                 select detail.WoredaID).ToList();
+                        beneficiaryInfos = LastReliefRequest(lastRequest, applicableWoredas);
+                       // var lastRequestDetail = LastReliefRequest(lastRequest);
 
-                        //var lastreliefRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1);
-                       beneficiaryInfos = LastReliefRequest(lastRequest);
-                        
+
 
                     }
                     else
@@ -237,7 +244,7 @@ namespace Cats.Services.EarlyWarning
                         result.HRDPSNPPlan.RationID = hrd.RationID;
                         List<HRDDetail> hrddetail =
                             (from woreda in hrd.HRDDetails
-                             where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
+                             where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.DurationOfAssistance>0
                              select woreda).ToList();
                         beneficiaryInfos = HRDToRequest(hrddetail);
                     }
@@ -303,9 +310,10 @@ namespace Cats.Services.EarlyWarning
 
         }
 
-        private List<BeneficiaryInfo> LastReliefRequest(RegionalRequest request)
+        private List<BeneficiaryInfo> LastReliefRequest(RegionalRequest request,List<int> woredas )
         {
-            var benficiaries = (from lastRequestDetail in request.RegionalRequestDetails
+            var benficiaries = (from lastRequestDetail in request.RegionalRequestDetails 
+                                where woredas.Contains(lastRequestDetail.Fdp.AdminUnitID)
                                 select
                                     new BeneficiaryInfo
                                         {
@@ -315,13 +323,7 @@ namespace Cats.Services.EarlyWarning
                                         }).ToList();
             return benficiaries;
         }
-
-        //private List<BeneficiaryInfo> DurationOfAssistanceIncompleted(RegionalRequest request)
-        //{
-            
-        
-        // }
-
+       
         private bool CheckDurationOfAssisstance(HRDPSNPPlan plan)
         {
             if (plan.ProgramID == 1)
@@ -331,9 +333,8 @@ namespace Cats.Services.EarlyWarning
                 //var woredas=new List<>();
                 if (hrd != null)
                 {
-                    var request =
-                        _unitOfWork.RegionalRequestRepository.FindBy(
-                            r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
+                    var requests =_unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
+                   
                     var hrdDetails = (from region in hrd.HRDDetails
                                       where region.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
                                       select new
@@ -341,7 +342,8 @@ namespace Cats.Services.EarlyWarning
                                               region.WoredaID,
                                               region.DurationOfAssistance
                                           }).ToList();
-                    if (request.Count >= hrdDetails.Max(m => m.DurationOfAssistance))
+                   
+                    if (requests.Count >= hrdDetails.Max(m => m.DurationOfAssistance))
                         return false;
                     return true;
                 }
