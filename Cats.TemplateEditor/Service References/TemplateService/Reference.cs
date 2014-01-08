@@ -319,6 +319,99 @@ namespace Cats.TemplateEditor.TemplateService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LetterTemplate", Namespace="http://schemas.datacontract.org/2004/07/Cats.TemplateServer.Dto")]
+    [System.SerializableAttribute()]
+    public partial class LetterTemplate : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FileNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int LetterTemplateIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TemplateTypeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FileName {
+            get {
+                return this.FileNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FileNameField, value) != true)) {
+                    this.FileNameField = value;
+                    this.RaisePropertyChanged("FileName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int LetterTemplateID {
+            get {
+                return this.LetterTemplateIDField;
+            }
+            set {
+                if ((this.LetterTemplateIDField.Equals(value) != true)) {
+                    this.LetterTemplateIDField = value;
+                    this.RaisePropertyChanged("LetterTemplateID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TemplateType {
+            get {
+                return this.TemplateTypeField;
+            }
+            set {
+                if ((this.TemplateTypeField.Equals(value) != true)) {
+                    this.TemplateTypeField = value;
+                    this.RaisePropertyChanged("TemplateType");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TemplateService.ITemplateManager")]
     public interface ITemplateManager {
@@ -362,6 +455,9 @@ namespace Cats.TemplateEditor.TemplateService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateManager/List", ReplyAction="http://tempuri.org/ITemplateManager/ListResponse")]
         Cats.TemplateEditor.TemplateService.StorageFileInfo[] List(string virtualPath);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateManager/InsertToLetterTemplate", ReplyAction="http://tempuri.org/ITemplateManager/InsertToLetterTemplateResponse")]
+        void InsertToLetterTemplate(Cats.TemplateEditor.TemplateService.LetterTemplate letterTemplate);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -480,6 +576,10 @@ namespace Cats.TemplateEditor.TemplateService {
         
         public Cats.TemplateEditor.TemplateService.StorageFileInfo[] List(string virtualPath) {
             return base.Channel.List(virtualPath);
+        }
+        
+        public void InsertToLetterTemplate(Cats.TemplateEditor.TemplateService.LetterTemplate letterTemplate) {
+            base.Channel.InsertToLetterTemplate(letterTemplate);
         }
     }
 }

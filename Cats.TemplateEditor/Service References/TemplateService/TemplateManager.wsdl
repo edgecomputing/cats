@@ -87,6 +87,12 @@
   <wsdl:message name="ITemplateManager_List_OutputMessage">
     <wsdl:part name="parameters" element="tns:ListResponse" />
   </wsdl:message>
+  <wsdl:message name="ITemplateManager_InsertToLetterTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertToLetterTemplate" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateManager_InsertToLetterTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertToLetterTemplateResponse" />
+  </wsdl:message>
   <wsdl:portType name="ITemplateManager">
     <wsdl:operation name="DoWork">
       <wsdl:input wsaw:Action="http://tempuri.org/ITemplateManager/DoWork" message="tns:ITemplateManager_DoWork_InputMessage" />
@@ -139,6 +145,10 @@
     <wsdl:operation name="List">
       <wsdl:input wsaw:Action="http://tempuri.org/ITemplateManager/List" message="tns:ITemplateManager_List_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITemplateManager/ListResponse" message="tns:ITemplateManager_List_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertToLetterTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateManager/InsertToLetterTemplate" message="tns:ITemplateManager_InsertToLetterTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateManager/InsertToLetterTemplateResponse" message="tns:ITemplateManager_InsertToLetterTemplate_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ITemplateManager" type="tns:ITemplateManager">
@@ -254,6 +264,15 @@
     </wsdl:operation>
     <wsdl:operation name="List">
       <soap:operation soapAction="http://tempuri.org/ITemplateManager/List" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertToLetterTemplate">
+      <soap:operation soapAction="http://tempuri.org/ITemplateManager/InsertToLetterTemplate" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

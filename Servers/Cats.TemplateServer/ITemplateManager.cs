@@ -54,5 +54,11 @@ namespace Cats.TemplateServer
         [OperationContract]
         StorageFileInfo[] List(string virtualPath);
 
+        [OperationContract]
+        void InsertToLetterTemplate(LetterTemplate letterTemplate);
+
+        [OperationContract]
+        string PreviewTemplate(string filePath);
+
     }
 }

@@ -20,7 +20,7 @@ namespace Cats.TemplateEditor.Forms
             
             GetTemplateTypes();
             RefreshFileList();
-            FileList.Columns[1].ListView.Visible = false;
+            
         }
 
         private void RefreshFileList()
@@ -66,40 +66,10 @@ namespace Cats.TemplateEditor.Forms
 
         private void DownloadButton_Click(object sender, EventArgs e)
         {
-           var lastOpenedForm = System.Windows.Forms.Application.OpenForms.Cast<Form>().Last();
-            lastOpenedForm.Close();
             Download();
-           
         }
 
-        private void UploadButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog()
-            {
-                Title = "Select a file to upload",
-                RestoreDirectory = true,
-                CheckFileExists = true
-            };
-
-            dlg.ShowDialog();
-
-            if (!string.IsNullOrEmpty(dlg.FileName))
-            {
-                string virtualPath = AppendToFileName(int.Parse(cmbTemplateTypes.SelectedValue.ToString()),Path.GetFileName(dlg.FileName));
-
-                using (Stream uploadStream = new FileStream(dlg.FileName, FileMode.Open))
-                {
-                    using (var client = new TemplateManagerClient())
-                    {
-                        var fileMessege = new FileUploadMessage();
-
-                        client.PutFile(new FileUploadMessage() { VirtualPath = virtualPath, DataStream = uploadStream }.VirtualPath,uploadStream);
-                    }
-                }
-
-                RefreshFileList();
-            }
-        }
+       
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
@@ -123,7 +93,7 @@ namespace Cats.TemplateEditor.Forms
         }
 
 
-        #region Download and Open doc
+        
 
         private void Download()
         {
@@ -135,74 +105,21 @@ namespace Cats.TemplateEditor.Forms
             }
             else
             {
-                ListViewItem item = FileList.SelectedItems[0];
-
-                // Strip off 'Root' from the full path
-                 var path = item.SubItems[1].Text;
-                
-               // Ask where it should be saved
-                SaveFileDialog dlg = new SaveFileDialog()
+                var documentProcessorService = new DocumentProcessorService();
+                string path = documentProcessorService.DownloadDocument(FileList);
+                if (path!=string.Empty)
                 {
-                    RestoreDirectory = true,
-                    OverwritePrompt = true,
-                    Title = "Save as...",
-                    FileName = Path.GetFileName(path)
-                };
-
-                dlg.ShowDialog(this);
-                //filePath = dlg.FileName;
-                if (!string.IsNullOrEmpty(dlg.FileName))
-                {
-                    // Get the file from the server
-                    using (FileStream output = new FileStream(dlg.FileName, FileMode.Create))
-                    {
-                        Stream downloadStream;
-
-                        using (var client = new TemplateManagerClient())
-                        {
-                            downloadStream = client.GetFile(path);
-                        }
-
-                        downloadStream.CopyTo(output);
-                    }
-
-                    Process.Start(dlg.FileName);
+                    this.Close();
+                    this.Dispose();
+                    Process.Start("WINWORD.EXE",path);
                 }
             }
-            
-            //OpenDoc(filePath);
         }
-        #endregion
+
+       
 
 
-        private void OpenDoc(string path)
-        {
-
-
-            _Application wordApp;
-            try
-            {
-                wordApp = (_Application) System.Runtime.InteropServices.Marshal.GetActiveObject("Word.Application");
-            }
-            catch (Exception)
-            {
-
-                wordApp = new Microsoft.Office.Interop.Word.Application();
-            }
-            
-            object fileName = path;
-            object readOnly = false;
-            object isVisible = true;
-            object missing = System.Reflection.Missing.Value;
-
-            wordApp.Visible = true;
-
-            Document  aDoc = wordApp.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref isVisible);
-            aDoc.Activate();
-
-
-
-        }
+       
 
         private void GetTemplateTypes()
         {

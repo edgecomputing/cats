@@ -46,5 +46,17 @@ namespace Cats.TemplateEditor.Properties {
                 return ((string)(this["CatsContext"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\")]
+        public string DefaultPath {
+            get {
+                return ((string)(this["DefaultPath"]));
+            }
+            set {
+                this["DefaultPath"] = value;
+            }
+        }
     }
 }

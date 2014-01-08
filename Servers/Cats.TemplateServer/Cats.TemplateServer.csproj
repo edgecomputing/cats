@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Dto\FileArgs.cs" />
     <Compile Include="Dto\FileUploadMessage.cs" />
+    <Compile Include="Dto\LetterTemplate.cs" />
     <Compile Include="Dto\Login.cs" />
     <Compile Include="Dto\StorageFileInfo.cs" />
     <Compile Include="Dto\StreamExtensions.cs" />
@@ -94,6 +95,10 @@
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{A08CF415-6299-41AB-9D69-C3CE9B49CCD6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
@@ -102,6 +107,13 @@
       <Project>{0E706780-A5B2-488C-A502-49526946DEB5}</Project>
       <Name>Cats.Services.Security</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Web\Cats.csproj">
+      <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>
+      <Name>Cats</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
+using System.Net;
+using Cats.Helpers;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Cats.TemplateServer.Dto;
+
 
 namespace Cats.TemplateServer
 {
@@ -27,13 +29,14 @@ namespace Cats.TemplateServer
 
         TemplateManager()
         {
-            RepositoryDirectory = "CatsTemplates";
+            RepositoryDirectory = "Templates";
         }
         #region Template Editor Methods
 
         private ITemplateService _templateService = new TemplateService();
         private ITemplateTypeTypeService _templateTypeService = new TemplateTypeService();
         private ITemplateFieldsService _templateFieldsService = new TemplateFieldService();
+        private ILetterTemplateService _letterTemplateService =  new LetterTemplateService();
         IUserAccountService _userAccountService = new UserAccountService();
 
 
@@ -154,13 +157,14 @@ namespace Cats.TemplateServer
             
                 string filePath = Path.Combine(RepositoryDirectory, virtualPath);
 
-                if (!File.Exists(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\" + filePath))
+                if (!File.Exists(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture)  + "\\" + filePath))
                     throw new FileNotFoundException("File was not found", Path.GetFileName(filePath));
 
                 SendFileRequested(virtualPath);
+                FileStream file = File.Open(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            //var fileStream =  new FileStream(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath,FileMode.Append,FileAccess.Write,FileShare.Write);
+                return file;
 
-                return new FileStream(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\" + filePath, FileMode.Open, FileAccess.Read);
-            
         }
 
         /// <summary>
@@ -169,17 +173,21 @@ namespace Cats.TemplateServer
         public void PutFile(FileUploadMessage msg)
         {
             string filePath = Path.Combine(RepositoryDirectory, msg.VirtualPath);
-            string dir = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\" + filePath);
-
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-
-            using (var outputStream = new FileStream(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\" + filePath, FileMode.Create))
+            if (ConfigurationSettings.AppSettings != null)
             {
-                msg.DataStream.CopyTo(outputStream);
+                string dir = Path.GetDirectoryName(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath);
+
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
             }
 
-            SendFileUploaded(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\" + filePath);
+            using (var outputStream = new FileStream(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                msg.DataStream.CopyTo(outputStream);
+                outputStream.Close();
+            }
+            
+            SendFileUploaded(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath);
         }
 
         /// <summary>
@@ -208,7 +216,7 @@ namespace Cats.TemplateServer
             if (!string.IsNullOrEmpty(virtualPath))
                 basePath = Path.Combine(RepositoryDirectory, virtualPath);
 
-            DirectoryInfo dirInfo = new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\" + basePath);
+            DirectoryInfo dirInfo = new DirectoryInfo(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + basePath);
             FileInfo[] files = dirInfo.GetFiles("*.*", SearchOption.AllDirectories);
 
             return (from f in files
@@ -217,6 +225,29 @@ namespace Cats.TemplateServer
                         Size = f.Length,
                         VirtualPath = f.FullName.Substring(f.FullName.IndexOf(RepositoryDirectory) + RepositoryDirectory.Length + 1)
                     }).ToArray();
+        }
+
+        public void InsertToLetterTemplate(LetterTemplate letterTemplate)
+        {
+            try
+            {
+                var catsletterTemplate = new Models.LetterTemplate
+                {
+                    LetterTemplateID = letterTemplate.LetterTemplateID,
+                    Name = letterTemplate.Name,
+                    FileName = letterTemplate.FileName,
+                    TemplateType = letterTemplate.TemplateType
+                };
+
+                _letterTemplateService.AddLetterTemplate(catsletterTemplate);
+            }
+            catch (Exception)
+            {
+                
+                
+            }
+           
+
         }
 
         #endregion
@@ -252,5 +283,19 @@ namespace Cats.TemplateServer
         }
 
         #endregion
+
+        public string PreviewTemplate(string fileName)
+        {
+            var path = ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "Templates\\";
+             var template = new TemplateHelper();
+             string newfilePath = template.GenerateTemplatePreview(132, 1, fileName, path + fileName, path + Guid.NewGuid().ToString());
+
+            return newfilePath;
+
+        }
+        #region Preview Template
+
+       
+#endregion
     }
 }

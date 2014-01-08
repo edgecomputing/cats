@@ -44,11 +44,14 @@
             this.group4 = this.Factory.CreateRibbonGroup();
             this.btnLogIn = this.Factory.CreateRibbonButton();
             this.saveDlg = new System.Windows.Forms.SaveFileDialog();
+            this.group5 = this.Factory.CreateRibbonGroup();
+            this.btnSave = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
             this.group4.SuspendLayout();
+            this.group5.SuspendLayout();
             // 
             // tab1
             // 
@@ -56,6 +59,7 @@
             this.tab1.Groups.Add(this.group1);
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.group3);
+            this.tab1.Groups.Add(this.group5);
             this.tab1.Groups.Add(this.group4);
             this.tab1.Label = "CATS";
             this.tab1.Name = "tab1";
@@ -104,6 +108,18 @@
             this.btnLogIn.Name = "btnLogIn";
             this.btnLogIn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnLogIn_Click);
             // 
+            // group5
+            // 
+            this.group5.Items.Add(this.btnSave);
+            this.group5.Label = "group5";
+            this.group5.Name = "group5";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Label = "Save Docment";
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSave_Click_1);
+            // 
             // CatsTemplateRibbon
             // 
             this.Name = "CatsTemplateRibbon";
@@ -120,6 +136,8 @@
             this.group3.PerformLayout();
             this.group4.ResumeLayout(false);
             this.group4.PerformLayout();
+            this.group5.ResumeLayout(false);
+            this.group5.PerformLayout();
 
         }
 
@@ -135,6 +153,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnLogIn;
         private System.Windows.Forms.SaveFileDialog saveDlg;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSave;
     }
 
     partial class ThisRibbonCollection

@@ -160,6 +160,7 @@
     <Compile Include="CatsTemplateRibbon.designer.cs">
       <DependentUpon>CatsTemplateRibbon.cs</DependentUpon>
     </Compile>
+    <Compile Include="DocumentProcessorService.cs" />
     <Compile Include="Forms\FileTransfer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,6 +191,7 @@
     <Compile Include="Forms\Setting.designer.cs">
       <DependentUpon>Setting.cs</DependentUpon>
     </Compile>
+    <Compile Include="IDocumentProcessorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Cats.TemplateEditor.TemplateService;
+using Microsoft.Office.Interop.Word;
 
 namespace Cats.TemplateEditor.Forms
 {
@@ -83,16 +84,24 @@ namespace Cats.TemplateEditor.Forms
         private void btnAdd_Click(object sender, EventArgs e)
         {
 
+            _Application wordApp;
+            try
+            {
+                wordApp = (_Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Word.Application");
+            }
+            catch (Exception)
+            {
+
+                wordApp = new Microsoft.Office.Interop.Word.Application();
+            }
      
             // insert merge field at the current cursor location
-            Microsoft.Office.Interop.Word.Application
-              word = Globals.ThisAddIn.Application;
-
            
-            Microsoft.Office.Interop.Word.Range selection = word.Selection.Range;
-           // selection.Text = LstFields.Text;
 
-             Microsoft.Office.Interop.Word.Document doc = new Microsoft.Office.Interop.Word.Document();
+            Microsoft.Office.Interop.Word.Range selection = wordApp.Selection.Range;
+         
+
+            var doc = wordApp.ActiveDocument;
             doc.MailMerge.Fields.Add(selection,LstFields.Text);
 
             this.Close();

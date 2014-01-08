@@ -32,8 +32,8 @@
             this.FilenameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FullPathHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SizeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DeleteButton = new System.Windows.Forms.Button();
-            this.UploadButton = new System.Windows.Forms.Button();
             this.DownloadButton = new System.Windows.Forms.Button();
             this.cmbTemplateTypes = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
@@ -43,7 +43,8 @@
             this.FileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.FilenameColumnHeader,
             this.FullPathHeader,
-            this.SizeHeader});
+            this.SizeHeader,
+            this.columnHeader1});
             this.FileList.FullRowSelect = true;
             this.FileList.GridLines = true;
             this.FileList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -71,7 +72,7 @@
             // 
             // DeleteButton
             // 
-            this.DeleteButton.Location = new System.Drawing.Point(26, 260);
+            this.DeleteButton.Location = new System.Drawing.Point(277, 25);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(85, 31);
             this.DeleteButton.TabIndex = 11;
@@ -79,19 +80,9 @@
             this.DeleteButton.UseVisualStyleBackColor = true;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
-            // UploadButton
-            // 
-            this.UploadButton.Location = new System.Drawing.Point(277, 260);
-            this.UploadButton.Name = "UploadButton";
-            this.UploadButton.Size = new System.Drawing.Size(85, 31);
-            this.UploadButton.TabIndex = 10;
-            this.UploadButton.Text = "&Upload";
-            this.UploadButton.UseVisualStyleBackColor = true;
-            this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
-            // 
             // DownloadButton
             // 
-            this.DownloadButton.Location = new System.Drawing.Point(368, 260);
+            this.DownloadButton.Location = new System.Drawing.Point(368, 25);
             this.DownloadButton.Name = "DownloadButton";
             this.DownloadButton.Size = new System.Drawing.Size(85, 31);
             this.DownloadButton.TabIndex = 9;
@@ -113,13 +104,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(477, 302);
-            this.Controls.Add(this.cmbTemplateTypes);
+            this.ClientSize = new System.Drawing.Size(477, 269);
             this.Controls.Add(this.FileList);
+            this.Controls.Add(this.cmbTemplateTypes);
             this.Controls.Add(this.DeleteButton);
-            this.Controls.Add(this.UploadButton);
             this.Controls.Add(this.DownloadButton);
             this.Name = "FileTransfer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FileTransfer";
             this.Load += new System.EventHandler(this.FileTransfer_Load);
             this.ResumeLayout(false);
@@ -133,8 +124,8 @@
         private System.Windows.Forms.ColumnHeader FullPathHeader;
         private System.Windows.Forms.ColumnHeader SizeHeader;
         private System.Windows.Forms.Button DeleteButton;
-        private System.Windows.Forms.Button UploadButton;
         private System.Windows.Forms.Button DownloadButton;
         private System.Windows.Forms.ComboBox cmbTemplateTypes;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }

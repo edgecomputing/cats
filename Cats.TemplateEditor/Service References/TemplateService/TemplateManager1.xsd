@@ -167,4 +167,16 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="InsertToLetterTemplate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Cats.TemplateServer.Dto" minOccurs="0" name="letterTemplate" nillable="true" type="q10:LetterTemplate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertToLetterTemplateResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
