@@ -9,7 +9,7 @@ namespace Cats.Web.Adminstration.ViewModelBinder
 {
     public static class DonorWoredaViewModelBinder
     {
-        public static IEnumerable<DonorWoredaViewModel> BindDonorViewModel(List<WoredasByDonor> woredasByDonors )
+        public static IEnumerable<DonorWoredaViewModel> BindDonorViewModel(List<HrdDonorCovarage> woredasByDonors )
         {
             if (woredasByDonors == null) return new List<DonorWoredaViewModel>();
 
@@ -25,11 +25,11 @@ namespace Cats.Web.Adminstration.ViewModelBinder
                                                                                           } : null);
         }
 
-        public static WoredasByDonor BindDonorViewModel(DonorWoredaViewModel woredasByDonors)
+        public static HrdDonorCovarage BindDonorViewModel(DonorWoredaViewModel woredasByDonors)
         {
-            if (woredasByDonors == null) return new WoredasByDonor();
+            if (woredasByDonors == null) return new HrdDonorCovarage();
 
-            var woredaByDonor = new WoredasByDonor()
+            var woredaByDonor = new HrdDonorCovarage()
                                     {
                                         WoredaId = woredasByDonors.WoredaId,
                                         DonorId = woredasByDonors.DonorId,

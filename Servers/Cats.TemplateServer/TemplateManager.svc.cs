@@ -36,7 +36,7 @@ namespace Cats.TemplateServer
         private ITemplateService _templateService = new TemplateService();
         private ITemplateTypeTypeService _templateTypeService = new TemplateTypeService();
         private ITemplateFieldsService _templateFieldsService = new TemplateFieldService();
-        private ILetterTemplateService _letterTemplateService =  new LetterTemplateService();
+        private ILetterTemplateService _letterTemplateService = new LetterTemplateService();
         IUserAccountService _userAccountService = new UserAccountService();
 
 
@@ -147,24 +147,33 @@ namespace Cats.TemplateServer
 
         #region IFileRepositoryService Members
 
-        
-        
+
+
         /// <summary>
         /// Gets a file from the repository
         /// </summary>
         public Stream GetFile(string virtualPath)
         {
-            
-                string filePath = Path.Combine(RepositoryDirectory, virtualPath);
 
-                if (!File.Exists(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture)  + "\\" + filePath))
-                    throw new FileNotFoundException("File was not found", Path.GetFileName(filePath));
+            string filePath = Path.Combine(RepositoryDirectory, virtualPath);
 
-                SendFileRequested(virtualPath);
-                FileStream file = File.Open(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            if (!File.Exists(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath))
+                throw new FileNotFoundException("File was not found", Path.GetFileName(filePath));
+
+            SendFileRequested(virtualPath);
+            //  FileStream file = File.Open(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             //var fileStream =  new FileStream(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath,FileMode.Append,FileAccess.Write,FileShare.Write);
-                return file;
 
+            using (var stream = File.OpenRead(ConfigurationManager.AppSettings["TemplatePath"] + "\\" + filePath))
+            {
+                var memoryStream = new MemoryStream();
+
+                stream.CopyTo(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                byte[] buf = new byte[memoryStream.Length];
+                memoryStream.Read(buf, 0, buf.Length);
+                return memoryStream;
+            }
         }
 
         /// <summary>
@@ -186,7 +195,7 @@ namespace Cats.TemplateServer
                 msg.DataStream.CopyTo(outputStream);
                 outputStream.Close();
             }
-            
+
             SendFileUploaded(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath);
         }
 
@@ -243,10 +252,10 @@ namespace Cats.TemplateServer
             }
             catch (Exception)
             {
-                
-                
+
+
             }
-           
+
 
         }
 
@@ -287,15 +296,15 @@ namespace Cats.TemplateServer
         public string PreviewTemplate(string fileName)
         {
             var path = ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "Templates\\";
-             var template = new TemplateHelper();
-             string newfilePath = template.GenerateTemplatePreview(132, 1, fileName, path + fileName, path + Guid.NewGuid().ToString());
+            var template = new TemplateHelper();
+            string newfilePath = template.GenerateTemplatePreview(132, 1, fileName, path + fileName, path + Guid.NewGuid().ToString());
 
             return newfilePath;
 
         }
         #region Preview Template
 
-       
-#endregion
+
+        #endregion
     }
 }

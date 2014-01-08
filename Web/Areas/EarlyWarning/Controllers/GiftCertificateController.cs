@@ -15,7 +15,6 @@ using Cats.Services.Common;
 using Master = Cats.Models.Constant.Master;
 using Cats.Helpers;
 using Cats.Data.UnitWork;
-using Word = Microsoft.Office.Interop.Word;
 using System.Reflection;
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -347,9 +346,5 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
-
-
-       
     }
 }
