@@ -82,6 +82,7 @@ namespace Cats.TemplateServer
                             TemplateId = t.TemplateId,
                             Name = t.Name,
                             TemplateType = t.TemplateType1.TemplateTypeId,
+                            FileName = t.FileName,
                             Remark = t.Remark
                         });
             return dtos.ToList();
@@ -204,11 +205,12 @@ namespace Cats.TemplateServer
         /// </summary>
         public void DeleteFile(string virtualPath)
         {
-            string filePath = Path.Combine(RepositoryDirectory, virtualPath);
+            string filePath = Path.Combine(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + RepositoryDirectory, virtualPath);
+          
 
             if (File.Exists(filePath))
             {
-                SendFileDeleted(virtualPath);
+                SendFileDeleted(filePath);
                 File.Delete(filePath);
             }
         }
@@ -249,6 +251,30 @@ namespace Cats.TemplateServer
                 };
 
                 _letterTemplateService.AddLetterTemplate(catsletterTemplate);
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+
+        }
+
+
+        public void InsertToTemplate(Template template)
+        {
+            try
+            {
+                var catsletterTemplate = new Models.Template()
+                {
+                   
+                    Name = template.Name,
+                    FileName = template.FileName,
+                    TemplateType = template.TemplateType
+                };
+
+                _templateService.AddTemplate(catsletterTemplate);
             }
             catch (Exception)
             {
@@ -302,8 +328,19 @@ namespace Cats.TemplateServer
             return newfilePath;
 
         }
-        #region Preview Template
 
+
+
+        #region Delete Tempalte From Table
+
+       public void DeleteTemplate(string fileName)
+       {
+           var template = _templateService.FindBy(t => t.FileName == fileName).Single();
+           if (template!=null)
+           {
+               _templateService.DeleteTemplate(template);
+           }
+       }
 
         #endregion
     }

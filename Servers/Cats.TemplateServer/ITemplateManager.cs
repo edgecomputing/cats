@@ -58,7 +58,14 @@ namespace Cats.TemplateServer
         void InsertToLetterTemplate(LetterTemplate letterTemplate);
 
         [OperationContract]
+        void InsertToTemplate(Template template);
+
+
+        [OperationContract]
         string PreviewTemplate(string filePath);
+
+        [OperationContract]
+        void DeleteTemplate(string fileName);
 
     }
 }
