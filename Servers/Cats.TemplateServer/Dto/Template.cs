@@ -13,6 +13,8 @@ namespace Cats.TemplateServer.Dto
         [DataMember]
         public string Name { get; set; }
         [DataMember]
+        public string FileName { get; set; }
+        [DataMember]
         public string Remark { get; set; }
     }
 }
