@@ -9,7 +9,7 @@ namespace Cats.Models
         public HRD()
         {
             this.Contributions=new List<Contribution>();
-            this.HrdDonorCovarages=new List<HrdDonorCovarage>();
+            this.HrdDonorCovarages=new List<HrdDonorCoverage>();
         }
         public int HRDID { get; set; }
         public int Year { get; set; }
@@ -28,7 +28,7 @@ namespace Cats.Models
         public virtual Season Season { get; set; }
         public virtual ICollection<Contribution> Contributions { get; set; }
         public virtual Plan Plan { get; set;}
-        public virtual ICollection<HrdDonorCovarage> HrdDonorCovarages { get; set; } 
+        public virtual ICollection<HrdDonorCoverage> HrdDonorCovarages { get; set; } 
 
     }
 }

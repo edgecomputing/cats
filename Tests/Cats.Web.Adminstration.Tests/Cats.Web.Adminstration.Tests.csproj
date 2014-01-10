@@ -105,7 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommoidtyTypeControllerTests.cs" />
-    <Compile Include="ControllerTest\WoredaDonorTest.cs" />
     <Compile Include="DonorControllerTest.cs" />
     <Compile Include="FDPControllerTest.cs" />
     <Compile Include="ControllerTest\CommoidtyTypeControllerTests.cs" />
