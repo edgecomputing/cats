@@ -155,26 +155,16 @@ namespace Cats.TemplateServer
         /// </summary>
         public Stream GetFile(string virtualPath)
         {
-
+            var directory = ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture);
             string filePath = Path.Combine(RepositoryDirectory, virtualPath);
 
-            if (!File.Exists(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath))
+            if (!File.Exists( directory + "\\" + filePath))
                 throw new FileNotFoundException("File was not found", Path.GetFileName(filePath));
 
-            SendFileRequested(virtualPath);
-            //  FileStream file = File.Open(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            //var fileStream =  new FileStream(ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "\\" + filePath,FileMode.Append,FileAccess.Write,FileShare.Write);
-
-            using (var stream = File.OpenRead(ConfigurationManager.AppSettings["TemplatePath"] + "\\" + filePath))
-            {
-                var memoryStream = new MemoryStream();
-
-                stream.CopyTo(memoryStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                byte[] buf = new byte[memoryStream.Length];
-                memoryStream.Read(buf, 0, buf.Length);
-                return memoryStream;
-            }
+           
+              FileStream file = File.Open(directory + "\\" + filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+              return file;
+           
         }
 
         /// <summary>
