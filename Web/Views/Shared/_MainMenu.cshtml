@@ -50,7 +50,9 @@
 
 
                             <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_HRD_list, @Translator.Translate("HRD"))</li>
+                                                                    EarlyWarningCheckAccess.Operation.View_HRD_list, @Translator.Translate("HRD"))</li>
+                             <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "DonorCoverage", new { Area = "EarlyWarning" }),
+                                                                        EarlyWarningCheckAccess.Operation.View_HRD_list, @Translator.Translate("Donor Coverage"))</li>
 
                             <li class="divider"></li>
 

@@ -76,6 +76,10 @@
     <Compile Include="CommodityTypeService.cs" />
     <Compile Include="CurrencyService.cs" />
     <Compile Include="DashboardService.cs" />
+    <Compile Include="HrdDonorCoverageDetailService.cs" />
+    <Compile Include="HrdDonorCoverageService.cs" />
+    <Compile Include="IHrdDonorCoverageDetailService.cs" />
+    <Compile Include="IHrdDonorCoverageService.cs" />
     <Compile Include="ITemplateFieldsService.cs" />
     <Compile Include="ITemplateService.cs" />
     <Compile Include="ITemplateTypeService.cs" />

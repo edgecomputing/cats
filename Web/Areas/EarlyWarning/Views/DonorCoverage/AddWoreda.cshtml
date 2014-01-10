@@ -1,0 +1,63 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Areas.EarlyWarning.Models.AddWoredaViewModel
+@{
+    ViewBag.Title = "AddWoreda";
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Translator.Translate("Add Woreda")</h3>
+</div>
+
+@using (Html.BeginForm("AddWoreda", "DonorCoverage", new { id = Model.DonorCoverageID }, FormMethod.Post, new { @class = "modal-form" }))
+{
+   
+    @Html.HiddenFor(m=>m.DonorCoverageID)
+
+    <div class="modal-body">
+        
+        <div class="form-horizontal">
+            
+            <div class="control-group" id="region">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Region"))
+                </div>
+                <div class="controls" id="div_region">
+                    @Html.DropDownList("RegionID",String.Empty)
+                    @Html.ValidationMessageFor(m => m.RegionID)
+               
+                </div>
+
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Zone"))
+                </div>
+                <div class="controls" id="div_zone">
+                    @Html.DropDownList("ZoneID",String.Empty)
+                    @Html.ValidationMessageFor(m => m.ZoneID)
+               
+                </div>
+
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.WoredaID,Translator.Translate("Woreda"))
+                </div>
+                <div class="controls" id="div_woreda" >
+                    @*@Html.DropDownList( "Woreda",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})*@
+                     @Html.DropDownList("WoredaID",String.Empty)
+                    @Html.ValidationMessageFor(m => m.WoredaID)
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+    </div>
+
+}
