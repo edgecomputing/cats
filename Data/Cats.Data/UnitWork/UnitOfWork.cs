@@ -808,10 +808,15 @@ namespace Cats.Data.UnitWork
             get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
         }
 
-        private IGenericRepository<WoredasByDonor> woredasByDonorRepository = null;
-        public IGenericRepository<WoredasByDonor> WoredaByDonorRepository
+        private IGenericRepository<HrdDonorCoverage> hrdDonorCoverageRepository = null;
+        public IGenericRepository<HrdDonorCoverage> HrdDonorCoverageRepository
         {
-            get { return this.woredasByDonorRepository ?? (this.woredasByDonorRepository = new GenericRepository<WoredasByDonor>(_context)); }
+            get { return this.hrdDonorCoverageRepository ?? (this.hrdDonorCoverageRepository = new GenericRepository<HrdDonorCoverage>(_context)); }
+        }
+        private IGenericRepository<HrdDonorCoverageDetail> hrdDonorCoverageDetailRepository = null;
+        public IGenericRepository<HrdDonorCoverageDetail> HrdDonorCoverageDetailRepository
+        {
+            get { return this.hrdDonorCoverageDetailRepository ?? (this.hrdDonorCoverageDetailRepository = new GenericRepository<HrdDonorCoverageDetail>(_context)); }
         }
 
         private IGenericRepository<Distribution> distributionRepositiory;

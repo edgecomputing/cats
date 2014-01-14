@@ -263,7 +263,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
                                                                         &&
                                                                         r.ProgramId ==
-                                                                        psnphrdPlanInfo.HRDPSNPPlan.ProgramID
+                                                                        psnphrdPlanInfo.HRDPSNPPlan.ProgramID && r.RegionID==psnphrdPlanInfo.HRDPSNPPlan.RegionID
                                                                         && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
                                                                         && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month)
                         .Count;

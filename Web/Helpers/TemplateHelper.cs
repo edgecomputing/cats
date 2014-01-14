@@ -19,7 +19,10 @@ namespace Cats.Helpers
         {
             _unitofwork = unitOfWork;
         }
-
+        public TemplateHelper()
+        {
+            _unitofwork = new UnitOfWork();
+        }
         public string GenerateTemplate(int id, int templateType, string templateName)
         {
             //string templateName = string.Empty;
@@ -36,21 +39,22 @@ namespace Cats.Helpers
             return result.Value ? result.ResultPath : string.Empty;
         }
 
-        //public string OpenDocument(string templateName, byte[] data)
-        //{
-        //    //string templateName = string.Empty;
+
+        public string GenerateTemplatePreview(int id, int templateType, string templateName, string templatePath, string documentPath)
+        {
+            //string templateName = string.Empty;
 
 
-        //    string templatePath = HttpContext.Current.Server.MapPath(string.Format("~/Templates/{0}.dotx", templateName));
-        //    string documentPath =
-        //        HttpContext.Current.Server.MapPath(string.Format("~/Templates/{0}.docx", Guid.NewGuid().ToString()));
+            
+           
 
-        //    var generator = new DocumentGenerator(templatePath, documentPath, GetTemplateData(templateType, id), GetTransactionDetails(id));
+            var generator = new DocumentGenerator(templatePath, documentPath, GetTemplateData(templateType, id), GetTransactionDetails(id));
 
-        //    var result = generator.GenerateDocument();
+            var result = generator.GenerateDocument();
 
-        //    return result.Value ? result.ResultPath : string.Empty;
-        //}
+            return result.Value ? result.ResultPath : string.Empty;
+        }
+
 
         private Dictionary<string,string> GetTemplateData(int templateType, int recordId)
         {
@@ -87,34 +91,43 @@ namespace Cats.Helpers
 
         public List<TransactionDetail> GetTransactionDetails(int recordId)
         {
-            var result = new List<TransactionDetail>();
-            var transporterObj = _unitofwork.TransporterRepository.FindById(recordId);
-            var bidWinnerDestinations =
-                _unitofwork.BidWinnerRepository.Get(t => t.TransporterID == transporterObj.TransporterID && t.Status == 1, null,
-                                                    "AdminUnit, AdminUnit.AdminUnit2, AdminUnit.AdminUnit2.AdminUnit2, Hub, Bid");
-            var existingDestinationList = new List<int>();
-            var transactionDetailList = new List<TransactionDetail>();
-            foreach (var bidWinnerDestination in bidWinnerDestinations)
+            try
             {
-                if (!existingDestinationList.Contains(bidWinnerDestination.DestinationID))
+                var result = new List<TransactionDetail>();
+                var transporterObj = _unitofwork.TransporterRepository.FindById(recordId);
+                var bidWinnerDestinations =
+                    _unitofwork.BidWinnerRepository.Get(t => t.TransporterID == transporterObj.TransporterID && t.Status == 1, null,
+                                                        "AdminUnit, AdminUnit.AdminUnit2, AdminUnit.AdminUnit2.AdminUnit2, Hub, Bid");
+                var existingDestinationList = new List<int>();
+                var transactionDetailList = new List<TransactionDetail>();
+                foreach (var bidWinnerDestination in bidWinnerDestinations)
                 {
-                    transactionDetailList.Add(new TransactionDetail
+                    if (!existingDestinationList.Contains(bidWinnerDestination.DestinationID))
                     {
-                        Region = bidWinnerDestination.AdminUnit.AdminUnit2.AdminUnit2.Name,
-                        Zone = bidWinnerDestination.AdminUnit.AdminUnit2.Name,
-                        Woreda = bidWinnerDestination.AdminUnit.Name,
-                        BidNumber = bidWinnerDestination.Bid.BidNumber,
-                        BidStratingDate = bidWinnerDestination.Bid.StartDate.ToShortDateString(),
-                        DistanceFromOrigin = "0 Km",
-                        Warehouse = bidWinnerDestination.Hub.Name,
-                        Tariff = Convert.ToDecimal(bidWinnerDestination.Tariff.ToString())
-                    });
+                        transactionDetailList.Add(new TransactionDetail
+                        {
+                            Region = bidWinnerDestination.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                            Zone = bidWinnerDestination.AdminUnit.AdminUnit2.Name,
+                            Woreda = bidWinnerDestination.AdminUnit.Name,
+                            BidNumber = bidWinnerDestination.Bid.BidNumber,
+                            BidStratingDate = bidWinnerDestination.Bid.StartDate.ToShortDateString(),
+                            DistanceFromOrigin = "0 Km",
+                            Warehouse = bidWinnerDestination.Hub.Name,
+                            Tariff = Convert.ToDecimal(bidWinnerDestination.Tariff.ToString())
+                        });
+                    }
+                    existingDestinationList.Add(bidWinnerDestination.DestinationID);
                 }
-                existingDestinationList.Add(bidWinnerDestination.DestinationID);
-            }
-            result = transactionDetailList;
+                result = transactionDetailList;
 
-            return result;
+                return result;
+            }
+            catch (Exception)
+            {
+                return new List<TransactionDetail>();
+              
+            }
+           
         }
     }
 

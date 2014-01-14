@@ -139,7 +139,6 @@
     <Compile Include="Controllers\CommodityTypeController.cs" />
     <Compile Include="Controllers\ContactPersonController.cs" />
     <Compile Include="Controllers\DonorController.cs" />
-    <Compile Include="Controllers\DonorWoredaController.cs" />
     <Compile Include="Controllers\FDPController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HubController.cs" />
@@ -170,7 +169,6 @@
     <Compile Include="Models\ViewModels\CommodityViewModel.cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\ViewModels\DonorModel.cs" />
-    <Compile Include="Models\ViewModels\DonorWoredaViewModel.cs" />
     <Compile Include="Models\ViewModels\FDPViewModel.cs" />
     <Compile Include="Models\ViewModels\HubOwneViewModel.cs" />
     <Compile Include="Models\ViewModels\HubUserViewModel.cs" />
@@ -186,7 +184,6 @@
     <Compile Include="ViewModelBinder\CommoditySourceViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityTypeViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\CommodityViewModelBinder.cs" />
-    <Compile Include="ViewModelBinder\DonorWoredaViewModel.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubViewModelBinder.cs" />
   </ItemGroup>

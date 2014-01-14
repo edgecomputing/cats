@@ -12,7 +12,10 @@ namespace Cats.Services.Common
     {
         private readonly IUnitOfWork _unitOfWork;
 
-
+        public LetterTemplateService()
+        {
+            this._unitOfWork = new UnitOfWork();
+        }
         public LetterTemplateService(UnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;

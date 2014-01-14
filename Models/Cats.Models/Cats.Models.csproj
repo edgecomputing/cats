@@ -80,12 +80,15 @@
     <Compile Include="Contact.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="DistributionDetail.cs" />
+    <Compile Include="HRDDonorCoverage.cs" />
     <Compile Include="IDPSReasonType.cs" />
     <Compile Include="Mapping\ActionMap.cs" />
     <Compile Include="Mapping\AddressBookMap.cs" />
     <Compile Include="Mapping\ContactMap.cs" />
     <Compile Include="Mapping\DistributionDetailMap.cs" />
     <Compile Include="Mapping\DistributionMap.cs" />
+    <Compile Include="Mapping\HrdDonorCoverageDetailMap.cs" />
+    <Compile Include="Mapping\HRDDonorCoverageMap.cs" />
     <Compile Include="Mapping\IDPSReasonTypeMap.cs" />
     <Compile Include="Mapping\PaymentRequestMap.cs" />
     <Compile Include="Mapping\TemplateFieldMap.cs" />
@@ -93,22 +96,17 @@
     <Compile Include="Mapping\TemplateTypeMap.cs" />
     <Compile Include="Mapping\TransportBidQuotationHeaderMap.cs" />
     <Compile Include="PaymentRequest.cs" />
-
     <Compile Include="Template.cs" />
     <Compile Include="TemplateField.cs" />
     <Compile Include="TemplateType.cs" />
-
     <Compile Include="Report.cs" />
     <Compile Include="ReportFolder.cs" />
-
     <Compile Include="TransportBidQuotationHeader.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
-    <Compile Include="WoredasByDonor.cs" />
     <Compile Include="Ledger.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />
     <Compile Include="Mapping\SIPCAllocationMap.cs" />
-    <Compile Include="Mapping\WoredaByDonorMap.cs" />
     <Compile Include="Mapping\TransporterAgreementVersionMap.cs" />
     <Compile Include="Mapping\WoredaHubLinkMap.cs" />
     <Compile Include="Mapping\WoredaHubMap.cs" />
