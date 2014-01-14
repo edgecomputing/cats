@@ -87,7 +87,7 @@ namespace Cats.Helpers
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
                 int max = 0;
 
                 if (totallUnread.Count < 1)
