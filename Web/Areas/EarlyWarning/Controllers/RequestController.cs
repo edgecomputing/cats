@@ -421,7 +421,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var result = GetRequestWithPlan(request);
             //var dt = RequestViewModelBinder.TransposeData(requestDetails);
-            var dt = RequestViewModelBinder.TransposeDataNew(result);
+            var dt = RequestViewModelBinder.TransposeDataNew(result,request.ProgramId);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
         }
@@ -851,14 +851,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                                    Woreda = sw.Key.Name,
                                    RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
-                                   PlannedBeneficaryNo = 0,
-                                   Difference = 0 - sw.Sum(m => m.Beneficiaries),
+                                   //PlannedBeneficaryNo = 0,
+                                   //Difference = 0 - sw.Sum(m => m.Beneficiaries),
                                    RegionalRequestDetails = oneWoreda
                                });
-
-
-
-           }
+            }
             return result;
         }
 
