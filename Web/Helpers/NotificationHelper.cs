@@ -28,7 +28,7 @@ namespace Cats.Helpers
                     allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
                 }
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n=>n.NotificationId).ToList();
                 
 
                 
@@ -56,7 +56,7 @@ namespace Cats.Helpers
                     allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
                 }
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
                 return totallUnread.Count();
             }
             catch (Exception)
