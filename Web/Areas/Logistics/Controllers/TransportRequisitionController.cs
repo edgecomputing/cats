@@ -259,7 +259,7 @@ namespace Cats.Areas.Logistics.Controllers
                 log.LogAllErrorsMesseges(exception, _log);
                 ModelState.AddModelError("",exception.Message);
 
-                return RedirectToAction("Main", "DispatchAllocation");
+                return RedirectToAction("Index", "DispatchAllocation");
                 throw;
             }
           
@@ -290,20 +290,27 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Edit(int id)
         {
+            //var transportRequisition = _transportRequisitionService.FindById(id);
+
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
+            var users = _userAccountService.GetUsers();
+
             var transportRequisition = _transportRequisitionService.FindById(id);
-            if(transportRequisition ==null)
-            {
-                return HttpNotFound();
-            }
-            return View(transportRequisition);
+            var transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
+
+            return View(transportRequisitonViewModel);
         }
+
         [HttpPost]
-        public ActionResult Edit(TransportRequisition transportRequisition)
+        public ActionResult Edit(TransportRequisitionViewModel transportRequisitionViewModel)
         {
-          
             if (!ModelState.IsValid)
             {
-                return View(transportRequisition);
+                var r =   transportRequisitionViewModel.TransportRequisitionID;
+                var transportRequisition = _transportRequisitionService.FindById(r);
+                //transportRequisition.
+                //return View(transportRequisition);
             }
             return RedirectToAction("Index","TransportRequisition");
         }
@@ -318,6 +325,7 @@ namespace Cats.Areas.Logistics.Controllers
             var transportRequisitionViewModel = BindTransportRequisitionViewModel(transportRequisition);
             return View(transportRequisitionViewModel);
         }
+        
         public ActionResult ConfirmGenerateTransportOrder(int id)
         {
             ViewBag.RequisistionId = id;
@@ -329,6 +337,7 @@ namespace Cats.Areas.Logistics.Controllers
             var transportRequisitionViewModel = BindTransportRequisitionViewModel(transportRequisition);
             return View(transportRequisitionViewModel);
         }
+        
         [HttpPost]
         public ActionResult ApproveConfirmed(int TransportRequisitionID)
         {
@@ -339,7 +348,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         
-            [HttpGet]
+        [HttpGet]
         //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
 
         public ActionResult Details(int id)

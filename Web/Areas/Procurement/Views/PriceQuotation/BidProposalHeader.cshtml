@@ -1,6 +1,7 @@
 ﻿@using Cats.Helpers
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Index";
@@ -14,7 +15,14 @@
                         @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
                         EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")*@
    
-    <a id="btnAddProposal" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "PriceQuotation")"></a>
+    @Html.ProcurementOperationButton(
+                       
+                        @Url.Action("Create", "PriceQuotation", new { Area = "Procurement" }),
+                        ProcurementCheckAccess.Operation.Create_New_Bid_Proposal,
+                        "<i class=\"icon-plus\"></i>", "btn", "btn_new_record"
+                        )
+   
+    @*<a id="btnAddProposal" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "PriceQuotation")"></a>*@
 }
 
 
@@ -71,7 +79,13 @@
       .Name("grid")
       .Columns(columns =>
           {
-              columns.Bound(p => p.BidNumber).ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new {id = "#=TransportBidQuotationHeaderID#"}) + " '>#=BidNumber#</a>  "); ;
+              //columns.Bound(p => p.BidNumber).ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new {id = "#=TransportBidQuotationHeaderID#"}) + " '>#=BidNumber#</a>  "); ;
+              
+              columns.Bound(p => p.BidNumber).Title(Translator.Translate("Bid Number")).ClientTemplate(
+                @Html.EarlyWarningOperationButton(
+                    @Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }),
+                    (EarlyWarningCheckAccess.Operation) ProcurementCheckAccess.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());
+              
               columns.Bound(p => p.Region);
               columns.Bound(p => p.Transporter);
               columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
