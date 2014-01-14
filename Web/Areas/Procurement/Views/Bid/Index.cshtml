@@ -53,9 +53,10 @@
             columns.Bound(p => p.Status).Title("Status");
             columns.Command(p =>
                 {
-                    p.Custom("Edit").Click("bidEdit");
+                    
                     if (ViewBag.BidStatus == (int)BidStatus.Open || ViewBag.BidStatus==0)
                     {
+                        p.Custom("Edit").Click("bidEdit");
                         p.Custom("Approve").Click("onApprove");
                     }
                     if(ViewBag.BidStatus==(int)BidStatus.Approved)
