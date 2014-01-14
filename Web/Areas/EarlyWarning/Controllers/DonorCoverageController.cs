@@ -156,5 +156,29 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 };
             return hrdDonorCoverageDetail;
         }
+        public JsonResult GetAdminUnits()
+        {
+            var r = (from region in _adminUnitService.GetRegions()
+                     select new
+                     {
+
+                         RegionID = region.AdminUnitID,
+                         RegionName = region.Name,
+                         Zones = from zone in _adminUnitService.GetZones(region.AdminUnitID)
+                                 select new
+                                 {
+                                     ZoneID = zone.AdminUnitID,
+                                     ZoneName = zone.Name,
+                                     Woredas = from woreda in _adminUnitService.GetWoreda(zone.AdminUnitID)
+                                               select new
+                                               {
+                                                   WoredaID = woreda.AdminUnitID,
+                                                   WoredaName = woreda.Name
+                                               }
+                                 }
+                     }
+                    );
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
     }
 }
