@@ -1,4 +1,4 @@
-﻿@model Cats.Models.TransportRequisition
+﻿@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -9,6 +9,7 @@
 {
     @Html.Partial("_AllocationLeftBar")
 }
+
 @section Toolbar
 {
      <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmEdit"></a>
@@ -41,7 +42,7 @@
                     @Html.LabelFor(model => model.RequestedBy)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.RequestedBy)
+                    @Html.TextBoxFor(model => model.RequestedBy, new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.RequestedBy)
                 </div>
             </div>
@@ -50,7 +51,7 @@
                     @Html.LabelFor(model => model.RequestedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
-                     @Html.TextBoxFor(model => model.RequestedDate, new { @class = " cats-datepicker2", @placeholder = "0" })
+                     @Html.TextBoxFor(model => model.RequestedDate, new { Disabled = true,@class = " cats-datepicker2", @placeholder = "0" })
                     @Html.ValidationMessageFor(model => model.RequestedDate)
                 </div>
             </div>
@@ -59,7 +60,7 @@
                     @Html.LabelFor(model => model.CertifiedBy)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.CertifiedBy)
+                    @Html.TextBoxFor(model => model.CertifiedBy,new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.CertifiedBy)
                 </div>
             </div>
@@ -68,7 +69,7 @@
                     @Html.LabelFor(model => model.CertifiedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
-                   @Html.TextBoxFor(model => model.CertifiedDate, new { @class = " cats-datepicker2", @placeholder = "0" })
+                   @Html.TextBoxFor(model => model.CertifiedDate, new {Disabled = true, @class = " cats-datepicker2", @placeholder = "0" })
                     @Html.ValidationMessageFor(model => model.CertifiedDate)
                 </div>
             </div>

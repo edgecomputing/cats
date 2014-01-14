@@ -13,7 +13,9 @@ namespace Cats.ViewModelBinder
         {
             if (requisition==null)
                 return  new List<RequisitionViewModel>();
-            var result = (from req in requisition
+            
+
+             var result = (from req in requisition
                          select new RequisitionViewModel()
                                      {
                                         RequisitionNo =req.RequisitionNo,
@@ -29,11 +31,32 @@ namespace Cats.ViewModelBinder
                                                        
                                         AmountAllocated = req.ReliefRequisitionDetails.Sum(a=>a.Amount),
                                         StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
-                                     });
-                                                   
+                                      });
 
+             var r = new List<RequisitionViewModel>();
+             
+             foreach (var req in requisition)
+             {
+                 var n = new RequisitionViewModel();
+                 n.RequisitionNo = req.RequisitionNo;
+                 n.RequisitionId = req.RequisitionID;
+                 n.RequisitionDate = DateTime.Parse(req.RequestedDate.ToString());
+                 n.Commodity = req.Commodity.Name;
+                 n.BenficiaryNo = req.ReliefRequisitionDetails.Sum(a => a.BenficiaryNo);
+                 var m = req.ReliefRequisitionDetails.Sum(a => a.Amount);
+                 n.Amount = m.ToPreferedWeightUnit();
+                 n.Status = int.Parse(req.Status.ToString());
+                 n.Region = req.AdminUnit.Name;
+                 n.RegionId = (int)req.RegionID;
+                 n.Zone = req.AdminUnit1.Name;
 
-            return Enumerable.Cast<RequisitionViewModel>(result).ToList();
+                 n.AmountAllocated = req.ReliefRequisitionDetails.Sum(a => a.Amount);
+                 n.StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+
+                 r.Add(n);
+             }
+
+            return r.ToList();
           
 
 
