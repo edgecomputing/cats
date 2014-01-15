@@ -82,7 +82,7 @@ namespace Cats.Areas.Logistics.Controllers
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
             var transportRequisitonViewModels =
-                (from itm in transportRequisitions select BindTransportRequisitionViewModel(itm));
+                (from itm in transportRequisitions orderby itm.RequestedDate descending select BindTransportRequisitionViewModel(itm));
             return Json(transportRequisitonViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
