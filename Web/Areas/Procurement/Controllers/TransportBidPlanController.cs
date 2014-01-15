@@ -110,32 +110,46 @@ namespace Cats.Areas.Procurement.Controllers
             if (ModelState.IsValid)
             {
                 ViewBag.Message = "Invalid Model";
+                var transportPlan =_transportBidPlanService.FindBy( m => m.Year == transportbidplan.Year && m.YearHalf == transportbidplan.YearHalf).FirstOrDefault();
+                if (transportPlan == null)
+                {
 
-                var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
-                var psnptransportBidPlanDetail = (from detail in woredas
-                                                  //where _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)>0
-                                  select new TransportBidPlanDetail()
-                                  {
-                                      DestinationID = detail.AdminUnitID,
-                                      SourceID = _hubService.GetNearestWarehouse(detail.AdminUnitID).HubID,
-                                      ProgramID = 2,
-                                      Quantity = _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)
-                                      
-                                  }).ToList();
 
-                var relieftransportBidPlanDetail = (from detail in woredas
-                                                    //where _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)>0
-                                              select new TransportBidPlanDetail()
-                                                  {
-                                                      DestinationID = detail.AdminUnitID,
-                                                      SourceID = _hubService.GetNearestWarehouse(detail.AdminUnitID).HubID,
-                                                      ProgramID = 1,
-                                                      Quantity = _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)
-                                                  }).ToList();
-                var transportbidplanDetail = psnptransportBidPlanDetail.Union(relieftransportBidPlanDetail).ToList();                                            
-                transportbidplan.TransportBidPlanDetails = transportbidplanDetail;
-                _transportBidPlanService.AddTransportBidPlan(transportbidplan);
-                return RedirectToAction("Index");
+                    var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
+                    var psnptransportBidPlanDetail = (from detail in woredas
+                                                      //where _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)>0
+                                                      select new TransportBidPlanDetail()
+                                                          {
+                                                              DestinationID = detail.AdminUnitID,
+                                                              SourceID =
+                                                                  _hubService.GetNearestWarehouse(detail.AdminUnitID).
+                                                          HubID,
+                                                              ProgramID = 2,
+                                                              Quantity =
+                                                                  _transportBidPlanDetailService.
+                                                          GetWoredaGroupedPsnpAmount(detail.AdminUnitID)
+
+                                                          }).ToList();
+
+                    var relieftransportBidPlanDetail = (from detail in woredas
+                                                        //where _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)>0
+                                                        select new TransportBidPlanDetail()
+                                                            {
+                                                                DestinationID = detail.AdminUnitID,
+                                                                SourceID =
+                                                                    _hubService.GetNearestWarehouse(detail.AdminUnitID).
+                                                            HubID,
+                                                                ProgramID = 1,
+                                                                Quantity =
+                                                                    _transportBidPlanDetailService.GetHrdCommodityAmount
+                                                            (detail.AdminUnitID)
+                                                            }).ToList();
+                    var transportbidplanDetail = psnptransportBidPlanDetail.Union(relieftransportBidPlanDetail).ToList();
+                    transportbidplan.TransportBidPlanDetails = transportbidplanDetail;
+                    _transportBidPlanService.AddTransportBidPlan(transportbidplan);
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("Errors",@"Bid Plan For this Year and Period already Exists");
             }
 
             loadLookups(transportbidplan);
