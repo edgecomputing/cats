@@ -439,7 +439,12 @@ namespace Cats.Areas.Logistics.Controllers
                                 DateRequested=requisition.RequestedDate,
                                 DateRecieved = requisition.CertifiedDate,
                                 RequestedBy = requisition.RequestedBy,
-                                CertifiedBy = requisition.CertifiedBy
+                                CertifiedBy = requisition.CertifiedBy,
+                                program=transportRequisitonViewModel.Program,
+                                TransportRequisitionNO = transportRequisitonViewModel.TransportRequisitionNo,
+                                Month=transportRequisitonViewModel.Month,
+                                Round=transportRequisitonViewModel.Round
+
                             });
 
 

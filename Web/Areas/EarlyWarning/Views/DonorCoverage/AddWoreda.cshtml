@@ -46,8 +46,8 @@
                     @Html.LabelFor(m => m.WoredaID,Translator.Translate("Woreda"))
                 </div>
                 <div class="controls" id="div_woreda" >
-                    @Html.DropDownList( "Woreda",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})
-                     @*@Html.DropDownList("WoredaID",String.Empty)*@
+                    @*@Html.DropDownList( "WoredaID",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})*@
+                     @Html.DropDownList("WoredaID",String.Empty)
                     @Html.ValidationMessageFor(m => m.WoredaID)
                 </div>
 
@@ -94,7 +94,7 @@
             document.getElementById("ZoneID").disabled = false;
 
             //var msg = "";
-            var htm = "<select name='Zone' id ='ZoneID' > ";
+            var htm = "<select name='ZoneID' id ='ZoneID' > ";
             for (var z in zones) {
                 //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
                 htm += "<option value='" + zones[z].ZoneID + "'>" + zones[z].ZoneName + "</option>";
@@ -114,7 +114,7 @@
             var zoneId = $("#ZoneID").val();
             //alert(zoneId);
             var woredas = admin_zone_hash[zoneId];
-            var s = "<select id ='WoredaID' name='Woreda' >";
+            var s = "<select id ='WoredaID' name='WoredaID' >";
             for (w in woredas) {
                 s += "<option value='" + woredas[w].WoredaID + "'>" + woredas[w].WoredaName + "</option>";
             }
