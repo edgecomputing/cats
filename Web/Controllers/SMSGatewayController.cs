@@ -24,7 +24,19 @@ namespace Cats.Controllers
         public JsonResult Index()
         {
             var messages = new List<SmsOutgoingMessage>();
-            return Json(_FDPService.GetAllFDP(), JsonRequestBehavior.AllowGet);
+            
+            var messageOne = new SmsOutgoingMessage()
+                {
+                    Id = new Guid(),
+                    Message = "Hello this is the first ever message from the original CATS",
+                    Priority = 5,
+                    To = "0911663223",
+                    Type = "OutGoing"
+                };
+
+            messages.Add(messageOne);
+
+            return Json(messages, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Send()
