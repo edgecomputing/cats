@@ -82,7 +82,7 @@ namespace Cats.Areas.Logistics.Controllers
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
             var transportRequisitonViewModels =
-                (from itm in transportRequisitions select BindTransportRequisitionViewModel(itm));
+                (from itm in transportRequisitions orderby itm.TransportRequisitionID descending select BindTransportRequisitionViewModel(itm));
             return Json(transportRequisitonViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -242,6 +242,7 @@ namespace Cats.Areas.Logistics.Controllers
                 var programs = (from item in requisitions select item.ProgramID).ToList();
                 var requisitionToDispatches = new List<List<int>>();
                 var currentUser = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
+                
                 foreach (var program in programs)
                 {
                     var requisitionToDispatche =
@@ -249,6 +250,7 @@ namespace Cats.Areas.Logistics.Controllers
                     requisitionToDispatches.Add(requisitionToDispatche);
 
                 }
+
                 _transportRequisitionService.CreateTransportRequisition(requisitionToDispatches, currentUser);
 
                 return RedirectToAction("Index", "TransportRequisition");//,new {id=(int)TransportRequisitionStatus.Draft});
@@ -358,7 +360,6 @@ namespace Cats.Areas.Logistics.Controllers
             var transportRequisitonViewModel = new TransportRequisitionViewModel();
             try
             {
-            
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
