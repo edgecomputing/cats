@@ -8,16 +8,16 @@ namespace Cats.Models.ViewModels
 {
     public class SmsOutgoingMessage
     {
-        public Guid Id { get; set; }
-        public string To { get; set; }
-        public string Message { get; set; }
-        public int Priority { get; set; }
-        public string Type { get; set; }
+        public string id { get; set; }
+        public string to { get; set; }
+        public string message { get; set; }
+        //public int Priority { get; set; }
+        //public string Type { get; set; }
     }
 
     public class SmsEventSend
     {
-        public string Event { get; set; }
-        public ICollection<SmsOutgoingMessage> Messages { get; set; }
+        public string @event { get; set; }
+        public ICollection<SmsOutgoingMessage> messages { get; set; }
     }
 }
