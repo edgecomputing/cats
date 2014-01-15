@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.ViewModels
 {
-    class SmsOutgoingMessage
+    public class SmsOutgoingMessage
     {
         public Guid Id { get; set; }
         public string To { get; set; }
@@ -15,7 +15,7 @@ namespace Cats.Models.ViewModels
         public string Type { get; set; }
     }
 
-    internal class SmsEventSend
+    public class SmsEventSend
     {
         public string Event { get; set; }
         public ICollection<SmsOutgoingMessage> Messages { get; set; }

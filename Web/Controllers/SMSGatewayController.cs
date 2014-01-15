@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
+using Cats.Models.ViewModels;
 
 namespace Cats.Controllers
 {
@@ -22,6 +23,7 @@ namespace Cats.Controllers
 
         public JsonResult Index()
         {
+            var messages = new List<SmsOutgoingMessage>();
             return Json(_FDPService.GetAllFDP(), JsonRequestBehavior.AllowGet);
         }
 
