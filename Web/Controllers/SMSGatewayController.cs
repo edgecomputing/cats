@@ -14,11 +14,11 @@ namespace Cats.Controllers
         //
         // GET: /CatsSmsGateway/
 
-        private readonly IFDPService _FDPService;
+        private readonly IFDPService _fdpService;
 
         public SMSGatewayController(IFDPService fdpService)
         {
-            _FDPService = fdpService;
+            _fdpService = fdpService;
         }
 
         public JsonResult Index()
@@ -41,7 +41,7 @@ namespace Cats.Controllers
 
         public JsonResult Send()
         {
-            var fdps = _FDPService.GetAllFDP().Take(2);
+            var fdps = _fdpService.GetAllFDP().Take(2);
             var hh = (from fdp in fdps
                       select new
                           {
