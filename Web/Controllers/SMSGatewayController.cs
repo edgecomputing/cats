@@ -24,7 +24,7 @@ namespace Cats.Controllers
         public JsonResult Index()
         {
             var messages = new List<SmsOutgoingMessage>();
-            var eventsw = new List<SmsEventSend>();
+            var events = new List<SmsEventSend>();
             
             var messageOne = new SmsOutgoingMessage()
                 {
@@ -41,9 +41,22 @@ namespace Cats.Controllers
                     messages = messages
                 };
 
-            eventsw.Add(ev);
+            
+            events.Add(ev);
 
-            return Json(eventsw, JsonRequestBehavior.AllowGet);
+            var s =(events= (
+                from evt in events
+                             select new SmsEventSend()
+                                 {
+                                     @event = ev.@event,
+                                     messages = ev.messages;
+                                 }
+                  ) 
+            );
+
+            //eventsw.Add(ev);
+
+            return Json(s, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Send()
