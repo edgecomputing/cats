@@ -8,7 +8,7 @@ using Cats.Models;
 
 namespace Cats.Services.Common
 {
-   public interface INotificationService
+    public interface INotificationService
     {
         bool AddNotification(Notification notification);
         bool DeleteNotification(Notification notification);
@@ -17,12 +17,12 @@ namespace Cats.Services.Common
         Notification FindById(int id);
         List<Notification> GetAllNotification();
         List<Notification> FindBy(Expression<Func<Notification, bool>> predicate);
-        bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl,int transportOrderId, string transportOrderNo);
-       bool AddNotificationForProcurementFromLogistics(string destinationUrl,TransportRequisition transportRequisition);
-       bool AddNotificationForLogistcisFromEarlyWaring(string destinationUrl,int requisitionID, int regionId, string requisitioNo);
+        bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl, int transportOrderId, string transportOrderNo);
+        bool AddNotificationForProcurementFromLogistics(string destinationUrl, TransportRequisition transportRequisition);
+        bool AddNotificationForLogistcisFromEarlyWaring(string destinationUrl, int requisitionID, int regionId, string requisitioNo);
 
-       bool AddNotificationForProcurmentForGRNDiscripancy(string destinationURl, int transportOrderId,
-                                                          string transportOrderNo);
+        bool AddNotificationForProcurmentForGRNDiscripancy(string destinationURl, int transportOrderId,
+                                                           string transportOrderNo);
 
     }
 }
