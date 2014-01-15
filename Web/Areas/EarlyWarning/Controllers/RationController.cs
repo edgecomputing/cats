@@ -43,6 +43,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(rationViewModels);
         }
 
+        public JsonResult Rations()
+        {
+            return Json(_rationService.GetAllRation(), JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Details(int id)
         {
             ViewBag.RationID = id;

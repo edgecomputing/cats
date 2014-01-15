@@ -34,7 +34,7 @@ Transport Requisition Code: <input id="searchIndex" style="width: 300px; height:
     .HtmlAttributes(new { style = "height:430px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(20)
+        //.PageSize(20)
         .Model(model =>model.Id(p => p.TransportRequisitionID))
         .Read(read => read.Action("TransportRequisition_Read", "TransportRequisition").Data("searchIndexObj"))
     )

@@ -566,7 +566,7 @@
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CatsSmsGatewayController.cs" />
+    <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
