@@ -249,7 +249,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.UnitID = dispatchviewmodel.UnitID;
                 dispatch.QuantityInUnit = dispatchviewmodel.QuantityInUnit;
                 dispatch.QuantityPerUnit = dispatchviewmodel.QuantityPerUnit;
-
+                
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
                 //_transactionService.SaveDispatchTransaction(dispatch);
 

@@ -63,7 +63,6 @@ namespace Cats.Controllers
             {
 
                 events = sendevents
-
             };
 
             var output = JsonConvert.SerializeObject(collectionWrapper);
