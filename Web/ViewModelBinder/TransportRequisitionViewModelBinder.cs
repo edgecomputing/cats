@@ -41,6 +41,7 @@ namespace Cats.ViewModelBinder
                     RequestHelper.MonthName(
                         transportRequisition.TransportRequisitionDetails.FirstOrDefault().ReliefRequisition.Month);
                 transportRequisitionViewModel.Round =transportRequisition.TransportRequisitionDetails.FirstOrDefault().ReliefRequisition.Round;
+                transportRequisitionViewModel.Date = DateTime.Now.ToCTSPreferedDateFormat(datePrefrence);
             }
             return transportRequisitionViewModel;
         }

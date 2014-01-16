@@ -45,6 +45,7 @@ namespace Cats.Controllers
             events.Add(ev);
 
             var s = (
+
                         from evt in events
                         select new SmsEventSend()
                                    {
@@ -53,6 +54,16 @@ namespace Cats.Controllers
                                    }
                     );
                 
+//=======
+//                from evt in events
+//                             select new SmsEventSend()
+//                                 {
+//                                     @event = ev.@event,
+//                                     messages = ev.messages
+//                                 }
+                   
+//            );
+//>>>>>>> 8958a63961a41ce257e50d92a82311b1ef6d8484
 
             //eventsw.Add(ev);
 
