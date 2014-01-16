@@ -36,6 +36,12 @@ namespace Cats.ViewModelBinder
                 transportRequisitionViewModel.StatusID = transportRequisition.Status;
                 transportRequisitionViewModel.TransportRequisitionID = transportRequisition.TransportRequisitionID;
                 transportRequisitionViewModel.TransportRequisitionNo = transportRequisition.TransportRequisitionNo;
+                transportRequisitionViewModel.Program = transportRequisition.Program.Name;
+                transportRequisitionViewModel.Month =
+                    RequestHelper.MonthName(
+                        transportRequisition.TransportRequisitionDetails.FirstOrDefault().ReliefRequisition.Month);
+                transportRequisitionViewModel.Round =transportRequisition.TransportRequisitionDetails.FirstOrDefault().ReliefRequisition.Round;
+                transportRequisitionViewModel.Date = DateTime.Now.ToCTSPreferedDateFormat(datePrefrence);
             }
             return transportRequisitionViewModel;
         }

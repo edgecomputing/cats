@@ -65,7 +65,7 @@ namespace Cats.Services.EarlyWarning
         #endregion
 
 
-        
+      
 
         public void Dispose()
         {

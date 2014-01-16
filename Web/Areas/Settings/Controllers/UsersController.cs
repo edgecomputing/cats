@@ -45,6 +45,11 @@ namespace Cats.Areas.Settings.Controllers
             return View(model);
         }
 
+        public ActionResult add()
+        {
+            //userService.AddRoleSample();
+            return View();
+        }
 
 
         [HttpPost]
@@ -67,6 +72,7 @@ namespace Cats.Areas.Settings.Controllers
 
             if (messages.Count > 0)
                 return View();
+
 
             // If the supplied information is correct then persist it to the database
             var user = new UserProfile();
@@ -130,9 +136,12 @@ namespace Cats.Areas.Settings.Controllers
         [HttpGet]
         public ActionResult EditUserRoles(string UserName)
         {
+            //var roles = new string[] { "EW Coordinator", "EW-Experts" };
+            //userService.AddRoleSample("Rahel", "Early Warning", roles);
+
             var model = new UserViewModel();
             model.UserName = UserName;
-            List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetUserPermissions(UserName);
+            List<Application> Applications = userService.GetUserPermissions(UserName);
 
             model.Applications = Applications;
             return View(model);
@@ -141,35 +150,46 @@ namespace Cats.Areas.Settings.Controllers
         [HttpPost]
         public ActionResult EditUserRoles(UserViewModel userInfo)
         {
-            //// 
-
-            List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
+            var app = userInfo.Applications;
             var roles = new Dictionary<string, List<Role>>();
             var Roles = new List<Role>();
+            
             foreach (var application in app)
             {
                 foreach (var role in application.Roles)
                 {
                     if (role.IsChecked)
-                        Roles = new List<Role>() { new Role() { RoleName = role.RoleName } };
+                    {
+                        userService.AddRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                    }      
+                    else if(!role.IsChecked)
+                    {
+                        //userService.RemoveRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                    }
                 }
-                if (Roles.Count > 0)
-                    roles.Add(application.ApplicationName, Roles);
+                
+                //if (Roles.Count > 0)
+                //  roles.Add(application.ApplicationName, Roles);
             }
 
-            var user = new UserProfile();
+            return RedirectToAction("Index");
+            //var user = new UserProfile();
 
-            user.UserName = userInfo.UserName;
-            userService.EditUserRole(userInfo.UserName, userInfo.UserName, roles);
+            //var model = new UserViewModel();
+            //model.UserName = userInfo.UserName;
+            //List<Application> Applications = userService.GetUserPermissions(userInfo.UserName);
 
-            return View();
+            //model.Applications = Applications;
+            //return View(model);
         }
+       
         public ActionResult ChangePassword()
         {
             //var userInfo=userService.FindById(id);
             var model = new ChangePasswordModel();
             return View(model);
         }
+       
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {

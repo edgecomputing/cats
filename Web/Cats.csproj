@@ -70,11 +70,6 @@
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -367,6 +362,7 @@
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -382,6 +378,7 @@
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
@@ -569,6 +566,7 @@
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1497,6 +1495,10 @@
     <Content Include="Areas\EarlyWarning\Views\Plan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\_PlanLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1619,6 +1621,7 @@
     <Content Include="Areas\Procurement\Views\Bid\WoredaWithOutBidOfferFilterParial.cshtml" />
     <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
+    <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\LeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_WoredasWithoutOffer.cshtml" />
@@ -1639,6 +1642,7 @@
     <Content Include="Areas\Procurement\Views\PriceQuotation\Edit_proposal.cshtml" />
     <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
     <Content Include="Content\themes\default\variables.less" />
+    <Content Include="Areas\Settings\Views\Users\add.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

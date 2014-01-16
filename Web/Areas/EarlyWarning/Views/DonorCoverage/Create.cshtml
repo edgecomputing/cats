@@ -1,0 +1,49 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Models.HrdDonorCoverage
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_donorCoverage"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "DonorCoverage")" title="save"></a>
+}
+<h4>Create HRD Donor Coverage</h4>
+@using (Html.BeginForm("Create", "DonorCoverage", FormMethod.Post, new { id = "frm_create_donorCoverage" }))
+{
+    <div class="well form-horizontal">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.HRDID,Translator.Translate("HRD Name"))
+            </div>
+            <div class="controls">
+                @Html.DropDownList("HRDID",String.Empty)
+                @Html.ValidationMessageFor(m => m.HRDID)
+                
+            </div>
+
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.DonorID,Translator.Translate("Donor Name"))
+            </div>
+            <div class="controls">
+                @Html.DropDownList("DonorID", String.Empty)
+                @Html.ValidationMessageFor(m => m.DonorID)
+            </div>
+
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.Remark)
+            </div>
+            <div class="controls">
+                @Html.TextAreaFor(m=>m.Remark)
+                @Html.ValidationMessageFor(m => m.Remark)
+            </div>
+        </div>
+    </div>
+}
+

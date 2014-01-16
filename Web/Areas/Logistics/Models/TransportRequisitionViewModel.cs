@@ -38,7 +38,10 @@ namespace Cats.Areas.Logistics.Models
         
         [Display(Name="Certified Date")]
         public System.DateTime CertifiedDate { get; set; }
-        
+
+        public string Month { get; set; }
+        public int? Round { get; set; }
+        public string Date { get; set; }
         [Display(Name = "Certified Date")]
         public string DateCertified { get; set; }
         public string Remark { get; set; }

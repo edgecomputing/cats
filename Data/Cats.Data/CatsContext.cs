@@ -124,7 +124,8 @@ namespace Cats.Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         public DbSet<SIPCAllocation> SIPCAllocation { get; set; }
-        public DbSet<WoredasByDonor> WoredasByDonors { get; set; }
+        public DbSet<HrdDonorCoverage> HrdDonorCoverages { get; set; }
+        public DbSet<HrdDonorCoverageDetail> HrdDonorCoverageDetails { get; set; }
         public DbSet<Distribution> Distributions { get; set; }
         public DbSet<DistributionDetail> DistributionDetails { get; set; }
         public DbSet<PaymentRequest> PaymentRequests { get; set; }
@@ -238,12 +239,18 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new AllocationByRegionMap());
             modelBuilder.Configurations.Add(new PlanMap());
             modelBuilder.Configurations.Add(new NotificationMap());
-            modelBuilder.Configurations.Add(new WoredasByDonorMap());
+            modelBuilder.Configurations.Add(new HRDDonorCoverageMap());
+            modelBuilder.Configurations.Add(new HrdDonorCoverageDetailMap());
             modelBuilder.Configurations.Add(new DistributionMap());
             modelBuilder.Configurations.Add(new DistributionDetailMap());
             modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
             modelBuilder.Configurations.Add(new ActionTypesMap());
+
+            modelBuilder.Configurations.Add(new TemplateTypeMap());
+            modelBuilder.Configurations.Add(new TemplateMap());
+            modelBuilder.Configurations.Add(new TemplateFieldMap());
+
         }
 
     }

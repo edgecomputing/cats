@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="canonical" href="http://msdn.microsoft.com/en-us/library/ms730144%28v=vs.110%29.aspx">
+        <title>How to: Use a Windows Communication Foundation Client</title>
+
+
+
+
+<meta name="DCS.dcsuri" content="/en-us/library/vstudio/ms730144(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="NormalizedUrl" content="http://msdn.microsoft.com/en-us/library/vstudio/ms730144(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="VotingContextUrl" content="http://msdn.microsoft.com/en-us/library/vstudio/ms730144(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="MN" content="FB361397-10:29:59 PM">
+
+<meta name="Search.ShortId" content="ms730144">
+
+<meta name="Ms.Locale" content="en-us">
+
+
+
+
+
+
+
+        
+    
+    
+
+    <link rel="stylesheet" type="text/css" href="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/Combined.css"><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/ms2.js" async="" type="text/javascript"></script><script class="mtps-injected">try {
+/**/
+(window.MTPS || (window.MTPS = {})).cdnDomains || (window.MTPS.cdnDomains = { 
+	"image": "http://i.msdn.microsoft.com", 
+	"js": "http://i2.msdn.microsoft.com", 
+	"css": "http://i3.msdn.microsoft.com"
+});
+/**/
+} finally { MTPS._injectNextScript_0 && MTPS._injectNextScript_0(); }</script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/jquery-1.js" class="mtps-injected"></script><script class="mtps-injected">try {
+//
+  var literalNormalizedUrl = '/en-us/library/vstudio/ms730144(d=default,l=en-us,v=vs.110).aspx';
+  var wt_nvr_ru = 'WT_NVR_RU';
+  var wt_fpcdom = '.microsoft.com';
+  var wt_domlist = 'msdn.microsoft.com';
+  var wt_pathlist = '';
+  var wt_paramlist = 'DCSext.mtps_devcenter';
+  var wt_siteid = 'MSDN';
+  var gDomain = 'm.webtrends.com';
+  var gDcsId = 'dcsmgru7m99k7mqmgrhudo0k8_8c6m';
+  var gFpc = 'WT_FPC';
+
+
+
+  if (document.cookie.indexOf(gFpc + "=") == -1) {
+    var wtidJs = document.createElement("script");
+    wtidJs.src = "//" + gDomain + "/" + gDcsId + "/wtid.js";
+    document.getElementsByTagName("head")[0].appendChild(wtidJs);
+  }
+
+
+
+  var detectedLocale = 'en-us';
+  var wtsp = '_msdn_';
+  var gTrackEvents = '0';
+/**/
+} finally { MTPS._injectNextScript_2 && MTPS._injectNextScript_2(); }</script><script class="mtps-injected">try {
+/**/
+  var omni_guid = "c7fd506d-d699-46f4-9a94-01e4b9cf39bd";
+/**/
+} finally { MTPS._injectNextScript_3 && MTPS._injectNextScript_3(); }</script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/Combined_002.js" class="mtps-injected"></script><script class="mtps-injected">try {
+//
+    var searchWidgetJsUri = 'http://i2.services.social.microsoft.com/search/Widgets/SearchBox.jss?boxid=HeaderSearchTextBox&btnid=HeaderSearchButton&brand=MSDN&loc=en-us&Refinement=195&watermark=Visual%20Studio&focusOnInit=false&iroot=vstudio';
+  //
+} finally { MTPS._injectNextScript_5 && MTPS._injectNextScript_5(); }</script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/Combined_003.js" class="mtps-injected"></script><link media="print" type="text/css" rel="stylesheet" href="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/PrintView.css"><script id="mscom.srch.searchBox" src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/SearchBox.js"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/jquery.js" class="mtps-injected"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/Combined.js" class="mtps-injected"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/broker.js"></script><script class="mtps-injected">try {
+$(document).ready(function() {
+        try {
+            var token = $("#globalRequestVerification input[name='__RequestVerificationToken']").clone();
+            $("#siteFeedbackForm").append(token);
+        } catch(err) {
+            
+        }
+    });
+} finally { MTPS._injectNextScript_9 && MTPS._injectNextScript_9(); }</script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/sf_main.htm" type="text/javascript"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/javascript.js" type="text/javascript"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/client" type="text/javascript"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/affiliate_client.js" id="jw_00" type="text/javascript"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/sf_preloader.jsp" type="text/javascript"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/sf_code.jsp" type="text/javascript"></script><script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/base_single_icon.js" type="text/javascript"></script><script class="dealply_content_script" id="__DealPly__791357.0907642174" type="text/javascript" src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/-1426426751.js"></script></head>
+    <body class="library">
+        <div id="page">
+            
+            
+  
+            
+    
+
+
+
+<header class="ux-header">
+  <div class="header-top-bar">
+    <a class="header-top-bar-brand-logo" href="http://msdn.microsoft.com/vstudio" title="Visual Studio Home"></a>
+
+    <ul class="header-top-bar-links" id="ux-nav-user">
+      <li class="header-top-bar-search-box">
+        
+
+<form name="HeaderSearchForm" id="HeaderSearchForm" method="get" action="http://social.msdn.microsoft.com/search/en-us/">
+  <input value="Search Visual Studio with Bing" style="color: rgb(170, 170, 170); font-style: italic;" autocomplete="off" id="HeaderSearchTextBox" name="query" title="Search Visual Studio with Bing" class="TextBoxSearch" type="text">
+  <input id="RefinementId" name="refinement" title="195" value="195" type="hidden">
+  <input id="HeaderSearchButton" title="Search Visual Studio with Bing" class="header-search-button" value="" type="submit">
+  
+<div style="display: none; text-align: left; border: 1px solid buttonshadow; position: absolute; z-index: 1000; padding: 2px; background-color: rgb(255, 255, 255); color: rgb(255, 255, 255); font-family: &quot;Segoe UI&quot;,Helvetica,Garuda,Arial,sans-serif; font-size: 13.3333px;" id="SearchFlyoutContainer"><div id="SuggestionContainer"><ul style="list-style: none outside none; padding: 4px 2px 0px 1px; cursor: pointer; margin: 1px; white-space: nowrap;"></ul></div></div></form>
+      </li>
+
+
+
+      <li class="last">
+        <a class="scarabLink" id="idPPScarab" href="https://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=12&amp;ct=1388212199&amp;rver=6.0.5276.0&amp;wp=MCLBI&amp;wlcxt=msdn%24msdn%24msdn&amp;wreply=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fvstudio%2fms730144%2528v%3dvs.110%2529.aspx&amp;lc=1033&amp;id=254354&amp;mkt=en-US" title="Sign in">
+          <span id="idPPScarabSIT">Sign in</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="header-nav-container">
+  <nav class="header-nav">
+    <ul class="header-nav-pri">
+          <li><a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Home">Home</a></li>
+          <li><a href="http://code.msdn.microsoft.com/vstudio" title="Samples">Samples</a></li>
+          <li><a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Languages">Languages</a></li>
+          <li><a href="http://visualstudiogallery.msdn.microsoft.com/" title="Extensions">Extensions</a></li>
+          <li class="header-nav-selected"><a href="http://msdn.microsoft.com/en-us/library/vstudio" title="Documentation">Documentation</a></li>
+          <li><a href="http://social.msdn.microsoft.com/forums/vstudio/en-us/home?category=visualstudio%2cvslanguages%2cvstfs%2cnetdevelopment%2cvsarch" title="Forums">Forums</a></li>
+
+    </ul>
+  
+      <ul class="header-nav-sec">
+            <li>
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/dd831853%28v=vs.120%29.aspx" title="Visual Studio">Visual Studio</a>
+            </li>
+            <li>
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/fda2bad5%28v=vs.120%29.aspx" title="Team Foundation Server ALM">Team Foundation Server ALM</a>
+            </li>
+            <li class="header-nav-selected">
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2.aspx" title=".NET Framework">.NET Framework</a>
+            </li>
+      </ul>
+  </nav>
+  
+    <div class="header-nav-trial">
+      <a href="http://go.microsoft.com/fwlink/?LinkId=309297&amp;clcid=0x409&amp;slcid=0x409" title="Get started for free" class="trialanchor">
+        <span class="trialtext">Get started for free</span>
+        <span class="trialimage"></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+
+
+
+        
+            <div id="body">
+                
+
+
+
+
+
+
+    <div style="width: 280px; max-width: 480px;" id="leftNav">
+
+
+
+<div id="tocnav">
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/jj159353.aspx" id="jj159081_MSDN.10_en-us" mtpsaliasid="" mtpsassetid="a94d4841-3f89-438a-bead-d707357ad950_MSDN.10_en-us" mtpsshortid="jj159353_MSDN.10_en-us" title="Developer Tools and Languages">Developer Tools and Languages</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2%28v=vs.110%29.aspx" id="aa139616_MSDN.10_en-us" mtpsaliasid="" mtpsassetid="f61f02f2-2f20-483d-8f56-a9c8f3a54986_MSDN.10_en-us" mtpsshortid="w0x726c2_VS.110_en-us" title=".NET Framework 4.5">.NET Framework 4.5</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/hh156542%28v=vs.110%29.aspx" id="hh781599_VS.110_en-us" mtpsaliasid="" mtpsassetid="26e3d285-24c3-435c-a797-9fe5affb8525_VS.110_en-us" mtpsshortid="hh156542_VS.110_en-us" title="Development Guide">Development Guide</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/hh156544%28v=vs.110%29.aspx" id="hh830425_VS.110_en-us" mtpsaliasid="" mtpsassetid="96aad289-58bc-4389-89d0-b09dfc4d5c58_VS.110_en-us" mtpsshortid="hh156544_VS.110_en-us" title="Service-Oriented Applications with WCF">Service-Oriented Applications with WCF</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/dd456779%28v=vs.110%29.aspx" id="gg281726_VS.110_en-us" mtpsaliasid="" mtpsassetid="149348a6-bf82-4ccc-9604-fa7cc88c0749_VS.110_en-us" mtpsshortid="dd456779_VS.110_en-us" title="Windows Communication Foundation (WCF)">Windows Communication Foundation (WCF)</a>            </div>
+            <div data-childrenloaded="true" style="padding-left: 13px;" class="toclevel1" data-toclevel="1">
+<a class="toc_expanded" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/ms734712%28v=vs.110%29.aspx" id="gg281821_VS.110_en-us" mtpsaliasid="" mtpsassetid="df939177-73cb-4440-bd95-092a421516a1_VS.110_en-us" mtpsshortid="ms734712_VS.110_en-us" title="Getting Started Tutorial">Getting Started Tutorial</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731835%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="How to: Define a Service Contract">How to: Define a Service Contract</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734686%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="How to: Implement a Service Contract">How to: Implement a Service Contract</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730935%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="How to: Host and Run a Basic Service">How to: Host and Run a Basic Service</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733133%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="How to: Create a Client">How to: Create a Client</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734663%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="How to: Configure a Client">How to: Configure a Client</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2 current" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730144%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="How to: Use a Client">How to: Use a Client</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/bb924513%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Troubleshooting the Getting Started Tutorial">Troubleshooting the Getting Started Tutorial</a>            </div>
+</div>
+        
+
+        
+
+        
+        
+        <div style="height: 3738px;" id="toc-resizable-ew" class="toc-resizable-ew"></div>
+        
+
+<a style="left: 280px; display: inline-block;" id="NavigationResize" href="javascript:void(0)">
+    <img style="" class="cl_nav_resize_open" src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/ImageSprite.png" title="Expand" alt="Expand">
+    <img style="display: none;" class="cl_nav_resize_close" src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/ImageSprite.png" title="Minimize" alt="Minimize">
+</a>
+
+
+
+    </div>
+<div style="margin-left: 280px; width: auto;" id="content" class="content">
+
+
+
+
+
+
+
+    
+    
+
+    
+
+    
+
+        
+<div xmlns="http://www.w3.org/1999/xhtml">
+<div class="topic" xmlns="http://www.w3.org/1999/xhtml" xmlns:mtps="http://msdn2.microsoft.com/mtps" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:cs="http://msdn.microsoft.com/en-us/">
+  <h1 class="title">How to: Use a Windows Communication Foundation Client</h1><div class="lw_vs"><div id="curversion"><strong>
+            .NET Framework 4.5
+        </strong></div><div id="versionclick"><div id="vsseperator" class="cl_lw_vs_seperator"></div><div><div><a id="vsLink" href="javascript:;">
+                        Other Versions
+                    </a></div><div class="cl_vs_arrow clip10x10"><img class="cl_lw_vs_arrow" id="vsArrow" alt="" src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/ImageSprite.png"></div></div><ul id="vsPanel"><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730144%28v=vs.100%29.aspx" title="">.NET Framework 4</a></li><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730144%28v=vs.90%29.aspx" title="">.NET Framework 3.5</a></li><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730144%28v=vs.85%29.aspx" title="">.NET Framework 3.0</a></li></ul></div><div id="ratingCounterSeperator" class="cl_lw_vs_seperator" style="display: block;"></div><div style="margin: 0px 0px 0px 13px; display: block;" id="ratingCounter">
+        <span id="rcA" class="ratingText">
+            6 out of 10 rated this helpful <span id="rateThisPrefix">- </span><a id="rateThisTopic" href="#feedback" title="Rate this topic">Rate this topic</a>
+            
+        </span>
+    </div></div><div style="clear:both;"></div>
+  
+  <div id="mainSection">
+    <div id="mainBody">
+      <p>
+        
+      </p>
+      <p>This is the last of six tasks required to create a basic 
+Windows Communication Foundation (WCF) application. For an overview of 
+all six of the tasks, see the <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734712%28v=vs.110%29.aspx">Getting Started Tutorial</a> topic.</p>
+      <p>Once a Windows Communication Foundation (WCF) proxy has been 
+created and configured, a client instance can be created and the client 
+application can be compiled and used to communicate with the WCF 
+service. This topic describes procedures for instantiating and using a 
+WCF client. This procedure does three things: </p>
+      <ol class="ordered">
+        <li>
+						Instantiates a WCF client.<br><br></li>
+        <li>
+						Calls the service operations from the generated proxy.<br><br></li>
+        <li>
+						Closes the client once the operation call is completed.<br><br></li>
+      </ol>
+      <h2 class="heading">To use a Windows Communication Foundation client</h2>
+      <div id="procedureSection0" class="section">
+        <ol class="ordered">
+          <li>
+            <p>Open the Program.cs or Program.vb file from the 
+GettingStartedClient project and replace the existing code with the 
+following code: </p>
+            
+<div id="code-snippet-1" class="codeSnippetContainer" xmlns="">
+    <div class="codeSnippetContainerTabs">
+        
+    </div>
+    <div class="codeSnippetContainerCodeContainer">
+        <div class="codeSnippetToolBar">
+            <div class="codeSnippetToolBarText">
+                <a name="CodeSnippetCopyLink" style="display: none;" title="Copy to clipboard." href="javascript:if%20(window.epx.codeSnippet)window.epx.codeSnippet.copyCode('CodeSnippetContainerCode_7378ebd2-6082-40a2-9d60-327e06baec80');">Copy</a>
+            </div>
+        </div>
+        <div id="CodeSnippetContainerCode_7378ebd2-6082-40a2-9d60-327e06baec80" class="codeSnippetContainerCode" dir="ltr">
+            <div style="color:Black;"><pre>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using GettingStartedClient.ServiceReference1;
+
+namespace GettingStartedClient
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Step 1: Create an instance of the WCF proxy.
+            CalculatorClient client = new CalculatorClient();
+
+            // Step 2: Call the service operations.
+            // Call the Add service operation.
+            double value1 = 100.00D;
+            double value2 = 15.99D;
+            double result = client.Add(value1, value2);
+            Console.WriteLine("Add({0},{1}) = {2}", value1, value2, result);
+
+            // Call the Subtract service operation.
+            value1 = 145.00D;
+            value2 = 76.54D;
+            result = client.Subtract(value1, value2);
+            Console.WriteLine("Subtract({0},{1}) = {2}", value1, value2, result);
+
+            // Call the Multiply service operation.
+            value1 = 9.00D;
+            value2 = 81.25D;
+            result = client.Multiply(value1, value2);
+            Console.WriteLine("Multiply({0},{1}) = {2}", value1, value2, result);
+
+            // Call the Divide service operation.
+            value1 = 22.00D;
+            value2 = 7.00D;
+            result = client.Divide(value1, value2);
+            Console.WriteLine("Divide({0},{1}) = {2}", value1, value2, result);
+
+            //Step 3: Closing the client gracefully closes the connection and cleans up resources.
+            client.Close();
+        }
+    }
+}
+
+</pre></div>
+            
+        </div>
+    </div>
+</div>
+
+            
+<div id="code-snippet-2" class="codeSnippetContainer" xmlns="">
+    <div class="codeSnippetContainerTabs">
+        
+    </div>
+    <div class="codeSnippetContainerCodeContainer">
+        <div class="codeSnippetToolBar">
+            <div class="codeSnippetToolBarText">
+                <a name="CodeSnippetCopyLink" style="display: none;" title="Copy to clipboard." href="javascript:if%20(window.epx.codeSnippet)window.epx.codeSnippet.copyCode('CodeSnippetContainerCode_a70a681a-4cfb-4124-8454-e3d155a018a3');">Copy</a>
+            </div>
+        </div>
+        <div id="CodeSnippetContainerCode_a70a681a-4cfb-4124-8454-e3d155a018a3" class="codeSnippetContainerCode" dir="ltr">
+            <div style="color:Black;"><pre>Imports System
+Imports System.Collections.Generic
+Imports System.Text
+Imports System.ServiceModel
+Imports GettingStartedClientVB2.ServiceReference1
+
+Module Module1
+
+    Sub Main()
+        ' Step 1: Create an instance of the WCF proxy
+        Dim Client As New CalculatorClient()
+
+        'Step 2: Call the service operations.
+        'Call the Add service operation.
+        Dim value1 As Double = 100D
+        Dim value2 As Double = 15.99D
+        Dim result As Double = Client.Add(value1, value2)
+        Console.WriteLine("Add({0},{1}) = {2}", value1, value2, result)
+
+        'Call the Subtract service operation.
+        value1 = 145D
+        value2 = 76.54D
+        result = Client.Subtract(value1, value2)
+        Console.WriteLine("Subtract({0},{1}) = {2}", value1, value2, result)
+
+        'Call the Multiply service operation.
+        value1 = 9D
+        value2 = 81.25D
+        result = Client.Multiply(value1, value2)
+        Console.WriteLine("Multiply({0},{1}) = {2}", value1, value2, result)
+
+        'Call the Divide service operation.
+        value1 = 22D
+        value2 = 7D
+        result = Client.Divide(value1, value2)
+        Console.WriteLine("Divide({0},{1}) = {2}", value1, value2, result)
+
+        ' Step 3: Closing the client gracefully closes the connection and cleans up resources.
+        Client.Close()
+
+        Console.WriteLine()
+        Console.WriteLine("Press &lt;ENTER&gt; to terminate client.")
+        Console.ReadLine()
+
+    End Sub
+
+End Module
+
+
+</pre></div>
+            
+        </div>
+    </div>
+</div>
+
+            <p>Notice the using or imports statement that imports the 
+GettingStartedClient.ServiceReference1. This imports the code generated 
+by Add Service Reference in Visual Studio. The code instantiates the WCF
+ proxy and then calls each of the service operations exposed by the 
+calculator service, closes the proxy and terminates.</p>
+          </li>
+        </ol>
+        <p>You have now completed the tutorial. You defined a service 
+contract, implemented the service contract, generated a WCF proxy, 
+configured a WCF client application, and then used the proxy to call 
+service operations. To test out the application first run 
+GettingStartedHost to start the service and then run 
+GettingStartedClient. The output from GettingStartedHost should look 
+like this:</p>
+        <div class="computerOutput">
+          <pre>The service is ready.
+Press &lt;ENTER&gt; to terminate service.
+
+Received Add(100,15.99)
+Return: 115.99
+Received Subtract(145,76.54)
+Return: 68.46
+Received Multiply(9,81.25)
+Return: 731.25
+Received Divide(22,7)
+Return: 3.14285714285714
+</pre>
+        </div>
+        <p>The output from GettingStartedClient should look like this:</p>
+        <div class="computerOutput">
+          <pre>Add(100,15.99) = 115.99
+Subtract(145,76.54) = 68.46
+Multiply(9,81.25) = 731.25
+Divide(22,7) = 3.14285714285714
+
+Press &lt;ENTER&gt; to terminate client.
+</pre>
+        </div>
+      </div>
+      <h2 class="heading">
+        <span id="seeAlsoNoToggle">See Also</span>
+      </h2>
+      <div id="seeAlsoSection" class="section">
+        <h4 class="subHeading">Tasks</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733133%28v=vs.110%29.aspx">How to: Create a Windows Communication Foundation Client</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731184%28v=vs.110%29.aspx">How to: Create a Duplex Contract</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731935%28v=vs.110%29.aspx">How to: Access Services with a Duplex Contract</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms751519%28v=vs.110%29.aspx">Getting Started Sample</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms750530%28v=vs.110%29.aspx">Self-Host</a>
+        <br>
+        <h4 class="subHeading">Other Resources</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730825%28v=vs.110%29.aspx">Building Clients</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734712%28v=vs.110%29.aspx">Getting Started Tutorial</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731067%28v=vs.110%29.aspx">Basic WCF Programming</a>
+        <br>
+        <br>
+      </div>
+    </div>
+    <p>
+      
+    </p>
+    <br>
+    <br>
+    <p>
+      <br>Build Date: </p>2012-08-02</div>
+</div></div>
+
+
+
+
+
+<div id="contentFeedback">
+    <form method="post" action="/en-us/library/vstudio/feedback/add/ms730144(v=vs.110).aspx">
+        <input name="__RequestVerificationToken" value="93EhAo8QliUqsYg1M6OvdjQUktkhIRQnacg8ReKmsWWDDSYP3m26bJPQBSIPEqAvOE7tsLT19cbdZk-tlcEc7LcXS57DLKGnIBoBg6lqTFGro9Fd1EFz3N_MZBf6ZgPIO143XA2" type="hidden">
+    <div id="contentFeedbackContainer">
+        <div class="FeedbackTitleContainer">
+            <a name="feedback"></a>
+        Did you find this helpful?
+            <input id="rdIsUsefulYes" name="rdIsUseful" value="1" onclick="toggleContentFeedback('Yes');" type="radio"><label for="rdIsUsefulYes">Yes</label>
+            <input id="rdIsUsefulNo" name="rdIsUseful" value="0" onclick="toggleContentFeedback('No');" type="radio"><label for="rdIsUsefulNo">No</label>
+        
+        </div>
+        
+            <div id="contentFeedbackQAContainer">
+                
+                    <div id="feedbackListNoContainer" class="FeedbackListContainer">
+                        
+                            <div>
+                                <input id="chkbxNo201" name="chkbxNo" value="201" type="checkbox">
+                                <label for="chkbxNo201">Not accurate</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo202" name="chkbxNo" value="202" type="checkbox">
+                                <label for="chkbxNo202">Not enough depth</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo203" name="chkbxNo" value="203" type="checkbox">
+                                <label for="chkbxNo203">Need more code examples</label>
+                            </div>
+                        
+                    </div>
+                
+                <div class="FeedbackTellUsMoreContainer">
+                    <input id="feedbackSiteName" name="feedbackSiteName" value="" type="hidden">
+                    <input id="feedbackPriority" name="feedbackPriority" value="" type="hidden">
+                    <input id="feedbackSourceUrl" name="feedbackSourceUrl" value="" type="hidden">
+                    <input id="ClientIP" name="ClientIP" value="" type="hidden">
+                    <input id="ClientOS" name="ClientOS" value="" type="hidden">
+                    <input id="ClientBrowser" name="ClientBrowser" value="" type="hidden">
+                    <input id="ClientTime" name="ClientTime" value="" type="hidden">
+                    <input id="ClientDate" name="ClientDate" value="" type="hidden">
+                    <textarea id="feedbackText" name="feedbackText" class="TellUsMoreTextBoxSearchLoaded" onfocus="WatermarkFocus(this, 'Tell us more...', 'TellUsMoreTextBoxSearch')" onblur="WatermarkBlur(this, 'Tell us more...', 'TellUsMoreTextBoxSearchLoaded')" onmouseover="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)" onkeydown="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)" onkeyup="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)">Tell us more...</textarea>
+                </div>
+                <span class="counter">(<span id="feedbackTextCounter">1500</span> characters remaining)</span>
+                <input id="returnUrl" name="returnUrl" value="http://msdn.microsoft.com/en-us/library/vstudio/ms730144(v=vs.110).aspx" type="hidden">
+                <input id="submit" value="Submit" title="Click to Submit Feedback" onclick="WatermarkOnSubmit(document.getElementById('feedbackText'), 'Tell us more...', 'TellUsMoreTextBoxSearch')" type="submit">
+                <div style="clear: both;"></div>
+            </div>  
+        
+    </div>
+    </form>
+</div>
+    
+
+
+
+<script id="CommentTemplate" type="text/x-jquery-tmpl">
+    <div class="communityContentAnnotation">
+        <a name="${Index}"></a>
+        <h3>
+            ${Title}
+        </h3>
+        <div class="communityContentAnnotationBody">
+            {{html Body}}
+        </div>
+        <div class="communityContentAnnotationInfo">
+            <div class="communityContentAnnotationAvatarContainer">
+                <a href="${UserAvatar.Href}" title="${UserAvatar.ToolTip}" class="communityContentAnnotationAvatar"><img src="${UserAvatar.ImageUrl}" alt="${UserAvatar.ImageAltText}" width="34" height="34" /></a>
+            </div>
+            <div class="communityContentAnnotationUserDateContainer">
+                <div class="communityContentAnnotationUserContainer">
+                    <a href="${UserAvatar.Href}">
+                        ${User}
+                    </a>
+                </div>
+                <div class="communityContentAnnotationDateContainer">
+                    <span>${Date}</span>
+                    
+                    {{if EditLink}}
+                        <span>
+                            <a href="${EditLink.Href}" title="${EditLink.ToolTip}" class="communityContentCommentEditLink">${EditLink.Title}</a>
+                        </span>
+                    {{/if}}
+
+                    {{if DeleteLink}}
+                        <span>
+                            <a href="${DeleteLink.Href}" title="${DeleteLink.ToolTip}" class="communityContentDeleteLink">${DeleteLink.Title}</a>
+                        </span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="communityContentContainer">
+    <div id="CommunityContentHeader" class="communityContentHeader">
+        <div class="communityContentHeaderTitleContainer">
+            <h2>Community Additions</h2>
+                <a class="communityContentAddLink" href="http://msdn.microsoft.com/en-us/library/vstudio/community/add/ms730144%28v=vs.110%29.aspx">
+                    <span class="communityContentAddButton" title="Add">
+                        ADD
+                    </span>
+                </a>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    
+    <div id="CommunityComments" data-url="/en-us/library/vstudio/community/comments/ms730144(v=vs.110).aspx"><div class="communityContentAnnotation">         <a name="5"></a>         <h3>             Import for VB.net         </h3>         <div class="communityContentAnnotationBody">             <p>Imports System<br>Imports System.Collections.Generic<br>Imports System.Text<br>Imports System.ServiceModel<br>Imports GettingStartedClient.ServiceReference1</p><br><p></p><br><p>Are the correct Imports statements.</p><br><p>Does anyone at MS even test these samples? &nbsp;Obviously not.</p>         </div>         <div class="communityContentAnnotationInfo">             <div class="communityContentAnnotationAvatarContainer">                 <a href="http://social.msdn.microsoft.com/profile/bendecko/" title="" class="communityContentAnnotationAvatar"><img src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/avatar_004.jpg" alt="" width="34" height="34"></a>             </div>             <div class="communityContentAnnotationUserDateContainer">                 <div class="communityContentAnnotationUserContainer">                     <a href="http://social.msdn.microsoft.com/profile/bendecko/">                         bendecko                     </a>                 </div>                 <div class="communityContentAnnotationDateContainer">                     <span>10/4/2013</span>                                                                                 </div>             </div>         </div>     </div><div class="communityContentAnnotation">         <a name="4"></a>         <h3>             CalculatorClient class         </h3>         <div class="communityContentAnnotationBody">
+             The CalculatorClient class is missing in my GettingStarted 
+solution, therefore I am not able to build this code due to the error 
+-The type or namespace name 'CalculatorClient' could not be found (are 
+you missing a using directive or an assembly reference?).         </div>         <div class="communityContentAnnotationInfo">             <div class="communityContentAnnotationAvatarContainer">                 <a href="http://social.msdn.microsoft.com/profile/josu%C3%A9%20mart%C3%ADnez%20vargas/" title="" class="communityContentAnnotationAvatar"><img src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/avatar_002.jpg" alt="" width="34" height="34"></a>             </div>             <div class="communityContentAnnotationUserDateContainer">                 <div class="communityContentAnnotationUserContainer">                     <a href="http://social.msdn.microsoft.com/profile/josu%C3%A9%20mart%C3%ADnez%20vargas/">                         Josué Martínez Vargas                     </a>                 </div>                 <div class="communityContentAnnotationDateContainer">                     <span>6/2/2013</span>                                                                                 </div>             </div>         </div>     </div><div class="communityContentAnnotation">         <a name="3"></a>         <h3>             One addition         </h3>         <div class="communityContentAnnotationBody">
+             Add Console.ReadLine(); before the client.close();.&nbsp; 
+The way it's written, the console closes before I can read it.         </div>         <div class="communityContentAnnotationInfo">             <div class="communityContentAnnotationAvatarContainer">                 <a href="http://social.msdn.microsoft.com/profile/scott%20taylor%20instakey/" title="" class="communityContentAnnotationAvatar"><img src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/avatar_005.jpg" alt="" width="34" height="34"></a>             </div>             <div class="communityContentAnnotationUserDateContainer">                 <div class="communityContentAnnotationUserContainer">                     <a href="http://social.msdn.microsoft.com/profile/scott%20taylor%20instakey/">                         Scott Taylor InstaKey                     </a>                 </div>                 <div class="communityContentAnnotationDateContainer">                     <span>5/7/2013</span>                                                                                 </div>             </div>         </div>     </div><div class="communityContentAnnotation">         <a name="2"></a>         <h3>             Nice work!         </h3>         <div class="communityContentAnnotationBody">
+             Overall this was really good.&nbsp; Moving the 
+GettingStartedClient project to a separate solution would simplify 
+things.         </div>         <div class="communityContentAnnotationInfo">             <div class="communityContentAnnotationAvatarContainer">                 <a href="http://social.msdn.microsoft.com/profile/jeff%20in%20boise/" title="" class="communityContentAnnotationAvatar"><img src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/avatar_003.jpg" alt="" width="34" height="34"></a>             </div>             <div class="communityContentAnnotationUserDateContainer">                 <div class="communityContentAnnotationUserContainer">                     <a href="http://social.msdn.microsoft.com/profile/jeff%20in%20boise/">                         Jeff in Boise                     </a>                 </div>                 <div class="communityContentAnnotationDateContainer">                     <span>3/21/2013</span>                                                                                 </div>             </div>         </div>     </div><div class="communityContentAnnotation">         <a name="1"></a>         <h3>             To use a Windows Communication Foundation client         </h3>         <div class="communityContentAnnotationBody">
+             Should read:&nbsp; 1. Open the Program.cs or Module1.vb 
+file from the GettingStartedClient project and replace the existing code
+ with the following code:<br><br>         </div>         <div class="communityContentAnnotationInfo">             <div class="communityContentAnnotationAvatarContainer">                 <a href="http://social.msdn.microsoft.com/profile/andy%20dale/" title="" class="communityContentAnnotationAvatar"><img src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/avatar.jpg" alt="" width="34" height="34"></a>             </div>             <div class="communityContentAnnotationUserDateContainer">                 <div class="communityContentAnnotationUserContainer">                     <a href="http://social.msdn.microsoft.com/profile/andy%20dale/">                         Andy Dale                     </a>                 </div>                 <div class="communityContentAnnotationDateContainer">                     <span>11/28/2012</span>                                                                                 </div>             </div>         </div>     </div></div>
+</div>
+
+
+
+
+<div class="libraryMemberFilter">
+    <div class="filterContainer">
+        <span>Show:</span>
+        <label>
+            <input class="libraryFilterInherited" checked="checked" value="Inherit" type="checkbox">Inherited
+        </label>
+        <label>
+            <input class="libraryFilterProtected" checked="checked" value="Protected" type="checkbox">Protected
+        </label>
+    </div>
+</div>
+    
+<input id="libraryMemberFilterEmptyWarning" value="There are no members available with your current filter settings." type="hidden">
+
+
+ 
+</div>
+
+            </div>
+            <div class="clear"></div>
+        
+            
+    
+<footer class="ux-footer">
+  <div class="nav">
+    <div class="footerLinksContainer"> 
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Home">Home</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Welcome">Welcome</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/cc136611.aspx" title="Visual Studio">Visual Studio</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/ff637362.aspx" title="Team Foundation Server">Team Foundation Server</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/aa496123.aspx" title=".NET Framework">.NET Framework</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://code.msdn.microsoft.com/vstudio" title="Samples">Samples</a>
+            </li>
+
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Languages">Languages</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Overview">Overview</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh386302.aspx" title="Visual C++">Visual C++</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh341490.aspx" title="Visual C#">Visual C#</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh388573.aspx" title="Visual Basic">Visual Basic</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/jj673959.aspx" title="JavaScript">JavaScript</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh388569.aspx" title="Visual F#">Visual F#</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://visualstudiogallery.msdn.microsoft.com/" title="Extensions">Extensions</a>
+            </li>
+
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/library/vstudio" title="Documentation">Documentation</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/dd831853%28v=vs.120%29.aspx" title="Visual Studio">Visual Studio</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/fda2bad5%28v=vs.120%29.aspx" title="Team Foundation Server ALM">Team Foundation Server ALM</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2.aspx" title=".NET Framework">.NET Framework</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://social.msdn.microsoft.com/forums/vstudio/en-us/home?category=visualstudio%2cvslanguages%2cvstfs%2cnetdevelopment%2cvsarch" title="Forums">Forums</a>
+            </li>
+
+          </ul>
+    </div>
+    </div>
+  <div class="footerSubLinksContainer">
+    <span class="localePickerLink"><a href="http://msdn.microsoft.com/en-us/vstudio/SelectLocale?fromPage=%2flibrary%2fvstudio%2fms730144" title=" United States (English)"> United States (English)</a></span>
+    <ul class="footerSubLinks">
+      <li class="subFooterLink">© 2013 Microsoft</li>
+          <li class="subFooterLink">
+            <a href="http://msdn.microsoft.com/cc300389.aspx" title="Terms of Use">Terms of Use</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="http://www.microsoft.com/library/toolbar/3.0/trademarks/en-us.mspx" title="Trademarks">Trademarks</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="http://go.microsoft.com/fwlink/?linkid=248681" title="Privacy Statement">Privacy Statement</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="https://lab.msdn.microsoft.com/mailform/contactus.aspx?refurl=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2fvstudio%2faa718325.aspx&amp;amp;loc=en-us" title="Site Feedback">Site Feedback</a>
+          </li>
+      <li>
+        <a class="microsoftlogo" href="http://www.microsoft.com/" title="Microsoft"></a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+            <div class="footerPrintView">
+                <div class="footerCopyrightPrintView">© 2013 Microsoft. All rights reserved.</div>
+            </div>
+
+            
+            
+
+        
+            <input id="MtpsDevice" value="Default" type="hidden">
+
+
+<!--[CDATA[ Third party scripts and code linked to or referenced from this website are licensed to you by the parties that own such code, not by Microsoft.  See ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx. ]]-->
+        
+            
+            
+            
+            
+            
+        
+
+
+
+
+
+<noscript><div><img alt="DCSIMG" id="Img1" width="1" height="1" src="http://m.webtrends.com/dcsmgru7m99k7mqmgrhudo0k8_8c6m/njs.gif?dcsuri=/nojavascript&amp;WT.js=No" /></div></noscript>
+
+
+
+
+
+
+
+
+
+<noscript>
+  <a href="http://www.omniture.com" title="Web Analytics">
+    <img src="//msstonojsmsdn.112.2o7.net/b/ss/msstonojsmsdn/1/H.20.2--NS/0" height="1" width="1" border="0" alt="" />
+  </a>
+</noscript>
+
+
+
+
+<div id="globalRequestVerification">
+    <input name="__RequestVerificationToken" value="x3uuDu4IStOJDZiaaAn-3skovmQtbiLk0jEpoaOpr334Sc_M524EqUVCGC--oGArk-Gt3cD-na2i-ouWM5q3qMWe6xaUeqPpu3nlTMLX0SHHRaKKXk6H2CK0xZShkCU79E_pmA2" type="hidden">
+</div>
+
+
+        </div>
+    <script type="text/javascript" class="mtps-injected">
+/*<![CDATA[*/
+(function(window,document){"use strict";function preload(scripts){for(var result=[],script,e,i=0;i<scripts.length;i++)script=scripts[i],script.hasOwnProperty("url")&&(e=document.createElement("script"),e.src=script.url,script.throwaway=e),result.push(script);return result}function inject(scripts,index){var script,elem;if(index>=scripts.length){delete mtps.injectScripts;return}script=scripts[index];elem=document.createElement("script");elem.className="mtps-injected";elem.async=!1;var isLoaded=!1,timeoutId=0,injectNextFnName="",injectNext=elem.onerror=function(){isLoaded||(isLoaded=!0,inject(scripts,index+1),window.clearTimeout(timeoutId),elem.onload=elem.onerror=elem.onreadystatechange=null,injectNextFnName&&delete mtps[injectNextFnName],elem.removeEventListener&&elem.removeEventListener("load",injectNext,!1))};elem.addEventListener?elem.addEventListener("load",injectNext,!1):elem.readyState==="uninitialized"?elem.onreadystatechange=function(){(this.readyState==="loaded"||this.readyState==="complete")&&injectNext()}:elem.onload=injectNext;script.hasOwnProperty("url")?(timeoutId=window.setTimeout(injectNext,12e4),elem.src=script.url):(injectNextFnName="_injectNextScript_"+index,mtps[injectNextFnName]=injectNext,timeoutId=window.setTimeout(injectNext,2e3),elem.text="try {\n"+script.txt+"\n} finally { MTPS."+injectNextFnName+" && MTPS."+injectNextFnName+"(); }");parent.appendChild(elem)}var mtps=window.MTPS||(window.MTPS={}),parent=document.getElementsByTagName("head")[0];mtps.injectScripts=function(scripts){inject(preload(scripts),0)}})(window,document);
+MTPS.injectScripts([
+	{ txt: "/**/\r\n(window.MTPS || (window.MTPS = {})).cdnDomains || (window.MTPS.cdnDomains = { \r\n\t\"image\": \"http://i.msdn.microsoft.com\", \r\n\t\"js\": \"http://i2.msdn.microsoft.com\", \r\n\t\"css\": \"http://i3.msdn.microsoft.com\"\r\n});\r\n/**/" },
+	{ url: "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js" },
+	{ txt: "//\n  var literalNormalizedUrl = \u0027/en-us/library/vstudio/ms730144(d=default,l=en-us,v=vs.110).aspx\u0027;\n  var wt_nvr_ru = \u0027WT_NVR_RU\u0027;\n  var wt_fpcdom = \u0027.microsoft.com\u0027;\n  var wt_domlist = \u0027msdn.microsoft.com\u0027;\n  var wt_pathlist = \u0027\u0027;\n  var wt_paramlist = \u0027DCSext.mtps_devcenter\u0027;\n  var wt_siteid = \u0027MSDN\u0027;\n  var gDomain = \u0027m.webtrends.com\u0027;\n  var gDcsId = \u0027dcsmgru7m99k7mqmgrhudo0k8_8c6m\u0027;\n  var gFpc = \u0027WT_FPC\u0027;\n\n\n\n  if (document.cookie.indexOf(gFpc + \"=\") == -1) {\n    var wtidJs = document.createElement(\"script\");\n    wtidJs.src = \"//\" + gDomain + \"/\" + gDcsId + \"/wtid.js\";\n    document.getElementsByTagName(\"head\")[0].appendChild(wtidJs);\n  }\n\n\n\n  var detectedLocale = \u0027en-us\u0027;\n  var wtsp = \u0027_msdn_\u0027;\n  var gTrackEvents = \u00270\u0027;\n/**/" },
+	{ txt: "/**/\n  var omni_guid = \"c7fd506d-d699-46f4-9a94-01e4b9cf39bd\";\n/**/" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:Utilities,0:Topic,1:webtrendsscript,2:omni_rsid_MSDN;/Areas/Epx/Content/Scripts:0,/Areas/Global/Content/Webtrends/resources:1,/Areas/Global/Content/Omniture/resources/MSDN:2\u0026amp;hashKey=368D37FB32ED6B2E5FABF4ECB00CEAA0" },
+	{ txt: "//\n    var searchWidgetJsUri = \u0027http://i2.services.social.microsoft.com/search/Widgets/SearchBox.jss?boxid=HeaderSearchTextBox\u0026btnid=HeaderSearchButton\u0026brand=MSDN\u0026loc=en-us\u0026Refinement=195\u0026watermark=Visual%20Studio\u0026focusOnInit=false\u0026iroot=vstudio\u0027;\n  //" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:search.2,1:Toc,1:NavigationResize,2:FeedbackCounter,2:Feedback;/Areas/Epx/Themes/VStudio/Content:0,/Areas/Epx/Library/Content:1,/Areas/Epx/Shared/Content:2\u0026amp;hashKey=60FF6E2291C932A70E22F7151E48536A" },
+	{ url: "http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:CommunityContent,1:LibraryMemberFilter,0:CodeSnippet,0:TopicNotInScope,0:CollapsibleArea,0:VersionSelector,0:SurveyBroker;/Areas/Epx/Content/Scripts:0,/Areas/Epx/Library/Content:1\u0026amp;hashKey=50331A6D753CA75357245BC25913AE3D" },
+	{ txt: "$(document).ready(function() {\n        try {\n            var token = $(\"#globalRequestVerification input[name=\u0027__RequestVerificationToken\u0027]\").clone();\n            $(\"#siteFeedbackForm\").append(token);\n        } catch(err) {\n            \n        }\n    });" }
+]);
+
+/*]]>*/
+</script>
+<script src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/broker-config.js"></script><div id="_WEDCSInsertedData" style="display: none;"><iframe id="_msnFrame" src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/c_002.gif" style="z-index:-1;height:1px;width:1px;display:none;visibility:hidden;" onload="javascript:MscomBeacon();"></iframe></div><div style="position: absolute; width: 1px; height: 1px;" id="dp_swf_engine"><object style="width: 1px; height: 1px;" id="_dp_swf_engine" data="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/swf.swf" type="application/x-shockwave-flash" width="1" height="1"><param value="always" name="allowscriptaccess"></object></div><iframe src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/Strip.htm" border="no" style="width: 1px; height: 1px; position: absolute; top: -100000px; left: -100000px; visibility: visible; overflow: hidden;" id="dealply-toast-357090" class="dealply-toast dealply-toast-357090" scrolling="no" frameborder="0"></iframe></body><script type="application/x-javascript" src="How%20to%20%20Use%20a%20Windows%20Communication%20Foundation%20Client_files/opt_content.js"></script></html>

@@ -35,7 +35,9 @@
                 
               
              }).Events(ev => ev.DataBound("resetRowNumber"))
-             .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration")).Pageable())
+             .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration"))
+             //.Pageable()
+             )
 @section Scripts
 {
   

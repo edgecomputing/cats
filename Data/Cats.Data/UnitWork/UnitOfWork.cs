@@ -396,7 +396,21 @@ namespace Cats.Data.UnitWork
 
         }
 
-       public void Save()
+        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+
+        public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
+        {
+
+            get
+            {
+                return this.transportBidQuotationHeaderRepository ??
+                       (this.transportBidQuotationHeaderRepository =
+                        new GenericRepository<TransportBidQuotationHeader>(_context));
+            }
+
+        }
+
+        public void Save()
         {
             try
             {
@@ -794,10 +808,15 @@ namespace Cats.Data.UnitWork
             get { return this.notificationRepository ?? (this.notificationRepository = new GenericRepository<Notification>(_context)); }
         }
 
-        private IGenericRepository<WoredasByDonor> woredasByDonorRepository = null;
-        public IGenericRepository<WoredasByDonor> WoredaByDonorRepository
+        private IGenericRepository<HrdDonorCoverage> hrdDonorCoverageRepository = null;
+        public IGenericRepository<HrdDonorCoverage> HrdDonorCoverageRepository
         {
-            get { return this.woredasByDonorRepository ?? (this.woredasByDonorRepository = new GenericRepository<WoredasByDonor>(_context)); }
+            get { return this.hrdDonorCoverageRepository ?? (this.hrdDonorCoverageRepository = new GenericRepository<HrdDonorCoverage>(_context)); }
+        }
+        private IGenericRepository<HrdDonorCoverageDetail> hrdDonorCoverageDetailRepository = null;
+        public IGenericRepository<HrdDonorCoverageDetail> HrdDonorCoverageDetailRepository
+        {
+            get { return this.hrdDonorCoverageDetailRepository ?? (this.hrdDonorCoverageDetailRepository = new GenericRepository<HrdDonorCoverageDetail>(_context)); }
         }
 
         private IGenericRepository<Distribution> distributionRepositiory;
@@ -820,18 +839,39 @@ namespace Cats.Data.UnitWork
 
         }
 
-        private IGenericRepository<TransportBidQuotationHeader> transportBidQuotationHeaderRepository;
+     
+        
 
-        public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
+
+
+        private IGenericRepository<TemplateType> templateTypeRepository;
+
+        public IGenericRepository<TemplateType> TemplateTypeRepository
         {
-            get { return this.transportBidQuotationHeaderRepository ?? (this.transportBidQuotationHeaderRepository = new GenericRepository<TransportBidQuotationHeader>(_context)); }
+            get { return this.templateTypeRepository ?? (this.templateTypeRepository = new GenericRepository<TemplateType>(_context)); }
+
+        }
+
+        private IGenericRepository<Template> templateRepository;
+        public IGenericRepository<Template> TemplateRepository
+        {
+            get { return this.templateRepository ?? (this.templateRepository = new GenericRepository<Template>(_context)); }
+
+        }
+
+        private IGenericRepository<TemplateField> templateFieldRepository;
+        public IGenericRepository<TemplateField> TemplateFieldRepository
+        {
+            get { return this.templateFieldRepository ?? (this.templateFieldRepository = new GenericRepository<TemplateField>(_context)); }
+
         }
 
 
 
         //public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
         //{
-        //    get { throw new NotImplementedException(); }
+        //    throw new NotImplementedException(); 
         //}
+
     }
 }

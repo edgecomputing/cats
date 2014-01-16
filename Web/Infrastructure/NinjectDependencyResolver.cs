@@ -161,13 +161,16 @@ namespace Cats.Infrastructure
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
             kernel.Bind<IPlanService>().To<PlanService>();
             kernel.Bind<IDashboardService>().To<DashboardService>();
-
+            kernel.Bind<IHrdDonorCoverageService>().To<HrdDonorCoverageService>();
+            kernel.Bind<IHrdDonorCoverageDetailService>().To<HrdDonorCoverageDetailService>();
             kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
             kernel.Bind<IActionTypesService>().To<ActionTypesService>();
 
             kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
             kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
             kernel.Bind<ITransporterAgreementVersionService>().To<TransporterAgreementVersionService>();
+
+            kernel.Bind<ITemplateService>().To<TemplateService>();
 
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.

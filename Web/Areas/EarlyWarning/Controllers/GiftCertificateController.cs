@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Cats.Areas.GiftCertificate.Models;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
@@ -14,6 +15,7 @@ using Cats.Services.Common;
 using Master = Cats.Models.Constant.Master;
 using Cats.Helpers;
 using Cats.Data.UnitWork;
+using System.Reflection;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -318,7 +320,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public void ShowTemplate(string fileName, int giftCertificateId)
         {
             // TODO: Make sure to use DI to get the template generator instance
-           
+           try
+           {
                 var template = new TemplateHelper(_unitofwork);
                 string filePath = template.GenerateTemplate(giftCertificateId, 1, fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
                
@@ -328,31 +331,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
                 Response.TransmitFile(filePath);
                 Response.End();
-              
-           
-           
+           }catch
+           {
+               
+           }
+
+               
         }
         protected override void Dispose(bool disposing)
         {
             _giftCertificateService.Dispose();
         }
 
-        //[HttpGet]
-        //public JsonResult GetSINumber(string term)
-        //{
-        //    // A list of names to mimic results from a database
-        //    var sINumber = _giftCertificateService.GetAllGiftCertificate();
-        //    var listOfSI = (from siList in sINumber
-        //                    select siList.SINumber);
-
-        //    var results = listOfSI.Where(n => n.StartsWith(term, StringComparison.OrdinalIgnoreCase));
-
-        //    return new JsonResult()
-        //    {
-        //        Data = results.ToArray(),
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
+       
         [HttpGet]
         public JsonResult AutoCompleteSiNumber(string term)
         {
@@ -361,5 +352,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                           select siNumber.Value );
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

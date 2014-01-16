@@ -258,27 +258,36 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ModelState.IsValid)
             {
                 HRDPSNPPlanInfo psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
-                
-                var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
-                                                    && r.ProgramId == psnphrdPlanInfo.HRDPSNPPlan.ProgramID
-                                                    && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
-                                                    && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month);
-
-                if (exisiting==null)
+                if (psnphrdPlanInfo != null)
                 {
-                    RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
-                    var model = getRequestDetai(req.RegionalRequestID);
-                    ViewBag.message = "Request Created";
-                    //RedirectToAction(@)
-                    return RedirectToAction("Details" + "/" + req.RegionalRequestID);
+                    var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
+                                                                        &&
+                                                                        r.ProgramId ==
+                                                                        psnphrdPlanInfo.HRDPSNPPlan.ProgramID && r.RegionID==psnphrdPlanInfo.HRDPSNPPlan.RegionID
+                                                                        && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
+                                                                        && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month)
+                        .Count;
+
+                    if (exisiting == 0)
+                    {
+                        RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
+                        var model = getRequestDetai(req.RegionalRequestID);
+                        ViewBag.message = "Request Created";
+                        //RedirectToAction(@)
+                        return RedirectToAction("Details" + "/" + req.RegionalRequestID);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Errors", @"A request with the same parameters has already been made");
+                    }
+
                 }
                 else
                 {
-                    ModelState.AddModelError("Error","A request with the same parameters has already been made");
+                    ModelState.AddModelError("Errors", @"Can Not Create Request! Duration of Assistance for this region is Completed ");
                 }
-                
+               
             }
-
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
             PopulateLookup();
             return View(hrdpsnpPlan);
@@ -412,7 +421,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var result = GetRequestWithPlan(request);
             //var dt = RequestViewModelBinder.TransposeData(requestDetails);
-            var dt = RequestViewModelBinder.TransposeDataNew(result);
+            var dt = RequestViewModelBinder.TransposeDataNew(result,request.ProgramId);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
         }
@@ -842,14 +851,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                                    Woreda = sw.Key.Name,
                                    RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
-                                   PlannedBeneficaryNo = 0,
-                                   Difference = 0 - sw.Sum(m => m.Beneficiaries),
+                                   //PlannedBeneficaryNo = 0,
+                                   //Difference = 0 - sw.Sum(m => m.Beneficiaries),
                                    RegionalRequestDetails = oneWoreda
                                });
-
-
-
-           }
+            }
             return result;
         }
 
